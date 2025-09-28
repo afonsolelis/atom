@@ -1,0 +1,97 @@
+{
+  "conventionalCommits": {
+    "types": [
+      {
+        "value": "feat",
+        "description": "A new feature",
+        "title": "Features"
+      },
+      {
+        "value": "fix",
+        "description": "A bug fix",
+        "title": "Bug Fixes"
+      },
+      {
+        "value": "docs",
+        "description": "Documentation only changes",
+        "title": "Documentation"
+      },
+      {
+        "value": "style",
+        "description": "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
+        "title": "Styles"
+      },
+      {
+        "value": "refactor",
+        "description": "A code change that neither fixes a bug nor adds a feature",
+        "title": "Code Refactoring"
+      },
+      {
+        "value": "perf",
+        "description": "A code change that improves performance",
+        "title": "Performance Improvements"
+      },
+      {
+        "value": "test",
+        "description": "Adding missing tests or correcting existing tests",
+        "title": "Tests"
+      },
+      {
+        "value": "build",
+        "description": "Changes that affect the build system or external dependencies",
+        "title": "Builds"
+      },
+      {
+        "value": "ci",
+        "description": "Changes to our CI configuration files and scripts",
+        "title": "Continuous Integrations"
+      },
+      {
+        "value": "chore",
+        "description": "Other changes that don't modify src or test files",
+        "title": "Chores"
+      },
+      {
+        "value": "revert",
+        "description": "Reverts a previous commit",
+        "title": "Reverts"
+      }
+    ],
+    "scopes": [
+      {
+        "value": "base",
+        "description": "Changes related to the base content"
+      },
+      {
+        "value": "unidade_1",
+        "description": "Changes related to unit 1 content"
+      },
+      {
+        "value": "unidade_2",
+        "description": "Changes related to unit 2 content"
+      },
+      {
+        "value": "unidade_3",
+        "description": "Changes related to unit 3 content"
+      },
+      {
+        "value": "unidade_4",
+        "description": "Changes related to unit 4 content"
+      },
+      {
+        "value": "instrumentos_avaliativos",
+        "description": "Changes related to assessment instruments"
+      },
+      {
+        "value": "estrutura_pontes",
+        "description": "Changes related to bridge structures content"
+      }
+    ],
+    "format": {
+      "regex": "^(\\w+)(\\(\\w+\\))?: (\\w+.*$)",
+      "example": "feat(unidade_1): add new exercise about bridge calculations"
+    },
+    "description": "These are the commit guidelines following conventional commits standard for the repository. This helps maintain a consistent commit history that can be used for automated changelog generation.",
+    "documentationUrl": "https://www.conventionalcommits.org/"
+  }
+}
