@@ -1,0 +1,159 @@
+{
+  "description": "Template para criação de uma unidade de conteúdo completa. Preencha os campos marcados com '[Inserir...]' para gerar o conteúdo final em markdown.",
+  "regras_gerais_conteudo": {
+    "formulas_matematicas": {
+      "diretriz": "Toda e qualquer fórmula matemática deve ser formatada com delimitadores de dólar para renderização LaTeX. Use $...$ para equações de bloco.",
+      "exemplo": "$\n\\lambda = \\frac{l_e}{i}\n$"
+    },
+    "imagens_por_aula": {
+      "diretriz": "Cada aula deve conter, no mínimo, uma imagem/figura para apoiar a exposição do conteúdo. É permitido (e recomendado) usar mais de uma imagem quando isso ajuda a elaborar melhor os conceitos.",
+      "quantidade_minima": 1,
+      "quantidade_sugerida": "1-3",
+      "fonte_recomendada": "Preferir imagens públicas e com licença permissiva (Wikimedia Commons/Wikipedia), citando o link da fonte.",
+      "formato_markdown": "Usar sintaxe ![texto alternativo](URL) com texto alternativo descritivo."
+    },
+    "podcast_youtube": {
+      "diretriz": "Os podcasts/vídeos desta seção devem ser, obrigatoriamente, hospedados no YouTube. Utilize URLs válidas dos domínios youtube.com ou youtu.be.",
+      "exemplo": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+  },
+  "metadata": {
+    "nome_disciplina": "[Inserir nome da disciplina]",
+    "conteudista": "[Inserir nome do conteudista]",
+    "professor": "Afonso Cesar Lelis Brandão"
+  },
+  "texto_base_inicial": {
+    "relevancia_disciplina": "[Inserir texto sobre a relevância da disciplina para a atuação profissional]",
+    "contribuicoes": "[Inserir texto sobre as contribuições para a atuação profissional em formato de lista]",
+    "exemplos_praticos": "[Inserir texto com exemplos práticos em formato de lista]",
+    "referencias_iniciais": [
+      {
+        "id": 1,
+        "url": "[Inserir link de referência 1]"
+      },
+      {
+        "id": 2,
+        "url": "[Inserir link de referência 2]"
+      }
+    ]
+  },
+  "aulas": [
+    {
+      "numero_aula": 1,
+      "titulo_videoaula": "[Inserir Título da Videoaula 1]",
+      "texto_base_aula": "[Inserir aqui todo o conteúdo escrito da Aula 1, incluindo seções, exemplos, atividade prática, pontos-chave e preparação para a próxima aula. Use a sintaxe markdown.]",
+      "roteiro_videoaula": "[Inserir aqui o roteiro detalhado da Videoaula 1, com tempos, dicas de gravação, etc. Use a sintaxe markdown.]",
+      "links_suplementares_aula": [
+        {
+          "id": 1,
+          "url": "[Inserir link suplementar 1 para a Aula 1]"
+        }
+      ]
+    },
+    {
+      "numero_aula": 2,
+      "titulo_videoaula": "[Inserir Título da Videoaula 2]",
+      "texto_base_aula": "[Inserir aqui todo o conteúdo escrito da Aula 2. Use a sintaxe markdown.]",
+      "roteiro_videoaula": "[Inserir aqui o roteiro detalhado da Videoaula 2. Use a sintaxe markdown.]",
+      "links_suplementares_aula": [
+        {
+          "id": 1,
+          "url": "[Inserir link suplementar 1 para a Aula 2]"
+        }
+      ]
+    },
+    {
+      "numero_aula": 3,
+      "titulo_videoaula": "[Inserir Título da Videoaula 3]",
+      "texto_base_aula": "[Inserir aqui todo o conteúdo escrito da Aula 3. Use a sintaxe markdown.]",
+      "roteiro_videoaula": "[Inserir aqui o roteiro detalhado da Videoaula 3. Use a sintaxe markdown.]",
+      "links_suplementares_aula": [
+        {
+          "id": 1,
+          "url": "[Inserir link suplementar 1 para a Aula 3]"
+        }
+      ]
+    },
+    {
+      "numero_aula": 4,
+      "titulo_videoaula": "[Inserir Título da Videoaula 4]",
+      "texto_base_aula": "[Inserir aqui todo o conteúdo escrito da Aula 4. Use a sintaxe markdown.]",
+      "roteiro_videoaula": "[Inserir aqui o roteiro detalhado da Videoaula 4. Use a sintaxe markdown.]",
+      "links_suplementares_aula": [
+        {
+          "id": 1,
+          "url": "[Inserir link suplementar 1 para a Aula 4]"
+        }
+      ]
+    }
+  ],
+  "avaliacoes": {
+    "quiz_nao_avaliativo": [
+      {
+        "pergunta": "[Inserir a afirmação da primeira pergunta de Verdadeiro/Falso]",
+        "resposta_correta": "Verdadeiro",
+        "explicacao": "[Inserir a explicação para a resposta da primeira pergunta]"
+      },
+      {
+        "pergunta": "[Inserir a afirmação da segunda pergunta de Verdadeiro/Falso]",
+        "resposta_correta": "Falso",
+        "explicacao": "[Inserir a explicação para a resposta da segunda pergunta]"
+      }
+    ],
+    "atividade_verificadora": {
+      "questao_dissertativa": "[Inserir o enunciado da questão dissertativa]",
+      "resposta_esperada": "[Inserir a resposta esperada para a questão dissertativa]"
+    }
+  },
+  "material_complementar": {
+    "direto_da_fonte": {
+      "texto_provocativo": "[Inserir texto provocativo para o livro]",
+      "nome_livro": "[Inserir nome do livro]",
+      "capitulo": "[Inserir capítulo]",
+      "link": "https://biblioteca-a.read.garden/viewer/9786556901633/91",
+      "acesso": {
+        "plataforma": "https://fecaf.brightspace.com/d2l/home",
+        "instrucao": "Acessar a opção 'BV professor'",
+        "usuario": "professor.conteudista",
+        "senha": "unifecaf2023"
+      }
+    },
+    "para_mergulhar": {
+      "texto_provocativo": "[Inserir texto provocativo para a seção 'Saiba Mais']",
+      "sugestoes": [
+        {
+          "tipo": "Filme",
+          "titulo": "[Inserir título do filme]",
+          "descricao": "[Inserir breve descrição]"
+        },
+        {
+          "tipo": "Série",
+          "titulo": "[Inserir título da série]",
+          "descricao": "[Inserir breve descrição]"
+        },
+        {
+          "tipo": "Livro",
+          "titulo": "[Inserir título do livro]",
+          "descricao": "[Inserir breve descrição]"
+        },
+        {
+          "tipo": "Blog",
+          "titulo": "[Inserir nome do blog]",
+          "link": "[Inserir link do blog]"
+        }
+      ]
+    },
+    "podcast": {
+      "texto_provocativo": "[Inserir texto provocativo para o podcast]",
+      "nome_podcast_video": "[Inserir nome do podcast ou vídeo]",
+      "nome_episodio": "[Inserir nome do episódio]",
+      "link": "[Inserir link do YouTube]",
+      "plataforma": "YouTube"
+    },
+    "artigo_cientifico": {
+      "texto_provocativo": "[Inserir texto provocativo para o artigo]",
+      "link": "[Inserir link do artigo]",
+      "referencia_abnt": "[Inserir referência completa do artigo no formato ABNT]"
+    }
+  }
+}

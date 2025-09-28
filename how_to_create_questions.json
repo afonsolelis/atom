@@ -1,0 +1,29 @@
+{
+  "description": "Define a estrutura e as regras para criar um questionário com múltiplas escolhas e feedbacks.",
+  "formato_geral": {
+    "arquivo": "Markdown (.md)",
+    "secoes": ["Questões", "Feedbacks"]
+  },
+  "regras_questoes": {
+    "agrupamento": "Não utilizar agrupamento por tema. As questões devem aparecer apenas numeradas em sequência.",
+    "alternativas": {
+      "quantidade_obrigatoria": 5,
+      "formato": "Letra minúscula seguida de ponto (a., b., c., ...)."
+    },
+    "indicacao_correta": {
+      "marcador": "*",
+      "posicao": "Imediatamente antes da letra da alternativa correta.",
+      "distribuicao": "A posição da alternativa correta deve variar aleatoriamente entre as opções (a, b, c, d, e). Evitar fixar a resposta correta em uma única letra.",
+      "exemplo": "*c. Texto da alternativa correta."
+    }
+  },
+  "regras_feedbacks": {
+    "posicao": "Devem ser inseridos em uma seção separada no final do arquivo, sob o título **Feedbacks**.",
+    "formato": "Cada feedback deve ser numerado correspondendo à sua questão e fornecer uma breve justificativa para a resposta correta.",
+    "exemplo": "1. A resposta correta é: [explicação]."
+  },
+  "exemplo_de_uso": {
+    "assunto": "Pilares de Concreto",
+    "numero_de_questoes_criadas": 20
+  }
+}
