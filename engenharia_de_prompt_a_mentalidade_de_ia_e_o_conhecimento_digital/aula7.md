@@ -1,7 +1,7 @@
 # Aula 7: Formulação de Problemas Complexos em Etapas
 
 ## Objetivo da Aula
-Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e formular prompts adequados para cada fase da solução.
+Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e formular prompts adequados para cada fase da solução. Ao final, o aluno deverá ser capaz de mapear dependências, sequenciar tarefas e definir métricas por etapa.
 
 ## 1. Abordagem Sistemática para Problemas Complexos
 
@@ -18,6 +18,11 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 4. **Sequenciamento**: Ordenar etapas logicamente
 5. **Integração**: Combinar soluções parciais
 
+### Métricas por Etapa
+- Definição: critérios de sucesso para cada módulo
+- Entradas/Saídas: contratos claros entre etapas
+- Riscos: pontos de falha e mitigação
+
 ## 2. Técnicas de Decomposição
 
 ### Método de Análise Hierárquica
@@ -27,6 +32,10 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 - **Nível 4**: Tarefas individuais
 
 ### Abordagem Funcional
+### Outras Abordagens Úteis
+- Análise de stakeholders e restrições externas
+- Quebra por cenários (nominal, pior caso, melhor caso)
+- Estrutura analítica do projeto (EAP/WBS)
 - **Entrada**: Recursos e requisitos iniciais
 - **Processo**: Transformações e operações
 - **Saída**: Resultados e deliverables
@@ -67,6 +76,10 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 ```
 
 ### Etapa 4 - Síntese e Recomendação
+### Verificação e Integração
+- Checklist de integração entre módulos
+- Testes de regressão após combinar soluções parciais
+- Métricas de validação cruzada (técnica, negócio, usuário, ética)
 ```
 **Contexto:** Com base nas análises anteriores, desenvolva uma proposta integrada.
 

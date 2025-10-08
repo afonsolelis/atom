@@ -1,7 +1,7 @@
 # Aula 12: Inteligência Coletiva - Colaboração Humano-IA em Engenharia
 
 ## Objetivo da Aula
-Explorar como combinar expertise humana com capacidades de IA para criar sistemas colaborativos mais inteligentes e eficazes em projetos de engenharia.
+Explorar como combinar expertise humana com capacidades de IA para criar sistemas colaborativos mais inteligentes e eficazes em projetos de engenharia. Ao final, o aluno deverá ser capaz de desenhar papéis, processos e métricas para equipes híbridas.
 
 ## 1. Conceito de Inteligência Coletiva
 
@@ -22,6 +22,11 @@ Explorar como combinar expertise humana com capacidades de IA para criar sistema
 - **Aprendizado mútuo**: Sistemas que evoluem com interação humana
 
 ### Princípios de Design
+### Anti‑padrões de Colaboração
+- Caixa‑preta total: decisões de IA sem explicação acionável
+- Overreliance: delegar julgamento ético à IA
+- Feedback unidirecional: sistema não aprende com humanos
+- Falta de accountability: responsabilidades difusas
 - **Transparência**: Humanos entendem como IA toma decisões
 - **Controle humano**: Humanos mantêm autoridade final
 - **Feedback contínuo**: Comunicação bidirecional constante
@@ -51,6 +56,11 @@ Explorar como combinar expertise humana com capacidades de IA para criar sistema
 | **Execução** | Adaptabilidade | Consistência | Humanos supervisionam, IA executa |
 
 ### Estratégias de Integração
+### Checklist de Operação Híbrida
+- Definição de papéis e limites de autonomia da IA
+- Trilhas de auditoria e logs de decisões
+- Processo de escalonamento para decisões críticas
+- Política de dados: privacidade, retenção, consentimento
 - **Onboarding progressivo**: Introduzir IA gradualmente na equipe
 - **Treinamento cruzado**: Humanos aprendem capacidades de IA
 - **Feedback estruturado**: Sistemas que melhoram com interação humana

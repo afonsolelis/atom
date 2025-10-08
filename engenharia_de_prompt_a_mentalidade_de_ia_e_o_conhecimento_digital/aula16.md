@@ -1,7 +1,7 @@
 # Aula 16: Diretrizes Avançadas e Automatização de Processos Colaborativos
 
 ## Objetivo da Aula
-Explorar estratégias avançadas para automatização de processos colaborativos e síntese final dos conceitos aprendidos ao longo do curso.
+Explorar estratégias avançadas para automatização de processos colaborativos e síntese final dos conceitos aprendidos ao longo do curso. Ao final, o aluno deverá ser capaz de projetar pipelines com IA, definir métricas e implementar governança técnica.
 
 ## 1. Sistemas de Code Review Automatizados
 
@@ -242,6 +242,11 @@ class MetricsCollector {
 ```
 
 ### Métricas de IA Específicas
+### Boas Práticas Operacionais
+- Separar ambientes (dev/stage/prod) e gates de promoção
+- Canary releases com rollback automatizado
+- Observabilidade ponta a ponta (logs, métricas, tracing)
+- Gestão de segredos e chaves (rotacionar e auditar)
 - **Taxa de adoção de sugestões**: % de sugestões de IA aceitas
 - **Velocidade de desenvolvimento**: LOC/hora com vs sem IA
 - **Qualidade de código**: Índice de bugs introduzidos por IA

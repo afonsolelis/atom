@@ -1,7 +1,7 @@
 # Aula 2: Evolução Histórica da IA e Aplicações em Engenharia
 
 ## Objetivo da Aula
-Compreender a trajetória histórica da IA e identificar aplicações práticas em diferentes áreas da engenharia para contextualizar seu uso atual.
+Compreender a trajetória histórica da IA e identificar aplicações práticas em diferentes áreas da engenharia para contextualizar seu uso atual. Ao final, o aluno deverá ser capaz de relacionar marcos históricos a mudanças de paradigma e reconhecer como essas mudanças influenciaram ferramentas e métodos de engenharia.
 
 ## 1. Marcos Históricos da Inteligência Artificial
 
@@ -24,6 +24,12 @@ Compreender a trajetória histórica da IA e identificar aplicações práticas 
   - 2017: Transformadores (Attention is All You Need)
   - 2022: ChatGPT revoluciona IA conversacional
 
+#### Dos Sistemas Simbólicos aos Modelos de Fundação
+- Sistemas simbólicos foram eficazes em domínios estreitos e explicáveis
+- Machine Learning introduziu generalização a partir de dados
+- Deep Learning ampliou desempenho em percepção e linguagem
+- Modelos de fundação (foundation models) habilitaram transferência ampla e geração condicionada
+
 ## 2. Aplicações Atuais em Engenharia
 
 ### Engenharia Civil
@@ -42,6 +48,11 @@ Compreender a trajetória histórica da IA e identificar aplicações práticas 
 - **Manutenção preditiva**: Detecção de falhas antes que ocorram
 
 ### Engenharia Mecânica
+### Padrões Transversais (todas as áreas)
+- Manutenção preditiva: sensores, séries temporais, prognóstico
+- Detecção de anomalias: monitoramento de qualidade e segurança
+- Otimização multiobjetivo: custo, desempenho, sustentabilidade
+- Digital twins: simulação contínua integrada a dados operacionais
 - **Projeto assistido**: Geração de geometrias otimizadas
 - **Simulação**: Análise de elementos finitos acelerada por IA
 - **Robótica**: Controle avançado de sistemas autônomos
@@ -60,6 +71,10 @@ Compreender a trajetória histórica da IA e identificar aplicações práticas 
 - **Autopilot**: Sistema de direção semiautônoma
 - **Dados**: Processa 1.5 petabytes de dados semanalmente
 
+### CPFL Energia (Distribuição de Energia)
+- **Projeto**: Otimização de perdas técnicas com IA
+- **Resultado**: Redução de 2,3% (economia anual significativa)
+
 ## 4. Impactos no Mercado de Trabalho
 
 ### Transformações Profissionais
@@ -68,6 +83,10 @@ Compreender a trajetória histórica da IA e identificar aplicações práticas 
 - **Habilidades demandadas**: Pensamento crítico, criatividade, ética digital
 
 ### Tendências Futuras
+#### Considerações Éticas e Regulatórias
+- Crescente exigência de auditoria e explicabilidade
+- Privacidade e proteção de dados (LGPD/GDPR)
+- Avaliação de impacto e governança em IA crítica
 - **Engenharia híbrida**: Combinação de expertise humana e capacidades de IA
 - **Colaboração ampliada**: Ferramentas que potencializam, não substituem, profissionais
 - **Especialização ética**: Foco crescente em desenvolvimento responsável de IA

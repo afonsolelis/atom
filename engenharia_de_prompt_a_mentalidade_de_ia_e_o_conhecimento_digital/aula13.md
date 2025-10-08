@@ -1,7 +1,7 @@
 # Aula 13: Model Context Protocol (MCP) e Arquiteturas de Agentes
 
 ## Objetivo da Aula
-Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revolucionar processos colaborativos em engenharia.
+Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revolucionar processos colaborativos em engenharia. Ao final, o aluno deverá ser capaz de desenhar arquiteturas multi‑agentes e justificar o uso de MCP.
 
 ## 1. Conceito e Fundamentos do MCP
 
@@ -9,6 +9,10 @@ Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revol
 > **Model Context Protocol (MCP)** é um protocolo aberto que permite comunicação padronizada entre diferentes modelos de IA e ferramentas externas, criando ecossistemas integrados de agentes especializados.
 
 ### Princípios Fundamentais
+### Padrões e Ecossistema
+- APIs REST/WebSockets, eventos e contratos de mensagens
+- Observabilidade de agentes (logs, métricas, tracing)
+- Segurança: autenticação, autorização e isolamento de contexto
 - **Interoperabilidade**: Diferentes sistemas trabalhando juntos
 - **Especialização**: Cada agente focado em tarefas específicas
 - **Coordenação**: Comunicação estruturada entre agentes
@@ -23,6 +27,10 @@ Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revol
 - **Interface unificada**: Ponto de acesso único para usuários
 
 ### Tipos de Agentes
+### Desafios de Projeto
+- Coordenação e deadlocks entre agentes
+- Consistência de contexto compartilhado
+- Custo de comunicação e latência
 - **Agentes de tarefa**: Executam funções específicas (cálculo, análise)
 - **Agentes de conhecimento**: Acesso a bases de dados especializadas
 - **Agentes de interface**: Comunicação com usuários e sistemas externos
@@ -72,6 +80,10 @@ Entrada do Usuário → Orquestrador MCP → Agentes Especializados → Síntese
 4. Resultado: Projeto completo e validado
 
 ### Caso 2 - Desenvolvimento de Produto
+### Métricas de Sucesso
+- Throughput de tarefas por agente
+- Tempo médio de coordenação (orquestrador)
+- Taxa de erros de integração entre agentes
 **Agentes MCP**:
 - **Agente Mercado**: Analisa tendências e concorrência
 - **Agente Engenharia**: Desenvolve especificações técnicas

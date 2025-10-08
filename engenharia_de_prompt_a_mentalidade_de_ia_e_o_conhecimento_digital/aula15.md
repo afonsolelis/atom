@@ -1,7 +1,7 @@
 # Aula 15: Configuração Prática de Repositório com .agents e .github
 
 ## Objetivo da Aula
-Aprender a configurar repositórios colaborativos com diretrizes específicas para desenvolvimento assistido por IA e automação de processos.
+Aprender a configurar repositórios colaborativos com diretrizes específicas para desenvolvimento assistido por IA e automação de processos. Ao final, o aluno deverá ser capaz de estruturar `.agents` e `.github` com workflows mínimos de qualidade e segurança.
 
 ## 1. Estrutura e Organização de Repositórios Colaborativos
 
@@ -168,6 +168,24 @@ jobs:
 ```
 
 #### Análise de Segurança
+#### Verificação de Convenções (Conventional Commits)
+```yaml
+name: Conventional Commits
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Verify commit messages
+      uses: webiny/action-conventional-commits@v1.3.0
+```
 ```yaml
 name: Security Scan
 

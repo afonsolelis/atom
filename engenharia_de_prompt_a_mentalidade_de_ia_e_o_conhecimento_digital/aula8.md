@@ -1,7 +1,7 @@
 # Aula 8: Casos Reais - Aplicações Práticas de IA em Engenharia
 
 ## Objetivo da Aula
-Analisar casos reais de aplicação de IA em diferentes áreas da engenharia, identificando lições aprendidas e oportunidades de implementação.
+Analisar casos reais de aplicação de IA em diferentes áreas da engenharia, identificando lições aprendidas e oportunidades de implementação. Ao final, o aluno deverá ser capaz de extrair padrões de sucesso, riscos recorrentes e indicadores de ROI.
 
 ## 1. Engenharia Elétrica - Redes Inteligentes
 
@@ -120,6 +120,17 @@ Liste 5 indicadores-chave e metas para cada um.
 - **ROI mensurável**: Métricas claras justificam investimentos
 
 ### Oportunidades por Área
+### Riscos Recorrentes
+- Dados enviesados ou incompletos comprometendo modelos
+- Déficit de observabilidade: falta de métricas e logs adequados
+- Falhas de integração entre sistemas legados e soluções novas
+- Superdependência em fornecedores/proprietários
+
+### KPIs Recomendados
+- Ganho percentual (eficiência, qualidade, custo)
+- Tempo para valor (lead time até ROI)
+- Disponibilidade do sistema (SLA, SLO)
+- Taxa de adoção pela equipe usuária
 - **Engenharia Elétrica**: Controle inteligente de qualidade de energia
 - **Engenharia Civil**: Otimização de projetos usando generative design
 - **Engenharia de Produção**: Digital twins para simulação de processos

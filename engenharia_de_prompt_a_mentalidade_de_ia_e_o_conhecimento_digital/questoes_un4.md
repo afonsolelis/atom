@@ -1,154 +1,137 @@
-Conteúdo das aulas 13, 14, 15 e 16
+1. Em um repositório colaborativo com múltiplos agentes e automações, é necessário estabelecer padrões para garantir interoperabilidade e governança técnica. Qual prática inicial melhor sustenta a integração via Model Context Protocol (MCP) e workflows de CI/CD?
+*a. Documentar princípios de prompts e políticas de agentes em `.agents/`, padronizar commits e configurar autenticação segura para CLIs.
+b. Priorizar apenas commits descritivos livres, sem padronização, para acelerar entregas.
+c. Manter configurações em diretórios temporários fora do versionamento para evitar conflitos.
+d. Centralizar todas as políticas em um único README na raiz, sem subdivisões por contexto.
+e. Adotar ferramentas proprietárias sem documentação, reduzindo a necessidade de templates e scripts.
 
-ATENÇÃO:
-- Inserir um asterisco ANTES da alternativa correta.
-Exemplo:
-*a. Nenhuma das anteriores.
-- INSERIR OS FEEDBACKS AO FINAL DO DOC.
-- SEGUIR À RISCA O MODELO DE FORMATAÇÃO ABAIXO.
-- TODAS AS QUESTÕES PRECISAM TER 5 ALTERNATIVAS.
-
-
-
-EXEMPLO:
-1. A questão do tipo Resposta Única possui uma estrutura clara e direta. No cerne desta questão está um enunciado, geralmente apresentado em formato de pergunta, que serve como o principal ponto de consulta para o respondente. Neste formato, a questão é criada para garantir que apenas uma das alternativas propostas seja a resposta correta. A natureza desta questão exige que as alternativas sejam mutuamente exclusivas, ou seja, apenas uma delas pode ser a resposta certa, e todas as outras devem ser incorretas. A elaboração adequada das alternativas é crucial para a eficácia da questão de Resposta Única. Cada uma deve ser concebida de maneira a responder diretamente à pergunta do enunciado. Além disso, é importante que as alternativas incorretas sejam plausíveis, para que a questão avalie de forma eficaz o entendimento e o conhecimento do respondente sobre o assunto.
-
-Exemplo (ENADE 2022, ADM)
-Em virtude da crise ocasionada pela pandemia de Covid-19, uma empresa precisou demitir 20% de seus funcionários. No intuito de reduzir os impactos desse processo, a empresa buscará realizar a recolocação profissional desses funcionários por meio da contratação de consultoria.
-Considerando a situação apresentada, que procedimento deve ser adotado pela empresa?
-a. Coaching.
-b. Socialização.
-c. Agenciamento.
-*d. Outplacement.
-e. Empowerment.
-
-2. No contexto do Model Context Protocol (MCP), qual é um dos princípios fundamentais?
+2. Em arquiteturas modernas de agentes e ferramentas, protocolos abertos favorecem composição e extensibilidade. No contexto do Model Context Protocol (MCP), qual é um dos princípios fundamentais?
 a. Exclusividade de um único modelo de IA.
 b. Descentralização total sem coordenação.
 *c. Interoperabilidade entre diferentes sistemas de IA e ferramentas externas.
 d. Limitação a sistemas proprietários.
 e. Isolamento dos agentes uns dos outros.
 
-3. Qual dos seguintes NÃO é um tipo de agente mencionado na arquitetura de sistemas multi-agentes?
+3. Em sistemas multi-agentes, diferentes papéis especializam capacidades (tarefa, conhecimento, interface e coordenação). Qual opção a seguir NÃO corresponde a um tipo de agente mencionado?
 a. Agentes de tarefa.
 b. Agentes de conhecimento.
 c. Agentes de interface.
 d. Agentes de coordenação.
 *e. Agentes de exclusão.
 
-4. No uso de ferramentas CLI para IA, qual das seguintes NÃO é uma vantagem das interfaces de linha de comando?
+4. Em pipelines de engenharia assistidos por IA, CLIs são preferidas por automação, integração e controle versionado. Qual opção NÃO é uma vantagem típica das CLIs?
 a. Automação de tarefas.
 b. Integração com outras ferramentas.
 c. Controle preciso com parâmetros detalhados.
 d. Processamento batch e operações em lote.
 *e. Interface gráfica mais intuitiva para usuários inexperientes.
 
-5. Qual das CLIs mencionadas é usada para execução local de modelos de linguagem?
+5. Para testes offline e privacidade de dados, algumas CLIs permitem executar modelos de linguagem localmente. Qual é a ferramenta citada?
 a. GitHub CLI (gh).
 b. Cursor CLI.
 *c. Ollama CLI.
 d. OpenAI CLI.
 e. Anthropic CLI.
 
-6. Na estrutura recomendada de repositórios colaborativos, onde se encontra o arquivo prompt-principles.md?
+6. Em repositórios colaborativos com agentes, diretrizes operacionais são organizadas para facilitar descoberta e manutenção. Onde se encontra o arquivo prompt-principles.md?
 a. Na pasta src/.
 b. Na pasta docs/.
 c. Na pasta .github/.
 *d. Na pasta .agents/.
 e. Na pasta tests/.
 
-7. No padrão Conventional Commits, qual é a estrutura básica de um commit?
+7. Para melhorar rastreabilidade e automação de changelogs, o padrão Conventional Commits define uma gramática mínima. Qual é a estrutura básica de um commit?
 a. Descrição: tipo(escopo).
 b. Escopo(tipo): descrição.
 *c. Tipo(escopo): descrição breve.
 d. Tipo-descrição(escopo).
 e. Escopo.tipo: descrição.
 
-8. Qual das seguintes NÃO é uma pasta ou arquivo mencionado como parte da estrutura recomendada de repositórios colaborativos?
+8. A estrutura recomendada equilibra automação, documentação e código-fonte. Qual opção NÃO faz parte dessa estrutura?
 a. .github/workflows/
 b. .agents/
 c. src/
 d. docs/
 *e. .config/
 
-9. Qual dos seguintes é um benefício do MCP mencionado nas aulas?
+9. Ao integrar múltiplas ferramentas (CAD, análise, BIM), um protocolo de contexto facilita orquestração. Qual benefício foi mencionado?
 a. Isolamento total dos sistemas.
 b. Limitação a um único modelo de IA.
 c. Aumento da complexidade de integração.
 *d. Integração de diferentes ferramentas como CAD + Análise.
 e. Exclusão de sistemas existentes.
 
-10. No contexto de sistemas multi-agentes, qual é uma característica dos agentes individuais em comparação com sistemas multi-agentes?
+10. O desempenho agregado em sistemas multi-agentes decorre de coordenação entre especialidades. Em contraste, qual é uma limitação típica de um agente isolado?
 a. Maior coordenação entre agentes.
 b. Maior adaptabilidade a diferentes situações.
 *c. Conhecimento limitado e dificuldade em tarefas complexas.
 d. Maior robustez nas soluções.
 e. Maior escalabilidade de processos.
 
-11. Qual das CLIs mencionadas é utilizada para gerenciamento completo de repositórios GitHub?
+11. Na automação do ciclo de vida de repositórios (issues, PRs, releases), qual CLI é utilizada para gerenciamento do GitHub?
 a. Ollama CLI.
 b. Cursor CLI.
 *c. GitHub CLI (gh).
 d. OpenAI CLI.
 e. Hugging Face CLI.
 
-12. No estudo de caso de uso do MCP em desenvolvimento colaborativo, qual foi a redução percentual no tempo de desenvolvimento?
+12. Em um estudo de caso discutido em aula, a adoção do MCP reduziu retrabalho e latência de integração. Qual foi a redução percentual no tempo de desenvolvimento?
 a. 40%.
 *b. 60%.
 c. 50%.
 d. 70%.
 e. 80%.
 
-13. Na configuração de workflows de automação, qual é uma das linguagens comumente usada para scripts de análise IA?
+13. Para scripts de análise e automações de avaliação, qual linguagem foi mencionada como comum nesses workflows?
 a. Java.
 b. C++.
 c. Ruby.
 *d. Python.
 e. Go.
 
-14. No contexto de configuração de repositórios, qual diretório contém os templates para issues e pull requests?
+14. Para padronizar relatos de problemas e mudanças, onde ficam os templates de issues e pull requests?
 a. .agents/
 b. src/
 *c. .github/
 d. docs/
 e. tests/
 
-15. Qual das seguintes NÃO é uma das métricas de qualidade mencionadas nas aulas?
+15. Na avaliação contínua de qualidade de software, algumas métricas oferecem sinal útil para priorização. Qual opção NÃO foi mencionada?
 a. Cobertura de testes.
 b. Complexidade ciclomática.
 c. Vulnerabilidades.
 d. Tempo de resolução de issues.
 *e. Número total de commits.
 
-16. No uso de CLIs para automação de tarefas em engenharia, qual é uma aplicação específica mencionada para Engenharia Civil?
+16. Na engenharia civil, automações com CLIs podem processar telemetria e séries temporais. Qual aplicação específica foi mencionada?
 a. Análise de circuitos.
 b. Otimização de geometrias.
 *c. Análise de dados de sensores.
 d. Processamento de resultados de simulação.
 e. Documentação de sistemas elétricos.
 
-17. Qual componente é essencial na arquitetura de sistemas multi-agentes para coordenar as interações entre agentes?
+17. A cooperação efetiva entre agentes requer um componente central de coordenação e políticas. Qual componente é essencial?
 a. Agentes especializados.
 b. Protocolo de comunicação (MCP).
 *c. Orquestrador.
 d. Interface unificada.
 e. Banco de dados compartilhado.
 
-18. No processo de setup de CLIs, qual é uma das etapas mencionadas?
+18. Antes de integrar CLIs a pipelines CI/CD, uma etapa é necessária para autorizações seguras. Qual etapa foi mencionada?
 a. Exclusão de ferramentas existentes.
 *b. Configuração de autenticação com tokens de API.
 c. Instalação manual de todos os componentes.
 d. Formatação do sistema operacional.
 e. Exclusão de todos os repositórios existentes.
 
-19. No contexto de automatização de processos com GitHub Actions, qual é um dos objetivos mencionados?
+19. Para escalar revisão e garantir padrões, automações podem usar IA como apoio. Qual objetivo foi mencionado?
 a. Eliminar completamente o trabalho humano.
 b. Substituir os desenvolvedores por agentes.
 *c. Implementar code review automatizado com assistência de IA.
 d. Aumentar o tempo de desenvolvimento.
 e. Reduzir a qualidade do código.
 
-20. Segundo as aulas, qual é uma das características do engenheiro do século XXI mencionada?
+20. Diante do ritmo de evolução tecnológica, uma competência humana permanece diferencial. Qual característica do engenheiro do século XXI foi mencionada?
 a. Exclusividade em ferramentas tradicionais.
 b. Exclusão do uso de IA.
 c. Foco apenas em aspectos técnicos.

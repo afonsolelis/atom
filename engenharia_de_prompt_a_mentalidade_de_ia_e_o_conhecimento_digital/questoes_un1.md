@@ -1,149 +1,137 @@
-Conteúdo das aulas 1, 2, 3 e 4
-
-ATENÇÃO:
-- Inserir um asterisco ANTES da alternativa correta.
-Exemplo:
-*a. Nenhuma das anteriores.
-- INSERIR OS FEEDBACKS AO FINAL DO DOC.
-- SEGUIR À RISCA O MODELO DE FORMATAÇÃO ABAIXO.
-- TODAS AS QUESTÕES PRECISAM TER 5 ALTERNATIVAS.
-
-
-
-1. A Engenharia de Prompt é uma disciplina inovadora que visa capacitar engenheiros a utilizar sistemas de IA de forma estratégica e ética. Qual das alternativas abaixo NÃO representa uma das competências desenvolvidas por meio dessa disciplina?
+1. A Engenharia de Prompt, enquanto disciplina aplicada, estrutura métodos para planejar interações com modelos de IA, traduzindo objetivos de negócio e requisitos técnicos em instruções claras, auditáveis e éticas. Em um contexto profissional multidisciplinar, qual alternativa a seguir NÃO representa uma competência desenvolvida por essa disciplina?
 a. Análise de problemas sob ótica da IA.
 b. Desenvolvimento de prompts estruturados.
 c. Aplicação de IA como ferramenta de engenharia.
 d. Avaliação crítica de sistemas de IA.
 *e. Implementação de circuitos eletrônicos com IA.
 
-2. A década de 2020 foi marcada por um marco importante na evolução da Inteligência Artificial. Qual evento abaixo representa esse marco?
+2. Considerando a linha do tempo dos principais marcos da IA e o impacto direto sobre aplicações em larga escala para o público geral, qual evento da década de 2020 melhor representa essa inflexão tecnológica?
 a. Criação do Perceptron por Frank Rosenblatt.
 b. Vitória do Deep Blue sobre Kasparov no xadrez.
 c. Conferência de Dartmouth, considerada o nascimento oficial da IA.
 d. Publicação do paper "Attention is All You Need".
 *e. Lançamento do ChatGPT, que revolucionou a IA conversacional.
 
-3. De acordo com os princípios fundamentais do Prompt Engineering, qual dos elementos abaixo NÃO é considerado essencial na estrutura de um prompt eficaz?
+3. Na elaboração de prompts robustos, recomenda-se uma estrutura que favoreça interpretabilidade, controle de escopo e reprodutibilidade de resultados. Dentro dessa estrutura, qual elemento a seguir NÃO é essencial?
 a. Contexto.
 b. Instrução Principal.
 c. Exemplos.
 d. Restrições.
 *e. Linguagem coloquial.
 
-4. Nos princípios éticos em IA, qual conceito se refere à capacidade de sistemas serem compreensíveis e auditáveis?
+4. Em sistemas sociotécnicos que utilizam IA, a governança exige propriedades que permitam inspeção de decisões e rastreabilidade de fontes. Qual princípio ético nomeia especificamente a capacidade de um sistema ser compreensível e auditável?
 a. Justiça.
 *b. Transparência.
 c. Privacidade.
 d. Responsabilidade.
 e. Benefício humano.
 
-5. O viés algorítmico é um dos principais desafios éticos na utilização de IA. Qual das alternativas abaixo melhor define esse tipo de viés?
+5. O viés algorítmico pode emergir de dados históricos, desenho do modelo ou do próprio processo de implantação. Qual definição descreve de forma mais precisa esse fenômeno no contexto de sistemas de apoio à decisão?
 a. Sub-representação de grupos populacionais nos dados de treinamento.
 *b. Decisões sistematicamente tendenciosas por parte dos algoritmos.
 c. Interpretação seletiva de resultados por parte dos usuários.
 d. Falta de atualização dos algoritmos com novos dados.
 e. Excesso de dados que confundem o sistema.
 
-6. Qual dos seguintes marcos históricos é considerado o nascimento oficial da Inteligência Artificial?
+6. Entre os marcos clássicos da disciplina, um evento é frequentemente citado como ponto de partida formal da área acadêmica de IA. Qual é esse evento?
 a. Criação do Teste de Turing por Alan Turing em 1950.
 *b. Conferência de Dartmouth em 1956.
 c. Criação do Perceptron por Frank Rosenblatt em 1958.
 d. Vitória do Deep Blue sobre Kasparov em 1997.
 e. Publicação do paper "Attention is All You Need" em 2017.
 
-7. De acordo com a estrutura recomendada de um prompt eficaz, qual é a ordem correta dos componentes?
+7. Para promover resultados consistentes e permitir avaliação objetiva, a estrutura de prompts recomendada organiza os componentes em uma sequência lógica. Qual é a ordem correta?
 a. Instrução Principal, Contexto, Exemplos, Restrições, Formatação.
 b. Contexto, Exemplos, Instrução Principal, Restrições, Formatação.
 c. Instrução Principal, Exemplos, Contexto, Formatação, Restrições.
 *d. Contexto, Instrução Principal, Exemplos, Restrições, Formatação.
 e. Exemplos, Contexto, Instrução Principal, Formatação, Restrições.
 
-8. No contexto da IA como ferramenta de engenharia, qual das alternativas abaixo NÃO representa uma das vantagens apontadas para engenheiros?
+8. Em aplicações de engenharia (projeto, análise, simulação e operação), a IA agrega valor em diversas frentes. Qual das alternativas a seguir NÃO representa uma vantagem típica reportada?
 a. Aceleração de processos tradicionais (produtividade).
 b. Redução de erros em cálculos complexos (precisão).
 c. Exploração de alternativas não convencionais (criatividade).
 d. Trabalho híbrido humano-máquina (colaboração).
 *e. Substituição total do julgamento humano (automação completa).
 
-9. Qual das seguintes NÃO é considerada uma das características essenciais da mentalidade de IA?
+9. A mentalidade de IA descreve atitudes e hábitos cognitivos que potencializam o uso responsável de tecnologias inteligentes. Qual opção a seguir NÃO compõe esse conjunto de características essenciais?
 a. Curiosidade técnica.
 b. Pensamento crítico.
 c. Ética digital.
 d. Aprendizado contínuo.
 *e. Perfeccionismo absoluto.
 
-10. No estudo de caso do sistema COMPAS mencionado nas aulas, qual foi o principal problema ético identificado?
+10. Em estudos de caso sobre avaliação de risco no sistema de justiça criminal, um problema ético ganhou destaque por produzir impactos desiguais entre grupos sociais. No caso do COMPAS, qual foi o principal problema identificado?
 a. O sistema não era preciso o suficiente em suas predições.
 *b. O software apresentou viés racial, atribuindo scores de risco mais altos injustamente a pessoas negras.
 c. O sistema foi desenvolvido sem supervisão humana.
 d. O algoritmo era muito complexo para ser auditado.
 e. Os dados usados eram muito antigos e desatualizados.
 
-11. Qual dos seguintes princípios éticos em IA se refere à proteção de dados pessoais e sensíveis?
+11. Em projetos que tratam dados pessoais, o desenho ético exige salvaguardas específicas sobre coleta, processamento e armazenamento. Qual princípio aborda diretamente essa proteção?
 a. Transparência.
 b. Justiça.
 *c. Privacidade.
 d. Responsabilidade.
 e. Benefício humano.
 
-12. Na evolução histórica da IA, qual evento ocorreu na década de 1970-1980?
+12. A trajetória histórica da IA inclui períodos de entusiasmo e de maturação tecnológica. Qual evento marcante da década de 1970–1980 é corretamente associado a essa fase?
 a. Criação do Teste de Turing.
 *b. Desenvolvimento dos sistemas especialistas como MYCIN e XCON.
 c. Vitória do Deep Blue sobre Kasparov no xadrez.
 d. Publicação do paper "Attention is All You Need".
 e. Lançamento do ChatGPT.
 
-13. Qual das seguintes aplicações NÃO é mencionada como exemplo de IA na Engenharia Civil?
+13. Ao mapear aplicações setoriais, a Engenharia Civil apresenta casos de uso recorrentes de IA em planejamento, projeto e operação. Qual das opções a seguir NÃO se enquadra nesse domínio?
 a. Análise estrutural e simulação de cargas.
 b. Planejamento urbano e modelagem preditiva.
 c. Otimização energética em edificações.
 *d. Design assistido por IA de circuitos integrados.
 e. Roteirização otimizada usando machine learning.
 
-14. No contexto de Prompt Engineering, qual dos seguintes NÃO é um dos princípios fundamentais?
+14. Para reduzir ambiguidade e mitigar alucinações, alguns princípios norteiam a escrita de prompts de alta qualidade. Qual dos itens a seguir NÃO integra esse conjunto de princípios?
 a. Clareza.
 b. Contexto.
 c. Especificidade.
 d. Iteração.
 *e. Comprimento extenso.
 
-15. O que significa o termo "few-shot learning" no contexto de exemplos em prompts?
+15. Na prática de orientar modelos por meio de demonstrações, um termo específico descreve a técnica de incluir poucos exemplos para induzir o padrão desejado. O que significa "few-shot" nesse contexto?
 a. Aprendizado com poucos dados de treinamento.
 *b. Fornecimento de 2-3 exemplos de entrada/saída para orientar o modelo.
 c. Uso de exemplos curtos para economizar tempo de processamento.
 d. Aprendizado rápido com poucas iterações.
 e. Exemplos que exigem poucos recursos computacionais.
 
-16. Qual caso real foi citado como exemplo de como dados históricos podem perpetuar desigualdades?
+16. Em auditorias de sistemas de seleção e triagem, foram observados efeitos de perpetuação de vieses provenientes de dados históricos. Qual caso real ilustra esse problema?
 a. Sistema de reconhecimento facial com viés racial.
 b. Sistema COMPAS de predição de reincidência.
 *c. Sistema de recrutamento da Amazon que discriminava mulheres.
 d. ChatGPT com respostas inadequadas.
 e. Sistema de crédito com decisões injustas.
 
-17. Qual das alternativas abaixo é uma das aplicações práticas da IA para engenheiros, conforme mencionado nas aulas?
+17. No cotidiano de equipes técnicas, a IA é frequentemente aplicada em tarefas que exigem escala, precisão e resiliência operacional. Qual aplicação prática foi destacada?
 a. Exclusivamente tarefas de digitação e preenchimento de formulários.
 *b. Análise de dados e processamento de grandes volumes de informação técnica.
 c. Apenas atividades que envolvem programação avançada.
 d. Somente tarefas criativas que exigem intuição humana.
 e. Exclusivamente manutenção de máquinas e equipamentos.
 
-18. Qual dos seguintes é um dos direcionamentos padronizados para formatação de prompts mencionados nas aulas?
+18. Para facilitar replicação, revisão e ensino, recomenda-se uma convenção de formatação ao apresentar prompts e respostas. Qual direcionamento foi explicitamente mencionado?
 a. Usar sempre linguagem coloquial para facilitar compreensão.
 b. Incluir o maior número possível de informações para garantir clareza.
 c. Evitar o uso de formatação para manter simplicidade.
 *d. Usar blocos de código ``` para exemplos de prompts e respostas.
 e. Utilizar exclusivamente linguagem técnica especializada.
 
-19. Em relação aos impactos sociais da IA, qual dos seguintes NÃO foi mencionado como um impacto?
+19. A adoção de IA em larga escala produz efeitos socioeconômicos que demandam políticas públicas e governança organizacional. Qual alternativa a seguir NÃO foi elencada como impacto nas aulas?
 a. Concentração de benefícios em grupos específicos (desigualdade).
 b. Automatização de funções tradicionais (desemprego tecnológico).
 c. Perpetuação de desigualdades existentes (discriminação algorítmica).
 *d. Melhoria universal das condições de vida.
 e. Necessidade de novas regulamentações éticas.
 
-20. Na definição de Inteligência Artificial apresentada nas aulas, como é caracterizada a IA?
+20. Diferentes definições de IA enfatizam habilidades específicas (percepção, raciocínio, aprendizado). Considerando a definição apresentada em aula, qual caracterização está correta?
 a. Capacidade de sistemas computacionais executarem tarefas que normalmente requerem inteligência humana.
 b. Sistemas que aprendem com dados e melhoram seu desempenho ao longo do tempo.
 c. Modelos de linguagem avançados que compreendem e geram texto humano.

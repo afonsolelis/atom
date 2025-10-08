@@ -1,7 +1,7 @@
 # Aula 3: Estrutura e Elementos de um Prompt Eficaz
 
 ## Objetivo da Aula
-Aprender a construir prompts bem estruturados que gerem respostas mais precisas e úteis dos sistemas de IA. Utilizaremos nossos direcionamentos padronizados em formato JSON para manter consistência e qualidade.
+Aprender a construir prompts bem estruturados que gerem respostas mais precisas e úteis dos sistemas de IA. Utilizaremos nossos direcionamentos padronizados em formato JSON para manter consistência e qualidade. Ao final, o aluno deverá ser capaz de elaborar prompts auditáveis, interpretar respostas e iterar para melhoria contínua.
 
 ## 1. Conceito de Prompt Engineering
 
@@ -48,6 +48,13 @@ Aprender a construir prompts bem estruturados que gerem respostas mais precisas 
 - **Estilo**: "Use linguagem técnica formal"
 - **Organização**: "Divida em seções com headers"
 
+### Métricas de Qualidade de Prompts
+- Adequação: a resposta atende ao objetivo definido
+- Precisão: ausência de erros factuais ou cálculos incorretos
+- Completude: cobre os itens solicitados no formato pedido
+- Reprodutibilidade: mesma resposta quando o contexto é controlado
+- Segurança: ausência de saídas problemáticas (tóxicas, PII)
+
 ## 3. Exemplos Práticos
 
 ### Exemplo Básico - Consulta Técnica
@@ -58,6 +65,10 @@ Aprender a construir prompts bem estruturados que gerem respostas mais precisas 
 ```
 
 ### Exemplo Avançado - Análise Comparativa
+#### Notas de Raciocínio
+- O exemplo explicita critérios e limitações, reduzindo ambiguidade
+- A estrutura com tópicos obriga a cobrir todos os itens pedidos
+- A restrição de palavras força concisão e priorização de conteúdo
 ```
 **Contexto:** Compare três métodos de análise estrutural.
 **Exemplos:**
@@ -147,6 +158,19 @@ Baseado nos direcionamentos, aqui está um template completo:
 ```
 
 #### Exemplo Aplicado - Análise Estrutural
+## 5. Boas Práticas e Anti‑padrões
+
+### Boas Práticas
+- Indicar o papel/persona para calibrar estilo e nível técnico
+- Fixar unidades e convenções para evitar inconsistências
+- Pedir passo a passo quando houver cadeia de raciocínio
+- Validar com caso de teste simples antes do caso completo
+
+### Anti‑padrões a Evitar
+- Prompts excessivamente longos sem hierarquia de informação
+- Pedidos vagos (“explique tudo sobre…”) sem objetivo concreto
+- Contradições (“seja conciso, mas explique em detalhes extensos”)
+- Falta de checagem factual em domínios de alto risco
 ```json
 {
   "contexto": "Você é engenheiro estrutural sênior com experiência em análise de elementos finitos",
@@ -165,7 +189,7 @@ Baseado nos direcionamentos, aqui está um template completo:
 }
 ```
 
-## 5. Erros Comuns a Evitar
+## 6. Erros Comuns a Evitar
 
 ### Problemas Frequentes
 - **Ambiguidade**: "Calcule isso" (sem especificar método)
@@ -178,10 +202,10 @@ Baseado nos direcionamentos, aqui está um template completo:
 - Múltiplas interpretações possíveis
 - Falta de foco no objetivo principal
 
-## 6. Atividade Prática (5 minutos)
+## 7. Atividade Prática (5 minutos)
 **Exercício em Pares**: Cada dupla cria um prompt para resolver um problema técnico simples. Testem e refinem com base nos resultados obtidos.
 
-## 7. Para a Próxima Aula
+## 8. Para a Próxima Aula
 Pratique criando prompts para diferentes tipos de problemas técnicos da sua área de engenharia.
 
 ---

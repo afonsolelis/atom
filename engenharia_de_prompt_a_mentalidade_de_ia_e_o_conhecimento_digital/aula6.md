@@ -1,7 +1,7 @@
 # Aula 6: Técnicas Avançadas de Prompting - Few-Shot e Chain-of-Thought
 
 ## Objetivo da Aula
-Dominar técnicas avançadas de prompting que utilizam exemplos e raciocínio estruturado para obter respostas mais precisas e elaboradas.
+Dominar técnicas avançadas de prompting que utilizam exemplos e raciocínio estruturado para obter respostas mais precisas e elaboradas. Ao final, o aluno deverá ser capaz de combinar few‑shot e chain‑of‑thought, medir ganhos e evitar anti‑padrões.
 
 ## 1. Few-Shot Prompting
 
@@ -15,6 +15,16 @@ Dominar técnicas avançadas de prompting que utilizam exemplos e raciocínio es
 - **Contexto mínimo**: Apenas o necessário para demonstrar o padrão
 
 ### Estrutura de Prompt Few-Shot
+### Boas Práticas e Anti‑padrões (Few‑shot)
+**Boas Práticas**
+- Manter exemplos curtos e canônicos
+- Cobrir bordas relevantes sem aumentar muito o contexto
+- Evidenciar o formato esperado logo após os exemplos
+
+**Anti‑padrões**
+- Exemplos longos demais que “afogam” a instrução
+- Exemplos inconsistentes entre si
+- Reutilização cega de exemplos fora do domínio
 ```
 [Contexto geral]
 [Exemplo 1 - Entrada]
@@ -75,6 +85,10 @@ Saída:
 - **Transparência**: Facilita auditoria do resultado
 
 ### Técnicas de CoT
+### Considerações de Segurança
+- Evitar exposição de cadeias de raciocínio em domínios sensíveis
+- Fornecer justificativas suficientes sem revelar PII ou segredos
+- Validar aritmética e lógica com passo de verificação separado
 - **CoT Básico**: "Pense passo a passo antes de responder"
 - **CoT Estruturado**: Divisão explícita em etapas numeradas
 - **CoT com Few-Shot**: Combinação de exemplos e raciocínio
@@ -129,6 +143,11 @@ A→B: 50, A→C: 30, B→D: 40, C→D: 25
 - **Few-Shot + CoT**: Exemplos seguidos de raciocínio detalhado
 - **CoT Estruturado**: Numeração explícita das etapas
 - **CoT com Verificação**: Incluir passo de validação do resultado
+
+### Métricas de Qualidade
+- Taxa de acerto em problemas multi‑etapas
+- Clareza e verificabilidade do raciocínio
+- Custo de contexto vs. ganho de precisão
 
 ## 6. Atividade Prática (5 minutos)
 **Comparação de Técnicas**: Crie o mesmo prompt técnico usando zero-shot, few-shot e chain-of-thought. Compare mentalmente os resultados esperados.

@@ -1,7 +1,7 @@
 # Aula 9: Mentalidade Orientada a Dados e Experimentação Contínua
 
 ## Objetivo da Aula
-Desenvolver mentalidade orientada a dados e aprender princípios de experimentação para tomada de decisões mais eficazes em projetos de engenharia com IA.
+Desenvolver mentalidade orientada a dados e aprender princípios de experimentação para tomada de decisões mais eficazes em projetos de engenharia com IA. Ao final, o aluno deverá ser capaz de desenhar experimentos, selecionar métricas e interpretar resultados com rigor.
 
 ## 1. Mentalidade Orientada a Dados
 
@@ -42,6 +42,11 @@ Entrada → Processamento → Saída → Feedback → Ajuste → Nova Iteração
 ```
 
 ### Estratégias de Adaptação
+### Anti‑padrões de Experimentação
+- Testar múltiplas hipóteses simultâneas sem controle
+- P-hacking: selecionar métricas “favoráveis” após o fato
+- Não isolar variáveis de confusão
+- Ignorar tamanho de amostra e poder estatístico
 - **Monitoramento constante**: Métricas em tempo real
 - **Thresholds dinâmicos**: Limites que se ajustam automaticamente
 - **Feedback loops**: Sistemas que aprendem com cada interação
@@ -56,6 +61,11 @@ Entrada → Processamento → Saída → Feedback → Ajuste → Nova Iteração
 - **Validação de usuário**: Experiência atende expectativas?
 
 ### Métricas Essenciais
+### Métricas de IA Específicas
+- Drift de dados/modelos: monitoramento contínuo
+- Taxa de alucinação (LLMs): proporção de saídas incorretas
+- Calibração de probabilidades: confiabilidade dos scores
+- Cobertura de casos: representatividade dos cenários testados
 | Categoria | Métricas | Objetivo |
 |-----------|----------|----------|
 | **Performance** | Acurácia, Precisão, Recall | Medir qualidade técnica |

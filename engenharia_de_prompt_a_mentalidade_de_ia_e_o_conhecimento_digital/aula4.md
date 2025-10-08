@@ -1,7 +1,7 @@
 # Aula 4: Ética, Vieses e Responsabilidade Digital em IA
 
 ## Objetivo da Aula
-Compreender os aspectos éticos do uso de IA e desenvolver consciência crítica sobre vieses e responsabilidades no contexto da engenharia digital.
+Compreender os aspectos éticos do uso de IA e desenvolver consciência crítica sobre vieses e responsabilidades no contexto da engenharia digital. Ao final, o aluno deverá ser capaz de identificar riscos, propor salvaguardas e reconhecer marcos regulatórios relevantes.
 
 ## 1. Fundamentos Éticos em IA
 
@@ -13,6 +13,10 @@ Compreender os aspectos éticos do uso de IA e desenvolver consciência crítica
 - **Benefício humano**: Priorização do bem-estar coletivo
 
 ### Marcos Éticos em IA
+#### Padrões e Frameworks Técnicos
+- NIST AI Risk Management Framework (EUA): identificação e mitigação de riscos
+- ISO/IEC 23894: gestão de riscos em IA
+- Model Cards e Data Sheets for Datasets: transparência sobre modelos e dados
 - **Declaração de Montreal** (2018): 10 princípios para desenvolvimento ético de IA
 - **Diretrizes da UE para IA confiável** (2019): Abordagem centrada no humano
 - **Princípios da OCDE** (2020): IA confiável, robusta e benéfica
@@ -31,6 +35,11 @@ fotos de homens brancos apresentou 35% menos precisão para mulheres negras.
 ```
 
 ### Como Identificar Vieses
+### Mitigações Práticas
+- Balanceamento e reamostragem de dados
+- Avaliação por subgrupos e métricas de equidade (ex.: equalized odds)
+- Revisão humana em decisões de alto impacto
+- Monitoramento contínuo pós-implantação (drift de dados/modelo)
 - **Auditoria de dados**: Análise estatística da representatividade
 - **Testes adversariais**: Entradas intencionalmente problemáticas
 - **Avaliação multidimensional**: Perspectivas diversas na validação
@@ -43,6 +52,10 @@ fotos de homens brancos apresentou 35% menos precisão para mulheres negras.
 - **Impact assessment**: Avaliação prévia de consequências sociais
 
 ### Regulamentações Aplicáveis
+#### Princípios Transversais
+- Proporcionalidade de risco: maiores exigências para usos de alto risco
+- Privacy by design e security by design
+- Documentação de decisões e trilhas de auditoria
 - **LGPD (Brasil)**: Proteção de dados pessoais
 - **GDPR (Europa)**: Regulamentação abrangente de privacidade
 - **AI Act (UE)**: Classificação de risco de sistemas de IA
@@ -84,6 +97,11 @@ fotos de homens brancos apresentou 35% menos precisão para mulheres negras.
 - **Documentar processos**: Manter registro de como IA foi utilizada
 
 ### Políticas Institucionais
+### Checklist Rápido de Conformidade
+- Definimos a finalidade legítima e proporcional do uso de IA?
+- Há base legal para processamento de dados pessoais (quando aplicável)?
+- As métricas de qualidade incluem critérios de equidade e segurança?
+- Existe plano de monitoramento e resposta a incidentes?
 - **Comitês de ética**: Grupos multidisciplinares para avaliação de projetos
 - **Treinamento obrigatório**: Educação continuada sobre uso responsável de IA
 - **Auditorias regulares**: Verificação periódica de sistemas implementados

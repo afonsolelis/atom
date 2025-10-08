@@ -1,7 +1,7 @@
 # Aula 10: Curadoria de Informações Digitais em Engenharia
 
 ## Objetivo da Aula
-Aprender técnicas de curadoria de informações digitais para identificar fontes confiáveis e organizar conhecimento técnico de forma eficaz em projetos de engenharia.
+Aprender técnicas de curadoria de informações digitais para identificar fontes confiáveis e organizar conhecimento técnico de forma eficaz em projetos de engenharia. Ao final, o aluno deverá ser capaz de montar dossiês técnicos reprodutíveis e auditáveis.
 
 ## 1. Conceitos Fundamentais de Curadoria Digital
 
@@ -38,6 +38,11 @@ Aprender técnicas de curadoria de informações digitais para identificar fonte
 4. **Testar aplicabilidade**: Verificar se contexto é similar ao seu projeto
 
 ### Estratégias Práticas
+### Erros Comuns e Mitigações
+- Confiar em citações secundárias → Buscar sempre a fonte primária
+- Confundir popularidade com credibilidade → Priorizar revisão por pares e normas
+- Ignorar contexto regional/normativo → Validar aplicabilidade local
+- Falta de versionamento de referências → Registrar data e versão de cada fonte
 - **Triangulação**: Usar pelo menos 3 fontes independentes
 - **Análise temporal**: Verificar se informação evoluiu ao longo do tempo
 - **Contexto cultural**: Considerar diferenças regionais e culturais
@@ -52,6 +57,10 @@ Aprender técnicas de curadoria de informações digitais para identificar fonte
 - **Relacionamentos**: Mapeamento de conexões entre informações
 
 ### Ferramentas Digitais
+### Padrões de Nomeação e Versionamento
+- Convenção de nomes: [ano]-[tema]-[fonte]
+- Metadados mínimos: autor, data, link, resumo, confiabilidade (1–10)
+- Versionamento: snapshot com hash/URL e data de acesso
 - **Bookmarks organizados**: Pastas temáticas no navegador
 - **Gestores de referência**: Zotero, Mendeley, EndNote
 - **Wikis internas**: Documentação colaborativa de conhecimento
@@ -66,6 +75,12 @@ Aprender técnicas de curadoria de informações digitais para identificar fonte
 - **Detecção de novidades**: Monitoramento de atualizações em áreas específicas
 
 ### Prompt para Curadoria com IA
+### Checklist do Dossiê Técnico
+- Escopo e objetivos do dossiê
+- Fontes classificadas por credibilidade
+- Síntese das convergências e divergências
+- Riscos e lacunas de evidência
+- Plano de atualização periódica
 ```
 **Contexto:** Você é pesquisador técnico especializado em [área específica].
 
