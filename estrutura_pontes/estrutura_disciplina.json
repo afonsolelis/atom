@@ -1,0 +1,183 @@
+{
+  "modulo": "Cálculo Estrutural de Pontes em Concreto Armado e Protendido",
+  "unidade1": {
+    "titulo": "Fundamentos Estruturais e Cargas em Pontes",
+    "aula1": {
+      "titulo": "Esforços internos e equilíbrio estrutural",
+      "direcionamentos": [
+        "Definir N, V, M e sinais adotados",
+        "Equilíbrio global e de seções (∑F=0, ∑M=0)",
+        "Viga biapoiada: reações de apoio",
+        "Diagramas V(x) e M(x) para carregamentos simples",
+        "Critérios para Mmax e Vmax"
+      ]
+    },
+    "aula2": {
+      "titulo": "Tipologias estruturais e trajetórias de carga",
+      "direcionamentos": [
+        "Viga, arco, treliça, estaiada, suspensa: quando usar",
+        "Trajetória de esforços: compressão x tração",
+        "Isostaticidade x hiperstaticidade (conceito, sem cálculo)",
+        "Rigidez global e caminho de carga até as fundações",
+        "Implicações para cálculo manual de esforços"
+      ]
+    },
+    "aula3": {
+      "titulo": "Cargas permanentes e móveis (NBR 7188)",
+      "direcionamentos": [
+        "G e Q: peso próprio, revestimentos, guarda-corpo",
+        "Carga móvel TB-450: modelos e posicionamento crítico",
+        "Fator dinâmico de impacto (conceito e uso)",
+        "Combinações ELU/ELS com NBR 7187/6118 (lista mínima)",
+        "Exemplo curto: reações sob TB-450 em vão simples"
+      ]
+    },
+    "aula4": {
+      "titulo": "Estudo de Caso Nacional – Fadiga em ponte de concreto",
+      "referencia": "Rossato et al. — Verificação de segurança à fadiga de ponte projetada em 1987 conforme NBR 6118 (2014), 2021",
+      "link_artigo": "https://www.scielo.org.mx/scielo.php?pid=S2007-68352021000200008&script=sci_arttext&tlng=pt",
+      "direcionamentos": [
+        "Revisitar critérios de fadiga da NBR 6118 (visão geral)",
+        "Identificar regiões críticas de flexão e detalhamento",
+        "Comparar premissas de 1987 vs 2014 e efeito no cálculo",
+        "Discutir margens de segurança e ciclos de tráfego",
+        "Conectar achados com aulas 1–3 sem repetir conteúdo"
+      ]
+    }
+  },
+  "unidade2": {
+    "titulo": "Dimensionamento de Elementos Estruturais",
+    "aula5": {
+      "titulo": "Dimensionamento de vigas principais",
+      "direcionamentos": [
+        "Obter MEd e VEd sob TB-450 (pior caso posicionado)",
+        "ELU flexão: As pela NBR 6118 (domínios simplificados)",
+        "ELS: verificação de fissuração (wk) e flechas (conceito)",
+        "Armadura mínima e ancoragens (lista objetiva)",
+        "Exemplo numérico completo e fechado"
+      ]
+    },
+    "aula6": {
+      "titulo": "Transversinas e tabuleiros de ponte",
+      "direcionamentos": [
+        "Papel das transversinas na distribuição transversal",
+        "Modelo simplificado de distribuição de cargas entre vigas",
+        "Tabuleiro: verificação de laje em duas direções (critério prático)",
+        "Cisalhamento de punção: quando verificar",
+        "Exemplo curto: espessura e armadura de laje de tabuleiro"
+      ]
+    },
+    "aula7": {
+      "titulo": "Introdução ao concreto protendido",
+      "direcionamentos": [
+        "Pré x pós-tração: conceito e aplicações em pontes",
+        "Perdas imediatas e diferidas: lista e ordem de grandeza",
+        "Traçado do cabo e excentricidade: efeito em tensões",
+        "Checagem simplificada de tensões (topo/fundo) em serviço",
+        "Mini-exemplo: dimensionar força e excentricidade alvo"
+      ]
+    },
+    "aula8": {
+      "titulo": "Estudo de Caso Nacional – Acidentes estruturais e causas recorrentes",
+      "referencia": "Vitório, J. — Acidentes Estruturais em Pontes Rodoviárias Brasileiras: Causas, Diagnósticos e Soluções, 2007",
+      "link_artigo": "https://vitorioemelo.com.br/publicacoes/Acidentes_Estruturais_Pontes%20Rodoviarias_Causas_Diagnosticos_Solucoes.pdf",
+      "direcionamentos": [
+        "Classificar causas: cálculo, detalhamento, execução, manutenção",
+        "Mapear modos de falha por elemento (viga, apoio, fundação)",
+        "Relacionar cada causa a uma verificação normativa objetiva",
+        "Extrair lições de projeto: pontos de checagem mínimos",
+        "Evitar sobreposição com fadiga (aula 4) e patologias (aula 11)"
+      ]
+    }
+  },
+  "unidade3": {
+    "titulo": "Ações Dinâmicas, Vibrações e Patologias",
+    "aula9": {
+      "titulo": "Ações dinâmicas e fator de impacto",
+      "direcionamentos": [
+        "Natureza do carregamento móvel e variabilidade temporal",
+        "Conceito de fator dinâmico e aplicação prática",
+        "Comparar MEd estático x dinâmico por coeficiente",
+        "Posicionamento crítico do veículo para Mmax e Vmax",
+        "Exemplo curto aplicando o fator à viga de referência"
+      ]
+    },
+    "aula10": {
+      "titulo": "Vibrações e frequência natural",
+      "direcionamentos": [
+        "Modelo de viga biapoiada: f1 aproximada",
+        "Amortecimento típico em pontes de concreto",
+        "Critério simples para evitar ressonância com tráfego",
+        "Ligação com conforto e ELS (conceitual, sem repetir aula 9)",
+        "Exemplo numérico de f1 e checagem de risco"
+      ]
+    },
+    "aula11": {
+      "titulo": "Patologias estruturais",
+      "direcionamentos": [
+        "Fissuras, corrosão, delaminação: sinais e causas típicas",
+        "Redução de seção de armadura: impacto em MRd (abordagem simples)",
+        "Drenagem e proteção: efeito no ciclo de deterioração",
+        "Critérios mínimos de inspeção (DNIT) e registro objetivo",
+        "Preparar terreno para estudo de caso da aula 12"
+      ]
+    },
+    "aula12": {
+      "titulo": "Estudo de Caso Nacional – Patologias em pontes (BR-423/AL)",
+      "referencia": "Vasconcelos, T. — Análise das manifestações patológicas em pontes de concreto armado: estudo de caso na BR-423/AL, 2018",
+      "link_artigo": "https://www.repositorio.ufal.br/bitstream/riufal/3747/1/An%C3%A1lise%20das%20manifesta%C3%A7%C3%B5es%20patol%C3%B3gicas%20em%20pontes%20de%20concreto%20armado%3A%20estudo%20de%20caso.pdf",
+      "direcionamentos": [
+        "Identificar patologias observadas e causas prováveis",
+        "Quantificar efeito da corrosão via perda de seção simplificada",
+        "Relacionar falhas a drenagem/ambiente e manutenção",
+        "Propor verificação pontual de MRd pós-degradação",
+        "Evitar repetir impactos dinâmicos (aulas 9–10)"
+      ]
+    }
+  },
+  "unidade4": {
+    "titulo": "Fundações, Reforços e Colapsos",
+    "aula13": {
+      "titulo": "Fundações e apoios",
+      "direcionamentos": [
+        "Caminho de cargas até o solo: pilares → blocos → estacas/rasas",
+        "Tensões de contato e verificação simplificada",
+        "Checagem de capacidade de estaca/bloco (ordem de grandeza)",
+        "Apoios elastoméricos: função e esforços transmitidos",
+        "Exemplo curto de reação e tensão média"
+      ]
+    },
+    "aula14": {
+      "titulo": "Interação solo-estrutura e recalques",
+      "direcionamentos": [
+        "Recalque total x diferencial: efeitos em vigas contínuas",
+        "Esforços adicionais por deslocamentos impostos (conceito)",
+        "Sinais em aparelhos de apoio e juntas",
+        "Critério prático para limitar efeitos em serviço",
+        "Não repetir dimensionamentos de vigas (aula 5)"
+      ]
+    },
+    "aula15": {
+      "titulo": "Reforços estruturais e verificações de estabilidade",
+      "direcionamentos": [
+        "Reforço à flexão (aço adicional, laminados), ao cisalhamento",
+        "Protensão externa: efeito em tensões e flechas",
+        "Estabilidade global e prevenção de colapso progressivo",
+        "Sequência lógica de intervenção e monitoramento",
+        "Checklist mínimo de verificação pós-reforço"
+      ]
+    },
+    "aula16": {
+      "titulo": "Estudo de Caso Nacional – Inspeção, deterioração e reforço",
+      "referencia": "EngEVista/UFF — Patologias e inspeção de pontes em concreto armado: estudo de caso da Ponte Gov. Magalhães Pinto (MG)",
+      "link_artigo": "https://periodicos.uff.br/engevista/article/download/27125/16562/98638",
+      "direcionamentos": [
+        "Sintetizar achados de inspeção com foco em causa-efeito",
+        "Mapear decisões de reforço coerentes com sintomas observados",
+        "Vincular a fundações e apoios quando aplicável",
+        "Traçar verificação mínima pós-intervenção",
+        "Evitar sobreposição com casos de fadiga e patologias anteriores"
+      ]
+    }
+  }
+}

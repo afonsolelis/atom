@@ -1,0 +1,177 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="980" viewBox="0 0 760 980">
+  <title>Aula 7 — Concreto Protendido: cabo parabólico, tensões e perdas</title>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowBoth" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <style>
+      .lbl{font-family:Arial, sans-serif; font-size:14px}
+      .sml{font-family:Arial, sans-serif; font-size:12px}
+      .tiny{font-family:Arial, sans-serif; font-size:11px}
+      .axis{stroke:#000; stroke-width:1.2; fill:none}
+      .beam{stroke:#000; stroke-width:6}
+      .dash{stroke:#000; stroke-width:1.3; stroke-dasharray:6 5; fill:none}
+      .panel{fill:#fafafa; stroke:#000; stroke-width:1}
+      .muted{fill:#eee; stroke:#000; stroke-width:1}
+      .good{fill:#d7f7df; stroke:#000; stroke-width:1}
+      .bad{fill:#f7d7d7; stroke:#000; stroke-width:1}
+      .steel{fill:none; stroke:#000; stroke-width:1.5}
+    </style>
+  </defs>
+
+  <!-- TÍTULO -->
+  <text class="lbl" x="380" y="28" text-anchor="middle">Aula 7 — Introdução ao Concreto Protendido</text>
+
+  <!-- ===================== PAINEL 1: ESQUEMA GLOBAL COM CABO PARABÓLICO ===================== -->
+  <g transform="translate(20,50)">
+    <rect class="panel" x="0" y="0" width="720" height="300" rx="8"/>
+    <text class="lbl" x="20" y="30">Viga protendida — L = 40 m | b × h = 0,60 × 2,00 m</text>
+
+    <!-- Solo e viga -->
+    <line x1="60" y1="260" x2="660" y2="260" class="axis"/>
+    <line x1="80" y1="230" x2="640" y2="230" class="beam"/>
+
+    <!-- Apoios -->
+    <polygon points="80,230 65,260 95,260" fill="#e0e0e0" stroke="#000"/>
+    <polygon points="640,230 625,260 655,260" fill="#e0e0e0" stroke="#000"/>
+
+    <!-- Cargas distribuídas -->
+    <text class="sml" x="360" y="70" text-anchor="middle">G = 30 kN/m   |   q = 5 kN/m²</text>
+    <line x1="80" y1="86" x2="640" y2="86" class="axis"/>
+    <g marker-end="url(#arrow)">
+      <line x1="110" y1="86" x2="110" y2="220" class="axis"/>
+      <line x1="160" y1="86" x2="160" y2="220" class="axis"/>
+      <line x1="210" y1="86" x2="210" y2="220" class="axis"/>
+      <line x1="260" y1="86" x2="260" y2="220" class="axis"/>
+      <line x1="310" y1="86" x2="310" y2="220" class="axis"/>
+      <line x1="360" y1="86" x2="360" y2="220" class="axis"/>
+      <line x1="410" y1="86" x2="410" y2="220" class="axis"/>
+      <line x1="460" y1="86" x2="460" y2="220" class="axis"/>
+      <line x1="510" y1="86" x2="510" y2="220" class="axis"/>
+      <line x1="560" y1="86" x2="560" y2="220" class="axis"/>
+      <line x1="610" y1="86" x2="610" y2="220" class="axis"/>
+    </g>
+
+    <!-- Cabo parabólico (aprox.) -->
+    <!-- e0 pequeno nos apoios e emax no meio -->
+    <path d="M 80 210 C 260 300 460 300 640 210" class="steel"/>
+    <circle cx="88" y="214" r="4" fill="#000"/>
+    <circle cx="632" y="214" r="4" fill="#000"/>
+    <text class="tiny" x="360" y="204" text-anchor="middle">Cabo parabólico e(x)</text>
+
+    <!-- Excentricidades: e0 e emax -->
+    <!-- e0 (apoio esquerdo) -->
+    <line x1="120" y1="230" x2="120" y2="210" class="axis" marker-start="url(#arrowBoth)" marker-end="url(#arrowBoth)"/>
+    <text class="tiny" x="126" y="220">e₀ = 0,10 m</text>
+    <!-- emax (meio do vão) -->
+    <line x1="360" y1="230" x2="360" y2="310" class="axis" marker-start="url(#arrowBoth)" marker-end="url(#arrowBoth)"/>
+    <text class="tiny" x="366" y="274">eₘₐₓ = 0,90 m</text>
+
+    <!-- Dimensão L -->
+    <line x1="80" y1="282" x2="80" y2="270" class="axis"/>
+    <line x1="640" y1="282" x2="640" y2="270" class="axis"/>
+    <line x1="80" y1="276" x2="640" y2="276" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="sml" x="360" y="294" text-anchor="middle">L = 40 m</text>
+  </g>
+
+  <!-- ===================== PAINEL 2: PROPRIEDADES E TENSÕES EM SERVIÇO ===================== -->
+  <g transform="translate(20,370)">
+    <rect class="panel" x="0" y="0" width="720" height="260" rx="8"/>
+    <text class="lbl" x="20" y="30">Propriedades e checagem de tensões (serviço)</text>
+
+    <!-- Seção retangular e dimensões -->
+    <g transform="translate(60,60)">
+      <rect x="0" y="0" width="180" height="120" fill="#ddd" stroke="#000"/>
+      <line x1="0" y1="-10" x2="180" y2="-10" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text class="tiny" x="90" y="-16" text-anchor="middle">b = 0,60 m</text>
+      <line x1="200" y1="0" x2="200" y2="120" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text class="tiny" x="208" y="62">h = 2,00 m</text>
+      <text class="tiny" x="4" y="12">topo</text>
+      <text class="tiny" x="144" y="116">base</text>
+    </g>
+
+    <!-- Tabela de propriedades -->
+    <g transform="translate(300,60)">
+      <rect x="0" y="0" width="180" height="120" class="muted"/>
+      <text class="sml" x="10" y="24">A = 1,20 m²</text>
+      <text class="sml" x="10" y="46">I = 0,40 m⁴</text>
+      <text class="sml" x="10" y="68">Wtopo = Wbase = 0,40 m³</text>
+      <text class="sml" x="10" y="90">Mser = 7000 kN·m</text>
+      <text class="sml" x="10" y="112">P∞ = 5250 kN</text>
+    </g>
+
+    <!-- Barras de verificação de tensões -->
+    <g transform="translate(500,52)">
+      <text class="sml" x="0" y="0">Limites: 0,6 fck = 21 MPa | fctk = 3 MPa</text>
+
+      <!-- topo (compressão) -->
+      <text class="tiny" x="0" y="22">σtopo = 10,06 MPa</text>
+      <rect x="0" y="28" width="200" height="16" class="muted"/>
+      <!-- escala 0..21 MPa → 200 px -->
+      <rect x="0" y="28" width="96" height="16" class="good"/>
+      <text class="tiny" x="200" y="40" text-anchor="end">21</text>
+      <text class="tiny" x="100" y="24" text-anchor="middle">OK</text>
+
+      <!-- base (tração admissível) -->
+      <text class="tiny" x="0" y="70">|σbase| = 1,31 MPa</text>
+      <rect x="0" y="76" width="200" height="16" class="muted"/>
+      <!-- escala 0..3 MPa → 200 px -->
+      <rect x="0" y="76" width="87" height="16" class="good"/>
+      <text class="tiny" x="200" y="88" text-anchor="end">3</text>
+      <text class="tiny" x="100" y="72" text-anchor="middle">OK</text>
+    </g>
+
+    <!-- Observação -->
+    <text class="tiny" x="20" y="234">Checagens em meio do vão. Cabos com e(x) parabólico: e₀=0,10 m, eₘₐₓ=0,90 m.</text>
+  </g>
+
+  <!-- ===================== PAINEL 3: PERDAS DE PROTENSÃO ===================== -->
+  <g transform="translate(20,650)">
+    <rect class="panel" x="0" y="0" width="720" height="300" rx="8"/>
+    <text class="lbl" x="20" y="30">Perdas de protensão — imediatas e diferidas</text>
+
+    <!-- Linha do tempo / etapas -->
+    <g transform="translate(40,70)">
+      <text class="sml" x="0" y="-10">Força (MN)</text>
+      <!-- escala horizontal decorativa -->
+      <rect x="0" y="0" width="640" height="24" class="muted"/>
+
+      <!-- P0 -->
+      <rect x="0" y="0" width="240" height="24" class="good"/>
+      <text class="tiny" x="8" y="16">P₀ = 7,78</text>
+
+      <!-- perdas imediatas (0,78) -->
+      <rect x="240" y="0" width="24" height="24" class="bad"/>
+      <text class="tiny" x="252" y="-6" text-anchor="middle">ΔPim = 0,78</text>
+
+      <!-- P1 -->
+      <rect x="264" y="0" width="216" height="24" class="good"/>
+      <text class="tiny" x="272" y="16">P₁ = 7,00</text>
+
+      <!-- perdas diferidas (1,75) -->
+      <rect x="480" y="0" width="60" height="24" class="bad"/>
+      <text class="tiny" x="510" y="-6" text-anchor="middle">ΔPdif = 1,75</text>
+
+      <!-- P∞ -->
+      <rect x="540" y="0" width="150" height="24" class="good"/>
+      <text class="tiny" x="548" y="16">P∞ = 5,25</text>
+
+      <!-- chaves e rótulos -->
+      <text class="tiny" x="0" y="44">Imediatas: atraso elástico, escorregamento, atrito</text>
+      <text class="tiny" x="0" y="62">Diferidas: retração, fluência, relaxação</text>
+    </g>
+
+    <!-- Resumo numérico -->
+    <g transform="translate(40,140)">
+      <rect x="0" y="0" width="640" height="120" class="muted"/>
+      <text class="sml" x="10" y="24">Mser = 7000 kN·m</text>
+      <text class="sml" x="220" y="24">P₀ = 7,78 MN → P₁ = 7,00 MN → P∞ = 5,25 MN</text>
+      <text class="sml" x="10" y="48">Concreto: fck = 35 MPa → 0,6 fck = 21 MPa</text>
+      <text class="sml" x="10" y="72">Checagem topo: σtopo = 10,06 MPa &lt; 21 MPa (OK)</text>
+      <text class="sml" x="10" y="96">Checagem base: |σbase| = 1,31 MPa &lt; 3 MPa (OK)</text>
+    </g>
+  </g>
+</svg>

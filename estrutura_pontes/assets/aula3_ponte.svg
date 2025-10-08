@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="520" viewBox="0 0 800 520">
+  <title>Ponte — Cargas Permanentes (G), TB-450 (Q), φ dinâmico, ELU/ELS</title>
+  <defs>
+    <marker id="arrowDown" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="arrowUp" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <style>
+      .lbl{font-family:Arial, sans-serif; font-size:13px}
+      .small{font-size:12px}
+      .axis{stroke:#000; stroke-width:1.2}
+      .beam{stroke:#000; stroke-width:6}
+      .mid{stroke:#000; stroke-width:2}
+      .thin{stroke:#000; stroke-width:1.5}
+      .dash{stroke:#000; stroke-width:1.6; stroke-dasharray:6 5; fill:none}
+    </style>
+  </defs>
+
+  <!-- SOLO -->
+  <line x1="60" y1="360" x2="740" y2="360" class="axis"/>
+
+  <!-- VIGA / TABULEIRO -->
+  <line x1="100" y1="320" x2="700" y2="320" class="beam"/>
+
+  <!-- APOIOS A e B -->
+  <polygon points="100,320 80,360 120,360" fill="#e0e0e0" stroke="#000" class="thin"/>
+  <polygon points="700,320 680,360 720,360" fill="#e0e0e0" stroke="#000" class="thin"/>
+  <circle cx="690" cy="365" r="5" fill="#000"/>
+  <circle cx="710" cy="365" r="5" fill="#000"/>
+  <!-- Reações -->
+  <line x1="100" y1="350" x2="100" y2="320" class="mid" marker-end="url(#arrowUp)"/>
+  <line x1="700" y1="350" x2="700" y2="320" class="mid" marker-end="url(#arrowUp)"/>
+  <text class="lbl small" x="90" y="346" text-anchor="end">R<tspan baseline-shift="sub" font-size="10">A</tspan></text>
+  <text class="lbl small" x="710" y="346" text-anchor="start">R<tspan baseline-shift="sub" font-size="10">B</tspan></text>
+
+  <!-- CARGAS PERMANENTES G = g1+g2+g3+g4 -->
+  <text class="lbl" x="400" y="60" text-anchor="middle">Cargas permanentes G</text>
+  <text class="lbl small" x="400" y="78" text-anchor="middle">peso próprio + laje + revestimento + guarda-corpo</text>
+  <line x1="100" y1="95" x2="700" y2="95" class="axis"/>
+  <g class="thin" marker-end="url(#arrowDown)">
+    <line x1="130" y1="95" x2="130" y2="305"/>
+    <line x1="170" y1="95" x2="170" y2="305"/>
+    <line x1="210" y1="95" x2="210" y2="305"/>
+    <line x1="250" y1="95" x2="250" y2="305"/>
+    <line x1="290" y1="95" x2="290" y2="305"/>
+    <line x1="330" y1="95" x2="330" y2="305"/>
+    <line x1="370" y1="95" x2="370" y2="305"/>
+    <line x1="410" y1="95" x2="410" y2="305"/>
+    <line x1="450" y1="95" x2="450" y2="305"/>
+    <line x1="490" y1="95" x2="490" y2="305"/>
+    <line x1="530" y1="95" x2="530" y2="305"/>
+    <line x1="570" y1="95" x2="570" y2="305"/>
+    <line x1="610" y1="95" x2="610" y2="305"/>
+    <line x1="650" y1="95" x2="650" y2="305"/>
+  </g>
+  <text class="lbl small" x="710" y="210">G (kN/m)</text>
+
+  <!-- CARGA MÓVEL TB-450 posição p/ MOMENTO MÁXIMO (centro) -->
+  <g transform="translate(0,0)">
+    <!-- caminhão simplificado -->
+    <rect x="370" y="270" width="60" height="25" fill="none" stroke="#000" class="thin"/>
+    <rect x="382" y="255" width="36" height="15" fill="none" stroke="#000" class="thin"/>
+    <circle cx="382" cy="297" r="6" fill="#000"/>
+    <circle cx="418" cy="297" r="6" fill="#000"/>
+    <!-- setas de carga dos eixos (representativas) -->
+    <g class="thin" marker-end="url(#arrowDown)">
+      <line x1="382" y1="255" x2="382" y2="305"/>
+      <line x1="418" y1="255" x2="418" y2="305"/>
+    </g>
+    <text class="lbl small" x="400" y="248" text-anchor="middle">TB-450 (Q) — posição p/ M máx</text>
+  </g>
+
+  <!-- CARGA MÓVEL TB-450 posição p/ CORTANTE MÁXIMO (próximo ao apoio A) -->
+  <g>
+    <rect x="125" y="270" width="60" height="25" class="dash"/>
+    <rect x="137" y="255" width="36" height="15" class="dash"/>
+    <circle cx="137" cy="297" r="6" fill="none" stroke="#000" class="dash"/>
+    <circle cx="173" cy="297" r="6" fill="none" stroke="#000" class="dash"/>
+    <line x1="137" y1="255" x2="137" y2="305" class="dash" marker-end="url(#arrowDown)"/>
+    <line x1="173" y1="255" x2="173" y2="305" class="dash" marker-end="url(#arrowDown)"/>
+    <text class="lbl small" x="155" y="248" text-anchor="middle">posição p/ V máx</text>
+  </g>
+
+  <!-- FATOR DINÂMICO φ aplicado a Q apenas -->
+  <g>
+    <text class="lbl" x="88" y="135" text-anchor="end">φ = 1,26</text>
+    <text class="lbl small" x="88" y="152" text-anchor="end">aplicar só em Q</text>
+    <path d="M92,138 C110,138 125,150 137,255" fill="none" class="axis" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- DIMENSÕES L, b, h, t -->
+  <g>
+    <!-- L -->
+    <line x1="100" y1="390" x2="100" y2="380" class="axis"/>
+    <line x1="700" y1="390" x2="700" y2="380" class="axis"/>
+    <line x1="100" y1="385" x2="700" y2="385" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="lbl small" x="400" y="377" text-anchor="middle">L = 20 m</text>
+  </g>
+
+  <!-- INSET de seção transversal com b, h, t -->
+  <g transform="translate(560,30)">
+    <rect x="0" y="0" width="200" height="120" fill="#fafafa" stroke="#000" class="axis"/>
+    <text class="lbl" x="100" y="18" text-anchor="middle">Seção — dimensões</text>
+
+    <!-- seção esquemática -->
+    <rect x="40" y="70" width="120" height="20" fill="#ddd" stroke="#000" class="thin"/>
+    <rect x="30" y="40" width="140" height="10" fill="#bbb" stroke="#000" class="thin"/>
+    <!-- h -->
+    <line x1="170" y1="50" x2="170" y2="90" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="lbl small" x="175" y="72">h = 1,2 m</text>
+    <!-- t -->
+    <line x1="30" y1="36" x2="170" y2="36" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="lbl small" x="100" y="30" text-anchor="middle">t = 0,20 m</text>
+    <!-- b -->
+    <line x1="30" y1="95" x2="170" y2="95" class="axis" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+    <text class="lbl small" x="100" y="108" text-anchor="middle">b = 7,2 m</text>
+  </g>
+
+  <!-- LEGENDA ELU / ELS -->
+  <g transform="translate(90,410)">
+    <rect x="0" y="0" width="620" height="90" fill="#fafafa" stroke="#000" class="axis"/>
+    <text class="lbl" x="10" y="20">Combinações</text>
+    <text class="lbl small" x="10" y="42">ELU:  Fd = γg·G + γq·φ·Q   com  γg = 1,4  |  γq = 1,4  |  φ = 1,26</text>
+    <text class="lbl small" x="10" y="64">ELS:  Fser = G + ψ1·φ·Q     com  ψ1 = 0,6   |  φ aplicado só em Q</text>
+    <text class="lbl small" x="10" y="82">TB-450: usar posição no centro p/ Mmáx e junto ao apoio p/ Vmáx</text>
+  </g>
+
+  <!-- RÓTULO GERAL -->
+  <text class="lbl" x="400" y="20" text-anchor="middle">Ponte — G, TB-450 (Q), fator dinâmico e combinações</text>
+</svg>

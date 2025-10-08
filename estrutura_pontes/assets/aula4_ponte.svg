@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="900" viewBox="0 0 760 900">
+  <title>Fadiga em ponte — 1987 vs 2014</title>
+  <defs>
+    <style>
+      .lbl{font-family:Arial, sans-serif; font-size:14px}
+      .sml{font-family:Arial, sans-serif; font-size:12px}
+      .tiny{font-family:Arial, sans-serif; font-size:11px}
+      .panel{fill:#fafafa; stroke:#000; stroke-width:1}
+      .axis{stroke:#000; stroke-width:1.2}
+      .beam{stroke:#000; stroke-width:6}
+      .ok{fill:#d7f7df; stroke:#000; stroke-width:1}
+      .bad{fill:#f7d7d7; stroke:#000; stroke-width:1}
+      .good{fill:#7be39b; stroke:#000; stroke-width:1}
+      .muted{fill:#eee; stroke:#000; stroke-width:1}
+    </style>
+  </defs>
+
+  <!-- Título -->
+  <text class="lbl" x="380" y="34" text-anchor="middle">Estudo de Fadiga — 1987 vs 2014 (NBR 6118)</text>
+
+  <!-- Painel 1: 1987 -->
+  <g transform="translate(20,60)">
+    <rect class="panel" x="0" y="0" width="720" height="220" rx="8"/>
+    <text class="lbl" x="20" y="28">1987 — verificação por tensões máximas</text>
+
+    <!-- Esquema -->
+    <g transform="translate(0,0)">
+      <line x1="80" y1="150" x2="680" y2="150" class="axis"/>
+      <line x1="120" y1="130" x2="640" y2="130" class="beam"/>
+      <polygon points="120,130 105,150 135,150" fill="#e0e0e0" stroke="#000"/>
+      <polygon points="640,130 625,150 655,150" fill="#e0e0e0" stroke="#000"/>
+      <circle cx="380" cy="130" r="5" fill="#000"/>
+      <rect x="632" y="118" width="8" height="24" fill="#000"/>
+      <text class="tiny" x="380" y="112" text-anchor="middle">flexão (meio)</text>
+      <text class="tiny" x="660" y="112">cisalhamento</text>
+    </g>
+
+    <!-- Resultados 1987 -->
+    <g transform="translate(0,0)">
+      <rect x="100" y="172" width="250" height="26" class="ok" rx="4"/>
+      <text class="sml" x="110" y="189">Flexão: 15,2 MPa &lt; 20,0 MPa → Aprovada</text>
+
+      <rect x="410" y="172" width="250" height="26" class="ok" rx="4"/>
+      <text class="sml" x="420" y="189">Cisalhamento: 2,8 MPa &lt; 3,5 MPa → Aprovada</text>
+    </g>
+  </g>
+
+  <!-- Painel 2: 2014 -->
+  <g transform="translate(20,300)">
+    <rect class="panel" x="0" y="0" width="720" height="280" rx="8"/>
+    <text class="lbl" x="20" y="28">2014 — verificação por ciclos (fadiga)</text>
+    <text class="sml" x="20" y="52">Critério: ΔσEd ≤ ΔσRd   |   γf=1,0   |   q=5,0 kN/m²   |   φ=1,26</text>
+
+    <!-- Flexão -->
+    <g transform="translate(0,0)">
+      <text class="sml" x="80" y="96">Flexão (meio do vão)</text>
+      <rect x="80" y="108" width="600" height="18" class="muted"/>
+      <!-- escala 14 MPa → 600 px -->
+      <rect x="80" y="108" width="561" height="18" class="bad"/>
+      <rect x="80" y="132" width="364" height="18" class="good"/>
+      <text class="tiny" x="650" y="121" text-anchor="end">ΔσEd = 13,1 MPa</text>
+      <text class="tiny" x="450" y="145" text-anchor="end">ΔσRd = 8,5 MPa</text>
+      <text class="sml" x="80" y="166">Resultado: Reprovada</text>
+    </g>
+
+    <!-- Cisalhamento -->
+    <g transform="translate(0,70)">
+      <text class="sml" x="80" y="96">Cisalhamento (apoios)</text>
+      <rect x="80" y="108" width="600" height="18" class="muted"/>
+      <!-- escala 3 MPa → 600 px -->
+      <rect x="80" y="108" width="480" height="18" class="bad"/>
+      <rect x="80" y="132" width="400" height="18" class="good"/>
+      <text class="tiny" x="570" y="121" text-anchor="end">ΔτEd = 2,4 MPa</text>
+      <text class="tiny" x="500" y="145" text-anchor="end">ΔτRd = 2,0 MPa</text>
+      <text class="sml" x="80" y="166">Resultado: Reprovada</text>
+    </g>
+  </g>
+
+  <!-- Painel 3: Tráfego e ciclos -->
+  <g transform="translate(20,600)">
+    <rect class="panel" x="0" y="0" width="720" height="260" rx="8"/>
+    <text class="lbl" x="20" y="28">Tráfego e ciclos (1987 → 2021)</text>
+
+    <g transform="translate(0,0)">
+      <text class="sml" x="80" y="64">Veículos pesados/dia: 1.500</text>
+      <text class="sml" x="80" y="84">Ciclos por veículo: 2</text>
+      <text class="sml" x="80" y="104">Ciclos/ano: 1,095×10⁶</text>
+      <text class="sml" x="80" y="124">Período: 34 anos</text>
+      <text class="sml" x="80" y="144">Ciclos acumulados: 37,23×10⁶</text>
+    </g>
+
+    <!-- Linha do tempo -->
+    <g transform="translate(0,0)">
+      <text class="sml" x="80" y="184">Linha do tempo</text>
+      <rect x="80" y="196" width="600" height="18" class="muted"/>
+      <rect x="80" y="196" width="600" height="18" fill="#cfe8ff" stroke="#000" stroke-width="1"/>
+      <text class="tiny" x="80" y="190">1987</text>
+      <text class="tiny" x="680" y="190" text-anchor="end">2021 (34 anos)</text>
+      <text class="tiny" x="380" y="212" text-anchor="middle">Acúmulo de ciclos → verificação por fadiga</text>
+    </g>
+
+    <!-- Referência -->
+    <text class="tiny" x="80" y="240">Rossato et al. (2021) — SciELO: S2007-68352021000200008</text>
+  </g>
+</svg>

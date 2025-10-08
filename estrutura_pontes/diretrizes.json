@@ -1,0 +1,103 @@
+{
+  "idioma": "pt-BR",
+  "estrutura_aula": {
+    "ordem_secoes": [
+      "Estudo de Caso",
+      "Conceitos principais",
+      "Exemplo de cálculo do case",
+      "Erros comuns",
+      "Encaminhamentos"
+    ],
+    "remover_objetivos": true,
+    "remover_indicacao_tempo": true,
+    "descricao_pos_calculo": true,
+    "descricao_pos_calculo_nota": "Após cada equação/cálculo, inserir 1–2 frases explicando o sentido físico, a origem dos termos e como o resultado será usado."
+  },
+  "latex": {
+    "usar_latex": true,
+    "inline": "$ … $",
+    "bloco": "$$ … $$",
+    "subscritos": "R_A, R_B, M_{max}, V_{max}, M_A, F_y",
+    "operadores": ["\\sum", "\\int", "\\Rightarrow", "\\dfrac{}{}", "x^2"],
+    "unidades": {
+      "formato": "usar \\mathrm{} e espaço fino (\\,)",
+      "exemplos": [
+        "15\\,\\mathrm{kN}",
+        "45\\,\\mathrm{kN\\cdot m}"
+      ]
+    },
+    "decimal": "vírgula decimal em texto; em LaTeX usar {,} quando necessário (ex.: 2{,}5)",
+    "preview_vscode": {
+      "requer_extensao": true,
+      "sugestoes": [
+        "Markdown Preview Enhanced (shd101wyy)",
+        "Markdown+Math (goessner.mdmath)"
+      ]
+    }
+  },
+  "svg": {
+    "incluir_esquema": true,
+    "arquivo_padrao": "aulaX_ponte.svg",
+    "insercao_markdown": "<img src=\"./aulaX_ponte.svg\" alt=\"Esquema\" width=\"760\" />",
+    "conteudo_minimo": [
+      "Viga/apoios A e B",
+      "Reações R_A e R_B",
+      "Carga distribuída q",
+      "Carga concentrada P (se aplicável)",
+      "Cotas L e L/2",
+      "Eixo x"
+    ],
+    "ilustrar_forcas_svg": {
+      "aula1_obrigatorio": true,
+      "demais_recomendado": true,
+      "criterio_verificacao": "Arquivo aulaN_ponte.svg presente e referenciado via <img> no Markdown da aula correspondente"
+    }
+  },
+  "convencoes": {
+    "sinais": {
+      "N": "+ tração",
+      "M": "+ sagging (\"sorriso\")",
+      "V": "seguir convenção adotada (documentar no texto)"
+    },
+    "relacoes": [
+      "dM/dx = V",
+      "dV/dx = -q(x)"
+    ],
+    "maximos": "em vigas simples, M_max onde V=0 (salvo descontinuidades/apoios de balanço)",
+    "checagens": [
+      "M(0)=0 e M(L)=0 em apoios simples",
+      "Continuidade de M em cargas concentradas",
+      "Saltos de V iguais às cargas concentradas"
+    ]
+  },
+  "passos_calculo_padrao": [
+    "Determinar reações com ∑F=0 e ∑M=0 (usar simetria quando aplicável)",
+    "Escrever V(x) por trechos; aplicar saltos em cargas concentradas",
+    "Integrar V(x) para obter M(x); aplicar condições de contorno",
+    "Localizar V=0 para estimar M_max; confirmar por avaliação de trechos",
+    "Registrar valores-chave (pontos, picos, zeros) e interpretar fisicamente"
+  ],
+  "estilo": {
+    "tom": "direto, didático e detalhista",
+    "unidades_fora_math": true,
+    "numeros": "usar kN, kN·m, m; manter consistência ao longo do texto",
+    "exemplos_numericos": "incluir valores realistas e arredondar de forma clara"
+  },
+  "extensoes": {
+    "recomendadas": [
+      "shd101wyy.markdown-preview-enhanced",
+      "goessner.mdmath"
+    ]
+  },
+  "secoes_opcionais": {
+    "roteiro_rapido": false,
+    "diagramas_ascii": false,
+    "svg_diagramas_VM": true
+  },
+  "observacoes": [
+    "Evitar seções de \"Objetivos\" e tempos nas aulas.",
+    "Sempre que possível, decompor resultados clássicos (ex.: qL^2/8, PL/4).",
+    "Após cada bloco de contas, inserir explicação do significado e uso prático.",
+    "Manter coerência de notação entre aulas (R_A, R_B, q, P, L)."
+  ]
+}

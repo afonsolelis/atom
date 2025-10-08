@@ -1,0 +1,121 @@
+{
+    "idioma": "pt-BR",
+    "disciplina": "Engenharia de Prompt, a Mentalidade de IA e o Conhecimento Digital",
+    "estrutura_aula": {
+      "ordem_secoes": [
+        "Estudo de Caso",
+        "Conceitos principais",
+        "Exemplo prático de prompt",
+        "Erros comuns",
+        "Encaminhamentos"
+      ],
+      "remover_objetivos": true,
+      "remover_indicacao_tempo": true,
+      "descricao_pos_exemplo": true,
+      "descricao_pos_exemplo_nota": "Após cada exemplo de prompt, inserir 1–2 frases explicando o raciocínio, a estratégia utilizada e como aplicar em contextos similares."
+    },
+    "latex": {
+      "usar_latex": true,
+      "inline": "$ … $",
+      "bloco": "$$ … $$",
+      "elementos_prompt": ["\\text{Contexto}", "\\text{Instrução}", "\\text{Exemplo}", "\\text{Saída}"],
+      "operadores": ["\\Rightarrow", "\\rightarrow", "\\text{vs}", "\\text{Ex.:}"],
+      "formatacao_texto": {
+        "formato": "usar \\text{} para trechos de texto em prompts",
+        "exemplos": [
+          "\\text{Explique o conceito de zero-shot prompting}",
+          "\\text{Compare few-shot e chain-of-thought}"
+        ]
+      },
+      "codigo": "usar blocos de código ``` para exemplos de prompts e respostas",
+      "preview_vscode": {
+        "requer_extensao": true,
+        "sugestoes": [
+          "Markdown Preview Enhanced (shd101wyy)",
+          "Markdown+Math (goessner.mdmath)",
+          "Prettier (esbenp.prettier)"
+        ]
+      }
+    },
+    "diagramas": {
+      "incluir_diagrama": true,
+      "arquivo_padrao": "aulaX_prompt_flow.svg",
+      "insercao_markdown": "<img src=\"./aulaX_prompt_flow.svg\" alt=\"Fluxo de Prompt\" width=\"760\" />",
+      "conteudo_minimo": [
+        "Entrada do usuário",
+        "Processamento do prompt",
+        "Modelo de IA",
+        "Geração de resposta",
+        "Elementos de contexto (quando aplicável)",
+        "Fluxo de interação"
+      ],
+      "tipos_diagrama": [
+        "Fluxo de prompt engineering",
+        "Arquitetura de sistema de IA",
+        "Processo de refinamento iterativo",
+        "Comparação de técnicas de prompting"
+      ],
+      "ilustrar_fluxo_svg": {
+        "aula1_obrigatorio": true,
+        "demais_recomendado": true,
+        "criterio_verificacao": "Arquivo aulaN_prompt_flow.svg presente e referenciado via <img> no Markdown da aula correspondente"
+      }
+    },
+    "convencoes": {
+      "prompting": {
+        "zero_shot": "Prompt sem exemplos - requer instrução clara e contexto suficiente",
+        "few_shot": "Prompt com poucos exemplos - demonstra padrões esperados",
+        "chain_of_thought": "Prompt que incentiva raciocínio passo a passo",
+        "contexto": "Informações fornecidas antes da instrução principal"
+      },
+      "elementos_prompt": [
+        "Contexto: Define o cenário e informações relevantes",
+        "Instrução: Comando específico e claro",
+        "Exemplos: Demonstrações quando aplicável",
+        "Formatação: Uso adequado de quebras de linha e estrutura"
+      ],
+      "avaliacao": [
+        "Clareza: O prompt é facilmente compreensível?",
+        "Especificidade: O nível de detalhe é adequado?",
+        "Contexto: Há informações suficientes para o modelo responder?",
+        "Iteração: É possível refinar com base na resposta obtida?"
+      ]
+    },
+    "passos_prompt_padrao": [
+      "Definir claramente o objetivo e o contexto do problema",
+      "Estruturar o prompt com elementos essenciais (contexto, instrução, exemplos)",
+      "Testar o prompt e analisar a qualidade da resposta obtida",
+      "Identificar pontos de melhoria e refinar iterativamente",
+      "Documentar variações eficazes e lições aprendidas para uso futuro"
+    ],
+    "estilo": {
+      "tom": "direto, didático e detalhista",
+      "exemplos_praticos": "incluir exemplos reais de prompts e respostas de IA",
+      "contexto_aplicado": "relacionar conceitos com aplicações práticas em engenharia",
+      "comparacoes": "comparar diferentes técnicas e abordagens de prompting",
+      "reflexao_critica": "incluir análise crítica sobre limitações e potencialidades"
+    },
+    "extensoes": {
+      "recomendadas": [
+        "shd101wyy.markdown-preview-enhanced",
+        "goessner.mdmath",
+        "esbenp.prettier",
+        "ms-vscode.vscode-json"
+      ]
+    },
+    "secoes_opcionais": {
+      "roteiro_rapido": true,
+      "exemplos_interativos": true,
+      "diagramas_fluxo_prompt": true,
+      "comparacoes_tecnicas": true
+    },
+    "observacoes": [
+      "Evitar seções de \"Objetivos\" e tempos nas aulas.",
+      "Incluir sempre exemplos práticos de prompts reais e suas respostas.",
+      "Após cada exemplo de prompt, explicar o raciocínio e estratégia utilizada.",
+      "Manter coerência na terminologia de IA e prompt engineering entre aulas.",
+      "Relacionar sempre os conceitos com aplicações práticas em engenharia.",
+      "Incluir análise crítica sobre limitações e vieses da IA quando relevante."
+    ]
+  }
+  

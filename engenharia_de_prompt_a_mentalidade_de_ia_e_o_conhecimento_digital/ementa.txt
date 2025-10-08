@@ -1,0 +1,191 @@
+Engenharia de Prompt, a Mentalidade de IA e o Conhecimento Digital
+Ementa
+
+Estudo da engenharia de prompt como prática de interação e extração de valor de sistemas de inteligência artificial. Conceitos fundamentais de IA, ética e vieses. Estratégias de formulação de prompts para resolução de problemas em engenharia, ciência e negócios. Desenvolvimento da mentalidade de IA: pensamento crítico, iterativo, colaborativo e orientado a dados. Conhecimento digital aplicado à engenharia: curadoria de informações, gestão de dados, ferramentas digitais, produtividade e inovação.
+
+Competências
+
+Ao final da disciplina, o aluno será capaz de:
+
+Analisar problemas sob a ótica da inteligência artificial, identificando onde prompts podem ser aplicados.
+
+Desenvolver prompts estruturados para diferentes contextos (técnicos, criativos, éticos, científicos).
+
+Aplicar IA como ferramenta de apoio à engenharia e inovação digital.
+
+Avaliar vieses, riscos e limitações da IA generativa.
+
+Criar soluções digitais a partir de informações curadas e processadas via IA.
+
+Integrar pensamento crítico, comunicação e competências digitais no uso responsável da tecnologia.
+
+Tópicos de Aprendizagem
+Unidade 1 – Fundamentos de IA e Engenharia de Prompt
+
+Introdução à inteligência artificial e sistemas generativos.
+
+Histórico, conceitos e aplicações de IA em engenharia.
+
+Estrutura e elementos de um prompt eficaz.
+
+Ética, vieses e responsabilidade digital.
+
+Atividades práticas (U1):
+
+Identificação de vieses em respostas de IA.
+
+Criação de prompts básicos para busca de informações técnicas.
+
+Exercício de comparação entre prompt mal formulado e prompt bem estruturado.
+
+Debate sobre uso ético da IA na engenharia.
+
+Unidade 2 – Estratégias de Prompt e Raciocínio Iterativo
+
+Técnicas de refinamento de prompts (zero-shot, few-shot, chain-of-thought).
+
+Formulação de problemas complexos em etapas.
+
+Iteração e feedback como base de melhoria contínua.
+
+Casos reais: aplicações em engenharia elétrica, civil e produção.
+
+Atividades práticas (U2):
+
+Exercício de zero-shot vs few-shot prompts.
+
+Redação de prompts técnicos para cálculos normativos.
+
+Uso da IA para síntese de relatórios técnicos.
+
+Simulação de projeto colaborativo com IA.
+
+Unidade 3 – Mentalidade de IA e Competências Digitais
+
+Mentalidade orientada a dados, experimentação e adaptação.
+
+Curadoria de informações digitais (credibilidade, fontes, cruzamento de dados).
+
+Ferramentas digitais: integração IA com planilhas, CAD, BIM e simulação.
+
+Inteligência coletiva: trabalho em rede com humanos + IA.
+
+Atividades práticas (U3):
+
+Curadoria de fontes digitais sobre tema técnico.
+
+Exercício de análise crítica de informação gerada por IA.
+
+Uso da IA para auxílio em programação ou modelagem.
+
+Trabalho em grupo: aplicar IA a um estudo de caso de engenharia.
+
+Unidade 4 – Projeto Integrado e Aplicações Avançadas
+
+Projetos reais com apoio de IA generativa.
+
+Aplicações em pesquisa científica, inovação e empreendedorismo digital.
+
+Limites e possibilidades da engenharia de prompt.
+
+Futuro do conhecimento digital e o engenheiro do século XXI.
+
+Atividades práticas (U4):
+
+Projeto de uso de IA em um problema prático de engenharia (ex.: laudo, memorial, dimensionamento inicial).
+
+Criação de manual interno de boas práticas de prompts.
+
+Simulação de tomada de decisão com IA.
+
+Apresentação final dos projetos integrados.
+
+Metodologias Utilizadas
+
+Aulas expositivas dialogadas.
+
+Estudo de casos reais.
+
+Aprendizagem baseada em projetos (PBL).
+
+Laboratório digital com uso de ferramentas de IA.
+
+Oficinas práticas de prompt engineering.
+
+Discussões em grupo sobre ética, impacto e inovação.
+
+Soft Skills Desenvolvidas
+
+Pensamento crítico e criativo.
+
+Resolução de problemas complexos.
+
+Comunicação técnica digital.
+
+Colaboração e trabalho em equipe.
+
+Ética e responsabilidade digital.
+
+Adaptabilidade e aprendizado contínuo.
+
+Questões ENADE Relacionadas
+
+Embora ainda não exista uma disciplina direta de “Engenharia de Prompt” no ENADE, temas correlatos já aparecem em provas de Engenharia e Computação, como:
+
+Uso de tecnologia digital e inovação na prática da engenharia.
+
+Ética e impacto social das tecnologias digitais.
+
+Gestão da informação e ferramentas digitais no exercício profissional.
+Essas questões podem ser adaptadas e aplicadas na disciplina para simular o estilo ENADE.
+
+Portfólio
+
+Objetivo:
+Criar um projeto prático aplicando engenharia de prompt em uma situação real de engenharia, unindo ferramentas digitais, IA e pensamento crítico.
+
+Entregáveis:
+
+Relatório de um caso real (ex.: uso da IA para apoio em laudo, projeto inicial, simulação ou plano).
+
+Manual de prompts desenvolvidos, com exemplos e resultados.
+
+Reflexão crítica sobre ética, vieses e limites do uso da IA no caso estudado.
+
+Apresentação final em formato digital.
+
+Referências Bibliográficas
+
+Básicas:
+
+RUSSELL, S.; NORVIG, P. Inteligência Artificial.
+
+FLORIDI, L. A Ética da Informação.
+
+BRIOT, J.-P. Artificial Intelligence and Music: Open Questions.
+
+MITCHELL, M. Artificial Intelligence: A Guide for Thinking Humans.
+
+Complementares:
+
+Artigos científicos sobre IA generativa e engenharia de prompt.
+
+Documentações técnicas de APIs de IA (OpenAI, HuggingFace, Anthropic).
+
+Relatórios de organismos internacionais sobre ética da IA (UNESCO, OECD).
+
+Recursos digitais (cursos online, podcasts sobre IA aplicada à engenharia).
+
+Atividades Práticas Finais (dois encontros de 3h cada)
+
+Encontro 1 (3h):
+
+Oficina prática: construção de uma biblioteca de prompts aplicados à engenharia (cálculo, relatórios, simulações).
+
+Teste e comparação dos resultados obtidos em diferentes ferramentas de IA.
+
+Encontro 2 (3h):
+
+Desenvolvimento em grupo de um projeto final usando IA para resolver um problema real.
+
+Apresentação dos resultados, discussão sobre ética, impacto e limites da aplicação.
