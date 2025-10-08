@@ -1,0 +1,250 @@
+{
+  "description": "Diretriz unificada para criação de uma unidade completa (conteúdo principal, aulas individuais e questões) a partir dos temas das aulas.",
+  "ementa": "A disciplina de Pontes em Concreto aborda a concepção, análise e dimensionamento dessas estruturas, considerando tanto o concreto armado quanto o protendido. São estudadas as principais tipologias estruturais, incluindo vigas, arcos, treliças, pontes estaiadas e suspensas, além da aplicação das normas técnicas relevantes, como a ABNT NBR 7187, NBR 7188, NBR 6118 e documentos correlatos. O curso também contempla as ações permanentes, móveis e dinâmicas que atuam sobre as pontes, como tráfego, vento, impacto e sismos, bem como os processos construtivos, manutenção, patologias estruturais e técnicas de reforço. A utilização de softwares de modelagem estrutural é integrada como ferramenta prática e de verificação. Ao final da disciplina, espera-se que o estudante seja capaz de analisar diferentes tipologias de pontes e selecionar soluções estruturais adequadas, desenvolver projetos considerando todas as ações relevantes, aplicar normas técnicas nacionais e internacionais no dimensionamento, avaliar o desempenho estrutural e a durabilidade em diversas condições, projetar reforços e intervenções em pontes existentes e integrar recursos computacionais no cálculo e verificação estrutural. O aprendizado é estruturado em quatro unidades temáticas. A primeira trata da introdução e tipologias, com a história e evolução das pontes, os principais tipos estruturais, os materiais mais utilizados e a análise das normas técnicas aplicáveis, complementada por atividades práticas de pesquisa, identificação de tipos de pontes, análise de cargas atuantes e estudo da NBR 7188. A segunda unidade é dedicada ao dimensionamento de pontes em concreto, abordando critérios de projeto, dimensionamento de vigas principais e transversinas, conceitos de protensão, fundações e apoios. As atividades incluem cálculos de esforços, dimensionamento de seções, exercícios de protensão e estudo de caso de projeto rodoviário. A terceira unidade foca nas ações dinâmicas e nas patologias, com a análise de vibrações, fadiga, fissuração, corrosão e recalque, bem como técnicas de reforço. São propostas práticas como simulação de cargas móveis em software, cálculo de vibração, diagnóstico fotográfico de patologias e propostas de reforço estrutural. A quarta unidade apresenta o projeto integrado e estudos avançados, com ênfase em modelagem computacional, processos construtivos como lançamento incremental e balanço sucessivo, sustentabilidade e casos nacionais e internacionais. As práticas envolvem modelagem de ponte em software, projeto de tabuleiro conforme norma, comparação de processos construtivos e apresentação de estudos de caso. A metodologia combina aulas expositivas dialogadas, estudos de caso, uso de softwares de cálculo estrutural em laboratório, aprendizagem baseada em projetos (PBL) e trabalhos em grupo com apresentação de soluções de projeto. Além das competências técnicas, os estudantes desenvolvem habilidades interpessoais como pensamento crítico, resolução de problemas complexos, comunicação técnica, trabalho em equipe multidisciplinar, ética e gestão de tempo. A disciplina também dialoga com questões já abordadas em edições anteriores do ENADE de Engenharia Civil, como dimensionamento de vigas e lajes, estruturas submetidas a cargas móveis e dinâmicas, e patologias em obras de infraestrutura. O portfólio da disciplina consiste no desenvolvimento de um projeto conceitual de ponte rodoviária ou urbana, incluindo dimensionamento preliminar, análise de cargas, estudo de durabilidade e alternativas construtivas, culminando em uma apresentação final em formato de seminário técnico. A bibliografia básica contempla as normas ABNT NBR 7187 e NBR 7188, obras clássicas de autores como Leonhardt, Pinheiro e Jaeger, enquanto a complementar traz referências de Freyssinet, publicações do DNIT, relatórios internacionais como AASHTO e Eurocode e artigos recentes sobre pontes estaiadas e sustentáveis. As atividades práticas finais são distribuídas em dois encontros de três horas cada: o primeiro dedicado à oficina de dimensionamento preliminar de tabuleiro de ponte e simulação de cargas móveis segundo a NBR 7188, e o segundo à apresentação dos projetos conceituais dos grupos, com discussão comparativa das soluções em termos de segurança, custo, durabilidade e construtibilidade.",
+  "workflow": {
+    "passo_a_passo": [
+      "Receber os temas/títulos das 4 aulas (ex.: Aula 9–12).",
+      "Criar pasta da unidade: Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/unidade_N (N = número da unidade).",
+      "Criar o arquivo principal da unidade: unidade_N_conteudo.md, seguindo a estrutura do template (texto-base inicial, 4 aulas, avaliações, material complementar).",
+      "Para cada aula, gerar o texto-base completo na unidade_N_conteudo.md e, em seguida, copiar o conteúdo para o arquivo individual unidade_N_i_aula.md (i = 1..4).",
+      "Garantir no mínimo 1 imagem por aula (ideal 1–3), com links válidos (Wikimedia/Wikipedia) e texto alternativo descritivo.",
+      "Inserir fórmulas matemáticas com LaTeX entre $...$ (linhas dedicadas para equações de bloco).",
+      "Criar o arquivo de questões: unidade_N/questoes_unidade_N.md com 20 questões MC (5 alternativas) e seção de Feedbacks, conforme regras.",
+      "Revisar tamanho de cada aula (alvo de extensão), presença de exemplo numérico, atividade prática e pontos‑chave.",
+      "Adicionar links suplementares por aula e preencher Material Complementar (Direto da Fonte, Para Mergulhar, Podcast YouTube, Artigo).",
+      "Validar que todos os links de imagens e referências funcionam e que as fórmulas renderizam."
+    ]
+  },
+  "estrutura_arquivos": {
+    "principal_unidade": "Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/unidade_N/unidade_N_conteudo.md",
+    "aulas_individuais": "Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/unidade_N/unidade_N_i_aula.md (i=1..4)",
+    "questoes": "Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/unidade_N/questoes_unidade_N.md"
+  },
+  "regras_gerais_conteudo": {
+    "aula_tamanho": {
+      "meta_palavras": "700–1200",
+      "meta_secoes": "6–10 sub‑seções por aula (Introdução, 3–5 tópicos técnicos, Exemplo, Atividade, Pontos‑chave)",
+      "referencia": "Use a extensão e densidade técnica de unidade_2/unidade_2_1_aula.md como referência de profundidade e ritmo."
+    },
+    "formulas_matematicas": {
+      "diretriz": "Toda fórmula deve usar delimitadores de dólar para LaTeX. Use $...$ para inline e $ em linhas dedicadas para equações de bloco.",
+      "exemplo": "$\\omega_n = \\sqrt{\\tfrac{k}{M}}$"
+    },
+    "imagens_por_aula": {
+      "diretriz": "Cada aula deve conter, no mínimo, uma imagem/figura. Recomenda‑se 1–3 quando auxilia a didática.",
+      "quantidade_minima": 1,
+      "quantidade_sugerida": "1–3",
+      "fonte_recomendada": "Preferir Wikimedia Commons/Wikipedia com links diretos e texto alternativo descritivo.",
+      "formato_markdown": "![texto alternativo](URL)"
+    },
+    "podcast_youtube": {
+      "diretriz": "Podcasts/Vídeos do material complementar devem ser do YouTube (youtube.com ou youtu.be).",
+      "exemplo": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    "links_suplementares_por_aula": {
+      "diretriz": "Ao final de cada aula, incluir 2–4 links de referência (Wikipedia/Normas/Materiais didáticos)."
+    },
+    "componentes_minimos_por_aula": [
+      "Introdução/Objetivos (1 parágrafo)",
+      "De 3 a 5 tópicos técnicos centrais",
+      "Pelo menos 1 exemplo numérico (quando aplicável)",
+      "Atividade prática sugerida",
+      "Pontos‑chave (bullets)",
+      "1–3 imagens com alt e fonte",
+      "Links suplementares"
+    ]
+  },
+  "estrutura_conteudo_principal_md": {
+    "cabecalho": [
+      "# TEMPLATE DE PRODUÇÃO - MODELO ÁTOMO",
+      "# Nome da disciplina: [Nome]",
+      "# Conteudista: Afonso Cesar Lelis Brandão"
+    ],
+    "texto_base_inicial": [
+      "Relevância profissional (1–2 parágrafos)",
+      "Contribuições (4–6 bullets)",
+      "Exemplos práticos (3–4 bullets)"
+    ],
+    "aulas": [
+      "Aula 1 – [Título] (texto base completo conforme componentes mínimos)",
+      "Aula 2 – [Título]",
+      "Aula 3 – [Título]",
+      "Aula 4 – [Título]"
+    ],
+    "avaliacoes": {
+      "quiz_nao_avaliativo": "2 questões V/F com explicação",
+      "atividade_verificadora": "1 questão dissertativa com resposta esperada"
+    },
+    "material_complementar": {
+      "direto_da_fonte": "Livro/capítulos + instruções de acesso",
+      "para_mergulhar": "Filme/Série/Livro/Blog com links",
+      "podcast": "YouTube (nome + episódio + link)",
+      "artigo_cientifico": "DOI ou link + referência ABNT"
+    }
+  },
+  "estrutura_aula_md": {
+    "secoes": [
+      "## Aula X – [Título]",
+      "##### Objetivos da aula (3 bullets)",
+      "##### Conteúdo da aula (texto base) – com 3–5 sub‑tópicos",
+      "Exemplo numérico (equações com $...$)",
+      "Atividade prática (passos/tarefas)",
+      "Pontos‑chave (3–5 bullets)",
+      "1–3 imagens com alt + fonte",
+      "Links suplementares (2–4)"
+    ]
+  },
+  "regras_questoes": {
+    "arquivo": "Markdown (.md)",
+    "secoes": [
+      "Questões",
+      "Feedbacks"
+    ],
+    "quantidade": 20,
+    "alternativas": {
+      "quantidade_obrigatoria": 5,
+      "formato": "Letra minúscula seguida de ponto (a., b., c., ...)",
+      "distribuicao": "Variar aleatoriamente a posição da alternativa correta entre (a–e); evitar padrão repetitivo."
+    },
+    "indicacao_correta": {
+      "marcador": "*",
+      "posicao": "Imediatamente antes da letra da alternativa correta.",
+      "exemplo": "*c. Texto da alternativa correta."
+    },
+    "feedbacks": {
+      "posicao": "Seção separada no final (## Feedbacks)",
+      "formato": "Cada item numerado corresponde à questão e explica a resposta correta.",
+      "exemplo": "1. A resposta correta é: [explicação curta e objetiva]."
+    }
+  },
+  "template_unidade_campos": {
+    "metadata": {
+      "campos": [
+        "nome_disciplina",
+        "conteudista",
+        "professor"
+      ],
+      "exemplo": {
+        "nome_disciplina": "[Inserir]",
+        "conteudista": "[Inserir]",
+        "professor": "Afonso Cesar Lelis Brandão"
+      }
+    },
+    "texto_base_inicial": {
+      "campos": [
+        "relevancia_disciplina",
+        "contribuicoes",
+        "exemplos_praticos",
+        "referencias_iniciais"
+      ],
+      "referencias_iniciais": "Lista de objetos {id, url}"
+    },
+    "aulas": {
+      "schema": {
+        "numero_aula": "1..4",
+        "titulo_videoaula": "[Título]",
+        "texto_base_aula": "Texto completo em markdown, com fórmulas $...$ e imagens",
+        "roteiro_videoaula": "Roteiro breve opcional em markdown",
+        "links_suplementares_aula": "Lista {id, url}"
+      }
+    },
+    "avaliacoes": {
+      "quiz_nao_avaliativo": "2 itens V/F com explicações curtas",
+      "atividade_verificadora": {
+        "questao_dissertativa": "Enunciado aberto",
+        "resposta_esperada": "Diretrizes da resposta esperada"
+      }
+    },
+    "material_complementar": {
+      "direto_da_fonte": {
+        "campos": [
+          "texto_provocativo",
+          "nome_livro",
+          "capitulo",
+          "link",
+          "acesso"
+        ],
+        "acesso": {
+          "plataforma": "https://fecaf.brightspace.com/d2l/home",
+          "instrucao": "Acessar a opção 'BV professor'",
+          "usuario": "professor.conteudista",
+          "senha": "unifecaf2023"
+        }
+      },
+      "para_mergulhar": {
+        "sugestoes": [
+          "Filme {titulo, descricao}",
+          "Série {titulo, descricao}",
+          "Livro {titulo, descricao}",
+          "Blog {titulo, link}"
+        ]
+      },
+      "podcast": {
+        "plataforma_obrigatoria": "YouTube",
+        "campos": [
+          "texto_provocativo",
+          "nome_podcast_video",
+          "nome_episodio",
+          "link"
+        ]
+      },
+      "artigo_cientifico": {
+        "campos": [
+          "texto_provocativo",
+          "link (DOI)",
+          "referencia_abnt"
+        ]
+      }
+    }
+  },
+  "nomenclatura": {
+    "pastas": "Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/unidade_N",
+    "principal": "unidade_N_conteudo.md",
+    "aulas": "unidade_N_i_aula.md (i=1..4)",
+    "questoes": "questoes_unidade_N.md"
+  },
+  "validacao_checklist": [
+    "Cada aula com 700–1200 palavras (aprox.) e 6–10 sub‑seções",
+    "Fórmulas em LaTeX com $...$ e sem blocos de código",
+    "1–3 imagens por aula, fontes Wikimedia/Wikipedia, alt descritivo",
+    "Exemplo numérico e atividade prática em cada aula",
+    "Pontos‑chave (3–5 bullets) e links suplementares",
+    "Arquivo de questões com 20 itens, 5 alternativas, correta marcada com *",
+    "Seção de Feedbacks numerada explicando respostas",
+    "Material complementar preenchido e Podcast em YouTube",
+    "Links testados e funcionando"
+  ],
+  "avaliacao_final": {
+    "descricao": "Diretrizes para a avaliação final da disciplina: 30 questões inéditas, com formatação e feedbacks obrigatórios.",
+    "formato": {
+      "total_questoes": 30,
+      "proporcao": {
+        "multipla_escolha": 10,
+        "assercao_razao": 10,
+        "interpretacao": 10
+      },
+      "alternativas_por_questao": 5,
+      "marcacao_correta": "Inserir um asterisco ANTES da alternativa correta (ex.: *a. Texto).",
+      "feedbacks": "Obrigatórios ao final do documento, um por questão."
+    },
+    "modelo_formatacao": {
+      "multipla_escolha": "1. [Enunciado]\\n*a. [Alternativa correta]\\n b. [Alternativa]\\n c. [Alternativa]\\n d. [Alternativa]\\n e. [Alternativa]",
+      "assercao_razao": {
+        "instrucoes": "I. (A) [Asserção]\\nII. (R) [Razão]",
+        "alternativas_padrao": [
+          "a. As asserções A e R são verdadeiras, e R é uma justificativa correta de A.",
+          "b. As asserções A e R são verdadeiras, mas R não é uma justificativa correta de A.",
+          "c. A é verdadeira e R é falsa.",
+          "d. A é falsa e R é verdadeira.",
+          "e. A e R são falsas."
+        ]
+      },
+      "interpretacao": "Texto-base (figura/tabela/trecho) seguido de questão com 5 alternativas; marcar a correta com * antes da letra."
+    },
+    "atencao": [
+      "Seguir à risca o modelo de formatação.",
+      "Todas as questões precisam ter 5 alternativas.",
+      "Excluir exemplos antes de escrever as questões definitivas."
+    ]
+  }
+}
