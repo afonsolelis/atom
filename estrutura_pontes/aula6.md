@@ -1,19 +1,31 @@
 # Aula 6: Transversinas e Tabuleiros de Ponte
 
+## Objetivos da Aula
+
+Ao final desta aula, o aluno será capaz de:
+- Entender o papel das transversinas na distribuição transversal
+- Dimensionar transversinas (M_Ed, V_Ed, A_s) sob cargas típicas
+- Verificar o tabuleiro como laje (1D/2D) e punção
+- Relacionar escolhas de geometria com desempenho e detalhamento
+
 ## Estudo de Caso
+
 Ponte rodoviária com 3 vigas principais ($L = 30\,\mathrm{m}$) e transversinas intermediárias. Dimensionar as transversinas para distribuição transversal de cargas e verificar o tabuleiro como laje em duas direções, incluindo verificação de cisalhamento de punção.
 
 Dados do projeto:
+
 - Vão: $L = 30\,\mathrm{m}$
 - Número de vigas: $n = 3$
 - Espaçamento entre vigas: $s = 3{,}0\,\mathrm{m}$
 - Espessura da laje: $t = 0{,}25\,\mathrm{m}$
 - Carga móvel: $q = 5{,}0\,\mathrm{kN/m^2}$
 
-### Esquema do caso (SVG)
+### Esquema do caso
+
 <img src="./assets/aula6_ponte.svg" alt="Esquema: transversinas e tabuleiro" width="760" />
 
 Leitura do esquema:
+
 - 3 vigas principais com transversinas
 - Distribuição transversal de cargas
 - Tabuleiro como laje em duas direções
@@ -24,12 +36,14 @@ Leitura do esquema:
 ### Papel das Transversinas
 
 **Função estrutural**:
+
 - Distribuir cargas transversais entre vigas principais
 - Rigidizar a estrutura transversalmente
 - Reduzir a flexão longitudinal das vigas principais
 - Melhorar o comportamento global da ponte
 
 **Comportamento**:
+
 - Flexão transversal (momento $M_y$)
 - Cisalhamento transversal (cortante $V_y$)
 - Torção (momento $T$)
@@ -40,6 +54,7 @@ Leitura do esquema:
 $$R_i = \frac{P}{n} \left(1 + \frac{e \cdot y_i}{\sum y_i^2}\right)$$
 
 Onde:
+
 - $P$ = carga total
 - $n$ = número de vigas
 - $e$ = excentricidade da carga
@@ -51,11 +66,13 @@ $$\eta_i = \frac{R_i}{P/n}$$
 ### Tabuleiro como Laje em Duas Direções
 
 **Comportamento**:
+
 - Flexão em duas direções ($M_x$ e $M_y$)
 - Cisalhamento em duas direções ($V_x$ e $V_y$)
 - Torção ($M_{xy}$)
 
 **Métodos de cálculo**:
+
 - Teoria clássica de placas
 - Método das faixas
 - Análise por elementos finitos
@@ -63,6 +80,7 @@ $$\eta_i = \frac{R_i}{P/n}$$
 ### Cisalhamento de Punção
 
 **Conceito**:
+
 - Tensão de cisalhamento em torno de cargas concentradas
 - Verificação em torno de pilares ou cargas pontuais
 - Tensão crítica na superfície de punção
@@ -71,6 +89,7 @@ $$\eta_i = \frac{R_i}{P/n}$$
 $$\tau_{Ed} = \frac{V_{Ed}}{u \cdot d} \leq \tau_{Rd}$$
 
 Onde:
+
 - $V_{Ed}$ = força cortante de cálculo
 - $u$ = perímetro de punção
 - $d$ = altura útil da laje
@@ -83,6 +102,7 @@ Onde:
 $$q_{viga} = \frac{q \times s}{n} = \frac{5{,}0 \times 3{,}0}{3} = 5{,}0\,\mathrm{kN/m}$$
 
 **Carga concentrada (TB-450)**:
+
 - Peso total: $P = 450\,\mathrm{kN}$
 - Excentricidade: $e = 1{,}5\,\mathrm{m}$ (centro da pista)
 
@@ -94,6 +114,7 @@ $$\eta_2 = \frac{1}{3} \left(1 + \frac{1{,}5 \times 0}{3{,}0^2 + 0^2 + 3{,}0^2}\
 $$\eta_3 = \frac{1}{3} \left(1 + \frac{1{,}5 \times 3{,}0}{3{,}0^2 + 0^2 + 3{,}0^2}\right) = 0{,}42$$
 
 **Cargas nas vigas**:
+
 - Viga 1: $P_1 = 0{,}25 \times 450 = 112{,}5\,\mathrm{kN}$
 - Viga 2: $P_2 = 0{,}33 \times 450 = 148{,}5\,\mathrm{kN}$
 - Viga 3: $P_3 = 0{,}42 \times 450 = 189{,}0\,\mathrm{kN}$
@@ -104,6 +125,7 @@ $$\eta_3 = \frac{1}{3} \left(1 + \frac{1{,}5 \times 3{,}0}{3{,}0^2 + 0^2 + 3{,}0
 $$M_{Ed} = \frac{q_{trans} \times L_{trans}^2}{8} + \frac{P_{trans} \times L_{trans}}{4}$$
 
 Onde:
+
 - $q_{trans} = 2{,}0\,\mathrm{kN/m}$ (peso próprio)
 - $L_{trans} = 9{,}0\,\mathrm{m}$ (comprimento da transversina)
 - $P_{trans} = 50{,}0\,\mathrm{kN}$ (carga concentrada)
@@ -114,6 +136,7 @@ $$M_{Ed} = \frac{2{,}0 \times 81}{8} + \frac{50{,}0 \times 9{,}0}{4} = 20{,}25 +
 $$V_{Ed} = \frac{q_{trans} \times L_{trans}}{2} + \frac{P_{trans}}{2} = \frac{2{,}0 \times 9{,}0}{2} + \frac{50{,}0}{2} = 9{,}0 + 25{,}0 = 34{,}0\,\mathrm{kN}$$
 
 **Seção da transversina**:
+
 - $b = 0{,}3\,\mathrm{m}$ (largura)
 - $h = 0{,}6\,\mathrm{m}$ (altura)
 - $d = 0{,}55\,\mathrm{m}$ (altura útil)
@@ -126,11 +149,14 @@ $$A_s = 6{,}2\,\mathrm{cm^2}$$
 **Armadura mínima**:
 $$A_{s,min} = 0{,}15\% \times b \times h = 0{,}0015 \times 0{,}3 \times 0{,}6 = 0{,}00027\,\mathrm{m^2}$$
 
-$$A_{s,min} = 2{,}7\,\mathrm{cm^2} < A_s = 6{,}2\,\mathrm{cm^2}$$ ✓
+$$A_{s,min} = 2{,}7\,\mathrm{cm^2} < A_s = 6{,}2\,\mathrm{cm^2}$$
+
+Condição atendida (✓).
 
 ### 3) Verificação do Tabuleiro
 
 **Laje em duas direções**:
+
 - $L_x = 3{,}0\,\mathrm{m}$ (direção transversal)
 - $L_y = 30{,}0\,\mathrm{m}$ (direção longitudinal)
 - Relação: $L_y/L_x = 10{,}0 > 2{,}0$ (laje em uma direção)
@@ -187,19 +213,43 @@ $$A_{sw} = \frac{(1{,}09 - 0{,}5) \times 1{,}88 \times 0{,}22}{435} = 0{,}00056\
 $$A_{sw} = 5{,}6\,\mathrm{cm^2}$$
 
 **Distribuição**:
+
 - Estribos: $\phi 8{,}0\,\mathrm{mm}$ c/ $15\,\mathrm{cm}$
 - Área: $A_{sw} = 3{,}35\,\mathrm{cm^2/m} \times 1{,}88\,\mathrm{m} = 6{,}3\,\mathrm{cm^2}$ ✓
 
 ### 6) Detalhamento
 
 **Transversinas**:
+
 - Armadura longitudinal: $4 \phi 16{,}0\,\mathrm{mm}$
 - Estribos: $\phi 6{,}3\,\mathrm{mm}$ c/ $20\,\mathrm{cm}$
 
 **Tabuleiro**:
+
 - Armadura principal: $\phi 8{,}0\,\mathrm{mm}$ c/ $15\,\mathrm{cm}$
 - Armadura secundária: $\phi 8{,}0\,\mathrm{mm}$ c/ $15\,\mathrm{cm}$
 - Armadura de punção: $\phi 8{,}0\,\mathrm{mm}$ c/ $15\,\mathrm{cm}$
+
+## Interpretação dos Resultados
+
+- Distribuição transversal aumenta carga na viga mais próxima da excentricidade.
+- Punção pode governar em lajes delgadas sob cargas concentradas: atenção ao d.
+- Quando $L_y/L_x \gg 2$, a laje trabalha predominantemente em uma direção.
+- Ajustes eficazes: aumentar t, adicionar armadura de punção, otimizar espaçamentos.
+
+## Metodologia de Cálculo
+
+1. Estimar coeficientes de distribuição (η) para cargas distribuídas e concentradas.
+2. Dimensionar transversinas: M_Ed, V_Ed → A_s e verificação geométrica.
+3. Classificar o tabuleiro (1D vs 2D) e calcular momentos nas direções.
+4. Verificar punção (τ_Ed ≤ τ_Rd) e, se necessário, dimensionar A_sw de punção.
+5. Detalhar armaduras garantindo ancoragem e espaçamentos normativos.
+
+## Exercícios Propostos
+
+- Refaça a distribuição para n=4 vigas e discuta o efeito nos η.
+- Para t=0,22 m, reavalie a punção e dimensione A_sw.
+- Ajuste L_trans para reduzir M_Ed em 10% e discuta implicações construtivas.
 
 ## Erros comuns (evite)
 

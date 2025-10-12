@@ -1,7 +1,12 @@
 # Aula 4 — Roteiro Direto (Estudo de Caso: Fadiga)
 
-- Comparação 1987 vs 2014: tensões máximas vs amplitude de tensão
-- Dados-chave: Δσ_Ed = 13,1 MPa; Δσ_Rd = 8,5 MPa
-- Ciclos acumulados: ~37,23×10^6 (34 anos)
-- Margem: MS = 0,65 (35% deficiência)
-- Conclusão do artigo: necessidade de reforço
+- Objetivos: entender critérios de fadiga e evolução normativa
+- Conceitos: Δσ, N (ciclos), acúmulo de dano e limites de fadiga
+- Contexto: projeto 1987 vs verificação 2014; diferenças de premissas
+- Regiões críticas: flexão (meio do vão) e cisalhamento (apoios)
+- Cálculo-chave: Δσ_Ed × Δσ_Rd e margem de segurança (MS)
+- Interpretação: por que atende em 1987 e não em 2014 (maior rigor)
+- Implicações: necessidade de reavaliação e reforço em estruturas antigas
+- Erros comuns: usar tensões máximas para julgar fadiga; ignorar N de ciclos
+- Exercício rápido: estimar N_total e MS para outro tráfego
+- Tarefa: listar reforços plausíveis e seus impactos em Δσ

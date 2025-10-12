@@ -1,18 +1,31 @@
 # Aula 14: Interação Solo-Estrutura e Recalques
 
+## Objetivos da Aula
+
+Ao final desta aula, o aluno será capaz de:
+
+- Diferenciar recalque total x diferencial e seus efeitos
+- Estimar esforços adicionais por deslocamentos impostos (método dos deslocamentos)
+- Verificar deslocamentos/rotações e impactos nos aparelhos de apoio
+- Propor limites práticos e medidas para mitigar efeitos
+
 ## Estudo de Caso
+
 Ponte rodoviária contínua de 3 vãos ($L = 25\,\mathrm{m}$ cada) com recalques diferenciais nos apoios. Analisar os efeitos dos recalques na estrutura, incluindo esforços adicionais, deslocamentos e verificação de segurança.
 
 Dados do projeto:
+
 - Vãos: $L_1 = L_2 = L_3 = 25\,\mathrm{m}$
 - Recalque total: $\delta_1 = 20\,\mathrm{mm}$, $\delta_2 = 10\,\mathrm{mm}$, $\delta_3 = 15\,\mathrm{mm}$
 - Recalque diferencial: $\Delta\delta = 10\,\mathrm{mm}$
 - Rigidez da viga: $EI = 50000\,\mathrm{kN \cdot m^2}$
 
-### Esquema do caso (SVG)
-<img src="./assets/aula14_ponte.svg" alt="Esquema: recalques e efeitos na estrutura" width="760" />
+### Esquema do caso
+
+<img src="./assets/aula14_ponte.png" alt="Esquema: recalques e efeitos na estrutura" width="760" />
 
 Leitura do esquema:
+
 - Ponte contínua com recalques
 - Efeitos nos esforços e deslocamentos
 - Verificação de segurança
@@ -23,11 +36,13 @@ Leitura do esquema:
 ### Recalque Total vs Diferencial
 
 **Recalque total**:
+
 - Deslocamento vertical de um apoio
 - Efeito: deslocamento global da estrutura
 - Consideração: em análises de flechas
 
 **Recalque diferencial**:
+
 - Diferença entre recalques de apoios adjacentes
 - Efeito: esforços adicionais na estrutura
 - Consideração: em análises de esforços
@@ -35,11 +50,13 @@ Leitura do esquema:
 ### Efeitos em Vigas Contínuas
 
 **Esforços adicionais**:
+
 - Momentos fletores adicionais
 - Cortantes adicionais
 - Reações de apoio modificadas
 
 **Deslocamentos adicionais**:
+
 - Flechas adicionais
 - Rotações adicionais
 - Deslocamentos horizontais
@@ -47,12 +64,14 @@ Leitura do esquema:
 ### Sinais em Aparelhos de Apoio
 
 **Deslocamentos horizontais**:
+
 - Dilatação térmica
 - Retração do concreto
 - Cargas móveis
 - Recalques diferenciais
 
 **Rotações**:
+
 - Flexão da viga
 - Recalques diferenciais
 - Cargas assimétricas
@@ -63,12 +82,14 @@ Leitura do esquema:
 ### 1) Análise dos Recalques
 
 **Recalques dos apoios**:
+
 - Apoio 1: $\delta_1 = 20{,}0\,\mathrm{mm}$
 - Apoio 2: $\delta_2 = 10{,}0\,\mathrm{mm}$
 - Apoio 3: $\delta_3 = 15{,}0\,\mathrm{mm}$
 - Apoio 4: $\delta_4 = 0{,}0\,\mathrm{mm}$ (referência)
 
 **Recalques diferenciais**:
+
 - $\Delta\delta_{12} = \delta_1 - \delta_2 = 20{,}0 - 10{,}0 = 10{,}0\,\mathrm{mm}$
 - $\Delta\delta_{23} = \delta_2 - \delta_3 = 10{,}0 - 15{,}0 = -5{,}0\,\mathrm{mm}$
 - $\Delta\delta_{34} = \delta_3 - \delta_4 = 15{,}0 - 0{,}0 = 15{,}0\,\mathrm{mm}$
@@ -79,6 +100,7 @@ Leitura do esquema:
 $$M_{ij} = \frac{2EI}{L} \left(2\theta_i + \theta_j - \frac{3\Delta}{L}\right)$$
 
 Onde:
+
 - $\theta_i, \theta_j$ = rotações nos nós
 - $\Delta$ = deslocamento relativo
 - $L$ = comprimento do elemento
@@ -117,6 +139,7 @@ $$4\theta_3 + \theta_2 + \theta_4 - 0{,}0012 = 0$$
 ### 4) Solução do Sistema
 
 **Condições de contorno**:
+
 - $\theta_1 = 0$ (apoio fixo)
 - $\theta_4 = 0$ (apoio fixo)
 
@@ -165,7 +188,9 @@ $$M_{ser} = \frac{qL^2}{8} = \frac{5{,}0 \times 25^2}{8} = 390{,}6\,\mathrm{kN \
 $$M_{total} = M_{ser} + M_{\max} = 390{,}6 + 5{,}6 = 396{,}2\,\mathrm{kN \cdot m}$$
 
 **Verificação**:
-$$M_{total} = 396{,}2\,\mathrm{kN \cdot m} < M_{Rd} = 500{,}0\,\mathrm{kN \cdot m}$$ ✓
+$$M_{total} = 396{,}2\,\mathrm{kN \cdot m} < M_{Rd} = 500{,}0\,\mathrm{kN \cdot m}$$
+
+Condição atendida (✓).
 
 ### 8) Análise de Deslocamentos
 
@@ -178,7 +203,9 @@ $$a_{adic} = \frac{625}{800000} \times 11{,}2 = 0{,}000781 \times 11{,}2 = 0{,}0
 $$a_{total} = a_{est} + a_{adic} = 15{,}0 + 8{,}75 = 23{,}75\,\mathrm{mm}$$
 
 **Verificação**:
-$$a_{total} = 23{,}75\,\mathrm{mm} < a_{lim} = \frac{L}{250} = \frac{25000}{250} = 100{,}0\,\mathrm{mm}$$ ✓
+$$a_{total} = 23{,}75\,\mathrm{mm} < a_{lim} = \frac{L}{250} = \frac{25000}{250} = 100{,}0\,\mathrm{mm}$$
+
+Condição atendida (✓).
 
 ### 9) Sinais nos Aparelhos de Apoio
 
@@ -200,13 +227,38 @@ $$M = K_r \times \theta = 10000 \times 0{,}0004 = 4{,}0\,\mathrm{kN \cdot m}$$
 $$\Delta\delta_{max} = \frac{L}{500} = \frac{25000}{500} = 50{,}0\,\mathrm{mm}$$
 
 **Verificação**:
-$$\Delta\delta_{max} = 50{,}0\,\mathrm{mm} > \Delta\delta_{real} = 15{,}0\,\mathrm{mm}$$ ✓
+$$\Delta\delta_{max} = 50{,}0\,\mathrm{mm} > \Delta\delta_{real} = 15{,}0\,\mathrm{mm}$$
+
+Condição atendida (✓).
 
 **Flecha adicional máxima**:
 $$a_{adic,max} = \frac{L}{1000} = \frac{25000}{1000} = 25{,}0\,\mathrm{mm}$$
 
 **Verificação**:
-$$a_{adic} = 8{,}75\,\mathrm{mm} < a_{adic,max} = 25{,}0\,\mathrm{mm}$$ ✓
+$$a_{adic} = 8{,}75\,\mathrm{mm} < a_{adic,max} = 25{,}0\,\mathrm{mm}$$
+
+Condição atendida (✓).
+
+## Interpretação dos Resultados
+
+- Recalques diferenciais pequenos já geram momentos/reações adicionais mensuráveis.
+- Limites práticos (L/500 para Δδ, L/1000 para a_adic) ajudam a balizar projeto.
+- Sinais em apoios (ΔH, θ) traduzem efeitos de temperatura e recalques.
+- Estratégias: ajustar rigidez, redistribuir apoios, controle de recalques.
+
+## Metodologia de Análise
+
+1. Levantar Δδ por vãos/apoios e condições de contorno (θ).
+2. Montar equações do método dos deslocamentos e resolver θ.
+3. Obter M_ij, reações e deslocamentos adicionais (a_adic).
+4. Verificar segurança e serviço com limites práticos e normativos.
+5. Definir medidas: ajustes de apoio, reforços, controle de fundações.
+
+## Exercícios Propostos
+
+- Para Δδ=15 mm no vão central, reestime M_23 e a_adic.
+- Simule ΔT=40°C e avalie ΔH e H nos aparelhos.
+- Proponha um arranjo de apoios para reduzir M_max em 20%.
 
 ## Erros comuns (evite)
 

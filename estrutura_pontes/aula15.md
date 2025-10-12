@@ -1,9 +1,20 @@
 # Aula 15: Reforços Estruturais e Verificações de Estabilidade
 
+## Objetivos da Aula
+
+Ao final desta aula, o aluno será capaz de:
+
+- Identificar deficiências (M_def, V_def) e definir metas de reforço
+- Selecionar soluções: aço adicional, laminados, protensão externa, estribos
+- Verificar estabilidade global e critérios pós-reforço
+- Planejar sequência de intervenção e monitoramento
+
 ## Estudo de Caso
+
 Ponte rodoviária de 30 anos com necessidade de reforço estrutural. Analisar as opções de reforço à flexão (aço adicional, laminados) e ao cisalhamento, incluindo protensão externa e verificação de estabilidade global.
 
 Dados do projeto:
+
 - Idade: 30 anos
 - Vão: $L = 35\,\mathrm{m}$
 - Seção: retangular $b \times h = 0{,}6 \times 2{,}0\,\mathrm{m}$
@@ -11,10 +22,12 @@ Dados do projeto:
 - Momento necessário: $M_{Ed} = 1200{,}0\,\mathrm{kN \cdot m}$
 - Deficiência: $M_{def} = 400{,}0\,\mathrm{kN \cdot m}$
 
-### Esquema do caso (SVG)
-<img src="./assets/aula15_ponte.svg" alt="Esquema: reforços estruturais" width="760" />
+### Esquema do caso
+
+<img src="./assets/aula15_ponte.png" alt="Esquema: reforços estruturais" width="760" />
 
 Leitura do esquema:
+
 - Reforço à flexão com aço adicional
 - Reforço ao cisalhamento com estribos
 - Protensão externa
@@ -25,18 +38,21 @@ Leitura do esquema:
 ### Reforço à Flexão
 
 **Aço adicional**:
+
 - Armadura longitudinal adicional
 - Aplicação: face tracionada
 - Vantagens: simplicidade, baixo custo
 - Limitações: redução do cobrimento
 
 **Laminados de aço**:
+
 - Chapa de aço colada
 - Aplicação: face tracionada
 - Vantagens: alta resistência, baixo peso
 - Limitações: complexidade de aplicação
 
 **Protensão externa**:
+
 - Cabos externos tensionados
 - Aplicação: face tracionada
 - Vantagens: alta eficiência, reversibilidade
@@ -45,18 +61,21 @@ Leitura do esquema:
 ### Reforço ao Cisalhamento
 
 **Estribos adicionais**:
+
 - Armadura transversal adicional
 - Aplicação: alma da viga
 - Vantagens: simplicidade, eficiência
 - Limitações: redução da seção
 
 **Chapa de aço**:
+
 - Chapa colada na alma
 - Aplicação: face lateral
 - Vantagens: alta resistência
 - Limitações: complexidade de aplicação
 
 **Protensão externa**:
+
 - Cabos inclinados
 - Aplicação: alma da viga
 - Vantagens: alta eficiência
@@ -65,12 +84,14 @@ Leitura do esquema:
 ### Estabilidade Global
 
 **Prevenção de colapso progressivo**:
+
 - Redundância estrutural
 - Caminhos alternativos de carga
 - Verificação de estabilidade
 - Monitoramento estrutural
 
 **Sequência de intervenção**:
+
 1. Análise da estrutura existente
 2. Identificação das deficiências
 3. Projeto do reforço
@@ -104,6 +125,7 @@ $$A_{s,ref} = 547{,}0\,\mathrm{cm^2}$$
 $$n = \frac{A_{s,ref}}{A_{barra}} = \frac{547{,}0}{\pi \times 2{,}5^2/4} = \frac{547{,}0}{4{,}91} = 111{,}4 \approx 112 \text{ barras}$$
 
 **Distribuição**:
+
 - Camada 1: 56 barras $\phi 25{,}0\,\mathrm{mm}$
 - Camada 2: 56 barras $\phi 25{,}0\,\mathrm{mm}$
 
@@ -115,6 +137,7 @@ $$A_{chapa} = \frac{M_{def}}{f_{yd,chapa} (d - 0{,}4x)} = \frac{400{,}0}{300 \ti
 $$A_{chapa} = 794{,}0\,\mathrm{cm^2}$$
 
 **Dimensões da chapa**:
+
 - Largura: $b_{chapa} = 0{,}6\,\mathrm{m}$
 - Comprimento: $L_{chapa} = 35{,}0\,\mathrm{m}$
 - Espessura: $t_{chapa} = \frac{794{,}0}{60 \times 3500} = 0{,}0038\,\mathrm{m} = 3{,}8\,\mathrm{mm}$
@@ -151,6 +174,7 @@ $$A_{sw,ref} = \frac{V_{def}}{0{,}9 \times d \times f_{ywd}} \times s = \frac{10
 $$A_{sw,ref} = 2{,}8\,\mathrm{cm^2/m}$$
 
 **Estribos adicionais**:
+
 - $\phi 8{,}0\,\mathrm{mm}$ c/ $15\,\mathrm{cm}$
 
 ### 6) Verificação de Estabilidade Global
@@ -169,12 +193,14 @@ $$M_{Ed} = 1200{,}0\,\mathrm{kN \cdot m} < M_{inst} = 1158{,}4\,\mathrm{kN \cdot
 ### 7) Prevenção de Colapso Progressivo
 
 **Redundância estrutural**:
+
 - Múltiplos caminhos de carga
 - Apoios redundantes
 - Elementos de reserva
 - Monitoramento contínuo
 
 **Caminhos alternativos**:
+
 - Carga → viga principal → apoios
 - Carga → transversinas → vigas laterais
 - Carga → tabuleiro → vigas principais
@@ -185,44 +211,72 @@ $$\gamma_{est} = \frac{M_{inst}}{M_{Ed}} = \frac{1158{,}4}{1200{,}0} = 0{,}97 < 
 ### 8) Sequência de Intervenção
 
 **Fase 1: Análise**:
+
 - Inspeção estrutural
 - Ensaios de materiais
 - Análise de capacidade
 - Identificação de deficiências
 
 **Fase 2: Projeto**:
+
 - Dimensionamento do reforço
 - Verificação de estabilidade
 - Detalhamento construtivo
 - Especificações técnicas
 
 **Fase 3: Execução**:
+
 - Preparação da estrutura
 - Aplicação do reforço
 - Controle de qualidade
 - Verificação de execução
 
 **Fase 4: Verificação**:
+
 - Ensaios de carga
 - Verificação de capacidade
 - Monitoramento estrutural
 - Relatório final
 
+## Interpretação dos Resultados
+
+- Diferentes soluções de flexão têm trade-offs de exequibilidade e desempenho.
+- Estabilidade global pode governar mesmo após reforço local: revisar EI/L.
+- Checklist pós-reforço consolida atendimento de critérios estruturais e de durabilidade.
+- Sequenciamento adequado reduz riscos de obra e garante desempenho.
+
+## Metodologia de Projeto de Reforços
+
+1. Quantificar M_def/V_def e hierarquizar intervenções.
+2. Estudar alternativas (aço, laminados, protensão) e compatibilizar com obra.
+3. Dimensionar e verificar ELU/ELS e estabilidade global pós-reforço.
+4. Detalhar ancoragens, aderência e proteção/drenagem.
+5. Definir plano de monitoramento (parâmetros e periodicidade).
+
+## Exercícios Propostos
+
+- Para M_def=300 kN·m, compare aço adicional vs laminado: materiais e execução.
+- Recalcule γ_est após aumentar EI em 20% e discuta.
+- Monte um checklist de verificação pós-reforço para uma viga isostática.
+
 ### 9) Checklist de Verificação Pós-Reforço
 
 **Verificações estruturais**:
+
 - Capacidade à flexão: $M_{Rd} \geq M_{Ed}$ ✓
 - Capacidade ao cisalhamento: $V_{Rd} \geq V_{Ed}$ ✓
 - Estabilidade global: $\gamma_{est} \geq 1{,}0$ ✗
 - Fissuração: $w_k \leq w_{lim}$ ✓
 
 **Verificações de durabilidade**:
+
 - Proteção contra corrosão ✓
 - Drenagem adequada ✓
 - Impermeabilização ✓
 - Monitoramento ✓
 
 **Verificações de execução**:
+
 - Qualidade dos materiais ✓
 - Posicionamento das armaduras ✓
 - Aderência do reforço ✓
@@ -231,12 +285,14 @@ $$\gamma_{est} = \frac{M_{inst}}{M_{Ed}} = \frac{1158{,}4}{1200{,}0} = 0{,}97 < 
 ### 10) Monitoramento Pós-Reforço
 
 **Parâmetros a monitorar**:
+
 - Deformações da estrutura
 - Abertura de fissuras
 - Corrosão da armadura
 - Capacidade resistente
 
 **Frequência de monitoramento**:
+
 - Inspeção visual: mensal
 - Medição de deformações: trimestral
 - Ensaios de corrosão: semestral

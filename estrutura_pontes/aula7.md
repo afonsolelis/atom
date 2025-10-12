@@ -1,19 +1,31 @@
 # Aula 7: Introdução ao Concreto Protendido
 
+## Objetivos da Aula
+
+Ao final desta aula, o aluno será capaz de:
+- Entender o conceito de protensão e principais perdas
+- Traçar cabos com excentricidade variável e interpretar efeitos
+- Verificar tensões (ELS) e limites P_min / P_max
+- Dimensionar de forma preliminar cordoalhas e checar segurança
+
 ## Estudo de Caso
+
 Ponte rodoviária de vão único ($L = 40\,\mathrm{m}$) em concreto protendido. Dimensionar a força de protensão e excentricidade do cabo para atender às verificações de tensões em serviço, considerando perdas imediatas e diferidas.
 
 Dados do projeto:
+
 - Vão: $L = 40\,\mathrm{m}$
 - Seção: retangular $b \times h = 0{,}6 \times 2{,}0\,\mathrm{m}$
 - Carga permanente: $g = 30{,}0\,\mathrm{kN/m}$
 - Carga móvel: $q = 5{,}0\,\mathrm{kN/m^2}$
 - Concreto: $f_{ck} = 35\,\mathrm{MPa}$
 
-### Esquema do caso (SVG)
+### Esquema do caso
+
 <img src="./assets/aula7_ponte.svg" alt="Esquema: concreto protendido com cabo parabólico" width="760" />
 
 Leitura do esquema:
+
 - Viga protendida com cabo parabólico
 - Excentricidade variável ao longo do vão
 - Tensões de protensão e cargas externas
@@ -24,12 +36,14 @@ Leitura do esquema:
 ### Pré-tração vs Pós-tração
 
 **Pré-tração**:
+
 - Cabos tensionados antes da concretagem
 - Aplicação: elementos pré-fabricados
 - Vantagens: controle de qualidade, industrialização
 - Limitações: vãos limitados, geometria fixa
 
 **Pós-tração**:
+
 - Cabos tensionados após a concretagem
 - Aplicação: pontes, edifícios, estruturas especiais
 - Vantagens: flexibilidade geométrica, vãos grandes
@@ -38,11 +52,13 @@ Leitura do esquema:
 ### Perdas de Protensão
 
 **Perdas Imediatas**:
+
 - Atraso elástico: $\Delta P_{el} = \alpha_p \sigma_{c,p}$
 - Escorregamento: $\Delta P_{esc} = \frac{E_p A_p \Delta l}{L}$
 - Atrito: $\Delta P_{atr} = P_0 (1 - e^{-\mu \alpha})$
 
 **Perdas Diferidas**:
+
 - Retração: $\Delta P_{ret} = \varepsilon_{cs} E_p A_p$
 - Fluência: $\Delta P_{flu} = \phi \sigma_{c,p} E_p A_p$
 - Relaxação: $\Delta P_{rel} = \psi P_0$
@@ -50,6 +66,7 @@ Leitura do esquema:
 ### Traçado do Cabo
 
 **Excentricidade**:
+
 - Função da geometria da estrutura
 - Consideração das tensões admissíveis
 - Otimização da força de protensão
@@ -58,6 +75,7 @@ Leitura do esquema:
 $$e(x) = e_0 + \frac{4(e_{\max} - e_0)}{L^2} x (L - x)$$
 
 Onde:
+
 - $e_0$ = excentricidade nos apoios
 - $e_{\max}$ = excentricidade máxima (meio do vão)
 
@@ -70,6 +88,7 @@ $$\sigma_{topo} = \frac{N_p}{A} - \frac{M_p}{W_{topo}} + \frac{M_{ext}}{W_{topo}
 $$\sigma_{base} = \frac{N_p}{A} + \frac{M_p}{W_{base}} - \frac{M_{ext}}{W_{base}}$$
 
 **Limites**:
+
 - Compressão: $\sigma_c \leq 0{,}6 f_{ck}$
 - Tração: $\sigma_t \leq f_{ctk}$
 
@@ -114,6 +133,7 @@ $$n = \frac{A_p}{A_{cordoalha}} = \frac{4{,}09}{0{,}0001} = 40{,}9 \approx 41 \t
 ### 4) Perdas de Protensão
 
 **Perdas imediatas**:
+
 - Atraso elástico: $\Delta P_{el} = 0{,}05 P_0 = 0{,}05 \times 7777{,}8 = 388{,}9\,\mathrm{kN}$
 - Escorregamento: $\Delta P_{esc} = 0{,}03 P_0 = 0{,}03 \times 7777{,}8 = 233{,}3\,\mathrm{kN}$
 - Atrito: $\Delta P_{atr} = 0{,}02 P_0 = 0{,}02 \times 7777{,}8 = 155{,}6\,\mathrm{kN}$
@@ -125,6 +145,7 @@ $$\Delta P_{im} = 388{,}9 + 233{,}3 + 155{,}6 = 777{,}8\,\mathrm{kN}$$
 $$P_1 = P_0 - \Delta P_{im} = 7777{,}8 - 777{,}8 = 7000{,}0\,\mathrm{kN}$$
 
 **Perdas diferidas**:
+
 - Retração: $\Delta P_{ret} = 0{,}08 P_1 = 0{,}08 \times 7000{,}0 = 560{,}0\,\mathrm{kN}$
 - Fluência: $\Delta P_{flu} = 0{,}12 P_1 = 0{,}12 \times 7000{,}0 = 840{,}0\,\mathrm{kN}$
 - Relaxação: $\Delta P_{rel} = 0{,}05 P_1 = 0{,}05 \times 7000{,}0 = 350{,}0\,\mathrm{kN}$
@@ -157,13 +178,17 @@ $$\sigma_{base} = 4375{,}0 + 11812{,}5 - 17500 = -1312{,}5\,\mathrm{kPa} = -1{,}
 $$\sigma_c \leq 0{,}6 f_{ck} = 0{,}6 \times 35 = 21{,}0\,\mathrm{MPa}$$
 
 **Verificação**:
-$$\sigma_{topo} = 10{,}06\,\mathrm{MPa} < 21{,}0\,\mathrm{MPa}$$ ✓
+$$\sigma_{topo} = 10{,}06\,\mathrm{MPa} < 21{,}0\,\mathrm{MPa}$$
+
+Condição atendida (✓).
 
 **Limite de tração**:
 $$\sigma_t \leq f_{ctk} = 3{,}0\,\mathrm{MPa}$$
 
 **Verificação**:
-$$|\sigma_{base}| = 1{,}31\,\mathrm{MPa} < 3{,}0\,\mathrm{MPa}$$ ✓
+$$|\sigma_{base}| = 1{,}31\,\mathrm{MPa} < 3{,}0\,\mathrm{MPa}$$
+
+Condição atendida (✓).
 
 ### 7) Otimização da Protensão
 
@@ -174,21 +199,47 @@ $$P_{min} = \frac{M_{ser}}{e_{\max}} = \frac{7000}{0{,}9} = 7777{,}8\,\mathrm{kN
 $$P_{max} = \frac{0{,}6 f_{ck} A}{1 + \frac{e_{\max}}{h/2}} = \frac{0{,}6 \times 35 \times 1{,}2}{1 + \frac{0{,}9}{1{,}0}} = 13{,}26\,\mathrm{MN}$$
 
 **Força adotada**:
-$$P_0 = 7777{,}8\,\mathrm{kN} < P_{max} = 13260{,}0\,\mathrm{kN}$$ ✓
+$$P_0 = 7777{,}8\,\mathrm{kN} < P_{max} = 13260{,}0\,\mathrm{kN}$$
+
+Condição atendida (✓).
+
+## Interpretação dos Resultados
+
+- A protensão desloca o diagrama de momentos, reduzindo a tração na fibra inferior.
+- Limites P_min/P_max garantem, respectivamente, controle de fissuras e segurança.
+- Tensões no topo/base devem respeitar limites do concreto em serviço.
+- O traçado do cabo (e(x)) é decisivo para otimizar o aproveitamento.
+
+## Metodologia de Cálculo
+
+1. Definir P_0, perdas e P_∞; estimar e(x) e vão L.
+2. Avaliar tensões em ELU/ELS considerando os efeitos da protensão.
+3. Verificar limites P_min/P_max e tensões no concreto (σ_topo, σ_base).
+4. Dimensionar número de cordoalhas e conferir dispositivos de ancoragem.
+5. Ajustar traçado e excentricidades para atender verificações e detalhamento.
+
+## Exercícios Propostos
+
+- Redesenhe e(x) para reduzir σ_base em 10% mantendo P_0.
+- Estime perdas (imediatas e diferidas) e discuta impactos em ELS.
+- Para L=45 m, discuta quando a protensão externa se torna vantajosa.
 
 ### 8) Detalhamento
 
 **Cordoalhas**:
+
 - Número: 41 cordoalhas $\phi 12{,}7\,\mathrm{mm}$
 - Força por cordoalha: $P_{cordoalha} = 190{,}0\,\mathrm{kN}$
 - Força total: $P_0 = 41 \times 190{,}0 = 7790{,}0\,\mathrm{kN}$
 
 **Traçado do cabo**:
+
 - Excentricidade máxima: $e_{\max} = 0{,}9\,\mathrm{m}$
 - Excentricidade nos apoios: $e_0 = 0{,}1\,\mathrm{m}$
 - Equação: $e(x) = 0{,}1 + \frac{4 \times 0{,}8}{40^2} x (40 - x)$
 
 **Ancoragem**:
+
 - Comprimento de ancoragem: $l_b = 1{,}0\,\mathrm{m}$
 - Bloco de ancoragem: $0{,}6 \times 0{,}6 \times 0{,}3\,\mathrm{m}$
 
