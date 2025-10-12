@@ -80,7 +80,7 @@ O estudo comparou os critérios originais de projeto (1987) com as normas atuais
 
 ### Esquema do caso
 
-<img src="./assets/aula4_ponte.svg" alt="Esquema: comparação de critérios de fadiga 1987 vs 2014" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304354/estrutura_pontes/aula4_ponte.svg" alt="Esquema: comparação de critérios de fadiga 1987 vs 2014" width="760" />
 
 **Leitura do esquema**:
 

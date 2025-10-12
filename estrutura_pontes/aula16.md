@@ -11,7 +11,7 @@ Ao final desta aula, o aluno será capaz de:
 
 ### Esquema do caso
 
-<img src="./assets/aula16_ponte.png" alt="Esquema: inspeção, deterioração e reforço de pontes" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304352/estrutura_pontes/aula16_ponte.png" alt="Esquema: inspeção, deterioração e reforço de pontes" width="760" />
 
 Leitura do esquema:
 

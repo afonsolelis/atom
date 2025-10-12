@@ -22,7 +22,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula14_ponte.png" alt="Esquema: recalques e efeitos na estrutura" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304359/estrutura_pontes/aula14_ponte.png" alt="Esquema: recalques e efeitos na estrutura" width="760" />
 
 Leitura do esquema:
 

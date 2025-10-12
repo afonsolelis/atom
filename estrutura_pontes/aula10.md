@@ -22,7 +22,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula10_ponte.png" alt="Esquema: vibrações e frequência natural" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304346/estrutura_pontes/aula10_ponte.png" alt="Esquema: vibrações e frequência natural" width="760" />
 
 Leitura do esquema:
 

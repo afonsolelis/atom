@@ -22,7 +22,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula7_ponte.svg" alt="Esquema: concreto protendido com cabo parabólico" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304366/estrutura_pontes/aula7_ponte.svg" alt="Esquema: concreto protendido com cabo parabólico" width="760" />
 
 Leitura do esquema:
 

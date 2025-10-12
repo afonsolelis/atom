@@ -14,6 +14,11 @@
       "marcador": "*",
       "posicao": "Imediatamente antes da letra da alternativa correta.",
       "distribuicao": "A posição da alternativa correta deve variar aleatoriamente entre as opções (a, b, c, d, e). Evitar fixar a resposta correta em uma única letra.",
+      "balanceamento_conjunto": {
+        "regra": "Em conjuntos com múltiplos de 5 questões, balancear uniformemente a posição da resposta correta entre as letras (ex.: 20 questões → cada letra aparece 4 vezes como correta).",
+        "tolerancia": "Quando o total não for múltiplo de 5, distribuir de forma o mais uniforme possível, com diferença máxima de 1 entre as contagens por letra.",
+        "verificacao": "Ao final, contar as letras corretas e ajustar para cobrir todas as letras de forma equilibrada."
+      },
       "exemplo": "*c. Texto da alternativa correta."
     }
   },

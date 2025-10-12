@@ -14,7 +14,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula5_ponte.svg" alt="Esquema: dimensionamento da viga principal" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304347/estrutura_pontes/aula5_ponte.svg" alt="Esquema: dimensionamento da viga principal" width="760" />
 
 Leitura do esquema:
 

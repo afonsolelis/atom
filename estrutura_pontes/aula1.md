@@ -63,7 +63,7 @@ $$\sum F_x = 0 \quad \sum F_y = 0 \quad \sum M = 0$$
 
 ### 2.2 Esquema Estrutural
 
-<img src="./assets/aula1_ponte.svg" alt="Esquema: viga simplesmente apoiada com q e P" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304363/estrutura_pontes/aula1_ponte.svg" alt="Esquema: viga simplesmente apoiada com q e P" width="760" />
 
 **Interpretação do esquema**:
 - Apoios A e B com reações $R_A$ e $R_B$ (sentido positivo para cima)

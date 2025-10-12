@@ -24,7 +24,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula15_ponte.png" alt="Esquema: reforços estruturais" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304342/estrutura_pontes/aula15_ponte.png" alt="Esquema: reforços estruturais" width="760" />
 
 Leitura do esquema:
 

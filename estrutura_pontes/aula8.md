@@ -10,7 +10,7 @@ Ao final desta aula, o aluno será capaz de:
 
 ### Esquema do caso
 
-<img src="./assets/aula8_ponte.svg" alt="Esquema: causas de acidentes estruturais em pontes" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304360/estrutura_pontes/aula8_ponte.svg" alt="Esquema: causas de acidentes estruturais em pontes" width="760" />
 
 Leitura do esquema:
 

@@ -21,7 +21,7 @@ Dados do projeto:
 
 ### Esquema do caso
 
-<img src="./assets/aula3_ponte.svg" alt="Esquema: cargas permanentes e móveis na ponte" width="760" />
+<img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1760304343/estrutura_pontes/aula3_ponte.svg" alt="Esquema: cargas permanentes e móveis na ponte" width="760" />
 
 Leitura do esquema:
 
