@@ -18,11 +18,6 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 4. **Sequenciamento**: Ordenar etapas logicamente
 5. **Integração**: Combinar soluções parciais
 
-### Métricas por Etapa
-- Definição: critérios de sucesso para cada módulo
-- Entradas/Saídas: contratos claros entre etapas
-- Riscos: pontos de falha e mitigação
-
 ## 2. Técnicas de Decomposição
 
 ### Método de Análise Hierárquica
@@ -32,10 +27,6 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 - **Nível 4**: Tarefas individuais
 
 ### Abordagem Funcional
-### Outras Abordagens Úteis
-- Análise de stakeholders e restrições externas
-- Quebra por cenários (nominal, pior caso, melhor caso)
-- Estrutura analítica do projeto (EAP/WBS)
 - **Entrada**: Recursos e requisitos iniciais
 - **Processo**: Transformações e operações
 - **Saída**: Resultados e deliverables
@@ -116,18 +107,6 @@ Aprender a decompor problemas complexos de engenharia em etapas gerenciáveis e 
 - **Zero-shot inicial**: Para exploração rápida de ideias
 - **Few-shot intermediário**: Para padronização de análises
 - **Chain-of-thought final**: Para síntese e recomendações
-
-### Exemplo de Fluxo Integrado
-```
-**Prompt 1 (Zero-shot):** Gere 10 ideias inovadoras para resolver [problema complexo]
-
-**Prompt 2 (Few-shot):** Usando estes exemplos [3 casos similares], analise nosso problema:
-- Caso 1: [descrição]
-- Caso 2: [descrição]
-- Nosso caso: [descrição]
-
-**Prompt 3 (Chain-of-Thought):** Desenvolva solução integrada passo a passo...
-```
 
 ## 6. Atividade Prática (5 minutos)
 **Decomposição Colaborativa**: Em duplas, escolham um problema complexo da engenharia e decomponham em 4-5 etapas claras. Criem prompts para cada etapa.

@@ -9,14 +9,15 @@ Explorar ferramentas de linha de comando que potencializam o uso de IA em ambien
 > **CLI (Command Line Interface)** ferramentas permitem interação eficiente com sistemas de IA através de comandos de terminal, oferecendo automação e integração avançada.
 
 ### Vantagens das CLIs
-### Limitações das CLIs
-- Curva de aprendizado para usuários iniciantes
-- Menor apelo visual (sem GUI)
-- Possível complexidade de dependências
 - **Automação**: Scripts e workflows automatizados
 - **Integração**: Conexão com ferramentas existentes
 - **Controle preciso**: Parâmetros detalhados para cada tarefa
 - **Eficiência**: Processamento batch e operações em lote
+
+### Limitações das CLIs
+- Curva de aprendizado para usuários iniciantes
+- Menor apelo visual (sem GUI)
+- Possível complexidade de dependências
 
 ## 2. Principais CLIs Disponíveis
 
@@ -119,8 +120,6 @@ done
 - **Pipes**: Saída de um comando como entrada de outro
 - **Scripts compostos**: Combinação de múltiplas ferramentas
 - **Orquestração**: Controle centralizado de diferentes CLIs
-
-### Exemplo de Workflow Completo
 ### Boas Práticas de Segurança
 - Armazenar tokens em secrets (GitHub Actions, variáveis de ambiente)
 - Evitar logs com dados sensíveis

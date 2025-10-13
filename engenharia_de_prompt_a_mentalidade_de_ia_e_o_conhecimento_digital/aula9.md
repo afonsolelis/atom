@@ -42,12 +42,10 @@ Entrada → Processamento → Saída → Feedback → Ajuste → Nova Iteração
 ```
 
 ### Estratégias de Adaptação
-### Anti‑padrões de Experimentação
-- Testar múltiplas hipóteses simultâneas sem controle
-- P-hacking: selecionar métricas “favoráveis” após o fato
-- Não isolar variáveis de confusão
-- Ignorar tamanho de amostra e poder estatístico
 - **Monitoramento constante**: Métricas em tempo real
+- **Ajuste incremental**: Mudanças pequenas e controladas
+- **Validação contínua**: Testes regulares de performance
+- **Feedback loops**: Integração de resultados em melhorias
 - **Thresholds dinâmicos**: Limites que se ajustam automaticamente
 - **Feedback loops**: Sistemas que aprendem com cada interação
 - **Versioning**: Controle de versões de modelos e processos
@@ -61,11 +59,6 @@ Entrada → Processamento → Saída → Feedback → Ajuste → Nova Iteração
 - **Validação de usuário**: Experiência atende expectativas?
 
 ### Métricas Essenciais
-### Métricas de IA Específicas
-- Drift de dados/modelos: monitoramento contínuo
-- Taxa de alucinação (LLMs): proporção de saídas incorretas
-- Calibração de probabilidades: confiabilidade dos scores
-- Cobertura de casos: representatividade dos cenários testados
 | Categoria | Métricas | Objetivo |
 |-----------|----------|----------|
 | **Performance** | Acurácia, Precisão, Recall | Medir qualidade técnica |
@@ -76,39 +69,16 @@ Entrada → Processamento → Saída → Feedback → Ajuste → Nova Iteração
 ## 5. Aplicação em Projetos de Engenharia
 
 ### Exemplo 1 - Otimização de Processo Industrial
-```
 **Problema**: Reduzir consumo energético em linha de produção.
-
 **Hipótese**: Ajustar parâmetros de máquina X reduz consumo em 15%.
-
-**Experimento**:
-- Grupo controle: operação normal
-- Grupo teste: parâmetros otimizados por IA
-- Período: 30 dias
-- Métricas: consumo kWh, produtividade, qualidade
-
-**Análise**:
-- Resultado: redução de 18% (acima da hipótese)
-- Confiança estatística: 95%
-- Conclusão: implementar em toda fábrica
-```
+**Experimento**: Grupo controle vs. grupo teste com parâmetros otimizados por IA
+**Resultado**: Redução de 18% (acima da hipótese) com 95% de confiança estatística
 
 ### Exemplo 2 - Projeto Estrutural com IA
-```
 **Problema**: Otimizar projeto de fundação para edifício de 20 andares.
-
 **Hipótese**: Modelo de IA pode reduzir volume de concreto em 25%.
-
-**Experimento**:
-- Projeto tradicional vs. Projeto com IA generativa
-- Simulação computacional para validação estrutural
-- Análise de custos e materiais
-
-**Análise**:
-- Redução de 22% no volume de concreto
-- Manutenção da segurança estrutural
-- Economia de R$ 800.000 no projeto
-```
+**Experimento**: Projeto tradicional vs. projeto com IA generativa
+**Resultado**: Redução de 22% no volume de concreto, economia de R$ 800.000
 
 ## 6. Desenvolvimento de Resiliência Cognitiva
 

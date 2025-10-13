@@ -81,63 +81,9 @@ Método 3 - Finite Element: Discretiza em elementos
 
 ## 4. Direcionamentos Padronizados para Prompting
 
-Para manter consistência e qualidade em nossos materiais, utilizamos um sistema de direcionamentos organizados em formato JSON que define padrões para estrutura de aulas, elementos de prompting e configurações técnicas.
+Para manter consistência e qualidade, utilizamos direcionamentos em formato JSON que definem padrões para estrutura de aulas e elementos de prompting.
 
-### Direcionamentos de Estrutura
-```json
-{
-  "estrutura_aula": {
-    "ordem_secoes": [
-      "Estudo de Caso",
-      "Conceitos principais",
-      "Exemplo prático de prompt",
-      "Erros comuns",
-      "Encaminhamentos"
-    ],
-    "descricao_pos_exemplo": true,
-    "descricao_pos_exemplo_nota": "Após cada exemplo de prompt, inserir 1–2 frases explicando o raciocínio, a estratégia utilizada e como aplicar em contextos similares."
-  }
-}
-```
-
-### Direcionamentos para LaTeX e Formatação
-```json
-{
-  "latex": {
-    "usar_latex": true,
-    "inline": "$ … $",
-    "bloco": "$$ … $$",
-    "elementos_prompt": ["\\text{Contexto}", "\\text{Instrução}", "\\text{Exemplo}", "\\text{Saída}"],
-    "operadores": ["\\Rightarrow", "\\rightarrow", "\\text{vs}", "\\text{Ex.:}"],
-    "codigo": "usar blocos de código ``` para exemplos de prompts e respostas"
-  }
-}
-```
-
-### Direcionamentos para Diagramas
-```json
-{
-  "diagramas": {
-    "incluir_diagrama": true,
-    "arquivo_padrao": "aulaX_prompt_flow.svg",
-    "insercao_markdown": "<img src=\"./aulaX_prompt_flow.svg\" alt=\"Fluxo de Prompt\" width=\"760\" />",
-    "conteudo_minimo": [
-      "Entrada do usuário",
-      "Processamento do prompt",
-      "Modelo de IA",
-      "Geração de resposta",
-      "Elementos de contexto (quando aplicável)",
-      "Fluxo de interação"
-    ]
-  }
-}
-```
-
-### Aplicação Prática dos Direcionamentos
-
-#### Template de Prompt Estruturado
-Baseado nos direcionamentos, aqui está um template completo:
-
+### Template de Prompt Estruturado
 ```markdown
 **Contexto:** [Definir cenário e persona]
 
@@ -156,8 +102,6 @@ Baseado nos direcionamentos, aqui está um template completo:
 
 **Restrições:** [Limitações ou considerações especiais]
 ```
-
-#### Exemplo Aplicado - Análise Estrutural
 ## 5. Boas Práticas e Anti‑padrões
 
 ### Boas Práticas
@@ -168,26 +112,9 @@ Baseado nos direcionamentos, aqui está um template completo:
 
 ### Anti‑padrões a Evitar
 - Prompts excessivamente longos sem hierarquia de informação
-- Pedidos vagos (“explique tudo sobre…”) sem objetivo concreto
-- Contradições (“seja conciso, mas explique em detalhes extensos”)
+- Pedidos vagos ("explique tudo sobre…") sem objetivo concreto
+- Contradições ("seja conciso, mas explique em detalhes extensos")
 - Falta de checagem factual em domínios de alto risco
-```json
-{
-  "contexto": "Você é engenheiro estrutural sênior com experiência em análise de elementos finitos",
-  "problema": "Calcular reações de apoio para viga biapoiada de 6m com carga distribuída variável",
-  "dados_tecnicos": {
-    "comprimento": "6m",
-    "carga": "distribuída variável (triangular)",
-    "apoios": "biapoiada (pinos)"
-  },
-  "objetivos": [
-    "Calcular reações de apoio",
-    "Determinar momento máximo",
-    "Verificar critérios de segurança"
-  ],
-  "formato_resposta": "Mostrar cálculos passo a passo com equações de equilíbrio"
-}
-```
 
 ## 6. Erros Comuns a Evitar
 
@@ -196,11 +123,6 @@ Baseado nos direcionamentos, aqui está um template completo:
 - **Falta de contexto**: Não definir unidades ou parâmetros
 - **Instruções contraditórias**: Pedidos mutuamente exclusivos
 - **Prompt muito longo**: Informação excessiva que confunde
-
-### Como Identificar
-- Respostas genéricas ou irrelevantes
-- Múltiplas interpretações possíveis
-- Falta de foco no objetivo principal
 
 ## 7. Atividade Prática (5 minutos)
 **Exercício em Pares**: Cada dupla cria um prompt para resolver um problema técnico simples. Testem e refinem com base nos resultados obtidos.

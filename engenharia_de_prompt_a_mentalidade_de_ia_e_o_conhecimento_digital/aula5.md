@@ -26,14 +26,13 @@ Dominar a técnica de zero-shot prompting e aprender estratégias para obter res
 [Persona/Contexto] + [Tarefa Específica] + [Detalhes Técnicos] + [Formato Esperado]
 ```
 
-### Boas Práticas e Anti‑padrões (Zero‑shot)
-**Boas Práticas**
-- Enunciar explicitamente critérios de aceitação (o que é “bom” como saída)
+### Boas Práticas
+- Enunciar explicitamente critérios de aceitação
 - Delimitar escopo: foco em uma tarefa por vez
 - Declarar formato: listas, tabelas, JSON, unidades
 
-**Anti‑padrões**
-- Pedir “tudo” de uma vez sem hierarquia
+### Anti‑padrões a Evitar
+- Pedir "tudo" de uma vez sem hierarquia
 - Omitir dados críticos (unidades, hipóteses)
 - Ambiguidade em termos técnicos
 
@@ -61,18 +60,7 @@ Dominar a técnica de zero-shot prompting e aprender estratégias para obter res
 **Formato:** Use a fórmula de torção e mostre todos os cálculos intermediários.
 ```
 
-### Exemplo 3 - Otimização de Processos
-```
-**Contexto:** Você é um engenheiro de produção especializado em otimização de processos.
-**Tarefa:** Sugira melhorias para reduzir o tempo de ciclo em uma linha de produção de peças metálicas.
-**Dados técnicos:**
-- Tempo atual: 45 segundos por peça
-- Objetivo: reduzir para 35 segundos
-- Processo atual: corte, dobra, solda, inspeção
-**Formato:** Liste 3 melhorias específicas com estimativa de redução de tempo para cada uma.
-```
-
-## 4. Aplicações Específicas por Área
+## 4. Aplicações por Área de Engenharia
 
 ### Engenharia Civil
 - **Análise de estruturas**: Cálculo de reações, momentos, deformações
@@ -97,17 +85,10 @@ Dominar a técnica de zero-shot prompting e aprender estratégias para obter res
 | **Exemplos** | Nenhum necessário | 2-3 exemplos |
 | **Flexibilidade** | Alta (novos domínios) | Média (dentro do padrão) |
 | **Precisão** | Depende da clareza | Geralmente mais precisa |
-| **Esforço** | Menos exemplos | Mais exemplos |
 
 ### Quando Usar Cada Técnica
 - **Zero-Shot**: Problemas únicos, contextos novos, rapidez
 - **Few-Shot**: Padrões consistentes, maior precisão necessária
-
-### Métricas de Avaliação
-- Taxa de acerto em tarefas factuais
-- Conformidade com formato solicitado
-- Consistência entre execuções (mesmo contexto)
-- Tempo para convergência (iterações necessárias)
 
 ## 6. Atividade Prática (5 minutos)
 **Exercício Individual**: Crie um prompt zero-shot para resolver um problema técnico da sua área de engenharia. Teste mentalmente e identifique pontos de melhoria.

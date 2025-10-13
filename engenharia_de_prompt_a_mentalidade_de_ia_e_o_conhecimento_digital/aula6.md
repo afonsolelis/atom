@@ -15,16 +15,6 @@ Dominar técnicas avançadas de prompting que utilizam exemplos e raciocínio es
 - **Contexto mínimo**: Apenas o necessário para demonstrar o padrão
 
 ### Estrutura de Prompt Few-Shot
-### Boas Práticas e Anti‑padrões (Few‑shot)
-**Boas Práticas**
-- Manter exemplos curtos e canônicos
-- Cobrir bordas relevantes sem aumentar muito o contexto
-- Evidenciar o formato esperado logo após os exemplos
-
-**Anti‑padrões**
-- Exemplos longos demais que “afogam” a instrução
-- Exemplos inconsistentes entre si
-- Reutilização cega de exemplos fora do domínio
 ```
 [Contexto geral]
 [Exemplo 1 - Entrada]
@@ -36,6 +26,16 @@ Dominar técnicas avançadas de prompting que utilizam exemplos e raciocínio es
 [Seu problema - Entrada]
 [Seu problema - Saída (em branco para o modelo completar)]
 ```
+
+### Boas Práticas
+- Manter exemplos curtos e canônicos
+- Cobrir bordas relevantes sem aumentar muito o contexto
+- Evidenciar o formato esperado logo após os exemplos
+
+### Anti‑padrões a Evitar
+- Exemplos longos demais que "afogam" a instrução
+- Exemplos inconsistentes entre si
+- Reutilização cega de exemplos fora do domínio
 
 ## 2. Exemplos Práticos em Engenharia
 
@@ -85,10 +85,6 @@ Saída:
 - **Transparência**: Facilita auditoria do resultado
 
 ### Técnicas de CoT
-### Considerações de Segurança
-- Evitar exposição de cadeias de raciocínio em domínios sensíveis
-- Fornecer justificativas suficientes sem revelar PII ou segredos
-- Validar aritmética e lógica com passo de verificação separado
 - **CoT Básico**: "Pense passo a passo antes de responder"
 - **CoT Estruturado**: Divisão explícita em etapas numeradas
 - **CoT com Few-Shot**: Combinação de exemplos e raciocínio
@@ -114,24 +110,6 @@ Saída:
 **Resposta final:** Momento máximo = 15.19 kNm (aproximado)
 ```
 
-### Exemplo 2 - Otimização (Engenharia de Produção)
-```
-**Contexto:** Otimize o layout de uma fábrica considerando fluxo de materiais.
-
-**Problema:** Reorganize 4 máquinas (A,B,C,D) para minimizar movimentação.
-
-**Dados de fluxo (peças/dia):**
-A→B: 50, A→C: 30, B→D: 40, C→D: 25
-
-**Raciocínio passo a passo:**
-1. Calcular matriz de relacionamento: A-B:50, A-C:30, B-D:40, C-D:25
-2. Calcular pesos totais: A=80, B=90, C=55, D=65
-3. Posicionar máquinas com maior interação próximas
-4. Layout sugerido: A-B-D-C (movimentação total reduzida em 35%)
-
-**Resposta final:** Layout ótimo: A | B | D | C
-```
-
 ## 5. Quando Usar Cada Técnica
 
 ### Critérios de Escolha
@@ -143,11 +121,6 @@ A→B: 50, A→C: 30, B→D: 40, C→D: 25
 - **Few-Shot + CoT**: Exemplos seguidos de raciocínio detalhado
 - **CoT Estruturado**: Numeração explícita das etapas
 - **CoT com Verificação**: Incluir passo de validação do resultado
-
-### Métricas de Qualidade
-- Taxa de acerto em problemas multi‑etapas
-- Clareza e verificabilidade do raciocínio
-- Custo de contexto vs. ganho de precisão
 
 ## 6. Atividade Prática (5 minutos)
 **Comparação de Técnicas**: Crie o mesmo prompt técnico usando zero-shot, few-shot e chain-of-thought. Compare mentalmente os resultados esperados.

@@ -16,10 +16,6 @@ Explorar como integrar sistemas de IA com ferramentas digitais tradicionais usad
 - **Apps Script**: Automação personalizada com IA
 
 ### Aplicações Práticas
-### Boas Práticas
-- Definir contrato de dados (schema, unidades, formatos)
-- Separar camadas: ingestão, transformação, análise, visualização
-- Registrar versões de prompts/consultas (auditoria)
 ```
 **Prompt para análise de dados:**
 "Analise esta planilha de custos de projeto e identifique:
@@ -43,7 +39,6 @@ Dados: [inserir dados da planilha]"
 - **Automação de tarefas**: Geração automática de desenhos técnicos
 - **Análise de similaridade**: Busca de projetos similares
 
-### Aplicações em Engenharia Mecânica
 ### Riscos e Mitigações
 - Dependência excessiva de heurísticas → validar com simulação/ensaio
 - Geometrias inviáveis de manufaturar → DFM/DFA na malha de otimização
@@ -60,10 +55,6 @@ Dados: [inserir dados da planilha]"
 - **Geração de documentação**: Relatórios automáticos de quantitativos
 
 ### Aplicações em Engenharia Civil
-### Interoperabilidade
-- Padrões IFC e BCF para troca de dados
-- Versionamento de modelos e controle de mudanças
-- Integração com cronogramas (4D) e custos (5D)
 - **Detecção de clashes**: Identificação automática de interferências
 - **Estimativa de custos**: Cálculo automático baseado em modelos 3D
 - **Análise de sustentabilidade**: Avaliação de impacto ambiental
@@ -90,10 +81,6 @@ Dados: [inserir dados da planilha]"
 5. **Documentação final** (Automação IA)
 
 ### Exemplo de Workflow Completo
-### Métricas de Sucesso do Workflow
-- Tempo de ciclo (lead time) por etapa
-- Taxa de retrabalho após integração
-- Qualidade: defeitos detectados por fase
 ```
 **Projeto**: Design de suporte estrutural para equipamento industrial
 

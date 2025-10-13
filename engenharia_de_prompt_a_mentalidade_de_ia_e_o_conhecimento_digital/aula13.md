@@ -9,10 +9,6 @@ Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revol
 > **Model Context Protocol (MCP)** é um protocolo aberto que permite comunicação padronizada entre diferentes modelos de IA e ferramentas externas, criando ecossistemas integrados de agentes especializados.
 
 ### Princípios Fundamentais
-### Padrões e Ecossistema
-- APIs REST/WebSockets, eventos e contratos de mensagens
-- Observabilidade de agentes (logs, métricas, tracing)
-- Segurança: autenticação, autorização e isolamento de contexto
 - **Interoperabilidade**: Diferentes sistemas trabalhando juntos
 - **Especialização**: Cada agente focado em tarefas específicas
 - **Coordenação**: Comunicação estruturada entre agentes
@@ -27,14 +23,15 @@ Introduzir o conceito de MCP e explorar como arquiteturas de agentes podem revol
 - **Interface unificada**: Ponto de acesso único para usuários
 
 ### Tipos de Agentes
-### Desafios de Projeto
-- Coordenação e deadlocks entre agentes
-- Consistência de contexto compartilhado
-- Custo de comunicação e latência
 - **Agentes de tarefa**: Executam funções específicas (cálculo, análise)
 - **Agentes de conhecimento**: Acesso a bases de dados especializadas
 - **Agentes de interface**: Comunicação com usuários e sistemas externos
 - **Agentes de coordenação**: Gerenciam fluxo de trabalho entre agentes
+
+### Desafios de Projeto
+- Coordenação e deadlocks entre agentes
+- Consistência de contexto compartilhado
+- Custo de comunicação e latência
 
 ## 3. Diferença entre Agentes Individuais e Sistemas Multi-Agentes
 
@@ -80,10 +77,6 @@ Entrada do Usuário → Orquestrador MCP → Agentes Especializados → Síntese
 4. Resultado: Projeto completo e validado
 
 ### Caso 2 - Desenvolvimento de Produto
-### Métricas de Sucesso
-- Throughput de tarefas por agente
-- Tempo médio de coordenação (orquestrador)
-- Taxa de erros de integração entre agentes
 **Agentes MCP**:
 - **Agente Mercado**: Analisa tendências e concorrência
 - **Agente Engenharia**: Desenvolve especificações técnicas

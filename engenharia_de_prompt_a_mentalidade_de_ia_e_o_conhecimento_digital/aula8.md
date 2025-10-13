@@ -20,21 +20,6 @@ Analisar casos reais de aplicação de IA em diferentes áreas da engenharia, id
 - Melhoria de 15% na qualidade do fornecimento
 - ROI de 300% no primeiro ano
 
-**Prompt Utilizado**:
-```
-Você é engenheiro especialista em sistemas elétricos. Analise este caso de otimização de redes:
-
-Dados: Rede de distribuição com 500km, 200 subestações, perda atual de 12%.
-Objetivo: Reduzir perdas para 9,7% em 12 meses.
-
-Sugira 3 estratégias usando IA/ML considerando:
-1. Controle de tensão automatizado
-2. Previsão de demanda por região
-3. Otimização de fluxo de potência
-
-Liste benefícios esperados e métricas de sucesso para cada estratégia.
-```
-
 ## 2. Engenharia Civil - Projeto Generativo
 
 ### Caso 2: Projeto de Ponte Otimizada (Autodesk + Arup)
@@ -51,29 +36,6 @@ Liste benefícios esperados e métricas de sucesso para cada estratégia.
 - Projeto concluído em 3 semanas (antes: 6 meses)
 - Redução de 40% no uso de material
 - Melhoria de 25% na eficiência estrutural
-
-**Prompt Utilizado**:
-```
-Você é engenheiro estrutural sênior. Projete uma ponte considerando:
-
-Restrições:
-- Vão de 120m
-- Carga máxima: 50 toneladas
-- Material: aço estrutural
-- Norma: ABNT NBR 8800
-
-Objetivos de otimização:
-1. Minimizar peso total
-2. Maximizar rigidez vertical
-3. Minimizar custo de fabricação
-
-Gere 3 conceitos estruturais diferentes usando princípios de otimização topológica.
-Para cada conceito, forneça:
-- Descrição da geometria
-- Cálculo estimado de peso
-- Análise de pontos críticos
-- Comparação com projeto tradicional
-```
 
 ## 3. Engenharia de Produção - Manutenção Preditiva
 
@@ -92,25 +54,6 @@ Para cada conceito, forneça:
 - Aumento de 20% na vida útil dos equipamentos
 - ROI de 250% no segundo ano
 
-**Prompt Utilizado**:
-```
-Você é engenheiro de manutenção especialista em sistemas preditivos.
-
-Cenário: Fábrica com 200 motores elétricos, cada um com sensores de vibração, temperatura e corrente.
-
-Dados históricos mostram padrão de falha:
-- Vibração > 7mm/s por >30min → falha em 15 dias (80% dos casos)
-- Temperatura > 85°C por >1h → falha em 7 dias (60% dos casos)
-
-Desenvolva estratégia de manutenção preditiva considerando:
-1. Algoritmo de detecção de anomalias
-2. Sistema de threshold dinâmico
-3. Plano de ação para diferentes níveis de risco
-4. Métricas de monitoramento de sucesso
-
-Liste 5 indicadores-chave e metas para cada um.
-```
-
 ## 4. Lições Aprendidas e Oportunidades
 
 ### Lições Comuns
@@ -120,6 +63,10 @@ Liste 5 indicadores-chave e metas para cada um.
 - **ROI mensurável**: Métricas claras justificam investimentos
 
 ### Oportunidades por Área
+- **Engenharia Elétrica**: Controle inteligente de qualidade de energia
+- **Engenharia Civil**: Otimização de projetos usando generative design
+- **Engenharia de Produção**: Digital twins para simulação de processos
+
 ### Riscos Recorrentes
 - Dados enviesados ou incompletos comprometendo modelos
 - Déficit de observabilidade: falta de métricas e logs adequados
@@ -131,9 +78,6 @@ Liste 5 indicadores-chave e metas para cada um.
 - Tempo para valor (lead time até ROI)
 - Disponibilidade do sistema (SLA, SLO)
 - Taxa de adoção pela equipe usuária
-- **Engenharia Elétrica**: Controle inteligente de qualidade de energia
-- **Engenharia Civil**: Otimização de projetos usando generative design
-- **Engenharia de Produção**: Digital twins para simulação de processos
 
 ## 5. Atividade Prática (5 minutos)
 **Análise Comparativa**: Compare os três casos apresentados identificando similaridades nas abordagens e diferenças específicas de cada área da engenharia.

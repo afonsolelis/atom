@@ -22,15 +22,16 @@ Explorar como combinar expertise humana com capacidades de IA para criar sistema
 - **Aprendizado mútuo**: Sistemas que evoluem com interação humana
 
 ### Princípios de Design
+- **Transparência**: Humanos entendem como IA toma decisões
+- **Controle humano**: Humanos mantêm autoridade final
+- **Feedback contínuo**: Comunicação bidirecional constante
+- **Ética integrada**: Valores humanos embutidos no sistema
+
 ### Anti‑padrões de Colaboração
 - Caixa‑preta total: decisões de IA sem explicação acionável
 - Overreliance: delegar julgamento ético à IA
 - Feedback unidirecional: sistema não aprende com humanos
 - Falta de accountability: responsabilidades difusas
-- **Transparência**: Humanos entendem como IA toma decisões
-- **Controle humano**: Humanos mantêm autoridade final
-- **Feedback contínuo**: Comunicação bidirecional constante
-- **Ética integrada**: Valores humanos embutidos no sistema
 
 ## 3. Redes de Conhecimento e Compartilhamento
 
@@ -56,11 +57,6 @@ Explorar como combinar expertise humana com capacidades de IA para criar sistema
 | **Execução** | Adaptabilidade | Consistência | Humanos supervisionam, IA executa |
 
 ### Estratégias de Integração
-### Checklist de Operação Híbrida
-- Definição de papéis e limites de autonomia da IA
-- Trilhas de auditoria e logs de decisões
-- Processo de escalonamento para decisões críticas
-- Política de dados: privacidade, retenção, consentimento
 - **Onboarding progressivo**: Introduzir IA gradualmente na equipe
 - **Treinamento cruzado**: Humanos aprendem capacidades de IA
 - **Feedback estruturado**: Sistemas que melhoram com interação humana
@@ -70,31 +66,13 @@ Explorar como combinar expertise humana com capacidades de IA para criar sistema
 
 ### Caso 1 - Desenvolvimento de Software (GitHub)
 **Contexto**: Equipes de desenvolvimento usando GitHub Copilot
-
-**Colaboração**:
-- Humanos definem requisitos e arquitetura
-- IA sugere implementações de código
-- Humanos revisam e refinam sugestões
-- IA aprende padrões da equipe
-
-**Resultados**:
-- Aumento de 40% na velocidade de desenvolvimento
-- Redução de 30% em bugs introduzidos
-- Melhoria na qualidade do código
+**Colaboração**: Humanos definem requisitos, IA sugere código, humanos revisam
+**Resultados**: 40% aumento na velocidade, 30% redução em bugs
 
 ### Caso 2 - Projeto Arquitetônico (Arquitetos + IA)
 **Contexto**: Escritório de arquitetura usando IA generativa
-
-**Colaboração**:
-- Arquitetos definem conceito e restrições
-- IA gera múltiplas opções de layout
-- Humanos avaliam esteticamente e funcionalmente
-- IA otimiza baseado no feedback
-
-**Resultados**:
-- Exploração de 200+ opções em 2 dias (antes: 2 semanas)
-- Projetos 25% mais eficientes em uso de espaço
-- Maior satisfação dos clientes
+**Colaboração**: Arquitetos definem conceito, IA gera opções, humanos avaliam
+**Resultados**: 200+ opções em 2 dias (antes: 2 semanas), 25% mais eficiente
 
 ## 6. Estratégias para Maximizar Potencial Coletivo
 

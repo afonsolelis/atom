@@ -168,24 +168,6 @@ jobs:
 ```
 
 #### Análise de Segurança
-#### Verificação de Convenções (Conventional Commits)
-```yaml
-name: Conventional Commits
-
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-
-jobs:
-  check-commits:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Verify commit messages
-      uses: webiny/action-conventional-commits@v1.3.0
-```
 ```yaml
 name: Security Scan
 
