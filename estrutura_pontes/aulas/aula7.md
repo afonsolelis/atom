@@ -242,16 +242,3 @@ Condição atendida (✓).
 
 - Comprimento de ancoragem: $l_b = 1{,}0\,\mathrm{m}$
 - Bloco de ancoragem: $0{,}6 \times 0{,}6 \times 0{,}3\,\mathrm{m}$
-
-## Erros comuns (evite)
-
-- Não considerar as perdas de protensão
-- Ignorar a verificação de tensões em serviço
-- Não otimizar a excentricidade do cabo
-- Esquecer a verificação dos limites de tensão
-
-## Encaminhamentos
-
-- Pratique o dimensionamento para diferentes traçados de cabo
-- Analise o efeito das perdas na eficiência da protensão
-- Próxima aula: estudo de caso nacional sobre acidentes estruturais

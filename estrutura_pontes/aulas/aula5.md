@@ -184,7 +184,7 @@ $$\phi = 2{,}0 \text{ (coeficiente de fluência)}$$
 $$a_f = 0{,}035 \times (1 + 2{,}0) = 0{,}105\,\mathrm{m}$$
 
 **Verificação**:
-$$a_f = 0{,}105\,\mathrm{m} < a_{lim} = \frac{25}{250} = 0{,}100\,\mathrm{m}$$ ✗
+Não atendida
 
 **Necessário**: Aumentar a altura da viga ou usar concreto protendido.
 
