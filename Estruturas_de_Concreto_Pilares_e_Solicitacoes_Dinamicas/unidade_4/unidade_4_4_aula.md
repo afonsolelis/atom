@@ -67,7 +67,7 @@ Os **Eurocódigos** oferecem abordagem unificada europeia com ênfase em **confi
 - **EN 1992** (Eurocode 2): Projeto de estruturas de concreto
 - **EN 206**: Concreto - Especificação, desempenho, produção e conformidade
 
-![Comparative structural design approaches worldwide](https://biblus.accasoftware.com/ptb/wp-content/uploads/sites/5/2023/02/Eurocodes-CENTC250-1.jpg.webp)
+![Comparative structural design approaches worldwide](assets/downloads/Eurocodes-CENTC250-1.jpg.png)
 
 #### 4. Certificações Ambientais em Infraestrutura
 
@@ -115,7 +115,7 @@ A **ISO 14040** e **ISO 14044** definem a metodologia ACV como ferramenta cient�
 
 ##### 5.1. Estrutura Metodológica da ACV
 
-![Life Cycle Assessment framework according to ISO 14040](https://upload.wikimedia.org/wikipedia/commons/e/ef/Example_Life_Cycle_Assessment_Stages_diagram.png)
+![Life Cycle Assessment framework according to ISO 14040](assets/downloads/Example_Life_Cycle_Assessment_Stages_diagram.png)
 
 **Fase 1: Objetivo e Escopo**
 Define a unidade funcional e fronteiras do sistema. Para um pavimento:

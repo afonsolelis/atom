@@ -7,7 +7,7 @@
 
 ##### Conteúdo da aula (texto base)
 
-![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.svg)
+![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.png)
 
 
 **1) Panorama normativo (Brasil)**
@@ -35,7 +35,7 @@
 	- Exemplo: CAA II (urbana) → cobrimento nominal típico da ordem de 30 mm (ajustar conforme elemento e norma vigente)
 	- O cobrimento assegura durabilidade (proteção à armadura contra corrosão e fogo)
 
-![Vergalhões (rebar) – armadura longitudinal de pilares](https://upload.wikimedia.org/wikipedia/commons/f/fe/A_bunch_of_rebar.jpg)
+![Vergalhões (rebar) – armadura longitudinal de pilares](assets/downloads/A_bunch_of_rebar.jpg)
 
 
 **3) Armadura longitudinal e transversal – limites usuais**

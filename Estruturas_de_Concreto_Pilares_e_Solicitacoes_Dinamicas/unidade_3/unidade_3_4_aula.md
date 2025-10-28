@@ -10,12 +10,12 @@
 1) Desempenho funcional: serventia e IRI
 - Serventia e IRI (m/km): medição por perfilômetros inerciais; limites e gatilhos de intervenção.
 
-![Evolução do IRI ao longo do tempo (exemplo)](https://upload.wikimedia.org/wikipedia/commons/8/89/IRI_progression.png)
+![Evolução do IRI ao longo do tempo (exemplo)](assets/downloads/IRI_progression.png)
 
 2) Patologias e causas prováveis
 - Trincamento (alligator/longitudinal/transversal/ reflexão), afundamento em trilha (rutting), desagregação (ravelling), exsudação (bleeding), panelas (potholes).
 
-![Exemplo de deterioração do asfalto (trincas/desagregação)](https://upload.wikimedia.org/wikipedia/commons/7/75/Asphalt_deterioration.jpg)
+![Exemplo de deterioração do asfalto (trincas/desagregação)](assets/downloads/Asphalt_deterioration.jpg)
 
 3) Gestão e manutenção: preventiva vs. corretiva
 - Preventiva: selagem de trincas, microrrevestimento, slurry, rejuvenescimento.

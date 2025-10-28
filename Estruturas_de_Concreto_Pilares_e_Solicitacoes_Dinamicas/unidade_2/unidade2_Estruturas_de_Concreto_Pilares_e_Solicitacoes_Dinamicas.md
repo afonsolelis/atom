@@ -57,7 +57,7 @@ Esta disciplina é de extrema relevância para a engenharia civil moderna, pois 
 
 Em engenharia de estruturas, tradicionalmente lidamos com **cargas estáticas**, que são aplicadas de forma lenta e gradual, como o peso próprio da estrutura ou a mobília em um edifício. No entanto, muitas ações importantes são **dinâmicas**: sua magnitude, direção ou ponto de aplicação variam rapidamente no tempo. Exemplos incluem ventos, sismos, explosões e vibrações de máquinas.
 
-![Pêndulo de Newton ilustrando impactos (carga dinâmica)](https://upload.wikimedia.org/wikipedia/commons/d/d3/Newtons_cradle_animation_book_2.gif)
+![Pêndulo de Newton ilustrando impactos (carga dinâmica)](assets/downloads/Newtons_cradle_animation_book_2.png)
 
 A principal diferença é que cargas dinâmicas geram **forças de inércia** (lembre-se da Segunda Lei de Newton, F=ma), que se opõem à aceleração e alteram completamente a resposta da estrutura.
 
@@ -65,7 +65,7 @@ A principal diferença é que cargas dinâmicas geram **forças de inércia** (l
 
 Para entender o comportamento dinâmico, simplificamos uma estrutura complexa em um modelo com um único grau de liberdade (1 GDL).
 
-![Diagrama clássico massa–mola–amortecedor](https://upload.wikimedia.org/wikipedia/commons/3/36/Spring%E2%80%93mass%E2%80%93damper_system.svg)
+![Diagrama clássico massa–mola–amortecedor](assets/downloads/Spring_E2_80_93mass_E2_80_93damper_system.png)
 
 Este modelo é composto por três elementos:
 
@@ -85,7 +85,7 @@ Dois parâmetros fundamentais governam esse movimento:
     ```
 *   **Período Natural (Tn):** É o tempo que a estrutura leva para completar um ciclo de vibração. É o inverso da frequência.
     
-    T_n = \frac{2\pi}{\omega_n} \quad (s)
+    $T_n = \frac{2\pi}{\omega_n} \quad (s)$
     
 O período natural é o "DNA" dinâmico de uma estrutura. Um arranha-céu tem um período longo (vários segundos), enquanto uma estrutura baixa e rígida tem um período curto (frações de segundo).
 
@@ -93,7 +93,7 @@ O período natural é o "DNA" dinâmico de uma estrutura. Um arranha-céu tem um
 
 Na realidade, toda estrutura dissipa energia. O amortecimento faz com que a amplitude da vibração livre diminua com o tempo. A forma como isso acontece depende da **taxa de amortecimento (ζ)**, um valor adimensional que compara o amortecimento real do sistema com o "amortecimento crítico".
 
-![Regimes de amortecimento: subcrítico, crítico e supercrítico](https://upload.wikimedia.org/wikipedia/commons/f/fd/Damping_1.svg)
+![Regimes de amortecimento: subcrítico, crítico e supercrítico](assets/downloads/Damping_1.png)
 
 *   **Amortecimento Subcrítico (ζ < 1):** O sistema oscila, mas com amplitude decrescente até parar. Este é o caso de 99% das estruturas de engenharia civil.
 *   **Amortecimento Crítico (ζ = 1):** O sistema retorna à posição de equilíbrio o mais rápido possível, sem oscilar.
@@ -161,7 +161,7 @@ Definimos ainda:
 - Razão de amortecimento: $\zeta = \tfrac{c}{2\sqrt{kM}}$
 - Razão de frequência: $r = \tfrac{\omega}{\omega_n}$
 
-![Oscilador harmônico sob força senoidal](https://upload.wikimedia.org/wikipedia/commons/2/22/Harmonic_oscillator.svg)
+![Oscilador harmônico sob força senoidal](assets/downloads/Harmonic_oscillator.png)
 
 #### 2. Resposta em regime permanente e fator de amplificação
 A resposta após o transitório é harmônica com a mesma frequência da excitação, mas com amplitude e fase diferentes. A amplitude $U$ do deslocamento em regime permanente é:
@@ -196,7 +196,7 @@ Ideias-chave:
 - Em análise sísmica, trabalhamos com espectros de resposta (deslocamento, velocidade, pseudo-aceleração). O pico de pseudo-aceleração $S_a$ aproxima a força inercial máxima $F\!\_\text{in} \approx M\,S_a$.
 - Para máquinas, isoladores (molas e amortecedores) são projetados para operar com $r>\sqrt{2}$ visando reduzir transmissibilidade de forças ao apoio.
 
-![Esquema de isolação/base excitada](https://upload.wikimedia.org/wikipedia/commons/9/90/Passvib1.svg)
+![Esquema de isolação/base excitada](assets/downloads/Passvib1.png)
 
 #### 5. Vento, desprendimento de vórtices e pilares esbeltos
 Além de rajadas aleatórias, o vento pode induzir vibrações por desprendimento periódico de vórtices. A frequência de shedding $f\_s$ é estimada por $f\_s = \mathrm{St}\,\dfrac{U}{D}$, com $\mathrm{St}\approx 0{,}2$ para seções circulares, $U$ a velocidade do vento e $D$ a dimensão característica. Evite $f\_s \approx f_n$ para não excitar ressonância transversal em pilares e mastros.
@@ -268,7 +268,7 @@ $\mathbf{M}\,\ddot{\mathbf{u}} + \mathbf{C}\,\dot{\mathbf{u}} + \mathbf{K}\,\mat
 
 onde $\mathbf{M}$ é a matriz de massa, $\mathbf{C}$ a matriz de amortecimento, $\mathbf{K}$ a matriz de rigidez e $\mathbf{u}(t)$ o vetor de deslocamentos generalizados.
 
-![Osciladores acoplados (MGL) – diagrama conceitual](https://upload.wikimedia.org/wikipedia/commons/3/3f/Coupled_Harmonic_Oscillator.svg)
+![Osciladores acoplados (MGL) – diagrama conceitual](assets/downloads/Coupled_Harmonic_Oscillator.png)
 
 #### 2. Autovalores e autovetores: modos próprios
 Desprezando o amortecimento para a análise modal clássica ($\mathbf{C}=\mathbf{0}$) e assumindo solução livre $\mathbf{u}(t)=\boldsymbol{\phi}\,e^{i\omega t}$, obtemos o problema de autovalor generalizado:
@@ -282,11 +282,11 @@ Cada autovalor $\omega_n^2$ produz uma frequência natural $\omega_n$ e um autov
 
 Visualmente, formas modais representam “padrões” de vibração. Exemplos ilustrativos:
 
-![Modos de vibração de uma membrana (analogia visual)](https://upload.wikimedia.org/wikipedia/commons/e/e9/Drum_vibration_mode12.gif)
+![Modos de vibração de uma membrana (analogia visual)](assets/downloads/Drum_vibration_mode12.png)
 
-![Forma modal de prato circular com linhas nodais](https://upload.wikimedia.org/wikipedia/commons/c/cc/Mode_Shape_of_a_Round_Plate_with_Node_Lines.jpg)
+![Forma modal de prato circular com linhas nodais](assets/downloads/Mode_Shape_of_a_Round_Plate_with_Node_Lines.jpg)
 
-![Viga em balanço excitada no modo 2 (exemplo) ](https://upload.wikimedia.org/wikipedia/commons/e/e4/Cantilevered_Euler-Bernoulli_beam_excited_at_mode_2_resonance.gif)
+![Viga em balanço excitada no modo 2 (exemplo) ](assets/downloads/Cantilevered_Euler-Bernoulli_beam_excited_at_mode_2_resonance.png)
 
 #### 3. Coordenadas modais, fatores de participação e massas modais
 Expanda a resposta como combinação dos modos: $\mathbf{u}(t) = \sum\limits_{n=1}^N \boldsymbol{\phi}^{(n)} q_n(t)$. Substituindo nas equações e usando ortogonalidade, desacoplamos o sistema em $N$ EDOs escalares para as coordenadas modais $q_n(t)$.
@@ -300,9 +300,9 @@ Após obter $q_n(t)$ (por resposta harmônica, espectral ou histórico temporal)
 
 Referência visual para espectros de resposta (sísmico):
 
-![Exemplo de espectro de resposta – deslocamento/velocidade/aceleração](https://upload.wikimedia.org/wikipedia/commons/e/e7/Eqresp1.png)
+![Exemplo de espectro de resposta – deslocamento/velocidade/aceleração](assets/downloads/Eqresp1.png)
 
-![Curvas espectrais complementares](https://upload.wikimedia.org/wikipedia/commons/e/e2/Eqresp2.png)
+![Curvas espectrais complementares](assets/downloads/Eqresp2.png)
 
 #### 5. Exemplo numérico resumido (2 GDL)
 Considere um sistema de 2 massas ligadas por molas (como no diagrama de osciladores acoplados). Dados $\mathbf{M}=\mathrm{diag}(m,m)$ e $\mathbf{K}=\begin{bmatrix}2k & -k\\-k & k\end{bmatrix}$. Resolva $\det(\mathbf{K}-\omega^2\mathbf{M})=0$ para obter $\omega_1,\omega_2$ e os vetores $\boldsymbol{\phi}^{(1)},\boldsymbol{\phi}^{(2)}$. Em seguida, normalize por massa e calcule $\Gamma_n$ para uma excitação uniforme $\mathbf{p}(t)=[p\;p]^T\sin\omega t$.
@@ -377,7 +377,7 @@ O amortecimento dissipa energia e limita amplitudes, especialmente perto da ress
 
 Visualização de como o amortecimento altera o pico de ressonância:
 
-![Envoltória de ressonância para diferentes ζ](https://upload.wikimedia.org/wikipedia/commons/7/77/Mplwp_resonance_zeta_envelope.svg)
+![Envoltória de ressonância para diferentes ζ](assets/downloads/Mplwp_resonance_zeta_envelope.png)
 
 #### 2. Transmissibilidade e isolação de vibrações
 Transmissibilidade (T) é a razão entre a resposta transmitida ao apoio e a excitação. Para um sistema massa–mola–amortecedor submetido a base vibratória, há três regiões:
@@ -387,16 +387,16 @@ Transmissibilidade (T) é a razão entre a resposta transmitida ao apoio e a exc
 
 Referência visual de esquema de isolamento e curvas típicas:
 
-![Esquema de isolamento e curvas associadas](https://upload.wikimedia.org/wikipedia/commons/9/90/Passvib1.svg)
+![Esquema de isolamento e curvas associadas](assets/downloads/Passvib1.png)
 
-![Ganho do oscilador harmônico (analogia de amplificação)](https://upload.wikimedia.org/wikipedia/commons/8/8f/Harmonic_oscillator_gain.svg)
+![Ganho do oscilador harmônico (analogia de amplificação)](assets/downloads/Harmonic_oscillator_gain.png)
 
 #### 3. Vento em pilares esbeltos e desprendimento de vórtices
 Pilares/mastros esbeltos podem sofrer vibração transversal por desprendimento periódico de vórtices. A frequência característica pode ser estimada por $f_s = \mathrm{St}\,\tfrac{U}{D}$, com $\mathrm{St}\approx 0{,}2$ para cilindros e $U$ a velocidade do vento. Evite coincidência $f_s \approx f_n$.
 
 Animações e imagens didáticas de rua de vórtices:
 
-![Animação de rua de vórtices de Kármán](https://upload.wikimedia.org/wikipedia/commons/b/b4/Vortex-street-animation.gif)
+[Animação de rua de vórtices de Kármán – link](https://upload.wikimedia.org/wikipedia/commons/b/b4/Vortex-street-animation.gif)
 
 #### 4. Estratégias de controle: aumentar ζ, deslocar f_n, desacoplar a excitação
 - Aumentar amortecimento efetivo: dispositivos como TMD (tuned mass damper) e participação de elementos não estruturais.
@@ -405,9 +405,9 @@ Animações e imagens didáticas de rua de vórtices:
 
 Exemplos visuais de soluções:
 
-![Tuned Mass Damper do Taipei 101](https://upload.wikimedia.org/wikipedia/commons/1/15/Taipei_101_Tuned_Mass_Damper.png)
+[Tuned Mass Damper do Taipei 101 – link](https://upload.wikimedia.org/wikipedia/commons/1/15/Taipei_101_Tuned_Mass_Damper.png)
 
-![Isoladores de base instalados (exemplo real)](https://upload.wikimedia.org/wikipedia/commons/d/de/Base_isolators_under_the_Utah_State_Capitol.jpg)
+[Isoladores de base instalados (exemplo real) – link](https://upload.wikimedia.org/wikipedia/commons/d/de/Base_isolators_under_the_Utah_State_Capitol.jpg)
 
 #### 5. Diretrizes práticas para pilares de concreto
 - Verificar esbeltez e frequências naturais (modo transversal predominante) e comparar com faixas de vento dominante e atividades internas.

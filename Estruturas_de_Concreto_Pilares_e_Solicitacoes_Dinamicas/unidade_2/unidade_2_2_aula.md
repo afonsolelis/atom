@@ -12,7 +12,7 @@ Definimos ainda:
 - Razão de amortecimento: $\zeta = \tfrac{c}{2\sqrt{kM}}$
 - Razão de frequência: $r = \tfrac{\omega}{\omega_n}$
 
-![Oscilador harmônico sob força senoidal](https://upload.wikimedia.org/wikipedia/commons/2/22/Harmonic_oscillator.svg)
+![Oscilador harmônico sob força senoidal](assets/downloads/Harmonic_oscillator.png)
 
 #### 2. Resposta em regime permanente e fator de amplificação
 A resposta após o transitório é harmônica com a mesma frequência da excitação, mas com amplitude e fase diferentes. A amplitude $U$ do deslocamento em regime permanente é:
@@ -47,7 +47,7 @@ Ideias-chave:
 - Em análise sísmica, trabalhamos com espectros de resposta (deslocamento, velocidade, pseudo-aceleração). O pico de pseudo-aceleração $S_a$ aproxima a força inercial máxima $F\!\_\text{in} \approx M\,S_a$.
 - Para máquinas, isoladores (molas e amortecedores) são projetados para operar com $r>\sqrt{2}$ visando reduzir transmissibilidade de forças ao apoio.
 
-![Esquema de isolação/base excitada](https://upload.wikimedia.org/wikipedia/commons/9/90/Passvib1.svg)
+![Esquema de isolação/base excitada](assets/downloads/Passvib1.png)
 
 #### 5. Vento, desprendimento de vórtices e pilares esbeltos
 Além de rajadas aleatórias, o vento pode induzir vibrações por desprendimento periódico de vórtices. A frequência de shedding $f\_s$ é estimada por $f\_s = \mathrm{St}\,\dfrac{U}{D}$, com $\mathrm{St}\approx 0{,}2$ para seções circulares, $U$ a velocidade do vento e $D$ a dimensão característica. Evite $f\_s \approx f_n$ para não excitar ressonância transversal em pilares e mastros.

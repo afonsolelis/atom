@@ -7,7 +7,7 @@
 
 ##### Conteúdo da aula (texto base)
 
-![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.svg)
+![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.png)
 
 1) Introdução ao dimensionamento de pilares
 - O dimensionamento de pilares submetidos a flexo-compressão combina esforços normais de compressão e momentos fletores em uma ou duas direções. O processo envolve verificação da capacidade resistente da seção considerando as interações entre os materiais (concreto e aço) e os esforços solicitantes.
@@ -62,7 +62,7 @@ $$
 - Considerar a interação entre os esforços e verificar se as armaduras mínimas e máximas normativas são obedecidas.
 - Adotar cobrimentos adequados e espaçamentos entre barras que permitam a concretagem adequada e a transferência de esforços entre materiais.
 
-![Armação de pilar (detalhe de armadura longitudinal e estribos)](https://upload.wikimedia.org/wikipedia/commons/b/bb/Arma%C3%A7%C3%A3o_de_pilar_-_Mutir%C3%A3o_do_Projeto_Arquiteto_de_Familia.JPG)
+![Armação de pilar (detalhe de armadura longitudinal e estribos)](assets/downloads/Arma_C3_A7_C3_A3o_de_pilar_-_Mutir_C3_A3o_do_Projeto_Arquiteto_de_Familia.JPG)
 Fonte: Wikimedia Commons – Armação de pilar - Mutirão do Projeto Arquiteto de Familia
 
 ##### Atividade prática

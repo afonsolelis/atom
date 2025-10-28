@@ -32,7 +32,7 @@ $
 4) Exemplo orientado (esboço)
 - Dados: N (cargas equivalentes), MR do subleito, $E$ e $\nu$ das camadas (revestimento/base/sub-base), temperatura de projeto. Obter $\varepsilon_t$ e $\varepsilon_z$ e verificar $N_f$ e $N_d$. Ajustar espessuras até atender os critérios.
 
-![Execução de pavimento asfáltico (ilustrativo)](https://upload.wikimedia.org/wikipedia/commons/7/76/AF-asphalt-laying-machine.jpg)
+![Execução de pavimento asfáltico (ilustrativo)](assets/downloads/AF-asphalt-laying-machine.jpg)
 
 ##### Atividade prática
 - Modele um pavimento flexível (revestimento/base/sub‑base) em software multicamadas, obtenha $\varepsilon_t$ e $\varepsilon_z$ e verifique os critérios de $N_f$ e $N_d$. Ajuste espessuras até atender simultaneamente.

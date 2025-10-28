@@ -24,7 +24,7 @@ A modelagem computacional revolucionou o projeto estrutural e de pavimentos, per
     - Detalham armaduras e verificam requisitos normativos.
 
 #### Exemplo de interface SAP2000
-![SAP2000 Interface](https://sipilpedia.com/wp-content/uploads/2017/02/sap2000-seismic-analysis.png)
+![SAP2000 Interface](assets/downloads/sap2000-seismic-analysis.png)
 
 ---
 
@@ -37,7 +37,7 @@ Softwares como **APSDS** e **EverFE** simulam o comportamento de placas sobre ba
 - Permitem comparação entre métodos clássicos (Winkler) e modelos multicamadas (FEM).
 
 #### Representação esquemática de pavimento multicamadas
-![Pavimento multicamadas](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiX4fkiV6u_NISguJG9IKj_5B3oIdCvwPSBthltU8NsFKXWYsB_DIPhzFo36E6A_oU2QGaQLQ4g7kV86amD5pV1363qplhCbZDhm8FLigPVAN_ztPnABt1ybf-lzBQbg7R7MxDWCmZ-Kx8/s320/Camadas_estrutura_do_pavimento.jpg)
+![Pavimento multicamadas](assets/downloads/Camadas_estrutura_do_pavimento.jpg)
 
 ---
 
@@ -48,10 +48,10 @@ O comportamento de lajes e pavimentos depende fortemente da interação com o so
 - **Modelo FEM contínuo**: simula solo e estrutura como sistema integrado, permitindo análise de recalques diferenciais, contato, juntas e molas de base.
 
 #### Modelo de Winkler (esquemático)
-![Modelo Winkler](https://www.researchgate.net/publication/301552723/figure/fig1/AS:353361728688129@1461259410003/Figura-1-Modelo-de-Winkler-para-representacao-do-solo.png)
+[Modelo Winkler – link](https://www.researchgate.net/publication/301552723/figure/fig1/AS:353361728688129@1461259410003/Figura-1-Modelo-de-Winkler-para-representacao-do-solo.png)
 
 #### Modelo FEM (malha de elementos)
-![Malha FEM](https://kotengenharia.com.br/wp-content/uploads/2020/11/malha-de-modelo-FEM-metodo-dos-elementos-finitos-1.jpg)
+![Malha FEM](assets/downloads/malha-de-modelo-FEM-metodo-dos-elementos-finitos-1.jpg)
 
 ---
 

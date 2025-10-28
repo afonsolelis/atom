@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="254.44" width="724.16" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <defs>
+  <filter id="a" style="color-interpolation-filters:sRGB">
+   <feGaussianBlur stdDeviation="4.4285087"/>
+  </filter>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <cc:license rdf:resource=""/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(15.092,27.224)" stroke="#000" stroke-width="1px" fill="none">
+  <path d="m74.554 50.714v48.929"/>
+  <path d="m74.554 106.79v44.643"/>
+  <path d="m114.91 51.071v32.857l7.1429 7.8571h-14.286l14.643 7.5h-15.357l15 8.5714h-14.643l15.357 7.8572h-8.2143v35"/>
+  <path d="m64.643 100h16.429"/>
+  <path d="m56.786 99.286v8.2143h31.786v-8.2143"/>
+ </g>
+ <g transform="translate(15.092,27.224)">
+  <text font-size="20px" style="word-spacing:0px;letter-spacing:0px" line-height="125%" xml:space="preserve" y="37.870514" x="143.94675" font-family="Sans" fill="#000000"><tspan y="37.870514" x="143.94675" font-size="15px">= Payload</tspan></text>
+  <rect height="42.426" width="88.893" stroke="#666" stroke-linecap="round" y="11.101" x="52.528" stroke-width="1.9" fill="#d6f6fe"/>
+  <text font-size="20px" line-height="125%" style="word-spacing:0px;letter-spacing:0px" y="39.89082" x="96.608429" font-family="Sans" xml:space="preserve" fill="#000000"><tspan y="39.89082" x="96.608429" font-size="15px" style="text-anchor:middle;text-align:center">Mass</tspan></text>
+  <rect opacity=".5" height="113.14" filter="url(#a)" width="440.43" stroke="#000" y="50.437" x="236.55"/>
+  <rect height="113.14" width="440.43" y="52.437" x="234.55" fill="#f4eed7"/>
+  <rect height="43.437" width="161.62" stroke="#666" stroke-linecap="round" y="146.46" x="16.162" stroke-width="1.9" fill="#d6f6fe"/>
+ </g>
+ <g font-family="Sans" transform="translate(15.092,27.224)">
+  <g font-size="20px">
+   <text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="173.89082" x="96.608429" xml:space="preserve"><tspan y="173.89082" x="96.608429" font-size="15px" style="text-anchor:middle;text-align:center">Vibration Source</tspan></text>
+   <text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="86.337532" x="503.24115" xml:space="preserve"><tspan y="86.337532" x="503.24115" font-size="15px">damping element +</tspan></text>
+   <text style="word-spacing:0px;letter-spacing:0px;text-anchor:end;text-align:end" line-height="125%" y="112.33753" x="465.40179" xml:space="preserve"><tspan y="112.33753" x="470.17719" font-size="15px" style="text-anchor:end;text-align:end">Passive Vibration Isolation = </tspan></text>
+  </g>
+  <text font-size="98.375px" transform="scale(.73503 1.3605)" line-height="125%" style="word-spacing:0px;letter-spacing:0px;text-anchor:end;text-align:end" xml:space="preserve" y="101.73773" x="661.41235"><tspan y="101.73773" x="661.41235" font-size="73.781px" style="text-anchor:middle;text-align:center">{</tspan></text>
+  <text font-size="15px" line-height="125%" style="word-spacing:0px;letter-spacing:0px" y="93.577385" x="503.24115" xml:space="preserve"><tspan y="93.577385" x="503.24115"/><tspan y="112.32738" x="503.24115">spring element +</tspan></text>
+  <text font-size="20px" style="word-spacing:0px;letter-spacing:0px" line-height="125%" xml:space="preserve" y="138.31723" x="503.24115"><tspan y="138.31723" x="503.24115" font-size="15px">mass of payload</tspan></text>
+ </g>
+</svg>

@@ -36,7 +36,7 @@ $
 4) Exemplo orientado (esboço)
 - Dados: tráfego equivalente (eixos), $k$ do subleito, $E$, $\nu$ e módulo de ruptura do concreto, condições ambientais e de base. Selecionar $h$, definir juntas (espaçamento/largura), especificar barras de transferência/costura e checar tensões críticas com margens de fadiga.
 
-![Pavimento de concreto em serviço (exemplo)](https://upload.wikimedia.org/wikipedia/commons/d/d4/2014-08-29_15_31_39_View_southeast_along_Stuyvesant_Avenue_in_Ewing%2C_New_Jersey%2C_with_concrete_pavement_likely_dating_to_the_1950s.JPG)
+![Pavimento de concreto em serviço (exemplo)](assets/downloads/2014-08-29_15_31_39_View_southeast_along_Stuyvesant_Avenue_in_Ewing_2C_New_Jersey_2C_with_concrete_pavement_likely_dating_to_the_1950s.JPG)
 
 ##### Atividade prática
 - Dimensione um pavimento rígido para tráfego pesado (via industrial):

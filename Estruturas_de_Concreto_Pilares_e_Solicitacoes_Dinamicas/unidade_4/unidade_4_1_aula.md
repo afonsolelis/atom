@@ -44,7 +44,7 @@ Esta aula aborda os principais desafios de **compatibilização entre pilares, f
 
 ##### 3.1. Sequência de Transmissão de Esforços
 
-![Esquema de transmissão de cargas em estruturas industriais](https://i.pinimg.com/736x/71/15/a7/7115a79401d856648e65e79fad4d92a9.jpg)
+![Esquema de transmissão de cargas em estruturas industriais](assets/downloads/7115a79401d856648e65e79fad4d92a9.jpg)
 
 **Fluxo Principal:**
 
@@ -93,7 +93,7 @@ Esta aula aborda os principais desafios de **compatibilização entre pilares, f
 - **Espaçamento:** 24 a 30 vezes a espessura da laje
 - **Execução:** Serra diamantada nas primeiras 24h
 
-![Junta serrada (controle) em concreto](https://upload.wikimedia.org/wikipedia/commons/9/95/Saw_Cut_Control_Joint_in_Concrete.jpg)
+![Junta serrada (controle) em concreto](assets/downloads/Saw_Cut_Control_Joint_in_Concrete.jpg)
 
 **Juntas de Dilatação:**
 

@@ -16,7 +16,7 @@
 - Limites de Atterberg (LL, LP) e índice de plasticidade $IP = LL - LP$.
 - Classificação SUCS/HRB e implicações em comportamento (permeabilidade, compactação, retração).
 
-![Triângulo textural do solo](https://upload.wikimedia.org/wikipedia/commons/6/65/SoilTextureTriangle.jpg)
+![Triângulo textural do solo](assets/downloads/SoilTextureTriangle.jpg)
 
 3) Ensaios usuais de laboratório
 - Umidade (estufa); Massa específica dos grãos (picnômetro); Granulometria (peneiras e hidrómetro); Atterberg (Casagrande/cone); Compactação (Proctor).

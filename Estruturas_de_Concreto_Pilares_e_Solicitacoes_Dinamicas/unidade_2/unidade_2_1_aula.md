@@ -4,7 +4,7 @@
 
 Em engenharia de estruturas, tradicionalmente lidamos com **cargas estáticas**, que são aplicadas de forma lenta e gradual, como o peso próprio da estrutura ou a mobília em um edifício. No entanto, muitas ações importantes são **dinâmicas**: sua magnitude, direção ou ponto de aplicação variam rapidamente no tempo. Exemplos incluem ventos, sismos, explosões e vibrações de máquinas.
 
-![Pêndulo de Newton ilustrando impactos (carga dinâmica)](https://upload.wikimedia.org/wikipedia/commons/d/d3/Newtons_cradle_animation_book_2.gif)
+![Pêndulo de Newton ilustrando impactos (carga dinâmica)](assets/downloads/Newtons_cradle_animation_book_2.png)
 
 A principal diferença é que cargas dinâmicas geram **forças de inércia** (lembre-se da Segunda Lei de Newton, F=ma), que se opõem à aceleração e alteram completamente a resposta da estrutura.
 
@@ -12,7 +12,7 @@ A principal diferença é que cargas dinâmicas geram **forças de inércia** (l
 
 Para entender o comportamento dinâmico, simplificamos uma estrutura complexa em um modelo com um único grau de liberdade (1 GDL).
 
-![Diagrama clássico massa–mola–amortecedor](https://upload.wikimedia.org/wikipedia/commons/3/36/Spring%E2%80%93mass%E2%80%93damper_system.svg)
+![Diagrama clássico massa–mola–amortecedor](assets/downloads/Spring_E2_80_93mass_E2_80_93damper_system.png)
 
 Este modelo é composto por três elementos:
 
@@ -43,7 +43,7 @@ O período natural é o "DNA" dinâmico de uma estrutura. Um arranha-céu tem um
 
 Na realidade, toda estrutura dissipa energia. O amortecimento faz com que a amplitude da vibração livre diminua com o tempo. A forma como isso acontece depende da **taxa de amortecimento (ζ)**, um valor adimensional que compara o amortecimento real do sistema com o "amortecimento crítico".
 
-![Regimes de amortecimento: subcrítico, crítico e supercrítico](https://upload.wikimedia.org/wikipedia/commons/f/fd/Damping_1.svg)
+![Regimes de amortecimento: subcrítico, crítico e supercrítico](assets/downloads/Damping_1.png)
 
 *   **Amortecimento Subcrítico (ζ < 1):** O sistema oscila, mas com amplitude decrescente até parar. Este é o caso de 99% das estruturas de engenharia civil.
 *   **Amortecimento Crítico (ζ = 1):** O sistema retorna à posição de equilíbrio o mais rápido possível, sem oscilar.

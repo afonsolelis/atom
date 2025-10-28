@@ -7,7 +7,7 @@
 
 ##### Conteúdo da aula (texto base)
 
-![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.svg)
+![Esquema de pilar e caminho de cargas (local)](assets/pilar_esquema.png)
 
 
 **1) Instabilidade: conceitos fundamentais**
@@ -47,7 +47,7 @@
   - $l_e = k_l \cdot l$
   - $k_l$ é estimado por modelos/norma a partir da rigidez relativa de barras e nós
 
-![Ensaio de compressão em concreto – referência ao comportamento sob compressão (pilares)](https://upload.wikimedia.org/wikipedia/commons/2/29/Concrete_Compression_Testing.jpg)
+![Ensaio de compressão em concreto – referência ao comportamento sob compressão (pilares)](assets/downloads/Concrete_Compression_Testing.jpg)
 
 
 **4) Efeitos de 2ª ordem: $P-\Delta$ e $P-\delta$**

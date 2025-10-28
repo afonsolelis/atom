@@ -7,7 +7,7 @@ $\mathbf{M}\,\ddot{\mathbf{u}} + \mathbf{C}\,\dot{\mathbf{u}} + \mathbf{K}\,\mat
 
 onde $\mathbf{M}$ é a matriz de massa, $\mathbf{C}$ a matriz de amortecimento, $\mathbf{K}$ a matriz de rigidez e $\mathbf{u}(t)$ o vetor de deslocamentos generalizados.
 
-![Osciladores acoplados (MGL) – diagrama conceitual](https://upload.wikimedia.org/wikipedia/commons/3/3f/Coupled_Harmonic_Oscillator.svg)
+![Osciladores acoplados (MGL) – diagrama conceitual](assets/downloads/Coupled_Harmonic_Oscillator.png)
 
 #### 2. Autovalores e autovetores: modos próprios
 Desprezando o amortecimento para a análise modal clássica ($\mathbf{C}=\mathbf{0}$) e assumindo solução livre $\mathbf{u}(t)=\boldsymbol{\phi}\,e^{i\omega t}$, obtemos o problema de autovalor generalizado:
@@ -21,11 +21,11 @@ Cada autovalor $\omega_n^2$ produz uma frequência natural $\omega_n$ e um autov
 
 Visualmente, formas modais representam “padrões” de vibração. Exemplos ilustrativos:
 
-![Modos de vibração de uma membrana (analogia visual)](https://upload.wikimedia.org/wikipedia/commons/e/e9/Drum_vibration_mode12.gif)
+![Modos de vibração de uma membrana (analogia visual)](assets/downloads/Drum_vibration_mode12.png)
 
-![Forma modal de prato circular com linhas nodais](https://upload.wikimedia.org/wikipedia/commons/c/cc/Mode_Shape_of_a_Round_Plate_with_Node_Lines.jpg)
+![Forma modal de prato circular com linhas nodais](assets/downloads/Mode_Shape_of_a_Round_Plate_with_Node_Lines.jpg)
 
-![Viga em balanço excitada no modo 2 (exemplo) ](https://upload.wikimedia.org/wikipedia/commons/e/e4/Cantilevered_Euler-Bernoulli_beam_excited_at_mode_2_resonance.gif)
+![Viga em balanço excitada no modo 2 (exemplo) ](assets/downloads/Cantilevered_Euler-Bernoulli_beam_excited_at_mode_2_resonance.png)
 
 #### 3. Coordenadas modais, fatores de participação e massas modais
 Expanda a resposta como combinação dos modos: $\mathbf{u}(t) = \sum\limits_{n=1}^N \boldsymbol{\phi}^{(n)} q_n(t)$. Substituindo nas equações e usando ortogonalidade, desacoplamos o sistema em $N$ EDOs escalares para as coordenadas modais $q_n(t)$.
@@ -39,9 +39,9 @@ Após obter $q_n(t)$ (por resposta harmônica, espectral ou histórico temporal)
 
 Referência visual para espectros de resposta (sísmico):
 
-![Exemplo de espectro de resposta – deslocamento/velocidade/aceleração](https://upload.wikimedia.org/wikipedia/commons/e/e7/Eqresp1.png)
+![Exemplo de espectro de resposta – deslocamento/velocidade/aceleração](assets/downloads/Eqresp1.png)
 
-![Curvas espectrais complementares](https://upload.wikimedia.org/wikipedia/commons/e/e2/Eqresp2.png)
+![Curvas espectrais complementares](assets/downloads/Eqresp2.png)
 
 #### 5. Exemplo numérico resumido (2 GDL)
 Considere um sistema de 2 massas ligadas por molas (como no diagrama de osciladores acoplados). Dados $\mathbf{M}=\mathrm{diag}(m,m)$ e $\mathbf{K}=\begin{bmatrix}2k & -k\\-k & k\end{bmatrix}$. Resolva $\det(\mathbf{K}-\omega^2\mathbf{M})=0$ para obter $\omega_1,\omega_2$ e os vetores $\boldsymbol{\phi}^{(1)},\boldsymbol{\phi}^{(2)}$. Em seguida, normalize por massa e calcule $\Gamma_n$ para uma excitação uniforme $\mathbf{p}(t)=[p\;p]^T\sin\omega t$.

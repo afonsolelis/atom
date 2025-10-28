@@ -66,7 +66,7 @@ Caracterizar adequadamente os materiais geotécnicos é a base de qualquer proje
 - Limites de Atterberg (LL, LP) e índice de plasticidade $IP = LL - LP$.
 - Classificação SUCS/HRB e implicações em comportamento (permeabilidade, compactação, retração).
 
-![Triângulo textural do solo](https://upload.wikimedia.org/wikipedia/commons/6/65/SoilTextureTriangle.jpg)
+![Triângulo textural do solo](assets/downloads/SoilTextureTriangle.jpg)
 
 3) Ensaios usuais de laboratório
 - Umidade (estufa); Massa específica dos grãos (picnômetro); Granulometria (peneiras e hidrómetro); Atterberg (Casagrande/cone); Compactação (Proctor).
@@ -162,7 +162,7 @@ $
 4) Exemplo orientado (esboço)
 - Dados: tráfego equivalente (eixos), $k$ do subleito, $E$, $\nu$ e módulo de ruptura do concreto, condições ambientais e de base. Selecionar $h$, definir juntas (espaçamento/largura), especificar barras de transferência/costura e checar tensões críticas com margens de fadiga.
 
-![Pavimento de concreto em serviço (exemplo)](https://upload.wikimedia.org/wikipedia/commons/d/d4/2014-08-29_15_31_39_View_southeast_along_Stuyvesant_Avenue_in_Ewing%2C_New_Jersey%2C_with_concrete_pavement_likely_dating_to_the_1950s.JPG)
+![Pavimento de concreto em serviço (exemplo)](assets/downloads/2014-08-29_15_31_39_View_southeast_along_Stuyvesant_Avenue_in_Ewing_2C_New_Jersey_2C_with_concrete_pavement_likely_dating_to_the_1950s.JPG)
 
 ##### Atividade prática
 - Dimensione um pavimento rígido para tráfego pesado (via industrial):
@@ -251,7 +251,7 @@ Comparar $N_{\text{aplic}}$ com $N_d$ e atender limite de trilha de roda especif
 4) Exemplo orientado (esboço)
 - Dados: N (cargas equivalentes), MR do subleito, $E$ e $\nu$ das camadas (revestimento/base/sub-base), temperatura de projeto. Obtém-se $\varepsilon_t$ (fundo do revestimento) e $\varepsilon_z$ (topo do subleito) por software multicamadas e verifica-se $N_f$ e $N_d$. Ajustar espessuras até atendimento simultâneo dos critérios.
 
-![Execução de pavimento asfáltico (ilustrativo)](https://upload.wikimedia.org/wikipedia/commons/7/76/AF-asphalt-laying-machine.jpg)
+![Execução de pavimento asfáltico (ilustrativo)](assets/downloads/AF-asphalt-laying-machine.jpg)
 
 ##### Atividade prática
 - Monte um caso de dimensionamento mecanístico–empírico: defina camadas (espessura e $E$), obtenha $\varepsilon_t$ e $\varepsilon_z$ em software multicamadas e verifique os critérios de fadiga ($N_f$) e deformação permanente ($N_d$). Ajuste espessuras até cumprir ambos com folga mínima.
@@ -310,14 +310,14 @@ Comparar $N_{\text{aplic}}$ com $N_d$ e atender limite de trilha de roda especif
 - Serventia: qualidade de rolamento percebida pelo usuário; historicamente PSI/PSR, atualmente IRI como métrica padronizada (m/km).
 - IRI (International Roughness Index): obtido de perfis longitudinais por perfilômetros inerciais; faixas típicas (m/km) para classificação de conforto e intervenção (menor é melhor).
 
-![Evolução do IRI ao longo do tempo (exemplo)](https://upload.wikimedia.org/wikipedia/commons/8/89/IRI_progression.png)
+![Evolução do IRI ao longo do tempo (exemplo)](assets/downloads/IRI_progression.png)
 
 2) Patologias e causas prováveis
 - Trincamento: em malha (alligator/crocodile), longitudinal, transversal, reflexão. Causas: fadiga por tração, retração térmica, reflexão de juntas.
 - Afundamento em trilha (rutting): deformação permanente em camadas ou subleito; associado a alta temperatura/solicitação e suporte insuficiente.
 - Desagregação (ravelling), exsudação (bleeding), panelas (potholes): perda de finos/ligante, selagem deficiente, infiltração e tráfego pesado.
 
-![Exemplo de deterioração do asfalto (trincas/desagregação)](https://upload.wikimedia.org/wikipedia/commons/7/75/Asphalt_deterioration.jpg)
+![Exemplo de deterioração do asfalto (trincas/desagregação)](assets/downloads/Asphalt_deterioration.jpg)
 
 3) Gestão e manutenção: preventiva vs. corretiva
 - Preventiva: intervenções em bom/regular estado (selagem de trincas, microrrevestimento, slurry, rejuvenescimento) para desacelerar deterioração e postergar reabilitações.

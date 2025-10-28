@@ -71,7 +71,7 @@ Esta unidade final consolida a visão do engenheiro de estruturas moderno, que n
 - Juntas serradas (serrilhadas/serradas) para controle de fissuração do piso; juntas de dilatação para acomodar variações térmicas, retração e movimentos estruturais.
 - Diretrizes: posicionamento das juntas em relação a pilares e fundações; continuidade funcional (selantes, cargas de roda), transferência de carga (pinos/dowels quando aplicável), e selagem contra infiltrações.
 
-![Junta serrada (controle) em concreto](https://upload.wikimedia.org/wikipedia/commons/9/95/Saw_Cut_Control_Joint_in_Concrete.jpg)
+![Junta serrada (controle) em concreto](assets/downloads/Saw_Cut_Control_Joint_in_Concrete.jpg)
 
 4) Interface pilar–piso: base, chumbadores e detalhes
 - Bases metálicas com chumbadores: prever folgas/movimentos sem impor esforços indesejados ao piso; prever juntas de isolamento perimetrais no piso junto a pilares/revestimentos.
@@ -146,7 +146,7 @@ Substituindo: $\ell = \left( \dfrac{30\times 10^9\,(0{,}2)^3}{12\,\cdot 40\times
 - Entradas críticas: módulos (função de temperatura/frequência), espessuras, pressão de contato; MR do subleito; confiabilidade.
 - Saídas: mapas de tensões/deformações, fatores de dano ($N_f$, $N_d$), recomendações de espessura.
 
-![Triangulação de elementos finitos (malha 2D)](https://upload.wikimedia.org/wikipedia/commons/d/d1/Finite_element_triangulation.svg)
+[Triangulação de elementos finitos (malha 2D) – link](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Finite_element_triangulation.svg/640px-Finite_element_triangulation.svg.png)
 
 3) Interação solo–estrutura/pavimento (conceitos)
 - Abordagens: (a) fundação como molas (Winkler), (b) meios contínuos (FEM), (c) subleito não linear; quando cada uma é apropriada.
@@ -213,7 +213,7 @@ Substituindo: $\ell = \left( \dfrac{30\times 10^9\,(0{,}2)^3}{12\,\cdot 40\times
 - RCD (resíduos de construção e demolição): uso como agregado reciclado em concreto não estrutural/bases; controlar contaminações, absorção e módulo.
 - Agregados alternativos: escórias siderúrgicas, resíduos industriais inertes; atenção a expansão/potencial de reatividade.
 
-![Triangulação FEM (ilustrativo de análise) – pode apoiar estudos de dosagem/estresse](https://upload.wikimedia.org/wikipedia/commons/d/d1/Finite_element_triangulation.svg)
+![Triangulação FEM (ilustrativo de análise) – pode apoiar estudos de dosagem/estresse](assets/downloads/Finite_element_triangulation.png)
 
 3) Pegada de carbono: concreto vs. asfalto
 - Concreto: emissões concentradas no clínquer; ganhos com substituições (CV, GGBFS, calcário moído), cura otimizada, cimentícios LC3.
@@ -281,7 +281,7 @@ Substituindo: $\ell = \left( \dfrac{30\times 10^9\,(0{,}2)^3}{12\,\cdot 40\times
 - Fases: objetivo/escopo, inventário (LCI), avaliação de impactos (LCIA), interpretação; fronteiras do sistema (do berço ao túmulo/ao portão/uso).
 - Indicadores: GWP (CO2e), energia incorporada, acidificação, eutrofização; aplicação em comparativos concreto vs. asfalto e cenários de manutenção.
 
-![Fases da Avaliação de Ciclo de Vida (LCA)](https://upload.wikimedia.org/wikipedia/commons/e/ef/Example_Life_Cycle_Assessment_Stages_diagram.png)
+![Fases da Avaliação de Ciclo de Vida (LCA)](assets/downloads/Example_Life_Cycle_Assessment_Stages_diagram.png)
 
 4) Exemplo orientado (estrutura+pavimento)
 - Definir cenário A (concreto com CV/GGBFS) e B (asfalto com WMA+RAP). Em alto nível, estimar diferenças de GWP para 1 km de via (produção+execução) e discutir como a frequência de manutenção muda o resultado no ciclo de vida.
