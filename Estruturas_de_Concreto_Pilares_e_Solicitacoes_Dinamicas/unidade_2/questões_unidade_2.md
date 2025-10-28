@@ -1,11 +1,11 @@
 ## Questões
 
 1. Para um sistema massa–mola sem amortecimento, a frequência natural é dada por:
-a. (ωn = √(M/k))
-*b. (ωn = √(k/M))
-c. (ωn = k/M)
-d. (ωn = 2π√(k/M))
-e. (ωn = (1/2π)√(k/M))
+a. $\omega_n = \sqrt{M/k}$
+*b. $\omega_n = \sqrt{k/M}$
+c. $\omega_n = k/M$
+d. $\omega_n = 2\pi\sqrt{k/M}$
+e. $\omega_n = (1/2\pi)\sqrt{k/M}$
 
 2. Em estruturas de concreto, um valor típico da razão de amortecimento equivalente (ζ) para vibrações pequenas é:
 a. 0–1%
@@ -15,11 +15,11 @@ c. 15–25%
 e. 30–40%
 
 3. O período natural de vibração de um SDOF é:
-a. (Tn = ωn/2π)
-b. (Tn = 2π·ωn)
-*c. (Tn = 2π/ωn)
-d. (Tn = √(k/M))
-e. (Tn = √(M/k))
+a. $T_n = \omega_n/2\pi$
+b. $T_n = 2\pi\cdot\omega_n$
+*c. $T_n = 2\pi/\omega_n$
+d. $T_n = \sqrt{k/M}$
+e. $T_n = \sqrt{M/k}$
 
 4. Assinale a alternativa correta sobre o efeito do aumento de massa M em um SDOF, mantendo k constante:
 a. Aumenta ωn e diminui Tn.
@@ -37,47 +37,47 @@ e. Frequência igual a zero.
 
 
 6. O fator de amplificação do deslocamento em regime permanente, para força senoidal, cresce significativamente quando:
-*a. (r = ω/ωn ≈ 1) e ζ é pequeno.
-b. (r << 1) e ζ é grande.
-c. (r >> 1) e ζ é grande.
-d. (r = 0) e ζ=0.
-e. (r = 2) e ζ=0,5.
+*a. $r = \omega/\omega_n \approx 1$ e $\zeta$ é pequeno.
+b. $r \ll 1$ e $\zeta$ é grande.
+c. $r \gg 1$ e $\zeta$ é grande.
+d. $r = 0$ e $\zeta=0$.
+e. $r = 2$ e $\zeta=0{,}5$.
 
 7. Em ressonância com amortecimento pequeno, a amplitude relativa ao deslocamento estático é aproximadamente:
-a. (1/ζ)
-b. (1/4ζ²)
-*c. (1/2ζ)
-d. (2ζ)
-e. (ζ)
+a. $1/\zeta$
+b. $1/4\zeta^2$
+*c. $1/2\zeta$
+d. $2\zeta$
+e. $\zeta$
 
-8. No problema de base excitada, a equação de movimento para o deslocamento relativo ur é:
-a. (Mü_r + cũ_r + k·ur = p0·sen ωt)
-*b. (Mü_r + cũ_r + k·ur = −Mÿ(t))
-c. (Mü_r = k·ur + c·ũ_r)
-d. (k·ur = Mÿ(t))
-e. (Mü_r + k·ur = 0)
+8. No problema de base excitada, a equação de movimento para o deslocamento relativo $u_r$ é:
+a. $M\ddot{u}_r + c\dot{u}_r + k\cdot u_r = p_0\cdot\sin \omega t$
+*b. $M\ddot{u}_r + c\dot{u}_r + k\cdot u_r = -M\ddot{y}(t)$
+c. $M\ddot{u}_r = k\cdot u_r + c\cdot\dot{u}_r$
+d. $k\cdot u_r = M\ddot{y}(t)$
+e. $M\ddot{u}_r + k\cdot u_r = 0$
 
 9. Para isolação vibratória efetiva em um SDOF sob base excitada, usualmente busca-se operar em:
-a. (r<1)
-b. (r≈1)
-*c. (r>√2)
-d. (r=0)
-e. Qualquer r, desde que ζ=0.
+a. $r<1$
+b. $r\approx 1$
+*c. $r>\sqrt{2}$
+d. $r=0$
+e. Qualquer $r$, desde que $\zeta=0$.
 
-10. O ângulo de fase φ entre força e deslocamento em excitação harmônica satisfaz:
-a. (tan φ = (1−r²)/(2ζr))
-*b. (tan φ = (2ζr)/(1−r²))
-c. (tan φ = r)
-d. (tan φ = 2πr)
-e. (tan φ = ζ)
+10. O ângulo de fase $\varphi$ entre força e deslocamento em excitação harmônica satisfaz:
+a. $\tan \varphi = (1-r^2)/(2\zeta r)$
+*b. $\tan \varphi = (2\zeta r)/(1-r^2)$
+c. $\tan \varphi = r$
+d. $\tan \varphi = 2\pi r$
+e. $\tan \varphi = \zeta$
 
 
 11. O problema de autovalores da análise modal clássica (sem amortecimento) é:
-a. ((M−ωK)φ=0)
-b. ((K+ωM)φ=0)
-*c. ((K−ω²M)φ=0)
-d. ((KM−ωI)φ=0)
-e. ((M−ω²I)φ=0)
+a. $(\mathbf{M}-\omega\mathbf{K})\boldsymbol{\varphi}=\mathbf{0}$
+b. $(\mathbf{K}+\omega\mathbf{M})\boldsymbol{\varphi}=\mathbf{0}$
+*c. $(\mathbf{K}-\omega^2\mathbf{M})\boldsymbol{\varphi}=\mathbf{0}$
+d. $(\mathbf{KM}-\omega\mathbf{I})\boldsymbol{\varphi}=\mathbf{0}$
+e. $(\mathbf{M}-\omega^2\mathbf{I})\boldsymbol{\varphi}=\mathbf{0}$
 
 12. Em análise modal, “fator de participação” de um modo representa:
 a. A massa total da estrutura.
@@ -108,19 +108,19 @@ d. Corrigir a matriz de amortecimento proporcional.
 e. Avaliar exclusivamente torção em lajes.
 
 
-16. A transmissibilidade T em base excitada tipicamente é menor que 1 quando:
-a. (r<1) e ζ=0.
-b. (r≈1) e ζ alto.
-*c. (r>√2) e ζ em faixa adequada.
-d. Sempre, independente de r e ζ.
-e. Apenas se ζ=1 (amortecimento crítico).
+16. A transmissibilidade $T$ em base excitada tipicamente é menor que 1 quando:
+a. $r<1$ e $\zeta=0$.
+b. $r\approx 1$ e $\zeta$ alto.
+*c. $r>\sqrt{2}$ e $\zeta$ em faixa adequada.
+d. Sempre, independente de $r$ e $\zeta$.
+e. Apenas se $\zeta=1$ (amortecimento crítico).
 
 17. O desprendimento de vórtices em cilindros pode excitar pilares esbeltos com frequência aproximada:
-a. (fs = D/(St·U))
-b. (fs = U/D²)
-*c. (fs = St·U/D)
-d. (fs = St/(U·D))
-e. (fs = U·D)
+a. $f_s = D/(S_t\cdot U)$
+b. $f_s = U/D^2$
+*c. $f_s = S_t\cdot U/D$
+d. $f_s = S_t/(U\cdot D)$
+e. $f_s = U\cdot D$
 
 18. Um Tuned Mass Damper (TMD) é empregado principalmente para:
 a. Aumentar a rigidez lateral da estrutura.
@@ -147,23 +147,23 @@ e. Apenas flambagem por compressão.
 
 ## Feedbacks
 
-1. ωn=√(k/M). Resulta da solução livre do SDOF sem amortecimento.
-2. Em concreto usual, ζ≈2–5% para pequenas vibrações, considerando dissipações estruturais.
-3. O período natural é o inverso da frequência circular natural: Tn=2π/ωn.
-4. Aumentar M reduz ωn e eleva Tn (mais inércia, vibração mais lenta).
-5. Com ζ<1, o sistema oscila com envelope decrescente (decay exponencial).
-6. Perto de r=1, com pouco amortecimento, o fator de amplificação cresce acentuadamente (ressonância).
-7. Em r=1, FA≈1/(2ζ) para deslocamento relativo ao estático.
-8. Para base excitada, a entrada é aceleração da base: termo −M·ÿ(t) na equação de ur.
-9. Em r>√2 o regime é de isolação vibratória (T<1, menor transmissão).
-10. A relação de fase padrão: tan φ=(2ζr)/(1−r²), derivada da resposta harmônica.
-11. A forma generalizada sem amortecimento proporcional é (K−ω²M)φ=0.
-12. O fator de participação mede o “quanto” a força efetiva excita um modo.
-13. Em sistemas lineares clássicos, modos distintos são ortogonais em M e K.
+1. $\omega_n=\sqrt{k/M}$. Resulta da solução livre do SDOF sem amortecimento.
+2. Em concreto usual, $\zeta\approx 2–5\%$ para pequenas vibrações, considerando dissipações estruturais.
+3. O período natural é o inverso da frequência circular natural: $T_n=2\pi/\omega_n$.
+4. Aumentar $M$ reduz $\omega_n$ e eleva $T_n$ (mais inércia, vibração mais lenta).
+5. Com $\zeta<1$, o sistema oscila com envelope decrescente (decay exponencial).
+6. Perto de $r=1$, com pouco amortecimento, o fator de amplificação cresce acentuadamente (ressonância).
+7. Em $r=1$, $\text{FA}\approx 1/(2\zeta)$ para deslocamento relativo ao estático.
+8. Para base excitada, a entrada é aceleração da base: termo $-M\cdot\ddot{y}(t)$ na equação de $u_r$.
+9. Em $r>\sqrt{2}$ o regime é de isolação vibratória ($T<1$, menor transmissão).
+10. A relação de fase padrão: $\tan \varphi=(2\zeta r)/(1-r^2)$, derivada da resposta harmônica.
+11. A forma generalizada sem amortecimento proporcional é $(\mathbf{K}-\omega^2\mathbf{M})\boldsymbol{\varphi}=\mathbf{0}$.
+12. O fator de participação mede o "quanto" a força efetiva excita um modo.
+13. Em sistemas lineares clássicos, modos distintos são ortogonais em $\mathbf{M}$ e $\mathbf{K}$.
 14. SRSS supõe pouca correlação modal, válido para frequências bem separadas.
 15. Usada como critério de truncamento: incluir modos até massa modal efetiva suficiente.
-16. Em r>√2, T<1; ζ adequado melhora a isolação sem piorar a região de acoplamento.
-17. Para cilindros, fs≈St·U/D; evitar coincidência com fn reduz vibração transversal.
+16. Em $r>\sqrt{2}$, $T<1$; $\zeta$ adequado melhora a isolação sem piorar a região de acoplamento.
+17. Para cilindros, $f_s\approx S_t\cdot U/D$; evitar coincidência com $f_n$ reduz vibração transversal.
 18. TMD sintoniza e dissipa energia, elevando amortecimento efetivo próximo à ressonância.
 19. Mais amortecimento reduz picos de deslocamento/aceleração e melhora conforto.
 20. Vibrações de serviço pedem avaliação de aceleração (pico/RMS) e frequências de atividade.

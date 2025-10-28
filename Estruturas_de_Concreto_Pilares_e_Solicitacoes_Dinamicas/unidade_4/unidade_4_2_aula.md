@@ -32,7 +32,7 @@ A modelagem computacional revolucionou o projeto estrutural e de pavimentos, per
 
 Softwares como **APSDS** e **EverFE** simulam o comportamento de placas sobre base elástica, considerando múltiplas camadas (concreto, sub-base, solo).
 
-- Avaliam deformações (\(\varepsilon_t\), \(\varepsilon_z\)) e tensões máximas sob cargas móveis.
+- Avaliam deformações ($\varepsilon_t$, $\varepsilon_z$) e tensões máximas sob cargas móveis.
 - Analisam fadiga, recalques e vida útil do pavimento.
 - Permitem comparação entre métodos clássicos (Winkler) e modelos multicamadas (FEM).
 
@@ -60,7 +60,7 @@ O comportamento de lajes e pavimentos depende fortemente da interação com o so
 Imagine um engenheiro projetando o piso de um galpão industrial:
 1. Extrai reações dos pilares usando SAP2000 ou TQS.
 2. Modela a laje como placa sobre base elástica (APSDS/EverFE), inserindo dados de camadas e cargas.
-3. Analisa deformações (\(\varepsilon_t\), \(\varepsilon_z\)) e verifica limites normativos.
+3. Analisa deformações ($\varepsilon_t$, $\varepsilon_z$) e verifica limites normativos.
 4. Ajusta espessura, juntas ou reforço, iterando para desempenho e custo ótimos.
 5. Valida resultados com critérios de projeto e experiência prática.
 

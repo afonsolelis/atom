@@ -79,7 +79,7 @@ Solução esperada (síntese):
 - Piso interno: plano de juntas serradas (módulos 4–6 m), juntas de dilatação conforme climatologia, juntas de isolamento perimetral nos pilares, selantes; reforço local em corredores de tráfego; nota de inspeção/selagem.
 - Interface pilar–piso: base metálica com chumbadores e folga controlada; junta perimetral (espuma selada); detalhe de recorte e, se necessário, incremento de espessura/armadura de distribuição no contorno.
 - Pavimento externo: concepção justificada (flexível com WMA+20–30% RAP ou rígido delgado com transferência de carga); verificação mecanística (ε_t/ε_z) coerente; drenagem e docas observadas.
-- Modelagem: uma corrida Winkler (h, E, ν, k, P) e, opcionalmente, FEM/placa; comentar limitações/contorno/sensibilidade (h/k); usar \(\ell = (\tfrac{Eh^3}{12k(1-\nu^2)})^{1/4}\) como referência qualitativa para borda/quina.
+- Modelagem: uma corrida Winkler (h, E, ν, k, P) e, opcionalmente, FEM/placa; comentar limitações/contorno/sensibilidade (h/k); usar $\ell = (\tfrac{Eh^3}{12k(1-\nu^2)})^{1/4}$ como referência qualitativa para borda/quina.
 - Sustentabilidade/ACV: estimativa de CO₂ com CV/GGBFS (−20% a −35% no ligante) e WMA+RAP; ACV do berço ao túmulo; indicadores (GWP/CO₂e, energia incorporada); potenciais créditos LEED/AQUA/BREEAM.
 
 Observação ao tutor sobre pesos: a divisão atual (5×2,0) está correta (total 10,0) e coerente com os objetivos da disciplina. Caso deseje explicitar a avaliação de Comunicação técnica, adote a alternativa 5×1,8 + 1,0 (comunicação/conformidade) e atualize o enunciado para os alunos.

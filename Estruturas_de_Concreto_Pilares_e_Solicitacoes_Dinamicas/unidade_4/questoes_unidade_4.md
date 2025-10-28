@@ -14,11 +14,11 @@ c. Usar chumbadores mais rígidos para impedir movimentos relativos.
 d. Reduzir a espessura do piso para acomodar recalques.
 e. Aumentar a abertura das juntas sem selagem.
 
-3. No modelo de placa sobre base elástica (Winkler/Westergaard), o parâmetro \(\ell\) (raio de rigidez relativa) depende de:
-a. Apenas do módulo do subleito \(k\).
-b. Apenas da espessura \(h\).
-*c. \(E, h, k\) e \(\nu\) do sistema placa–fundação.
-d. Apenas de \(E\) e \(\nu\).
+3. No modelo de placa sobre base elástica (Winkler/Westergaard), o parâmetro $\ell$ (raio de rigidez relativa) depende de:
+a. Apenas do módulo do subleito $k$.
+b. Apenas da espessura $h$.
+*c. $E, h, k$ e $\nu$ do sistema placa–fundação.
+d. Apenas de $E$ e $\nu$.
 e. Não depende de propriedades de material.
 
 4. Em análise estrutural, uma diferença marcante entre SAP2000/TQS e ANSYS é que ANSYS:
@@ -31,7 +31,7 @@ e. Não permite avaliação de condições de contorno.
 5. Em programas para pavimentos (APSDS/EverFE), dois indicadores mecanísticos usuais para verificação são:
 a. Velocidade de aplicação e temperatura ambiente.
 b. Tensão de tração na superfície e módulo resiliente do subleito.
-*c. \(\varepsilon_t\) no fundo do revestimento e \(\varepsilon_z\) no topo do subleito.
+*c. $\varepsilon_t$ no fundo do revestimento e $\varepsilon_z$ no topo do subleito.
 d. Deflexão máxima e pressão de contato do pneu apenas.
 e. IRI de projeto e largura de pista.
 
@@ -115,7 +115,7 @@ e. Não influenciam o desempenho de selagem.
 17. Em modelagem Winkler para pavimentos rígidos:
 a. A base é representada por um sólido 3D contínuo.
 b. O subleito é modelado por viscosidade pura.
-*c. A fundação é representada por molas independentes de rigidez \(k\).
+*c. A fundação é representada por molas independentes de rigidez $k$.
 d. Não é possível estimar deflexões.
 e. É incompatível com calculo de tensões.
 
@@ -144,9 +144,9 @@ e. Não há normas nacionais relacionadas.
 
 1. Juntas serradas induzem fissuração controlada por retração.
 2. Juntas de isolamento protegem o piso de movimentos da base do pilar; reforço local reduz danos.
-3. \(\ell\) combina propriedades da placa e da fundação (\(E,h,k,\nu\)).
+3. $\ell$ combina propriedades da placa e da fundação ($E,h,k,\nu$).
 4. ANSYS é FEM geral (lineares/não lineares, contato); SAP/TQS focam edifícios/pórticos/lajes.
-5. \(\varepsilon_t\) governa fadiga do revestimento; \(\varepsilon_z\) governa trilha no subleito.
+5. $\varepsilon_t$ governa fadiga do revestimento; $\varepsilon_z$ governa trilha no subleito.
 6. Modelos com contato/juntas capturam transferência de carga/tensões locais com mais realismo.
 7. Cinza volante é pozolânica e reduz clínquer/CO2; sílica ativa refina porosidade, não aumenta permeabilidade.
 8. RAP bem dosado reduz emissões e demanda de agregados/ligante; requer ajuste de dosagem.
@@ -158,7 +158,7 @@ e. Não há normas nacionais relacionadas.
 14. ACV: objetivo/escopo, LCI, LCIA e interpretação.
 15. Comparações com ACV pedem fronteiras/uso/manutenção equivalentes ao contexto.
 16. Juntas de dilatação acomodam movimentos térmicos/retração e reduzem tensões.
-17. Winkler usa molas independentes de rigidez k.
+17. Winkler usa molas independentes de rigidez $k$.
 18. Reações das bases do pórtico alimentam a avaliação do piso/placa adjacente.
 19. CV pode atrasar resistência inicial, apesar dos ganhos de CO2/durabilidade.
 20. RAP/RCD exigem controle tecnológico para desempenho conforme especificações.
