@@ -1,0 +1,17 @@
+# Templates institucionais da Ânima (174MB) — mantidos localmente para referência.
+# Os templates já foram convertidos para markdown nas pastas das disciplinas e
+# as imagens de branding foram extraídas em `assets/originais_atomo_3_0/`.
+Originais - Átomo 3.0/
+
+# Build / cache
+__pycache__/
+*.pyc
+.tmp_*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/

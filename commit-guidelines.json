@@ -85,6 +85,14 @@
       {
         "value": "estrutura_pontes",
         "description": "Changes related to bridge structures content"
+      },
+      {
+        "value": "industria_4_0",
+        "description": "Changes related to Indústria 4.0 e Digitalização de Processos"
+      },
+      {
+        "value": "sistemas_informacao",
+        "description": "Changes related to Sistemas de Informação, Automação e IA Aplicada à Produção"
       }
     ],
     "format": {
