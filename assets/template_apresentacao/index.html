@@ -226,6 +226,123 @@
     z-index: 3;
   }
 
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
   /* ---------- Navegação ---------- */
   .nav {
     position: fixed; bottom: 16px; right: 20px;
@@ -283,6 +400,27 @@
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
   </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
     <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
@@ -318,7 +456,62 @@
     </div>
   </section>
 
-  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <!-- ============== SLIDE 2 — SOBRE O PROFESSOR ============== -->
+  <section class="slide slide-prof">
+    <div class="prof-grid">
+      <!-- Lado claro: logo + foto -->
+      <div class="prof-lado-claro">
+        <div class="prof-logo-claro">
+          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        </div>
+        <div class="prof-foto">
+          <!-- Substitua por: <img src="./assets/foto-professor.jpg" alt="Foto do professor"/> -->
+        </div>
+      </div>
+
+      <!-- Lado escuro: dados do professor + decorações -->
+      <div class="prof-lado-escuro">
+        <!-- Decoração: triângulo amarelo top-right -->
+        <div class="prof-canto-topo">
+          <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
+        </div>
+        <!-- Decoração: cluster de triângulos na boundary (esquerda) -->
+        <div class="prof-triangulos-boundary">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
+            <use href="#prof-cluster"/>
+          </svg>
+        </div>
+
+        <h1 class="prof-nome">Afonso Cesar Lelis Brandão</h1>
+        <div class="prof-cargo">Professor-conteudista · Engenharia da Produção</div>
+
+        <p class="prof-descricao">
+          Escreva uma breve descrição sua, por exemplo:
+        </p>
+        <p class="prof-descricao">
+          Formação acadêmica, áreas de atuação profissional, projetos relevantes, linhas de pesquisa e o que te conecta a esta disciplina. Mantenha a apresentação acolhedora — esse é o primeiro contato do aluno com você.
+        </p>
+
+        <div class="prof-contato">
+          <div class="prof-contato-item">
+            <strong>E-mail:</strong>
+            <a href="mailto:afonsolelis@gmail.com">afonsolelis@gmail.com</a>
+          </div>
+          <div class="prof-contato-item">
+            <strong>LinkedIn:</strong>
+            <a href="https://www.linkedin.com/in/seu-linkedin/" target="_blank" rel="noopener">https://www.linkedin.com/in/seu-linkedin/</a>
+          </div>
+        </div>
+
+        <!-- Decoração: mini-cluster bottom-right -->
+        <div class="prof-canto-rodape">
+          <svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — DIVIDER ============== -->
   <section class="slide slide-section">
     <div class="slide-content">
       <div class="numero">01</div>
@@ -326,7 +519,7 @@
     </div>
   </section>
 
-  <!-- ============== SLIDE 3 — CONTEÚDO 1 COLUNA ============== -->
+  <!-- ============== SLIDE 4 — CONTEÚDO 1 COLUNA ============== -->
   <section class="slide">
     <div class="triangulos-canto">
       <svg width="220" height="220"><use href="#trio-canto"/></svg>
@@ -344,7 +537,7 @@
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 1</span></div>
   </section>
 
-  <!-- ============== SLIDE 4 — 2 COLUNAS (texto + imagem) ============== -->
+  <!-- ============== SLIDE 5 — 2 COLUNAS (texto + imagem) ============== -->
   <section class="slide">
     <div class="triangulos-canto">
       <svg width="220" height="220"><use href="#trio-canto"/></svg>
@@ -367,7 +560,7 @@
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 1</span></div>
   </section>
 
-  <!-- ============== SLIDE 5 — PONTOS-CHAVE (grid) ============== -->
+  <!-- ============== SLIDE 6 — PONTOS-CHAVE (grid) ============== -->
   <section class="slide">
     <div class="triangulos-canto">
       <svg width="220" height="220"><use href="#trio-canto"/></svg>
@@ -397,7 +590,7 @@
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 1</span></div>
   </section>
 
-  <!-- ============== SLIDE 6 — QUOTE ============== -->
+  <!-- ============== SLIDE 7 — QUOTE ============== -->
   <section class="slide slide-quote">
     <div class="slide-content">
       <blockquote>
@@ -407,7 +600,7 @@
     </div>
   </section>
 
-  <!-- ============== SLIDE 7 — ATIVIDADE ============== -->
+  <!-- ============== SLIDE 8 — ATIVIDADE ============== -->
   <section class="slide">
     <div class="triangulos-canto">
       <svg width="220" height="220"><use href="#trio-canto"/></svg>
@@ -426,7 +619,7 @@
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 1</span></div>
   </section>
 
-  <!-- ============== SLIDE 8 — ENCERRAMENTO ============== -->
+  <!-- ============== SLIDE 9 — ENCERRAMENTO ============== -->
   <section class="slide slide-fim">
     <div class="slide-content">
       <div style="margin-bottom:2.5rem;">

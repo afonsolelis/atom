@@ -47,10 +47,26 @@ Cada slide vira uma página automaticamente.
 | Classe CSS | Quando usar |
 | --- | --- |
 | `slide slide-capa` | Slide 1 — capa **azul UniFECAF** com logo branco, título e docente |
+| `slide slide-prof` | "Sobre o professor" — split branco/azul com foto à esquerda, dados à direita |
 | `slide slide-section` | Divisor de seção/módulo (fundo azul + número grande amarelo) |
 | `slide` (default) | Slide de conteúdo padrão (com triângulo decorativo sutil no canto) |
 | `slide slide-quote` | Citação destacada (fundo amarelo) |
 | `slide slide-fim` | Encerramento (fundo azul + logo + "Obrigado!") |
+
+### Slide "Sobre o professor" (`slide-prof`)
+
+Layout split 50/50:
+
+- **Lado branco (esquerda):** logo UniFECAF preto (filtro CSS) + placeholder de foto quadrada com aparência de "céu + colina" (substitua por `<img src="./assets/foto-professor.jpg">` quando tiver a foto real)
+- **Lado azul (direita):** nome, cargo, descrição curta, e-mail e LinkedIn — com decorações de triângulos coloridos (cluster na boundary, amarelo no canto superior, mini-cluster no canto inferior)
+
+Para colocar a foto real, troque a div `.prof-foto` por:
+
+```html
+<div class="prof-foto">
+  <img src="./assets/foto-professor.jpg" alt="Foto do(a) professor(a)"/>
+</div>
+```
 
 Dentro de qualquer slide você pode usar:
 
