@@ -1,292 +1,740 @@
-# Unidade 4 — IA Aplicada à Produção  _(provisório — aguardando ementa)_
+# Unidade 4 — IA Aplicada à Produção
 
 - **Disciplina:** Sistemas de Informação, Automação e IA Aplicada à Produção
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas desta unidade:** 13 a 16
 
-<!--
-TABELA PARA USO EXCLUSIVO DO(A) COORDENADOR(A)
-
-| Requisitos para um conteúdo UAU                       | Observações do(a) Coordenador(a) |
-| ----------------------------------------------------- | -------------------------------- |
-| Plano de aprendizagem da unidade                      |                                  |
-| Conformidade com o Plano de Aprendizado               |                                  |
-| Clareza e objetividade                                |                                  |
-| Ortografia e gramática                                |                                  |
-| Recursos visuais atrativos (imagens, gifs, etc.)      |                                  |
-
-| Data da Validação | Nome do(a) Coordenador(a) do curso |
-| ----------------- | ---------------------------------- |
-|                   |                                    |
--->
-
-## Orientações gerais para produção
-
-> Estas orientações são apenas referência para o conteudista. **Apague-as após escrever o conteúdo final.**
->
-> - Ler atentamente as orientações de cada seção antes de inserir o conteúdo.
-> - Apagar as orientações após leitura.
-> - Inserir os materiais nos respectivos espaços, respeitando a ordem e as especificações.
-> - Dúvidas: contato através do e-mail convite.
-
-## Aula 13 — Texto base
-
-> **Orientações de produção** (apagar após escrever o conteúdo):
->
-> - Linguagem **dialógica e acadêmica**, sem jargões excessivos.
-> - 3 a 5 imagens / gráficos / organogramas por aula (não 100% texto).
-> - Imagens em **domínio público ou Creative Commons** (preferência: Wikimedia Commons / Envato free).
-> - Inclua descrição alternativa em cada imagem (acessibilidade).
-> - Citações pelas normas **ABNT NBR 6023:2018**; similaridade aceitável até 3% (CopySpider).
-> - Citações diretas entre aspas; palavras estrangeiras em _itálico_.
-> - Listas e tabelas são bem-vindas.
-
-> **Especificidade da Aula 1 (Unidade 4):** abra a unidade situando o estudante no contexto e nos objetivos do bloco.
-
-
-**Título da aula:** O que é IA? ML vs IA simbólica — conceitos fundamentais  _(provisório — aguardando ementa)_
-
-_(escreva aqui o texto base da aula — 700–1200 palavras)_
+> **Recap:** vimos os fundamentos de SI (U1), os sistemas verticais (U2) e a automação industrial física (U3). Chegamos à **última unidade** — o clímax da disciplina. **Inteligência Artificial aplicada à produção**. Tudo o que aprendemos até aqui é base para esta unidade. Aqui você vai entender o que de fato é IA na fábrica, como funciona ML, como prever demanda e detectar defeitos com visão computacional, e onde está a fronteira (IA generativa). Aperta o cinto.
 
 ---
 
-## Aula 13 — Roteiro da Videoaula 13
+## Aula 13 — O que é IA? ML vs IA simbólica — conceitos fundamentais
 
-> **Título do vídeo:** elabore um título que gere curiosidade.
->
-> O roteiro pode ser em tópicos ou texto corrido. Lembre-se da **complementaridade**:
->
-> - **Texto escrito** → base teórica, conceitos, fundamentos.
-> - **Videoaula** → aplicações práticas, exemplos, casos reais, discussões.
+Antes de aplicar IA à produção, vamos alinhar **conceitos**. Você ouve "IA" em todo lugar — chatbot, ChatGPT, robôs, carros autônomos, drones. Mas o que **é** IA, exatamente? Esta aula desmistifica o termo e mostra as duas grandes famílias de IA: a **simbólica** (clássica) e o **Machine Learning** (moderno). Sem essa distinção, conversas sobre IA viram conversas de marketing.
 
-**Título do vídeo:** O que é IA? ML vs IA simbólica — conceitos fundamentais  _(provisório — aguardando ementa)_
+### A definição em uma frase
 
-**Roteiro:**
+> **Inteligência Artificial (IA)** é qualquer **sistema computacional que executa tarefas que tipicamente exigiriam inteligência humana** — como reconhecer imagens, entender linguagem, tomar decisões, aprender com experiência.
 
-_(insira o roteiro aqui)_
+Note: IA **não é** um conceito recente. Foi cunhado em 1956 (Conferência de Dartmouth). Mas só nos últimos 15 anos virou viável em escala industrial, com a combinação de **dados em massa + poder computacional + algoritmos mais sofisticados**.
 
-## Aula 14 — Texto base
+### As duas grandes famílias
 
-> **Orientações de produção** (apagar após escrever o conteúdo):
->
-> - Linguagem **dialógica e acadêmica**, sem jargões excessivos.
-> - 3 a 5 imagens / gráficos / organogramas por aula (não 100% texto).
-> - Imagens em **domínio público ou Creative Commons** (preferência: Wikimedia Commons / Envato free).
-> - Inclua descrição alternativa em cada imagem (acessibilidade).
-> - Citações pelas normas **ABNT NBR 6023:2018**; similaridade aceitável até 3% (CopySpider).
-> - Citações diretas entre aspas; palavras estrangeiras em _itálico_.
-> - Listas e tabelas são bem-vindas.
+#### IA Simbólica (clássica, dos anos 1950-1980)
 
+> A **IA simbólica** representa o conhecimento como **regras lógicas** explícitas, programadas por humanos: "se A e B, então C".
 
-**Título da aula:** IA para previsão de demanda e manutenção preditiva  _(provisório — aguardando ementa)_
+- **Como funciona:** especialistas codificam regras; o sistema aplica regras a casos novos.
+- **Vantagens:** explicável (você lê as regras), determinística, eficiente para domínios bem definidos.
+- **Limitações:** **não aprende sozinha**; manutenção exige reprogramação manual; difícil escalar para problemas com muitas variáveis.
+- **Exemplos:** sistemas especialistas dos anos 1980 (MYCIN para diagnóstico médico, XCON para configuração de computadores).
 
-_(escreva aqui o texto base da aula — 700–1200 palavras)_
+#### Machine Learning (ML, dos anos 1990 em diante; explosão a partir de 2012)
+
+> **Machine Learning** é um subcampo da IA em que o sistema **aprende padrões a partir de dados**, em vez de seguir regras explícitas programadas.
+
+- **Como funciona:** você dá dados (e às vezes respostas); o sistema **descobre** padrões; depois aplica a casos novos.
+- **Vantagens:** escala para problemas complexos com muitas variáveis; melhora com mais dados.
+- **Limitações:** **caixa-preta** (difícil explicar por que decidiu X); precisa de **muitos dados** de qualidade; viés do dado vira viés do modelo.
+- **Exemplos:** reconhecimento de imagem, recomendações da Netflix, detecção de fraudes, manutenção preditiva.
+
+### A pirâmide: IA → ML → Deep Learning
+
+| Conceito | O que é |
+| --- | --- |
+| **IA** | Campo amplo — qualquer sistema "inteligente" |
+| **ML** | Subcampo da IA — aprende de dados |
+| **Deep Learning** | Subcampo do ML — usa redes neurais profundas |
+
+Deep Learning ⊂ ML ⊂ IA. Hoje, quando se diz "IA" em projeto industrial, geralmente é **ML supervisionado**.
+
+### Os três modos de aprendizado em ML
+
+1. **Supervisionado** — você dá dados **com a resposta**. Ex.: 10.000 fotos de peças (boas/com defeito) → modelo aprende a classificar novas.
+2. **Não supervisionado** — você dá dados **sem resposta**. Ex.: agrupar 100.000 clientes em "clusters" similares; encontrar anomalias no histórico de produção.
+3. **Por reforço** — modelo aprende **tentando e errando**, com recompensa/punição. Ex.: robô que aprende a otimizar movimento; carro autônomo.
+
+Na indústria, **supervisionado domina** — porque sempre dá para rotular dado a partir do histórico. Não supervisionado entra em detecção de anomalias e segmentação. Reforço é mais experimental, ganhando espaço em robótica avançada.
+
+### Os 6 problemas que IA resolve na produção
+
+1. **Classificação** — esta peça tem defeito ou não? Este cliente é alto risco?
+2. **Regressão (previsão de número)** — qual a demanda do próximo mês? Quantas horas até a falha?
+3. **Detecção de anomalias** — este comportamento é normal ou suspeito?
+4. **Agrupamento (clustering)** — agrupar similares (clientes, produtos, eventos).
+5. **Recomendação** — o que sugerir como próximo passo?
+6. **Otimização** — qual a melhor configuração entre milhões possíveis?
+
+Cada um desses problemas tem **técnicas específicas** de ML. Engenheiro(a) que entende **qual problema** está resolvendo, escolhe a técnica certa.
+
+### O ciclo de vida de um projeto de ML
+
+1. **Definir o problema** — qual decisão se quer melhorar? Com que impacto?
+2. **Coletar dados** — quanto histórico há? Qualidade? Volume?
+3. **Preparar dados (engenharia de features)** — limpar, normalizar, criar variáveis derivadas. Aqui mora **70% do trabalho** de qualquer projeto ML.
+4. **Escolher e treinar modelo** — testar vários algoritmos, escolher melhor.
+5. **Validar** — testar em dados que o modelo nunca viu.
+6. **Deploy** — colocar em produção.
+7. **Monitorar e retreinar** — modelo decai com o tempo (processos mudam); precisa atualizar.
+
+Sem **a fase 1 bem feita**, o resto desmorona. "Vamos colocar IA" não é projeto. Projeto começa por **decisão de negócio**.
+
+### O hype e a realidade
+
+Você ouve no mercado: "IA vai substituir todos os engenheiros". A realidade é mais nuançada:
+
+- IA **substitui tarefas repetitivas e bem definidas**, não funções inteiras.
+- IA **complementa** o trabalho humano em áreas que exigem julgamento, criatividade, contexto.
+- IA **gera novas funções** (data scientist, ML engineer, AI ethicist).
+- Projetos de IA **falham em 70-80% dos casos** — geralmente por má escolha do problema ou má qualidade do dado.
+
+**A IA real é muito menos mágica e muito mais trabalho** do que o marketing sugere.
+
+### Exemplo numérico: ganho típico com ML em manutenção preditiva
+
+Caso típico documentado em literatura:
+
+- **Sem ML (manutenção corretiva ou preventiva):** falha em motor crítico, parada de 8 horas, custo de R\$ 60 mil por evento, frequência 6 eventos/ano = **R\$ 360 mil/ano**.
+- **Com ML preditiva bem implantada:** redução de 60% nas falhas não programadas; falhas previstas são tratadas em **paradas planejadas** de 2 h, custo R\$ 8 mil cada × 4 eventos/ano = R\$ 32 mil/ano + 1-2 falhas restantes (R\$ 80-120 mil/ano).
+- **Ganho anual:** ~R\$ 200-250 mil/ano por motor crítico.
+- **Investimento:** sensores + plataforma ML + integração = R\$ 150-300 mil por motor.
+- **Payback:** 12-18 meses.
+
+### Atividade prática
+
+Pense em **uma decisão repetitiva** que alguém na sua empresa toma com frequência:
+
+1. Que **dados** essa pessoa usa para decidir? Estão estruturados?
+2. Que **regra** ela aplica (mesmo que mental)?
+3. Que **erros** ela comete?
+4. **Qual tipo de ML** (classificação, regressão, detecção, recomendação) faria sentido?
+5. **Quanto valeria** automatizar essa decisão (anualmente)?
+
+### Pontos-chave
+
+- **IA** é qualquer sistema que executa tarefa que exigiria inteligência humana.
+- Duas grandes famílias: **simbólica** (regras) e **Machine Learning** (aprende com dados).
+- **Deep Learning ⊂ ML ⊂ IA**. Quando se diz "IA" hoje, geralmente é ML supervisionado.
+- Três modos de aprendizado em ML: **supervisionado, não supervisionado, por reforço**.
+- Seis problemas que IA resolve: **classificação, regressão, detecção de anomalias, agrupamento, recomendação, otimização**.
+- **70% do esforço** de um projeto ML está em **dados** (coleta + preparação).
+
+### Para saber mais
+
+- **Russell, S.; Norvig, P.** *Inteligência Artificial: Uma Abordagem Moderna*. Pearson.
+- **Andrew Ng — Machine Learning Yearning** (gratuito): https://www.deeplearning.ai/
+- **Curso gratuito Google:** Machine Learning Crash Course — https://developers.google.com/machine-learning/crash-course
+- **Vídeo (3Blue1Brown, YouTube):** "But what is a neural network?" (em inglês com legendas)
 
 ---
 
-## Aula 14 — Roteiro da Videoaula 14
+## Aula 13 — Roteiro da Videoaula 13: "Desmistificando IA — de regras lógicas a machine learning"
 
-> **Título do vídeo:** elabore um título que gere curiosidade.
->
-> O roteiro pode ser em tópicos ou texto corrido. Lembre-se da **complementaridade**:
->
-> - **Texto escrito** → base teórica, conceitos, fundamentos.
-> - **Videoaula** → aplicações práticas, exemplos, casos reais, discussões.
+**Duração:** 9 a 11 minutos.
 
-**Título do vídeo:** IA para previsão de demanda e manutenção preditiva  _(provisório — aguardando ementa)_
+### 1. Abertura (0:00 – 0:40)
 
-**Roteiro:**
+> "Você ouve 'IA' em todo lugar — celular, chatbot, carro autônomo, fábrica. Mas o que **é** isso, na prática? Hoje a gente desmistifica."
 
-_(insira o roteiro aqui)_
+### 2. Definição e história (0:40 – 2:30)
 
-## Aula 15 — Texto base
+- Definição em uma frase.
+- IA não é recente (1956), mas só viável agora por dados + computação + algoritmos.
 
-> **Orientações de produção** (apagar após escrever o conteúdo):
->
-> - Linguagem **dialógica e acadêmica**, sem jargões excessivos.
-> - 3 a 5 imagens / gráficos / organogramas por aula (não 100% texto).
-> - Imagens em **domínio público ou Creative Commons** (preferência: Wikimedia Commons / Envato free).
-> - Inclua descrição alternativa em cada imagem (acessibilidade).
-> - Citações pelas normas **ABNT NBR 6023:2018**; similaridade aceitável até 3% (CopySpider).
-> - Citações diretas entre aspas; palavras estrangeiras em _itálico_.
-> - Listas e tabelas são bem-vindas.
+### 3. Simbólica vs ML (2:30 – 5:00)
 
-> **Especificidade da Aula 3:** inclua um espaço de **"Pausa para Reflexão"** ou **"Desafio"** — estudo de caso ou questão para o aluno aplicar os conceitos vistos até aqui.
+- Simbólica: regras programadas; explicável; não aprende sozinha.
+- ML: aprende de dados; escala bem; caixa-preta.
+- Pirâmide IA ⊃ ML ⊃ DL.
 
+### 4. Modos de aprendizado + problemas resolvidos (5:00 – 8:00)
 
-**Título da aula:** Visão computacional para inspeção e qualidade  _(provisório — aguardando ementa)_
+- Supervisionado, não supervisionado, reforço.
+- Os 6 problemas: classificação, regressão, anomalia, clustering, recomendação, otimização.
 
-_(escreva aqui o texto base da aula — 700–1200 palavras)_
+### 5. Hype vs realidade + caso numérico (8:00 – 11:00)
+
+- IA não substitui engenheiros — substitui tarefas.
+- Projetos falham em 70-80%.
+- Caso manutenção preditiva: ganho R\$ 200-250 mil/ano por motor crítico.
+
+> "Próxima aula a gente desce no detalhe da aplicação mais clássica: **previsão de demanda e manutenção preditiva**. Te espero!"
 
 ---
 
-## Aula 15 — Roteiro da Videoaula 15
+## Aula 14 — IA para previsão de demanda e manutenção preditiva
 
-> **Título do vídeo:** elabore um título que gere curiosidade.
->
-> O roteiro pode ser em tópicos ou texto corrido. Lembre-se da **complementaridade**:
->
-> - **Texto escrito** → base teórica, conceitos, fundamentos.
-> - **Videoaula** → aplicações práticas, exemplos, casos reais, discussões.
+> **Pausa para reflexão:** se você soubesse, com 7 dias de antecedência, que motor vai quebrar, o que faria diferente? Pensa nisso enquanto avançamos.
 
-**Título do vídeo:** Visão computacional para inspeção e qualidade  _(provisório — aguardando ementa)_
+Esta aula traz a **aplicação mais clássica e madura** de IA na indústria: prever o que vai acontecer. Vamos abrir dois casos — **previsão de demanda** (o que vou vender) e **manutenção preditiva** (quando vai quebrar).
 
-**Roteiro:**
+### Previsão de demanda: o que é
 
-_(insira o roteiro aqui)_
+> **Previsão de demanda** é o uso de **dados históricos** (e às vezes externos) para estimar **quanto será vendido ou consumido** em períodos futuros, com erro mensurável.
 
-## Aula 16 — Texto base
+Antes do ML, previsão de demanda era feita com **séries temporais clássicas** (média móvel, ARIMA, Holt-Winters). Hoje, ML adiciona poder de incluir **muitas variáveis explicativas**:
 
-> **Orientações de produção** (apagar após escrever o conteúdo):
->
-> - Linguagem **dialógica e acadêmica**, sem jargões excessivos.
-> - 3 a 5 imagens / gráficos / organogramas por aula (não 100% texto).
-> - Imagens em **domínio público ou Creative Commons** (preferência: Wikimedia Commons / Envato free).
-> - Inclua descrição alternativa em cada imagem (acessibilidade).
-> - Citações pelas normas **ABNT NBR 6023:2018**; similaridade aceitável até 3% (CopySpider).
-> - Citações diretas entre aspas; palavras estrangeiras em _itálico_.
-> - Listas e tabelas são bem-vindas.
+- Histórico de vendas (sazonalidade, tendência).
+- Calendário (feriados, eventos).
+- Clima e estação.
+- Promoções programadas.
+- Concorrência (preços, lançamentos).
+- Macroeconomia (câmbio, taxa Selic).
+- Mídia social (sentiment analysis).
 
-> **Especificidade da Aula 4 (encerramento):** ao final, faça um fechamento integrador de toda a disciplina, conectando aprendizados das quatro unidades.
+Modelos modernos combinam tudo isso para gerar previsões com **30-50% menos erro** que métodos clássicos em muitos contextos.
 
+### O ciclo da previsão na indústria
 
-**Título da aula:** IA generativa na Engenharia de Produção — projeto integrador  _(provisório — aguardando ementa)_
+```
+Histórico de vendas + variáveis externas
+                ↓
+         Modelo de ML
+                ↓
+       Previsão de demanda
+                ↓
+   Planejamento da produção (S&OP)
+                ↓
+   Compra de matéria-prima (SCM)
+                ↓
+   Programação de turnos e estoques
+```
 
-_(escreva aqui o texto base da aula — 700–1200 palavras)_
+Quanto melhor a previsão, **menor o desperdício** (excesso de estoque, ruptura, hora extra desnecessária).
+
+### Indicadores típicos de qualidade de previsão
+
+- **MAPE** (Mean Absolute Percentage Error) — erro percentual médio absoluto. Alvo: < 15% em produtos estáveis.
+- **MAE** (Mean Absolute Error) — erro absoluto médio.
+- **Bias** — tendência sistemática de superestimar ou subestimar.
+- **R²** — quanto da variação a previsão explica.
+
+Cada produto tem seu nível esperado de previsibilidade. Produtos sazonais bem comportados (cerveja no verão) podem ter MAPE < 5%. Produtos voláteis (moda, lançamentos) podem ter MAPE 30%+.
+
+### Caso brasileiro: Magazine Luiza
+
+A **Magazine Luiza** opera previsão de demanda com ML em centenas de SKUs simultaneamente. O modelo combina histórico, calendário promocional, dados climáticos e dados de e-commerce. Resultado: melhoria significativa de estoque parado e ruptura. Magalu virou benchmark de varejo digital brasileiro.
+
+### Manutenção preditiva: o que é
+
+> **Manutenção preditiva** é o uso de **dados de sensores** (vibração, temperatura, ruído, corrente) para **prever quando um equipamento vai falhar**, permitindo intervenção **antes** da quebra.
+
+É a evolução da **manutenção preventiva** (calendário fixo) e da **corretiva** (esperar quebrar):
+
+| Estratégia | Quando intervém | Custo típico | Disponibilidade |
+| --- | --- | --- | --- |
+| **Corretiva** | Após quebra | Alto (paradas) | Baixa |
+| **Preventiva** | Calendário fixo | Médio (gasto desnecessário) | Média |
+| **Preditiva** | Quando o modelo prevê falha | Baixo | Alta |
+
+### Como funciona, na prática
+
+1. **Sensores** coletam vibração, temperatura, corrente em motores críticos.
+2. **Dados** são armazenados em **historian** (banco de séries temporais).
+3. **ML** analisa padrões — sabe como é o motor saudável vs próximo à falha.
+4. Quando detecta **assinatura de falha iminente**, **alerta** a equipe.
+5. Manutenção planejada é programada em **janela de baixo impacto** (turno vazio, parada de fim de semana).
+
+### Algoritmos comuns
+
+- **Random Forest** — bom para classificação de "saudável vs falha".
+- **XGBoost / LightGBM** — performance superior em dados tabulares.
+- **Redes neurais (LSTM)** — para séries temporais longas.
+- **Isolation Forest** — para detecção de anomalia em sensor.
+- **Análise espectral (FFT)** — para vibração; clássico mas eficiente.
+
+Em projetos sérios, **vários modelos rodam em paralelo** — um para cada modo de falha (rolamento, eletricidade, lubrificação).
+
+### Exemplo numérico: caso típico
+
+Motor de bomba crítica em uma fábrica química:
+
+- **Falha não programada:** parada de 8 h, custo R\$ 80 mil (parada do processo).
+- **Frequência sem manutenção preditiva:** 4 eventos/ano = R\$ 320 mil/ano.
+- **Com ML preditiva:** 1 evento/ano (90% de redução) + 3 intervenções planejadas (2 h cada, custo R\$ 12 mil cada).
+- **Custo anual com ML:** R\$ 80 mil (1 evento) + R\$ 36 mil (3 intervenções planejadas) = R\$ 116 mil/ano.
+- **Economia:** R\$ 320 mil − R\$ 116 mil = **R\$ 204 mil/ano**.
+
+**Investimento:** sensores + plataforma + integração ≈ R\$ 200 mil.
+
+**Payback:** ~12 meses.
+
+### Caso brasileiro: Klabin
+
+A Klabin (já citada na disciplina) implementou ML preditiva em mais de 1.500 ativos. Resultado: redução de **23% nas paradas não programadas** em 2 anos. Investimento: alto, mas ROI claro em uma operação que custa milhões por hora parada.
+
+### Limitações comuns
+
+ML preditiva **não funciona** quando:
+
+- Não há **histórico de dados** suficiente (mínimo 6-12 meses de operação com falhas registradas).
+- Falhas são **raras demais** (modelo não aprende padrão).
+- Dados são **mal-rotulados** (operador não registra causa da parada).
+- Equipamento é **novo demais** (sem assinatura conhecida de falha).
+
+Por isso, ML preditiva começa em **equipamentos críticos** com **histórico**.
+
+### Atividade prática
+
+Para um equipamento crítico que você conhece:
+
+1. Que **dados** estariam disponíveis hoje (sensores existentes ou possíveis)?
+2. Que **modos de falha** o ML deveria detectar?
+3. Qual seria o **ganho** se a falha fosse prevista com 7 dias?
+4. Quanto **investiria** para começar?
+
+### Pontos-chave
+
+- **Previsão de demanda** combina histórico + variáveis externas; reduz desperdício em 30-50%.
+- **MAPE** é o indicador clássico — alvo varia conforme volatilidade.
+- **Manutenção preditiva** prevê falhas antes da quebra com sensores + ML.
+- Algoritmos comuns: **Random Forest, XGBoost, LSTM, Isolation Forest**.
+- Casos típicos: ROI em **12-18 meses** com equipamentos críticos.
+- **Pré-requisito:** dados históricos de qualidade + falhas registradas.
+
+### Para saber mais
+
+- **Hyndman, R.; Athanasopoulos, G.** *Forecasting: Principles and Practice* (gratuito) — https://otexts.com/fpp3/
+- **Vídeo (StatQuest, YouTube):** "Random Forests" (em inglês com legendas)
+- **Caso Klabin — manutenção preditiva:** https://www.klabin.com.br/
+- **Curso gratuito Coursera:** Sequences, Time Series and Prediction — https://www.coursera.org/
 
 ---
 
-## Aula 16 — Roteiro da Videoaula 16
+## Aula 14 — Roteiro da Videoaula 14: "Prever o futuro com IA: demanda e falha de equipamento"
 
-> **Título do vídeo:** elabore um título que gere curiosidade.
+**Duração:** 9 a 11 minutos.
+
+### 1. Abertura (0:00 – 0:40)
+
+> "Se você soubesse, com 7 dias de antecedência, que o motor vai quebrar, o que faria diferente? E se soubesse quanto vai vender no próximo mês com erro de 5%? Hoje a gente fala das **duas aplicações mais maduras** de IA na indústria."
+
+### 2. Previsão de demanda (0:40 – 4:00)
+
+- O que é, ciclo, indicadores (MAPE).
+- Caso Magazine Luiza.
+
+### 3. Manutenção preditiva (4:00 – 7:00)
+
+- Corretiva → Preventiva → Preditiva.
+- Como funciona com sensores + ML.
+- Algoritmos comuns.
+
+### 4. ROI e limitações (7:00 – 9:30)
+
+- Caso numérico: R\$ 204 mil/ano de economia em motor crítico.
+- Quando não funciona (dados ruins, falha rara, equipamento novo).
+
+### 5. Encerramento + gancho U15 (9:30 – 11:00)
+
+> "Próxima aula: outra fronteira em explosão — **visão computacional** para inspeção e qualidade. Te espero!"
+
+---
+
+## Aula 15 — Visão computacional para inspeção e qualidade
+
+Esta aula trata de uma das aplicações que mais cresceu nos últimos 5 anos: **visão computacional industrial**. A capacidade de uma máquina "ver" e **classificar imagens** com precisão superior à humana mudou tudo em controle de qualidade. Vamos entender o conceito, os casos de uso e o que está por trás tecnicamente.
+
+### O que é visão computacional
+
+> **Visão computacional (computer vision)** é o campo da IA dedicado a fazer **computadores "verem" e interpretarem imagens e vídeos** — identificando objetos, classificando defeitos, contando peças, lendo textos, detectando anomalias.
+
+É uma das áreas mais **antigas** da IA (1960s) e uma das mais **transformadas** pela revolução do **Deep Learning** a partir de 2012. O salto técnico foi tão grande que tarefas antes impossíveis hoje são triviais.
+
+### Os 5 problemas clássicos de visão computacional industrial
+
+1. **Classificação** — esta peça tem defeito ou não?
+2. **Detecção de objetos** — onde, na imagem, está cada item?
+3. **Segmentação** — desenhar pixel a pixel onde está cada objeto.
+4. **OCR (reconhecimento de texto)** — ler número de série, lote, instrução.
+5. **Anomalia visual** — detectar **diferenças sutis** de um padrão.
+
+Cada problema tem técnicas próprias, mas todas hoje usam **redes neurais convolucionais (CNN)** como base.
+
+### Como funciona, em linguagem de gente
+
+Uma rede neural convolucional **aprende padrões visuais** a partir de **milhares de exemplos rotulados**:
+
+1. Você dá 10.000 fotos de peças, marcadas como "boa" ou "com defeito".
+2. A rede **aprende sozinha** quais pixels e padrões correspondem a cada categoria.
+3. Após treino, você mostra uma foto nova → rede **classifica** em segundos com alta precisão.
+
+**Você não programa "o defeito é uma rachadura"** — a rede descobre isso. Esse é o salto do Deep Learning.
+
+### Aplicações industriais reais
+
+| Caso | Aplicação |
+| --- | --- |
+| Inspeção de soldas | Detectar trincas, porosidades, falta de penetração |
+| Inspeção de garrafas | Detectar tampas tortas, rótulos errados, volume incorreto |
+| Inspeção de placas eletrônicas | Detectar componentes faltantes ou tortos |
+| Inspeção de aço | Detectar arranhões, oxidação, deformações |
+| Contagem | Contar peças em esteira, em palete, em caixa |
+| Leitura de OCR | Ler número de série, lote, validade |
+| Identificação de pessoas | Reconhecer quem entra em área restrita |
+| Detecção de EPI | Verificar uso de capacete, óculos, luva |
+
+### Os ganhos típicos
+
+- **Velocidade:** câmera + IA classifica **dezenas a centenas de peças por segundo** — muito além da capacidade humana.
+- **Precisão:** modelos bem treinados atingem **>99%** de acerto em casos comuns; humanos atingem 95-98% e cansam.
+- **Consistência:** máquina não tem dia ruim, dor de cabeça, distração.
+- **Documentação:** cada peça inspecionada fica registrada com a foto — auditoria perfeita.
+
+Setores que mais se beneficiam: **automotivo, eletrônicos, alimentos e bebidas, farmacêutico, siderúrgico**.
+
+### Tecnologias e plataformas
+
+- **Cognex** — líder global em visão industrial; soluções turnkey.
+- **Keyence** — concorrente direto, forte no Brasil.
+- **NVIDIA Isaac, Intel OpenVINO** — frameworks para construir do zero.
+- **Roboflow** — plataforma SaaS para treinar modelos sem código.
+- **AWS Rekognition, Azure Computer Vision** — visão como serviço, na nuvem.
+
+A escolha depende de **complexidade, volume e orçamento**. Para inspeção simples (presente/ausente), turnkey Cognex/Keyence atende. Para tarefas customizadas, frameworks abertos.
+
+### Exemplo numérico: inspeção visual em linha de envasamento
+
+Cenário: fábrica de cosméticos enche **600 frascos/hora**. Inspeção visual humana detecta **80%** dos defeitos; câmera + IA detecta **99%**.
+
+**Antes:**
+
+- 5% dos frascos têm defeito (rótulo, tampa, volume).
+- Inspeção humana detecta 80% → 1% chegam ao cliente.
+- Custo por reclamação: R\$ 150 (devolução, retrabalho, dano à reputação).
+- Frascos vendidos/ano: 5 milhões.
+- Reclamações: 50.000/ano × R\$ 150 = **R\$ 7,5 milhões/ano**.
+
+**Depois (com IA):**
+
+- 99% detectados → 0,05% chegam ao cliente.
+- Reclamações: 2.500/ano × R\$ 150 = **R\$ 375 mil/ano**.
+
+**Ganho:** R\$ 7,1 milhões/ano em redução de reclamações.
+
+**Investimento:** câmeras industriais + sistema de IA + integração = R\$ 350 mil a R\$ 1 milhão.
+
+**Payback:** **menos de 2 meses** em casos onde reclamação custa muito (alimentação, farmacêutico, automotivo).
+
+### Caso brasileiro: visão computacional na Embraer
+
+A **Embraer** usa visão computacional para **inspecionar rebites e soldas** em aeronaves — tarefa antes feita por inspetores humanos, exigindo horas e gerando variabilidade. O sistema atinge precisão acima do que era possível manualmente, com 100% de cobertura e tempo muito menor.
+
+### Limitações e desafios
+
+Visão computacional **não funciona** quando:
+
+- **Iluminação varia** demais (modelo treinado em uma luz, opera em outra).
+- **Tipo de defeito é raro** demais — modelo não aprendeu.
+- **Câmera mal posicionada** ou de baixa qualidade.
+- **Operador não confia** no resultado da máquina (paradoxo de aceitação).
+
+Por isso, projetos sérios começam com **piloto controlado**, validam com inspetores humanos, e só depois escalam.
+
+### Atividade prática
+
+Pegue um produto que você conhece (real ou imaginário):
+
+1. Que **tipos de defeito** ele pode ter?
+2. Quais **defeitos** poderiam ser detectados por câmera + IA?
+3. Quanto **custaria** cada reclamação de cliente?
+4. Quanto **investiria** em visão computacional?
+
+### Pontos-chave
+
+- **Visão computacional** = IA que "vê" — classifica, detecta, segmenta, lê e identifica anomalias visuais.
+- A revolução do **Deep Learning** (a partir de 2012) tornou possível resolver problemas antes impossíveis.
+- **5 problemas clássicos**: classificação, detecção, segmentação, OCR, anomalia.
+- Modelos modernos atingem **>99% de precisão** em casos comuns — superando humanos em velocidade, consistência e cobertura.
+- Setores que mais se beneficiam: **automotivo, eletrônicos, alimentos, farmacêutico, siderúrgico**.
+- ROI típico: **payback em meses** quando reclamação custa caro.
+
+### Para saber mais
+
+- **Site Cognex (educativo):** https://www.cognex.com/pt-br/blogs/machine-vision/machine-vision-tutorials
+- **Roboflow Universe (modelos prontos):** https://universe.roboflow.com/
+- **Vídeo (Edge Impulse, YouTube):** "Computer Vision in Manufacturing"
+- **Curso gratuito Stanford CS231n** (avançado, em inglês): https://cs231n.stanford.edu/
+
+---
+
+## Aula 15 — Roteiro da Videoaula 15: "Quando a máquina aprende a ver"
+
+**Duração:** 9 a 11 minutos.
+
+### 1. Abertura (0:00 – 0:30)
+
+> "Câmera olha para uma peça e em milissegundos decide: passa ou não. Hoje a gente entende como isso funciona — e por que mudou tudo em inspeção industrial."
+
+### 2. O que é visão computacional (0:30 – 2:30)
+
+- Definição.
+- 5 problemas clássicos.
+- Como funciona uma CNN, em linguagem simples.
+
+### 3. Aplicações industriais (2:30 – 5:30)
+
+- Soldas, garrafas, placas eletrônicas, aço, OCR, EPI.
+- Setores que mais usam.
+
+### 4. Caso numérico (5:30 – 8:30)
+
+- Fábrica de cosméticos: economia de R\$ 7,1 milhões/ano em reclamações.
+- Caso Embraer (rebites/soldas).
+
+### 5. Encerramento + gancho U16 (8:30 – 11:00)
+
+> "Última aula da disciplina: **IA generativa na engenharia de produção** — o que muda agora que máquinas escrevem, desenham e raciocinam. Te espero!"
+
+---
+
+## Aula 16 — IA generativa na Engenharia de Produção: projeto integrador
+
+Chegamos à **última aula** da disciplina. Vamos falar da fronteira mais recente — **IA generativa** (como o ChatGPT) — e como ela está mudando o trabalho do(a) engenheiro(a) de produção. E vamos fechar com um **projeto integrador**, que conecta tudo o que você aprendeu.
+
+### O que é IA generativa
+
+> **IA generativa** é uma classe de modelos de Machine Learning capazes de **criar** conteúdo novo — texto, imagem, código, áudio, vídeo — em vez de apenas classificar ou prever.
+
+A explosão começou em 2022 com o **ChatGPT** (OpenAI) e outros LLMs (Large Language Models — modelos grandes de linguagem). Hoje há modelos para:
+
+- **Texto:** GPT-5 (OpenAI), Claude (Anthropic), Gemini (Google), Llama (Meta).
+- **Imagem:** DALL-E, Midjourney, Stable Diffusion.
+- **Código:** GitHub Copilot, Cursor, Codex.
+- **Vídeo:** Sora, Runway.
+- **Áudio:** ElevenLabs, Suno.
+
+### Como funciona (em linguagem de gente)
+
+LLMs são **redes neurais gigantescas** (centenas de bilhões de parâmetros) treinadas em **trilhões de palavras** da internet, livros, código.
+
+A "mágica": dada uma sequência de palavras, eles **preveem a próxima palavra mais provável**, repetidamente. É essa simples capacidade que, em escala, gera redações, traduções, código e raciocínio.
+
+Não são "verdadeiros pensadores" — são **previsores estatísticos de próxima palavra**. Isso ajuda a entender o que eles sabem (muito) e o que não sabem (raciocínio em tempo real, autoconsciência, verdade absoluta).
+
+### Aplicações de IA generativa em Engenharia de Produção
+
+Já temos casos reais funcionando em fábricas brasileiras:
+
+1. **Documentação automática** — gerar manuais técnicos, procedimentos operacionais padrão (POPs), instruções de trabalho a partir de descrição.
+2. **Análise de relatórios** — engenheiro pergunta em linguagem natural, IA lê dezenas de relatórios e resume.
+3. **Geração de código** — engenheiros pedem código em linguagem natural; Copilot/Cursor gera.
+4. **Suporte ao operador** — chatbot que responde dúvidas técnicas; reduz dependência de supervisores.
+5. **Análise de causa-raiz** — IA lê histórico de eventos, sugere causas prováveis.
+6. **Design de processo** — IA propõe layouts de linha, sequência de operações.
+7. **Treinamento personalizado** — IA gera exercícios e simulações sob medida para cada operador.
+8. **Tradução técnica** — manuais em inglês traduzidos com fidelidade técnica.
+
+### Limites e cuidados
+
+IA generativa **alucina** — gera respostas que **parecem corretas mas são erradas**. Em engenharia, isso é **perigoso**. Cuidados:
+
+- **Verificar sempre** as respostas em engenharia crítica.
+- **Não confiar cegamente** em IA para decisão de segurança.
+- **Não compartilhar** dados confidenciais em prompts (vazamento).
+- **Manter humano no loop** para decisões importantes.
+
+A regra: IA generativa é **excelente assistente**, **mau decisor autônomo**.
+
+### O profissional da era da IA generativa
+
+A pergunta clássica: "IA vai me substituir?". Resposta nuançada:
+
+- IA **substitui tarefas**, não pessoas. Quem fazia só tarefas substituíveis, sim, perderá espaço.
+- IA **amplifica** quem sabe usar — engenheiro com IA produz **5-10× mais** que sem IA.
+- IA **muda o que importa** — saber **fazer prompts**, **validar respostas**, **interpretar resultados** virou habilidade central.
+- IA **cria novas funções** — prompt engineer, AI ethicist, ML engineer.
+
+Você sai dessa disciplina **preparado(a)** porque sabe **fundamentos** (SI, automação, IA). Esses fundamentos não envelhecem. Mas precisa **continuar aprendendo** o resto da vida — o ritmo é assustador.
+
+### O projeto integrador: tudo que você aprendeu, junto
+
+Para fechar a disciplina, propomos um **projeto integrador** que junta as 4 unidades:
+
+> **Cenário:** uma fábrica de médio porte (autopeças, alimentos, farmacêutico — você escolhe) quer dar um **salto digital** em 18 meses. O orçamento é de R\$ 3 milhões.
 >
-> O roteiro pode ser em tópicos ou texto corrido. Lembre-se da **complementaridade**:
+> **Seu desafio:** elaborar um **plano integrado** que combine:
 >
-> - **Texto escrito** → base teórica, conceitos, fundamentos.
-> - **Videoaula** → aplicações práticas, exemplos, casos reais, discussões.
-
-**Título do vídeo:** IA generativa na Engenharia de Produção — projeto integrador  _(provisório — aguardando ementa)_
-
-**Roteiro:**
-
-_(insira o roteiro aqui)_
-
-## Quiz não avaliativo (2 questões)
-
-> Insira **DUAS** questões para "teste seus conhecimentos" ao longo do conteúdo.
+> 1. **SI estruturado** (U1) — pirâmide DIKW, banco de dados confiável, ERP modernizado.
+> 2. **Sistemas verticais** (U2) — integração ERP + MES + CRM (no mínimo).
+> 3. **Automação industrial** (U3) — IIoT, SCADA, integração TI-OT segura.
+> 4. **IA aplicada** (U4) — manutenção preditiva OU visão computacional OU previsão de demanda OU IA generativa.
 >
-> - Formato: Verdadeiro/Falso ou Múltipla Escolha.
-> - Nível intermediário.
-> - **Feedback**: não diga apenas "correto/incorreto" — explique o conceito por trás da resposta.
+> **Você escolhe** quais elementos priorizar conforme o setor e a dor da empresa.
+
+Este projeto é seu **portfólio** — o que você apresenta em entrevistas, para diretorias, para defender investimentos. Capricha.
+
+### Carreira e próximos passos
+
+Algumas recomendações finais:
+
+1. **Domine SQL e Excel avançado** — base operacional indispensável.
+2. **Aprenda Python** — virou linguagem universal de TI industrial.
+3. **Faça pelo menos um projeto real** de IA durante a graduação — em estágio, TCC, hackathon.
+4. **Acompanhe casos brasileiros** — Klabin, WEG, Embraer, Magalu, Ambev, JBS. Eles definem o estado da arte real.
+5. **Forme rede** — entre em grupos do LinkedIn, eventos do Senai, comunidades técnicas.
+6. **Estude inglês técnico** — quase 90% do conteúdo de ponta está em inglês.
+
+### Encerramento
+
+Você terminou uma disciplina densa. Em 16 aulas, passou de "o que é dado?" até "como usar IA generativa em engenharia". Esse percurso, há 5 anos, não existia em cursos brasileiros de graduação — era exclusividade de pós-graduação técnica.
+
+Você sai com:
+
+- **Vocabulário técnico** completo (TPS, MES, ERP, SCADA, CLP, ML, IIoT, OEE, MAPE...).
+- **Ferramentas mentais** para diagnosticar e propor soluções de TI industrial.
+- **Casos reais** brasileiros e mundiais para defender argumentos.
+- **Visão de futuro** sobre IA aplicada à produção.
+
+Use isso. A indústria brasileira precisa de engenheiros que **saibam o como**, não só o **o quê**. Você terminou esta disciplina nesse lado.
+
+Boa carreira. E vai longe.
+
+### Atividade prática (encerramento da disciplina)
+
+Reflita por escrito:
+
+1. **O que você sabia** sobre SI/automação/IA quando começou a disciplina?
+2. **O que você sabe agora**?
+3. **Qual aula** te impactou mais? Por quê?
+4. **Que tecnologia** quer aprofundar mais?
+5. **Como** imagina aplicar isso na sua carreira nos próximos 3 anos?
+
+Esse texto é só para você — mas guarde. Daqui a 1 ano, leia de novo. Você vai se surpreender com o quanto evoluiu.
+
+### Pontos-chave
+
+- **IA generativa** cria conteúdo novo (texto, imagem, código, áudio, vídeo).
+- LLMs são **previsores estatísticos de próxima palavra**, treinados em escala massiva.
+- Aplicações na engenharia: **documentação, análise, código, suporte ao operador, causa-raiz, design, treinamento, tradução**.
+- IA generativa **alucina** — verificar respostas e manter humano no loop em decisões críticas.
+- O profissional do futuro **usa IA como amplificador** — produz mais, decide melhor, valida sempre.
+- A disciplina te dá fundamentos que **não envelhecem** — mas o ritmo de novidades exige aprendizado contínuo.
+
+### Para saber mais (encerramento da disciplina)
+
+- **OpenAI Documentation:** https://platform.openai.com/docs
+- **Anthropic Claude — research:** https://www.anthropic.com/research
+- **Microsoft Copilot Industrial:** https://www.microsoft.com/industry/manufacturing
+- **Vídeo (Andrej Karpathy, YouTube):** "State of GPT" (excelente introdução técnica)
+- **Livro:** *AI Superpowers* — Kai-Fu Lee (sobre IA e impacto econômico).
+
+---
+
+## Aula 16 — Roteiro da Videoaula 16: "IA generativa e o engenheiro de produção do futuro"
+
+**Duração:** 9 a 11 minutos.
+
+### 1. Abertura (0:00 – 0:30)
+
+> "Última aula da disciplina. Vamos falar da tecnologia que mudou tudo nos últimos 2 anos — **IA generativa** — e do que isso significa para sua carreira."
+
+### 2. O que é IA generativa (0:30 – 3:00)
+
+- Definição, principais modelos (GPT, Claude, Gemini, DALL-E).
+- Como funciona em linguagem de gente.
+- Não pensa — prevê próxima palavra.
+
+### 3. Aplicações na engenharia (3:00 – 6:00)
+
+- Listar 8 aplicações reais.
+- Casos práticos curtos.
+
+### 4. Limites e cuidados (6:00 – 7:30)
+
+- Alucinação, segurança, ética.
+- Humano no loop em decisões críticas.
+
+### 5. Carreira + encerramento (7:30 – 11:00)
+
+- IA substitui tarefas, não pessoas que aprendem.
+- Recomendações finais para carreira (SQL, Python, projetos reais, casos brasileiros, comunidades).
+- "Vai longe. A indústria brasileira precisa de gente como você."
+
+---
+
+## Quiz não avaliativo
 
 ### Questão 1
 
-**Enunciado:**
+A respeito da **relação entre IA, ML e Deep Learning**, assinale a alternativa **correta**:
 
-_(insira o enunciado)_
+- [ ] a. ML é um subcampo do Deep Learning, que por sua vez é um subcampo da IA.
+- [ ] b. IA, ML e Deep Learning são exatamente o mesmo conceito, podendo ser usados como sinônimos.
+- [x] c. Deep Learning é um subcampo do Machine Learning, que por sua vez é um subcampo da Inteligência Artificial; quando se fala em "IA" em projetos industriais hoje, geralmente refere-se a ML supervisionado.
+- [ ] d. IA é a tecnologia mais antiga; ML é mais recente que Deep Learning, sendo invenção de 2020.
 
-- [ ] Alternativa A
-- [ ] Alternativa B
-- [ ] Alternativa C
-- [ ] Alternativa D
+**Resposta correta:** `c`
 
-**Resposta correta:** _(letra)_
-
-**Feedback:**
-
-_(explique por que a alternativa correta está certa, reforçando o conceito)_
+**Feedback:** A (c) descreve corretamente a hierarquia: Deep Learning ⊂ ML ⊂ IA. A (a) inverte a hierarquia. A (b) confunde os conceitos. A (d) é falsa: IA é o termo mais amplo (1956), ML é subcampo, Deep Learning é desenvolvimento dentro de ML mais antigo que 2020 (explosão em 2012).
 
 ### Questão 2
 
-**Enunciado:**
+A respeito dos **três modos de aprendizado em Machine Learning**, assinale a alternativa **correta**:
 
-_(insira o enunciado)_
+- [ ] a. Os três modos são: classificação, regressão e clustering — todos exigem dados rotulados.
+- [x] b. Os três modos são: **supervisionado** (com dados rotulados, ex.: classificação de defeitos), **não supervisionado** (sem rótulos, ex.: agrupamento de clientes), e **por reforço** (aprendizado por tentativa e erro com recompensa, ex.: robô que otimiza movimento).
+- [ ] c. ML supervisionado funciona sem qualquer dado rotulado.
+- [ ] d. Aprendizado por reforço exige dados estruturados em tabela tradicional.
 
-- [ ] Alternativa A
-- [ ] Alternativa B
-- [ ] Alternativa C
-- [ ] Alternativa D
+**Resposta correta:** `b`
 
-**Resposta correta:** _(letra)_
-
-**Feedback:**
-
-_(explique por que a alternativa correta está certa, reforçando o conceito)_
+**Feedback:** A (b) descreve corretamente os três modos de aprendizado em ML. A (a) confunde **modos de aprendizado** (supervisionado, não supervisionado, reforço) com **tipos de problema** (classificação, regressão, clustering). A (c) é falsa: supervisionado **exige** dados rotulados. A (d) é falsa: reforço aprende por **recompensa/punição** em ambientes interativos, não exige tabela tradicional.
 
 ---
 
 ## Atividade Verificadora (AAI — Atividade Avaliativa Individual)
 
-> Elabore **UMA** questão dissertativa sobre o assunto abordado nesta unidade e sua resposta esperada.
-
 **Pergunta:**
 
-_(insira a pergunta)_
+> Você foi convidado(a) a apresentar à diretoria de uma empresa industrial uma **proposta de aplicação de IA** em sua operação. A diretoria está cética — já ouviu muito hype e poucos resultados.
+>
+> Elabore uma resposta dissertativa estruturada em três partes:
+>
+> 1. **Escolha de aplicação** — qual aplicação de IA (manutenção preditiva, visão computacional, previsão de demanda, IA generativa) você priorizaria? Por quê?
+> 2. **Plano de execução** — descreva o ciclo completo do projeto (das 7 fases vistas em aula), com prazos e investimento realista.
+> 3. **Tratamento do ceticismo** — quais 3 objeções a diretoria provavelmente fará e como você responderia (com argumentos técnicos e casos reais)?
 
 **Resposta esperada:**
 
-_(insira a resposta esperada)_
+> Resposta bem fundamentada tipicamente escolhe **manutenção preditiva** ou **visão computacional** como ponto de partida — são as aplicações mais maduras, com ROI documentado em diversos casos. A escolha deve ser **justificada** pelo contexto (qual a dor maior da empresa, qual dado já existe). O plano deve ter as 7 fases (definir problema → coletar → preparar → treinar → validar → deploy → monitorar) com prazos realistas (6-12 meses para piloto, mais 6-12 meses para escala) e investimento entre R\$ 200 mil e R\$ 1 milhão dependendo da escala. As objeções típicas e respostas: (1) "IA é hype, projetos falham em 70%" — resposta: sim, falham quando começam pela tecnologia; resposta certa é começar pelo problema (cita Andrew Ng e literatura); (2) "Não temos dado suficiente" — resposta: estimar volume de dados disponíveis e estimar tempo de coleta adicional se necessário; muitos problemas precisam de meses, não anos; (3) "Vai substituir nossa equipe" — resposta: IA substitui tarefas, não funções; equipe muda de perfil (operadores viram analistas). Resposta de qualidade demonstra **maturidade** — não vende mágica nem subestima desafios; defende com casos reais e números.
 
 ---
 
 ## Material complementar
 
-> Indicações obrigatórias — fazem parte da carga horária da disciplina.
-> Materiais devem ser **públicos** ou disponíveis na **Biblioteca Virtual (BV)**. **Não** são permitidos materiais pagos (Netflix, Amazon, etc.).
-> Indique em qual aula cada material deverá entrar.
+### Direto da fonte — livro da Biblioteca Virtual
 
-### Direto da fonte (livro da Biblioteca Virtual)
+> O livro de Russell e Norvig é a referência mundial em IA. Para esta disciplina, foco nos capítulos introdutórios e em Machine Learning — o necessário para fundamentar tecnicamente discussões sobre IA aplicada à produção.
 
-> Texto provocativo: explique por que é importante consultar a fonte original — o que ela acrescenta à formação do aluno?
+- **Nome do livro:** *Inteligência Artificial — Uma Abordagem Moderna*
+- **Capítulo:** Capítulos 1 (introdução), 18 (aprendizado), 19 (redes neurais)
+- **Autores:** Stuart Russell e Peter Norvig
+- **Editora:** Pearson
+- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+- **Aula em que entra:** Aulas 13 a 16
 
-**Texto provocativo:**
+### Para mergulhar no assunto
 
-_(insira o texto)_
+> Recomendo o documentário **"AlphaGo"** (2017), disponível no YouTube. Mostra a história da IA do Google que venceu o campeão mundial de Go — feito considerado impossível até pouco tempo antes. Não é caso industrial, mas é uma **aula visual** sobre o que ML pode fazer.
 
-- **Nome do livro:** _(título)_
-- **Capítulo:** _(capítulo)_
-- **Link de acesso:** _(URL da BV)_
-- **Aula em que entra:** _(número)_
-
-> Acesso à BV: https://fecaf.brightspace.com/d2l/home — usuário: `professor.conteudista` · senha: `unifecaf2023` → "BV professor".
-
-### Para mergulhar no assunto (Saiba mais)
-
-> Texto provocativo para explorar mais o conteúdo, com correlação com o mercado de trabalho. Pode ser filme, série, vídeo gratuito, blog, livro (não necessariamente técnico), dica de visita (ex: museu).
-
-**Texto provocativo:**
-
-_(insira o texto)_
-
-- **Link(s):** _(URL)_
-- **Aula em que entra:** _(número)_
+- **Link(s):** https://www.youtube.com/watch?v=WXuK6gekU1Y
+- **Aula em que entra:** Aula 13
 
 ### Podcast (curadoria, até 45 min)
 
-> Texto provocativo para estimular a escuta. Preferência: Spotify ou vídeo em formato de podcast no YouTube.
+> O podcast **"Lex Fridman"** entrevista cientistas de IA do mundo inteiro. O episódio com **Andrej Karpathy** (ex-Tesla, OpenAI) é especialmente didático para entender a evolução da IA e o estado da arte.
 
-**Texto provocativo:**
-
-_(insira o texto)_
-
-- **Nome do podcast:** _(nome)_
-- **Nome do episódio:** _(episódio)_
-- **Link:** _(URL)_
-- **Aula em que entra:** _(número)_
+- **Nome do podcast:** Lex Fridman Podcast
+- **Nome do episódio:** "Andrej Karpathy: Tesla AI, Self-Driving"
+- **Link:** https://www.youtube.com/@lexfridman
+- **Aula em que entra:** Aula 16
 
 ### Artigo científico
 
-> Texto provocativo para leitura do artigo. O artigo deve ter relação direta com os tópicos da disciplina, ser fonte confiável e estimular pensamento crítico.
+> Este artigo apresenta um **survey** sobre IA aplicada à manufatura, com casos reais e classificação de aplicações por maturidade tecnológica. Leitura essencial para defender propostas com base em evidência científica.
 
-**Texto provocativo:**
-
-_(insira o texto)_
-
-- **Link:** _(URL/DOI)_
-- **Aula em que entra:** _(número)_
-- **Referência ABNT:**
-  > SOBRENOME, Nome. **Título do artigo**. _Título da revista_, local de publicação, volume, número, p. inicial–final, mês ano de publicação.
-
----
-
-> _Lembrete: revise o conteúdo antes da entrega, garantindo que todas as orientações foram seguidas. A clareza, acessibilidade e conexão com o conteúdo são essenciais para o aprendizado._
+- **Link:** https://doi.org/10.1016/j.jmsy.2020.06.005
+- **Aula em que entra:** Aula 16
+- **Referência bibliográfica do artigo no formato ABNT:**
+  > LI, Bo *et al*. **A review of industrial big data for decision making in intelligent manufacturing**. *Engineering Science and Technology, an International Journal*, v. 29, p. 101021, jun. 2022.
