@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 4 — Maturidade Digital: onde sua empresa está? · Indústria 4.0</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --branco:       #FFFFFF;
+
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-escuro);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote ---------- */
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  /* ---------- Slide: encerramento ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-mute);
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--azul-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Maturidade Digital: onde sua empresa está?</h1>
+      <div class="subtitulo">Unidade 1 — Fundamentos e Contexto Histórico</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">04</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>O que é, de fato, maturidade digital</li>
+        <li>Modelos mais usados no Brasil: <em>Acatech, SIRI, CNI</em></li>
+        <li>Os <em>6 níveis</em> Acatech — da computadorização à autonomia</li>
+        <li>Pirâmide visual: como os níveis se constroem</li>
+        <li>O Brasil em números: onde está a indústria nacional</li>
+        <li>Como pontuar uma dimensão na prática</li>
+        <li>As 15 dimensões que compõem o diagnóstico</li>
+        <li>O que faz uma empresa pular de nível</li>
+        <li>Gancho para a Unidade 2</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — DEFINIÇÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Definição</h3>
+      <h1>Maturidade digital, em uma frase</h1>
+      <p>É o <strong>nível de prontidão tecnológica, organizacional e cultural</strong> de uma empresa para operar como Indústria 4.0.</p>
+      <p>Não é só "ter tecnologia". É ter <em>pessoas, processos e tecnologia juntos</em>:</p>
+      <ul>
+        <li>Uma empresa pode ter o robô mais caro do mundo e ser <strong>pouco madura</strong> — se ninguém olha o dado do robô.</li>
+        <li>E pode ser <strong>muito madura</strong> sem investir tanto — se aproveita ao máximo o que tem.</li>
+      </ul>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — TRÊS MODELOS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Padrões de mercado</h3>
+      <h2>Os três modelos mais usados no Brasil</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Acatech (Alemanha)</h3>
+          <p>6 dimensões (recursos, sistemas, cultura, organização, processos, estratégia) e <strong>6 níveis</strong>.</p>
+        </div>
+        <div class="ponto">
+          <h3>SIRI (Singapura/ONUDI)</h3>
+          <p>16 dimensões em 3 áreas: processos, tecnologia e organização. Usado pelo <em>Senai-Brasil</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Modelo CNI</h3>
+          <p>Adaptado à realidade brasileira, gratuito — disponível no Portal da Indústria.</p>
+        </div>
+        <div class="ponto">
+          <h3>O que escolher?</h3>
+          <p>Para diagnóstico inicial: <strong>CNI</strong>. Para benchmark internacional: <strong>SIRI</strong>. Para profundidade: <strong>Acatech</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — OS 6 NÍVEIS ACATECH ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Modelo Acatech</h3>
+      <h2>Os 6 níveis de maturidade</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">Nível</th>
+            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">Nome</th>
+            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">O que caracteriza</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>Computadorização</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Tem computadores, mas isolados</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">2</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>Conectividade</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Sistemas conversam entre si</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">3</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>Visibilidade</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Vê o estado da operação em tempo real</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">4</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>Transparência</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Entende <em>por que</em> as coisas acontecem</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">5</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>Previsão</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Antecipa o que <em>vai</em> acontecer</td></tr>
+          <tr><td style="padding:0.4em 0.8em;">6</td><td style="padding:0.4em 0.8em;"><strong>Adaptabilidade</strong></td><td style="padding:0.4em 0.8em;">Reage automaticamente — sem humano no loop</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;">A maioria das empresas brasileiras está entre os <strong>níveis 1 e 3</strong>. Subir de 3 para 4 é, em geral, o salto mais difícil.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — PIRÂMIDE SVG DOS 6 NÍVEIS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Visão integrada</h3>
+      <h2>A pirâmide da maturidade digital</h2>
+      <svg viewBox="0 0 1100 440" style="width:100%;max-height:48vh;display:block;margin-top:0.6rem;" role="img" aria-label="Pirâmide de seis níveis da maturidade digital Acatech, com computadorização na base e adaptabilidade no topo.">
+        <!-- Pirâmide invertida em camadas trapezoidais -->
+        <!-- Nível 6 — topo -->
+        <polygon points="450,40 650,40 620,90 480,90" fill="#E91E63"/>
+        <text x="550" y="72" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">6. ADAPTABILIDADE</text>
+        <text x="900" y="72" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">reage sozinha — sem humano no loop</text>
+
+        <!-- Nível 5 -->
+        <polygon points="420,90 680,90 650,150 450,150" fill="#F0CE29"/>
+        <text x="550" y="125" text-anchor="middle" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">5. PREVISÃO</text>
+        <text x="900" y="125" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">antecipa o que vai acontecer (IA)</text>
+
+        <!-- Nível 4 -->
+        <polygon points="380,150 720,150 690,215 410,215" fill="#2BBBE0"/>
+        <text x="550" y="187" text-anchor="middle" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">4. TRANSPARÊNCIA</text>
+        <text x="900" y="187" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">entende causa-raiz dos eventos</text>
+
+        <!-- Nível 3 -->
+        <polygon points="330,215 770,215 740,285 360,285" fill="#1F44A8"/>
+        <text x="550" y="255" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">3. VISIBILIDADE</text>
+        <text x="900" y="255" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">vê estado em tempo real (dashboards)</text>
+
+        <!-- Nível 2 -->
+        <polygon points="270,285 830,285 800,355 300,355" fill="#002057"/>
+        <text x="550" y="325" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">2. CONECTIVIDADE</text>
+        <text x="900" y="325" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">sistemas conversam entre si</text>
+
+        <!-- Nível 1 — base -->
+        <polygon points="200,355 900,355 870,420 230,420" fill="#1A1A1A"/>
+        <text x="550" y="395" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">1. COMPUTADORIZAÇÃO</text>
+        <text x="900" y="395" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">computadores, mas isolados</text>
+
+        <!-- Faixa lateral: maioria das brasileiras -->
+        <rect x="80" y="215" width="40" height="140" fill="#E91E63" opacity="0.18"/>
+        <text x="100" y="290" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="12" font-family="Segoe UI, system-ui, sans-serif" transform="rotate(-90 100 290)">MAIORIA BR (1–3)</text>
+      </svg>
+      <p style="text-align:center;margin-top:0.4em;font-size:0.95rem;color:var(--cinza-mute);">Cada nível <em>contém</em> o anterior: não dá para prever (5) sem visibilidade (3).</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — O BRASIL EM NÚMEROS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Sondagem CNI 2022</h3>
+      <h2>O Brasil em números — onde está a indústria nacional</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>69% até o nível 3</h3>
+          <p>A maioria das indústrias brasileiras opera até "visibilidade em tempo real" — vê o problema, mas não o antecipa.</p>
+        </div>
+        <div class="ponto">
+          <h3>&lt; 10% no nível 5</h3>
+          <p>Pouquíssimas empresas atingiram <em>previsão</em> (manutenção preditiva, demanda preditiva, qualidade preditiva).</p>
+        </div>
+        <div class="ponto">
+          <h3>O salto difícil: 3 → 4</h3>
+          <p>De "ver" para "entender causa-raiz". Exige cultura de análise, não só tecnologia.</p>
+        </div>
+        <div class="ponto">
+          <h3>Setor mais avançado</h3>
+          <p>Automotivo, aeroespacial e petroquímico — onde o custo da parada é muito alto.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.5em;font-size:0.95rem;color:var(--cinza-mute);">Fonte: <em>Sondagem Especial Indústria 4.0 — Confederação Nacional da Indústria (CNI), 2022.</em></p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — PONTUANDO UMA DIMENSÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>Como pontuar a dimensão "Manutenção"</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Nível</th>
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Faixa</th>
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Característica</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">1</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">0–20</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Corretiva (conserta quando quebra)</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">2</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">21–40</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Preventiva por calendário</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">3</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">41–60</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Dashboard em tempo real</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">4</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">61–80</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Análise de causa-raiz</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">5</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">81–95</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Manutenção preditiva com <strong>IA</strong></td></tr>
+          <tr><td style="padding:0.4em 1em;">6</td><td style="padding:0.4em 1em;">96–100</td><td style="padding:0.4em 1em;">Máquina aciona sua própria manutenção</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;">Repita o exercício em <em>10 a 15 dimensões</em> e tire a média — é a fotografia da maturidade.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — AS 15 DIMENSÕES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Cobertura do diagnóstico</h3>
+      <h2>15 dimensões que você pontua na avaliação</h2>
+      <div class="colunas">
+        <div>
+          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;">Processos</h3>
+          <ul style="margin-top:0;">
+            <li>Manutenção</li>
+            <li>Coleta de dados de produção</li>
+            <li>Qualidade</li>
+            <li>Planejamento e PCP</li>
+            <li>Logística interna</li>
+            <li>Cadeia de suprimentos</li>
+          </ul>
+          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;margin-top:0.6em;">Tecnologia</h3>
+          <ul style="margin-top:0;">
+            <li>Conectividade de chão (IIoT)</li>
+            <li>Sistemas (ERP, MES, SCADA)</li>
+            <li>Cibersegurança</li>
+            <li>Cloud / Edge</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;">Organização e pessoas</h3>
+          <ul style="margin-top:0;">
+            <li>Cultura de dado</li>
+            <li>Capacitação técnica</li>
+            <li>Estrutura de governança</li>
+            <li>Tomada de decisão</li>
+            <li>Estratégia digital</li>
+          </ul>
+          <p style="margin-top:1em;background:var(--amarelo);padding:0.6em 0.9em;border-radius:6px;color:var(--azul-fecaf);font-weight:700;">A média ponderada das 15 dimensões = fotografia geral da maturidade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — O QUE FAZ PULAR DE NÍVEL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Os fatores reais</h3>
+      <h2>O que faz uma empresa pular de nível</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Patrocínio da liderança</h3>
+          <p>Sem CEO comprado, o projeto não anda — é o fator número um.</p>
+        </div>
+        <div class="ponto">
+          <h3>Time multidisciplinar</h3>
+          <p>TI + chão de fábrica + finanças, juntos na mesma sala.</p>
+        </div>
+        <div class="ponto">
+          <h3>Pequenas vitórias rápidas</h3>
+          <p>Um piloto que mostre <strong>ROI</strong> antes de escalar.</p>
+        </div>
+        <div class="ponto">
+          <h3>Cultura de dado</h3>
+          <p>Gente que confia em <em>número</em> mais do que em intuição.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;">Quase nunca o problema é só tecnologia. É <strong>cultura e patrocínio</strong>.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — ROADMAP DE SUBIR DE NÍVEL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Subir um nível</h3>
+      <h2>Roadmap típico de 6 a 12 meses</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Fase</th>
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Duração</th>
+            <th scope="col" style="padding:0.5em 1em;text-align:left;">Entregável</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>1. Diagnóstico</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">2–4 semanas</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Pontuação das 15 dimensões + gargalo</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>2. Caso de negócio</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">3–4 semanas</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">ROI estimado e aprovação executiva</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>3. Piloto</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">2–4 meses</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">1 célula/equipamento com KPI medido</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>4. Escala</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">3–6 meses</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Toda a planta na nova prática</td></tr>
+          <tr><td style="padding:0.45em 1em;"><strong>5. Sustenta</strong></td><td style="padding:0.45em 1em;">contínuo</td><td style="padding:0.45em 1em;">Indicadores em rotina + ciclo de melhoria</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.7em;">Subir <strong>um</strong> nível com investimento moderado é uma meta realista. Pular dois de uma vez quase nunca dá certo.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Toda diretoria adora dizer que a empresa é 4.0. Maturidade digital existe para que isso seja medido com método — não com marketing."
+      </blockquote>
+      <cite>— Síntese do modelo Acatech Industrie 4.0 Maturity Index</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 13 — ATIVIDADE PRÁTICA / AAI ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática (insumo da AAI)</h3>
+      <h2>Pontue três dimensões de uma empresa real</h2>
+      <ol>
+        <li>Escolha uma empresa real com a qual você tenha familiaridade.</li>
+        <li>Pontue, de <strong>1 a 6</strong>, três dimensões:
+          <ul style="margin-top:0.3em;">
+            <li><em>Manutenção</em> (use a escala da Aula 4)</li>
+            <li><em>Coleta de dados de produção</em></li>
+            <li><em>Tomada de decisão</em></li>
+          </ul>
+        </li>
+        <li>Calcule a <strong>média</strong> e identifique o nível geral.</li>
+        <li>Eleja <strong>uma dimensão</strong> que poderia subir com investimento moderado — ponto de partida para o roadmap da U4.</li>
+      </ol>
+      <p style="margin-top:0.8em;color:var(--azul-fecaf);font-weight:600;">⏱ 20 minutos · justifique cada nota com fato concreto</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 14 — ENCERRAMENTO + GANCHO U2 ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Obrigado!</h1>
+      <p>Próxima unidade: as tecnologias habilitadoras — IoT, Big Data, nuvem e IA.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navegação -->
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior" title="Slide anterior (←)">‹</button>
+  <span class="counter" title="Navegue com ← → · espaço · Home · End"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide" title="Próximo slide (→ ou espaço)">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  // jump to slide by URL hash (#3 = slide 3)
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

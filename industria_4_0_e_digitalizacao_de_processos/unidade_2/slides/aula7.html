@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 3 — Computação em Nuvem e Edge Computing: onde processar é tão importante quanto o que processar · Indústria 4.0</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --branco:       #FFFFFF;
+
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-escuro);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote ---------- */
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  /* ---------- Slide: encerramento ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-mute);
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--azul-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Computação em Nuvem e Edge Computing: onde processar é tão importante quanto o que processar</h1>
+      <div class="subtitulo">Unidade 2 — Tecnologias Habilitadoras</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">03</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;display:inline-block;margin-top:1.5rem;color:var(--branco);">
+        <li>Pausa para reflexão: forno vs nuvem do outro lado do país</li>
+        <li>O que é nuvem — e o que ela <em>não</em> resolve</li>
+        <li>O que é edge computing e onde ele decide</li>
+        <li>Tabela de decisão: nuvem vs edge linha a linha</li>
+        <li>Anatomia da arquitetura híbrida (com SVG do ciclo)</li>
+        <li>Exemplo numérico: economia de 95% em banda</li>
+        <li>Provedores e serviços IIoT (AWS, Azure, GCP, Siemens, PTC)</li>
+        <li>Atividade prática: dividir as decisões da sua planta</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — PAUSA PARA REFLEXÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Pausa para reflexão</h3>
+      <h1>O forno está superaquecendo. A nuvem decide?</h1>
+      <p>Se o sensor de um forno detecta <strong>excesso de temperatura</strong>, faz mais sentido…</p>
+      <ul>
+        <li>O dado <em>ir até a nuvem</em> (do outro lado do país), <em>decidir</em> e <em>voltar</em>?</li>
+        <li>Ou o próprio <strong>sensor decidir ali, na hora</strong>?</li>
+      </ul>
+      <p style="margin-top:0.5em;background:#FFF9CF;padding:0.6em 0.9em;border-left:5px solid var(--amarelo);border-radius:6px;">100 ms de latência podem ser 5 °C a mais no forno. Em alguns processos, isso é a diferença entre <strong>peça boa</strong> e <strong>sucata</strong>.</p>
+      <p>Essa é, em uma frase, a tensão que vai justificar o <strong>edge computing</strong>.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — NUVEM ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Conceito</h3>
+      <h2>O que é computação em nuvem</h2>
+      <div class="colunas">
+        <div>
+          <p>Uso de <strong>infraestrutura computacional remota</strong> sob demanda, paga por uso — AWS, Azure, GCP.</p>
+          <p>O que ela traz para a 4.0:</p>
+          <ul>
+            <li>Armazenamento praticamente <em>infinito</em></li>
+            <li>Processamento <em>sob demanda</em> (autoscaling)</li>
+            <li>Acesso <em>global</em> em tempo real</li>
+            <li>Serviços prontos (IA, BD, analytics)</li>
+            <li>Custo variável (pay-per-use)</li>
+          </ul>
+        </div>
+        <div class="col-imagem"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Cloud_computing.svg?width=800" alt="Diagrama de computação em nuvem com dispositivos conectados a serviços remotos" style="width:100%;height:100%;object-fit:cover;border-radius:12px;"/></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — LIMITES DA NUVEM ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Os limites da nuvem no chão de fábrica</h3>
+      <h2>Três dores reais — e uma conclusão</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Latência</h3>
+          <p>Ir até o data center e voltar leva <strong>50–200 ms</strong>. Inviável para controle em tempo real.</p>
+        </div>
+        <div class="ponto">
+          <h3>Dependência</h3>
+          <p>Se a internet cai, sua fábrica vira <em>tijolo</em>. Continuidade exige fallback local.</p>
+        </div>
+        <div class="ponto">
+          <h3>Custo de banda</h3>
+          <p>Subir 5 TB/dia × 20 plantas custa caro em transferência e armazenamento.</p>
+        </div>
+        <div class="ponto">
+          <h3>Conclusão</h3>
+          <p>Nem tudo deve ir para a nuvem. É aí que entra o <strong>edge</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — EDGE COMPUTING — DEFINIÇÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Conceito</h3>
+      <h1>O que é edge computing</h1>
+      <p><strong>Edge computing</strong> é processar o dado <em>perto de onde ele é gerado</em> — dentro da fábrica, no próprio gateway ou até no sensor — em vez de enviar tudo para a nuvem.</p>
+      <ul>
+        <li><strong>Decisões críticas</strong> em tempo real ficam <em>na borda</em>.</li>
+        <li><strong>Análises históricas</strong> e modelos pesados sobem para a <em>nuvem</em>.</li>
+        <li><strong>Resiliência:</strong> a planta continua operando mesmo sem internet.</li>
+        <li><strong>Privacidade:</strong> dado sensível pode nem sair da fábrica.</li>
+      </ul>
+      <p style="margin-top:0.5em;background:#E7F6FB;padding:0.6em 0.9em;border-left:5px solid var(--azul-claro);border-radius:6px;font-size:0.95rem;"><em>"Edge" não é substituto da nuvem.</em> É um <strong>parceiro</strong> que assume o que a nuvem não consegue entregar em tempo.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — TABELA NUVEM vs EDGE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Tabela de decisão</h3>
+      <h2>Nuvem vs Edge — quando usar cada um</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Critério</th>
+            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Nuvem</th>
+            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Edge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Latência aceitável</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Centenas de ms</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Milissegundos</strong></td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Tipo de processamento</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Histórico, ML training</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Decisão imediata, controle</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Volume processado</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Massivo (TB/dia)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Pequeno (filtrado)</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Dependência de internet</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Alta</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Baixa</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Variável (pay-per-use)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">CAPEX em hardware local</td></tr>
+          <tr><td style="padding:0.45em 0.9em;"><strong>Exemplo</strong></td><td style="padding:0.45em 0.9em;">Previsão de demanda anual</td><td style="padding:0.45em 0.9em;">Controle de braço robótico</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.6em;">O padrão moderno é <strong>híbrido</strong>: edge filtra e decide local; nuvem analisa e treina.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — SVG: CICLO EDGE ↔ NUVEM ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Arquitetura híbrida</h3>
+      <h2>O ciclo edge ↔ nuvem</h2>
+      <svg viewBox="0 0 1200 380" style="width:100%;max-height:48vh;display:block;margin-top:0.3rem;" role="img" aria-label="Ciclo edge-nuvem: sensores enviam para gateway edge, que filtra e sobe agregado à nuvem; modelo treinado desce de volta ao edge">
+        <!-- Chão de fábrica (esquerda) -->
+        <rect x="40" y="60" width="500" height="280" rx="16" fill="#E7F6FB" stroke="#1F44A8" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="290" y="90" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">CHÃO DE FÁBRICA · EDGE</text>
+
+        <!-- Sensores -->
+        <g>
+          <circle cx="110" cy="180" r="28" fill="#002057"/>
+          <text x="110" y="187" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">SENS</text>
+          <circle cx="110" cy="250" r="28" fill="#002057"/>
+          <text x="110" y="257" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">SENS</text>
+          <text x="110" y="305" text-anchor="middle" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">5 TB/dia bruto</text>
+        </g>
+        <!-- Setas pro gateway -->
+        <line x1="140" y1="180" x2="240" y2="200" stroke="#E91E63" stroke-width="2"/>
+        <line x1="140" y1="250" x2="240" y2="220" stroke="#E91E63" stroke-width="2"/>
+
+        <!-- Gateway edge -->
+        <g>
+          <rect x="270" y="160" width="200" height="120" rx="14" fill="#1F44A8"/>
+          <text x="370" y="195" text-anchor="middle" fill="#FFF" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">GATEWAY EDGE</text>
+          <text x="370" y="220" text-anchor="middle" fill="#F0CE29" font-size="14" font-family="Segoe UI, system-ui, sans-serif">filtra · agrega</text>
+          <text x="370" y="240" text-anchor="middle" fill="#FFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">decide em ms</text>
+          <text x="370" y="260" text-anchor="middle" fill="#2BBBE0" font-size="13" font-family="Segoe UI, system-ui, sans-serif">η ≈ 95% filtrado</text>
+        </g>
+
+        <!-- Conexão WAN -->
+        <line x1="480" y1="220" x2="700" y2="220" stroke="#002057" stroke-width="3" stroke-dasharray="8,6"/>
+        <text x="590" y="208" text-anchor="middle" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">só ~5% (50 GB/dia)</text>
+        <text x="590" y="240" text-anchor="middle" fill="#555" font-size="12" font-family="Segoe UI, system-ui, sans-serif">internet / VPN</text>
+
+        <!-- Nuvem -->
+        <rect x="700" y="60" width="460" height="280" rx="16" fill="#F2F4F8" stroke="#002057" stroke-width="2" stroke-dasharray="6,4"/>
+        <text x="930" y="90" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">NUVEM · ANALÍTICO</text>
+
+        <g>
+          <ellipse cx="850" cy="200" rx="90" ry="55" fill="#2BBBE0"/>
+          <text x="850" y="208" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">DATA LAKE</text>
+          <text x="850" y="280" text-anchor="middle" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">5 anos de histórico</text>
+        </g>
+        <g>
+          <rect x="990" y="160" width="150" height="80" rx="12" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+          <text x="1065" y="195" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">ML TRAINING</text>
+          <text x="1065" y="217" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI, system-ui, sans-serif">modelo novo</text>
+          <text x="1065" y="290" text-anchor="middle" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">dashboards executivos</text>
+        </g>
+
+        <!-- Seta de volta (modelo treinado) -->
+        <path d="M 1000 158 Q 700 60 470 158" fill="none" stroke="#E91E63" stroke-width="3"/>
+        <polygon points="465,155 482,160 478,170" fill="#E91E63"/>
+        <text x="700" y="50" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">modelo treinado desce p/ o edge</text>
+      </svg>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — ANATOMIA DETALHADA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Anatomia detalhada</h3>
+      <h2>O ciclo edge ↔ nuvem em 5 passos</h2>
+      <ol>
+        <li><strong>Sensores</strong> geram <em>5 TB/dia brutos</em>.</li>
+        <li><strong>Gateway edge</strong> filtra: detecta picos, agrega médias por minuto, envia alerta direto ao atuador local.</li>
+        <li><strong>Resumo agregado</strong> sobe para a nuvem (~50 GB/dia, apenas 1% do bruto).</li>
+        <li><strong>Nuvem</strong> mantém histórico de 5 anos, treina modelos, gera dashboards executivos.</li>
+        <li><strong>Modelo treinado</strong> desce de volta para o edge — agora o gateway tem <em>inteligência atualizada</em>.</li>
+      </ol>
+      <p style="margin-top:0.5em;background:#FFF9CF;padding:0.6em 0.9em;border-left:5px solid var(--amarelo);border-radius:6px;font-size:0.95rem;"><em>Esse ciclo é o padrão moderno de IIoT industrial.</em> Edge para tempo real, nuvem para visão de longo prazo, ML viajando entre os dois.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — EXEMPLO NUMÉRICO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>Economizando banda com edge — 95% de filtragem</h2>
+      <div class="colunas">
+        <div>
+          <p><em>Sem edge — tudo sobe bruto:</em></p>
+          <ul>
+            <li>2.000 sensores → 4 GB/dia</li>
+            <li>Transferência AWS: U\$ 0,02/GB</li>
+            <li>4 GB × 30 dias = <strong>U\$ 2,40/mês/planta</strong></li>
+          </ul>
+        </div>
+        <div>
+          <p><em>Com edge — só sobe resumo e alerta (~5%):</em></p>
+          <ul>
+            <li>0,2 GB/dia × 30 dias</li>
+            <li><strong>U\$ 0,12/mês/planta</strong></li>
+            <li>Economia em banda: <strong>95%</strong></li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:0.5em;background:#E7F6FB;padding:0.6em 0.9em;border-left:5px solid var(--azul-claro);border-radius:6px;font-size:0.95rem;">Multiplique por <strong>20 plantas globais</strong> × 12 meses: a economia em banda + armazenamento + computação passa de <strong>dezenas de milhares de dólares/ano</strong>.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — PROVEDORES IIoT ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Quem vende o quê</h3>
+      <h2>Provedores e plataformas IIoT</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>AWS</h3>
+          <p><em>IoT Core</em> (nuvem) + <em>Greengrass</em> (edge). Mais difundida no Brasil.</p>
+        </div>
+        <div class="ponto">
+          <h3>Microsoft Azure</h3>
+          <p><em>IoT Hub</em> + <em>IoT Edge</em>. Forte em integração com SAP e Office.</p>
+        </div>
+        <div class="ponto">
+          <h3>Google Cloud</h3>
+          <p>Cloud IoT + <em>Anthos</em> (edge). Diferencial em ML pronto.</p>
+        </div>
+        <div class="ponto">
+          <h3>Especializadas</h3>
+          <p>Siemens <em>MindSphere</em>, PTC <em>ThingWorx</em>, GE <em>Predix</em>, SAP <em>Leonardo</em>.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;font-size:0.95rem;color:var(--cinza-mute);"><em>Brasil:</em> Locaweb, RNP e Magalu Cloud oferecem alternativas para dado regulado em território nacional.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Nuvem oferece escala e poder; edge oferece velocidade e independência. Eles não competem — se complementam."
+      </blockquote>
+      <cite>— Síntese do conteúdo: o padrão da IIoT moderna é híbrido</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 13 — MITOS E REALIDADES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Mitos e realidades</h3>
+      <h2>Cinco frases que circulam — e o que é verdade</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Frase comum</th>
+            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Realidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Vamos colocar tudo na nuvem"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo de banda + latência + dependência derrubam a ideia.</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Edge é o futuro, nuvem é o passado"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">São <strong>complementares</strong>. Treino na nuvem, inferência no edge.</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Edge dispensa internet"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Reduz dependência; raramente elimina por completo.</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Cloud é mais segura por default"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Depende de configuração. Edge expõe outras superfícies.</td></tr>
+          <tr><td style="padding:0.45em 0.9em;">"Migrar é projeto de TI"</td><td style="padding:0.45em 0.9em;">É projeto de <strong>OT + TI</strong>. Engenheiro de processo precisa entrar.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 14 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Divida as decisões da sua planta</h2>
+      <ol>
+        <li>Pense em um processo da sua empresa (ou de uma que você imagine).</li>
+        <li>Liste as decisões que precisam acontecer em <strong>&lt; 1 segundo</strong> — vão para o <em>edge</em>.</li>
+        <li>Liste as análises que <strong>podem esperar minutos/horas</strong> — vão para a <em>nuvem</em>.</li>
+        <li>Identifique o dado que precisa de <strong>histórico longo</strong> — fica na <em>nuvem</em>.</li>
+        <li>Esboce como você dividiria o trabalho entre as duas camadas.</li>
+      </ol>
+      <p style="margin-top:1.2em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · esboce um diagrama simples · justifique cada decisão.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 15 — PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Pontos-chave</h3>
+      <h2>O que levar da Aula 3</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Cada um no seu papel</h3>
+          <p>Nuvem oferece <em>escala</em>; edge oferece <em>velocidade</em> e <em>independência</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Nem tudo sobe</h3>
+          <p>Latência e dependência de internet são <em>limites reais</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Híbrido é padrão</h3>
+          <p>Edge filtra e decide local; nuvem analisa e treina ML.</p>
+        </div>
+        <div class="ponto">
+          <h3>Não é trade-off</h3>
+          <p>Edge e nuvem <strong>se complementam</strong> — não competem.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 2</span><span>Aula 3 — Videoaula 7</span></div>
+  </section>
+
+  <!-- ============== SLIDE 16 — ENCERRAMENTO ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Obrigado!</h1>
+      <p>Próxima aula: Inteligência Artificial e Machine Learning no chão de fábrica.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navegação -->
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior" title="Slide anterior (←)">‹</button>
+  <span class="counter" title="Navegue com ← → · espaço · Home · End"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide" title="Próximo slide (→ ou espaço)">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  // jump to slide by URL hash (#3 = slide 3)
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

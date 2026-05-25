@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 4 — Indústria 5.0: humano + máquina, sustentabilidade e o futuro próximo · Indústria 4.0</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --branco:       #FFFFFF;
+
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-escuro);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote ---------- */
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  /* ---------- Slide: encerramento ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-mute);
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--azul-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- SVG autoral: Diagrama dos 3 pilares da I5.0 (Venn de 3 círculos) -->
+  <symbol id="pilares-5" viewBox="0 0 520 420">
+    <defs>
+      <radialGradient id="grad-human" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#2BBBE0" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#2BBBE0" stop-opacity="0.55"/>
+      </radialGradient>
+      <radialGradient id="grad-sust" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#1F8A4E" stop-opacity="0.85"/>
+        <stop offset="100%" stop-color="#1F8A4E" stop-opacity="0.55"/>
+      </radialGradient>
+      <radialGradient id="grad-resi" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#F0CE29" stop-opacity="0.9"/>
+        <stop offset="100%" stop-color="#F0CE29" stop-opacity="0.6"/>
+      </radialGradient>
+    </defs>
+    <!-- 3 círculos sobrepostos -->
+    <circle cx="200" cy="160" r="130" fill="url(#grad-human)"/>
+    <circle cx="320" cy="160" r="130" fill="url(#grad-sust)"/>
+    <circle cx="260" cy="270" r="130" fill="url(#grad-resi)"/>
+    <!-- Rótulos -->
+    <text x="160" y="100" text-anchor="middle" font-size="18" font-weight="800" fill="#FFFFFF">CENTRALIDADE</text>
+    <text x="160" y="122" text-anchor="middle" font-size="18" font-weight="800" fill="#FFFFFF">HUMANA</text>
+    <text x="370" y="100" text-anchor="middle" font-size="18" font-weight="800" fill="#FFFFFF">SUSTENTA-</text>
+    <text x="370" y="122" text-anchor="middle" font-size="18" font-weight="800" fill="#FFFFFF">BILIDADE</text>
+    <text x="260" y="365" text-anchor="middle" font-size="18" font-weight="800" fill="#002057">RESILIÊNCIA</text>
+    <!-- Centro: I5.0 -->
+    <g transform="translate(260,200)">
+      <circle r="42" fill="#002057"/>
+      <text y="-2" text-anchor="middle" font-size="20" font-weight="800" fill="#F0CE29">I5.0</text>
+      <text y="18" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">propósito</text>
+    </g>
+  </symbol>
+  <!-- SVG autoral: Linha do tempo I1.0 → I5.0 -->
+  <symbol id="linha-revolucoes" viewBox="0 0 1000 200">
+    <line x1="40" y1="120" x2="960" y2="120" stroke="#1F44A8" stroke-width="3"/>
+    <g font-family="Segoe UI,sans-serif">
+      <g transform="translate(120,120)">
+        <circle r="22" fill="#FFFFFF" stroke="#1F44A8" stroke-width="3"/>
+        <text y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#002057">1.0</text>
+        <text y="-40" text-anchor="middle" font-size="12" fill="#1F44A8" font-weight="600">1784</text>
+        <text y="50" text-anchor="middle" font-size="11" fill="#1A1A1A">vapor</text>
+      </g>
+      <g transform="translate(290,120)">
+        <circle r="22" fill="#FFFFFF" stroke="#1F44A8" stroke-width="3"/>
+        <text y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#002057">2.0</text>
+        <text y="-40" text-anchor="middle" font-size="12" fill="#1F44A8" font-weight="600">1870</text>
+        <text y="50" text-anchor="middle" font-size="11" fill="#1A1A1A">elétrica · linha</text>
+      </g>
+      <g transform="translate(460,120)">
+        <circle r="22" fill="#FFFFFF" stroke="#1F44A8" stroke-width="3"/>
+        <text y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#002057">3.0</text>
+        <text y="-40" text-anchor="middle" font-size="12" fill="#1F44A8" font-weight="600">1969</text>
+        <text y="50" text-anchor="middle" font-size="11" fill="#1A1A1A">eletrônica · TI</text>
+      </g>
+      <g transform="translate(640,120)">
+        <circle r="26" fill="#1F44A8"/>
+        <text y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#F0CE29">4.0</text>
+        <text y="-44" text-anchor="middle" font-size="12" fill="#1F44A8" font-weight="600">2011</text>
+        <text y="56" text-anchor="middle" font-size="11" fill="#1A1A1A">cyber-físico · IIoT · IA</text>
+      </g>
+      <g transform="translate(840,120)">
+        <circle r="28" fill="#1F8A4E"/>
+        <text y="6" text-anchor="middle" font-size="14" font-weight="800" fill="#F0CE29">5.0</text>
+        <text y="-44" text-anchor="middle" font-size="12" fill="#1F8A4E" font-weight="600">2021+</text>
+        <text y="58" text-anchor="middle" font-size="11" fill="#1A1A1A">humano · sustentável · resiliente</text>
+      </g>
+      <!-- Marcador "você está aqui" -->
+      <g transform="translate(740,70)">
+        <rect x="-50" y="-18" width="100" height="22" rx="6" fill="#E91E63"/>
+        <text y="-2" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">você está aqui</text>
+        <path d="M 0 4 L -6 -2 L 6 -2 Z" fill="#E91E63" transform="translate(0,4)"/>
+      </g>
+    </g>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Indústria 5.0: humano + máquina, sustentabilidade e o futuro próximo</h1>
+      <div class="subtitulo">Unidade 4 — Implementação, Casos e Futuro</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">04</div>
+      <h2>O que você verá nesta aula · e da disciplina</h2>
+      <ul style="text-align:left; max-width:720px; margin:1.5em auto 0; color:#fff;">
+        <li>Linha do tempo: de Watt (1784) até a I5.0 — você está aqui</li>
+        <li>O que é <strong>Indústria 5.0</strong> — e por que não substitui a 4.0</li>
+        <li>Os <strong>3 pilares</strong>: humano, sustentável, resiliente</li>
+        <li>Tabela comparativa: <strong>I4.0 vs I5.0</strong></li>
+        <li>Tendências dos próximos <em>5–10 anos</em></li>
+        <li>O papel do(a) engenheiro(a) de produção na 5.0</li>
+        <li>Caso aspiracional: <strong>BMW iFactory</strong></li>
+        <li>Recapitulação da disciplina · encerramento</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — LINHA DO TEMPO DAS REVOLUÇÕES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Onde estamos</h3>
+      <h2>5 revoluções industriais em uma linha</h2>
+      <div style="background:#fff;border-radius:12px;padding:1rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
+        <svg viewBox="0 0 1000 200" width="100%"><use href="#linha-revolucoes"/></svg>
+      </div>
+      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);">Cada revolução tem ~<strong>50–100 anos</strong> entre si. A I4.0 e a I5.0 vão conviver <em>décadas</em> — não escolha entre elas, integre.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — CONCEITO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Conceito</h3>
+      <h1>Indústria 5.0: a 4.0 com propósito</h1>
+      <p><strong>Indústria 5.0</strong> é um conceito emergente que reposiciona a transformação digital industrial em torno de <em>três valores</em>: centralidade humana, sustentabilidade e resiliência.</p>
+      <ul>
+        <li>Proposta pela <strong>Comissão Europeia</strong> em 2021.</li>
+        <li>Motivação: em alguns lugares, a 4.0 virou sinônimo de "automatizar tudo e reduzir gente".</li>
+        <li>A 5.0 <em>reabilita o humano</em> e adiciona dimensões éticas e ambientais.</li>
+        <li>Não substitui a 4.0 — <strong>depende</strong> dela. É a 4.0 amadurecida.</li>
+      </ul>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — 3 PILARES (Venn) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Pilares</h3>
+      <h2>Os 3 pilares da Indústria 5.0</h2>
+      <div class="colunas" style="grid-template-columns:0.9fr 1.1fr;">
+        <div style="display:flex;justify-content:center;">
+          <svg viewBox="0 0 520 420" width="100%" style="max-width:380px;"><use href="#pilares-5"/></svg>
+        </div>
+        <div>
+          <p style="font-size:1.05rem;"><strong>Centralidade humana</strong> — cobots que apoiam, personalização em massa, requalificação, <em>bem-estar como KPI</em>, inclusão.</p>
+          <p style="font-size:1.05rem;"><strong>Sustentabilidade</strong> — economia circular, eficiência energética, materiais reciclados, <em>pegada de carbono por unidade produzida</em>.</p>
+          <p style="font-size:1.05rem;"><strong>Resiliência</strong> — cadeia diversificada, reconfiguração rápida, <em>cibersegurança industrial</em>, estoque inteligente.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.5em;font-size:1rem;color:var(--azul-medio);"><em>A I5.0 é a I4.0 com propósito</em> — humano, ambiental e estratégico.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — I4.0 vs I5.0 ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Comparativo</h3>
+      <h2>I4.0 vs I5.0</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:1.05rem;margin-top:0.5em;">
+        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:#fff;">
+            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">Aspecto</th>
+            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">I4.0</th>
+            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">I5.0</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Foco</strong></td><td style="padding:0.5em 0.8em;">Eficiência, automação</td><td style="padding:0.5em 0.8em;">Humano, sustentabilidade, resiliência</td></tr>
+          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;"><strong>Tecnologia</strong></td><td style="padding:0.5em 0.8em;">Habilita a transformação</td><td style="padding:0.5em 0.8em;">É <em>meio</em>, não fim</td></tr>
+          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Trabalhador</strong></td><td style="padding:0.5em 0.8em;">Pode ser substituído</td><td style="padding:0.5em 0.8em;"><em>Central</em>, potencializado</td></tr>
+          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;"><strong>Meio ambiente</strong></td><td style="padding:0.5em 0.8em;">Mencionado</td><td style="padding:0.5em 0.8em;"><em>Central</em></td></tr>
+          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Modelo econômico</strong></td><td style="padding:0.5em 0.8em;">Crescimento, eficiência</td><td style="padding:0.5em 0.8em;">Equilíbrio lucro–planeta–pessoas</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — TENDÊNCIAS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Próximos 5–10 anos</h3>
+      <h2>Tendências tecnológicas que importam</h2>
+      <div class="colunas">
+        <div>
+          <ul>
+            <li><strong>IA generativa industrial</strong> — manuais técnicos, suporte ao operador.</li>
+            <li><strong>Computação quântica</strong> — otimização combinatória.</li>
+            <li><strong>5G/6G privados</strong> — latência ultra-baixa.</li>
+            <li><strong>Robótica avançada</strong> — humanoides (Tesla Optimus, Figure 01).</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li><strong>Materiais inteligentes</strong> — mudam propriedade conforme estímulo.</li>
+            <li><strong>Bioprodução</strong> — bactérias e fungos como fábricas vivas.</li>
+            <li><strong>Hidrogênio verde</strong> — combustível e matéria-prima.</li>
+            <li><strong>Captura de carbono</strong> — IA otimizando processos.</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);">Você não precisa dominar todas. Precisa <em>saber que existem</em> e ter capacidade de aprender rápido.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — PAPEL DO ENGENHEIRO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Sua carreira</h3>
+      <h2>O(a) engenheiro(a) de produção na I5.0</h2>
+      <p>A função clássica — <strong>gerenciar fluxos</strong> — ganha novas dimensões:</p>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Fluxo de materiais</h3>
+          <p>Continua central — agora com critérios de circularidade.</p>
+        </div>
+        <div class="ponto">
+          <h3>Fluxo de informação</h3>
+          <p>Depende de cibersegurança e governança de dados.</p>
+        </div>
+        <div class="ponto">
+          <h3>Fluxo de pessoas</h3>
+          <p>Qualidade de vida, requalificação, diversidade.</p>
+        </div>
+        <div class="ponto">
+          <h3>Fluxo de carbono</h3>
+          <p>Nova dimensão a gerenciar — KPI obrigatório.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;font-size:1rem;"><em>Profissional híbrido:</em> engenharia tradicional + dados + sustentabilidade.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — BMW iFactory ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Caso aspiracional</h3>
+      <h2>BMW iFactory — a primeira I5.0 em escala</h2>
+      <div class="colunas">
+        <div>
+          <ul style="font-size:1.05rem;">
+            <li><strong>100% energia renovável</strong>.</li>
+            <li><em>Carbono neutro</em> em toda a operação.</li>
+            <li>Cobots e <strong>robôs humanoides</strong> ao lado de 1.500 funcionários.</li>
+            <li>Digital twin completo — incluindo cadeia de fornecedores.</li>
+            <li><strong>Hidrogênio verde</strong> como vetor energético.</li>
+            <li>Reconfiguração da linha em <em>horas</em>, não semanas.</li>
+          </ul>
+        </div>
+        <div class="col-imagem"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/BMW.svg?width=800" alt="Logotipo BMW" style="width:55%;border-radius:12px;"/></div>
+      </div>
+      <p style="margin-top:0.6em;font-size:1rem;color:var(--azul-medio);"><em>Modelo aspiracional</em> — não realidade massiva ainda. Mas indica a direção: a Hungria como laboratório.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — TENDÊNCIAS COMPLEMENTARES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Bônus técnico</h3>
+      <h2>4 tecnologias para ficar de olho</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Bioprodução</h3>
+          <p>Bactérias e fungos produzindo materiais industriais. Couro sem boi, plástico sem petróleo.</p>
+        </div>
+        <div class="ponto">
+          <h3>Materiais inteligentes</h3>
+          <p>Mudam propriedade conforme estímulo (temperatura, campo magnético, luz).</p>
+        </div>
+        <div class="ponto">
+          <h3>Computação quântica</h3>
+          <p>Otimização de problemas combinatórios — roteirização, escalonamento, logística.</p>
+        </div>
+        <div class="ponto">
+          <h3>Captura de carbono</h3>
+          <p>IA otimizando processos de captura de CO₂ — combina sustentabilidade e dado.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);">Não precisa dominar todas — precisa <em>saber que existem</em> para aprender quando virar relevante.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "A Indústria 5.0 é a 4.0 com propósito — humano, ambiental e estratégico."
+      </blockquote>
+      <cite>— Comissão Europeia · síntese do conceito (2021)</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 12 — RECAP DA DISCIPLINA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Toda a disciplina em uma página</h3>
+      <h2>O que você sabe agora</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>U1 · O quê</h3>
+          <p>Contexto histórico das revoluções industriais e definição de I4.0.</p>
+        </div>
+        <div class="ponto">
+          <h3>U2 · Como funciona</h3>
+          <p>IIoT, IA, digital twin, cloud, big data, cibersegurança.</p>
+        </div>
+        <div class="ponto">
+          <h3>U3 · Onde se aplica</h3>
+          <p>Manufatura aditiva, cobots, RA/RV, manutenção preditiva.</p>
+        </div>
+        <div class="ponto">
+          <h3>U4 · Como implementar</h3>
+          <p>BPM, roadmap, casos reais, Indústria 5.0.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;font-size:1.05rem;color:var(--azul-fecaf);font-weight:600;">Você sai com vocabulário, ferramentas mentais e casos — <em>conteúdo de gerente de manufatura digital</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — ATIVIDADE FINAL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática — encerramento</h3>
+      <h2>Reflita por escrito</h2>
+      <ol>
+        <li>O que você <strong>sabia</strong> sobre I4.0 quando começou a disciplina?</li>
+        <li>O que você <strong>sabe agora</strong>?</li>
+        <li>Qual aula <em>te impactou mais</em>? Por quê?</li>
+        <li>Que tecnologia você quer <strong>aprofundar</strong>?</li>
+        <li>Como você imagina <strong>aplicar isso</strong> na sua carreira nos próximos 3 anos?</li>
+      </ol>
+      <p style="margin-top:1.2em;color:var(--azul-medio);font-weight:600;">Esse texto é só para você. Guarde — daqui a 1 ano, releia. Você vai se surpreender com o quanto evoluiu.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 4 — Videoaula 16</span></div>
+  </section>
+
+  <!-- ============== SLIDE 14 — ENCERRAMENTO DA DISCIPLINA ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Disciplina concluída.</h1>
+      <p>Obrigado pela jornada. Boa carreira — e que você seja dos que fazem a 4.0 (e a 5.0) acontecer no Brasil.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navegação -->
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior" title="Slide anterior (←)">‹</button>
+  <span class="counter" title="Navegue com ← → · espaço · Home · End"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide" title="Próximo slide (→ ou espaço)">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  // jump to slide by URL hash (#3 = slide 3)
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>
