@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 4 — Banco de dados na produção: modelagem básica · Sistemas de Informação</title>
+<style>
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body { font-family: var(--fonte-corpo); color: var(--cinza-texto); background: #111; overflow: hidden; }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+  .slide code {
+    background: #002057;
+    color: #F0CE29;
+    padding: 0.12em 0.4em;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.9em;
+  }
+
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (mantido por consistência — não usado nesta aula) ---------- */
+  .slide-prof { padding: 0; background: var(--branco); overflow: hidden; }
+  .prof-grid { display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%; }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center; justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg { filter: brightness(0); }
+  .prof-foto {
+    width: 100%; aspect-ratio: 1 / 1; max-width: 380px;
+    border-radius: 22px; overflow: hidden;
+    background: linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF; border-radius: 50%;
+    box-shadow: -22% 12% 0 -6% #FFFFFF, 30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf); color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome { color: var(--branco) !important; font-size: clamp(2.4rem, 4vw, 3.6rem); margin: 0 0 0.1em; font-weight: 800; letter-spacing: -0.02em; }
+  .prof-cargo { color: rgba(255,255,255,0.9); font-size: clamp(1.1rem, 1.6vw, 1.5rem); font-weight: 400; margin-bottom: 1.5em; }
+  .prof-descricao { color: rgba(255,255,255,0.92); font-size: clamp(0.95rem, 1.15vw, 1.15rem); line-height: 1.55; margin: 0 0 1.5em; }
+  .prof-contato { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong { color: var(--branco); font-weight: 700; margin-right: 0.4em; }
+  .prof-contato-item a { color: var(--azul-claro); text-decoration: none; font-weight: 500; }
+  .prof-contato-item a:hover { text-decoration: underline; }
+  .prof-triangulos-boundary { position: absolute; left: -90px; top: 50%; transform: translateY(-50%); width: 200px; height: 60%; pointer-events: none; z-index: 5; }
+  .prof-canto-topo { position: absolute; top: 0; right: 0; width: 110px; height: 110px; pointer-events: none; }
+  .prof-canto-rodape { position: absolute; bottom: 30px; right: 30px; width: 90px; height: 60px; pointer-events: none; }
+
+  .codeblock {
+    background: #002057;
+    color: #F0CE29;
+    padding: 1.1em 1.4em;
+    border-radius: 8px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+    line-height: 1.5;
+    overflow-x: auto;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+  .codeblock .kw { color: #2BBBE0; font-weight: 700; }
+  .codeblock .str { color: #8DD17E; }
+
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Componentes extras ---------- */
+  .callout-azul {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 1.2em 1.4em;
+    border-radius: 10px;
+    border-left: 8px solid var(--amarelo);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .callout-azul strong { color: var(--amarelo); }
+  .callout-amarelo {
+    background: #FFF4D0;
+    border-left: 6px solid var(--amarelo);
+    padding: 0.9em 1.2em;
+    border-radius: 6px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .stat-card {
+    background: var(--branco);
+    padding: 1.2rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .stat-card .numero-grande {
+    display: block;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--azul-fecaf);
+    margin-bottom: 0.2em;
+  }
+  .stat-card .legenda { font-size: 1rem; color: #444; font-weight: 500; }
+
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Banco de dados na produção: modelagem básica</h1>
+      <div class="subtitulo">Unidade 1 — Fundamentos de Sistemas de Informação</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">04</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>O que é (e o que <em>não é</em>) banco de dados</li>
+        <li>Relacional (SQL) — tabelas, chaves e relacionamentos</li>
+        <li>NoSQL — quando faz sentido (sensores, JSON, grafos)</li>
+        <li>Modelagem ER e a importância da normalização</li>
+        <li>Onde aparecem bancos na fábrica: ERP, MES, Historian, DW</li>
+        <li>Exemplo numérico: SQL vs Excel (3 s vs 4 h)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — CONCEITO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Conceito</h3>
+      <h1>Banco de dados = biblioteca digital</h1>
+      <p>Uma <strong>coleção organizada</strong> de dados, armazenada eletronicamente, que pode ser facilmente <em>consultada, atualizada e analisada</em>.</p>
+      <p>Pense em prateleiras (tabelas), livros (linhas) e capítulos (colunas). Tudo organizado para você encontrar rápido o que precisa.</p>
+      <div style="background:#FFF4D0;border-left:6px solid var(--amarelo);padding:0.9em 1.2em;border-radius:6px;margin-top:1em;">
+        <strong>Importante:</strong> uma planilha de Excel <em>não é</em> banco de dados de verdade — é só um arquivo. Banco real serve <em>vários usuários</em> ao mesmo tempo, com controle de acesso, integridade e segurança.
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — RELACIONAL (tabela exemplo) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Modelo relacional</h3>
+      <h2>Tabelas, linhas, colunas e chaves</h2>
+      <p><strong>SQL</strong> é a linguagem mais usada em TI corporativa do mundo. Exemplo — tabela de Pedidos:</p>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.85rem,1.05vw,1rem);margin-top:0.4em;">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.45em 0.8em;text-align:left;">ID_Pedido <small>(PK)</small></th>
+            <th style="padding:0.45em 0.8em;text-align:left;">Data</th>
+            <th style="padding:0.45em 0.8em;text-align:left;">CPF_Cliente <small>(FK)</small></th>
+            <th style="padding:0.45em 0.8em;text-align:left;">Produto</th>
+            <th style="padding:0.45em 0.8em;text-align:left;">Qtd</th>
+            <th style="padding:0.45em 0.8em;text-align:left;">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1001</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">2026-05-19</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">123.456.789-00</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Tampa 60mm</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">5.000</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">R$ 12.500</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1002</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">2026-05-19</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">987.654.321-00</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Tampa 80mm</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">2.000</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">R$ 6.000</td></tr>
+          <tr><td style="padding:0.4em 0.8em;">1003</td><td style="padding:0.4em 0.8em;">2026-05-20</td><td style="padding:0.4em 0.8em;">123.456.789-00</td><td style="padding:0.4em 0.8em;">Tampa 60mm</td><td style="padding:0.4em 0.8em;">3.000</td><td style="padding:0.4em 0.8em;">R$ 7.500</td></tr>
+        </tbody>
+      </table>
+      <ul style="margin-top:0.8em;">
+        <li><strong>PK (chave primária)</strong> — identifica unicamente cada linha.</li>
+        <li><strong>FK (chave estrangeira)</strong> — referencia outra tabela (Clientes).</li>
+      </ul>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — PK e FK NA PRÁTICA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Conectando tabelas</h3>
+      <h2>Chave primária (PK) e chave estrangeira (FK)</h2>
+      <svg viewBox="0 0 1100 280" style="width:100%;max-height:42vh;display:block;" role="img" aria-label="Diagrama mostrando relação entre tabela Clientes (PK = CPF) e tabela Pedidos (FK = CPF_Cliente)">
+        <!-- Tabela Clientes -->
+        <rect x="60" y="50" width="380" height="180" rx="10" fill="#FFFFFF" stroke="#002057" stroke-width="2"/>
+        <rect x="60" y="50" width="380" height="36" rx="10" fill="#002057"/>
+        <text x="250" y="74" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">CLIENTES</text>
+        <text x="80" y="115" fill="#E91E63" font-weight="700" font-size="13" font-family="Consolas, monospace">CPF (PK)</text>
+        <text x="80" y="138" fill="#1A1A1A" font-size="12" font-family="Consolas, monospace">nome</text>
+        <text x="80" y="160" fill="#1A1A1A" font-size="12" font-family="Consolas, monospace">endereço</text>
+        <text x="80" y="182" fill="#1A1A1A" font-size="12" font-family="Consolas, monospace">telefone</text>
+        <text x="240" y="115" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">123.456.789-00</text>
+        <text x="240" y="138" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">João Silva</text>
+        <text x="240" y="160" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">Rua A, 100</text>
+        <text x="240" y="182" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">(11) 9999-9999</text>
+
+        <!-- Seta -->
+        <line x1="450" y1="120" x2="640" y2="120" stroke="#E91E63" stroke-width="3" stroke-dasharray="6,4"/>
+        <polygon points="640,120 626,113 626,127" fill="#E91E63"/>
+        <text x="545" y="108" text-anchor="middle" fill="#E91E63" font-weight="700" font-size="12" font-family="Segoe UI, system-ui, sans-serif">FK aponta para PK</text>
+
+        <!-- Tabela Pedidos -->
+        <rect x="650" y="50" width="400" height="180" rx="10" fill="#FFFFFF" stroke="#002057" stroke-width="2"/>
+        <rect x="650" y="50" width="400" height="36" rx="10" fill="#002057"/>
+        <text x="850" y="74" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">PEDIDOS</text>
+        <text x="670" y="115" fill="#E91E63" font-weight="700" font-size="13" font-family="Consolas, monospace">ID_Pedido (PK)</text>
+        <text x="670" y="138" fill="#1F44A8" font-weight="700" font-size="13" font-family="Consolas, monospace">CPF_Cliente (FK)</text>
+        <text x="670" y="160" fill="#1A1A1A" font-size="12" font-family="Consolas, monospace">produto</text>
+        <text x="670" y="182" fill="#1A1A1A" font-size="12" font-family="Consolas, monospace">valor</text>
+        <text x="860" y="115" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">1001</text>
+        <text x="860" y="138" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">123.456.789-00</text>
+        <text x="860" y="160" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">Tampa 60mm</text>
+        <text x="860" y="182" fill="#1A1A1A" font-size="11" font-family="Consolas, monospace">R$ 12.500</text>
+
+        <text x="550" y="265" text-anchor="middle" fill="#002057" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">PK identifica unicamente a linha · FK conecta tabelas sem duplicar dado</text>
+      </svg>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — NOSQL (4 pontos-chave) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Não só tabela</h3>
+      <h2>Bancos NoSQL — quando faz sentido</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Documentos</h3>
+          <p><em>MongoDB</em>. Guarda objetos JSON com estrutura flexível.</p>
+        </div>
+        <div class="ponto">
+          <h3>Time Series</h3>
+          <p><em>InfluxDB, TimescaleDB</em>. Otimizado para <strong>sensor IIoT</strong>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Colunar</h3>
+          <p><em>BigQuery, ClickHouse</em>. Otimizado para análise massiva.</p>
+        </div>
+        <div class="ponto">
+          <h3>Grafo</h3>
+          <p><em>Neo4j</em>. Relações entre entidades — fraude, redes sociais.</p>
+        </div>
+      </div>
+      <p style="margin-top:1em;font-size:1rem;color:#555;">Em uma fábrica moderna, vários tipos <em>convivem</em>: ERP usa relacional, IIoT usa time series, IA usa colunar.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — SQL vs NOSQL (tabela comparativa) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Comparativo</h3>
+      <h2>SQL × NoSQL — quando usar cada um</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.1vw,1.05rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.55em 0.8em;text-align:left;">Característica</th>
+            <th style="padding:0.55em 0.8em;text-align:left;">SQL (relacional)</th>
+            <th style="padding:0.55em 0.8em;text-align:left;">NoSQL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Estrutura</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Tabelas rígidas, schema fixo</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Flexível (JSON, série, grafo)</td></tr>
+          <tr><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Consistência</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;"><strong>ACID</strong> — forte</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">BASE — eventual</td></tr>
+          <tr><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Escala</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Vertical (servidor maior)</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Horizontal (mais nós)</td></tr>
+          <tr><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">Caso típico</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">ERP, financeiro, fiscal</td><td style="padding:0.45em 0.8em;border-bottom:1px solid #ddd;">IoT, log, IA, redes sociais</td></tr>
+          <tr><td style="padding:0.45em 0.8em;"><strong>Exemplo</strong></td><td style="padding:0.45em 0.8em;">PostgreSQL · Oracle · SQL Server</td><td style="padding:0.45em 0.8em;">MongoDB · Redis · InfluxDB · Neo4j</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1em;">Não é "qual é melhor" — é <strong>qual serve para qual problema</strong>. Em uma fábrica, os dois <em>convivem</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — MODELO ER (SVG próprio) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Modelagem ER</h3>
+      <h2>O mapa do banco — antes de programar</h2>
+      <svg viewBox="0 0 1100 360" style="width:100%;max-height:48vh;display:block;" role="img" aria-label="Diagrama entidade-relacionamento: clientes, pedidos, produtos, ordens de produção, operações, máquinas">
+        <!-- Clientes -->
+        <rect x="40" y="140" width="180" height="70" rx="10" fill="#E91E63"/>
+        <text x="130" y="170" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="17" font-family="Segoe UI, system-ui, sans-serif">CLIENTES</text>
+        <text x="130" y="192" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">CPF · nome · endereço</text>
+
+        <!-- Linha 1:n -->
+        <line x1="220" y1="175" x2="290" y2="175" stroke="#002057" stroke-width="2"/>
+        <text x="234" y="168" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">1</text>
+        <text x="274" y="168" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">n</text>
+
+        <!-- Pedidos -->
+        <rect x="290" y="140" width="180" height="70" rx="10" fill="#1F44A8"/>
+        <text x="380" y="170" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="17" font-family="Segoe UI, system-ui, sans-serif">PEDIDOS</text>
+        <text x="380" y="192" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">ID · data · valor</text>
+
+        <!-- n:m com Produtos -->
+        <line x1="470" y1="175" x2="540" y2="175" stroke="#002057" stroke-width="2"/>
+        <text x="484" y="168" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">n</text>
+        <text x="524" y="168" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">m</text>
+
+        <!-- Produtos -->
+        <rect x="540" y="140" width="180" height="70" rx="10" fill="#F0CE29" stroke="#002057" stroke-width="2"/>
+        <text x="630" y="170" text-anchor="middle" fill="#002057" font-weight="800" font-size="17" font-family="Segoe UI, system-ui, sans-serif">PRODUTOS</text>
+        <text x="630" y="192" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">SKU · descrição</text>
+
+        <!-- Pedidos → Ordens 1:n (vertical) -->
+        <line x1="380" y1="210" x2="380" y2="260" stroke="#002057" stroke-width="2"/>
+        <text x="368" y="225" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">1</text>
+        <text x="368" y="255" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">n</text>
+
+        <!-- Ordens de Produção -->
+        <rect x="290" y="260" width="180" height="70" rx="10" fill="#2BBBE0"/>
+        <text x="380" y="290" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">ORDENS PROD.</text>
+        <text x="380" y="312" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">OP · status · qtd</text>
+
+        <!-- Ordens → Operações 1:n -->
+        <line x1="470" y1="295" x2="540" y2="295" stroke="#002057" stroke-width="2"/>
+        <text x="484" y="288" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">1</text>
+        <text x="524" y="288" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">n</text>
+
+        <!-- Operações -->
+        <rect x="540" y="260" width="180" height="70" rx="10" fill="#8DD17E"/>
+        <text x="630" y="290" text-anchor="middle" fill="#002057" font-weight="800" font-size="17" font-family="Segoe UI, system-ui, sans-serif">OPERAÇÕES</text>
+        <text x="630" y="312" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">tipo · tempo</text>
+
+        <!-- Operações → Máquinas n:1 -->
+        <line x1="720" y1="295" x2="790" y2="295" stroke="#002057" stroke-width="2"/>
+        <text x="734" y="288" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">n</text>
+        <text x="774" y="288" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">1</text>
+
+        <!-- Máquinas -->
+        <rect x="790" y="260" width="180" height="70" rx="10" fill="#002057"/>
+        <text x="880" y="290" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="17" font-family="Segoe UI, system-ui, sans-serif">MÁQUINAS</text>
+        <text x="880" y="312" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">tag · linha</text>
+
+        <!-- Título -->
+        <text x="40" y="40" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Exemplo: ER de uma fábrica</text>
+        <text x="40" y="65" fill="#555" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Um cliente tem vários pedidos; cada pedido tem vários produtos e gera ordens; ordens têm operações; operações usam máquinas.</text>
+      </svg>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — NORMALIZAÇÃO (por que dividir tabelas) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Por que dividir tabelas</h3>
+      <h2>Normalização — eliminar redundância</h2>
+      <div class="colunas">
+        <div>
+          <p><strong>Tabela "tudo junto"</strong> (errado):</p>
+          <table style="width:100%;border-collapse:collapse;font-size:0.85rem;background:#FFFFFF;border-radius:6px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+            <thead><tr style="background:#E91E63;color:#FFFFFF;"><th style="padding:0.4em;">Pedido</th><th style="padding:0.4em;">Cliente</th><th style="padding:0.4em;">Telefone</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:0.35em;border-bottom:1px solid #eee;">1001</td><td style="padding:0.35em;border-bottom:1px solid #eee;">João</td><td style="padding:0.35em;border-bottom:1px solid #eee;">(11) 9999-9999</td></tr>
+              <tr><td style="padding:0.35em;border-bottom:1px solid #eee;">1002</td><td style="padding:0.35em;border-bottom:1px solid #eee;">João</td><td style="padding:0.35em;border-bottom:1px solid #eee;">(11) 9999-9999</td></tr>
+              <tr><td style="padding:0.35em;">1003</td><td style="padding:0.35em;">João</td><td style="padding:0.35em;">(11) 9999-9999</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:0.95rem;color:#E91E63;margin-top:0.4em;"><strong>Problema:</strong> João trocou o telefone? Atualizar em todas as linhas.</p>
+        </div>
+        <div>
+          <p><strong>Normalizado</strong> (correto):</p>
+          <p style="font-size:0.9rem;background:#FFFFFF;border-radius:6px;padding:0.6em;box-shadow:0 2px 8px rgba(0,0,0,0.06);"><strong>Clientes</strong>: João → (11) 9999-9999<br/><br/><strong>Pedidos</strong>: 1001 · 1002 · 1003 → CPF de João</p>
+          <p style="font-size:0.95rem;color:var(--azul-medio);margin-top:0.4em;"><strong>Trocou o telefone?</strong> Atualiza <em>uma única linha</em> em Clientes.</p>
+        </div>
+      </div>
+      <div class="callout-amarelo" style="margin-top:0.8em;font-size:1rem;">Bancos reais ficam <strong>normalizados até 3FN</strong>: cada fato em um único lugar; cada lugar com uma chave que o identifica.</div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — BANCOS NA FÁBRICA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Onde aparecem na fábrica</h3>
+      <h2>Quatro bancos típicos — quatro papéis</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>ERP</h3>
+          <p>Banco enorme, <em>relacional</em>, centenas de tabelas — o TPS principal.</p>
+        </div>
+        <div class="ponto">
+          <h3>MES</h3>
+          <p>Banco de produção em <strong>tempo real</strong> — estado das máquinas, OPs em execução.</p>
+        </div>
+        <div class="ponto">
+          <h3>Historian</h3>
+          <p>Banco de <em>séries temporais</em> — leituras de sensor, SCADA, IIoT.</p>
+        </div>
+        <div class="ponto">
+          <h3>Data Warehouse / Lake</h3>
+          <p>Banco analítico — consolida tudo para BI e IA.</p>
+        </div>
+      </div>
+      <p style="margin-top:1em;font-size:1rem;color:#555;">Você não vai <em>criar</em> esses bancos — mas precisa <strong>entendê-los</strong> para fazer as perguntas certas.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — ARQUITETURA DE DADOS DA FÁBRICA (SVG) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Cada banco em seu lugar</h3>
+      <h2>Como os bancos da fábrica conversam</h2>
+      <svg viewBox="0 0 1100 320" style="width:100%;max-height:44vh;display:block;" role="img" aria-label="Arquitetura de dados: sensores alimentam Historian; ERP e MES alimentam Data Warehouse que alimenta BI e IA">
+        <!-- Sensores -->
+        <rect x="20" y="40" width="200" height="55" rx="10" fill="#8DD17E"/>
+        <text x="120" y="74" text-anchor="middle" fill="#002057" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">SENSORES · SCADA</text>
+
+        <!-- Historian -->
+        <rect x="20" y="130" width="200" height="55" rx="10" fill="#1F44A8"/>
+        <text x="120" y="155" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">HISTORIAN</text>
+        <text x="120" y="175" text-anchor="middle" fill="#FFFFFF" font-size="11" font-family="Segoe UI, system-ui, sans-serif">série temporal</text>
+
+        <line x1="120" y1="95" x2="120" y2="130" stroke="#002057" stroke-width="2"/>
+        <polygon points="120,130 113,118 127,118" fill="#002057"/>
+
+        <!-- MES -->
+        <rect x="280" y="40" width="200" height="55" rx="10" fill="#2BBBE0"/>
+        <text x="380" y="74" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">MES</text>
+
+        <rect x="280" y="130" width="200" height="55" rx="10" fill="#1F44A8"/>
+        <text x="380" y="155" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="14" font-family="Segoe UI, system-ui, sans-serif">BANCO DE PRODUÇÃO</text>
+        <text x="380" y="175" text-anchor="middle" fill="#FFFFFF" font-size="11" font-family="Segoe UI, system-ui, sans-serif">relacional · tempo real</text>
+
+        <line x1="380" y1="95" x2="380" y2="130" stroke="#002057" stroke-width="2"/>
+        <polygon points="380,130 373,118 387,118" fill="#002057"/>
+
+        <!-- ERP -->
+        <rect x="540" y="40" width="200" height="55" rx="10" fill="#E91E63"/>
+        <text x="640" y="74" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">ERP</text>
+
+        <rect x="540" y="130" width="200" height="55" rx="10" fill="#1F44A8"/>
+        <text x="640" y="155" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="14" font-family="Segoe UI, system-ui, sans-serif">BANCO DO NEGÓCIO</text>
+        <text x="640" y="175" text-anchor="middle" fill="#FFFFFF" font-size="11" font-family="Segoe UI, system-ui, sans-serif">relacional · OLTP</text>
+
+        <line x1="640" y1="95" x2="640" y2="130" stroke="#002057" stroke-width="2"/>
+        <polygon points="640,130 633,118 647,118" fill="#002057"/>
+
+        <!-- DW central -->
+        <rect x="280" y="220" width="540" height="70" rx="12" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+        <text x="550" y="250" text-anchor="middle" fill="#002057" font-weight="900" font-size="18" font-family="Segoe UI, system-ui, sans-serif">DATA WAREHOUSE / DATA LAKE</text>
+        <text x="550" y="272" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI, system-ui, sans-serif">colunar · analítico · alimenta BI e IA</text>
+
+        <!-- Setas dos 3 bancos para DW -->
+        <line x1="120" y1="185" x2="350" y2="220" stroke="#002057" stroke-width="2.5"/>
+        <line x1="380" y1="185" x2="500" y2="220" stroke="#002057" stroke-width="2.5"/>
+        <line x1="640" y1="185" x2="700" y2="220" stroke="#002057" stroke-width="2.5"/>
+
+        <!-- BI / IA -->
+        <rect x="860" y="220" width="220" height="70" rx="12" fill="#002057"/>
+        <text x="970" y="250" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">BI · IA · Decisão</text>
+        <text x="970" y="272" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">subindo a pirâmide DIKW</text>
+
+        <line x1="820" y1="255" x2="860" y2="255" stroke="#002057" stroke-width="2.5"/>
+        <polygon points="860,255 848,248 848,262" fill="#002057"/>
+      </svg>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — EXEMPLO SQL vs Excel ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>SQL vs Excel — 3 segundos vs 4 horas</h2>
+      <p>"Qual produto foi mais vendido para o Sudeste no último trimestre?"</p>
+      <div class="codeblock">
+<span class="kw">SELECT</span> produto, <span class="kw">SUM</span>(quantidade) <span class="kw">AS</span> total<br/>
+<span class="kw">FROM</span> pedidos<br/>
+<span class="kw">WHERE</span> regiao = <span class="str">'Sudeste'</span><br/>
+&nbsp;&nbsp;<span class="kw">AND</span> data <span class="kw">BETWEEN</span> <span class="str">'2026-01-01'</span> <span class="kw">AND</span> <span class="str">'2026-03-31'</span><br/>
+<span class="kw">GROUP BY</span> produto<br/>
+<span class="kw">ORDER BY</span> total <span class="kw">DESC</span><br/>
+<span class="kw">LIMIT</span> 1;
+      </div>
+      <div class="colunas" style="margin-top:1em;">
+        <div style="background:#FFFFFF;border-left:6px solid var(--magenta);padding:0.9em 1.1em;border-radius:6px;">
+          <strong>No Excel:</strong> 200 mil linhas, filtros manuais, soma e ordenação. <em>~ 2 a 4 horas</em> · com erros.
+        </div>
+        <div style="background:#FFFFFF;border-left:6px solid var(--azul-medio);padding:0.9em 1.1em;border-radius:6px;">
+          <strong>Com SQL:</strong> 6 linhas de consulta · <em>3 segundos</em> · sem erros.
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Data is the new oil. It’s valuable, but if unrefined it cannot really be used."
+      </blockquote>
+      <cite>— Clive Humby, matemático e referência em data science</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 14 — PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Recapitulando</h3>
+      <h2>O que levar embora</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Banco ≠ planilha</h3>
+          <p>Banco é multi-usuário, com integridade, controle, escalabilidade. Excel é só arquivo.</p>
+        </div>
+        <div class="ponto">
+          <h3>SQL × NoSQL</h3>
+          <p>SQL para ERP/negócio. NoSQL para sensor, JSON, grafo, análise massiva.</p>
+        </div>
+        <div class="ponto">
+          <h3>Modele antes</h3>
+          <p><strong>ER</strong> primeiro — entidades, chaves, relacionamentos. Codar sem modelar é receita de dor.</p>
+        </div>
+        <div class="ponto">
+          <h3>4 bancos na fábrica</h3>
+          <p>ERP · MES · Historian · Data Warehouse. Cada um para seu papel.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 15 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Desenhe um modelo ER simples</h2>
+      <p>Em uma folha em branco, modele o cenário:</p>
+      <p style="background:#FFFFFF;border-left:6px solid var(--azul-medio);padding:0.9em 1.1em;border-radius:6px;font-style:italic;">
+        Uma fábrica recebe <em>pedidos</em> de <em>clientes</em>. Cada pedido tem um ou mais <em>produtos</em>, em quantidades específicas. A fábrica produz com <em>máquinas</em> organizadas em <em>linhas de produção</em>. Cada produto é fabricado em uma linha específica.
+      </p>
+      <ol style="margin-top:0.8em;">
+        <li>Quais são as <strong>entidades</strong> (futuras tabelas)?</li>
+        <li>Quais são as <strong>chaves primárias</strong> de cada uma?</li>
+        <li>Quais os <strong>relacionamentos</strong> — 1:n ou n:m?</li>
+      </ol>
+      <p style="margin-top:0.6em;color:var(--azul-escuro);font-weight:600;">⏱ 20 minutos · entregar como insumo para a próxima unidade</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <!-- ============== SLIDE 16 — ENCERRAMENTO (gancho para U2) ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Unidade 1 concluída!</h1>
+      <p>Próxima unidade: <strong style="color:var(--branco);">ERP, MES, SCM, WMS, CRM, PLM</strong> — os sistemas verticais que rodam o chão de fábrica brasileiro.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

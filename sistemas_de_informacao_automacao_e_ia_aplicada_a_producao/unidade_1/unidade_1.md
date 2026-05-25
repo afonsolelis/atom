@@ -39,6 +39,8 @@ Antes de qualquer outra coisa, precisamos alinhar **vocabulário básico**. Voc�
 
 ### A pirâmide DIKW: dado, informação, conhecimento e sabedoria
 
+![Pirâmide DIKW (Data, Information, Knowledge, Wisdom) representando a hierarquia entre dado, informação, conhecimento e sabedoria](https://upload.wikimedia.org/wikipedia/commons/0/06/DIKW-diagram.png)
+
 Há um modelo clássico chamado **pirâmide DIKW** (Data, Information, Knowledge, Wisdom) que organiza esses conceitos:
 
 | Camada | Pergunta que responde | Exemplo industrial |
@@ -180,6 +182,8 @@ Anote no caderno — vamos voltar nisso na Aula 2.
 Agora que você sabe o que é dado, informação e conhecimento, vamos para o segundo conceito-base: **o que é um Sistema de Informação (SI)?** Vou te dar a definição clara, mostrar os 5 componentes que todo SI tem, e listar os principais tipos que você vai encontrar na indústria.
 
 ### A definição em uma frase
+
+![Centro de operações com servidores e telas de monitoramento — ilustração típica de um Sistema de Informação corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Information_security_operations_center.jpg/1280px-Information_security_operations_center.jpg)
 
 > **Sistema de Informação (SI)** é um conjunto coordenado de **pessoas, processos, dados, software e hardware** que **coleta, processa, armazena e distribui informações** para apoiar a operação, a gestão e a tomada de decisão em uma organização.
 
@@ -367,6 +371,8 @@ Características:
 
 ### ERP — Enterprise Resource Planning
 
+![Diagrama de arquitetura de um sistema ERP integrando os módulos de finanças, RH, vendas, produção, compras e logística em torno de uma base de dados central](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/ERP_Modules.png/1024px-ERP_Modules.png)
+
 > **ERP** é o sistema **integrador** da empresa — junta em uma única base de dados os processos de **finanças, RH, produção, vendas, compras, estoque, contabilidade**.
 
 ERP é o **espinha dorsal** da TI empresarial moderna. Características:
@@ -497,6 +503,8 @@ Uma planilha de Excel **não é** banco de dados de verdade. É um arquivo. Banc
 
 ### Banco de dados relacional (SQL)
 
+![Diagrama de banco de dados relacional mostrando tabelas, colunas, chaves primárias e estrangeiras](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Relational_key.png/1024px-Relational_key.png)
+
 A categoria mais comum em empresas é o **banco de dados relacional**, baseado no modelo de **tabelas**. Características:
 
 - **Tabela** = entidade. Ex.: tabela de Clientes, tabela de Pedidos, tabela de Produtos.
@@ -525,7 +533,7 @@ Existem também **bancos NoSQL** (Not Only SQL), que **não usam tabelas rígida
 - **Grafo (Neo4j)** — guarda relações entre entidades (redes sociais, fraude).
 - **Time series (InfluxDB, TimescaleDB)** — otimizado para dados de sensor IIoT.
 
-Em uma fábrica moderna, **convivem** vários tipos: ERP usa relacional, IIoT usa time series, IA usa colunar para análise. Cada um para o que faz melhor.
+Em uma fábrica moderna **convivem** vários tipos: ERP usa relacional, IIoT usa time series, IA usa colunar — cada um para o que faz melhor.
 
 ### Modelagem básica: entidades e relacionamentos
 
@@ -554,7 +562,7 @@ Exemplo de modelagem para uma fábrica:
 
 A leitura: **um** cliente pode ter **vários** pedidos; cada pedido pode ter **vários** produtos; cada pedido gera **uma ou mais** ordens de produção; ordem tem **várias** operações; operações usam **máquinas**.
 
-Esse desenho é o **mapa** do banco de dados — e antes de programar **nada**, você desenha. Engenheiros que pulam essa etapa criam bancos confusos que ninguém entende.
+Esse desenho é o **mapa** do banco — e antes de programar **nada**, você desenha.
 
 ### Normalização: por que dividir os dados em várias tabelas?
 
@@ -571,7 +579,7 @@ Em uma fábrica, banco de dados aparece em vários lugares:
 3. **Historian** — banco de séries temporais (leituras de sensor, MES, SCADA).
 4. **Data warehouse / data lake** — banco analítico (consolida tudo para BI/IA).
 
-Você como engenheiro(a) **não precisa criar** esses bancos do zero (TI faz). Mas **precisa entender** o que cada um tem, para fazer perguntas certas e cruzar dados.
+Você como engenheiro(a) **não precisa criar** esses bancos do zero — mas **precisa entender** o que cada um tem, para fazer perguntas certas e cruzar dados.
 
 ### Exemplo numérico: o ganho de eficiência de uma consulta SQL
 

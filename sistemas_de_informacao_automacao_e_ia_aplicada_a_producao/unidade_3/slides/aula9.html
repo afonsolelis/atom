@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 1 — Fundamentos de automação: sensores, atuadores e controladores · Sistemas de Informação</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote ---------- */
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  /* ---------- Slide: encerramento ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Fundamentos de automação: sensores, atuadores e controladores</h1>
+      <div class="subtitulo">Unidade 3 — Automação Industrial</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">01</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>O que é, de fato, <em>automação industrial</em></li>
+        <li>O ciclo fechado: sensor → controlador → atuador</li>
+        <li>Malha aberta <em>vs</em> malha fechada</li>
+        <li>Tipos de sensores e sinais (<em>4-20 mA</em>, 0-10 V, digital)</li>
+        <li>Tipos de atuadores na indústria</li>
+        <li>CLP, PID, DCS, PAC — quem decide o quê</li>
+        <li>Anatomia de uma malha PID e modulação PWM</li>
+        <li>Grau de proteção IP e robustez industrial</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 4 — CONCEITO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Definição</h3>
+      <h1>Automação industrial em uma frase</h1>
+      <p><strong>Automação industrial</strong> é o uso de sistemas de controle para operar equipamentos e processos com <em>mínima ou nenhuma intervenção humana direta</em> — substituindo trabalho repetitivo, perigoso ou de alta precisão.</p>
+      <p>A automação <em>não é nova</em>: existe desde a Segunda Revolução Industrial. O que mudou na Indústria 4.0 foi a <strong>integração</strong> dela com dados, internet e IA. A base, porém, continua a mesma:</p>
+      <ul>
+        <li><strong>Sensor</strong> capta o mundo.</li>
+        <li><strong>Atuador</strong> age sobre o mundo.</li>
+        <li><strong>Controlador</strong> decide o que fazer.</li>
+      </ul>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — CICLO DE CONTROLE (SVG) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Malha fechada</h3>
+      <h2>O ciclo básico de controle</h2>
+      <svg viewBox="0 0 1100 340" style="width:100%;max-height:46vh;display:block;margin-top:0.4rem;" role="img" aria-label="Ciclo fechado de controle: sensor mede, controlador compara com setpoint, atuador age, processo muda, sensor mede novamente">
+        <!-- Sensor -->
+        <rect x="40" y="120" width="200" height="100" rx="14" fill="#2BBBE0"/>
+        <text x="140" y="160" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Sensor</text>
+        <text x="140" y="190" text-anchor="middle" fill="#002057" font-size="15" font-family="Segoe UI, system-ui, sans-serif">mede a grandeza</text>
+        <!-- Controlador -->
+        <rect x="430" y="40" width="240" height="120" rx="14" fill="#002057"/>
+        <text x="550" y="85" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Controlador</text>
+        <text x="550" y="115" text-anchor="middle" fill="#FFFFFF" font-size="15" font-family="Segoe UI, system-ui, sans-serif">CLP · PID · DCS</text>
+        <text x="550" y="138" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">compara com setpoint</text>
+        <!-- Atuador -->
+        <rect x="860" y="120" width="200" height="100" rx="14" fill="#E91E63"/>
+        <text x="960" y="160" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Atuador</text>
+        <text x="960" y="190" text-anchor="middle" fill="#FFFFFF" font-size="15" font-family="Segoe UI, system-ui, sans-serif">age sobre o processo</text>
+        <!-- Processo -->
+        <rect x="350" y="240" width="400" height="70" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+        <text x="550" y="285" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Processo / Equipamento</text>
+        <!-- Setas -->
+        <defs>
+          <marker id="arr1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#002057"/>
+          </marker>
+        </defs>
+        <path d="M240,150 C300,150 360,100 430,100" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr1)"/>
+        <text x="335" y="92" text-anchor="middle" fill="#002057" font-size="14" font-weight="700">sinal medido</text>
+        <path d="M670,100 C740,100 800,150 860,150" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr1)"/>
+        <text x="765" y="92" text-anchor="middle" fill="#002057" font-size="14" font-weight="700">comando</text>
+        <path d="M960,220 C960,250 800,275 750,275" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr1)"/>
+        <path d="M350,275 C300,275 140,250 140,220" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr1)"/>
+      </svg>
+      <p style="margin-top:0.6em;font-size:1rem;color:#555;text-align:center;">Em <em>malha fechada</em> o sensor lê de novo após a ação — o sistema se autorregula.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — MALHA ABERTA vs FECHADA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Comparativo</h3>
+      <h2>Malha aberta <em>vs</em> malha fechada</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Característica</th>
+            <th style="padding:0.6em 1em;text-align:left;">Malha aberta</th>
+            <th style="padding:0.6em 1em;text-align:left;">Malha fechada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Realimentação?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Não</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sim</strong> — sensor relê após ação</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Autocorrige distúrbios?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Não</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sim</strong></td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Custo</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Baixo</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Maior — exige sensor + lógica</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Exemplo doméstico</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Torradeira por timer</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Ar-condicionado com termostato</td></tr>
+          <tr><td style="padding:0.5em 1em;"><strong>Padrão na indústria</strong></td><td style="padding:0.5em 1em;">Tarefas simples e previsíveis</td><td style="padding:0.5em 1em;"><strong>Maioria dos processos críticos</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.9em;">Quando precisão importa — temperatura, pressão, vazão — <strong>malha fechada</strong> é o padrão. Sem realimentação, o sistema fica cego para distúrbios externos.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — SENSORES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Sensores</h3>
+      <h2>O que se mede no chão de fábrica</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.1vw,1.05rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 0.9em;text-align:left;">Grandeza</th>
+            <th style="padding:0.5em 0.9em;text-align:left;">Tecnologia</th>
+            <th style="padding:0.5em 0.9em;text-align:left;">Aplicação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Temperatura</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Termopar, PT100, IV</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Fornos, motores</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Pressão</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Transdutor piezoelétrico</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Compressores, hidráulica</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Vazão</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Eletromagnético, Coriolis</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Líquidos, gases</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Nível</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Ultrassônico, radar</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Silos, tanques</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Posição</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Encoder, LVDT</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Robôs, CNC</td></tr>
+          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Vibração</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Acelerômetro</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Manutenção preditiva</td></tr>
+          <tr><td style="padding:0.45em 0.9em;"><strong>Visão</strong></td><td style="padding:0.45em 0.9em;">Câmera + software</td><td style="padding:0.45em 0.9em;">Inspeção, contagem</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;"><strong>Sinal padrão:</strong> analógico <em>4-20 mA</em> (robusto contra ruído; 0 mA = defeito) ou digital on/off.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — SINAIS ANALÓGICOS vs DIGITAIS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Sinais</h3>
+      <h2>Analógico <em>vs</em> digital — como o sensor "fala"</h2>
+      <svg viewBox="0 0 1100 300" style="width:100%;max-height:36vh;display:block;margin-top:0.4rem;" role="img" aria-label="Comparativo gráfico entre sinal analógico contínuo (curva 4-20 mA) e sinal digital discreto (onda quadrada on/off)">
+        <!-- Eixos analógico -->
+        <text x="270" y="35" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI">Analógico — 4 a 20 mA</text>
+        <line x1="60" y1="220" x2="500" y2="220" stroke="#555" stroke-width="2"/>
+        <line x1="60" y1="60" x2="60" y2="220" stroke="#555" stroke-width="2"/>
+        <text x="40" y="75" fill="#555" font-size="12">20 mA</text>
+        <text x="40" y="225" fill="#555" font-size="12">4 mA</text>
+        <text x="280" y="245" text-anchor="middle" fill="#555" font-size="12">tempo</text>
+        <!-- Curva contínua -->
+        <path d="M60,200 C150,80 250,180 320,110 S450,180 500,90" stroke="#1F44A8" stroke-width="4" fill="none"/>
+        <text x="280" y="280" text-anchor="middle" fill="#002057" font-size="14">Valor contínuo: toda temperatura entre 0 °C e 1200 °C</text>
+
+        <!-- Eixos digital -->
+        <text x="830" y="35" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI">Digital — 0 / 1 (on/off)</text>
+        <line x1="620" y1="220" x2="1060" y2="220" stroke="#555" stroke-width="2"/>
+        <line x1="620" y1="60" x2="620" y2="220" stroke="#555" stroke-width="2"/>
+        <text x="595" y="75" fill="#555" font-size="12">1</text>
+        <text x="595" y="225" fill="#555" font-size="12">0</text>
+        <text x="840" y="245" text-anchor="middle" fill="#555" font-size="12">tempo</text>
+        <!-- Onda quadrada -->
+        <path d="M620,200 L680,200 L680,80 L760,80 L760,200 L840,200 L840,80 L920,80 L920,200 L1000,200 L1000,80 L1060,80" stroke="#E91E63" stroke-width="4" fill="none"/>
+        <text x="840" y="280" text-anchor="middle" fill="#002057" font-size="14">Apenas dois estados: peça presente ou ausente</text>
+      </svg>
+      <p style="margin-top:0.6em;font-size:1rem;color:#555;text-align:center;"><strong>4-20 mA</strong> é mais robusto que 0-10 V — tolera ruído elétrico e <em>0 mA já indica defeito do sensor</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — ATUADORES E CONTROLADORES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atuadores + Controladores</h3>
+      <h2>Quem executa, quem decide</h2>
+      <div class="colunas">
+        <div>
+          <h3 style="color:var(--magenta);">Atuadores</h3>
+          <ul>
+            <li><strong>Motor / servo-motor</strong> — rotação</li>
+            <li><strong>Cilindro pneumático/hidráulico</strong> — linear</li>
+            <li><strong>Válvula solenoide</strong> — fluxo</li>
+            <li><strong>Inversor de frequência</strong> — velocidade</li>
+            <li><strong>Resistência / SSR</strong> — aquecimento</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--azul-medio);">Controladores</h3>
+          <ul>
+            <li><strong>CLP</strong> — manufatura discreta (Aula 2)</li>
+            <li><strong>PID</strong> — variáveis contínuas</li>
+            <li><strong>DCS</strong> — processo contínuo</li>
+            <li><strong>PAC</strong> — híbrido CLP + PC industrial</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;">Cada controlador tem seu nicho. Em fábrica brasileira de manufatura, <strong>CLP domina</strong>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — MALHA PID ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Anatomia da decisão</h3>
+      <h2>Malha PID — Proporcional · Integral · Derivativo</h2>
+      <svg viewBox="0 0 1100 320" style="width:100%;max-height:40vh;display:block;margin-top:0.3rem;" role="img" aria-label="Diagrama de blocos da malha PID: setpoint, somador de erro, três blocos P I D, somador de saída, planta, sensor de feedback">
+        <defs>
+          <marker id="arrP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#002057"/>
+          </marker>
+        </defs>
+        <!-- Setpoint -->
+        <text x="60" y="100" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI">Setpoint</text>
+        <text x="60" y="120" fill="#002057" font-size="13" font-family="Segoe UI">r(t) = 152 °C</text>
+        <!-- Somador erro -->
+        <circle cx="220" cy="110" r="22" fill="#FFFFFF" stroke="#002057" stroke-width="3"/>
+        <text x="220" y="116" text-anchor="middle" fill="#002057" font-weight="800" font-size="18">+/−</text>
+        <text x="220" y="160" text-anchor="middle" fill="#555" font-size="12">erro e(t)</text>
+        <!-- 3 blocos PID -->
+        <rect x="300" y="40" width="160" height="50" rx="10" fill="#2BBBE0"/>
+        <text x="380" y="72" text-anchor="middle" fill="#002057" font-weight="800" font-size="16">P · Kp·e(t)</text>
+        <rect x="300" y="100" width="160" height="50" rx="10" fill="#1F44A8"/>
+        <text x="380" y="132" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16">I · Ki·∫e dt</text>
+        <rect x="300" y="160" width="160" height="50" rx="10" fill="#E91E63"/>
+        <text x="380" y="192" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16">D · Kd·de/dt</text>
+        <!-- Soma -->
+        <circle cx="540" cy="125" r="22" fill="#FFFFFF" stroke="#002057" stroke-width="3"/>
+        <text x="540" y="131" text-anchor="middle" fill="#002057" font-weight="800" font-size="18">Σ</text>
+        <!-- Planta -->
+        <rect x="640" y="95" width="200" height="60" rx="10" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+        <text x="740" y="123" text-anchor="middle" fill="#002057" font-weight="800" font-size="16">Planta</text>
+        <text x="740" y="143" text-anchor="middle" fill="#002057" font-size="13">forno + resistência</text>
+        <!-- Saída -->
+        <text x="960" y="120" fill="#002057" font-weight="800" font-size="16">y(t)</text>
+        <text x="960" y="140" fill="#002057" font-size="13">T medida</text>
+        <!-- Sensor -->
+        <rect x="500" y="240" width="240" height="50" rx="10" fill="#002057"/>
+        <text x="620" y="272" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16">Sensor (termopar)</text>
+        <!-- Setas -->
+        <line x1="140" y1="110" x2="198" y2="110" stroke="#002057" stroke-width="3" marker-end="url(#arrP)"/>
+        <line x1="242" y1="110" x2="298" y2="65" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="242" y1="125" x2="298" y2="125" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="242" y1="140" x2="298" y2="185" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="460" y1="65" x2="518" y2="118" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="460" y1="125" x2="518" y2="125" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="460" y1="185" x2="518" y2="132" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="562" y1="125" x2="638" y2="125" stroke="#002057" stroke-width="3" marker-end="url(#arrP)"/>
+        <line x1="840" y1="125" x2="960" y2="125" stroke="#002057" stroke-width="3" marker-end="url(#arrP)"/>
+        <!-- Feedback -->
+        <line x1="880" y1="155" x2="880" y2="265" stroke="#002057" stroke-width="2.5"/>
+        <line x1="880" y1="265" x2="742" y2="265" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+        <line x1="500" y1="265" x2="220" y2="265" stroke="#002057" stroke-width="2.5"/>
+        <line x1="220" y1="265" x2="220" y2="135" stroke="#002057" stroke-width="2.5" marker-end="url(#arrP)"/>
+      </svg>
+      <p style="margin-top:0.4em;font-size:0.95rem;color:#555;text-align:center;"><strong>P</strong> reage ao erro atual · <strong>I</strong> elimina erro acumulado · <strong>D</strong> antecipa tendência. Sintonia (Kp, Ki, Kd) <em>é arte</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — EXEMPLO NUMÉRICO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>Controle de temperatura em forno industrial</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Sensor</h3>
+          <p>Termopar tipo K · faixa 0–1200 °C · precisão ±2 °C.</p>
+        </div>
+        <div class="ponto">
+          <h3>Sinal</h3>
+          <p>4–20 mA, onde 4 mA = 0 °C e 20 mA = 1200 °C.</p>
+        </div>
+        <div class="ponto">
+          <h3>Controlador</h3>
+          <p>PID embutido em CLP · leitura 1×/s · setpoint 152 °C.</p>
+        </div>
+        <div class="ponto">
+          <h3>Atuador</h3>
+          <p>Resistência via SSR com modulação <em>PWM</em>.</p>
+        </div>
+      </div>
+      <p style="margin-top:1em;">Lógica: se T &lt; 152 °C → liga mais; se T &gt; 152 °C → liga menos. <strong>Histerese ±1 °C</strong> para evitar oscilação. Ajustar PID é arte: mal sintonizado, o forno oscila ou demora a estabilizar.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — GRAU IP ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Robustez</h3>
+      <h2>Grau de proteção IP (Ingress Protection)</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Grau</th>
+            <th style="padding:0.6em 1em;text-align:left;">Proteção</th>
+            <th style="padding:0.6em 1em;text-align:left;">Quando exigir</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>IP66</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Poeira + jatos de água</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Áreas externas</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>IP67</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Imersão até 1 m por 30 min</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Mineração, química</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>IP68</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Imersão contínua</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Submersos, naval</td></tr>
+          <tr><td style="padding:0.5em 1em;"><strong>IP69K</strong></td><td style="padding:0.5em 1em;">Jato de água quente sob alta pressão</td><td style="padding:0.5em 1em;">Alimentos, farmacêutico</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.9em;">Em ambientes agressivos, <strong>IP67 ou superior</strong> é exigência — não diferencial.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — SÍNTESE PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Síntese</h3>
+      <h2>Pontos-chave da aula</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Ciclo fechado</h3>
+          <p>Automação = <strong>sensor → controlador → atuador</strong>, com realimentação contínua.</p>
+        </div>
+        <div class="ponto">
+          <h3>Sinais padrão</h3>
+          <p>Analógico <em>4-20 mA</em> (robusto) ou digital <em>on/off</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Quem decide</h3>
+          <p><strong>CLP</strong> (discreto), <strong>PID</strong> (contínuo), <strong>DCS</strong> (processo), <strong>PAC</strong> (híbrido).</p>
+        </div>
+        <div class="ponto">
+          <h3>Robustez</h3>
+          <p>Grau <strong>IP67+</strong> é exigência em ambiente agressivo — não diferencial.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 14 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Sensor, controlador, atuador. Toda automação industrial — da esteira do supermercado à refinaria gigante — é feita do mesmo trio."
+      </blockquote>
+      <cite>— Síntese da aula</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 15 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Disseque um equipamento que você conhece</h2>
+      <p>Escolha um equipamento — industrial ou doméstico (ar-condicionado, geladeira, máquina de lavar) — e responda:</p>
+      <ol>
+        <li>Que <strong>sensores</strong> ele tem? O que medem?</li>
+        <li>Que <strong>atuadores</strong>? O que fazem?</li>
+        <li>Onde está o <strong>controlador</strong>? Como decide?</li>
+        <li>Trabalha em <em>malha fechada</em> ou aberta? Como você saberia?</li>
+      </ol>
+      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 10 minutos · anotar no caderno · abre a discussão da Aula 2</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ============== SLIDE 16 — ENCERRAMENTO ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Até a próxima!</h1>
+      <p>Aula 2: vamos abrir o <strong>CLP</strong> — o cérebro mais usado na fábrica brasileira — e introduzir a famosa lógica ladder.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navegação -->
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  // jump to slide by URL hash (#3 = slide 3)
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

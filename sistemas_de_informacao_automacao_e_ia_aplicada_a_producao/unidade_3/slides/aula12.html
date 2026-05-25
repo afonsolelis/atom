@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 4 — Pirâmide da automação (ISA-95): integração TI ↔ OT · Sistemas de Informação</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg { filter: brightness(0); }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Pirâmide da automação (ISA-95): integração TI ↔ OT</h1>
+      <div class="subtitulo">Unidade 3 — Automação Industrial</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">04</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>A pirâmide <em>ISA-95</em> completa (níveis 0 a 4)</li>
+        <li>Tempo de decisão por nível: ms até meses</li>
+        <li>O que é <em>TI</em> e o que é <em>OT</em> — e por que se separaram</li>
+        <li>Por que precisam <strong>convergir</strong> agora</li>
+        <li>Três abordagens práticas de integração</li>
+        <li>Fluxo de dados ISA-95 nível por nível</li>
+        <li>Cibersegurança industrial (IEC 62443 + Purdue)</li>
+        <li>Caso <em>Ambev</em> — referência brasileira</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — PIRÂMIDE SVG ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Norma internacional</h3>
+      <h2>A pirâmide ISA-95 / IEC 62264</h2>
+      <svg viewBox="0 0 1100 460" style="width:100%;max-height:54vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pirâmide ISA-95 de cinco níveis: equipamento físico, CLP/DCS, SCADA/HMI, MES/MOM, ERP/Negócio">
+        <!-- Pirâmide (5 trapézios empilhados) -->
+        <polygon points="500,40 600,40 660,120 440,120" fill="#002057"/>
+        <text x="550" y="85" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="22" font-family="Segoe UI">4 · ERP / Negócio</text>
+        <polygon points="440,120 660,120 720,200 380,200" fill="#1F44A8"/>
+        <text x="550" y="165" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="22" font-family="Segoe UI">3 · MES / MOM</text>
+        <polygon points="380,200 720,200 780,280 320,280" fill="#2BBBE0"/>
+        <text x="550" y="245" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI">2 · SCADA / HMI</text>
+        <polygon points="320,280 780,280 840,360 260,360" fill="#F0CE29"/>
+        <text x="550" y="325" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI">1 · CLP / DCS / PID</text>
+        <polygon points="260,360 840,360 900,440 200,440" fill="#E91E63"/>
+        <text x="550" y="405" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="22" font-family="Segoe UI">0 · Equipamento físico (sensores, atuadores)</text>
+        <!-- Eixo TI / OT -->
+        <line x1="930" y1="40" x2="930" y2="200" stroke="#002057" stroke-width="3"/>
+        <text x="960" y="60" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI">TI</text>
+        <text x="960" y="130" fill="#002057" font-size="14" font-family="Segoe UI">dados,</text>
+        <text x="960" y="148" fill="#002057" font-size="14" font-family="Segoe UI">negócio</text>
+        <line x1="930" y1="280" x2="930" y2="440" stroke="#E91E63" stroke-width="3"/>
+        <text x="960" y="305" fill="#E91E63" font-weight="800" font-size="22" font-family="Segoe UI">OT</text>
+        <text x="960" y="335" fill="#E91E63" font-size="14" font-family="Segoe UI">processos</text>
+        <text x="960" y="353" fill="#E91E63" font-size="14" font-family="Segoe UI">físicos</text>
+        <!-- Setas de tempo -->
+        <text x="120" y="65" fill="#002057" font-size="13" font-family="Segoe UI">dias–meses</text>
+        <text x="120" y="245" fill="#002057" font-size="13" font-family="Segoe UI">seg–min</text>
+        <text x="80"  y="405" fill="#002057" font-size="13" font-family="Segoe UI">milissegundos</text>
+      </svg>
+      <p style="margin-top:0.4em;font-size:1rem;color:#555;text-align:center;">Quanto mais <em>baixo</em>, mais <strong>rápida</strong> a decisão. Quanto mais <em>alto</em>, mais <strong>estratégica</strong>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — TEMPO DE DECISÃO POR NÍVEL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Velocidade vs estratégia</h3>
+      <h2>Tempo de decisão em cada nível</h2>
+      <svg viewBox="0 0 1100 360" style="width:100%;max-height:46vh;display:block;margin-top:0.3rem;" role="img" aria-label="Gráfico horizontal mostrando o tempo de decisão em cada nível ISA-95, de milissegundos no nível 0 a meses no nível 4">
+        <defs>
+          <linearGradient id="grad-tempo" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#E91E63"/>
+            <stop offset="25%" stop-color="#F0CE29"/>
+            <stop offset="50%" stop-color="#2BBBE0"/>
+            <stop offset="75%" stop-color="#1F44A8"/>
+            <stop offset="100%" stop-color="#002057"/>
+          </linearGradient>
+        </defs>
+        <!-- Barra-eixo -->
+        <rect x="60" y="160" width="980" height="40" rx="6" fill="url(#grad-tempo)"/>
+        <!-- Marcadores -->
+        <line x1="60" y1="150" x2="60" y2="210" stroke="#002057" stroke-width="3"/>
+        <line x1="280" y1="150" x2="280" y2="210" stroke="#002057" stroke-width="3"/>
+        <line x1="500" y1="150" x2="500" y2="210" stroke="#002057" stroke-width="3"/>
+        <line x1="720" y1="150" x2="720" y2="210" stroke="#002057" stroke-width="3"/>
+        <line x1="940" y1="150" x2="940" y2="210" stroke="#002057" stroke-width="3"/>
+        <!-- Labels nível -->
+        <text x="60"  y="130" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="20" font-family="Segoe UI">N0</text>
+        <text x="280" y="130" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="20" font-family="Segoe UI">N1</text>
+        <text x="500" y="130" text-anchor="middle" fill="#2BBBE0" font-weight="800" font-size="20" font-family="Segoe UI">N2</text>
+        <text x="720" y="130" text-anchor="middle" fill="#1F44A8" font-weight="800" font-size="20" font-family="Segoe UI">N3</text>
+        <text x="940" y="130" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI">N4</text>
+        <!-- Labels descrição -->
+        <text x="60"  y="100" text-anchor="middle" fill="#002057" font-size="12">Equipamento</text>
+        <text x="280" y="100" text-anchor="middle" fill="#002057" font-size="12">CLP/DCS/PID</text>
+        <text x="500" y="100" text-anchor="middle" fill="#002057" font-size="12">SCADA/HMI</text>
+        <text x="720" y="100" text-anchor="middle" fill="#002057" font-size="12">MES/MOM</text>
+        <text x="940" y="100" text-anchor="middle" fill="#002057" font-size="12">ERP/Negócio</text>
+        <!-- Tempos -->
+        <text x="60"  y="245" text-anchor="middle" fill="#002057" font-weight="700" font-size="14">milissegundos</text>
+        <text x="280" y="245" text-anchor="middle" fill="#002057" font-weight="700" font-size="14">ms — seg</text>
+        <text x="500" y="245" text-anchor="middle" fill="#002057" font-weight="700" font-size="14">seg — min</text>
+        <text x="720" y="245" text-anchor="middle" fill="#002057" font-weight="700" font-size="14">horas — turnos</text>
+        <text x="940" y="245" text-anchor="middle" fill="#002057" font-weight="700" font-size="14">dias — meses</text>
+        <!-- Eixos extras -->
+        <text x="60" y="290" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="14">⚡ RÁPIDO</text>
+        <text x="60" y="312" text-anchor="middle" fill="#555" font-size="12">muito físico</text>
+        <text x="940" y="290" text-anchor="middle" fill="#002057" font-weight="800" font-size="14">🎯 ESTRATÉGICO</text>
+        <text x="940" y="312" text-anchor="middle" fill="#555" font-size="12">muito abstrato</text>
+      </svg>
+      <p style="margin-top:0.4em;font-size:0.95rem;color:#555;text-align:center;">Quanto mais <strong>baixo</strong>, mais rápida e local a decisão. Quanto mais <strong>alto</strong>, mais lenta e estratégica.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — TI vs OT ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Dois mundos, duas filosofias</h3>
+      <h2>TI vs OT — o que mudou e o que não muda</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Aspecto</th>
+            <th style="padding:0.6em 1em;text-align:left;">TI</th>
+            <th style="padding:0.6em 1em;text-align:left;">OT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Prioridade</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Confidencialidade do dado</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Disponibilidade do processo</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Atualizar agora?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Sim</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Não</strong> — parada custa $$$</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Vida útil do hardware</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">3–5 anos</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>15–30 anos</strong></td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Sistema operacional</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Atualizado</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Frequentemente antigo</td></tr>
+          <tr><td style="padding:0.5em 1em;">Quem opera</td><td style="padding:0.5em 1em;">TI corporativa</td><td style="padding:0.5em 1em;">Operadores e manutenção</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.9em;">Até <em>2010</em> esses mundos podiam viver separados. Hoje, <strong>não dá mais</strong>: decisões de negócio exigem dados do chão de fábrica em tempo real.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — POR QUE CONVERGIR ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Por que convergir agora</h3>
+      <h2>Quatro forças que tornam TI ↔ OT inadiável</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Decisão em tempo real</h3>
+          <p>Negócio depende de dados do chão de fábrica para reagir rápido.</p>
+        </div>
+        <div class="ponto">
+          <h3>Otimização por dados</h3>
+          <p>Algoritmos em servidores TI ajustam a operação OT.</p>
+        </div>
+        <div class="ponto">
+          <h3>Manutenção preditiva</h3>
+          <p>Sensores (OT) + IA (TI) antecipam falhas antes que aconteçam.</p>
+        </div>
+        <div class="ponto">
+          <h3>Visão única do cliente</h3>
+          <p>CRM (TI) + qualidade (MES/OT) entregam contexto completo.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.9em;">A <strong>convergência TI ↔ OT</strong> é o tema de TI industrial dos próximos 10 anos.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — TRÊS ABORDAGENS ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Como integrar na prática</h3>
+      <h2>Três abordagens — do mais simples ao mais robusto</h2>
+      <ol>
+        <li><strong>Gateway de dados</strong> — um servidor intermediário lê dos CLPs/SCADA e envia para TI via APIs. <em>Mais barato, mais frágil.</em></li>
+        <li><strong>OPC UA puro</strong> — equipamentos novos já falam OPC UA; sistemas TI consomem direto. <em>Padrão moderno, mas exige hardware novo.</em></li>
+        <li><strong>Plataforma IIoT</strong> (Mindsphere, AWS IoT, ThingWorx) — camada especializada que coleta de OT e expõe para TI com segurança, normalização e históricos. <em>Caro, mas robusto e escalável.</em></li>
+      </ol>
+      <p style="margin-top:0.6em;">A abordagem <strong>moderna</strong> é a plataforma IIoT — mas só faz sentido com maturidade de processos. Fábricas em transição costumam começar pelo <em>gateway</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — FLUXO DE DADOS ISA-95 ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Fluxo de dados</h3>
+      <h2>O que sobe e o que desce em cada nível</h2>
+      <svg viewBox="0 0 1100 380" style="width:100%;max-height:48vh;display:block;margin-top:0.3rem;" role="img" aria-label="Fluxo bidirecional entre os 5 níveis ISA-95: dados sobem do chão de fábrica para o ERP, comandos descem do ERP para o equipamento físico">
+        <defs>
+          <marker id="arrU" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#2BBBE0"/>
+          </marker>
+          <marker id="arrD" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#E91E63"/>
+          </marker>
+        </defs>
+        <!-- Coluna níveis -->
+        <rect x="350" y="20" width="400" height="50" rx="8" fill="#002057"/>
+        <text x="550" y="52" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="18">N4 · ERP / Negócio</text>
+        <rect x="350" y="90" width="400" height="50" rx="8" fill="#1F44A8"/>
+        <text x="550" y="122" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18">N3 · MES / MOM</text>
+        <rect x="350" y="160" width="400" height="50" rx="8" fill="#2BBBE0"/>
+        <text x="550" y="192" text-anchor="middle" fill="#002057" font-weight="800" font-size="18">N2 · SCADA / HMI</text>
+        <rect x="350" y="230" width="400" height="50" rx="8" fill="#F0CE29"/>
+        <text x="550" y="262" text-anchor="middle" fill="#002057" font-weight="800" font-size="18">N1 · CLP / DCS / PID</text>
+        <rect x="350" y="300" width="400" height="50" rx="8" fill="#E91E63"/>
+        <text x="550" y="332" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18">N0 · Equipamento físico</text>
+
+        <!-- Seta SUBINDO (dados) -->
+        <line x1="280" y1="340" x2="280" y2="40" stroke="#2BBBE0" stroke-width="6" marker-end="url(#arrU)"/>
+        <text x="200" y="200" text-anchor="middle" fill="#1F44A8" font-weight="800" font-size="16" transform="rotate(-90 200 200)">DADOS SOBEM</text>
+        <text x="140" y="80" fill="#555" font-size="12">KPIs, OEE</text>
+        <text x="140" y="150" fill="#555" font-size="12">OPs, lotes</text>
+        <text x="140" y="220" fill="#555" font-size="12">tendências</text>
+        <text x="140" y="290" fill="#555" font-size="12">leituras</text>
+        <text x="140" y="335" fill="#555" font-size="12">sinais</text>
+
+        <!-- Seta DESCENDO (comandos) -->
+        <line x1="820" y1="40" x2="820" y2="340" stroke="#E91E63" stroke-width="6" marker-end="url(#arrD)"/>
+        <text x="900" y="200" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="16" transform="rotate(90 900 200)">COMANDOS DESCEM</text>
+        <text x="850" y="80" fill="#555" font-size="12">metas</text>
+        <text x="850" y="150" fill="#555" font-size="12">ordens</text>
+        <text x="850" y="220" fill="#555" font-size="12">setpoints</text>
+        <text x="850" y="290" fill="#555" font-size="12">lógica</text>
+        <text x="850" y="335" fill="#555" font-size="12">acionamento</text>
+      </svg>
+      <p style="margin-top:0.4em;font-size:0.95rem;color:#555;text-align:center;">A pirâmide ISA-95 é <strong>bidirecional</strong>: dados sobem agregados; comandos descem cada vez mais específicos.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — CIBERSEGURANÇA ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Cibersegurança industrial</h3>
+      <h2>IEC 62443 + modelo Purdue</h2>
+      <div class="colunas">
+        <div>
+          <p>Quando OT se conecta ao TI, herda os mesmos riscos: <strong>ransomware</strong>, acesso indevido, vazamento de dados.</p>
+          <p>A norma <em>IEC 62443</em> define como proteger. O modelo <em>Purdue</em> (alinhado ao ISA-95) organiza a defesa em <strong>zonas</strong> — cada nível protegido por firewall do nível adjacente.</p>
+          <p style="margin-top:1em;background:rgba(233,30,99,0.08);border-left:4px solid var(--magenta);padding:0.7em 1em;border-radius:6px;">
+            Cibersegurança industrial é <strong>pré-requisito</strong>, não diferencial.
+          </p>
+        </div>
+        <div>
+          <svg viewBox="0 0 400 300" style="width:100%;display:block;" aria-label="Zonas Purdue separadas por firewalls — TI, DMZ, OT">
+            <!-- TI -->
+            <rect x="40" y="20" width="320" height="60" rx="10" fill="#1F44A8"/>
+            <text x="200" y="58" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18" font-family="Segoe UI">Zona TI (ERP, BI)</text>
+            <!-- Firewall -->
+            <rect x="120" y="95" width="160" height="22" rx="4" fill="#E91E63"/>
+            <text x="200" y="111" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="12" font-family="Segoe UI">FIREWALL</text>
+            <!-- DMZ -->
+            <rect x="40" y="130" width="320" height="50" rx="10" fill="#F0CE29"/>
+            <text x="200" y="161" text-anchor="middle" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI">DMZ (gateway, histórico)</text>
+            <!-- Firewall -->
+            <rect x="120" y="195" width="160" height="22" rx="4" fill="#E91E63"/>
+            <text x="200" y="211" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="12" font-family="Segoe UI">FIREWALL</text>
+            <!-- OT -->
+            <rect x="40" y="230" width="320" height="60" rx="10" fill="#002057"/>
+            <text x="200" y="268" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="18" font-family="Segoe UI">Zona OT (SCADA, CLP)</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — ROI INTEGRAÇÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>ROI de integrar chão de fábrica ao ERP</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Indicador</th>
+            <th style="padding:0.6em 1em;text-align:left;">Antes (manual)</th>
+            <th style="padding:0.6em 1em;text-align:left;">Depois (gateway)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Tempo de digitação</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">120 h/mês</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">~5 h/mês</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Taxa de erro</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">~5%</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">&lt; 0,5%</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Custo de erro</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 30 mil/mês</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 3 mil/mês</td></tr>
+          <tr><td style="padding:0.5em 1em;"><strong>Ganho total</strong></td><td style="padding:0.5em 1em;" colspan="2"><strong>~R$ 32,75 mil/mês ≈ R$ 393 mil/ano</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.9em;">Investimento típico: gateway + integração + projeto = <strong>R$ 250 mil</strong>. <em>Payback ~8 meses.</em></p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — CASO AMBEV ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Caso brasileiro</h3>
+      <h2>Ambev — TI-OT integrado de ponta a ponta</h2>
+      <ul>
+        <li><strong>CLPs</strong> em todos os equipamentos das cervejarias.</li>
+        <li><strong>SCADA</strong> supervisiona em tempo real.</li>
+        <li><strong>MES</strong> coordena ordens de produção entre linhas.</li>
+        <li>Tudo conecta ao <strong>ERP</strong> corporativo (níveis 0 → 4 da pirâmide).</li>
+        <li>Dados sobem para um <em>data lake</em> central onde <strong>IA</strong> roda modelos de previsão e otimização.</li>
+      </ul>
+      <p style="margin-top:0.9em;background:rgba(43,187,224,0.12);border-left:4px solid var(--azul-claro);padding:0.7em 1em;border-radius:6px;">
+        <strong>Resultado:</strong> decisões corporativas baseadas em dados <em>reais</em> do chão de fábrica, em tempo quase real. Referência no setor de bebidas mundial.
+      </p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — SÍNTESE PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Síntese</h3>
+      <h2>Pontos-chave da aula — e da unidade</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>5 níveis ISA-95</h3>
+          <p>Equipamento (0) → CLP (1) → SCADA (2) → MES (3) → ERP (4).</p>
+        </div>
+        <div class="ponto">
+          <h3>TI ↔ OT</h3>
+          <p>Filosofias diferentes; <strong>convergência</strong> é inadiável após 2010.</p>
+        </div>
+        <div class="ponto">
+          <h3>Caminhos</h3>
+          <p>Gateway, OPC UA puro ou <em>plataforma IIoT</em> (Mindsphere, AWS IoT).</p>
+        </div>
+        <div class="ponto">
+          <h3>Segurança</h3>
+          <p><strong>IEC 62443</strong> + zonas Purdue: pré-requisito, não diferencial.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "TI e OT podiam viver separados até 2010. Hoje, sem convergência, não há competitividade industrial."
+      </blockquote>
+      <cite>— Tese central da Unidade 3</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 14 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática — encerrando a unidade</h3>
+      <h2>Diagnóstico ISA-95 da sua empresa</h2>
+      <p>Para a empresa que você analisou nas Unidades 1 e 2, responda:</p>
+      <ol>
+        <li>Em <strong>qual nível</strong> da pirâmide ISA-95 ela tem mais maturidade?</li>
+        <li><em>Onde está a maior lacuna</em> (ex.: tem ERP mas chão de fábrica desconectado)?</li>
+        <li>Que <strong>uma integração</strong> TI ↔ OT traria maior impacto rapidamente?</li>
+        <li>Quais <strong>riscos de cibersegurança</strong> você antecipa nessa integração?</li>
+      </ol>
+      <p style="margin-top:0.8em;color:var(--azul-escuro);font-weight:600;">⏱ 20 minutos · serve de base para a AAI da unidade</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 4 — Videoaula 12</span></div>
+  </section>
+
+  <!-- ============== SLIDE 15 — ENCERRAMENTO U4 ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Fechamos a Unidade 3!</h1>
+      <p>Próxima parada: <strong>Unidade 4 — IA aplicada à produção</strong>. ML, previsão de demanda, manutenção preditiva, visão computacional e IA generativa na engenharia.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 2 — MES (Manufacturing Execution System) · Sistemas de Informação</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>MES — Manufacturing Execution System</h1>
+      <div class="subtitulo">Unidade 2 — Sistemas para a Produção</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">02</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>O que é MES em uma frase</li>
+        <li>O lugar do MES na <em>pirâmide ISA-95</em></li>
+        <li>As <strong>11 funções clássicas</strong> definidas pela norma</li>
+        <li>MES vs ERP — a divisão clara entre planejar e executar</li>
+        <li><strong>OEE</strong> e os indicadores que o MES gera</li>
+        <li>Outros indicadores: <em>MTBF, MTTR, PPM, takt time</em></li>
+        <li>Players de mercado — globais e nacionais</li>
+        <li>ROI realista e caso Klabin</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — CONCEITO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Conceito</h3>
+      <h1>MES, em uma frase</h1>
+      <p style="background:var(--branco);padding:1.2rem 1.4rem;border-left:6px solid var(--amarelo);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+        <strong>MES</strong> é o sistema que <em>gerencia, monitora e otimiza</em> a execução da produção <em>em tempo real</em>, conectando o <strong>ERP</strong> (mundo de negócio) ao <strong>chão de fábrica</strong> (mundo físico).
+      </p>
+      <p style="margin-top:1.2em;">O ERP manda: <em>"produzir 1.000 peças do produto X, amanhã às 8h, na linha 2"</em>. O <strong>MES executa</strong>: orienta operadores, monitora máquinas, registra o que aconteceu, alerta desvios e devolve dados reais ao ERP.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — PIRÂMIDE ISA-95 ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Norma ISA-95</h3>
+      <h2>O lugar do MES na pirâmide</h2>
+      <svg viewBox="0 0 900 440" style="width:100%;max-height:50vh;display:block;" role="img" aria-label="Pirâmide ISA-95 dos 5 níveis de TI/automação industrial">
+        <!-- Nível 4 ERP -->
+        <polygon points="380,30 520,30 560,95 340,95" fill="#002057"/>
+        <text x="450" y="68" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 4 · ERP</text>
+        <text x="690" y="68" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Planejamento (semanas/meses)</text>
+        <!-- Nível 3 MES -->
+        <polygon points="340,95 560,95 600,160 300,160" fill="#1F44A8"/>
+        <text x="450" y="135" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Nível 3 · MES / MOM</text>
+        <text x="690" y="135" fill="#E91E63" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">▲ ESTAMOS AQUI · turnos/horas</text>
+        <!-- Nível 2 SCADA -->
+        <polygon points="300,160 600,160 640,225 260,225" fill="#2BBBE0"/>
+        <text x="450" y="198" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 2 · SCADA / HMI</text>
+        <text x="690" y="198" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Supervisão (s/min)</text>
+        <!-- Nível 1 CLP -->
+        <polygon points="260,225 640,225 680,290 220,290" fill="#F0CE29"/>
+        <text x="450" y="263" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 1 · CLP / DCS</text>
+        <text x="690" y="263" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Controle (ms)</text>
+        <!-- Nível 0 Equipamento -->
+        <polygon points="220,290 680,290 720,355 180,355" fill="#8FBE6A"/>
+        <text x="450" y="328" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 0 · Sensores e atuadores</text>
+        <text x="690" y="328" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Equipamento físico</text>
+      </svg>
+      <p style="margin-top:0.4em;text-align:center;font-size:1rem;color:#555;">Cada nível tem granularidade temporal própria — do milissegundo ao mês.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4b — GRANULARIDADE TEMPORAL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Por que existem 5 níveis</h3>
+      <h2>Cada nível opera em uma escala de tempo diferente</h2>
+      <svg viewBox="0 0 1200 280" style="width:100%;max-height:38vh;display:block;" role="img" aria-label="Escala temporal de operação por nível ISA-95">
+        <g font-family="Segoe UI, system-ui, sans-serif">
+          <line x1="60" y1="200" x2="1140" y2="200" stroke="#002057" stroke-width="3"/>
+          <!-- ms -->
+          <circle cx="120" cy="200" r="16" fill="#F0CE29" stroke="#002057" stroke-width="2"/>
+          <text x="120" y="240" text-anchor="middle" fill="#1A1A1A" font-weight="800" font-size="13">CLP</text>
+          <text x="120" y="170" text-anchor="middle" fill="#002057" font-weight="700" font-size="13">milissegundos</text>
+          <text x="120" y="265" text-anchor="middle" fill="#555" font-size="11">N1</text>
+          <!-- segundos -->
+          <circle cx="320" cy="200" r="18" fill="#2BBBE0" stroke="#002057" stroke-width="2"/>
+          <text x="320" y="240" text-anchor="middle" fill="#1A1A1A" font-weight="800" font-size="13">SCADA</text>
+          <text x="320" y="170" text-anchor="middle" fill="#002057" font-weight="700" font-size="13">segundos / minutos</text>
+          <text x="320" y="265" text-anchor="middle" fill="#555" font-size="11">N2</text>
+          <!-- horas -->
+          <circle cx="600" cy="200" r="24" fill="#1F44A8" stroke="#E91E63" stroke-width="4"/>
+          <text x="600" y="240" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="14">MES</text>
+          <text x="600" y="170" text-anchor="middle" fill="#002057" font-weight="800" font-size="14">horas / turnos</text>
+          <text x="600" y="265" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="12">▲ N3 — ESTAMOS AQUI</text>
+          <!-- dias/semanas -->
+          <circle cx="900" cy="200" r="22" fill="#002057"/>
+          <text x="900" y="240" text-anchor="middle" fill="#1A1A1A" font-weight="800" font-size="13">ERP</text>
+          <text x="900" y="170" text-anchor="middle" fill="#002057" font-weight="700" font-size="13">dias / semanas</text>
+          <text x="900" y="265" text-anchor="middle" fill="#555" font-size="11">N4</text>
+          <!-- meses -->
+          <circle cx="1100" cy="200" r="20" fill="#8FBE6A"/>
+          <text x="1100" y="240" text-anchor="middle" fill="#1A1A1A" font-weight="800" font-size="13">BI/Estratégia</text>
+          <text x="1100" y="170" text-anchor="middle" fill="#002057" font-weight="700" font-size="13">meses / trimestres</text>
+          <text x="1100" y="265" text-anchor="middle" fill="#555" font-size="11">N4+</text>
+        </g>
+      </svg>
+      <p style="margin-top:0.4em;">O <strong>MES</strong> opera no "ponto cego" entre <em>controle</em> (rápido demais para o ERP enxergar) e <em>planejamento</em> (lento demais para reagir a uma máquina parando). Sem ele, o ERP fica <em>cego em relação à produção</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — 11 FUNÇÕES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>O que o MES faz</h3>
+      <h2>As 11 funções clássicas — ISA-95</h2>
+      <div class="colunas" style="gap:2rem;">
+        <div>
+          <ol style="padding-left:1.2em;">
+            <li>Alocação de recursos</li>
+            <li>Sequenciamento de ordens</li>
+            <li>Despacho de ordens</li>
+            <li>Gestão de documentos</li>
+            <li>Coleta de dados</li>
+            <li>Gestão da mão de obra</li>
+          </ol>
+        </div>
+        <div>
+          <ol start="7" style="padding-left:1.2em;">
+            <li>Gestão da qualidade</li>
+            <li>Gestão do processo</li>
+            <li>Gestão da manutenção</li>
+            <li><strong>Rastreabilidade</strong></li>
+            <li><strong>Análise de performance</strong> (OEE)</li>
+          </ol>
+        </div>
+      </div>
+      <p style="margin-top:0.8em;">Você não precisa decorar — mas <em>rastreabilidade</em> e <em>análise de performance</em> são as mais valiosas em qualquer RFP de MES.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — MES vs ERP ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Comparativo</h3>
+      <h2>ERP planeja, MES executa</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 1em;text-align:left;">Aspecto</th>
+            <th style="padding:0.5em 1em;text-align:left;">ERP</th>
+            <th style="padding:0.5em 1em;text-align:left;">MES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><strong>Foco</strong></td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Negócio (pedido, fatura, RH)</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Chão de fábrica (execução)</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><strong>Granularidade</strong></td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Tarefa</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Operação individual</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><strong>Frequência</strong></td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Diária / semanal</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Tempo real (segundos)</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><strong>Usuários</strong></td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Compras, finanças, vendas</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Operadores, supervisão</td></tr>
+          <tr><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><strong>Indicadores</strong></td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;">Faturamento, margem, OTIF</td><td style="padding:0.4em 1em;border-bottom:1px solid #ddd;"><em>OEE</em>, MTBF, refugo</td></tr>
+          <tr><td style="padding:0.4em 1em;"><strong>Vida útil</strong></td><td style="padding:0.4em 1em;">8–15 anos</td><td style="padding:0.4em 1em;">5–10 anos</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;"><strong>Sem integração ERP↔MES, há ilhas</strong> — o escritório não sabe o que a fábrica faz e vice-versa.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6b — ANTES E DEPOIS DO MES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>O que muda no chão de fábrica</h3>
+      <h2>Apontamento manual × MES integrado</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 1em;text-align:left;">Aspecto</th>
+            <th style="padding:0.5em 1em;text-align:left;">Sem MES</th>
+            <th style="padding:0.5em 1em;text-align:left;">Com MES</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Apontamento</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Ficha de papel, manual</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Automático</em> via sensores</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Causa de parada</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Entrevista 2–3 dias depois</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Em tempo real</em>, com motivo</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Cálculo do OEE</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Mensal, com <strong>viés</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Tempo real, sem viés</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Rastreabilidade</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Difícil de reconstruir</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Auditável</em> por lote/peça</td></tr>
+          <tr><td style="padding:0.45em 1em;"><strong>Decisão de chão</strong></td><td style="padding:0.45em 1em;">Achismo + memória</td><td style="padding:0.45em 1em;"><strong>Dado</strong> + alerta automático</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;">Operadores subestimam paradas em apontamentos manuais — o <em>OEE registrado é otimista</em> e esconde oportunidades de melhoria. O MES expõe a realidade.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — OEE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>O indicador rei</h3>
+      <h2>OEE — Overall Equipment Effectiveness</h2>
+      <div style="background:var(--azul-fecaf);color:var(--branco);padding:1.4rem 1.6rem;border-radius:12px;text-align:center;font-size:clamp(1.4rem,2.4vw,2rem);font-weight:700;letter-spacing:0.02em;">
+        OEE = <span style="color:var(--azul-claro);">Disponibilidade</span> × <span style="color:var(--amarelo);">Performance</span> × <span style="color:#8FBE6A;">Qualidade</span>
+      </div>
+      <div class="pontos-chave" style="margin-top:1.2rem;">
+        <div class="ponto">
+          <h3>Disponibilidade</h3>
+          <p>tempo real produzindo / tempo planejado</p>
+        </div>
+        <div class="ponto">
+          <h3>Performance</h3>
+          <p>velocidade real / velocidade nominal</p>
+        </div>
+        <div class="ponto">
+          <h3>Qualidade</h3>
+          <p>peças boas / peças produzidas</p>
+        </div>
+        <div class="ponto">
+          <h3>Referências</h3>
+          <p>Classe mundial ≥ <strong>85%</strong>; média Brasil entre <em>60–75%</em>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7b — OUTROS INDICADORES ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Além do OEE</h3>
+      <h2>Os outros indicadores que o MES entrega</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 1em;text-align:left;">Indicador</th>
+            <th style="padding:0.5em 1em;text-align:left;">O que mede</th>
+            <th style="padding:0.5em 1em;text-align:left;">Para quem importa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>MTBF</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Tempo médio <em>entre falhas</em></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Manutenção, engenharia</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>MTTR</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Tempo médio <em>para reparar</em></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Manutenção, supervisão</td></tr>
+          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>PPM</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Defeitos em partes <em>por milhão</em></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Qualidade, cliente</td></tr>
+          <tr><td style="padding:0.45em 1em;"><strong>Takt time</strong></td><td style="padding:0.45em 1em;">Ritmo da produção <em>vs demanda</em></td><td style="padding:0.45em 1em;">PCP, lean, supervisão</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;">Esses indicadores juntos contam a história da operação — <strong>OEE</strong> diz "o quanto a linha rende"; <em>MTBF/MTTR</em> dizem "por que ela para"; <em>PPM</em> diz "o que sai bom"; <em>takt time</em> diz "se estamos no ritmo do mercado".</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7c — PLAYERS DE MERCADO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Quem domina o jogo de MES</h3>
+      <h2>Players globais e nacionais</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Top global</h3>
+          <p><strong>Siemens Opcenter</strong> (ex-Camstar), <em>GE Proficy Plant Applications</em>, <em>Honeywell MES</em>, <em>Rockwell FactoryTalk</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Setoriais</h3>
+          <p><em>Honeywell</em> domina química e processo; <em>GE Proficy</em> e <em>Rockwell</em> em manufatura discreta.</p>
+        </div>
+        <div class="ponto">
+          <h3>Nacionais</h3>
+          <p><strong>PPI Multitask</strong>, <em>Plant Star Brasil</em>, <strong>TOTVS Linha de Produção</strong> (integrado ao TOTVS ERP).</p>
+        </div>
+        <div class="ponto">
+          <h3>Critério de escolha</h3>
+          <p>Setor (discreto × processo), integração com o ERP existente, presença local e custo total de propriedade.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.9em;">Em multinacionais, o <em>par ERP+MES</em> normalmente fica no mesmo fabricante (SAP+Opcenter, Oracle+GE) — em PME, vale comparar nacionais com custo total bem mais acessível.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — ROI + KLABIN ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>ROI realista</h3>
+      <h2>3 linhas, OEE de 65% → 72%</h2>
+      <div class="colunas">
+        <div>
+          <p><strong>Investimento típico:</strong></p>
+          <ul>
+            <li>Sensores + gateways: <em>R$ 200 mil</em></li>
+            <li>Licença MES anual: <em>R$ 100 mil</em></li>
+            <li>Implantação: <em>R$ 300 mil</em></li>
+            <li><strong>Total:</strong> ~R$ 600 mil + R$ 100 mil/ano</li>
+          </ul>
+          <p style="margin-top:0.8em;"><strong>Ganho anual:</strong> +7 p.p. × R$ 150 mil/p.p. = <strong>R$ 1,05 mi/ano</strong>.</p>
+          <p><strong>Payback:</strong> 7–9 meses.</p>
+        </div>
+        <div>
+          <p style="background:var(--branco);padding:1.2rem 1.4rem;border-left:6px solid var(--magenta);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+            <strong>Caso Klabin (Telêmaco Borba-PR):</strong> 1.500+ pontos sensoreados, MES como cérebro operacional integrado a <em>digital twin</em>. Resultado documentado: <strong>+8% de produtividade</strong> e <strong>−22% de paradas</strong>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "O que não é medido não é gerenciado. O MES é o que transforma 'achismo de chão de fábrica' em decisão baseada em dados."
+      </blockquote>
+      <cite>— adaptado de Peter Drucker, aplicado à manufatura digital</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 10 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Calcule o OEE de uma linha real</h2>
+      <ol>
+        <li>Escolha uma <strong>linha de produção</strong> que você conhece.</li>
+        <li>Estime <em>disponibilidade × performance × qualidade</em> — qual é o OEE atual?</li>
+        <li>Onde está o <strong>gargalo principal</strong> (disponibilidade, performance ou qualidade)?</li>
+        <li>Liste <strong>5 dados</strong> que seriam mais úteis em tempo real para essa linha.</li>
+        <li>Como um MES <em>mudaria a operação</em> dela?</li>
+      </ol>
+      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · registre os números · vão alimentar a AAI da unidade</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Síntese da aula</h3>
+      <h2>Pontos-chave para levar consigo</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Onde mora o MES</h3>
+          <p>Nível 3 da pirâmide ISA-95 — entre o ERP (estratégia) e o SCADA/CLP (controle).</p>
+        </div>
+        <div class="ponto">
+          <h3>O que ele faz</h3>
+          <p>As <em>11 funções</em> da norma — destaque para <strong>rastreabilidade</strong> e <strong>OEE</strong>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Quem é quem</h3>
+          <p>ERP <em>planeja</em>; MES <em>executa</em>. Ambos precisam estar <strong>integrados</strong>.</p>
+        </div>
+        <div class="ponto">
+          <h3>ROI realista</h3>
+          <p>Implantações bem feitas pagam em <strong>6 a 12 meses</strong>; sensores + apontamento automático são o início.</p>
+        </div>
+      </div>
+      <p style="margin-top:0.9em;">Players a conhecer: <em>Siemens Opcenter</em>, <em>GE Proficy</em>, <em>Rockwell FactoryTalk</em>, <em>Honeywell</em>; nacionais — <em>PPI Multitask</em>, <em>Plant Star</em>, <em>TOTVS Linha de Produção</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 2 — Videoaula 6</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — ENCERRAMENTO ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Obrigado!</h1>
+      <p>Próxima aula: SCM e WMS — a logística e o armazém da operação moderna.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

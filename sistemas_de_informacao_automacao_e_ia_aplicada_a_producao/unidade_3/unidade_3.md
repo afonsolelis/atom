@@ -46,6 +46,8 @@ Isso é **controle em malha fechada (closed loop)**. Existe também **malha aber
 
 ### Sensores: tipos mais usados na indústria
 
+![Sensores industriais (termopar, transdutor de pressão, encoder) — exemplos típicos de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Thermocouple0002.jpg/640px-Thermocouple0002.jpg)
+
 Sensores são **traduzem** grandezas físicas em **sinais elétricos**. Tipos comuns:
 
 | Tipo | O que mede | Tecnologia típica | Aplicação industrial |
@@ -211,6 +213,8 @@ Todo CLP roda em um **ciclo contínuo**:
 Tempo típico de ciclo: **5 a 50 milissegundos**, dependendo do tamanho do programa. Esse ciclo é a base da operação em tempo real.
 
 ### Anatomia de um CLP
+
+![CLP modular com módulos de entrada/saída acoplados em trilho DIN — arquitetura típica de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Siemens_Simatic_S7-400.jpg/640px-Siemens_Simatic_S7-400.jpg)
 
 | Componente | Função |
 | --- | --- |
@@ -379,6 +383,8 @@ SCADA está no **nível 2 da pirâmide ISA-95** (vimos na U2) — acima dos CLPs
 
 ### HMI: a tela que o operador vê
 
+![Sala de controle industrial com múltiplas telas SCADA exibindo telemetria em tempo real](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Telemetry_room_control_centre.jpg/640px-Telemetry_room_control_centre.jpg)
+
 A **HMI (Human-Machine Interface)** é a parte visual do SCADA. Telas típicas:
 
 - **Visão geral** — mapa da planta com indicadores resumidos.
@@ -517,6 +523,8 @@ Imagine um SCADA para uma operação que você conhece:
 Última aula da Unidade 3. Vamos juntar tudo o que vimos — sensores, atuadores, CLPs, SCADA, MES, ERP — em uma única visão: a **pirâmide ISA-95**. E depois, falar do desafio que **define** a competitividade industrial moderna: a **integração entre TI e OT**.
 
 ### A pirâmide ISA-95 completa
+
+![Pirâmide hierárquica ISA-95 / modelo Purdue com 5 níveis — do equipamento físico ao ERP corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Functional_levels_of_a_Distributed_Control_System.svg/640px-Functional_levels_of_a_Distributed_Control_System.svg.png)
 
 A **norma internacional ISA-95** (também chamada **IEC 62264**) define uma **pirâmide hierárquica** de 5 níveis (também usada como modelo Purdue, com sobreposição):
 

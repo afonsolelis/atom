@@ -40,6 +40,8 @@ Note: IA **não é** um conceito recente. Foi cunhado em 1956 (Conferência de D
 
 ### A pirâmide: IA → ML → Deep Learning
 
+![Diagrama esquemático das relações entre IA, Machine Learning e Deep Learning como conjuntos concêntricos](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Multi-Layer_Neural_Network-Vector-Blank.svg/512px-Multi-Layer_Neural_Network-Vector-Blank.svg.png)
+
 | Conceito | O que é |
 | --- | --- |
 | **IA** | Campo amplo — qualquer sistema "inteligente" |
@@ -183,6 +185,8 @@ Antes do ML, previsão de demanda era feita com **séries temporais clássicas**
 - Mídia social (sentiment analysis).
 
 Modelos modernos combinam tudo isso para gerar previsões com **30-50% menos erro** que métodos clássicos em muitos contextos.
+
+![Série temporal com componentes de tendência, sazonalidade e ruído — base conceitual da previsão de demanda](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Random-data-plus-trend-r2.png/512px-Random-data-plus-trend-r2.png)
 
 ### O ciclo da previsão na indústria
 
@@ -340,6 +344,8 @@ Esta aula trata de uma das aplicações que mais cresceu nos últimos 5 anos: **
 > **Visão computacional (computer vision)** é o campo da IA dedicado a fazer **computadores "verem" e interpretarem imagens e vídeos** — identificando objetos, classificando defeitos, contando peças, lendo textos, detectando anomalias.
 
 É uma das áreas mais **antigas** da IA (1960s) e uma das mais **transformadas** pela revolução do **Deep Learning** a partir de 2012. O salto técnico foi tão grande que tarefas antes impossíveis hoje são triviais.
+
+![Exemplo de detecção de objetos por visão computacional, com bounding boxes destacando itens reconhecidos](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg/512px-Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg)
 
 ### Os 5 problemas clássicos de visão computacional industrial
 
@@ -511,6 +517,8 @@ LLMs são **redes neurais gigantescas** (centenas de bilhões de parâmetros) tr
 A "mágica": dada uma sequência de palavras, eles **preveem a próxima palavra mais provável**, repetidamente. É essa simples capacidade que, em escala, gera redações, traduções, código e raciocínio.
 
 Não são "verdadeiros pensadores" — são **previsores estatísticos de próxima palavra**. Isso ajuda a entender o que eles sabem (muito) e o que não sabem (raciocínio em tempo real, autoconsciência, verdade absoluta).
+
+![Representação conceitual da arquitetura Transformer, base dos LLMs modernos como GPT, Claude e Gemini](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/The-Transformer-model-architecture.png/512px-The-Transformer-model-architecture.png)
 
 ### Aplicações de IA generativa em Engenharia de Produção
 

@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 2 — O que é um Sistema de Informação? Componentes e tipos · Sistemas de Informação</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  .triangulos-canto {
+    position: absolute; top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none; z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute; bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none; z-index: 1; overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  .slide-content {
+    position: relative; z-index: 2;
+    width: 100%; max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto:nth-child(5) { border-color: var(--verde-escuro); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (mantido por consistência — não usado nesta aula) ---------- */
+  .slide-prof { padding: 0; background: var(--branco); overflow: hidden; }
+  .prof-grid { display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%; }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center; justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg { filter: brightness(0); }
+  .prof-foto {
+    width: 100%; aspect-ratio: 1 / 1; max-width: 380px;
+    border-radius: 22px; overflow: hidden;
+    background: linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF; border-radius: 50%;
+    box-shadow: -22% 12% 0 -6% #FFFFFF, 30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img { width: 100%; height: 100%; object-fit: cover; display: block; position: relative; z-index: 2; }
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf); color: var(--branco);
+    padding: 6vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .prof-nome { color: var(--branco) !important; font-size: clamp(2.4rem, 4vw, 3.6rem); margin: 0 0 0.1em; font-weight: 800; letter-spacing: -0.02em; }
+  .prof-cargo { color: rgba(255,255,255,0.9); font-size: clamp(1.1rem, 1.6vw, 1.5rem); font-weight: 400; margin-bottom: 1.5em; }
+  .prof-descricao { color: rgba(255,255,255,0.92); font-size: clamp(0.95rem, 1.15vw, 1.15rem); line-height: 1.55; margin: 0 0 1.5em; }
+  .prof-contato { display: flex; flex-direction: column; gap: 0.5rem; margin-top: auto; }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong { color: var(--branco); font-weight: 700; margin-right: 0.4em; }
+  .prof-contato-item a { color: var(--azul-claro); text-decoration: none; font-weight: 500; }
+  .prof-contato-item a:hover { text-decoration: underline; }
+  .prof-triangulos-boundary { position: absolute; left: -90px; top: 50%; transform: translateY(-50%); width: 200px; height: 60%; pointer-events: none; z-index: 5; }
+  .prof-canto-topo { position: absolute; top: 0; right: 0; width: 110px; height: 110px; pointer-events: none; }
+  .prof-canto-rodape { position: absolute; bottom: 30px; right: 30px; width: 90px; height: 60px; pointer-events: none; }
+
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Componentes extras ---------- */
+  .callout-azul {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 1.2em 1.4em;
+    border-radius: 10px;
+    border-left: 8px solid var(--amarelo);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .callout-azul strong { color: var(--amarelo); }
+  .callout-azul em { color: rgba(255,255,255,0.92); }
+  .callout-amarelo {
+    background: #FFF4D0;
+    border-left: 6px solid var(--amarelo);
+    padding: 0.9em 1.2em;
+    border-radius: 6px;
+  }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .stat-card {
+    background: var(--branco);
+    padding: 1.2rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .stat-card .numero-grande {
+    display: block;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--azul-fecaf);
+    margin-bottom: 0.2em;
+  }
+  .stat-card .legenda { font-size: 1rem; color: #444; font-weight: 500; }
+
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>O que é um Sistema de Informação? Componentes e tipos</h1>
+      <div class="subtitulo">Unidade 1 — Fundamentos de Sistemas de Informação</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">02</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>A definição em uma frase: SI não é só software</li>
+        <li>Os <em>5 componentes</em>: pessoas, processos, dados, software, hardware</li>
+        <li>Por que pessoas e processos vêm <strong>antes</strong> da tecnologia</li>
+        <li>Tipos clássicos: TPS, MIS, DSS, EIS, ERP, MES, CRM, WMS</li>
+        <li>O ciclo coleta → processamento → armazenamento → saída</li>
+        <li>Exemplo numérico: do pedido em 5 dias ao pedido em 3 horas</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — DEFINIÇÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Definição</h3>
+      <h1>SI em uma frase</h1>
+      <p>Um <strong>Sistema de Informação</strong> é o conjunto coordenado de <em>pessoas</em>, <em>processos</em>, <em>dados</em>, <em>software</em> e <em>hardware</em> que <strong>coleta, processa, armazena e distribui</strong> informações para apoiar operação, gestão e decisão.</p>
+      <p>Note os <strong>cinco elementos</strong>. E note também que SI <em>não é só software</em>: uma planilha sozinha não é SI; mas Excel + processo + pessoa responsável + dados consolidados pode ser.</p>
+      <ul>
+        <li>SI é <strong>conjunto</strong>, não ferramenta.</li>
+        <li>Sem pessoas, nenhum SI funciona.</li>
+        <li>Sem processo claro, software vira bagunça com login.</li>
+      </ul>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — A PLANILHA NÃO É SI ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Confusão típica</h3>
+      <h1>A planilha não é um SI</h1>
+      <div class="colunas">
+        <div>
+          <p><strong>Excel sozinho:</strong></p>
+          <ul>
+            <li>Arquivo isolado, salvo no PC de alguém.</li>
+            <li>Sem controle de acesso real.</li>
+            <li>Sem multi-usuário simultâneo confiável.</li>
+            <li><em>Trava com mais de 100 mil linhas.</em></li>
+          </ul>
+        </div>
+        <div>
+          <p><strong>Excel <em>como parte</em> de um SI:</strong></p>
+          <ul>
+            <li>Processo claro de quem alimenta e quando.</li>
+            <li>Pessoa responsável definida.</li>
+            <li>Hardware adequado, backups, integração.</li>
+            <li><em>É o conjunto que faz a diferença.</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-amarelo" style="margin-top:0.8em;"><strong>Regra:</strong> software <em>sozinho</em> não é SI. SI é o <strong>conjunto coordenado</strong> dos cinco elementos.</div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — OS 5 COMPONENTES (SVG próprio) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Os 5 componentes</h3>
+      <h2>Pessoas · Processos · Dados · Software · Hardware</h2>
+      <svg viewBox="0 0 1100 320" style="width:100%;max-height:42vh;display:block;margin-top:0.4rem;" role="img" aria-label="Os cinco componentes de um Sistema de Informação">
+        <!-- 5 cards alinhados -->
+        <g>
+          <rect x="40" y="60" width="180" height="200" rx="14" fill="#E91E63"/>
+          <text x="130" y="120" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">PESSOAS</text>
+          <text x="130" y="160" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Operam · usam ·</text>
+          <text x="130" y="180" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">decidem</text>
+        </g>
+        <g>
+          <rect x="240" y="60" width="180" height="200" rx="14" fill="#1F44A8"/>
+          <text x="330" y="120" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">PROCESSOS</text>
+          <text x="330" y="160" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Rotinas, normas,</text>
+          <text x="330" y="180" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">fluxos de trabalho</text>
+        </g>
+        <g>
+          <rect x="440" y="60" width="180" height="200" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="2"/>
+          <text x="530" y="120" text-anchor="middle" fill="#002057" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">DADOS</text>
+          <text x="530" y="160" text-anchor="middle" fill="#002057" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Estruturados ou</text>
+          <text x="530" y="180" text-anchor="middle" fill="#002057" font-size="14" font-family="Segoe UI, system-ui, sans-serif">não estruturados</text>
+        </g>
+        <g>
+          <rect x="640" y="60" width="180" height="200" rx="14" fill="#2BBBE0"/>
+          <text x="730" y="120" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">SOFTWARE</text>
+          <text x="730" y="160" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">ERP, planilha,</text>
+          <text x="730" y="180" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">banco, app</text>
+        </g>
+        <g>
+          <rect x="840" y="60" width="180" height="200" rx="14" fill="#002057"/>
+          <text x="930" y="120" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">HARDWARE</text>
+          <text x="930" y="160" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Servidor, PC,</text>
+          <text x="930" y="180" text-anchor="middle" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">tablet, sensor</text>
+        </g>
+        <!-- Setas para o termo "Sistema de Informação" abaixo -->
+        <text x="550" y="305" text-anchor="middle" fill="#002057" font-weight="700" font-size="16" font-family="Segoe UI, system-ui, sans-serif">▼ Os 5 juntos = Sistema de Informação</text>
+      </svg>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — PESSOAS E PROCESSOS VÊM PRIMEIRO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Por onde começar</h3>
+      <h1>Pessoas e processos vêm primeiro</h1>
+      <p>“Se você pegar a melhor tecnologia do mundo e jogar dentro de uma empresa caótica, o resultado é <strong>caos mais caro</strong>.”</p>
+      <div class="colunas">
+        <div>
+          <p>Os melhores sistemas falham se:</p>
+          <ul>
+            <li>Operadores <em>não usam</em> corretamente.</li>
+            <li>O processo de alimentação <em>não é seguido</em>.</li>
+            <li>Liderança <em>não cobra</em> disciplina.</li>
+            <li>Não há <em>treinamento contínuo</em>.</li>
+          </ul>
+        </div>
+        <div>
+          <p style="background:var(--azul-fecaf);color:var(--branco);padding:1.4em;border-radius:12px;font-weight:600;">
+            <strong style="color:var(--amarelo);">50 a 70%</strong><br/>
+            <span style="color:rgba(255,255,255,0.9);font-weight:500;">do esforço de implantar SI vai para pessoas e processos — não para a tecnologia.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — POR QUE PROJETOS DE TI FALHAM ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Diagnóstico</h3>
+      <h2>Por que tanto projeto de TI <em>falha</em>?</h2>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="numero-grande">~70%</span>
+          <span class="legenda">Dos projetos de ERP <strong>estouram prazo</strong> ou orçamento</span>
+        </div>
+        <div class="stat-card">
+          <span class="numero-grande">50–70%</span>
+          <span class="legenda">Do esforço é <strong>pessoas + processos</strong> — não tecnologia</span>
+        </div>
+        <div class="stat-card">
+          <span class="numero-grande">3×</span>
+          <span class="legenda">Mais chance de sucesso com <em>patrocínio executivo</em> claro</span>
+        </div>
+      </div>
+      <p style="margin-top:1em;text-align:center;">Tecnologia em organização caótica = <strong>caos mais caro</strong>. A causa-raiz quase nunca é o software — é gente e processo.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — TIPOS DE SI POR NÍVEL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Tipologia clássica</h3>
+      <h2>SI por nível hierárquico</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.15vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 0.8em;text-align:left;">Nível</th>
+            <th style="padding:0.5em 0.8em;text-align:left;">Sigla</th>
+            <th style="padding:0.5em 0.8em;text-align:left;">O que faz</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Operacional</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>TPS</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Registra transações do dia a dia</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Tático</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>MIS</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Relatórios para gerência</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Tático</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>DSS</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Apoio à decisão (simulação, modelos)</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Estratégico</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>EIS / ESS</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Dashboards executivos</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Integrador</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;"><strong>ERP</strong></td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Integra processos de toda a empresa</td></tr>
+          <tr><td style="padding:0.4em 0.8em;">Específico</td><td style="padding:0.4em 0.8em;"><strong>MES · CRM · SCM · WMS · PLM</strong></td><td style="padding:0.4em 0.8em;">Sistemas verticais (próxima unidade)</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;font-size:1rem;color:#555;">Não precisa decorar — você vai conviver com cada um. O importante: <em>cada sistema atende uma necessidade diferente</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — PIRÂMIDE DE NÍVEIS (visual) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Visualização</h3>
+      <h2>Cada SI no seu nível</h2>
+      <svg viewBox="0 0 1100 360" style="width:100%;max-height:46vh;display:block;" role="img" aria-label="Pirâmide de níveis de SI: TPS operacional na base, MIS/DSS tático no meio, EIS estratégico no topo, ERP integrador atravessando">
+        <!-- Pirâmide com 3 níveis -->
+        <polygon points="100,330 1000,330 870,250 230,250" fill="#2BBBE0"/>
+        <polygon points="230,250 870,250 760,170 340,170" fill="#1F44A8"/>
+        <polygon points="340,170 760,170 550,60" fill="#002057"/>
+
+        <!-- Labels e siglas -->
+        <text x="550" y="300" text-anchor="middle" fill="#002057" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">OPERACIONAL · TPS</text>
+        <text x="550" y="320" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI, system-ui, sans-serif">PDV · faturamento · ordem de produção</text>
+
+        <text x="550" y="218" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="20" font-family="Segoe UI, system-ui, sans-serif">TÁTICO · MIS / DSS</text>
+        <text x="550" y="238" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">relatório consolidado · simulação</text>
+
+        <text x="550" y="130" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="18" font-family="Segoe UI, system-ui, sans-serif">ESTRATÉGICO</text>
+        <text x="550" y="152" text-anchor="middle" fill="#F0CE29" font-weight="700" font-size="15" font-family="Segoe UI, system-ui, sans-serif">EIS / ESS</text>
+
+        <!-- ERP atravessando lateral -->
+        <rect x="20" y="100" width="60" height="230" rx="12" fill="#F0CE29" stroke="#002057" stroke-width="2"/>
+        <text x="50" y="220" text-anchor="middle" fill="#002057" font-weight="900" font-size="14" font-family="Segoe UI, system-ui, sans-serif" transform="rotate(-90 50 220)">ERP — integrador</text>
+
+        <!-- Volume / frequência -->
+        <text x="1040" y="320" text-anchor="end" fill="#E91E63" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ volume de dado ▼</text>
+        <text x="1040" y="100" text-anchor="end" fill="#E91E63" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ síntese · + decisão ▲</text>
+      </svg>
+      <p style="margin-top:0.4em;text-align:center;font-size:1rem;color:#555;">Na base, <em>muito dado, baixa síntese</em>. No topo, <em>pouco dado, alta decisão</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — O CICLO BÁSICO (SVG) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Ciclo básico</h3>
+      <h2>Coleta → Processamento → Armazenamento → Saída</h2>
+      <svg viewBox="0 0 1100 230" style="width:100%;max-height:38vh;display:block;margin-top:0.4rem;" role="img" aria-label="Ciclo de um Sistema de Informação">
+        <!-- 4 etapas com setas -->
+        <g>
+          <rect x="40" y="60" width="220" height="110" rx="14" fill="#2BBBE0"/>
+          <text x="150" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">1. COLETA</text>
+          <text x="150" y="135" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">manual · automática</text>
+          <text x="150" y="153" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">· importada</text>
+        </g>
+        <polygon points="270,115 305,100 305,130" fill="#002057"/>
+        <g>
+          <rect x="315" y="60" width="220" height="110" rx="14" fill="#1F44A8"/>
+          <text x="425" y="105" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">2. PROCESSAMENTO</text>
+          <text x="425" y="135" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">limpa · valida ·</text>
+          <text x="425" y="153" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">agrega · calcula</text>
+        </g>
+        <polygon points="545,115 580,100 580,130" fill="#002057"/>
+        <g>
+          <rect x="590" y="60" width="220" height="110" rx="14" fill="#002057"/>
+          <text x="700" y="105" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">3. ARMAZENAMENTO</text>
+          <text x="700" y="135" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">banco · arquivo ·</text>
+          <text x="700" y="153" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">nuvem</text>
+        </g>
+        <polygon points="820,115 855,100 855,130" fill="#002057"/>
+        <g>
+          <rect x="865" y="60" width="220" height="110" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="2"/>
+          <text x="975" y="105" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">4. SAÍDA</text>
+          <text x="975" y="135" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI, system-ui, sans-serif">tela · relatório ·</text>
+          <text x="975" y="153" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI, system-ui, sans-serif">alerta · integração</text>
+        </g>
+      </svg>
+      <p style="margin-top:0.8em;text-align:center;"><strong>A qualidade do SI é a qualidade do elo mais fraco.</strong></p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — ELO MAIS FRACO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Onde a qualidade quebra</h3>
+      <h2>O elo mais fraco define o SI inteiro</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Coleta ruim</h3>
+          <p>Sensor mal calibrado, lançamento manual atrasado, planilha incompleta — <em>"lixo entra"</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Processamento ruim</h3>
+          <p>Regra de negócio errada, fórmula quebrada, integração quebrada — <em>"lixo processado"</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Armazenamento ruim</h3>
+          <p>Banco sem backup, dado fragmentado, redundância — <em>"perda silenciosa"</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Saída ruim</h3>
+          <p>Dashboard ilegível, alerta tardio, indicador errado — <em>"lixo entregue"</em>.</p>
+        </div>
+      </div>
+      <p style="margin-top:1em;"><strong>Garbage in → garbage out.</strong> SI é tão bom quanto o seu pior elo.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — EXEMPLO NUMÉRICO (tabela 5 dias → 3 horas) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo numérico</h3>
+      <h2>Velocidade de informação = velocidade do negócio</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.15vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.5em 0.8em;text-align:left;">Etapa do pedido</th>
+            <th style="padding:0.5em 0.8em;text-align:left;">Sem SI</th>
+            <th style="padding:0.5em 0.8em;text-align:left;">Com ERP integrado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Cliente envia pedido</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1 dia</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1 hora</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Lançamento no sistema</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">4 horas</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">5 min (automático)</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Programação da produção</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1 dia</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">30 min</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Nota fiscal</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">4 horas</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Automática</td></tr>
+          <tr><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">Confirmação ao cliente</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">2 dias</td><td style="padding:0.4em 0.8em;border-bottom:1px solid #ddd;">1 hora</td></tr>
+          <tr style="background:#FFF4D0;"><td style="padding:0.5em 0.8em;"><strong>Total</strong></td><td style="padding:0.5em 0.8em;"><strong>~ 5 dias</strong></td><td style="padding:0.5em 0.8em;"><strong>~ 3 horas</strong></td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1em;">Esse salto de <strong>5 dias → 3 horas</strong> é a razão pela qual SI é <em>essencial</em> em fábricas competitivas.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Aplicar tecnologia a uma operação eficiente amplifica a eficiência. Aplicar tecnologia a uma operação ineficiente amplifica a ineficiência."
+      </blockquote>
+      <cite>— Bill Gates, sobre automação e processos</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 14 — PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto"><svg width="220" height="220"><use href="#trio-canto"/></svg></div>
+    <div class="slide-content">
+      <h3>Recapitulando</h3>
+      <h2>O que levar embora</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>5 componentes</h3>
+          <p>Pessoas · processos · dados · software · hardware. SI é o <strong>conjunto</strong>, não a ferramenta.</p>
+        </div>
+        <div class="ponto">
+          <h3>Pessoas primeiro</h3>
+          <p><strong>50–70%</strong> do esforço de implantação. Sem isso, o sistema falha — por melhor que seja.</p>
+        </div>
+        <div class="ponto">
+          <h3>Tipologia</h3>
+          <p>TPS · MIS · DSS · EIS · ERP — cada um para uma necessidade diferente, em níveis distintos.</p>
+        </div>
+        <div class="ponto">
+          <h3>Ciclo</h3>
+          <p>Coleta → processamento → armazenamento → saída. <em>O elo mais fraco define o todo.</em></p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 15 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Diagnostique um SI que você conhece</h2>
+      <p>Escolha uma operação da sua empresa, estágio ou de uma empresa próxima e responda:</p>
+      <ol>
+        <li>Quais são os <strong>5 componentes</strong> (pessoas, processos, dados, software, hardware)?</li>
+        <li>Em qual <strong>nível</strong> atua — operacional, tático ou estratégico?</li>
+        <li>Qual é o <strong>ciclo</strong> (coleta → processamento → armazenamento → saída)?</li>
+        <li>Onde está o <em>elo mais fraco</em> desse ciclo?</li>
+      </ol>
+      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · anote · esse caso volta na Aula 3</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <!-- ============== SLIDE 16 — ENCERRAMENTO ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Obrigado!</h1>
+      <p>Próxima aula: TPS, MIS, DSS, ERP — destrinchando a sopa de letrinhas.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

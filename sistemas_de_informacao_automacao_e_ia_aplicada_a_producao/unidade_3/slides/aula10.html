@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Aula 2 — CLP e lógica ladder · Sistemas de Informação</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --branco:       #FFFFFF;
+
+    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte-corpo);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--cinza-bg);
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 220px; height: 220px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.5em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .slide h2 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    color: var(--azul-fecaf);
+    margin: 0 0 0.6em;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-family: var(--fonte-titulo);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-escuro);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--magenta); }
+  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-medio);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote ---------- */
+  .slide-quote { background: var(--amarelo); }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    line-height: 1.25;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    border-left: 8px solid var(--azul-fecaf);
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.5rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--cinza-texto);
+    font-weight: 600;
+  }
+
+  /* ---------- Slide: encerramento ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center; text-align: center;
+  }
+  .slide-fim h1 { color: var(--branco); font-size: clamp(2.4rem, 5vw, 4.5rem); }
+  .slide-fim p { color: var(--amarelo); font-size: clamp(1.2rem, 1.8vw, 1.8rem); }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--cinza-texto);
+    opacity: 0.6;
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0);
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--verde-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
+  </symbol>
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <!-- ============== SLIDE 1 — CAPA ============== -->
+  <section class="slide slide-capa active">
+    <div class="slide-content" style="text-align:left;">
+      <div class="logo-marca">
+        <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>CLP e lógica ladder</h1>
+      <div class="subtitulo">Unidade 3 — Automação Industrial</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+    <div class="triangulos-rodape">
+      <svg><use href="#faixa-triangulos"/></svg>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <section class="slide slide-section">
+    <div class="slide-content">
+      <div class="numero">02</div>
+      <h2>O que você verá nesta aula</h2>
+      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>O que é um <em>CLP</em> e por que ele domina o chão de fábrica</li>
+        <li>CLP <em>vs</em> microcontrolador <em>vs</em> PC industrial</li>
+        <li>Anatomia: CPU, módulos de I/O, fonte, comunicação</li>
+        <li>O <em>ciclo de varredura</em> e a operação em tempo real</li>
+        <li>As 5 linguagens da norma <strong>IEC 61131-3</strong></li>
+        <li>Ladder: contatos, bobinas, timers, contadores</li>
+        <li>Exemplo de ladder resolvido</li>
+        <li>Marcas dominantes e ROI de automatizar</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — PAUSA PARA REFLEXÃO ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Pausa para reflexão</h3>
+      <h1>Como você descreveria essa regra?</h1>
+      <p>"Ligar uma lâmpada quando alguém aperta o botão, <strong>mas só se outra chave está fechada</strong>, e desligar depois de 30 segundos."</p>
+      <ul>
+        <li>Como você anotaria isso para outra pessoa executar?</li>
+        <li>Em texto? Em fluxograma? Em diagrama elétrico?</li>
+        <li>Pensa nisso — volta na aula com a resposta dela.</li>
+      </ul>
+      <p style="margin-top:1em;">É exatamente o tipo de problema que <em>ladder</em> resolve em 2 linhas.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 4 — O QUE É CLP ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Definição</h3>
+      <h1>O CLP em poucas palavras</h1>
+      <p><strong>CLP</strong> (Controlador Lógico Programável) é um <em>computador industrial</em> dedicado a executar lógica de controle em ciclos contínuos de leitura, execução e escrita.</p>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>Robusto</h3>
+          <p>Projetado para vibração, temperatura e poeira do chão de fábrica.</p>
+        </div>
+        <div class="ponto">
+          <h3>Confiável</h3>
+          <p>Operação 24/7 com taxa de falha extremamente baixa.</p>
+        </div>
+        <div class="ponto">
+          <h3>Tempo real</h3>
+          <p>Ciclo típico de execução em <em>milissegundos</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Modular</h3>
+          <p>Adicione módulos de I/O e comunicação sob demanda.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — CLP vs MICROCONTROLADOR vs PC INDUSTRIAL ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Comparativo</h3>
+      <h2>CLP <em>vs</em> microcontrolador <em>vs</em> PC industrial</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.1rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Característica</th>
+            <th style="padding:0.6em 1em;text-align:left;">CLP</th>
+            <th style="padding:0.6em 1em;text-align:left;">Microcontrolador</th>
+            <th style="padding:0.6em 1em;text-align:left;">PC industrial</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Foco</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Controle de planta</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Produto embarcado</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Supervisão/MES</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Programação</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Ladder / IEC 61131-3</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">C/C++/Python</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Qualquer SO/linguagem</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Robustez industrial</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Alta</strong> (IP, vibração, EMI)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Variável</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Média–alta</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Tempo real</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Determinístico</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Determinístico (firmware)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Não garantido</td></tr>
+          <tr><td style="padding:0.5em 1em;">Custo típico</td><td style="padding:0.5em 1em;">R$ 2 mil – 80 mil</td><td style="padding:0.5em 1em;">R$ 30 – 200</td><td style="padding:0.5em 1em;">R$ 8 – 30 mil</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.9em;">CLP existe porque microcontroladores não têm padronização industrial e PCs não garantem tempo real. <strong>É o ponto-ótimo</strong> de robustez, determinismo e manutenibilidade.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — ANATOMIA DO CLP ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Anatomia</h3>
+      <h2>Os módulos que formam um CLP</h2>
+      <div class="colunas">
+        <div>
+          <svg viewBox="0 0 420 320" style="width:100%;display:block;" aria-label="Rack modular de CLP com fonte, CPU e módulos de entrada e saída digitais e analógicos">
+            <!-- Rack -->
+            <rect x="20" y="40" width="380" height="240" rx="10" fill="#FFFFFF" stroke="#002057" stroke-width="3"/>
+            <!-- Fonte -->
+            <rect x="40" y="60" width="60" height="200" rx="6" fill="#F0CE29"/>
+            <text x="70" y="160" text-anchor="middle" fill="#002057" font-weight="800" font-size="14" font-family="Segoe UI" transform="rotate(-90 70 160)">FONTE 24 V</text>
+            <!-- CPU -->
+            <rect x="115" y="60" width="60" height="200" rx="6" fill="#002057"/>
+            <text x="145" y="160" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16" font-family="Segoe UI" transform="rotate(-90 145 160)">CPU</text>
+            <!-- DI -->
+            <rect x="190" y="60" width="55" height="200" rx="6" fill="#2BBBE0"/>
+            <text x="217" y="160" text-anchor="middle" fill="#002057" font-weight="800" font-size="14" font-family="Segoe UI" transform="rotate(-90 217 160)">DI · 16 ch</text>
+            <!-- DO -->
+            <rect x="255" y="60" width="55" height="200" rx="6" fill="#E91E63"/>
+            <text x="282" y="160" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="14" font-family="Segoe UI" transform="rotate(-90 282 160)">DO · 16 ch</text>
+            <!-- AI/AO -->
+            <rect x="320" y="60" width="60" height="100" rx="6" fill="#1F44A8"/>
+            <text x="350" y="115" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="14" font-family="Segoe UI" transform="rotate(-90 350 115)">AI 4-20mA</text>
+            <rect x="320" y="170" width="60" height="90" rx="6" fill="#1F8A4E"/>
+            <text x="350" y="220" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="14" font-family="Segoe UI" transform="rotate(-90 350 220)">Ethernet</text>
+          </svg>
+        </div>
+        <div>
+          <ul>
+            <li><strong>CPU</strong> — processa a lógica (o cérebro).</li>
+            <li><strong>Fonte 24 V</strong> — alimenta o rack.</li>
+            <li><strong>Módulo DI</strong> (digital input) — botões, fim-de-curso.</li>
+            <li><strong>Módulo DO</strong> (digital output) — contatores, relés.</li>
+            <li><strong>Módulo AI/AO</strong> — sinais analógicos 4-20 mA / 0-10 V.</li>
+            <li><strong>Módulo de comunicação</strong> — Profinet, EtherNet/IP, Modbus.</li>
+          </ul>
+          <p style="margin-top:0.6em;font-size:0.95rem;color:#555;">CLP é <em>modular</em>: adiciona módulos sob demanda, sem trocar a CPU.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 7 — CICLO DE VARREDURA (SVG) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Tempo real</h3>
+      <h2>O ciclo de varredura (scan cycle)</h2>
+      <svg viewBox="0 0 1100 340" style="width:100%;max-height:46vh;display:block;margin-top:0.4rem;" role="img" aria-label="Ciclo de varredura do CLP: leitura de entradas, execução de programa, escrita de saídas, diagnóstico interno, repete">
+        <defs>
+          <marker id="arr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#002057"/>
+          </marker>
+        </defs>
+        <!-- 1. Leitura -->
+        <rect x="40" y="120" width="190" height="100" rx="14" fill="#2BBBE0"/>
+        <text x="135" y="160" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI">1. Leitura</text>
+        <text x="135" y="190" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI">entradas (sensores)</text>
+        <!-- 2. Execução -->
+        <rect x="290" y="120" width="190" height="100" rx="14" fill="#1F44A8"/>
+        <text x="385" y="160" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18" font-family="Segoe UI">2. Execução</text>
+        <text x="385" y="190" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI">programa (ladder)</text>
+        <!-- 3. Escrita -->
+        <rect x="540" y="120" width="190" height="100" rx="14" fill="#E91E63"/>
+        <text x="635" y="160" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="18" font-family="Segoe UI">3. Escrita</text>
+        <text x="635" y="190" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI">saídas (atuadores)</text>
+        <!-- 4. Diagnóstico -->
+        <rect x="790" y="120" width="220" height="100" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+        <text x="900" y="160" text-anchor="middle" fill="#002057" font-weight="800" font-size="18" font-family="Segoe UI">4. Diagnóstico</text>
+        <text x="900" y="190" text-anchor="middle" fill="#002057" font-size="13" font-family="Segoe UI">saúde do CLP</text>
+        <!-- Setas -->
+        <path d="M230,170 L290,170" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <path d="M480,170 L540,170" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <path d="M730,170 L790,170" stroke="#002057" stroke-width="3" fill="none" marker-end="url(#arr2)"/>
+        <!-- Loop de volta -->
+        <path d="M900,220 C900,290 135,290 135,220" stroke="#002057" stroke-width="3" fill="none" stroke-dasharray="8,6" marker-end="url(#arr2)"/>
+        <text x="520" y="285" text-anchor="middle" fill="#002057" font-weight="700" font-size="14" font-family="Segoe UI">5. Repete (5–50 ms)</text>
+      </svg>
+      <p style="margin-top:0.6em;font-size:1rem;color:#555;text-align:center;">Tempo típico de ciclo: <strong>5 a 50 ms</strong>. É isso que torna o CLP <em>real-time</em>.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 8 — IEC 61131-3 ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Norma internacional</h3>
+      <h2>As 5 linguagens da IEC 61131-3</h2>
+      <ol>
+        <li><strong>Ladder Logic (LD)</strong> — diagramas estilo "escada" elétrica. <em>A mais popular no Brasil.</em></li>
+        <li><strong>Function Block Diagram (FBD)</strong> — blocos conectados, visual.</li>
+        <li><strong>Structured Text (ST)</strong> — textual, parecido com Pascal; para lógica complexa.</li>
+        <li><strong>Instruction List (IL)</strong> — assembly-like; quase em desuso.</li>
+        <li><strong>Sequential Function Chart (SFC)</strong> — máquinas de estado; processos sequenciais.</li>
+      </ol>
+      <p style="margin-top:0.6em;">Você não precisa dominar todas. Precisa <em>saber que existem</em> — e que <strong>Ladder</strong> domina porque imita esquemas elétricos que técnicos já conhecem desde os anos 70.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 9 — ELEMENTOS DA LADDER ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Vocabulário</h3>
+      <h2>Elementos básicos da ladder</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+        <thead>
+          <tr style="background:var(--azul-fecaf);color:var(--branco);">
+            <th style="padding:0.6em 1em;text-align:left;">Elemento</th>
+            <th style="padding:0.6em 1em;text-align:left;">Símbolo</th>
+            <th style="padding:0.6em 1em;text-align:left;">O que faz</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Contato <strong>NA</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;font-family:Consolas,monospace;">─┤ ├─</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Passa corrente se variável = 1</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Contato <strong>NF</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;font-family:Consolas,monospace;">─┤/├─</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Passa corrente se variável = 0</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Bobina</strong> (output)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;font-family:Consolas,monospace;">─( )─</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Ativa uma saída</td></tr>
+          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Timer</strong> (TON/TOF)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;font-family:Consolas,monospace;">[TON, 30s]</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Conta tempo</td></tr>
+          <tr><td style="padding:0.5em 1em;"><strong>Contador</strong> (CTU/CTD)</td><td style="padding:0.5em 1em;font-family:Consolas,monospace;">[CTU, 100]</td><td style="padding:0.5em 1em;">Conta eventos</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:0.8em;">Cada degrau ("rung") é uma <strong>condição lógica</strong> entre os trilhos verticais (energia).</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 10 — EXEMPLO LADDER (SVG) ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Exemplo resolvido</h3>
+      <h2>Botão + chave + timer de 30 s</h2>
+      <svg viewBox="0 0 1100 320" style="width:100%;max-height:42vh;display:block;margin-top:0.4rem;" role="img" aria-label="Diagrama ladder com dois rungs: ligar lâmpada se botão e chave estiverem fechados e timer não estourou; segundo rung dispara timer de 30 s quando lâmpada acende">
+        <!-- Trilhos -->
+        <line x1="60" y1="40" x2="60" y2="280" stroke="#002057" stroke-width="4"/>
+        <line x1="1040" y1="40" x2="1040" y2="280" stroke="#002057" stroke-width="4"/>
+        <!-- Rung 1 -->
+        <line x1="60" y1="100" x2="180" y2="100" stroke="#002057" stroke-width="2"/>
+        <line x1="180" y1="80" x2="180" y2="120" stroke="#002057" stroke-width="3"/>
+        <line x1="220" y1="80" x2="220" y2="120" stroke="#002057" stroke-width="3"/>
+        <text x="200" y="70" text-anchor="middle" fill="#002057" font-weight="700" font-size="16">B1</text>
+        <text x="200" y="142" text-anchor="middle" fill="#555" font-size="13">botão</text>
+        <line x1="220" y1="100" x2="380" y2="100" stroke="#002057" stroke-width="2"/>
+        <line x1="380" y1="80" x2="380" y2="120" stroke="#002057" stroke-width="3"/>
+        <line x1="420" y1="80" x2="420" y2="120" stroke="#002057" stroke-width="3"/>
+        <text x="400" y="70" text-anchor="middle" fill="#002057" font-weight="700" font-size="16">S1</text>
+        <text x="400" y="142" text-anchor="middle" fill="#555" font-size="13">chave</text>
+        <line x1="420" y1="100" x2="640" y2="100" stroke="#002057" stroke-width="2"/>
+        <line x1="640" y1="80" x2="660" y2="120" stroke="#002057" stroke-width="3"/>
+        <line x1="660" y1="80" x2="640" y2="120" stroke="#002057" stroke-width="3"/>
+        <text x="650" y="70" text-anchor="middle" fill="#002057" font-weight="700" font-size="16">L_TEMPO</text>
+        <text x="650" y="142" text-anchor="middle" fill="#555" font-size="13">contato NF (timer)</text>
+        <line x1="660" y1="100" x2="940" y2="100" stroke="#002057" stroke-width="2"/>
+        <circle cx="970" cy="100" r="22" fill="none" stroke="#E91E63" stroke-width="3"/>
+        <text x="970" y="106" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="18">L</text>
+        <text x="970" y="142" text-anchor="middle" fill="#555" font-size="13">lâmpada</text>
+        <line x1="992" y1="100" x2="1040" y2="100" stroke="#002057" stroke-width="2"/>
+        <!-- Rung 2 -->
+        <line x1="60" y1="220" x2="180" y2="220" stroke="#002057" stroke-width="2"/>
+        <line x1="180" y1="200" x2="180" y2="240" stroke="#002057" stroke-width="3"/>
+        <line x1="220" y1="200" x2="220" y2="240" stroke="#002057" stroke-width="3"/>
+        <text x="200" y="190" text-anchor="middle" fill="#002057" font-weight="700" font-size="16">L</text>
+        <text x="200" y="262" text-anchor="middle" fill="#555" font-size="13">lâmpada acesa</text>
+        <line x1="220" y1="220" x2="780" y2="220" stroke="#002057" stroke-width="2"/>
+        <rect x="780" y="194" width="220" height="52" rx="6" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+        <text x="890" y="226" text-anchor="middle" fill="#002057" font-weight="800" font-size="18">[TON · 30 s → L_TEMPO]</text>
+        <line x1="1000" y1="220" x2="1040" y2="220" stroke="#002057" stroke-width="2"/>
+      </svg>
+      <p style="margin-top:0.4em;font-size:1rem;color:#555;">Rung 1: <strong>B1 ∧ S1 ∧ ¬L_TEMPO</strong> → liga <em>L</em>. Rung 2: <em>L</em> dispara timer de 30 s, que abre o contato NF e desliga a lâmpada.</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 11 — MARCAS + ROI ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Mercado</h3>
+      <h2>Marcas dominantes e ROI de automatizar</h2>
+      <div class="colunas">
+        <div>
+          <h3 style="color:var(--azul-medio);">Players globais</h3>
+          <ul>
+            <li><strong>Rockwell</strong> (Allen-Bradley) — EUA</li>
+            <li><strong>Siemens</strong> S7-1200/1500 — Europa</li>
+            <li><strong>Mitsubishi</strong> — Ásia</li>
+            <li><strong>Schneider</strong> (Modicon)</li>
+            <li>Nacionais: <em>WEG, Altus, HI Tecnologia</em></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--magenta);">Caso: linha de enchimento</h3>
+          <ul>
+            <li>Manual: 2 op. → <strong>800</strong> garrafas/h</li>
+            <li>Com CLP: 1 sup. → <strong>2.400</strong> garrafas/h</li>
+            <li>Investimento: <em>R$ 220 mil</em></li>
+            <li>Ganho extra: <strong>R$ 10.240/dia</strong> de margem</li>
+            <li>Payback: <em>3 a 6 meses</em></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 12 — SÍNTESE PONTOS-CHAVE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Síntese</h3>
+      <h2>Pontos-chave da aula</h2>
+      <div class="pontos-chave">
+        <div class="ponto">
+          <h3>CLP</h3>
+          <p>Computador industrial dedicado · robusto · operação em <strong>tempo real</strong> (5–50 ms).</p>
+        </div>
+        <div class="ponto">
+          <h3>Scan cycle</h3>
+          <p>Leitura → execução → escrita → diagnóstico → <em>repete</em>.</p>
+        </div>
+        <div class="ponto">
+          <h3>IEC 61131-3</h3>
+          <p>5 linguagens: <strong>Ladder</strong> (dominante no Brasil), FBD, ST, IL, SFC.</p>
+        </div>
+        <div class="ponto">
+          <h3>Mercado</h3>
+          <p>Rockwell, Siemens, Mitsubishi, Schneider · nacionais: WEG, Altus, HI.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 13 — QUOTE ============== -->
+  <section class="slide slide-quote">
+    <div class="slide-content">
+      <blockquote>
+        "Se você entrar em qualquer fábrica brasileira de médio porte para cima, vai esbarrar com CLPs. Eles são o cérebro mais comum do chão de fábrica."
+      </blockquote>
+      <cite>— Abertura da videoaula 10</cite>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 14 — ATIVIDADE ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <h3>Atividade prática</h3>
+      <h2>Esteira segura — descreva a lógica</h2>
+      <p>Em ladder (ou em linguagem clara), descreva:</p>
+      <p><strong>A esteira deve LIGAR quando:</strong></p>
+      <ul>
+        <li>Botão "Iniciar" pressionado <em>E</em></li>
+        <li>Porta de segurança fechada <em>E</em></li>
+        <li>Sensor da próxima estação = 0 (sem produto)</li>
+      </ul>
+      <p><strong>A esteira deve DESLIGAR imediatamente se:</strong></p>
+      <ul>
+        <li>Botão "Parar" pressionado <em>OU</em> porta abrir <em>OU</em> sensor detectar produto</li>
+      </ul>
+      <p style="margin-top:0.6em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · individual · entrega no fórum da semana</p>
+    </div>
+    <div class="slide-footer"><span>Sistemas de Informação · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
+  </section>
+
+  <!-- ============== SLIDE 15 — ENCERRAMENTO ============== -->
+  <section class="slide slide-fim">
+    <div class="slide-content">
+      <div style="margin-bottom:2.5rem;">
+        <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Até a próxima!</h1>
+      <p>Aula 3: como o <strong>SCADA</strong> supervisiona a fábrica inteira — telas, alarmes e históricos em tempo real.</p>
+      <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+</body>
+</html>

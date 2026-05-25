@@ -23,6 +23,8 @@ ERP é a evolução de sistemas mais antigos. A linhagem:
 
 A SAP (Alemanha) e a Oracle (EUA) são as gigantes globais. No Brasil, **TOTVS** domina o mercado de PME e médio porte.
 
+![Sede mundial da SAP em Walldorf, Alemanha — uma das duas maiores empresas globais de software ERP](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/SAP_2007.JPG/640px-SAP_2007.JPG)
+
 ### Os módulos clássicos de um ERP de manufatura
 
 Um ERP industrial típico tem **6 a 12 módulos** principais. Os mais relevantes para você como engenheiro(a) de produção:
@@ -210,6 +212,8 @@ Existe uma norma internacional — **ISA-95** — que define uma **pirâmide** d
 | **0** | **Equipamento físico** | Sensores e atuadores |
 
 MES está no **nível 3** — meio do caminho. Vai falar de nível 1 e 2 na próxima Unidade.
+
+![Sala de controle e supervisão industrial — onde MES, SCADA e operadores se encontram para coordenar a execução da produção](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Mando_y_control_planta_envasado_Mahou.jpg/640px-Mando_y_control_planta_envasado_Mahou.jpg)
 
 ### As 11 funções clássicas de um MES (ISA-95)
 
@@ -414,6 +418,8 @@ Hoje, o estado da arte é a **visibilidade ponta a ponta** — sistemas SCM mode
 
 Empresas como **Amazon e Maersk** dominam isso. No Brasil, **Ambev e Magazine Luiza** estão entre as mais avançadas.
 
+![Centro de distribuição moderno: o palco onde WMS, AGVs e SCM se materializam em corredores, paletes e operações de picking](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Modern_warehouse_with_pallet_rack_storage_system.jpg/640px-Modern_warehouse_with_pallet_rack_storage_system.jpg)
+
 ### WMS — Warehouse Management System
 
 > **WMS** (Warehouse Management System) é o sistema que gerencia **armazéns** — entrada, armazenagem, separação (picking), embalagem e expedição.
@@ -597,6 +603,8 @@ PLM é a **fonte de verdade** sobre o produto. Quando bem implantado:
 - **Reuso de componentes** — engenharia evita reinventar o que já existe.
 
 Em multinacionais, **PLM é tão crítico quanto ERP**.
+
+![Engenheiros trabalhando com modelos CAD 3D — o tipo de informação de produto que o PLM organiza, versiona e propaga para toda a empresa](https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/CAD_at_work.jpg/640px-CAD_at_work.jpg)
 
 ### A arquitetura integrada: o desenho completo
 

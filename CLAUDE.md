@@ -53,6 +53,18 @@ python scripts/cloudinary_upload_and_replace.py   # needs CLOUDINARY_* env vars
 
 `build_pdfs.py` requires **pandoc + xelatex** with the DejaVu Serif font (falls back to default if missing). It looks for assets via a resource-path that includes `<md_dir>` and `<md_dir>/assets`, so keep images relative to the markdown file. `normalize_images.py` shells out to `curl` and ImageMagick `convert`.
 
+The Átomo 3.0 disciplines (`industria_4_0`, `sistemas_informacao`) have **no build tooling** — their markdown is the deliverable as-is, and their slide decks are self-contained HTML (see below). Only the legacy/aula-based disciplines carry `tools/` or `scripts/`.
+
+## Slides (HTML decks)
+
+Each Átomo 3.0 aula has a self-contained HTML deck at `<disciplina>/unidade_N/slides/aulaN.html` (one per videoaula, so 4 per unit). These are **single-file** decks — all CSS/JS inline, no build step — opened directly in a browser; export to PDF via Chrome's *Print → Save as PDF* (landscape, no margins, "background graphics" on, one slide per page).
+
+The canonical source is **`assets/template_apresentacao/`** (`index.html` + `README.md`). To make a new deck, copy `index.html` to the aula's `slides/` folder and edit each `<section class="slide …">`. Key conventions (full reference in that README):
+
+- **Identity is UniFECAF**, not generic Átomo: primary `--azul-fecaf #002057` + `--amarelo #F0CE29`, defined as CSS variables in `:root`. Customize per discipline by editing only those variables.
+- Slide types by class: `slide-capa` (cover), `slide-prof` ("Sobre o professor" split layout — drop the real photo into `slides/assets/foto-professor.jpg`), `slide-section` (divider), `slide-quote`, `slide-fim` (closing); bare `slide` is standard content.
+- The UniFECAF logo loads from a hashed institutional URL; if it 404s, update the `href` of `<symbol id="logo-marca">`.
+
 ## Commit conventions
 
 This repo uses Conventional Commits with a custom scope list defined in `commit-guidelines.json`:
@@ -87,13 +99,15 @@ Single file per unit; 4 aulas inline. Each unit's `unidade_N.md` already has sca
 4. Quiz não avaliativo (2 questões) + AAI (1 questão dissertativa + resposta esperada).
 5. Material complementar — 4 fixed sections.
 6. Sibling `questoes_uniN.md` — 20 questões (10 AR + 10 interpretação) + feedbacks.
-7. After all 4 units, fill `instrumentos_avaliativos/avaliacao_final.md` (40 questões) and `entrega_trabalho.md` (PBL case).
+7. Per aula, a slide deck at `unidade_N/slides/aulaN.html` (copy of `assets/template_apresentacao/index.html`; see Slides section).
+8. After all 4 units, fill `instrumentos_avaliativos/avaliacao_final.md` (40 questões) and `entrega_trabalho.md` (PBL case).
 
 Videoaula numbering: U1 = 1–4, U2 = 5–8, U3 = 9–12, U4 = 13–16.
 
 ## Templates
 
 - `Originais - Átomo 3.0/` — **canonical Word templates** from Ânima (current Átomo 3.0 layout). Source of truth for the new disciplines.
+- `assets/template_apresentacao/` — **canonical HTML slide-deck template** (UniFECAF identity). Source of truth for every `slides/aulaN.html`.
 - `template_unidade.json` — legacy schema for a full unit (use as a checklist of fields).
 - `template_avaliacao_final.md` — example of the 30-question (legacy) final exam format (delete the sample items before writing real ones).
 - `how_to_create_questions.json` — question-formatting rules including the balanced-letter-distribution requirement.
