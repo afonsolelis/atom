@@ -12,6 +12,8 @@
 
 Antes de digitalizar um processo, você precisa **entender** esse processo. Soa óbvio, mas é o passo que mais se pula em projetos de transformação digital — e por isso tantos falham. Esta aula é sobre **BPM (Business Process Management)** — a disciplina clássica de mapeamento e gestão de processos — e como ela se combina com a Indústria 4.0 para gerar resultado real.
 
+![Diagrama BPMN simples com atividades, gateways e fluxo de eventos — a notação universal para mapear processos](https://commons.wikimedia.org/wiki/Special:FilePath/BPMN-AProcessWithNormalFlow.svg?width=800)
+
 ### O que é BPM (e por que ainda importa)
 
 > **BPM (Business Process Management)** é a disciplina de **mapear, analisar, otimizar e monitorar** os processos de uma organização, com o objetivo de tornar a operação mais eficiente, padronizada e mensurável.
@@ -140,6 +142,8 @@ Pegue um **processo administrativo** ou **operacional** do seu dia a dia (na emp
 > **Pausa para reflexão:** se um diretor da sua empresa pedisse, agora, "me dá um plano de 18 meses para a gente virar 4.0", você teria por onde começar? Pense nisso enquanto avançamos.
 
 Existe um abismo entre **entender** as tecnologias da 4.0 e **construir um plano realista** de adoção. Esta aula é sobre o segundo desafio — talvez o mais importante para você como engenheiro(a) de produção.
+
+![Aeronave Embraer E190 — produto da fabricante brasileira referência em roadmap de transformação digital de longo prazo](https://commons.wikimedia.org/wiki/Special:FilePath/Embraer_E190.jpg?width=800)
 
 ### Por que a maioria dos projetos 4.0 falha
 
@@ -293,6 +297,7 @@ Tomando como base a empresa que você analisou ao longo da disciplina:
 
 A teoria sem caso é abstração. Esta aula é dedicada a **casos reais documentados** de aplicação da Indústria 4.0 — no Brasil e no mundo. O objetivo é dar a você **vocabulário concreto** para defender argumentos: "olha, a Klabin fez X e ganhou Y" é muito mais convincente que "tecnologia ABC pode trazer benefícios".
 
+
 ### Caso 1 — Siemens Amberg (Alemanha): a fábrica de referência
 
 A planta da **Siemens em Amberg** é considerada uma das mais avançadas do mundo em I4.0. Produz CLPs e componentes de automação. Características:
@@ -443,6 +448,8 @@ Escolha **um dos 8 casos** que mais te impactou. Reflita:
 ## Aula 16 — Indústria 5.0: humano + máquina, sustentabilidade e o futuro próximo
 
 Chegamos à última aula. Você já entendeu a 4.0 — agora vamos olhar para o que vem a seguir. A **Indústria 5.0** não é uma ruptura como a 4.0 foi; é uma **correção de rota**, uma maturação. Esta aula fecha a disciplina e abre o horizonte da sua carreira.
+
+![Operador humano colaborando com um cobot em estação de montagem — síntese visual da Indústria 5.0 com centralidade humana](https://commons.wikimedia.org/wiki/Special:FilePath/Cobot.jpg?width=800)
 
 ### O que é a Indústria 5.0
 

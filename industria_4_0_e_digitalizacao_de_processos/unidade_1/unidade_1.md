@@ -49,15 +49,17 @@ A indústria têxtil foi a grande protagonista — teares mecanizados produziam 
 
 > **Marco simbólico:** 1784, ano em que o primeiro tear mecânico a vapor entra em operação na Inglaterra.
 
-![Máquina a vapor de Watt — símbolo da Primeira Revolução Industrial](https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Maquina_vapor_Watt_ETSIIM.jpg/640px-Maquina_vapor_Watt_ETSIIM.jpg)
+![Máquina a vapor de Watt — símbolo da Primeira Revolução Industrial](https://commons.wikimedia.org/wiki/Special:FilePath/Maquina_vapor_Watt_ETSIIM.jpg?width=800)
 
 ### Segunda Revolução Industrial (1870) — eletricidade e produção em massa
 
-Cem anos depois, uma nova energia toma o palco: a **eletricidade**. Com ela vieram as lâmpadas (Edison), os motores elétricos (Tesla) e, mais tarde, a possibilidade de organizar a produção de forma totalmente nova.
+Cem anos depois, uma nova energia toma o palco: a **eletricidade**. Com ela vieram as lâmpadas (Edison), os motores elétricos (Tesla) e, mais tarde, a possibilidade de organizar a produção de forma totalmente nova. Outro avanço crítico do período foi a **química industrial** — corantes sintéticos, fertilizantes, aço Bessemer e petróleo refinado — que ampliou drasticamente os insumos disponíveis. Sem aço barato, não haveria carrocerias; sem eletricidade confiável, não haveria esteira contínua.
 
 O nome-chave aqui é **Henry Ford**. Em 1913, Ford organiza sua fábrica em uma **linha de montagem móvel**, em que o produto se desloca entre estações fixas e cada operário executa **uma única tarefa repetidamente**. O resultado: o Modelo T, primeiro carro acessível para a classe média americana, passou de **12,5 horas para 1 hora e 33 minutos** de tempo de montagem.
 
-Essa lógica de **produção em massa**, padronização de peças e divisão extrema do trabalho ficou conhecida como **fordismo** — e dominaria a indústria pelos próximos 60 anos.
+Essa lógica de **produção em massa**, padronização de peças e divisão extrema do trabalho ficou conhecida como **fordismo** — e dominaria a indústria pelos próximos 60 anos. O custo do Modelo T, que começou em **US\$ 850 em 1908**, caiu para **US\$ 260 em 1925** — uma redução de quase 70%, fruto direto da escala viabilizada pela eletricidade.
+
+![Linha de montagem do Modelo T da Ford (1913) — símbolo da Segunda Revolução Industrial](https://commons.wikimedia.org/wiki/Special:FilePath/A-line1913.jpg?width=800)
 
 ### Terceira Revolução Industrial (1969) — eletrônica, automação e computadores
 
@@ -73,7 +75,7 @@ Esse período também viu surgir o **toyotismo** — modelo japonês que, ao con
 
 ### Quarta Revolução Industrial (2011) — sistemas ciber-físicos e dados em tempo real
 
-E chegamos à **Indústria 4.0**. O termo foi cunhado em 2011 na feira **Hannover Messe**, na Alemanha, como parte de uma estratégia do governo alemão para manter a competitividade da sua indústria. O conceito central: as máquinas não apenas executam — elas **conversam**, **decidem** e **aprendem**.
+E chegamos à **Indústria 4.0**. O termo foi cunhado em 2011 na feira **Hannover Messe**, na Alemanha, como parte de uma estratégia do governo alemão para manter a competitividade da sua indústria diante da China. O conceito central: as máquinas não apenas executam — elas **conversam**, **decidem** e **aprendem**. Em 2013, o relatório oficial *Recommendations for implementing the strategic initiative Industrie 4.0* consolidou a agenda nacional alemã; o Brasil entrou no jogo a partir de 2016, com a **Câmara Brasileira da Indústria 4.0** e o programa **Brasil + Produtivo**.
 
 Quatro elementos diferenciam a Indústria 4.0 das anteriores:
 
@@ -195,7 +197,8 @@ A consultoria **Boston Consulting Group (BCG)** popularizou um modelo que organi
 | 8 | **Simulação e digital twin** | Testar mudanças no mundo virtual antes do real |
 | 9 | **Cibersegurança industrial** | Proteger a fábrica conectada de ataques |
 
-Em nenhuma empresa real você terá os nove pilares maduros ao mesmo tempo. O caminho é evoluir um, dois, três por vez — alinhado ao problema do negócio.
+Em nenhuma empresa real você terá os nove pilares maduros ao mesmo tempo. O caminho é evoluir um, dois, três por vez — alinhado ao problema do negócio. Pesquisas da consultoria **McKinsey** mostram que empresas com **três a quatro pilares conectados** já capturam 70% do potencial de ganho da Indústria 4.0; tentar implantar todos em paralelo costuma ser receita para projetos parados.
+
 
 ### Como os pilares se conectam
 
@@ -358,9 +361,12 @@ Isso é um CPS na escala global.
 
 Não pense que CPS é coisa só de gigante americana. Empresas brasileiras já operam CPS:
 
-- **WEG (Jaraguá do Sul):** motores elétricos com telemetria embarcada — você compra o motor e a WEG monitora sua operação na sua planta.
-- **Embraer:** linhas de montagem com gêmeo digital — antes de mover uma estação, simulam o impacto.
-- **Klabin:** unidades fabris de celulose com CPS para controle de fluxo.
+- **WEG (Jaraguá do Sul):** motores elétricos com telemetria embarcada — você compra o motor e a WEG monitora sua operação na sua planta, oferecendo serviço de manutenção como contrato recorrente.
+- **Embraer:** linhas de montagem com gêmeo digital — antes de mover uma estação, simulam o impacto na cadência (*takt time*) e em gargalos.
+- **Klabin:** unidades fabris de celulose com CPS para controle de fluxo, integrando caldeiras, digestores e máquinas de papel num mesmo modelo digital.
+- **Vale (mineração):** caminhões autônomos no complexo de Carajás — cada veículo tem gêmeo digital monitorando carga, pneu e consumo em tempo real.
+
+![Turbina aeronáutica — ilustração do tipo de equipamento que opera com gêmeo digital em escala industrial](https://commons.wikimedia.org/wiki/Special:FilePath/Jet_engine.jpg?width=800)
 
 ### Exemplo numérico: o ciclo de decisão de um CPS
 
@@ -469,7 +475,9 @@ Vários modelos foram criados para medir maturidade. Os mais usados no Brasil:
 | 5 | **Previsão** | Antecipa o que **vai** acontecer |
 | 6 | **Adaptabilidade** | Reage automaticamente — sem humano no loop |
 
-Importante: **a maioria das empresas brasileiras está entre os níveis 1 e 3**. Subir de 3 para 4 é, normalmente, o salto mais difícil — porque exige cultura de análise, não só tecnologia.
+Importante: **a maioria das empresas brasileiras está entre os níveis 1 e 3**. Segundo o **Sondagem Indústria 4.0 (CNI, 2022)**, cerca de **69% das indústrias brasileiras** estão até o nível 3 (visibilidade), e menos de 10% chegaram ao nível 5 (previsão). Subir de 3 para 4 é, normalmente, o salto mais difícil — porque exige **cultura de análise**, não só tecnologia: o dado precisa virar decisão, e a decisão precisa virar hábito.
+
+![Sala de controle industrial — visibilidade em tempo real é o nível 3 da escala Acatech](https://commons.wikimedia.org/wiki/Special:FilePath/Power_plant_control_room.jpg?width=800)
 
 ### Exemplo numérico: como pontuar uma área
 

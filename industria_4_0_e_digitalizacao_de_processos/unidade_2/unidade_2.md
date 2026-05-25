@@ -12,6 +12,8 @@
 
 A **Internet das Coisas (IoT)** é, talvez, o pilar mais conhecido da Indústria 4.0 — e o mais mal-entendido. Você ouve em todo lugar: "geladeira inteligente", "cidade inteligente", "casa inteligente". Mas a versão **industrial** da IoT (a IIoT) é muito mais séria — e é onde a 4.0 começa para a maioria das empresas. Esta aula vai te dar uma intuição clara do que é a IIoT, como funciona por dentro e como começar.
 
+![Diagrama conceitual da Internet das Coisas, com objetos físicos conectados por uma rede de dados](https://commons.wikimedia.org/wiki/Special:FilePath/Internet_of_Things.jpg?width=800)
+
 ### O que é IoT, em uma frase
 
 > **IoT** é a conexão de **objetos físicos** (qualquer coisa que não fosse "computador") à internet, permitindo que eles **coletem**, **enviem** e às vezes **recebam** dados.
@@ -143,6 +145,8 @@ Faça uma figura simples no caderno — esse exercício treina sua visão de **s
 ## Aula 6 — Big Data e Analytics na indústria: do dado bruto à decisão
 
 Sensores sozinhos não resolvem nada. Coletar dado por coletar é desperdício de armazenamento. O que **faz** a diferença é o que vem **depois** do sensor: a capacidade de **transformar volumes massivos de dados em decisões úteis**. É disso que trata o **Big Data Analytics** aplicado à indústria.
+
+![Visualização conceitual de Big Data — múltiplas fontes de dado convergindo em uma plataforma analítica](https://commons.wikimedia.org/wiki/Special:FilePath/Big_data.png?width=800)
 
 ### A definição em uma frase
 
@@ -286,6 +290,8 @@ Pegue uma fonte de dado que você conhece bem (pode ser nota fiscal, ponto eletr
 
 Você já entendeu o que coletar (sensores) e o que fazer com o dado (analytics). Falta uma peça crítica da arquitetura: **onde** esse processamento acontece. Esta aula é sobre **nuvem** e **edge computing** — e por que **nem tudo deve ir para a nuvem**.
 
+![Diagrama de computação em nuvem mostrando dispositivos conectados a serviços e armazenamento remotos](https://commons.wikimedia.org/wiki/Special:FilePath/Cloud_computing.svg?width=800)
+
 ### O que é computação em nuvem
 
 > **Computação em nuvem** é o uso de **infraestrutura computacional remota** (servidores em data centers de terceiros) **sob demanda**, normalmente cobrado por uso.
@@ -426,6 +432,8 @@ Pense em um processo da sua empresa (ou de uma que você imagine):
 ## Aula 8 — Inteligência Artificial e Machine Learning no chão de fábrica
 
 Chegamos ao topo da pirâmide das tecnologias habilitadoras. Sensores coletam (Aula 5), Big Data armazena e organiza (Aula 6), nuvem e edge processam (Aula 7). Mas é a **IA** que transforma tudo isso em **decisão automática**. Esta aula é uma introdução prática e desmistificada: o que é IA, como ela aprende e onde ela é usada no chão de fábrica.
+
+![Visão computacional com rede neural YOLO detectando e rotulando objetos em uma cena — exemplo cotidiano de Deep Learning aplicado](https://commons.wikimedia.org/wiki/Special:FilePath/Detected-with-YOLO--Schreibtisch-mit-Objekten.jpg?width=800)
 
 ### IA vs ML vs Deep Learning: o que é o quê
 

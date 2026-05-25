@@ -18,6 +18,8 @@ A primeira aplicação prática da Indústria 4.0 que vamos explorar é uma das 
 
 A palavra "aditiva" vem do princípio: você **adiciona** material onde ele precisa estar, em vez de remover de onde ele não precisa estar. Isso muda fundamentalmente a economia da produção: peças complexas, antes proibitivas, ficam viáveis; peças simples em pequena quantidade, antes economicamente inviáveis, agora valem a pena.
 
+![Impressora 3D FDM em operação depositando filamento plástico camada a camada — princípio básico da manufatura aditiva](https://commons.wikimedia.org/wiki/Special:FilePath/MakerBot_Replicator.jpg?width=800)
+
 ### As principais tecnologias aditivas
 
 | Tecnologia | Material | Aplicação típica |
@@ -171,6 +173,8 @@ O cobot **não substitui** o robô tradicional — eles têm aplicações difere
 
 No Brasil, **Pollux, Astrein** e a **WEG** distribuem essas marcas e prestam serviço de integração.
 
+![Cobot operando em linha de montagem ao lado de operador humano — exemplo de robótica colaborativa industrial](https://commons.wikimedia.org/wiki/Special:FilePath/Cobot.jpg?width=800)
+
 ### Como funciona a segurança do cobot
 
 Cobots possuem **três camadas de segurança**:
@@ -302,6 +306,8 @@ Existe ainda a **Realidade Mista (MR)**, que sobrepõe objetos digitais que se c
 
 Para nossos fins industriais, RA e MR são tratadas juntas — interessam pela mesma razão (assistir o operador na fábrica).
 
+![Óculos inteligentes de realidade aumentada — categoria de dispositivos usados na indústria para montagem assistida e manutenção remota (HoloLens, Google Glass, RealWear)](https://commons.wikimedia.org/wiki/Special:FilePath/Google_Glass_Front.jpg?width=800)
+
 ### Aplicações industriais
 
 #### Realidade Aumentada (RA)
@@ -429,6 +435,8 @@ Antes de 2010, fábricas eram redes isoladas — sem internet, sem nuvem, sem in
 - Estados-nação descobriram que **sabotar indústria inimiga** é arma de guerra.
 
 Resultado: incidentes industriais explodiram.
+
+![Sala de controle de planta industrial OT — ambiente típico exposto a ataques cibernéticos em fábricas conectadas](https://commons.wikimedia.org/wiki/Special:FilePath/Power_plant_control_room.jpg?width=800)
 
 ### Casos famosos
 
