@@ -11,12 +11,14 @@
     --azul-fecaf:   #002057;   /* cor primária — azul institucional */
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
+    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
 
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
+    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -110,6 +112,17 @@
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--magenta); }
   .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
+  .slide-section strong, .slide-section em,
+  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
+  .slide code {
+    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+    background: #E7ECF5;
+    color: var(--azul-escuro);
+    padding: 0.05em 0.4em;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -540,7 +553,7 @@
           </div>
           <div class="prof-contato-item">
             <strong>LinkedIn:</strong>
-            <a href="https://www.linkedin.com/in/seu-linkedin/" target="_blank" rel="noopener">https://www.linkedin.com/in/seu-linkedin/</a>
+            <a href="https://www.linkedin.com/in/afonsolelis" target="_blank" rel="noopener">linkedin.com/in/afonsolelis</a>
           </div>
         </div>
         <div class="prof-canto-rodape">
@@ -607,8 +620,8 @@
           <span class="legenda">Dos dados gerados no mundo são <em>não estruturados</em></span>
         </div>
         <div class="stat-card">
-          <span class="numero-grande">~5%</span>
-          <span class="legenda">Desse total é, de fato, <strong>aproveitado</strong> para decisão</span>
+          <span class="numero-grande">5–10×</span>
+          <span class="legenda">Salto de valor a cada degrau da pirâmide <strong>DIKW</strong></span>
         </div>
       </div>
       <p style="margin-top:1em;text-align:center;">Sem organização e contexto, dado em escala vira <em>ruído caro</em>.</p>
@@ -624,33 +637,41 @@
     <div class="slide-content">
       <h3>Modelo clássico</h3>
       <h2>A pirâmide DIKW</h2>
-      <svg viewBox="0 0 1100 420" style="width:100%;max-height:50vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pirâmide DIKW: dado, informação, conhecimento e sabedoria">
-        <!-- Camadas da pirâmide (base → topo) -->
-        <polygon points="80,360 1020,360 870,290 230,290" fill="#2BBBE0"/>
-        <polygon points="230,290 870,290 760,220 340,220" fill="#1F44A8"/>
-        <polygon points="340,220 760,220 650,150 450,150" fill="#002057"/>
-        <polygon points="450,150 650,150 550,60" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+      <svg viewBox="0 0 1240 400" style="width:100%;max-height:52vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pirâmide DIKW: dado, informação, conhecimento e sabedoria, com a pergunta e o exemplo do Forno A em cada camada">
+        <!-- Seta de valor crescente (base → topo) -->
+        <line x1="32" y1="356" x2="32" y2="86" stroke="#E91E63" stroke-width="2"/>
+        <polygon points="32,72 26,88 38,88" fill="#E91E63"/>
+        <text x="46" y="80" fill="#E91E63" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ valor</text>
+
+        <!-- Camadas da pirâmide (base → topo), centradas em x=620 -->
+        <polygon points="300,360 940,360 861,288 379,288" fill="#2BBBE0"/>
+        <polygon points="379,288 861,288 781,216 459,216" fill="#1F44A8"/>
+        <polygon points="459,216 781,216 702,144 538,144" fill="#002057"/>
+        <polygon points="538,144 702,144 620,70" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
 
         <!-- Rótulos centrais -->
-        <text x="550" y="335" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
-        <text x="550" y="265" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
-        <text x="550" y="195" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
-        <text x="550" y="115" text-anchor="middle" fill="#002057" font-weight="900" font-size="22" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
+        <text x="620" y="338" text-anchor="middle" fill="#002057" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
+        <text x="620" y="260" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
+        <text x="620" y="188" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
+        <text x="620" y="118" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
 
-        <!-- Exemplos à direita -->
-        <text x="1030" y="335" fill="#1A1A1A" font-weight="600" font-size="16" font-family="Segoe UI, system-ui, sans-serif">"85,3"</text>
-        <text x="1030" y="265" fill="#1A1A1A" font-weight="600" font-size="16" font-family="Segoe UI, system-ui, sans-serif">"Forno A = 85,3 °C"</text>
-        <text x="1030" y="195" fill="#1A1A1A" font-weight="600" font-size="16" font-family="Segoe UI, system-ui, sans-serif">"5 °C acima do ideal"</text>
-        <text x="1030" y="115" fill="#1A1A1A" font-weight="700" font-size="16" font-family="Segoe UI, system-ui, sans-serif">"Reduzir 5 °C agora"</text>
+        <!-- Linhas-guia ligando cada camada ao seu exemplo (à direita) -->
+        <line x1="918" y1="333" x2="958" y2="333" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="832" y1="255" x2="958" y2="255" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="752" y1="183" x2="958" y2="183" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+        <line x1="672" y1="113" x2="958" y2="113" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <!-- Exemplos à direita (o caso do Forno A) -->
+        <text x="966" y="338" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"85,3"</text>
+        <text x="966" y="260" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Forno A = 85,3 °C"</text>
+        <text x="966" y="188" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"5 °C acima do ideal"</text>
+        <text x="966" y="118" fill="#1A1A1A" font-weight="700" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Reduzir 5 °C agora"</text>
 
         <!-- Perguntas à esquerda -->
-        <text x="70" y="335" text-anchor="end" fill="#555" font-size="14" font-family="Segoe UI, system-ui, sans-serif">O quê?</text>
-        <text x="70" y="265" text-anchor="end" fill="#555" font-size="14" font-family="Segoe UI, system-ui, sans-serif">O que significa?</text>
-        <text x="70" y="195" text-anchor="end" fill="#555" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Como se conecta?</text>
-        <text x="70" y="115" text-anchor="end" fill="#555" font-size="14" font-family="Segoe UI, system-ui, sans-serif">O que fazer?</text>
-
-        <!-- Seta lateral indicando valor crescente -->
-        <text x="40" y="400" fill="#E91E63" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ valor ▲</text>
+        <text x="270" y="338" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O quê?</text>
+        <text x="270" y="260" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que significa?</text>
+        <text x="270" y="188" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Como se conecta?</text>
+        <text x="270" y="118" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que fazer?</text>
       </svg>
       <p style="margin-top:0.3em;text-align:center;font-size:0.95rem;color:#555;">Cada camada <em>adiciona contexto</em> à anterior — e cresce em valor.</p>
     </div>
@@ -687,7 +708,7 @@
     </div>
     <div class="slide-content">
       <h3>Caso concreto</h3>
-      <h2>O Forno A subindo a pirâmide</h2>
+      <h2>Do número à decisão: o caso do Forno A</h2>
       <svg viewBox="0 0 1100 240" style="width:100%;max-height:38vh;display:block;margin-top:0.3rem;" role="img" aria-label="Sequência narrativa do dado 85,3 ao ato de reduzir 5 °C no Forno A">
         <!-- 4 caixas com setas conectando dado → informação → conhecimento → ação -->
         <rect x="20" y="60" width="220" height="120" rx="14" fill="#2BBBE0"/>

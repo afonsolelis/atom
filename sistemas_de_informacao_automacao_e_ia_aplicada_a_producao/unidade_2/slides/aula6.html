@@ -10,10 +10,12 @@
     --azul-fecaf:   #002057;
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
+    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
+    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
     --cinza-bg:     #F2F4F8;
     --cinza-texto:  #1A1A1A;
     --branco:       #FFFFFF;
@@ -101,6 +103,17 @@
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--magenta); }
   .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
+  .slide-section strong, .slide-section em,
+  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
+  .slide code {
+    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+    background: #E7ECF5;
+    color: var(--azul-escuro);
+    padding: 0.05em 0.4em;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
 
   .slide-capa {
     background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
@@ -341,27 +354,27 @@
     <div class="slide-content">
       <h3>Norma ISA-95</h3>
       <h2>O lugar do MES na pirâmide</h2>
-      <svg viewBox="0 0 900 440" style="width:100%;max-height:50vh;display:block;" role="img" aria-label="Pirâmide ISA-95 dos 5 níveis de TI/automação industrial">
+      <svg viewBox="0 0 990 440" style="width:100%;max-height:50vh;display:block;" role="img" aria-label="Pirâmide ISA-95 dos 5 níveis de TI/automação industrial">
         <!-- Nível 4 ERP -->
         <polygon points="380,30 520,30 560,95 340,95" fill="#002057"/>
         <text x="450" y="68" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 4 · ERP</text>
-        <text x="690" y="68" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Planejamento (semanas/meses)</text>
+        <text x="730" y="68" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Planejamento (semanas/meses)</text>
         <!-- Nível 3 MES -->
         <polygon points="340,95 560,95 600,160 300,160" fill="#1F44A8"/>
         <text x="450" y="135" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Nível 3 · MES / MOM</text>
-        <text x="690" y="135" fill="#E91E63" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">▲ ESTAMOS AQUI · turnos/horas</text>
+        <text x="730" y="135" fill="#E91E63" font-weight="800" font-size="15" font-family="Segoe UI, system-ui, sans-serif">▲ ESTAMOS AQUI · turnos/horas</text>
         <!-- Nível 2 SCADA -->
         <polygon points="300,160 600,160 640,225 260,225" fill="#2BBBE0"/>
         <text x="450" y="198" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 2 · SCADA / HMI</text>
-        <text x="690" y="198" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Supervisão (s/min)</text>
+        <text x="730" y="198" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Supervisão (s/min)</text>
         <!-- Nível 1 CLP -->
         <polygon points="260,225 640,225 680,290 220,290" fill="#F0CE29"/>
         <text x="450" y="263" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 1 · CLP / DCS</text>
-        <text x="690" y="263" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Controle (ms)</text>
+        <text x="730" y="263" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Controle (ms)</text>
         <!-- Nível 0 Equipamento -->
         <polygon points="220,290 680,290 720,355 180,355" fill="#8FBE6A"/>
         <text x="450" y="328" text-anchor="middle" fill="#002057" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">Nível 0 · Sensores e atuadores</text>
-        <text x="690" y="328" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Equipamento físico</text>
+        <text x="730" y="328" fill="#1A1A1A" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Equipamento físico</text>
       </svg>
       <p style="margin-top:0.4em;text-align:center;font-size:1rem;color:#555;">Cada nível tem granularidade temporal própria — do milissegundo ao mês.</p>
     </div>

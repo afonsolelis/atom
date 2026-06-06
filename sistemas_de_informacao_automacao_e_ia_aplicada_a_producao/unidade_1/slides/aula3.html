@@ -9,10 +9,12 @@
     --azul-fecaf:   #002057;
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
+    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
+    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
     --cinza-bg:     #F2F4F8;
     --cinza-texto:  #1A1A1A;
     --branco:       #FFFFFF;
@@ -95,6 +97,17 @@
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--magenta); }
   .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
+  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
+  .slide-section strong, .slide-section em,
+  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
+  .slide code {
+    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+    background: #E7ECF5;
+    color: var(--azul-escuro);
+    padding: 0.05em 0.4em;
+    border-radius: 5px;
+    font-size: 0.9em;
+  }
 
   .slide-capa {
     background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
