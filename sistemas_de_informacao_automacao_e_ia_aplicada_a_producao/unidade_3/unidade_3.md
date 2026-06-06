@@ -743,13 +743,13 @@ Sobre a **convergência TI ↔ OT**, assinale a alternativa **correta**:
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> Para consolidar tudo o que vimos na Unidade 3, este livro é a referência brasileira em automação industrial — com explicações didáticas e exemplos práticos.
+> A automação industrial vive sobre uma camada de **infraestrutura de TI** — hardware, redes e software que sustentam sensores, CLPs e SCADA. Esta unidade do livro detalha exatamente essa infraestrutura, dando o alicerce de TI que conecta o chão de fábrica (OT) ao mundo dos sistemas de informação (TI) — a ponte TI-OT que fechamos na Aula 12.
 
-- **Nome do livro:** *Automação Industrial — Da Teoria à Prática*
-- **Capítulo:** Capítulos 2 (sensores), 4 (CLP), 5 (SCADA) e 8 (integração)
-- **Autor:** Carlos Edward Souza
-- **Editora:** Atlas / Érica
-- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+- **Nome do livro:** *Sistemas de Informação* (2ª edição)
+- **Capítulo:** Unidade 2 — *Infraestrutura de Tecnologia da Informação (TI)* (p. 35)
+- **Organizador:** Belmiro do Nascimento João
+- **Editora:** Pearson
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Publicacao/183216
 - **Aula em que entra:** Aulas 9 a 12
 
 ### Para mergulhar no assunto

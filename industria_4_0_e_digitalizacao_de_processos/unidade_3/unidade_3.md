@@ -631,12 +631,24 @@ Sobre o **modelo Purdue** de arquitetura de segurança industrial, assinale a al
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> O livro reúne casos concretos de aplicação das tecnologias da Indústria 4.0 em empresas brasileiras, com foco em quem fez, como fez, e quanto custou. É uma leitura essencial para **aterrissar** a teoria.
+> Dois títulos da Biblioteca Virtual aprofundam os temas desta unidade. O primeiro fundamenta a **cibersegurança industrial** (capítulo de Segurança da Informação); o segundo conecta a transformação digital à **inteligência artificial** aplicada à produção. Ambos têm linguagem acessível e foco em decisão de engenharia.
 
-- **Nome do livro:** *Indústria 4.0 — Casos Brasileiros*
-- **Capítulo:** Capítulos 4 (Robótica), 5 (Aditiva), 6 (Digital Twin) e 8 (Cibersegurança)
-- **Editora:** Atlas / FGV
-- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+**Livro 1 — fundamentos e segurança da informação**
+
+- **Nome do livro:** *Indústria 4.0: Conceitos e Fundamentos* (mesmo livro da Unidade 2)
+- **Capítulo:** Segurança da Informação (a partir da p. 122)
+- **Autor:** Edson Pinheiro de Lima *et al.*
+- **Editora:** Blucher
+- **Link de acesso:** Biblioteca Virtual — https://plataforma.bvirtual.com.br/Acervo/Publicacao/164117
+- **Aula em que entra:** Aula 12 (Cibersegurança industrial)
+
+**Livro 2 — transformação digital e inteligência artificial**
+
+- **Nome do livro:** *Transformação Digital e Indústria 4.0: Produção e Sociedade*
+- **Capítulo:** Capítulo 4 — Inteligência Artificial (a partir da p. 73)
+- **Organizadores:** Márcia Terra da Silva, Rodrigo Franco Gonçalves, Sílvia Helena Bonilla e José Benedito Sacomano
+- **Editora:** Blucher (1ª ed., 2023)
+- **Link de acesso:** Biblioteca Virtual — https://plataforma.bvirtual.com.br/Acervo/Publicacao/230218
 - **Aula em que entra:** Aulas 9 a 12
 
 ### Para mergulhar no assunto

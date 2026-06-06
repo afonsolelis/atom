@@ -766,12 +766,13 @@ A respeito do **OEE** (Overall Equipment Effectiveness), assinale a alternativa 
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> Este livro consolida o que vimos na Unidade 2 com foco em manufatura brasileira — casos reais de implantação de ERP, MES, SCM, com erros comuns e como evitá-los.
+> Este é o capítulo que mais se aproxima do coração da Unidade 2: os **aplicativos integrados** que vimos em ação — ERP, SCM e CRM. Laudon e Laudon mostram como essas suítes coordenam pedido, produção, cadeia de suprimentos e relacionamento com o cliente para alcançar excelência operacional. Leitura direta sobre o que destrinchamos nas Aulas 5 a 8.
 
-- **Nome do livro:** *Sistemas Integrados de Gestão Empresarial — ERP, MES, CRM e Outros*
-- **Capítulo:** Capítulos 3 (ERP), 5 (MES) e 8 (CRM)
-- **Editora:** Atlas / FGV
-- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+- **Nome do livro:** *Sistemas de Informação Gerenciais* (7ª edição)
+- **Capítulo:** Capítulo 8 — *Conquistando excelência operacional e intimidade com o cliente: aplicativos integrados* (p. 262)
+- **Autores:** Kenneth C. Laudon e Jane P. Laudon (trad. Thelma Guimarães; rev. Belmiro do Nascimento João)
+- **Editora:** Pearson Prentice Hall
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Publicacao/375
 - **Aula em que entra:** Aulas 5 a 8
 
 ### Para mergulhar no assunto

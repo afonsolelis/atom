@@ -723,13 +723,13 @@ Em relação aos **cinco componentes** de um sistema de informação (SI), assin
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> Este é o clássico de SI usado em escolas de administração e engenharia no mundo inteiro. Os primeiros capítulos consolidam tudo o que vimos na Unidade 1 — dado, informação, sistemas, tipos. Leitura **essencial** para fixar vocabulário e ganhar autoridade no assunto.
+> Esta obra abre exatamente onde a nossa Unidade 1 abre: nos **conceitos fundamentais** de sistemas de informação. A Unidade 1 do livro consolida dado, informação, componentes do SI e os tipos clássicos (TPS, MIS, DSS, ERP) — o mesmo vocabulário que construímos aqui. Leitura **essencial** para fixar a base e ganhar autoridade no assunto.
 
-- **Nome do livro:** *Sistemas de Informação Gerenciais*
-- **Capítulo:** Capítulos 1 (SI nos negócios), 2 (e-business) e 6 (banco de dados)
-- **Autores:** Kenneth Laudon e Jane Laudon
+- **Nome do livro:** *Sistemas de Informação* (2ª edição)
+- **Capítulo:** Unidade 1 — *Conceitos de Sistemas de Informação* (p. 1)
+- **Organizador:** Belmiro do Nascimento João
 - **Editora:** Pearson
-- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Publicacao/183216
 - **Aula em que entra:** Aulas 1 a 4
 
 ### Para mergulhar no assunto

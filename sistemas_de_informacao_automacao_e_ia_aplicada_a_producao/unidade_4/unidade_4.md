@@ -713,13 +713,13 @@ A respeito dos **três modos de aprendizado em Machine Learning**, assinale a al
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> O livro de Russell e Norvig é a referência mundial em IA. Para esta disciplina, foco nos capítulos introdutórios e em Machine Learning — o necessário para fundamentar tecnicamente discussões sobre IA aplicada à produção.
+> No mundo dos sistemas de informação, a IA aparece como **técnicas inteligentes** a serviço da decisão. Este capítulo de Laudon e Laudon trata de tomada de decisão, gestão do conhecimento e dos métodos inteligentes (sistemas especialistas, lógica difusa, redes neurais, algoritmos genéticos e agentes) — a ponte conceitual entre SI e a IA aplicada à produção que estudamos nas Aulas 13 a 16.
 
-- **Nome do livro:** *Inteligência Artificial — Uma Abordagem Moderna*
-- **Capítulo:** Capítulos 1 (introdução), 18 (aprendizado), 19 (redes neurais)
-- **Autores:** Stuart Russell e Peter Norvig
-- **Editora:** Pearson
-- **Link de acesso:** BV UniFECAF — https://fecaf.brightspace.com/d2l/home (BV Professor)
+- **Nome do livro:** *Sistemas de Informação Gerenciais* (7ª edição)
+- **Capítulo:** Capítulo 10 — *Como melhorar a tomada de decisão e a gestão do conhecimento* (p. 322)
+- **Autores:** Kenneth C. Laudon e Jane P. Laudon (trad. Thelma Guimarães; rev. Belmiro do Nascimento João)
+- **Editora:** Pearson Prentice Hall
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Publicacao/375
 - **Aula em que entra:** Aulas 13 a 16
 
 ### Para mergulhar no assunto

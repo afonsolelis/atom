@@ -1,0 +1,484 @@
+Questionário — Unidade 4
+
+- Disciplina: Indústria 4.0 e Digitalização de Processos
+- Professor-conteudista: Afonso Cesar Lelis Brandão
+
+Orientações
+
+- 20 questões padrão ENADE: 10 asserção-razão + 10 de interpretação.
+- Cada questão tem 5 alternativas (a–e); a correta é prefixada por  (ex.: c. ...).
+- Distribuição da alternativa correta: rotação a, b, c, d, e, a, b, c, d, e... (4 questões para cada letra).
+
+Questões
+
+Questão 1 (Asserção-Razão)
+
+Asserção I: O mapeamento do processo AS-IS (como ele é hoje) é etapa fundamental antes do redesenho TO-BE (como deveria ser) em qualquer iniciativa séria de BPM.
+
+porque
+
+Razão II: Sem entender como o processo realmente funciona hoje, melhorias propostas tendem a mirar em um processo idealizado que não existe, gerando soluções desconectadas da realidade da empresa.
+
+A respeito dessas asserções, assinale a opção correta:
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 2 (Asserção-Razão)
+
+Asserção I: Process mining é uma técnica que utiliza logs de sistemas (ERP, MES) para reconstruir automaticamente os processos reais executados em uma organização.
+
+porque
+
+Razão II: O Itaú Unibanco é o maior banco privado do Brasil e tem presença significativa na América Latina.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 3 (Asserção-Razão)
+
+Asserção I: Aproximadamente 70% das iniciativas de transformação digital industrial falham em entregar o ROI esperado, segundo relatórios de consultorias como McKinsey e BCG.
+
+porque
+
+Razão II: A causa principal das falhas é o excesso de patrocínio executivo, com diretores e CEOs interferindo demais no detalhe técnico dos projetos.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 4 (Asserção-Razão)
+
+Asserção I: Um roadmap maduro de Indústria 4.0 deve pular completamente as fases de diagnóstico e piloto, iniciando diretamente pela escala em todas as unidades da empresa.
+
+porque
+
+Razão II: Roadmaps maduros são estruturados em fases progressivas — diagnóstico, piloto, expansão, escala e inovação contínua — com prazos e investimentos realistas em cada uma, exatamente para mitigar riscos.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 5 (Asserção-Razão)
+
+Asserção I: A Indústria 5.0 é uma ruptura completa em relação à Indústria 4.0, dispensando o uso de IoT, IA, digital twin e demais tecnologias da 4.0.
+
+porque
+
+Razão II: A Indústria 5.0 propõe o retorno completo ao modelo industrial anterior à automação, eliminando todas as tecnologias digitais e voltando à manufatura puramente manual.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 6 (Asserção-Razão)
+
+Asserção I: O caso da Klabin (celulose) ilustra que setores tradicionais brasileiros podem extrair ROI significativo da Indústria 4.0, com ganhos mensuráveis em produtividade e redução de paradas.
+
+porque
+
+Razão II: A Klabin investiu em IIoT massivo e digital twin, alcançando +8% de produtividade, -22% de paradas e R$ 80 milhões em ganhos anuais sobre investimento de R$ 35 milhões.
+
+A respeito dessas asserções, assinale a opção correta:
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 7 (Asserção-Razão)
+
+Asserção I: A Indústria 5.0 propõe que a tecnologia seja orientada para três pilares: centralidade humana, sustentabilidade e resiliência.
+
+porque
+
+Razão II: A WEG, fabricante brasileira de motores, vende não apenas o equipamento mas também serviços de monitoramento remoto via sensores embarcados, ilustrando uso de servitização viabilizada por IIoT.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 8 (Asserção-Razão)
+
+Asserção I: RPA (Robotic Process Automation) é uma técnica que automatiza tarefas administrativas repetitivas em sistemas de software, sem envolvimento de hardware físico, sendo amplamente utilizada em processos como conferência de notas fiscais, geração de relatórios e migração de dados entre sistemas.
+
+porque
+
+Razão II: RPA é equivalente à robótica industrial física tradicional, exigindo investimento em braços mecânicos, esteiras transportadoras e equipamentos de chão de fábrica para que possa ser implementado em qualquer organização.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 9 (Asserção-Razão)
+
+Asserção I: A Siemens, em sua planta de Amberg (Alemanha), é referência mundial em Indústria 4.0.
+
+porque
+
+Razão II: A Siemens Amberg alcançou em poucos meses, partindo de uma fábrica tradicional sem qualquer base de digitalização, todos os patamares de automação que hoje a tornam referência mundial.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 10 (Asserção-Razão)
+
+Asserção I: A escolha de KPIs em um roadmap de transformação digital é irrelevante, pois qualquer projeto de I4.0 entrega resultados independentemente de medição ou alinhamento com dores da empresa.
+
+porque
+
+Razão II: Projetos de transformação digital industrial não exigem governança, indicadores ou alinhamento com objetivos de negócio — bastam tecnologia e fornecedor.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 11 (Interpretação)
+
+Estímulo:
+
+"Toda vez que vejo um projeto de I4.0 começar pela tecnologia, eu já sei: vai dar errado. O primeiro passo é entender qual decisão da empresa custa caro errar e atacar essa decisão com método. Tecnologia vem depois — como meio, não como protagonista."
+
+A leitura mais alinhada ao texto é:
+
+*a. Projetos de I4.0 devem começar pela definição de uma decisão de negócio prioritária, sendo a tecnologia escolhida em função do problema a resolver — não o contrário.
+b. Projetos de I4.0 devem começar pela compra do equipamento mais caro disponível no mercado.
+c. Tecnologia é o único fator importante em transformação digital; processos e pessoas são secundários.
+d. Projetos de I4.0 devem ser planejados sem qualquer envolvimento das áreas de negócio.
+e. A escolha de fornecedor único é mais importante que a definição do problema.
+
+Questão 12 (Interpretação)
+
+Estímulo:
+
+Uma empresa de médio porte (500 funcionários) decidiu implementar um piloto de IIoT com manutenção preditiva. Investimento total: R$ 400.000. Redução de paradas não programadas: 30%. Custo médio de uma hora de parada: R$ 8.000. Paradas anuais antes do piloto: 120 horas.
+
+Qual a economia anual aproximada e o payback do piloto?
+
+a. Economia R$ 96.000/ano; payback ~50 meses.
+*b. Economia R$ 288.000/ano; payback ~17 meses.
+c. Economia R$ 960.000/ano; payback ~5 meses.
+d. Economia R$ 2,8 milhões/ano; payback ~2 meses.
+e. Economia zero; sem payback possível.
+
+Cálculo: redução = 30% de 120 h = 36 h. Economia anual = 36 × R$ 8.000 = R$ 288.000. Payback = R$ 400.000 / R$ 288.000 ≈ 1,39 ano ≈ 17 meses.
+
+Questão 13 (Interpretação)
+
+Estímulo:
+
+"Quando olho 8 casos reais de I4.0 — Siemens, Klabin, WEG, Embraco, Tetra Pak, Vale, JBS, Tesla — surge um padrão claro: eles começam por uma dor real, crescem por iteração, combinam tecnologias e investem em pessoas, não apenas em equipamentos."
+
+A leitura mais sustentada pelo texto é:
+
+a. Sucessos em I4.0 dependem exclusivamente de orçamento ilimitado.
+b. Sucessos em I4.0 são fruto da escolha de uma única tecnologia "milagrosa".
+*c. Sucessos em I4.0 seguem padrões comuns — começar pelo problema, iterar com pilotos pequenos, combinar tecnologias e investir em pessoas — independentemente do setor e país.
+d. Sucessos em I4.0 ocorrem apenas em multinacionais alemãs ou americanas.
+e. Sucessos em I4.0 são impossíveis no Brasil pela falta de infraestrutura.
+
+Questão 14 (Interpretação)
+
+Estímulo:
+
+"A Indústria 5.0 não é o oposto da 4.0. É a 4.0 com propósito humano e ambiental. Você precisa da 4.0 para fazer 5.0 — porque 5.0 sem sensor, sem dado, sem IA, sem digital twin, vira só discurso vazio."
+
+Qual a leitura mais correta do texto?
+
+a. A Indústria 5.0 substitui completamente as tecnologias da 4.0.
+b. A Indústria 5.0 retorna ao modelo industrial pré-4.0, sem digitalização.
+c. A Indústria 5.0 ignora os pilares humano e ambiental, focando apenas em eficiência.
+*d. A Indústria 5.0 é uma maturação da 4.0 — usa as mesmas tecnologias, mas orientadas para centralidade humana, sustentabilidade e resiliência.
+e. A Indústria 5.0 é apenas marketing, sem implicações reais para a indústria.
+
+Questão 15 (Interpretação)
+
+Estímulo:
+
+A WEG, fabricante brasileira de motores elétricos, embarca sensores em seus motores. Clientes não compram apenas o equipamento — eles assinam um serviço de monitoramento contínuo. A WEG recebe dados em tempo real, oferece manutenção preditiva e cobra mensalidade por isso.
+
+Esse modelo é exemplo de:
+
+a. Manufatura aditiva pura, sem componente digital.
+b. Fordismo aplicado a motores elétricos.
+c. Robótica colaborativa sem integração de dados.
+d. Indústria 3.0 sem qualquer característica de 4.0.
+*e. Servitização — transformação do produto físico em produto + serviço, viabilizada por sistemas ciber-físicos e IIoT, ilustrando um dos modelos de negócio típicos da Indústria 4.0.
+
+Questão 16 (Interpretação)
+
+Estímulo:
+
+A tabela compara fases típicas de roadmap I4.0:
+
+Fase	Prazo	Investimento típico (médio porte)
+Diagnóstico	1-3 meses	R$ 50-150 mil
+Piloto	3-6 meses	R$ 150-500 mil
+Expansão	6-12 meses	R$ 500 mil - 2 milhões
+Escala	12-24 meses	R$ 2-10 milhões
+
+Para uma empresa de médio porte iniciando do zero, qual investimento aproximado mínimo seria realista nos primeiros 24 meses (cobrindo as 4 fases acima, no piso da faixa)?
+
+a. R$ 50 mil.
+b. R$ 350 mil.
+*c. R$ 2,7 milhões.
+d. R$ 50 milhões.
+e. R$ 1 bilhão.
+
+Cálculo: soma do piso das 4 fases = 50 + 150 + 500 + 2.000 = R$ 2.700 mil = R$ 2,7 milhões.
+
+Questão 17 (Interpretação)
+
+Estímulo:
+
+"No projeto BPM, o erro mais comum é confundir AS-IS com TO-BE. AS-IS é como o processo realmente é hoje, com todas suas falhas. TO-BE é como ele deveria ser depois da intervenção. Pular o AS-IS é a forma mais eficaz de propor melhorias que miram em um processo que não existe."
+
+A recomendação central do texto é:
+
+a. Pular sempre a etapa de AS-IS para acelerar projetos.
+*b. Mapear cuidadosamente o AS-IS antes de projetar o TO-BE, sob pena de propor melhorias para um processo que não existe na realidade da empresa.
+c. AS-IS e TO-BE são sinônimos e podem ser tratados como uma única etapa.
+d. TO-BE deve ser definido antes de qualquer compreensão do processo atual.
+e. BPM é desnecessário em projetos de I4.0.
+
+Questão 18 (Interpretação)
+
+Estímulo:
+
+A Vale opera caminhões autônomos na mina de Carajás (PA): mais de 30 caminhões sem motorista, dirigindo 24 horas por dia.
+
+Esse caso é exemplo paradigmático de:
+
+a. Manufatura aditiva em ambiente minerador.
+b. Realidade Aumentada aplicada à direção de caminhões.
+*c. Automação avançada com veículos autônomos industriais em ambiente extremo, combinando IoT, IA e edge computing — gerando ganhos de produtividade e segurança em ambiente perigoso.
+d. Fordismo aplicado à mineração.
+e. Robótica colaborativa (cobots) trabalhando lado a lado com motoristas humanos.
+
+Questão 19 (Interpretação)
+
+Estímulo:
+
+"Sua função clássica como engenheiro de produção sempre foi gerenciar fluxos: de materiais, de informação e de pessoas. Na Indústria 5.0, você ganha um quarto fluxo para gerenciar: o fluxo de carbono. Pegada ambiental por unidade produzida vira KPI tão central quanto custo unitário."
+
+A leitura mais alinhada ao texto é:
+
+a. Engenheiros de produção devem abandonar suas funções clássicas e focar apenas em IA generativa.
+b. Indústria 5.0 elimina a função do engenheiro de produção, substituindo-a por sistemas autônomos.
+c. O fluxo de carbono é irrelevante na Indústria 5.0; importa apenas produtividade.
+*d. Na Indústria 5.0, o engenheiro de produção mantém seu papel clássico de gerenciar fluxos, acrescentando a dimensão ambiental (fluxo de carbono) como nova métrica central.
+e. Engenheiros de produção devem migrar para carreiras puramente administrativas, sem envolvimento com produção.
+
+Questão 20 (Interpretação)
+
+Estímulo:
+
+"Você sai dessa disciplina sabendo o que muitos profissionais com 5+ anos de experiência industrial ainda não dominam. Não é por mérito extraordinário — é porque a Indústria 4.0 está mudando rápido demais para a maioria acompanhar. Use isso na sua carreira."
+
+A leitura mais alinhada ao texto é:
+
+a. A disciplina é meramente teórica, sem aplicação prática real no mercado.
+b. Profissionais com mais experiência sempre dominarão melhor a Indústria 4.0 que recém-formados.
+c. O conhecimento adquirido na disciplina é trivial e não traz vantagem competitiva.
+d. A Indústria 4.0 muda lentamente, sendo fácil de acompanhar mesmo sem estudo dedicado.
+*e. O ritmo acelerado de evolução da Indústria 4.0 cria oportunidade de diferenciação para quem se prepara com método — usar isso na carreira é um conselho central de encerramento da disciplina.
+
+Feedbacks
+
+Questão 1
+
+- a. Correta! Ambas as proposições são verdadeiras e a Razão (II) explica diretamente por que o AS-IS é fundamental: sem ele, melhorias miram em processo idealizado, desconectado da realidade. Essa é a justificativa direta da Asserção.
+- b. Incorreta. A Razão justifica a Asserção.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 2
+
+- a. Incorreta. A Razão não justifica a Asserção — tratam de temas diferentes.
+- b. Correta! As duas proposições são verdadeiras individualmente: process mining é, de fato, uma técnica que reconstrói processos de logs; e o Itaú é, de fato, o maior banco privado do Brasil. Porém, a Razão (II) trata do porte da empresa Itaú, não justifica o que é process mining. São verdades independentes.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 3
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: 70% é a taxa reportada por McKinsey, BCG e demais consultorias. Mas a Razão (II) é falsa: a causa principal não é excesso de patrocínio executivo — é justamente o oposto, falta de patrocínio executivo, combinada com começar pela tecnologia e escolher problema errado. Patrocínio forte é fator de sucesso, não de falha.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 4
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção (I) é falsa: pular diagnóstico e piloto é um dos principais motivos de falha em projetos 4.0 — exatamente o oposto do recomendado. A Razão (II) é verdadeira: o roadmap maduro é estruturado em fases progressivas exatamente para mitigar riscos com aprendizado incremental.
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 5
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas proposições são falsas. A Indústria 5.0 não dispensa as tecnologias da 4.0 — pelo contrário, depende delas (IoT, IA, digital twin). E não retorna ao modelo pré-automação — é uma maturação que adiciona propósito humano e ambiental ao uso da tecnologia.
+
+Questão 6
+
+- a. Correta! Ambas as proposições são verdadeiras, e a Razão (II) justifica a Asserção (I) com os números concretos do caso Klabin: produtividade, paradas e ROI. Os números explicam exatamente por que o caso é exemplar.
+- b. Incorreta. A Razão justifica a Asserção com dados.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 7
+
+- a. Incorreta. A Razão não justifica a Asserção — são temas distintos.
+- b. Correta! As duas proposições são verdadeiras: a Indústria 5.0 propõe, sim, esses três pilares (humano, sustentável, resiliente); e a WEG, sim, opera modelo de servitização com IIoT. Porém, a Razão (II) trata de um caso específico de modelo de negócio, não justifica o que define a Indústria 5.0. São informações independentes.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 8
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: RPA é exatamente isso — "robô de software" que automatiza tarefas administrativas em sistemas (copiar dado, gerar relatório, conferir notas fiscais). Mas a Razão (II) é falsa: RPA não é equivalente à robótica industrial física — é justamente o oposto, opera em camada de software, sem braços mecânicos nem hardware especializado.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 9
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: a Siemens Amberg é, de fato, referência mundial em I4.0. Mas a Razão (II) é falsa: Amberg não virou referência "em poucos meses" — foram 30 anos de evolução incremental e contínua. A ideia de transformação "do zero ao topo em poucos meses" é mito típico que a disciplina critica.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 10
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas proposições são falsas. KPIs são essenciais em qualquer roadmap sério de I4.0 (escolha 3 a 5, medíveis hoje, alinhados às dores prioritárias). Projetos sem governança, sem indicadores e sem alinhamento com objetivos de negócio são receita conhecida de fracasso — exatamente o que o material da disciplina argumenta ao falar da taxa de falha de 70%.
+
+Questão 11
+
+- a. Correta! Texto reforça exatamente essa lógica: começar pela decisão de negócio (problema de impacto) e usar a tecnologia como meio. Essa é a recomendação central de toda a Unidade 4.
+- b. Incorreta. O texto critica essa abordagem.
+- c. Incorreta. O texto reforça o oposto: processos e pessoas vêm antes da tecnologia.
+- d. Incorreta. Áreas de negócio são essenciais — é delas que vem a "dor".
+- e. Incorreta. Fornecedor único nem é tema do texto.
+
+Questão 12
+
+- a. Incorreta. Cálculo errado.
+- b. Correta! Cálculo: redução de paradas = 30% × 120 h = 36 h. Economia anual = 36 × R$ 8.000 = R$ 288.000. Payback = R$ 400.000 ÷ R$ 288.000 por ano ≈ 1,39 ano ≈ 17 meses.
+- c. Incorreta. Cálculo errado (excesso por fator 10).
+- d. Incorreta. Cálculo errado (excesso enorme).
+- e. Incorreta. O cálculo mostra economia clara.
+
+Questão 13
+
+- a. Incorreta. Orçamento ilimitado não foi citado como causa.
+- b. Incorreta. Casos mostram combinação de tecnologias, não escolha única.
+- c. Correta! O texto destaca exatamente esses 4 padrões (dor real + iteração + combinação + pessoas), válidos transversalmente — Siemens (Alemanha), Klabin (Brasil), Tesla (EUA), Vale (Brasil). A lição central é a transferibilidade dos padrões.
+- d. Incorreta. Os casos mostram exemplos brasileiros bem-sucedidos (Klabin, WEG, Embraco, Vale).
+- e. Incorreta. Os casos brasileiros refutam essa visão.
+
+Questão 14
+
+- a. Incorreta. 5.0 mantém as tecnologias da 4.0.
+- b. Incorreta. 5.0 não retrocede — avança com propósito.
+- c. Incorreta. 5.0 prioriza humano e ambiental.
+- d. Correta! A leitura mais correta é essa: I5.0 é maturação, usa as tecnologias da 4.0, mas reorientadas para os três pilares (humano, sustentável, resiliente). Esse é o consenso na Comissão Europeia e em pesquisadores como Xu et al. (2021).
+- e. Incorreta. I5.0 tem implicações reais em treinamento, ESG, regulação.
+
+Questão 15
+
+- a. Incorreta. Não é caso de manufatura aditiva.
+- b. Incorreta. Fordismo não envolve dados em tempo real ou serviço de monitoramento.
+- c. Incorreta. Cobots não estão no caso.
+- d. Incorreta. O caso é típico de I4.0 (e na fronteira da 5.0).
+- e. Correta! WEG é o caso paradigmático de servitização: o motor (produto físico) vira parte de uma assinatura de serviço, viabilizada por IIoT embarcado. Modelo de negócio típico da I4.0 — não é apenas otimização interna, é nova forma de vender.
+
+Questão 16
+
+- a. Incorreta. Muito menor — só cobre a fase de diagnóstico.
+- b. Incorreta. Cobre só diagnóstico + piloto, não as 4 fases.
+- c. Correta! Soma do piso das 4 fases: R$ 50 + R$ 150 + R$ 500 + R$ 2.000 = R$ 2.700 mil = R$ 2,7 milhões. É o investimento mínimo realista para uma empresa de médio porte cobrir as 4 fases iniciais. Em pratica, ficar no piso é incomum — geralmente passa-se da metade da faixa.
+- d. Incorreta. Muito acima do piso típico para médio porte.
+- e. Incorreta. Valor compatível apenas com grandes corporações globais.
+
+Questão 17
+
+- a. Incorreta. O texto reforça o oposto.
+- b. Correta! Mapear AS-IS antes de TO-BE é a recomendação universal em BPM. Pular o AS-IS é o erro mais comum em projetos de transformação digital.
+- c. Incorreta. São conceitos distintos e complementares.
+- d. Incorreta. TO-BE depende do entendimento do AS-IS.
+- e. Incorreta. BPM é pré-requisito de qualquer projeto digital sério.
+
+Questão 18
+
+- a. Incorreta. Não há manufatura aditiva no caso da Vale.
+- b. Incorreta. RA não é o ponto central.
+- c. Correta! A Vale é o caso paradigmático brasileiro de automação avançada com veículos autônomos em ambiente extremo (calor, poeira, distância). Combina IoT (sensores embarcados), IA (decisão de rota e velocidade) e edge computing (decisões locais). Resultados mensuráveis: +15% produtividade, -30% combustível, zero acidente humano com os caminhões.
+- d. Incorreta. Fordismo não tem relação com automação autônoma.
+- e. Incorreta. Caminhões são autônomos — não há motoristas humanos.
+
+Questão 19
+
+- a. Incorreta. O texto não defende abandonar funções clássicas.
+- b. Incorreta. O texto reforça o papel do engenheiro de produção, não o elimina.
+- c. Incorreta. O texto destaca o fluxo de carbono como central na 5.0.
+- d. Correta! A leitura central é essa: o engenheiro de produção da 5.0 mantém o papel clássico (gerenciar fluxos de materiais, informação e pessoas) e ganha um quarto fluxo a gerenciar — o fluxo de carbono / pegada ambiental. É expansão de função, não substituição.
+- e. Incorreta. O texto reforça permanência na produção, com novas dimensões.
+
+Questão 20
+
+- a. Incorreta. A disciplina é aplicada — casos reais, atividades práticas e projetos.
+- b. Incorreta. O texto inverte essa lógica — atualidade tem mais valor que tempo de empresa.
+- c. Incorreta. O texto reforça o oposto — o conhecimento é diferencial competitivo.
+- d. Incorreta. A 4.0 muda em ritmo acelerado, exigindo estudo dedicado.
+- e. Correta! A leitura central do encerramento é essa: ritmo acelerado de evolução cria oportunidade de diferenciação para quem se preparou com método. O conselho é usar isso na carreira — aplicar, defender, propor, liderar. É a mensagem que fecha a disciplina.

@@ -1,0 +1,794 @@
+Avaliação Final — Sistemas de Informação, Automação e IA Aplicada à Produção
+
+- Disciplina: Sistemas de Informação, Automação e IA Aplicada à Produção
+- Professor-conteudista: Afonso Cesar Lelis Brandão
+
+Orientações
+
+- 40 questões padrão ENADE no total:
+- 15 do tipo asserção-razão (Q1–Q15)
+- 15 do tipo interpretação (Q16–Q30)
+- 10 do tipo discursiva (Q31–Q40, posicionadas ao final)
+- Cada questão objetiva tem 5 alternativas (a–e), com a correta prefixada por *.
+- Rotação das alternativas corretas: a, b, c, d, e, a, b, c, d, e... (6 questões para cada letra nas objetivas).
+- Para cada alternativa de questão objetiva, há feedback explicativo.
+- Feedbacks das objetivas ao final, na ordem das questões.
+
+Questões objetivas (1–30) e discursivas (31–40)
+
+Questão 1 (Asserção-Razão)
+
+Asserção I: A pirâmide DIKW estrutura o caminho do dado bruto até a sabedoria, com camadas que adicionam contexto e habilitam decisão acionável.
+
+porque
+
+Razão II: Sem contextualização, um dado isolado é inútil; é o acréscimo de tempo, lugar, unidade e significado que transforma dado em informação acionável e, depois, em conhecimento e sabedoria operacional.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 2 (Asserção-Razão)
+
+Asserção I: Um Sistema de Informação (SI) é composto por cinco componentes integrados: pessoas, processos, dados, software e hardware.
+
+porque
+
+Razão II: A Universidade de São Paulo (USP) é uma das instituições de ensino superior mais antigas e reconhecidas do Brasil, oferecendo cursos em diversas áreas do conhecimento.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 3 (Asserção-Razão)
+
+Asserção I: Os bancos de dados relacionais são amplamente utilizados em sistemas corporativos como ERP e MES, sendo consultados via linguagem SQL.
+
+porque
+
+Razão II: Bancos relacionais foram desenvolvidos exclusivamente na década de 2020 e não suportam transações concorrentes em ambientes empresariais reais.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 4 (Asserção-Razão)
+
+Asserção I: O ERP (Enterprise Resource Planning) substitui completamente o MES (Manufacturing Execution System), sendo dispensável a existência de ambos em fábricas modernas.
+
+porque
+
+Razão II: ERP foca em processos de negócio (vendas, compras, finanças, RH), enquanto MES foca em execução de manufatura em tempo real (estado de máquina, ordens em execução, OEE) — sendo sistemas com escopos complementares que devem se integrar.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 5 (Asserção-Razão)
+
+Asserção I: A customização excessiva do código-fonte de um ERP é prática universalmente recomendada por garantir atualizações automáticas, redução de custo de manutenção e independência total do fornecedor.
+
+porque
+
+Razão II: A customização exagerada gera, em todos os casos, software de fácil manutenção, com baixa dependência de especialistas, completamente compatível com upgrades automáticos do fabricante.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 6 (Asserção-Razão)
+
+Asserção I: A pirâmide ISA-95 organiza a fábrica em 5 níveis: equipamento físico (0), CLP/DCS (1), SCADA (2), MES (3) e ERP (4).
+
+porque
+
+Razão II: Cada nível da pirâmide tem granularidade temporal e função distintas — do milissegundo (controle físico) até dias/meses (planejamento estratégico), formando hierarquia coerente em automação industrial.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 7 (Asserção-Razão)
+
+Asserção I: O CLP (Controlador Lógico Programável) é amplamente utilizado em fábricas brasileiras, dominando o controle de equipamentos no nível 1 da pirâmide ISA-95.
+
+porque
+
+Razão II: O Brasil tem dimensões continentais e diversidade climática regional, fator relevante para empresas que operam em todo o território nacional.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 8 (Asserção-Razão)
+
+Asserção I: O SCADA é o sistema de supervisão de processos do nível 2 da pirâmide ISA-95, responsável por telas de operação (HMI), coleta de dados em tempo real, históricos e alarmes.
+
+porque
+
+Razão II: SCADA, segundo as melhores práticas industriais, deve operar com 200-500 alarmes ativos simultaneamente por turno, sendo essa a configuração ideal para garantir alta cobertura e segurança operacional.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 9 (Asserção-Razão)
+
+Asserção I: TI (Tecnologia da Informação) e OT (Tecnologia da Automação) têm filosofias idênticas, com vida útil, prioridades e ciclos de atualização totalmente equivalentes em qualquer ambiente industrial.
+
+porque
+
+Razão II: Historicamente, TI prioriza confidencialidade do dado e aceita atualizações frequentes; OT prioriza disponibilidade do processo e tem equipamentos com vida útil de 15-30 anos, frequentemente rodando sistemas antigos que não podem ser parados sem janela.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 10 (Asserção-Razão)
+
+Asserção I: A cibersegurança industrial é tema decorativo e dispensável, sendo desnecessário aplicar normas como IEC 62443, segmentação de rede ou planos de resposta em fábricas modernas.
+
+porque
+
+Razão II: Indústrias com sistemas conectados estão completamente imunes a ataques cibernéticos, sendo os ataques uma preocupação exclusiva de empresas de tecnologia da informação tradicional.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 11 (Asserção-Razão)
+
+Asserção I: Machine Learning supervisionado depende de exemplos rotulados (entradas com a resposta correta conhecida) para treinar modelos que generalizam a casos novos.
+
+porque
+
+Razão II: O aprendizado supervisionado precisa aprender a função de mapeamento entre entradas e saídas conhecidas, sendo a presença de rótulos pré-existentes o que define essa categoria de algoritmo.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 12 (Asserção-Razão)
+
+Asserção I: A visão computacional moderna baseada em redes neurais convolucionais (CNN) pode superar a inspeção visual humana em velocidade, consistência e cobertura.
+
+porque
+
+Razão II: O ChatGPT é um modelo de linguagem desenvolvido pela OpenAI, amplamente utilizado em aplicações de geração de texto e código.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 13 (Asserção-Razão)
+
+Asserção I: Em projetos de Machine Learning industrial, a preparação dos dados (coleta, limpeza, engenharia de features) representa tipicamente cerca de 70% do esforço total, sendo etapa determinante para a qualidade do modelo final.
+
+porque
+
+Razão II: A qualidade dos dados é irrelevante em projetos de ML modernos, pois algoritmos atuais conseguem extrair valor mesmo de dados ruins, dispensando qualquer trabalho de preparação.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 14 (Asserção-Razão)
+
+Asserção I: Em projetos de IA industrial, é recomendado começar pela escolha do algoritmo mais sofisticado disponível no mercado, antes mesmo de definir qual decisão de negócio se deseja melhorar.
+
+porque
+
+Razão II: Começar pela tecnologia em vez do problema é uma das causas mais documentadas de falha em projetos de IA, segundo relatórios da McKinsey, BCG e literatura acadêmica especializada.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 15 (Asserção-Razão)
+
+Asserção I: A IA generativa moderna substitui completamente o engenheiro de produção, eliminando a necessidade de profissionais humanos em todas as funções da fábrica e do escritório.
+
+porque
+
+Razão II: Modelos como ChatGPT, Claude e Gemini nunca apresentam alucinações ou erros, oferecendo respostas absolutamente confiáveis em qualquer contexto, dispensando qualquer verificação humana.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 16 (Interpretação)
+
+Estímulo:
+
+"Toda decisão na indústria moderna é, no fundo, uma decisão sobre dados. Quem ainda trata dado como subproduto operacional perde competitividade frente a quem trata dado como ativo estratégico."
+
+A leitura mais alinhada ao texto é:
+
+*a. Em fábricas modernas, dado é ativo estratégico — base para decisões de negócio. Empresas que reconhecem essa centralidade tendem a ser mais competitivas.
+b. Decisões na indústria moderna devem ser tomadas exclusivamente por intuição, ignorando dados.
+c. Dado é subproduto operacional sem valor estratégico.
+d. A indústria moderna não exige cultura de dado para ser competitiva.
+e. Sistemas de informação são desnecessários em fábricas atuais.
+
+Questão 17 (Interpretação)
+
+Estímulo:
+
+A tabela mostra os cinco tipos clássicos de SI:
+
+Nível	Tipo	Função
+Operacional	TPS	Registrar transações
+Tático	MIS / BI	Relatórios gerenciais
+Tático	DSS	Apoio à decisão (simulação)
+Estratégico	EIS / ESS	Painéis executivos
+Integrador	ERP	Integrar processos
+
+Uma empresa que simula cenários de impacto financeiro antes de tomar decisões de investimento opera predominantemente em qual nível?
+
+a. TPS isolado.
+*b. DSS (Decision Support System) — capaz de simular cenários e apoiar decisões complexas.
+c. EIS apenas.
+d. MIS sem análise.
+e. ERP exclusivamente.
+
+Questão 18 (Interpretação)
+
+Estímulo:
+
+Uma fábrica de bebidas implementou ML preditivo. Antes: rejeição de 2,3% de 240 mil garrafas/dia, custo unitário R$ 0,18. Depois: rejeição cai para 0,7%. Investimento: R$ 350 mil.
+
+Qual o payback aproximado do projeto?
+
+a. ~2 meses.
+b. ~10 meses.
+*c. ~20 meses.
+d. ~48 meses.
+e. ~120 meses.
+
+Cálculo: economia diária = 240.000 × (0,023 − 0,007) × 0,18 ≈ R$ 691. Anual (300 dias) ≈ R$ 207.000. Payback = R$ 350.000 ÷ R$ 207.000 ≈ 20 meses.
+
+Questão 19 (Interpretação)
+
+Estímulo:
+
+A WEG embarca sensores nos motores que vende. Clientes assinam serviço de monitoramento remoto, com manutenção preditiva contínua. WEG cobra mensalidade.
+
+Esse modelo é exemplo clássico de:
+
+a. Manufatura aditiva.
+b. Robótica colaborativa autônoma.
+c. RPA com hardware industrial.
+*d. Servitização — transformação do produto físico em produto + serviço, viabilizada por IIoT e CPS embarcados.
+e. Apenas controle estatístico de qualidade.
+
+Questão 20 (Interpretação)
+
+Estímulo:
+
+"ERP planeja o que produzir; MES executa em tempo real; SCM coordena chegada de matéria-prima; WMS gerencia o armazém; CRM previne reclamações; PLM mantém o produto sincronizado. Todos conversam. Quem ainda confia em planilhas Excel para tudo isso vai chegar atrasado na economia digital."
+
+A leitura mais alinhada ao texto é:
+
+a. Planilhas Excel substituem com eficiência todos os sistemas verticais.
+b. Apenas ERP é necessário em fábrica moderna.
+c. Sistemas verticais são incompatíveis e não devem ser usados em conjunto.
+d. ERP e MES são sinônimos.
+*e. Fábricas modernas integram diversos sistemas verticais (ERP, MES, SCM, WMS, CRM, PLM), cada um cuidando de um aspecto específico, e a integração entre eles cria competitividade no estado da arte.
+
+Questão 21 (Interpretação)
+
+Estímulo:
+
+O modelo Acatech define 6 níveis de maturidade digital: Computadorização, Conectividade, Visibilidade, Transparência, Previsão, Adaptabilidade. A maioria das fábricas brasileiras opera entre níveis 1-3.
+
+A leitura mais alinhada é:
+
+*a. A maioria das fábricas brasileiras ainda está nos primeiros níveis de maturidade digital — o que representa oportunidade significativa de evolução para quem dominar TI/SI/IA industrial.
+b. Todas as fábricas brasileiras já estão no nível mais alto de maturidade.
+c. O modelo Acatech tem apenas 2 níveis de maturidade.
+d. Fábricas brasileiras não têm relação com modelos internacionais de maturidade.
+e. Maturidade digital é tema sem aplicação prática.
+
+Questão 22 (Interpretação)
+
+Estímulo:
+
+A norma IEC 62443 estabelece zonas (agrupamentos de ativos com risco semelhante) e conduítes (canais controlados de comunicação entre zonas). O modelo Purdue alinha-se à ISA-95, organizando defesa em camadas hierárquicas.
+
+A leitura mais coerente é:
+
+a. IEC 62443 elimina firewalls e segmentação de rede.
+b. IEC 62443 recomenda que sensores estejam diretamente conectados à internet pública.
+*c. A IEC 62443 implementa defesa em profundidade por segmentação — agrupando ativos por nível de risco e controlando rigorosamente a comunicação entre os grupos, com firewalls e conduítes monitorados.
+d. IEC 62443 não tem aplicação prática em fábricas modernas.
+e. IEC 62443 substitui completamente o modelo Purdue, anulando-o.
+
+Questão 23 (Interpretação)
+
+Estímulo:
+
+Sobre IA generativa em engenharia de produção: "É excelente assistente que amplifica produtividade, gera documentação, código e análises. Mas alucina — gera respostas que parecem corretas mas são erradas. Em engenharia crítica, exige verificação humana sempre."
+
+A leitura mais correta é:
+
+a. IA generativa é totalmente confiável e dispensa verificação humana em todos os casos.
+b. IA generativa deve ser proibida em qualquer contexto de engenharia.
+c. Alucinações em IA generativa são impossíveis e nunca acontecem.
+d. IA generativa não tem aplicação real em engenharia de produção.
+*e. IA generativa é excelente assistente para amplificar produtividade, mas exige verificação humana em decisões críticas dada sua propensão a alucinações — o profissional do futuro sabe usar com discernimento.
+
+Questão 24 (Interpretação)
+
+Estímulo:
+
+A fábrica metalúrgica com 3 linhas críticas e OEE de 65% implementa MES. Em 8 meses, OEE sobe para 72%. Cada 1 p.p. = R$ 150 mil/ano de receita extra. Investimento total: R$ 600 mil.
+
+Qual o ganho anual e payback aproximados?
+
+a. Ganho R$ 150 mil/ano; payback ~48 meses.
+b. Ganho R$ 300 mil/ano; payback ~24 meses.
+c. Ganho R$ 700 mil/ano; payback ~10 meses.
+*d. Ganho R$ 1.050 mil/ano; payback ~7 meses.
+e. Ganho R$ 5 milhões/ano; payback ~1 mês.
+
+Cálculo: 72% − 65% = 7 p.p. × R$ 150 mil = R$ 1.050 mil/ano. Payback = R$ 600 mil ÷ R$ 1.050 mil ≈ 6,9 meses.
+
+Questão 25 (Interpretação)
+
+Estímulo:
+
+"Não basta ter dado. Não basta ter informação. Precisa de conhecimento — pessoa que sabe ler o número — e de sabedoria — pessoa que sabe agir. Sistemas de informação podem habilitar; a decisão continua humana, ao menos em parte."
+
+A leitura mais alinhada é:
+
+a. Sistemas de informação substituem completamente o papel humano em decisão.
+b. Conhecimento e sabedoria são irrelevantes na era da automação.
+c. Dado e informação são suficientes para decisão automática em qualquer contexto.
+d. Pessoas devem ser eliminadas de processos de decisão em fábricas.
+*e. Sistemas de informação habilitam decisão, mas conhecimento contextual e sabedoria de agir continuam sendo, em sua maior parte, atribuições humanas — pessoas e tecnologia se complementam, não se substituem completamente.
+
+Questão 26 (Interpretação)
+
+Estímulo:
+
+Caso da Magazine Luiza: previsão de demanda com ML combinando histórico de vendas, calendário promocional, dados climáticos e e-commerce. Resultado: redução significativa de estoque parado e ruptura.
+
+A leitura mais correta é:
+
+*a. O caso Magalu ilustra previsão de demanda madura com ML, combinando múltiplas variáveis em modelos sofisticados, com resultados mensuráveis em logística — exemplo brasileiro paradigmático.
+b. Previsão de demanda com ML é puramente teórica e nunca foi aplicada.
+c. Métodos clássicos (média móvel) superam ML em todos os casos.
+d. Previsão de demanda não tem relação com varejo.
+e. Apenas multinacionais americanas conseguem implementar previsão com ML.
+
+Questão 27 (Interpretação)
+
+Estímulo:
+
+"Engenheiro de produção que sabe usar IA produz 5-10× mais que sem IA. A pergunta não é 'IA vai me substituir', e sim 'como me preparar para a era da IA': dominar fundamentos, fazer projetos reais, acompanhar casos brasileiros, formar rede técnica."
+
+A leitura mais alinhada é:
+
+a. IA eliminará todos os engenheiros sem distinção.
+*b. IA amplifica profissionais preparados — engenheiro com IA produz significativamente mais; o foco deve ser preparar-se dominando fundamentos, projetos reais, casos brasileiros e rede técnica.
+c. IA não muda em nada o trabalho de engenharia.
+d. Engenheiros que sabem usar IA têm produtividade igual aos que não sabem.
+e. IA é desnecessária no trabalho de engenharia de produção.
+
+Questão 28 (Interpretação)
+
+Estímulo:
+
+Investimento em integração TI ↔ OT (gateway que automatiza fluxo CLP → ERP): R$ 250 mil. Antes: 120 h/mês de digitação manual (custo R$ 5.750/mês) + R$ 27 mil/mês em erros. Depois: 5 h/mês de digitação + R$ 3 mil/mês em erros.
+
+Qual o payback aproximado da integração?
+
+a. ~36 meses.
+b. ~24 meses.
+*c. ~8 meses.
+d. ~3 meses.
+e. Sem payback.
+
+Cálculo: economia mensal = R$ 5.750 (mão de obra) + R$ 24 mil (erros) ≈ R$ 30 mil/mês. Payback = R$ 250 mil ÷ R$ 30 mil ≈ 8,3 meses.
+
+Questão 29 (Interpretação)
+
+Estímulo:
+
+Em projetos de IA industrial, 70-80% falham em entregar ROI prometido. Causas mais documentadas: começar pela tecnologia em vez do problema; falta de patrocínio executivo; dados de baixa qualidade; escolha de problema de baixo impacto.
+
+A leitura mais correta é:
+
+a. Projetos de IA quase sempre são bem-sucedidos sem preparação.
+b. Tecnologia é a única variável de sucesso.
+c. Patrocínio executivo é decorativo em projetos de IA.
+d. Dados de baixa qualidade compensam-se com algoritmos modernos.
+*e. O sucesso em IA industrial depende de começar pelo problema certo, com patrocínio executivo, dados de qualidade e impacto mensurável — fatores além da tecnologia em si.
+
+Questão 30 (Interpretação)
+
+Estímulo:
+
+"Você sai dessa disciplina com vocabulário técnico (TPS, MES, ERP, SCADA, CLP, ML, IIoT, OEE), ferramentas mentais para diagnosticar e propor soluções, casos reais brasileiros e mundiais, e visão de futuro sobre IA aplicada à produção."
+
+A leitura mais alinhada com o encerramento da disciplina é:
+
+a. A disciplina foi puramente teórica sem aplicação prática.
+b. O conhecimento adquirido não traz vantagem competitiva.
+c. Vocabulário e casos reais são irrelevantes em carreira de engenharia.
+d. Engenheiros formados sem essa disciplina são sempre mais preparados.
+*e. A disciplina entrega conjunto integrado (vocabulário + ferramentas + casos + visão) que prepara o(a) engenheiro(a) para liderar projetos de TI industrial — diferencial competitivo claro na carreira.
+
+Questões discursivas (31–40)
+
+Questão 31 (Discursiva)
+
+Contexto: Uma empresa de manufatura brasileira de médio porte (500 funcionários, faturamento R$ 120 milhões/ano) opera principalmente em planilhas Excel para controle de produção, estoque, financeiro e vendas. Não há ERP, MES, CRM ou WMS. A diretoria reconhece que esse modelo "passou do limite".
+
+Enunciado: Apresente uma proposta inicial de transformação dos sistemas de informação dessa empresa, estruturada em: (a) diagnóstico dos 3 principais problemas; (b) recomendação do sistema (ou conjunto) a implementar primeiro; (c) investimento e prazo realistas; (d) riscos e mitigações.
+
+Resposta esperada:
+
+Resposta de qualidade tipicamente recomenda ERP como ponto de partida (TOTVS Protheus, Sankhya, Odoo ou similar) — pois consolida o caos das planilhas em uma base única. Problemas típicos: divergência entre planilhas, retrabalho manual, risco de erro humano, falta de auditoria, escalabilidade limitada. Investimento: R$ 800 mil a R$ 1,5 milhão; prazo 12-18 meses. Riscos: resistência cultural (mitigar com gestão da mudança e patrocínio executivo), superdimensionamento de escopo (mitigar com fases progressivas), dependência de consultoria externa (mitigar treinando equipe interna). Resposta de qualidade demonstra pensamento sistêmico — tecnologia + pessoas + processos — e cita a regra "configurar antes de customizar".
+
+Questão 32 (Discursiva)
+
+Contexto: Uma fábrica metalúrgica tem ERP TOTVS implantado e CLPs nos equipamentos, mas o ERP é alimentado manualmente com apontamentos de produção em planilhas. A diretoria quer automatizar essa integração.
+
+Enunciado: Apresente uma proposta técnica de integração TI ↔ OT, indicando: (a) arquitetura recomendada; (b) tecnologias envolvidas (protocolos, gateway, plataforma); (c) plano de implementação em 12 meses; (d) KPIs de sucesso; (e) cuidados com cibersegurança industrial.
+
+Resposta esperada:
+
+Resposta de qualidade detalha arquitetura com gateway de integração entre CLPs e ERP — protocolo OPC UA dos CLPs para o gateway, REST API do gateway para o ERP. Plano: M1-3 inventário de ativos OT e definição da arquitetura; M3-6 piloto em 1-2 linhas críticas; M6-9 expansão para outras linhas; M9-12 estabilização e governança. KPIs: redução de tempo de digitação (-80%), redução de erros (-90%), velocidade de decisão (tempo entre evento e ação), cobertura de chão de fábrica integrado (% de equipamentos). Cibersegurança: aplicação da norma IEC 62443 com segmentação de rede entre OT e TI corporativa, firewall industrial, monitoramento de tráfego anômalo, plano de resposta a incidentes. Resposta de qualidade menciona casos brasileiros como Ambev (TI-OT integrado) e os ganhos típicos.
+
+Questão 33 (Discursiva)
+
+Contexto: Uma fábrica química quer implementar manutenção preditiva com ML em motores críticos.
+
+Enunciado: Elabore um plano de projeto detalhando: (a) as 7 fases do ciclo de ML (definir, coletar, preparar, treinar, validar, deploy, monitorar); (b) pré-requisitos de dados e infraestrutura; (c) algoritmos típicos; (d) cálculo aproximado de ROI; (e) riscos e mitigações.
+
+Resposta esperada:
+
+Resposta exemplar lista as 7 fases com conteúdo concreto em cada uma: (1) Definir: qual motor, qual modo de falha, qual ganho esperado; (2) Coletar: histórico de 12-18 meses de sensores (vibração, temperatura, corrente, ruído); (3) Preparar: limpar outliers, sincronizar timestamps, criar features (médias, picos, FFT); (4) Treinar: testar Random Forest, XGBoost, LSTM; (5) Validar: split treino/teste, métricas de precisão e recall; (6) Deploy: rodar em edge ou nuvem com integração ao CMMS; (7) Monitorar: retreinar a cada 6 meses, medir KPIs. Pré-requisitos: sensores em campo, historian funcionando, equipe de TI/manutenção. Algoritmos: Random Forest é ponto de partida típico; LSTM para séries temporais longas. ROI: economia típica de R$ 200-250 mil/ano por motor crítico, payback 12-18 meses. Riscos: dados ruins (mitigar com fase de coleta robusta), falhas raras (mitigar com técnicas de oversampling), operadores que ignoram alertas (mitigar com treinamento e governança).
+
+Questão 34 (Discursiva)
+
+Contexto: A diretoria de uma fábrica de cosméticos quer inspeção automatizada de garrafas em sua linha de envasamento. Está cética sobre IA.
+
+Enunciado: Elabore uma proposta de visão computacional com: (a) tipos de defeito que serão detectados; (b) tecnologia e fornecedores; (c) plano de implementação em 6-12 meses; (d) cálculo aproximado de ROI com base em redução de reclamações; (e) 3 objeções típicas da diretoria e como respondê-las.
+
+Resposta esperada:
+
+Resposta de qualidade lista defeitos típicos (rótulo torto, tampa errada, volume incorreto, frasco trincado). Tecnologia: câmeras industriais + iluminação controlada + modelo de visão computacional. Fornecedores: Cognex, Keyence ou solução customizada com Roboflow + Edge AI. Plano: M1-3 piloto controlado em 1 linha; M3-6 ajuste e validação; M6-12 expansão para outras linhas. ROI: se a empresa envasa 5 milhões de frascos/ano com 1% chegando ao cliente, e cada reclamação custa R$ 150, são R$ 7,5 mi/ano de prejuízo. Com IA reduzindo para 0,05%, prejuízo cai para R$ 375 mil — economia de R$ 7,1 mi/ano. Investimento R$ 800 mil; payback em poucos meses. Objeções: (1) "IA é hype" — resposta com casos reais e números; (2) "Vamos perder o controle humano" — resposta: humano supervisiona o sistema, IA é assistente; (3) "Vai falhar como projetos anteriores" — resposta: piloto controlado, validação rigorosa antes de escalar.
+
+Questão 35 (Discursiva)
+
+Contexto: Você foi convidado(a) a ministrar uma palestra para gestores não técnicos sobre IA aplicada à produção.
+
+Enunciado: Estruture uma palestra de 30 minutos com 5 a 7 tópicos. Cada tópico deve ter título claro, conteúdo principal e um exemplo prático. O público é leigo em IA mas técnico em gestão. Evite jargão excessivo.
+
+Resposta esperada:
+
+Resposta exemplar estrutura a palestra com tópicos como: (1) O que é IA, em linguagem de gente — desmistificar hype, mostrar pirâmide IA → ML → DL; (2) Os três modos de aprendizado — supervisionado, não supervisionado, reforço com exemplos cotidianos; (3) Quatro aplicações maduras na indústria — manutenção preditiva, previsão de demanda, visão computacional, IA generativa; (4) Casos brasileiros reais — Klabin, WEG, Magalu, Embraer com números; (5) Por que projetos falham — começar pela tecnologia, falta de patrocínio, dados ruins; (6) O profissional do futuro — IA amplifica quem aprende; (7) Próximos passos práticos — diagnóstico, piloto pequeno, métrica clara. Cada tópico com 3-5 min, exemplo concreto e número. Resposta de qualidade evita jargão técnico desnecessário, demonstra empatia com público leigo e fecha com chamada para ação.
+
+Questão 36 (Discursiva)
+
+Contexto: A coordenação do curso pede sua opinião sobre 5 obstáculos que considera mais relevantes à transformação digital em PMEs industriais brasileiras.
+
+Enunciado: Identifique e justifique cinco obstáculos, propondo uma ação prática para cada um.
+
+Resposta esperada:
+
+Obstáculos típicos esperados: (1) Falta de patrocínio executivo persistente — ação: ritual mensal de acompanhamento de KPIs com diretoria; (2) Cultura de intuição vs cultura de dado — ação: começar por dashboards simples, recompensar decisões baseadas em dado; (3) Falta de mão de obra qualificada — ação: parceria com Senai/universidades, programa interno de requalificação; (4) Subestimar cibersegurança — ação: começar por inventário e segmentação básica; (5) Tentar revolução em vez de evolução — ação: roadmap de fases, começar por piloto pequeno com retorno mensurável. Outros obstáculos válidos: dependência de fornecedor único, baixo orçamento estrutural, falta de governança de dados, resistência sindical. Resposta de qualidade demonstra pensamento sistêmico (tecnologia + pessoas + processos) e cita casos brasileiros relevantes.
+
+Questão 37 (Discursiva)
+
+Contexto: Uma empresa contratou você para auditar um piloto de IA preditiva que falhou em entregar ROI esperado. Investimento foi R$ 600 mil; ganho mensurado < R$ 60 mil/ano.
+
+Enunciado: Liste pelo menos cinco hipóteses de causa para o insucesso e como investigaria cada uma. Sugira três correções prioritárias.
+
+Resposta esperada:
+
+Hipóteses: (1) Problema mal definido (equipamento de baixo impacto); investigação: revisar criticidade dos equipamentos monitorados; (2) Dados insuficientes (pouco histórico, ruído excessivo); investigação: auditar qualidade do histórico de dados; (3) Cultura inexistente (alertas gerados, operadores ignoram); investigação: entrevistar operadores e medir tempo de ação; (4) Modelo ruim (algoritmo inadequado ou sem retreino); investigação: revisar métricas e processo de treino; (5) Falta de patrocínio (projeto rodando "sem visibilidade"); investigação: revisar ritos de acompanhamento. Correções prioritárias: (a) redefinir foco para equipamento de maior impacto financeiro; (b) estabelecer rituais com operadores (treinamento + acompanhamento diário); (c) retreinar o modelo com dados mais recentes e melhores features. Resposta de qualidade demonstra pensamento crítico, não defende "comprar mais tecnologia" como solução universal.
+
+Questão 38 (Discursiva)
+
+Contexto: A diretoria quer comparar dois caminhos para iniciar a transformação digital: (A) começar pela automação no chão de fábrica (IIoT, MES, SCADA); (B) começar pela digitalização administrativa (ERP, BPM, RPA).
+
+Enunciado: Apresente vantagens e desvantagens de cada caminho, indicando em que condições uma estratégia faz mais sentido que a outra. Posicione-se ao final.
+
+Resposta esperada:
+
+Caminho A (chão de fábrica): vantagens — impacto direto em custo operacional, ROI tipicamente rápido em manutenção preditiva (6-18 meses), ganho visível para diretoria. Desvantagens — exige investimento físico, integração com sistemas legados industriais, treinamento de operadores, gestão de cibersegurança OT. Caminho B (administrativo): vantagens — barreira menor de entrada, ROI rápido em RPA, demonstra valor sem mexer no físico, prepara cultura de dado. Desvantagens — pode soar "menos transformador", não muda economia da fábrica diretamente, requer mapeamento BPM cuidadoso. Recomendação dependerá do contexto: empresa com chão de fábrica caótico → A corrige a dor imediata; empresa com chão estável mas administrativos caóticos → B pavimenta caminho. Resposta de qualidade reconhece que ambos podem ser complementares ao longo do tempo, não excludentes.
+
+Questão 39 (Discursiva)
+
+Contexto: Você foi convidado(a) a apresentar em uma conferência sobre digitalização industrial o caso brasileiro mais inspirador que conheceu durante a disciplina.
+
+Enunciado: Escolha um caso (Klabin, WEG, Embraer, Embraco, Magalu, Vale, Ambev, JBS ou outro). Descreva o que foi feito, quais resultados, quais tecnologias e quais lições outras empresas podem extrair.
+
+Resposta esperada:
+
+Resposta de qualidade escolhe um caso e o desenvolve em profundidade: contexto da empresa e setor, dor original, tecnologias aplicadas (SI, automação, IA), arquitetura adotada, prazo de implementação, investimento aproximado, resultados mensuráveis (produtividade, redução de custo, qualidade), lições transferíveis. Por exemplo, Klabin: setor tradicional (celulose); investiu R$ 35 milhões em IIoT massivo + MES + digital twin; +8% produtividade, -22% paradas, -15% consumo químicos; ROI: R$ 80 milhões/ano em ganhos. Lições: setor "antigo" pode ser líder em digital, ROI vem de combinar várias tecnologias, cultura de dado é decisiva. Resposta de qualidade evita lugar-comum, traz números e demonstra leitura crítica.
+
+Questão 40 (Discursiva)
+
+Contexto: Projeto integrador — a direção quer ver um plano de 18 meses de transformação digital integrando SI + automação + IA.
+
+Enunciado: Estruture seu plano em 6 seções: (1) Diagnóstico de maturidade (Acatech); (2) Dor prioritária com impacto financeiro; (3) Soluções propostas (SI, automação, IA); (4) Fases do projeto em 18 meses com investimento; (5) KPIs e governança; (6) Riscos e visão de longo prazo.
+
+Resposta esperada:
+
+Resposta exemplar integra toda a disciplina: diagnóstico Acatech com 3-5 fatos verificáveis; dor prioritária com número de impacto (R$, horas, %); soluções combinando SI maduro (ERP+MES), automação (IIoT, SCADA) e IA (manutenção preditiva ou visão computacional ou previsão de demanda); plano em 5 fases respeitando ordem (diagnóstico → piloto → expansão → escala → inovação contínua), com investimentos realistas (R$ 1 a R$ 5 milhões em 18 meses dependendo do porte); KPIs medíveis (OEE, MTBF, paradas, defeitos, lead time, maturidade Acatech); governança com comitê e patrocínio executivo; riscos (cultura, fornecedor único, sub-orçamento, cibersegurança); visão de longo prazo: em 5 anos, onde a empresa estará (Indústria 5.0, sustentabilidade, IA generativa integrada). Avaliação: clareza, profundidade técnica, realismo, integração dos conceitos das 16 aulas.
+
+Feedbacks (questões objetivas 1–30)
+
+Questão 1
+
+- a. Correta! Ambas verdadeiras e R justifica A. A pirâmide DIKW estrutura o caminho do dado à decisão; a contextualização é exatamente o que permite essa progressão.
+- b. Incorreta. A Razão justifica a Asserção.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 2
+
+- a. Incorreta. A Razão não justifica a Asserção.
+- b. Correta! As duas proposições são verdadeiras: SI é composto pelos 5 componentes citados; e a USP é instituição reconhecida. Mas a Razão (II) trata da USP, não justifica o que compõe um SI — são informações independentes.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 3
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção é verdadeira (bancos relacionais e SQL dominam ERP/MES). A Razão é falsa: bancos relacionais existem desde os anos 1970 (E. F. Codd) e suportam transações concorrentes em ambientes corporativos.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 4
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção é falsa: ERP não substitui MES — são sistemas distintos e complementares. A Razão é verdadeira: descreve corretamente os escopos distintos (negócio vs chão de fábrica) e a necessidade de integração.
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 5
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas são falsas. Customização excessiva é, na verdade, armadilha clássica — dificulta atualizações, aumenta custo de manutenção, gera dependência de poucos especialistas. A regra de ouro é "configurar antes de customizar".
+
+Questão 6
+
+- a. Correta! Ambas verdadeiras e R justifica A. A pirâmide ISA-95 organiza os 5 níveis, e a Razão explica diretamente por que essa hierarquia faz sentido — diferentes granularidades temporais e funções complementares.
+- b. Incorreta. A Razão justifica diretamente.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 7
+
+- a. Incorreta. A Razão não justifica a Asserção.
+- b. Correta! Ambas verdadeiras: CLP domina nível 1 da ISA-95 no Brasil; e Brasil tem dimensões continentais com diversidade climática. Mas a Razão (II) trata de geografia/clima, não justifica o uso do CLP — informações independentes.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 8
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção é verdadeira: SCADA é nível 2 com HMI, alarmes, históricos. A Razão é falsa: a norma ISA-18.2 recomenda poucos alarmes ativos simultaneamente (idealmente < 10); 200-500 alarmes é exatamente o "alarm flood" que a norma combate.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 9
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção é falsa: TI e OT têm filosofias distintas, não idênticas. A Razão é verdadeira: descreve corretamente as diferenças históricas (prioridades, vida útil, ciclos de atualização).
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 10
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas são falsas. Cibersegurança industrial é tema central (não decorativo) — IEC 62443, segmentação e plano de resposta são essenciais. Indústrias com sistemas conectados estão expostas a ataques (casos Honda, JBS, Maersk, Colonial provam).
+
+Questão 11
+
+- a. Correta! Ambas verdadeiras e R justifica A. ML supervisionado depende de rótulos, e a Razão explica diretamente por que: aprende mapeamento entrada-saída a partir de exemplos com respostas conhecidas.
+- b. Incorreta. A Razão justifica diretamente.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 12
+
+- a. Incorreta. A Razão não justifica a Asserção.
+- b. Correta! Ambas verdadeiras: visão computacional supera humanos em muitas tarefas industriais; e ChatGPT é modelo da OpenAI. Mas a Razão (II) trata de IA generativa de texto, não justifica nada sobre visão computacional — são tecnologias distintas.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 13
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: em projetos reais de ML industrial, ~70% do esforço está em dados (coleta, limpeza, engenharia de features). A Razão (II) é falsa: a qualidade dos dados é crítica, não irrelevante — "garbage in, garbage out" é princípio universal em ML.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 14
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção (I) é falsa: começar pela escolha do algoritmo em vez da decisão de negócio é exatamente o erro mais comum em projetos de IA — não recomendação. A Razão (II) é verdadeira: começar pela tecnologia é causa documentada de falha (McKinsey, BCG, literatura).
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 15
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! Ambas as proposições são falsas. IA generativa não substitui completamente o engenheiro de produção — substitui tarefas. E apresenta alucinações conhecidas — exigindo verificação humana em decisões críticas. Esses são fatos consagrados na literatura de IA aplicada.
+
+Questão 16
+
+- a. Correta! A leitura central é exatamente essa: dado como ativo estratégico → competitividade. Princípio fundamental da era digital.
+- b. Incorreta. O texto reforça o oposto.
+- c. Incorreta. O texto critica essa visão.
+- d. Incorreta. O texto reforça que cultura de dado é central.
+- e. Incorreta. Sistemas de informação são fundamentais em fábricas modernas.
+
+Questão 17
+
+- a. Incorreta. TPS registra transações, não simula.
+- b. Correta! Simular cenários e apoiar decisões complexas é a função clássica do DSS (Decision Support System).
+- c. Incorreta. EIS é painel executivo consolidado, não simulação.
+- d. Incorreta. MIS gera relatórios, não simula cenários.
+- e. Incorreta. ERP integra processos, não simula cenários.
+
+Questão 18
+
+- a. Incorreta. Subestima payback.
+- b. Incorreta. Inferior ao real.
+- c. Correta! Cálculo: economia diária = 240.000 × 0,016 × 0,18 ≈ R$ 691. Anual ≈ R$ 207 mil. Payback ≈ 20 meses. ROI típico em projeto de analytics industrial.
+- d. Incorreta. Acima do real.
+- e. Incorreta. Muito acima do real.
+
+Questão 19
+
+- a. Incorreta. Não é manufatura aditiva.
+- b. Incorreta. Não é robótica colaborativa.
+- c. Incorreta. Não é RPA com hardware.
+- d. Correta! O caso WEG é exemplo paradigmático de servitização — transformar produto em produto + serviço, viabilizada por IIoT e CPS embarcados no motor.
+- e. Incorreta. CEP é técnica clássica, não modelo de servitização.
+
+Questão 20
+
+- a. Incorreta. Planilhas não substituem sistemas verticais.
+- b. Incorreta. ERP sozinho não cobre todos os aspectos.
+- c. Incorreta. Sistemas verticais são compatíveis e complementares.
+- d. Incorreta. ERP e MES são distintos.
+- e. Correta! Fábricas modernas integram diversos sistemas verticais, cada um cuidando de aspecto específico, e a integração cria competitividade.
+
+Questão 21
+
+- a. Correta! A maioria das fábricas brasileiras está nos primeiros níveis Acatech — o que abre oportunidade de evolução para profissionais preparados.
+- b. Incorreta. Brasil ainda evolui em maturidade digital.
+- c. Incorreta. Acatech tem 6 níveis.
+- d. Incorreta. Modelos internacionais (Acatech, SIRI) são aplicáveis no Brasil.
+- e. Incorreta. Maturidade digital é tema aplicado.
+
+Questão 22
+
+- a. Incorreta. IEC 62443 usa firewalls e segmentação como elementos centrais.
+- b. Incorreta. Conectar sensores diretamente à internet pública é o que se busca evitar.
+- c. Correta! IEC 62443 implementa defesa em profundidade por segmentação — agrupar por risco, controlar comunicação com firewalls/conduítes. Padrão internacional para cibersegurança industrial.
+- d. Incorreta. Aplica-se em fábricas modernas.
+- e. Incorreta. IEC 62443 é complementar ao Purdue, não substituto.
+
+Questão 23
+
+- a. Incorreta. IA generativa exige verificação.
+- b. Incorreta. IA generativa tem usos válidos em engenharia.
+- c. Incorreta. Alucinações são fenômeno conhecido.
+- d. Incorreta. IA generativa não substitui julgamento humano em decisões críticas.
+- e. Correta! IA generativa é assistente que amplifica produtividade, com verificação humana em decisões críticas — não substituto autônomo. Conselho central da Aula 16.
+
+Questão 24
+
+- a. Incorreta. Subestima ganho.
+- b. Incorreta. Subestima ganho.
+- c. Incorreta. Subestima ganho.
+- d. Correta! Cálculo: 7 p.p. × R$ 150 mil = R$ 1.050 mil/ano. Payback = R$ 600 mil ÷ R$ 1.050 mil ≈ 7 meses. ROI excelente típico de MES.
+- e. Incorreta. Excessivo.
+
+Questão 25
+
+- a. Incorreta. SI complementa decisão humana, não substitui completamente.
+- b. Incorreta. Conhecimento e sabedoria são centrais.
+- c. Incorreta. Decisão automática exige conhecimento estruturado.
+- d. Incorreta. Pessoas têm papel central em decisão.
+- e. Correta! SI habilitam decisão; conhecimento e sabedoria continuam sendo, em sua maior parte, humanos. Pessoas e tecnologia complementam-se. Princípio central da disciplina.
+
+Questão 26
+
+- a. Correta! O caso Magalu é exemplo brasileiro paradigmático de previsão madura com ML — combinação de variáveis em modelos sofisticados com resultados mensuráveis.
+- b. Incorreta. Previsão com ML é prática real.
+- c. Incorreta. ML supera métodos clássicos em casos complexos.
+- d. Incorreta. Varejo é setor que mais se beneficia.
+- e. Incorreta. Empresas brasileiras são referência em alguns casos.
+
+Questão 27
+
+- a. Incorreta. IA substitui tarefas, não pessoas preparadas.
+- b. Correta! IA amplifica profissionais preparados — engenheiro com IA produz mais. Foco deve ser se preparar dominando fundamentos, projetos reais, casos brasileiros, rede técnica. Mensagem central de encerramento.
+- c. Incorreta. IA muda significativamente o trabalho de engenharia.
+- d. Incorreta. Há diferença significativa de produtividade.
+- e. Incorreta. IA é cada vez mais central.
+
+Questão 28
+
+- a. Incorreta. Excessivo.
+- b. Incorreta. Excessivo.
+- c. Correta! Cálculo: economia ≈ R$ 30 mil/mês. Payback = R$ 250 mil ÷ R$ 30 mil ≈ 8 meses. ROI típico de integração TI-OT bem feita.
+- d. Incorreta. Subestima.
+- e. Incorreta. Há ganhos claros.
+
+Questão 29
+
+- a. Incorreta. Projetos exigem preparação.
+- b. Incorreta. Tecnologia é apenas uma variável.
+- c. Incorreta. Patrocínio é central.
+- d. Incorreta. Dados são fundamentais.
+- e. Correta! Sucesso depende de começar pelo problema certo, com patrocínio executivo, dados de qualidade e impacto mensurável. Esse é o consenso em projetos sérios de IA.
+
+Questão 30
+
+- a. Incorreta. A disciplina é aplicada.
+- b. Incorreta. Há vantagem competitiva clara.
+- c. Incorreta. Vocabulário e casos são fundamentais.
+- d. Incorreta. Há lacuna sem essa formação.
+- e. Correta! A disciplina entrega conjunto integrado — vocabulário, ferramentas mentais, casos reais e visão de futuro. Prepara para liderar projetos de TI industrial. Mensagem central de encerramento.

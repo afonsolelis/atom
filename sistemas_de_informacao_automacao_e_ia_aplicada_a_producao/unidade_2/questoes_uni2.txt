@@ -1,0 +1,460 @@
+Questionário — Unidade 2
+
+- Disciplina: Sistemas de Informação, Automação e IA Aplicada à Produção
+- Professor-conteudista: Afonso Cesar Lelis Brandão
+
+Orientações
+
+- 20 questões padrão ENADE: 10 asserção-razão + 10 de interpretação.
+- Cada questão tem 5 alternativas (a–e); a correta é prefixada por  (ex.: c. ...).
+- Distribuição da alternativa correta: rotação a, b, c, d, e, a, b, c, d, e... (4 questões para cada letra).
+
+Questões
+
+Questão 1 (Asserção-Razão)
+
+Asserção I: O ERP (Enterprise Resource Planning) evoluiu de sistemas anteriores como MRP e MRP II, ampliando o escopo de planejamento de materiais para incluir finanças, RH, vendas e produção integrados em uma única base de dados.
+
+porque
+
+Razão II: A integração em base única elimina duplicação de dado, reduz inconsistências entre áreas e habilita decisões mais rápidas e fundamentadas a partir de informações consolidadas em toda a empresa.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 2 (Asserção-Razão)
+
+Asserção I: A TOTVS é uma empresa brasileira de tecnologia com forte presença no mercado nacional de ERP, oferecendo soluções como Protheus, Datasul e RM.
+
+porque
+
+Razão II: Sistemas operacionais como Windows e Linux são amplamente utilizados em servidores corporativos para hospedar aplicações empresariais como ERP, banco de dados e ambientes de virtualização.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 3 (Asserção-Razão)
+
+Asserção I: A customização excessiva do código-fonte de um ERP é considerada armadilha clássica em projetos de implantação, gerando dificuldades em atualizações e dependência de poucos especialistas.
+
+porque
+
+Razão II: A customização garante atualizações automáticas, redução de custo de manutenção e independência de fornecedor, sendo prática universalmente recomendada em qualquer projeto de ERP.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 4 (Asserção-Razão)
+
+Asserção I: O MES (Manufacturing Execution System) está no nível mais alto da pirâmide ISA-95, sendo o sistema que substitui completamente o ERP no nível estratégico.
+
+porque
+
+Razão II: A norma ISA-95 organiza a fábrica em cinco níveis hierárquicos — equipamento físico, CLP, SCADA, MES e ERP — sendo o MES o nível 3, responsável por gerenciar a execução em tempo real e integrar o chão de fábrica com o ERP.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 5 (Asserção-Razão)
+
+Asserção I: O OEE (Overall Equipment Effectiveness) é calculado simplesmente como a soma de Disponibilidade + Performance + Qualidade, com valores de classe mundial em torno de 30%.
+
+porque
+
+Razão II: Empresas com OEE de 30% são consideradas referência mundial, e fábricas com OEE acima de 50% sofrem ineficiência crônica reconhecida internacionalmente.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 6 (Asserção-Razão)
+
+Asserção I: SCM (Supply Chain Management) busca visibilidade ponta a ponta da cadeia de suprimentos, integrando fornecedores, fabricante, distribuição e cliente final.
+
+porque
+
+Razão II: A integração entre elos da cadeia reduz o efeito chicote (bullwhip effect) — amplificação de variações de demanda à medida que sobe na cadeia — e habilita decisões mais coordenadas entre os elos.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 7 (Asserção-Razão)
+
+Asserção I: O WMS (Warehouse Management System) gerencia as operações de um armazém — recebimento, armazenagem, picking, packing e expedição.
+
+porque
+
+Razão II: A Amazon é uma empresa global de comércio eletrônico fundada em 1994, com sede em Seattle (EUA), atuando em diversos países do mundo.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 8 (Asserção-Razão)
+
+Asserção I: O CRM (Customer Relationship Management) gerencia o relacionamento da empresa com seus clientes — cadastros, oportunidades comerciais, atendimentos e fidelização.
+
+porque
+
+Razão II: CRM e ERP são exatamente o mesmo sistema, com o mesmo escopo funcional, sendo dispensável manter os dois separadamente em qualquer empresa moderna.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 9 (Asserção-Razão)
+
+Asserção I: O PLM (Product Lifecycle Management) gerencia apenas o estágio de descarte do produto, sendo irrelevante nas fases de concepção, projeto, engenharia e produção.
+
+porque
+
+Razão II: O PLM cobre todo o ciclo de vida do produto — desde a ideia inicial, passando pelo projeto, BOM, engenharia, produção, pós-venda até o descarte — sendo a fonte de verdade sobre o produto em multinacionais como Embraer e Boeing.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+Questão 10 (Asserção-Razão)
+
+Asserção I: ERP, MES, SCM, WMS, CRM e PLM são sistemas completamente independentes que não devem nem podem ser integrados em uma empresa, sob risco de comprometer a operação.
+
+porque
+
+Razão II: APIs REST, ESBs e barramentos corporativos não existem nem podem ser utilizados para integrar sistemas em ambientes empresariais.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+Questão 11 (Interpretação)
+
+Estímulo:
+
+"Implantar ERP em uma empresa caótica não automatiza o caos: amplifica o caos. Por isso BPM, treinamento, gestão da mudança e patrocínio executivo são tão importantes quanto o software escolhido. A taxa de falha em projetos de ERP, em diferentes estudos, varia entre 30 e 50%."
+
+A leitura mais alinhada ao texto é:
+
+*a. Implantar ERP exige mapeamento de processos, capacitação, gestão da mudança e patrocínio executivo — sem esses fundamentos, a tecnologia agrava o caos em vez de resolvê-lo.
+b. ERP resolve sozinho qualquer problema organizacional, dispensando trabalho com pessoas e processos.
+c. Falhas em projetos de ERP são raras e acontecem apenas em pequenas empresas.
+d. A escolha do fornecedor de ERP é a única variável que define o sucesso do projeto.
+e. Empresas caóticas se ajustam automaticamente após a implantação de ERP.
+
+Questão 12 (Interpretação)
+
+Estímulo:
+
+A fábrica metalúrgica X tem 3 linhas críticas, com OEE médio de 65%. Após implementar MES com sensores e medição automática (investimento de R$ 600 mil), o OEE sobe para 72% em 8 meses. Cada 1 p.p. de OEE corresponde a R$ 150 mil/ano em receita extra.
+
+Qual o ganho anual aproximado e o payback do projeto?
+
+a. Ganho R$ 150 mil/ano; payback ~48 meses.
+*b. Ganho R$ 1.050 mil/ano (R$ 150 mil × 7 p.p.); payback ~7 meses.
+c. Ganho R$ 5 milhões/ano; payback ~1 mês.
+d. Ganho R$ 50 mil/ano; payback ~120 meses.
+e. Ganho zero; sem payback.
+
+Cálculo: 72% − 65% = 7 p.p. × R$ 150 mil = R$ 1.050 mil/ano. Payback = R$ 600 mil ÷ R$ 1.050 mil/ano ≈ 0,57 ano ≈ 6,8 meses.
+
+Questão 13 (Interpretação)
+
+Estímulo:
+
+"Em fábrica de classe mundial, ERP planeja o que produzir, MES executa em tempo real, SCM coordena a chegada da matéria-prima, WMS gerencia o armazém, CRM previne reclamações, PLM mantém o produto sincronizado. Todos conversam. Quem ainda confia em planilhas Excel para isso vai chegar atrasado na economia digital."
+
+A leitura mais alinhada ao texto é:
+
+a. Planilhas Excel substituem todos os sistemas verticais com eficiência igual.
+b. Sistemas verticais são desnecessários — basta ter ERP.
+*c. Em fábrica madura, diversos sistemas verticais coexistem e se integram, cada um cuidando de um aspecto específico (negócio, execução, cadeia, armazém, cliente, produto); a integração é o que cria competitividade.
+d. ERP, MES e CRM são sinônimos e podem ser usados indistintamente.
+e. Apenas multinacionais estrangeiras precisam de sistemas integrados.
+
+Questão 14 (Interpretação)
+
+Estímulo:
+
+Sobre o WMS (Warehouse Management System):
+
+"O picking representa 50-60% do custo total de operação de um armazém. Investir em otimização de picking (sequência, rotas, pick-by-light, AGVs como Amazon Kiva) é, tipicamente, o investimento de maior alavancagem em logística interna."
+
+A leitura mais correta é:
+
+a. Picking é uma operação irrelevante no armazém e pode ser ignorada na gestão.
+b. Investimento em picking traz retorno desprezível em qualquer cenário.
+c. Otimizar picking exige eliminar completamente todos os funcionários humanos do armazém.
+*d. Otimizar picking é o investimento de maior alavancagem em logística interna, pois ele concentra 50-60% do custo operacional do armazém.
+e. WMS não tem qualquer relação com a operação de picking.
+
+Questão 15 (Interpretação)
+
+Estímulo:
+
+Sem integração entre 5 sistemas (ERP, MES, CRM, WMS, PLM), uma empresa precisa de 4 analistas dedicados a copiar dado entre sistemas, custando R$ 16 mil/mês. Implementar integração via APIs custa R$ 300 mil.
+
+Qual o payback aproximado da integração, considerando apenas o ganho com eliminação dessa equipe de copy-paste?
+
+a. ~1 mês.
+b. ~6 meses.
+c. ~12 meses.
+d. ~36 meses.
+*e. ~19 meses (aproximadamente 1 ano e 7 meses), considerando economia de R$ 16 mil/mês = R$ 192 mil/ano.
+
+Cálculo: R$ 300 mil ÷ R$ 16 mil/mês ≈ 18,75 meses. Há também ganhos adicionais (qualidade do dado, velocidade da decisão) que reduzem o payback efetivo.
+
+Questão 16 (Interpretação)
+
+Estímulo:
+
+"Quando o MES enxerga em tempo real o estado de cada máquina, identifica a maior causa de parada da semana e elimina, o OEE sobe. Isso vale milhões para uma fábrica média — não pelo MES em si, mas pelo ciclo virtuoso de aprendizado que ele habilita."
+
+A leitura central do texto é:
+
+*a. O valor do MES não está apenas em coletar dado — está em habilitar um ciclo de aprendizado (identificar causa raiz, eliminar, medir, repetir) que continuamente melhora a operação.
+b. MES é sistema decorativo cujo único papel é gerar dashboards.
+c. OEE não pode ser melhorado com MES.
+d. Causas de parada não podem ser identificadas em fábricas modernas.
+e. Aprendizado contínuo é irrelevante em fábricas de manufatura.
+
+Questão 17 (Interpretação)
+
+Estímulo:
+
+Empresas que fazem o CRM conversar com ERP/MES ganham capacidade de: prever demanda com mais precisão; mapear reclamações recorrentes para problemas de produção; priorizar pedidos por margem ou estratégia; otimizar entrega por região.
+
+A leitura mais correta é:
+
+a. CRM é totalmente desconectado da operação de manufatura.
+*b. Quando o CRM se integra ao ERP e ao MES, alimenta a operação com dados de mercado que melhoram previsão de demanda, qualidade e priorização — caracterizando a sinergia clássica da TI integrada.
+c. CRM só é útil em empresas de serviço, não de manufatura.
+d. Integrar CRM ao ERP gera somente custo, sem benefício mensurável.
+e. CRM e ERP são sistemas idênticos sem qualquer diferença funcional.
+
+Questão 18 (Interpretação)
+
+Estímulo:
+
+Em PLM maduro, a BOM (Bill of Materials) é única e versionada — toda mudança é rastreada, aprovada e propagada para engenharia, produção e pós-venda. Em PLM imaturo, convivem várias BOMs (engenharia, produção, suporte), com divergências que geram retrabalho.
+
+A leitura mais correta é:
+
+a. Várias BOMs paralelas são solução ideal em fábricas modernas.
+b. BOM versionada não traz benefício prático.
+*c. PLM maduro garante fonte única de verdade sobre o produto via BOM única versionada, eliminando divergências entre áreas e reduzindo retrabalho.
+d. BOM é irrelevante em projetos de manufatura.
+e. A divergência entre BOMs é resolvida automaticamente pelo ERP.
+
+Questão 19 (Interpretação)
+
+Estímulo:
+
+"Implantar ERP em fábrica de médio porte custa R$ 800 mil a R$ 3 milhões, leva 8 a 24 meses, e em 30 a 50% dos casos falha em entregar o ROI prometido. O patrocínio executivo, a equipe interna treinada e a mudança de processo são tão críticos quanto a tecnologia."
+
+A leitura mais correta é:
+
+a. Implantação de ERP é trivial e quase sempre entrega ROI esperado em 1 mês.
+b. Tecnologia, isoladamente, garante sucesso em qualquer projeto de ERP.
+c. ERP não exige patrocínio executivo, equipe ou mudança de processo.
+*d. O sucesso da implantação de ERP depende de fatores além da tecnologia — patrocínio executivo, equipe interna treinada e mudança de processo são tão críticos quanto a escolha do software.
+e. Falhas em implantação de ERP são impossíveis.
+
+Questão 20 (Interpretação)
+
+Estímulo:
+
+"Customizar ERP demais é a forma mais rápida de criar um sistema que ninguém entende, é caro de manter e impossível de atualizar. A regra de ouro: 80% do que parece 'específico da minha empresa' é, na verdade, processo mal mapeado. Conserte o processo, e o ERP padrão atende."
+
+A recomendação central do texto é:
+
+a. Customizar ERP é a melhor abordagem, independentemente do contexto.
+b. Customização de ERP elimina a necessidade de mapear processos.
+c. Processo mal mapeado pode ser ignorado em projetos de ERP.
+d. Customização garante atualizações automáticas e barateamento da manutenção.
+*e. Antes de customizar ERP, é prudente mapear e corrigir o processo — a maior parte das "necessidades específicas" decorre de processo mal definido, e o ERP padrão atende quando o processo é claro.
+
+Feedbacks
+
+Questão 1
+
+- a. Correta! Ambas verdadeiras e R justifica A. A integração em base única é a razão pela qual o ERP evoluiu para incluir todos os módulos integrados — a Razão explica diretamente o porquê do ganho descrito na Asserção.
+- b. Incorreta. A Razão justifica a Asserção.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 2
+
+- a. Incorreta. A Razão não justifica a Asserção — tratam de temas distintos.
+- b. Correta! Ambas as proposições são individualmente verdadeiras: a TOTVS é, de fato, brasileira e oferece Protheus/Datasul/RM; e Windows/Linux são, de fato, usados em servidores corporativos. Mas a Razão (II) trata de sistemas operacionais de servidor, não justifica o posicionamento de mercado da TOTVS — são informações independentes.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 3
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: customização excessiva é, de fato, armadilha clássica em ERP. A Razão (II) é falsa: customização não garante atualizações automáticas — pelo contrário, dificulta atualizações; também aumenta custo de manutenção e gera dependência de poucos especialistas.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 4
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção (I) é falsa: MES está no nível 3, abaixo do ERP (nível 4) na pirâmide ISA-95 — e não substitui o ERP. A Razão (II) é verdadeira: descreve corretamente os 5 níveis da ISA-95 e o papel do MES como integrador entre chão de fábrica e ERP.
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 5
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas proposições são falsas. O OEE é calculado como produto (Disponibilidade × Performance × Qualidade), não soma. Valores de classe mundial estão em torno de 85%+, não 30%; a maioria das fábricas brasileiras opera entre 60-75%.
+
+Questão 6
+
+- a. Correta! Ambas verdadeiras e R justifica A. SCM busca visibilidade ponta a ponta, e a Razão explica diretamente um dos principais ganhos dessa abordagem: redução do efeito chicote e coordenação entre elos.
+- b. Incorreta. A Razão justifica diretamente.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 7
+
+- a. Incorreta. A Razão não justifica a Asserção.
+- b. Correta! As duas proposições são verdadeiras: WMS de fato gerencia as 5 operações de armazém; e a Amazon, de fato, foi fundada em 1994 em Seattle. Mas a Razão (II) trata da história institucional da Amazon, não justifica o que é o WMS — são informações independentes, sem relação causal.
+- c. Incorreta. A Razão é verdadeira.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. Ambas são verdadeiras.
+
+Questão 8
+
+- a. Incorreta. A Razão é falsa.
+- b. Incorreta. A Razão é falsa.
+- c. Correta! A Asserção (I) é verdadeira: CRM gerencia o relacionamento com clientes (cadastros, oportunidades, atendimentos, fidelização). A Razão (II) é falsa: CRM e ERP não são o mesmo sistema — têm escopos distintos (relacionamento externo vs gestão integrada da empresa). Em empresas maduras, ambos coexistem e se integram.
+- d. Incorreta. A Asserção é verdadeira.
+- e. Incorreta. A Asserção é verdadeira.
+
+Questão 9
+
+- a. Incorreta. A Asserção é falsa.
+- b. Incorreta. A Asserção é falsa.
+- c. Incorreta. A Razão é verdadeira.
+- d. Correta! A Asserção (I) é falsa: PLM cobre todo o ciclo, não apenas descarte. A Razão (II) é verdadeira: PLM gerencia da ideia ao descarte, sendo fonte de verdade sobre o produto (BOM, mudanças, documentação) em multinacionais.
+- e. Incorreta. A Razão é verdadeira.
+
+Questão 10
+
+- a. Incorreta. Ambas são falsas.
+- b. Incorreta. Ambas são falsas.
+- c. Incorreta. A Razão também é falsa.
+- d. Incorreta. A Asserção também é falsa.
+- e. Correta! As duas proposições são falsas. Sistemas como ERP, MES, SCM, WMS, CRM e PLM devem se integrar para entregar valor pleno em empresas modernas. APIs REST, ESBs e barramentos corporativos existem e são amplamente utilizados em integração de sistemas empresariais.
+
+Questão 11
+
+- a. Correta! O texto reforça exatamente essa visão: implantar ERP exige mapeamento, capacitação, gestão da mudança e patrocínio executivo. Sem isso, tecnologia amplifica o caos.
+- b. Incorreta. O texto diz o oposto.
+- c. Incorreta. Falha em projetos de ERP é estatisticamente frequente.
+- d. Incorreta. A escolha do fornecedor é só uma das variáveis.
+- e. Incorreta. Empresas caóticas não se auto-organizam com tecnologia.
+
+Questão 12
+
+- a. Incorreta. Muito menor que o real.
+- b. Correta! Ganho = 7 p.p. × R$ 150 mil = R$ 1.050 mil/ano. Payback = R$ 600 mil ÷ R$ 1.050 mil ≈ 6,8 meses ≈ 7 meses. Excelente ROI típico de MES bem implantado.
+- c. Incorreta. Muito acima do real.
+- d. Incorreta. Subestima o ganho.
+- e. Incorreta. O cálculo evidencia ganho real.
+
+Questão 13
+
+- a. Incorreta. Planilhas não substituem ERP/MES/CRM/etc.
+- b. Incorreta. Sistemas verticais complementam ERP.
+- c. Correta! Em fábrica madura, diversos sistemas verticais coexistem e se integram, cada um para seu papel. A integração é o que cria competitividade no estado da arte.
+- d. Incorreta. ERP, MES e CRM são distintos.
+- e. Incorreta. Empresas brasileiras de médio porte se beneficiam fortemente.
+
+Questão 14
+
+- a. Incorreta. Picking é central no custo do armazém.
+- b. Incorreta. Retorno em otimização de picking é tipicamente alto.
+- c. Incorreta. Otimizar picking não exige eliminar todos os humanos — pode usar pick-by-light, voice, AGVs colaborativos.
+- d. Correta! Picking concentra 50-60% do custo do armazém — investir em sua otimização é alavancagem máxima em logística interna.
+- e. Incorreta. WMS é responsável precisamente por isso.
+
+Questão 15
+
+- a. Incorreta. Muito menor que o real.
+- b. Incorreta. Menor que o real.
+- c. Incorreta. Inferior ao real.
+- d. Incorreta. Muito maior que o real.
+- e. Correta! Payback = R$ 300.000 ÷ R$ 16.000/mês ≈ 18,75 meses ≈ 19 meses. Considerando ganhos adicionais (qualidade do dado, velocidade da decisão, redução de erro), o payback efetivo é menor.
+
+Questão 16
+
+- a. Correta! O valor do MES está no ciclo de aprendizado que habilita — identificar causa, eliminar, medir, repetir. Esse ciclo continuamente melhora a operação. É a tese central da Aula 6.
+- b. Incorreta. MES não é decorativo.
+- c. Incorreta. OEE melhora muito com MES bem usado.
+- d. Incorreta. Causa de parada é identificada com MES.
+- e. Incorreta. Aprendizado contínuo é central em manufatura moderna.
+
+Questão 17
+
+- a. Incorreta. CRM impacta operação de manufatura via previsão, qualidade e priorização.
+- b. Correta! CRM integrado ao ERP/MES alimenta a operação com dados de mercado — sinergia clássica da TI integrada. Previsão de demanda, qualidade e priorização são exemplos diretos.
+- c. Incorreta. CRM é útil em manufatura também.
+- d. Incorreta. Integração CRM-ERP gera benefícios mensuráveis.
+- e. Incorreta. CRM e ERP têm escopos distintos.
+
+Questão 18
+
+- a. Incorreta. Várias BOMs paralelas geram divergência e retrabalho — exatamente o problema que PLM resolve.
+- b. Incorreta. BOM versionada é a base da fonte única de verdade.
+- c. Correta! PLM maduro garante BOM única versionada — fonte única de verdade sobre o produto, eliminando divergências entre áreas e reduzindo retrabalho. Esse é o ganho fundamental do PLM.
+- d. Incorreta. BOM é central na manufatura.
+- e. Incorreta. ERP não resolve sozinho divergências de BOM — precisa do PLM como fonte autoritativa.
+
+Questão 19
+
+- a. Incorreta. ERP não é trivial e raramente entrega ROI em 1 mês.
+- b. Incorreta. Tecnologia isolada não garante sucesso.
+- c. Incorreta. ERP exige patrocínio, equipe e mudança de processo.
+- d. Correta! O sucesso da implantação depende de fatores além da tecnologia — patrocínio executivo, equipe interna treinada e mudança de processo são tão críticos quanto a escolha do software. Esse é o consenso em projetos sérios.
+- e. Incorreta. Falhas são documentadas em 30-50% dos casos.
+
+Questão 20
+
+- a. Incorreta. Customizar tudo é a armadilha clássica.
+- b. Incorreta. Mapear processo é o pré-requisito.
+- c. Incorreta. Processo mal mapeado é a raiz do problema.
+- d. Incorreta. Customização dificulta atualizações e aumenta manutenção.
+- e. Correta! Antes de customizar, é prudente mapear e corrigir o processo. Boa parte das "necessidades específicas" decorre de processo mal definido. ERP padrão geralmente atende quando o processo é claro — é a regra de ouro de implantações maduras.
