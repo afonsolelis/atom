@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Sistemas de Informação, Automação e IA Aplicada à Produção · Navegação</title>
 <style>
   :root {
@@ -103,6 +104,7 @@
     border-top-color: var(--amarelo);
   }
 
+  .unidade[data-u="0"] .card { border-top-color: var(--amarelo); }
   .unidade[data-u="1"] .card { border-top-color: var(--azul-fecaf); }
   .unidade[data-u="2"] .card { border-top-color: var(--azul-medio); }
   .unidade[data-u="3"] .card { border-top-color: var(--verde-escuro); }
@@ -168,6 +170,17 @@
 </header>
 
 <main>
+
+  <section class="unidade" data-u="0">
+    <h2 class="unidade-titulo">Apresentação da disciplina</h2>
+    <div class="cards">
+      <a class="card" href="unidade_1/slides/aula0.html">
+        <div class="aula-numero">Boas-vindas</div>
+        <h3 class="aula-titulo">Apresentação da disciplina e do professor</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
 
   <section class="unidade" data-u="1">
     <h2 class="unidade-titulo">Unidade 1 — Fundamentos de Sistemas de Informação</h2>
