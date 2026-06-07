@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Manufatura Aditiva, Simulação e Digital Twin · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -602,7 +613,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito-chave</h3>
+      <p class="kicker">Conceito-chave</p>
       <h1>Aditiva vs subtrativa</h1>
       <p><strong>Manufatura aditiva</strong> constrói uma peça <em>camada por camada</em>, a partir de um modelo digital. A tradicional (subtrativa) parte de um bloco e <em>remove</em> material até chegar à peça.</p>
       <ul>
@@ -625,7 +636,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visão em uma imagem</h3>
+      <p class="kicker">Visão em uma imagem</p>
       <h2>Dois paradigmas, lado a lado</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 400" role="img" aria-label="Diagrama comparando manufatura subtrativa (bloco com material removido) e aditiva (peça construída camada a camada)">
@@ -643,7 +654,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Panorama tecnológico</h3>
+      <p class="kicker">Panorama tecnológico</p>
       <h2>As 5 tecnologias aditivas principais</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -674,7 +685,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Na prática</h3>
+      <p class="kicker">Na prática</p>
       <h2>Impressora FDM em operação</h2>
       <div class="colunas">
         <div>
@@ -711,7 +722,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Aplicações de alto impacto</h3>
+      <p class="kicker">Aplicações de alto impacto</p>
       <h2>Onde a aditiva é game-changer</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -741,7 +752,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O outro lado do digital</h3>
+      <p class="kicker">O outro lado do digital</p>
       <h1>Simulação industrial</h1>
       <p>É a criação de um <strong>modelo virtual</strong> de um sistema (peça, linha, fábrica) para testar comportamentos <em>antes</em> de construir no mundo real.</p>
       <ul>
@@ -764,7 +775,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Quando simulação encontra IIoT</h3>
+      <p class="kicker">Quando simulação encontra IIoT</p>
       <h1>Digital twin</h1>
       <p>É uma <strong>simulação que recebe dados do equipamento físico em tempo real</strong>. Permite quatro coisas que nenhuma outra ferramenta entrega junto:</p>
       <ul>
@@ -784,7 +795,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura</h3>
+      <p class="kicker">Arquitetura</p>
       <h2>O ciclo bidirecional do digital twin</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 380" role="img" aria-label="Diagrama do ciclo do digital twin: mundo físico envia telemetria via IIoT para o modelo digital, que devolve comandos de otimização para o equipamento">
@@ -802,7 +813,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Maturidade</h3>
+      <p class="kicker">Maturidade</p>
       <h2>Os 3 níveis do digital twin</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -832,7 +843,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>20 peças prototípicas — qual rota escolher?</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -861,7 +872,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso brasileiro</h3>
+      <p class="kicker">Caso brasileiro</p>
       <h2>Embraer: R$ 10 milhões em uma única reformulação</h2>
       <div class="colunas">
         <div>
@@ -898,7 +909,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Pense em um processo que você conhece</h2>
       <ol>
         <li>Que <strong>peça ou componente</strong> seria interessante imprimir em 3D? Por quê?</li>

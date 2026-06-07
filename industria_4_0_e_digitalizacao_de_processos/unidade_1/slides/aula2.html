@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 2 — O que é Indústria 4.0? Conceito, pilares e definições · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -386,6 +397,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -481,7 +501,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Definição em uma frase</h3>
+      <p class="kicker">Definição em uma frase</p>
       <h1>Indústria 4.0, definida</h1>
       <p style="font-size:clamp(1.2rem,1.7vw,1.55rem);line-height:1.45;border-left:6px solid var(--amarelo);padding-left:1.2rem;margin:1em 0;">
         É a <strong>integração inteligente</strong> de máquinas, processos e produtos por meio de <strong>dados em tempo real</strong>, permitindo que decisões antes humanas sejam tomadas — ou apoiadas — por sistemas autônomos.
@@ -502,7 +522,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Dissecando a definição</h3>
+      <p class="kicker">Dissecando a definição</p>
       <h2>Três palavras que carregam o conceito</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -532,27 +552,27 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Modelo BCG</h3>
+      <p class="kicker">Modelo BCG</p>
       <h2>Os nove pilares tecnológicos</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.1vw,1.05rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">#</th>
-            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">Pilar</th>
-            <th scope="col" style="padding:0.45em 0.8em;text-align:left;">Para que serve</th>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Pilar</th>
+            <th scope="col">Para que serve</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">1</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>IoT industrial (IIoT)</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Conectar máquinas e sensores</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">2</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Big Data e Analytics</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Processar volumes enormes</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">3</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Computação em Nuvem</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Armazenar e processar em escala</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">4</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Inteligência Artificial</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Aprender e decidir</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">5</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Robótica autônoma</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Tarefas físicas com flexibilidade</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">6</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Manufatura aditiva (3D)</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Peças sob demanda</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">7</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Realidade aumentada/virtual</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Treinar e assistir operações</td></tr>
-          <tr><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">8</td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;"><strong>Simulação e digital twin</strong></td><td style="padding:0.35em 0.8em;border-bottom:1px solid #ddd;">Testar antes do real</td></tr>
-          <tr><td style="padding:0.35em 0.8em;">9</td><td style="padding:0.35em 0.8em;"><strong>Cibersegurança industrial</strong></td><td style="padding:0.35em 0.8em;">Proteger a fábrica conectada</td></tr>
+          <tr><td>1</td><td><strong>IoT industrial (IIoT)</strong></td><td>Conectar máquinas e sensores</td></tr>
+          <tr><td>2</td><td><strong>Big Data e Analytics</strong></td><td>Processar volumes enormes</td></tr>
+          <tr><td>3</td><td><strong>Computação em Nuvem</strong></td><td>Armazenar e processar em escala</td></tr>
+          <tr><td>4</td><td><strong>Inteligência Artificial</strong></td><td>Aprender e decidir</td></tr>
+          <tr><td>5</td><td><strong>Robótica autônoma</strong></td><td>Tarefas físicas com flexibilidade</td></tr>
+          <tr><td>6</td><td><strong>Manufatura aditiva (3D)</strong></td><td>Peças sob demanda</td></tr>
+          <tr><td>7</td><td><strong>Realidade aumentada/virtual</strong></td><td>Treinar e assistir operações</td></tr>
+          <tr><td>8</td><td><strong>Simulação e digital twin</strong></td><td>Testar antes do real</td></tr>
+          <tr><td>9</td><td><strong>Cibersegurança industrial</strong></td><td>Proteger a fábrica conectada</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.8em;font-size:1rem;">Nenhuma empresa real tem os <em>nove</em> maduros ao mesmo tempo — evolui-se um por vez.</p>
@@ -566,7 +586,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visão integrada</h3>
+      <p class="kicker">Visão integrada</p>
       <h2>Os nove pilares em um único mapa</h2>
       <svg viewBox="0 0 1100 440" style="width:100%;max-height:48vh;display:block;margin-top:0.6rem;" role="img" aria-label="Mapa visual dos nove pilares da Indústria 4.0, com IIoT no centro coletando dados que sobem para nuvem/Big Data/IA e descem para robótica/aditiva/RA/digital twin, com cibersegurança envolvendo todo o sistema.">
         <!-- Anel externo: cibersegurança -->
@@ -637,7 +657,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Cenário integrado</h3>
+      <p class="kicker">Cenário integrado</p>
       <h2>O motor que avisa antes de quebrar</h2>
       <ol>
         <li><strong>IIoT (1):</strong> sensor detecta vibração anormal em um motor.</li>
@@ -658,23 +678,23 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Confusão comum</h3>
+      <p class="kicker">Confusão comum</p>
       <h2>Indústria 4.0 não é "só automação"</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Aspecto</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Automação (3.0)</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Indústria 4.0</th>
+          <tr>
+            <th scope="col">Aspecto</th>
+            <th scope="col">Automação (3.0)</th>
+            <th scope="col">Indústria 4.0</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Foco</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Substituir trabalho humano</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Integrar processos com dados</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Inteligência</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Lógica fixa programada</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Modelos que aprendem</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Decisão</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Centralizada (CLP/SCADA)</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Distribuída</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Mudança</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Cara e demorada</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Atualização remota</td></tr>
-          <tr><td style="padding:0.45em 1em;"><strong>Comunicação</strong></td><td style="padding:0.45em 1em;">Local (rede industrial)</td><td style="padding:0.45em 1em;">Local + nuvem + global</td></tr>
+          <tr><td><strong>Foco</strong></td><td>Substituir trabalho humano</td><td>Integrar processos com dados</td></tr>
+          <tr><td><strong>Inteligência</strong></td><td>Lógica fixa programada</td><td>Modelos que aprendem</td></tr>
+          <tr><td><strong>Decisão</strong></td><td>Centralizada (CLP/SCADA)</td><td>Distribuída</td></tr>
+          <tr><td><strong>Mudança</strong></td><td>Cara e demorada</td><td>Atualização remota</td></tr>
+          <tr><td><strong>Comunicação</strong></td><td>Local (rede industrial)</td><td>Local + nuvem + global</td></tr>
         </tbody>
       </table>
     </div>
@@ -687,7 +707,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>ROI de 200 sensores IoT em uma autopeças</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -717,7 +737,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Estratégia</h3>
+      <p class="kicker">Estratégia</p>
       <h2>Por onde começar? A regra dos 3-4 pilares</h2>
       <p>Pesquisas da <strong>McKinsey</strong> mostram que empresas com <em>três a quatro pilares conectados</em> já capturam cerca de <strong>70% do potencial</strong> de ganho da Indústria 4.0. Tentar implantar os nove em paralelo costuma virar projeto parado.</p>
       <ul>
@@ -737,21 +757,21 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Sinais de alerta</h3>
+      <p class="kicker">Sinais de alerta</p>
       <h2>Quatro erros que matam projetos de 4.0</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Erro</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Por que é fatal</th>
+          <tr>
+            <th scope="col">Erro</th>
+            <th scope="col">Por que é fatal</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Comprar tecnologia sem problema</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Sensor sem KPI no fim — vira "ilha de inovação".</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Ignorar a integração</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Cinco sistemas isolados ≠ Indústria 4.0.</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Esquecer a cibersegurança</strong></td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Fábrica conectada é alvo — caso Honda 2020.</td></tr>
-          <tr><td style="padding:0.5em 1em;"><strong>Não treinar o operador</strong></td><td style="padding:0.5em 1em;">Dashboard sem cultura é só decoração.</td></tr>
+          <tr><td><strong>Comprar tecnologia sem problema</strong></td><td>Sensor sem KPI no fim — vira "ilha de inovação".</td></tr>
+          <tr><td><strong>Ignorar a integração</strong></td><td>Cinco sistemas isolados ≠ Indústria 4.0.</td></tr>
+          <tr><td><strong>Esquecer a cibersegurança</strong></td><td>Fábrica conectada é alvo — caso Honda 2020.</td></tr>
+          <tr><td><strong>Não treinar o operador</strong></td><td>Dashboard sem cultura é só decoração.</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.7em;">A 4.0 é <em>técnica</em> em 30%, e <em>gestão de mudança</em> em 70%.</p>
@@ -775,7 +795,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Sua matriz de maturidade por pilar</h2>
       <ol>
         <li>Liste os <strong>9 pilares</strong> em uma matriz simples.</li>

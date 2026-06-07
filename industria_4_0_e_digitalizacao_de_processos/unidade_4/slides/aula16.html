@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 4 — Indústria 5.0: humano + máquina, sustentabilidade e o futuro próximo · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -554,10 +574,10 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Onde estamos</h3>
+      <p class="kicker">Onde estamos</p>
       <h2>5 revoluções industriais em uma linha</h2>
       <div style="background:#fff;border-radius:12px;padding:1rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
-        <svg viewBox="0 0 1000 200" width="100%"><use href="#linha-revolucoes"/></svg>
+        <svg viewBox="0 0 1000 200" width="100%" role="img" aria-label="Linha do tempo das revoluções industriais: 1.0 em 1784 (vapor), 2.0 em 1870 (elétrica e linha de montagem), 3.0 em 1969 (eletrônica e TI), 4.0 em 2011 (ciber-físico, IIoT e IA) e 5.0 a partir de 2021 (humano, sustentável e resiliente)"><use href="#linha-revolucoes"/></svg>
       </div>
       <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);">Cada revolução tem ~<strong>50–100 anos</strong> entre si. A I4.0 e a I5.0 vão conviver <em>décadas</em> — não escolha entre elas, integre.</p>
     </div>
@@ -570,7 +590,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>Indústria 5.0: a 4.0 com propósito</h1>
       <p><strong>Indústria 5.0</strong> é um conceito emergente que reposiciona a transformação digital industrial em torno de <em>três valores</em>: centralidade humana, sustentabilidade e resiliência.</p>
       <ul>
@@ -589,11 +609,11 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pilares</h3>
+      <p class="kicker">Pilares</p>
       <h2>Os 3 pilares da Indústria 5.0</h2>
       <div class="colunas" style="grid-template-columns:0.9fr 1.1fr;">
         <div style="display:flex;justify-content:center;">
-          <svg viewBox="0 0 520 420" width="100%" style="max-width:380px;"><use href="#pilares-5"/></svg>
+          <svg viewBox="0 0 520 420" width="100%" style="max-width:380px;" role="img" aria-label="Diagrama dos 3 pilares da Indústria 5.0 convergindo para um propósito central: centralidade humana, sustentabilidade e resiliência"><use href="#pilares-5"/></svg>
         </div>
         <div>
           <p style="font-size:1.05rem;"><strong>Centralidade humana</strong> — cobots que apoiam, personalização em massa, requalificação, <em>bem-estar como KPI</em>, inclusão.</p>
@@ -612,23 +632,23 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparativo</h3>
+      <p class="kicker">Comparativo</p>
       <h2>I4.0 vs I5.0</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:1.05rem;margin-top:0.5em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:#fff;">
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">Aspecto</th>
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">I4.0</th>
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">I5.0</th>
+          <tr>
+            <th scope="col">Aspecto</th>
+            <th scope="col">I4.0</th>
+            <th scope="col">I5.0</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Foco</strong></td><td style="padding:0.5em 0.8em;">Eficiência, automação</td><td style="padding:0.5em 0.8em;">Humano, sustentabilidade, resiliência</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;"><strong>Tecnologia</strong></td><td style="padding:0.5em 0.8em;">Habilita a transformação</td><td style="padding:0.5em 0.8em;">É <em>meio</em>, não fim</td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Trabalhador</strong></td><td style="padding:0.5em 0.8em;">Pode ser substituído</td><td style="padding:0.5em 0.8em;"><em>Central</em>, potencializado</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;"><strong>Meio ambiente</strong></td><td style="padding:0.5em 0.8em;">Mencionado</td><td style="padding:0.5em 0.8em;"><em>Central</em></td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Modelo econômico</strong></td><td style="padding:0.5em 0.8em;">Crescimento, eficiência</td><td style="padding:0.5em 0.8em;">Equilíbrio lucro–planeta–pessoas</td></tr>
+          <tr><td><strong>Foco</strong></td><td>Eficiência, automação</td><td>Humano, sustentabilidade, resiliência</td></tr>
+          <tr><td><strong>Tecnologia</strong></td><td>Habilita a transformação</td><td>É <em>meio</em>, não fim</td></tr>
+          <tr><td><strong>Trabalhador</strong></td><td>Pode ser substituído</td><td><em>Central</em>, potencializado</td></tr>
+          <tr><td><strong>Meio ambiente</strong></td><td>Mencionado</td><td><em>Central</em></td></tr>
+          <tr><td><strong>Modelo econômico</strong></td><td>Crescimento, eficiência</td><td>Equilíbrio lucro–planeta–pessoas</td></tr>
         </tbody>
       </table>
     </div>
@@ -641,7 +661,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Próximos 5–10 anos</h3>
+      <p class="kicker">Próximos 5–10 anos</p>
       <h2>Tendências tecnológicas que importam</h2>
       <div class="colunas">
         <div>
@@ -672,7 +692,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Sua carreira</h3>
+      <p class="kicker">Sua carreira</p>
       <h2>O(a) engenheiro(a) de produção na I5.0</h2>
       <p>A função clássica — <strong>gerenciar fluxos</strong> — ganha novas dimensões:</p>
       <div class="pontos-chave">
@@ -704,7 +724,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso aspiracional</h3>
+      <p class="kicker">Caso aspiracional</p>
       <h2>BMW iFactory — a primeira I5.0 em escala</h2>
       <div class="colunas">
         <div>
@@ -730,7 +750,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Bônus técnico</h3>
+      <p class="kicker">Bônus técnico</p>
       <h2>4 tecnologias para ficar de olho</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -771,7 +791,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Toda a disciplina em uma página</h3>
+      <p class="kicker">Toda a disciplina em uma página</p>
       <h2>O que você sabe agora</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -802,7 +822,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática — encerramento</h3>
+      <p class="kicker">Atividade prática — encerramento</p>
       <h2>Reflita por escrito</h2>
       <ol>
         <li>O que você <strong>sabia</strong> sobre I4.0 quando começou a disciplina?</li>

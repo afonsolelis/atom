@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Casos reais brasileiros e mundiais · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -521,10 +541,10 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visão geral</h3>
+      <p class="kicker">Visão geral</p>
       <h2>Mapa dos 8 casos</h2>
       <div style="background:#fff;border-radius:12px;padding:0.6rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
-        <svg viewBox="0 0 720 360" width="100%" style="max-width:920px;display:block;margin:0 auto;"><use href="#mapa-casos"/></svg>
+        <svg viewBox="0 0 720 360" width="100%" style="max-width:920px;display:block;margin:0 auto;" role="img" aria-label="Mapa de 8 casos de Indústria 4.0 no Brasil e no mundo: 1 Siemens Amberg (Alemanha), 2 Klabin (PR), 3 WEG (SC), 4 Embraco (SC), 5 Tetra Pak (Suíça), 6 JBS, 7 Tesla (EUA) e 8 Vale (PA)"><use href="#mapa-casos"/></svg>
       </div>
       <p style="margin-top:0.6em;font-size:1rem;color:var(--azul-medio);"><em>Brasil tem 4 dos 8 casos relevantes.</em> Não somos espectadores — somos protagonistas em alguns setores.</p>
     </div>
@@ -537,7 +557,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso 1 · Internacional</h3>
+      <p class="kicker">Caso 1 · Internacional</p>
       <h2>Siemens Amberg — a referência mundial</h2>
       <div class="colunas">
         <div>
@@ -562,7 +582,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso 2 · Brasil</h3>
+      <p class="kicker">Caso 2 · Brasil</p>
       <h2>Klabin — IIoT massivo na celulose</h2>
       <p>Telêmaco Borba (PR) · <strong>1.500+ sensores</strong> alimentando um digital twin operacional.</p>
       <div class="pontos-chave">
@@ -594,7 +614,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Casos 3 e 4 · Brasil</h3>
+      <p class="kicker">Casos 3 e 4 · Brasil</p>
       <h2>WEG e Embraco — produto-serviço e cobots</h2>
       <div class="colunas">
         <div>
@@ -622,7 +642,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso 5 · Brasil</h3>
+      <p class="kicker">Caso 5 · Brasil</p>
       <h2>Vale — caminhões autônomos em Carajás</h2>
       <div class="colunas">
         <div>
@@ -659,7 +679,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Casos 6 e 7 · Internacional</h3>
+      <p class="kicker">Casos 6 e 7 · Internacional</p>
       <h2>Tetra Pak e Tesla — inovação na fronteira</h2>
       <div class="colunas">
         <div style="background:#fff;border-left:6px solid var(--amarelo);padding:1.1rem 1.3rem;border-radius:6px;">
@@ -689,7 +709,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso 8 · alerta</h3>
+      <p class="kicker">Caso 8 · alerta</p>
       <h2>JBS — o ataque que virou estudo</h2>
       <p>Em <strong>2021</strong>, a JBS sofreu o maior ataque de <em>ransomware</em> do agronegócio brasileiro. Plantas paradas no Brasil, EUA e Austrália por dias.</p>
       <ul>
@@ -708,24 +728,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparativo</h3>
+      <p class="kicker">Comparativo</p>
       <h2>ROI dos casos brasileiros — números na mesa</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:1rem;margin-top:0.4em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:#fff;">
-            <th scope="col" style="padding:0.55em 0.7em;text-align:left;">Empresa</th>
-            <th scope="col" style="padding:0.55em 0.7em;text-align:left;">Tecnologia central</th>
-            <th scope="col" style="padding:0.55em 0.7em;text-align:left;">Resultado-chave</th>
-            <th scope="col" style="padding:0.55em 0.7em;text-align:left;">Lição</th>
+          <tr>
+            <th scope="col">Empresa</th>
+            <th scope="col">Tecnologia central</th>
+            <th scope="col">Resultado-chave</th>
+            <th scope="col">Lição</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.7em;"><strong>Klabin</strong></td><td style="padding:0.5em 0.7em;">IIoT + digital twin</td><td style="padding:0.5em 0.7em;color:var(--verde-escuro);">R$ 80 mi/ano · 35 invest.</td><td style="padding:0.5em 0.7em;">Setor antigo + tec. nova</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.7em;"><strong>WEG</strong></td><td style="padding:0.5em 0.7em;">IIoT + cloud + IA</td><td style="padding:0.5em 0.7em;color:var(--verde-escuro);">Novo modelo de negócio</td><td style="padding:0.5em 0.7em;">Produto vira serviço</td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.7em;"><strong>Embraco</strong></td><td style="padding:0.5em 0.7em;">Cobots</td><td style="padding:0.5em 0.7em;color:var(--verde-escuro);">+40% produtividade</td><td style="padding:0.5em 0.7em;">Flexibilidade &gt; força bruta</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.7em;"><strong>Vale</strong></td><td style="padding:0.5em 0.7em;">Veículos autônomos + IA</td><td style="padding:0.5em 0.7em;color:var(--verde-escuro);">+15% / -30% combustível</td><td style="padding:0.5em 0.7em;">Ambiente extremo</td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.7em;"><strong>JBS</strong></td><td style="padding:0.5em 0.7em;">Cibersegurança industrial</td><td style="padding:0.5em 0.7em;color:var(--magenta);">US$ 11 mi em resgate</td><td style="padding:0.5em 0.7em;">Segurança não é opcional</td></tr>
+          <tr><td><strong>Klabin</strong></td><td>IIoT + digital twin</td><td style="color:var(--verde-escuro);">R$ 80 mi/ano · 35 invest.</td><td>Setor antigo + tec. nova</td></tr>
+          <tr><td><strong>WEG</strong></td><td>IIoT + cloud + IA</td><td style="color:var(--verde-escuro);">Novo modelo de negócio</td><td>Produto vira serviço</td></tr>
+          <tr><td><strong>Embraco</strong></td><td>Cobots</td><td style="color:var(--verde-escuro);">+40% produtividade</td><td>Flexibilidade &gt; força bruta</td></tr>
+          <tr><td><strong>Vale</strong></td><td>Veículos autônomos + IA</td><td style="color:var(--verde-escuro);">+15% / -30% combustível</td><td>Ambiente extremo</td></tr>
+          <tr><td><strong>JBS</strong></td><td>Cibersegurança industrial</td><td style="color:var(--magenta);">US$ 11 mi em resgate</td><td>Segurança não é opcional</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);">Os 4 primeiros pagaram-se em <strong>menos de 24 meses</strong> — o quinto custou o equivalente a 4 anos de transformação digital madura. <em>O preço de não fazer também tem número.</em></p>
@@ -739,7 +759,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Síntese</h3>
+      <p class="kicker">Síntese</p>
       <h2>Os 5 padrões comuns aos 8 casos</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -780,7 +800,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Recap</h3>
+      <p class="kicker">Recap</p>
       <h2>O que você leva desta aula</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -810,7 +830,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Escolha o caso que mais te impactou</h2>
       <ol>
         <li>Por que <strong>esse caso</strong> ressoou em você?</li>

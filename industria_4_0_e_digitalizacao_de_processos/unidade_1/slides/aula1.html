@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Da Revolução Industrial à Indústria 4.0: a linha do tempo que você precisa conhecer · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -392,6 +403,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -463,51 +483,7 @@
     </div>
   </section>
 
-  <!-- ============== SLIDE 2 — SOBRE O PROFESSOR ============== -->
-  <section class="slide slide-prof">
-    <div class="prof-grid">
-      <!-- Lado claro: logo + foto -->
-      <div class="prof-lado-claro">
-        <div class="prof-logo-claro">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
-        </div>
-        <div class="prof-foto">
-          <img src="./assets/foto-professor.jpg" alt="Foto do Prof. Afonso Cesar Lelis Brandão"/>
-        </div>
-      </div>
-
-      <!-- Lado escuro: dados do professor + decorações -->
-      <div class="prof-lado-escuro">
-        <!-- Decoração: triângulo amarelo top-right -->
-        <div class="prof-canto-topo">
-          <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
-        </div>
-        <!-- Decoração: cluster de triângulos na boundary (esquerda) -->
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
-        </div>
-
-        <h1 class="prof-nome">Afonso Cesar Lelis Brandão</h1>
-        <div class="prof-cargo">Eng. Civil · Eng. de Produção · M.Sc. em Materiais · Doutorando em Eng. da Computação</div>
-
-        <p class="prof-descricao">
-          Atuo na fronteira entre <strong>engenharia</strong>, <strong>materiais</strong> e <strong>computação</strong>. Engenheiro civil e de produção de formação, mestre em ciência dos materiais e, atualmente, doutorando em engenharia da computação — trajetória que conecta chão de fábrica, simulação, dados e algoritmos.
-        </p>
-        <p class="prof-descricao">
-          Nesta disciplina, conduzo você do contexto histórico das revoluções industriais até a entrega de um roadmap real de digitalização. A proposta é construir uma base técnica sólida que faça sentido tanto para a engenharia clássica quanto para o mundo orientado por dados.
-        </p>
-
-        <!-- Decoração: mini-cluster bottom-right -->
-        <div class="prof-canto-rodape">
-          <svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============== SLIDE 3 — DIVIDER ============== -->
+  <!-- ============== SLIDE 2 — DIVIDER ============== -->
   <section class="slide slide-section">
     <div class="slide-content">
       <div class="numero">01</div>
@@ -531,7 +507,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>O que é uma revolução industrial?</h1>
       <p>Antes das máquinas, a produção dependia inteiramente da <em>força humana e animal</em> — o modelo da <strong>manufatura</strong>, com peças lentas e quantidades pequenas.</p>
       <p>Uma <strong>revolução industrial</strong> não é um avanço técnico isolado: é quando uma tecnologia transforma o <em>modo de produção</em> em larga escala, reorganizando economia, sociedade e até a geografia das cidades.</p>
@@ -550,7 +526,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Ponto de partida</h3>
+      <p class="kicker">Ponto de partida</p>
       <h2>Antes das máquinas: a manufatura</h2>
       <div class="colunas">
         <div>
@@ -578,7 +554,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Linha do tempo</h3>
+      <p class="kicker">Linha do tempo</p>
       <h2>Quatro revoluções, 250 anos de transformação</h2>
       <svg viewBox="0 0 1200 380" style="width:100%;max-height:48vh;display:block;margin-top:0.6rem;" role="img" aria-label="Linha do tempo das quatro revoluções industriais — 1.0 (1784), 2.0 (1870), 3.0 (1969), 4.0 (2011)">
         <!-- Linha base contínua + tracejada amarela -->
@@ -632,7 +608,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>1.0 · 1784 · era do vapor</h3>
+      <p class="kicker">1.0 · 1784 · era do vapor</p>
       <h2>A primeira fábrica nasce na Inglaterra</h2>
       <div class="colunas">
         <div>
@@ -659,7 +635,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>2.0 · 1870 · eletricidade e Ford</h3>
+      <p class="kicker">2.0 · 1870 · eletricidade e Ford</p>
       <h2>A produção em massa nasce em Detroit</h2>
       <div class="colunas">
         <div>
@@ -685,7 +661,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>3.0 · 1969 · eletrônica e automação</h3>
+      <p class="kicker">3.0 · 1969 · eletrônica e automação</p>
       <h2>Quando o software entrou no chão de fábrica</h2>
       <p>O marco é o <strong>CLP — Controlador Lógico Programável</strong>, criado em <em>1969</em> por <em>Dick Morley</em> para a General Motors. Antes do CLP, automatizar uma linha exigia <strong>centenas de relés e fios</strong>; qualquer mudança no processo significava remontar tudo. Com o CLP, bastava reprogramar.</p>
       <div class="pontos-chave">
@@ -716,7 +692,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>4.0 · 2011 · sistemas ciber-físicos</h3>
+      <p class="kicker">4.0 · 2011 · sistemas ciber-físicos</p>
       <h2>As máquinas conversam, decidem, aprendem</h2>
       <p>O termo foi cunhado em <strong>2011 na Hannover Messe</strong>, Alemanha, como parte da estratégia do governo alemão para manter a competitividade diante da China. Em 2013, o relatório oficial <em>Recommendations for implementing Industrie 4.0</em> consolidou a agenda nacional.</p>
       <ul>
@@ -736,7 +712,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que diferencia a 4.0</h3>
+      <p class="kicker">O que diferencia a 4.0</p>
       <h2>Quatro pilares fundamentais</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -766,23 +742,23 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>Tempo de produção de um par de sapatos</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Comparativo do tempo de produção de um par de sapatos ao longo das quatro revoluções industriais.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.6em 1em;text-align:left;">Revolução</th>
-            <th scope="col" style="padding:0.6em 1em;text-align:left;">Tempo aproximado</th>
-            <th scope="col" style="padding:0.6em 1em;text-align:left;">Quem produz</th>
+          <tr>
+            <th scope="col">Revolução</th>
+            <th scope="col">Tempo aproximado</th>
+            <th scope="col">Quem produz</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Manufatura</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">24 h (3 dias)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Sapateiro artesão</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>1.0</strong> (1820)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">2,5 h</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Operário em fábrica a vapor</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>2.0</strong> (1920)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">35 min</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Linha fordista</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>3.0</strong> (1990)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">5 min</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Linha automatizada</td></tr>
-          <tr><td style="padding:0.5em 1em;"><strong>4.0</strong> (2024)</td><td style="padding:0.5em 1em;">4 min <em>com customização</em></td><td style="padding:0.5em 1em;">Linha conectada + dados</td></tr>
+          <tr><td>Manufatura</td><td>24 h (3 dias)</td><td>Sapateiro artesão</td></tr>
+          <tr><td><strong>1.0</strong> (1784)</td><td>2,5 h</td><td>Operário em fábrica a vapor</td></tr>
+          <tr><td><strong>2.0</strong> (1870)</td><td>35 min</td><td>Linha fordista</td></tr>
+          <tr><td><strong>3.0</strong> (1990)</td><td>5 min</td><td>Linha automatizada</td></tr>
+          <tr><td><strong>4.0</strong> (2024)</td><td>4 min <em>com customização</em></td><td>Linha conectada + dados</td></tr>
         </tbody>
       </table>
       <p style="margin-top:1em;"><strong>Ganho qualitativo:</strong> na 4.0, o produto pode ser <em>personalizado</em> sem perder eficiência.</p>
@@ -806,7 +782,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Em que revolução está a sua empresa?</h2>
       <ol>
         <li>Escolha uma empresa que você conhece (trabalho, estágio ou um local que frequenta como cliente).</li>

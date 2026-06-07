@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 4 — Inteligência Artificial e Machine Learning no chão de fábrica · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -479,7 +499,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceitos</h3>
+      <p class="kicker">Conceitos</p>
       <h1>IA, ML e Deep Learning — bonecas russas</h1>
       <div class="colunas">
         <div>
@@ -502,7 +522,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O retrato da relação</h3>
+      <p class="kicker">O retrato da relação</p>
       <h2>IA ⊃ ML ⊃ Deep Learning</h2>
       <svg viewBox="0 0 1100 380" style="width:100%;max-height:48vh;display:block;margin-top:0.3rem;" role="img" aria-label="Diagrama de inclusão: IA contém ML, que contém Deep Learning, mostrado como círculos concêntricos">
         <!-- IA -->
@@ -538,7 +558,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Como o ML aprende</h3>
+      <p class="kicker">Como o ML aprende</p>
       <h2>Os 3 modos de aprendizado</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -569,24 +589,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Onde a IA realmente entrega</h3>
+      <p class="kicker">Onde a IA realmente entrega</p>
       <h2>As 6 aplicações dominantes na indústria</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.1vw,1.05rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 0.85em;text-align:left;">Aplicação</th>
-            <th scope="col" style="padding:0.5em 0.85em;text-align:left;">O que faz</th>
-            <th scope="col" style="padding:0.5em 0.85em;text-align:left;">Maturidade</th>
+          <tr>
+            <th scope="col">Aplicação</th>
+            <th scope="col">O que faz</th>
+            <th scope="col">Maturidade</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;"><strong>Manutenção preditiva</strong></td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Prevê falhas por vibração, T°, ruído</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;"><strong>Alta</strong></td></tr>
-          <tr><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;"><strong>Qualidade visual</strong></td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Câmeras + IA detectam defeitos</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;"><strong>Alta</strong></td></tr>
-          <tr><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Otimização de produção</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Sugere parâmetros ótimos (T°, vel, lote)</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Média</td></tr>
-          <tr><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Previsão de demanda</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Quanto vender, produzir, comprar</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Média-Alta</td></tr>
-          <tr><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Detecção de anomalias</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Vazamento, fraude, desvio de operador</td><td style="padding:0.4em 0.85em;border-bottom:1px solid #ddd;">Média</td></tr>
-          <tr><td style="padding:0.4em 0.85em;">Robótica adaptativa</td><td style="padding:0.4em 0.85em;">Robôs que aprendem a melhorar pegada/movimento</td><td style="padding:0.4em 0.85em;">Fronteira</td></tr>
+          <tr><td><strong>Manutenção preditiva</strong></td><td>Prevê falhas por vibração, T°, ruído</td><td><strong>Alta</strong></td></tr>
+          <tr><td><strong>Qualidade visual</strong></td><td>Câmeras + IA detectam defeitos</td><td><strong>Alta</strong></td></tr>
+          <tr><td>Otimização de produção</td><td>Sugere parâmetros ótimos (T°, vel, lote)</td><td>Média</td></tr>
+          <tr><td>Previsão de demanda</td><td>Quanto vender, produzir, comprar</td><td>Média-Alta</td></tr>
+          <tr><td>Detecção de anomalias</td><td>Vazamento, fraude, desvio de operador</td><td>Média</td></tr>
+          <tr><td>Robótica adaptativa</td><td>Robôs que aprendem a melhorar pegada/movimento</td><td>Fronteira</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;"><em>Manutenção preditiva</em> e <em>qualidade visual</em> são as duas <strong>mais maduras</strong> — e o melhor ponto de partida na maioria das empresas.</p>
@@ -600,7 +620,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Anatomia de um projeto de ML</h3>
+      <p class="kicker">Anatomia de um projeto de ML</p>
       <h2>Seis fases — não pule a primeira</h2>
       <svg viewBox="0 0 1200 280" style="width:100%;max-height:38vh;display:block;margin-top:0.2rem;" role="img" aria-label="Pipeline de seis fases de um projeto de Machine Learning industrial: problema, coleta, features, treinamento, deploy e monitoramento">
         <line x1="80" y1="140" x2="1120" y2="140" stroke="#1F44A8" stroke-width="3"/>
@@ -656,7 +676,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso real — fábrica de papel</h3>
+      <p class="kicker">Caso real — fábrica de papel</p>
       <h2>Manutenção preditiva passo a passo</h2>
       <ol>
         <li><strong>Problema:</strong> prever falha de motor crítico <em>7 dias antes</em>.</li>
@@ -677,22 +697,22 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Impacto típico</h3>
+      <p class="kicker">Impacto típico</p>
       <h2>Ganhos por aplicação — números conservadores</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Aplicação</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Ganho típico</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Indicador alvo</th>
+          <tr>
+            <th scope="col">Aplicação</th>
+            <th scope="col">Ganho típico</th>
+            <th scope="col">Indicador alvo</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Manutenção preditiva</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>15–35%</strong> menos paradas</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">MTBF, OEE</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Qualidade visual</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>70–95%</strong> menos escape de defeito</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">PPM, FTQ</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Previsão de demanda</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>10–25%</strong> menos estoque</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Giro, dias de cobertura</td></tr>
-          <tr><td style="padding:0.45em 0.9em;">Otimização de processo</td><td style="padding:0.45em 0.9em;"><strong>3–8%</strong> mais rendimento</td><td style="padding:0.45em 0.9em;">Yield, energia/ton</td></tr>
+          <tr><td>Manutenção preditiva</td><td><strong>15–35%</strong> menos paradas</td><td>MTBF, OEE</td></tr>
+          <tr><td>Qualidade visual</td><td><strong>70–95%</strong> menos escape de defeito</td><td>PPM, FTQ</td></tr>
+          <tr><td>Previsão de demanda</td><td><strong>10–25%</strong> menos estoque</td><td>Giro, dias de cobertura</td></tr>
+          <tr><td>Otimização de processo</td><td><strong>3–8%</strong> mais rendimento</td><td>Yield, energia/ton</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;font-size:0.95rem;color:var(--cinza-mute);">Fontes: CNI · McKinsey Global Institute · estudos de caso brasileiros. Ganhos típicos justificam <strong>investimento moderado</strong> e payback &lt; 2 anos.</p>
@@ -716,7 +736,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O outro lado</h3>
+      <p class="kicker">O outro lado</p>
       <h2>Quando NÃO usar IA — evitando "IA washing"</h2>
       <div class="colunas">
         <div>
@@ -750,7 +770,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Identifique uma decisão candidata a ML</h2>
       <ol>
         <li>Pense em uma decisão que você (ou alguém da sua empresa) toma <strong>repetidamente</strong>.</li>
@@ -770,7 +790,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Fechando a Unidade 2</h3>
+      <p class="kicker">Fechando a Unidade 2</p>
       <h2>As 4 tecnologias habilitadoras em uma frase cada</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -801,7 +821,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pontos-chave</h3>
+      <p class="kicker">Pontos-chave</p>
       <h2>O que levar da Aula 4</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -831,7 +851,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que vem na Unidade 3</h3>
+      <p class="kicker">O que vem na Unidade 3</p>
       <h2>Das tecnologias habilitadoras às aplicações concretas</h2>
       <ul>
         <li><strong>Aula 9</strong> — Manufatura aditiva e digital twin no plano produtivo.</li>

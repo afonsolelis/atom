@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
-<title>Aula 4 — Maturidade Digital: onde sua empresa está? · Indústria 4.0</title>
+<title>Apresentação da Disciplina — Indústria 4.0 e Digitalização de Processos</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
@@ -287,14 +287,19 @@
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    position: relative; z-index: 2;
   }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -338,7 +343,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -468,8 +474,8 @@
       <div class="logo-marca">
         <svg width="380" height="94" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Maturidade Digital: onde sua empresa está?</h1>
-      <div class="subtitulo">Unidade 1 — Fundamentos e Contexto Histórico</div>
+      <h1>Indústria 4.0 e Digitalização de Processos</h1>
+      <div class="subtitulo">Apresentação da disciplina</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
     <div class="triangulos-rodape">
@@ -477,367 +483,149 @@
     </div>
   </section>
 
-  <!-- ============== SLIDE 2 — DIVIDER ============== -->
+  <!-- ============== SLIDE 2 — SOBRE O PROFESSOR ============== -->
+  <section class="slide slide-prof">
+    <div class="prof-grid">
+      <div class="prof-lado-claro">
+        <div class="prof-logo-claro">
+          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        </div>
+        <div class="prof-foto">
+          <img src="./assets/foto-professor.jpg" alt="Foto do Prof. Afonso Cesar Lelis Brandão"/>
+        </div>
+      </div>
+      <div class="prof-lado-escuro">
+        <div class="prof-canto-topo">
+          <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
+        </div>
+        <div class="prof-triangulos-boundary">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
+            <use href="#prof-cluster"/>
+          </svg>
+        </div>
+        <h1 class="prof-nome">Afonso Cesar Lelis Brandão</h1>
+        <div class="prof-cargo">Eng. Civil · Eng. de Produção · M.Sc. em Materiais · Doutorando em Eng. da Computação</div>
+        <p class="prof-descricao">
+          Atuo na fronteira entre <strong>engenharia</strong>, <strong>materiais</strong> e <strong>computação</strong>. Engenheiro civil e de produção de formação, mestre em ciência dos materiais e, atualmente, doutorando em engenharia da computação — trajetória que conecta chão de fábrica, simulação, dados e algoritmos.
+        </p>
+        <p class="prof-descricao">
+          Nesta disciplina, conduzo você do contexto histórico das revoluções industriais até a entrega de um roadmap real de digitalização. A proposta é construir uma base técnica sólida que faça sentido tanto para a engenharia clássica quanto para o mundo orientado por dados.
+        </p>
+        <div class="prof-canto-rodape">
+          <svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SLIDE 3 — DIVIDER: A DISCIPLINA ============== -->
   <section class="slide slide-section">
     <div class="slide-content">
-      <div class="numero">04</div>
-      <h2>O que você verá nesta aula</h2>
-      <ul style="text-align:left;max-width:680px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
-        <li>O que é, de fato, maturidade digital</li>
-        <li>Modelos mais usados no Brasil: <em>Acatech, SIRI, CNI</em></li>
-        <li>Os <em>6 níveis</em> Acatech — da computadorização à autonomia</li>
-        <li>Pirâmide visual: como os níveis se constroem</li>
-        <li>O Brasil em números: onde está a indústria nacional</li>
-        <li>Como pontuar uma dimensão na prática</li>
-        <li>As 15 dimensões que compõem o diagnóstico</li>
-        <li>O que faz uma empresa pular de nível</li>
-        <li>Gancho para a Unidade 2</li>
+      <div class="numero">00</div>
+      <h2>O que você vai construir aqui</h2>
+      <ul style="text-align:left;max-width:700px;margin:1.2em auto 0;color:rgba(255,255,255,0.92);">
+        <li>Uma <em>base conceitual</em> sólida sobre a Quarta Revolução Industrial</li>
+        <li>Fluência nas <strong>tecnologias habilitadoras</strong> (IIoT, Big Data, Cloud/Edge, IA)</li>
+        <li>Visão prática de <strong>digitalização de processos</strong> no chão de fábrica</li>
+        <li>Um <strong>roadmap real</strong> de transformação digital, do diagnóstico à entrega</li>
       </ul>
     </div>
   </section>
 
-  <!-- ============== SLIDE 3 — DEFINIÇÃO ============== -->
+  <!-- ============== SLIDE 4 — O QUE É INDÚSTRIA 4.0 (HOOK) ============== -->
   <section class="slide">
     <div class="triangulos-canto">
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Definição</p>
-      <h1>Maturidade digital, em uma frase</h1>
-      <p>É o <strong>nível de prontidão tecnológica, organizacional e cultural</strong> de uma empresa para operar como Indústria 4.0.</p>
-      <p>Não é só "ter tecnologia". É ter <em>pessoas, processos e tecnologia juntos</em>:</p>
+      <p class="kicker">O ponto de partida</p>
+      <h2>Por que esta disciplina importa</h2>
+      <p>A <strong>Indústria 4.0</strong> não é uma tecnologia isolada — é a convergência de máquinas, sensores, dados e algoritmos transformando como a indústria projeta, produz e decide. Quem domina essa convergência <em>lidera</em>; quem ignora, fica para trás.</p>
+      <p>Ao longo de <strong>16 videoaulas</strong>, vamos sair do conceito e chegar à prática: você sairá daqui capaz de <strong>diagnosticar a maturidade digital</strong> de uma planta e <strong>propor o próximo passo realista</strong> de digitalização.</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Apresentação</span><span>Boas-vindas</span></div>
+  </section>
+
+  <!-- ============== SLIDE 5 — AS 4 UNIDADES ============== -->
+  <section class="slide">
+    <div class="slide-content">
+      <p class="kicker">Estrutura</p>
+      <h2>As 4 unidades da disciplina</h2>
+      <table class="tabela-industrial">
+        <caption style="position:absolute;left:-9999px;">Visão geral das quatro unidades e seus temas</caption>
+        <thead>
+          <tr><th scope="col">Unidade</th><th scope="col">Tema</th><th scope="col">O que você verá</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>U1</strong></td><td>Fundamentos e Contexto Histórico</td><td>Revoluções industriais, 9 pilares, sistemas ciber-físicos, maturidade digital</td></tr>
+          <tr><td><strong>U2</strong></td><td>Tecnologias Habilitadoras</td><td>IIoT, Big Data &amp; Analytics, Cloud + Edge, IA/ML no chão de fábrica</td></tr>
+          <tr><td><strong>U3</strong></td><td>Aplicações e Digitalização</td><td>Manufatura aditiva, cobots, RA/VR, cibersegurança industrial (OT vs IT)</td></tr>
+          <tr><td><strong>U4</strong></td><td>Implementação, Casos e Futuro</td><td>BPM, roadmap, casos reais BR/mundo, Indústria 5.0</td></tr>
+        </tbody>
+      </table>
+      <p style="margin-top:1em;color:var(--azul-fecaf);font-weight:600;">4 unidades · 16 videoaulas · numeração contínua (1 a 16)</p>
+    </div>
+    <div class="slide-footer"><span>Indústria 4.0 · Apresentação</span><span>Boas-vindas</span></div>
+  </section>
+
+  <!-- ============== SLIDE 6 — COMO VAMOS TRABALHAR ============== -->
+  <section class="slide">
+    <div class="triangulos-canto">
+      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Metodologia</p>
+      <h2>Como vamos trabalhar</h2>
       <ul>
-        <li>Uma empresa pode ter o robô mais caro do mundo e ser <strong>pouco madura</strong> — se ninguém olha o dado do robô.</li>
-        <li>E pode ser <strong>muito madura</strong> sem investir tanto — se aproveita ao máximo o que tem.</li>
+        <li><strong>Videoaulas</strong> — 16 aulas com slides e exemplos numéricos reais</li>
+        <li><strong>Quiz não avaliativo</strong> — checagem rápida ao final de cada unidade</li>
+        <li><strong>AAI</strong> — atividade dissertativa para fixar o raciocínio</li>
+        <li><strong>Material complementar</strong> — leitura, vídeo, podcast e artigo científico</li>
+        <li><strong>Exemplos do mundo real</strong> — WEG, Embraer, Klabin, Siemens, e mais</li>
       </ul>
+      <p style="margin-top:1em;">Cada conceito vem amarrado a um número, um caso ou uma decisão de engenharia — nada de teoria solta.</p>
     </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+    <div class="slide-footer"><span>Indústria 4.0 · Apresentação</span><span>Boas-vindas</span></div>
   </section>
 
-  <!-- ============== SLIDE 4 — TRÊS MODELOS ============== -->
+  <!-- ============== SLIDE 7 — AVALIAÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
     <div class="slide-content">
-      <p class="kicker">Padrões de mercado</p>
-      <h2>Os três modelos mais usados no Brasil</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Acatech (Alemanha)</h3>
-          <p>6 dimensões (recursos, sistemas, cultura, organização, processos, estratégia) e <strong>6 níveis</strong>.</p>
-        </div>
-        <div class="ponto">
-          <h3>SIRI (Singapura/ONUDI)</h3>
-          <p>16 dimensões em 3 áreas: processos, tecnologia e organização. Usado pelo <em>Senai-Brasil</em>.</p>
-        </div>
-        <div class="ponto">
-          <h3>Modelo CNI</h3>
-          <p>Adaptado à realidade brasileira, gratuito — disponível no Portal da Indústria.</p>
-        </div>
-        <div class="ponto">
-          <h3>O que escolher?</h3>
-          <p>Para diagnóstico inicial: <strong>CNI</strong>. Para benchmark internacional: <strong>SIRI</strong>. Para profundidade: <strong>Acatech</strong>.</p>
-        </div>
-      </div>
+      <p class="kicker">Avaliação</p>
+      <h2>Como você será avaliado</h2>
+      <ul>
+        <li><strong>Questões por unidade</strong> — padrão ENADE (asserção-razão + interpretação)</li>
+        <li><strong>Avaliação final</strong> — 40 questões cobrindo as 4 unidades</li>
+        <li><strong>Trabalho (PBL)</strong> — caso real da <strong>Metalúrgica Sigma</strong>: um roadmap de transformação digital de 18 meses, com orçamento de R$ 3 milhões, para elevar o OEE a partir de uma baseline de 67%</li>
+      </ul>
+      <p style="margin-top:1.2em;color:var(--azul-fecaf);font-weight:600;">O trabalho integrador é onde tudo se conecta: você aplica as 4 unidades em uma decisão real de negócio.</p>
     </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+    <div class="slide-footer"><span>Indústria 4.0 · Apresentação</span><span>Boas-vindas</span></div>
   </section>
 
-  <!-- ============== SLIDE 5 — OS 6 NÍVEIS ACATECH ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Modelo Acatech</p>
-      <h2>Os 6 níveis de maturidade</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Nível</th>
-            <th scope="col">Nome</th>
-            <th scope="col">O que caracteriza</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td><strong>Computadorização</strong></td><td>Tem computadores, mas isolados</td></tr>
-          <tr><td>2</td><td><strong>Conectividade</strong></td><td>Sistemas conversam entre si</td></tr>
-          <tr><td>3</td><td><strong>Visibilidade</strong></td><td>Vê o estado da operação em tempo real</td></tr>
-          <tr><td>4</td><td><strong>Transparência</strong></td><td>Entende <em>por que</em> as coisas acontecem</td></tr>
-          <tr><td>5</td><td><strong>Previsão</strong></td><td>Antecipa o que <em>vai</em> acontecer</td></tr>
-          <tr><td>6</td><td><strong>Adaptabilidade</strong></td><td>Reage automaticamente — sem humano no loop</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;">A maioria das empresas brasileiras está entre os <strong>níveis 1 e 3</strong>. Subir de 3 para 4 é, em geral, o salto mais difícil.</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 6 — PIRÂMIDE SVG DOS 6 NÍVEIS ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Visão integrada</p>
-      <h2>A pirâmide da maturidade digital</h2>
-      <svg viewBox="0 0 1100 440" style="width:100%;max-height:48vh;display:block;margin-top:0.6rem;" role="img" aria-label="Pirâmide de seis níveis da maturidade digital Acatech, com computadorização na base e adaptabilidade no topo.">
-        <!-- Pirâmide invertida em camadas trapezoidais -->
-        <!-- Nível 6 — topo -->
-        <polygon points="450,40 650,40 620,90 480,90" fill="#E91E63"/>
-        <text x="550" y="72" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">6. ADAPTABILIDADE</text>
-        <text x="900" y="72" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">reage sozinha — sem humano no loop</text>
-
-        <!-- Nível 5 -->
-        <polygon points="420,90 680,90 650,150 450,150" fill="#F0CE29"/>
-        <text x="550" y="125" text-anchor="middle" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">5. PREVISÃO</text>
-        <text x="900" y="125" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">antecipa o que vai acontecer (IA)</text>
-
-        <!-- Nível 4 -->
-        <polygon points="380,150 720,150 690,215 410,215" fill="#2BBBE0"/>
-        <text x="550" y="187" text-anchor="middle" fill="#002057" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">4. TRANSPARÊNCIA</text>
-        <text x="900" y="187" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">entende causa-raiz dos eventos</text>
-
-        <!-- Nível 3 -->
-        <polygon points="330,215 770,215 740,285 360,285" fill="#1F44A8"/>
-        <text x="550" y="255" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">3. VISIBILIDADE</text>
-        <text x="900" y="255" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">vê estado em tempo real (dashboards)</text>
-
-        <!-- Nível 2 -->
-        <polygon points="270,285 830,285 800,355 300,355" fill="#002057"/>
-        <text x="550" y="325" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">2. CONECTIVIDADE</text>
-        <text x="900" y="325" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">sistemas conversam entre si</text>
-
-        <!-- Nível 1 — base -->
-        <polygon points="200,355 900,355 870,420 230,420" fill="#1A1A1A"/>
-        <text x="550" y="395" text-anchor="middle" fill="#F0CE29" font-weight="800" font-size="16" font-family="Segoe UI, system-ui, sans-serif">1. COMPUTADORIZAÇÃO</text>
-        <text x="900" y="395" text-anchor="start" fill="#1A1A1A" font-size="13" font-family="Segoe UI, system-ui, sans-serif">computadores, mas isolados</text>
-
-        <!-- Faixa lateral: maioria das brasileiras -->
-        <rect x="80" y="215" width="40" height="140" fill="#E91E63" opacity="0.18"/>
-        <text x="100" y="290" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="12" font-family="Segoe UI, system-ui, sans-serif" transform="rotate(-90 100 290)">MAIORIA BR (1–3)</text>
-      </svg>
-      <p style="text-align:center;margin-top:0.4em;font-size:0.95rem;color:var(--cinza-mute);">Cada nível <em>contém</em> o anterior: não dá para prever (5) sem visibilidade (3).</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 7 — O BRASIL EM NÚMEROS ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Sondagem CNI 2022</p>
-      <h2>O Brasil em números — onde está a indústria nacional</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>69% até o nível 3</h3>
-          <p>A maioria das indústrias brasileiras opera até "visibilidade em tempo real" — vê o problema, mas não o antecipa.</p>
-        </div>
-        <div class="ponto">
-          <h3>&lt; 10% no nível 5</h3>
-          <p>Pouquíssimas empresas atingiram <em>previsão</em> (manutenção preditiva, demanda preditiva, qualidade preditiva).</p>
-        </div>
-        <div class="ponto">
-          <h3>O salto difícil: 3 → 4</h3>
-          <p>De "ver" para "entender causa-raiz". Exige cultura de análise, não só tecnologia.</p>
-        </div>
-        <div class="ponto">
-          <h3>Setor mais avançado</h3>
-          <p>Automotivo, aeroespacial e petroquímico — onde o custo da parada é muito alto.</p>
-        </div>
-      </div>
-      <p style="margin-top:0.5em;font-size:0.95rem;color:var(--cinza-mute);">Fonte: <em>Sondagem Especial Indústria 4.0 — Confederação Nacional da Indústria (CNI), 2022.</em></p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 8 — PONTUANDO UMA DIMENSÃO ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Como pontuar a dimensão "Manutenção"</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Nível</th>
-            <th scope="col">Faixa</th>
-            <th scope="col">Característica</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>1</td><td>0–20</td><td>Corretiva (conserta quando quebra)</td></tr>
-          <tr><td>2</td><td>21–40</td><td>Preventiva por calendário</td></tr>
-          <tr><td>3</td><td>41–60</td><td>Dashboard em tempo real</td></tr>
-          <tr><td>4</td><td>61–80</td><td>Análise de causa-raiz</td></tr>
-          <tr><td>5</td><td>81–95</td><td>Manutenção preditiva com <strong>IA</strong></td></tr>
-          <tr><td>6</td><td>96–100</td><td>Máquina aciona sua própria manutenção</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;">Repita o exercício em <em>10 a 15 dimensões</em> e tire a média — é a fotografia da maturidade.</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 9 — AS 15 DIMENSÕES ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Cobertura do diagnóstico</p>
-      <h2>15 dimensões que você pontua na avaliação</h2>
-      <div class="colunas">
-        <div>
-          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;">Processos</h3>
-          <ul style="margin-top:0;">
-            <li>Manutenção</li>
-            <li>Coleta de dados de produção</li>
-            <li>Qualidade</li>
-            <li>Planejamento e PCP</li>
-            <li>Logística interna</li>
-            <li>Cadeia de suprimentos</li>
-          </ul>
-          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;margin-top:0.6em;">Tecnologia</h3>
-          <ul style="margin-top:0;">
-            <li>Conectividade de chão (IIoT)</li>
-            <li>Sistemas (ERP, MES, SCADA)</li>
-            <li>Cibersegurança</li>
-            <li>Cloud / Edge</li>
-          </ul>
-        </div>
-        <div>
-          <h3 style="color:var(--azul-fecaf);text-transform:none;letter-spacing:0;">Organização e pessoas</h3>
-          <ul style="margin-top:0;">
-            <li>Cultura de dado</li>
-            <li>Capacitação técnica</li>
-            <li>Estrutura de governança</li>
-            <li>Tomada de decisão</li>
-          </ul>
-          <p style="margin-top:1em;background:var(--amarelo);padding:0.6em 0.9em;border-radius:6px;color:var(--azul-fecaf);font-weight:700;">A média ponderada das 15 dimensões = fotografia geral da maturidade.</p>
-        </div>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 10 — O QUE FAZ PULAR DE NÍVEL ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Os fatores reais</p>
-      <h2>O que faz uma empresa pular de nível</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Patrocínio da liderança</h3>
-          <p>Sem CEO comprado, o projeto não anda — é o fator número um.</p>
-        </div>
-        <div class="ponto">
-          <h3>Time multidisciplinar</h3>
-          <p>TI + chão de fábrica + finanças, juntos na mesma sala.</p>
-        </div>
-        <div class="ponto">
-          <h3>Pequenas vitórias rápidas</h3>
-          <p>Um piloto que mostre <strong>ROI</strong> antes de escalar.</p>
-        </div>
-        <div class="ponto">
-          <h3>Cultura de dado</h3>
-          <p>Gente que confia em <em>número</em> mais do que em intuição.</p>
-        </div>
-      </div>
-      <p style="margin-top:0.8em;">Quase nunca o problema é só tecnologia. É <strong>cultura e patrocínio</strong>.</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 11 — ROADMAP DE SUBIR DE NÍVEL ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Subir um nível</p>
-      <h2>Roadmap típico de 6 a 12 meses</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Fase</th>
-            <th scope="col">Duração</th>
-            <th scope="col">Entregável</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>1. Diagnóstico</strong></td><td>2–4 semanas</td><td>Pontuação das 15 dimensões + gargalo</td></tr>
-          <tr><td><strong>2. Caso de negócio</strong></td><td>3–4 semanas</td><td>ROI estimado e aprovação executiva</td></tr>
-          <tr><td><strong>3. Piloto</strong></td><td>2–4 meses</td><td>1 célula/equipamento com KPI medido</td></tr>
-          <tr><td><strong>4. Escala</strong></td><td>3–6 meses</td><td>Toda a planta na nova prática</td></tr>
-          <tr><td><strong>5. Sustenta</strong></td><td>contínuo</td><td>Indicadores em rotina + ciclo de melhoria</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.7em;">Subir <strong>um</strong> nível com investimento moderado é uma meta realista. Pular dois de uma vez quase nunca dá certo.</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 12 — QUOTE ============== -->
+  <!-- ============== SLIDE 8 — QUOTE ============== -->
   <section class="slide slide-quote">
     <div class="slide-content">
       <blockquote>
-        "Toda diretoria adora dizer que a empresa é 4.0. Maturidade digital existe para que isso seja medido com método — não com marketing."
+        "Estamos no início de uma revolução que está mudando fundamentalmente a maneira como vivemos, trabalhamos e nos relacionamos uns com os outros."
       </blockquote>
-      <cite>— Síntese do modelo Acatech Industrie 4.0 Maturity Index</cite>
+      <cite>— Klaus Schwab, fundador do Fórum Econômico Mundial</cite>
     </div>
   </section>
 
-  <!-- ============== SLIDE 13 — ATIVIDADE PRÁTICA / AAI ============== -->
-  <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Atividade prática (insumo da AAI)</p>
-      <h2>Pontue três dimensões de uma empresa real</h2>
-      <ol>
-        <li>Escolha uma empresa real com a qual você tenha familiaridade.</li>
-        <li>Pontue, de <strong>1 a 6</strong>, três dimensões:
-          <ul style="margin-top:0.3em;">
-            <li><em>Manutenção</em> (use a escala da Aula 4)</li>
-            <li><em>Coleta de dados de produção</em></li>
-            <li><em>Tomada de decisão</em></li>
-          </ul>
-        </li>
-        <li>Calcule a <strong>média</strong> e identifique o nível geral.</li>
-        <li>Eleja <strong>uma dimensão</strong> que poderia subir com investimento moderado — ponto de partida para o roadmap da U4.</li>
-      </ol>
-      <p style="margin-top:0.8em;color:var(--azul-fecaf);font-weight:600;">⏱ 20 minutos · justifique cada nota com fato concreto</p>
-    </div>
-    <div class="slide-footer"><span>Indústria 4.0 · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <!-- ============== SLIDE 14 — ENCERRAMENTO + GANCHO U2 ============== -->
+  <!-- ============== SLIDE 9 — ENCERRAMENTO ============== -->
   <section class="slide slide-fim">
     <div class="slide-content">
       <div style="margin-bottom:2.5rem;">
         <svg width="320" height="79" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Obrigado!</h1>
-      <p>Próxima unidade: as tecnologias habilitadoras — IoT, Big Data, nuvem e IA.</p>
+      <h1>Vamos começar!</h1>
+      <p>Primeira aula: Da Revolução Industrial à Indústria 4.0 — a linha do tempo que você precisa conhecer.</p>
       <p style="font-size:1rem;color:var(--branco);opacity:0.7;margin-top:3rem;">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
 
 </div>
-
 <!-- Navegação -->
 <nav class="nav" role="navigation" aria-label="Navegação dos slides">
   <button id="prev" aria-label="Slide anterior" title="Slide anterior (←)">‹</button>

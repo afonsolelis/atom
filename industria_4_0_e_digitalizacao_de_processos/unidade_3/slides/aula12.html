@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 4 — Cibersegurança industrial (OT vs IT) · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -590,7 +601,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Contexto</h3>
+      <p class="kicker">Contexto</p>
       <h1>A fábrica virou campo de batalha</h1>
       <p>Antes de 2010, fábricas eram redes <em>isoladas</em> — sem internet, sem nuvem, sem invasor. A 4.0 conectou tudo. E os ataques <strong>explodiram</strong>.</p>
       <ul>
@@ -612,7 +623,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Histórico recente</h3>
+      <p class="kicker">Histórico recente</p>
       <h2>5 casos que viraram referência</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -629,7 +640,7 @@
           <tr><td>2017</td><td>Maersk (logística global)</td><td>NotPetya (ransomware)</td><td><strong>US$ 300 milhões</strong> em prejuízo</td></tr>
           <tr><td>2020</td><td>Honda</td><td>Ransomware</td><td>Paralisou plantas em vários países</td></tr>
           <tr><td>2021</td><td>Colonial Pipeline (EUA)</td><td>Ransomware</td><td>Cortou combustível na costa leste dos EUA</td></tr>
-          <tr style="background:rgba(233,30,99,0.10);"><td>2023</td><td><strong>JBS Brasil</strong></td><td>Ransomware</td><td>Pagou <strong>US$ 11 milhões</strong> em resgate</td></tr>
+          <tr style="background:rgba(233,30,99,0.10);"><td>2021</td><td><strong>JBS Brasil</strong></td><td>Ransomware</td><td>Pagou <strong>US$ 11 milhões</strong> em resgate</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.5rem;">Frequência cresce ano a ano. Setor industrial está <em>entre os 3 mais visados</em> no mundo.</p>
@@ -643,7 +654,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Cerne da questão</h3>
+      <p class="kicker">Cerne da questão</p>
       <h2>OT vs IT — duas filosofias opostas</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -674,7 +685,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Em uma imagem</h3>
+      <p class="kicker">Em uma imagem</p>
       <h2>Dois mundos, uma fábrica</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 400" role="img" aria-label="Dois blocos lado a lado representando o ambiente de TI corporativa com nuvem e ERP versus o ambiente de OT com CLP, SCADA e máquinas industriais">
@@ -691,7 +702,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Defesa em profundidade</h3>
+      <p class="kicker">Defesa em profundidade</p>
       <h1>A pirâmide Purdue</h1>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -723,7 +734,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visualização</h3>
+      <p class="kicker">Visualização</p>
       <h2>A pirâmide invertida — quem fala com quem</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 480" role="img" aria-label="Pirâmide invertida do modelo Purdue mostrando 6 níveis (5 a 0) com firewall e DMZ industrial separando IT de OT, com exposição alta no topo (internet) e mínima na base (sensores)">
@@ -740,7 +751,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que fazer na prática</h3>
+      <p class="kicker">O que fazer na prática</p>
       <h2>5 ações fundamentais de cibersegurança industrial</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -774,7 +785,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico · prevenção vs reação</h3>
+      <p class="kicker">Exemplo numérico · prevenção vs reação</p>
       <h2>Fábrica de autopeças atingida por ransomware</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -806,7 +817,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso brasileiro</h3>
+      <p class="kicker">Caso brasileiro</p>
       <h2>JBS · maio de 2021</h2>
       <div class="colunas">
         <div>
@@ -848,7 +859,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Diagnóstico da empresa que você analisa</h2>
       <ol>
         <li>Ela tem <strong>inventário</strong> dos ativos de OT? Quanto cobre?</li>

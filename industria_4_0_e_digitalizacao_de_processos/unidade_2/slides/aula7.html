@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Computação em Nuvem e Edge Computing: onde processar é tão importante quanto o que processar · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -479,7 +499,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pausa para reflexão</h3>
+      <p class="kicker">Pausa para reflexão</p>
       <h1>O forno está superaquecendo. A nuvem decide?</h1>
       <p>Se o sensor de um forno detecta <strong>excesso de temperatura</strong>, faz mais sentido…</p>
       <ul>
@@ -498,7 +518,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h2>O que é computação em nuvem</h2>
       <div class="colunas">
         <div>
@@ -524,7 +544,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Os limites da nuvem no chão de fábrica</h3>
+      <p class="kicker">Os limites da nuvem no chão de fábrica</p>
       <h2>Três dores reais — e uma conclusão</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -554,7 +574,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>O que é edge computing</h1>
       <p><strong>Edge computing</strong> é processar o dado <em>perto de onde ele é gerado</em> — dentro da fábrica, no próprio gateway ou até no sensor — em vez de enviar tudo para a nuvem.</p>
       <ul>
@@ -574,24 +594,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Tabela de decisão</h3>
+      <p class="kicker">Tabela de decisão</p>
       <h2>Nuvem vs Edge — quando usar cada um</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Critério</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Nuvem</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Edge</th>
+          <tr>
+            <th scope="col">Critério</th>
+            <th scope="col">Nuvem</th>
+            <th scope="col">Edge</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Latência aceitável</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Centenas de ms</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Milissegundos</strong></td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Tipo de processamento</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Histórico, ML training</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Decisão imediata, controle</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Volume processado</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Massivo (TB/dia)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Pequeno (filtrado)</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Dependência de internet</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Alta</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Baixa</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Variável (pay-per-use)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">CAPEX em hardware local</td></tr>
-          <tr><td style="padding:0.45em 0.9em;"><strong>Exemplo</strong></td><td style="padding:0.45em 0.9em;">Previsão de demanda anual</td><td style="padding:0.45em 0.9em;">Controle de braço robótico</td></tr>
+          <tr><td>Latência aceitável</td><td>Centenas de ms</td><td><strong>Milissegundos</strong></td></tr>
+          <tr><td>Tipo de processamento</td><td>Histórico, ML training</td><td>Decisão imediata, controle</td></tr>
+          <tr><td>Volume processado</td><td>Massivo (TB/dia)</td><td>Pequeno (filtrado)</td></tr>
+          <tr><td>Dependência de internet</td><td>Alta</td><td>Baixa</td></tr>
+          <tr><td>Custo</td><td>Variável (pay-per-use)</td><td>CAPEX em hardware local</td></tr>
+          <tr><td><strong>Exemplo</strong></td><td>Previsão de demanda anual</td><td>Controle de braço robótico</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;">O padrão moderno é <strong>híbrido</strong>: edge filtra e decide local; nuvem analisa e treina.</p>
@@ -605,7 +625,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura híbrida</h3>
+      <p class="kicker">Arquitetura híbrida</p>
       <h2>O ciclo edge ↔ nuvem</h2>
       <svg viewBox="0 0 1200 380" style="width:100%;max-height:48vh;display:block;margin-top:0.3rem;" role="img" aria-label="Ciclo edge-nuvem: sensores enviam para gateway edge, que filtra e sobe agregado à nuvem; modelo treinado desce de volta ao edge">
         <!-- Chão de fábrica (esquerda) -->
@@ -630,12 +650,12 @@
           <text x="370" y="195" text-anchor="middle" fill="#FFF" font-weight="800" font-size="18" font-family="Segoe UI, system-ui, sans-serif">GATEWAY EDGE</text>
           <text x="370" y="220" text-anchor="middle" fill="#F0CE29" font-size="14" font-family="Segoe UI, system-ui, sans-serif">filtra · agrega</text>
           <text x="370" y="240" text-anchor="middle" fill="#FFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">decide em ms</text>
-          <text x="370" y="260" text-anchor="middle" fill="#2BBBE0" font-size="13" font-family="Segoe UI, system-ui, sans-serif">η ≈ 95% filtrado</text>
+          <text x="370" y="260" text-anchor="middle" fill="#2BBBE0" font-size="13" font-family="Segoe UI, system-ui, sans-serif">η ≈ 99% filtrado</text>
         </g>
 
         <!-- Conexão WAN -->
         <line x1="480" y1="220" x2="700" y2="220" stroke="#002057" stroke-width="3" stroke-dasharray="8,6"/>
-        <text x="590" y="208" text-anchor="middle" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">só ~5% (50 GB/dia)</text>
+        <text x="590" y="208" text-anchor="middle" fill="#002057" font-weight="700" font-size="13" font-family="Segoe UI, system-ui, sans-serif">só ~1% (50 GB/dia)</text>
         <text x="590" y="240" text-anchor="middle" fill="#555" font-size="12" font-family="Segoe UI, system-ui, sans-serif">internet / VPN</text>
 
         <!-- Nuvem -->
@@ -669,7 +689,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Anatomia detalhada</h3>
+      <p class="kicker">Anatomia detalhada</p>
       <h2>O ciclo edge ↔ nuvem em 5 passos</h2>
       <ol>
         <li><strong>Sensores</strong> geram <em>5 TB/dia brutos</em>.</li>
@@ -689,22 +709,22 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>Economizando banda com edge — 95% de filtragem</h2>
       <div class="colunas">
         <div>
           <p><em>Sem edge — tudo sobe bruto:</em></p>
           <ul>
             <li>2.000 sensores → 4 GB/dia</li>
-            <li>Transferência AWS: U\$ 0,02/GB</li>
-            <li>4 GB × 30 dias = <strong>U\$ 2,40/mês/planta</strong></li>
+            <li>Transferência AWS: US$ 0,02/GB</li>
+            <li>4 GB × 30 dias = <strong>US$ 2,40/mês/planta</strong></li>
           </ul>
         </div>
         <div>
           <p><em>Com edge — só sobe resumo e alerta (~5%):</em></p>
           <ul>
             <li>0,2 GB/dia × 30 dias</li>
-            <li><strong>U\$ 0,12/mês/planta</strong></li>
+            <li><strong>US$ 0,12/mês/planta</strong></li>
             <li>Economia em banda: <strong>95%</strong></li>
           </ul>
         </div>
@@ -720,7 +740,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Quem vende o quê</h3>
+      <p class="kicker">Quem vende o quê</p>
       <h2>Provedores e plataformas IIoT</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -761,22 +781,22 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Mitos e realidades</h3>
+      <p class="kicker">Mitos e realidades</p>
       <h2>Cinco frases que circulam — e o que é verdade</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Frase comum</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Realidade</th>
+          <tr>
+            <th scope="col">Frase comum</th>
+            <th scope="col">Realidade</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Vamos colocar tudo na nuvem"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo de banda + latência + dependência derrubam a ideia.</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Edge é o futuro, nuvem é o passado"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">São <strong>complementares</strong>. Treino na nuvem, inferência no edge.</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Edge dispensa internet"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Reduz dependência; raramente elimina por completo.</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"Cloud é mais segura por default"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Depende de configuração. Edge expõe outras superfícies.</td></tr>
-          <tr><td style="padding:0.45em 0.9em;">"Migrar é projeto de TI"</td><td style="padding:0.45em 0.9em;">É projeto de <strong>OT + TI</strong>. Engenheiro de processo precisa entrar.</td></tr>
+          <tr><td>"Vamos colocar tudo na nuvem"</td><td>Custo de banda + latência + dependência derrubam a ideia.</td></tr>
+          <tr><td>"Edge é o futuro, nuvem é o passado"</td><td>São <strong>complementares</strong>. Treino na nuvem, inferência no edge.</td></tr>
+          <tr><td>"Edge dispensa internet"</td><td>Reduz dependência; raramente elimina por completo.</td></tr>
+          <tr><td>"Cloud é mais segura por default"</td><td>Depende de configuração. Edge expõe outras superfícies.</td></tr>
+          <tr><td>"Migrar é projeto de TI"</td><td>É projeto de <strong>OT + TI</strong>. Engenheiro de processo precisa entrar.</td></tr>
         </tbody>
       </table>
     </div>
@@ -789,7 +809,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Divida as decisões da sua planta</h2>
       <ol>
         <li>Pense em um processo da sua empresa (ou de uma que você imagine).</li>
@@ -809,7 +829,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pontos-chave</h3>
+      <p class="kicker">Pontos-chave</p>
       <h2>O que levar da Aula 3</h2>
       <div class="pontos-chave">
         <div class="ponto">

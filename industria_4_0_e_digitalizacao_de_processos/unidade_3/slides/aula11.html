@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Realidade Aumentada e Virtual na manufatura · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -637,7 +648,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Diferença em uma frase</h3>
+      <p class="kicker">Diferença em uma frase</p>
       <h1>RA vs VR vs MR</h1>
       <ul>
         <li><strong>Realidade Aumentada (RA)</strong> — sobrepõe informação digital ao mundo real. <em>Você continua vendo o real, com dados extras flutuando nele.</em></li>
@@ -658,7 +669,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visualização lado a lado</h3>
+      <p class="kicker">Visualização lado a lado</p>
       <h2>RA, VR e MR em três cenas</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 380" role="img" aria-label="Três blocos comparando RA com anotações digitais sobre peça real, VR com cabine totalmente digital e MR com objeto digital que se comporta como real">
@@ -675,7 +686,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Como a RA chega na fábrica</h3>
+      <p class="kicker">Como a RA chega na fábrica</p>
       <h2>Arquitetura típica</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 380" role="img" aria-label="Diagrama de arquitetura mostrando operador com HoloLens conectado a servidor de RA com modelo 3D e instruções, que envia sobreposição à peça real, com especialista remoto vendo o mesmo conteúdo">
@@ -693,7 +704,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>5 aplicações de Realidade Aumentada</h3>
+      <p class="kicker">5 aplicações de Realidade Aumentada</p>
       <h2>RA assistindo o operador</h2>
       <div class="colunas">
         <div>
@@ -731,7 +742,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>4 aplicações de Realidade Virtual</h3>
+      <p class="kicker">4 aplicações de Realidade Virtual</p>
       <h2>VR onde o real é caro ou perigoso</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -761,7 +772,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Equipamento certo para a tarefa</h3>
+      <p class="kicker">Equipamento certo para a tarefa</p>
       <h2>Dispositivos e plataformas</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -792,7 +803,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>VR em siderúrgica · 100 operadores/ano</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -823,7 +834,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Dois casos de referência</h3>
+      <p class="kicker">Dois casos de referência</p>
       <h2>Boeing e Petrobras: RA e VR em ação</h2>
       <div class="colunas">
         <div>
@@ -855,7 +866,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Nem tudo é maravilha</h3>
+      <p class="kicker">Nem tudo é maravilha</p>
       <h2>Limitações reais que ainda freiam a adoção</h2>
       <ul>
         <li><strong>Conforto</strong> — óculos pesados causam fadiga em uso prolongado.</li>
@@ -888,7 +899,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Pegue um processo de uma empresa que você conhece</h2>
       <ol>
         <li><strong>RA ou VR</strong> faria sentido? Qual dos dois?</li>

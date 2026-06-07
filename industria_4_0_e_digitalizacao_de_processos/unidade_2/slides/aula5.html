@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Internet das Coisas Industrial (IIoT): quando o sensor é a porta de entrada · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -388,6 +399,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -483,7 +503,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>IoT em uma frase</h1>
       <p><strong>IoT</strong> é a conexão de <em>objetos físicos</em> à internet, permitindo que eles <em>coletem</em>, <em>enviem</em> e às vezes <em>recebam</em> dados.</p>
       <ul>
@@ -503,23 +523,23 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Por que "industrial"?</h3>
+      <p class="kicker">Por que "industrial"?</p>
       <h2>IoT doméstica vs IIoT — outro patamar de exigência</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);margin-top:0.4em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Dimensão</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">IoT doméstica</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">IIoT</th>
+          <tr>
+            <th scope="col">Dimensão</th>
+            <th scope="col">IoT doméstica</th>
+            <th scope="col">IIoT</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Confiabilidade</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">"se falhar, eu reinicio"</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>99,9%+</strong> — parada custa milhares/h</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Ambiente</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Sala climatizada</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Calor, óleo, vibração, EMI</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Latência</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Segundos OK</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Milissegundos</strong> em controle</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Segurança</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Privacidade pessoal</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">OT-security, paradas, ransomware</td></tr>
-          <tr><td style="padding:0.45em 0.9em;">Escala</td><td style="padding:0.45em 0.9em;">Dezenas de dispositivos</td><td style="padding:0.45em 0.9em;"><strong>10³–10⁵</strong> pontos sensoreados</td></tr>
+          <tr><td>Confiabilidade</td><td>"se falhar, eu reinicio"</td><td><strong>99,9%+</strong> — parada custa milhares/h</td></tr>
+          <tr><td>Ambiente</td><td>Sala climatizada</td><td>Calor, óleo, vibração, EMI</td></tr>
+          <tr><td>Latência</td><td>Segundos OK</td><td><strong>Milissegundos</strong> em controle</td></tr>
+          <tr><td>Segurança</td><td>Privacidade pessoal</td><td>OT-security, paradas, ransomware</td></tr>
+          <tr><td>Escala</td><td>Dezenas de dispositivos</td><td><strong>10³–10⁵</strong> pontos sensoreados</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;font-size:0.95rem;color:var(--cinza-mute);"><em>Lembre do caso Honda (2020):</em> ransomware parou plantas no mundo todo — IIoT exige segurança em nível operacional, não só de TI.</p>
@@ -533,7 +553,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura IIoT</h3>
+      <p class="kicker">Arquitetura IIoT</p>
       <h2>Do sensor à decisão — o caminho do dado</h2>
       <svg viewBox="0 0 1200 360" style="width:100%;max-height:46vh;display:block;margin-top:0.4rem;" role="img" aria-label="Diagrama de arquitetura IIoT em cinco camadas: sensor, gateway, rede, plataforma e aplicação">
         <!-- Linha de fluxo -->
@@ -600,7 +620,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Anatomia de um sistema IIoT</h3>
+      <p class="kicker">Anatomia de um sistema IIoT</p>
       <h2>As 5 peças que não podem faltar</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -631,24 +651,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que se mede no chão de fábrica</h3>
+      <p class="kicker">O que se mede no chão de fábrica</p>
       <h2>Sensores que aparecem em 80% dos projetos</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Sensor</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Mede</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Aplicação típica</th>
+          <tr>
+            <th scope="col">Sensor</th>
+            <th scope="col">Mede</th>
+            <th scope="col">Aplicação típica</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Temperatura</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Calor (°C)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Fornos, motores, refrigeração</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Vibração</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Aceleração (g, mm/s)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Mancais, rolamentos, motores</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Pressão</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">F/A (bar, psi)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Compressores, tubulações</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Corrente</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">I (A) / V (V)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Motores, painéis elétricos</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Visão</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Imagem (px)</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Inspeção, contagem, segurança</td></tr>
-          <tr><td style="padding:0.45em 0.9em;"><strong>Acústico</strong></td><td style="padding:0.45em 0.9em;">Som (dB, espectro)</td><td style="padding:0.45em 0.9em;">Vazamentos, falhas mecânicas</td></tr>
+          <tr><td><strong>Temperatura</strong></td><td>Calor (°C)</td><td>Fornos, motores, refrigeração</td></tr>
+          <tr><td><strong>Vibração</strong></td><td>Aceleração (g, mm/s)</td><td>Mancais, rolamentos, motores</td></tr>
+          <tr><td><strong>Pressão</strong></td><td>F/A (bar, psi)</td><td>Compressores, tubulações</td></tr>
+          <tr><td><strong>Corrente</strong></td><td>I (A) / V (V)</td><td>Motores, painéis elétricos</td></tr>
+          <tr><td><strong>Visão</strong></td><td>Imagem (px)</td><td>Inspeção, contagem, segurança</td></tr>
+          <tr><td><strong>Acústico</strong></td><td>Som (dB, espectro)</td><td>Vazamentos, falhas mecânicas</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;">Um motor crítico tem tipicamente <strong>4 a 8 sensores</strong> redundantes monitorando dimensões distintas.</p>
@@ -662,7 +682,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>Dimensionando uma rede IIoT</h2>
       <div class="colunas">
         <div>
@@ -675,6 +695,7 @@
             <li>Em um dia: <strong>≈ 4 GB</strong></li>
             <li>Em um ano: <strong>≈ 1,5 TB</strong></li>
           </ul>
+          <p style="margin-top:0.4em;font-size:0.9rem;color:#555;"><em>Atenção à granularidade:</em> aqui usamos amostragem reduzida (1 leitura/5 s). Em alta frequência — vibração contínua, visão computacional — os mesmos 2.000 sensores chegam a <strong>vários TB/dia</strong> (cenário que veremos na Aula 7).</p>
         </div>
         <div>
           <p><em>O que esse cálculo ensina?</em></p>
@@ -697,7 +718,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Protocolos</h3>
+      <p class="kicker">Protocolos</p>
       <h2>MQTT, OPC UA e Modbus em três linhas</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -728,7 +749,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que costuma dar errado</h3>
+      <p class="kicker">O que costuma dar errado</p>
       <h2>Quatro desafios reais de IIoT em campo</h2>
       <div class="colunas">
         <div>
@@ -765,7 +786,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Mini-caso</h3>
+      <p class="kicker">Mini-caso</p>
       <h2>Anatomia IIoT de um motor crítico (200 CV)</h2>
       <div class="colunas">
         <div>
@@ -798,7 +819,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Desenhe a anatomia IIoT de um equipamento</h2>
       <ol>
         <li>Escolha <strong>um equipamento</strong> (real ou imaginário).</li>
@@ -818,7 +839,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pontos-chave</h3>
+      <p class="kicker">Pontos-chave</p>
       <h2>O que levar da Aula 1</h2>
       <div class="pontos-chave">
         <div class="ponto">

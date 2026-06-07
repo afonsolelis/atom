@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 2 — Roadmap de implementação da Indústria 4.0 · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -602,11 +622,11 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Provocação</h3>
+      <p class="kicker">Provocação</p>
       <h1>70% dos projetos 4.0 falham</h1>
       <p>Estudos da <strong>McKinsey</strong> e <strong>BCG</strong> mostram que a maioria das iniciativas de transformação digital industrial <em>não entrega o ROI esperado</em>. As 6 causas mais comuns:</p>
       <div style="display:flex;justify-content:center;margin-top:0.6em;">
-        <svg viewBox="0 0 600 360" width="100%" style="max-width:680px;"><use href="#falhas-6"/></svg>
+        <svg viewBox="0 0 600 360" width="100%" style="max-width:680px;" role="img" aria-label="As 6 principais causas de falha em iniciativas da Indústria 4.0 (cerca de 70% fracassam): 1 tecnologia antes do problema, 2 sem patrocínio executivo, 3 equipe errada (só TI ou só chão de fábrica), 4 problema errado de baixo impacto, 5 revolução em vez de evolução e 6 subestimar a mudança cultural"><use href="#falhas-6"/></svg>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
@@ -618,10 +638,10 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visão geral</h3>
+      <p class="kicker">Visão geral</p>
       <h2>O roadmap em 5 fases</h2>
       <div style="background:#fff;border-radius:12px;padding:1rem 0.4rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
-        <svg viewBox="0 0 1100 280" width="100%"><use href="#roadmap-5fases"/></svg>
+        <svg viewBox="0 0 1100 280" width="100%" role="img" aria-label="Roadmap de transformação digital em 5 fases sequenciais: 1 Diagnóstico (1 a 3 meses), 2 Piloto (3 a 6 meses), 3 Expansão (6 a 12 meses), 4 Escala (12 a 24 meses) e 5 Inovação contínua (24 meses ou mais)"><use href="#roadmap-5fases"/></svg>
       </div>
       <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>Cada fase é pré-requisito da próxima.</em> Não dá para pular. Quem tenta pular, paga em retrabalho.</p>
     </div>
@@ -634,7 +654,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Fases 1 e 2</h3>
+      <p class="kicker">Fases 1 e 2</p>
       <h2>Diagnóstico e Piloto — o pé direito</h2>
       <div class="colunas">
         <div style="background:#fff;border-left:6px solid var(--azul-claro);padding:1.2rem 1.4rem;border-radius:6px;">
@@ -668,7 +688,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Fases 3, 4 e 5</h3>
+      <p class="kicker">Fases 3, 4 e 5</p>
       <h2>Expansão, Escala e Inovação contínua</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -694,24 +714,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Realismo financeiro</h3>
+      <p class="kicker">Realismo financeiro</p>
       <h2>Quanto custa cada fase?</h2>
       <p style="font-size:1rem;">Referência: fábrica média (300–800 funcionários).</p>
-      <table style="width:100%;border-collapse:collapse;font-size:1.05rem;margin-top:0.5em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:#fff;">
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">Fase</th>
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">Investimento</th>
-            <th scope="col" style="padding:0.6em 0.8em;text-align:left;">Prazo</th>
+          <tr>
+            <th scope="col">Fase</th>
+            <th scope="col">Investimento</th>
+            <th scope="col">Prazo</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;">Diagnóstico</td><td style="padding:0.5em 0.8em;">R$ 50–150 mil</td><td style="padding:0.5em 0.8em;">1–3 meses</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;">Piloto</td><td style="padding:0.5em 0.8em;">R$ 150–500 mil</td><td style="padding:0.5em 0.8em;">3–6 meses</td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;">Expansão</td><td style="padding:0.5em 0.8em;">R$ 500 mil–2 mi</td><td style="padding:0.5em 0.8em;">6–12 meses</td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;">Escala</td><td style="padding:0.5em 0.8em;">R$ 2–10 milhões</td><td style="padding:0.5em 0.8em;">12–24 meses</td></tr>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;">Inovação contínua</td><td style="padding:0.5em 0.8em;">R$ 5–20 mi/ano</td><td style="padding:0.5em 0.8em;">Contínuo</td></tr>
+          <tr><td>Diagnóstico</td><td>R$ 50–150 mil</td><td>1–3 meses</td></tr>
+          <tr><td>Piloto</td><td>R$ 150–500 mil</td><td>3–6 meses</td></tr>
+          <tr><td>Expansão</td><td>R$ 500 mil–2 mi</td><td>6–12 meses</td></tr>
+          <tr><td>Escala</td><td>R$ 2–10 milhões</td><td>12–24 meses</td></tr>
+          <tr><td>Inovação contínua</td><td>R$ 5–20 mi/ano</td><td>Contínuo</td></tr>
         </tbody>
       </table>
       <p style="margin-top:1em;font-size:1rem;"><strong>Total nos primeiros 2 anos:</strong> R$ 3–15 milhões. <em>ROI esperado:</em> 30–60% de redução de custo operacional em processos críticos.</p>
@@ -725,7 +745,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Medir para gerenciar</h3>
+      <p class="kicker">Medir para gerenciar</p>
       <h2>KPIs típicos de um roadmap 4.0</h2>
       <div class="colunas">
         <div>
@@ -756,7 +776,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso brasileiro</h3>
+      <p class="kicker">Caso brasileiro</p>
       <h2>Roadmap Embraer 2017–2027</h2>
       <div class="colunas">
         <div>
@@ -775,6 +795,7 @@
             <li>Defeitos: <em>-40%</em></li>
             <li>Lead time: <em>-35%</em></li>
           </ul>
+          <p style="margin-top:0.6em;font-size:0.92rem;color:#555;"><em>Conexão com a Unidade 3:</em> o caso de <strong>digital twin</strong> da Embraer (validação −60%, ganho &gt; R$ 10 mi) que vimos na Aula 9 é um recorte deste programa de 10 anos.</p>
         </div>
       </div>
     </div>
@@ -797,7 +818,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Recap</h3>
+      <p class="kicker">Recap</p>
       <h2>A receita dos 30% que dão certo</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -817,7 +838,7 @@
           <p>Medíveis hoje, ligados às dores prioritárias.</p>
         </div>
       </div>
-      <p style="margin-top:0.8em;font-size:1rem;"><strong>5.</strong> <em>Patrocínio executivo + equipe multidisciplinar</em> são pré-requisitos — não opcionais.</p>
+      <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> <em>Patrocínio executivo + equipe multidisciplinar</em> são pré-requisitos — não opcionais.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>
@@ -828,7 +849,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Avalie sua empresa-caso</h2>
       <ol>
         <li>Em <strong>qual fase</strong> do roadmap ela está hoje?</li>

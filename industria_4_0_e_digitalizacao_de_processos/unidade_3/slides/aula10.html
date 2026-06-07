@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 2 — Robótica colaborativa e automação avançada · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -599,7 +610,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Mudança de paradigma</h3>
+      <p class="kicker">Mudança de paradigma</p>
       <h1>O robô saiu da grade</h1>
       <p>Por décadas, "robô industrial" significou aquele <em>braço enorme atrás de uma grade</em>, isolado dos humanos por questão de segurança. A nova geração — os <strong>cobots</strong> (collaborative robots) — foi projetada para trabalhar <em>lado a lado</em> com o operador.</p>
       <ul>
@@ -621,7 +632,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparativo visual</h3>
+      <p class="kicker">Comparativo visual</p>
       <h2>Robô tradicional vs cobot, lado a lado</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1200 420" role="img" aria-label="Diagrama comparativo: robô tradicional dentro de grade com humano isolado a 3 metros versus cobot operando lado a lado com humano em zona segura">
@@ -638,7 +649,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Tabela detalhada</h3>
+      <p class="kicker">Tabela detalhada</p>
       <h2>Onde cada um faz sentido</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -669,7 +680,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Segurança certificada</h3>
+      <p class="kicker">Segurança certificada</p>
       <h2>As 3 camadas de segurança do cobot</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -699,7 +710,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Visualização</h3>
+      <p class="kicker">Visualização</p>
       <h2>Anatomia das 3 camadas, do centro para fora</h2>
       <div class="slide-svg-wrap">
         <svg viewBox="0 0 1100 360" role="img" aria-label="Diagrama em zonas concêntricas mostrando as três camadas de segurança do cobot certificadas pela ISO/TS 15066">
@@ -716,7 +727,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Onde os cobots já trabalham</h3>
+      <p class="kicker">Onde os cobots já trabalham</p>
       <h2>7 aplicações típicas</h2>
       <div class="colunas">
         <div>
@@ -755,7 +766,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Mapa do mercado</h3>
+      <p class="kicker">Mapa do mercado</p>
       <h2>Quem é quem em cobots</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -783,7 +794,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso brasileiro</h3>
+      <p class="kicker">Caso brasileiro</p>
       <h2>Embraco · Joinville (SC)</h2>
       <div class="colunas">
         <div>
@@ -816,7 +827,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico · ROI passo a passo</h3>
+      <p class="kicker">Exemplo numérico · ROI passo a passo</p>
       <h2>Aparafusamento em eletrônicos — paga em 13 meses</h2>
       <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
@@ -849,7 +860,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Não é só braço robótico</h3>
+      <p class="kicker">Não é só braço robótico</p>
       <h1>Automação avançada além do cobot</h1>
       <ul>
         <li><strong>AGVs / AMRs</strong> — veículos autônomos substituem empilhadeiras em armazéns.</li>
@@ -872,7 +883,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pausa para reflexão</h3>
+      <p class="kicker">Pausa para reflexão</p>
       <h2>"Cobot vai roubar meu emprego?"</h2>
       <ul>
         <li><strong>Tarefas repetitivas e fisicamente desgastantes</strong> são absorvidas pelo cobot.</li>
@@ -904,7 +915,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Identifique 3 tarefas candidatas a cobot</h2>
       <ol>
         <li>Que <strong>gesto físico repetitivo</strong> é feito?</li>

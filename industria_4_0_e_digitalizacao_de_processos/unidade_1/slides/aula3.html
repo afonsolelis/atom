@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Sistemas Ciber-Físicos (CPS): o coração da Indústria 4.0 · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -386,6 +397,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -481,7 +501,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pausa para reflexão</h3>
+      <p class="kicker">Pausa para reflexão</p>
       <h1>O que é um CPS?</h1>
       <p>Antes de seguir: <em>você usa o termo "máquina inteligente"? O que isso significa para você?</em> Anote sua resposta — vamos comparar no fim da aula.</p>
       <p>Um <strong>Sistema Ciber-Físico (CPS)</strong> é um sistema em que:</p>
@@ -502,22 +522,22 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparação direta</h3>
+      <p class="kicker">Comparação direta</p>
       <h2>Máquina automatizada × CPS</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Aspecto</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Máquina automatizada</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">CPS</th>
+          <tr>
+            <th scope="col">Aspecto</th>
+            <th scope="col">Máquina automatizada</th>
+            <th scope="col">CPS</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Conhece o próprio estado?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Apenas localmente</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sim — e compartilha</strong></td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Conhece estado das outras?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Não</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sim</strong></td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Adapta-se sem reprogramação?</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Não</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sim (até certo ponto)</strong></td></tr>
-          <tr><td style="padding:0.5em 1em;">Tem "irmão digital"?</td><td style="padding:0.5em 1em;">Não</td><td style="padding:0.5em 1em;"><strong>Sim</strong></td></tr>
+          <tr><td>Conhece o próprio estado?</td><td>Apenas localmente</td><td><strong>Sim — e compartilha</strong></td></tr>
+          <tr><td>Conhece estado das outras?</td><td>Não</td><td><strong>Sim</strong></td></tr>
+          <tr><td>Adapta-se sem reprogramação?</td><td>Não</td><td><strong>Sim (até certo ponto)</strong></td></tr>
+          <tr><td>Tem "irmão digital"?</td><td>Não</td><td><strong>Sim</strong></td></tr>
         </tbody>
       </table>
       <p style="margin-top:1em;">Na 3.0, o CLP roda <em>lógica fixa</em>. No CPS, a inteligência é <em>distribuída e adaptativa</em>.</p>
@@ -531,7 +551,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura</h3>
+      <p class="kicker">Arquitetura</p>
       <h2>As três camadas de um CPS</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -561,7 +581,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura visual</h3>
+      <p class="kicker">Arquitetura visual</p>
       <h2>Como um CPS se organiza, do sensor à decisão</h2>
       <svg viewBox="0 0 1100 420" style="width:100%;max-height:48vh;display:block;margin-top:0.6rem;" role="img" aria-label="Diagrama de arquitetura de um sistema ciber-físico mostrando as camadas física, comunicação e cibernética, com fluxo de dados subindo do sensor para o gêmeo digital e fluxo de decisão descendo de volta ao atuador.">
         <defs>
@@ -647,7 +667,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso concreto</h3>
+      <p class="kicker">Caso concreto</p>
       <h2>Digital twin nas turbinas da GE</h2>
       <div class="colunas">
         <div>
@@ -685,7 +705,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>CPS no Brasil</h3>
+      <p class="kicker">CPS no Brasil</p>
       <h2>Não é só coisa de gigante americana</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -716,21 +736,21 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>Forno de siderúrgica — sem CPS × com CPS</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Etapa</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Sem CPS</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Com CPS</th>
+          <tr>
+            <th scope="col">Etapa</th>
+            <th scope="col">Sem CPS</th>
+            <th scope="col">Com CPS</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Leitura de temperatura</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Operador anota a cada 15 min</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Sensor a cada 100 ms</strong></td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Detecção do desvio</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">15 a 30 minutos</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;"><strong>Menos de 1 segundo</strong></td></tr>
-          <tr><td style="padding:0.5em 1em;">Ajuste</td><td style="padding:0.5em 1em;">Manual</td><td style="padding:0.5em 1em;"><strong>Automático</strong></td></tr>
+          <tr><td>Leitura de temperatura</td><td>Operador anota a cada 15 min</td><td><strong>Sensor a cada 100 ms</strong></td></tr>
+          <tr><td>Detecção do desvio</td><td>15 a 30 minutos</td><td><strong>Menos de 1 segundo</strong></td></tr>
+          <tr><td>Ajuste</td><td>Manual</td><td><strong>Automático</strong></td></tr>
         </tbody>
       </table>
       <p style="margin-top:1em;">De <em>minutos para segundos</em>. Em produtos sensíveis (aço, alumínio, vidro), essa diferença vale <strong>milhões</strong>.</p>
@@ -744,22 +764,22 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Onde fica a inteligência?</h3>
+      <p class="kicker">Onde fica a inteligência?</p>
       <h2>Edge vs. Cloud — onde o CPS pensa</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Critério</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Edge (na borda)</th>
-            <th scope="col" style="padding:0.5em 1em;text-align:left;">Cloud (nuvem)</th>
+          <tr>
+            <th scope="col">Critério</th>
+            <th scope="col">Edge (na borda)</th>
+            <th scope="col">Cloud (nuvem)</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Latência</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">&lt; 10 ms</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">50–500 ms</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Volume processado</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Local, limitado</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Praticamente ilimitado</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Quando usar</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Controle de segurança, robô em movimento</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">IA pesada, treino de modelo, BI corporativo</td></tr>
-          <tr><td style="padding:0.45em 1em;"><strong>Sem rede?</strong></td><td style="padding:0.45em 1em;">Continua funcionando</td><td style="padding:0.45em 1em;">Para</td></tr>
+          <tr><td><strong>Latência</strong></td><td>&lt; 10 ms</td><td>50–500 ms</td></tr>
+          <tr><td><strong>Volume processado</strong></td><td>Local, limitado</td><td>Praticamente ilimitado</td></tr>
+          <tr><td><strong>Quando usar</strong></td><td>Controle de segurança, robô em movimento</td><td>IA pesada, treino de modelo, BI corporativo</td></tr>
+          <tr><td><strong>Sem rede?</strong></td><td>Continua funcionando</td><td>Para</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.7em;">CPS maduro <strong>combina os dois</strong>: <em>edge</em> para decidir agora, <em>cloud</em> para aprender com o histórico.</p>
@@ -773,7 +793,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Senso de realidade</h3>
+      <p class="kicker">Senso de realidade</p>
       <h2>Quando <em>não</em> faz sentido construir um CPS</h2>
       <ul>
         <li><strong>Processo estável e barato.</strong> Se a parada custa pouco e o processo nunca muda, o ROI não fecha.</li>
@@ -803,7 +823,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Transforme um eletrodoméstico em CPS</h2>
       <ol>
         <li>Escolha um equipamento do seu dia a dia (máquina de lavar, cafeteira, aspirador robô, ar-condicionado).</li>

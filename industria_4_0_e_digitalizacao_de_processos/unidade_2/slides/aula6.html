@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 2 — Big Data e Analytics na indústria: do dado bruto à decisão · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -384,6 +395,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -479,7 +499,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>Big Data em uma frase</h1>
       <p><strong>Big Data</strong> trata de conjuntos de dados <em>grandes demais, rápidos demais ou variados demais</em> para ferramentas tradicionais (planilhas, bancos relacionais simples).</p>
       <div class="colunas">
@@ -508,7 +528,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Os 5 Vs na prática</h3>
+      <p class="kicker">Os 5 Vs na prática</p>
       <h2>Os cinco eixos do dado industrial</h2>
       <svg viewBox="0 0 1100 360" style="width:100%;max-height:46vh;display:block;margin-top:0.3rem;" role="img" aria-label="Diagrama dos cinco Vs do Big Data — Volume, Velocidade, Variedade, Veracidade e Valor — cada um representado por um pentágono colorido">
         <!-- Volume -->
@@ -566,24 +586,24 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Fontes industriais</h3>
+      <p class="kicker">Fontes industriais</p>
       <h2>De onde vem todo esse dado — e em que ordem de grandeza?</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Fonte</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Tipo de dado</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Volume diário típico</th>
+          <tr>
+            <th scope="col">Fonte</th>
+            <th scope="col">Tipo de dado</th>
+            <th scope="col">Volume diário típico</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Sensores IIoT</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Numérico, série temporal</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>GB a TB</strong></td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Câmeras de visão</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Imagem / vídeo</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>TB</strong></td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">MES e ERP</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Transações estruturadas</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">GB</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Logs de CLPs</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Texto estruturado</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">GB</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Qualidade de laboratório</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Estruturado</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">MB</td></tr>
-          <tr><td style="padding:0.45em 0.9em;">Manuais e documentos</td><td style="padding:0.45em 0.9em;">Texto não estruturado</td><td style="padding:0.45em 0.9em;">MB</td></tr>
+          <tr><td><strong>Sensores IIoT</strong></td><td>Numérico, série temporal</td><td><strong>GB a TB</strong></td></tr>
+          <tr><td><strong>Câmeras de visão</strong></td><td>Imagem / vídeo</td><td><strong>TB</strong></td></tr>
+          <tr><td>MES e ERP</td><td>Transações estruturadas</td><td>GB</td></tr>
+          <tr><td>Logs de CLPs</td><td>Texto estruturado</td><td>GB</td></tr>
+          <tr><td>Qualidade de laboratório</td><td>Estruturado</td><td>MB</td></tr>
+          <tr><td>Manuais e documentos</td><td>Texto não estruturado</td><td>MB</td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.7em;">Uma <strong>siderúrgica média</strong> ultrapassa <strong>5 TB/dia</strong>. Em um ano, são <strong>petabytes</strong>. Planilha não resolve.</p>
@@ -597,7 +617,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O retrato do problema</h3>
+      <p class="kicker">O retrato do problema</p>
       <h2>Big Data: dezenas de fontes, um único destino — a decisão</h2>
       <div class="colunas">
         <div>
@@ -639,7 +659,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Arquitetura medalhão</h3>
+      <p class="kicker">Arquitetura medalhão</p>
       <h2>Bronze → Prata → Ouro — o pipeline canônico</h2>
       <svg viewBox="0 0 1200 320" style="width:100%;max-height:42vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pipeline medalhão de dados — coleta, bronze (bruto), prata (limpo), ouro (analítico) e consumo">
         <!-- Coleta -->
@@ -698,7 +718,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>As 4 camadas</h3>
+      <p class="kicker">As 4 camadas</p>
       <h2>Coleta, armazenamento, processamento, consumo</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -729,23 +749,23 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Os 4 níveis de analytics</h3>
+      <p class="kicker">Os 4 níveis de analytics</p>
       <h2>Da pergunta "o que aconteceu?" à pergunta "o que devo fazer?"</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Nível</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Pergunta</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Ferramenta típica</th>
-            <th scope="col" style="padding:0.55em 0.9em;text-align:left;">Maturidade BR</th>
+          <tr>
+            <th scope="col">Nível</th>
+            <th scope="col">Pergunta</th>
+            <th scope="col">Ferramenta típica</th>
+            <th scope="col">Maturidade BR</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Descritivo</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><em>O que aconteceu?</em></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Dashboards, relatórios</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Maioria</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Diagnóstico</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><em>Por que aconteceu?</em></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Causa-raiz, drill-down</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Em adoção</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Preditivo</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><em>O que vai acontecer?</em></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">ML, estatística</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Diferencial</td></tr>
-          <tr><td style="padding:0.45em 0.9em;"><strong>Prescritivo</strong></td><td style="padding:0.45em 0.9em;"><em>O que devo fazer?</em></td><td style="padding:0.45em 0.9em;">Otimização, decisão automática</td><td style="padding:0.45em 0.9em;"><strong>Fronteira</strong></td></tr>
+          <tr><td><strong>Descritivo</strong></td><td><em>O que aconteceu?</em></td><td>Dashboards, relatórios</td><td>Maioria</td></tr>
+          <tr><td><strong>Diagnóstico</strong></td><td><em>Por que aconteceu?</em></td><td>Causa-raiz, drill-down</td><td>Em adoção</td></tr>
+          <tr><td><strong>Preditivo</strong></td><td><em>O que vai acontecer?</em></td><td>ML, estatística</td><td>Diferencial</td></tr>
+          <tr><td><strong>Prescritivo</strong></td><td><em>O que devo fazer?</em></td><td>Otimização, decisão automática</td><td><strong>Fronteira</strong></td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.6em;">Cada nível agrega <strong>mais valor</strong> e <strong>mais maturidade</strong>. Subir um degrau de cada vez vale mais do que pular para "IA agora".</p>
@@ -759,7 +779,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico — fábrica de bebidas</h3>
+      <p class="kicker">Exemplo numérico — fábrica de bebidas</p>
       <h2>ROI realista de analytics preditivo</h2>
       <div class="colunas">
         <div>
@@ -789,7 +809,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Stack moderna</h3>
+      <p class="kicker">Stack moderna</p>
       <h2>Ferramentas comuns em fábricas brasileiras</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -830,7 +850,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que faz projeto morrer</h3>
+      <p class="kicker">O que faz projeto morrer</p>
       <h2>Cinco armadilhas comuns em analytics industrial</h2>
       <ol>
         <li><strong>Coletar antes de perguntar</strong> — TBs sem hipótese viram cemitério de dado.</li>
@@ -850,7 +870,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Suba sua fonte de dado de nível</h2>
       <ol>
         <li>Pegue uma fonte de dado que você conhece bem (nota fiscal, ponto, estoque).</li>
@@ -870,7 +890,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Pontos-chave</h3>
+      <p class="kicker">Pontos-chave</p>
       <h2>O que levar da Aula 2</h2>
       <div class="pontos-chave">
         <div class="ponto">

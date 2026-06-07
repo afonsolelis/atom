@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Mapeamento e digitalização de processos (BPM + Indústria 4.0) · Indústria 4.0</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
@@ -15,6 +16,7 @@
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
 
@@ -102,13 +104,22 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--azul-fecaf);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
   .slide p, .slide li {
     font-size: clamp(1rem, 1.4vw, 1.35rem);
     line-height: 1.5;
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
+  .slide strong { color: var(--magenta-texto); }
   .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
 
   /* ---------- Slide: capa ---------- */
@@ -388,6 +399,15 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+
 </style>
 </head>
 <body>
@@ -576,7 +596,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Provocação</h3>
+      <p class="kicker">Provocação</p>
       <h1>O erro nº 1 da transformação digital</h1>
       <p style="font-size:clamp(1.2rem,1.7vw,1.55rem);">Tem um erro que aprendi na pele em 15 anos de projeto:</p>
       <p style="font-size:clamp(1.4rem,2.2vw,2rem);color:var(--azul-fecaf);font-weight:700;border-left:6px solid var(--magenta);padding-left:1rem;margin:1.2em 0;">Digitalizar processo bagunçado é <em>multiplicar a bagunça</em> com tecnologia.</p>
@@ -595,7 +615,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>BPM: a base que ninguém respeita</h1>
       <p><strong>BPM (Business Process Management)</strong> é a disciplina de <em>mapear, analisar, otimizar e monitorar</em> os processos de uma organização — tornando a operação mais eficiente, padronizada e mensurável.</p>
       <ul>
@@ -615,11 +635,11 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Método</h3>
+      <p class="kicker">Método</p>
       <h2>O ciclo BPM em 6 etapas</h2>
       <div class="colunas" style="grid-template-columns: 0.85fr 1.15fr;">
         <div style="display:flex;justify-content:center;">
-          <svg viewBox="0 0 520 520" width="100%" style="max-width:380px;"><use href="#bpm-cycle"/></svg>
+          <svg viewBox="0 0 520 520" width="100%" style="max-width:380px;" role="img" aria-label="Ciclo contínuo de BPM em 6 etapas dispostas em círculo no sentido horário: 1 Planejar, 2 modelar o AS-IS, 3 Analisar, 4 desenhar o TO-BE, 5 Implementar e 6 Monitorar"><use href="#bpm-cycle"/></svg>
         </div>
         <div>
           <ol style="font-size:clamp(0.95rem,1.3vw,1.2rem);">
@@ -643,7 +663,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Armadilha</h3>
+      <p class="kicker">Armadilha</p>
       <h2>AS-IS vs TO-BE — o erro que destrói projetos</h2>
       <div class="colunas">
         <div style="background:#fff;border-left:6px solid var(--magenta);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
@@ -667,7 +687,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Notação</h3>
+      <p class="kicker">Notação</p>
       <h2>BPMN — a linguagem universal de processos</h2>
       <p>Padrão da <strong>OMG (Object Management Group)</strong>. Quatro elementos essenciais:</p>
       <div class="pontos-chave">
@@ -699,10 +719,10 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>BPMN na prática</h3>
+      <p class="kicker">BPMN na prática</p>
       <h2>Lendo um diagrama em 30 segundos</h2>
       <div style="background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);margin:0.6em 0;">
-        <svg viewBox="0 0 600 220" width="100%" style="max-width:880px;display:block;margin:0 auto;"><use href="#bpmn-mini"/></svg>
+        <svg viewBox="0 0 600 220" width="100%" style="max-width:880px;display:block;margin:0 auto;" role="img" aria-label="Mini diagrama BPMN de um processo: evento de início, atividade Receber pedido, gateway de decisão e dois caminhos resultantes — Aprovar e Reprovar"><use href="#bpmn-mini"/></svg>
       </div>
       <p style="font-size:1.05rem;"><strong>Leitura:</strong> processo <em>começa</em> com o pedido, <em>decide</em> aprovar ou reprovar, e <em>termina</em> nos dois ramos. Simples — e suficiente para abrir conversa com TI e operação.</p>
       <p style="font-size:0.95rem;color:var(--azul-medio);"><em>Dica:</em> mantenha o primeiro diagrama com no máximo 8 caixinhas. Detalhe depois.</p>
@@ -716,32 +736,32 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Confusões comuns</h3>
+      <p class="kicker">Confusões comuns</p>
       <h2>BPM vs RPA vs Workflow</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:1.02rem;margin-top:0.4em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:#fff;">
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">Conceito</th>
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">O que é</th>
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">Exemplo</th>
+          <tr>
+            <th scope="col">Conceito</th>
+            <th scope="col">O que é</th>
+            <th scope="col">Exemplo</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#fff;">
-            <td style="padding:0.5em 0.8em;"><strong>BPM</strong></td>
-            <td style="padding:0.5em 0.8em;">Disciplina ampla — todo o ciclo de gestão de processos.</td>
-            <td style="padding:0.5em 0.8em;">Mapear emissão de pedido de ponta a ponta.</td>
+          <tr>
+            <td><strong>BPM</strong></td>
+            <td>Disciplina ampla — todo o ciclo de gestão de processos.</td>
+            <td>Mapear emissão de pedido de ponta a ponta.</td>
           </tr>
-          <tr style="background:var(--cinza-bg);">
-            <td style="padding:0.5em 0.8em;"><strong>RPA</strong></td>
-            <td style="padding:0.5em 0.8em;">Robô de software que <em>imita</em> usuário em sistemas existentes.</td>
-            <td style="padding:0.5em 0.8em;">Copiar dados de PDF para ERP automaticamente.</td>
+          <tr>
+            <td><strong>RPA</strong></td>
+            <td>Robô de software que <em>imita</em> usuário em sistemas existentes.</td>
+            <td>Copiar dados de PDF para ERP automaticamente.</td>
           </tr>
-          <tr style="background:#fff;">
-            <td style="padding:0.5em 0.8em;"><strong>Workflow</strong></td>
-            <td style="padding:0.5em 0.8em;">Automação de <em>fluxo de aprovação</em> — subcategoria do BPM.</td>
-            <td style="padding:0.5em 0.8em;">Solicitar férias: gestor → RH → folha.</td>
+          <tr>
+            <td><strong>Workflow</strong></td>
+            <td>Automação de <em>fluxo de aprovação</em> — subcategoria do BPM.</td>
+            <td>Solicitar férias: gestor → RH → folha.</td>
           </tr>
         </tbody>
       </table>
@@ -756,7 +776,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Estado da arte</h3>
+      <p class="kicker">Estado da arte</p>
       <h2>O trio que mudou o BPM</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -783,21 +803,21 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Números que convencem</h3>
+      <p class="kicker">Números que convencem</p>
       <h2>ROI real: pedido de compra com RPA</h2>
       <p style="font-size:1rem;">Cenário: fábrica média, <strong>~5.000 pedidos/mês</strong>.</p>
-      <table style="width:100%;border-collapse:collapse;font-size:1.02rem;margin-top:0.4em;">
+      <table class="tabela-industrial">
         <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
         <thead>
-          <tr style="background:var(--azul-fecaf);color:#fff;">
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">Cenário</th>
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">Recurso</th>
-            <th scope="col" style="padding:0.55em 0.8em;text-align:left;">Custo/mês</th>
+          <tr>
+            <th scope="col">Cenário</th>
+            <th scope="col">Recurso</th>
+            <th scope="col">Custo/mês</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="background:#fff;"><td style="padding:0.5em 0.8em;"><strong>Antes (manual)</strong></td><td style="padding:0.5em 0.8em;">2 func. × 4 h/dia × R$ 30 × 20 dias</td><td style="padding:0.5em 0.8em;color:var(--magenta);"><strong>R$ 9.600</strong></td></tr>
-          <tr style="background:var(--cinza-bg);"><td style="padding:0.5em 0.8em;"><strong>Depois (RPA + workflow)</strong></td><td style="padding:0.5em 0.8em;">0,5 func. × 1 h/dia (supervisão)</td><td style="padding:0.5em 0.8em;color:var(--verde-escuro);"><strong>R$ 600</strong></td></tr>
+          <tr><td><strong>Antes (manual)</strong></td><td>2 func. × 4 h/dia × R$ 30 × 20 dias</td><td style="color:var(--magenta);"><strong>R$ 9.600</strong></td></tr>
+          <tr><td><strong>Depois (RPA + workflow)</strong></td><td>0,5 func. × 1 h/dia (supervisão)</td><td style="color:var(--verde-escuro);"><strong>R$ 600</strong></td></tr>
         </tbody>
       </table>
       <p style="margin-top:0.8em;font-size:1.05rem;"><strong>Investimento:</strong> R$ 70 mil (licença + integração + treinamento) · <strong>Economia:</strong> R$ 9 mil/mês · <strong>Payback:</strong> <em>~8 meses</em>.</p>
@@ -812,7 +832,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso brasileiro</h3>
+      <p class="kicker">Caso brasileiro</p>
       <h2>Itaú Unibanco + Celonis</h2>
       <div class="colunas">
         <div>
@@ -852,7 +872,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Recap</h3>
+      <p class="kicker">Recap</p>
       <h2>Pontos-chave da aula</h2>
       <div class="pontos-chave">
         <div class="ponto">
@@ -872,7 +892,7 @@
           <p>Process mining + RPA + process intelligence — estado da arte.</p>
         </div>
       </div>
-      <p style="margin-top:0.8em;font-size:1rem;"><strong>5.</strong> BPM, RPA e workflow são <em>complementares</em>, não sinônimos.</p>
+      <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> BPM, RPA e workflow são <em>complementares</em>, não sinônimos.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
@@ -883,7 +903,7 @@
       <svg width="150" height="150"><use href="#trio-canto"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Mapeie um processo seu</h2>
       <ol>
         <li>Escolha um processo administrativo ou operacional do seu dia a dia.</li>
