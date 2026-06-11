@@ -45,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -78,28 +76,24 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
+  .slide h1, .slide h2, .slide h3 {
     font-family: var(--fonte);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
-    margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -107,7 +101,7 @@
   .kicker {
     font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -119,8 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta-texto); }
-  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -174,7 +192,9 @@
     color: #999;
     border: 2px dashed #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -232,7 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-mute);
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -293,10 +313,11 @@
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -340,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -402,11 +424,14 @@
 
   /* ---------- Tabelas industriais ---------- */
   .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
-  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
   .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
-  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
-  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
-  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 
   /* ---------- Caixinhas de destaque ---------- */
   .destaque-box {
@@ -443,6 +468,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -609,22 +644,27 @@
 
   <!-- ============== SLIDE 4 — CONCEITO: ADITIVA VS SUBTRATIVA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conceito-chave</p>
       <h1>Aditiva vs subtrativa</h1>
-      <p><strong>Manufatura aditiva</strong> constrói uma peça <em>camada por camada</em>, a partir de um modelo digital. A tradicional (subtrativa) parte de um bloco e <em>remove</em> material até chegar à peça.</p>
-      <ul>
-        <li>Aditiva = <strong>adiciona</strong> material onde ele precisa estar.</li>
-        <li>Subtrativa = <strong>remove</strong> material de onde ele não precisa estar.</li>
-        <li>A economia muda: peças complexas e lotes pequenos ficam viáveis.</li>
-        <li>Geometrias antes impossíveis — canais internos, treliças, formas orgânicas — passam a ser viáveis.</li>
-      </ul>
-      <div class="destaque-box azul">
-        <h4>Por que isso importa para o engenheiro de produção?</h4>
-        <p>Porque muda a equação <em>custo × volume × complexidade</em>: a aditiva inverte a lógica de que "peça complexa é peça cara".</p>
+      <div class="slide-content-box">
+        <p><strong>Manufatura aditiva</strong> constrói uma peça <em>camada por camada</em>, a partir de um modelo digital. A tradicional (subtrativa) parte de um bloco e <em>remove</em> material até chegar à peça.</p>
+        <ul>
+          <li>Aditiva = <strong>adiciona</strong> material onde ele precisa estar.</li>
+          <li>Subtrativa = <strong>remove</strong> material de onde ele não precisa estar.</li>
+          <li>A economia muda: peças complexas e lotes pequenos ficam viáveis.</li>
+          <li>Geometrias antes impossíveis — canais internos, treliças, formas orgânicas — passam a ser viáveis.</li>
+        </ul>
+        <div class="destaque-box azul">
+          <h4>Por que isso importa para o engenheiro de produção?</h4>
+          <p>Porque muda a equação <em>custo × volume × complexidade</em>: a aditiva inverte a lógica de que "peça complexa é peça cara".</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
@@ -632,84 +672,99 @@
 
   <!-- ============== SLIDE 5 — DIAGRAMA SVG: ADITIVA VS SUBTRATIVA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Visão em uma imagem</p>
       <h2>Dois paradigmas, lado a lado</h2>
-      <div class="slide-svg-wrap">
-        <svg viewBox="0 0 1200 400" role="img" aria-label="Diagrama comparando manufatura subtrativa (bloco com material removido) e aditiva (peça construída camada a camada)">
-          <use href="#svg-aditiva-vs-subtrativa"/>
-        </svg>
+      <div class="slide-content-box">
+        <div class="slide-svg-wrap">
+          <svg viewBox="0 0 1200 400" role="img" aria-label="Diagrama comparando manufatura subtrativa (bloco com material removido) e aditiva (peça construída camada a camada)">
+            <use href="#svg-aditiva-vs-subtrativa"/>
+          </svg>
+        </div>
+        <p style="margin-top:0.4rem;text-align:center;font-size:0.95rem;color:var(--cinza-mute);">A escolha entre as duas <em>não é absoluta</em> — depende de <strong>volume, geometria e material</strong>.</p>
       </div>
-      <p style="margin-top:0.4rem;text-align:center;font-size:0.95rem;color:var(--cinza-mute);">A escolha entre as duas <em>não é absoluta</em> — depende de <strong>volume, geometria e material</strong>.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — TABELA DAS 5 TECNOLOGIAS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Panorama tecnológico</p>
       <h2>As 5 tecnologias aditivas principais</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Tecnologia</th>
-            <th scope="col">Material</th>
-            <th scope="col">Aplicação típica</th>
-            <th scope="col">Custo de máquina (R$)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>FDM</strong> (Fused Deposition Modeling)</td><td>Filamento plástico (PLA, ABS)</td><td>Protótipos, peças não-estruturais</td><td>2 mil – 80 mil</td></tr>
-          <tr><td><strong>SLA / DLP</strong> (Estereolitografia)</td><td>Resina líquida + luz UV</td><td>Alta precisão, próteses dentárias</td><td>10 mil – 200 mil</td></tr>
-          <tr><td><strong>SLS</strong> (Selective Laser Sintering)</td><td>Pó de polímero</td><td>Peças funcionais, lotes pequenos</td><td>200 mil – 800 mil</td></tr>
-          <tr><td><strong>DMLS / SLM</strong> (Pó metálico)</td><td>Pó de aço, titânio, alumínio</td><td>Aeroespacial, implantes médicos</td><td>1 milhão – 5 milhões</td></tr>
-          <tr><td><strong>Binder Jetting</strong></td><td>Areia, metal em pó, gesso</td><td>Moldes para fundição, cerâmica</td><td>500 mil – 2 milhões</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.6rem;"><em>DMLS/SLM</em> é a fronteira: peças metálicas que <strong>não poderiam existir</strong> pela via tradicional.</p>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Tecnologia</th>
+              <th scope="col">Material</th>
+              <th scope="col">Aplicação típica</th>
+              <th scope="col">Custo de máquina (R$)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>FDM</strong> (Fused Deposition Modeling)</td><td>Filamento plástico (PLA, ABS)</td><td>Protótipos, peças não-estruturais</td><td>2 mil – 80 mil</td></tr>
+            <tr><td><strong>SLA / DLP</strong> (Estereolitografia)</td><td>Resina líquida + luz UV</td><td>Alta precisão, próteses dentárias</td><td>10 mil – 200 mil</td></tr>
+            <tr><td><strong>SLS</strong> (Selective Laser Sintering)</td><td>Pó de polímero</td><td>Peças funcionais, lotes pequenos</td><td>200 mil – 800 mil</td></tr>
+            <tr><td><strong>DMLS / SLM</strong> (Pó metálico)</td><td>Pó de aço, titânio, alumínio</td><td>Aeroespacial, implantes médicos</td><td>1 milhão – 5 milhões</td></tr>
+            <tr><td><strong>Binder Jetting</strong></td><td>Areia, metal em pó, gesso</td><td>Moldes para fundição, cerâmica</td><td>500 mil – 2 milhões</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.6rem;"><em>DMLS/SLM</em> é a fronteira: peças metálicas que <strong>não poderiam existir</strong> pela via tradicional.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>
 
   <!-- ============== SLIDE 7 — IMAGEM REAL + DESTAQUE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Na prática</p>
       <h2>Impressora FDM em operação</h2>
-      <div class="colunas">
-        <div>
-          <p>Esta é a tecnologia <em>mais acessível</em> — uma impressora de mesa custa o equivalente a um celular. É a porta de entrada das fábricas brasileiras para a aditiva.</p>
-          <ul>
-            <li><strong>Bico extrusor</strong> aquece o filamento a 200–250 °C.</li>
-            <li>Plástico fundido é depositado <strong>camada a camada</strong> (0,1–0,3 mm cada).</li>
-            <li>Uma peça do tamanho de um <em>punho</em> leva de 4 a 12 horas.</li>
-            <li>Quase nenhum desperdício (e o que sobra pode virar filamento de novo).</li>
-          </ul>
-        </div>
-        <div class="col-imagem" role="img" aria-label="Impressora 3D FDM depositando filamento camada a camada" style="background:linear-gradient(135deg,#5A6175 0%,#1A1A1A 100%);border:none;color:#FFF;flex-direction:column;gap:1rem;padding:2rem;text-align:center;">
-          <svg width="120" height="120" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="8" y="8" width="48" height="44" rx="2"/>
-            <line x1="14" y1="18" x2="50" y2="18"/>
-            <rect x="28" y="14" width="8" height="10" rx="1" fill="#F0CE29" stroke="#F0CE29"/>
-            <line x1="32" y1="24" x2="32" y2="34" stroke="#F0CE29" stroke-width="3"/>
-            <rect x="14" y="38" width="36" height="6" rx="1"/>
-            <line x1="20" y1="48" x2="44" y2="48" stroke-dasharray="3 2"/>
-            <line x1="22" y1="52" x2="42" y2="52" stroke-dasharray="3 2" opacity="0.7"/>
-            <line x1="24" y1="56" x2="40" y2="56" stroke-dasharray="3 2" opacity="0.5"/>
-          </svg>
-          <strong style="font-size:1.35rem;color:#F0CE29;font-weight:800;line-height:1.15;">FDM · camada a camada</strong>
-          <span style="font-size:1rem;opacity:0.92;line-height:1.4;max-width:90%;">Bico extrusor <strong style="color:#FFF;">200–250 °C</strong><br/>Camadas de <strong style="color:#FFF;">0,1–0,3 mm</strong><br/>Punho impresso em <strong style="color:#FFF;">4–12 h</strong></span>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <p>Esta é a tecnologia <em>mais acessível</em> — uma impressora de mesa custa o equivalente a um celular. É a porta de entrada das fábricas brasileiras para a aditiva.</p>
+            <ul>
+              <li><strong>Bico extrusor</strong> aquece o filamento a 200–250 °C.</li>
+              <li>Plástico fundido é depositado <strong>camada a camada</strong> (0,1–0,3 mm cada).</li>
+              <li>Uma peça do tamanho de um <em>punho</em> leva de 4 a 12 horas.</li>
+              <li>Quase nenhum desperdício (e o que sobra pode virar filamento de novo).</li>
+            </ul>
+          </div>
+          <div class="col-imagem" role="img" aria-label="Impressora 3D FDM depositando filamento camada a camada" style="background:linear-gradient(135deg,#5A6175 0%,#1A1A1A 100%);border:none;color:#FFF;flex-direction:column;gap:1rem;padding:2rem;text-align:center;">
+            <svg width="120" height="120" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="8" y="8" width="48" height="44" rx="2"/>
+              <line x1="14" y1="18" x2="50" y2="18"/>
+              <rect x="28" y="14" width="8" height="10" rx="1" fill="#F0CE29" stroke="#F0CE29"/>
+              <line x1="32" y1="24" x2="32" y2="34" stroke="#F0CE29" stroke-width="3"/>
+              <rect x="14" y="38" width="36" height="6" rx="1"/>
+              <line x1="20" y1="48" x2="44" y2="48" stroke-dasharray="3 2"/>
+              <line x1="22" y1="52" x2="42" y2="52" stroke-dasharray="3 2" opacity="0.7"/>
+              <line x1="24" y1="56" x2="40" y2="56" stroke-dasharray="3 2" opacity="0.5"/>
+            </svg>
+            <strong style="font-size:1.35rem;color:#F0CE29;font-weight:800;line-height:1.15;">FDM · camada a camada</strong>
+            <span style="font-size:1rem;opacity:0.92;line-height:1.4;max-width:90%;">Bico extrusor <strong style="color:#FFF;">200–250 °C</strong><br/>Camadas de <strong style="color:#FFF;">0,1–0,3 mm</strong><br/>Punho impresso em <strong style="color:#FFF;">4–12 h</strong></span>
+          </div>
         </div>
       </div>
     </div>
@@ -718,28 +773,33 @@
 
   <!-- ============== SLIDE 8 — ONDE É GAME-CHANGER (PONTOS-CHAVE) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Aplicações de alto impacto</p>
       <h2>Onde a aditiva é game-changer</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Prototipagem rápida</h3>
-          <p>De <em>semanas e milhares</em> para <strong>horas e centenas</strong> de reais.</p>
-        </div>
-        <div class="ponto">
-          <h3>Peças sob demanda</h3>
-          <p>Mercedes-Benz e Senai-MG imprimem peças raras — <em>sem estoque físico</em>.</p>
-        </div>
-        <div class="ponto">
-          <h3>Lotes personalizados</h3>
-          <p>Implantes médicos, calçados de atleta, equipamentos sob medida da fábrica.</p>
-        </div>
-        <div class="ponto">
-          <h3>Geometria impossível</h3>
-          <p>Turbinas com canais internos otimizados — <strong>só por impressão metálica</strong>.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Prototipagem rápida</h3>
+            <p>De <em>semanas e milhares</em> para <strong>horas e centenas</strong> de reais.</p>
+          </div>
+          <div class="ponto">
+            <h3>Peças sob demanda</h3>
+            <p>Mercedes-Benz e Senai-MG imprimem peças raras — <em>sem estoque físico</em>.</p>
+          </div>
+          <div class="ponto">
+            <h3>Lotes personalizados</h3>
+            <p>Implantes médicos, calçados de atleta, equipamentos sob medida da fábrica.</p>
+          </div>
+          <div class="ponto">
+            <h3>Geometria impossível</h3>
+            <p>Turbinas com canais internos otimizados — <strong>só por impressão metálica</strong>.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -748,22 +808,27 @@
 
   <!-- ============== SLIDE 9 — SIMULAÇÃO INDUSTRIAL ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">O outro lado do digital</p>
       <h1>Simulação industrial</h1>
-      <p>É a criação de um <strong>modelo virtual</strong> de um sistema (peça, linha, fábrica) para testar comportamentos <em>antes</em> de construir no mundo real.</p>
-      <ul>
-        <li><strong>CAE / FEM</strong> — tensões, deformação, temperatura em peças.</li>
-        <li><strong>CFD</strong> — escoamento de fluidos (refrigeração, aerodinâmica).</li>
-        <li><strong>Simulação de processos</strong> — linhas de produção, gargalos, OEE.</li>
-        <li><strong>Simulação de logística</strong> — armazéns, frotas, rotas.</li>
-      </ul>
-      <div class="destaque-box magenta">
-        <h4>O conceito-chave</h4>
-        <p>Simulação permite <strong>falhar virtualmente</strong> — descobrir que um projeto não funciona <em>antes</em> de gastar com protótipo, ferramentaria ou retrabalho.</p>
+      <div class="slide-content-box">
+        <p>É a criação de um <strong>modelo virtual</strong> de um sistema (peça, linha, fábrica) para testar comportamentos <em>antes</em> de construir no mundo real.</p>
+        <ul>
+          <li><strong>CAE / FEM</strong> — tensões, deformação, temperatura em peças.</li>
+          <li><strong>CFD</strong> — escoamento de fluidos (refrigeração, aerodinâmica).</li>
+          <li><strong>Simulação de processos</strong> — linhas de produção, gargalos, OEE.</li>
+          <li><strong>Simulação de logística</strong> — armazéns, frotas, rotas.</li>
+        </ul>
+        <div class="destaque-box magenta">
+          <h4>O conceito-chave</h4>
+          <p>Simulação permite <strong>falhar virtualmente</strong> — descobrir que um projeto não funciona <em>antes</em> de gastar com protótipo, ferramentaria ou retrabalho.</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
@@ -771,66 +836,81 @@
 
   <!-- ============== SLIDE 10 — DIGITAL TWIN: CONCEITO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Quando simulação encontra IIoT</p>
       <h1>Digital twin</h1>
-      <p>É uma <strong>simulação que recebe dados do equipamento físico em tempo real</strong>. Permite quatro coisas que nenhuma outra ferramenta entrega junto:</p>
-      <ul>
-        <li><strong>Espelhar</strong> o estado atual do físico no digital.</li>
-        <li><strong>Diagnosticar</strong> problemas que estão acontecendo agora.</li>
-        <li><strong>Prever</strong> falhas futuras com base em padrões de dados.</li>
-        <li><strong>Otimizar</strong> parâmetros operacionais sem mexer no real primeiro.</li>
-      </ul>
-      <p style="margin-top:0.8em;"><em>Sem IIoT</em>, é só simulação estática. <em>Sem simulação</em>, é só dashboard. <strong>Digital twin = os dois acoplados.</strong></p>
+      <div class="slide-content-box">
+        <p>É uma <strong>simulação que recebe dados do equipamento físico em tempo real</strong>. Permite quatro coisas que nenhuma outra ferramenta entrega junto:</p>
+        <ul>
+          <li><strong>Espelhar</strong> o estado atual do físico no digital.</li>
+          <li><strong>Diagnosticar</strong> problemas que estão acontecendo agora.</li>
+          <li><strong>Prever</strong> falhas futuras com base em padrões de dados.</li>
+          <li><strong>Otimizar</strong> parâmetros operacionais sem mexer no real primeiro.</li>
+        </ul>
+        <p style="margin-top:0.8em;"><em>Sem IIoT</em>, é só simulação estática. <em>Sem simulação</em>, é só dashboard. <strong>Digital twin = os dois acoplados.</strong></p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>
 
   <!-- ============== SLIDE 11 — SVG: CICLO DO DIGITAL TWIN ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Arquitetura</p>
       <h2>O ciclo bidirecional do digital twin</h2>
-      <div class="slide-svg-wrap">
-        <svg viewBox="0 0 1200 380" role="img" aria-label="Diagrama do ciclo do digital twin: mundo físico envia telemetria via IIoT para o modelo digital, que devolve comandos de otimização para o equipamento">
-          <use href="#svg-digital-twin-loop"/>
-        </svg>
+      <div class="slide-content-box">
+        <div class="slide-svg-wrap">
+          <svg viewBox="0 0 1200 380" role="img" aria-label="Diagrama do ciclo do digital twin: mundo físico envia telemetria via IIoT para o modelo digital, que devolve comandos de otimização para o equipamento">
+            <use href="#svg-digital-twin-loop"/>
+          </svg>
+        </div>
+        <p style="margin-top:0.4rem;text-align:center;font-size:0.95rem;color:var(--cinza-mute);">O ciclo se fecha: dado do físico vira insight no digital — que devolve <em>comando ou recomendação</em> para o físico.</p>
       </div>
-      <p style="margin-top:0.4rem;text-align:center;font-size:0.95rem;color:var(--cinza-mute);">O ciclo se fecha: dado do físico vira insight no digital — que devolve <em>comando ou recomendação</em> para o físico.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>
 
   <!-- ============== SLIDE 12 — 3 NÍVEIS DO DIGITAL TWIN ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Maturidade</p>
       <h2>Os 3 níveis do digital twin</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>1. Produto</h3>
-          <p>Modelo digital de <strong>uma peça</strong> — uma turbina, um motor, uma cadeira de avião.</p>
-        </div>
-        <div class="ponto">
-          <h3>2. Sistema</h3>
-          <p>Modelo de <strong>um conjunto</strong> — uma linha de produção, um andar de hospital.</p>
-        </div>
-        <div class="ponto">
-          <h3>3. Processo</h3>
-          <p>Modelo de <strong>toda a operação</strong> — uma fábrica inteira, uma cidade.</p>
-        </div>
-        <div class="ponto">
-          <h3>Plataformas</h3>
-          <p><em>Siemens</em>, <em>Dassault</em>, <em>PTC</em>, <em>Ansys</em> — vendem plataformas para os 3 níveis.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>1. Produto</h3>
+            <p>Modelo digital de <strong>uma peça</strong> — uma turbina, um motor, uma cadeira de avião.</p>
+          </div>
+          <div class="ponto">
+            <h3>2. Sistema</h3>
+            <p>Modelo de <strong>um conjunto</strong> — uma linha de produção, um andar de hospital.</p>
+          </div>
+          <div class="ponto">
+            <h3>3. Processo</h3>
+            <p>Modelo de <strong>toda a operação</strong> — uma fábrica inteira, uma cidade.</p>
+          </div>
+          <div class="ponto">
+            <h3>Plataformas</h3>
+            <p><em>Siemens</em>, <em>Dassault</em>, <em>PTC</em>, <em>Ansys</em> — vendem plataformas para os 3 níveis.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -839,54 +919,64 @@
 
   <!-- ============== SLIDE 13 — EXEMPLO NUMÉRICO: ADITIVA VS CONVENCIONAL ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
       <h2>20 peças prototípicas — qual rota escolher?</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Modelo</th>
-            <th scope="col">Custo unitário</th>
-            <th scope="col">Tempo total</th>
-            <th scope="col">Vantagem</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Convencional (molde de injeção)</td><td>R$ 800 (rateio de R$ 15 mil de ferramentaria)</td><td>4 semanas</td><td>Imbatível em <em>lote grande</em></td></tr>
-          <tr><td>Aditiva (impressora SLA)</td><td><strong>R$ 80</strong></td><td><strong>3 dias</strong></td><td>Imbatível em <em>lote pequeno</em></td></tr>
-          <tr style="background:rgba(240,206,41,0.18);"><td><strong>Economia (em 20 peças)</strong></td><td><strong>10× mais barato</strong></td><td><strong>9× mais rápido</strong></td><td>—</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.6rem;">Para <em>lote pequeno</em>, aditiva ganha. Para <em>~10 mil peças</em>, o molde volta a ser muito mais barato por unidade. <strong>A escolha depende do volume.</strong></p>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Modelo</th>
+              <th scope="col">Custo unitário</th>
+              <th scope="col">Tempo total</th>
+              <th scope="col">Vantagem</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Convencional (molde de injeção)</td><td>R$ 800 (rateio de R$ 15 mil de ferramentaria)</td><td>4 semanas</td><td>Imbatível em <em>lote grande</em></td></tr>
+            <tr><td>Aditiva (impressora SLA)</td><td><strong>R$ 80</strong></td><td><strong>3 dias</strong></td><td>Imbatível em <em>lote pequeno</em></td></tr>
+            <tr style="background:rgba(240,206,41,0.18);"><td><strong>Economia (em 20 peças)</strong></td><td><strong>10× mais barato</strong></td><td><strong>9× mais rápido</strong></td><td>—</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.6rem;">Para <em>lote pequeno</em>, aditiva ganha. Para <em>~10 mil peças</em>, o molde volta a ser muito mais barato por unidade. <strong>A escolha depende do volume.</strong></p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>
 
   <!-- ============== SLIDE 14 — CASO EMBRAER ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Caso brasileiro</p>
       <h2>Embraer: R$ 10 milhões em uma única reformulação</h2>
-      <div class="colunas">
-        <div>
-          <p>A <strong>Embraer</strong> (São José dos Campos · SP) implementou um digital twin completo de sua linha de montagem de aeronaves.</p>
-          <p>Cada mudança planejada — mover estação, trocar fluxo, adicionar equipamento — é <em>simulada antes</em> de qualquer obra física.</p>
-        </div>
-        <div>
-          <h3 style="color:var(--azul-fecaf);">Resultado documentado</h3>
-          <ul>
-            <li>Economia de <strong>&gt; R$ 10 milhões</strong> em uma única reformulação de linha</li>
-            <li>Erros identificados <em>antes</em> da execução, não durante</li>
-            <li>Tempo de validação de mudanças reduzido em <strong>~60%</strong></li>
-            <li>Repetibilidade: o modelo vira ativo permanente da empresa</li>
-          </ul>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <p>A <strong>Embraer</strong> (São José dos Campos · SP) implementou um digital twin completo de sua linha de montagem de aeronaves.</p>
+            <p>Cada mudança planejada — mover estação, trocar fluxo, adicionar equipamento — é <em>simulada antes</em> de qualquer obra física.</p>
+          </div>
+          <div>
+            <h3 style="color:var(--azul-fecaf);">Resultado documentado</h3>
+            <ul>
+              <li>Economia de <strong>&gt; R$ 10 milhões</strong> em uma única reformulação de linha</li>
+              <li>Erros identificados <em>antes</em> da execução, não durante</li>
+              <li>Tempo de validação de mudanças reduzido em <strong>~60%</strong></li>
+              <li>Repetibilidade: o modelo vira ativo permanente da empresa</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -905,19 +995,24 @@
 
   <!-- ============== SLIDE 16 — ATIVIDADE PRÁTICA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
       <h2>Pense em um processo que você conhece</h2>
-      <ol>
-        <li>Que <strong>peça ou componente</strong> seria interessante imprimir em 3D? Por quê?</li>
-        <li>Que <strong>sistema</strong> (linha, máquina, processo) se beneficiaria de um digital twin?</li>
-        <li>Que <strong>dados</strong> seriam necessários para alimentar esse digital twin?</li>
-        <li>Que <strong>decisões</strong> poderiam ser tomadas a partir dele?</li>
-      </ol>
-      <p style="margin-top:1.5em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · entrega no fórum da semana</p>
+      <div class="slide-content-box">
+        <ol>
+          <li>Que <strong>peça ou componente</strong> seria interessante imprimir em 3D? Por quê?</li>
+          <li>Que <strong>sistema</strong> (linha, máquina, processo) se beneficiaria de um digital twin?</li>
+          <li>Que <strong>dados</strong> seriam necessários para alimentar esse digital twin?</li>
+          <li>Que <strong>decisões</strong> poderiam ser tomadas a partir dele?</li>
+        </ol>
+        <p style="margin-top:1.5em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · entrega no fórum da semana</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 1 — Videoaula 9</span></div>
   </section>

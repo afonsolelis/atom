@@ -45,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -78,28 +76,24 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
+  .slide h1, .slide h2, .slide h3 {
     font-family: var(--fonte);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
-    margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -107,7 +101,7 @@
   .kicker {
     font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -119,8 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta-texto); }
-  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -174,7 +192,9 @@
     color: #999;
     border: 2px dashed #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -232,7 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-mute);
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -293,10 +313,11 @@
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -340,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -402,12 +424,14 @@
 
   /* ---------- Tabelas industriais ---------- */
   .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
-  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
   .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
-  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
-  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
-  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
 
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 </style>
 </head>
 <body>
@@ -422,6 +446,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -592,65 +626,80 @@
 
   <!-- ============== SLIDE 4 — PROVOCAÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Provocação</p>
       <h1>O erro nº 1 da transformação digital</h1>
-      <p style="font-size:clamp(1.2rem,1.7vw,1.55rem);">Tem um erro que aprendi na pele em 15 anos de projeto:</p>
-      <p style="font-size:clamp(1.4rem,2.2vw,2rem);color:var(--azul-fecaf);font-weight:700;border-left:6px solid var(--magenta);padding-left:1rem;margin:1.2em 0;">Digitalizar processo bagunçado é <em>multiplicar a bagunça</em> com tecnologia.</p>
-      <ul>
-        <li>Empresa compra IIoT, RPA, IA — antes de saber <strong>o que</strong> está automatizando.</li>
-        <li>Resultado: gargalo continua, só que agora <em>com dashboard bonito</em>.</li>
-        <li>A receita correta começa por uma palavra antiga: <strong>BPM</strong>.</li>
-      </ul>
+      <div class="slide-content-box">
+        <p style="font-size:clamp(1.2rem,1.7vw,1.55rem);">Tem um erro que aprendi na pele em 15 anos de projeto:</p>
+        <p style="font-size:clamp(1.4rem,2.2vw,2rem);color:var(--magenta-texto);font-weight:700;border-left:6px solid var(--magenta);padding-left:1rem;margin:1.2em 0;">Digitalizar processo bagunçado é <em>multiplicar a bagunça</em> com tecnologia.</p>
+        <ul>
+          <li>Empresa compra IIoT, RPA, IA — antes de saber <strong>o que</strong> está automatizando.</li>
+          <li>Resultado: gargalo continua, só que agora <em>com dashboard bonito</em>.</li>
+          <li>A receita correta começa por uma palavra antiga: <strong>BPM</strong>.</li>
+        </ul>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 5 — CONCEITO BPM ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h1>BPM: a base que ninguém respeita</h1>
-      <p><strong>BPM (Business Process Management)</strong> é a disciplina de <em>mapear, analisar, otimizar e monitorar</em> os processos de uma organização — tornando a operação mais eficiente, padronizada e mensurável.</p>
-      <ul>
-        <li>Nasceu nos <strong>anos 1990</strong> — décadas <em>antes</em> da Indústria 4.0.</li>
-        <li>É <strong>pré-requisito</strong> para qualquer transformação digital séria.</li>
-        <li>Regra de ouro: você só digitaliza bem o que <em>entende</em> bem.</li>
-        <li>Combina três frentes: <strong>pessoas</strong>, <strong>processos</strong> e <strong>tecnologia</strong> — nessa ordem.</li>
-      </ul>
-      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>Pensa assim:</em> BPM é a planta arquitetônica; a tecnologia é o tijolo. Você não constrói tijolo sem planta.</p>
+      <div class="slide-content-box">
+        <p><strong>BPM (Business Process Management)</strong> é a disciplina de <em>mapear, analisar, otimizar e monitorar</em> os processos de uma organização — tornando a operação mais eficiente, padronizada e mensurável.</p>
+        <ul>
+          <li>Nasceu nos <strong>anos 1990</strong> — décadas <em>antes</em> da Indústria 4.0.</li>
+          <li>É <strong>pré-requisito</strong> para qualquer transformação digital séria.</li>
+          <li>Regra de ouro: você só digitaliza bem o que <em>entende</em> bem.</li>
+          <li>Combina três frentes: <strong>pessoas</strong>, <strong>processos</strong> e <strong>tecnologia</strong> — nessa ordem.</li>
+        </ul>
+        <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>Pensa assim:</em> BPM é a planta arquitetônica; a tecnologia é o tijolo. Você não constrói tijolo sem planta.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — CICLO BPM (SVG autoral) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Método</p>
       <h2>O ciclo BPM em 6 etapas</h2>
-      <div class="colunas" style="grid-template-columns: 0.85fr 1.15fr;">
-        <div style="display:flex;justify-content:center;">
-          <svg viewBox="0 0 520 520" width="100%" style="max-width:380px;" role="img" aria-label="Ciclo contínuo de BPM em 6 etapas dispostas em círculo no sentido horário: 1 Planejar, 2 modelar o AS-IS, 3 Analisar, 4 desenhar o TO-BE, 5 Implementar e 6 Monitorar"><use href="#bpm-cycle"/></svg>
-        </div>
-        <div>
-          <ol style="font-size:clamp(0.95rem,1.3vw,1.2rem);">
-            <li><strong>Planejar</strong> — objetivos, escopo, indicadores.</li>
-            <li><strong>Modelar (AS-IS)</strong> — como o processo realmente é.</li>
-            <li><strong>Analisar</strong> — gargalos, desperdícios, retrabalhos.</li>
-            <li><strong>Redesenhar (TO-BE)</strong> — como deveria ser.</li>
-            <li><strong>Implementar</strong> — sistemas, treinamento, comunicação.</li>
-            <li><strong>Monitorar</strong> — medir e voltar ao passo 1.</li>
-          </ol>
-          <p style="font-size:1rem;color:var(--azul-medio);"><em>É um loop</em>, não uma reta — quem termina o passo 6, recomeça no 1.</p>
+      <div class="slide-content-box">
+        <div class="colunas" style="grid-template-columns: 0.85fr 1.15fr;">
+          <div style="display:flex;justify-content:center;">
+            <svg viewBox="0 0 520 520" width="100%" style="max-width:380px;" role="img" aria-label="Ciclo contínuo de BPM em 6 etapas dispostas em círculo no sentido horário: 1 Planejar, 2 modelar o AS-IS, 3 Analisar, 4 desenhar o TO-BE, 5 Implementar e 6 Monitorar"><use href="#bpm-cycle"/></svg>
+          </div>
+          <div>
+            <ol style="font-size:clamp(0.95rem,1.3vw,1.2rem);">
+              <li><strong>Planejar</strong> — objetivos, escopo, indicadores.</li>
+              <li><strong>Modelar (AS-IS)</strong> — como o processo realmente é.</li>
+              <li><strong>Analisar</strong> — gargalos, desperdícios, retrabalhos.</li>
+              <li><strong>Redesenhar (TO-BE)</strong> — como deveria ser.</li>
+              <li><strong>Implementar</strong> — sistemas, treinamento, comunicação.</li>
+              <li><strong>Monitorar</strong> — medir e voltar ao passo 1.</li>
+            </ol>
+            <p style="font-size:1rem;color:var(--azul-medio);"><em>É um loop</em>, não uma reta — quem termina o passo 6, recomeça no 1.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -659,199 +708,234 @@
 
   <!-- ============== SLIDE 7 — AS-IS vs TO-BE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Armadilha</p>
       <h2>AS-IS vs TO-BE — o erro que destrói projetos</h2>
-      <div class="colunas">
-        <div style="background:#fff;border-left:6px solid var(--magenta);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
-          <h3 style="text-transform:none;letter-spacing:0;color:var(--magenta);font-size:1.2rem;">AS-IS — como é</h3>
-          <p style="font-size:1rem;">Mapeie o processo <em>real</em>. Inclusive os "jeitinhos", retrabalhos e exceções que ninguém documenta.</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div style="background:#F2F4F8;border-left:6px solid var(--magenta);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+            <h3 style="text-transform:none;letter-spacing:0;color:var(--magenta);font-size:1.2rem;">AS-IS — como é</h3>
+            <p style="font-size:1rem;">Mapeie o processo <em>real</em>. Inclusive os "jeitinhos", retrabalhos e exceções que ninguém documenta.</p>
+          </div>
+          <div style="background:#F2F4F8;border-left:6px solid var(--verde-escuro);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+            <h3 style="text-transform:none;letter-spacing:0;color:var(--verde-escuro);font-size:1.2rem;">TO-BE — como deveria ser</h3>
+            <p style="font-size:1rem;">Projete o processo <em>ideal</em>. Aqui entra automação, simplificação, eliminação de etapas inúteis.</p>
+          </div>
         </div>
-        <div style="background:#fff;border-left:6px solid var(--verde-escuro);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
-          <h3 style="text-transform:none;letter-spacing:0;color:var(--verde-escuro);font-size:1.2rem;">TO-BE — como deveria ser</h3>
-          <p style="font-size:1rem;">Projete o processo <em>ideal</em>. Aqui entra automação, simplificação, eliminação de etapas inúteis.</p>
-        </div>
+        <p style="margin-top:1.2em;font-size:1.1rem;color:var(--azul-fecaf);font-weight:600;">A maioria dos engenheiros confunde os dois — descreve o ideal achando que está descrevendo o real.</p>
+        <p style="margin-top:0.4em;font-size:1rem;color:var(--azul-medio);">Resultado? Melhorias miram em um processo que <strong>não existe</strong>.</p>
       </div>
-      <p style="margin-top:1.2em;font-size:1.1rem;color:var(--azul-fecaf);font-weight:600;">A maioria dos engenheiros confunde os dois — descreve o ideal achando que está descrevendo o real.</p>
-      <p style="margin-top:0.4em;font-size:1rem;color:var(--azul-medio);">Resultado? Melhorias miram em um processo que <strong>não existe</strong>.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 8 — BPMN (elementos) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Notação</p>
       <h2>BPMN — a linguagem universal de processos</h2>
-      <p>Padrão da <strong>OMG (Object Management Group)</strong>. Quatro elementos essenciais:</p>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Atividades</h3>
-          <p>Retângulos arredondados — "o que é feito".</p>
+      <div class="slide-content-box">
+        <p>Padrão da <strong>OMG (Object Management Group)</strong>. Quatro elementos essenciais:</p>
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Atividades</h3>
+            <p>Retângulos arredondados — "o que é feito".</p>
+          </div>
+          <div class="ponto">
+            <h3>Eventos</h3>
+            <p>Círculos — início, fim, eventos intermediários.</p>
+          </div>
+          <div class="ponto">
+            <h3>Gateways</h3>
+            <p>Losangos — decisões e paralelismos.</p>
+          </div>
+          <div class="ponto">
+            <h3>Pools / Lanes</h3>
+            <p>Raias — quem executa cada parte.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Eventos</h3>
-          <p>Círculos — início, fim, eventos intermediários.</p>
-        </div>
-        <div class="ponto">
-          <h3>Gateways</h3>
-          <p>Losangos — decisões e paralelismos.</p>
-        </div>
-        <div class="ponto">
-          <h3>Pools / Lanes</h3>
-          <p>Raias — quem executa cada parte.</p>
-        </div>
+        <p style="margin-top:1em;font-size:1rem;">Ferramentas: <em>Bizagi, Camunda, Lucidchart, Draw.io, Heflo</em>. Algumas (Camunda) executam o diagrama diretamente como software.</p>
       </div>
-      <p style="margin-top:1em;font-size:1rem;">Ferramentas: <em>Bizagi, Camunda, Lucidchart, Draw.io, Heflo</em>. Algumas (Camunda) executam o diagrama diretamente como software.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 9 — BPMN MINI-DIAGRAMA (SVG autoral) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">BPMN na prática</p>
       <h2>Lendo um diagrama em 30 segundos</h2>
-      <div style="background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);margin:0.6em 0;">
-        <svg viewBox="0 0 600 220" width="100%" style="max-width:880px;display:block;margin:0 auto;" role="img" aria-label="Mini diagrama BPMN de um processo: evento de início, atividade Receber pedido, gateway de decisão e dois caminhos resultantes — Aprovar e Reprovar"><use href="#bpmn-mini"/></svg>
+      <div class="slide-content-box">
+        <div style="background:#F2F4F8;border-radius:12px;padding:1.5rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);margin:0.6em 0;">
+          <svg viewBox="0 0 600 220" width="100%" style="max-width:880px;display:block;margin:0 auto;" role="img" aria-label="Mini diagrama BPMN de um processo: evento de início, atividade Receber pedido, gateway de decisão e dois caminhos resultantes — Aprovar e Reprovar"><use href="#bpmn-mini"/></svg>
+        </div>
+        <p style="font-size:1.05rem;"><strong>Leitura:</strong> processo <em>começa</em> com o pedido, <em>decide</em> aprovar ou reprovar, e <em>termina</em> nos dois ramos. Simples — e suficiente para abrir conversa com TI e operação.</p>
+        <p style="font-size:0.95rem;color:var(--azul-medio);"><em>Dica:</em> mantenha o primeiro diagrama com no máximo 8 caixinhas. Detalhe depois.</p>
       </div>
-      <p style="font-size:1.05rem;"><strong>Leitura:</strong> processo <em>começa</em> com o pedido, <em>decide</em> aprovar ou reprovar, e <em>termina</em> nos dois ramos. Simples — e suficiente para abrir conversa com TI e operação.</p>
-      <p style="font-size:0.95rem;color:var(--azul-medio);"><em>Dica:</em> mantenha o primeiro diagrama com no máximo 8 caixinhas. Detalhe depois.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 10 — BPM vs RPA vs WORKFLOW ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Confusões comuns</p>
       <h2>BPM vs RPA vs Workflow</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Conceito</th>
-            <th scope="col">O que é</th>
-            <th scope="col">Exemplo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>BPM</strong></td>
-            <td>Disciplina ampla — todo o ciclo de gestão de processos.</td>
-            <td>Mapear emissão de pedido de ponta a ponta.</td>
-          </tr>
-          <tr>
-            <td><strong>RPA</strong></td>
-            <td>Robô de software que <em>imita</em> usuário em sistemas existentes.</td>
-            <td>Copiar dados de PDF para ERP automaticamente.</td>
-          </tr>
-          <tr>
-            <td><strong>Workflow</strong></td>
-            <td>Automação de <em>fluxo de aprovação</em> — subcategoria do BPM.</td>
-            <td>Solicitar férias: gestor → RH → folha.</td>
-          </tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>BPM contém workflow</em>. <em>RPA pode ser parte da implementação do BPM.</em> Eles se complementam — não são sinônimos.</p>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Conceito</th>
+              <th scope="col">O que é</th>
+              <th scope="col">Exemplo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>BPM</strong></td>
+              <td>Disciplina ampla — todo o ciclo de gestão de processos.</td>
+              <td>Mapear emissão de pedido de ponta a ponta.</td>
+            </tr>
+            <tr>
+              <td><strong>RPA</strong></td>
+              <td>Robô de software que <em>imita</em> usuário em sistemas existentes.</td>
+              <td>Copiar dados de PDF para ERP automaticamente.</td>
+            </tr>
+            <tr>
+              <td><strong>Workflow</strong></td>
+              <td>Automação de <em>fluxo de aprovação</em> — subcategoria do BPM.</td>
+              <td>Solicitar férias: gestor → RH → folha.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>BPM contém workflow</em>. <em>RPA pode ser parte da implementação do BPM.</em> Eles se complementam — não são sinônimos.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 11 — BPM + 4.0 (trio) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Estado da arte</p>
       <h2>O trio que mudou o BPM</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Process mining</h3>
-          <p>Extrai o AS-IS <em>automaticamente</em> dos logs (ERP, MES, CRM). Ferramentas: <strong>Celonis, UiPath, Disco</strong>.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Process mining</h3>
+            <p>Extrai o AS-IS <em>automaticamente</em> dos logs (ERP, MES, CRM). Ferramentas: <strong>Celonis, UiPath, Disco</strong>.</p>
+          </div>
+          <div class="ponto">
+            <h3>RPA</h3>
+            <p>Robôs de software executam tarefas administrativas repetitivas — copiar dado, gerar relatório, conferir nota fiscal.</p>
+          </div>
+          <div class="ponto">
+            <h3>Process intelligence</h3>
+            <p>IA identifica padrões e sugere melhorias automaticamente — passa do "o que é" para "o que pode ser".</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>RPA</h3>
-          <p>Robôs de software executam tarefas administrativas repetitivas — copiar dado, gerar relatório, conferir nota fiscal.</p>
-        </div>
-        <div class="ponto">
-          <h3>Process intelligence</h3>
-          <p>IA identifica padrões e sugere melhorias automaticamente — passa do "o que é" para "o que pode ser".</p>
-        </div>
+        <p style="margin-top:1em;font-size:1.05rem;">Empresas como <em>Magazine Luiza, Vale e Itaú</em> usam intensivamente. Esse trio virou o <strong>estado da arte</strong> em digitalização de processos.</p>
       </div>
-      <p style="margin-top:1em;font-size:1.05rem;">Empresas como <em>Magazine Luiza, Vale e Itaú</em> usam intensivamente. Esse trio virou o <strong>estado da arte</strong> em digitalização de processos.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 12 — ROI numérico ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Números que convencem</p>
       <h2>ROI real: pedido de compra com RPA</h2>
-      <p style="font-size:1rem;">Cenário: fábrica média, <strong>~5.000 pedidos/mês</strong>.</p>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Cenário</th>
-            <th scope="col">Recurso</th>
-            <th scope="col">Custo/mês</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Antes (manual)</strong></td><td>2 func. × 4 h/dia × R$ 30 × 20 dias</td><td style="color:var(--magenta);"><strong>R$ 9.600</strong></td></tr>
-          <tr><td><strong>Depois (RPA + workflow)</strong></td><td>0,5 func. × 1 h/dia (supervisão)</td><td style="color:var(--verde-escuro);"><strong>R$ 600</strong></td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;font-size:1.05rem;"><strong>Investimento:</strong> R$ 70 mil (licença + integração + treinamento) · <strong>Economia:</strong> R$ 9 mil/mês · <strong>Payback:</strong> <em>~8 meses</em>.</p>
-      <p style="margin-top:0.3em;font-size:1rem;color:var(--azul-medio);">Bônus não monetizado: <strong>-95%</strong> de erros de digitação e <em>liberação</em> dos analistas para tarefas de maior valor.</p>
+      <div class="slide-content-box">
+        <p style="font-size:1rem;">Cenário: fábrica média, <strong>~5.000 pedidos/mês</strong>.</p>
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Cenário</th>
+              <th scope="col">Recurso</th>
+              <th scope="col">Custo/mês</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Antes (manual)</strong></td><td>2 func. × 4 h/dia × R$ 30 × 20 dias</td><td style="color:var(--magenta-texto);"><strong>R$ 9.600</strong></td></tr>
+            <tr><td><strong>Depois (RPA + workflow)</strong></td><td>0,5 func. × 1 h/dia (supervisão)</td><td style="color:var(--verde-escuro);"><strong>R$ 600</strong></td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8em;font-size:1.05rem;"><strong>Investimento:</strong> R$ 70 mil (licença + integração + treinamento) · <strong>Economia:</strong> R$ 9 mil/mês · <strong>Payback:</strong> <em>~8 meses</em>.</p>
+        <p style="margin-top:0.3em;font-size:1rem;color:var(--azul-medio);">Bônus não monetizado: <strong>-95%</strong> de erros de digitação e <em>liberação</em> dos analistas para tarefas de maior valor.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 13 — CASO ITAÚ ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Caso brasileiro</p>
       <h2>Itaú Unibanco + Celonis</h2>
-      <div class="colunas">
-        <div>
-          <ul>
-            <li>Monitora <strong>100+ processos</strong> em tempo real — de abertura de conta a processamento de empréstimo.</li>
-            <li>Process mining identificou que <strong>12%</strong> das aberturas de conta passavam por etapa <em>desnecessária</em>.</li>
-            <li>Essa etapa adicionava <em>2 dias</em> ao tempo médio.</li>
-            <li>Eliminada — ganho mensurável em satisfação do cliente.</li>
-          </ul>
-        </div>
-        <div>
-          <div style="background:var(--azul-fecaf);color:#fff;padding:1.4rem;border-radius:10px;text-align:center;">
-            <div style="font-size:3rem;font-weight:800;color:var(--amarelo);line-height:1;">-2</div>
-            <div style="font-size:1.1rem;margin-top:0.2em;">dias no lead time</div>
-            <div style="font-size:0.95rem;opacity:0.85;margin-top:0.6em;">apenas removendo uma etapa que process mining encontrou</div>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <ul>
+              <li>Monitora <strong>100+ processos</strong> em tempo real — de abertura de conta a processamento de empréstimo.</li>
+              <li>Process mining identificou que <strong>12%</strong> das aberturas de conta passavam por etapa <em>desnecessária</em>.</li>
+              <li>Essa etapa adicionava <em>2 dias</em> ao tempo médio.</li>
+              <li>Eliminada — ganho mensurável em satisfação do cliente.</li>
+            </ul>
+          </div>
+          <div>
+            <div style="background:var(--azul-fecaf);color:#fff;padding:1.4rem;border-radius:10px;text-align:center;">
+              <div style="font-size:3rem;font-weight:800;color:var(--amarelo);line-height:1;">-2</div>
+              <div style="font-size:1.1rem;margin-top:0.2em;">dias no lead time</div>
+              <div style="font-size:0.95rem;opacity:0.85;margin-top:0.6em;">apenas removendo uma etapa que process mining encontrou</div>
+            </div>
           </div>
         </div>
+        <p style="margin-top:1em;font-size:1rem;color:var(--azul-medio);"><em>Lição:</em> sem mapear, você "otimiza" o que já está bom e deixa o problema real intocado.</p>
       </div>
-      <p style="margin-top:1em;font-size:1rem;color:var(--azul-medio);"><em>Lição:</em> sem mapear, você "otimiza" o que já está bom e deixa o problema real intocado.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
@@ -868,51 +952,61 @@
 
   <!-- ============== SLIDE 15 — PONTOS-CHAVE (recap) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Recap</p>
       <h2>Pontos-chave da aula</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>BPM antes de TI</h3>
-          <p>Só digitaliza bem o que se entende bem. BPM é pré-requisito.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>BPM antes de TI</h3>
+            <p>Só digitaliza bem o que se entende bem. BPM é pré-requisito.</p>
+          </div>
+          <div class="ponto">
+            <h3>Ciclo de 6 etapas</h3>
+            <p>Planejar → AS-IS → analisar → TO-BE → implementar → monitorar.</p>
+          </div>
+          <div class="ponto">
+            <h3>BPMN é universal</h3>
+            <p>Atividades, eventos, gateways, lanes — bastam para abrir conversa.</p>
+          </div>
+          <div class="ponto">
+            <h3>Trio 4.0</h3>
+            <p>Process mining + RPA + process intelligence — estado da arte.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Ciclo de 6 etapas</h3>
-          <p>Planejar → AS-IS → analisar → TO-BE → implementar → monitorar.</p>
-        </div>
-        <div class="ponto">
-          <h3>BPMN é universal</h3>
-          <p>Atividades, eventos, gateways, lanes — bastam para abrir conversa.</p>
-        </div>
-        <div class="ponto">
-          <h3>Trio 4.0</h3>
-          <p>Process mining + RPA + process intelligence — estado da arte.</p>
-        </div>
+        <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> BPM, RPA e workflow são <em>complementares</em>, não sinônimos.</p>
       </div>
-      <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> BPM, RPA e workflow são <em>complementares</em>, não sinônimos.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 16 — ATIVIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
       <h2>Mapeie um processo seu</h2>
-      <ol>
-        <li>Escolha um processo administrativo ou operacional do seu dia a dia.</li>
-        <li>Desenhe o <strong>AS-IS</strong> em BPMN simples (caixinhas, setas, losangos).</li>
-        <li>Identifique <strong>2 gargalos</strong> ou desperdícios.</li>
-        <li>Proponha um <strong>TO-BE</strong> que remova esses problemas.</li>
-        <li>Que tecnologia (<em>RPA, IIoT, IA</em>) ajudaria no TO-BE?</li>
-      </ol>
-      <p style="margin-top:1.5em;color:var(--azul-medio);font-weight:600;">⏱ 30 minutos · use Bizagi ou Draw.io · entrega no fórum da semana</p>
+      <div class="slide-content-box">
+        <ol>
+          <li>Escolha um processo administrativo ou operacional do seu dia a dia.</li>
+          <li>Desenhe o <strong>AS-IS</strong> em BPMN simples (caixinhas, setas, losangos).</li>
+          <li>Identifique <strong>2 gargalos</strong> ou desperdícios.</li>
+          <li>Proponha um <strong>TO-BE</strong> que remova esses problemas.</li>
+          <li>Que tecnologia (<em>RPA, IIoT, IA</em>) ajudaria no TO-BE?</li>
+        </ol>
+        <p style="margin-top:1.5em;color:var(--azul-fecaf);font-weight:600;">⏱ 30 minutos · use Bizagi ou Draw.io · entrega no fórum da semana</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>

@@ -45,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -78,28 +76,24 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
+  .slide h1, .slide h2, .slide h3 {
     font-family: var(--fonte);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
-    margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -107,7 +101,7 @@
   .kicker {
     font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -119,8 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta-texto); }
-  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -174,7 +192,9 @@
     color: #999;
     border: 2px dashed #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -232,7 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-mute);
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -285,14 +305,19 @@
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    position: relative; z-index: 2;
   }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -336,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -398,12 +424,14 @@
 
   /* ---------- Tabelas industriais ---------- */
   .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
-  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
   .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
-  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
-  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
-  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
 
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 </style>
 </head>
 <body>
@@ -418,6 +446,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -618,15 +656,16 @@
 
   <!-- ============== SLIDE 4 — PROBLEMA (com SVG das 6 causas) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Provocação</p>
       <h1>70% dos projetos 4.0 falham</h1>
-      <p>Estudos da <strong>McKinsey</strong> e <strong>BCG</strong> mostram que a maioria das iniciativas de transformação digital industrial <em>não entrega o ROI esperado</em>. As 6 causas mais comuns:</p>
-      <div style="display:flex;justify-content:center;margin-top:0.6em;">
-        <svg viewBox="0 0 600 360" width="100%" style="max-width:680px;" role="img" aria-label="As 6 principais causas de falha em iniciativas da Indústria 4.0 (cerca de 70% fracassam): 1 tecnologia antes do problema, 2 sem patrocínio executivo, 3 equipe errada (só TI ou só chão de fábrica), 4 problema errado de baixo impacto, 5 revolução em vez de evolução e 6 subestimar a mudança cultural"><use href="#falhas-6"/></svg>
+      <div class="slide-content-box">
+        <p>Estudos da <strong>McKinsey</strong> e <strong>BCG</strong> mostram que a maioria das iniciativas de transformação digital industrial <em>não entrega o ROI esperado</em>. As 6 causas mais comuns:</p>
+        <div style="display:flex;justify-content:center;margin-top:0.6em;">
+          <svg viewBox="0 0 600 360" width="100%" style="max-width:680px;" role="img" aria-label="As 6 principais causas de falha em iniciativas da Indústria 4.0 (cerca de 70% fracassam): 1 tecnologia antes do problema, 2 sem patrocínio executivo, 3 equipe errada (só TI ou só chão de fábrica), 4 problema errado de baixo impacto, 5 revolução em vez de evolução e 6 subestimar a mudança cultural"><use href="#falhas-6"/></svg>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
@@ -634,48 +673,50 @@
 
   <!-- ============== SLIDE 5 — ROADMAP VISUAL ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Visão geral</p>
       <h2>O roadmap em 5 fases</h2>
-      <div style="background:#fff;border-radius:12px;padding:1rem 0.4rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
-        <svg viewBox="0 0 1100 280" width="100%" role="img" aria-label="Roadmap de transformação digital em 5 fases sequenciais: 1 Diagnóstico (1 a 3 meses), 2 Piloto (3 a 6 meses), 3 Expansão (6 a 12 meses), 4 Escala (12 a 24 meses) e 5 Inovação contínua (24 meses ou mais)"><use href="#roadmap-5fases"/></svg>
+      <div class="slide-content-box">
+        <div style="background:#fff;border-radius:12px;padding:1rem 0.4rem;box-shadow:0 6px 18px rgba(0,0,0,0.07);">
+          <svg viewBox="0 0 1100 280" width="100%" role="img" aria-label="Roadmap de transformação digital em 5 fases sequenciais: 1 Diagnóstico (1 a 3 meses), 2 Piloto (3 a 6 meses), 3 Expansão (6 a 12 meses), 4 Escala (12 a 24 meses) e 5 Inovação contínua (24 meses ou mais)"><use href="#roadmap-5fases"/></svg>
+        </div>
+        <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>Cada fase é pré-requisito da próxima.</em> Não dá para pular. Quem tenta pular, paga em retrabalho.</p>
       </div>
-      <p style="margin-top:0.8em;font-size:1rem;color:var(--azul-medio);"><em>Cada fase é pré-requisito da próxima.</em> Não dá para pular. Quem tenta pular, paga em retrabalho.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — DETALHE: DIAGNÓSTICO + PILOTO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Fases 1 e 2</p>
       <h2>Diagnóstico e Piloto — o pé direito</h2>
-      <div class="colunas">
-        <div style="background:#fff;border-left:6px solid var(--azul-claro);padding:1.2rem 1.4rem;border-radius:6px;">
-          <h3 style="text-transform:none;letter-spacing:0;color:var(--azul-fecaf);font-size:1.2rem;">1. Diagnóstico (1–3 meses)</h3>
-          <ul style="font-size:1rem;">
-            <li>Avaliar <strong>maturidade digital</strong> (Acatech).</li>
-            <li>Mapear <strong>processos críticos</strong> (BPM — aula passada).</li>
-            <li>Identificar <em>dores prioritárias</em> (o que custa mais hoje?).</li>
-            <li>Levantar <strong>dados existentes</strong>.</li>
-            <li>Mobilizar <em>patrocinador executivo</em>.</li>
-          </ul>
-        </div>
-        <div style="background:#fff;border-left:6px solid var(--azul-medio);padding:1.2rem 1.4rem;border-radius:6px;">
-          <h3 style="text-transform:none;letter-spacing:0;color:var(--azul-fecaf);font-size:1.2rem;">2. Piloto (3–6 meses)</h3>
-          <ul style="font-size:1rem;">
-            <li>Escolher <strong>um único problema</strong> com retorno claro.</li>
-            <li>Definir <em>KPI de sucesso</em> ANTES de começar.</li>
-            <li>Aplicar <strong>uma tecnologia</strong> — não duas.</li>
-            <li>Equipe <strong>pequena e multidisciplinar</strong> (TI + operação + finanças).</li>
-            <li><em>Comemorar</em> o resultado para gerar tração.</li>
-          </ul>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div style="background:#fff;border-left:6px solid var(--azul-claro);padding:1.2rem 1.4rem;border-radius:6px;">
+            <h3 style="text-transform:none;letter-spacing:0;color:var(--azul-fecaf);font-size:1.2rem;">1. Diagnóstico (1–3 meses)</h3>
+            <ul style="font-size:1rem;">
+              <li>Avaliar <strong>maturidade digital</strong> (Acatech).</li>
+              <li>Mapear <strong>processos críticos</strong> (BPM — aula passada).</li>
+              <li>Identificar <em>dores prioritárias</em> (o que custa mais hoje?).</li>
+              <li>Levantar <strong>dados existentes</strong>.</li>
+              <li>Mobilizar <em>patrocinador executivo</em>.</li>
+            </ul>
+          </div>
+          <div style="background:#fff;border-left:6px solid var(--azul-medio);padding:1.2rem 1.4rem;border-radius:6px;">
+            <h3 style="text-transform:none;letter-spacing:0;color:var(--azul-fecaf);font-size:1.2rem;">2. Piloto (3–6 meses)</h3>
+            <ul style="font-size:1rem;">
+              <li>Escolher <strong>um único problema</strong> com retorno claro.</li>
+              <li>Definir <em>KPI de sucesso</em> ANTES de começar.</li>
+              <li>Aplicar <strong>uma tecnologia</strong> — não duas.</li>
+              <li>Equipe <strong>pequena e multidisciplinar</strong> (TI + operação + finanças).</li>
+              <li><em>Comemorar</em> o resultado para gerar tração.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -684,24 +725,25 @@
 
   <!-- ============== SLIDE 7 — DETALHE: EXPANSÃO + ESCALA + INOVAÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Fases 3, 4 e 5</p>
       <h2>Expansão, Escala e Inovação contínua</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>3. Expansão (6–12 meses)</h3>
-          <p>Replicar em outras linhas/máquinas/unidades. <strong>Padronizar</strong> processo, plataforma e dados. <em>Treinar equipes locais</em> — não pode depender só do time central.</p>
-        </div>
-        <div class="ponto">
-          <h3>4. Escala (12–24 meses)</h3>
-          <p>Adotar <strong>plataforma corporativa</strong>. Estruturar <em>time interno</em> (data engineer, scientist, integrador IIoT). Criar <strong>centro de excelência</strong>. Integrar ERP, MES e legados.</p>
-        </div>
-        <div class="ponto">
-          <h3>5. Inovação contínua (24+ meses)</h3>
-          <p>Digital twin avançado, <em>IA generativa</em>, Indústria 5.0. Cultura de <strong>experimentação</strong> — pilotos pequenos contínuos. Métricas de <em>velocidade de inovação</em>, não só ROI direto.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>3. Expansão (6–12 meses)</h3>
+            <p>Replicar em outras linhas/máquinas/unidades. <strong>Padronizar</strong> processo, plataforma e dados. <em>Treinar equipes locais</em> — não pode depender só do time central.</p>
+          </div>
+          <div class="ponto">
+            <h3>4. Escala (12–24 meses)</h3>
+            <p>Adotar <strong>plataforma corporativa</strong>. Estruturar <em>time interno</em> (data engineer, scientist, integrador IIoT). Criar <strong>centro de excelência</strong>. Integrar ERP, MES e legados.</p>
+          </div>
+          <div class="ponto">
+            <h3>5. Inovação contínua (24+ meses)</h3>
+            <p>Digital twin avançado, <em>IA generativa</em>, Indústria 5.0. Cultura de <strong>experimentação</strong> — pilotos pequenos contínuos. Métricas de <em>velocidade de inovação</em>, não só ROI direto.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -710,92 +752,95 @@
 
   <!-- ============== SLIDE 8 — INVESTIMENTO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Realismo financeiro</p>
       <h2>Quanto custa cada fase?</h2>
-      <p style="font-size:1rem;">Referência: fábrica média (300–800 funcionários).</p>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Fase</th>
-            <th scope="col">Investimento</th>
-            <th scope="col">Prazo</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Diagnóstico</td><td>R$ 50–150 mil</td><td>1–3 meses</td></tr>
-          <tr><td>Piloto</td><td>R$ 150–500 mil</td><td>3–6 meses</td></tr>
-          <tr><td>Expansão</td><td>R$ 500 mil–2 mi</td><td>6–12 meses</td></tr>
-          <tr><td>Escala</td><td>R$ 2–10 milhões</td><td>12–24 meses</td></tr>
-          <tr><td>Inovação contínua</td><td>R$ 5–20 mi/ano</td><td>Contínuo</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:1em;font-size:1rem;"><strong>Total nos primeiros 2 anos:</strong> R$ 3–15 milhões. <em>ROI esperado:</em> 30–60% de redução de custo operacional em processos críticos.</p>
+      <div class="slide-content-box">
+        <p style="font-size:1rem;">Referência: fábrica média (300–800 funcionários).</p>
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Fase</th>
+              <th scope="col">Investimento</th>
+              <th scope="col">Prazo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Diagnóstico</td><td>R$ 50–150 mil</td><td>1–3 meses</td></tr>
+            <tr><td>Piloto</td><td>R$ 150–500 mil</td><td>3–6 meses</td></tr>
+            <tr><td>Expansão</td><td>R$ 500 mil–2 mi</td><td>6–12 meses</td></tr>
+            <tr><td>Escala</td><td>R$ 2–10 milhões</td><td>12–24 meses</td></tr>
+            <tr><td>Inovação contínua</td><td>R$ 5–20 mi/ano</td><td>Contínuo</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:1em;font-size:1rem;"><strong>Total nos primeiros 2 anos:</strong> R$ 3–15 milhões. <em>ROI esperado:</em> 30–60% de redução de custo operacional em processos críticos.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>
 
   <!-- ============== SLIDE 9 — KPIs ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Medir para gerenciar</p>
       <h2>KPIs típicos de um roadmap 4.0</h2>
-      <div class="colunas">
-        <div>
-          <ul>
-            <li><strong>OEE</strong> — alvo: 70% → 85%+</li>
-            <li><strong>MTBF</strong> (tempo médio entre falhas) — alvo: dobrar</li>
-            <li><strong>Tempo de parada não programada</strong> — alvo: -30%</li>
-            <li><strong>DPPM</strong> (defeitos por milhão) — alvo: -50%</li>
-          </ul>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <ul>
+              <li><strong>OEE</strong> — alvo: 70% → 85%+</li>
+              <li><strong>MTBF</strong> (tempo médio entre falhas) — alvo: dobrar</li>
+              <li><strong>Tempo de parada não programada</strong> — alvo: -30%</li>
+              <li><strong>DPPM</strong> (defeitos por milhão) — alvo: -50%</li>
+            </ul>
+          </div>
+          <div>
+            <ul>
+              <li><strong>Lead time</strong> de produção — alvo: -25%</li>
+              <li><strong>Custo por unidade</strong> — alvo: -10% a -20%</li>
+              <li><strong>Tempo de resposta a anomalia</strong> — alvo: &lt; 1 min</li>
+              <li><strong>Maturidade Acatech</strong> — alvo: +2 níveis em 24 meses</li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <ul>
-            <li><strong>Lead time</strong> de produção — alvo: -25%</li>
-            <li><strong>Custo por unidade</strong> — alvo: -10% a -20%</li>
-            <li><strong>Tempo de resposta a anomalia</strong> — alvo: &lt; 1 min</li>
-            <li><strong>Maturidade Acatech</strong> — alvo: +2 níveis em 24 meses</li>
-          </ul>
-        </div>
+        <p style="margin-top:1em;font-size:1rem;color:var(--azul-medio);"><em>Regra prática:</em> escolha <strong>3 a 5 KPIs</strong> — não todos. Devem ser medíveis hoje e ligados às dores prioritárias.</p>
       </div>
-      <p style="margin-top:1em;font-size:1rem;color:var(--azul-medio);"><em>Regra prática:</em> escolha <strong>3 a 5 KPIs</strong> — não todos. Devem ser medíveis hoje e ligados às dores prioritárias.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>
 
   <!-- ============== SLIDE 10 — CASO EMBRAER ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Caso brasileiro</p>
       <h2>Roadmap Embraer 2017–2027</h2>
-      <div class="colunas">
-        <div>
-          <ul>
-            <li><strong>2017–2019:</strong> digitalização administrativa, ERP unificado, primeiro digital twin.</li>
-            <li><strong>2019–2022:</strong> linha-piloto conectada (sensores + analytics + dashboards).</li>
-            <li><strong>2022–2025:</strong> expansão, IA preditiva em manutenção, RA na linha.</li>
-            <li><strong>2025–2027:</strong> digital twin completo, I5.0 — colaboração humano-IA.</li>
-          </ul>
-        </div>
-        <div>
-          <p><strong>Investimento total estimado:</strong> mais de <em>R$ 500 milhões</em> em 10 anos.</p>
-          <p><strong>Resultados mensurados:</strong></p>
-          <ul style="font-size:1rem;">
-            <li>Produtividade: <em>+25%</em></li>
-            <li>Defeitos: <em>-40%</em></li>
-            <li>Lead time: <em>-35%</em></li>
-          </ul>
-          <p style="margin-top:0.6em;font-size:0.92rem;color:#555;"><em>Conexão com a Unidade 3:</em> o caso de <strong>digital twin</strong> da Embraer (validação −60%, ganho &gt; R$ 10 mi) que vimos na Aula 9 é um recorte deste programa de 10 anos.</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <ul>
+              <li><strong>2017–2019:</strong> digitalização administrativa, ERP unificado, primeiro digital twin.</li>
+              <li><strong>2019–2022:</strong> linha-piloto conectada (sensores + analytics + dashboards).</li>
+              <li><strong>2022–2025:</strong> expansão, IA preditiva em manutenção, RA na linha.</li>
+              <li><strong>2025–2027:</strong> digital twin completo, I5.0 — colaboração humano-IA.</li>
+            </ul>
+          </div>
+          <div>
+            <p><strong>Investimento total estimado:</strong> mais de <em>R$ 500 milhões</em> em 10 anos.</p>
+            <p><strong>Resultados mensurados:</strong></p>
+            <ul style="font-size:1rem;">
+              <li>Produtividade: <em>+25%</em></li>
+              <li>Defeitos: <em>-40%</em></li>
+              <li>Lead time: <em>-35%</em></li>
+            </ul>
+            <p style="margin-top:0.6em;font-size:0.92rem;color:#555;"><em>Conexão com a Unidade 3:</em> o caso de <strong>digital twin</strong> da Embraer (validação −60%, ganho &gt; R$ 10 mi) que vimos na Aula 9 é um recorte deste programa de 10 anos.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -814,50 +859,52 @@
 
   <!-- ============== SLIDE 12 — RECEITA DOS 30% (pontos-chave) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Recap</p>
       <h2>A receita dos 30% que dão certo</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Comece pelo problema</h3>
-          <p>Dor de negócio mensurável — não tecnologia da moda.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Comece pelo problema</h3>
+            <p>Dor de negócio mensurável — não tecnologia da moda.</p>
+          </div>
+          <div class="ponto">
+            <h3>5 fases, sem atalho</h3>
+            <p>Diagnóstico → piloto → expansão → escala → inovação.</p>
+          </div>
+          <div class="ponto">
+            <h3>Investimento realista</h3>
+            <p>R$ 3–15 mi nos 2 primeiros anos para fábrica média.</p>
+          </div>
+          <div class="ponto">
+            <h3>3 a 5 KPIs</h3>
+            <p>Medíveis hoje, ligados às dores prioritárias.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>5 fases, sem atalho</h3>
-          <p>Diagnóstico → piloto → expansão → escala → inovação.</p>
-        </div>
-        <div class="ponto">
-          <h3>Investimento realista</h3>
-          <p>R$ 3–15 mi nos 2 primeiros anos para fábrica média.</p>
-        </div>
-        <div class="ponto">
-          <h3>3 a 5 KPIs</h3>
-          <p>Medíveis hoje, ligados às dores prioritárias.</p>
-        </div>
+        <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> <em>Patrocínio executivo + equipe multidisciplinar</em> são pré-requisitos — não opcionais.</p>
       </div>
-      <p style="margin-top:0.8em;font-size:1rem;"><strong>Para levar:</strong> <em>Patrocínio executivo + equipe multidisciplinar</em> são pré-requisitos — não opcionais.</p>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>
 
   <!-- ============== SLIDE 13 — ATIVIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
-    </div>
+    <div class="canto-se"><svg width="100%" height="100%"><use href="#canto-se"/></svg></div>
+    <div class="canto-id"><svg width="100%" height="100%"><use href="#canto-id"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
       <h2>Avalie sua empresa-caso</h2>
-      <ol>
-        <li>Em <strong>qual fase</strong> do roadmap ela está hoje?</li>
-        <li>Que <strong>2 ações</strong> específicas faltam para passar de fase?</li>
-        <li>Qual <strong>investimento</strong> seria realista para os próximos 12 meses?</li>
-        <li>Que <strong>3 KPIs</strong> você acompanharia para medir progresso?</li>
-      </ol>
-      <p style="margin-top:1.5em;color:var(--azul-medio);font-weight:600;">⏱ 40 minutos · documento curto (1 página) · entrega no fórum</p>
+      <div class="slide-content-box">
+        <ol>
+          <li>Em <strong>qual fase</strong> do roadmap ela está hoje?</li>
+          <li>Que <strong>2 ações</strong> específicas faltam para passar de fase?</li>
+          <li>Qual <strong>investimento</strong> seria realista para os próximos 12 meses?</li>
+          <li>Que <strong>3 KPIs</strong> você acompanharia para medir progresso?</li>
+        </ol>
+        <p style="margin-top:1.5em;color:var(--azul-medio);font-weight:600;">⏱ 40 minutos · documento curto (1 página) · entrega no fórum</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 4</span><span>Aula 2 — Videoaula 14</span></div>
   </section>

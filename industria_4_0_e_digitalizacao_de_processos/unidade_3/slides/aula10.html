@@ -45,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -78,28 +76,24 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
+  .slide h1, .slide h2, .slide h3 {
     font-family: var(--fonte);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
-    margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -107,7 +101,7 @@
   .kicker {
     font-family: var(--fonte);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-fecaf);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -119,8 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta-texto); }
-  .slide em { color: var(--azul-fecaf); font-style: normal; font-weight: 600; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -174,7 +192,9 @@
     color: #999;
     border: 2px dashed #ccc;
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -232,7 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-mute);
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -285,14 +305,19 @@
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
+    position: relative; z-index: 2;
   }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -336,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -398,11 +424,14 @@
 
   /* ---------- Tabelas industriais ---------- */
   .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
-  .tabela-industrial thead tr { background: var(--azul-fecaf); color: var(--branco); }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
   .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
-  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid #DDD; vertical-align: top; }
-  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
-  .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 
   /* ---------- Caixinhas de destaque ---------- */
   .destaque-box {
@@ -435,6 +464,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -606,21 +645,26 @@
 
   <!-- ============== SLIDE 3 — CONTEXTO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Mudança de paradigma</p>
       <h1>O robô saiu da grade</h1>
-      <p>Por décadas, "robô industrial" significou aquele <em>braço enorme atrás de uma grade</em>, isolado dos humanos por questão de segurança. A nova geração — os <strong>cobots</strong> (collaborative robots) — foi projetada para trabalhar <em>lado a lado</em> com o operador.</p>
-      <ul>
-        <li>Sensores certificados garantem a segurança do contato.</li>
-        <li>Programação por <em>demonstração</em>: o operador "ensina" o robô.</li>
-        <li>Custo cai uma ordem de grandeza, viabilizando PMEs.</li>
-      </ul>
-      <div class="destaque-box azul">
-        <h4>Impacto na economia da automação</h4>
-        <p>Automação deixou de ser exclusividade de grandes montadoras: hoje uma confecção, uma padaria industrial ou um laboratório de análises pode adotar um cobot.</p>
+      <div class="slide-content-box">
+        <p>Por décadas, "robô industrial" significou aquele <em>braço enorme atrás de uma grade</em>, isolado dos humanos por questão de segurança. A nova geração — os <strong>cobots</strong> (collaborative robots) — foi projetada para trabalhar <em>lado a lado</em> com o operador.</p>
+        <ul>
+          <li>Sensores certificados garantem a segurança do contato.</li>
+          <li>Programação por <em>demonstração</em>: o operador "ensina" o robô.</li>
+          <li>Custo cai uma ordem de grandeza, viabilizando PMEs.</li>
+        </ul>
+        <div class="destaque-box azul">
+          <h4>Impacto na economia da automação</h4>
+          <p>Automação deixou de ser exclusividade de grandes montadoras: hoje uma confecção, uma padaria industrial ou um laboratório de análises pode adotar um cobot.</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -628,16 +672,21 @@
 
   <!-- ============== SLIDE 4 — SVG: COBOT VS ROBÔ ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Comparativo visual</p>
       <h2>Robô tradicional vs cobot, lado a lado</h2>
-      <div class="slide-svg-wrap">
-        <svg viewBox="0 0 1200 420" role="img" aria-label="Diagrama comparativo: robô tradicional dentro de grade com humano isolado a 3 metros versus cobot operando lado a lado com humano em zona segura">
-          <use href="#svg-cobot-vs-robo"/>
-        </svg>
+      <div class="slide-content-box">
+        <div class="slide-svg-wrap">
+          <svg viewBox="0 0 1200 420" role="img" aria-label="Diagrama comparativo: robô tradicional dentro de grade com humano isolado a 3 metros versus cobot operando lado a lado com humano em zona segura">
+            <use href="#svg-cobot-vs-robo"/>
+          </svg>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -645,59 +694,69 @@
 
   <!-- ============== SLIDE 5 — TABELA COMPARATIVA COMPLETA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Tabela detalhada</p>
       <h2>Onde cada um faz sentido</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Aspecto</th>
-            <th scope="col">Robô tradicional</th>
-            <th scope="col">Cobot</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Localização</strong></td><td>Atrás de grade, isolado</td><td>Lado a lado com humano</td></tr>
-          <tr><td><strong>Velocidade</strong></td><td>Muito alta (perigoso)</td><td>Reduzida quando humano se aproxima</td></tr>
-          <tr><td><strong>Carga útil</strong></td><td>50–500 kg</td><td>3–20 kg (típico)</td></tr>
-          <tr><td><strong>Tempo de programação</strong></td><td>Dias / semanas (técnico)</td><td>Horas (operador comum)</td></tr>
-          <tr><td><strong>Custo típico</strong></td><td>R$ 300 mil – 1 milhão</td><td>R$ 80–250 mil</td></tr>
-          <tr><td><strong>Reconfiguração</strong></td><td>Difícil — projeto fixo</td><td>Fácil — reposicionável</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.6rem;"><em>Cobot não substitui</em> o robô tradicional — eles atendem casos diferentes. Para soldar carroceria, robô. Para parafusar ao lado do operador, <strong>cobot</strong>.</p>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Aspecto</th>
+              <th scope="col">Robô tradicional</th>
+              <th scope="col">Cobot</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Localização</strong></td><td>Atrás de grade, isolado</td><td>Lado a lado com humano</td></tr>
+            <tr><td><strong>Velocidade</strong></td><td>Muito alta (perigoso)</td><td>Reduzida quando humano se aproxima</td></tr>
+            <tr><td><strong>Carga útil</strong></td><td>50–500 kg</td><td>3–20 kg (típico)</td></tr>
+            <tr><td><strong>Tempo de programação</strong></td><td>Dias / semanas (técnico)</td><td>Horas (operador comum)</td></tr>
+            <tr><td><strong>Custo típico</strong></td><td>R$ 300 mil – 1 milhão</td><td>R$ 80–250 mil</td></tr>
+            <tr><td><strong>Reconfiguração</strong></td><td>Difícil — projeto fixo</td><td>Fácil — reposicionável</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.6rem;"><em>Cobot não substitui</em> o robô tradicional — eles atendem casos diferentes. Para soldar carroceria, robô. Para parafusar ao lado do operador, <strong>cobot</strong>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — TRÊS CAMADAS DE SEGURANÇA (texto) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Segurança certificada</p>
       <h2>As 3 camadas de segurança do cobot</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>1. Limitação de força e torque</h3>
-          <p>Se encostar em alguém, <strong>para imediatamente</strong> — joelho ou cotovelo não machucam.</p>
-        </div>
-        <div class="ponto">
-          <h3>2. Sensores de proximidade</h3>
-          <p>Reduzem a velocidade automaticamente quando o humano se aproxima da zona de trabalho.</p>
-        </div>
-        <div class="ponto">
-          <h3>3. Modo monitorado</h3>
-          <p>Opera em <em>alta velocidade</em> quando o humano sai da área — produtividade preservada.</p>
-        </div>
-        <div class="ponto">
-          <h3>Certificação ISO/TS 15066</h3>
-          <p>Define limites biomecânicos aceitáveis para contato humano-robô (pressão, força e área).</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>1. Limitação de força e torque</h3>
+            <p>Se encostar em alguém, <strong>para imediatamente</strong> — joelho ou cotovelo não machucam.</p>
+          </div>
+          <div class="ponto">
+            <h3>2. Sensores de proximidade</h3>
+            <p>Reduzem a velocidade automaticamente quando o humano se aproxima da zona de trabalho.</p>
+          </div>
+          <div class="ponto">
+            <h3>3. Modo monitorado</h3>
+            <p>Opera em <em>alta velocidade</em> quando o humano sai da área — produtividade preservada.</p>
+          </div>
+          <div class="ponto">
+            <h3>Certificação ISO/TS 15066</h3>
+            <p>Define limites biomecânicos aceitáveis para contato humano-robô (pressão, força e área).</p>
+          </div>
         </div>
       </div>
     </div>
@@ -706,16 +765,21 @@
 
   <!-- ============== SLIDE 7 — SVG: CAMADAS DE SEGURANÇA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Visualização</p>
       <h2>Anatomia das 3 camadas, do centro para fora</h2>
-      <div class="slide-svg-wrap">
-        <svg viewBox="0 0 1100 360" role="img" aria-label="Diagrama em zonas concêntricas mostrando as três camadas de segurança do cobot certificadas pela ISO/TS 15066">
-          <use href="#svg-camadas-cobot"/>
-        </svg>
+      <div class="slide-content-box">
+        <div class="slide-svg-wrap">
+          <svg viewBox="0 0 1100 360" role="img" aria-label="Diagrama em zonas concêntricas mostrando as três camadas de segurança do cobot certificadas pela ISO/TS 15066">
+            <use href="#svg-camadas-cobot"/>
+          </svg>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -723,37 +787,42 @@
 
   <!-- ============== SLIDE 8 — 7 APLICAÇÕES + IMAGEM ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Onde os cobots já trabalham</p>
       <h2>7 aplicações típicas</h2>
-      <div class="colunas">
-        <div>
-          <ol>
-            <li><strong>Pick &amp; place</strong> — pegar e posicionar.</li>
-            <li><strong>Inspeção visual</strong> — segurar peça para câmera.</li>
-            <li><strong>Aparafusamento</strong> — eletrônicos, automotivos.</li>
-            <li><strong>Empacotamento</strong> — bens de consumo, alimentação.</li>
-            <li><strong>Polimento</strong> — peças metálicas e plásticas.</li>
-            <li><strong>Cola e selagem</strong> — automotivo, eletroeletrônico.</li>
-            <li><strong>Atendimento a CNCs</strong> — alimentar máquina-ferramenta.</li>
-          </ol>
-        </div>
-        <div class="col-imagem" role="img" aria-label="Braço robótico colaborativo (cobot) em linha de montagem" style="background:linear-gradient(135deg,#1F8A4E 0%,#0C5530 100%);border:none;color:#FFF;flex-direction:column;gap:1rem;padding:2rem;text-align:center;">
-          <svg width="120" height="120" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="18" y="54" width="28" height="6" rx="2" fill="currentColor" stroke="none"/>
-            <circle cx="32" cy="50" r="5" fill="currentColor"/>
-            <line x1="32" y1="45" x2="32" y2="32"/>
-            <circle cx="32" cy="32" r="5" fill="#F0CE29" stroke="#F0CE29"/>
-            <line x1="32" y1="32" x2="46" y2="18"/>
-            <circle cx="46" cy="18" r="5" fill="#F0CE29" stroke="#F0CE29"/>
-            <line x1="46" y1="18" x2="50" y2="10"/>
-            <rect x="45" y="6" width="10" height="6" rx="1" fill="currentColor" stroke="none"/>
-          </svg>
-          <strong style="font-size:1.35rem;color:#F0CE29;font-weight:800;line-height:1.15;">Cobot · até 10 kg</strong>
-          <span style="font-size:1rem;opacity:0.92;line-height:1.4;max-width:90%;">Sem gaiola · <em style="color:#F0CE29;font-style:normal;font-weight:600;">para com o toque humano</em><br/>Reprogramação por arrasto: minutos</span>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <ol>
+              <li><strong>Pick &amp; place</strong> — pegar e posicionar.</li>
+              <li><strong>Inspeção visual</strong> — segurar peça para câmera.</li>
+              <li><strong>Aparafusamento</strong> — eletrônicos, automotivos.</li>
+              <li><strong>Empacotamento</strong> — bens de consumo, alimentação.</li>
+              <li><strong>Polimento</strong> — peças metálicas e plásticas.</li>
+              <li><strong>Cola e selagem</strong> — automotivo, eletroeletrônico.</li>
+              <li><strong>Atendimento a CNCs</strong> — alimentar máquina-ferramenta.</li>
+            </ol>
+          </div>
+          <div class="col-imagem" role="img" aria-label="Braço robótico colaborativo (cobot) em linha de montagem" style="background:linear-gradient(135deg,#1F8A4E 0%,#0C5530 100%);border:none;color:#FFF;flex-direction:column;gap:1rem;padding:2rem;text-align:center;">
+            <svg width="120" height="120" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="18" y="54" width="28" height="6" rx="2" fill="currentColor" stroke="none"/>
+              <circle cx="32" cy="50" r="5" fill="currentColor"/>
+              <line x1="32" y1="45" x2="32" y2="32"/>
+              <circle cx="32" cy="32" r="5" fill="#F0CE29" stroke="#F0CE29"/>
+              <line x1="32" y1="32" x2="46" y2="18"/>
+              <circle cx="46" cy="18" r="5" fill="#F0CE29" stroke="#F0CE29"/>
+              <line x1="46" y1="18" x2="50" y2="10"/>
+              <rect x="45" y="6" width="10" height="6" rx="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <strong style="font-size:1.35rem;color:#F0CE29;font-weight:800;line-height:1.15;">Cobot · até 10 kg</strong>
+            <span style="font-size:1rem;opacity:0.92;line-height:1.4;max-width:90%;">Sem gaiola · <em style="color:#F0CE29;font-style:normal;font-weight:600;">para com o toque humano</em><br/>Reprogramação por arrasto: minutos</span>
+          </div>
         </div>
       </div>
     </div>
@@ -762,58 +831,68 @@
 
   <!-- ============== SLIDE 9 — MERCADO E MARCAS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Mapa do mercado</p>
       <h2>Quem é quem em cobots</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Categoria</th>
-            <th scope="col">Players</th>
-            <th scope="col">Observação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Referência mundial</strong></td><td>Universal Robots (Dinamarca)</td><td>Criou o conceito · líder global em volume</td></tr>
-          <tr><td><strong>Gigantes com linha cobot</strong></td><td>FANUC · KUKA · ABB · Yaskawa</td><td>Vinham do robô tradicional, ampliaram portfólio</td></tr>
-          <tr><td><strong>Ascensão asiática</strong></td><td>Doosan · Techman · AUBO</td><td>Preço agressivo · ótima relação custo-benefício</td></tr>
-          <tr><td><strong>Brasil — integração</strong></td><td>Pollux · Astrein · WEG</td><td>Distribuem e fazem o <em>turnkey</em> em chão de fábrica</td></tr>
-        </tbody>
-      </table>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Categoria</th>
+              <th scope="col">Players</th>
+              <th scope="col">Observação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Referência mundial</strong></td><td>Universal Robots (Dinamarca)</td><td>Criou o conceito · líder global em volume</td></tr>
+            <tr><td><strong>Gigantes com linha cobot</strong></td><td>FANUC · KUKA · ABB · Yaskawa</td><td>Vinham do robô tradicional, ampliaram portfólio</td></tr>
+            <tr><td><strong>Ascensão asiática</strong></td><td>Doosan · Techman · AUBO</td><td>Preço agressivo · ótima relação custo-benefício</td></tr>
+            <tr><td><strong>Brasil — integração</strong></td><td>Pollux · Astrein · WEG</td><td>Distribuem e fazem o <em>turnkey</em> em chão de fábrica</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
   </section>
 
   <!-- ============== SLIDE 10 — CASO EMBRACO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Caso brasileiro</p>
       <h2>Embraco · Joinville (SC)</h2>
-      <div class="colunas">
-        <div>
-          <p>A <strong>Embraco</strong>, fabricante de compressores, instalou cobots Universal Robots em linha de montagem de unidades herméticas.</p>
-          <ul>
-            <li><strong>+40%</strong> de produtividade na estação</li>
-            <li><strong>Zero acidentes</strong> envolvendo o cobot</li>
-            <li>Reprogramação: <em>3 dias → 4 horas</em></li>
-            <li>Operador antigo virou <em>integrador e supervisor</em></li>
-          </ul>
-        </div>
-        <div>
-          <div class="destaque-box">
-            <h4>Lição-chave</h4>
-            <p>O ganho não foi só financeiro — foi também de <strong>qualificação humana</strong>. A função do operador subiu de "executor" para "integrador".</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <p>A <strong>Embraco</strong>, fabricante de compressores, instalou cobots Universal Robots em linha de montagem de unidades herméticas.</p>
+            <ul>
+              <li><strong>+40%</strong> de produtividade na estação</li>
+              <li><strong>Zero acidentes</strong> envolvendo o cobot</li>
+              <li>Reprogramação: <em>3 dias → 4 horas</em></li>
+              <li>Operador antigo virou <em>integrador e supervisor</em></li>
+            </ul>
           </div>
-          <div class="destaque-box azul" style="margin-top:0.6rem;">
-            <h4>Replicabilidade</h4>
-            <p>Linhas similares de outras unidades adotaram o mesmo padrão em meses, não anos.</p>
+          <div>
+            <div class="destaque-box">
+              <h4>Lição-chave</h4>
+              <p>O ganho não foi só financeiro — foi também de <strong>qualificação humana</strong>. A função do operador subiu de "executor" para "integrador".</p>
+            </div>
+            <div class="destaque-box azul" style="margin-top:0.6rem;">
+              <h4>Replicabilidade</h4>
+              <p>Linhas similares de outras unidades adotaram o mesmo padrão em meses, não anos.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -823,32 +902,37 @@
 
   <!-- ============== SLIDE 11 — CÁLCULO DE ROI (passo a passo) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico · ROI passo a passo</p>
       <h2>Aparafusamento em eletrônicos — paga em 13 meses</h2>
-      <table class="tabela-industrial">
-        <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
-        <thead>
-          <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Antes (manual)</th>
-            <th scope="col">Depois (cobot)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Produtividade</td><td>60 un/h por operador</td><td><strong>100 un/h</strong> por cobot (+67%)</td></tr>
-          <tr><td>Custo de mão de obra</td><td>3 operadores × R$ 4.500</td><td>1 supervisor para 3 cobots</td></tr>
-          <tr><td>Economia mensal por cobot</td><td>—</td><td><strong>R$ 13.500/mês</strong></td></tr>
-          <tr><td>Investimento (cobot + integração)</td><td>—</td><td>R$ 180.000</td></tr>
-          <tr style="background:rgba(240,206,41,0.18);"><td><strong>Payback</strong></td><td>—</td><td><strong>~13 meses</strong></td></tr>
-        </tbody>
-      </table>
-      <div class="destaque-box magenta">
-        <h4>Como interpretar</h4>
-        <p>Em pouco mais de um ano, o cobot <em>se pagou</em>. A partir daí, a economia é <strong>lucro líquido</strong> — e a linha ganhou flexibilidade que dinheiro não compra.</p>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <caption style="position:absolute;left:-9999px;">Tabela com dados desta seção.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Antes (manual)</th>
+              <th scope="col">Depois (cobot)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Produtividade</td><td>60 un/h por operador</td><td><strong>100 un/h</strong> por cobot (+67%)</td></tr>
+            <tr><td>Custo de mão de obra</td><td>3 operadores × R$ 4.500</td><td>1 supervisor para 3 cobots</td></tr>
+            <tr><td>Economia mensal por cobot</td><td>—</td><td><strong>R$ 13.500/mês</strong></td></tr>
+            <tr><td>Investimento (cobot + integração)</td><td>—</td><td>R$ 180.000</td></tr>
+            <tr style="background:rgba(240,206,41,0.18);"><td><strong>Payback</strong></td><td>—</td><td><strong>~13 meses</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="destaque-box magenta">
+          <h4>Como interpretar</h4>
+          <p>Em pouco mais de um ano, o cobot <em>se pagou</em>. A partir daí, a economia é <strong>lucro líquido</strong> — e a linha ganhou flexibilidade que dinheiro não compra.</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -856,22 +940,27 @@
 
   <!-- ============== SLIDE 12 — AUTOMAÇÃO ALÉM DO BRAÇO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Não é só braço robótico</p>
       <h1>Automação avançada além do cobot</h1>
-      <ul>
-        <li><strong>AGVs / AMRs</strong> — veículos autônomos substituem empilhadeiras em armazéns.</li>
-        <li><strong>Cobotic gripping</strong> — garras adaptativas que se ajustam ao formato da peça (vácuo, dedos macios, eletroímãs).</li>
-        <li><strong>Visão computacional integrada</strong> — o robô <em>vê</em> e decide onde pegar (não precisa de gabarito).</li>
-        <li><strong>Robôs com IA</strong> — aprendem por <em>demonstração humana</em>, em vez de linhas de código.</li>
-        <li><strong>Robôs móveis colaborativos</strong> — cobot + AMR andam juntos pela fábrica.</li>
-      </ul>
-      <div class="destaque-box azul">
-        <h4>Sinergia</h4>
-        <p>O verdadeiro salto é a <em>integração</em> dessas peças: AGV traz a caixa, cobot pega via visão computacional, IA otimiza o ritmo conforme demanda.</p>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>AGVs / AMRs</strong> — veículos autônomos substituem empilhadeiras em armazéns.</li>
+          <li><strong>Cobotic gripping</strong> — garras adaptativas que se ajustam ao formato da peça (vácuo, dedos macios, eletroímãs).</li>
+          <li><strong>Visão computacional integrada</strong> — o robô <em>vê</em> e decide onde pegar (não precisa de gabarito).</li>
+          <li><strong>Robôs com IA</strong> — aprendem por <em>demonstração humana</em>, em vez de linhas de código.</li>
+          <li><strong>Robôs móveis colaborativos</strong> — cobot + AMR andam juntos pela fábrica.</li>
+        </ul>
+        <div class="destaque-box azul">
+          <h4>Sinergia</h4>
+          <p>O verdadeiro salto é a <em>integração</em> dessas peças: AGV traz a caixa, cobot pega via visão computacional, IA otimiza o ritmo conforme demanda.</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -879,21 +968,26 @@
 
   <!-- ============== SLIDE 13 — COBOTS E O FUTURO DO TRABALHO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Pausa para reflexão</p>
       <h2>"Cobot vai roubar meu emprego?"</h2>
-      <ul>
-        <li><strong>Tarefas repetitivas e fisicamente desgastantes</strong> são absorvidas pelo cobot.</li>
-        <li><strong>Tarefas que exigem decisão, contexto e criatividade</strong> permanecem com o humano.</li>
-        <li>Surgem <em>novas funções</em>: operadores viram <strong>integradores e supervisores</strong>.</li>
-        <li>Postos tradicionais diminuem; postos <em>qualificados</em> aumentam.</li>
-      </ul>
-      <div class="destaque-box magenta">
-        <h4>Síntese da OIT</h4>
-        <p>A automação <strong>muda</strong> o emprego mais do que <em>destrói</em> — mas exige <strong>requalificação contínua</strong>.</p>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Tarefas repetitivas e fisicamente desgastantes</strong> são absorvidas pelo cobot.</li>
+          <li><strong>Tarefas que exigem decisão, contexto e criatividade</strong> permanecem com o humano.</li>
+          <li>Surgem <em>novas funções</em>: operadores viram <strong>integradores e supervisores</strong>.</li>
+          <li>Postos tradicionais diminuem; postos <em>qualificados</em> aumentam.</li>
+        </ul>
+        <div class="destaque-box magenta">
+          <h4>Síntese da OIT</h4>
+          <p>A automação <strong>muda</strong> o emprego mais do que <em>destrói</em> — mas exige <strong>requalificação contínua</strong>.</p>
+        </div>
       </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
@@ -911,20 +1005,25 @@
 
   <!-- ============== SLIDE 15 — ATIVIDADE PRÁTICA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="150" height="150"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
       <h2>Identifique 3 tarefas candidatas a cobot</h2>
-      <ol>
-        <li>Que <strong>gesto físico repetitivo</strong> é feito?</li>
-        <li>Quanto <strong>tempo por dia</strong> é gasto nessa tarefa?</li>
-        <li>Que <strong>carga</strong> é manipulada (peso, dimensão)?</li>
-        <li>Há <strong>risco de acidente</strong> com humano? Em que grau?</li>
-        <li>Faria sentido um cobot? Por quê?</li>
-      </ol>
-      <p style="margin-top:1.5em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · entrega no fórum da semana</p>
+      <div class="slide-content-box">
+        <ol>
+          <li>Que <strong>gesto físico repetitivo</strong> é feito?</li>
+          <li>Quanto <strong>tempo por dia</strong> é gasto nessa tarefa?</li>
+          <li>Que <strong>carga</strong> é manipulada (peso, dimensão)?</li>
+          <li>Há <strong>risco de acidente</strong> com humano? Em que grau?</li>
+          <li>Faria sentido um cobot? Por quê?</li>
+        </ol>
+        <p style="margin-top:1.5em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · entrega no fórum da semana</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Indústria 4.0 · Unidade 3</span><span>Aula 2 — Videoaula 10</span></div>
   </section>
