@@ -12,28 +12,27 @@
     --azul-fecaf:   #002057;   /* cor primária — azul institucional */
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
-    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
 
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
-    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
     --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     color: var(--cinza-texto);
     background: #111;
     overflow: hidden;
@@ -46,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -57,7 +54,7 @@
   .triangulos-canto {
     position: absolute;
     top: 0; right: 0;
-    width: 220px; height: 220px;
+    width: 150px; height: 150px;
     pointer-events: none;
     z-index: 1;
   }
@@ -79,27 +76,32 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
-    font-family: var(--fonte-titulo);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+  .slide h1, .slide h2, .slide h3 {
+    font-family: var(--fonte);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-escuro);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -111,19 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
-  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
-  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
-  .slide-section strong, .slide-section em,
-  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
-  .slide code {
-    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
-    background: #E7ECF5;
-    color: var(--azul-escuro);
-    padding: 0.05em 0.4em;
-    border-radius: 5px;
-    font-size: 0.9em;
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -179,6 +194,7 @@
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -189,7 +205,7 @@
   }
   .ponto {
     background: var(--branco);
-    border-left: 6px solid var(--verde-medio);
+    border-left: 6px solid var(--verde-escuro);
     padding: 1.2rem 1.4rem;
     border-radius: 6px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.06);
@@ -236,8 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-texto);
-    opacity: 0.6;
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -292,16 +307,17 @@
     display: block;
     position: relative; z-index: 2;
   }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
   .prof-foto:has(img) { background: none; }
   .prof-foto:has(img)::before { display: none; }
-  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -345,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -386,7 +403,7 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
-  .nav button:hover { background: var(--verde-medio); }
+  .nav button:hover { background: var(--azul-medio); }
   .nav button:disabled { background: #ccc; cursor: not-allowed; }
   .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
 
@@ -404,6 +421,17 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 </style>
 </head>
 <body>
@@ -418,6 +446,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -495,97 +533,112 @@
 
   <!-- ============== SLIDE 4 — DEFINIÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Definição em uma frase</h3>
+      <p class="kicker">Definição em uma frase</p>
       <h1>O que é Inteligência Artificial?</h1>
-      <p><strong>IA</strong> é qualquer <em>sistema computacional</em> que executa tarefas que tipicamente exigiriam <strong>inteligência humana</strong> — reconhecer imagens, entender linguagem, tomar decisões, aprender com experiência.</p>
-      <ul>
-        <li>Conceito cunhado em <strong>1956</strong> (Conferência de Dartmouth).</li>
-        <li>Só virou viável em escala nos últimos 15 anos.</li>
-        <li>Combinação que mudou o jogo: <em>dados em massa + poder computacional + algoritmos mais sofisticados</em>.</li>
-      </ul>
+      <div class="slide-content-box">
+        <p><strong>IA</strong> é qualquer <em>sistema computacional</em> que executa tarefas que tipicamente exigiriam <strong>inteligência humana</strong> — reconhecer imagens, entender linguagem, tomar decisões, aprender com experiência.</p>
+        <ul>
+          <li>Conceito cunhado em <strong>1956</strong> (Conferência de Dartmouth).</li>
+          <li>Só virou viável em escala nos últimos 15 anos.</li>
+          <li>Combinação que mudou o jogo: <em>dados em massa + poder computacional + algoritmos mais sofisticados</em>.</li>
+        </ul>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 5 — LINHA DO TEMPO DA IA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>De Dartmouth ao ChatGPT</h3>
+      <p class="kicker">De Dartmouth ao ChatGPT</p>
       <h2>70 anos de IA em uma linha do tempo</h2>
-      <svg viewBox="0 0 1100 240" style="width:100%;max-height:38vh;display:block;margin:0.6rem auto;" role="img" aria-label="Linha do tempo da IA: 1956 Dartmouth, 1980s sistemas especialistas, 1997 Deep Blue, 2012 AlexNet, 2016 AlphaGo, 2022 ChatGPT">
-        <!-- Eixo -->
-        <line x1="40" y1="130" x2="1060" y2="130" stroke="#002057" stroke-width="3"/>
-        <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700">
-          <!-- 1956 -->
-          <circle cx="80" cy="130" r="10" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
-          <text x="80" y="105" text-anchor="middle" fill="#002057">1956</text>
-          <text x="80" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Dartmouth</text>
-          <text x="80" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">nasce o termo "IA"</text>
-          <!-- 1980 -->
-          <circle cx="240" cy="130" r="10" fill="#2BBBE0" stroke="#002057" stroke-width="3"/>
-          <text x="240" y="105" text-anchor="middle" fill="#002057">1980s</text>
-          <text x="240" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Sist. especialistas</text>
-          <text x="240" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">MYCIN · XCON</text>
-          <!-- 1997 -->
-          <circle cx="400" cy="130" r="10" fill="#1F44A8"/>
-          <text x="400" y="105" text-anchor="middle" fill="#002057">1997</text>
-          <text x="400" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Deep Blue</text>
-          <text x="400" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">vence Kasparov</text>
-          <!-- 2012 -->
-          <circle cx="580" cy="130" r="12" fill="#E91E63" stroke="#002057" stroke-width="3"/>
-          <text x="580" y="105" text-anchor="middle" fill="#002057">2012</text>
-          <text x="580" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">AlexNet</text>
-          <text x="580" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">explosão Deep Learning</text>
-          <!-- 2016 -->
-          <circle cx="760" cy="130" r="10" fill="#1F8A4E"/>
-          <text x="760" y="105" text-anchor="middle" fill="#002057">2016</text>
-          <text x="760" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">AlphaGo</text>
-          <text x="760" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">vence Lee Sedol</text>
-          <!-- 2022 -->
-          <circle cx="940" cy="130" r="14" fill="#F0CE29" stroke="#E91E63" stroke-width="4"/>
-          <text x="940" y="105" text-anchor="middle" fill="#002057">2022</text>
-          <text x="940" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">ChatGPT</text>
-          <text x="940" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">IA generativa em massa</text>
-        </g>
-      </svg>
-      <p style="text-align:center;margin-top:0.4em;font-size:1rem;color:#555;">Tudo o que <em>parece</em> repentino vem de <strong>décadas</strong> de pesquisa lenta. O que mudou foi <em>dados + GPU</em>.</p>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1100 240" style="width:100%;max-height:38vh;display:block;margin:0.6rem auto;" role="img" aria-label="Linha do tempo da IA: 1956 Dartmouth, 1980s sistemas especialistas, 1997 Deep Blue, 2012 AlexNet, 2016 AlphaGo, 2022 ChatGPT">
+          <!-- Eixo -->
+          <line x1="40" y1="130" x2="1060" y2="130" stroke="#002057" stroke-width="3"/>
+          <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700">
+            <!-- 1956 -->
+            <circle cx="80" cy="130" r="10" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+            <text x="80" y="105" text-anchor="middle" fill="#002057">1956</text>
+            <text x="80" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Dartmouth</text>
+            <text x="80" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">nasce o termo "IA"</text>
+            <!-- 1980 -->
+            <circle cx="240" cy="130" r="10" fill="#2BBBE0" stroke="#002057" stroke-width="3"/>
+            <text x="240" y="105" text-anchor="middle" fill="#002057">1980s</text>
+            <text x="240" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Sist. especialistas</text>
+            <text x="240" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">MYCIN · XCON</text>
+            <!-- 1997 -->
+            <circle cx="400" cy="130" r="10" fill="#1F44A8"/>
+            <text x="400" y="105" text-anchor="middle" fill="#002057">1997</text>
+            <text x="400" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">Deep Blue</text>
+            <text x="400" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">vence Kasparov</text>
+            <!-- 2012 -->
+            <circle cx="580" cy="130" r="12" fill="#E91E63" stroke="#002057" stroke-width="3"/>
+            <text x="580" y="105" text-anchor="middle" fill="#002057">2012</text>
+            <text x="580" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">AlexNet</text>
+            <text x="580" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">explosão Deep Learning</text>
+            <!-- 2016 -->
+            <circle cx="760" cy="130" r="10" fill="#1F8A4E"/>
+            <text x="760" y="105" text-anchor="middle" fill="#002057">2016</text>
+            <text x="760" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">AlphaGo</text>
+            <text x="760" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">vence Lee Sedol</text>
+            <!-- 2022 -->
+            <circle cx="940" cy="130" r="14" fill="#F0CE29" stroke="#E91E63" stroke-width="4"/>
+            <text x="940" y="105" text-anchor="middle" fill="#002057">2022</text>
+            <text x="940" y="170" text-anchor="middle" fill="#1F44A8" font-size="11" font-weight="600">ChatGPT</text>
+            <text x="940" y="185" text-anchor="middle" fill="#555" font-size="10" font-weight="400">IA generativa em massa</text>
+          </g>
+        </svg>
+        <p style="text-align:center;margin-top:0.4em;font-size:1rem;color:#555;">Tudo o que <em>parece</em> repentino vem de <strong>décadas</strong> de pesquisa lenta. O que mudou foi <em>dados + GPU</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — SIMBÓLICA vs ML (2 colunas) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Duas grandes famílias</h3>
+      <p class="kicker">Duas grandes famílias</p>
       <h2>IA simbólica vs Machine Learning</h2>
-      <div class="colunas">
-        <div>
-          <h3 style="color:var(--azul-medio);">IA Simbólica</h3>
-          <p><strong>Regras lógicas</strong> programadas por humanos: "se A e B, então C".</p>
-          <ul>
-            <li><em>Explicável</em>, determinística.</li>
-            <li><strong>Não aprende</strong> sozinha.</li>
-            <li>Ex.: MYCIN, XCON (anos 1980).</li>
-          </ul>
-        </div>
-        <div>
-          <h3 style="color:var(--magenta);">Machine Learning</h3>
-          <p>Sistema <strong>aprende padrões</strong> a partir de dados — sem regras explícitas.</p>
-          <ul>
-            <li>Escala para problemas complexos.</li>
-            <li>É <em>caixa-preta</em> — difícil explicar.</li>
-            <li>Ex.: Netflix, fraude, preditiva.</li>
-          </ul>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <h3 style="color:var(--azul-medio);">IA Simbólica</h3>
+            <p><strong>Regras lógicas</strong> programadas por humanos: "se A e B, então C".</p>
+            <ul>
+              <li><em>Explicável</em>, determinística.</li>
+              <li><strong>Não aprende</strong> sozinha.</li>
+              <li>Ex.: MYCIN, XCON (anos 1980).</li>
+            </ul>
+          </div>
+          <div>
+            <h3 style="color:var(--magenta);">Machine Learning</h3>
+            <p>Sistema <strong>aprende padrões</strong> a partir de dados — sem regras explícitas.</p>
+            <ul>
+              <li>Escala para problemas complexos.</li>
+              <li>É <em>caixa-preta</em> — difícil explicar.</li>
+              <li>Ex.: Netflix, fraude, preditiva.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -594,83 +647,98 @@
 
   <!-- ============== SLIDE 7 — COMPARATIVO SIMBÓLICA × ML (tabela) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparativo linha a linha</h3>
+      <p class="kicker">Comparativo linha a linha</p>
       <h2>Quando usar cada uma</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.55em 1em;text-align:left;">Critério</th>
-            <th style="padding:0.55em 1em;text-align:left;">IA Simbólica</th>
-            <th style="padding:0.55em 1em;text-align:left;">Machine Learning</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Como "sabe"</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Regras programadas</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Padrões aprendidos de dados</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Explicabilidade</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Alta</em> (lê-se a regra)</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Baixa (caixa-preta)</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Dado necessário</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Pouco — só conhecimento</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Muito</strong> e de qualidade</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Manutenção</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Reprogramação manual</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Re-treino com dados novos</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Domínio ideal</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Restrito, bem definido</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Complexo, alta dimensão</td></tr>
-          <tr><td style="padding:0.45em 1em;"><strong>Exemplo industrial</strong></td><td style="padding:0.45em 1em;">Travas de intertravamento</td><td style="padding:0.45em 1em;">Previsão de falha de motor</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;font-size:1rem;color:#555;">Na prática, sistemas <em>maduros</em> combinam os dois — regras para segurança, ML para o resto.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.55em 1em;text-align:left;">Critério</th>
+              <th style="padding:0.55em 1em;text-align:left;">IA Simbólica</th>
+              <th style="padding:0.55em 1em;text-align:left;">Machine Learning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Como "sabe"</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Regras programadas</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Padrões aprendidos de dados</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Explicabilidade</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Alta</em> (lê-se a regra)</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Baixa (caixa-preta)</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Dado necessário</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Pouco — só conhecimento</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Muito</strong> e de qualidade</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Manutenção</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Reprogramação manual</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Re-treino com dados novos</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Domínio ideal</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Restrito, bem definido</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Complexo, alta dimensão</td></tr>
+            <tr><td style="padding:0.45em 1em;"><strong>Exemplo industrial</strong></td><td style="padding:0.45em 1em;">Travas de intertravamento</td><td style="padding:0.45em 1em;">Previsão de falha de motor</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8em;font-size:1rem;color:#555;">Na prática, sistemas <em>maduros</em> combinam os dois — regras para segurança, ML para o resto.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 8 — PIRÂMIDE IA ⊃ ML ⊃ DL ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Hierarquia conceitual</h3>
+      <p class="kicker">Hierarquia conceitual</p>
       <h2>IA ⊃ ML ⊃ Deep Learning</h2>
-      <svg viewBox="0 0 1100 360" style="width:100%;max-height:46vh;display:block;margin:0.4rem auto;" role="img" aria-label="Diagrama em camadas concêntricas mostrando IA contendo ML, que contém Deep Learning">
-        <!-- Camada externa: IA -->
-        <ellipse cx="550" cy="180" rx="500" ry="160" fill="#002057" opacity="0.92"/>
-        <text x="120" y="80" fill="#F0CE29" font-weight="800" font-size="26" font-family="Segoe UI, system-ui, sans-serif">IA</text>
-        <text x="120" y="108" fill="#FFFFFF" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Sistemas inteligentes — campo amplo</text>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1100 360" style="width:100%;max-height:46vh;display:block;margin:0.4rem auto;" role="img" aria-label="Diagrama em camadas concêntricas mostrando IA contendo ML, que contém Deep Learning">
+          <!-- Camada externa: IA -->
+          <ellipse cx="550" cy="180" rx="500" ry="160" fill="#002057" opacity="0.92"/>
+          <text x="120" y="80" fill="#F0CE29" font-weight="800" font-size="26" font-family="Segoe UI, system-ui, sans-serif">IA</text>
+          <text x="120" y="108" fill="#FFFFFF" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Sistemas inteligentes — campo amplo</text>
 
-        <!-- Camada média: ML -->
-        <ellipse cx="600" cy="190" rx="340" ry="120" fill="#1F44A8"/>
-        <text x="320" y="110" fill="#F0CE29" font-weight="800" font-size="24" font-family="Segoe UI, system-ui, sans-serif">ML</text>
-        <text x="320" y="136" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Aprende de dados</text>
+          <!-- Camada média: ML -->
+          <ellipse cx="600" cy="190" rx="340" ry="120" fill="#1F44A8"/>
+          <text x="320" y="110" fill="#F0CE29" font-weight="800" font-size="24" font-family="Segoe UI, system-ui, sans-serif">ML</text>
+          <text x="320" y="136" fill="#FFFFFF" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Aprende de dados</text>
 
-        <!-- Núcleo: DL -->
-        <ellipse cx="680" cy="200" rx="180" ry="78" fill="#2BBBE0"/>
-        <text x="680" y="195" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Deep Learning</text>
-        <text x="680" y="222" text-anchor="middle" fill="#002057" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Redes neurais profundas</text>
-      </svg>
-      <p style="text-align:center;margin-top:0.5em;font-size:1rem;color:#555;">Quando se diz "IA" em projeto industrial hoje, geralmente é <strong>ML supervisionado</strong>.</p>
+          <!-- Núcleo: DL -->
+          <ellipse cx="680" cy="200" rx="180" ry="78" fill="#2BBBE0"/>
+          <text x="680" y="195" text-anchor="middle" fill="#002057" font-weight="800" font-size="22" font-family="Segoe UI, system-ui, sans-serif">Deep Learning</text>
+          <text x="680" y="222" text-anchor="middle" fill="#002057" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Redes neurais profundas</text>
+        </svg>
+        <p style="text-align:center;margin-top:0.5em;font-size:1rem;color:#555;">Quando se diz "IA" em projeto industrial hoje, geralmente é <strong>ML supervisionado</strong>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 9 — 3 MODOS DE APRENDIZADO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Os três modos de aprendizado</h3>
+      <p class="kicker">Os três modos de aprendizado</p>
       <h2>Supervisionado, não supervisionado e por reforço</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Supervisionado</h3>
-          <p>Dados <em>com resposta</em>. Ex.: 10.000 fotos rotuladas boa/defeito → modelo classifica novas. <strong>Domina na indústria.</strong></p>
-        </div>
-        <div class="ponto">
-          <h3>Não supervisionado</h3>
-          <p>Dados <em>sem resposta</em>. Ex.: agrupar 100 mil clientes em clusters; detectar anomalias.</p>
-        </div>
-        <div class="ponto">
-          <h3>Por reforço</h3>
-          <p>Aprende por <em>tentativa e erro</em> com recompensa/punição. Ex.: robô que otimiza movimento.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Supervisionado</h3>
+            <p>Dados <em>com resposta</em>. Ex.: 10.000 fotos rotuladas boa/defeito → modelo classifica novas. <strong>Domina na indústria.</strong></p>
+          </div>
+          <div class="ponto">
+            <h3>Não supervisionado</h3>
+            <p>Dados <em>sem resposta</em>. Ex.: agrupar 100 mil clientes em clusters; detectar anomalias.</p>
+          </div>
+          <div class="ponto">
+            <h3>Por reforço</h3>
+            <p>Aprende por <em>tentativa e erro</em> com recompensa/punição. Ex.: robô que otimiza movimento.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -679,120 +747,135 @@
 
   <!-- ============== SLIDE 10 — 6 PROBLEMAS QUE IA RESOLVE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Mapa de problemas</h3>
+      <p class="kicker">Mapa de problemas</p>
       <h2>Os 6 problemas que IA resolve na produção</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.55em 1em;text-align:left;">Problema</th>
-            <th style="padding:0.55em 1em;text-align:left;">Pergunta típica</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Classificação</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Esta peça tem defeito ou não?</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Regressão</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Quantas unidades vou vender no próximo mês?</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Anomalia</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Este comportamento é normal ou suspeito?</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Clustering</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Quais clientes/eventos são semelhantes?</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Recomendação</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Qual o próximo passo a sugerir?</td></tr>
-          <tr><td style="padding:0.45em 1em;"><strong>Otimização</strong></td><td style="padding:0.45em 1em;">Qual a melhor configuração entre milhões?</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;font-size:1rem;color:#555;">Engenheiro(a) que entende <em>qual problema</em> está resolvendo, escolhe a técnica certa.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.55em 1em;text-align:left;">Problema</th>
+              <th style="padding:0.55em 1em;text-align:left;">Pergunta típica</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Classificação</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Esta peça tem defeito ou não?</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Regressão</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Quantas unidades vou vender no próximo mês?</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Anomalia</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Este comportamento é normal ou suspeito?</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Clustering</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Quais clientes/eventos são semelhantes?</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Recomendação</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Qual o próximo passo a sugerir?</td></tr>
+            <tr><td style="padding:0.45em 1em;"><strong>Otimização</strong></td><td style="padding:0.45em 1em;">Qual a melhor configuração entre milhões?</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8em;font-size:1rem;color:#555;">Engenheiro(a) que entende <em>qual problema</em> está resolvendo, escolhe a técnica certa.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 11 — CICLO DE VIDA DE UM PROJETO ML ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Ciclo de vida</h3>
+      <p class="kicker">Ciclo de vida</p>
       <h2>As 7 fases de um projeto de ML</h2>
-      <svg viewBox="0 0 1100 280" style="width:100%;max-height:42vh;display:block;margin:0.4rem auto;" role="img" aria-label="Sete fases em ciclo: definir, coletar, preparar, treinar, validar, deploy, monitorar">
-        <defs>
-          <marker id="arrow-ml" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-            <polygon points="0,0 9,3 0,6" fill="#002057"/>
-          </marker>
-        </defs>
-        <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700">
-          <rect x="20"  y="60"  width="140" height="70" rx="10" fill="#002057"/>
-          <text x="90"  y="90"  text-anchor="middle" fill="#F0CE29">1. Definir</text>
-          <text x="90"  y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">problema de negócio</text>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1100 280" style="width:100%;max-height:42vh;display:block;margin:0.4rem auto;" role="img" aria-label="Sete fases em ciclo: definir, coletar, preparar, treinar, validar, deploy, monitorar">
+          <defs>
+            <marker id="arrow-ml" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+              <polygon points="0,0 9,3 0,6" fill="#002057"/>
+            </marker>
+          </defs>
+          <g font-family="Segoe UI, system-ui, sans-serif" font-size="13" font-weight="700">
+            <rect x="20"  y="60"  width="140" height="70" rx="10" fill="#002057"/>
+            <text x="90"  y="90"  text-anchor="middle" fill="#F0CE29">1. Definir</text>
+            <text x="90"  y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">problema de negócio</text>
 
-          <rect x="180" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
-          <text x="250" y="90"  text-anchor="middle" fill="#F0CE29">2. Coletar</text>
-          <text x="250" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">dados</text>
+            <rect x="180" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
+            <text x="250" y="90"  text-anchor="middle" fill="#F0CE29">2. Coletar</text>
+            <text x="250" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">dados</text>
 
-          <rect x="340" y="60"  width="140" height="70" rx="10" fill="#E91E63"/>
-          <text x="410" y="86"  text-anchor="middle" fill="#FFFFFF">3. Preparar</text>
-          <text x="410" y="106" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">70% do trabalho</text>
+            <rect x="340" y="60"  width="140" height="70" rx="10" fill="#E91E63"/>
+            <text x="410" y="86"  text-anchor="middle" fill="#FFFFFF">3. Preparar</text>
+            <text x="410" y="106" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">70% do trabalho</text>
 
-          <rect x="500" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
-          <text x="570" y="90"  text-anchor="middle" fill="#F0CE29">4. Treinar</text>
-          <text x="570" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">vários modelos</text>
+            <rect x="500" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
+            <text x="570" y="90"  text-anchor="middle" fill="#F0CE29">4. Treinar</text>
+            <text x="570" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">vários modelos</text>
 
-          <rect x="660" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
-          <text x="730" y="90"  text-anchor="middle" fill="#F0CE29">5. Validar</text>
-          <text x="730" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">dados novos</text>
+            <rect x="660" y="60"  width="140" height="70" rx="10" fill="#1F44A8"/>
+            <text x="730" y="90"  text-anchor="middle" fill="#F0CE29">5. Validar</text>
+            <text x="730" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">dados novos</text>
 
-          <rect x="820" y="60"  width="140" height="70" rx="10" fill="#1F8A4E"/>
-          <text x="890" y="90"  text-anchor="middle" fill="#F0CE29">6. Deploy</text>
-          <text x="890" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">em produção</text>
+            <rect x="820" y="60"  width="140" height="70" rx="10" fill="#1F8A4E"/>
+            <text x="890" y="90"  text-anchor="middle" fill="#F0CE29">6. Deploy</text>
+            <text x="890" y="110" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="400">em produção</text>
 
-          <rect x="430" y="180" width="240" height="70" rx="10" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
-          <text x="550" y="208" text-anchor="middle" fill="#002057">7. Monitorar &amp; retreinar</text>
-          <text x="550" y="228" text-anchor="middle" fill="#002057" font-size="11" font-weight="400">modelo decai com o tempo</text>
-        </g>
-        <g stroke="#002057" stroke-width="2.5" fill="none" marker-end="url(#arrow-ml)">
-          <line x1="160" y1="95" x2="180" y2="95"/>
-          <line x1="320" y1="95" x2="340" y2="95"/>
-          <line x1="480" y1="95" x2="500" y2="95"/>
-          <line x1="640" y1="95" x2="660" y2="95"/>
-          <line x1="800" y1="95" x2="820" y2="95"/>
-          <path d="M 890,130 L 890,165 L 670,215"/>
-          <path d="M 430,215 L 90,215 L 90,130"/>
-        </g>
-      </svg>
-      <p style="text-align:center;margin-top:0.4em;font-size:1rem;color:#555;"><strong>"Vamos colocar IA"</strong> não é projeto. Projeto começa por <em>decisão de negócio</em>.</p>
+            <rect x="430" y="180" width="240" height="70" rx="10" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+            <text x="550" y="208" text-anchor="middle" fill="#002057">7. Monitorar &amp; retreinar</text>
+            <text x="550" y="228" text-anchor="middle" fill="#002057" font-size="11" font-weight="400">modelo decai com o tempo</text>
+          </g>
+          <g stroke="#002057" stroke-width="2.5" fill="none" marker-end="url(#arrow-ml)">
+            <line x1="160" y1="95" x2="180" y2="95"/>
+            <line x1="320" y1="95" x2="340" y2="95"/>
+            <line x1="480" y1="95" x2="500" y2="95"/>
+            <line x1="640" y1="95" x2="660" y2="95"/>
+            <line x1="800" y1="95" x2="820" y2="95"/>
+            <path d="M 890,130 L 890,165 L 670,215"/>
+            <path d="M 430,215 L 90,215 L 90,130"/>
+          </g>
+        </svg>
+        <p style="text-align:center;margin-top:0.4em;font-size:1rem;color:#555;"><strong>"Vamos colocar IA"</strong> não é projeto. Projeto começa por <em>decisão de negócio</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>
 
   <!-- ============== SLIDE 12 — CASO NUMÉRICO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Hype vs realidade</h3>
+      <p class="kicker">Hype vs realidade</p>
       <h2>Ganho típico com ML em manutenção preditiva</h2>
-      <div class="colunas">
-        <div>
-          <p><strong>Sem ML</strong> — falha em motor crítico:</p>
-          <ul>
-            <li>Parada de 8 h, R$ 60 mil por evento.</li>
-            <li>6 eventos/ano = <strong>R$ 360 mil/ano</strong>.</li>
-          </ul>
-          <p><strong>Com ML preditiva</strong>:</p>
-          <ul>
-            <li>Redução de <strong>60%</strong> nas falhas não programadas.</li>
-            <li>Paradas planejadas de 2 h, R$ 8 mil cada.</li>
-          </ul>
-        </div>
-        <div>
-          <div style="background:var(--branco);border-left:6px solid var(--magenta);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
-            <h3 style="color:var(--cinza-texto);text-transform:none;letter-spacing:0;font-size:1.1rem;">Resultado</h3>
-            <p style="margin:0;font-size:1.1rem;"><strong>Ganho:</strong> R$ 200–250 mil/ano por motor.</p>
-            <p style="margin:0.4em 0 0;font-size:1.1rem;"><strong>Investimento:</strong> R$ 150–300 mil.</p>
-            <p style="margin:0.4em 0 0;font-size:1.1rem;"><strong>Payback:</strong> <em>12–18 meses</em>.</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <p><strong>Sem ML</strong> — falha em motor crítico:</p>
+            <ul>
+              <li>Parada de 8 h, R$ 60 mil por evento.</li>
+              <li>6 eventos/ano = <strong>R$ 360 mil/ano</strong>.</li>
+            </ul>
+            <p><strong>Com ML preditiva</strong>:</p>
+            <ul>
+              <li>Redução de <strong>60%</strong> nas falhas não programadas.</li>
+              <li>Paradas planejadas de 2 h, R$ 8 mil cada.</li>
+            </ul>
           </div>
-          <p style="margin-top:1em;font-size:1rem;color:#555;">A IA real é muito menos mágica e muito mais trabalho do que o marketing sugere — mas o ROI existe.</p>
+          <div>
+            <div style="background:var(--branco);border-left:6px solid var(--magenta);padding:1.2rem 1.4rem;border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+              <h3 style="color:var(--cinza-texto);text-transform:none;letter-spacing:0;font-size:1.1rem;">Resultado</h3>
+              <p style="margin:0;font-size:1.1rem;"><strong>Ganho:</strong> R$ 200–250 mil/ano por motor.</p>
+              <p style="margin:0.4em 0 0;font-size:1.1rem;"><strong>Investimento:</strong> R$ 150–300 mil.</p>
+              <p style="margin:0.4em 0 0;font-size:1.1rem;"><strong>Payback:</strong> <em>12–18 meses</em>.</p>
+            </div>
+            <p style="margin-top:1em;font-size:1rem;color:#555;">A IA real é muito menos mágica e muito mais trabalho do que o marketing sugere — mas o ROI existe.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -801,28 +884,33 @@
 
   <!-- ============== SLIDE 13 — HYPE vs REALIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Hype vs realidade</h3>
+      <p class="kicker">Hype vs realidade</p>
       <h2>O que o marketing não conta</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Substitui tarefas</h3>
-          <p>IA <strong>não substitui</strong> funções inteiras — substitui <em>tarefas repetitivas e bem definidas</em>.</p>
-        </div>
-        <div class="ponto">
-          <h3>Complementa o humano</h3>
-          <p>Em julgamento, criatividade e contexto, o humano segue insubstituível.</p>
-        </div>
-        <div class="ponto">
-          <h3>Cria novas funções</h3>
-          <p><em>Data scientist</em>, ML engineer, AI ethicist — profissões que não existiam há 10 anos.</p>
-        </div>
-        <div class="ponto">
-          <h3>70–80% falham</h3>
-          <p>Projetos morrem por <strong>má escolha do problema</strong> ou <em>dado ruim</em> — quase nunca por algoritmo.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Substitui tarefas</h3>
+            <p>IA <strong>não substitui</strong> funções inteiras — substitui <em>tarefas repetitivas e bem definidas</em>.</p>
+          </div>
+          <div class="ponto">
+            <h3>Complementa o humano</h3>
+            <p>Em julgamento, criatividade e contexto, o humano segue insubstituível.</p>
+          </div>
+          <div class="ponto">
+            <h3>Cria novas funções</h3>
+            <p><em>Data scientist</em>, ML engineer, AI ethicist — profissões que não existiam há 10 anos.</p>
+          </div>
+          <div class="ponto">
+            <h3>70–80% falham</h3>
+            <p>Projetos morrem por <strong>má escolha do problema</strong> ou <em>dado ruim</em> — quase nunca por algoritmo.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -841,21 +929,26 @@
 
   <!-- ============== SLIDE 15 — ATIVIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Mapeie uma decisão repetitiva</h2>
-      <p>Pense em <strong>uma decisão repetitiva</strong> que alguém na sua empresa toma com frequência:</p>
-      <ol>
-        <li>Que <strong>dados</strong> essa pessoa usa para decidir? Estão estruturados?</li>
-        <li>Que <em>regra</em> ela aplica — mesmo que mental?</li>
-        <li>Que <strong>erros</strong> ela comete?</li>
-        <li>Qual tipo de ML (classificação, regressão, detecção, recomendação) faria sentido?</li>
-        <li>Quanto <em>valeria</em> automatizar essa decisão anualmente?</li>
-      </ol>
-      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · anotar no caderno · base para a AAI da unidade</p>
+      <div class="slide-content-box">
+        <p>Pense em <strong>uma decisão repetitiva</strong> que alguém na sua empresa toma com frequência:</p>
+        <ol>
+          <li>Que <strong>dados</strong> essa pessoa usa para decidir? Estão estruturados?</li>
+          <li>Que <em>regra</em> ela aplica — mesmo que mental?</li>
+          <li>Que <strong>erros</strong> ela comete?</li>
+          <li>Qual tipo de ML (classificação, regressão, detecção, recomendação) faria sentido?</li>
+          <li>Quanto <em>valeria</em> automatizar essa decisão anualmente?</li>
+        </ol>
+        <p style="margin-top:1.2em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · anotar no caderno · base para a AAI da unidade</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 4</span><span>Aula 1 — Videoaula 13</span></div>
   </section>

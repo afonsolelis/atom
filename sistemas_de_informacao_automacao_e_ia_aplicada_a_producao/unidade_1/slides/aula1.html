@@ -12,28 +12,27 @@
     --azul-fecaf:   #002057;   /* cor primária — azul institucional */
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
-    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
 
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
-    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
     --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     color: var(--cinza-texto);
     background: #111;
     overflow: hidden;
@@ -46,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -57,7 +54,7 @@
   .triangulos-canto {
     position: absolute;
     top: 0; right: 0;
-    width: 220px; height: 220px;
+    width: 150px; height: 150px;
     pointer-events: none;
     z-index: 1;
   }
@@ -79,27 +76,32 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
-    font-family: var(--fonte-titulo);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+  .slide h1, .slide h2, .slide h3 {
+    font-family: var(--fonte);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-escuro);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -111,19 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
-  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
-  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
-  .slide-section strong, .slide-section em,
-  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
-  .slide code {
-    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
-    background: #E7ECF5;
-    color: var(--azul-escuro);
-    padding: 0.05em 0.4em;
-    border-radius: 5px;
-    font-size: 0.9em;
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -179,6 +194,7 @@
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     overflow: hidden;
   }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
   /* ---------- Slide: pontos-chave ---------- */
   .pontos-chave {
@@ -189,7 +205,7 @@
   }
   .ponto {
     background: var(--branco);
-    border-left: 6px solid var(--verde-medio);
+    border-left: 6px solid var(--verde-escuro);
     padding: 1.2rem 1.4rem;
     border-radius: 6px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.06);
@@ -236,8 +252,7 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-texto);
-    opacity: 0.6;
+    color: rgba(255,255,255,0.7);
     z-index: 3;
   }
 
@@ -292,16 +307,17 @@
     display: block;
     position: relative; z-index: 2;
   }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
   .prof-foto:has(img) { background: none; }
   .prof-foto:has(img)::before { display: none; }
-  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
   .prof-lado-escuro {
     background: var(--azul-fecaf);
     color: var(--branco);
-    padding: 6vh 4vw 6vh 5vw;
-    display: flex; flex-direction: column; justify-content: center;
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
     position: relative;
   }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
   .prof-nome {
     color: var(--branco) !important;
     font-size: clamp(2.4rem, 4vw, 3.6rem);
@@ -345,7 +361,8 @@
     transform: translateY(-50%);
     width: 200px; height: 60%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 1;
+    opacity: 0.55;
   }
   /* Decoração: triângulo amarelo top-right */
   .prof-canto-topo {
@@ -386,11 +403,37 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
-  .nav button:hover { background: var(--verde-medio); }
+  .nav button:hover { background: var(--azul-medio); }
   .nav button:disabled { background: #ccc; cursor: not-allowed; }
   .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
 
-  /* ---------- Componentes extras ---------- */
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
+
+  /* ---------- Componentes extras (stat-grid, callout) ---------- */
   .callout-azul {
     background: var(--azul-fecaf);
     color: var(--branco);
@@ -401,12 +444,6 @@
   }
   .callout-azul strong { color: var(--amarelo); }
   .callout-azul em { color: rgba(255,255,255,0.92); }
-  .callout-amarelo {
-    background: #FFF4D0;
-    border-left: 6px solid var(--amarelo);
-    padding: 0.9em 1.2em;
-    border-radius: 6px;
-  }
   .stat-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -433,21 +470,6 @@
     color: #444;
     font-weight: 500;
   }
-
-  /* ---------- Print (export para PDF) ---------- */
-  @media print {
-    body { background: var(--branco); }
-    .nav { display: none; }
-    .slide {
-      display: flex !important;
-      position: relative !important;
-      inset: auto !important;
-      page-break-after: always;
-      page-break-inside: avoid;
-      width: 100vw; height: 100vh;
-    }
-    @page { size: 1280px 720px; margin: 0; }
-  }
 </style>
 </head>
 <body>
@@ -462,6 +484,16 @@
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
@@ -582,220 +614,255 @@
 
   <!-- ============== SLIDE 4 — CONCEITO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conceito</h3>
+      <p class="kicker">Conceito</p>
       <h1>Três palavras que parecem sinônimos — mas não são</h1>
-      <p>Você vai ouvir, ao longo da disciplina, três termos que <em>todo mundo</em> mistura: <strong>dado</strong>, <strong>informação</strong> e <strong>conhecimento</strong>.</p>
-      <p>Confundi-los é o erro mais comum em projetos de TI industrial — e é o que <em>custa caro</em>. Esta aula resolve isso de uma vez.</p>
-      <ul>
-        <li>Decisão na indústria moderna é, no fundo, decisão sobre <strong>dados</strong>.</li>
-        <li>Mas dado bruto, sozinho, é <em>ruído</em>.</li>
-        <li>A diferença entre operar e decidir está em <strong>subir a pirâmide</strong>.</li>
-      </ul>
+      <div class="slide-content-box">
+        <p>Você vai ouvir, ao longo da disciplina, três termos que <em>todo mundo</em> mistura: <strong>dado</strong>, <strong>informação</strong> e <strong>conhecimento</strong>.</p>
+        <p>Confundi-los é o erro mais comum em projetos de TI industrial — e é o que <em>custa caro</em>. Esta aula resolve isso de uma vez.</p>
+        <ul>
+          <li>Decisão na indústria moderna é, no fundo, decisão sobre <strong>dados</strong>.</li>
+          <li>Mas dado bruto, sozinho, é <em>ruído</em>.</li>
+          <li>A diferença entre operar e decidir está em <strong>subir a pirâmide</strong>.</li>
+        </ul>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 5 — UMA FÁBRICA, MILHÕES DE DADOS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Escala do problema</h3>
+      <p class="kicker">Escala do problema</p>
       <h2>Uma fábrica média gera <em>milhões de dados</em> por dia</h2>
-      <div class="stat-grid">
-        <div class="stat-card">
-          <span class="numero-grande">10⁶+</span>
-          <span class="legenda">Leituras de sensor / dia em uma linha automatizada</span>
+      <div class="slide-content-box">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <span class="numero-grande">10⁶+</span>
+            <span class="legenda">Leituras de sensor / dia em uma linha automatizada</span>
+          </div>
+          <div class="stat-card">
+            <span class="numero-grande">10⁴</span>
+            <span class="legenda">Transações no ERP de uma fábrica média / dia</span>
+          </div>
+          <div class="stat-card">
+            <span class="numero-grande">80%</span>
+            <span class="legenda">Dos dados gerados no mundo são <em>não estruturados</em></span>
+          </div>
+          <div class="stat-card">
+            <span class="numero-grande">5–10×</span>
+            <span class="legenda">Salto de valor a cada degrau da pirâmide <strong>DIKW</strong></span>
+          </div>
         </div>
-        <div class="stat-card">
-          <span class="numero-grande">10⁴</span>
-          <span class="legenda">Transações no ERP de uma fábrica média / dia</span>
-        </div>
-        <div class="stat-card">
-          <span class="numero-grande">80%</span>
-          <span class="legenda">Dos dados gerados no mundo são <em>não estruturados</em></span>
-        </div>
-        <div class="stat-card">
-          <span class="numero-grande">5–10×</span>
-          <span class="legenda">Salto de valor a cada degrau da pirâmide <strong>DIKW</strong></span>
-        </div>
+        <p style="margin-top:1em;text-align:center;">Sem organização e contexto, dado em escala vira <em>ruído caro</em>.</p>
       </div>
-      <p style="margin-top:1em;text-align:center;">Sem organização e contexto, dado em escala vira <em>ruído caro</em>.</p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 6 — PIRÂMIDE DIKW (SVG próprio) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Modelo clássico</h3>
+      <p class="kicker">Modelo clássico</p>
       <h2>A pirâmide DIKW</h2>
-      <svg viewBox="0 0 1240 400" style="width:100%;max-height:52vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pirâmide DIKW: dado, informação, conhecimento e sabedoria, com a pergunta e o exemplo do Forno A em cada camada">
-        <!-- Seta de valor crescente (base → topo) -->
-        <line x1="32" y1="356" x2="32" y2="86" stroke="#E91E63" stroke-width="2"/>
-        <polygon points="32,72 26,88 38,88" fill="#E91E63"/>
-        <text x="46" y="80" fill="#E91E63" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ valor</text>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1240 400" style="width:100%;max-height:52vh;display:block;margin-top:0.3rem;" role="img" aria-label="Pirâmide DIKW: dado, informação, conhecimento e sabedoria, com a pergunta e o exemplo do Forno A em cada camada">
+          <!-- Seta de valor crescente (base → topo) -->
+          <line x1="32" y1="356" x2="32" y2="86" stroke="#E91E63" stroke-width="2"/>
+          <polygon points="32,72 26,88 38,88" fill="#E91E63"/>
+          <text x="46" y="80" fill="#E91E63" font-weight="800" font-size="13" font-family="Segoe UI, system-ui, sans-serif">+ valor</text>
 
-        <!-- Camadas da pirâmide (base → topo), centradas em x=620 -->
-        <polygon points="300,360 940,360 861,288 379,288" fill="#2BBBE0"/>
-        <polygon points="379,288 861,288 781,216 459,216" fill="#1F44A8"/>
-        <polygon points="459,216 781,216 702,144 538,144" fill="#002057"/>
-        <polygon points="538,144 702,144 620,70" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+          <!-- Camadas da pirâmide (base → topo), centradas em x=620 -->
+          <polygon points="300,360 940,360 861,288 379,288" fill="#2BBBE0"/>
+          <polygon points="379,288 861,288 781,216 459,216" fill="#1F44A8"/>
+          <polygon points="459,216 781,216 702,144 538,144" fill="#002057"/>
+          <polygon points="538,144 702,144 620,70" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
 
-        <!-- Rótulos centrais -->
-        <text x="620" y="338" text-anchor="middle" fill="#002057" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
-        <text x="620" y="260" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
-        <text x="620" y="188" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
-        <text x="620" y="118" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
+          <!-- Rótulos centrais -->
+          <text x="620" y="338" text-anchor="middle" fill="#002057" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
+          <text x="620" y="260" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="21" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
+          <text x="620" y="188" text-anchor="middle" fill="#FFFFFF" font-weight="800" font-size="20" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
+          <text x="620" y="118" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
 
-        <!-- Linhas-guia ligando cada camada ao seu exemplo (à direita) -->
-        <line x1="918" y1="333" x2="958" y2="333" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
-        <line x1="832" y1="255" x2="958" y2="255" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
-        <line x1="752" y1="183" x2="958" y2="183" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
-        <line x1="672" y1="113" x2="958" y2="113" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+          <!-- Linhas-guia ligando cada camada ao seu exemplo (à direita) -->
+          <line x1="918" y1="333" x2="958" y2="333" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="832" y1="255" x2="958" y2="255" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="752" y1="183" x2="958" y2="183" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
+          <line x1="672" y1="113" x2="958" y2="113" stroke="#B0B6C0" stroke-width="1" stroke-dasharray="3 3"/>
 
-        <!-- Exemplos à direita (o caso do Forno A) -->
-        <text x="966" y="338" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"85,3"</text>
-        <text x="966" y="260" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Forno A = 85,3 °C"</text>
-        <text x="966" y="188" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"5 °C acima do ideal"</text>
-        <text x="966" y="118" fill="#1A1A1A" font-weight="700" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Reduzir 5 °C agora"</text>
+          <!-- Exemplos à direita (o caso do Forno A) -->
+          <text x="966" y="338" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"85,3"</text>
+          <text x="966" y="260" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Forno A = 85,3 °C"</text>
+          <text x="966" y="188" fill="#1A1A1A" font-weight="600" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"5 °C acima do ideal"</text>
+          <text x="966" y="118" fill="#1A1A1A" font-weight="700" font-size="15" font-family="Segoe UI, system-ui, sans-serif">"Reduzir 5 °C agora"</text>
 
-        <!-- Perguntas à esquerda -->
-        <text x="270" y="338" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O quê?</text>
-        <text x="270" y="260" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que significa?</text>
-        <text x="270" y="188" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Como se conecta?</text>
-        <text x="270" y="118" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que fazer?</text>
-      </svg>
-      <p style="margin-top:0.3em;text-align:center;font-size:0.95rem;color:#555;">Cada camada <em>adiciona contexto</em> à anterior — e cresce em valor.</p>
+          <!-- Perguntas à esquerda -->
+          <text x="270" y="338" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O quê?</text>
+          <text x="270" y="260" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que significa?</text>
+          <text x="270" y="188" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">Como se conecta?</text>
+          <text x="270" y="118" text-anchor="end" fill="#555" font-size="15" font-family="Segoe UI, system-ui, sans-serif">O que fazer?</text>
+        </svg>
+        <p style="margin-top:0.3em;text-align:center;font-size:0.95rem;color:#555;">Cada camada <em>adiciona contexto</em> à anterior — e cresce em valor.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 7 — DEFINIÇÕES (2 colunas) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Definições</h3>
+      <p class="kicker">Definições</p>
       <h2>Cada camada em uma frase</h2>
-      <div class="colunas">
-        <div>
-          <p><strong>Dado</strong> — registro factual atômico, <em>sem contexto</em>. Ex.: <code>85,3</code>.</p>
-          <p><strong>Informação</strong> — dado + <em>metadados</em> (unidade, momento, fonte). Ex.: <code>85,3 °C no forno A, 14:32</code>.</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <p><strong>Dado</strong> — registro factual atômico, <em>sem contexto</em>. Ex.: <code>85,3</code>.</p>
+            <p><strong>Informação</strong> — dado + <em>metadados</em> (unidade, momento, fonte). Ex.: <code>85,3 °C no forno A, 14:32</code>.</p>
+          </div>
+          <div>
+            <p><strong>Conhecimento</strong> — informação + <em>experiência</em>. Ex.: <code>está 5 °C acima do limite ideal</code>.</p>
+            <p><strong>Sabedoria</strong> — conhecimento + <em>ação correta no contexto</em>. Ex.: <code>reduzir 5 °C agora, não parar o lote</code>.</p>
+          </div>
         </div>
-        <div>
-          <p><strong>Conhecimento</strong> — informação + <em>experiência</em>. Ex.: <code>está 5 °C acima do limite ideal</code>.</p>
-          <p><strong>Sabedoria</strong> — conhecimento + <em>ação correta no contexto</em>. Ex.: <code>reduzir 5 °C agora, não parar o lote</code>.</p>
-        </div>
+        <p style="margin-top:1em;"><em>Regra prática:</em> dado responde "o quê", informação responde "o que significa", conhecimento "como se conecta", sabedoria "o que fazer".</p>
       </div>
-      <p style="margin-top:1em;"><em>Regra prática:</em> dado responde "o quê", informação responde "o que significa", conhecimento "como se conecta", sabedoria "o que fazer".</p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 8 — CASO FORNO A (sequência narrativa) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Caso concreto</h3>
+      <p class="kicker">Caso concreto</p>
       <h2>Do número à decisão: o caso do Forno A</h2>
-      <svg viewBox="0 0 1100 240" style="width:100%;max-height:38vh;display:block;margin-top:0.3rem;" role="img" aria-label="Sequência narrativa do dado 85,3 ao ato de reduzir 5 °C no Forno A">
-        <!-- 4 caixas com setas conectando dado → informação → conhecimento → ação -->
-        <rect x="20" y="60" width="220" height="120" rx="14" fill="#2BBBE0"/>
-        <text x="130" y="100" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
-        <text x="130" y="135" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="26" font-family="Segoe UI, system-ui, sans-serif">85,3</text>
-        <text x="130" y="160" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">só o número</text>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1100 240" style="width:100%;max-height:38vh;display:block;margin-top:0.3rem;" role="img" aria-label="Sequência narrativa do dado 85,3 ao ato de reduzir 5 °C no Forno A">
+          <!-- 4 caixas com setas conectando dado → informação → conhecimento → ação -->
+          <rect x="20" y="60" width="220" height="120" rx="14" fill="#2BBBE0"/>
+          <text x="130" y="100" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">DADO</text>
+          <text x="130" y="135" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="26" font-family="Segoe UI, system-ui, sans-serif">85,3</text>
+          <text x="130" y="160" text-anchor="middle" fill="#FFFFFF" font-size="13" font-family="Segoe UI, system-ui, sans-serif">só o número</text>
 
-        <polygon points="250,120 285,105 285,135" fill="#002057"/>
+          <polygon points="250,120 285,105 285,135" fill="#002057"/>
 
-        <rect x="295" y="60" width="220" height="120" rx="14" fill="#1F44A8"/>
-        <text x="405" y="95" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
-        <text x="405" y="125" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">85,3 °C · Forno A</text>
-        <text x="405" y="148" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">19/05/2026 · 14:32</text>
-        <text x="405" y="166" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">sensor F2_TEMP_03</text>
+          <rect x="295" y="60" width="220" height="120" rx="14" fill="#1F44A8"/>
+          <text x="405" y="95" text-anchor="middle" fill="#FFFFFF" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">INFORMAÇÃO</text>
+          <text x="405" y="125" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">85,3 °C · Forno A</text>
+          <text x="405" y="148" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">19/05/2026 · 14:32</text>
+          <text x="405" y="166" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">sensor F2_TEMP_03</text>
 
-        <polygon points="525,120 560,105 560,135" fill="#002057"/>
+          <polygon points="525,120 560,105 560,135" fill="#002057"/>
 
-        <rect x="570" y="60" width="220" height="120" rx="14" fill="#002057"/>
-        <text x="680" y="95" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
-        <text x="680" y="128" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">5 °C acima do limite</text>
-        <text x="680" y="148" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">degrada o produto se</text>
-        <text x="680" y="164" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">persistir mais de 10 min</text>
+          <rect x="570" y="60" width="220" height="120" rx="14" fill="#002057"/>
+          <text x="680" y="95" text-anchor="middle" fill="#F0CE29" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">CONHECIMENTO</text>
+          <text x="680" y="128" text-anchor="middle" fill="#FFFFFF" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">5 °C acima do limite</text>
+          <text x="680" y="148" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">degrada o produto se</text>
+          <text x="680" y="164" text-anchor="middle" fill="#FFFFFF" font-size="12" font-family="Segoe UI, system-ui, sans-serif">persistir mais de 10 min</text>
 
-        <polygon points="800,120 835,105 835,135" fill="#002057"/>
+          <polygon points="800,120 835,105 835,135" fill="#002057"/>
 
-        <rect x="845" y="60" width="240" height="120" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
-        <text x="965" y="95" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
-        <text x="965" y="125" text-anchor="middle" fill="#002057" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Reduzir 5 °C agora</text>
-        <text x="965" y="148" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">sem parar o lote em</text>
-        <text x="965" y="164" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">execução</text>
+          <rect x="845" y="60" width="240" height="120" rx="14" fill="#F0CE29" stroke="#002057" stroke-width="3"/>
+          <text x="965" y="95" text-anchor="middle" fill="#002057" font-weight="900" font-size="16" font-family="Segoe UI, system-ui, sans-serif">SABEDORIA</text>
+          <text x="965" y="125" text-anchor="middle" fill="#002057" font-weight="700" font-size="14" font-family="Segoe UI, system-ui, sans-serif">Reduzir 5 °C agora</text>
+          <text x="965" y="148" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">sem parar o lote em</text>
+          <text x="965" y="164" text-anchor="middle" fill="#002057" font-size="12" font-family="Segoe UI, system-ui, sans-serif">execução</text>
 
-        <text x="550" y="220" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="14" font-family="Segoe UI, system-ui, sans-serif">+ contexto · + experiência · + decisão →  + valor</text>
-      </svg>
+          <text x="550" y="220" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="14" font-family="Segoe UI, system-ui, sans-serif">+ contexto · + experiência · + decisão →  + valor</text>
+        </svg>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 9 — EXEMPLO NUMÉRICO (tabela de valor) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>O quanto cada camada multiplica valor</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.6em 1em;text-align:left;">Camada</th>
-            <th style="padding:0.6em 1em;text-align:left;">Custo por leitura</th>
-            <th style="padding:0.6em 1em;text-align:left;">Valor para a empresa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Dado bruto (sensor)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,01</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">~ zero isoladamente</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Informação (dashboard)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,10</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 5 (visibilidade)</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Conhecimento (análise)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,50</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 50 (causa-raiz)</td></tr>
-          <tr><td style="padding:0.5em 1em;"><strong>Sabedoria (decisão)</strong></td><td style="padding:0.5em 1em;"><strong>R$ 2,00</strong></td><td style="padding:0.5em 1em;"><strong>R$ 500</strong> (ação correta)</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:1em;">Princípio: <strong>cada degrau multiplica o valor por 5 a 10 vezes</strong>. Coletar é barato; decidir bem é caro — e <em>vale muito mais</em>.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.6em 1em;text-align:left;">Camada</th>
+              <th style="padding:0.6em 1em;text-align:left;">Custo por leitura</th>
+              <th style="padding:0.6em 1em;text-align:left;">Valor para a empresa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Dado bruto (sensor)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,01</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">~ zero isoladamente</td></tr>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Informação (dashboard)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,10</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 5 (visibilidade)</td></tr>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Conhecimento (análise)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 0,50</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">R$ 50 (causa-raiz)</td></tr>
+            <tr><td style="padding:0.5em 1em;"><strong>Sabedoria (decisão)</strong></td><td style="padding:0.5em 1em;"><strong>R$ 2,00</strong></td><td style="padding:0.5em 1em;"><strong>R$ 500</strong> (ação correta)</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:1em;">Princípio: <strong>cada degrau multiplica o valor por 5 a 10 vezes</strong>. Coletar é barato; decidir bem é caro — e <em>vale muito mais</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
 
   <!-- ============== SLIDE 10 — A MISSÃO DO SI ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Missão de um SI industrial</h3>
+      <p class="kicker">Missão de um SI industrial</p>
       <h2>Subir a pirâmide — em escala</h2>
-      <div class="colunas">
-        <div>
-          <ul>
-            <li><strong>Coletar</strong> dados em escala e com qualidade.</li>
-            <li><strong>Estruturar</strong> em informação contextual (metadados).</li>
-            <li><strong>Apresentar</strong> de forma a apoiar o conhecimento operacional.</li>
-            <li><strong>Apoiar a decisão</strong> com regras, IA e automação.</li>
-          </ul>
-        </div>
-        <div>
-          <div class="callout-azul">
-            <p style="margin:0 0 0.5em;color:rgba(255,255,255,0.92);">Sem entender essa hierarquia, projetos de TI <em>falham</em> porque tentam vender "dashboards lindos" sem questionar:</p>
-            <p style="margin:0;font-size:1.3em;font-weight:700;color:var(--amarelo);">Qual decisão isso habilita?</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div>
+            <ul>
+              <li><strong>Coletar</strong> dados em escala e com qualidade.</li>
+              <li><strong>Estruturar</strong> em informação contextual (metadados).</li>
+              <li><strong>Apresentar</strong> de forma a apoiar o conhecimento operacional.</li>
+              <li><strong>Apoiar a decisão</strong> com regras, IA e automação.</li>
+            </ul>
+          </div>
+          <div>
+            <div class="callout-azul">
+              <p style="margin:0 0 0.5em;color:rgba(255,255,255,0.92);">Sem entender essa hierarquia, projetos de TI <em>falham</em> porque tentam vender "dashboards lindos" sem questionar:</p>
+              <p style="margin:0;font-size:1.3em;font-weight:700;color:var(--amarelo);">Qual decisão isso habilita?</p>
+            </div>
           </div>
         </div>
       </div>
@@ -805,28 +872,33 @@
 
   <!-- ============== SLIDE 11 — ESTRUTURADOS / NÃO ESTRUTURADOS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Formatos de dado</h3>
+      <p class="kicker">Formatos de dado</p>
       <h2>Estruturado, semi-estruturado, não estruturado</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Estruturado</h3>
-          <p>Tabelas com colunas e tipos definidos. Ex.: pedidos no ERP, folha de pagamento.</p>
-        </div>
-        <div class="ponto">
-          <h3>Semi-estruturado</h3>
-          <p>Estrutura flexível. Ex.: JSON, XML, log de máquina, registros de sensor.</p>
-        </div>
-        <div class="ponto">
-          <h3>Não estruturado</h3>
-          <p>Texto livre, foto, áudio, vídeo. Ex.: comentário de inspeção, ligação gravada.</p>
-        </div>
-        <div class="ponto">
-          <h3>80% do mundo</h3>
-          <p>Estima-se que <strong>80% dos dados gerados</strong> são não estruturados — <em>e a IA mudou isso</em>.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Estruturado</h3>
+            <p>Tabelas com colunas e tipos definidos. Ex.: pedidos no ERP, folha de pagamento.</p>
+          </div>
+          <div class="ponto">
+            <h3>Semi-estruturado</h3>
+            <p>Estrutura flexível. Ex.: JSON, XML, log de máquina, registros de sensor.</p>
+          </div>
+          <div class="ponto">
+            <h3>Não estruturado</h3>
+            <p>Texto livre, foto, áudio, vídeo. Ex.: comentário de inspeção, ligação gravada.</p>
+          </div>
+          <div class="ponto">
+            <h3>80% do mundo</h3>
+            <p>Estima-se que <strong>80% dos dados gerados</strong> são não estruturados — <em>e a IA mudou isso</em>.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -835,27 +907,32 @@
 
   <!-- ============== SLIDE 12 — TABELA COMPARATIVA DE FORMATOS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Comparativo</h3>
+      <p class="kicker">Comparativo</p>
       <h2>Formato × ferramenta × decisão típica</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.55em 0.9em;text-align:left;">Formato</th>
-            <th style="padding:0.55em 0.9em;text-align:left;">Onde vive</th>
-            <th style="padding:0.55em 0.9em;text-align:left;">Decisão que habilita</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Estruturado</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">ERP, MES, banco SQL</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo, faturamento, OEE</td></tr>
-          <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Semi-estruturado</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">JSON · XML · log · Historian</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Diagnóstico, integração, manutenção preditiva</td></tr>
-          <tr><td style="padding:0.45em 0.9em;"><strong>Não estruturado</strong></td><td style="padding:0.45em 0.9em;">Foto, áudio, vídeo, texto livre</td><td style="padding:0.45em 0.9em;">Visão computacional, NLP, inspeção por IA</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:1em;font-size:1rem;color:#555;">Cada formato pede um tipo diferente de banco — e uma ferramenta diferente. Vamos voltar nisso na <em>Aula 4</em>.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.55em 0.9em;text-align:left;">Formato</th>
+              <th style="padding:0.55em 0.9em;text-align:left;">Onde vive</th>
+              <th style="padding:0.55em 0.9em;text-align:left;">Decisão que habilita</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Estruturado</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">ERP, MES, banco SQL</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Custo, faturamento, OEE</td></tr>
+            <tr><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;"><strong>Semi-estruturado</strong></td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">JSON · XML · log · Historian</td><td style="padding:0.45em 0.9em;border-bottom:1px solid #ddd;">Diagnóstico, integração, manutenção preditiva</td></tr>
+            <tr><td style="padding:0.45em 0.9em;"><strong>Não estruturado</strong></td><td style="padding:0.45em 0.9em;">Foto, áudio, vídeo, texto livre</td><td style="padding:0.45em 0.9em;">Visão computacional, NLP, inspeção por IA</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:1em;font-size:1rem;color:#555;">Cada formato pede um tipo diferente de banco — e uma ferramenta diferente. Vamos voltar nisso na <em>Aula 4</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>
@@ -872,28 +949,33 @@
 
   <!-- ============== SLIDE 14 — PONTOS-CHAVE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Recapitulando</h3>
+      <p class="kicker">Recapitulando</p>
       <h2>Os 5 pontos para levar embora</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>DIKW</h3>
-          <p><strong>Dado → informação → conhecimento → sabedoria</strong>. Quatro camadas, não dois sinônimos.</p>
-        </div>
-        <div class="ponto">
-          <h3>5–10×</h3>
-          <p>Cada degrau <em>multiplica valor</em>. Coletar é barato; decidir bem é caro — e vale muito mais.</p>
-        </div>
-        <div class="ponto">
-          <h3>Contexto</h3>
-          <p>Dado vira informação com <strong>metadados</strong>: unidade, momento, fonte, formato.</p>
-        </div>
-        <div class="ponto">
-          <h3>80%</h3>
-          <p>Dos dados no mundo são <strong>não estruturados</strong>. A IA mudou o jogo.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>DIKW</h3>
+            <p><strong>Dado → informação → conhecimento → sabedoria</strong>. Quatro camadas, não dois sinônimos.</p>
+          </div>
+          <div class="ponto">
+            <h3>5–10×</h3>
+            <p>Cada degrau <em>multiplica valor</em>. Coletar é barato; decidir bem é caro — e vale muito mais.</p>
+          </div>
+          <div class="ponto">
+            <h3>Contexto</h3>
+            <p>Dado vira informação com <strong>metadados</strong>: unidade, momento, fonte, formato.</p>
+          </div>
+          <div class="ponto">
+            <h3>80%</h3>
+            <p>Dos dados no mundo são <strong>não estruturados</strong>. A IA mudou o jogo.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -902,20 +984,25 @@
 
   <!-- ============== SLIDE 15 — ATIVIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Sua DIKW no dia a dia</h2>
-      <p>Pegue um dia comum do seu trabalho, estágio ou de uma fábrica que você conheça. Identifique:</p>
-      <ol>
-        <li><strong>Três dados</strong> gerados ao longo do dia.</li>
-        <li><strong>Três informações</strong> (dados com contexto).</li>
-        <li><strong>Um conhecimento</strong> que alguém da empresa carrega <em>na cabeça</em>.</li>
-        <li><strong>Uma decisão</strong> que se beneficiaria de mais dado/informação/conhecimento.</li>
-      </ol>
-      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · anote no caderno · retomamos na Aula 2</p>
+      <div class="slide-content-box">
+        <p>Pegue um dia comum do seu trabalho, estágio ou de uma fábrica que você conheça. Identifique:</p>
+        <ol>
+          <li><strong>Três dados</strong> gerados ao longo do dia.</li>
+          <li><strong>Três informações</strong> (dados com contexto).</li>
+          <li><strong>Um conhecimento</strong> que alguém da empresa carrega <em>na cabeça</em>.</li>
+          <li><strong>Uma decisão</strong> que se beneficiaria de mais dado/informação/conhecimento.</li>
+        </ol>
+        <p style="margin-top:1.2em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · anote no caderno · retomamos na Aula 2</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
   </section>

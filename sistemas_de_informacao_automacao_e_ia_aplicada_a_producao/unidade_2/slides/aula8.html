@@ -12,28 +12,27 @@
     --azul-fecaf:   #002057;   /* cor primária — azul institucional */
     --azul-claro:   #2BBBE0;
     --azul-medio:   #1F44A8;
-    --azul-escuro:  #001640;   /* azul profundo — ênfases (em) e eyebrows (h3) */
 
     /* Acentos (apoio em pontos-chave e detalhes) */
     --amarelo:      #F0CE29;
     --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
     --verde-claro:  #8DD17E;
     --verde-escuro: #1F8A4E;
-    --verde-medio:  #2E9E5B;   /* verde de apoio — bordas de cards e hover */
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
     --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte-titulo: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-    --fonte-corpo:  'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
-    font-family: var(--fonte-corpo);
+    font-family: var(--fonte);
     color: var(--cinza-texto);
     background: #111;
     overflow: hidden;
@@ -46,10 +45,8 @@
     display: none;
     padding: 6vh 8vw;
     overflow: hidden;
-    background: var(--cinza-bg);
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5), transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(0,0,0,0.05), transparent 50%);
+    background: var(--azul-fecaf);
+    color: var(--branco);
   }
   .slide.active { display: flex; flex-direction: column; justify-content: center; }
 
@@ -57,7 +54,7 @@
   .triangulos-canto {
     position: absolute;
     top: 0; right: 0;
-    width: 220px; height: 220px;
+    width: 150px; height: 150px;
     pointer-events: none;
     z-index: 1;
   }
@@ -79,27 +76,32 @@
     max-width: 1100px;
     margin: 0 auto;
   }
-  .slide h1 {
-    font-family: var(--fonte-titulo);
-    font-size: clamp(2.4rem, 4.5vw, 4rem);
-    line-height: 1.05;
-    color: var(--azul-fecaf);
+  .slide h1, .slide h2, .slide h3 {
+    font-family: var(--fonte);
+    color: var(--branco);
     margin: 0 0 0.5em;
-    font-weight: 800;
     letter-spacing: -0.02em;
   }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
   .slide h2 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.6rem, 3vw, 2.6rem);
     line-height: 1.1;
-    color: var(--azul-fecaf);
-    margin: 0 0 0.6em;
     font-weight: 700;
   }
   .slide h3 {
-    font-family: var(--fonte-titulo);
     font-size: clamp(1.1rem, 1.8vw, 1.5rem);
-    color: var(--azul-escuro);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--amarelo);
     margin: 0 0 0.4em;
     font-weight: 600;
     text-transform: uppercase;
@@ -111,19 +113,32 @@
     margin: 0 0 0.6em;
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
-  .slide strong { color: var(--magenta); }
-  .slide em { color: var(--azul-escuro); font-style: normal; font-weight: 600; }
-  /* Ênfases sobre fundos escuros (dividers/encerramento) — acento amarelo p/ contraste */
-  .slide-section strong, .slide-section em,
-  .slide-fim strong, .slide-fim em { color: var(--amarelo); }
-  .slide code {
-    font-family: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
-    background: #E7ECF5;
-    color: var(--azul-escuro);
-    padding: 0.05em 0.4em;
-    border-radius: 5px;
-    font-size: 0.9em;
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
   }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
@@ -190,7 +205,7 @@
   }
   .ponto {
     background: var(--branco);
-    border-left: 6px solid var(--verde-medio);
+    border-left: 6px solid var(--verde-escuro);
     padding: 1.2rem 1.4rem;
     border-radius: 6px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.06);
@@ -237,9 +252,131 @@
     left: 8vw; right: 8vw;
     display: flex; justify-content: space-between;
     font-size: 0.85rem;
-    color: var(--cinza-texto);
-    opacity: 0.6;
+    color: rgba(255,255,255,0.7);
     z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+  }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.55;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
   }
 
   /* ---------- Navegação ---------- */
@@ -266,7 +403,7 @@
     display: flex; align-items: center; justify-content: center;
     transition: background 0.15s;
   }
-  .nav button:hover { background: var(--verde-medio); }
+  .nav button:hover { background: var(--azul-medio); }
   .nav button:disabled { background: #ccc; cursor: not-allowed; }
   .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
 
@@ -284,6 +421,17 @@
     }
     @page { size: 1280px 720px; margin: 0; }
   }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
 </style>
 </head>
 <body>
@@ -292,11 +440,44 @@
   <symbol id="logo-marca" viewBox="0 0 271 67">
     <image href="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" width="271" height="67"/>
   </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
     <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
     <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
     <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
   </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
     <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
@@ -351,131 +532,156 @@
 
   <!-- ============== SLIDE 3 — CRM CONCEITO + PILARES ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Customer Relationship Management</h3>
+      <p class="kicker">Customer Relationship Management</p>
       <h2>CRM — o olho da empresa para o mercado</h2>
-      <p>Sem CRM, o conhecimento sobre clientes fica na <em>cabeça do vendedor</em> — e some quando ele sai.</p>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Operacional</h3>
-          <p>Automação de marketing, vendas, atendimento (chatbots, e-mails, oportunidades).</p>
+      <div class="slide-content-box">
+        <p>Sem CRM, o conhecimento sobre clientes fica na <em>cabeça do vendedor</em> — e some quando ele sai.</p>
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Operacional</h3>
+            <p>Automação de marketing, vendas, atendimento (chatbots, e-mails, oportunidades).</p>
+          </div>
+          <div class="ponto">
+            <h3>Analítico</h3>
+            <p>Segmentação, previsão de <em>churn</em>, análise de comportamento.</p>
+          </div>
+          <div class="ponto">
+            <h3>Colaborativo</h3>
+            <p>Atendimento omnichannel com histórico <strong>único</strong>.</p>
+          </div>
+          <div class="ponto">
+            <h3>Estratégico</h3>
+            <p>Visão 360° do cliente para a tomada de decisão.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Analítico</h3>
-          <p>Segmentação, previsão de <em>churn</em>, análise de comportamento.</p>
-        </div>
-        <div class="ponto">
-          <h3>Colaborativo</h3>
-          <p>Atendimento omnichannel com histórico <strong>único</strong>.</p>
-        </div>
-        <div class="ponto">
-          <h3>Estratégico</h3>
-          <p>Visão 360° do cliente para a tomada de decisão.</p>
-        </div>
+        <p style="margin-top:0.6em;">Players: <strong>Salesforce</strong> (líder global), <em>Microsoft Dynamics 365</em>, <em>HubSpot</em>, <strong>RD Station</strong> (BR), Pipedrive, Zoho, TOTVS CRM.</p>
       </div>
-      <p style="margin-top:0.6em;">Players: <strong>Salesforce</strong> (líder global), <em>Microsoft Dynamics 365</em>, <em>HubSpot</em>, <strong>RD Station</strong> (BR), Pipedrive, Zoho, TOTVS CRM.</p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 4 — CRM IMPACTA A FÁBRICA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Conexão fábrica × mercado</h3>
+      <p class="kicker">Conexão fábrica × mercado</p>
       <h2>Por que CRM importa para o engenheiro de produção</h2>
-      <p>"CRM é coisa de comercial" — <strong>errado</strong>. CRM bem usado <em>alimenta</em> a fábrica com dado que ela não enxergaria sozinha.</p>
-      <ul>
-        <li><strong>Previsão de demanda</strong> mais precisa → planejamento de produção melhor.</li>
-        <li><strong>Histórico de reclamações</strong> → identifica problemas recorrentes de qualidade.</li>
-        <li><strong>Lead time esperado pelo cliente</strong> → o MES prioriza de acordo.</li>
-        <li><strong>Volumetria de pedidos por região</strong> → otimiza distribuição.</li>
-      </ul>
-      <p style="margin-top:1em;background:var(--branco);padding:1rem 1.2rem;border-left:6px solid var(--azul-claro);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
-        Em uma empresa <em>orientada a dados</em>, <strong>CRM e ERP/MES conversam o tempo todo</strong>.
-      </p>
+      <div class="slide-content-box">
+        <p>"CRM é coisa de comercial" — <strong>errado</strong>. CRM bem usado <em>alimenta</em> a fábrica com dado que ela não enxergaria sozinha.</p>
+        <ul>
+          <li><strong>Previsão de demanda</strong> mais precisa → planejamento de produção melhor.</li>
+          <li><strong>Histórico de reclamações</strong> → identifica problemas recorrentes de qualidade.</li>
+          <li><strong>Lead time esperado pelo cliente</strong> → o MES prioriza de acordo.</li>
+          <li><strong>Volumetria de pedidos por região</strong> → otimiza distribuição.</li>
+        </ul>
+        <p style="margin-top:1em;background:var(--cinza-bg);padding:1rem 1.2rem;border-left:6px solid var(--azul-claro);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+          Em uma empresa <em>orientada a dados</em>, <strong>CRM e ERP/MES conversam o tempo todo</strong>.
+        </p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 4b — CRM TRADICIONAL × MODERNO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que mudou no relacionamento</h3>
+      <p class="kicker">O que mudou no relacionamento</p>
       <h2>Vendas tradicionais × CRM moderno</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.5em 1em;text-align:left;">Aspecto</th>
-            <th style="padding:0.5em 1em;text-align:left;">Vendas tradicionais</th>
-            <th style="padding:0.5em 1em;text-align:left;">CRM moderno</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Onde mora o dado</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Caderno do vendedor</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Base única, em nuvem</em></td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Sai vendedor</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Leva o cliente embora</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Histórico fica</strong> com a empresa</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Atendimento</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Telefone ou e-mail isolados</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Omnichannel</em> com histórico único</td></tr>
-          <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Previsão</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Achismo do gerente</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Modelos de churn e demanda</em></td></tr>
-          <tr><td style="padding:0.45em 1em;"><strong>Conexão com fábrica</strong></td><td style="padding:0.45em 1em;">Nenhuma</td><td style="padding:0.45em 1em;"><strong>API → ERP/MES</strong></td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.8em;">A diferença não está no software — está em <em>tratar cada cliente como ativo da empresa</em>, não do vendedor. É essa mudança que viabiliza decisões de produção orientadas a demanda real.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.9rem,1.15vw,1.1rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.5em 1em;text-align:left;">Aspecto</th>
+              <th style="padding:0.5em 1em;text-align:left;">Vendas tradicionais</th>
+              <th style="padding:0.5em 1em;text-align:left;">CRM moderno</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Onde mora o dado</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Caderno do vendedor</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Base única, em nuvem</em></td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Sai vendedor</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Leva o cliente embora</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Histórico fica</strong> com a empresa</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Atendimento</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Telefone ou e-mail isolados</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Omnichannel</em> com histórico único</td></tr>
+            <tr><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><strong>Previsão</strong></td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;">Achismo do gerente</td><td style="padding:0.45em 1em;border-bottom:1px solid #ddd;"><em>Modelos de churn e demanda</em></td></tr>
+            <tr><td style="padding:0.45em 1em;"><strong>Conexão com fábrica</strong></td><td style="padding:0.45em 1em;">Nenhuma</td><td style="padding:0.45em 1em;"><strong>API → ERP/MES</strong></td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.8em;">A diferença não está no software — está em <em>tratar cada cliente como ativo da empresa</em>, não do vendedor. É essa mudança que viabiliza decisões de produção orientadas a demanda real.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 5 — PLM ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Product Lifecycle Management</h3>
+      <p class="kicker">Product Lifecycle Management</p>
       <h2>PLM — a fonte de verdade do produto</h2>
-      <svg viewBox="0 0 1200 220" style="width:100%;max-height:30vh;display:block;" role="img" aria-label="Ciclo de vida do produto da concepção ao descarte">
-        <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700" font-size="14">
-          <rect x="20" y="70" width="160" height="70" rx="10" fill="#002057"/><text x="100" y="100" text-anchor="middle" fill="#FFFFFF">Concepção</text><text x="100" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">Ideia</text>
-          <polygon points="190,105 220,85 220,125" fill="#1A1A1A"/>
-          <rect x="230" y="70" width="160" height="70" rx="10" fill="#1F44A8"/><text x="310" y="100" text-anchor="middle" fill="#FFFFFF">Projeto</text><text x="310" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">CAD/simulação</text>
-          <polygon points="400,105 430,85 430,125" fill="#1A1A1A"/>
-          <rect x="440" y="70" width="160" height="70" rx="10" fill="#2BBBE0"/><text x="520" y="100" text-anchor="middle" fill="#002057">Engenharia</text><text x="520" y="120" text-anchor="middle" fill="#002057" font-size="11">BOM/ferramentaria</text>
-          <polygon points="610,105 640,85 640,125" fill="#1A1A1A"/>
-          <rect x="650" y="70" width="160" height="70" rx="10" fill="#F0CE29"/><text x="730" y="100" text-anchor="middle" fill="#002057">Produção</text><text x="730" y="120" text-anchor="middle" fill="#002057" font-size="11">Instruções</text>
-          <polygon points="820,105 850,85 850,125" fill="#1A1A1A"/>
-          <rect x="860" y="70" width="160" height="70" rx="10" fill="#E91E63"/><text x="940" y="100" text-anchor="middle" fill="#FFFFFF">Pós-venda</text><text x="940" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">Manutenção</text>
-          <polygon points="1030,105 1060,85 1060,125" fill="#1A1A1A"/>
-          <rect x="1070" y="70" width="110" height="70" rx="10" fill="#8FBE6A"/><text x="1125" y="100" text-anchor="middle" fill="#002057">Descarte</text><text x="1125" y="120" text-anchor="middle" fill="#002057" font-size="11">I5.0</text>
-        </g>
-      </svg>
-      <p style="margin-top:0.4em;">PLM mantém <strong>BOM única</strong>, rastreia mudanças, alinha documentação e promove <em>reuso de componentes</em>. Players: <strong>Siemens Teamcenter</strong>, <strong>Dassault 3DEXPERIENCE</strong> (Embraer, Boeing), <em>PTC Windchill</em>, Autodesk Vault, Oracle Agile.</p>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1200 220" style="width:100%;max-height:30vh;display:block;" role="img" aria-label="Ciclo de vida do produto da concepção ao descarte">
+          <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700" font-size="14">
+            <rect x="20" y="70" width="160" height="70" rx="10" fill="#002057"/><text x="100" y="100" text-anchor="middle" fill="#FFFFFF">Concepção</text><text x="100" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">Ideia</text>
+            <polygon points="190,105 220,85 220,125" fill="#1A1A1A"/>
+            <rect x="230" y="70" width="160" height="70" rx="10" fill="#1F44A8"/><text x="310" y="100" text-anchor="middle" fill="#FFFFFF">Projeto</text><text x="310" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">CAD/simulação</text>
+            <polygon points="400,105 430,85 430,125" fill="#1A1A1A"/>
+            <rect x="440" y="70" width="160" height="70" rx="10" fill="#2BBBE0"/><text x="520" y="100" text-anchor="middle" fill="#002057">Engenharia</text><text x="520" y="120" text-anchor="middle" fill="#002057" font-size="11">BOM/ferramentaria</text>
+            <polygon points="610,105 640,85 640,125" fill="#1A1A1A"/>
+            <rect x="650" y="70" width="160" height="70" rx="10" fill="#F0CE29"/><text x="730" y="100" text-anchor="middle" fill="#002057">Produção</text><text x="730" y="120" text-anchor="middle" fill="#002057" font-size="11">Instruções</text>
+            <polygon points="820,105 850,85 850,125" fill="#1A1A1A"/>
+            <rect x="860" y="70" width="160" height="70" rx="10" fill="#E91E63"/><text x="940" y="100" text-anchor="middle" fill="#FFFFFF">Pós-venda</text><text x="940" y="120" text-anchor="middle" fill="#F0CE29" font-size="11">Manutenção</text>
+            <polygon points="1030,105 1060,85 1060,125" fill="#1A1A1A"/>
+            <rect x="1070" y="70" width="110" height="70" rx="10" fill="#8FBE6A"/><text x="1125" y="100" text-anchor="middle" fill="#002057">Descarte</text><text x="1125" y="120" text-anchor="middle" fill="#002057" font-size="11">I5.0</text>
+          </g>
+        </svg>
+        <p style="margin-top:0.4em;">PLM mantém <strong>BOM única</strong>, rastreia mudanças, alinha documentação e promove <em>reuso de componentes</em>. Players: <strong>Siemens Teamcenter</strong>, <strong>Dassault 3DEXPERIENCE</strong> (Embraer, Boeing), <em>PTC Windchill</em>, Autodesk Vault, Oracle Agile.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 5b — PLM NA PRÁTICA (IMAGEM) ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O que o PLM organiza</h3>
+      <p class="kicker">O que o PLM organiza</p>
       <h2>Do CAD ao chão de fábrica — a informação do produto</h2>
-      <div class="colunas">
-        <div class="col-imagem">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/CAD_at_work.jpg/640px-CAD_at_work.jpg" alt="Engenheiros trabalhando em modelo CAD 3D — o tipo de informação que o PLM versiona e propaga"/>
-        </div>
-        <div>
-          <p>O PLM nasce com o <strong>modelo 3D</strong> do produto — mas vai muito além: lista de materiais (<em>BOM</em>), desenhos de detalhe, planos de processo, ordens de mudança (<em>ECO</em>), manuais e peças de reposição.</p>
-          <p>Cada item desse <em>tem versão, dono e aprovações rastreadas</em>. Quando engenharia altera uma peça, o PLM propaga a mudança para o ERP, MES e manuais de pós-venda — sem essa propagação, cada departamento opera com uma "verdade" diferente.</p>
-          <p><strong>Casos brasileiros:</strong> <em>Embraer</em> usa Dassault 3DEXPERIENCE; <em>Volkswagen</em> e <em>WEG</em> têm PLM corporativo integrado ao ERP.</p>
+      <div class="slide-content-box">
+        <div class="colunas">
+          <div class="col-imagem">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/CAD_at_work.jpg/640px-CAD_at_work.jpg" alt="Engenheiros trabalhando em modelo CAD 3D — o tipo de informação que o PLM versiona e propaga"/>
+          </div>
+          <div>
+            <p>O PLM nasce com o <strong>modelo 3D</strong> do produto — mas vai muito além: lista de materiais (<em>BOM</em>), desenhos de detalhe, planos de processo, ordens de mudança (<em>ECO</em>), manuais e peças de reposição.</p>
+            <p>Cada item desse <em>tem versão, dono e aprovações rastreadas</em>. Quando engenharia altera uma peça, o PLM propaga a mudança para o ERP, MES e manuais de pós-venda — sem essa propagação, cada departamento opera com uma "verdade" diferente.</p>
+            <p><strong>Casos brasileiros:</strong> <em>Embraer</em> usa Dassault 3DEXPERIENCE; <em>Volkswagen</em> e <em>WEG</em> têm PLM corporativo integrado ao ERP.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -484,215 +690,240 @@
 
   <!-- ============== SLIDE 6 — ARQUITETURA INTEGRADA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>O mapa completo da Unidade 2</h3>
+      <p class="kicker">O mapa completo da Unidade 2</p>
       <h2>Arquitetura integrada da empresa madura</h2>
-      <svg viewBox="0 0 900 460" style="width:100%;max-height:54vh;display:block;" role="img" aria-label="Arquitetura integrada: CRM, PLM, ERP, SCM, MES, WMS">
-        <g font-family="Segoe UI, system-ui, sans-serif" font-weight="800" font-size="20">
-          <!-- CRM (topo) -->
-          <rect x="350" y="20" width="200" height="70" rx="14" fill="#E91E63"/>
-          <text x="450" y="55" text-anchor="middle" fill="#FFFFFF">CRM</text>
-          <text x="450" y="78" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">clientes · demanda</text>
-          <!-- Setas verticais p/ ERP -->
-          <line x1="450" y1="90" x2="450" y2="170" stroke="#002057" stroke-width="3"/>
-          <polygon points="445,162 450,180 455,162" fill="#002057"/>
-          <!-- PLM (esquerda) -->
-          <rect x="80" y="190" width="200" height="80" rx="14" fill="#1F44A8"/>
-          <text x="180" y="225" text-anchor="middle" fill="#FFFFFF">PLM</text>
-          <text x="180" y="248" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">produto · BOM</text>
-          <!-- Seta PLM → ERP -->
-          <line x1="280" y1="230" x2="350" y2="230" stroke="#002057" stroke-width="3"/>
-          <polygon points="343,225 355,230 343,235" fill="#002057"/>
-          <!-- ERP (centro) -->
-          <rect x="350" y="180" width="200" height="100" rx="14" fill="#002057" stroke="#F0CE29" stroke-width="4"/>
-          <text x="450" y="220" text-anchor="middle" fill="#F0CE29" font-size="24">ERP</text>
-          <text x="450" y="250" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">negócio (coração)</text>
-          <!-- SCM (direita) -->
-          <rect x="620" y="190" width="200" height="80" rx="14" fill="#2BBBE0"/>
-          <text x="720" y="225" text-anchor="middle" fill="#002057">SCM</text>
-          <text x="720" y="248" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">cadeia · fornecedores</text>
-          <!-- Seta SCM → ERP -->
-          <line x1="620" y1="230" x2="550" y2="230" stroke="#002057" stroke-width="3"/>
-          <polygon points="557,225 545,230 557,235" fill="#002057"/>
-          <!-- ERP → MES -->
-          <line x1="450" y1="280" x2="450" y2="345" stroke="#002057" stroke-width="3"/>
-          <polygon points="445,338 450,358 455,338" fill="#002057"/>
-          <!-- MES -->
-          <rect x="350" y="355" width="200" height="60" rx="14" fill="#F0CE29"/>
-          <text x="450" y="385" text-anchor="middle" fill="#002057">MES</text>
-          <text x="450" y="405" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">chão de fábrica</text>
-          <!-- MES → WMS -->
-          <line x1="550" y1="385" x2="630" y2="385" stroke="#002057" stroke-width="3"/>
-          <polygon points="623,380 635,385 623,390" fill="#002057"/>
-          <!-- WMS -->
-          <rect x="640" y="355" width="180" height="60" rx="14" fill="#8FBE6A"/>
-          <text x="730" y="385" text-anchor="middle" fill="#002057">WMS</text>
-          <text x="730" y="405" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">armazém</text>
-        </g>
-      </svg>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 900 460" style="width:100%;max-height:54vh;display:block;" role="img" aria-label="Arquitetura integrada: CRM, PLM, ERP, SCM, MES, WMS">
+          <g font-family="Segoe UI, system-ui, sans-serif" font-weight="800" font-size="20">
+            <!-- CRM (topo) -->
+            <rect x="350" y="20" width="200" height="70" rx="14" fill="#E91E63"/>
+            <text x="450" y="55" text-anchor="middle" fill="#FFFFFF">CRM</text>
+            <text x="450" y="78" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">clientes · demanda</text>
+            <!-- Setas verticais p/ ERP -->
+            <line x1="450" y1="90" x2="450" y2="170" stroke="#002057" stroke-width="3"/>
+            <polygon points="445,162 450,180 455,162" fill="#002057"/>
+            <!-- PLM (esquerda) -->
+            <rect x="80" y="190" width="200" height="80" rx="14" fill="#1F44A8"/>
+            <text x="180" y="225" text-anchor="middle" fill="#FFFFFF">PLM</text>
+            <text x="180" y="248" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">produto · BOM</text>
+            <!-- Seta PLM → ERP -->
+            <line x1="280" y1="230" x2="350" y2="230" stroke="#002057" stroke-width="3"/>
+            <polygon points="343,225 355,230 343,235" fill="#002057"/>
+            <!-- ERP (centro) -->
+            <rect x="350" y="180" width="200" height="100" rx="14" fill="#002057" stroke="#F0CE29" stroke-width="4"/>
+            <text x="450" y="220" text-anchor="middle" fill="#F0CE29" font-size="24">ERP</text>
+            <text x="450" y="250" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="600">negócio (coração)</text>
+            <!-- SCM (direita) -->
+            <rect x="620" y="190" width="200" height="80" rx="14" fill="#2BBBE0"/>
+            <text x="720" y="225" text-anchor="middle" fill="#002057">SCM</text>
+            <text x="720" y="248" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">cadeia · fornecedores</text>
+            <!-- Seta SCM → ERP -->
+            <line x1="620" y1="230" x2="550" y2="230" stroke="#002057" stroke-width="3"/>
+            <polygon points="557,225 545,230 557,235" fill="#002057"/>
+            <!-- ERP → MES -->
+            <line x1="450" y1="280" x2="450" y2="345" stroke="#002057" stroke-width="3"/>
+            <polygon points="445,338 450,358 455,338" fill="#002057"/>
+            <!-- MES -->
+            <rect x="350" y="355" width="200" height="60" rx="14" fill="#F0CE29"/>
+            <text x="450" y="385" text-anchor="middle" fill="#002057">MES</text>
+            <text x="450" y="405" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">chão de fábrica</text>
+            <!-- MES → WMS -->
+            <line x1="550" y1="385" x2="630" y2="385" stroke="#002057" stroke-width="3"/>
+            <polygon points="623,380 635,385 623,390" fill="#002057"/>
+            <!-- WMS -->
+            <rect x="640" y="355" width="180" height="60" rx="14" fill="#8FBE6A"/>
+            <text x="730" y="385" text-anchor="middle" fill="#002057">WMS</text>
+            <text x="730" y="405" text-anchor="middle" fill="#002057" font-size="13" font-weight="600">armazém</text>
+          </g>
+        </svg>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 7 — INTEGRAÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Como conectar tudo</h3>
+      <p class="kicker">Como conectar tudo</p>
       <h2>Três abordagens de integração</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Ponto a ponto</h3>
-          <p>Cada sistema fala diretamente com cada outro. Funciona para 2–3; explode em complexidade.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Ponto a ponto</h3>
+            <p>Cada sistema fala diretamente com cada outro. Funciona para 2–3; explode em complexidade.</p>
+          </div>
+          <div class="ponto">
+            <h3>Barramento (ESB)</h3>
+            <p>Sistema central de mensagens. Padrão antigo, robusto, ainda comum em multinacionais.</p>
+          </div>
+          <div class="ponto">
+            <h3>APIs REST/GraphQL</h3>
+            <p>Cada sistema expõe APIs; outros consomem. <strong>Padrão atual</strong> em fábricas modernas.</p>
+          </div>
+          <div class="ponto">
+            <h3>Ferramentas</h3>
+            <p><em>MuleSoft</em>, <em>Boomi</em>, <em>Microsoft Power Platform</em> aceleram a integração.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Barramento (ESB)</h3>
-          <p>Sistema central de mensagens. Padrão antigo, robusto, ainda comum em multinacionais.</p>
-        </div>
-        <div class="ponto">
-          <h3>APIs REST/GraphQL</h3>
-          <p>Cada sistema expõe APIs; outros consomem. <strong>Padrão atual</strong> em fábricas modernas.</p>
-        </div>
-        <div class="ponto">
-          <h3>Ferramentas</h3>
-          <p><em>MuleSoft</em>, <em>Boomi</em>, <em>Microsoft Power Platform</em> aceleram a integração.</p>
-        </div>
+        <p style="margin-top:1em;">A maioria dessas integrações <strong>não vem pronta</strong> — é projeto de TI específico, e o desenho da arquitetura define o quanto a fábrica enxerga em tempo real.</p>
       </div>
-      <p style="margin-top:1em;">A maioria dessas integrações <strong>não vem pronta</strong> — é projeto de TI específico, e o desenho da arquitetura define o quanto a fábrica enxerga em tempo real.</p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 7b — VISUAL DAS 3 ARQUITETURAS ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Como o desenho muda</h3>
+      <p class="kicker">Como o desenho muda</p>
       <h2>Ponto a ponto × ESB × APIs REST</h2>
-      <svg viewBox="0 0 1200 360" style="width:100%;max-height:46vh;display:block;" role="img" aria-label="Comparativo visual entre integração ponto a ponto, ESB e APIs REST">
-        <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700" font-size="13">
-          <!-- Ponto a ponto -->
-          <text x="200" y="30" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="16">PONTO A PONTO</text>
-          <text x="200" y="50" text-anchor="middle" fill="#555" font-size="12">caótico, N×(N-1)/2 conexões</text>
-          <circle cx="120" cy="120" r="22" fill="#002057"/><text x="120" y="125" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
-          <circle cx="280" cy="120" r="22" fill="#1F44A8"/><text x="280" y="125" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
-          <circle cx="120" cy="220" r="22" fill="#E91E63"/><text x="120" y="225" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
-          <circle cx="280" cy="220" r="22" fill="#2BBBE0"/><text x="280" y="225" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
-          <circle cx="200" cy="310" r="22" fill="#F0CE29"/><text x="200" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
-          <line x1="120" y1="120" x2="280" y2="120" stroke="#999" stroke-width="2"/>
-          <line x1="120" y1="120" x2="120" y2="220" stroke="#999" stroke-width="2"/>
-          <line x1="120" y1="120" x2="280" y2="220" stroke="#999" stroke-width="2"/>
-          <line x1="120" y1="120" x2="200" y2="310" stroke="#999" stroke-width="2"/>
-          <line x1="280" y1="120" x2="120" y2="220" stroke="#999" stroke-width="2"/>
-          <line x1="280" y1="120" x2="280" y2="220" stroke="#999" stroke-width="2"/>
-          <line x1="280" y1="120" x2="200" y2="310" stroke="#999" stroke-width="2"/>
-          <line x1="120" y1="220" x2="280" y2="220" stroke="#999" stroke-width="2"/>
-          <line x1="120" y1="220" x2="200" y2="310" stroke="#999" stroke-width="2"/>
-          <line x1="280" y1="220" x2="200" y2="310" stroke="#999" stroke-width="2"/>
+      <div class="slide-content-box">
+        <svg viewBox="0 0 1200 360" style="width:100%;max-height:46vh;display:block;" role="img" aria-label="Comparativo visual entre integração ponto a ponto, ESB e APIs REST">
+          <g font-family="Segoe UI, system-ui, sans-serif" font-weight="700" font-size="13">
+            <!-- Ponto a ponto -->
+            <text x="200" y="30" text-anchor="middle" fill="#E91E63" font-weight="800" font-size="16">PONTO A PONTO</text>
+            <text x="200" y="50" text-anchor="middle" fill="#555" font-size="12">caótico, N×(N-1)/2 conexões</text>
+            <circle cx="120" cy="120" r="22" fill="#002057"/><text x="120" y="125" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
+            <circle cx="280" cy="120" r="22" fill="#1F44A8"/><text x="280" y="125" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
+            <circle cx="120" cy="220" r="22" fill="#E91E63"/><text x="120" y="225" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
+            <circle cx="280" cy="220" r="22" fill="#2BBBE0"/><text x="280" y="225" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
+            <circle cx="200" cy="310" r="22" fill="#F0CE29"/><text x="200" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
+            <line x1="120" y1="120" x2="280" y2="120" stroke="#999" stroke-width="2"/>
+            <line x1="120" y1="120" x2="120" y2="220" stroke="#999" stroke-width="2"/>
+            <line x1="120" y1="120" x2="280" y2="220" stroke="#999" stroke-width="2"/>
+            <line x1="120" y1="120" x2="200" y2="310" stroke="#999" stroke-width="2"/>
+            <line x1="280" y1="120" x2="120" y2="220" stroke="#999" stroke-width="2"/>
+            <line x1="280" y1="120" x2="280" y2="220" stroke="#999" stroke-width="2"/>
+            <line x1="280" y1="120" x2="200" y2="310" stroke="#999" stroke-width="2"/>
+            <line x1="120" y1="220" x2="280" y2="220" stroke="#999" stroke-width="2"/>
+            <line x1="120" y1="220" x2="200" y2="310" stroke="#999" stroke-width="2"/>
+            <line x1="280" y1="220" x2="200" y2="310" stroke="#999" stroke-width="2"/>
 
-          <!-- ESB -->
-          <text x="600" y="30" text-anchor="middle" fill="#1F44A8" font-weight="800" font-size="16">BARRAMENTO (ESB)</text>
-          <text x="600" y="50" text-anchor="middle" fill="#555" font-size="12">central de mensagens</text>
-          <rect x="520" y="190" width="160" height="40" rx="20" fill="#1F44A8"/><text x="600" y="216" text-anchor="middle" fill="#F0CE29" font-size="14">ESB</text>
-          <circle cx="540" cy="100" r="22" fill="#002057"/><text x="540" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
-          <circle cx="660" cy="100" r="22" fill="#1F44A8"/><text x="660" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
-          <circle cx="460" cy="210" r="22" fill="#E91E63"/><text x="460" y="215" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
-          <circle cx="740" cy="210" r="22" fill="#2BBBE0"/><text x="740" y="215" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
-          <circle cx="600" cy="310" r="22" fill="#F0CE29"/><text x="600" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
-          <line x1="540" y1="122" x2="560" y2="190" stroke="#1F44A8" stroke-width="2.5"/>
-          <line x1="660" y1="122" x2="640" y2="190" stroke="#1F44A8" stroke-width="2.5"/>
-          <line x1="482" y1="210" x2="520" y2="210" stroke="#1F44A8" stroke-width="2.5"/>
-          <line x1="680" y1="210" x2="720" y2="210" stroke="#1F44A8" stroke-width="2.5"/>
-          <line x1="600" y1="230" x2="600" y2="288" stroke="#1F44A8" stroke-width="2.5"/>
+            <!-- ESB -->
+            <text x="600" y="30" text-anchor="middle" fill="#1F44A8" font-weight="800" font-size="16">BARRAMENTO (ESB)</text>
+            <text x="600" y="50" text-anchor="middle" fill="#555" font-size="12">central de mensagens</text>
+            <rect x="520" y="190" width="160" height="40" rx="20" fill="#1F44A8"/><text x="600" y="216" text-anchor="middle" fill="#F0CE29" font-size="14">ESB</text>
+            <circle cx="540" cy="100" r="22" fill="#002057"/><text x="540" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
+            <circle cx="660" cy="100" r="22" fill="#1F44A8"/><text x="660" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
+            <circle cx="460" cy="210" r="22" fill="#E91E63"/><text x="460" y="215" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
+            <circle cx="740" cy="210" r="22" fill="#2BBBE0"/><text x="740" y="215" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
+            <circle cx="600" cy="310" r="22" fill="#F0CE29"/><text x="600" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
+            <line x1="540" y1="122" x2="560" y2="190" stroke="#1F44A8" stroke-width="2.5"/>
+            <line x1="660" y1="122" x2="640" y2="190" stroke="#1F44A8" stroke-width="2.5"/>
+            <line x1="482" y1="210" x2="520" y2="210" stroke="#1F44A8" stroke-width="2.5"/>
+            <line x1="680" y1="210" x2="720" y2="210" stroke="#1F44A8" stroke-width="2.5"/>
+            <line x1="600" y1="230" x2="600" y2="288" stroke="#1F44A8" stroke-width="2.5"/>
 
-          <!-- APIs REST -->
-          <text x="1000" y="30" text-anchor="middle" fill="#1F8A4E" font-weight="800" font-size="16">APIs REST · padrão atual</text>
-          <text x="1000" y="50" text-anchor="middle" fill="#555" font-size="12">cada sistema expõe APIs</text>
-          <circle cx="920" cy="100" r="22" fill="#002057"/><text x="920" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
-          <circle cx="1080" cy="100" r="22" fill="#1F44A8"/><text x="1080" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
-          <circle cx="900" cy="220" r="22" fill="#E91E63"/><text x="900" y="225" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
-          <circle cx="1100" cy="220" r="22" fill="#2BBBE0"/><text x="1100" y="225" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
-          <circle cx="1000" cy="310" r="22" fill="#F0CE29"/><text x="1000" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
-          <!-- rótulo API em cada nó -->
-          <rect x="900" y="65" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="920" y="76" text-anchor="middle" fill="#FFF" font-size="10">API</text>
-          <rect x="1060" y="65" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1080" y="76" text-anchor="middle" fill="#FFF" font-size="10">API</text>
-          <rect x="880" y="185" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="900" y="196" text-anchor="middle" fill="#FFF" font-size="10">API</text>
-          <rect x="1080" y="185" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1100" y="196" text-anchor="middle" fill="#FFF" font-size="10">API</text>
-          <rect x="980" y="275" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1000" y="286" text-anchor="middle" fill="#FFF" font-size="10">API</text>
-          <line x1="920" y1="122" x2="900" y2="198" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <line x1="1080" y1="122" x2="1100" y2="198" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <line x1="920" y1="122" x2="1080" y2="122" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <line x1="920" y1="122" x2="1000" y2="288" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
-          <line x1="900" y1="220" x2="1100" y2="220" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
-        </g>
-      </svg>
-      <p style="margin-top:0.4em;">À esquerda, o caos do <em>ponto a ponto</em>; no centro, o ESB centraliza; à direita, <strong>cada sistema vira "plug" reutilizável</strong> via API REST — o padrão atual em fábricas modernas. Ferramentas: <em>MuleSoft</em>, <em>Boomi</em>, <em>Microsoft Power Platform</em>.</p>
+            <!-- APIs REST -->
+            <text x="1000" y="30" text-anchor="middle" fill="#1F8A4E" font-weight="800" font-size="16">APIs REST · padrão atual</text>
+            <text x="1000" y="50" text-anchor="middle" fill="#555" font-size="12">cada sistema expõe APIs</text>
+            <circle cx="920" cy="100" r="22" fill="#002057"/><text x="920" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">ERP</text>
+            <circle cx="1080" cy="100" r="22" fill="#1F44A8"/><text x="1080" y="105" text-anchor="middle" fill="#FFFFFF" font-size="11">MES</text>
+            <circle cx="900" cy="220" r="22" fill="#E91E63"/><text x="900" y="225" text-anchor="middle" fill="#FFFFFF" font-size="11">CRM</text>
+            <circle cx="1100" cy="220" r="22" fill="#2BBBE0"/><text x="1100" y="225" text-anchor="middle" fill="#002057" font-size="11">WMS</text>
+            <circle cx="1000" cy="310" r="22" fill="#F0CE29"/><text x="1000" y="315" text-anchor="middle" fill="#002057" font-size="11">PLM</text>
+            <!-- rótulo API em cada nó -->
+            <rect x="900" y="65" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="920" y="76" text-anchor="middle" fill="#FFF" font-size="10">API</text>
+            <rect x="1060" y="65" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1080" y="76" text-anchor="middle" fill="#FFF" font-size="10">API</text>
+            <rect x="880" y="185" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="900" y="196" text-anchor="middle" fill="#FFF" font-size="10">API</text>
+            <rect x="1080" y="185" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1100" y="196" text-anchor="middle" fill="#FFF" font-size="10">API</text>
+            <rect x="980" y="275" width="40" height="14" rx="3" fill="#1F8A4E"/><text x="1000" y="286" text-anchor="middle" fill="#FFF" font-size="10">API</text>
+            <line x1="920" y1="122" x2="900" y2="198" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
+            <line x1="1080" y1="122" x2="1100" y2="198" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
+            <line x1="920" y1="122" x2="1080" y2="122" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
+            <line x1="920" y1="122" x2="1000" y2="288" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
+            <line x1="900" y1="220" x2="1100" y2="220" stroke="#1F8A4E" stroke-width="2.5" stroke-dasharray="5,3"/>
+          </g>
+        </svg>
+        <p style="margin-top:0.4em;">À esquerda, o caos do <em>ponto a ponto</em>; no centro, o ESB centraliza; à direita, <strong>cada sistema vira "plug" reutilizável</strong> via API REST — o padrão atual em fábricas modernas. Ferramentas: <em>MuleSoft</em>, <em>Boomi</em>, <em>Microsoft Power Platform</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 8 — CUSTO DA NÃO-INTEGRAÇÃO ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Exemplo numérico</h3>
+      <p class="kicker">Exemplo numérico</p>
       <h2>Quanto custa <em>não</em> integrar?</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
-        <thead>
-          <tr style="background:var(--azul-fecaf);color:var(--branco);">
-            <th style="padding:0.55em 1em;text-align:left;">Item</th>
-            <th style="padding:0.55em 1em;text-align:right;">Custo anual</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">4 analistas "copia-cola entre sistemas" (R$ 4.000 × 4)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 192 mil</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Erros de digitação → retrabalho</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 100 mil</td></tr>
-          <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Decisões atrasadas / oportunidades perdidas</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 300 mil</td></tr>
-          <tr style="background:#FFF8DD;"><td style="padding:0.6em 1em;font-weight:800;color:var(--azul-fecaf);">Total — custo da não-integração</td><td style="padding:0.6em 1em;text-align:right;font-weight:800;color:var(--magenta);">R$ 590 mil/ano</td></tr>
-        </tbody>
-      </table>
-      <p style="margin-top:0.9em;">Projeto de integração via <strong>APIs</strong>: R$ 250–500 mil. <em>Payback: 6–12 meses</em>.</p>
+      <div class="slide-content-box">
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(0.95rem,1.2vw,1.15rem);">
+          <thead>
+            <tr style="background:var(--azul-fecaf);color:var(--branco);">
+              <th style="padding:0.55em 1em;text-align:left;">Item</th>
+              <th style="padding:0.55em 1em;text-align:right;">Custo anual</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">4 analistas "copia-cola entre sistemas" (R$ 4.000 × 4)</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 192 mil</td></tr>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Erros de digitação → retrabalho</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 100 mil</td></tr>
+            <tr><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;">Decisões atrasadas / oportunidades perdidas</td><td style="padding:0.5em 1em;border-bottom:1px solid #ddd;text-align:right;">R$ 300 mil</td></tr>
+            <tr style="background:#FFF8DD;"><td style="padding:0.6em 1em;font-weight:800;color:var(--azul-fecaf);">Total — custo da não-integração</td><td style="padding:0.6em 1em;text-align:right;font-weight:800;color:var(--magenta);">R$ 590 mil/ano</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:0.9em;">Projeto de integração via <strong>APIs</strong>: R$ 250–500 mil. <em>Payback: 6–12 meses</em>.</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 8b — IMPACTO DO PLM NA FÁBRICA ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>PLM no chão de fábrica</h3>
+      <p class="kicker">PLM no chão de fábrica</p>
       <h2>Por que PLM é tão crítico quanto ERP</h2>
-      <p>Em multinacionais (Embraer, Boeing, Volkswagen), o <strong>PLM é a fonte de verdade do produto</strong>. Quando bem implantado:</p>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>BOM única</h3>
-          <p>Engenharia e produção falam <em>exatamente</em> da mesma lista de materiais.</p>
+      <div class="slide-content-box">
+        <p>Em multinacionais (Embraer, Boeing, Volkswagen), o <strong>PLM é a fonte de verdade do produto</strong>. Quando bem implantado:</p>
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>BOM única</h3>
+            <p>Engenharia e produção falam <em>exatamente</em> da mesma lista de materiais.</p>
+          </div>
+          <div class="ponto">
+            <h3>Mudanças rastreadas</h3>
+            <p>Sabe-se <strong>quem</strong> aprovou cada alteração, <strong>quando</strong> e <strong>por quê</strong>.</p>
+          </div>
+          <div class="ponto">
+            <h3>Documentação alinhada</h3>
+            <p>Manuais e instruções refletem sempre a <em>versão atual</em> do produto.</p>
+          </div>
+          <div class="ponto">
+            <h3>Reuso de componentes</h3>
+            <p>Engenharia evita <em>reinventar</em> o que já existe — reduz custo de desenvolvimento.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Mudanças rastreadas</h3>
-          <p>Sabe-se <strong>quem</strong> aprovou cada alteração, <strong>quando</strong> e <strong>por quê</strong>.</p>
-        </div>
-        <div class="ponto">
-          <h3>Documentação alinhada</h3>
-          <p>Manuais e instruções refletem sempre a <em>versão atual</em> do produto.</p>
-        </div>
-        <div class="ponto">
-          <h3>Reuso de componentes</h3>
-          <p>Engenharia evita <em>reinventar</em> o que já existe — reduz custo de desenvolvimento.</p>
-        </div>
+        <p style="margin-top:0.9em;">Sem PLM, cada departamento tem sua versão da BOM, sua planta CAD, seu manual. <strong>O retrabalho silencioso é enorme.</strong></p>
       </div>
-      <p style="margin-top:0.9em;">Sem PLM, cada departamento tem sua versão da BOM, sua planta CAD, seu manual. <strong>O retrabalho silencioso é enorme.</strong></p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
@@ -709,84 +940,99 @@
 
   <!-- ============== SLIDE 10 — ATIVIDADE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Atividade prática</h3>
+      <p class="kicker">Atividade prática</p>
       <h2>Diagnóstico de integração — empresa que você conhece</h2>
-      <ol>
-        <li>Quais sistemas (entre <strong>ERP, MES, SCM, WMS, CRM, PLM</strong>) existem?</li>
-        <li>Quais <em>se integram de verdade</em>? Quais são "ilhas"?</li>
-        <li>Onde está a <strong>maior perda</strong> com a falta de integração?</li>
-        <li>Por onde você <em>começaria</em> uma integração de baixo custo?</li>
-      </ol>
-      <p style="margin-top:1.2em;color:var(--azul-escuro);font-weight:600;">⏱ 15 minutos · esta atividade alimenta a AAI da Unidade 2</p>
+      <div class="slide-content-box">
+        <ol>
+          <li>Quais sistemas (entre <strong>ERP, MES, SCM, WMS, CRM, PLM</strong>) existem?</li>
+          <li>Quais <em>se integram de verdade</em>? Quais são "ilhas"?</li>
+          <li>Onde está a <strong>maior perda</strong> com a falta de integração?</li>
+          <li>Por onde você <em>começaria</em> uma integração de baixo custo?</li>
+        </ol>
+        <p style="margin-top:1.2em;color:var(--azul-fecaf);font-weight:600;">⏱ 15 minutos · esta atividade alimenta a AAI da Unidade 2</p>
+      </div>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 11 — PONTOS-CHAVE ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Fechamento da Unidade 2</h3>
+      <p class="kicker">Fechamento da Unidade 2</p>
       <h2>Pontos-chave que valem para toda a unidade</h2>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>ERP é o coração</h3>
-          <p>Aula 1 — coordena pedido, produção, estoque, financeiro e RH na <em>base única</em>.</p>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>ERP é o coração</h3>
+            <p>Aula 1 — coordena pedido, produção, estoque, financeiro e RH na <em>base única</em>.</p>
+          </div>
+          <div class="ponto">
+            <h3>MES é o cérebro</h3>
+            <p>Aula 2 — executa em tempo real e devolve <strong>OEE</strong> ao planejamento.</p>
+          </div>
+          <div class="ponto">
+            <h3>SCM + WMS</h3>
+            <p>Aula 3 — governam a logística <em>de fornecedor a cliente final</em>.</p>
+          </div>
+          <div class="ponto">
+            <h3>CRM + PLM</h3>
+            <p>Aula 4 — <strong>mercado</strong> e <strong>produto</strong> fechando o sistema nervoso.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>MES é o cérebro</h3>
-          <p>Aula 2 — executa em tempo real e devolve <strong>OEE</strong> ao planejamento.</p>
-        </div>
-        <div class="ponto">
-          <h3>SCM + WMS</h3>
-          <p>Aula 3 — governam a logística <em>de fornecedor a cliente final</em>.</p>
-        </div>
-        <div class="ponto">
-          <h3>CRM + PLM</h3>
-          <p>Aula 4 — <strong>mercado</strong> e <strong>produto</strong> fechando o sistema nervoso.</p>
-        </div>
+        <p style="margin-top:1em;background:var(--cinza-bg);padding:1rem 1.2rem;border-left:6px solid var(--magenta);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
+          <strong>Mensagem central:</strong> nenhum desses sistemas, isolado, entrega valor pleno. O salto acontece quando <em>todos conversam</em> — e isso, hoje, se faz com <strong>APIs REST</strong>.
+        </p>
       </div>
-      <p style="margin-top:1em;background:var(--branco);padding:1rem 1.2rem;border-left:6px solid var(--magenta);border-radius:6px;box-shadow:0 3px 12px rgba(0,0,0,0.06);">
-        <strong>Mensagem central:</strong> nenhum desses sistemas, isolado, entrega valor pleno. O salto acontece quando <em>todos conversam</em> — e isso, hoje, se faz com <strong>APIs REST</strong>.
-      </p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
 
   <!-- ============== SLIDE 11b — O QUE VEM NA U3 ============== -->
   <section class="slide">
-    <div class="triangulos-canto">
-      <svg width="220" height="220"><use href="#trio-canto"/></svg>
+    <div class="canto-se">
+      <svg width="100%" height="100%"><use href="#canto-se"/></svg>
+    </div>
+    <div class="canto-id">
+      <svg width="100%" height="100%"><use href="#canto-id"/></svg>
     </div>
     <div class="slide-content">
-      <h3>Olhando para frente</h3>
+      <p class="kicker">Olhando para frente</p>
       <h2>Da camada lógica para o físico — o que vem na U3</h2>
-      <p>Até aqui falamos de <em>sistemas de informação</em>. Na <strong>Unidade 3</strong>, descemos para a <em>automação industrial física</em> — o que <strong>está abaixo do MES</strong> na pirâmide ISA-95.</p>
-      <div class="pontos-chave">
-        <div class="ponto">
-          <h3>Aula 9</h3>
-          <p><strong>Sensores e atuadores</strong> — o nível 0 da pirâmide, onde nasce o dado.</p>
+      <div class="slide-content-box">
+        <p>Até aqui falamos de <em>sistemas de informação</em>. Na <strong>Unidade 3</strong>, descemos para a <em>automação industrial física</em> — o que <strong>está abaixo do MES</strong> na pirâmide ISA-95.</p>
+        <div class="pontos-chave">
+          <div class="ponto">
+            <h3>Aula 9</h3>
+            <p><strong>Sensores e atuadores</strong> — o nível 0 da pirâmide, onde nasce o dado.</p>
+          </div>
+          <div class="ponto">
+            <h3>Aula 10</h3>
+            <p><strong>CLP e lógica ladder</strong> — o nível 1, controle em milissegundos.</p>
+          </div>
+          <div class="ponto">
+            <h3>Aula 11</h3>
+            <p><strong>SCADA</strong> — supervisão do processo, dashboards e alarmes.</p>
+          </div>
+          <div class="ponto">
+            <h3>Aula 12</h3>
+            <p><strong>TI × OT</strong> — a integração que conecta toda a pirâmide.</p>
+          </div>
         </div>
-        <div class="ponto">
-          <h3>Aula 10</h3>
-          <p><strong>CLP e lógica ladder</strong> — o nível 1, controle em milissegundos.</p>
-        </div>
-        <div class="ponto">
-          <h3>Aula 11</h3>
-          <p><strong>SCADA</strong> — supervisão do processo, dashboards e alarmes.</p>
-        </div>
-        <div class="ponto">
-          <h3>Aula 12</h3>
-          <p><strong>TI × OT</strong> — a integração que conecta toda a pirâmide.</p>
-        </div>
+        <p style="margin-top:0.9em;">Sem a U3, os sistemas que vimos aqui ficam <em>cegos no chão</em>. Sem a U2, o chão fica <em>cego ao negócio</em>. As duas unidades se complementam.</p>
       </div>
-      <p style="margin-top:0.9em;">Sem a U3, os sistemas que vimos aqui ficam <em>cegos no chão</em>. Sem a U2, o chão fica <em>cego ao negócio</em>. As duas unidades se complementam.</p>
     </div>
     <div class="slide-footer"><span>Sistemas de Informação · Unidade 2</span><span>Aula 4 — Videoaula 8</span></div>
   </section>
