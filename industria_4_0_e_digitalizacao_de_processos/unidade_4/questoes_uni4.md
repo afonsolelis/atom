@@ -143,18 +143,18 @@ e. As asserções I e II são proposições falsas.
 
 ### Questão 9 (Asserção-Razão)
 
-> **Asserção I:** A Siemens, em sua planta de Amberg (Alemanha), é referência mundial em Indústria 4.0.
+> **Asserção I:** A Siemens Amberg alcançou em poucos meses, partindo de uma fábrica tradicional sem qualquer base de digitalização, todos os patamares de automação que hoje a tornam referência mundial.
 >
 > **porque**
 >
-> **Razão II:** A Siemens Amberg alcançou em poucos meses, partindo de uma fábrica tradicional sem qualquer base de digitalização, todos os patamares de automação que hoje a tornam referência mundial.
+> **Razão II:** A planta de Amberg (Alemanha) é hoje referência mundial em Indústria 4.0, resultado de cerca de 30 anos de evolução digital incremental e contínua.
 
 A respeito dessas asserções, assinale a opção correta:
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
 ### Questão 10 (Asserção-Razão)
@@ -260,9 +260,9 @@ A tabela compara fases típicas de roadmap I4.0:
 
 Para uma empresa de médio porte iniciando do zero, qual investimento aproximado **mínimo** seria realista nos primeiros 24 meses (cobrindo as 4 fases acima, no piso da faixa)?
 
-a. R\$ 50 mil.
-b. R\$ 350 mil.
-*c. R\$ 2,7 milhões.
+*a. R\$ 2,7 milhões.
+b. R\$ 50 mil.
+c. R\$ 350 mil.
 d. R\$ 50 milhões.
 e. R\$ 1 bilhão.
 
@@ -394,11 +394,11 @@ d. A Indústria 4.0 muda lentamente, sendo fácil de acompanhar mesmo sem estudo
 
 ### Questão 9
 
-- **a.** Incorreta. A Razão é falsa.
-- **b.** Incorreta. A Razão é falsa.
-- **c.** *Correta!* A Asserção (I) é verdadeira: a Siemens Amberg é, de fato, referência mundial em I4.0. Mas a Razão (II) é falsa: Amberg **não** virou referência "em poucos meses" — foram **30 anos** de evolução incremental e contínua. A ideia de transformação "do zero ao topo em poucos meses" é mito típico que a disciplina critica.
-- **d.** Incorreta. A Asserção é verdadeira.
-- **e.** Incorreta. A Asserção é verdadeira.
+- **a.** Incorreta. A Asserção I é falsa.
+- **b.** Incorreta. A Asserção I é falsa.
+- **c.** Incorreta. É o inverso: a Asserção I é falsa e a Razão II é verdadeira.
+- **d.** *Correta!* A Asserção (I) é falsa: Amberg **não** virou referência "em poucos meses" partindo do zero — foram cerca de **30 anos** de evolução incremental e contínua. A ideia de transformação "do zero ao topo em poucos meses" é mito típico que a disciplina critica. A Razão (II) é verdadeira: a planta de Amberg é, de fato, referência mundial em I4.0, justamente fruto dessa maturação de décadas.
+- **e.** Incorreta. A Razão II é verdadeira.
 
 ### Questão 10
 
@@ -450,9 +450,9 @@ d. A Indústria 4.0 muda lentamente, sendo fácil de acompanhar mesmo sem estudo
 
 ### Questão 16
 
-- **a.** Incorreta. Muito menor — só cobre a fase de diagnóstico.
-- **b.** Incorreta. Cobre só diagnóstico + piloto, não as 4 fases.
-- **c.** *Correta!* Soma do piso das 4 fases: R\$ 50 + R\$ 150 + R\$ 500 + R\$ 2.000 = R\$ 2.700 mil = R\$ 2,7 milhões. É o investimento **mínimo realista** para uma empresa de médio porte cobrir as 4 fases iniciais. Em pratica, ficar no piso é incomum — geralmente passa-se da metade da faixa.
+- **a.** *Correta!* Soma do piso das 4 fases: R\$ 50 + R\$ 150 + R\$ 500 + R\$ 2.000 = R\$ 2.700 mil = R\$ 2,7 milhões. É o investimento **mínimo realista** para uma empresa de médio porte cobrir as 4 fases iniciais. Em pratica, ficar no piso é incomum — geralmente passa-se da metade da faixa.
+- **b.** Incorreta. Muito menor — só cobre a fase de diagnóstico.
+- **c.** Incorreta. Cobre só diagnóstico + piloto, não as 4 fases.
 - **d.** Incorreta. Muito acima do piso típico para médio porte.
 - **e.** Incorreta. Valor compatível apenas com grandes corporações globais.
 
