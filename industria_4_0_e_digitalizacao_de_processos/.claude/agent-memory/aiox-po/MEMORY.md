@@ -1,0 +1,1 @@
+- [Slide Decks Review Context](project_slide-review.md) — how the 16 HTML decks are structured and what to watch for when reviewing content
