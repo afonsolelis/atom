@@ -39,7 +39,7 @@ Antes de qualquer outra coisa, precisamos alinhar **vocabulário básico**. Voc�
 
 ### A pirâmide DIKW: dado, informação, conhecimento e sabedoria
 
-![Pirâmide DIKW (Data, Information, Knowledge, Wisdom) representando a hierarquia entre dado, informação, conhecimento e sabedoria](https://upload.wikimedia.org/wikipedia/commons/0/06/DIKW-diagram.png)
+![Pirâmide DIKW (Data, Information, Knowledge, Wisdom) representando a hierarquia entre dado, informação, conhecimento e sabedoria](https://upload.wikimedia.org/wikipedia/commons/c/c3/DIKW-diagram.png)
 
 Há um modelo clássico chamado **pirâmide DIKW** (Data, Information, Knowledge, Wisdom) que organiza esses conceitos:
 
@@ -183,7 +183,7 @@ Agora que você sabe o que é dado, informação e conhecimento, vamos para o se
 
 ### A definição em uma frase
 
-![Centro de operações com servidores e telas de monitoramento — ilustração típica de um Sistema de Informação corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Information_security_operations_center.jpg/1280px-Information_security_operations_center.jpg)
+![Data center com fileiras de servidores — a infraestrutura física que sustenta um Sistema de Informação corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/BalticServers_data_center.jpg/960px-BalticServers_data_center.jpg)
 
 > **Sistema de Informação (SI)** é um conjunto coordenado de **pessoas, processos, dados, software e hardware** que **coleta, processa, armazena e distribui informações** para apoiar a operação, a gestão e a tomada de decisão em uma organização.
 
@@ -371,7 +371,7 @@ Características:
 
 ### ERP — Enterprise Resource Planning
 
-![Diagrama de arquitetura de um sistema ERP integrando os módulos de finanças, RH, vendas, produção, compras e logística em torno de uma base de dados central](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/ERP_Modules.png/1024px-ERP_Modules.png)
+![Diagrama de arquitetura de um sistema ERP integrando os módulos de finanças, RH, vendas, produção, compras e logística em torno de uma base de dados central](https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/ERP_Modules.png/960px-ERP_Modules.png)
 
 > **ERP** é o sistema **integrador** da empresa — junta em uma única base de dados os processos de **finanças, RH, produção, vendas, compras, estoque, contabilidade**.
 
@@ -503,7 +503,7 @@ Uma planilha de Excel **não é** banco de dados de verdade. É um arquivo. Banc
 
 ### Banco de dados relacional (SQL)
 
-![Diagrama de banco de dados relacional mostrando tabelas, colunas, chaves primárias e estrangeiras](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Relational_key.png/1024px-Relational_key.png)
+![Diagrama de banco de dados relacional mostrando tabelas, colunas, chaves primárias e estrangeiras](https://upload.wikimedia.org/wikipedia/commons/b/ba/Relational_key.png)
 
 A categoria mais comum em empresas é o **banco de dados relacional**, baseado no modelo de **tabelas**. Características:
 

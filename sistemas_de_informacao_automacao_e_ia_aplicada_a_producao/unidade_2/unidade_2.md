@@ -23,7 +23,7 @@ ERP é a evolução de sistemas mais antigos. A linhagem:
 
 A SAP (Alemanha) e a Oracle (EUA) são as gigantes globais. No Brasil, **TOTVS** domina o mercado de PME e médio porte.
 
-![Sede mundial da SAP em Walldorf, Alemanha — uma das duas maiores empresas globais de software ERP](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/SAP_2007.JPG/640px-SAP_2007.JPG)
+![Sede mundial da SAP em Walldorf, Alemanha — uma das duas maiores empresas globais de software ERP](https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/SAP_AG_headquarter_Walldorf_building_1.jpg/960px-SAP_AG_headquarter_Walldorf_building_1.jpg)
 
 ### Os módulos clássicos de um ERP de manufatura
 
@@ -213,7 +213,7 @@ Existe uma norma internacional — **ISA-95** — que define uma **pirâmide** d
 
 MES está no **nível 3** — meio do caminho. Vai falar de nível 1 e 2 na próxima Unidade.
 
-![Sala de controle e supervisão industrial — onde MES, SCADA e operadores se encontram para coordenar a execução da produção](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Mando_y_control_planta_envasado_Mahou.jpg/640px-Mando_y_control_planta_envasado_Mahou.jpg)
+![Operadores em sala de controle industrial — onde MES, SCADA e operadores se encontram para coordenar a execução da produção](https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Power_plant_operators_st_work.jpg/960px-Power_plant_operators_st_work.jpg)
 
 ### As 11 funções clássicas de um MES (ISA-95)
 
@@ -418,7 +418,7 @@ Hoje, o estado da arte é a **visibilidade ponta a ponta** — sistemas SCM mode
 
 Empresas como **Amazon e Maersk** dominam isso. No Brasil, **Ambev e Magazine Luiza** estão entre as mais avançadas.
 
-![Centro de distribuição moderno: o palco onde WMS, AGVs e SCM se materializam em corredores, paletes e operações de picking](https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Modern_warehouse_with_pallet_rack_storage_system.jpg/640px-Modern_warehouse_with_pallet_rack_storage_system.jpg)
+![Centro de distribuição moderno: o palco onde WMS, AGVs e SCM se materializam em corredores, paletes e operações de picking](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Modern_warehouse_with_pallet_rack_storage_system.jpg/960px-Modern_warehouse_with_pallet_rack_storage_system.jpg)
 
 ### WMS — Warehouse Management System
 
@@ -604,7 +604,7 @@ PLM é a **fonte de verdade** sobre o produto. Quando bem implantado:
 
 Em multinacionais, **PLM é tão crítico quanto ERP**.
 
-![Engenheiros trabalhando com modelos CAD 3D — o tipo de informação de produto que o PLM organiza, versiona e propaga para toda a empresa](https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/CAD_at_work.jpg/640px-CAD_at_work.jpg)
+![Engenheiros trabalhando com modelos CAD — o tipo de informação de produto que o PLM organiza, versiona e propaga para toda a empresa](https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/CAD_computer-aided_design.jpg/960px-CAD_computer-aided_design.jpg)
 
 ### A arquitetura integrada: o desenho completo
 

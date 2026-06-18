@@ -46,7 +46,7 @@ Isso é **controle em malha fechada (closed loop)**. Existe também **malha aber
 
 ### Sensores: tipos mais usados na indústria
 
-![Sensores industriais (termopar, transdutor de pressão, encoder) — exemplos típicos de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Thermocouple0002.jpg/640px-Thermocouple0002.jpg)
+![Sensores industriais (termopar, transdutor de pressão, encoder) — exemplos típicos de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Thermocouple0002.jpg/960px-Thermocouple0002.jpg)
 
 Sensores são **traduzem** grandezas físicas em **sinais elétricos**. Tipos comuns:
 
@@ -214,7 +214,7 @@ Tempo típico de ciclo: **5 a 50 milissegundos**, dependendo do tamanho do progr
 
 ### Anatomia de um CLP
 
-![CLP modular com módulos de entrada/saída acoplados em trilho DIN — arquitetura típica de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Siemens_Simatic_S7-400.jpg/640px-Siemens_Simatic_S7-400.jpg)
+![Controlador lógico programável (CLP) com módulos de entrada/saída — arquitetura típica de chão de fábrica](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Programmable_logic_controller.jpg/960px-Programmable_logic_controller.jpg)
 
 | Componente | Função |
 | --- | --- |
@@ -383,7 +383,7 @@ SCADA está no **nível 2 da pirâmide ISA-95** (vimos na U2) — acima dos CLPs
 
 ### HMI: a tela que o operador vê
 
-![Sala de controle industrial com múltiplas telas SCADA exibindo telemetria em tempo real](https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Telemetry_room_control_centre.jpg/640px-Telemetry_room_control_centre.jpg)
+![Sala de controle com múltiplas telas de monitoramento exibindo telemetria em tempo real](https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Multi-monitor_workstations_in_the_Wendelstein_7-X_control_room.jpg/960px-Multi-monitor_workstations_in_the_Wendelstein_7-X_control_room.jpg)
 
 A **HMI (Human-Machine Interface)** é a parte visual do SCADA. Telas típicas:
 
@@ -524,7 +524,7 @@ Imagine um SCADA para uma operação que você conhece:
 
 ### A pirâmide ISA-95 completa
 
-![Pirâmide hierárquica ISA-95 / modelo Purdue com 5 níveis — do equipamento físico ao ERP corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Functional_levels_of_a_Distributed_Control_System.svg/640px-Functional_levels_of_a_Distributed_Control_System.svg.png)
+![Pirâmide hierárquica ISA-95 / modelo Purdue com 5 níveis — do equipamento físico ao ERP corporativo](https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Functional_levels_of_a_Distributed_Control_System.svg/960px-Functional_levels_of_a_Distributed_Control_System.svg.png)
 
 A **norma internacional ISA-95** (também chamada **IEC 62264**) define uma **pirâmide hierárquica** de 5 níveis (também usada como modelo Purdue, com sobreposição):
 
