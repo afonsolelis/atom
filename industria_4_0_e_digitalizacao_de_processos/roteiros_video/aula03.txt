@@ -1,0 +1,52 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 3
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 1
+Aula 3 — Sistemas Ciber-Físicos (CPS) e Digital Twin
+Deck: unidade_1/slides/aula3.html · 14 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Imagina que toda máquina da sua fábrica tenha um clone digital — um gêmeo que sabe tudo o que ela faz, em tempo real, e que até prevê quando ela vai quebrar. Isso não é ficção científica: chama-se digital twin, e é o coração da Indústria 4.0.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Hoje a gente vai entender o conceito de sistema ciber-físico, as três camadas que o formam, ver o digital twin em ação na GE e no Brasil, e fechar com quando vale — e quando não vale — construir um.
+
+========== SLIDE 3 · O que é um CPS? (pausa para reflexão) ==========
+Antes, uma pausa para reflexão: você usa o termo "máquina inteligente"? O que isso significa para você? Anota numa frase, porque a gente compara no final. Pois bem: um Sistema Ciber-Físico, o CPS, é um sistema em que um componente físico — uma máquina, um sensor — está conectado em rede a um gêmeo digital, que recebe os dados do físico, processa, e devolve decisões. O objeto real tem um irmão digital que conhece o seu estado a cada instante.
+
+========== SLIDE 4 · Máquina automatizada × CPS ==========
+Qual a diferença para uma máquina automatizada comum? A automatizada, da 3.0, tem inteligência local: um CLP com programa fixo; se mudar o produto, alguém reprograma. O CPS tem inteligência distribuída e adaptativa: ele sabe o que está acontecendo, troca informação com outras máquinas e ajusta o próprio comportamento. Se mudar o produto, ele aprende.
+
+========== SLIDE 5 · As três camadas de um CPS ==========
+Todo CPS tem três camadas — guarde essas três. A física: sensores, atuadores, o que você pega na mão. A de comunicação: as redes e os protocolos, como o físico fala com o digital. E a cibernética: o software e os modelos, onde mora o gêmeo digital. Sem uma das três, não é CPS: sensor sem comunicação é termômetro caro; inteligência sem físico é só simulador.
+
+========== SLIDE 6 · Como um CPS se organiza (diagrama) ==========
+Neste diagrama você vê o caminho completo: do sensor, passando pela rede, até a decisão que volta para o equipamento. As três camadas operando juntas, em ciclo.
+
+========== SLIDE 7 · Digital twin nas turbinas da GE ==========
+Um exemplo em escala global: a General Electric opera turbinas de avião pelo mundo. Cada turbina física tem um gêmeo digital que recebe, em tempo real, temperatura, vibração, pressão e consumo. Esse gêmeo compara o estado real com o estado saudável esperado e prevê falhas com semanas de antecedência. Resultado: mais de trinta por cento de redução em paradas não planejadas, e centenas de milhões de dólares economizados por ano.
+
+========== SLIDE 8 · CPS no Brasil ==========
+E não é só coisa de gigante americana. A WEG vende motores com telemetria embarcada e monitora a operação na planta do cliente. A Embraer simula o impacto de mudanças na linha antes de mover uma estação. A Klabin integra caldeiras e máquinas de papel num mesmo modelo digital. E a Vale opera caminhões autônomos em Carajás, cada um com seu gêmeo digital.
+
+========== SLIDE 9 · Forno de siderúrgica: sem CPS × com CPS ==========
+Para sentir a diferença em número, pega um forno de siderúrgica. Sem CPS, o operador anota a temperatura a cada quinze minutos e só percebe um desvio depois de quinze a trinta minutos. Com CPS, o sensor lê a cada cem milissegundos e detecta em menos de um segundo, ajustando sozinho. De minutos para segundos. Em aço, alumínio e vidro, essa diferença vale milhões.
+
+========== SLIDE 10 · Edge vs Cloud — onde o CPS pensa ==========
+E onde o CPS "pensa"? Pode ser na borda, no edge, com resposta abaixo de dez milissegundos — ideal para controle e segurança; ou na nuvem, para IA pesada e histórico longo. O CPS maduro combina os dois: edge para decidir agora, nuvem para aprender com o passado. A gente aprofunda isso na Aula 7.
+
+========== SLIDE 11 · Quando NÃO faz sentido construir um CPS ==========
+Mas seja honesto: nem sempre vale a pena. Se o processo é estável e a parada custa pouco, o retorno não fecha. Se o sensor não é confiável, o gêmeo digital mente. Se não há cultura analítica nem patrocínio executivo, o projeto morre. A regra: CPS resolve dor cara, recorrente e mensurável. Sem isso, é tecnologia procurando problema.
+
+========== SLIDE 12 · Citação (arquitetura CPS) ==========
+Como diz a síntese no slide: "Cada máquina física pode ganhar um irmão digital — e é nesse encontro que mora o coração da Indústria 4.0."
+
+========== SLIDE 13 · Atividade prática ==========
+Sua atividade: escolha um eletrodoméstico — máquina de lavar, cafeteira, aspirador robô — e transforme em CPS. Que dados ele coletaria? O que o gêmeo digital faria com eles? E que decisão automática faria sentido, sem humano no loop?
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+E volta àquela frase que você anotou sobre "máquina inteligente" — aposto que faz mais sentido agora. Quando o físico e o digital se fundem no CPS, a fábrica passa a se enxergar e a se ajustar em tempo real. Mas como saber se a empresa está pronta para isso? Na próxima aula, a gente mede a maturidade digital. Te espero!

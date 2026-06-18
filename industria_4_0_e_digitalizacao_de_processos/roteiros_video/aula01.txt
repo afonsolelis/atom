@@ -1,0 +1,52 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 1
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 1
+Aula 1 — Da Revolução Industrial à Indústria 4.0: a linha do tempo
+Deck: unidade_1/slides/aula1.html · 14 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Olá! Eu sou o professor Afonso Brandão, e seja muito bem-vindo a esta primeira aula da nossa disciplina de Indústria 4.0 e Digitalização de Processos.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Deixa eu começar com uma pergunta simples: por que esse nome, "quatro ponto zero"? Por que não é "um ponto zero", nem "cinco ponto zero"? Para entender o que torna essa quarta revolução diferente, a gente precisa voltar no tempo e olhar para as três que vieram antes. É isso que vamos fazer hoje: uma viagem rápida, das máquinas a vapor até os sensores conectados.
+
+========== SLIDE 3 · O que é uma revolução industrial? ==========
+Mas, primeiro: o que é uma revolução industrial? Não é um avanço técnico isolado. É quando uma nova tecnologia muda o modo de produção de forma tão profunda que a economia, a sociedade e até a geografia das cidades se reorganizam em torno dela. A história registra quatro dessas viradas.
+
+========== SLIDE 4 · Antes das máquinas: a manufatura ==========
+E qual era o ponto de partida? Antes das máquinas, tudo dependia da força humana e animal. Roupas, ferramentas, comida — tudo feito por artesãos, peça por peça, em pequena quantidade. Um par de sapatos podia exigir três dias de trabalho. Foi essa lógica que a Primeira Revolução começou a desmontar.
+
+========== SLIDE 5 · Quatro revoluções, 250 anos ==========
+Olha a magnitude do que vem a seguir: em pouco mais de duzentos e cinquenta anos, foram quatro revoluções. Cada uma resolveu um problema deixado pela anterior — e abriu novos desafios para a seguinte. Vamos passar por elas, uma a uma.
+
+========== SLIDE 6 · 1.0 — 1784 — a era do vapor ==========
+A Primeira Revolução começa na Inglaterra, no final do século dezoito, em mil setecentos e oitenta e quatro, com a máquina a vapor aperfeiçoada por James Watt. Pela primeira vez, dá para substituir o músculo humano por uma fonte de energia mecânica controlável. Nascem as primeiras fábricas, a indústria têxtil decola, e a ferrovia conecta o país. É a era do vapor.
+
+========== SLIDE 7 · 2.0 — 1870 — eletricidade e Ford ==========
+Cem anos depois, por volta de mil oitocentos e setenta, vem a Segunda Revolução, com a eletricidade e a produção em massa. O nome-chave aqui é Henry Ford. Em mil novecentos e treze, ele organiza a linha de montagem móvel: o produto se desloca entre estações, e cada operário faz uma única tarefa. O tempo de montagem do Ford Modelo T caiu de doze horas e meia para uma hora e trinta e três minutos. É o fordismo.
+
+========== SLIDE 8 · 3.0 — 1969 — eletrônica e automação ==========
+A Terceira Revolução chega na segunda metade do século vinte, em mil novecentos e sessenta e nove, com a eletrônica e a informática. O marco é o CLP, o Controlador Lógico Programável. Antes dele, mudar uma linha significava remontar centenas de cabos e relés. Com o CLP, bastava reprogramar. Surgem os robôs industriais e os computadores no chão de fábrica. A indústria ganha flexibilidade.
+
+========== SLIDE 9 · 4.0 — 2011 — sistemas ciber-físicos ==========
+E aí chegamos à Indústria 4.0. O termo nasceu em dois mil e onze, na feira de Hannover, na Alemanha. E o conceito central é poderoso: as máquinas não apenas executam — elas conversam, decidem e aprendem. O Brasil entrou no jogo a partir de dois mil e dezesseis, com a Câmara Brasileira da Indústria 4.0.
+
+========== SLIDE 10 · Quatro pilares fundamentais ==========
+Quatro coisas diferenciam a 4.0 das anteriores. Primeiro, conectividade: máquinas, sensores e produtos trocam dados em tempo real. Segundo, dados em escala: terabytes por turno. Terceiro, inteligência distribuída: a decisão pode acontecer no próprio equipamento, sem um cérebro central. E quarto, integração ciber-física: o mundo real e o digital ficam acoplados, espelhando um ao outro. Um exemplo que resume tudo: na fábrica antiga, o motor quebrava e aí você consertava; na 4.0, o sensor avisa que ele vai quebrar — e você conserta antes. Isso é manutenção preditiva.
+
+========== SLIDE 11 · Exemplo numérico: um par de sapatos ==========
+Olha este número para sentir cada revolução. Um par de sapatos: no artesão, vinte e quatro horas; na fábrica a vapor, duas horas e meia; na linha fordista, trinta e cinco minutos; na linha automatizada, cinco minutos; e na 4.0, quatro minutos — só que com customização individual. O grande diferencial não é mais só a velocidade: é poder personalizar sem perder eficiência. E guarde esta ideia: o que define a 4.0 é decidir bem, com dados, em tempo real.
+
+========== SLIDE 12 · Citação (Klaus Schwab) ==========
+Como diz Klaus Schwab, fundador do Fórum Econômico Mundial — e leio a frase do slide: "Estamos no início de uma revolução que está mudando fundamentalmente a maneira como vivemos, trabalhamos e nos relacionamos uns com os outros."
+
+========== SLIDE 13 · Atividade prática ==========
+Agora, o seu desafio. Pense numa empresa que você conhece — onde trabalha, estagiou, ou frequenta como cliente. Em qual revolução industrial ela está hoje? Justifique. E aponte um sinal concreto: controlar estoque em planilha de papel, por exemplo, já indica algo entre a 2.0 e a 3.0. Anote no caderno; a discussão abre a próxima aula.
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+Para fechar: cada revolução redefiniu o que é ser competitivo. Saber onde a sua fábrica está nessa linha do tempo é saber para onde ela precisa ir. Na próxima aula, a gente abre a caixa-preta: o que é, exatamente, a Indústria 4.0, e quais são os seus pilares. Te espero lá!

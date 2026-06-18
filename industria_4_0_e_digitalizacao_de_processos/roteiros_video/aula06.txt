@@ -1,0 +1,58 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 6
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 2
+Aula 6 — Big Data e Analytics na indústria
+Deck: unidade_2/slides/aula6.html · 16 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Imagina que a sua fábrica está produzindo cinco terabytes de dado por dia. Se você fosse ler tudo isso à mão, levaria cerca de duzentos anos só para uma semana de produção. A pergunta de hoje é: como transformar esse mar de número em decisão?
+
+========== SLIDE 2 · SUMÁRIO ==========
+Vamos ver os cinco Vs do Big Data, de onde vem o dado industrial, a arquitetura medalhão, os quatro níveis de analytics, um caso de ROI e a stack de ferramentas mais usada.
+
+========== SLIDE 3 · Big Data em uma frase ==========
+A definição: Big Data trata de conjuntos de dados grandes demais, rápidos demais ou variados demais para as ferramentas tradicionais, como planilhas. A definição clássica é a dos cinco Vs: volume, velocidade, variedade, veracidade e valor. E a Indústria 4.0 produz dado nos cinco Vs ao mesmo tempo, sem exagero.
+
+========== SLIDE 4 · Os cinco eixos do dado industrial ==========
+Olha os cinco Vs lado a lado: volume, na casa dos terabytes; velocidade, em streaming, tempo real; variedade, de número a imagem e vídeo; veracidade, a confiabilidade do dado; e valor, o insight útil que você extrai no fim. Esse último é o que importa de verdade.
+
+========== SLIDE 5 · De onde vem todo esse dado? ==========
+E de onde vem? Dos sensores IIoT, em série temporal; das câmeras de visão, que geram terabytes; dos sistemas ERP e MES; dos logs das máquinas; do laboratório de qualidade. Numa siderúrgica média, isso passa de cinco terabytes por dia. Em um ano, são petabytes. Planilha não resolve.
+
+========== SLIDE 6 · Dezenas de fontes, um único destino ==========
+Repara que o cenário moderno não é uma base de dados só — são dezenas de sistemas falando idiomas diferentes: SCADA, CLP, ERP, qualidade, sensores, câmeras. A arquitetura de dados existe justamente para que tudo isso convirja numa única fonte da verdade.
+
+========== SLIDE 7 · Bronze → Prata → Ouro (diagrama) ==========
+E o padrão para organizar isso é a arquitetura medalhão, em três níveis. Este é o pipeline canônico: o dado entra bruto e vai sendo refinado até ficar pronto para análise. Vou detalhar.
+
+========== SLIDE 8 · As 4 camadas e as 3 cores da medalha ==========
+São quatro camadas: coleta, com os sensores; armazenamento, no data lake e no data warehouse; processamento, que limpa e agrega; e consumo, com painéis e alertas. Dentro disso vivem as três cores: bronze é o dado bruto, como veio do sensor; prata é o dado limpo e validado; e ouro é o dado pronto para análise. O cliente final só consome da camada ouro.
+
+========== SLIDE 9 · Os 4 níveis de analytics ==========
+Agora o conceito mais importante: os quatro níveis de analytics, do mais simples ao mais valioso. Descritivo: o que aconteceu? São os painéis. Diagnóstico: por que aconteceu? É a causa-raiz. Preditivo: o que vai acontecer? Aqui entra o machine learning. E prescritivo: o que eu devo fazer? É a otimização. A maioria das indústrias brasileiras está no descritivo e no diagnóstico; o preditivo já é diferencial; o prescritivo é a fronteira.
+
+========== SLIDE 10 · ROI realista de analytics (fábrica de bebidas) ==========
+Vamos ao retorno, num caso realista. Uma fábrica de bebidas investiu trezentos e cinquenta mil reais em analytics preditivo na linha de envasamento. A rejeição de garrafas por defeito de tampa caiu de dois vírgula três por cento para zero vírgula sete. Com duzentas e quarenta mil garrafas por dia, deu cerca de duzentos mil reais de economia por ano, com payback de uns vinte meses. Não é o payback relâmpago da IIoT — mas é economia recorrente, que cresce com o tempo.
+
+========== SLIDE 11 · Ferramentas comuns em fábricas brasileiras ==========
+E quais ferramentas você vai ouvir falar? Linguagens: Python, SQL, R. Bancos e lakes: Postgres, ClickHouse, InfluxDB. Plataformas: Databricks, Snowflake, BigQuery. E visualização: Power BI, Grafana, Tableau. A stack típica brasileira é Power BI para a diretoria, Grafana no chão de fábrica e Python para os modelos. Não inventar é uma virtude.
+
+========== SLIDE 12 · Citação (Deming) ==========
+E tem uma frase que resume tudo, do Deming, pai da qualidade industrial — está no slide: "Sem dados, você é apenas mais uma pessoa com uma opinião."
+
+========== SLIDE 13 · Cinco armadilhas comuns ==========
+Cuidado com cinco armadilhas: coletar antes de ter uma pergunta, criando um cemitério de dados; confundir bonito com útil, o painel que ninguém olha; ignorar a veracidade, com sensor descalibrado; pular o descritivo e ir direto pro preditivo; e não medir o valor, sem KPI. A regra: comece pela pergunta. O dado vem depois.
+
+========== SLIDE 14 · Atividade prática ==========
+A sua atividade: pegue uma fonte de dado que você conhece — nota fiscal, ponto, estoque. Em que camada ela está hoje: bronze, prata ou ouro? Que pergunta descritiva ela já responde? Que pergunta diagnóstica daria para responder com pouco esforço? E qual seria o salto preditivo?
+
+========== SLIDE 15 · Pontos-chave ==========
+Recapitulando: os cinco Vs convergem em valor; a arquitetura é bronze, prata e ouro; o analytics sobe do descritivo ao prescritivo; e o ROI é recorrente, com payback típico de um a dois anos.
+
+========== SLIDE 16 · ENCERRAMENTO ==========
+Big Data só vale a decisão que habilita — nunca esqueça isso. Mas onde tudo isso roda? Onde fica esse mar de dado? É a próxima aula: nuvem e edge computing. Te espero!

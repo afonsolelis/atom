@@ -1,0 +1,56 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 15
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 4
+Aula 15 — Casos reais brasileiros e mundiais
+Deck: unidade_4/slides/aula15.html · 15 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+A teoria, isolada, é abstração; o caso concreto é argumento. Afirmar que a Klabin adotou determinada solução e obteve determinado ganho persuade muito mais do que enunciar benefícios genéricos de uma tecnologia. Nesta aula, você reunirá oito casos documentados, aptos a fundamentar qualquer defesa de uma iniciativa de Indústria 4.0.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Percorreremos oito casos — internacionais e brasileiros — e concluiremos com os cinco padrões recorrentes que a eles subjazem.
+
+========== SLIDE 3 · Mapa dos 8 casos ==========
+Observe o panorama: três casos internacionais — Siemens, Tetra Pak e Tesla — e cinco brasileiros — Klabin, WEG, Embraco, Vale e JBS. Da celulose à mineração, da aeronáutica à indústria de alimentos. Passemos a cada um deles.
+
+========== SLIDE 4 · Caso 1 · Siemens Amberg (Alemanha) ==========
+Iniciemos pela referência mundial: a planta da Siemens em Amberg, na Alemanha. Setenta e cinco por cento das atividades automatizadas, índice de qualidade de noventa e nove vírgula nove nove nove por cento — equivalente a apenas doze defeitos por milhão — e duplicação da capacidade sem ampliação física da planta ao longo de vinte e cinco anos. A lição é clara: a transformação é incremental. Amberg não se tornou referência em um ano, mas ao longo de três décadas de evolução contínua.
+
+========== SLIDE 5 · Caso 2 · Klabin — IIoT na celulose ==========
+No Brasil, a Klabin, em Telêmaco Borba, implantou mais de mil e quinhentos sensores a alimentar um digital twin em sua unidade de celulose. Os resultados: acréscimo de oito por cento na produtividade, redução de vinte e dois por cento nas paradas não programadas e oitenta milhões de reais em ganhos anuais, ante trinta e cinco milhões investidos. A lição: a conjugação de um setor tradicional com tecnologia recente produz retorno expressivo.
+
+========== SLIDE 6 · Casos 3 e 4 · WEG e Embraco ==========
+Dois casos do Sul do país. A WEG converteu o motor elétrico em produto associado a serviço: os motores transmitem dados à sua nuvem, e a empresa comercializa manutenção preditiva por assinatura — deixou de vender apenas o equipamento para vender operação assegurada. A Embraco, por sua vez, implantou cobots e obteve quarenta por cento de ganho de produtividade na estação, com ausência de acidentes e redução do tempo de reprogramação de três dias para quatro horas.
+
+========== SLIDE 7 · Caso 5 · Vale — caminhões autônomos em Carajás ==========
+A Vale, no Pará, opera mais de trinta caminhões autônomos no complexo de Carajás, em regime ininterrupto de vinte e quatro horas. Os números: acréscimo de quinze por cento na produtividade, redução de trinta por cento no consumo de combustível e ausência de acidentes humanos envolvendo esses veículos. A lição: ambientes extremos — calor, poeira, longas distâncias — constituem candidatos naturais à automação.
+
+========== SLIDE 8 · Casos 6 e 7 · Tetra Pak e Tesla ==========
+De volta ao cenário internacional, dois casos na fronteira tecnológica. A Tetra Pak emprega digital twin no projeto de embalagens: reduziu o tempo de prototipagem à metade e o custo dos protótipos em setenta por cento. A Tesla, por seu turno, concebe a fábrica não como projeto fixo, mas como organismo que aprende, com máquinas a ajustar parâmetros de forma autônoma.
+
+========== SLIDE 9 · Caso 8 · JBS — o ataque que virou estudo ==========
+E um caso de alerta: a JBS, que em dois mil e vinte e um sofreu o ataque de ransomware mais notório do agronegócio, com paralisação de plantas em três países e pagamento de onze milhões de dólares em resgate. A lição é severa: a cibersegurança é uma decisão de agora ou de depois. A JBS encontra-se hoje substancialmente mais protegida — em decorrência do próprio incidente. Não se deve aguardar o ataque para investir.
+
+========== SLIDE 10 · ROI dos casos brasileiros — números na mesa ==========
+Disponhamos os números brasileiros lado a lado: a Klabin, com oitenta milhões de reais em ganhos anuais; a Embraco, com acréscimo de quarenta por cento na produtividade; a Vale, com mais quinze por cento de produtividade e menos trinta por cento de combustível. Não são projeções de fornecedor — são resultados mensurados, em empresas que você conhece.
+
+========== SLIDE 11 · Os 5 padrões comuns ==========
+Ao examinar os oito casos em conjunto, emergem cinco padrões recorrentes. Primeiro: todos partem de uma dor real, e não de uma tecnologia. Segundo: evoluem por iteração — pilotos reduzidos tornam-se iniciativas amplas. Terceiro: combinam tecnologias, raramente uma isolada. Quarto: alteram o modelo de negócio, como exemplifica a WEG. E quinto: investem nas pessoas.
+
+========== SLIDE 12 · Citação ==========
+Sintetizo com a afirmação do slide: "Teoria é teoria. Caso real é argumento."
+
+========== SLIDE 13 · O que você leva desta aula ==========
+Recapitulemos: o caso concreto prevalece sobre a tese; o Brasil participa do processo, com Klabin, WEG, Embraco e Vale; sem cibersegurança não há 4.0, como demonstra a JBS; e os cinco padrões repetem-se em todos os casos.
+
+========== SLIDE 14 · Atividade prática ==========
+Proponho a seguinte atividade. Selecione o caso que mais o impactou. Por que esse caso repercutiu em você? Que elemento dele você transporia para uma empresa que conheça? Que tecnologias da Unidade 2 nele se manifestam? E que riscos você anteciparia em uma tentativa de replicação?
+
+========== SLIDE 15 · ENCERRAMENTO ==========
+Encerro com a constatação de que o caso concreto é o instrumento mais persuasivo na defesa de qualquer iniciativa de 4.0. Chegamos à última aula da disciplina. Nela, voltaremos o olhar para o que sucede à 4.0 — a Indústria 5.0 — e encerraremos o ciclo. Até a próxima.

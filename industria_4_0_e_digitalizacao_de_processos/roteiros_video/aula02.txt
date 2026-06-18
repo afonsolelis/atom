@@ -1,0 +1,52 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 2
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 1
+Aula 2 — O que é Indústria 4.0? Conceito, pilares e definições
+Deck: unidade_1/slides/aula2.html · 14 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Bem-vindo à segunda aula. Na aula passada, a gente viu como a história chegou até a Indústria 4.0 — das máquinas a vapor aos sensores conectados.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Mas ficou faltando uma coisa: a gente ainda não definiu, de forma clara, o que ela é. É isso que vamos resolver agora — a definição em uma frase, os nove pilares e por que 4.0 não é só automação.
+
+========== SLIDE 3 · Indústria 4.0, definida ==========
+Vou te dar a definição em uma frase só: Indústria 4.0 é a integração inteligente de máquinas, processos e produtos por meio de dados em tempo real, permitindo que decisões antes tomadas por humanos sejam tomadas — ou apoiadas — por sistemas autônomos.
+
+========== SLIDE 4 · Três palavras que carregam o conceito ==========
+Repara em três palavras dessa frase. A primeira é "integração": não é uma tecnologia isolada, são vários sistemas conversando. A segunda é "inteligente": não basta coletar o dado, tem que tomar decisão a partir dele. E a terceira é "tempo real": não adianta ver o relatório no fim do mês — tem que enxergar agora, enquanto dá para agir.
+
+========== SLIDE 5 · Os nove pilares tecnológicos ==========
+Como organizar todas as tecnologias dessa nova indústria? A consultoria Boston Consulting Group popularizou um modelo com nove pilares. Vou listar: IoT industrial, para conectar máquinas; Big Data e Analytics, para processar o volume; computação em nuvem; inteligência artificial, que aprende e decide; robótica autônoma; manufatura aditiva, a impressão 3D; realidade aumentada e virtual; simulação e digital twin; e cibersegurança industrial, que protege a fábrica conectada. E um aviso: nenhuma empresa tem os nove maduros ao mesmo tempo — você evolui um por vez.
+
+========== SLIDE 6 · Os nove pilares em um único mapa ==========
+Olha este mapa: o dado sobe — da coleta até a inteligência — e a decisão desce, atuando de volta no físico. É assim que os nove pilares se encaixam num fluxo só, em vez de viverem isolados.
+
+========== SLIDE 7 · O motor que avisa antes de quebrar ==========
+Vamos ver isso numa cena. O sensor de um motor — a IoT — detecta vibração anormal. O dado sobe para a nuvem. Um modelo de IA, treinado com Big Data, reconhece um padrão de pré-falha. O digital twin calcula: parar agora custa quatro horas; amanhã, doze. O sistema programa a manutenção e avisa o técnico por realidade aumentada, com instruções no capacete. E tudo protegido por cibersegurança. Numa fábrica 3.0, o sensor existiria — mas o aviso ficaria parado num painel, esperando alguém olhar.
+
+========== SLIDE 8 · 4.0 não é "só automação" ==========
+E aqui desfaço uma confusão comum: "4.0 é a mesma coisa que automação". Não é. Na automação, a inteligência é fixa, programada; na 4.0, os modelos aprendem. Na automação, a decisão é centralizada num CLP; na 4.0, é distribuída por cada equipamento. Na automação, mudar é caro e demorado; na 4.0, o software se atualiza remotamente.
+
+========== SLIDE 9 · ROI de 200 sensores numa autopeças ==========
+Para sentir o valor em número: uma fábrica de autopeças instalou duzentos sensores em motores, por oitenta mil reais. No primeiro ano, reduziu as paradas não programadas em trinta e cinco por cento. Como cada hora parada custava doze mil reais, a economia passou de quinhentos mil reais no ano. O investimento se pagou em cerca de dois meses.
+
+========== SLIDE 10 · Por onde começar: a regra dos 3-4 pilares ==========
+Então, por onde começar? Pesquisas da McKinsey mostram que empresas com três a quatro pilares conectados já capturam cerca de setenta por cento do potencial de ganho. A regra é simples: comece pelo problema mais doloroso, escolha o pilar que ataca esse problema — quase sempre a IIoT —, adicione só o necessário, e prove o retorno em três a seis meses antes de escalar.
+
+========== SLIDE 11 · Quatro erros que matam projetos ==========
+E cuidado com quatro erros que matam projetos: comprar tecnologia sem ter um problema claro; ignorar a integração, deixando cinco sistemas isolados; esquecer a cibersegurança, lembrando do caso Honda em 2020; e não treinar o operador — porque dashboard sem cultura é só decoração. A 4.0 é trinta por cento técnica e setenta por cento gestão de mudança.
+
+========== SLIDE 12 · Citação (síntese BCG) ==========
+Resumindo numa frase, que está no slide: "Indústria 4.0 não é uma tecnologia — é a integração inteligente de várias delas, decidindo em tempo real."
+
+========== SLIDE 13 · Atividade prática ==========
+A sua atividade: monte uma matriz com os nove pilares e dê uma nota de zero a três para a sua empresa em cada um — zero é não existe, um é piloto isolado, dois é em uso mas desconectado, três é maduro e integrado. Justifique cada nota com um fato observado. Isso é o embrião do diagnóstico que você usa na Aula 4.
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+Para fechar: 4.0 não é moda nem catálogo de tecnologia — é um modelo de produção conectada, com pilares claros e propósito econômico. Na próxima aula, entramos no coração da 4.0: os sistemas ciber-físicos. Te espero lá!

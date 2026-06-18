@@ -1,0 +1,52 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 4
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 1
+Aula 4 — Maturidade Digital: onde sua empresa está?
+Deck: unidade_1/slides/aula4.html · 14 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Toda diretoria adora dizer que "a empresa é quatro ponto zero". Mas como provar isso com método, e não com achismo? É o que a gente vai aprender hoje, na última aula da Unidade 1.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Vamos ver o que é maturidade digital, os modelos usados no Brasil, os seis níveis da escala Acatech, onde está a indústria nacional em números, e como pontuar a sua empresa na prática.
+
+========== SLIDE 3 · Maturidade digital, em uma frase ==========
+Maturidade digital é o nível de prontidão tecnológica, organizacional e cultural de uma empresa para operar como Indústria 4.0. Não é só ter tecnologia — é ter pessoas, processos e tecnologia juntos. Uma empresa pode ter o robô mais caro do mundo e ser pouco madura, se ninguém olha o dado desse robô. E pode ser muito madura sem investir tanto, se aproveita bem o que tem.
+
+========== SLIDE 4 · Os três modelos mais usados no Brasil ==========
+Existem vários modelos para medir isso. Os três mais usados no Brasil são: o Acatech, da Alemanha, com seis dimensões e seis níveis; o SIRI, de Singapura, adotado pela ONU e usado pelo Senai; e o modelo da CNI, gratuito e adaptado à nossa realidade. Para um diagnóstico inicial, comece pelo da CNI.
+
+========== SLIDE 5 · Os 6 níveis de maturidade (Acatech) ==========
+Vou usar a escala Acatech, que é a mais didática. São seis níveis. Um: computadorização — computadores isolados. Dois: conectividade — os sistemas conversam. Três: visibilidade — você vê a operação em tempo real. Quatro: transparência — você entende por que as coisas acontecem. Cinco: previsão — você antecipa o que vai acontecer. E seis: adaptabilidade — o sistema reage sozinho, sem humano no loop.
+
+========== SLIDE 6 · A pirâmide da maturidade ==========
+E repara, nesta pirâmide, que cada nível contém o anterior: não dá para prever, no nível cinco, sem ter visibilidade, no nível três. É uma escada — não dá para pular degraus.
+
+========== SLIDE 7 · O Brasil em números (CNI 2022) ==========
+E onde está a indústria brasileira? Segundo a sondagem da CNI de dois mil e vinte e dois, cerca de sessenta e nove por cento das indústrias estão até o nível três, e menos de dez por cento chegaram ao nível cinco. O salto mais difícil é do três para o quatro — de "ver" para "entender a causa". E isso não é tecnologia: é cultura de análise.
+
+========== SLIDE 8 · Como pontuar a dimensão "Manutenção" ==========
+Deixa eu mostrar como pontuar uma dimensão, na prática — a manutenção. Se a empresa só conserta quando quebra, é nível um. Calendário fixo de prevenção, nível dois. Painel em tempo real, nível três. Análise de causa-raiz, nível quatro. IA prevendo falhas, nível cinco. E a máquina acionando a própria manutenção, nível seis.
+
+========== SLIDE 9 · As 15 dimensões do diagnóstico ==========
+Você repete esse exercício em cerca de quinze dimensões, agrupadas em três blocos: processos — manutenção, qualidade, logística; tecnologia — IIoT, sistemas, cibersegurança; e pessoas — cultura de dado, capacitação, governança. A média ponderada dá a fotografia geral da maturidade.
+
+========== SLIDE 10 · O que faz uma empresa pular de nível ==========
+E o que faz uma empresa pular de nível? Quase nunca é só tecnologia. São quatro fatores: patrocínio da liderança — o número um; time multidisciplinar, juntando TI, chão de fábrica e finanças; pequenas vitórias rápidas, que mostram retorno antes de escalar; e cultura de dado — gente que confia mais no número do que na intuição.
+
+========== SLIDE 11 · Roadmap típico de 6 a 12 meses ==========
+Subir um nível é uma meta realista para seis a doze meses: diagnóstico, caso de negócio, piloto numa célula, escala para a planta e sustentação contínua. Pular dois níveis de uma vez quase nunca dá certo.
+
+========== SLIDE 12 · Citação (modelo Acatech) ==========
+Como diz o slide: "Toda diretoria adora dizer que a empresa é 4.0. Maturidade digital existe para que isso seja medido com método — não com marketing."
+
+========== SLIDE 13 · Atividade prática (insumo da AAI) ==========
+A sua atividade — que é insumo da avaliação: escolha uma empresa real e pontue três dimensões — manutenção, coleta de dados de produção e tomada de decisão. Justifique cada nota com um fato concreto, calcule a média, e eleja uma dimensão que poderia subir com investimento moderado. Esse é o ponto de partida do roadmap da Unidade 4.
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+Para fechar a unidade: não existe transformação sem diagnóstico — medir a maturidade é o primeiro passo de qualquer roadmap sério. Na próxima unidade, a gente abre as tecnologias habilitadoras: IoT, Big Data, nuvem e IA. Vamos juntos!

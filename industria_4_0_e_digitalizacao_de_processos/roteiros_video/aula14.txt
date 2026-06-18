@@ -1,0 +1,53 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 14
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 4
+Aula 14 — Roadmap de implementação da Indústria 4.0
+Deck: unidade_4/slides/aula14.html · 14 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+O dado é contundente: cerca de setenta por cento das iniciativas de Indústria 4.0 fracassam em entregar o retorno prometido. Nesta aula, examinaremos as causas desse insucesso e, sobretudo, os princípios que distinguem os trinta por cento bem-sucedidos.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Analisaremos as causas do fracasso, o roadmap em cinco fases, o custo realista de cada fase, os indicadores de acompanhamento e o caso da Embraer como referência de longo prazo.
+
+========== SLIDE 3 · Citação de abertura (pausa para reflexão) ==========
+Abro com a provocação do slide, a título de pausa para reflexão: "Se um diretor da sua empresa solicitasse, neste momento, um plano de dezoito meses para a transição à Indústria 4.0, você teria por onde começar?" Reflita sobre isso ao longo da aula.
+
+========== SLIDE 4 · 70% dos projetos 4.0 falham ==========
+Estudos da McKinsey e da BCG sistematizam as causas mais frequentes do fracasso. A predominante é começar pela tecnologia, e não pelo problema de negócio. Seguem-se a ausência de patrocínio executivo; a composição inadequada da equipe — restrita à TI ou ao chão de fábrica; a escolha equivocada do problema a atacar; a pretensão de revolução em detrimento da evolução; e a subestimação da mudança cultural. Um roadmap bem concebido neutraliza, um a um, esses fatores.
+
+========== SLIDE 5 · O roadmap em 5 fases ==========
+O roadmap maduro compreende cinco fases, conforme esta visão geral: diagnóstico, piloto, expansão, escala e inovação contínua. A lógica subjacente é a evolução por etapas, com a demonstração de valor a cada passo, sem atalhos. Examinemos cada uma.
+
+========== SLIDE 6 · Fases 1 e 2 — Diagnóstico e Piloto ==========
+As duas primeiras fases constituem o alicerce do projeto. O diagnóstico, de um a três meses, compreende a avaliação da maturidade, o mapeamento dos processos, a identificação da dor de maior impacto e a mobilização do patrocinador. O piloto, de três a seis meses, exige a escolha de um único problema, a definição prévia do indicador de sucesso, a aplicação de uma única tecnologia, uma equipe enxuta e multidisciplinar — e a celebração do resultado, como forma de gerar adesão.
+
+========== SLIDE 7 · Fases 3, 4 e 5 — Expansão, Escala e Inovação ==========
+As três fases subsequentes. A expansão, de seis a doze meses, replica a solução em outras linhas e a padroniza. A escala, de doze a vinte e quatro meses, demanda plataforma corporativa, equipe interna e integração com ERP e MES. E a inovação contínua, a partir de vinte e quatro meses, incorpora tecnologias emergentes e instaura a cultura de experimentação.
+
+========== SLIDE 8 · Quanto custa cada fase? ==========
+Quanto ao realismo financeiro, tomando como referência uma fábrica de porte médio: o diagnóstico situa-se entre cinquenta e cento e cinquenta mil reais; o piloto, entre cento e cinquenta e quinhentos mil; a expansão, entre quinhentos mil e dois milhões; e a escala, entre dois e dez milhões. Uma transformação consistente, nos primeiros dois anos, demanda de três a quinze milhões. O montante pode impressionar — mas deve ser confrontado com o retorno esperado: redução de trinta a sessenta por cento no custo de processos críticos.
+
+========== SLIDE 9 · KPIs típicos de um roadmap 4.0 ==========
+Não se gerencia aquilo que não se mede. Os indicadores mais usuais são a disponibilidade do equipamento — o OEE —, com meta de elevação de setenta para oitenta e cinco por cento; o tempo de parada não programada, com meta de redução de trinta por cento; os defeitos por milhão; o lead time; e o custo por unidade produzida. Não se devem adotar todos: selecionam-se de três a cinco indicadores, mensuráveis desde já e alinhados às dores prioritárias.
+
+========== SLIDE 10 · Roadmap Embraer 2017–2027 ==========
+Examinemos o caso da Embraer, que publicou seu roadmap de dez anos. Entre dois mil e dezessete e dois mil e dezenove, digitalizou processos e conduziu o primeiro piloto de digital twin. Até dois mil e vinte e dois, conectou integralmente uma linha-piloto. Até dois mil e vinte e cinco, expandiu a iniciativa com IA preditiva e realidade aumentada. E até dois mil e vinte e sete, projeta o digital twin de toda a operação. O investimento supera quinhentos milhões de reais; os resultados já mensurados indicam acréscimo de vinte e cinco por cento na produtividade e redução de quarenta por cento nos defeitos.
+
+========== SLIDE 11 · Citação ==========
+Sintetizo com a afirmação do slide: "Comece pelo problema, não pela tecnologia. A iteração supera a revolução."
+
+========== SLIDE 12 · A receita dos 30% que dão certo ==========
+Recapitulemos a receita das iniciativas bem-sucedidas: começar pelo problema; respeitar as cinco fases, sem atalhos; adotar investimento realista por fase; e mensurar com três a cinco indicadores. O patrocínio executivo, a equipe multidisciplinar e os indicadores claros constituem pré-requisitos incontornáveis.
+
+========== SLIDE 13 · Atividade prática ==========
+Proponho a seguinte atividade, referente à sua empresa-caso. Em qual fase do roadmap ela se encontra atualmente? Que duas ações são necessárias para a transição à fase seguinte? Que investimento seria realista para os próximos doze meses? E que três indicadores você adotaria para acompanhar o progresso?
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+Encerro consolidando dois pontos: o fracasso de setenta por cento das iniciativas decorre, em grande medida, de não se começar pelo problema correto; e o roadmap maduro compreende cinco fases, com investimento realista. Na próxima aula, apresentarei casos reais — brasileiros e internacionais — que evidenciam o que efetivamente funciona. Até a próxima.

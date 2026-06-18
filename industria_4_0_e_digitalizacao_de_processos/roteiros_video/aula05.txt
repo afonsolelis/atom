@@ -1,0 +1,55 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 5
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 2
+Aula 5 — Internet das Coisas Industrial (IIoT)
+Deck: unidade_2/slides/aula5.html · 15 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Bem-vindo à Unidade 2! A partir de agora, a gente abre as tecnologias habilitadoras da Indústria 4.0, uma por uma. E começamos pela mais conhecida — e, ao mesmo tempo, a mais mal-entendida: a Internet das Coisas Industrial, a IIoT.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Hoje você vai entender por que a indústria exige outro patamar de IoT, a arquitetura de cinco peças, os tipos de sensor, os protocolos-chave e os desafios reais de campo.
+
+========== SLIDE 3 · IoT em uma frase ==========
+A definição em uma frase: IoT é a conexão de objetos físicos à internet, permitindo que eles coletem, enviem e às vezes recebam dados. Quando a sua academia conta os passos que você deu, isso é IoT. Quando um motor industrial avisa que está vibrando demais, isso é IIoT — a IoT aplicada à indústria. E é por ela que a maioria das fábricas brasileiras entra na 4.0.
+
+========== SLIDE 4 · IoT doméstica vs IIoT ==========
+Mas por que ela precisa ser "industrial"? Porque o ambiente de fábrica é muito mais exigente. Se o sensor da sua geladeira falha, o leite estraga. Se o sensor industrial falha, a linha para e custa milhares por hora. A IIoT precisa de confiabilidade acima de noventa e nove por cento, de funcionar no meio de calor, óleo e vibração, de latência em milissegundos, e de segurança — lembra do caso Honda, em dois mil e vinte, que parou plantas no mundo todo.
+
+========== SLIDE 5 · Do sensor à decisão (diagrama) ==========
+E qual é o caminho do dado? Este diagrama mostra: ele sai do sensor, passa pelo gateway, viaja pela rede, chega na plataforma e vira decisão na aplicação. Vamos abrir cada uma dessas peças.
+
+========== SLIDE 6 · As 5 peças que não podem faltar ==========
+Todo sistema de IIoT tem cinco partes — guarde essas cinco. A primeira é o sensor, que coleta o dado, ou o atuador, que age sobre o físico. A segunda é o gateway, que faz a ponte e traduz protocolos. A terceira é a rede de transporte — Wi-Fi, 5G, Ethernet. A quarta é a plataforma de dados, onde tudo é armazenado. E a quinta é a aplicação: o painel, o alerta, a decisão. Sensor sem rede é cego; plataforma sem aplicação é só relatório que ninguém usa.
+
+========== SLIDE 7 · Sensores que aparecem em 80% dos projetos ==========
+E que sensores a gente usa? Os mais comuns são os de temperatura, para fornos e motores; vibração, para mancais e rolamentos; pressão, para compressores; corrente elétrica; visão, as câmeras, para inspeção; e acústicos, para detectar vazamento e folga. Um único motor crítico costuma ter de quatro a oito sensores, cada um vigiando uma dimensão.
+
+========== SLIDE 8 · Dimensionando uma rede IIoT (exemplo numérico) ==========
+Deixa eu te dar uma noção de escala. Imagine quinhentos motores críticos, cada um com quatro sensores, mandando uma leitura a cada cinco segundos. São dois mil sensores, vinte e quatro mil mensagens por minuto, cerca de quatro gigabytes por dia. O que isso ensina? A largura de banda não é o problema numa rede industrial razoável. O verdadeiro custo está em armazenar barato e consultar rápido — e a filtragem no edge derruba mais de noventa por cento do volume.
+
+========== SLIDE 9 · MQTT, OPC UA e Modbus ==========
+Sobre os protocolos, não precisa decorar — só saber que existem. O MQTT é leve, ideal para o sensor mandar dado para a nuvem. O OPC UA é robusto e entende o significado do dado: ele sabe que "motor um, temperatura" é uma temperatura em graus. E o Modbus é antigo e simples, mas ainda domina o equipamento legado. Dado novo, MQTT; integração entre máquinas, OPC UA; legado, Modbus com um gateway tradutor.
+
+========== SLIDE 10 · Quatro desafios reais de campo ==========
+E o que costuma dar errado? Quatro coisas. O ambiente hostil — calor, óleo, ruído eletromagnético — que exige equipamento blindado. A integração com o legado: setenta por cento dos CLPs nas fábricas brasileiras têm mais de dez anos. A segurança da rede operacional, que não pode ser invadida. E a manutenção do próprio IIoT — sensor barato falha, bateria acaba. A regra de ouro: o sensor é a parte fácil; o difícil é manter integração, segurança e governança vivas.
+
+========== SLIDE 11 · Citação (as 5 peças) ==========
+Resumindo numa frase, que está no slide: "Sensor sem rede é cego. Rede sem plataforma é só passar dado. Plataforma sem aplicação é só relatório."
+
+========== SLIDE 12 · Mini-caso: anatomia de um motor crítico ==========
+Vamos a um mini-caso concreto: um motor de duzentos cavalos, com quatro sensores. Vibração, para pegar desalinhamento; temperatura no mancal, para superaquecimento; corrente, para sobrecarga; e acústico, para folga. Com isso, você dispara alarme em menos de meio segundo, prevê falha sete dias antes e calcula o rendimento do motor. Payback típico: menos de seis meses.
+
+========== SLIDE 13 · Atividade prática ==========
+A sua atividade: escolha um equipamento, real ou imaginário, e desenhe a anatomia IIoT dele. Defina de dois a quatro sensores, o dado que cada um produz, a rede de transporte que usaria, e uma decisão automática habilitada. O foco é sensoriar para uma finalidade — não encher de sensor.
+
+========== SLIDE 14 · Pontos-chave ==========
+Recapitulando: IIoT não é IoT doméstica — é outro patamar de confiabilidade, latência, segurança e escala. São cinco peças, nenhuma opcional. O protocolo certo poupa dor de cabeça. E lembre: o gargalo real costuma ser a decisão, não a banda.
+
+========== SLIDE 15 · ENCERRAMENTO ==========
+O IIoT é a porta de entrada da fábrica conectada: sem sensor confiável, nenhuma camada acima recebe dado que preste. Mas o que fazer com gigabytes por dia? É a próxima aula: Big Data e Analytics. Te espero lá!

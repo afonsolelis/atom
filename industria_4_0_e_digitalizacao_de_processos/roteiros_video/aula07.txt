@@ -1,0 +1,58 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 7
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 2
+Aula 7 — Computação em Nuvem e Edge Computing
+Deck: unidade_2/slides/aula7.html · 16 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Todo mundo fala em "colocar na nuvem". Mas eu vou te provar, nesta aula, que mandar tudo para a nuvem é, às vezes, o pior caminho. Vamos entender quando usar a nuvem e quando usar o edge.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Vamos definir nuvem e edge, ver as três dores da nuvem no chão de fábrica, a tabela de decisão entre as duas, o ciclo híbrido e a economia que ele gera.
+
+========== SLIDE 3 · O forno está superaquecendo. A nuvem decide? (pausa) ==========
+Começo com uma provocação, uma pausa para reflexão: se o sensor de um forno detecta excesso de temperatura, faz mais sentido o dado viajar até a nuvem, do outro lado do país, decidir e voltar — ou o próprio sensor decidir ali na hora? Segura essa pergunta.
+
+========== SLIDE 4 · O que é computação em nuvem ==========
+Computação em nuvem é o uso de infraestrutura computacional remota, sob demanda, cobrada por uso. Em vez de comprar servidores, você aluga capacidade da Amazon, da Microsoft, do Google. Para a 4.0, ela oferece armazenamento quase infinito, processamento pesado sob demanda, acesso global e serviços prontos de IA.
+
+========== SLIDE 5 · Três dores reais — e uma conclusão ==========
+Mas, no chão de fábrica, a nuvem tem três limitações sérias. Latência: o dado precisa sair, atravessar a internet e voltar — de cinquenta a duzentos milissegundos, tempo demais para muitos processos. Dependência: se a internet cai, a fábrica vira tijolo. E custo de banda: mandar terabytes por dia custa caro. A conclusão é que nem todo dado deveria subir para a nuvem.
+
+========== SLIDE 6 · O que é edge computing ==========
+É aí que entra o edge computing. Edge é processar o dado perto de onde ele é gerado — dentro da fábrica, no gateway, ou até no sensor. A ideia é simples: nem todo dado precisa viajar. A decisão crítica, de tempo real, fica na borda. A análise histórica e o modelo pesado sobem para a nuvem.
+
+========== SLIDE 7 · Nuvem vs Edge — quando usar cada um ==========
+Como decidir? É uma questão de critério. Resposta em milissegundos, é edge — pensa no braço robótico, que não pode esperar cem milissegundos. Histórico longo e modelo pesado, é nuvem. A decisão pode esperar minutos? Nuvem. Não pode depender da internet? Edge.
+
+========== SLIDE 8 · O ciclo edge ↔ nuvem ==========
+Mas a resposta certa, quase sempre, não é escolher um ou outro — é combinar os dois numa arquitetura híbrida. Este é o ciclo: o edge filtra e decide localmente; a nuvem treina os modelos com o histórico; e o modelo treinado desce de volta para o edge, mais inteligente. Edge para nuvem, e nuvem para edge.
+
+========== SLIDE 9 · O ciclo em 5 passos ==========
+Detalhando em cinco passos: os sensores geram cinco terabytes brutos; o gateway de edge filtra, detecta picos e dispara alertas críticos no local; só um resumo, uns cinquenta gigabytes, sobe para a nuvem; a nuvem guarda anos de histórico e treina; e o modelo treinado volta para a borda. É o padrão moderno da IIoT.
+
+========== SLIDE 10 · Economizando banda com edge (exemplo numérico) ==========
+E o impacto na conta? A mesma fábrica, com quatro gigabytes por dia. Mandando tudo bruto, você paga pela transferência completa. Com o edge subindo só os resumos e os eventos relevantes — uns cinco por cento — a economia de banda chega a noventa e cinco por cento. Multiplica por vinte plantas, o ano inteiro: passa de dezenas de milhares de dólares.
+
+========== SLIDE 11 · Provedores e plataformas IIoT ==========
+E quem vende o quê? Os três grandes — AWS, Azure e Google Cloud — têm serviços de IoT na nuvem e no edge. E há plataformas industriais especializadas, como Siemens MindSphere, PTC ThingWorx e GE Predix. O ponto não é a marca: é entender qual camada cada uma resolve.
+
+========== SLIDE 12 · Citação ==========
+Resumindo, como diz o slide: "Nuvem oferece escala e poder; edge oferece velocidade e independência. Eles não competem — se complementam."
+
+========== SLIDE 13 · Cinco frases que circulam — e a verdade ==========
+E vamos derrubar alguns mitos. "Tudo tem que ir para a nuvem" — falso, o tempo real fica no edge. "Edge substitui a nuvem" — falso, eles se complementam. "Nuvem é sempre mais barata" — depende do volume de transferência. A maturidade é saber dividir o trabalho entre os dois.
+
+========== SLIDE 14 · Atividade prática ==========
+A sua atividade: pense num processo da sua empresa e divida as decisões. Quais precisam acontecer em menos de um segundo? Essas vão para o edge. Quais podem esperar minutos ou horas? Essas vão para a nuvem. E qual dado precisa de histórico longo? Nuvem também.
+
+========== SLIDE 15 · Pontos-chave ==========
+Recapitulando: cada um tem seu papel; nem tudo sobe para a nuvem; o híbrido é o padrão; e isso não é um trade-off, é uma combinação. Edge decide agora, nuvem aprende com o passado.
+
+========== SLIDE 16 · ENCERRAMENTO ==========
+Voltando à pergunta do forno: o sensor decide na borda, claro. Na próxima aula, a gente chega no que dá sentido a tudo isso: inteligência artificial e machine learning no chão de fábrica. Te espero!

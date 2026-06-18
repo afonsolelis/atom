@@ -1,0 +1,59 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 10
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 3
+Aula 10 — Robótica colaborativa e automação avançada
+Deck: unidade_3/slides/aula10.html · 16 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+A imagem corrente do robô industrial — um braço de grande porte, confinado atrás de grades de proteção — corresponde a um paradigma que está sendo superado. Nesta aula, examinaremos uma nova geração de manipuladores, os robôs colaborativos, ou cobots, projetados para operar lado a lado com o trabalhador humano, e o impacto que essa convivência produz na economia da automação.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Trataremos da distinção entre o robô tradicional e o cobot, dos três mecanismos de segurança que tornam a colaboração possível, do espectro de aplicações, do retorno sobre o investimento e de um caso brasileiro, encerrando com uma reflexão sobre o futuro do trabalho industrial.
+
+========== SLIDE 3 · O robô saiu da grade ==========
+O termo cobot deriva da expressão inglesa "collaborative robot". A mudança de paradigma é precisamente esta: o manipulador deixou o confinamento da grade. Ele foi concebido para atuar no mesmo espaço físico que o operador, sem barreiras de isolamento, com a segurança assegurada por instrumentação embarcada — e não mais por separação física.
+
+========== SLIDE 4 · Robô tradicional vs cobot, lado a lado ==========
+Observe o contraste entre as duas categorias. O robô tradicional opera isolado, em alta velocidade — e, por isso, com risco elevado —, manipula cargas de cinquenta a quinhentos quilos e demanda investimento entre trezentos mil e um milhão de reais. O cobot, por sua vez, opera em proximidade ao humano, reduz a velocidade ao detectar aproximação, manipula tipicamente de três a vinte quilos e situa-se na faixa de oitenta a duzentos e cinquenta mil reais.
+
+========== SLIDE 5 · Onde cada um faz sentido ==========
+Cabe um esclarecimento essencial: o cobot não substitui o robô tradicional. As duas categorias atendem a finalidades distintas. Para a soldagem de uma carroceria, que exige alta velocidade e carga elevada, o robô tradicional permanece insubstituível. Para a inserção de um parafuso ao lado de um operador, onde se prezam a flexibilidade e a reconfiguração rápida, o cobot é a escolha adequada. Trata-se de complementaridade, não de concorrência.
+
+========== SLIDE 6 · As 3 camadas de segurança do cobot ==========
+A operação segura em proximidade repousa sobre três mecanismos. O primeiro é a limitação de força e torque: ao haver contato com um corpo, o manipulador interrompe o movimento de imediato. O segundo são os sensores de proximidade, que reduzem a velocidade quando detectam a presença humana. O terceiro é o modo de operação monitorada por velocidade, que permite ritmo pleno quando a área se encontra desocupada. Os três são normatizados pela ISO/TS 15066, que estabelece os limites biomecânicos admissíveis.
+
+========== SLIDE 7 · Anatomia das 3 camadas ==========
+A visualização dispõe esses mecanismos do centro para a periferia: no núcleo, a força limitada no próprio braço; em seguida, o campo de proximidade que modula a velocidade; e, por fim, a zona monitorada do entorno. São três anéis de proteção sobrepostos, atuando de forma escalonada.
+
+========== SLIDE 8 · 7 aplicações típicas ==========
+O cobot já se consolida em sete aplicações típicas: a operação de pegar e posicionar peças, o chamado pick and place; a inspeção visual; o aparafusamento, recorrente na eletrônica e no setor automotivo; o empacotamento; o polimento e o acabamento; a aplicação de adesivos e selantes; e a alimentação de máquinas de comando numérico. São, portanto, frentes em que a tecnologia já demonstrou maturidade operacional.
+
+========== SLIDE 9 · Quem é quem em cobots ==========
+Quanto ao mercado: a Universal Robots, da Dinamarca, concebeu o conceito e mantém a posição de referência. As fabricantes consagradas — FANUC, KUKA, ABB e Yaskawa — desenvolveram suas próprias linhas colaborativas. E, no Brasil, empresas como Pollux, Astrein e a WEG distribuem essas marcas e prestam o serviço de integração.
+
+========== SLIDE 10 · Caso Embraco · Joinville ==========
+Tomemos um caso nacional. A Embraco, fabricante de compressores sediada em Joinville, implantou cobots da Universal Robots em sua linha de montagem. Os resultados foram expressivos: ganho de quarenta por cento de produtividade na estação, ausência de acidentes ao longo de quatro anos e redução do tempo de reprogramação para um novo produto de três dias para quatro horas.
+
+========== SLIDE 11 · ROI passo a passo ==========
+Examinemos o retorno de forma estruturada. Considere o aparafusamento manual em uma linha de eletrônicos. Na condição inicial, um operador executa sessenta unidades por hora, a um custo de quatro mil e quinhentos reais mensais. Na condição revista, um cobot eleva a produção a cem unidades por hora, e um único supervisor monitora três cobots. Com investimento de cento e oitenta mil reais por unidade, o período de retorno situa-se em torno de treze meses — acompanhado de um acréscimo de sessenta e sete por cento na produtividade.
+
+========== SLIDE 12 · Automação avançada além do cobot ==========
+Convém notar, porém, que a automação avançada não se esgota no braço robótico. Ela compreende também os veículos autônomos — os AGVs e AMRs —, que substituem as empilhadeiras conduzidas por operadores no interior dos armazéns; a visão computacional integrada, que confere ao manipulador a capacidade de perceber e decidir onde atuar; e os sistemas que aprendem por demonstração, dispensando a programação linha a linha.
+
+========== SLIDE 13 · "Cobot vai roubar meu emprego?" (pausa) ==========
+Proponho aqui uma pausa para reflexão, em torno de um receio frequente: o de que o cobot suprima postos de trabalho. A realidade é mais matizada. As tarefas repetitivas e fisicamente desgastantes migram para o cobot; aquelas que exigem julgamento, contexto e decisão permanecem com o ser humano. E surgem funções inéditas — o operador assume o papel de integrador e supervisor. Estudos da Organização Internacional do Trabalho indicam que a automação transforma o emprego mais do que o elimina, exigindo, em contrapartida, requalificação contínua.
+
+========== SLIDE 14 · Citação ==========
+Sintetizo com a afirmação exibida no slide: "O cobot não veio para substituir o operador — veio para devolver a ele as tarefas que exigem inteligência, retirando aquelas que adoecem o corpo."
+
+========== SLIDE 15 · Atividade prática ==========
+Proponho a seguinte atividade. Identifique três tarefas, em seu trabalho ou em uma empresa que você conheça, que se qualifiquem como candidatas à automação por cobot. Que gesto repetitivo está em jogo? Quanto tempo diário ele consome? Que carga é manipulada? Há risco de acidente envolvido? E, ponderando esses fatores, justifica-se o emprego de um cobot — e por quê?
+
+========== SLIDE 16 · ENCERRAMENTO ==========
+Encerro consolidando duas ideias. Os cobots operam em colaboração com o ser humano, sob segurança normatizada, e reconfiguram o trabalho industrial em vez de simplesmente eliminá-lo. Na próxima aula, estudaremos como o operador da fábrica recorre à realidade aumentada e virtual para treinar, montar e executar manutenção em equipamentos complexos. Até a próxima.

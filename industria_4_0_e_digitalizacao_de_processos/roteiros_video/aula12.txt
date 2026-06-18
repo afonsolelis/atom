@@ -1,0 +1,53 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 12
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 3
+Aula 12 — Cibersegurança industrial (OT vs IT)
+Deck: unidade_3/slides/aula12.html · 14 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Em dois mil e vinte e um, a JBS desembolsou onze milhões de dólares em resgate a um grupo de atacantes. Em dois mil e dezessete, a Maersk contabilizou trezentos milhões de dólares em perdas decorrentes de um único incidente. A fábrica conectada tornou-se um alvo. Nesta aula, examinaremos as razões desse fenômeno e os princípios de sua mitigação.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Abordaremos os motivos pelos quais a indústria se converteu em alvo, os incidentes que se tornaram referência, a distinção entre tecnologia de operação e tecnologia da informação, o modelo Purdue de defesa e as cinco ações fundamentais de cibersegurança industrial.
+
+========== SLIDE 3 · A fábrica virou campo de batalha ==========
+Por que a fábrica se tornou um alvo? Até por volta de dois mil e dez, as plantas industriais constituíam redes isoladas — desprovidas de conexão externa e, portanto, de vetores de ataque. A Indústria 4.0 promoveu a interconexão de tudo. E os agentes maliciosos compreenderam uma premissa elementar: interromper a produção de uma fábrica acarreta prejuízos milionários, o que a torna um alvo privilegiado para ataques de ransomware. A questão deixou de ser "se" o ataque ocorrerá e passou a ser "quando".
+
+========== SLIDE 4 · 5 casos que viraram referência ==========
+Examinemos cinco incidentes que se tornaram referência. O Stuxnet, em dois mil e dez, retardou o programa nuclear iraniano. A Maersk, em dois mil e dezessete, sofreu perdas de trezentos milhões de dólares. A Honda, em dois mil e vinte, teve plantas paralisadas em diversos países. O Colonial Pipeline, em dois mil e vinte e um, interrompeu o abastecimento de combustível na costa leste norte-americana. E a JBS, no mesmo ano, pagou onze milhões de dólares em resgate.
+
+========== SLIDE 5 · OT vs IT — duas filosofias opostas ==========
+Cheguemos ao cerne da questão: a distinção entre OT e IT. A fábrica abriga dois domínios de filosofias opostas. A tecnologia da informação — o ambiente administrativo — tem por prioridade a confidencialidade do dado, admite atualizações em janelas programadas e opera equipamentos com vida útil de três a cinco anos. A tecnologia de operação — o chão de fábrica — tem por prioridade a disponibilidade do processo, não tolera interrupções para atualização e opera ativos cuja vida útil se estende de quinze a trinta anos.
+
+========== SLIDE 6 · Dois mundos, uma fábrica ==========
+Essa divergência produz tensão, como ilustra a imagem dos dois mundos. A área de TI pretende reiniciar o servidor para aplicar uma correção; a área de OT responde que a reinicialização paralisaria a linha por quatro horas, a um custo de quarenta e oito mil reais. A cibersegurança industrial precisa, justamente, conciliar essas filosofias — proteger sem interromper.
+
+========== SLIDE 7 · A pirâmide Purdue ==========
+A organização da defesa apoia-se no modelo Purdue, que estratifica a fábrica em camadas. No topo situam-se a internet e a nuvem, de alta exposição. Abaixo, a TI corporativa. Em seguida, a TI de manufatura. Mais adiante, o controle de processo, com os sistemas SCADA. E, na base, os controladores lógicos programáveis e os sensores, de exposição mínima.
+
+========== SLIDE 8 · Quem fala com quem ==========
+A defesa opera por segmentação: cada camada comunica-se apenas com a adjacente, sob a mediação de firewalls — ou mesmo de diodos de dados, que admitem fluxo em um único sentido. Observe que a internet jamais se comunica diretamente com um controlador; o tráfego teria de atravessar todas as camadas intermediárias. É o princípio da defesa em profundidade.
+
+========== SLIDE 9 · 5 ações fundamentais ==========
+Cinco ações revelam-se fundamentais. A primeira é o inventário de ativos — não se protege aquilo cuja existência se desconhece. A segunda é a segmentação de rede, que separa OT de IT. A terceira é a gestão responsável de atualizações, em janelas planejadas. A quarta é a detecção de anomalias, capaz de identificar um controlador em comunicação com um endereço externo suspeito. E a quinta é o plano de resposta a incidentes. A norma de referência é a IEC 62443.
+
+========== SLIDE 10 · Prevenção vs reação (exemplo numérico) ==========
+Quantifiquemos o argumento. Uma fábrica de porte médio, atingida por ransomware e paralisada por cinco dias, a uma receita de quatrocentos mil reais diários, contabiliza quatro milhões apenas em receita perdida. Somados os custos de resposta, a eventual sanção da LGPD e o dano reputacional, o incidente ultrapassa, com facilidade, cinco milhões de reais. Contraste-se isso com o investimento em segurança robusta, da ordem de quinhentos mil a dois milhões. A prevenção é, portanto, dezenas de vezes mais econômica que a reação.
+
+========== SLIDE 11 · Caso JBS · maio de 2021 ==========
+O caso brasileiro: em maio de dois mil e vinte e um, a JBS sofreu um ataque de ransomware que paralisou plantas em três países. A retomada, em poucos dias, deveu-se à existência de cópias de segurança; ainda assim, a companhia optou pelo pagamento de onze milhões de dólares em resgate — decisão controversa. Hoje, a JBS encontra-se substancialmente mais protegida, em consequência do próprio incidente. A lição é inequívoca: não se deve aguardar o ataque para investir.
+
+========== SLIDE 12 · Citação ==========
+Sintetizo com a afirmação do slide: "A pergunta deixou de ser 'se a fábrica será atacada' — passou a ser 'quando'. E o grau de preparação define a dimensão do prejuízo."
+
+========== SLIDE 13 · Atividade prática ==========
+Proponho a seguinte atividade, referente à empresa que você vem analisando. Ela dispõe de inventário de seus ativos de OT? Existe segmentação entre TI e OT? Há um plano de resposta a incidentes, e quem é o seu responsável? Em uma escala de um a cinco, qual o seu grau de preparação diante de um ransomware? E que ação de baixo custo produziria o maior impacto na semana seguinte?
+
+========== SLIDE 14 · ENCERRAMENTO ==========
+Encerro consolidando os pontos centrais: a fábrica conectada tornou-se alvo; a tensão entre OT e IT constitui o âmago do problema; o modelo Purdue estrutura a defesa em camadas; e a prevenção é muito mais econômica que a reação. Concluímos, assim, a Unidade 3. Na próxima, ingressamos no plano da implementação: como transformar, na prática, uma fábrica real em 4.0. Até a próxima.

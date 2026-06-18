@@ -1,0 +1,66 @@
+ROTEIROS DE GRAVAÇÃO — VÍDEOS DAS 16 VIDEOAULAS
+Disciplina: Indústria 4.0 e Digitalização de Processos
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+
+O QUE É ISTO
+------------
+Um roteiro de narração por videoaula (16 no total), em primeira pessoa,
+pronto para ler em frente à câmera ou em teleprompter, com duração alvo
+de ~5 minutos cada.
+
+** SEGMENTADO POR SLIDE **
+Cada roteiro está dividido pelos slides do deck HTML correspondente
+(unidade_N/slides/aulaK.html). O texto sob cada marcador
+
+   ========== SLIDE N · <título> ==========
+
+é exatamente o que você fala enquanto AQUELE slide está na tela. Ao
+chegar no próximo marcador, avance o slide. A quantidade de marcadores
+de cada .txt bate 1:1 com o número de slides do deck (14 a 16 slides,
+varia por aula).
+
+ÍNDICE
+------
+Unidade 1 — Fundamentos e Contexto Histórico
+  aula01.txt  Da Revolução Industrial à Indústria 4.0 (linha do tempo)
+  aula02.txt  O que é Indústria 4.0? Conceito e os 9 pilares
+  aula03.txt  Sistemas Ciber-Físicos (CPS) e Digital Twin
+  aula04.txt  Maturidade Digital: onde sua empresa está?
+
+Unidade 2 — Tecnologias Habilitadoras
+  aula05.txt  Internet das Coisas Industrial (IIoT)
+  aula06.txt  Big Data e Analytics na indústria
+  aula07.txt  Computação em Nuvem e Edge Computing
+  aula08.txt  Inteligência Artificial e Machine Learning na fábrica
+
+Unidade 3 — Aplicações e Digitalização de Processos
+  aula09.txt  Manufatura Aditiva, Simulação e Digital Twin
+  aula10.txt  Robótica colaborativa (cobots) e automação avançada
+  aula11.txt  Realidade Aumentada e Virtual na manufatura
+  aula12.txt  Cibersegurança industrial (OT vs IT)
+
+Unidade 4 — Implementação, Casos e Futuro
+  aula13.txt  Mapeamento e digitalização de processos (BPM + 4.0)
+  aula14.txt  Roadmap de implementação da Indústria 4.0
+  aula15.txt  Casos reais brasileiros e mundiais
+  aula16.txt  Indústria 5.0: humano + máquina e o futuro
+
+COMO USAR
+---------
+1. Abra, lado a lado, o .txt da aula e o deck de slides correspondente.
+2. O cabeçalho (até a linha "====...") NÃO é lido — é só referência.
+3. Leia o texto de cada SLIDE com aquele slide na tela; ao chegar no
+   próximo marcador "==== SLIDE ... ====", avance o slide.
+4. As linhas de marcador NÃO são narradas.
+5. Os números foram escritos por extenso (ex.: "doze horas e meia") de
+   propósito, para facilitar a leitura em voz alta sem tropeços.
+6. O slide final de cada aula já traz o gancho para a próxima ("Te
+   espero!"). Quando o slide for de CITAÇÃO, basta ler a frase do card.
+
+OBSERVAÇÃO
+----------
+Estes roteiros são uma adaptação enxuta (5 min) do conteúdo das aulas.
+Os roteiros longos originais (8–11 min, com marcações de tempo e dicas
+de slide) continuam dentro de cada unidade_N/unidade_N.md, nas seções
+"Roteiro da Videoaula".

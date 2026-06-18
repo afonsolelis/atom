@@ -1,0 +1,59 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 13
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 4
+Aula 13 — Mapeamento e digitalização de processos (BPM + Indústria 4.0)
+Deck: unidade_4/slides/aula13.html · 16 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Há um princípio que a experiência de campo confirma reiteradamente: digitalizar um processo desorganizado equivale a amplificar a desordem por meio da tecnologia. Iniciamos a Unidade 4 — a etapa mais aplicada da disciplina — precisamente por essa máxima, frequentemente negligenciada: mapear antes de digitalizar.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Examinaremos o conceito de BPM, o seu ciclo de seis etapas, a notação BPMN, o tríade que a Indústria 4.0 incorporou — mineração de processos, automação robótica e inteligência de processos — e o retorno econômico dessa abordagem.
+
+========== SLIDE 3 · O erro nº 1 da transformação digital ==========
+Comecemos pela provocação. O equívoco mais recorrente em iniciativas de transformação digital é começar pela aquisição de tecnologia, antes da compreensão do processo. E a razão é direta: digitaliza-se bem apenas aquilo que se compreende bem. Automatizar um processo caótico não o corrige — apenas o torna mais rápido e mais oneroso.
+
+========== SLIDE 4 · BPM: a base que ninguém respeita ==========
+A solução tem designação própria: BPM, do inglês Business Process Management, a gestão de processos de negócio. Trata-se da disciplina de mapear, analisar, otimizar e monitorar os processos de uma organização. O BPM remonta aos anos noventa — é, portanto, anterior à Indústria 4.0 —, mas constitui pré-requisito de qualquer transformação digital consistente.
+
+========== SLIDE 5 · O ciclo BPM em 6 etapas ==========
+O BPM estrutura-se em um ciclo de seis etapas. A primeira é o planejamento, com a definição de objetivos e indicadores. A segunda é a modelagem do estado atual — o AS-IS —, isto é, o processo tal como efetivamente se realiza hoje. A terceira é a análise, voltada à identificação de gargalos e desperdícios. A quarta é o redesenho — o TO-BE —, a projeção do estado desejado. A quinta é a implementação. E a sexta é o monitoramento, que realimenta o ciclo.
+
+========== SLIDE 6 · AS-IS vs TO-BE — o erro que destrói projetos ==========
+Aqui reside a armadilha mais frequente: a confusão entre o AS-IS e o TO-BE. O AS-IS descreve o processo como ele realmente é; o TO-BE, como ele deveria ser. Quando o analista documenta o processo idealizado em lugar do real, as melhorias propostas incidem sobre um processo inexistente — e a iniciativa fracassa por base equivocada.
+
+========== SLIDE 7 · BPMN — a linguagem universal ==========
+A linguagem consagrada para a representação de processos é a BPMN. Ela se compõe de quatro elementos fundamentais: as atividades, que designam o que é executado; os eventos, que assinalam início e término; os gateways, que representam pontos de decisão; e as raias, que atribuem a responsabilidade de cada parcela do processo.
+
+========== SLIDE 8 · Lendo um diagrama em 30 segundos ==========
+A leitura de um diagrama BPMN é direta: acompanha-se o fluxo das setas, da esquerda para a direita; nos gateways, o fluxo se ramifica conforme a decisão; e cada raia indica a área responsável. Ferramentas como Bizagi, Camunda e Draw.io permitem essa modelagem — e algumas, como o Camunda, executam o próprio diagrama na condição de software.
+
+========== SLIDE 9 · BPM vs RPA vs Workflow ==========
+Convém distinguir três conceitos amiúde confundidos. O BPM é a disciplina abrangente, o ciclo em sua totalidade. O RPA — automação robótica de processos — refere-se à automação de tarefas repetitivas por robôs de software. E o workflow designa a automação de um fluxo de aprovação. O BPM contém o workflow; o RPA pode integrar a etapa de implementação. São, portanto, complementares — não sinônimos.
+
+========== SLIDE 10 · O trio que mudou o BPM ==========
+O que a Indústria 4.0 acrescentou ao BPM constitui o seu estado da arte: uma tríade de tecnologias. A mineração de processos, que extrai o estado atual diretamente dos registros do ERP e do MES, dispensando entrevistas. A automação robótica de processos, com robôs de software a executar tarefas administrativas. E a inteligência de processos, que recorre à IA para sugerir aprimoramentos. Empresas como Magazine Luiza, Vale e Itaú já as empregam intensivamente.
+
+========== SLIDE 11 · ROI real: pedido de compra com RPA ==========
+Quantifiquemos o retorno. Considere a emissão de pedidos de compra em uma fábrica de porte médio — cerca de cinco mil pedidos mensais. No modelo manual, dois funcionários dedicam quatro horas diárias à tarefa, a um custo de nove mil e seiscentos reais mensais. Com a adoção de RPA e workflow, meio funcionário apenas supervisiona o sistema, a seiscentos reais mensais. Com investimento de setenta mil reais, o período de retorno aproxima-se de oito meses — acrescido de uma redução de cerca de noventa e cinco por cento nos erros de digitação.
+
+========== SLIDE 12 · Caso Itaú Unibanco + Celonis ==========
+Tomemos um caso nacional. O Itaú Unibanco emprega a plataforma Celonis no monitoramento de mais de uma centena de processos em tempo real. O sistema identificou, de forma autônoma, que doze por cento das aberturas de conta percorriam uma etapa desnecessária, responsável por acrescentar dois dias ao tempo médio. Eliminada a etapa, registrou-se ganho direto na satisfação do cliente.
+
+========== SLIDE 13 · Citação ==========
+Sintetizo com a afirmação do slide: "Digitalizar processo bagunçado é multiplicar a bagunça com tecnologia."
+
+========== SLIDE 14 · Pontos-chave ==========
+Recapitulemos. O BPM precede a tecnologia; o ciclo compreende seis etapas; não se deve confundir o AS-IS com o TO-BE; a BPMN é a notação universal; e a tríade da Indústria 4.0 reúne mineração de processos, automação robótica e inteligência de processos.
+
+========== SLIDE 15 · Atividade prática ==========
+Proponho a seguinte atividade. Selecione um processo de seu cotidiano e represente o seu estado atual em notação BPMN simplificada — atividades, fluxos e decisões. Identifique dois gargalos. Proponha um estado desejado que os elimine. E indique que tecnologia — RPA, IIoT ou IA — apoiaria essa transição.
+
+========== SLIDE 16 · ENCERRAMENTO ==========
+Encerro com a constatação de que o mapeamento é o pré-requisito de tudo o que se segue. Compreendido o processo, a questão seguinte impõe-se: como construir um roadmap consistente de transformação? É o que abordaremos na próxima aula. Até a próxima.

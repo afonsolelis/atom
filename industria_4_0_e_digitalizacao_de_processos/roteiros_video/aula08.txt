@@ -1,0 +1,58 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 8
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 2
+Aula 8 — Inteligência Artificial e Machine Learning no chão de fábrica
+Deck: unidade_2/slides/aula8.html · 16 slides · Duração alvo ~5 min
+Professor: Afonso Cesar Lelis Brandão
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Inteligência artificial está em todo lugar. Mas separar o que é verdade do que é marketing virou um esporte. Hoje a gente corta o discurso de vendedor e fala do que realmente funciona no chão de fábrica. É a última aula da Unidade 2.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Vamos organizar IA, ML e deep learning, ver os três modos de aprendizado, as seis aplicações dominantes, as seis fases de um projeto e os ganhos típicos documentados.
+
+========== SLIDE 3 · IA, ML e Deep Learning — bonecas russas ==========
+Vamos organizar três termos que vivem confundidos. Pensa em três bonecas russas. A maior é a IA: qualquer sistema que toma decisões inteligentes. Dentro dela está o machine learning, em que o sistema aprende a partir de dados. E dentro do ML está o deep learning, que usa redes neurais profundas — é o que está por trás do reconhecimento de imagem e do ChatGPT.
+
+========== SLIDE 4 · IA ⊃ ML ⊃ Deep Learning ==========
+Olha o retrato da relação: deep learning está contido no ML, que está contido na IA. E o mais importante: quando alguém diz "IA na fábrica", quase sempre está falando, na verdade, de machine learning.
+
+========== SLIDE 5 · Os 3 modos de aprendizado ==========
+E como uma máquina aprende? De três formas. Supervisionado: você dá o dado já com a resposta — dez mil fotos marcadas como peça boa ou com defeito — e o modelo aprende a classificar. Não supervisionado: você dá o dado sem resposta, e ele agrupa o que é parecido. E por reforço: o modelo aprende tentando e errando, com recompensa e punição. Na indústria, o supervisionado domina.
+
+========== SLIDE 6 · As 6 aplicações dominantes ==========
+Onde a IA realmente entrega? Seis aplicações. Manutenção preditiva, prevendo falhas pela vibração e temperatura. Controle de qualidade visual, com câmeras detectando defeitos. Otimização de produção. Previsão de demanda. Detecção de anomalias. E robótica adaptativa. As duas mais maduras, de longe, são a manutenção preditiva e a qualidade visual.
+
+========== SLIDE 7 · Seis fases — não pule a primeira ==========
+E atenção: "vamos colocar IA" não é um projeto. Um projeto de ML de verdade tem seis fases. Definir o problema. Coletar dados. Engenharia de variáveis — onde mora setenta por cento do trabalho. Treinar o modelo. Colocar em produção, o deploy. E monitorar e retreinar, porque o modelo decai com o tempo. Se a primeira fase é mal feita, todo o resto desmorona.
+
+========== SLIDE 8 · Manutenção preditiva passo a passo (caso real) ==========
+Vamos juntar tudo num caso real, numa fábrica de papel. O problema: prever a falha de um motor com sete dias de antecedência. O dado: dezoito meses de vibração, temperatura e corrente, mais o registro de cada falha. O modelo roda no gateway de edge, recebendo leitura a cada cinco minutos. Na Klabin, esse tipo de pipeline reduziu as paradas não programadas em vinte e três por cento no primeiro ano.
+
+========== SLIDE 9 · Ganhos por aplicação — números conservadores ==========
+E os ganhos típicos, de casos da CNI e da McKinsey, são conservadores mas consistentes: manutenção preditiva reduz paradas de quinze a trinta e cinco por cento; a qualidade visual reduz o escape de defeito em até noventa e cinco por cento; e a previsão de demanda corta estoque em até vinte e cinco por cento.
+
+========== SLIDE 10 · Citação (Andrew Ng) ==========
+Como diz a frase no slide: "IA é a nova eletricidade. Assim como a eletricidade transformou toda indústria há cem anos, a IA fará o mesmo agora."
+
+========== SLIDE 11 · Quando NÃO usar IA — evitando "IA washing" ==========
+E o outro lado: quando NÃO usar IA. Se uma regra simples resolve, use a regra. Se você não tem dado histórico, limpo e representativo, não tem projeto. Se o problema não tem impacto financeiro claro, não comece. Colocar "IA" no nome para impressionar é o que se chama de "IA washing" — e não engana ninguém por muito tempo.
+
+========== SLIDE 12 · Atividade prática ==========
+A sua atividade: pense numa decisão que você toma repetidamente. Que dado você usa para decidir? Ele está digitalizado? Que regra mental você segue — dá para escrever? E que tipo de ML faria sentido: supervisionado, não supervisionado ou reforço?
+
+========== SLIDE 13 · Fechando a Unidade 2 ==========
+E aqui a gente fecha a Unidade 2, com as quatro tecnologias habilitadoras em uma frase cada: a IIoT coleta o dado; o Big Data organiza e analisa; a nuvem e o edge processam; e a IA transforma tudo em decisão automática. Uma sustenta a outra.
+
+========== SLIDE 14 · Pontos-chave ==========
+Recapitulando esta aula: IA contém ML, que contém deep learning; na fábrica, quase sempre é ML supervisionado; são seis aplicações dominantes; um projeto tem seis fases; e os ganhos são bem documentados.
+
+========== SLIDE 15 · O que vem na Unidade 3 ==========
+Na próxima unidade, a gente sai do plano habilitador e entra nas aplicações concretas: manufatura aditiva e digital twin, robótica colaborativa, realidade aumentada e cibersegurança. As tecnologias agora em uso real.
+
+========== SLIDE 16 · ENCERRAMENTO ==========
+Você terminou a base técnica da disciplina. Na Unidade 3, a gente desce ao chão e vê tudo isso operando. Te espero lá!

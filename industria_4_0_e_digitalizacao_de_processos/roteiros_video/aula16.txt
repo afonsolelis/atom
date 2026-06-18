@@ -1,0 +1,53 @@
+ROTEIRO DE GRAVAÇÃO POR SLIDE — VIDEOAULA 16
+Disciplina: Indústria 4.0 e Digitalização de Processos — Unidade 4
+Aula 16 — Indústria 5.0: humano + máquina, sustentabilidade e o futuro
+Deck: unidade_4/slides/aula16.html · 14 slides · Duração alvo ~5–6 min
+Professor: Afonso Cesar Lelis Brandão
+Registro: técnico-acadêmico (versão revisada — vocabulário aprofundado)
+================================================================
+COMO USAR: o texto sob cada "SLIDE N" é o que você fala enquanto
+aquele slide está na tela. Ao chegar no próximo marcador, avance
+o slide. Os marcadores (linhas com "====") NÃO são lidos.
+================================================================
+
+========== SLIDE 1 · CAPA ==========
+Chegamos à aula de encerramento da disciplina. Compreendida a Indústria 4.0 em sua integralidade, dirigimos agora o olhar para o que a sucede. Antecipo um esclarecimento: a Indústria 5.0 não configura uma ruptura, como o foi a 4.0; constitui, antes, uma correção de rota — uma maturação.
+
+========== SLIDE 2 · SUMÁRIO ==========
+Definiremos a Indústria 5.0, examinaremos os seus três pilares, contrastá-la-emos com a 4.0, percorreremos as tendências da próxima década, situaremos o seu papel na carreira e encerraremos a disciplina como um todo.
+
+========== SLIDE 3 · 5 revoluções industriais em uma linha ==========
+Situemo-nos na linha do tempo. Sucederam-se quatro revoluções até o presente: o vapor, a eletricidade, a eletrônica e a 4.0, dos sistemas ciber-físicos. Desponta, agora, uma quinta — não definida pela tecnologia em si, mas pelo propósito que se atribui a ela.
+
+========== SLIDE 4 · Indústria 5.0: a 4.0 com propósito ==========
+O que é, então, a Indústria 5.0? Trata-se de um conceito emergente, proposto pela Comissão Europeia em dois mil e vinte e um, que reposiciona a transformação digital em torno de três valores: a centralidade humana, a sustentabilidade e a resiliência. A motivação é significativa: em determinados contextos, a 4.0 converteu-se em sinônimo de automação total e redução de mão de obra. A 5.0 reabilita a figura do ser humano.
+
+========== SLIDE 5 · Os 3 pilares da Indústria 5.0 ==========
+Examinemos os três pilares. A centralidade humana: cobots que assistem o trabalhador, requalificação contínua e o bem-estar incorporado como indicador. A sustentabilidade: economia circular, eficiência energética assistida por IA e pegada de carbono mensurada por unidade produzida. E a resiliência: cadeias de suprimentos diversificadas e capacidade de reconfiguração rápida — lição que a pandemia tornou evidente.
+
+========== SLIDE 6 · I4.0 vs I5.0 ==========
+Como se distingue a 5.0 da 4.0? Na 4.0, o foco recai sobre a eficiência e a automação; na 5.0, sobre o equilíbrio entre lucro, planeta e pessoas. Na 4.0, o trabalhador pode ser substituído; na 5.0, ele ocupa posição central. Cabe ressalvar, todavia, que a 5.0 não substitui a 4.0 — pressupõe-na. A Indústria 5.0 é, em essência, a 4.0 dotada de propósito.
+
+========== SLIDE 7 · Tendências dos próximos 5–10 anos ==========
+Que tecnologias predominarão na próxima década? A IA generativa industrial, especializada em documentação técnica e suporte ao operador. As redes 5G e 6G privadas, de latência ultrabaixa. A robótica avançada, com manipuladores humanoides. E o hidrogênio verde, como vetor energético e matéria-prima. Não se exige domínio de todas — exige-se, porém, a consciência de sua existência e a capacidade de assimilá-las com rapidez quando se tornarem pertinentes.
+
+========== SLIDE 8 · O engenheiro de produção na I5.0 ==========
+E qual o seu papel nesse cenário? A função clássica do engenheiro de produção — a gestão de fluxos — adquire novas dimensões na 5.0. O fluxo de materiais, agora sob o critério da circularidade. O fluxo de informação, condicionado à cibersegurança e à governança de dados. O fluxo de pessoas, orientado à qualidade de vida e à diversidade. E um fluxo inédito: o de carbono. O profissional da 5.0 é, por definição, híbrido.
+
+========== SLIDE 9 · BMW iFactory — a primeira I5.0 em escala ==========
+Tomemos um caso aspiracional: a BMW, em sua iFactory na Hungria, propõe uma das primeiras plantas 5.0 em escala — energia integralmente renovável, neutralidade de carbono, cobots e manipuladores humanoides em coatuação com mil e quinhentos colaboradores, e digital twin completo, estendido à cadeia de fornecedores. Permanece, ainda, no plano do modelo — não da realidade disseminada —, mas sinaliza a direção.
+
+========== SLIDE 10 · 4 tecnologias para ficar de olho ==========
+Acrescento quatro tecnologias a manter sob observação: a bioprodução, com microrganismos a sintetizar materiais; os materiais inteligentes, capazes de alterar propriedades conforme o estímulo; a computação quântica, voltada a problemas de otimização complexa; e a captura industrial de carbono. Não são realidades para o curto prazo, mas para a década que se inicia.
+
+========== SLIDE 11 · Citação ==========
+Sintetizo com a afirmação do slide: "A Indústria 5.0 é a 4.0 com propósito — humano, ambiental e estratégico."
+
+========== SLIDE 12 · Toda a disciplina em uma página ==========
+Recapitulo, aqui, a disciplina em sua totalidade. Na Unidade 1, você apreendeu o que é a 4.0. Na Unidade 2, como ela funciona internamente. Na Unidade 3, onde ela se aplica. E na Unidade 4, como implementá-la com método. Este é o repertório de um gestor de manufatura digital — e você o domina, em um campo cuja velocidade de transformação supera a capacidade de atualização da maioria dos profissionais.
+
+========== SLIDE 13 · Atividade prática — encerramento ==========
+Proponho, por fim, uma atividade reflexiva, por escrito. O que você sabia sobre Indústria 4.0 ao iniciar a disciplina, e o que sabe agora? Qual aula mais o impactou, e por quê? Que tecnologia pretende aprofundar? E de que modo imagina aplicar esse conhecimento em sua carreira nos próximos três anos? Preserve esse texto — e releia-o dentro de um ano.
+
+========== SLIDE 14 · ENCERRAMENTO — Disciplina concluída ==========
+Encerro com uma palavra de reconhecimento. Você conclui esta disciplina munido de vocabulário, de instrumentos analíticos e de casos concretos para liderar a transformação onde quer que atue. Aproveite cada oportunidade de aplicá-los — pois a indústria carece de engenheiros que dominem o "como", e não apenas o "o quê". Agradeço a sua dedicação, desejo-lhe uma carreira profícua e que você integre o grupo de profissionais que efetivamente realizam a 4.0 — e a 5.0 — no Brasil.
