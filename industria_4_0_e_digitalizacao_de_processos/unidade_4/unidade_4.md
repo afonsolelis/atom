@@ -681,11 +681,11 @@ Sobre os pilares da **Indústria 5.0**, assinale a alternativa **correta**:
 
 ### Podcast (curadoria, até 45 min)
 
-> O podcast **"Visão Indústria 4.0"** entrevista executivos e engenheiros que estão liderando a transformação digital industrial no Brasil. O episódio recomendado discute roadmap real de implementação, com dores reais e ganhos mensurados.
+> O canal **"Indústria 4.0 Brasil"** no YouTube traz entrevistas e análises sobre a transformação digital industrial no Brasil — roadmaps reais de implementação, com dores e ganhos mensurados, conectando tecnologia, empresa e carreira.
 
-- **Nome do podcast:** Visão Indústria 4.0
-- **Nome do episódio:** "Roadmap de transformação digital — sem mitos"
-- **Link:** https://www.youtube.com/@visaoindustria40
+- **Nome do podcast/canal:** Indústria 4.0 Brasil (YouTube)
+- **Tema recomendado:** roadmap de transformação digital industrial
+- **Link:** https://www.youtube.com/@industria40br
 - **Aula em que entra:** Aula 14
 
 ### Artigo científico

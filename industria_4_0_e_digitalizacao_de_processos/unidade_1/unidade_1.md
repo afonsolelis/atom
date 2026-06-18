@@ -407,7 +407,7 @@ Isso treina sua visão de **transformar produto comum em CPS**.
 ### Para saber mais
 
 - **Lee, Jay; Bagheri, Behrad; Kao, Hung-An.** *A Cyber-Physical Systems Architecture for Industry 4.0-based Manufacturing Systems*. (artigo acadêmico)
-- **GE Digital — Digital Twin:** https://www.ge.com/digital/applications/digital-twin
+- **IBM — O que é um Digital Twin:** https://www.ibm.com/think/topics/what-is-a-digital-twin
 - **Portal WEG:** https://www.weg.net/
 
 ---
@@ -645,7 +645,7 @@ Um sistema ciber-físico (CPS) é composto por **três camadas**. Marque a alter
 
 > O artigo aprofunda **como o conceito de Indústria 4.0 chegou ao Brasil** e quais as principais barreiras encontradas. É uma leitura curta (10 páginas) e muito útil para você defender pontos em discussões com base em pesquisa nacional, e não apenas em teoria importada.
 
-- **Link:** https://doi.org/10.1590/0103-6513.20180103
+- **Link:** https://doi.org/10.1016/j.ijpe.2018.08.019
 - **Aula em que entra:** Aula 4
 - **Referência bibliográfica do artigo no formato ABNT:**
   > DALENOGARE, Lucas Santos *et al*. **The expected contribution of Industry 4.0 technologies for industrial performance**. *International Journal of Production Economics*, v. 204, p. 383-394, out. 2018.

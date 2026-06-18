@@ -252,7 +252,7 @@ Identifique **três tarefas** do seu dia a dia (no trabalho, estágio ou em uma 
 ### Para saber mais
 
 - **Universal Robots:** https://www.universal-robots.com/pt/
-- **Senai Indústria 4.0:** https://www.sp.senai.br/cobot
+- **Senai-SP (Indústria 4.0):** https://www.sp.senai.br/
 - **Vídeo (UR no YouTube):** "Como funciona um cobot"
 - **Norma ISO/TS 15066:** disponível em https://www.iso.org/
 
@@ -385,7 +385,7 @@ Pegue um **processo da empresa que você conhece** que envolva treinamento ou mo
 
 ### Para saber mais
 
-- **Boeing — AR Wiring:** https://www.boeing.com/innovation/augmented-reality.page
+- **Boeing — RA na montagem de chicotes (vídeos):** https://www.youtube.com/results?search_query=boeing+augmented+reality+wiring
 - **Microsoft HoloLens 2 Industrial:** https://www.microsoft.com/en-us/hololens
 - **Vídeo (Microsoft, YouTube):** "HoloLens in Manufacturing"
 - **Senai-PR Centro de RA/VR:** https://www.sistemafiep.org.br/
@@ -540,7 +540,7 @@ Na **Unidade 4**, fechamos a disciplina com a parte **mais aplicada**: como **ma
 
 ### Para saber mais
 
-- **Norma IEC 62443:** https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series
+- **Norma IEC 62443:** https://www.isa.org/standards-and-publications/isa-standards/isa-iec-62443-series-of-standards
 - **NIST Cybersecurity Framework:** https://www.nist.gov/cyberframework
 - **Vídeo (TI Inside, YouTube):** "Cibersegurança industrial — o que você precisa saber"
 - **Relatório CNI sobre segurança industrial:** https://www.portaldaindustria.com.br/
