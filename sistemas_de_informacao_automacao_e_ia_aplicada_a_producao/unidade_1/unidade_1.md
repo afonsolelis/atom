@@ -741,18 +741,18 @@ Em relação aos **cinco componentes** de um sistema de informação (SI), assin
 
 ### Podcast (curadoria, até 45 min)
 
-> O podcast **"TecMasters Tech Insider"** discute tecnologia empresarial em linguagem acessível. O episódio recomendado fala sobre ERP, sistemas de informação e o impacto na produtividade — com exemplos de empresas brasileiras.
+> O canal oficial da **TOTVS** no YouTube — maior fornecedora de ERP da América Latina — reúne vídeos e episódios sobre sistemas de gestão, ERP e produtividade, em linguagem acessível e com casos do mercado brasileiro.
 
-- **Nome do podcast:** TecMasters Tech Insider
-- **Nome do episódio:** "ERP — entendendo o que move a empresa moderna"
-- **Link:** https://www.youtube.com/@TecMasters
+- **Nome do podcast/canal:** TOTVS — canal oficial no YouTube
+- **Tema recomendado:** ERP e sistemas de gestão empresarial
+- **Link:** https://www.youtube.com/@totvs
 - **Aula em que entra:** Aula 3
 
 ### Artigo científico
 
-> Artigo de revisão sobre o papel dos sistemas de informação na manufatura, com foco em empresas brasileiras. Excelente leitura para defender pontos com base em pesquisa nacional.
+> Artigo clássico sobre a implementação de sistemas ERP em pequenas empresas brasileiras, confrontando o referencial teórico com a prática empresarial. Excelente leitura para defender pontos com base em pesquisa nacional.
 
-- **Link:** https://doi.org/10.1590/0103-6513.20160079
+- **Link:** https://doi.org/10.1590/s0104-530x2002000300006
 - **Aula em que entra:** Aula 4
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > MENDES, Glauco Henrique de Sousa; LIMA, Edson Pinheiro de. **Avaliação de modelos para implementação de sistemas integrados de gestão (ERP) em pequenas e médias empresas industriais**. *Produção*, v. 27, p. e20160079, 2017.
+  > MENDES, Juliana Veiga; ESCRIVÃO FILHO, Edmundo. **Sistemas integrados de gestão ERP em pequenas empresas: um confronto entre o referencial teórico e a prática empresarial**. *Gestão & Produção*, v. 9, n. 3, p. 277-296, 2002.

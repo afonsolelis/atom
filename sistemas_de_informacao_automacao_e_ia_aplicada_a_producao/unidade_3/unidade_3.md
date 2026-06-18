@@ -481,7 +481,7 @@ Imagine um SCADA para uma operação que você conhece:
 ### Para saber mais
 
 - **Site Elipse Software:** https://www.elipse.com.br/
-- **Norma ISA-101 (HMI Design):** https://www.isa.org/standards-and-publications/isa-standards/isa-isa-101
+- **Norma ISA-101 (HMI Design):** https://www.isa.org/standards-and-publications/isa-standards/isa-standards-committees/isa101
 - **Vídeo (Senai, YouTube):** "SCADA — o que é e como funciona"
 - **Webinar Inductive Automation (Ignition):** https://inductiveautomation.com/
 
@@ -765,7 +765,7 @@ Sobre a **convergência TI ↔ OT**, assinale a alternativa **correta**:
 
 - **Nome do podcast:** Automation World
 - **Nome do episódio:** "SCADA Modernization"
-- **Link:** https://www.youtube.com/@AutomationWorldVideo
+- **Link:** https://www.youtube.com/@automationworld
 - **Aula em que entra:** Aula 11
 
 ### Artigo científico

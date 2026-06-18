@@ -332,7 +332,7 @@ Para uma linha de produção que você conhece:
 
 ### Para saber mais
 
-- **Site ISA (norma ISA-95):** https://www.isa.org/standards-and-publications/isa-standards/isa-isa-95
+- **Site ISA (norma ISA-95):** https://www.isa.org/standards-and-publications/isa-standards/isa-standards-committees/isa95
 - **Vídeo (Senai SC, YouTube):** "O que é MES? Para que serve?"
 - **Portal Siemens MOM:** https://www.plm.automation.siemens.com/global/en/products/manufacturing-operations-center/
 - **Webinar (Rockwell):** "MES Best Practices" — disponível em rockwellautomation.com
@@ -793,9 +793,9 @@ A respeito do **OEE** (Overall Equipment Effectiveness), assinale a alternativa 
 
 ### Artigo científico
 
-> Artigo de revisão sobre **integração ERP-MES** em empresas brasileiras, com identificação de gargalos comuns e melhores práticas. Leitura essencial para defender argumentos sobre integração.
+> Artigo sobre os efeitos da filosofia **lean** nas cadeias de suprimentos, explorando como a orientação à aprendizagem e os recursos relacionais influenciam o desempenho. Leitura essencial para defender argumentos sobre integração e coordenação na cadeia.
 
-- **Link:** https://doi.org/10.1080/00207543.2017.1377345
+- **Link:** https://doi.org/10.1016/j.ijpe.2019.04.012
 - **Aula em que entra:** Aula 6
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > IYER, Karthik N. S.; SRIVASTAVA, Praveen; SRINIVASAN, Mahesh. **Performance implications of lean in supply chains: exploring the role of learning orientation and relational resources**. *International Journal of Production Economics*, v. 216, p. 94-104, out. 2019.
+  > IYER, Karthik N. S.; SRIVASTAVA, Prashant; SRINIVASAN, Mahesh. **Performance implications of lean in supply chains: exploring the role of learning orientation and relational resources**. *International Journal of Production Economics*, v. 216, p. 94-104, out. 2019.
