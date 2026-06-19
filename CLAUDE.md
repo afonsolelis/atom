@@ -6,15 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a **content-authoring repo for Brazilian higher-education disciplines** (engenharia civil + IA), not a software project. The "code" is Markdown coursework that gets compiled to PDFs. All content is in **pt-BR**. The author / professor is **Afonso Cesar Lelis Brandão** — that name is the default `professor` field everywhere.
 
-Each top-level directory (other than `base/` and `Originais - Átomo 3.0/`) is one discipline. Disciplines follow one of three layouts:
+Each top-level directory is one discipline, **except** these non-discipline folders: `base/` (shared base content), `Originais - Átomo 3.0/` (canonical Word templates, `.gitignore`d), `assets/` (shared templates + branding), and `padrao_powerpoint/` (reference screenshots of the UniFECAF slide visual standard — see Slides). Disciplines follow one of three layouts:
 
-- **Átomo 3.0** (`industria_4_0_e_digitalizacao_de_processos/`, `sistemas_de_informacao_automacao_e_ia_aplicada_a_producao/`): the current Ânima/Átomo 3.0 template — `unidade_N/unidade_N.md` (texto + roteiros + quiz + AAI + material complementar inline) + `unidade_N/questoes_uniN.md` + a shared `instrumentos_avaliativos/` folder with `avaliacao_final.md` and `entrega_trabalho.md`. **Use this layout for any new discipline.**
+- **Átomo 3.0** (`industria_4_0_e_digitalizacao_de_processos/`, `sistemas_de_informacao_automacao_e_ia_aplicada_a_producao/`, `data_engineering_and_pipelines/`, `portos_aeroportos_e_ferrovias/`): the current Ânima/Átomo 3.0 template — `unidade_N/unidade_N.md` (texto + roteiros + quiz + AAI + material complementar inline) + `unidade_N/questoes_uniN.md` + a shared `instrumentos_avaliativos/` folder with `avaliacao_final.md` and `entrega_trabalho.md`. **Use this layout for any new discipline.**
 - **Unit-based (legacy)** (`Estruturas_de_Concreto_Pilares_e_Solicitacoes_Dinamicas/`, `nova_disciplina/`): older layout — 4 units, each with `unidade_N_conteudo.md` + four `unidade_N_i_aula.md` + `questoes_unidade_N.md`.
 - **Aula-based** (`estrutura_pontes/`, `engenharia_de_prompt_a_mentalidade_de_ia_e_o_conhecimento_digital/`): 16 individual `aulaN.md` files in `aulas/` plus parallel `roteiros/`, `questoes/`, `m_complementar/` directories. 16 aulas = 4 units × 4 aulas, but flattened.
 
 The folder `Originais - Átomo 3.0/` holds the **canonical Word templates** from Ânima (TEMPLATE de unidade, Questões UNI1–4, Avaliação final, Entrega de trabalho, slides, guia de vídeo). It is the source of truth for the Átomo 3.0 layout — the markdown files in the new disciplines are 1:1 derivations of those `.docx` templates. Don't edit the `.docx` files; edit the markdown.
 
 **This folder is `.gitignore`d** (174MB of binary institutional templates, kept only locally). The relevant content has already been extracted: textual templates → markdown in the new disciplines; branding images → `assets/originais_atomo_3_0/`.
+
+**Ignore the agentic-tooling scaffolding** committed under `industria_4_0_e_digitalizacao_de_processos/` — `.aiox-core/` (~1100 files), `.antigravity/`, and the discipline-level `.claude/` are from an unrelated tool and have nothing to do with the coursework. Don't read, edit, or reason about them when authoring content. (`roteiros_video/` in that discipline is untracked local scratch — `.txt` drafts, not deliverables.)
 
 When asked to author or modify content in legacy disciplines, always check the discipline's `DIRETRIZES_DISCIPLINA.json` / `DIRETRIZES_UNIDADE.json` first — those JSON files are the source of truth for the legacy layouts. The Átomo 3.0 disciplines don't have a DIRETRIZES JSON; the rules live in this file and in the `Originais - Átomo 3.0/` Word templates.
 
@@ -57,7 +59,9 @@ The Átomo 3.0 disciplines (`industria_4_0`, `sistemas_informacao`) have **no bu
 
 ## Slides (HTML decks)
 
-Each Átomo 3.0 aula has a self-contained HTML deck at `<disciplina>/unidade_N/slides/aulaN.html` (one per videoaula, so 4 per unit). These are **single-file** decks — all CSS/JS inline, no build step — opened directly in a browser; export to PDF via Chrome's *Print → Save as PDF* (landscape, no margins, "background graphics" on, one slide per page).
+Each Átomo 3.0 aula has a self-contained HTML deck at `<disciplina>/unidade_N/slides/aulaN.html`. Numbering is **continuous across units** (matching the videoaula numbering): `unidade_1/slides/` holds `aula0.html` (the unit-1-only intro deck) + `aula1.html`–`aula4.html`, `unidade_2/slides/` holds `aula5.html`–`aula8.html`, etc. — so **17 decks per discipline** (`aula0` + `aula1`–`aula16`), 34 total. These are **single-file** decks — all CSS/JS inline, no build step — opened directly in a browser; export to PDF via Chrome's *Print → Save as PDF* (landscape, no margins, "background graphics" on, one slide per page).
+
+**Visual standard (important — the canonical template is stale).** The decks have all been migrated to the UniFECAF PowerPoint visual standard, whose reference screenshots live in `padrao_powerpoint/*.png`. That standard adds: a centered cover with corner mosaics, an **Audiodescrição** accessibility slide right after the cover, a "Sobre o professor" slide, a white/blue split "Título + Sumário", content framed by **large sparse triangles** (not a small repeating pattern — that look was explicitly rejected) with a blue card + light-green title, and triangle clusters on the closing slide. **`assets/template_apresentacao/index.html` has NOT been updated to this standard** — copying it verbatim produces a deck in the old format. When creating a new deck, match an existing migrated deck instead, or back-port the standard.
 
 The canonical source is **`assets/template_apresentacao/`** (`index.html` + `README.md`). To make a new deck, copy `index.html` to the aula's `slides/` folder and edit each `<section class="slide …">`. Key conventions (full reference in that README):
 

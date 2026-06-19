@@ -93,6 +93,14 @@
       {
         "value": "sistemas_informacao",
         "description": "Changes related to Sistemas de Informação, Automação e IA Aplicada à Produção"
+      },
+      {
+        "value": "data_engineering",
+        "description": "Changes related to Data Engineering and Pipelines"
+      },
+      {
+        "value": "portos_aeroportos_ferrovias",
+        "description": "Changes related to Portos, Aeroportos e Ferrovias"
       }
     ],
     "format": {
