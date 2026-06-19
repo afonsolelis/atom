@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<title>Portos, Aeroportos e Ferrovias · Navegação</title>
+<style>
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-medio:   #1F44A8;
+    --azul-claro:   #2BBBE0;
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --verde-escuro: #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-card:   #FFFFFF;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: var(--fonte); color: var(--cinza-texto); background: var(--cinza-bg); line-height: 1.5; }
+  .site-header { position: relative; background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%); color: #fff; padding: 2.6rem 4vw 3.2rem; overflow: hidden; }
+  .site-header .logo { height: 54px; width: auto; display: block; margin-bottom: 1.6rem; }
+  .site-header h1 { margin: 0; font-size: clamp(1.5rem, 3vw, 2.4rem); font-weight: 800; letter-spacing: -0.01em; max-width: 1000px; }
+  .site-header .sub { margin: 0.6rem 0 0; color: var(--amarelo); font-size: clamp(0.95rem, 1.5vw, 1.15rem); font-weight: 600; }
+  .site-header .meta { margin: 0.3rem 0 0; color: rgba(255,255,255,0.8); font-size: 0.95rem; }
+  .tri-faixa { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 22px; display: block; }
+  .tri-faixa svg { width: 100%; height: 100%; display: block; }
+  main { padding: 2.6rem 4vw 1rem; }
+  .unidade { margin-bottom: 2.6rem; max-width: 1400px; margin-left: auto; margin-right: auto; }
+  .unidade-titulo { margin: 0 0 1.2rem; font-size: 1.3rem; color: var(--azul-fecaf); font-weight: 700; padding-bottom: 0.6rem; border-bottom: 2px solid var(--azul-fecaf); }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
+  @media (max-width: 900px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .cards { grid-template-columns: 1fr; } }
+  .card { display: flex; flex-direction: column; background: var(--cinza-card); border-radius: 10px; padding: 1.2rem 1.3rem 1.3rem; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,32,87,0.08); border-top: 4px solid var(--azul-fecaf); transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; min-height: 168px; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(0,32,87,0.15); border-top-color: var(--amarelo); }
+  .unidade[data-u="0"] .card { border-top-color: var(--amarelo); }
+  .unidade[data-u="1"] .card { border-top-color: var(--azul-fecaf); }
+  .unidade[data-u="2"] .card { border-top-color: var(--azul-medio); }
+  .unidade[data-u="3"] .card { border-top-color: var(--verde-escuro); }
+  .unidade[data-u="4"] .card { border-top-color: var(--magenta); }
+  .aula-numero { font-size: 0.75rem; font-weight: 700; color: var(--cinza-mute); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+  .aula-titulo { font-size: 1rem; line-height: 1.35; color: var(--cinza-texto); font-weight: 600; margin: 0 0 0.8rem; flex: 1; }
+  .abrir { font-size: 0.85rem; font-weight: 700; color: var(--azul-medio); }
+  .card:hover .abrir { color: var(--magenta); }
+  .site-footer { max-width: 1400px; margin: 0 auto; padding: 1.5rem 0 3rem; color: var(--cinza-mute); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <img class="logo" src="https://www.unifecaf.com.br/_next/static/media/unifecaf-logo-branco.edf5ffe3.svg" alt="UniFECAF" />
+  <h1>Portos, Aeroportos e Ferrovias</h1>
+  <p class="sub">Slides das videoaulas — 4 unidades · 16 aulas</p>
+  <p class="meta">Prof. Afonso Cesar Lelis Brandão</p>
+  <div class="tri-faixa" aria-hidden="true">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+      <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+      <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+      <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+      <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+      <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+      <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+      <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+      <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+      <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+      <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+      <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+      <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+      <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    </svg>
+  </div>
+</header>
+
+<main>
+
+  <section class="unidade" data-u="0">
+    <h2 class="unidade-titulo">Apresentação da disciplina</h2>
+    <div class="cards">
+      <a class="card" href="unidade_1/slides/aula0.html">
+        <div class="aula-numero">Boas-vindas</div>
+        <h3 class="aula-titulo">Apresentação da disciplina e do professor</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="unidade" data-u="1">
+    <h2 class="unidade-titulo">Unidade 1 — Fundamentos da Infraestrutura de Transportes</h2>
+    <div class="cards">
+      <a class="card" href="unidade_1/slides/aula1.html">
+        <div class="aula-numero">Videoaula 1</div>
+        <h3 class="aula-titulo">Sistemas de transporte e a matriz de transportes brasileira</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_1/slides/aula2.html">
+        <div class="aula-numero">Videoaula 2</div>
+        <h3 class="aula-titulo">Planejamento de transportes e estudo de demanda</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_1/slides/aula3.html">
+        <div class="aula-numero">Videoaula 3</div>
+        <h3 class="aula-titulo">Geometria, terraplenagem e geotecnia aplicada</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_1/slides/aula4.html">
+        <div class="aula-numero">Videoaula 4</div>
+        <h3 class="aula-titulo">Materiais e pavimentos: fundamentos comuns às três infraestruturas</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="unidade" data-u="2">
+    <h2 class="unidade-titulo">Unidade 2 — Portos e Hidrovias</h2>
+    <div class="cards">
+      <a class="card" href="unidade_2/slides/aula5.html">
+        <div class="aula-numero">Videoaula 5</div>
+        <h3 class="aula-titulo">Sistemas portuários: organização e tipos de porto</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_2/slides/aula6.html">
+        <div class="aula-numero">Videoaula 6</div>
+        <h3 class="aula-titulo">Estruturas portuárias e obras de abrigo</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_2/slides/aula7.html">
+        <div class="aula-numero">Videoaula 7</div>
+        <h3 class="aula-titulo">Operação portuária e terminais</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_2/slides/aula8.html">
+        <div class="aula-numero">Videoaula 8</div>
+        <h3 class="aula-titulo">Hidrovias e navegação interior</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="unidade" data-u="3">
+    <h2 class="unidade-titulo">Unidade 3 — Aeroportos</h2>
+    <div class="cards">
+      <a class="card" href="unidade_3/slides/aula9.html">
+        <div class="aula-numero">Videoaula 9</div>
+        <h3 class="aula-titulo">Sistema aeroportuário e planejamento de aeroportos</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_3/slides/aula10.html">
+        <div class="aula-numero">Videoaula 10</div>
+        <h3 class="aula-titulo">Lado ar: pistas, pátios e geometria aeroportuária</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_3/slides/aula11.html">
+        <div class="aula-numero">Videoaula 11</div>
+        <h3 class="aula-titulo">Pavimentos aeroportuários e dimensionamento</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_3/slides/aula12.html">
+        <div class="aula-numero">Videoaula 12</div>
+        <h3 class="aula-titulo">Lado terra: terminais de passageiros e carga aérea</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="unidade" data-u="4">
+    <h2 class="unidade-titulo">Unidade 4 — Ferrovias</h2>
+    <div class="cards">
+      <a class="card" href="unidade_4/slides/aula13.html">
+        <div class="aula-numero">Videoaula 13</div>
+        <h3 class="aula-titulo">Sistemas ferroviários: panorama, história e bitolas</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_4/slides/aula14.html">
+        <div class="aula-numero">Videoaula 14</div>
+        <h3 class="aula-titulo">Superestrutura ferroviária: via permanente</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_4/slides/aula15.html">
+        <div class="aula-numero">Videoaula 15</div>
+        <h3 class="aula-titulo">Geometria da via férrea e material rodante</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+      <a class="card" href="unidade_4/slides/aula16.html">
+        <div class="aula-numero">Videoaula 16</div>
+        <h3 class="aula-titulo">Operação ferroviária, transporte urbano e o futuro (projeto integrador)</h3>
+        <span class="abrir">Abrir slides →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    UniFECAF · Disciplina de Portos, Aeroportos e Ferrovias. Clique em um card para abrir os slides da videoaula.
+  </footer>
+
+</main>
+
+</body>
+</html>
