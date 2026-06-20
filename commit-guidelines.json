@@ -101,6 +101,10 @@
       {
         "value": "portos_aeroportos_ferrovias",
         "description": "Changes related to Portos, Aeroportos e Ferrovias"
+      },
+      {
+        "value": "lives",
+        "description": "Changes related to the complementary live sessions (slide decks)"
       }
     ],
     "format": {
