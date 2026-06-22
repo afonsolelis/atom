@@ -4,30 +4,28 @@
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas desta unidade:** 9 a 12
 
-> **Recap da Unidade 2:** vimos pipelines de ingestão (batch vs streaming), conhecemos ferramentas de orquestração (Airflow, Dagster), entendemos ETL vs ELT e abrimos a discussão sobre processamento distribuído com Spark. Os dados já chegam e são transformados — mas **onde eles ficam guardados**? E **como organizá-los** para que análise e BI funcionem rápido e barato? É o que esta unidade responde: a camada de **armazenamento e arquitetura** que sustenta todo o ecossistema de dados.
+> **Recap da Unidade 2:** no nosso **pipeline do Olist** já implementamos a ingestão com dbt (ELT) — os modelos `staging` `stg_orders`, `stg_order_items`, `stg_order_payments`, `stg_order_reviews` etc. já leem o schema `raw` do DuckDB, limpam e castam tipos, com carga incremental por `order_purchase_timestamp`. Vimos processamento em lote (DuckDB vetorizado como equivalente local do Spark), streaming simulado (`stream_orders.py`) e orquestramos tudo num DAG do Airflow (`olist_pipeline`: `ingest_csv_to_duckdb` → `dbt_run` → `dbt_test` → `export_gold`). Os ~99 mil pedidos já entram, são processados e orquestrados — mas **onde eles ficam guardados** e **com que arquitetura**? É o que esta unidade responde: vamos construir o **Data Warehouse do Olist em camadas**, organizar o storage em **Lakehouse Medallion**, ver o mesmo dbt rodando **na nuvem** e fechar montando a **Modern Data Stack** completa do projeto.
 
 ---
 
 ## Aula 9 — Data Warehouse e modelagem dimensional aplicada
 
-Imagine uma rede de varejo com 200 lojas, milhões de vendas por mês, e uma diretora que pergunta: "qual foi o faturamento por categoria de produto, por região, comparado ao mesmo trimestre do ano passado?". Se essa pergunta bater direto no banco transacional do PDV, a consulta vai travar — e o caixa da loja vai parar. O **Data Warehouse** existe exatamente para isso: um repositório otimizado para **responder perguntas analíticas** sem atrapalhar a operação. Nesta aula você vai entender o que é um DW, as duas grandes escolas de arquitetura (Inmon e Kimball), como se organizam suas camadas e o que torna o armazenamento colunar tão poderoso.
+Na Unidade 2 deixamos pronta a camada `staging` do Olist: nove modelos `stg_*` que leem o schema `raw` do DuckDB e entregam dados limpos e tipados. Mas `staging` ainda é espelho da fonte — não responde perguntas de negócio. Quando a diretoria do marketplace pergunta "qual o faturamento por categoria de produto, por UF, no último trimestre?", consultar os CSVs crus ou o `raw` seria lento e confuso. O **Data Warehouse** existe para isso: um repositório otimizado para **responder perguntas analíticas**. Nesta aula vamos transformar o `staging` do Olist no **DW em camadas com dbt** — `staging` → `core` (estrela `dim_*`/`fct_*`) → `marts` de negócio — e implementar **SCD2** com `dbt snapshot` em `dim_sellers`.
 
-### O conceito de Data Warehouse
+### O conceito de Data Warehouse aplicado ao Olist
 
-Um **Data Warehouse (DW)** é um repositório central, **orientado a assunto, integrado, não volátil e variante no tempo**, projetado para apoiar a tomada de decisão. A definição clássica é de Bill Inmon, considerado o "pai do Data Warehouse". Vamos destrinchar os quatro adjetivos:
+Um **Data Warehouse (DW)** é um repositório central, **orientado a assunto, integrado, não volátil e variante no tempo**, projetado para apoiar decisão. A definição clássica é de Bill Inmon. Sobre o Olist os quatro adjetivos viram concretos:
 
-- **Orientado a assunto:** organiza-se por temas de negócio (vendas, clientes, estoque), não por aplicação.
-- **Integrado:** consolida dados de múltiplas fontes (ERP, CRM, e-commerce) com nomes, unidades e formatos padronizados.
-- **Não volátil:** os dados não são sobrescritos — são acumulados; um registro de venda de 2021 continua lá.
-- **Variante no tempo:** guarda histórico, permitindo analisar tendências ao longo de anos.
+- **Orientado a assunto:** organizamos por temas (vendas, logística, reviews), não por arquivo CSV de origem.
+- **Integrado:** as nove tabelas do Olist (`orders`, `order_items`, `payments`, `reviews`, `products`, `customers`, `sellers`, `geolocation`, `category_translation`) viram um modelo único, com nomes e tipos padronizados.
+- **Não volátil:** um pedido de 2017 continua no DW; nada é sobrescrito.
+- **Variante no tempo:** guardamos o histórico de set/2016 a out/2018, e a evolução das dimensões (um seller que muda de UF — SCD2).
 
-A diferença essencial em relação a um banco transacional (OLTP) é o propósito: o OLTP é **OLTP — Online Transaction Processing** (muitas escritas pequenas, rápidas), enquanto o DW é **OLAP — Online Analytical Processing** (poucas consultas, mas que varrem grandes volumes para agregar).
+A diferença essencial para um banco transacional (OLTP) é o propósito: o **OLTP — Online Transaction Processing** registra muitas escritas pequenas (cada pedido novo do marketplace), enquanto o DW é **OLAP — Online Analytical Processing** (poucas consultas que varrem os ~112 mil itens para agregar).
 
 ![Diagrama de um esquema estrela (star schema) com uma tabela fato central conectada a tabelas de dimensão, base da modelagem dimensional em Data Warehouses](https://commons.wikimedia.org/wiki/Special:FilePath/Star-schema.png)
 
-### Arquitetura Inmon vs Kimball
-
-Há duas filosofias clássicas para construir um DW:
+### Inmon vs Kimball — e o que usamos no Olist
 
 | Aspecto | Inmon (top-down) | Kimball (bottom-up) |
 | --- | --- | --- |
@@ -35,133 +33,166 @@ Há duas filosofias clássicas para construir um DW:
 | **Modelagem** | Entidade-relacionamento normalizada | Modelagem dimensional (estrela) |
 | **Integração** | Centralizada antes dos marts | Barramento de dimensões conformadas |
 | **Tempo até valor** | Mais lento (constrói a base primeiro) | Mais rápido (entrega marts incrementalmente) |
-| **Manutenção** | Mais consistente, menos redundância | Mais flexível, mais redundância controlada |
 
-Na prática, a maioria dos projetos modernos adota uma **abordagem híbrida**: um core integrado (sabor Inmon) que alimenta data marts dimensionais (sabor Kimball). Não existe "vencedor" — existe o que serve ao contexto.
+No projeto Olist adotamos uma **abordagem híbrida pragmática, com sabor Kimball**: a camada `core` é um core integrado (uma estrela conformada com `dim_customers`, `dim_sellers`, `dim_products`, `dim_dates`), e os `marts` analíticos são recortes por área (vendas, entregas). É o padrão recomendado pelo próprio dbt para estruturar projetos.
 
-### Camadas: staging, core e data marts
+### Camadas no dbt: staging → core → marts
 
-Um DW maduro tem **três camadas lógicas**:
+Um DW maduro tem **três camadas lógicas**, e elas mapeiam 1:1 nas pastas do nosso `dbt_olist/`:
 
-1. **Staging (área de preparação):** onde os dados brutos pousam logo após a extração. Aqui se faz limpeza, deduplicação e padronização. É descartável e temporária.
-2. **Core (camada integrada):** o coração do DW, onde os dados de todas as fontes são integrados, historizados e mantidos como **fonte única da verdade**.
-3. **Data marts (camada de consumo):** recortes temáticos otimizados para um departamento ou caso de uso (mart de Vendas, mart de Marketing), geralmente em formato dimensional.
+1. **Staging** (`models/staging/`, já feito na Aula 5): `stg_*` limpa e renomeia uma fonte por vez. Descartável e fina.
+2. **Core** (`models/marts/core/`): o coração do DW, onde integramos as fontes na **estrela** — dimensões e fatos como **fonte única da verdade**.
+3. **Marts analíticos** (`models/marts/analytics/`): recortes temáticos para consumo direto — `mart_sales_by_category`, `mart_delivery_performance`.
 
-Esse fluxo **staging → core → marts** garante separação de responsabilidades: ingestão isolada da integração, e integração isolada do consumo.
+O fluxo **staging → core → marts** separa responsabilidades: ingestão isolada da integração, integração isolada do consumo. No dbt isso vira o lineage automático via `{{ ref(...) }}`.
 
-### Modelagem dimensional na prática
+### A estrela do Olist em SQL (dbt)
 
-A modelagem dimensional, popularizada por Ralph Kimball, organiza os dados em **tabelas fato** e **tabelas dimensão**:
+Na camada `core` materializamos a dimensão de clientes e o fato de itens. Repare no uso de `ref` (encadeia o lineage) e em como o **fato** carrega só chaves + métricas, enquanto a **dimensão** carrega o contexto descritivo:
 
-- **Tabela fato:** registra os eventos mensuráveis do negócio (uma linha por venda), com **métricas** (quantidade, valor) e **chaves estrangeiras** para as dimensões.
-- **Tabela dimensão:** descreve o contexto (quem, o quê, quando, onde) — dimensão Produto, Cliente, Tempo, Loja.
+```sql
+-- models/marts/core/dim_customers.sql
+select
+    customer_id,
+    customer_unique_id,
+    customer_zip_code_prefix,
+    customer_city,
+    upper(customer_state) as customer_state
+from {{ ref('stg_customers') }}
+```
 
-O arranjo mais comum é o **esquema estrela (star schema)**: uma fato central cercada por dimensões. Quando uma dimensão é normalizada em sub-tabelas, temos o **esquema floco de neve (snowflake)**.
+```sql
+-- models/marts/core/fct_order_items.sql  (grão = 1 item de pedido)
+select
+    i.order_id,
+    i.order_item_id,
+    i.product_id,
+    i.seller_id,
+    o.customer_id,
+    cast(o.purchased_at as date) as date_key,
+    i.price,
+    i.freight_value
+from {{ ref('stg_order_items') }} i
+join {{ ref('stg_orders') }} o using (order_id)
+```
 
-Um conceito crucial é o tratamento de **mudanças nas dimensões (SCD — Slowly Changing Dimensions)**. Se um cliente muda de cidade, devemos sobrescrever (SCD Tipo 1) ou criar um novo registro preservando o histórico (SCD Tipo 2)? Para análise temporal correta, o Tipo 2 costuma ser a escolha.
+`fct_order_items` tem grão de **um item**; `fct_orders` (grão de **um pedido**) agrega pagamento e status. As métricas `price` e `freight_value` vivem na fato; tudo que é "quem/o quê/quando/onde" mora nas dimensões.
+
+### SCD2 com dbt snapshot em dim_sellers
+
+E quando um **seller muda de cidade/UF**? Se sobrescrevermos (SCD Tipo 1), perdemos o histórico e atribuímos vendas antigas à cidade nova. Para análise temporal correta usamos **SCD Tipo 2**: cada versão vira uma linha, com janela de validade. No dbt isso é declarativo — um `snapshot` com `strategy='check'`:
+
+```sql
+-- snapshots/sellers_snapshot.sql
+{% snapshot sellers_snapshot %}
+{{ config(
+    target_schema='snapshots',
+    unique_key='seller_id',
+    strategy='check',
+    check_cols=['seller_city', 'seller_state']
+) }}
+select seller_id, seller_zip_code_prefix, seller_city, seller_state
+from {{ ref('stg_sellers') }}
+{% endsnapshot %}
+```
+
+Ao rodar `dbt snapshot`, o dbt adiciona `dbt_valid_from` e `dbt_valid_to`: a versão antiga ganha data de fim e a nova entra como vigente. A `dim_sellers` final lê desse snapshot, preservando o histórico dos 3.095 vendedores.
 
 ### Armazenamento colunar vs por linha
 
-A grande virada de desempenho dos DWs modernos é o **armazenamento colunar**. Bancos transacionais guardam dados **por linha** (todos os campos de um registro juntos), ótimo para ler/escrever um pedido inteiro. Já os DWs analíticos guardam **por coluna** (todos os valores de uma coluna juntos).
+A virada de desempenho dos DWs é o **armazenamento colunar**. Bancos transacionais guardam **por linha** (todos os campos de um pedido juntos), ótimo para escrever um pedido inteiro. DWs analíticos guardam **por coluna**. O DuckDB é colunar e vetorizado — por isso resolve agregações no Olist em segundos. Uma consulta `SELECT SUM(price) FROM fct_order_items` lê **só a coluna `price`**, ignorando dezenas de outras, e ainda comprime muito (valores parecidos numa coluna). Formatos como **Parquet** levam o mesmo princípio ao disco.
 
-Por que isso importa? Uma consulta analítica típica (`SELECT SUM(valor) FROM vendas`) só precisa da coluna `valor`. No formato colunar, o motor lê **apenas essa coluna**, ignorando dezenas de outras. Além disso, valores de uma mesma coluna são parecidos, o que permite **compressão muito maior** (run-length encoding, dictionary encoding). Formatos como **Parquet** e **ORC** são colunares e dominam o ecossistema analítico.
+### Exemplo numérico: economia colunar na fct_order_items
 
-### Exemplo numérico: custo de varredura
-
-Suponha uma tabela de vendas com 50 colunas e **2 TB** de dados. Você quer somar a coluna `valor_total`, que ocupa 2% do tamanho total.
-
-- **Armazenamento por linha:** o motor precisa ler praticamente os **2 TB** inteiros para chegar à coluna desejada.
-- **Armazenamento colunar:** lê só a coluna `valor_total`:
+A `fct_order_items` do Olist tem ~112.650 linhas. Suponha 14 colunas, das quais `price` e `freight_value` são as métricas de interesse, e que uma análise de faturamento só precise de `price` (1 de 14 colunas). Lendo a tabela inteira por linha o motor varreria as 14 colunas; no colunar lê a fração:
 
 $$
-2\,\text{TB} \times 0{,}02 = 0{,}04\,\text{TB} = 40\,\text{GB}
+\text{fração lida} = \frac{1}{14} \approx 0{,}071 = 7{,}1\%
 $$
 
-Com compressão colunar de fator 4, isso cai para **10 GB** efetivamente lidos. Em um DW na nuvem que cobra por dados varridos a, digamos, R\$ 30,00 por TB:
+Com compressão colunar típica de fator 4 sobre essa coluna, o volume efetivamente lido cai para:
 
 $$
-\text{Custo por linha} = 2 \times 30 = \text{R\$ }60{,}00
-$$
-$$
-\text{Custo colunar} = 0{,}01 \times 30 = \text{R\$ }0{,}30
+\frac{0{,}071}{4} \approx 0{,}018 = 1{,}8\%\ \text{do tamanho original}
 $$
 
-Uma economia de **200×** na mesma consulta. Multiplique por milhares de consultas/mês e o impacto financeiro é enorme.
+Ou seja, somar o faturamento dos R\$ 13,2 milhões em itens do Olist toca menos de 2% dos bytes da tabela — a base do desempenho analítico que torna o DuckDB instantâneo no laptop.
 
 ### Atividade prática
 
-Para um cenário de varejo (real ou imaginado):
+No seu `dbt_olist/`:
 
-1. Liste **três perguntas analíticas** que a diretoria faria (ex.: faturamento por região/mês).
-2. Desenhe um **esquema estrela** com uma tabela fato `vendas` e ao menos três dimensões (Tempo, Produto, Loja).
-3. Indique **uma métrica** na fato e **dois atributos** por dimensão.
-4. Identifique uma dimensão que precisaria de **SCD Tipo 2** e justifique.
+1. Crie `models/marts/core/dim_products.sql` lendo de `{{ ref('stg_products') }}` e juntando a tradução de categoria (`stg_category_translation`).
+2. Crie `mart_sales_by_category.sql` agregando `sum(price)` por `product_category_name_english`, com `ref` para `fct_order_items` e `dim_products`.
+3. Rode `dbt run --select marts.core+` e confira a ordem de execução no lineage.
+4. Aponte **uma dimensão** do Olist (além de `dim_sellers`) que poderia exigir **SCD2** e justifique.
 
 ### Pontos-chave
 
-- O **Data Warehouse** é orientado a assunto, integrado, não volátil e variante no tempo — voltado a OLAP, não a OLTP.
-- **Inmon** (top-down, normalizado) e **Kimball** (bottom-up, dimensional) são as duas escolas; projetos reais costumam ser híbridos.
-- As camadas **staging → core → data marts** separam ingestão, integração e consumo.
-- A **modelagem dimensional** usa tabelas fato (métricas) e dimensão (contexto), em esquema estrela ou floco de neve.
-- O **armazenamento colunar** reduz drasticamente dados varridos e custo, base do desempenho analítico.
+- O **DW do Olist** é orientado a assunto, integrado, não volátil e variante no tempo — voltado a OLAP, não ao OLTP do marketplace.
+- No dbt, as camadas **staging → core → marts** viram pastas: `stg_*` (Aula 5) → `dim_*`/`fct_*` → `mart_*`.
+- A **estrela** carrega métricas (`price`, `freight_value`) na fato e contexto nas dimensões, encadeadas por `{{ ref(...) }}`.
+- **SCD2** com `dbt snapshot` (`strategy='check'`) historiza `dim_sellers` quando um vendedor muda de UF.
+- O **colunar** (DuckDB/Parquet) lê só as colunas necessárias e comprime muito — base do desempenho do DW.
 
 ### Para saber mais
 
-- **KIMBALL, R.; ROSS, M.** *The Data Warehouse Toolkit*. 3. ed. Wiley, 2013.
+- **Kimball Group — Dimensional Modeling Techniques:** https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/
+- **dbt — How we structure our dbt projects (staging/core/marts):** https://docs.getdbt.com/best-practices/how-we-structure/1-guide-overview
+- **dbt — Snapshots (SCD2):** https://docs.getdbt.com/docs/build/snapshots
 - **Documentação Apache Parquet:** https://parquet.apache.org/docs/
-- **Wikipedia — Star schema:** https://en.wikipedia.org/wiki/Star_schema
 
 ## Aula 9 — Roteiro da Videoaula 9: "Data Warehouse e modelagem dimensional aplicada"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Imagine a diretora de uma rede de 200 lojas pedindo o faturamento por categoria, por região, comparado ao ano passado. Se essa consulta bater no caixa da loja, o caixa trava. Hoje você vai entender o sistema que existe justamente para responder perguntas analíticas sem derrubar a operação: o Data Warehouse."
+> "Na Unidade 2 deixamos prontas as nove tabelas de staging do Olist no dbt. Mas staging é só espelho da fonte. Quando a diretoria do marketplace pergunta 'faturamento por categoria e por UF no trimestre', precisamos de algo mais: um Data Warehouse. Hoje vamos construir o DW do Olist em camadas com dbt — staging, core com a estrela, e marts de negócio — e historizar os vendedores com SCD2."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "Vamos começar pela definição clássica de Inmon: orientado a assunto, integrado, não volátil e variante no tempo. A palavra-chave é OLAP, em oposição ao OLTP do banco transacional. Em seguida apresento as duas escolas: Inmon, top-down e normalizado, e Kimball, bottom-up e dimensional. Mostro a tabela comparativa e explico por que projetos reais quase sempre são híbridos: um core integrado que alimenta marts dimensionais."
+> "Começo pela definição de Inmon aplicada ao Olist: orientado a assunto, integrado, não volátil, variante no tempo — a palavra-chave é OLAP, contra o OLTP do marketplace. Comparo Inmon e Kimball e digo qual escolhemos no projeto: híbrido com sabor Kimball, exatamente como o dbt recomenda estruturar. Aí mostro as três camadas virando pastas: models/staging que já temos, models/marts/core com dim e fct, e marts analíticos com os mart_."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (4:00 – 6:45)
 
-> "Agora as três camadas: staging, onde o dado bruto pousa; core, a fonte única da verdade; e data marts, os recortes por área. Com isso, entro na modelagem dimensional: tabela fato com as métricas, tabelas dimensão com o contexto, montando o esquema estrela. Falo rapidamente de snowflake e do conceito de Slowly Changing Dimensions — quando sobrescrever e quando preservar o histórico."
+> "Agora a estrela em SQL real. Abro o dim_customers e o fct_order_items: repare que o fato carrega só chaves e as métricas price e freight_value, com grão de um item, encadeado por ref. Tudo que é contexto — quem, o quê, quando, onde — vai para as dimensões. Esse ref é o que monta o lineage automático do dbt, ligando staging a core a marts."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:45 – 9:00)
 
-> "Por que o DW é tão rápido? Armazenamento colunar. Mostro a diferença entre guardar por linha e por coluna, e por que somar uma coluna em formato colunar lê uma fração dos dados. Trago o exemplo numérico: 2 TB de tabela, somar uma coluna de 2% — por linha lê 2 TB, colunar lê 40 GB, e com compressão, 10 GB. A diferença de custo chega a 200 vezes."
+> "E quando um seller muda de cidade? Se sobrescrevermos, perdemos o histórico. Mostro o SCD Tipo 2 com dbt snapshot e strategy check nas colunas seller_city e seller_state: o dbt cria dbt_valid_from e dbt_valid_to automaticamente. Fecho com o número: somar o faturamento da fct_order_items, 112 mil itens, toca menos de 2% dos bytes graças ao colunar do DuckDB. É por isso que a agregação roda instantânea no laptop."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:45)
 
-> "O Data Warehouse resolve bem o mundo estruturado e tabular. Mas e os dados não estruturados — logs, imagens, JSON, vídeo? Na próxima aula entramos no Data Lake e no Data Lakehouse, que prometem unir o melhor dos dois mundos. Te espero!"
+> "Temos o DW do Olist em camadas com a estrela e SCD2. Mas e os dados que não cabem na estrela — o texto livre dos reviews, arquivos brutos, histórico que queremos versionar? Na próxima aula organizamos o storage do Olist em Lakehouse, com Parquet em camadas bronze, silver e gold particionado por ano e mês. Te espero!"
 
 ---
 
 ## Aula 10 — Data Lake e Data Lakehouse
 
-O Data Warehouse é excelente para dados tabulares e limpos — mas o mundo dos dados é muito mais bagunçado que isso. Logs de servidores, JSON de APIs, imagens, áudios, sensores de IoT: nada disso cabe bem em colunas e linhas pré-definidas. Para acomodar essa variedade, surgiu o **Data Lake**. Só que ele trouxe um problema novo: a facilidade de jogar qualquer coisa dentro virou o **data swamp**, o pântano de dados. Nesta aula você vai entender os limites do DW, o que é um Data Lake, como os formatos de tabela abertos (Delta, Iceberg, Hudi) resgataram a confiabilidade e como a **arquitetura Lakehouse** combina o melhor dos dois mundos.
+Na Aula 9 montamos o DW do Olist em camadas no DuckDB — ótimo para o que é tabular e limpo. Mas nem tudo no Olist cabe bem numa estrela: o `review_comment_message` é texto livre, queremos guardar os CSVs crus de forma auditável, e seria valioso "ver o Olist como estava mês passado". Para acomodar essa variedade e versionar o histórico, surge o **Data Lake** — e sua armadilha, o **data swamp**. Nesta aula vamos organizar o storage do Olist na **arquitetura Medallion** (bronze/silver/gold em Parquet), com o DuckDB lendo **Parquet particionado por ano/mês** como um **lakehouse local**, e entender, na teoria, como Delta e Iceberg dariam ACID e **time travel** ao projeto.
 
 ### Os limites do Data Warehouse
 
-O DW clássico tem três limitações que a era do Big Data expôs:
+O DW clássico tem três limitações que a era do Big Data expôs e que sentimos no Olist:
 
-1. **Esquema rígido (schema-on-write):** você precisa definir a estrutura **antes** de gravar. Dados semiestruturados ou que mudam de forma sofrem.
-2. **Custo de armazenamento alto:** DWs guardam dados em formato proprietário e caro; armazenar petabytes de logs brutos seria proibitivo.
-3. **Variedade limitada:** imagens, vídeos e texto livre não se encaixam no modelo relacional.
+1. **Esquema rígido (schema-on-write):** você define a estrutura **antes** de gravar. O texto dos reviews e payloads que mudam de forma sofrem.
+2. **Custo de armazenamento:** guardar petabytes de histórico bruto em formato proprietário sairia caro.
+3. **Variedade limitada:** texto livre, imagens, JSON não se encaixam bem no relacional.
 
-Em ciência de dados e machine learning, justamente esses dados "difíceis" são os mais valiosos — e o DW não os acolhe bem.
+Justamente os dados "difíceis" (o comentário do review) são valiosos para ciência de dados — e o DW não os acolhe bem.
 
 ### O Data Lake e o risco do data swamp
 
-Um **Data Lake** é um repositório que armazena dados **em formato bruto e no formato nativo**, sem exigir esquema prévio (**schema-on-read** — a estrutura é aplicada na leitura). Tipicamente vive sobre armazenamento de objetos barato como **Amazon S3, Google Cloud Storage ou Azure Data Lake Storage**.
+Um **Data Lake** armazena dados **em formato bruto e nativo**, sem exigir esquema prévio (**schema-on-read** — a estrutura é aplicada na leitura). Tipicamente vive sobre armazenamento de objetos barato como **Amazon S3, Google Cloud Storage ou Azure Data Lake Storage**. No nosso projeto local, o "object storage" é simplesmente a pasta `data/` com os CSVs e Parquets do Olist.
 
-A vantagem é a flexibilidade: jogue tudo lá, decida depois como usar. O perigo é exatamente esse: sem governança, catálogo e qualidade, o lago vira um **data swamp** — um depósito de arquivos sem documentação, sem dono e sem confiabilidade, onde ninguém sabe o que existe nem se pode confiar. Um Data Lake sem disciplina é pior que não ter Data Lake nenhum.
+A vantagem é a flexibilidade: jogue tudo lá, decida depois. O perigo é esse mesmo: sem governança, catálogo e qualidade, o lago vira um **data swamp** — arquivos sem documentação, sem dono e sem confiabilidade. Se largássemos os 9 CSVs do Olist soltos sem padronizar nomes, tipos e camadas, ninguém saberia qual `order_items` é o oficial.
 
 ![Centro de dados em nuvem: o tipo de infraestrutura de armazenamento de objetos de baixo custo sobre a qual Data Lakes e Lakehouses são construídos](https://commons.wikimedia.org/wiki/Special:FilePath/CERN_Server_03.jpg)
 
-### Formatos de tabela abertos (Delta, Iceberg, Hudi)
+### Formatos de tabela abertos (Delta, Iceberg, Hudi) — teoria sobre o Olist
 
-O grande problema histórico do Data Lake era a ausência de garantias **ACID** (atomicidade, consistência, isolamento, durabilidade). Escrever num lago de arquivos Parquet podia deixar leituras inconsistentes no meio de uma atualização. Os **formatos de tabela abertos** resolvem isso adicionando uma **camada de metadados transacional** sobre os arquivos:
+O problema histórico do Data Lake era a ausência de garantias **ACID**. Escrever num lago de Parquet podia deixar leituras inconsistentes no meio de uma atualização. Os **formatos de tabela abertos** resolvem com uma **camada de metadados transacional** sobre os arquivos:
 
 | Formato | Origem | Destaques |
 | --- | --- | --- |
@@ -169,112 +200,132 @@ O grande problema histórico do Data Lake era a ausência de garantias **ACID** 
 | **Apache Iceberg** | Netflix | Evolução de esquema/partição, snapshots, neutro em relação a engine |
 | **Apache Hudi** | Uber | Upserts eficientes, ingestão incremental, foco em CDC |
 
-Todos trazem recursos antes exclusivos do DW: transações ACID, **time travel** (consultar como estava ontem), evolução de esquema e `MERGE`/`UPDATE`/`DELETE` sobre arquivos. São a fundação técnica do Lakehouse.
+Para o Olist, o ganho concreto desses formatos seria o **time travel**: poder consultar "como estava a tabela de pedidos no fechamento de janeiro/2018" — auditável, sem manter cópias manuais. Nosso lake local em Parquet puro não tem isso nativamente; Delta/Iceberg adicionariam essa máquina do tempo.
 
 ### A arquitetura Lakehouse
 
-A **arquitetura Lakehouse** (termo cunhado pela Databricks) propõe unir o melhor dos dois mundos:
+A **arquitetura Lakehouse** (termo da Databricks) une o melhor dos dois mundos:
 
-- A **flexibilidade e o baixo custo** do Data Lake (armazenamento de objetos, qualquer tipo de dado, formatos abertos).
-- A **confiabilidade e o desempenho** do Data Warehouse (transações ACID, governança, esquema, otimização de consulta).
+- A **flexibilidade e o baixo custo** do Data Lake (object storage, qualquer tipo de dado, formatos abertos).
+- A **confiabilidade e o desempenho** do Data Warehouse (ACID, governança, esquema, otimização de consulta).
 
-Na prática, o Lakehouse coloca um formato de tabela aberto (Delta/Iceberg/Hudi) e uma camada de metadados/catálogo sobre o object storage, permitindo que BI, SQL ad hoc e treino de ML rodem **sobre a mesma cópia única dos dados** — sem precisar manter um Data Lake e um DW separados, com cópias duplicadas.
+No nosso projeto, o **DuckDB lendo Parquet** já é um **lakehouse local**: o motor analítico SQL roda direto sobre os arquivos do lake, sem precisar carregar tudo para dentro de um DW separado. É a mesma cópia única servindo BI, SQL ad hoc e (na Aula 16) treino de ML.
 
-### Arquitetura Medallion (bronze, silver, gold)
+### Arquitetura Medallion aplicada ao Olist (bronze/silver/gold)
 
-Para organizar um Lakehouse e evitar o data swamp, a Databricks popularizou a **arquitetura Medallion**, com três camadas de qualidade crescente:
+Para organizar o lakehouse e fugir do swamp, a Databricks popularizou a **arquitetura Medallion**, com três camadas de qualidade crescente — e é exatamente assim que estruturamos o `data/` do Olist:
 
-- **Bronze (bruto):** dados como chegaram da fonte, sem transformação. Histórico fiel, auditável.
-- **Silver (limpo/conformado):** dados filtrados, deduplicados, padronizados e validados. Junções entre fontes começam aqui.
-- **Gold (curado/negócio):** dados agregados e modelados para consumo direto — tabelas dimensionais, KPIs, features de ML, prontos para BI.
+- **Bronze (`data/bronze/`):** os CSVs do Olist convertidos para Parquet, crus e fiéis à fonte (já fizemos na Aula 2). Histórico auditável.
+- **Silver (`data/silver/`):** o resultado dos modelos `staging` materializado em Parquet — limpo, deduplicado, tipado.
+- **Gold (`data/gold/`):** os `marts` exportados em Parquet, prontos para BI e ML.
 
-O dado **flui de bronze para gold**, ganhando qualidade e perdendo volume a cada etapa. É o equivalente Lakehouse das camadas staging/core/marts do DW.
+O dado **flui de bronze para gold**, ganhando qualidade e perdendo volume. É o equivalente lakehouse das camadas staging/core/marts do dbt — bronze ↔ raw, silver ↔ staging, gold ↔ marts.
 
-### Exemplo numérico: custo de armazenamento
+### DuckDB lendo Parquet particionado por ano/mês
 
-Compare guardar **100 TB** de dados históricos por um ano:
+A chave de desempenho do lake é o **particionamento**. Exportamos os pedidos do gold particionados pelo ano e mês de `order_purchase_timestamp`; assim, uma análise de um mês lê **só aquela pasta**, não os 25 meses do Olist (partition pruning físico):
 
-- **Data Warehouse na nuvem** (armazenamento gerenciado), a ~R\$ 100,00 por TB/mês:
+```sql
+-- exporta gold particionado por ano/mês (DuckDB)
+COPY (
+  SELECT *,
+         year(date_key)  AS year,
+         month(date_key) AS month
+  FROM   fct_orders
+) TO 'data/gold/orders'
+  (FORMAT PARQUET, PARTITION_BY (year, month), OVERWRITE_OR_IGNORE);
+```
+
+E para ler de volta, o DuckDB usa hive partitioning e poda as partições no `WHERE`:
+
+```sql
+SELECT count(*)
+FROM read_parquet('data/gold/orders/**/*.parquet', hive_partitioning = true)
+WHERE year = 2018 AND month = 1;
+```
+
+### Exemplo numérico: particionamento reduz o scan
+
+O Olist cobre set/2016 a out/2018 — aproximadamente **25 meses**. Se uma análise precisa de **um único mês** (digamos, jan/2018) e os ~99.441 pedidos estão distribuídos de forma aproximadamente uniforme, a leitura particionada toca:
 
 $$
-100 \times 100 \times 12 = \text{R\$ }120\,000{,}00\text{/ano}
+\frac{99\,441}{25} \approx 3\,978\ \text{pedidos}\ \ (\approx 4{,}0\%\ \text{do total})
 $$
 
-- **Lakehouse sobre object storage** (S3/GCS), a ~R\$ 0,12 por GB/mês $\approx$ R\$ 120,00 por TB/mês na camada padrão, mas com **tiering** para classe fria (R\$ 6,00 por TB/mês) nos dados raramente acessados. Supondo 20% quente e 80% frio:
+Sem particionamento, a mesma consulta varreria os 99.441 pedidos para depois filtrar. O fator de redução de scan é:
 
 $$
-(100 \times 0{,}2 \times 120 + 100 \times 0{,}8 \times 6) \times 12 = (2\,400 + 480) \times 12 = \text{R\$ }34\,560{,}00\text{/ano}
+\frac{1}{25} = 0{,}04 \ \Rightarrow\ \text{varre}\ \sim\!25\times\ \text{menos dados}
 $$
 
-A economia chega a **~70%** ao manter o histórico bruto no object storage barato, reservando o DW (ou camada gold) apenas para o que precisa de desempenho de consulta. Esse é o argumento econômico central do Lakehouse.
+E o custo de manter esse lakehouse local é **R\$ 0,00**: roda no laptop com DuckDB + Parquet, sem DW gerenciado.
 
 ### Atividade prática
 
-Para uma empresa de e-commerce (real ou imaginada):
+No seu projeto Olist:
 
-1. Liste **quatro tipos de dado** que não caberiam bem num DW tradicional (ex.: logs de clique, fotos de produto).
-2. Classifique cada um nas camadas **bronze, silver, gold** da Medallion.
-3. Escolha um **formato de tabela aberto** (Delta, Iceberg ou Hudi) e justifique para o caso de CDC/upserts.
-4. Aponte **dois riscos de virar data swamp** e como mitigá-los (catálogo, governança).
+1. Materialize a camada **silver** exportando `stg_order_items` para `data/silver/order_items.parquet`.
+2. Exporte `fct_orders` para `data/gold/orders` particionado por `year` e `month` (use o `COPY ... PARTITION_BY` acima).
+3. Rode a consulta de contagem de um mês com `hive_partitioning=true` e compare com a contagem total.
+4. Escreva, em duas linhas, **como o Delta Lake** daria *time travel* a essa tabela gold — e que pergunta de auditoria do Olist isso responderia.
 
 ### Pontos-chave
 
-- O **Data Warehouse** sofre com esquema rígido, custo alto e baixa variedade — limites da era do Big Data.
-- O **Data Lake** acolhe dados brutos e variados (schema-on-read), mas sem governança vira **data swamp**.
-- **Delta, Iceberg e Hudi** trazem ACID, time travel e evolução de esquema ao lago.
-- A **arquitetura Lakehouse** une flexibilidade/custo do lago com confiabilidade/desempenho do DW, sobre uma cópia única.
-- A **arquitetura Medallion** (bronze → silver → gold) organiza o Lakehouse em camadas de qualidade crescente.
+- O **DW** sofre com esquema rígido, custo e variedade — por isso o Olist também ganha um **lake** (texto de reviews, histórico bruto).
+- O **Data Lake** acolhe dados brutos (schema-on-read), mas sem governança vira **data swamp**.
+- **Delta, Iceberg e Hudi** trazem ACID e **time travel** ao lago — no Olist, "ver a tabela como estava mês passado".
+- O **DuckDB lendo Parquet** é um **lakehouse local**: SQL analítico sobre a mesma cópia única, de graça.
+- A **Medallion** organiza `data/` em **bronze → silver → gold**, espelhando raw → staging → marts; **Parquet particionado por ano/mês** poda o scan.
 
 ### Para saber mais
 
-- **Documentação Delta Lake:** https://docs.delta.io/latest/index.html
-- **Apache Iceberg — documentação oficial:** https://iceberg.apache.org/docs/latest/
-- **Databricks — What is a Lakehouse?:** https://www.databricks.com/glossary/data-lakehouse
+- **Databricks — What is a Data Lakehouse?:** https://www.databricks.com/glossary/data-lakehouse
+- **Databricks — Medallion Architecture:** https://www.databricks.com/glossary/medallion-architecture
+- **DuckDB — Reading and writing Parquet:** https://duckdb.org/docs/data/parquet/overview
+- **DuckDB — Partitioned writes (PARTITION_BY):** https://duckdb.org/docs/data/partitioning/partitioned_writes
 
 ## Aula 10 — Roteiro da Videoaula 10: "Data Lake e Data Lakehouse"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "O Data Warehouse é ótimo para dados tabulares e limpos. Mas e logs, JSON, imagens, áudio, sensores de IoT? Nada disso cabe em colunas pré-definidas. Hoje vamos conhecer o Data Lake, o pântano de dados que ele pode virar, e a arquitetura Lakehouse, que promete unir o melhor dos dois mundos."
+> "Na Aula 9 montamos o DW do Olist em camadas no DuckDB, ótimo para o que é tabular. Mas o texto livre dos reviews não cabe na estrela, queremos guardar os CSVs crus de forma auditável e poder ver o Olist como estava mês passado. Hoje organizamos o storage do Olist em Lakehouse: Parquet em bronze, silver e gold, particionado por ano e mês, com o DuckDB lendo direto como um lakehouse local."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "Começo pelos limites do DW: esquema rígido schema-on-write, custo alto de armazenamento e variedade limitada. Aí entra o Data Lake: schema-on-read, sobre object storage barato como S3. Mostro a vantagem da flexibilidade e o grande perigo: sem governança, catálogo e qualidade, o lago vira um data swamp, um depósito onde ninguém confia em nada."
+> "Começo pelos limites do DW: esquema rígido, custo e variedade. Aí entra o Data Lake, schema-on-read sobre object storage barato — no nosso caso, a pasta data com os CSVs e Parquets do Olist. Mostro a vantagem da flexibilidade e o perigo: sem governança, os nove CSVs soltos viram um data swamp onde ninguém sabe qual order_items é o oficial."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (4:00 – 6:45)
 
-> "Como resgatar a confiabilidade? Com os formatos de tabela abertos. Apresento a tabela: Delta Lake da Databricks, Iceberg do Netflix, Hudi do Uber. Todos trazem transações ACID, time travel, evolução de esquema e MERGE sobre arquivos. Em cima disso, defino a arquitetura Lakehouse: a flexibilidade e o custo do lago, com a confiabilidade e o desempenho do warehouse, numa cópia única dos dados."
+> "Como resgatar a confiabilidade? Formatos de tabela abertos: Delta da Databricks, Iceberg do Netflix, Hudi do Uber, todos com ACID e time travel. Para o Olist, o ganho concreto é o time travel — consultar a tabela de pedidos como estava no fechamento de janeiro de 2018. Em cima disso defino o Lakehouse, e mostro que o DuckDB lendo Parquet já é o nosso lakehouse local: SQL direto sobre a mesma cópia única."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:45 – 9:00)
 
-> "Para organizar e fugir do swamp, a arquitetura Medallion: bronze cru, silver limpo, gold curado para o negócio. O dado flui ganhando qualidade. E o exemplo numérico: guardar 100 TB por ano. No DW gerenciado dá cerca de R$ 120 mil; no Lakehouse com tiering quente/frio, cerca de R$ 34 mil. Quase 70% de economia mantendo o histórico no object storage barato."
+> "Para organizar e fugir do swamp, a Medallion aplicada ao data do Olist: bronze são os CSVs convertidos em Parquet, silver é o staging materializado, gold são os marts. Mostro o COPY com PARTITION_BY ano e mês exportando os pedidos, e a leitura com hive_partitioning podando o WHERE. O número: o Olist tem 25 meses; ler um mês toca cerca de 4% dos pedidos, varre 25 vezes menos dados, e custa zero no laptop."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:45)
 
-> "Vimos as arquiteturas conceituais. Mas como isso se materializa em produtos reais que você usaria amanhã? Na próxima aula vamos aos Data Warehouses na nuvem — BigQuery, Snowflake e Redshift — e ao conceito que mudou tudo: a separação entre armazenamento e computação. Te espero!"
+> "Temos o lakehouse local do Olist em Medallion, particionado e de graça. Mas e quando o Olist crescer e precisar de nuvem? A boa notícia: o mesmo dbt migra trocando o profile. Na próxima aula pego os nossos modelos stg, dim e fct e mostro como rodariam num Data Warehouse na nuvem — BigQuery — com partição, clustering e o impacto no custo. Te espero!"
 
 ---
 
 ## Aula 11 — Data Warehouses na nuvem (BigQuery, Snowflake, Redshift)
 
-Até pouco tempo atrás, montar um Data Warehouse significava comprar servidores caros, dimensionar para o pico, e ver tudo ocioso fora dele. A nuvem virou o jogo com uma ideia simples e poderosa: **separar armazenamento de computação**. Você guarda os dados num lugar barato e aciona poder de processamento sob demanda, pagando só pelo que usa. Esta aula apresenta os três grandes DWs em nuvem — **BigQuery, Snowflake e Redshift** —, seus modelos de preço e as técnicas de **particionamento e clustering** que separam uma fatura de R\$ 50,00 de uma de R\$ 5.000,00 na mesma consulta.
+Até aqui o pipeline do Olist roda 100% local: DuckDB + dbt + Parquet, de graça no laptop. Isso é perfeito para aprender e para volumes como os ~120 MB do Olist. Mas e quando o marketplace virar "Olist × 1000" e os dados não couberem num laptop? A resposta da indústria são os **Data Warehouses na nuvem** — **BigQuery, Snowflake e Redshift** — apoiados numa ideia poderosa: **separar armazenamento de computação**. A melhor parte, e a mensagem central desta aula: **o mesmo projeto dbt do Olist migra para a nuvem trocando o adapter e o `profiles.yml`** — os modelos `stg_*`, `dim_*` e `fct_*` continuam idênticos. Vamos demonstrar (sem precisar de conta) e medir o impacto de **particionamento + clustering** no custo.
 
 ### Separação de armazenamento e computação
 
-No DW tradicional (on-premises), **armazenamento e processamento eram acoplados** no mesmo servidor — escalar um exigia escalar o outro. A inovação dos DWs em nuvem foi **desacoplar**:
+No DW tradicional (on-premises), **armazenamento e processamento eram acoplados** — escalar um exigia escalar o outro. A nuvem **desacoplou**:
 
-- **Armazenamento:** os dados ficam em object storage barato e elástico.
+- **Armazenamento:** os dados ficam em object storage barato e elástico (como nosso Parquet, só que gerenciado).
 - **Computação:** clusters/motores são acionados sob demanda para processar consultas.
 
-As consequências são profundas. Você pode ter **múltiplos clusters lendo os mesmos dados** sem conflito (o time de BI e o de ML não competem por recursos), **escalar o processamento** para uma consulta pesada e desligá-lo depois, e **pagar armazenamento e computação separadamente**. É o que torna o DW em nuvem econômico e elástico.
+As consequências: **múltiplos clusters lendo os mesmos dados** sem conflito (BI e ML não competem), **escalar** para uma consulta pesada e desligar depois, e **pagar storage e compute separadamente**. O DuckDB local já antecipa essa ideia (motor sobre arquivos Parquet); a nuvem só a industrializa e a torna elástica.
 
 ![Servidores em um data center em nuvem: a infraestrutura elástica que sustenta a separação entre armazenamento e computação nos DWs em nuvem](https://commons.wikimedia.org/wiki/Special:FilePath/Wikimedia_Foundation_Servers-8055_35.jpg)
 
 ### BigQuery, Snowflake e Redshift
-
-Os três líderes têm filosofias distintas:
 
 | Atributo | BigQuery (Google) | Snowflake | Redshift (AWS) |
 | --- | --- | --- | --- |
@@ -283,252 +334,271 @@ Os três líderes têm filosofias distintas:
 | **Nuvem** | Google Cloud | Multi-cloud (AWS, Azure, GCP) | AWS |
 | **Diferencial** | Zero administração, escala automática | Separação total storage/compute, sharing | Integração nativa com ecossistema AWS |
 
-**BigQuery** brilha pela simplicidade serverless — você não gerencia infraestrutura nenhuma. **Snowflake** se destaca pela separação total e por recursos como data sharing e zero-copy cloning. **Redshift** é a escolha natural de quem já vive no ecossistema AWS. Não há "melhor absoluto"; há melhor para o contexto.
+Para o Olist usaremos o **BigQuery** na demonstração (serverless, cobra por TB varrido — ótimo para mostrar custo). O ponto pedagógico vale para os três: nenhum exige reescrever nossos modelos dbt.
 
-### Modelos de preço (on-demand vs slots)
+### Trocar o adapter: dbt-duckdb → dbt-bigquery
 
-Entender o modelo de cobrança é o que evita sustos na fatura. Há duas lógicas principais:
+A migração do Olist para a nuvem é, na prática, **trocar o adapter do dbt e o `profiles.yml`**. Hoje temos:
 
-- **On-demand (por dados varridos):** você paga por **byte lido** pela consulta. Ótimo para uso esporádico e imprevisível. No BigQuery, por exemplo, a referência é da ordem de **US\$ 6,25 por TB** varrido.
-- **Slots / capacidade reservada / virtual warehouses:** você reserva (ou aciona) uma capacidade de processamento e paga por **tempo**. Compensa em uso intenso e previsível, dando custo estável.
+```yaml
+# profiles.yml — local (DuckDB)
+dbt_olist:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: olist.duckdb
+      schema: marts
+```
 
-A regra prática: cargas pequenas e esporádicas → **on-demand**; cargas grandes, contínuas e previsíveis → **capacidade reservada**. Muitas empresas usam um híbrido.
+Para a nuvem, instalamos `dbt-bigquery` e apontamos para o projeto/dataset — **os modelos `stg_orders`, `dim_customers`, `fct_order_items` não mudam uma linha**:
 
-### Particionamento e clustering
+```yaml
+# profiles.yml — nuvem (BigQuery)
+dbt_olist:
+  target: prod
+  outputs:
+    prod:
+      type: bigquery
+      method: service-account
+      project: olist-analytics
+      dataset: marts
+      keyfile: ~/.gcp/olist-sa.json
+      location: US
+      threads: 4
+```
 
-Duas técnicas reduzem drasticamente os dados varridos (e, portanto, o custo):
+É a materialização da mensagem do curso: *o que roda local com DuckDB+dbt migra para a nuvem trocando o profile; os conceitos são os mesmos.*
 
-- **Particionamento:** divide fisicamente a tabela por uma coluna, tipicamente **data** (`data_venda`). Uma consulta com filtro `WHERE data_venda = '2026-06-01'` lê **apenas a partição daquele dia**, ignorando o resto. Isso é **partition pruning**.
-- **Clustering (ou ordenação):** organiza os dados **dentro** de cada partição por colunas de filtro frequente (ex.: `id_loja`). Permite ao motor pular blocos que não contêm os valores buscados (**block pruning**).
+### Particionamento e clustering no fct_order_items
 
-Combinados, particionamento + clustering transformam uma varredura de tabela inteira numa leitura cirúrgica de poucos blocos.
+Na nuvem que cobra por **byte lido**, duas técnicas derrubam o custo — e o dbt as expõe via `config()` no próprio modelo. Particionamos a `fct_order_items` por data de compra e clusterizamos pela categoria mais filtrada:
 
-### Otimização de consultas
+```sql
+-- models/marts/core/fct_order_items.sql (config p/ BigQuery)
+{{ config(
+    materialized='table',
+    partition_by={'field': 'order_purchase_date', 'data_type': 'date'},
+    cluster_by=['product_category_name']
+) }}
+select
+    order_id, order_item_id, product_id, seller_id, customer_id,
+    cast(purchased_at as date) as order_purchase_date,
+    product_category_name,
+    price, freight_value
+from {{ ref('fct_order_items_base') }}
+```
 
-Além de particionar e clusterizar, boas práticas de SQL economizam muito:
+- **Particionamento** por `order_purchase_date`: um `WHERE order_purchase_date = '2018-01-15'` lê **só aquela partição** (partition pruning) — o mesmo conceito do Parquet particionado da Aula 10.
+- **Clustering** por `product_category_name`: ordena dentro da partição e deixa o motor pular blocos sem a categoria buscada (block pruning).
 
-1. **Selecione só as colunas necessárias** — `SELECT *` em DW colunar é caro; cada coluna lida custa.
-2. **Filtre cedo** pela coluna de partição para ativar o pruning.
-3. **Evite junções desnecessárias** e materialize agregações pesadas em tabelas/views materializadas.
-4. **Use a estimativa de custo** (dry run) antes de rodar consultas grandes — o BigQuery, por exemplo, mostra quantos bytes serão lidos antes da execução.
+### Custo por dado lido e FinOps
 
-Uma cultura de "olhar o custo antes de rodar" é tão importante quanto a tecnologia.
+Entender a cobrança evita sustos. No **on-demand** do BigQuery você paga por **byte lido** (referência da ordem de **US\$ 6,25 por TB**). A disciplina de FinOps no Olist seria: particionar por padrão, exigir filtro na coluna de partição, evitar `SELECT *` e usar o **dry run** (estimativa de bytes antes de rodar). A mesma query pode custar centavos ou centenas de dólares dependendo da modelagem — e isso é responsabilidade do engenheiro de dados.
 
-### Exemplo numérico: custo por consulta
+### Exemplo numérico: custo de uma query no "Olist × 1000"
 
-Uma tabela de eventos tem **10 TB**, particionada por dia, com 365 dias de dados (~27,4 GB/dia). Um analista roda uma consulta filtrando **um único dia** e selecionando apenas 1 das 50 colunas.
+O Olist real é pequeno demais para gerar custo relevante na nuvem (uma query nele lê megabytes). Para enxergar o efeito, projete **Olist × 1000** — cerca de **100 milhões de itens**, uma `fct_order_items` de aproximadamente **2 TB**, com 25 meses particionados. Um analista filtra **um mês** e seleciona poucas colunas.
 
-**Sem particionamento e com `SELECT *`** (lê tudo):
+**Sem partição, com `SELECT *`** (lê os 2 TB):
 
 $$
-10\,\text{TB} \times 6{,}25 = \text{US\$ }62{,}50 \text{ por consulta}
+2\,\text{TB} \times 6{,}25 = \text{US\$ }12{,}50\ \text{por consulta}
 $$
 
-**Com particionamento por dia + seleção de 1 coluna (2% do tamanho):**
+**Com partição por mês** (1 de ~25 meses) **e seleção de ~10% das colunas:**
 
 $$
-0{,}0274\,\text{TB} \times 0{,}02 \times 6{,}25 \approx \text{US\$ }0{,}0034 \text{ por consulta}
+2 \times \frac{1}{25} \times 0{,}10 \times 6{,}25 = 0{,}08 \times 6{,}25 = \text{US\$ }0{,}05\ \text{por consulta}
 $$
 
-A diferença é de cerca de **18.000×**. Se 30 analistas rodam 20 consultas/dia, a versão ingênua custaria
+Uma diferença de **~250×** na mesma pergunta. Com 20 analistas rodando 30 consultas/dia em 22 dias úteis, a versão ingênua custaria
 
 $$
-30 \times 20 \times 62{,}50 \times 22 \approx \text{US\$ }825\,000 \text{/mês}
+20 \times 30 \times 12{,}50 \times 22 = \text{US\$ }165\,000\ \text{/mês}
 $$
 
-contra **~US\$ 45/mês** na versão otimizada. É literalmente a diferença entre um projeto inviável e um trivial.
-
-### Pausa para reflexão (Desafio)
-
-> Se a mesma consulta pode custar **US\$ 62,50** ou **US\$ 0,003** dependendo de como a tabela foi modelada e do SQL escrito, de quem é a responsabilidade pela conta no fim do mês: do engenheiro de dados que projetou a tabela, do analista que escreveu a query, ou da plataforma que cobra por byte? Reflita: que **práticas de FinOps** (limites de custo por consulta, dry run obrigatório, tabelas particionadas por padrão, painéis de custo por time) você implantaria para que ninguém seja "surpreendido" pela fatura? E como equilibrar liberdade de explorar dados com disciplina de gasto?
+contra **~US\$ 660/mês** na versão particionada e enxuta. É a diferença entre um projeto inviável e um trivial — sem trocar uma linha da lógica dos modelos.
 
 ### Atividade prática
 
-Escolha **um** dos três DWs (BigQuery, Snowflake ou Redshift) e:
+Sem precisar de conta na nuvem:
 
-1. Liste **três vantagens** e **uma limitação** do modelo escolhido.
-2. Defina **uma estratégia de particionamento** e **uma de clustering** para uma tabela de vendas.
-3. Estime o custo de uma consulta que varre 1 dia de uma tabela de 5 TB particionada por dia (365 dias).
-4. Proponha **duas regras de governança de custo** (FinOps) para o time.
+1. Crie um `profiles.yml` com um segundo target `prod` do tipo `bigquery` (preencha `project`/`dataset` fictícios) e mantenha o `dev` DuckDB.
+2. Adicione o bloco `config(partition_by=..., cluster_by=...)` ao topo de `fct_order_items.sql`.
+3. Rode `dbt parse` (ou `dbt compile --target dev`) e confirme que os modelos **compilam sem alteração de lógica**.
+4. Estime, com a fórmula de US\$ 6,25/TB, o custo de uma query que varre 1 mês de uma `fct_order_items` de 5 TB particionada por mês.
 
 ### Pontos-chave
 
-- A **separação entre armazenamento e computação** é a inovação que tornou o DW em nuvem elástico e econômico.
-- **BigQuery** (serverless), **Snowflake** (virtual warehouses, multi-cloud) e **Redshift** (AWS) têm filosofias distintas.
-- Modelos de preço: **on-demand** (por dados varridos) vs **slots/capacidade** (por tempo) — escolha pelo padrão de uso.
-- **Particionamento** + **clustering** ativam pruning e reduzem drasticamente dados varridos e custo.
-- A mesma consulta pode custar milhares de vezes mais ou menos; **otimização e FinOps** são parte do trabalho.
+- A **separação storage/compute** torna o DW em nuvem elástico — o DuckDB local já antecipa a ideia sobre Parquet.
+- **BigQuery** (serverless), **Snowflake** (virtual warehouses) e **Redshift** (AWS) têm filosofias distintas; nenhum exige reescrever os modelos dbt.
+- Migrar o Olist é **trocar o adapter e o `profiles.yml`** (`dbt-duckdb` → `dbt-bigquery`); `stg_*`/`dim_*`/`fct_*` ficam idênticos.
+- **Particionar** por `order_purchase_date` + **clusterizar** por `product_category_name` ativa pruning e derruba o custo por byte.
+- No "Olist × 1000", a mesma query pode custar **US\$ 12,50 ou US\$ 0,05** — **otimização e FinOps** são parte do trabalho.
 
 ### Para saber mais
 
-- **Documentação BigQuery:** https://cloud.google.com/bigquery/docs
-- **Documentação Snowflake:** https://docs.snowflake.com/
-- **Amazon Redshift — documentação:** https://docs.aws.amazon.com/redshift/
+- **dbt — BigQuery configs (partition + cluster):** https://docs.getdbt.com/reference/resource-configs/bigquery-configs
+- **BigQuery — Partitioned tables:** https://cloud.google.com/bigquery/docs/partitioned-tables
+- **BigQuery — Clustered tables:** https://cloud.google.com/bigquery/docs/clustered-tables
+- **Repositório do adapter dbt-bigquery:** https://github.com/dbt-labs/dbt-bigquery
 
 ## Aula 11 — Roteiro da Videoaula 11: "Data Warehouses na nuvem (BigQuery, Snowflake, Redshift)"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Antes, montar um Data Warehouse era comprar servidor caro, dimensionar para o pico e ver tudo ocioso fora dele. A nuvem mudou isso com uma ideia simples: separar armazenamento de computação. Hoje vamos aos três grandes — BigQuery, Snowflake e Redshift — e às técnicas que separam uma fatura de R$ 50 de uma de R$ 5 mil na mesma consulta."
+> "Até aqui o pipeline do Olist roda 100% local: DuckDB, dbt e Parquet, de graça no laptop. Perfeito para os 120 MB do Olist. Mas e quando virar Olist vezes mil e não couber no laptop? A resposta da indústria são os Data Warehouses na nuvem. E a melhor notícia: o mesmo projeto dbt migra trocando o adapter. Hoje pego os nossos modelos e mostro como rodariam no BigQuery, com partição, clustering e o impacto no custo."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "Começo pela separação storage/compute: no on-premises eram acoplados, escalar um exigia escalar o outro. Na nuvem, dados ficam em object storage barato e a computação é acionada sob demanda. Isso permite múltiplos clusters lendo os mesmos dados sem competir. Depois comparo os três: BigQuery serverless puro, Snowflake com virtual warehouses e multi-cloud, Redshift integrado à AWS."
+> "Começo pela separação storage e compute: no on-premises eram acoplados; na nuvem, dados ficam em object storage barato e a computação é acionada sob demanda. Nosso DuckDB sobre Parquet já antecipa isso. Comparo os três grandes — BigQuery serverless, Snowflake com virtual warehouses, Redshift na AWS. E aí o ponto central: nenhum deles exige reescrever nossos modelos dbt do Olist."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (4:00 – 6:45)
 
-> "Modelos de preço: on-demand cobra por byte varrido, ótimo para uso esporádico; slots e capacidade reservada cobram por tempo, melhor em uso intenso e previsível. Em seguida, as duas alavancas de economia: particionamento, que divide a tabela por data e ativa o partition pruning, e clustering, que ordena dentro da partição e ativa o block pruning. Combinados, viram uma leitura cirúrgica."
+> "Mostro na tela: o profiles.yml local é type duckdb apontando para olist.duckdb. Para a nuvem, troco para type bigquery com project e dataset — e os modelos stg_orders, dim_customers, fct_order_items não mudam uma linha. Essa é a mensagem do curso inteira. Depois adiciono o config no fct_order_items: partition_by por order_purchase_date e cluster_by por product_category_name — o mesmo conceito do Parquet particionado da aula passada, agora ativando pruning na nuvem."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:45 – 9:00)
 
-> "O exemplo numérico mostra o tamanho do problema: tabela de 10 TB, consulta de um dia. Sem partição e com SELECT estrela, US$ 62,50 por consulta. Com partição por dia e uma coluna, menos de um centavo. Diferença de 18 mil vezes. Com 30 analistas, isso é a diferença entre 825 mil dólares por mês e 45 dólares. Otimização de SQL e FinOps são parte do trabalho do engenheiro de dados."
+> "O Olist real é pequeno demais para custar na nuvem, então projeto Olist vezes mil: uma fct de 2 TB. Sem partição e com SELECT estrela, 12 dólares e 50 por consulta. Com partição por mês e poucas colunas, 5 centavos — 250 vezes menos. Com 20 analistas, isso é a diferença entre 165 mil dólares por mês e 660. Tudo isso sem trocar uma linha da lógica dos modelos. Otimização e FinOps são trabalho de engenheiro de dados."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:45)
 
-> "Já temos onde guardar e como consultar barato. Falta juntar as peças num ecossistema coerente. Na próxima aula fechamos a unidade com a Modern Data Stack: Fivetran e Airbyte para ingestão, dbt para transformação, camada semântica e BI, e o conceito de data mesh. Te espero!"
+> "Vimos que o dbt do Olist sobe para a nuvem trocando só o profile, com partição e clustering controlando o custo. Já temos onde guardar, local e na nuvem. Falta juntar tudo num ecossistema coerente. Na próxima aula, que fecha a unidade, montamos a Modern Data Stack completa do Olist: ingestão, dbt com docs e lineage, o warehouse, e um dashboard no Metabase. Te espero!"
 
 ---
 
 ## Aula 12 — Modern Data Stack e arquitetura de dados na nuvem
 
-Nas aulas anteriores montamos as peças isoladas: warehouse, lake, lakehouse, DWs em nuvem. Mas como tudo isso se combina num conjunto de ferramentas que uma empresa realmente usa hoje? A resposta tem nome: **Modern Data Stack (MDS)** — um ecossistema modular de ferramentas SaaS, plugáveis entre si, centrado no DW/Lakehouse em nuvem. Nesta aula que fecha a unidade você vai conhecer os blocos da MDS — ingestão gerenciada (Fivetran, Airbyte), transformação com dbt, camada semântica e BI — e o paradigma organizacional do **data mesh**, que descentraliza a propriedade dos dados.
+Nas aulas desta unidade construímos as peças do Olist: o DW em camadas (Aula 9), o lakehouse Medallion (Aula 10) e a ponte para a nuvem (Aula 11). Mas como tudo isso vira um **ecossistema coerente** que uma empresa realmente opera? A resposta tem nome: **Modern Data Stack (MDS)** — um conjunto modular de ferramentas plugáveis, centrado no DW/Lakehouse. Nesta aula que fecha a unidade vamos **montar a MDS do Olist de ponta a ponta**: ingestão → transformação com dbt (gerando **docs e lineage**) → storage no DuckDB/DW → **BI com um dashboard no Metabase**. E discutimos o **data mesh**, tratando cada domínio do Olist (vendas, logística, reviews) como um data product.
 
 ### O que é a Modern Data Stack
 
-A **Modern Data Stack** é uma forma de arquitetar a plataforma de dados baseada em **ferramentas modulares, em nuvem, gerenciadas (SaaS) e centradas no warehouse/lakehouse**. Em vez de uma plataforma monolítica única, você compõe a stack com a melhor ferramenta de cada categoria, conectadas por padrões abertos.
+A **Modern Data Stack** arquiteta a plataforma com **ferramentas modulares, gerenciadas e centradas no warehouse/lakehouse**, conectadas por padrões abertos — você compõe a melhor ferramenta de cada categoria. O fio condutor é o **ELT**: primeiro **carrega** o bruto, **depois transforma** com SQL. Mapeada no nosso projeto Olist, a stack já existe quase inteira:
 
-O fio condutor da MDS é o **ELT** (Extract, Load, Transform), não o ETL clássico: primeiro **carrega** o dado bruto no DW barato e elástico, **depois transforma** lá dentro com SQL. As camadas típicas:
-
-1. **Ingestão** (Fivetran, Airbyte) → carrega dados das fontes no DW.
-2. **Armazenamento** (BigQuery, Snowflake, Redshift, Databricks) → o coração.
-3. **Transformação** (dbt) → modela os dados dentro do DW.
-4. **Camada semântica / BI** (Looker, Power BI, Metabase) → expõe ao usuário final.
-5. **Orquestração e observabilidade** (Airflow, Dagster, Monte Carlo) → cola e monitora tudo.
+1. **Ingestão** (`ingestion/load_raw.py`, ou Airbyte/Fivetran na nuvem) → CSVs do Olist no schema `raw`.
+2. **Armazenamento** (DuckDB local, ou BigQuery/Snowflake) → o coração.
+3. **Transformação** (**dbt**: `stg_*` → `dim_*`/`fct_*` → `mart_*`) → modela dentro do warehouse.
+4. **BI** (**Metabase**, Power BI, Looker) → dashboards do Olist ao usuário final.
+5. **Orquestração e observabilidade** (Airflow `olist_pipeline`; observabilidade vem na Unidade 4) → cola e monitora.
 
 ![Pilha de ferramentas em nuvem conectadas: a Modern Data Stack compõe ingestão, armazenamento, transformação e BI em módulos plugáveis sobre o data warehouse](https://commons.wikimedia.org/wiki/Special:FilePath/CERN_Server_03.jpg)
 
 ### Ingestão gerenciada (Fivetran, Airbyte)
 
-Escrever e manter conectores para cada fonte (Salesforce, Stripe, Postgres, Google Ads) é trabalhoso e repetitivo. Ferramentas de ingestão gerenciada resolvem isso com **conectores prontos**:
+Escrever conectores para cada fonte é repetitivo. Ferramentas de ingestão gerenciada resolvem com **conectores prontos**:
 
-- **Fivetran:** SaaS comercial, centenas de conectores mantidos, configuração quase sem código, com sincronização incremental automática. Cobra por **MAR (Monthly Active Rows)**.
-- **Airbyte:** alternativa open source (com versão cloud), comunidade ativa criando conectores, permite conectores customizados. Atrai quem quer controle e custo menor.
+- **Fivetran:** SaaS comercial, centenas de conectores, sincronização incremental automática; cobra por **MAR (Monthly Active Rows)**.
+- **Airbyte:** alternativa open source (com cloud), conectores customizáveis; atrai quem quer controle e custo menor.
 
-A proposta de ambos é a mesma: você **não escreve código de extração**; configura origem e destino, e a ferramenta cuida de schema drift, reprocessos e incrementos. É o "L" (Load) do ELT industrializado.
+No Olist local, esse papel é do nosso `load_raw.py` (lê os CSVs do Kaggle para o `raw`). Se o Olist fosse um Postgres ao vivo, um conector Airbyte/Fivetran substituiria o script — é o "L" (Load) do ELT industrializado, sem código de extração.
 
-### Transformação com dbt
+### Transformação com dbt: docs e lineage do Olist
 
-O **dbt (data build tool)** é a peça mais emblemática da MDS. Ele permite transformar dados **dentro do DW usando apenas SQL** (com Jinja para reuso), trazendo práticas de engenharia de software para a análise:
+O **dbt** já é o "T" da nossa stack desde a Unidade 2, e agora colhemos dois recursos poderosos: **documentação** e **lineage**. Com um comando, o dbt gera um catálogo navegável e o grafo de dependências de todo o pipeline do Olist:
 
-- **Modelos como `SELECT`:** cada transformação é um arquivo SQL versionado em Git.
-- **Lineage automático:** o dbt monta o grafo de dependências entre modelos (DAG).
-- **Testes de dados:** validações declarativas (unicidade, não-nulo, integridade referencial).
-- **Documentação gerada:** catálogo navegável com descrições e linhagem.
-- **Ambientes:** dev, staging e produção separados.
+```bash
+# gera o catálogo + lineage e sobe o site de docs do Olist
+dbt docs generate
+dbt docs serve --port 8080
+```
 
-O dbt é o "T" (Transform) do ELT e o que materializa, na prática, as camadas silver/gold da Medallion ou os data marts do DW — só que com **CI/CD, testes e documentação** como num projeto de software.
+No site, o **DAG de lineage** mostra `stg_orders` → `fct_orders` → `mart_delivery_performance`, com descrições e testes de cada modelo. Isso é a espinha dorsal da MDS: o dbt traz **modelos versionados em Git, lineage automático, testes e docs** — práticas de engenharia de software aplicadas à análise, materializando as camadas silver/gold da Medallion.
 
-### Camada semântica e BI
+### Camada semântica e BI: dashboard do Olist no Metabase
 
-Aqui mora um problema clássico: dois relatórios mostram "receita" com números diferentes porque cada analista calculou à sua maneira. A **camada semântica** resolve isso definindo **métricas e dimensões de forma centralizada e única** — "receita líquida" é definida uma vez, e todas as ferramentas de BI consomem a mesma definição.
+Aqui mora um problema clássico: dois relatórios mostram "faturamento" diferente porque cada analista calculou à sua maneira. A **camada semântica** define **métricas e dimensões de forma centralizada** — "faturamento líquido" é definido uma vez (como um modelo/mart no dbt) e todo o BI consome a mesma definição.
 
-Sobre essa camada vêm as ferramentas de **Business Intelligence**, que entregam dashboards e self-service ao usuário final:
+Sobre essa camada vem o **BI**. No projeto Olist conectamos o **Metabase ao DuckDB** (driver community) e montamos um dashboard sobre os marts:
 
-- **Looker** (Google) — forte camada semântica (LookML).
-- **Power BI** (Microsoft) — dominante no mercado corporativo.
-- **Metabase / Apache Superset** — opções open source acessíveis.
-- **Tableau** — referência em visualização.
+- **Vendas por categoria** (de `mart_sales_by_category`): top categorias do Olist.
+- **Performance de entrega** (de `mart_delivery_performance`): % no prazo, atraso médio por UF.
+- **Reviews**: distribuição das notas 1–5 (média ≈ 4,09).
 
-A camada semântica garante **uma única fonte da verdade para os números**, evitando o caos de definições divergentes.
+Metabase, Power BI, Looker e Superset são opções; o Metabase é open source e lê o DuckDB direto, mantendo o projeto 100% local e grátis.
 
-### Data mesh: princípios
+### Data mesh: o Olist em domínios
 
-Conforme a empresa cresce, um time central de dados vira gargalo: ele não conhece todos os domínios e não dá conta da demanda. O **data mesh** (proposto por Zhamak Dehghani) é um paradigma **organizacional** que descentraliza a responsabilidade pelos dados, apoiado em quatro princípios:
+Conforme a empresa cresce, um time central de dados vira gargalo. O **data mesh** (proposto por Zhamak Dehghani) descentraliza a responsabilidade, com quatro princípios — e o Olist ilustra bem cada domínio como **data product**:
 
-1. **Propriedade orientada a domínio:** cada domínio de negócio (vendas, logística) é dono dos seus próprios dados.
-2. **Dados como produto:** cada conjunto de dados é tratado como um produto, com dono, SLA, documentação e qualidade.
-3. **Plataforma de dados self-service:** infraestrutura comum que permite a cada domínio criar e servir seus produtos de dados.
-4. **Governança federada computacional:** padrões e políticas globais (segurança, interoperabilidade) aplicados de forma automatizada.
+1. **Propriedade orientada a domínio:** o domínio **Vendas** é dono de `fct_order_items`/`mart_sales_by_category`; **Logística**, de `mart_delivery_performance`; **Reviews**, dos dados de avaliação.
+2. **Dados como produto:** cada mart vira um produto com dono, SLA, documentação (a do `dbt docs`) e qualidade (os testes).
+3. **Plataforma self-service:** o mesmo `dbt_olist/` + DuckDB serve a todos os domínios.
+4. **Governança federada computacional:** padrões globais (nomenclatura `stg_`/`dim_`/`fct_`/`mart_`, testes obrigatórios) aplicados de forma automatizada.
 
-Data mesh não é uma ferramenta — é uma **mudança de modelo organizacional**, indicada para empresas grandes e com muitos domínios. Para empresas menores, uma stack centralizada ainda costuma ser o melhor caminho.
+Data mesh é **mudança organizacional**, não ferramenta; para um projeto do porte do Olist, uma stack centralizada já basta — mas o vocabulário de "dados como produto" guia boas decisões.
 
-### Exemplo numérico: TCO da stack
+### Exemplo numérico: TCO do "Olist em produção" vs local
 
-Vamos estimar o **TCO (Custo Total de Propriedade)** mensal de uma Modern Data Stack para uma empresa de médio porte:
+Estime o **TCO (Custo Total de Propriedade)** mensal se o Olist virasse produção na nuvem:
 
 | Componente | Ferramenta | Custo mensal (R\$) |
 | --- | --- | --- |
-| Ingestão | Fivetran (volume médio de MAR) | 4.000,00 |
-| Armazenamento + compute | BigQuery (on-demand + storage) | 6.000,00 |
-| Transformação | dbt Cloud (5 desenvolvedores) | 1.500,00 |
-| BI | Power BI (50 licenças) | 3.000,00 |
-| Observabilidade | Monte Carlo (plano básico) | 2.500,00 |
-| **Total ferramentas** | | **17.000,00** |
-
-Some o time: 1 engenheiro de dados + 1 analytics engineer a ~R\$ 18.000,00/mês de custo total cada = **R\$ 36.000,00**.
+| Ingestão | Airbyte Cloud (volume baixo) | 1.500,00 |
+| Armazenamento + compute | BigQuery (on-demand + storage) | 2.500,00 |
+| Transformação | dbt Cloud (2 desenvolvedores) | 1.000,00 |
+| BI | Metabase (open source, self-host) | 500,00 |
+| **Total ferramentas** | | **5.500,00** |
 
 $$
-\text{TCO mensal} = 17\,000 + 36\,000 = \text{R\$ }53\,000{,}00
-$$
-$$
-\text{TCO anual} \approx 53\,000 \times 12 = \text{R\$ }636\,000{,}00
+\text{TCO ferramentas (nuvem)} = 1\,500 + 2\,500 + 1\,000 + 500 = \text{R\$ }5\,500{,}00\ \text{/mês}
 $$
 
-Compare com a alternativa de **construir conectores e infraestrutura do zero**: facilmente exigiria 4–6 engenheiros (R\$ 70–100 mil/mês só de pessoal) e meses até o primeiro valor. A MDS troca **CapEx e tempo de engenharia por OpEx de SaaS** — entregando valor em semanas. Para a maioria das empresas, comprar a stack sai mais barato e rápido que construir.
+Agora compare com a **stack local do curso** (DuckDB + dbt-core + Airflow + Metabase open source no laptop): praticamente **R\$ 0,00 de ferramentas** — só o custo do hardware já existente. Para o volume do Olist (~120 MB), a stack local entrega o mesmo resultado de graça; a MDS na nuvem só passa a valer a pena quando o volume e a concorrência de usuários crescem. A lição: **comece local e barato; suba para a MDS na nuvem quando o problema justificar.**
 
 ### Atividade prática
 
-Monte, no papel, a **Modern Data Stack** de uma empresa fictícia:
+Monte a **MDS do Olist** no papel e na prática:
 
-1. Escolha uma ferramenta para cada camada (ingestão, armazenamento, transformação, BI, observabilidade).
-2. Justifique **uma escolha open source** e **uma escolha SaaS comercial** na sua stack.
-3. Estime um **TCO mensal** aproximado (ferramentas + 2 pessoas).
-4. Decida: a empresa deveria adotar **data mesh** agora? Justifique pelo porte e número de domínios.
-
-### Pontos-chave
-
-- A **Modern Data Stack** é modular, SaaS, em nuvem e centrada no DW/Lakehouse, baseada em **ELT**.
-- **Fivetran** (SaaS) e **Airbyte** (open source) industrializam a ingestão com conectores prontos.
-- **dbt** transforma dados no DW com SQL, trazendo testes, lineage, documentação e CI/CD à análise.
-- A **camada semântica** garante uma definição única de métricas; o **BI** entrega self-service ao usuário.
-- O **data mesh** descentraliza a propriedade dos dados em domínios — solução organizacional para empresas grandes.
-
-### Para saber mais
-
-- **Documentação dbt:** https://docs.getdbt.com/
-- **DEHGHANI, Z.** *Data Mesh: Delivering Data-Driven Value at Scale*. O'Reilly, 2022.
-- **Airbyte — documentação:** https://docs.airbyte.com/
-- **REIS, J.; HOUSLEY, M.** *Fundamentals of Data Engineering*. O'Reilly, 2022.
+1. Rode `dbt docs generate && dbt docs serve` e navegue pelo **lineage** de `mart_delivery_performance` até as fontes.
+2. Conecte o **Metabase ao DuckDB** (driver community) e crie **um gráfico** de vendas por categoria a partir de `mart_sales_by_category`.
+3. Liste os **três domínios** do Olist (vendas, logística, reviews) e o **data product** (mart) de cada um.
+4. Compare o **TCO** da versão local (~R\$ 0) com a versão na nuvem (~R\$ 5,5 mil/mês) e diga **a partir de que volume** migrar.
 
 ### O que você verá na próxima unidade
 
-Na **Unidade 4**, vamos do "como armazenar e organizar" para o "como confiar e governar". O foco será **Qualidade, Governança e DataOps**: como garantir que os dados são corretos e confiáveis (testes de qualidade, observabilidade, contratos de dados), como governá-los com segurança, privacidade (LGPD), catálogo e linhagem, e como aplicar práticas de DataOps — CI/CD, automação, monitoramento — para operar pipelines de dados com a mesma maturidade do desenvolvimento de software. É a hora de transformar uma plataforma que **funciona** em uma plataforma em que se pode **confiar**.
+Na **Unidade 4**, vamos do "como armazenar e arquitetar" para o "como confiar e governar". O foco será **Qualidade, Governança e DataOps**: adicionaremos **testes de qualidade** ao pipeline do Olist (dbt tests no `schema.yml` — `not_null` em `order_id`, `relationships` de `fct` para `dim` — e **Great Expectations** validando `review_score` entre 1 e 5 e datas de entrega ≥ compra); trataremos **governança e LGPD** (o Olist já é pseudonimizado — IDs hash, geolocalização por prefixo de CEP — caso real da Lei 13.709/2018, com mascaramento e lineage como base do direito de exclusão); e aplicaremos **DataOps** (CI/CD com GitHub Actions rodando `dbt build` a cada PR, write-audit-publish), fechando com **IA** (um modelo scikit-learn lendo o gold para prever atraso de entrega). É a hora de transformar um pipeline que **funciona** em um pipeline em que se pode **confiar**.
+
+### Pontos-chave
+
+- A **MDS do Olist** já existe quase inteira: `load_raw.py` (ingestão) + **dbt** (transformação) + DuckDB/DW (storage) + **Metabase** (BI) + Airflow (orquestração).
+- **Fivetran** (SaaS) e **Airbyte** (open source) substituiriam o `load_raw.py` se o Olist fosse uma fonte ao vivo — o "L" do ELT sem código.
+- **`dbt docs generate`** entrega catálogo e **lineage** (`stg_orders` → `fct_orders` → `mart_*`) — testes, docs e versionamento como num projeto de software.
+- O **Metabase sobre o DuckDB** dá um dashboard do Olist (vendas, entregas, reviews) de graça; a **camada semântica** padroniza métricas.
+- **Data mesh** trata cada domínio do Olist (vendas, logística, reviews) como **data product**; comece local (~R\$ 0) e suba para a nuvem quando o volume justificar.
+
+### Para saber mais
+
+- **dbt — About documentation (docs & lineage):** https://docs.getdbt.com/docs/build/documentation
+- **Metabase — Documentação oficial:** https://www.metabase.com/docs/latest/
+- **dbt Labs — What is data mesh?:** https://www.getdbt.com/blog/what-is-data-mesh-the-definition-and-importance-of-data-mesh
+- **Martin Fowler — Data Mesh Principles:** https://martinfowler.com/articles/data-mesh-principles.html
 
 ## Aula 12 — Roteiro da Videoaula 12: "Modern Data Stack e arquitetura de dados na nuvem"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Já montamos as peças: warehouse, lake, lakehouse, DWs em nuvem. Mas como tudo isso vira um conjunto de ferramentas que uma empresa usa de verdade hoje? A resposta tem nome: Modern Data Stack. Hoje você vai conhecer os blocos dessa stack e o paradigma do data mesh, fechando nossa unidade de arquitetura."
+> "Nesta unidade construímos as peças do Olist: o DW em camadas, o lakehouse Medallion e a ponte para a nuvem. Mas como tudo isso vira um ecossistema coerente que uma empresa opera? A resposta tem nome: Modern Data Stack. Hoje, fechando a unidade, montamos a MDS do Olist de ponta a ponta: ingestão, dbt com docs e lineage, o warehouse e um dashboard no Metabase. E falamos de data mesh."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "A Modern Data Stack é modular, SaaS, em nuvem, centrada no warehouse, e baseada em ELT: carrega primeiro o bruto, transforma depois lá dentro. Apresento as camadas: ingestão, armazenamento, transformação, camada semântica e BI, e observabilidade. Detalho a ingestão gerenciada: Fivetran comercial com conectores prontos, Airbyte open source com comunidade ativa. Você não escreve código de extração; configura origem e destino."
+> "A Modern Data Stack é modular, centrada no warehouse e baseada em ELT: carrega o bruto, transforma depois. E o legal: a stack do Olist já existe quase inteira. Mostro as camadas: load_raw.py na ingestão, DuckDB no armazenamento, dbt na transformação, Metabase no BI, Airflow na orquestração. Explico a ingestão gerenciada: Fivetran e Airbyte com conectores prontos substituiriam nosso script se o Olist fosse um Postgres ao vivo — o L do ELT, sem código de extração."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (4:00 – 6:45)
 
-> "A peça mais emblemática é o dbt: transformar dados no DW com SQL, mas com práticas de engenharia de software — modelos versionados em Git, lineage automático, testes de dados, documentação gerada. Depois, a camada semântica, que resolve o problema de dois relatórios mostrarem receitas diferentes: métrica definida uma vez, consumida por todo o BI. Cito Looker, Power BI, Metabase."
+> "O dbt já é o T da nossa stack desde a Unidade 2. Agora colho dois recursos: docs e lineage. Rodo dbt docs generate e dbt docs serve e mostro o DAG: stg_orders puxa fct_orders que puxa mart_delivery_performance, com descrições e testes. Depois a camada semântica, que resolve dois relatórios com faturamentos diferentes, e conecto o Metabase ao DuckDB para um dashboard do Olist: vendas por categoria, entregas por UF, distribuição das notas de review."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:45 – 9:00)
 
-> "Quando a empresa cresce, o time central de dados vira gargalo. Aí entra o data mesh: propriedade por domínio, dados como produto, plataforma self-service e governança federada. É mudança organizacional, não ferramenta. E o exemplo numérico do TCO: ferramentas a R$ 17 mil mais duas pessoas, dá cerca de R$ 53 mil por mês, R$ 636 mil por ano — muito menos que construir tudo do zero com seis engenheiros."
+> "Quando a empresa cresce, o time central vira gargalo. Aí entra o data mesh: cada domínio do Olist como data product — vendas dona do mart de vendas, logística do de entregas, reviews dos seus dados. É mudança organizacional, não ferramenta. E o número: o TCO do Olist em produção na nuvem dá cerca de 5,5 mil reais por mês; a nossa stack local com DuckDB e dbt-core entrega o mesmo para 120 megabytes, de graça. A lição: comece local e barato, suba para a nuvem quando o volume justificar."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:45)
 
-> "Fechamos a unidade de armazenamento e arquitetura: sabemos onde guardar, como consultar barato e como montar a stack. Na próxima unidade vamos do 'como armazenar' para o 'como confiar': qualidade, governança e DataOps. É hora de transformar uma plataforma que funciona em uma plataforma em que se pode confiar. Te espero!"
+> "Fechamos a unidade de armazenamento e arquitetura: o pipeline do Olist está construído, da estrela ao lakehouse, da nuvem ao dashboard. Na próxima unidade vamos do 'como armazenar' para o 'como confiar': qualidade com dbt tests e Great Expectations, governança e LGPD sobre os dados pseudonimizados do Olist, DataOps com CI/CD, e o fechamento com um modelo de IA prevendo atrasos de entrega. Te espero!"
 
 ---
 
@@ -536,29 +606,29 @@ Na **Unidade 4**, vamos do "como armazenar e organizar" para o "como confiar e g
 
 ### Questão 1
 
-Sobre **modelagem dimensional** e **armazenamento colunar** em um Data Warehouse, assinale a alternativa **correta**:
+Sobre a construção do **Data Warehouse do Olist com dbt** (camadas `staging` → `core` → `marts`) e o tratamento de **dimensões que mudam**, assinale a alternativa **correta**:
 
-- [ ] a. No esquema estrela, a tabela fato guarda os atributos descritivos (nome do produto, cidade do cliente) e as tabelas dimensão guardam as métricas numéricas.
-- [x] b. A tabela fato guarda as métricas e as chaves para as dimensões, enquanto as dimensões guardam o contexto descritivo; o armazenamento colunar acelera consultas analíticas por ler apenas as colunas necessárias e permitir alta compressão.
-- [ ] c. O armazenamento colunar é mais rápido que o por linha para transações OLTP (muitas escritas pequenas em um único registro).
-- [ ] d. Modelagem dimensional e armazenamento colunar são incompatíveis: quem usa esquema estrela precisa obrigatoriamente de armazenamento por linha.
+- [ ] a. No esquema estrela do Olist, a fato `fct_order_items` deve guardar os atributos descritivos (cidade do cliente, nome da categoria) e as dimensões guardam as métricas `price` e `freight_value`.
+- [x] b. A fato `fct_order_items` guarda as métricas (`price`, `freight_value`) e as chaves para as dimensões; quando um seller muda de UF, usar **SCD2** com `dbt snapshot` preserva o histórico criando uma nova versão com `dbt_valid_from`/`dbt_valid_to`.
+- [ ] c. Como o Olist é histórico e não muda, não faz sentido usar `dbt snapshot`; basta sobrescrever `dim_sellers` a cada execução (SCD Tipo 1).
+- [ ] d. As camadas `staging`, `core` e `marts` devem ser todas materializadas como views para economizar disco, pois o dbt não permite materializar a `core` como tabela.
 
 **Resposta correta:** `b`
 
-**Feedback:** A (b) está correta: na modelagem dimensional, a **fato** contém métricas + chaves estrangeiras e as **dimensões** contêm os atributos descritivos; o **colunar** lê só as colunas requeridas e comprime muito, ideal para OLAP. A (a) inverte os papéis de fato e dimensão. A (c) é falsa: o colunar é ótimo para OLAP (leituras agregadas), enquanto o **por linha** vence em OLTP. A (d) é falsa: são justamente as duas tecnologias que se combinam nos DWs analíticos modernos.
+**Feedback:** A (b) está correta: na estrela, a **fato** carrega métricas + chaves estrangeiras e as **dimensões** carregam o contexto; **SCD2** via `dbt snapshot` com `strategy='check'` historiza `dim_sellers` adicionando `dbt_valid_from`/`dbt_valid_to`. A (a) inverte fato e dimensão. A (c) é falsa: mesmo num dataset histórico, mudanças nas dimensões (um seller que muda de cidade entre 2016 e 2018) exigem SCD2 para atribuir vendas à localização correta de cada época. A (d) é falsa: o dbt permite escolher a materialização (`view`, `table`, `incremental`) por modelo — a `core` costuma ser `table`.
 
 ### Questão 2
 
-Uma empresa migra para um Data Warehouse em nuvem e quer **reduzir o custo das consultas**, que cobram por dados varridos. A tabela principal tem 8 TB e a maioria das consultas filtra por uma data específica e usa poucas colunas. Qual a estratégia **mais eficaz**?
+No pipeline do Olist, você organizou o storage em **Medallion** e exportou `fct_orders` em **Parquet particionado por ano/mês** lido pelo DuckDB. Um analista precisa contar os pedidos de **janeiro/2018**. Qual abordagem **reduz mais** os dados varridos?
 
-- [ ] a. Rodar `SELECT *` sempre, pois ler todas as colunas garante que nenhum dado seja perdido na análise.
-- [ ] b. Migrar a tabela para um banco transacional OLTP por linha, que é mais barato para consultas analíticas.
-- [x] c. Particionar a tabela por data e clusterizar/ordenar pelas colunas de filtro frequente, além de selecionar apenas as colunas necessárias — assim o motor varre só a partição e os blocos relevantes.
-- [ ] d. Duplicar a tabela em três cópias idênticas para distribuir a carga e, com isso, reduzir o custo por consulta.
+- [ ] a. Ler todos os Parquets de `data/gold/orders` para um DataFrame e só então filtrar por janeiro/2018 em memória, garantindo que nada seja perdido.
+- [ ] b. Reverter a Medallion e voltar a consultar diretamente os 9 CSVs crus do Olist, que são mais rápidos por não terem metadados de partição.
+- [x] c. Consultar com `read_parquet(..., hive_partitioning=true)` filtrando `WHERE year = 2018 AND month = 1`, para o DuckDB ler **apenas a pasta daquele mês** (partition pruning) — cerca de 1/25 dos pedidos.
+- [ ] d. Carregar tudo num banco transacional por linha (OLTP), que é mais eficiente para varreduras analíticas de grandes volumes.
 
 **Resposta correta:** `c`
 
-**Feedback:** A (c) está correta: **particionamento** ativa o partition pruning (lê só a partição do dia), **clustering** ativa o block pruning (pula blocos irrelevantes) e selecionar poucas colunas reduz ainda mais os bytes lidos — exatamente as alavancas de economia em DW que cobra por dados varridos. A (a) é o oposto: `SELECT *` em colunar maximiza o custo. A (b) é falsa: OLTP por linha é ruim para consultas analíticas. A (d) triplicaria o custo de armazenamento sem reduzir os bytes varridos por consulta.
+**Feedback:** A (c) está correta: com `hive_partitioning=true` e filtro nas colunas de partição (`year`, `month`), o DuckDB faz **partition pruning** e lê só a pasta de jan/2018 — em ~25 meses, cerca de 1/25 dos dados. A (a) varre tudo antes de filtrar, anulando a vantagem do particionamento. A (b) é o oposto da Medallion: CSV cru não tem poda por partição e é mais lento para análise. A (d) é falsa: OLTP por linha é ruim para varreduras analíticas — o colunar particionado do lakehouse vence.
 
 ---
 
@@ -566,17 +636,17 @@ Uma empresa migra para um Data Warehouse em nuvem e quer **reduzir o custo das c
 
 **Pergunta:**
 
-> Uma fintech de médio porte tem hoje todos os seus dados analíticos em um banco PostgreSQL transacional, que vem ficando lento: relatórios pesados travam o sistema de produção, dados não estruturados (logs de app, eventos de clique, documentos JSON de APIs de crédito) não cabem bem, e o time de ciência de dados reclama da falta de histórico. A diretoria pede a você uma proposta de **nova arquitetura de dados na nuvem**, com orçamento inicial de até R\$ 60 mil/mês (ferramentas + 2 pessoas).
+> Você construiu o pipeline do Olist localmente com **DuckDB + dbt + Parquet** (DW em camadas, lakehouse Medallion, dashboard no Metabase), rodando de graça no laptop. O dataset tem ~99 mil pedidos e ~120 MB. Agora a empresa fictícia "Olist Analytics" cresceu: o volume vai para a casa dos **terabytes** (escala "Olist × 1000"), dezenas de analistas consultarão ao mesmo tempo e a diretoria pede uma proposta de **arquitetura na nuvem** com governança de custo.
 >
 > Estruture sua resposta em três partes:
 >
-> 1. **Arquitetura proposta** — DW, Data Lake ou Lakehouse? Justifique pela variedade de dados e pelos casos de uso (BI + ciência de dados). Indique as camadas (ex.: bronze/silver/gold ou staging/core/marts).
-> 2. **Modern Data Stack** — escolha ferramentas para ingestão, armazenamento/compute, transformação e BI, e justifique cada escolha.
-> 3. **Controle de custo (FinOps)** — quais decisões de modelagem (particionamento, clustering, formato colunar) e de governança você adotaria para manter a fatura sob controle? Estime um TCO mensal aproximado.
+> 1. **Arquitetura proposta** — DW na nuvem, Lakehouse ou ambos? Justifique pela variedade (texto dos reviews + dados tabulares) e pelos casos de uso (BI + ciência de dados). Indique as camadas (bronze/silver/gold ↔ staging/core/marts) e onde entra o **time travel**.
+> 2. **Migração do dbt** — explique por que os modelos `stg_*`/`dim_*`/`fct_*` **não precisam ser reescritos** e o que de fato muda ao trocar `dbt-duckdb` por `dbt-bigquery`. Cite particionamento e clustering da `fct_order_items`.
+> 3. **Controle de custo (FinOps)** — quais decisões de modelagem (formato colunar/Parquet, particionar por `order_purchase_date`, clusterizar por `product_category_name`, evitar `SELECT *`, dry run) e de governança você adotaria, e qual o **TCO mensal** aproximado.
 
 **Resposta esperada:**
 
-> Uma resposta de qualidade recomenda uma **arquitetura Lakehouse** (ou, no mínimo, DW em nuvem + Data Lake) — justamente porque há **variedade de dados** (estruturados de crédito + não estruturados como logs/JSON/cliques) e **dois consumidores** (BI exige confiabilidade e esquema; ciência de dados exige flexibilidade e histórico bruto). O Lakehouse sobre object storage barato, com formato de tabela aberto (Delta ou Iceberg), atende ambos com **uma cópia única**. As camadas devem seguir a **Medallion** (bronze = bruto/auditável, silver = limpo/conformado, gold = curado para BI e features de ML), separando claramente ingestão, integração e consumo. Para a **Modern Data Stack**, espera-se algo como: ingestão com **Fivetran ou Airbyte** (conectores prontos, sem código de extração); armazenamento/compute com **BigQuery, Snowflake ou Databricks** (separação storage/compute, elasticidade); transformação com **dbt** (modelos versionados, testes, lineage, documentação — materializando silver/gold); e BI com **Power BI, Looker ou Metabase**, idealmente sobre uma **camada semântica** que padronize métricas (evitando "receitas" divergentes). No **FinOps**, a resposta deve citar: **formato colunar** (Parquet), **particionamento por data** e **clustering** por colunas de filtro (ativando pruning), **evitar `SELECT *`**, usar **dry run/estimativa de custo**, tiering quente/frio no object storage, e regras de governança (limites de custo por consulta, painéis de custo por time). Um **TCO** plausível fica em torno de R\$ 15–20 mil/mês de ferramentas + ~R\$ 36 mil/mês de duas pessoas, totalizando ~R\$ 50–56 mil/mês, dentro do orçamento. A resposta deve demonstrar **pensamento de trade-off** (comprar SaaS vs construir; quente vs frio; on-demand vs capacidade reservada) e **não** propor "implantar tudo de uma vez" — deve priorizar entregar valor incremental, começando pelo essencial.
+> Uma resposta de qualidade reconhece que, **no volume atual do Olist (~120 MB), a stack local DuckDB+dbt já basta** e migrar seria desperdício — o gatilho é o crescimento para terabytes e a concorrência de usuários. Para esse cenário, recomenda uma **arquitetura Lakehouse** (ou DW em nuvem + lake): há **variedade** (texto livre do `review_comment_message` + dados tabulares de pedidos/itens) e **dois consumidores** (BI exige confiabilidade e esquema; ciência de dados exige flexibilidade e histórico bruto). As camadas seguem a **Medallion** já implementada no Olist — **bronze** (CSVs em Parquet, auditável), **silver** (staging materializado), **gold** (marts) —, equivalente a raw → staging → marts do dbt; o **time travel** (Delta/Iceberg) responde auditorias como "o faturamento como estava no fechamento de jan/2018". Na **migração do dbt**, a resposta deve deixar claro o ponto central do curso: **os modelos `stg_orders`, `dim_customers`, `fct_order_items` ficam idênticos** — o que muda é só o `profiles.yml` (adapter `duckdb` → `bigquery`, com `project`/`dataset`/credenciais). Deve citar adicionar `config(partition_by={'field':'order_purchase_date'...}, cluster_by=['product_category_name'])` à `fct_order_items` para ativar partition/block pruning. No **FinOps**, espera-se: **Parquet/colunar**, **particionar por `order_purchase_date`** e **clusterizar** por categoria, **evitar `SELECT *`** (cada coluna lida custa), usar **dry run** (estimativa de bytes antes de rodar), e regras de governança (partição obrigatória, limites de custo por consulta, painéis de custo por time). Um **TCO** plausível para o "Olist em produção" fica em torno de **R\$ 5–6 mil/mês** de ferramentas (Airbyte + BigQuery + dbt Cloud + Metabase self-host), bem abaixo dos R\$ 17 mil de uma stack corporativa pesada — e a resposta deve contrastar com o **~R\$ 0 da versão local**. Deve demonstrar **pensamento de trade-off** (local vs nuvem; on-demand vs capacidade; quente vs frio) e **priorizar valor incremental** — migrar quando o volume justificar, não "tudo de uma vez".
 
 ---
 
@@ -584,7 +654,7 @@ Uma empresa migra para um Data Warehouse em nuvem e quer **reduzir o custo das c
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> Este é o livro de cabeceira da Unidade 3: Kimball e Ross consolidam, em linguagem acessível, tudo o que destrinchamos sobre **modelagem dimensional** — tabelas fato e dimensão, esquema estrela, Slowly Changing Dimensions e o desenho de Data Warehouses que realmente respondem às perguntas do negócio. A obra é a referência canônica que sustentou décadas de projetos de DW e que continua válida na era do Lakehouse e da Modern Data Stack.
+> Este é o livro de cabeceira da Unidade 3: Kimball e Ross consolidam, em linguagem acessível, tudo o que aplicamos ao construir o **DW do Olist** — tabelas fato e dimensão, esquema estrela, Slowly Changing Dimensions (exatamente o SCD2 que usamos em `dim_sellers` via `dbt snapshot`) e o desenho de Data Warehouses que respondem às perguntas do negócio. É a referência canônica por trás das nossas camadas `staging → core → marts`.
 
 - **Nome do livro:** *The Data Warehouse Toolkit: The Definitive Guide to Dimensional Modeling* (3ª edição)
 - **Capítulo:** Capítulo 1 — *Data Warehousing, Business Intelligence, and Dimensional Modeling Primer*
@@ -595,23 +665,23 @@ Uma empresa migra para um Data Warehouse em nuvem e quer **reduzir o custo das c
 
 ### Para mergulhar no assunto
 
-> Recomendo o livro **"Fundamentals of Data Engineering"**, de Joe Reis e Matt Housley (O'Reilly). É a obra que melhor mapeia o ciclo de vida da engenharia de dados moderna — do armazenamento (DW, lake, lakehouse) à arquitetura na nuvem e à Modern Data Stack. Os capítulos sobre armazenamento e arquitetura conversam diretamente com tudo o que vimos nesta unidade e ajudam a enxergar as peças como um sistema coeso, não como ferramentas soltas.
+> Para fixar o **SCD Tipo 2** que implementamos em `dim_sellers`, recomendo o artigo clássico do **Kimball Group** sobre Slowly Changing Dimensions. Ele explica, com exemplos, por que (e quando) preservar o histórico de uma dimensão criando novas versões — exatamente o que o `dbt snapshot` automatiza no nosso pipeline quando um vendedor do Olist muda de cidade ou UF. É leitura curta e direta, da própria fonte que cunhou a técnica.
 
-- **Link(s):** https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/
-- **Aula em que entra:** Aulas 10 e 12
+- **Link(s):** https://www.kimballgroup.com/2008/08/slowly-changing-dimensions/
+- **Aula em que entra:** Aula 9
 
 ### Podcast (curadoria, até 45 min)
 
-> O canal **Databricks** no YouTube traz palestras e explicações diretas da fonte sobre **Data Lakehouse, Delta Lake e arquitetura Medallion** — exatamente os temas da Aula 10. Assistir a um dos vídeos de fundamentos do Lakehouse fixa os conceitos com quem cunhou o termo e mostra a tecnologia em operação real.
+> O canal **dbt (dbt Labs)** no YouTube traz palestras e demonstrações diretas da fonte sobre **modelagem em camadas, testes, docs e lineage** — exatamente o que usamos para construir o DW do Olist (Aulas 9 e 12). Assistir a um vídeo de fundamentos do dbt reforça como o `staging → core → marts` e o `dbt docs` se encaixam na Modern Data Stack que montamos.
 
-- **Nome do podcast/canal:** Databricks (canal oficial no YouTube)
-- **Tema recomendado:** "What is a Data Lakehouse?" / fundamentos de Delta Lake e arquitetura Medallion
-- **Link:** https://www.youtube.com/@Databricks (YouTube)
-- **Aula em que entra:** Aula 10
+- **Nome do podcast/canal:** dbt (dbt Labs — canal oficial no YouTube)
+- **Tema recomendado:** "How we structure dbt projects" / fundamentos de modelagem, testes e lineage
+- **Link:** https://www.youtube.com/@dbt-labs (YouTube)
+- **Aula em que entra:** Aulas 9 e 12
 
 ### Artigo científico
 
-> Artigo seminal que define os fundamentos de **data warehousing e tecnologia OLAP** — desde a arquitetura em camadas até modelagem multidimensional e técnicas de servidor OLAP. É a base conceitual sobre a qual toda a Aula 9 (e boa parte da unidade) está construída; leitura essencial para fundamentar argumentos sobre por que o DW existe e como ele difere do OLTP.
+> Artigo seminal que define os fundamentos de **data warehousing e tecnologia OLAP** — da arquitetura em camadas à modelagem multidimensional e às técnicas de servidor OLAP. É a base conceitual sobre a qual a Aula 9 (e boa parte da unidade) está construída: por que separamos o DW analítico do Olist do OLTP do marketplace e por que o colunar do DuckDB é tão eficiente.
 
 - **Link:** https://doi.org/10.1145/248603.248616 (DOI)
 - **Aula em que entra:** Aula 9

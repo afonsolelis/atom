@@ -4,459 +4,582 @@
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas desta unidade:** 5 a 8
 
-> **Recap da Unidade 1:** entendemos o que faz um engenheiro de dados, conhecemos o ciclo de vida da engenharia de dados (geração → ingestão → transformação → servir), discutimos batch vs streaming como filosofias de processamento e abrimos os formatos de armazenamento (CSV, JSON, Parquet) e a ideia de data lake/lakehouse. Agora vamos colocar os dados **em movimento**: nesta unidade você aprende a **ingerir** dados de fontes diversas (Aula 5), processá-los em grandes volumes com **Apache Spark** (Aula 6), tratá-los em **tempo real** com **Apache Kafka** (Aula 7) e **orquestrar** tudo isso com **Apache Airflow** (Aula 8).
+> **Recap da Unidade 1:** na Unidade 1 conhecemos o projeto que nos acompanha o curso inteiro — o **pipeline de dados do Olist** (marketplace brasileiro, ~99 mil pedidos reais de 2016 a 2018, 9 arquivos CSV) — e fizemos o trabalho de fundação: mapeamos o ciclo de vida sobre o Olist, carregamos os CSVs no schema `raw` do **DuckDB** e **modelamos a estrela**: o fato `fct_order_items` (grão = 1 item de pedido, métricas `price` e `freight_value`) cercado por `dim_customers`, `dim_products`, `dim_sellers` e `dim_dates`. Tínhamos o desenho — agora vamos colocar o dado **em movimento**. Nesta unidade você **implementa a ingestão** do Olist com dbt (Aula 5), **processa em lote** o join+agregação pesado com a lente do Spark e a execução real em DuckDB (Aula 6), **simula um stream** dos pedidos do Olist (Aula 7) e **orquestra** o pipeline inteiro num DAG do **Apache Airflow** (Aula 8). Saímos da unidade com o pipeline `olist_pipeline` rodando ponta a ponta.
 
 ---
 
 ## Aula 5 — ETL vs ELT: a ingestão de dados
 
-Todo pipeline de dados começa com a mesma pergunta: como trago o dado de onde ele nasce para onde eu consigo trabalhar com ele? Essa etapa, a **ingestão**, é onde mais pipelines quebram na vida real — fontes mudam, registros chegam duplicados, a rede cai no meio de uma carga. Nesta aula você vai entender as duas grandes filosofias de movimentação de dados (**ETL** e **ELT**), a diferença entre carregar tudo (**batch full**) e só o que mudou (**incremental/CDC**), e por que a palavra **idempotência** vai te salvar muitas madrugadas.
+Na Unidade 1 desenhamos a estrela do Olist no papel e despejamos os 9 CSVs no schema `raw` do DuckDB com um `read_csv_auto` bruto. Funciona uma vez — mas não é um pipeline: não renomeia colunas, não casta tipos, não trata nulos e, pior, recarrega os ~99 mil pedidos toda vez. Nesta aula transformamos aquele carregamento manual numa **ingestão de verdade**, criando o projeto **`dbt_olist/`** no padrão **ELT**. Você vai entender as duas filosofias de movimentação de dados (**ETL** e **ELT**), a diferença entre carregar tudo (**full**) e só o que mudou (**incremental/CDC**), e por que a palavra **idempotência** vai te salvar muitas madrugadas — tudo enquanto constrói os modelos `stg_*` do Olist.
 
 ### O que é ingestão de dados
 
-**Ingestão** é o ato de mover dados de uma ou mais **fontes** (sistemas operacionais, APIs, arquivos, bancos transacionais, filas de mensagens) para um **destino** onde serão armazenados e processados (um data warehouse, um data lake, um lakehouse). É a primeira fronteira do pipeline e, portanto, o ponto onde a qualidade dos dados é mais frágil.
+**Ingestão** é o ato de mover dados de uma ou mais **fontes** (sistemas operacionais, APIs, arquivos, bancos transacionais, filas) para um **destino** onde serão armazenados e processados. No nosso projeto, a fonte são os 9 CSVs do Olist (`olist_orders_dataset`, `olist_order_items_dataset`, `olist_order_payments_dataset`, etc.) e o destino é o DuckDB local (`olist.duckdb`). É a primeira fronteira do pipeline — e, portanto, o ponto onde a qualidade dos dados é mais frágil.
 
-A ingestão pode ser **push** (a fonte empurra os dados, como um webhook) ou **pull** (o pipeline busca os dados, como uma consulta agendada). Pode ser **batch** (lotes em janelas periódicas) ou **streaming** (registro a registro, contínuo). E carrega consigo decisões de schema: o dado chega estruturado, semiestruturado ou bruto? Validamos na entrada (*schema-on-write*) ou só na leitura (*schema-on-read*)?
+A ingestão pode ser **push** (a fonte empurra, como um webhook) ou **pull** (o pipeline busca, como nossa leitura agendada dos CSVs). Pode ser **batch** (lotes periódicos — é o caso do Olist) ou **streaming** (registro a registro — veremos na Aula 7). E carrega decisões de schema: validamos na entrada (*schema-on-write*) ou só na leitura (*schema-on-read*)?
 
 ![Logo do Apache Airflow, ferramenta de orquestração frequentemente usada para coordenar tarefas de ingestão de dados](https://commons.wikimedia.org/wiki/Special:FilePath/AirflowLogo.png)
 
 ### ETL clássico
 
-**ETL** significa **Extract, Transform, Load** — extrair, transformar e **só então** carregar. A transformação acontece em um servidor intermediário (historicamente uma ferramenta como Informatica, Talend ou Pentaho) **antes** de o dado tocar o destino final.
+**ETL** significa **Extract, Transform, Load** — extrair, transformar e **só então** carregar. A transformação acontece num servidor intermediário (historicamente Informatica, Talend ou Pentaho) **antes** de o dado tocar o destino. Aplicado ao Olist, seria: ler os CSVs, limpar e agregar fora do DuckDB, e gravar só o resultado refinado.
 
-A lógica do ETL nasceu numa época em que armazenamento e processamento eram caros: limpava-se, agregava-se e modelava-se o dado *fora* do warehouse, e só o resultado refinado era carregado. Vantagens: o dado entra no destino já limpo e conforme regras de qualidade e governança (útil quando há dados sensíveis que não podem ser armazenados em bruto). Desvantagens: a transformação vira um gargalo, exige infraestrutura própria, e se você descobre depois que precisa de um campo que descartou, tem de reprocessar da fonte.
+A lógica do ETL nasceu quando armazenamento e processamento eram caros. Vantagem: o dado entra já limpo e conforme regras de governança. Desvantagem: a transformação vira gargalo, exige infraestrutura própria e, se você descobre depois que precisava de uma coluna que descartou (digamos, o `seller_id` que jogou fora), tem de reextrair da fonte.
 
 ### ELT moderno
 
-**ELT** inverte a ordem: **Extract, Load, Transform** — extrai, **carrega o dado bruto** no destino e transforma *lá dentro*, usando o poder de processamento do próprio data warehouse moderno (BigQuery, Snowflake, Redshift) ou do lakehouse. A transformação vira SQL/código executado pelo motor de destino, frequentemente orquestrado por ferramentas como o **dbt**.
+**ELT** inverte a ordem: **Extract, Load, Transform** — extrai, **carrega o dado bruto** no destino e transforma *lá dentro*, usando o poder do warehouse moderno (BigQuery, Snowflake) ou, no nosso caso, do **DuckDB** orquestrado pelo **dbt**. É exatamente o que faremos: os CSVs entram crus no schema `raw`, e o dbt os transforma em SQL declarativo.
 
-O ELT venceu nos últimos anos porque armazenamento ficou barato e os motores de consulta ficaram absurdamente paralelos. Carregar o dado bruto primeiro significa que você **guarda a fonte da verdade** e pode re-transformar quantas vezes quiser sem reextrair. A contrapartida: você precisa de um destino potente e de governança sobre dados crus que ficam ali expostos.
+O ELT venceu porque armazenamento ficou barato e os motores ficaram absurdamente paralelos. Carregar o bruto primeiro significa que você **guarda a fonte da verdade** e pode re-transformar quantas vezes quiser sem reextrair — guardar os 120 MB crus do Olist custa praticamente nada. É a mensagem que repetiremos o curso inteiro: *o que roda local com DuckDB+dbt migra para a nuvem trocando só o profile do dbt; os conceitos são os mesmos*.
 
-| Aspecto | ETL | ELT |
+| Aspecto | ETL | ELT (nosso projeto) |
 | --- | --- | --- |
-| **Onde transforma** | Servidor intermediário | Dentro do destino |
-| **O que chega ao destino** | Dado já refinado | Dado bruto + transformações |
-| **Reprocessar** | Reextrai da fonte | Re-roda transformação |
+| **Onde transforma** | Servidor intermediário | Dentro do DuckDB (via dbt) |
+| **O que chega ao destino** | Dado já refinado | CSV cru no schema `raw` + modelos |
+| **Reprocessar** | Reextrai da fonte | Re-roda `dbt run` |
 | **Melhor para** | Dados sensíveis, regras na entrada | Nuvem, grande volume, flexibilidade |
 
-### Batch vs incremental (CDC)
+### O projeto dbt do Olist: sources e staging
 
-Independentemente de ETL ou ELT, a extração tem dois modos. **Carga full (batch completo):** lê a tabela inteira toda vez — simples, mas caro e lento conforme os dados crescem. **Carga incremental:** lê apenas o que mudou desde a última execução, usando uma coluna marcadora (por exemplo `updated_at > último_carregado`).
+Criar o projeto é `dbt init dbt_olist` com o adapter `dbt-duckdb`. O `profiles.yml` aponta o dbt para o nosso arquivo DuckDB:
 
-Quando até as linhas *deletadas* e *atualizadas* precisam ser capturadas com precisão, usa-se **CDC (Change Data Capture)**: a técnica de ler o **log de transações** do banco de origem (o *binlog* do MySQL, o WAL do PostgreSQL) e replicar cada `INSERT`, `UPDATE` e `DELETE` quase em tempo real. Ferramentas como **Debezium** transformam esse log em eventos que viajam, por exemplo, pelo Kafka. O CDC é o casamento perfeito entre ingestão incremental e baixo impacto na fonte, pois não consulta a tabela de produção a cada carga.
+```yaml
+# ~/.dbt/profiles.yml
+dbt_olist:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ../olist.duckdb
+      schema: main
+      threads: 4
+```
 
-### Idempotência e reprocessamento
+Em seguida, declaramos as tabelas `raw` como **sources** no grupo `olist_raw` — assim o dbt conhece a origem e pode testá-la e rastrear a linhagem:
 
-Pipelines falham — é uma certeza, não uma possibilidade. A pergunta correta não é "e se cair?", mas "o que acontece quando eu rodar de novo?". Uma operação é **idempotente** quando executá-la duas (ou dez) vezes produz exatamente o mesmo estado final que executá-la uma vez.
+```yaml
+# models/staging/_olist__sources.yml
+version: 2
+sources:
+  - name: olist_raw
+    schema: raw
+    tables:
+      - name: orders          # olist_orders_dataset
+      - name: order_items     # olist_order_items_dataset
+      - name: order_payments
+      - name: order_reviews
+      - name: products
+      - name: customers
+      - name: sellers
+```
 
-Em ingestão, idempotência costuma ser obtida com uma **chave natural ou de negócio** e um `MERGE`/*upsert* (insere se não existe, atualiza se já existe) em vez de `INSERT` cego, ou com **partições sobrescritas por janela** (reprocessar o dia 2026-06-18 sempre apaga e regrava aquela partição inteira). O oposto é o pesadelo: um job que cai após inserir metade das linhas e, ao reiniciar, duplica essa metade. Projetar para idempotência é o que permite ativar **retries** com tranquilidade — assunto que volta na Aula 8 com o Airflow.
+Cada fonte ganha um modelo **staging** (`stg_*`): uma camada 1:1 que **renomeia, casta tipos e limpa nulos**, sem ainda fazer joins ou agregações. É a base de tudo que vem depois.
 
-### Exemplo numérico: janela de carga
+### Carga incremental e idempotência no `stg_orders`
 
-Uma tabela de pedidos cresce $2$ milhões de linhas por dia. A carga **full** lê toda a tabela, que já acumula $730$ milhões de registros após um ano. A uma taxa de leitura de $50.000$ linhas/s, a carga full leva:
+Independentemente de ELT, a extração tem dois modos. **Carga full:** lê a tabela inteira toda vez — simples, mas cara conforme cresce. **Carga incremental:** lê apenas o que mudou desde a última execução, usando uma coluna marcadora. No Olist, a marca natural é `order_purchase_timestamp`. Configuramos o `stg_orders` como **incremental** com `unique_key='order_id'`, o que dá **idempotência**: rodar duas vezes não duplica pedidos.
+
+```sql
+-- models/staging/stg_orders.sql
+{{ config(materialized='incremental', unique_key='order_id') }}
+
+select
+    order_id,
+    customer_id,
+    order_status,
+    cast(order_purchase_timestamp as timestamp) as purchased_at,
+    cast(order_delivered_customer_date as timestamp) as delivered_at
+from {{ source('olist_raw', 'orders') }}
+{% if is_incremental() %}
+  where order_purchase_timestamp > (select max(purchased_at) from {{ this }})
+{% endif %}
+```
+
+Pipelines falham — é certeza, não possibilidade. Uma operação é **idempotente** quando executá-la dez vezes produz o mesmo estado final que executá-la uma. O dbt nos dá isso de graça com `unique_key` (faz um *MERGE*/upsert por baixo). Quando até linhas *deletadas* precisam ser capturadas, usa-se **CDC (Change Data Capture)**: ler o **log de transações** do banco-fonte (o WAL do PostgreSQL) e replicar cada `INSERT/UPDATE/DELETE`. Como o Olist é um conjunto de CSVs estáticos, o CDC fica teórico: *se o Olist fosse um Postgres ao vivo, plugaríamos o Debezium para emitir cada novo pedido como evento — exatamente a ponte para o streaming da Aula 7*.
+
+### Exemplo numérico: incremental vs full no Olist
+
+O Olist acumula $99\,441$ pedidos. Uma carga **full** relê todos toda execução. Com a média histórica de $\approx 135$ pedidos/dia, um dia novo traz pouquíssimas linhas. O fator de economia da carga incremental sobre a full é:
 
 $$
-t_{full} = \frac{730.000.000}{50.000} = 14.600\ \text{s} \approx 4\ \text{h}\ 3\ \text{min}
+\text{fator} = \frac{99\,441}{135} \approx 736
 $$
 
-Já a carga **incremental** lê apenas as linhas do dia. Com os mesmos $2$ milhões de registros novos:
-
-$$
-t_{inc} = \frac{2.000.000}{50.000} = 40\ \text{s}
-$$
-
-A carga incremental é cerca de $365$ vezes mais rápida e, além disso, impõe carga desprezível na fonte. Mesmo que ela "perca" eventuais atualizações retroativas, basta combinar incremental diária com um reprocessamento **full mensal** (ou usar CDC) para ter o melhor dos dois mundos.
+Ou seja, reprocessar **um dia** do Olist (~135 pedidos) é cerca de **736 vezes** mais barato que recarregar a base inteira a cada execução. Em segundos de relógio, a uma taxa de $50\,000$ linhas/s, a diferença é $99\,441/50\,000 \approx 2{,}0\ \text{s}$ (full) contra $135/50\,000 \approx 0{,}003\ \text{s}$ (incremental). Parece pouco aqui — mas projete "Olist × 1000" (escala de um marketplace grande) e a full passaria de meia hora enquanto a incremental continua em segundos.
 
 ### Atividade prática
 
-Escolha uma fonte de dados pública com endpoint paginado (por exemplo a API do IBGE de localidades ou a API pública do GitHub).
+Use os CSVs do Olist já carregados no schema `raw` (Unidade 1).
 
-1. Implemente uma extração **full** que baixe todos os registros e grave em Parquet.
-2. Adicione um marcador (`updated_at` ou um número de página/cursor persistido) e converta a carga para **incremental**.
-3. Garanta **idempotência**: rode a ingestão duas vezes seguidas e prove (contando linhas) que não houve duplicação — use `MERGE` por chave ou sobrescrita de partição.
-4. Documente em três linhas: ETL ou ELT? Por quê?
+1. Rode `dbt init dbt_olist` com o adapter `dbt-duckdb` e configure o `profiles.yml` apontando para `olist.duckdb`.
+2. Declare o source `olist_raw` e escreva `stg_orders`, `stg_order_items` e `stg_customers` (renomeie e caste tipos). Rode `dbt run`.
+3. Torne `stg_orders` **incremental** por `order_purchase_timestamp` com `unique_key='order_id'`. Rode `dbt run` **duas vezes** seguidas e prove com `select count(*) from stg_orders` que o total não mudou — idempotência funcionando.
+4. Documente em três linhas: por que o Olist é um caso de **ELT** e não ETL?
 
 ### Pontos-chave
 
-- **Ingestão** é a primeira e mais frágil etapa do pipeline; pode ser push/pull e batch/streaming.
-- **ETL** transforma antes de carregar; **ELT** carrega o bruto e transforma no destino — o ELT domina na nuvem.
-- **Carga incremental** lê só o que mudou; **CDC** lê o log de transações para capturar até deletes em quase tempo real.
-- **Idempotência** (`MERGE`/upsert, sobrescrita de partição) é o que torna **retry** e reprocessamento seguros.
-- A escolha não é dogmática — depende de volume, sensibilidade do dado e poder do destino.
+- **Ingestão** é a primeira e mais frágil etapa; o Olist entra cru no schema `raw` do DuckDB (ELT).
+- **ETL** transforma antes de carregar; **ELT** carrega o bruto e transforma no destino com **dbt** — o padrão do nosso projeto.
+- O projeto **`dbt_olist`** define o source `olist_raw` e os modelos **`stg_*`** (renomeiam, castam, limpam).
+- **Carga incremental** por `order_purchase_timestamp` + **`unique_key='order_id'`** dá **idempotência** — rodar duas vezes não duplica.
+- **CDC** (ex.: Debezium no WAL) capturaria deletes se o Olist fosse um banco ao vivo — ponte para o streaming da Aula 7.
 
 ### Para saber mais
 
-- **Reis, J.; Housley, M.** *Fundamentals of Data Engineering*. O'Reilly, 2022 — capítulo sobre ingestão.
+- **Modelos incrementais no dbt (documentação oficial):** https://docs.getdbt.com/docs/build/incremental-models
+- **Sources no dbt (declarar a origem `raw`):** https://docs.getdbt.com/docs/build/sources
 - **Documentação do Debezium (CDC):** https://debezium.io/documentation/
-- **dbt — transformação no padrão ELT:** https://docs.getdbt.com/docs/introduction
 
 ## Aula 5 — Roteiro da Videoaula 5: "ETL vs ELT: a ingestão de dados"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Todo pipeline começa com a mesma dor: como eu trago o dado de onde ele nasce para onde eu consigo trabalhar? Hoje vamos resolver isso de verdade — ETL, ELT, carga incremental, CDC e uma palavra que vai te salvar de noites mal dormidas: idempotência."
+> "Na Unidade 1 a gente desenhou a estrela do Olist e jogou os 9 CSVs cru no DuckDB com um read_csv_auto. Funciona uma vez — mas não é pipeline. Hoje a gente transforma aquilo numa ingestão de verdade: cria o projeto dbt do Olist, no padrão ELT, e fala de carga incremental, CDC e a palavra que salva noites: idempotência."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "Ingestão é mover dado da fonte para o destino. Pode ser push, quando a fonte empurra, ou pull, quando a gente busca. E aqui surge a grande bifurcação: ETL e ELT. No ETL clássico você extrai, transforma num servidor no meio e só então carrega — limpa antes de tocar o destino. No ELT moderno você inverte: extrai, carrega o dado bruto na nuvem e transforma lá dentro, usando o poder do BigQuery, do Snowflake. O ELT ganhou porque armazenar ficou barato e os motores ficaram absurdamente paralelos — e você nunca perde a fonte da verdade."
+> "Ingestão é mover dado da fonte para o destino. No nosso caso, fonte são os CSVs do Olist, destino é o olist.duckdb. E aqui surge a grande bifurcação: ETL e ELT. No ETL clássico você extrai, transforma num servidor no meio e só então carrega. No ELT moderno você inverte: extrai, carrega o dado bruto e transforma lá dentro. É o que a gente faz: os CSVs entram crus no schema raw, e o dbt transforma em SQL. O ELT ganhou porque armazenar ficou barato — guardar os 120 MB crus do Olist não custa nada — e você nunca perde a fonte da verdade. Guarde esta frase do curso: o que roda local com DuckDB e dbt migra para a nuvem trocando só o profile."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (4:00 – 6:50)
 
-> "Agora, como eu extraio? Carga full lê a tabela inteira toda vez. Funciona com pouco dato, mas vira um monstro de horas quando a tabela cresce. Carga incremental lê só o que mudou desde a última vez, olhando um campo updated_at. E quando eu preciso capturar até o que foi deletado, sem martelar o banco de produção? CDC — Change Data Capture — que lê o próprio log de transações do banco, o binlog, e transforma cada insert, update e delete em evento. Debezium faz isso e joga no Kafka."
+> "Vamos montar o projeto. dbt init dbt_olist com o adapter duckdb, o profiles.yml aponta para o nosso arquivo. Aí declaro as tabelas raw como sources, no grupo olist_raw, e crio um modelo staging para cada fonte: stg_orders, stg_order_items, stg_customers. Staging é a camada um-para-um que renomeia coluna, casta tipo, limpa nulo — sem join ainda. É a fundação de tudo que vem nas próximas unidades."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
-> "Vou repetir uma verdade dura: pipeline cai. A pergunta certa é: o que acontece quando eu rodar de novo? Se a resposta for 'duplica metade dos dados', você tem um problema. Idempotência é a propriedade de rodar duas, dez vezes, e terminar sempre no mesmo estado. A gente consegue isso com MERGE por chave de negócio, ou sobrescrevendo a partição inteira do dia. É isso que permite ligar retry automático sem medo."
+> "Agora, full ou incremental? Full relê os 99 mil pedidos toda vez. Incremental lê só o que mudou, olhando o order_purchase_timestamp. No stg_orders eu configuro materialized incremental com unique_key igual a order_id. Isso me dá idempotência: o dbt faz um merge por baixo, então rodar duas vezes não duplica pedido nenhum. E quando eu precisaria capturar até o que foi deletado? CDC, lendo o log de transações do banco. O Olist é CSV estático, então isso fica teórico — mas se ele fosse um Postgres ao vivo, eu plugaria o Debezium para emitir cada pedido novo como evento. Segura essa ideia, que ela volta na aula de streaming."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:50)
 
-> "Na conta que fiz, a carga incremental foi 365 vezes mais rápida que a full — 40 segundos contra mais de 4 horas. Guarde o tripé: ELT como filosofia, incremental ou CDC como técnica, idempotência como rede de segurança. Na próxima aula, depois que o dado entrou, vamos processá-lo em grande escala com o Apache Spark. Te espero!"
+> "Fiz a conta: reprocessar um dia do Olist, uns 135 pedidos, é umas 736 vezes mais barato que recarregar os 99 mil toda vez. Guarde o tripé: ELT como filosofia, incremental com unique_key como técnica, idempotência como rede de segurança. Saímos daqui com o dbt_olist de pé e os stg de pé. Na próxima aula, com o dado já dentro, a gente processa em lote o join e a agregação pesada do Olist — Apache Spark na teoria, DuckDB na prática. Te espero!"
 
 ---
 
 ## Aula 6 — Processamento em lote com Apache Spark
 
-O dado entrou — e agora? Quando são gigabytes ou terabytes, uma única máquina não dá conta de transformar tudo em tempo hábil. É aqui que entra o **processamento distribuído em lote**, e seu nome mais importante hoje é **Apache Spark**. Nesta aula você vai entender a ideia fundadora (**MapReduce**), como o Spark organiza um cluster (**driver e executors**), suas abstrações de dados (**RDD, DataFrame, Dataset**), por que ele é **lazy** e qual é a operação que mais custa caro: o **shuffle**.
+Na Aula 5 montamos o `dbt_olist` e os modelos `stg_*`: o dado do Olist está limpo e tipado. E agora? Para responder perguntas de negócio — *qual o faturamento por categoria e por mês?* — precisamos **juntar** `stg_orders` × `stg_order_items` × `stg_products` × `stg_order_payments` e **agregar** sobre as ~112 mil linhas de itens. Isso é **processamento em lote**, e seu nome mais importante é **Apache Spark**. Nesta aula você entende a ideia fundadora (**MapReduce**), como o Spark organiza um cluster (**driver e executors**), suas abstrações (**RDD, DataFrame, Dataset**), por que é **lazy** e qual operação custa mais caro — o **shuffle** — e roda o equivalente real no DuckDB, que resolve o Olist em segundos no laptop.
 
 ### O paradigma MapReduce
 
-A revolução começou em 2004, quando o Google publicou o paper do **MapReduce**: em vez de levar os dados até um supercomputador, leve o **código** até onde os dados já estão, em milhares de máquinas baratas. O modelo tem duas fases. No **map**, cada nó aplica uma função a um pedaço dos dados, produzindo pares chave-valor. No **reduce**, os pares com a mesma chave são agrupados e combinados num resultado.
+A revolução começou em 2004, quando o Google publicou o paper do **MapReduce**: em vez de levar os dados até um supercomputador, leve o **código** até onde os dados já estão, em milhares de máquinas baratas. No **map**, cada nó aplica uma função a um pedaço dos dados, emitindo pares chave-valor. No **reduce**, os pares com a mesma chave são agrupados e combinados.
 
-O exemplo canônico é o *word count*: o map emite `(palavra, 1)` para cada palavra de um texto; o reduce soma os valores por palavra. O Hadoop popularizou esse modelo, mas tinha um custo brutal: gravava resultados intermediários em disco entre cada etapa. O Spark nasceu para resolver exatamente isso.
+Aplicado ao Olist: para faturar por categoria, o map emitiria `(product_category, price)` para cada item; o reduce somaria os preços por categoria. O Hadoop popularizou o modelo, mas gravava resultados intermediários em disco entre cada etapa — custo brutal. O Spark nasceu para resolver exatamente isso.
 
 ![Logo do Apache Spark, motor de processamento distribuído em memória para grandes volumes de dados](https://commons.wikimedia.org/wiki/Special:FilePath/Apache_Spark_logo.svg)
 
 ### Arquitetura do Spark (driver e executors)
 
-Um job Spark roda num **cluster** com papéis bem definidos. O **driver** é o cérebro: hospeda o `SparkContext`, constrói o plano de execução (o DAG de operações) e distribui tarefas. Os **executors** são os músculos: processos espalhados pelos nós que executam as tarefas e guardam dados em memória. Um **cluster manager** (YARN, Kubernetes ou o standalone do Spark) negocia os recursos.
+Um job Spark roda num **cluster** com papéis bem definidos. O **driver** é o cérebro: hospeda o `SparkContext`, constrói o plano (o DAG de operações) e distribui tarefas. Os **executors** são os músculos: processos espalhados pelos nós que executam tarefas e guardam dados em memória. Um **cluster manager** (YARN, Kubernetes ou standalone) negocia recursos.
 
-O trabalho é fatiado em **tasks** (uma por partição), agrupadas em **stages**, agrupados num **job**. O grande salto do Spark sobre o Hadoop é manter os dados intermediários **em memória** entre os stages sempre que possível, em vez de cuspir tudo no disco — o que rende ganhos de ordens de grandeza em pipelines com várias etapas iterativas.
+O trabalho é fatiado em **tasks** (uma por partição), agrupadas em **stages**, num **job**. O salto do Spark sobre o Hadoop é manter intermediários **em memória** entre stages — ganhos de ordens de grandeza em pipelines iterativos. Para o Olist no laptop, porém, não precisamos de cluster: o **DuckDB** é um motor vetorizado *single-node* que faz o mesmo join+agregação em segundos.
 
 ### RDD, DataFrame e Dataset
 
-O Spark oferece três abstrações de dados, em ordem crescente de comodidade:
+O Spark oferece três abstrações, em ordem crescente de comodidade:
 
-- **RDD (Resilient Distributed Dataset):** a coleção distribuída original, de baixo nível. Resiliente porque registra sua linhagem (*lineage*) e sabe se reconstruir após falha de um nó. Poderoso, mas verboso e sem otimização automática.
-- **DataFrame:** dados organizados em colunas nomeadas, como uma tabela. É a abstração mais usada porque passa pelo otimizador **Catalyst** e pelo motor de execução **Tungsten**, que geram um plano físico eficiente. API disponível em Python (PySpark), Scala, Java e R.
-- **Dataset:** DataFrame com tipagem forte em tempo de compilação (Scala/Java). Combina segurança de tipos com as otimizações do Catalyst.
+- **RDD (Resilient Distributed Dataset):** a coleção distribuída original, de baixo nível. Resiliente porque registra sua linhagem (*lineage*) e se reconstrói após falha. Poderoso, mas verboso e sem otimização automática.
+- **DataFrame:** dados em colunas nomeadas, como uma tabela — exatamente como pensamos o `fct_order_items`. É a abstração mais usada, pois passa pelo otimizador **Catalyst** e pelo motor **Tungsten**. API em Python (PySpark), Scala, Java e R.
+- **Dataset:** DataFrame com tipagem forte em tempo de compilação (Scala/Java).
 
-Para a maioria dos engenheiros de dados, o **DataFrame** é o ponto de partida: legível, otimizado e portável entre linguagens.
+Para a maioria dos engenheiros, o **DataFrame** é o ponto de partida: legível, otimizado e portável.
 
-### Transformações e ações (avaliação lazy)
+### O mesmo job em PySpark e em DuckDB
 
-O Spark separa operações em **transformações** (`filter`, `select`, `groupBy`, `join`, `map`) e **ações** (`count`, `collect`, `write`, `show`). A chave é que **transformações são lazy**: elas não executam nada — apenas acrescentam um nó ao plano lógico. Só quando uma **ação** é chamada o Spark monta o DAG, deixa o Catalyst otimizá-lo (reordenando filtros, eliminando colunas não usadas) e dispara a execução.
+Veja a agregação "faturamento por categoria" do Olist nas duas ferramentas. Primeiro o **PySpark**, lendo a camada bronze em Parquet:
 
-Essa preguiça é uma virtude: ela permite que o motor enxergue o pipeline inteiro antes de rodar e tome decisões globais. O preço é didático — iniciantes se assustam quando um `filter` "não faz nada" até chamarem um `show`.
+```python
+from pyspark.sql import SparkSession, functions as F
 
-### Particionamento e shuffle
+spark = SparkSession.builder.appName("olist_batch").getOrCreate()
+items = spark.read.parquet("data/bronze/order_items.parquet")
+products = spark.read.parquet("data/bronze/products.parquet")
 
-Os dados de um RDD/DataFrame vivem repartidos em **partições**, processadas em paralelo. Operações *narrow* (como `filter` e `map`) mantêm cada partição independente — rápidas. Já operações *wide* (como `groupBy`, `join` e `distinct`) exigem que dados com a mesma chave se encontrem na mesma partição, forçando um **shuffle**: redistribuição massiva de dados pela rede entre executors.
+faturamento = (
+    items.join(products, "product_id")                 # wide -> shuffle
+         .groupBy("product_category_name")             # wide -> shuffle
+         .agg(F.sum("price").alias("receita"))
+         .orderBy(F.desc("receita"))
+)
+faturamento.show(10)
+```
 
-O **shuffle é a operação mais cara** do Spark — envolve serialização, tráfego de rede e escrita em disco. Otimizar Spark é, em grande parte, **minimizar e domar shuffles**: filtrar antes de juntar, usar *broadcast join* quando um lado é pequeno, escolher um número de partições adequado e particionar fisicamente os dados pela chave mais frequente de junção.
+E o **equivalente em DuckDB**, que rodamos de fato no projeto (e que o dbt usará como mart na Unidade 3):
 
-### Exemplo numérico: paralelismo e tempo de job
+```sql
+SELECT p.product_category_name AS categoria,
+       SUM(i.price)            AS receita
+FROM   raw.order_items i
+JOIN   raw.products    p USING (product_id)
+GROUP  BY p.product_category_name
+ORDER  BY receita DESC
+LIMIT 10;
+```
 
-Um job processa $1\ \text{TB}$ de logs. Numa única máquina capaz de processar $50\ \text{MB/s}$, o tempo seria:
+Mesma lógica, mesma estrela. A mensagem do curso: **DuckDB resolve o Olist em segundos no laptop; o Spark entra quando o Olist vira "Olist × 10.000"** e não cabe mais numa máquina.
+
+### Transformações, ações e shuffle
+
+O Spark separa **transformações** (`filter`, `select`, `groupBy`, `join`) de **ações** (`count`, `show`, `write`). Transformações são **lazy**: não executam nada — só acrescentam um nó ao plano. Só uma **ação** dispara o DAG, deixa o Catalyst otimizá-lo (reordena filtros, elimina colunas não usadas) e roda. Essa preguiça é virtude: o motor enxerga o pipeline inteiro antes de executar.
+
+Os dados vivem repartidos em **partições**, processadas em paralelo. Operações *narrow* (`filter`, `map`) mantêm cada partição independente — rápidas. Já operações *wide* (`groupBy`, `join`, `distinct`) exigem que dados da mesma chave se encontrem na mesma partição, forçando um **shuffle**: redistribuição massiva pela rede. No nosso job, **ambos** o `join` por `product_id` e o `groupBy` por categoria são wide → dois shuffles. O **shuffle é a operação mais cara** do Spark. Otimizar é domá-lo: filtrar antes de juntar, usar *broadcast join* quando um lado é pequeno (a `dim_products` do Olist tem só ~33 mil linhas — perfeita para broadcast) e particionar pela chave de junção.
+
+### Exemplo numérico: paralelismo e a Lei de Amdahl no Olist
+
+O join+agregação do Olist envolve $112\,650$ itens. Suponha que processar esse lote num único core leve $T_1 = 60\ \text{s}$ (hipótese para a conta). Distribuindo em $8$ cores, o tempo *ideal* cairia para:
 
 $$
-t_1 = \frac{1.000.000\ \text{MB}}{50\ \text{MB/s}} = 20.000\ \text{s} \approx 5\ \text{h}\ 33\ \text{min}
+T_8 = \frac{60}{8} = 7{,}5\ \text{s}
 $$
 
-Distribuindo em um cluster com $40$ executors de mesma capacidade, o tempo *ideal* cai para:
+Mas o paralelismo não é perfeito: o **shuffle** final (juntar os parciais por categoria) é serial. Suponha $20\%$ de trabalho serial. Pela **Lei de Amdahl**, o ganho máximo com $8$ cores é:
 
 $$
-t_{40} = \frac{20.000}{40} = 500\ \text{s} \approx 8\ \text{min}\ 20\ \text{s}
+S_{8} = \frac{1}{0{,}20 + \dfrac{0{,}80}{8}} = \frac{1}{0{,}20 + 0{,}10} = 3{,}33
 $$
 
-Mas o paralelismo não é perfeito. Suponha que $15\%$ do trabalho seja serial (coleta de resultados, shuffle final). Pela **Lei de Amdahl**, o ganho máximo é limitado:
-
-$$
-S_{max} = \frac{1}{0{,}15 + \frac{0{,}85}{40}} = \frac{1}{0{,}15 + 0{,}02125} \approx 5{,}8
-$$
-
-Ou seja, o tempo real fica em torno de $20.000 / 5{,}8 \approx 3.448\ \text{s} \approx 57$ min — bem acima dos $8$ min ideais. A lição: adicionar executors tem retorno decrescente, e reduzir a fração serial (o shuffle!) frequentemente rende mais que comprar mais máquinas.
+Logo o tempo real fica $\approx 60 / 3{,}33 = 18\ \text{s}$ — bem acima dos $7{,}5\ \text{s}$ ideais. A lição: adicionar cores tem retorno decrescente, e **reduzir a fração serial (o shuffle!) rende mais que comprar mais máquinas**. No Olist, na verdade, o DuckDB faz tudo isso em menos de um segundo — Amdahl só morde de verdade quando o dataset é mil vezes maior.
 
 ### Atividade prática
 
-Instale o PySpark localmente (`pip install pyspark`) ou use um notebook no Databricks Community Edition.
+Você pode usar PySpark (`pip install pyspark`) ou rodar tudo direto no DuckDB.
 
-1. Carregue um arquivo CSV ou Parquet grande (use um dataset público, como *NYC Taxi*) em um **DataFrame**.
-2. Encadeie transformações (`filter`, `groupBy`, `agg`) e observe que **nada roda** até você chamar `.show()` ou `.count()`.
-3. Use `.explain()` para ver o plano físico e **identifique onde ocorre o shuffle** (`Exchange`).
-4. Reescreva uma junção usando `broadcast()` no lado pequeno e compare o plano. Anote o que mudou.
+1. Exporte `stg_order_items` e `stg_products` do Olist para Parquet (camada bronze) e carregue num **DataFrame** PySpark.
+2. Encadeie `join` + `groupBy("product_category_name").agg(F.sum("price"))` e confirme que **nada roda** até `.show()`.
+3. Use `.explain()` e **localize o shuffle** (`Exchange`). Quantos há no plano?
+4. Reescreva o join com `broadcast(products)` (a dimensão é pequena) e compare o plano. Depois rode o **SQL DuckDB equivalente** e compare a sensação de velocidade.
 
 ### Pontos-chave
 
 - O **MapReduce** levou o código até os dados; o **Spark** o aprimorou mantendo intermediários **em memória**.
-- A arquitetura é **driver** (planeja) + **executors** (executam) + **cluster manager** (aloca recursos).
-- **DataFrame** é a abstração padrão — otimizada pelo Catalyst; **RDD** é de baixo nível; **Dataset** é tipado.
-- Transformações são **lazy**; só uma **ação** dispara a execução do DAG.
-- O **shuffle** (operações wide) é o maior custo — otimizar Spark é minimizar shuffle, não só somar máquinas.
+- Arquitetura: **driver** (planeja) + **executors** (executam) + **cluster manager** (aloca).
+- **DataFrame** é a abstração padrão (otimizada pelo Catalyst); o **DuckDB** faz o mesmo join+agregação do Olist em segundos, *single-node*.
+- Transformações são **lazy**; só uma **ação** dispara o DAG; o **join** e o **groupBy** do Olist são operações **wide** → geram **shuffle**.
+- O **shuffle** é o maior custo — *broadcast join* da `dim_products` (~33 mil linhas) e filtrar antes de juntar valem mais que somar máquinas (Amdahl).
 
 ### Para saber mais
 
-- **Chambers, B.; Zaharia, M.** *Spark: The Definitive Guide*. O'Reilly, 2018.
 - **Documentação oficial do Apache Spark:** https://spark.apache.org/docs/latest/
-- **Guia de tuning de performance do Spark:** https://spark.apache.org/docs/latest/sql-performance-tuning.html
+- **Guia de tuning de performance do Spark (shuffle, broadcast):** https://spark.apache.org/docs/latest/sql-performance-tuning.html
+- **Consultando Parquet com DuckDB (motor vetorizado local):** https://duckdb.org/2021/06/25/querying-parquet.html
 
 ## Aula 6 — Roteiro da Videoaula 6: "Processamento em lote com Apache Spark"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "O dado entrou. Mas e quando são terabytes? Uma máquina só não dá conta. Hoje você vai conhecer o motor que move o mundo da engenharia de dados em lote: o Apache Spark. E vai entender por que ele é tão mais rápido que o velho Hadoop."
+> "Na aula passada a gente montou o dbt do Olist e os modelos staging: o dado está limpo. Mas para responder 'qual o faturamento por categoria e por mês', eu preciso juntar pedidos, itens, produtos e pagamentos e agregar sobre 112 mil linhas. Isso é processamento em lote. Hoje você conhece o Apache Spark na teoria e roda o equivalente real em DuckDB."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 3:50)
 
-> "Tudo começa em 2004, com o paper do MapReduce, do Google. A ideia genial: em vez de levar terabytes até um supercomputador, leve o código até onde os dados já estão, em milhares de máquinas baratas. Map aplica uma função e emite chave-valor; reduce agrupa por chave e combina. O Hadoop popularizou isso, mas gravava tudo em disco entre cada etapa — lento. O Spark chegou e disse: e se eu mantiver os intermediários em memória? Daí o salto de performance."
+> "Tudo começa em 2004, com o paper do MapReduce, do Google. A ideia genial: em vez de levar terabytes até um supercomputador, leve o código até onde os dados já estão. Map aplica função e emite chave-valor; reduce agrupa por chave e combina. No Olist, para faturar por categoria, o map emite categoria-preço e o reduce soma. O Hadoop popularizou, mas gravava tudo em disco entre as etapas — lento. O Spark chegou e disse: e se eu mantiver os intermediários em memória? Daí o salto de performance."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:50 – 6:50)
 
-> "Como o Spark se organiza? Tem o driver, o cérebro, que monta o plano e distribui tarefas; e os executors, os músculos, que processam e guardam dados em memória. O trabalho vira task, stage, job. E você fala com ele por três abstrações: RDD, o nível baixo e resiliente; DataFrame, a tabela com colunas que passa pelo otimizador Catalyst — é o que você vai usar 90% do tempo; e Dataset, o DataFrame tipado. Comece pelo DataFrame: legível e otimizado de graça."
+> "Como o Spark se organiza? Driver, o cérebro que monta o plano; executors, os músculos que processam e guardam em memória; cluster manager que aloca. E você fala com ele por três abstrações: RDD, baixo nível; DataFrame, a tabela com colunas que passa pelo otimizador Catalyst — é o que você usa 90% do tempo, e é como a gente já pensa o fct_order_items; e Dataset, o tipado. Agora o ponto prático: o mesmo job de faturamento por categoria eu escrevo em PySpark com join e groupBy, ou em SQL no DuckDB com JOIN USING product_id e GROUP BY. Mesma estrela, mesma lógica. E o DuckDB resolve o Olist em segundos no laptop — o Spark entra quando o Olist vira Olist vezes dez mil."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
-> "Agora o pulo do gato: o Spark é lazy. Quando você faz filter, groupBy, select, nada acontece — ele só anota no plano. Só quando você chama uma ação, count, write, show, é que ele monta o DAG, deixa o Catalyst otimizar e roda. Por que isso importa? Porque ele vê o pipeline inteiro antes de executar. E cuidado com o shuffle: groupBy, join, distinct obrigam dados da mesma chave a se encontrarem, redistribuindo tudo pela rede. É a operação mais cara. Otimizar Spark é, acima de tudo, domar o shuffle."
+> "O pulo do gato: o Spark é lazy. Filter, join, groupBy não rodam — ele só anota no plano. Só quando você chama uma ação, show ou write, ele monta o DAG, o Catalyst otimiza e roda. E cuidado com o shuffle: no nosso job, tanto o join por product_id quanto o groupBy por categoria são operações wide — obrigam dados da mesma chave a se encontrarem, redistribuindo tudo pela rede. É a operação mais cara. A dim_products do Olist tem só 33 mil linhas, então dá para fazer broadcast join e matar um dos shuffles. Otimizar Spark é, acima de tudo, domar o shuffle."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:50)
 
-> "Lembra da Lei de Amdahl: dobrar executors não dobra a velocidade — só 15% de trabalho serial já trava o ganho num fator de 5 ou 6. Filtre antes de juntar, use broadcast join, escolha bem as partições. O Spark é o nosso canivete do batch. Mas e quando o dado não pode esperar o lote — quando ele precisa ser tratado no instante em que nasce? Essa é a próxima aula: streaming com Apache Kafka. Te espero!"
+> "E a Lei de Amdahl: se 20% do trabalho é serial, dobrar para 8 cores não dá 8 vezes mais rápido — dá só 3,3. Filtre antes de juntar, use broadcast, escolha bem as partições. No Olist o DuckDB faz isso em menos de um segundo; Amdahl só morde quando o dado é mil vezes maior. Já temos o lote. Mas e quando o pedido do Olist não pode esperar o próximo lote — quando a gente quer contá-lo no instante em que nasce? Próxima aula: a gente simula um stream dos pedidos do Olist. Te espero!"
 
 ---
 
 ## Aula 7 — Processamento em tempo real e streaming
 
-Imagine detectar uma fraude no cartão **enquanto** a compra acontece, não no relatório do dia seguinte. Ou recalcular o preço de uma corrida a cada segundo conforme a demanda muda. Há decisões que não podem esperar o próximo lote. Esta aula entra no mundo do **processamento em tempo real**: a mensageria com **Apache Kafka**, seus conceitos de **tópicos, partições e offsets**, o desafio de agregar fluxos infinitos com **janelas** e as **garantias de entrega** que diferenciam um sistema confiável de um que perde (ou duplica) dados.
+Até agora tratamos o Olist como ele é: um **histórico** de ~99 mil pedidos parados em CSV. Mas imagine que esses pedidos estivessem chegando **agora**, um a um, no marketplace — e que precisássemos contar "pedidos por minuto" ou "faturamento da última hora" em tempo real. Há decisões que não esperam o próximo lote. Nesta aula entramos no **processamento em tempo real**: vamos **simular um stream** dos pedidos do Olist com um produtor e um consumidor Python (mock de Kafka), entendendo **tópicos, partições e offsets**, agregando o fluxo com **janelas** e escolhendo as **garantias de entrega** — e fechando com a arquitetura **Kappa**, em que stream e batch coexistem.
 
 ### Batch vs streaming
 
-No **batch**, o dado é processado em **lotes finitos** com início, meio e fim — você roda o job, ele termina, gera o resultado. No **streaming**, o dado é um **fluxo infinito e contínuo**: registros chegam o tempo todo e são processados quase no instante em que surgem, muitas vezes em milissegundos.
+No **batch**, o dado é processado em **lotes finitos** — foi o que fizemos na Aula 6 com o join do Olist. No **streaming**, o dado é um **fluxo infinito e contínuo**: registros chegam o tempo todo e são processados quase no instante em que surgem.
 
-A diferença não é só de velocidade, mas de **modelo mental**. No batch você pergunta "qual foi o total de vendas ontem?". No streaming você pergunta "qual é o total de vendas *agora*, nos últimos 5 minutos, atualizado continuamente?". Streaming traz desafios próprios: o dado nunca "acaba", pode chegar **fora de ordem** (eventos atrasados pela rede) e exige raciocinar sobre **tempo do evento** (quando aconteceu) versus **tempo de processamento** (quando chegou).
+A diferença não é só de velocidade, é de **modelo mental**. No batch perguntamos "qual foi o faturamento do Olist em outubro de 2017?". No streaming perguntamos "quantos pedidos estão entrando *agora*, nos últimos 60 segundos?". Streaming traz desafios próprios: o dado nunca "acaba", pode chegar **fora de ordem** (um pedido atrasado pela rede) e exige distinguir **tempo do evento** (`order_purchase_timestamp`) de **tempo de processamento** (quando chegou ao consumidor).
 
 ![Logo do Apache Kafka, plataforma distribuída de streaming de eventos](https://commons.wikimedia.org/wiki/Special:FilePath/Apache_kafka.svg)
 
 ### Mensageria e o Apache Kafka
 
-No coração do streaming está a **mensageria**: um intermediário que **desacopla** quem produz dados de quem os consome. O produtor não conhece o consumidor; ambos só conhecem o intermediário. Isso permite escalar produtores e consumidores de forma independente e absorver picos de carga.
+No coração do streaming está a **mensageria**: um intermediário que **desacopla** quem produz de quem consome. O produtor não conhece o consumidor; ambos só conhecem o intermediário. Isso permite escalar os dois lados de forma independente e absorver picos.
 
-O **Apache Kafka**, criado no LinkedIn em 2011, é o padrão de fato. Mais do que uma fila tradicional, o Kafka é um **log distribuído e durável**: as mensagens não somem quando lidas — ficam gravadas por um período de retenção, e múltiplos consumidores podem ler o mesmo fluxo em ritmos diferentes. Um cluster Kafka é formado por **brokers** (os servidores que armazenam os dados) e organiza tudo em torno de **tópicos**.
+O **Apache Kafka**, criado no LinkedIn em 2011, é o padrão de fato. Mais do que uma fila, é um **log distribuído e durável**: as mensagens não somem quando lidas — ficam gravadas por um período de retenção, e múltiplos consumidores leem o mesmo fluxo em ritmos diferentes. Um cluster Kafka tem **brokers** (servidores que armazenam) e organiza tudo em **tópicos**. No nosso projeto, o tópico será `olist.orders`.
 
 ### Tópicos, partições e offsets
 
-Um **tópico** é uma categoria nomeada de mensagens — por exemplo `pedidos`, `cliques`, `sensores`. Cada tópico é dividido em **partições**, e é nelas que mora a escalabilidade: partições são distribuídas entre os brokers e lidas em paralelo por consumidores diferentes.
+Um **tópico** é uma categoria nomeada de mensagens — o nosso é `olist.orders`. Cada tópico se divide em **partições**, e é nelas que mora a escalabilidade: partições são distribuídas entre os brokers e lidas em paralelo. Dentro de uma partição, cada mensagem recebe um número sequencial imutável — o **offset**. O Kafka garante **ordem apenas dentro de uma partição**. O consumidor controla **até qual offset já leu** (o *committed offset*), o que permite reprocessar do começo, retomar após falha ou avançar. Mensagens com a mesma **chave** vão sempre para a mesma partição — se usarmos `customer_id` como chave, todos os pedidos de um cliente ficam ordenados.
 
-Dentro de uma partição, cada mensagem recebe um número sequencial imutável: o **offset**. O Kafka garante **ordem apenas dentro de uma partição** (não entre partições). O consumidor controla **até qual offset já leu** (o *committed offset*), o que dá flexibilidade enorme: pode reprocessar do começo, retomar de onde parou após uma falha ou avançar para o presente. Mensagens com a mesma **chave** vão sempre para a mesma partição — útil para manter, por exemplo, todos os eventos de um cliente em ordem.
+### Simulando o stream do Olist (produtor e consumidor)
 
-### Janelas: tumbling e sliding
+O Olist é histórico, então **simulamos** o stream: um produtor lê os pedidos ordenados por `order_purchase_timestamp` e os emite como eventos JSON num mock de tópico; um consumidor agrega por **janela**. O script vive em `ingestion/stream_orders.py`.
 
-Como agregar um fluxo que nunca termina? Recortando-o no tempo, com **janelas**. As duas mais comuns:
+```python
+# ingestion/stream_orders.py — produtor (mock do tópico olist.orders)
+import duckdb, json, time
 
-- **Tumbling (fixa, sem sobreposição):** o tempo é fatiado em blocos contíguos e iguais — por exemplo, "total de vendas a cada 5 minutos". Cada evento pertence a exatamente uma janela.
-- **Sliding (deslizante, com sobreposição):** uma janela de tamanho fixo que avança de tempos em tempos — por exemplo, "média dos últimos 10 minutos, recalculada a cada 1 minuto". Um mesmo evento pode pertencer a várias janelas.
+con = duckdb.connect("olist.duckdb")
+pedidos = con.execute("""
+    SELECT order_id, customer_id, order_purchase_timestamp
+    FROM raw.orders
+    ORDER BY order_purchase_timestamp
+""").fetchall()
 
-Há ainda janelas de **sessão**, que agrupam eventos por inatividade (toda a navegação de um usuário até ele ficar 30 min sem clicar). Trabalhar com janelas exige lidar com dados atrasados, geralmente via marcadores de progresso temporal (*watermarks*).
+def emit(topico, evento):           # mock: aqui seria producer.send(topico, ...)
+    print(f"[{topico}] {evento}")
 
-### Garantias de entrega (at-least-once, exactly-once)
+for order_id, customer_id, ts in pedidos:
+    emit("olist.orders", json.dumps({
+        "order_id": order_id, "customer_id": customer_id, "ts": str(ts)
+    }))
+    time.sleep(0.001)               # acelera o tempo: 1 ms por pedido
+```
 
-Quando uma mensagem viaja entre produtor, broker e consumidor, três níveis de garantia são possíveis:
+```python
+# consumidor: janela tumbling de 60 s contando pedidos
+from collections import defaultdict
+from datetime import datetime
 
-- **At-most-once (no máximo uma vez):** mensagens podem ser perdidas, mas nunca duplicadas. Rápido e barato — aceitável para métricas tolerantes a perda.
-- **At-least-once (ao menos uma vez):** nenhuma mensagem é perdida, mas pode haver duplicatas (se um *ack* se perde, reenviamos). É o padrão mais comum — e por isso o **consumo idempotente** (lembra da Aula 5?) é tão importante.
-- **Exactly-once (exatamente uma vez):** cada mensagem é processada uma única vez, sem perda nem duplicação. É o mais difícil e custoso; o Kafka oferece via produtores idempotentes e transações, mas com overhead.
+contagem = defaultdict(int)
 
-A regra prática: prefira **at-least-once + processamento idempotente** — é mais simples e robusto que perseguir exactly-once a qualquer custo.
+def consume(evento):
+    ts = datetime.fromisoformat(json.loads(evento)["ts"])
+    janela = ts.replace(second=0, microsecond=0)   # bucket de 1 minuto
+    contagem[janela] += 1                           # idempotência: ver texto
+```
 
-### Exemplo numérico: latência e vazão
+### Janelas e garantias de entrega
 
-Um tópico de cliques recebe $30.000$ mensagens por segundo. Cada consumidor de um grupo processa, em média, $5.000$ mensagens por segundo. Para acompanhar o fluxo sem acumular atraso, o número mínimo de consumidores (e, portanto, de partições, já que cada partição é lida por no máximo um consumidor do grupo) é:
+Como agregar um fluxo que nunca termina? Recortando-o no tempo, com **janelas**. **Tumbling (fixa, sem sobreposição):** blocos contíguos iguais — "pedidos do Olist a cada 60 s"; cada evento cai em exatamente uma janela (é o que o consumidor acima faz). **Sliding (deslizante):** janela fixa que avança — "faturamento da última 1 h, recalculado a cada 5 min"; um evento pode pertencer a várias. Há ainda janelas de **sessão**, por inatividade. Lidar com dados atrasados pede *watermarks*.
+
+E as **garantias de entrega**: **at-most-once** pode perder, nunca duplica (barato); **at-least-once** nunca perde, mas pode duplicar (o padrão — por isso o **consumo idempotente** da Aula 5 brilha de novo); **exactly-once** processa uma vez só, sem perda nem duplicação, mas é caro (produtores idempotentes + transações). A regra prática: **at-least-once + processamento idempotente**.
+
+### Lambda e Kappa: como o stream coexiste com o batch
+
+Se construíssemos o Olist em tempo real, como a camada de streaming conviveria com o batch que já temos? Duas arquiteturas respondem. A **Lambda** mantém *dois* caminhos: um batch (lento, completo, é o nosso dbt) e um speed layer (rápido, aproximado) — e reconcilia. A **Kappa** simplifica: **tudo é stream**; o histórico é apenas o log reprocessado do começo. Para o Olist, o caminho natural seria Kappa — o mesmo log `olist.orders` alimenta tanto a contagem ao vivo quanto, reprocessado, os marts. *Mensagem: a estrela continua a mesma; muda só a forma de alimentá-la.*
+
+### Exemplo numérico: taxa de eventos e partições do Olist
+
+O Olist tem $\approx 135$ pedidos/dia em média. Em eventos por segundo, isso é irrisório:
 
 $$
-N = \frac{30.000}{5.000} = 6\ \text{consumidores / partições}
+\lambda = \frac{135}{86\,400} \approx 0{,}0016\ \text{eventos/s}
 $$
 
-Se o tópico tivesse apenas $4$ partições, a vazão máxima seria $4 \times 5.000 = 20.000$ msg/s, e o sistema acumularia $30.000 - 20.000 = 10.000$ mensagens de atraso **por segundo** — em $1$ minuto, $600.000$ mensagens de *lag*. Já com $8$ partições, sobra folga ($40.000$ msg/s de capacidade). Por isso o número de partições é uma das decisões de capacidade mais importantes no Kafka: define o teto de paralelismo do consumo.
+Uma única partição resolve com folga absurda. Mas projete a **Black Friday** do marketplace, com um pico $1000\times$ a média, comprimido em 1 hora: seriam $\approx 135\,000$ pedidos numa hora, ou $\approx 37{,}5$ eventos/s. Se cada consumidor processa $10$ eventos/s, o número mínimo de partições é:
+
+$$
+N = \left\lceil \frac{37{,}5}{10} \right\rceil = 4\ \text{partições}
+$$
+
+Por isso o número de partições é uma das decisões de capacidade mais importantes no Kafka: define o **teto de paralelismo** do consumo.
 
 ### Pausa para reflexão (Desafio)
 
-> Você está projetando o sistema de **detecção de fraude** de um banco. Cada transação precisa ser avaliada em **menos de 200 ms**. Pergunte-se: faz sentido usar batch aqui? Que garantia de entrega você escolheria — e por quê duplicar uma checagem de fraude é menos grave do que **perder** uma? Como você usaria janelas para detectar "5 transações do mesmo cartão em cidades diferentes em 2 minutos"? Esboce, em um parágrafo, a arquitetura de tópicos e janelas que você proporia.
+> Imagine que o Olist virou um marketplace **ao vivo** e você precisa de um painel "pedidos por minuto + faturamento da última hora" atualizando em tempo real, além de um **alerta** quando um mesmo `customer_id` faz 5 pedidos em 2 minutos (suspeita de fraude). Pergunte-se: que **chave** você usaria no tópico `olist.orders` para manter os pedidos de um cliente ordenados? Que tipo de **janela** detecta "5 pedidos em 2 minutos" — tumbling ou sliding? Que **garantia de entrega** você escolhe para o alerta, e por que duplicar um alerta de fraude é menos grave que **perder** um pedido? Esboce, em um parágrafo, a arquitetura (tópico, partições, janelas, garantia) e diga se ela é Lambda ou Kappa.
 
 ### Atividade prática
 
-Suba um Kafka local com Docker (`docker run` da imagem `apache/kafka`, ou via Confluent).
+Você pode simular tudo em Python puro (sem instalar Kafka).
 
-1. Crie um tópico `eventos` com **3 partições**.
-2. Escreva um **produtor** simples (Python com `kafka-python` ou `confluent-kafka`) que envie eventos com uma **chave** (ex.: `id_usuario`) e observe como eventos da mesma chave caem na mesma partição.
-3. Escreva um **consumidor** e inspecione os **offsets** com `kafka-consumer-groups.sh --describe`.
-4. Pare o consumidor, produza mais eventos, religue-o e confirme que ele **retoma do offset** comprometido, sem perder mensagens.
+1. Rode o produtor `stream_orders.py` lendo `raw.orders` do Olist ordenado por `order_purchase_timestamp` e emitindo eventos JSON.
+2. Escreva o consumidor com **janela tumbling de 60 s** contando pedidos por minuto; imprima as 10 janelas mais movimentadas do Olist.
+3. Adicione uma **janela sliding** de 1 h (passo 5 min) somando `payment_value` por janela (junte com `stg_order_payments`).
+4. (Opcional) Suba um Kafka local com Docker (`apache/kafka`), crie o tópico `olist.orders` com **3 partições** usando `customer_id` como chave, e inspecione os **offsets** com `kafka-consumer-groups.sh --describe`.
 
 ### Pontos-chave
 
-- **Batch** processa lotes finitos; **streaming** processa um fluxo infinito quase em tempo real.
-- O **Kafka** é um **log distribuído e durável** que desacopla produtores de consumidores.
-- A escalabilidade vem das **partições**; a ordem é garantida **dentro de uma partição**, e o **offset** controla a leitura.
-- **Janelas** (tumbling, sliding, sessão) recortam o fluxo infinito para permitir agregações.
-- Prefira **at-least-once + consumo idempotente**; **exactly-once** é possível, porém caro.
+- **Batch** processa lotes finitos (Aula 6); **streaming** processa um fluxo infinito quase em tempo real.
+- O **Kafka** é um **log distribuído e durável** que desacopla produtor de consumidor; nosso tópico é `olist.orders`.
+- Simulamos o stream do Olist com `stream_orders.py` (produtor lê `raw.orders` ordenado e emite JSON; consumidor agrega por janela).
+- **Janelas** (tumbling, sliding) recortam o fluxo; **at-least-once + consumo idempotente** é a escolha prática.
+- Na arquitetura **Kappa**, o mesmo log `olist.orders` alimenta a contagem ao vivo e, reprocessado, os marts — a estrela é a mesma.
 
 ### Para saber mais
 
-- **Akidau, T.; Chernyak, S.; Lax, R.** *Streaming Systems*. O'Reilly, 2018.
 - **Documentação oficial do Apache Kafka:** https://kafka.apache.org/documentation/
-- **Apache Kafka — guia de design e conceitos:** https://kafka.apache.org/intro
+- **Apache Kafka — guia de design e conceitos (log, partições, offsets):** https://kafka.apache.org/intro
+- **"Turning the database inside out", de Martin Kleppmann (log como fonte da verdade):** https://martin.kleppmann.com/2015/03/04/turning-the-database-inside-out.html
 
 ## Aula 7 — Roteiro da Videoaula 7: "Processamento em tempo real e streaming"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Detectar uma fraude enquanto a compra acontece, não no relatório de amanhã. Recalcular o preço de uma corrida a cada segundo. Tem decisão que não pode esperar o próximo lote. Bem-vindo ao mundo do tempo real — e ao seu rei: o Apache Kafka."
+> "Até agora a gente tratou o Olist como ele é: 99 mil pedidos parados em CSV. Mas e se esses pedidos estivessem chegando agora, um a um, e a gente quisesse contar pedidos por minuto em tempo real? Hoje a gente simula um stream dos pedidos do Olist — produtor e consumidor em Python, mock de Kafka — e entra no mundo do tempo real."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 3:50)
 
-> "No batch, o dado é finito: roda, termina, entrega. No streaming, o dado é um fluxo infinito — chega o tempo todo e é processado em milissegundos. Muda o modelo mental: em vez de 'quanto vendi ontem', você pergunta 'quanto estou vendendo agora, nos últimos 5 minutos'. E o coração disso é a mensageria: um intermediário que desacopla quem produz de quem consome. O Kafka é o padrão. E é mais que uma fila: é um log durável — a mensagem não some quando lida, vários consumidores leem o mesmo fluxo no próprio ritmo."
+> "No batch, o dado é finito: roda, termina, entrega — foi o join da aula passada. No streaming, o dado é um fluxo infinito, processado em milissegundos. Muda o modelo mental: em vez de 'quanto o Olist faturou em outubro', você pergunta 'quantos pedidos estão entrando agora, nos últimos 60 segundos'. E o coração disso é a mensageria: um intermediário que desacopla produtor de consumidor. O Kafka é o padrão. E é mais que uma fila: é um log durável — a mensagem não some quando lida. Nosso tópico vai se chamar olist.orders."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:50 – 6:50)
 
-> "Três palavras que você precisa dominar: tópico, partição, offset. Tópico é a categoria — pedidos, cliques, sensores. Cada tópico se divide em partições, e é daí que vem o paralelismo: cada partição pode ser lida por um consumidor diferente. Dentro da partição, cada mensagem ganha um offset, um número sequencial. O Kafka garante ordem só dentro da partição. E o consumidor controla até onde leu — pode voltar ao início, retomar de onde parou, avançar. Mensagens com a mesma chave caem sempre na mesma partição."
+> "Três palavras: tópico, partição, offset. Tópico é a categoria, olist.orders. Cada tópico se divide em partições, e daí vem o paralelismo. Dentro da partição, cada mensagem ganha um offset sequencial, e o Kafka garante ordem só dentro da partição. Se eu uso customer_id como chave, todos os pedidos de um cliente caem na mesma partição, em ordem. Agora, na prática: como o Olist é histórico, eu simulo. O stream_orders.py lê raw.orders ordenado por order_purchase_timestamp e emite cada pedido como evento JSON. Um consumidor pega esses eventos e agrega numa janela tumbling de 60 segundos — pedidos por minuto."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
-> "Como agregar um fluxo que nunca acaba? Com janelas. Tumbling: blocos fixos sem sobreposição, total a cada 5 minutos. Sliding: janela que desliza, média dos últimos 10 minutos recalculada a cada minuto. E as garantias de entrega: at-most-once pode perder; at-least-once nunca perde mas pode duplicar — e por isso o consumo idempotente da aula 5 volta a brilhar; exactly-once é o ideal, mas custa caro. Minha recomendação: at-least-once com processamento idempotente."
+> "Como agregar um fluxo que nunca acaba? Com janelas. Tumbling: blocos fixos, pedidos do Olist a cada minuto. Sliding: janela que desliza, faturamento da última hora recalculado a cada 5 minutos. E as garantias: at-most-once pode perder; at-least-once nunca perde mas pode duplicar — e por isso o consumo idempotente da aula 5 volta a brilhar; exactly-once é o ideal mas custa caro. Minha recomendação: at-least-once com processamento idempotente. E como isso conviveria com o batch que já temos? Na arquitetura Kappa: tudo é stream, e o histórico é só o log reprocessado. O mesmo olist.orders alimenta o painel ao vivo e, reprocessado, os marts."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:50)
 
-> "Fiz a conta: 30 mil mensagens por segundo, consumidor de 5 mil, precisa de 6 partições no mínimo — partição é o teto do seu paralelismo. Agora você tem batch e streaming no cinto de ferramentas. Mas falta uma peça: quem coordena tudo isso? Quem garante que a ingestão roda antes do Spark, que o retry dispara quando algo falha, que o pipeline inteiro respeita um prazo? Essa é a última aula da unidade: orquestração com Apache Airflow. Te espero!"
+> "Fiz a conta: o Olist tem 135 pedidos por dia, fração de evento por segundo — uma partição sobra. Mas numa Black Friday mil vezes maior, comprimida numa hora, dá uns 37 eventos por segundo, e aí eu já preciso de 4 partições. Partição é o teto do seu paralelismo. Agora você tem batch e streaming no cinto. Mas falta a peça que amarra tudo: quem garante que a ingestão roda antes do dbt, que o teste roda depois, que o retry dispara se algo falhar? Última aula da unidade: orquestração com Apache Airflow, montando o DAG do pipeline Olist. Te espero!"
 
 ---
 
 ## Aula 8 — Orquestração de pipelines com Apache Airflow
 
-Você já sabe ingerir, processar em lote e processar em tempo real. Mas um pipeline real tem **dezenas de tarefas que dependem umas das outras**, em ordens precisas, em horários certos, com tratamento de falha e prazos a cumprir. Coordenar isso manualmente é insustentável. Entra a **orquestração**, e a ferramenta mais usada do mercado é o **Apache Airflow**. Nesta aula você aprende a modelar pipelines como **DAGs**, usar **operators**, **agendar** execuções, fazer **backfill** de períodos passados, configurar **retries** e monitorar **SLAs**.
+Você já sabe ingerir (Aula 5), processar em lote (Aula 6) e simular um stream (Aula 7) do Olist. Mas até agora rodamos cada passo **na mão**: `dbt run` num terminal, o script de stream noutro. Um pipeline real tem tarefas que dependem umas das outras, em horários certos, com tratamento de falha e prazos. Nesta aula montamos o **DAG `olist_pipeline`** no **Apache Airflow** — `ingest_csv_to_duckdb` → `dbt_run` → `dbt_test` → `export_gold` — e aprendemos a modelar pipelines como **DAGs**, usar **operators**, **agendar**, fazer **backfill** de períodos passados, configurar **retries** e monitorar **SLAs**. É o **primeiro pipeline do Olist orquestrado ponta a ponta**.
 
 ### Por que orquestrar pipelines
 
-Um pipeline é uma sequência de passos com **dependências**: você só transforma depois de ingerir; só carrega o relatório depois de transformar. Sem orquestração, isso vira um emaranhado de `cron`s frágeis e falhas silenciosas que ninguém percebe até o relatório sair vazio.
+Um pipeline é uma sequência de passos com **dependências**: no Olist, você só roda o dbt depois de ingerir os CSVs; só testa depois de transformar; só exporta o gold depois de testar. Sem orquestração, isso vira um emaranhado de `cron`s frágeis e falhas silenciosas — o mart sai vazio e ninguém percebe.
 
-Um **orquestrador** resolve isso ao gerenciar, num só lugar: a **ordem** das tarefas, o **agendamento**, o **tratamento de falhas** (retries, alertas), a **observabilidade** (logs, status, histórico) e a **recuperação** (reprocessar um dia que deu errado). O Airflow, criado no Airbnb em 2014, popularizou a filosofia **"pipelines como código"**: você descreve o fluxo em **Python**, o que permite versionar, testar e revisar pipelines como qualquer software.
+Um **orquestrador** gerencia num só lugar: a **ordem** das tarefas, o **agendamento**, o **tratamento de falhas** (retries, alertas), a **observabilidade** (logs, status) e a **recuperação**. O Airflow, criado no Airbnb em 2014, popularizou a filosofia **"pipelines como código"**: você descreve o fluxo em **Python** — então versiona, testa e revisa o pipeline como qualquer software (exatamente o que faremos com o Olist na Unidade 4, com CI/CD).
 
 ![Logo do Apache Airflow, plataforma de orquestração de workflows como código](https://commons.wikimedia.org/wiki/Special:FilePath/AirflowLogo.png)
 
 ### DAGs, tasks e operators
 
-No Airflow, um pipeline é um **DAG (Directed Acyclic Graph)** — um grafo **dirigido** (as setas têm sentido) e **acíclico** (nenhuma tarefa depende, direta ou indiretamente, de si mesma). Cada nó é uma **task**, e as arestas são as dependências (`extrair >> transformar >> carregar`).
+No Airflow, um pipeline é um **DAG (Directed Acyclic Graph)** — **dirigido** (as setas têm sentido) e **acíclico** (nada depende de si mesmo). Cada nó é uma **task**; as arestas são as dependências. O nosso DAG é exatamente: `ingest_csv_to_duckdb >> dbt_run >> dbt_test >> export_gold`.
 
 Uma task é uma instância de um **operator** — um modelo que sabe executar um tipo de trabalho:
 
-| Operator | O que faz |
-| --- | --- |
-| `PythonOperator` | Executa uma função Python |
-| `BashOperator` | Executa um comando de shell |
-| `SQLExecuteQueryOperator` | Roda uma query em um banco |
-| `SparkSubmitOperator` | Dispara um job Spark |
-| Sensors | Esperam por uma condição (ex.: chegada de um arquivo) |
+| Operator | O que faz | Uso no `olist_pipeline` |
+| --- | --- | --- |
+| `PythonOperator` | Executa uma função Python | `ingest_csv_to_duckdb` |
+| `BashOperator` | Executa um comando de shell | `dbt run`, `dbt test`, `export_gold` |
+| `SQLExecuteQueryOperator` | Roda uma query num banco | (alternativa para o export) |
+| Sensors | Esperam por uma condição | (ex.: chegada de um CSV novo) |
 
-A acidicidade não é detalhe técnico: ela **garante que o pipeline termina**. Um grafo com ciclo poderia rodar para sempre.
+A aciclicidade **garante que o pipeline termina** — um grafo com ciclo poderia rodar para sempre.
 
-### Agendamento e dependências
+### O DAG `olist_pipeline`
 
-Cada DAG tem um `schedule` que define **quando** ele roda — uma expressão `cron` (`0 6 * * *` = todo dia às 6h), um *preset* (`@daily`, `@hourly`) ou um intervalo. O Airflow trabalha com o conceito de **data interval**: cada execução está associada a um *período de dados* (a "data lógica"), não ao relógio de quando o job de fato disparou. Isso é o que torna o reprocessamento determinístico.
+Aqui está o esqueleto real do DAG, em `airflow/dags/olist_pipeline.py`:
 
-As dependências entre tasks são declaradas com os operadores `>>` (a montante para a jusante) e `<<`. Você pode montar fluxos lineares, em leque (uma task alimenta várias) ou em funil (várias convergem para uma). Tasks sem dependência entre si rodam **em paralelo**, limitadas pela capacidade dos *workers* e por configurações de concorrência.
+```python
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+from airflow.operators.bash import BashOperator
+import pendulum, duckdb
+
+def ingest_csv_to_duckdb():
+    con = duckdb.connect("olist.duckdb")
+    con.execute("CREATE SCHEMA IF NOT EXISTS raw")
+    con.execute("""CREATE OR REPLACE TABLE raw.orders AS
+                   SELECT * FROM read_csv_auto('data/raw/olist_orders_dataset.csv')""")
+
+with DAG(
+    dag_id="olist_pipeline",
+    start_date=pendulum.datetime(2016, 9, 1, tz="UTC"),
+    schedule="@daily",
+    catchup=False,
+    default_args={"retries": 2, "retry_delay": pendulum.duration(minutes=5)},
+) as dag:
+
+    ingest = PythonOperator(task_id="ingest_csv_to_duckdb",
+                            python_callable=ingest_csv_to_duckdb)
+    dbt_run  = BashOperator(task_id="dbt_run",  bash_command="cd dbt_olist && dbt run")
+    dbt_test = BashOperator(task_id="dbt_test", bash_command="cd dbt_olist && dbt test")
+    export_gold = BashOperator(task_id="export_gold",
+        bash_command="cd dbt_olist && dbt run-operation export_gold")  # marts -> Parquet
+
+    ingest >> dbt_run >> dbt_test >> export_gold
+```
+
+Note que `dbt_run` reaproveita os modelos `stg_*` da Aula 5 e que `dbt_test` (Unidade 4) garante qualidade *antes* de publicar o gold — a ordem não é casual.
+
+### Agendamento, data interval e dependências
+
+Cada DAG tem um `schedule`: uma expressão `cron` (`0 6 * * *` = todo dia às 6h), um preset (`@daily`) ou um intervalo. O Airflow trabalha com **data interval**: cada execução está ligada a um *período de dados* (a "data lógica"), não ao relógio de quando disparou. É isso que torna o reprocessamento determinístico — cada run do `olist_pipeline` "sabe" qual dia do Olist está processando. As dependências usam `>>` (montante → jusante); tasks sem dependência entre si rodam **em paralelo**.
 
 ### Backfill e retries
 
-Duas funcionalidades fazem o Airflow brilhar na operação. O **backfill** é a capacidade de executar o pipeline para **períodos passados** — útil quando você cria um DAG novo e quer popular o histórico, ou quando descobre um bug e precisa reprocessar a última semana. Como cada execução está atrelada a uma data lógica, o Airflow sabe exatamente qual janela de dados reprocessar (e aqui a **idempotência** da Aula 5 é o que torna o backfill seguro: reprocessar não duplica).
+Duas funcionalidades fazem o Airflow brilhar. O **backfill** executa o pipeline para **períodos passados** — quando você cria o `olist_pipeline` e quer popular o histórico de 2016–2018, roda um backfill por todo o intervalo. Como cada execução está atrelada a uma data lógica, o Airflow sabe qual janela reprocessar — e aqui a **idempotência** da Aula 5 (`unique_key='order_id'`) é o que torna o backfill seguro: reprocessar um dia do Olist não duplica pedidos.
 
-Os **retries** automatizam a resiliência: você define quantas vezes uma task deve tentar de novo (`retries`) e o intervalo entre tentativas (`retry_delay`), idealmente com *backoff exponencial*. Falhas transitórias (uma API que oscilou, uma conexão que caiu) se resolvem sozinhas, sem acordar ninguém de madrugada.
+Os **retries** automatizam a resiliência: definimos `retries=2` e `retry_delay` (idealmente com *backoff exponencial*). Uma falha transitória — o disco ocupado, uma leitura de CSV que oscilou — se resolve sozinha, sem acordar ninguém.
 
 ### Monitoramento e alertas
 
-O Airflow oferece uma **interface web** rica: visão em grafo do DAG, *grid view* com o histórico de execuções colorido por status, logs de cada task e capacidade de re-disparar tarefas manualmente. Para além do visual, ele integra **alertas**: `email_on_failure`, *callbacks* (`on_failure_callback`) que notificam o Slack ou sistemas de plantão, e métricas exportáveis para Prometheus/Grafana. Observabilidade é o que separa um pipeline que "deveria estar funcionando" de um que você *sabe* que está.
+O Airflow oferece uma **interface web** rica: visão em grafo do `olist_pipeline`, *grid view* com o histórico colorido por status, logs de cada task e re-disparo manual. Integra **alertas**: `email_on_failure`, *callbacks* (`on_failure_callback`) para Slack/plantão, e métricas para Prometheus/Grafana. Observabilidade é o que separa um pipeline que "deveria estar funcionando" de um que você *sabe* que está.
 
-### Exemplo numérico: SLA do pipeline
+### Exemplo numérico: caminho crítico e SLA do `olist_pipeline`
 
-Um pipeline diário precisa entregar o dashboard executivo até as **8h00**. As tarefas têm os seguintes tempos médios e janelas de retry:
+Suponha estes tempos médios para o pipeline Olist e suas janelas de retry:
 
 | Task | Tempo médio | Retries × delay |
 | --- | --- | --- |
-| Ingestão | $25$ min | $2 \times 5$ min |
-| Transformação Spark | $40$ min | $1 \times 10$ min |
-| Carga no warehouse | $15$ min | $2 \times 5$ min |
+| `ingest_csv_to_duckdb` | $4$ min | $2 \times 5$ min |
+| `dbt_run` | $3$ min | $1 \times 5$ min |
+| `dbt_test` | $2$ min | $1 \times 5$ min |
+| `export_gold` | $1$ min | $1 \times 5$ min |
 
-O **caminho crítico** em condições normais (sem falhas) é:
-
-$$
-T_{normal} = 25 + 40 + 15 = 80\ \text{min}
-$$
-
-No **pior caso**, com todos os retries acionados, somam-se os tempos de espera e as re-execuções:
+O **caminho crítico** em condições normais (sem falhas) é a soma sequencial:
 
 $$
-T_{pior} = (25 + 2\cdot5) + (40 + 1\cdot10) + (15 + 2\cdot5) = 35 + 50 + 25 = 110\ \text{min}
+T_{normal} = 4 + 3 + 2 + 1 = 10\ \text{min}
 $$
 
-Para entregar às 8h00 mesmo no pior caso, o DAG deve iniciar até:
+No **pior caso**, com todos os retries acionados:
 
 $$
-08{:}00 - 110\ \text{min} = 06{:}10
+T_{pior} = (4 + 2\cdot5) + (3 + 1\cdot5) + (2 + 1\cdot5) + (1 + 1\cdot5) = 14 + 8 + 7 + 6 = 35\ \text{min}
 $$
 
-Para ter margem, agenda-se às **6h00** (`0 6 * * *`) com um **SLA de 110 min**: se a entrega atrasar, o Airflow dispara o alerta de violação de SLA — e o time age *antes* de o executivo abrir o dashboard vazio.
+Se os marts do Olist (vendas por categoria, performance de entrega) devem estar prontos às **8h00**, o DAG deve iniciar, no pior caso, até $08{:}00 - 35\ \text{min} = 07{:}25$. Para margem, agenda-se às **7h00** (`0 7 * * *`) com um **SLA de 35 min**: se atrasar, o Airflow dispara o alerta — e o time age *antes* de alguém abrir um dashboard vazio.
 
 ### Atividade prática
 
-Suba o Airflow localmente (via `docker compose` do projeto oficial ou `astro dev start` da Astronomer).
+Suba o Airflow localmente (via `docker compose` oficial ou `astro dev start` da Astronomer).
 
-1. Crie um DAG `pipeline_vendas` com `schedule="@daily"` e três tasks: `ingerir` (`PythonOperator`), `transformar` (`BashOperator` ou `SparkSubmitOperator`) e `carregar`.
-2. Declare as dependências: `ingerir >> transformar >> carregar`.
-3. Configure `retries=2` e `retry_delay` de 1 minuto na task de ingestão; force uma falha (ex.: `raise`) e observe o retry na UI.
-4. Defina um `sla` na task de carga e dispare um **backfill** de 3 dias passados (`airflow dags backfill`). Confirme que a idempotência impediu duplicação.
+1. Crie o DAG `olist_pipeline` com `schedule="@daily"` e as quatro tasks: `ingest_csv_to_duckdb` (`PythonOperator`), `dbt_run`, `dbt_test` e `export_gold` (`BashOperator`).
+2. Declare a ordem: `ingest_csv_to_duckdb >> dbt_run >> dbt_test >> export_gold` e confira o grafo na UI.
+3. Configure `retries=2` e `retry_delay`; force uma falha no `ingest` (ex.: aponte para um CSV inexistente) e observe o retry na interface.
+4. Defina um `sla` no `export_gold` e dispare um **backfill** de 3 dias passados (`airflow dags backfill`). Confirme — contando `order_id` em `stg_orders` — que a **idempotência** impediu duplicação.
 
 ### Pontos-chave
 
-- A **orquestração** coordena ordem, agendamento, falhas, observabilidade e recuperação de pipelines.
-- No Airflow, um pipeline é um **DAG** (dirigido e acíclico); tasks são instâncias de **operators**.
-- O **agendamento** usa `cron`/presets e o conceito de **data interval** (data lógica), o que torna o reprocessamento determinístico.
-- **Backfill** reexecuta períodos passados; **retries** automatizam a resiliência — ambos exigem **idempotência**.
-- **SLAs**, alertas e a UI dão a **observabilidade** que torna o pipeline confiável de verdade.
+- A **orquestração** coordena ordem, agendamento, falhas, observabilidade e recuperação do pipeline Olist.
+- No Airflow, o pipeline é um **DAG**; o nosso é `olist_pipeline`: `ingest_csv_to_duckdb >> dbt_run >> dbt_test >> export_gold`.
+- O **agendamento** usa `@daily`/`cron` e o **data interval** (data lógica), o que torna o reprocessamento determinístico.
+- **Backfill** reexecuta o histórico do Olist (2016–2018); **retries** com backoff resolvem falhas transitórias — ambos exigem a **idempotência** da Aula 5.
+- **SLA**, alertas e a UI dão a **observabilidade** que torna o `olist_pipeline` confiável de verdade.
 
 ### Para saber mais
 
 - **Documentação oficial do Apache Airflow:** https://airflow.apache.org/docs/
-- **Conceitos centrais do Airflow (DAGs, operators, scheduling):** https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/
-- **Reis, J.; Housley, M.** *Fundamentals of Data Engineering*. O'Reilly, 2022 — capítulo sobre orquestração e DataOps.
+- **Conceitos centrais do Airflow (DAGs, operators):** https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/operators.html
+- **Agendamento e parâmetros de DAG (schedule, retries, SLA):** https://www.astronomer.io/docs/learn/airflow-dag-parameters/
 
 ### O que você verá na próxima unidade
 
-Na **Unidade 3 — Armazenamento e Arquitetura de Dados**, vamos parar de mover dados e focar em **onde** e **como** guardá-los bem. Você vai entender a diferença entre **OLTP e OLAP**, a anatomia de um **data warehouse** e seus modelos dimensionais (esquema estrela, *fato* e *dimensão*), o conceito de **data lake** e a evolução para o **lakehouse** com formatos de tabela abertos (**Delta Lake, Apache Iceberg, Hudi**), além de boas práticas de **particionamento, modelagem e governança**. É a hora de dar à torrente de dados que aprendemos a movimentar uma **casa bem arquitetada**.
+Na **Unidade 3 — Armazenamento e Arquitetura de Dados**, paramos de **mover** o dado do Olist e focamos em **onde** e **como** guardá-lo bem. O dado do Olist já entra (Aula 5), é processado (Aula 6), poderia ser transmitido (Aula 7) e está orquestrado pelo `olist_pipeline` (Aula 8) — agora vamos **armazenar e arquitetar**. Você vai construir o **data warehouse do Olist em camadas com dbt** (staging → core → marts, com as dimensões e fatos da estrela e SCD2 em `dim_sellers`), organizar o storage em **Medallion** (bronze/silver/gold em Parquet, lendo o Olist como um **lakehouse local**), ver como o **mesmo dbt** rodaria na nuvem (BigQuery/Snowflake) trocando só o `profiles.yml`, e montar a **Modern Data Stack** com BI sobre o DuckDB. É hora de dar à torrente de dados do Olist uma **casa bem arquitetada**.
 
 ## Aula 8 — Roteiro da Videoaula 8: "Orquestração de pipelines com Apache Airflow"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 9 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:45)
 
-> "Você já sabe ingerir, processar em lote, processar em tempo real. Mas um pipeline real tem dezenas de tarefas que dependem umas das outras, em horários certos, com tratamento de falha. Coordenar isso na mão é insustentável. Hoje: orquestração com Apache Airflow."
+> "Você já sabe ingerir, processar em lote e simular um stream do Olist. Mas até agora a gente rodou cada passo na mão: dbt run num terminal, o stream noutro. Um pipeline real amarra tudo isso. Hoje a gente monta o DAG olist_pipeline no Airflow: ingerir, dbt run, dbt test, exportar o gold. O primeiro pipeline do Olist orquestrado ponta a ponta."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:45 – 3:50)
 
-> "Sem orquestração, seu pipeline vira um emaranhado de crons frágeis e falhas silenciosas — o relatório sai vazio e ninguém percebe. O orquestrador resolve num lugar só: ordem das tarefas, agendamento, retries, logs, recuperação. O Airflow, do Airbnb em 2014, trouxe a filosofia 'pipeline como código': você descreve o fluxo em Python. Isso é poderoso — você versiona, testa e revisa o pipeline como qualquer software. No Airflow, o pipeline é um DAG: grafo dirigido e acíclico. Dirigido porque as setas têm sentido; acíclico porque nada pode depender de si mesmo — é isso que garante que o pipeline termina."
+> "Sem orquestração, o pipeline vira um monte de crons frágeis e o mart sai vazio sem ninguém perceber. O orquestrador resolve num lugar só: ordem, agendamento, retries, logs, recuperação. O Airflow, do Airbnb em 2014, trouxe a filosofia pipeline como código: você descreve o fluxo em Python. No Airflow o pipeline é um DAG: grafo dirigido e acíclico. Dirigido porque as setas têm sentido; acíclico porque nada depende de si mesmo — é isso que garante que termina. O nosso é direto: ingest_csv_to_duckdb, seta, dbt_run, seta, dbt_test, seta, export_gold."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:50 – 6:50)
 
-> "Cada nó do DAG é uma task, instância de um operator: PythonOperator roda função Python, BashOperator roda shell, SparkSubmitOperator dispara o Spark, sensors esperam uma condição. As dependências você declara com setas: extrair >> transformar >> carregar. Tarefas sem dependência rodam em paralelo. O agendamento usa cron ou presets como @daily, e o conceito-chave é o data interval: cada execução está ligada a um período de dados, uma data lógica, não ao relógio de quando disparou. É isso que torna o reprocessamento determinístico."
+> "Cada nó é uma task, instância de um operator. O ingest é um PythonOperator que conecta no DuckDB e recria o raw.orders a partir do CSV. O dbt_run e o dbt_test são BashOperator rodando dbt run e dbt test — repare que o teste vem antes de exportar o gold: a gente só publica o mart se passar na qualidade. O agendamento é @daily, e o conceito-chave é o data interval: cada execução está ligada a um período de dados, uma data lógica, não ao relógio. É isso que torna o reprocessamento determinístico — cada run sabe qual dia do Olist está processando."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
-> "Duas joias da operação: backfill e retries. Backfill reexecuta períodos passados — criou um DAG novo, quer popular o histórico? Backfill. E aqui a idempotência da aula 5 volta: reprocessar não pode duplicar. Retries automatizam a resiliência: define quantas tentativas e o intervalo, de preferência com backoff exponencial, e a API que oscilou se resolve sozinha de madrugada. E não esqueça da observabilidade: a UI mostra o grafo, o histórico colorido, os logs; configure alertas no e-mail ou Slack e um SLA de tempo de entrega."
+> "Duas joias da operação: backfill e retries. Backfill reexecuta o histórico — quero popular 2016 a 2018 do Olist? Backfill no intervalo inteiro. E aqui a idempotência da aula 5 volta: o unique_key igual a order_id faz com que reprocessar um dia não duplique pedido. Retries automatizam a resiliência: retries igual a 2, retry_delay com backoff, e a leitura de CSV que oscilou se resolve sozinha. E não esqueça da observabilidade: a UI mostra o grafo do olist_pipeline, o histórico colorido, os logs; configure alerta no e-mail ou Slack e um SLA de tempo de entrega."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 9:50)
 
-> "Fechei com uma conta de SLA: caminho crítico de 80 minutos, 110 no pior caso com retries, então agendo às 6h para entregar às 8h com folga. Esse é o cinto completo da Unidade 2: ingerir, processar em lote, processar em tempo real e orquestrar. Na próxima unidade a gente para de mover dados e aprende a guardá-los bem — data warehouse, data lake, lakehouse. Te espero!"
+> "Fechei com a conta de SLA: o olist_pipeline tem caminho crítico de 10 minutos, 35 no pior caso com todos os retries, então eu agendo às 7h para entregar os marts às 8h com folga. Esse é o cinto completo da Unidade 2: ingerir, processar em lote, simular o stream e orquestrar. Agora o dado do Olist já entra, é processado e está orquestrado. Na próxima unidade a gente para de mover e aprende a guardar bem — data warehouse em camadas com dbt, lakehouse com Medallion, nuvem. Te espero!"
 
 ---
 
@@ -464,29 +587,29 @@ Na **Unidade 3 — Armazenamento e Arquitetura de Dados**, vamos parar de mover 
 
 ### Questão 1
 
-Sobre a diferença entre **ETL** e **ELT** na ingestão de dados, assinale a alternativa **correta**:
+No projeto do Olist, configuramos o modelo `stg_orders` no dbt como `materialized='incremental'` com `unique_key='order_id'`. Sobre **ETL vs ELT** e essa escolha, assinale a alternativa **correta**:
 
-- [ ] a. No ELT a transformação ocorre em um servidor intermediário antes de o dado tocar o destino, enquanto no ETL o dado bruto é carregado primeiro.
-- [x] b. No ETL transforma-se antes de carregar (em um servidor intermediário); no ELT carrega-se o dado bruto no destino e transforma-se lá dentro, aproveitando o poder do data warehouse moderno.
-- [ ] c. ETL e ELT são exatamente a mesma coisa; a única diferença é o idioma da sigla.
-- [ ] d. ELT só funciona em batch, enquanto ETL só funciona em streaming.
+- [ ] a. A configuração descreve um pipeline ETL, pois a transformação dos pedidos ocorre num servidor intermediário antes de tocar o DuckDB.
+- [x] b. É um pipeline **ELT**: os CSVs do Olist entram crus no schema `raw` e o **dbt** transforma dentro do DuckDB; o `unique_key='order_id'` garante **idempotência** (rodar duas vezes não duplica pedidos).
+- [ ] c. O `unique_key` serve para ordenar os pedidos por data, não tem relação com idempotência ou duplicação.
+- [ ] d. A carga incremental do Olist relê os ~99 mil pedidos a cada execução; o ganho está apenas em comprimir os dados.
 
 **Resposta correta:** `b`
 
-**Feedback:** A (b) descreve corretamente a ordem das etapas. No **ETL** a transformação acontece *antes* da carga, num estágio intermediário; no **ELT** o dado bruto é carregado primeiro e transformado dentro do destino (BigQuery, Snowflake), que é o padrão dominante na nuvem por preservar a fonte da verdade e permitir re-transformar sem reextrair. A (a) inverte os conceitos. A (c) é falsa — a ordem das operações muda a arquitetura inteira. A (d) é falsa: ambos podem operar em batch ou streaming.
+**Feedback:** A (b) está correta: no nosso projeto os CSVs do Olist entram crus no `raw` e o **dbt** os transforma *dentro* do DuckDB — padrão **ELT**. O `unique_key='order_id'` faz o dbt aplicar um *MERGE*/upsert por pedido, dando **idempotência**: reprocessar não duplica. A (a) inverte os conceitos (não há servidor intermediário; a transformação é no destino). A (c) erra a função do `unique_key` (é a chave do upsert, base da idempotência). A (d) descreve carga full, não incremental — a incremental lê só os pedidos novos (`order_purchase_timestamp` maior que o máximo já carregado).
 
 ### Questão 2
 
-A respeito de **tópicos, partições e offsets** no Apache Kafka, assinale a alternativa **correta**:
+No produtor `stream_orders.py`, emitimos cada pedido do Olist no tópico `olist.orders` usando `customer_id` como chave. Sobre **tópicos, partições e offsets** no Kafka, assinale a alternativa **correta**:
 
-- [ ] a. O Kafka garante ordem total entre todas as partições de um tópico, independentemente da chave da mensagem.
-- [ ] b. Aumentar o número de partições não tem efeito sobre o paralelismo de consumo.
-- [x] c. A escalabilidade vem das partições; a ordem é garantida apenas dentro de uma partição, e o offset é o número sequencial que o consumidor usa para controlar até onde já leu.
-- [ ] d. O offset é definido pelo produtor para escolher manualmente em qual broker a mensagem será gravada.
+- [ ] a. Usar `customer_id` como chave não influencia em nada o particionamento; os pedidos do mesmo cliente caem em partições aleatórias.
+- [ ] b. O Kafka garante ordem total entre todas as partições de `olist.orders`, então a sequência global dos pedidos é sempre preservada.
+- [x] c. A escalabilidade vem das **partições**; mensagens com a mesma chave (`customer_id`) vão para a **mesma partição**, onde a **ordem** é garantida, e o **offset** controla até onde o consumidor já leu.
+- [ ] d. Aumentar o número de partições de `olist.orders` reduz o paralelismo de consumo, pois cada consumidor precisa ler todas as partições.
 
 **Resposta correta:** `c`
 
-**Feedback:** A (c) está correta: partições são a unidade de paralelismo, o Kafka garante ordem **apenas dentro de uma partição** (não entre elas), e o **offset** é o índice sequencial que permite ao consumidor retomar, reprocessar ou avançar. A (a) é falsa — não há ordem total entre partições. A (b) é falsa — o número de partições define o teto de paralelismo do consumo. A (d) confunde conceitos: o offset é atribuído pelo broker dentro da partição; a partição-destino é escolhida pela chave da mensagem, não para selecionar o broker manualmente.
+**Feedback:** A (c) está correta: partições são a unidade de paralelismo; usar `customer_id` como **chave** envia todos os pedidos de um cliente para a **mesma partição** (mantendo a ordem deles), e o **offset** é o índice sequencial que permite ao consumidor retomar, reprocessar ou avançar. A (a) é falsa — a chave determina a partição (mesma chave → mesma partição). A (b) é falsa — o Kafka garante ordem **apenas dentro de uma partição**, nunca total entre elas. A (d) inverte o conceito: mais partições **aumentam** o teto de paralelismo do consumo.
 
 ---
 
@@ -494,17 +617,17 @@ A respeito de **tópicos, partições e offsets** no Apache Kafka, assinale a al
 
 **Pergunta:**
 
-> Uma fintech precisa construir, do zero, o pipeline de dados de **transações de cartão**. Há dois requisitos conflitantes: (1) um sistema **antifraude** que precisa avaliar cada transação em **menos de 300 ms**, e (2) um **relatório regulatório diário** consolidado, entregue ao Banco Central até as **9h** de cada dia, que não pode conter duplicatas nem perder transações.
+> A diretoria do Olist pediu duas coisas ao time de dados, sobre o **mesmo** fluxo de pedidos: (1) um **painel de operação em tempo real** que mostre "pedidos por minuto" e dispare um **alerta** quando um mesmo `customer_id` fizer 5 pedidos em 2 minutos; e (2) os **marts analíticos diários** (`mart_sales_by_category`, `mart_delivery_performance`), que precisam estar prontos todo dia até as **8h**, sem duplicar nem perder pedidos.
 >
-> Estruture sua resposta em três partes:
+> Estruture sua resposta em três partes, usando a stack do nosso projeto (DuckDB, dbt, Airflow, mock de Kafka):
 >
-> 1. **Arquitetura de ingestão e processamento** — para cada requisito, escolha entre batch e streaming, justifique e nomeie a(s) ferramenta(s) (Kafka, Spark, Airflow) e o papel de cada uma.
-> 2. **Confiabilidade** — que garantia de entrega você adotaria no fluxo antifraude e como garantiria que o relatório diário não duplica nem perde transações (cite explicitamente idempotência/CDC).
-> 3. **Operação** — como você orquestraria e monitoraria o relatório diário (agendamento, retries, SLA, backfill) para cumprir o prazo das 9h mesmo com falhas transitórias.
+> 1. **Arquitetura de ingestão e processamento** — para cada requisito, escolha entre **batch** e **streaming**, justifique e nomeie o componente do projeto que o atende (ex.: produtor/consumidor `stream_orders.py` no tópico `olist.orders`; modelos `stg_*` + marts via dbt; DAG `olist_pipeline` no Airflow).
+> 2. **Confiabilidade** — que **garantia de entrega** você adotaria no fluxo de tempo real e como garantiria que os marts diários **não duplicam nem perdem** pedidos (cite explicitamente **idempotência** via `unique_key='order_id'` e o papel do **CDC** se o Olist fosse um banco ao vivo).
+> 3. **Operação** — como você orquestraria e monitoraria os marts diários no `olist_pipeline` (`schedule`, `retries`, `SLA`, `backfill`) para cumprir as 8h mesmo com falhas transitórias.
 
 **Resposta esperada:**
 
-> Uma resposta de qualidade separa claramente os dois caminhos. Para o **antifraude**, escolhe **streaming com Apache Kafka** (transações como eventos em um tópico particionado pela chave do cartão, garantindo ordem por cartão) com processamento em janelas (ex.: sliding para detectar N transações em curto intervalo); justifica que batch é inviável pelo limite de 300 ms. Para o **relatório regulatório**, escolhe **batch com Apache Spark** (processamento distribuído do volume diário) **orquestrado pelo Apache Airflow**. Em **confiabilidade**, no fluxo antifraude adota **at-least-once com consumo idempotente** (perder uma transação é pior que checá-la duas vezes; exactly-once é caro e desnecessário se o consumo é idempotente); para o relatório, garante ausência de perda e duplicação via **CDC/ingestão incremental** com **MERGE por chave de transação** ou **sobrescrita de partição por dia** — ou seja, idempotência ponta a ponta. Em **operação**, descreve um DAG diário com `schedule` (`cron`) calculado a partir do **caminho crítico** somado aos **retries** (com backoff), define um **SLA** com margem para entregar antes das 9h, configura **alertas** (e-mail/Slack) em falha e violação de SLA, e usa **backfill** idempotente para reprocessar dias com problema. A melhor resposta demonstra **pensamento sistêmico**: streaming e batch coexistem (arquitetura tipo Lambda/Kappa), e a idempotência é o fio que costura confiabilidade e reprocessamento em todas as camadas. Deve evitar "usar Spark para tudo" ou "exactly-once em tudo" sem justificar custo/benefício.
+> Uma resposta de qualidade separa os dois caminhos. Para o **painel em tempo real**, escolhe **streaming**: os pedidos como eventos no tópico `olist.orders`, **particionado por `customer_id`** (garantindo ordem por cliente), com o produtor/consumidor `stream_orders.py`; o alerta "5 pedidos em 2 minutos" usa uma **janela sliding** (deslizante, porque a contagem precisa ser contínua, não em blocos fixos); justifica que batch é inviável pelo requisito de tempo real. Para os **marts diários**, escolhe **batch**: os modelos `stg_*` e os marts (`mart_sales_by_category`, `mart_delivery_performance`) construídos pelo **dbt** dentro do DuckDB, **orquestrados pelo DAG `olist_pipeline`** no Airflow. Em **confiabilidade**, no fluxo de tempo real adota **at-least-once com consumo idempotente** (perder um pedido é pior que contá-lo duas vezes; exactly-once é caro e desnecessário se o consumo é idempotente); para os marts, garante ausência de perda e duplicação via **carga incremental + idempotência** — o `stg_orders` com `unique_key='order_id'` faz upsert por pedido, então reprocessar não duplica — e menciona que, **se o Olist fosse um Postgres ao vivo**, um **CDC** (Debezium no WAL) capturaria inserts/updates/deletes em quase tempo real. Em **operação**, descreve o `olist_pipeline` com `schedule` (`cron`/`@daily`) calculado a partir do **caminho crítico** somado aos **retries** (com backoff), define um **SLA** com margem para entregar antes das 8h, configura **alertas** (e-mail/Slack) em falha e violação de SLA, e usa **backfill** idempotente para reprocessar dias com problema. A melhor resposta demonstra **pensamento sistêmico**: streaming e batch coexistem sobre o **mesmo** fluxo de pedidos (arquitetura **Kappa** — o log `olist.orders` alimenta o painel ao vivo e, reprocessado, os marts), e a **idempotência** é o fio que costura confiabilidade e reprocessamento em todas as camadas. Deve evitar "usar Spark para tudo" (o DuckDB resolve o Olist no laptop) ou "exactly-once em tudo" sem justificar custo/benefício.
 
 ---
 
@@ -512,34 +635,34 @@ A respeito de **tópicos, partições e offsets** no Apache Kafka, assinale a al
 
 ### Direto da fonte — livro da Biblioteca Virtual
 
-> Este é o livro de cabeceira da engenharia de dados moderna e cobre, em um só lugar, todo o coração desta unidade: ingestão (ETL vs ELT, batch vs CDC), o ciclo de vida do dado e a orquestração com DataOps. Reis e Housley são pragmáticos e atemporais — explicam *princípios* que sobrevivem à troca de ferramentas. Leitura direta sobre tudo o que destrinchamos nas Aulas 5 a 8.
+> Este é o livro de cabeceira da engenharia de dados moderna e cobre, em um só lugar, todo o coração desta unidade: ingestão (ETL vs ELT, batch vs CDC), o ciclo de vida do dado e a orquestração com DataOps. Reis e Housley são pragmáticos e atemporais — explicam *princípios* que sobrevivem à troca de ferramentas, exatamente os que aplicamos ao montar o `dbt_olist`, o stream do Olist e o DAG `olist_pipeline`. Leitura direta sobre tudo o que destrinchamos nas Aulas 5 a 8.
 
 - **Nome do livro:** *Fundamentals of Data Engineering: Plan and Build Robust Data Systems*
 - **Capítulo:** Capítulos 7 (Ingestão), 8 (Consultas, modelagem e transformação) e 2 (Ciclo de vida da engenharia de dados)
 - **Organizador:** Joe Reis e Matt Housley
 - **Editora:** O'Reilly Media
-- **Link de acesso (BV):** https://www.oreilly.com/library/view/fundamentals-of-data/9781098108298/
+- **Link de acesso (BV):** https://learning.oreilly.com/library/view/fundamentals-of-data/9781098108298/
 - **Aula em que entra:** Aulas 5 a 8
 
 ### Para mergulhar no assunto
 
-> Recomendo a palestra clássica **"Turning the database inside out with Apache Samza"**, de Martin Kleppmann (autor de *Designing Data-Intensive Applications*), e o próprio livro *Designing Data-Intensive Applications*. Kleppmann mostra como logs de eventos (a ideia central do Kafka) reorganizam toda a arquitetura de dados — é uma daquelas leituras/vídeos que "viram a chave" sobre streaming e CDC. Visualizar essa mudança de paradigma ajuda a entender por que o ELT e o streaming venceram.
+> Recomendo a leitura **"Turning the database inside out"**, de Martin Kleppmann (autor de *Designing Data-Intensive Applications*). Kleppmann mostra como **logs de eventos** — a ideia central do Kafka e do nosso tópico `olist.orders` — reorganizam toda a arquitetura de dados. É uma daquelas leituras que "viram a chave" sobre streaming, CDC e a arquitetura Kappa que discutimos na Aula 7: por que tratar o histórico do Olist como um log reprocessável muda tudo. Combine com o livro *Designing Data-Intensive Applications* para aprofundar.
 
-- **Link(s):** https://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/ — livro: *Designing Data-Intensive Applications*, Martin Kleppmann (O'Reilly, 2017)
+- **Link(s):** https://martin.kleppmann.com/2015/03/04/turning-the-database-inside-out.html — livro: *Designing Data-Intensive Applications*, Martin Kleppmann (O'Reilly, 2017)
 - **Aula em que entra:** Aulas 5 e 7
 
 ### Podcast (curadoria, até 45 min)
 
-> O canal **Databricks (YouTube)** mantém uma série excelente de explicações curtas e palestras sobre Apache Spark, streaming estruturado e arquiteturas lakehouse, direto de quem criou o Spark. Ótimo para fixar os conceitos das Aulas 6 e 7 com demonstrações reais e casos de uso de produção.
+> O canal **Databricks (YouTube)** mantém uma série excelente de explicações curtas e palestras sobre Apache Spark, structured streaming e arquiteturas lakehouse, direto de quem criou o Spark. Ótimo para fixar os conceitos das Aulas 6 e 7 — o mesmo join+agregação que rodamos em DuckDB no Olist, agora explicado em escala de cluster, com demonstrações reais de produção.
 
 - **Nome do podcast/canal:** Databricks
-- **Tema recomendado:** "Apache Spark in 100 Seconds / Structured Streaming fundamentals"
+- **Tema recomendado:** "Apache Spark fundamentals / Structured Streaming"
 - **Link:** https://www.youtube.com/@Databricks (YouTube)
 - **Aula em que entra:** Aulas 6 e 7
 
 ### Artigo científico
 
-> O artigo fundador de toda a engenharia de dados distribuída moderna. Dean e Ghemawat, do Google, descrevem o modelo **MapReduce** que inspirou o Hadoop e, indiretamente, o Apache Spark. Ler o original é entender de onde vêm as ideias de *map*, *reduce*, paralelismo de dados e tolerância a falhas que sustentam a Aula 6 — e perceber como um paper de 2004 ainda molda as ferramentas que usamos hoje.
+> O artigo fundador de toda a engenharia de dados distribuída moderna. Dean e Ghemawat, do Google, descrevem o modelo **MapReduce** que inspirou o Hadoop e, indiretamente, o Apache Spark da Aula 6. Ler o original é entender de onde vêm as ideias de *map*, *reduce*, paralelismo de dados e tolerância a falhas — as mesmas que aparecem quando o nosso `groupBy` por categoria do Olist gera um *shuffle*. Um paper de 2004 que ainda molda as ferramentas que usamos hoje.
 
 - **Link:** https://doi.org/10.1145/1327452.1327492 (DOI)
 - **Aula em que entra:** Aula 6
