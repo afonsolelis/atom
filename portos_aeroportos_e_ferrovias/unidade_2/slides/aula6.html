@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">CAIS E PÍERES</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Molhes%20da%20Barra%2C%20Rio%20Grande%2C%20RS.jpg?width=1400" alt="Molhes da Barra, Rio Grande, RS: vista aérea das estruturas de cais que delimitam o canal de acesso ao Porto do Rio Grande no estuário da Lagoa dos Patos" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Molhes da Barra, Rio Grande (RS): estruturas de cais que encanalizam a saída da Lagoa dos Patos para o oceano, formando o maior acesso portuário em profundidade do Brasil · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -854,6 +884,15 @@
         </ul>
         <p><strong>Fórmula de Hudson</strong> dá o peso do bloco da carapaça: ele cresce com o <strong>cubo da altura de onda</strong> — dobrou a onda, o bloco fica 8× maior.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">QUEBRA-MAR</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Navio%20nos%20Molhes%20da%20Barra.JPG?width=1400" alt="Navio cargueiro navegando pelo canal dos Molhes da Barra, Rio Grande, RS: quebra-mar em talude de enrocamento protege a passagem das ondas oceânicas" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Navio nos Molhes da Barra, Rio Grande (RS): o quebra-mar de talude em enrocamento flanqueia o canal de entrada — blocos de pedra dissipam a energia das ondas oceânicas protegendo a bacia portuária · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
@@ -878,6 +917,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">MOLHE EXTERIOR</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Molhes%20da%20Barra.JPG?width=1400" alt="Molhes da Barra, Rio Grande, RS: vista do molhe exterior em extensão sobre o oceano, mostrando a estrutura linear que orienta a corrente e controla a dragagem do canal" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Molhes da Barra, Rio Grande (RS): o molhe exterior, ligado à costa, canaliza a corrente e controla o assoreamento do acesso ao Porto do Rio Grande — dragagem de manutenção é contínua · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -892,6 +940,15 @@
         </ul>
         <p>A energia de atracação depende da <strong>massa</strong>, da <strong>velocidade ao quadrado</strong> e dos coeficientes de massa adicional e excentricidade.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">DEFENSAS E ATRACAÇÃO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vagonetas%20nos%20Molhes%20da%20Barra%20em%20Rio%20Grande%20-%20RS.jpg?width=1400" alt="Vagonetas nos Molhes da Barra, Rio Grande (RS): trole de manutenção sobre trilhos percorre o coroamento do molhe para inspeção e reposição de blocos, demonstrando o sistema logístico de manutenção das estruturas de abrigo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Vagonetas nos Molhes da Barra, Rio Grande (RS): trole de manutenção sobre trilhos no coroamento do molhe — sistema utilizado para inspeção periódica e reposição de blocos nas estruturas de defensas e atracação · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
@@ -912,6 +969,15 @@
         </ul>
         <p>É o domínio da <em>engenharia costeira</em>, disciplina-irmã da portuária.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">OBRAS DE ABRIGO — ONDAS E COSTA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Molhes%20da%20Barra%2C%20Rio%20Grande%20-%20RS.jpg?width=1400" alt="Molhes da Barra, Rio Grande (RS): vista panorâmica dos molhes de pedra que avançam sobre o Atlântico Sul protegendo o canal de acesso ao Porto do Rio Grande da agitação de ondas oceânicas" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Molhes da Barra, Rio Grande (RS): vista ampla dos molhes de enrocamento que avançam pelo Atlântico Sul — a altura significativa das ondas (Hs) dita o dimensionamento de cada bloco (fórmula de Hudson) e a dragagem de manutenção do canal · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>

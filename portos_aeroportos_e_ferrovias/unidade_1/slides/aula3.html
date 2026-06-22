@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TOPOGRAFIA &amp; TRAÇADO EM CAMPO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Road%20cut.jpg?width=1400" alt="Corte de estrada em rocha, revelando as camadas geológicas do terreno após escavação" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Corte de morro em rocha para abertura de via: exemplo clássico de escavação no traçado rodoviário · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -860,6 +890,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TERRAPLENAGEM — MOVIMENTAÇÃO DE TERRA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/2026-02-23%20Construction%20of%20Bolotnaya%20Embankment%20footbridge%2C%20earthworks%2004.jpg?width=1400" alt="Máquinas e operários em obra de terraplenagem para construção de aterro de passarela" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Obra de terraplenagem para aterro de passarela: escavação, transporte e compactação de solo em operação simultânea · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -875,6 +914,15 @@
         </ul>
         <p>Bem trabalhado, reduz drasticamente o custo — transporte de terra é dos itens mais caros.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">MOVIMENTAÇÃO DE TERRA — VISTA GERAL DA OBRA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/2026-02-23%20Construction%20of%20Bolotnaya%20Embankment%20footbridge%2C%20earthworks%2009.jpg?width=1400" alt="Vista panorâmica de obras de terraplenagem com maquinário pesado movimentando volumes de solo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Movimentação de grandes volumes de terra: panorama de obra com maquinário pesado que ilustra a escala real da compensação de corte e aterro · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
   </section>
@@ -916,6 +964,15 @@
         </ul>
         <p>Solos fracos exigem <em>reforço</em>: troca, estabilização com cal/cimento, geossintéticos ou fundações profundas.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">GEOTECNIA — ATERRO COMPACTADO EM OBRA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Szabolcs-Earthwork.jpg?width=1400" alt="Aterro compactado em obra de infraestrutura viária, evidenciando camadas de solo e taludes" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aterro geotécnico compactado em obra viária: as camadas e os taludes refletem o controle de solo exigido pelo projeto · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
   </section>

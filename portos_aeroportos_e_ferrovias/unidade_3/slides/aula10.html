@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -841,6 +862,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">LADO AR — AERONAVES NO PÁTIO</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Aeroporto_de_Congonhas_-_Aeronaves.jpg/1920px-Aeroporto_de_Congonhas_-_Aeronaves.jpg" alt="Vista aérea do Aeroporto de Congonhas com diversas aeronaves estacionadas no pátio de embarque, São Paulo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aeronaves estacionadas no pátio do Aeroporto de Congonhas (CGH), São Paulo — um dos aeroportos mais movimentados do Brasil · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -860,6 +890,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PISTA DE POUSO E DECOLAGEM — NATAL/RN</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Pista_de_pouso_e_decolagem_do_aeroporto_de_Natal.jpg" alt="Pista de pouso e decolagem do Aeroporto Internacional de Natal, vista longitudinal com demarcações de cabeceira e eixo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Pista de pouso e decolagem do Aeroporto Internacional de Natal (NAT), Rio Grande do Norte — notar faixas de cabeceira e sinalização horizontal · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -874,6 +913,15 @@
           <li><strong>Rosa dos ventos</strong>; OACI exige coeficiente de utilização $\ge \mathbf{95\%}$.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PISTA DE CONGONHAS — VISTA DA CABECEIRA</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Pista_Congonhas01.jpg/1920px-Pista_Congonhas01.jpg" alt="Vista da pista do Aeroporto de Congonhas com marcações de designação, eixo central e zona de toque, São Paulo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Vista longitudinal da pista do Aeroporto de Congonhas (CGH) — notar sinalização de designação, faixa de toque (TDZ) e eixo central · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>
@@ -917,6 +965,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">AUXÍLIOS VISUAIS — LUZES DE PISTA NO RECIFE</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Lights_in_recife_international_airport_runway%2C_Brazil.jpg/1920px-Lights_in_recife_international_airport_runway%2C_Brazil.jpg" alt="Sistema de iluminação da pista do Aeroporto Internacional do Recife, com luzes de balizamento acesas ao entardecer" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Luzes de balizamento da pista do Aeroporto Internacional do Recife (REC) — cabeceiras verdes, eixo branco e bordas em destaque, sistema essencial para operações noturnas · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -932,6 +989,15 @@
           <li>$L = 2.400 \cdot 1{,}21 \cdot 1{,}209 \cdot 1{,}08 \approx \mathbf{3.792\,\mathrm{m}}$ — quase $1.400\,\mathrm{m}$ a mais que o básico.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PÁTIO DE MANOBRAS — INAUGURAÇÃO NO BRASIL</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/07_04_2021_Inaugura%C3%A7%C3%A3o_do_Novo_P%C3%A1tio_de_Manobras_e_da_Duplica%C3%A7%C3%A3o_da_Via_de_Acesso_ao_Aeroporto%2C_e_T%C3%A9rmino_da_Obra_Civil_da_Pista_de_Pouso_%2851101404819%29.jpg/1920px-thumbnail.jpg" alt="Vista aérea do novo pátio de manobras e pista de pouso recém-concluída em aeroporto brasileiro, mostrando taxiways e área de estacionamento de aeronaves" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Inauguração do novo pátio de manobras e conclusão da obra civil da pista de pouso — Brasil, abril de 2021 · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>

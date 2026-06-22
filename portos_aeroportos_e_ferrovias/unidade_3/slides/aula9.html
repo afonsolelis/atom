@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">AEROPORTO INTERNACIONAL DE GUARULHOS (GRU)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Guarulhos%20International%20Airport%2C%20S%C3%A3o%20Paulo%20city%2C%20Brazil.jpg?width=1400" alt="Vista aérea do Aeroporto Internacional de Guarulhos, São Paulo — maior aeroporto do Brasil e principal hub da rede nacional" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Vista aérea do Aeroporto Internacional de Guarulhos (GRU/SBGR), São Paulo — principal hub do Brasil · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -859,6 +889,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PISTA DE DECOLAGEM — GUARULHOS (GRU)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto%20Internacional%20de%20S%C3%A3o%20Paulo-Guarulhos%20-%20pista%20de%20decolagem.jpg?width=1400" alt="Pista de decolagem do Aeroporto Internacional de São Paulo-Guarulhos — exemplo de infraestrutura do lado ar (airside)" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Pista de decolagem do Aeroporto Internacional de São Paulo-Guarulhos (GRU) — infraestrutura do lado ar · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -873,6 +912,15 @@
           <li><strong>Operadores</strong>: Infraero e concessionárias; <em>DECEA</em> controla o espaço aéreo.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">AEROPORTO INTERNACIONAL DE BRASÍLIA (BSB)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto%20Internacional%20de%20Bras%C3%ADlia%20-%20panoramio.jpg?width=1400" alt="Vista panorâmica do Aeroporto Internacional de Brasília (BSB/SBBR) — hub central da rede aérea brasileira, operado pela Infraero e posteriormente concedido" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Vista panorâmica do Aeroporto Internacional de Brasília (BSB/SBBR) — hub central da rede aérea brasileira · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
@@ -898,6 +946,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">BRASÍLIA (BSB) — VISÃO AÉREA DO TERMINAL</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto%20de%20Bras%C3%ADlia.jpg?width=1400" alt="Fotografia aérea do Aeroporto de Brasília mostrando o terminal de passageiros e a área de pátio — visão ampla do complexo aeroportuário" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aeroporto de Brasília — vista aérea do terminal de passageiros e pátio de aeronaves · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -911,6 +968,15 @@
           <li>A <strong>fronteira</strong> é o canal de inspeção de segurança (raio-X, detector de metais).</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">FIM DE TARDE EM GUARULHOS (GRU)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Fim%20de%20tarde%20no%20Aeroporto%20de%20Guarulhos.jpg?width=1400" alt="Fim de tarde no Aeroporto Internacional de Guarulhos — aeronave no pátio ao entardecer, ilustrando o lado ar e a movimentação cotidiana do maior aeroporto do Brasil" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Fim de tarde no Aeroporto Internacional de Guarulhos (GRU) — aeronave no pátio (lado ar) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>

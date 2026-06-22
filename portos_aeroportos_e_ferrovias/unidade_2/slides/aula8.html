@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -842,6 +863,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">HIDROVIA TIETÊ-PARANÁ</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Eclusa_de_Barra_Bonita_-_panoramio.jpg/1280px-Eclusa_de_Barra_Bonita_-_panoramio.jpg" alt="Vista panorâmica da Eclusa de Barra Bonita, no Rio Tietê, São Paulo, principal obra de transposição da Hidrovia Tietê-Paraná" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Eclusa de Barra Bonita (Rio Tietê, SP) — obra-chave da Hidrovia Tietê-Paraná, que vence 26 m de desnível · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -858,6 +888,15 @@
         </ol>
         <p>A eclusa de <strong>Tucuruí (PA)</strong> vence ~<strong>72 m</strong>. Barragem <em>sem eclusa</em> interrompe a navegação: conflito energia × transporte.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">ECLUSAS EM OPERAÇÃO</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Entrada_para_a_descida_na_eclusa_de_Barra_Bonita_-_panoramio.jpg/1280px-Entrada_para_a_descida_na_eclusa_de_Barra_Bonita_-_panoramio.jpg" alt="Entrada de embarcação para descida na Eclusa de Barra Bonita, mostrando a câmara e as comportas de controle de nível" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Embarcação posicionada na câmara da Eclusa de Barra Bonita para iniciar a descida dos 26 m de desnível · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
@@ -902,6 +941,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">COMBOIOS NA HIDROVIA TIETÊ-PARANÁ</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Embarca%C3%A7%C3%B5es_no_Rio_Tiet%C3%AA_%28Hidrovia_Tiet%C3%AA-Paran%C3%A1%29_01.jpg/1280px-Embarca%C3%A7%C3%B5es_no_Rio_Tiet%C3%AA_%28Hidrovia_Tiet%C3%AA-Paran%C3%A1%29_01.jpg" alt="Barcaças e embarcações de carga navegando no Rio Tietê, trecho da Hidrovia Tietê-Paraná, com empurrador conduzindo o comboio" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Comboio de barcaças graneleiras navegando no Rio Tietê — cada conjunto substitui centenas de caminhões nas rodovias · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -916,6 +964,15 @@
         </ul>
         <p>A cadeia <strong>caminhão/trem → hidrovia → porto → navio</strong> reduz o Custo Brasil. Quando o <em>hinterland</em> (Aula 5) é servido por hidrovia, o frete despenca.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">INFRAESTRUTURA HIDROVIÁRIA</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Hidrovia_Tiet%C3%AA-Paran%C3%A1%2C_vendo_ao_fundo_a_ponte_de_2.4_KMs_na_SP-333_-_panoramio.jpg/1280px-Hidrovia_Tiet%C3%AA-Paran%C3%A1%2C_vendo_ao_fundo_a_ponte_de_2.4_KMs_na_SP-333_-_panoramio.jpg" alt="Vista panorâmica da Hidrovia Tietê-Paraná com a ponte de 2,4 km da rodovia SP-333 ao fundo, ilustrando a integração entre modal hidroviário e rodoviário" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Hidrovia Tietê-Paraná com a ponte de 2,4 km da SP-333 ao fundo — gabarito de pontes define o porte do comboio · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
@@ -936,6 +993,15 @@
         </ul>
         <p>É a tradução numérica de por que a hidrovia é o modal mais eficiente para granéis.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">ECLUSAS DO SISTEMA TIETÊ-PARANÁ</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Canal_de_Navega%C3%A7%C3%A3o_da_Eclusa_de_Nova_Avanhandava.jpg/1280px-Canal_de_Navega%C3%A7%C3%A3o_da_Eclusa_de_Nova_Avanhandava.jpg" alt="Canal de navegação da Eclusa de Nova Avanhandava, no Rio Tietê, São Paulo, mostrando as instalações de controle de nível e a câmara da eclusa" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Canal de navegação da Eclusa de Nova Avanhandava (Rio Tietê, SP) — uma das eclusas que compõem o traçado da Hidrovia Tietê-Paraná · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>

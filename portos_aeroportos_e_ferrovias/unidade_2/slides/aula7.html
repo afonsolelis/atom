@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -842,6 +863,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TERMINAL DE CONTÊINERES — PORTO DE SANTOS</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/SantosContainers.JPG?width=1400" alt="Vista do terminal de contêineres do Porto de Santos (SP), maior porto da América Latina, com portêineres STS no cais e pátio de empilhamento de TEUs" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Terminal de contêineres do Porto de Santos (SP) — maior complexo portuário da América Latina, com portêineres STS no cais e pátio de empilhamento de TEUs · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -862,6 +892,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PORTÊINER — GUINDASTE STS</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Portainer%20%28gantry_crane%29.jpg?width=1400" alt="Portêiner (guindaste Ship-to-Shore) erguendo contêiner de navio porta-contêineres no cais portuário" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Portêiner (gantry crane STS) em operação — principal equipamento de transferência de contêineres entre o navio e o cais portuário · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -876,6 +915,15 @@
         </ul>
         <p>Foi essa padronização (Malcom McLean, anos 1950) que viabilizou a globalização logística.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TERMINAL DE CONTÊINERES — PORTO DE SALVADOR (BA)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Containers%20no%20Porto%20de%20Salvador%2C%20BA.jpg?width=1400" alt="Contêineres empilhados no terminal de contêineres do Porto de Salvador (BA), com pátio de armazenagem e transtêineres em operação" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Terminal de contêineres do Porto de Salvador (BA) — pátio de empilhamento com transtêineres e alto giro de TEUs, principal porto da Região Nordeste · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
@@ -915,6 +963,15 @@
           <li><strong>Janelas de atracação</strong> otimizadas por algoritmos.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TERMINAL DE CONTÊINERES — PORTO DE VITÓRIA (ES)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/D%C3%A9chargement%20porte%20conteneurs%20Vitoria.jpg?width=1400" alt="Operação de descarga de navio porta-contêineres no terminal de contêineres de Vitória (ES), com portêiner STS em atividade no cais" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Descarga de navio porta-contêineres no terminal de contêineres de Vitória (ES) — portêiner STS em operação no cais; principal porto de escoamento do agronegócio capixaba · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>

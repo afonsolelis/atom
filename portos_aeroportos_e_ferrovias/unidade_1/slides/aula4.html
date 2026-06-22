@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -842,6 +863,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PAVIMENTO ASFÁLTICO EM EXECUÇÃO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Asphalt%20paving.jpg?width=1400" alt="Máquina pavimentadora asfáltica aplicando concreto betuminoso sobre a via" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Pavimentadora asfáltica em operação — aplicação de concreto betuminoso usinado a quente (CBUQ) sobre a camada de base compactada · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -855,6 +885,15 @@
           <li>Em aeroportos os dois <strong>coexistem</strong>: pistas longas (flexível ou rígido) e pátios de aeronaves (rígido).</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PAVIMENTAÇÃO ASFÁLTICA URBANA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/IBPA%20145408%20-%20Vias%20do%20Quarto%20Distrito%20recebem%20pavimenta%C3%A7%C3%A3o%20asf%C3%A1ltica%20-%202025-03-20%20-%20Gabriela%20Souza-SMSURB.jpg?width=1400" alt="Operários e máquinas realizando pavimentação asfáltica em via urbana do Quarto Distrito" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Pavimentação asfáltica em via urbana — aplicação de revestimento flexível com rolo compactador (Porto Alegre, 2025) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
   </section>
@@ -914,6 +953,15 @@
         </ul>
         <p>Adiar manutenção multiplica o custo: cada <strong>R$ 1</strong> de prevenção vira <strong>R$ 4 a R$ 5</strong> em correção.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EXECUÇÃO DE CAMADA ASFÁLTICA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/PAVIMENTA%C3%87%C3%83O%20ASF%C3%81LTICA%20009.jpg?width=1400" alt="Máquina e operários em obra de pavimentação asfáltica, mostrando a camada de asfalto recém-aplicada" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Obra de pavimentação asfáltica — camada de revestimento em concreto betuminoso sendo aplicada e compactada · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
   </section>
@@ -986,6 +1034,15 @@
           <li>Estime o <strong>tráfego pesado</strong> (alto/médio/baixo) e relacione com o estado do pavimento.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">RECAPEAMENTO ASFÁLTICO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Despejamento%20de%20asfalto%20em%20trator%2C%20para%20recapeamento%20da%20avenida%20Francisco%20Deslandes.JPG?width=1400" alt="Trator recebendo despejamento de asfalto quente para recapeamento de avenida urbana" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Despejamento de asfalto quente sobre trator para recapeamento da Av. Francisco Deslandes — exemplo de manutenção corretiva de pavimento flexível · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
   </section>

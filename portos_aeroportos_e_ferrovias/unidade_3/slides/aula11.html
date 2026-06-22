@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -839,6 +860,16 @@
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
+  <!-- IMAGEM 1: Embarque no Aeroporto de Congonhas — aeronaves no solo, pátio -->
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">AERONAVES NO SOLO · PÁTIO DE AERONAVES</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Embarque%20em%20avi%C3%A3o%20no%20Aeroporto%20de%20Congonhas%2C%20S%C3%A3o%20Paulo%2C%20novembro%20de%202024%20%281%29.jpg?width=1400" alt="Embarque de passageiros em aeronave no Aeroporto de Congonhas, São Paulo, com pátio de concreto rígido ao fundo — novembro de 2024" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Embarque em avião no Aeroporto de Congonhas (CGH), São Paulo — pátio de concreto rígido típico, projetado para suportar cargas estáticas prolongadas das aeronaves · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
   <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
@@ -854,6 +885,16 @@
           <li>PCN em código de 5 partes, ex.: <strong>80/F/A/W/T</strong> (número/tipo/subleito/pressão/método).</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <!-- IMAGEM 2: Pátio TPS-4 Guarulhos — Boeing 747 + ATR Azul — pátio de aeronaves, pavimento -->
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PÁTIO DE AERONAVES · AEROPORTO DE GUARULHOS (GRU)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Boeing%20747%20da%20Lufthansa%20%28D-ABVO%29%20e%20ATR%2072-600%20da%20Azul%20%28PR-AQG%29%20vistos%20no%20p%C3%A1tio%20do%20Terminal%20de%20passageiros%204%20%28TPS-4%29%20no%20Aeroporto%20Internacional%20de%20S%C3%A3o%20Paulo-Guarulhos%20%28SBGR-GRU%29%20-%20panoramio.jpg?width=1400" alt="Boeing 747 da Lufthansa e ATR 72-600 da Azul no pátio do Terminal TPS-4 do Aeroporto Internacional de São Paulo–Guarulhos, com pavimento de concreto rígido visível" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Boeing 747 (Lufthansa) e ATR 72-600 (Azul) no pátio TPS-4 do Aeroporto de Guarulhos (GRU) — aeronaves de diferentes ACN coexistindo no mesmo pavimento rígido · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
@@ -876,6 +917,16 @@
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
+  <!-- IMAGEM 3: Pista Aeroporto de Fortaleza — pavimento aeroportuário flexível -->
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">PAVIMENTO AEROPORTUÁRIO · AEROPORTO DE FORTALEZA (FOR)</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto%20de%20Fortaleza%20Pinto%20Martins%2028.jpg?width=1400" alt="Vista da pista e pátio do Aeroporto Internacional Pinto Martins em Fortaleza, mostrando o pavimento asfáltico flexível e aeronaves estacionadas" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aeroporto Internacional Pinto Martins (FOR), Fortaleza — pavimento flexível (asfáltico) na pista, projetado para distribuir gradualmente a carga das aeronaves · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
   <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
@@ -892,6 +943,16 @@
           <li>Resultado: a espessura de cada camada.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <!-- IMAGEM 4: Aeronaves no solo Fortaleza 51 — pátio, movimentação -->
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">AERONAVES NO SOLO · PÁTIO E MOVIMENTAÇÃO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto%20de%20Fortaleza%20Pinto%20Martins%2051.jpg?width=1400" alt="Aeronaves estacionadas no pátio do Aeroporto Pinto Martins de Fortaleza, com operações de solo em andamento sobre o pavimento aeroportuário" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aeronaves no pátio do Aeroporto de Fortaleza (FOR) — o pavimento suporta simultaneamente o peso estático de múltiplas aeronaves, exigindo PCN adequado ao mix de tráfego · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
@@ -931,6 +992,16 @@
           <li>Liberar o B767 plenamente exigiria <strong>reforçar o pavimento</strong> até PCN $\ge 68$.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <!-- IMAGEM 5: Bandeirulha visto do trem de pouso — trem de pouso em destaque -->
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TREM DE POUSO · CARGA SOBRE O PAVIMENTO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bandeirulha%20chegando%20na%20Academia%20da%20For%C3%A7a%20A%C3%A9rea%20para%20ser%20exposto%20no%20Domingo%20A%C3%A9reo%202015%2C%20visto%20do%20trem%20de%20pouso%20do%20ca%C3%A7a%20A-4._O%20Embraer%20EMB-111%20Bandeirante%20Patrulha%2C%20tamb%C3%A9m%20conhecido%20pelo%20-%20panoramio.jpg?width=1400" alt="Embraer EMB-111 Bandeirante Patrulha chegando para pouso na Academia da Força Aérea, visto em perspectiva do trem de pouso de um caça A-4, evidenciando a estrutura do trem de pouso" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Embraer EMB-111 Bandeirante Patrulha chegando para pouso, visto do trem de pouso de um caça A-4 — o trem de pouso é o componente que transmite toda a carga da aeronave ao pavimento · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>

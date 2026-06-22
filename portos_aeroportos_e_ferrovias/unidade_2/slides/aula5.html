@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -842,6 +863,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Porto de Santos — maior da América Latina</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Porto%20de%20Santos.jpg?width=1400" alt="Vista panorâmica do Porto de Santos, São Paulo, com navios atracados e guindastes ao longo do cais" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Porto de Santos (SP) — mais de 160 milhões de toneladas movimentadas por ano · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -863,6 +893,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Porto de Santos — vista aérea</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Porto%20de%20Santos%20a%C3%A9rea.jpg?width=1400" alt="Fotografia aérea do Porto de Santos, São Paulo, mostrando o canal e as instalações portuárias" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Vista aérea do Porto de Santos — porto marítimo localizado no estuário de Santos-São Vicente (SP) · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -878,6 +917,15 @@
           <li><strong>OGMO</strong> — organiza o trabalho avulso portuário.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Porto de Santos — cais e operações</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Port%20Santos.jpg?width=1400" alt="Navios e guindastes em operação no cais do Porto de Santos, São Paulo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Operações de carga e descarga no Porto de Santos (SP), porto organizado administrado pela Santos Port Authority · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
@@ -905,6 +953,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Porto de Paranaguá — navio graneleiro ancorado</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Navio%20Ancorado%20Porto%20Paranagu%C3%A1.jpg?width=1400" alt="Navio graneleiro ancorado no Porto de Paranaguá, Paraná, aguardando atracação" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Navio graneleiro ancorado no Porto de Paranaguá (PR), segundo maior complexo portuário do Brasil em movimentação de grãos · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -919,6 +976,15 @@
         </ul>
         <p>Hinterland grande e bem conectado (ferrovia/hidrovia) = porto mais competitivo. <strong>Porto e transporte terrestre são inseparáveis.</strong></p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Porto de Paranaguá — terminal comercial</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Paranagu%C3%A1%20Commercial%20Harbor.jpg?width=1400" alt="Vista do terminal comercial do Porto de Paranaguá, Paraná, com silos, guindastes e embarcações atracadas" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Terminal comercial do Porto de Paranaguá (PR), porto estuarino que integra o complexo portuário do Paraná · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>

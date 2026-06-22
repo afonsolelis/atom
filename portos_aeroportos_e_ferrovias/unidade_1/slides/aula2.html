@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">CONGESTIONAMENTO URBANO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Traffic_jam.jpg?width=1400" alt="Congestionamento de veículos em rodovia urbana — ilustração do impacto da demanda de tráfego não planejada" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Congestionamento em rodovia urbana — consequência direta de infraestrutura subdimensionada para a demanda real · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -856,6 +886,15 @@
         </ol>
         <p>Transforma dados socioeconômicos em <em>fluxos previstos</em> — base do dimensionamento.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">OBRAS RODOVIÁRIAS BRASILEIRAS</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/BA-233%3B%20Obras%20e%20servi%C3%A7os%20beneficiam%20Arac%C3%A1s%20e%20Acajutiba%20%284109626488%29.jpg?width=1400" alt="Obras de recuperação e melhorias na rodovia BA-233 no estado da Bahia, Brasil" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Obras e serviços na rodovia BA-233 (Bahia, Brasil) — resultado do planejamento e alocação de tráfego regional · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
   </section>
@@ -880,6 +919,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">TERMINAL AÉREO BRASILEIRO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Terminal%20A%C3%A9reo%20Palmas%20TO%20Brasil%2001.jpg?width=1400" alt="Terminal Aéreo de Palmas, Tocantins, Brasil — exemplo de infraestrutura aeroportuária regional" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Terminal Aéreo de Palmas (Tocantins, Brasil) — demanda de passageiros é o indicador central no planejamento aeroportuário · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -894,6 +942,15 @@
           <li>Considera economia de tempo, custo operacional, acidentes e externalidades — separa obra útil de desperdício.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">INFRAESTRUTURA DE TRANSPORTES</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Esta%C3%A7%C3%A3o%20Aeroporto%20-%2008.jpg?width=1400" alt="Estação Aeroporto — infraestrutura intermodal integrando transporte ferroviário e aéreo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Estação Aeroporto — integração intermodal entre metrô e aeroporto exige análise de viabilidade técnica e econômica · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
   </section>
@@ -914,6 +971,15 @@
         </ul>
         <p>É frequentemente o <strong>maior gargalo de prazo</strong> em ferrovias e portos — ignorá-lo gera atraso e judicialização.</p>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">DEMANDA E LOGÍSTICA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Containers%20no%20Porto%20de%20Salvador%2C%20BA.jpg?width=1400" alt="Contêineres movimentados no Porto de Salvador (BA)" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Contêineres no Porto de Salvador (BA) — o volume de carga movimentada é um indicador-chave de demanda no planejamento de transportes · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
   </section>

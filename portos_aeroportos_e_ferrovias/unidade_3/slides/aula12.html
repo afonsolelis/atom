@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -841,6 +862,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Terminal de Passageiros</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto_Internacional_de_S%C3%A3o_Paulo-Guarulhos_%28SBGR-GRU%29%2C_popularmente_chamado_de_Aeroporto_de_Cumbica._Vista_do_Terminal_de_Passageiros_2%2C_Torre_de_Controle_e_Terminal_3%2C_na_%C3%A9poca_em_constru%C3%A7%C3%A3o._A_pr_-_panoramio.jpg?width=1400" alt="Vista aérea do Terminal de Passageiros 2, Torre de Controle e Terminal 3 do Aeroporto Internacional de Guarulhos (GRU), São Paulo" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Aeroporto Internacional de Guarulhos (GRU) — Terminal 2, Torre de Controle e Terminal 3 (em construção) · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -855,6 +885,15 @@
           <li>A bagagem corre em paralelo pelo <strong>BHS</strong>, com triagem por raio-X e leitura de etiquetas.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Check-in — Aeroporto do Recife</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Recife_airport_check-in.jpg?width=1400" alt="Saguão de check-in do Aeroporto Internacional do Recife (REC), com balcões de atendimento e passageiros em fila" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Saguão de check-in do Aeroporto Internacional do Recife/Guararapes — Gilberto Freyre (REC) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
@@ -880,6 +919,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Check-in — Aeroporto de Brasília</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Bras%C3%ADlia_International_Airport_check-in_counters.jpg?width=1400" alt="Balcões de check-in do Aeroporto Internacional de Brasília (BSB), mostrando filas organizadas e espaço amplo do saguão" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Balcões de check-in do Aeroporto Internacional de Brasília Presidente Juscelino Kubitschek (BSB) · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -894,6 +942,15 @@
           <li>Hubs de carga como <strong>Viracopos</strong> (Campinas) são estratégicos para a economia.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Check-in doméstico — Aeroporto de Fortaleza</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Domestic_Check-In_Counters%2C_Fortaleza_Airport%2C_30-01-2026.jpg?width=1400" alt="Balcões de check-in doméstico do Aeroporto Internacional Pinto Martins em Fortaleza (FOR), com passageiros em atendimento" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Balcões de check-in doméstico do Aeroporto Internacional Pinto Martins — Fortaleza (FOR), janeiro de 2026 · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
@@ -914,6 +971,15 @@
           <li>A <strong>integração modal</strong> reduz congestionamento e é tendência mundial.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">Movimentação intensa — Terminal de Passageiros 4 de Guarulhos</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Tr%C3%A1fego_a%C3%A9reo_intenso_no_Aeroporto_Internacional_de_S%C3%A3o_Paulo-Guarulhos_%28SBGR-GRU%29_visto_do_embarque_no_Terminal_de_Passageiros_4_-_panoramio.jpg?width=1400" alt="Tráfego aéreo intenso visto da área de embarque do Terminal de Passageiros 4 do Aeroporto Internacional de Guarulhos (GRU), com diversas aeronaves no pátio" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Tráfego aéreo intenso visto da área de embarque do Terminal 4 do Aeroporto Internacional de Guarulhos (GRU) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>

@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EFVM — Estrada de Ferro Vitória a Minas</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Trem_da_Vale_com_min%C3%A9rio_de_ferro_na_EFVM_e_BR-381_em_Tim%C3%B3teo_MG.JPG/1920px-Trem_da_Vale_com_min%C3%A9rio_de_ferro_na_EFVM_e_BR-381_em_Tim%C3%B3teo_MG.JPG" alt="Trem da Vale carregado com minério de ferro na Estrada de Ferro Vitória a Minas (EFVM), próximo à BR-381 em Timóteo, Minas Gerais" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Trem da Vale com minério de ferro na EFVM — corredor estratégico que liga Minas Gerais ao Porto de Tubarão (ES) · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -855,6 +885,15 @@
           <li>Desafios: <strong>baixa densidade</strong> e <strong>falta de integração</strong> entre bitolas.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EFC — Estrada de Ferro Carajás</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Estrada_de_Ferro_Carajas_1.jpg" alt="Vista da Estrada de Ferro Carajás com locomotivas da Vale transportando minério de ferro no estado do Pará" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Estrada de Ferro Carajás (EFC) — uma das maiores ferrovias de minério de ferro do mundo, ligando a Serra dos Carajás (PA) ao Porto de Ponta da Madeira (MA) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>
@@ -880,6 +919,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EFC — Composição de minério, Pará</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Estrada_de_Ferro_Carajas_2.jpg" alt="Longa composição de vagões de minério de ferro da Estrada de Ferro Carajás atravessando a floresta tropical no Pará" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Composição de minério de ferro na EFC — trens com até 330 vagões e 40 000 t de carga, exemplo de eficiência ferroviária · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -899,6 +947,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EFC — Locomotiva e corredor de exportação</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Estrada_de_Ferro_Carajas_3.jpg" alt="Locomotiva da Estrada de Ferro Carajás no corredor ferroviário de exportação de minério entre o Pará e o Maranhão" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Locomotiva da EFC — bitola larga de 1,60 m; ferrovia concessionada à Vale e regulada pela ANTT · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -913,6 +970,15 @@
           <li>No mundo é diferente: Europa, Japão e China operam grandes redes de passageiros e alta velocidade.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">EFC — Via permanente e operação</p>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Estrada_de_Ferro_Carajas_5.jpg" alt="Via permanente da Estrada de Ferro Carajás com trilhos de aço e dormentes de concreto no estado do Pará" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Via permanente da EFC — infraestrutura de alta capacidade para tráfego contínuo de trens de minério de ferro · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>

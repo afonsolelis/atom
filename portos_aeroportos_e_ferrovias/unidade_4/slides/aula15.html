@@ -622,9 +622,30 @@
   .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
   /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
   .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
 </style>
 </head>
 <body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
 
 <!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -840,6 +861,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">MATERIAL RODANTE</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/GE%20U5B%20ALL%202087.jpg?width=1400" alt="Locomotiva GE U5B da América Latina Logística (ALL) fotografada no Brasil, exemplo de locomotiva diesel-elétrica utilizada em transporte de carga ferroviária" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Locomotiva GE U5B da ALL (América Latina Logística) — frota diesel-elétrica que opera linhas de carga no Brasil · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -854,6 +884,15 @@
           <li><strong>Raio</strong> é o parâmetro central: menor raio → menor velocidade e maior desgaste.</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">FERROVIAS BRASILEIRAS — CARGA</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Trem%20de%20carga%20da%20TransNordestina%20em%202019.jpg?width=1400" alt="Trem de carga da ferrovia TransNordestina fotografado em 2019 no Nordeste do Brasil, exemplificando composição ferroviária em linha reta antes de curva" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Trem de carga da TransNordestina (2019) — a geometria da via (tangentes e curvas) define a velocidade máxima e a superelevação necessária · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
@@ -897,6 +936,15 @@
   </section>
 
   <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">LOCOMOTIVAS DIESEL-ELÉTRICAS</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/EMD%20SD70ACe45%209558%20Eldorado.JPG?width=1400" alt="Locomotiva EMD SD70ACe45 número 9558 fotografada em Eldorado, Brasil, representando as modernas locomotivas diesel-elétricas de alta potência utilizadas no transporte de carga pesada" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Locomotiva EMD SD70ACe45 em Eldorado (Brasil) — diesel-elétrica de alta potência, padrão atual para trens de carga pesada · Wikimedia Commons</p>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
     <div class="mosaico-bg">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
@@ -911,6 +959,15 @@
           <li>Contato aço-aço: <strong>baixa resistência ao rolamento</strong> (eficiência), mas <strong>baixa aderência</strong> (limita rampa e frenagem).</li>
         </ul>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">LOCOMOTIVA URBANA — CBTU</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/ALCO%20RS1%20CBTU%207038.JPG?width=1400" alt="Locomotiva ALCO RS1 número 7038 da CBTU (Companhia Brasileira de Trens Urbanos), ilustrando material rodante de tração diesel sobre trilhos urbanos no Brasil" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Locomotiva ALCO RS1 da CBTU (Companhia Brasileira de Trens Urbanos) — truque e rodeiros visíveis, essenciais para a inscrição em curva · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
@@ -962,6 +1019,15 @@
           <div class="ponto"><h3>Rodante</h3><p>Locomotivas, vagões e carros sobre truques; roda cônica com friso autocentra o rodeiro.</p></div>
         </div>
       </div>
+    </div>
+    <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="slide-content" style="max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:1.1rem;">
+      <p class="kicker" style="text-align:center;">COMPOSIÇÃO FERROVIÁRIA — LOCOMOTIVA E VAGÃO</p>
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Vis%C3%A3o%20180%20graus%20de%20uma%20locomotiva%20e%20vag%C3%A3o%20%285678354750%29.jpg?width=1400" alt="Visão panorâmica em 180 graus de uma locomotiva e vagão ferroviário no Brasil, mostrando a composição completa do material rodante — locomotiva tracionando vagões de carga" style="width:100%;max-height:72vh;object-fit:cover;border-radius:18px;box-shadow:0 16px 40px rgba(0,0,0,0.38);" />
+      <p style="text-align:center;color:rgba(255,255,255,0.86);font-size:1rem;max-width:920px;margin:0;">Visão panorâmica de locomotiva e vagão ferroviário — composição típica de transporte de carga: locomotiva + vagões (gôndola, hopper, tanque ou plataforma) · Wikimedia Commons</p>
     </div>
     <div class="slide-footer"><span>Portos, Aeroportos e Ferrovias · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
