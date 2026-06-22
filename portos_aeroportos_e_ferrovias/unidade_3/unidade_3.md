@@ -31,8 +31,8 @@ Essa codificação é decisiva no projeto: ela define larguras de pista, distân
 A regulação tem três camadas:
 
 1. **OACI/ICAO** (Organização da Aviação Civil Internacional) — agência da ONU sediada em Montreal. Publica os **Anexos** à Convenção de Chicago; o mais relevante para o engenheiro é o **Anexo 14 — Aeródromos**, que define padrões geométricos, de pavimento e de segurança operacional.
-2. **ANAC** (Agência Nacional de Aviação Civil) — órgão regulador brasileiro. Edita os **RBAC** (Regulamentos Brasileiros da Aviação Civil), com destaque para o **RBAC 154** (projeto de aeródromos), que internaliza o Anexo 14.
-3. **Operadores e gestores** — Infraero (estatal) e as concessionárias privadas (GRU Airport, Aeroportos do Sudeste, etc.), além do **DECEA** (controle do espaço aéreo, militar).
+2. **ANAC** (Agência Nacional de Aviação Civil) — órgão regulador brasileiro criado em 2005. Edita os **RBAC** (Regulamentos Brasileiros da Aviação Civil), com destaque para o **RBAC 154** (projeto de aeródromos), que internaliza o Anexo 14 da OACI. A ANAC também certifica aeródromos públicos e fiscaliza a conformidade das obras.
+3. **Operadores e gestores** — a **Infraero** (empresa pública federal) administra dezenas de aeroportos regionais e de médio porte. Os principais hubs foram concedidos à iniciativa privada a partir de 2012: GRU Airport (Guarulhos), Aeroportos Brasil Viracopos (Campinas/VCP), Aeroportos do Sudeste (Congonhas/CGH, Brasília/BSB, entre outros) e grupos como CCR e Flughafen Zürich. O **DECEA** (Departamento de Controle do Espaço Aéreo, vinculado à Aeronáutica) gerencia as rotas, o controle de tráfego aéreo e a publicação do **AIP Brasil** (Aeronautical Information Publication), onde constam PCN de pistas e dados técnicos de cada aeródromo.
 
 ### Plano diretor aeroportuário
 
@@ -87,12 +87,14 @@ Escolha um aeroporto que você conhece (pode ser Congonhas, Galeão ou o aeropor
 
 ### Para saber mais
 
-- **ANAC — RBAC 154 (Projeto de Aeródromos):** https://www.gov.br/anac/pt-br/assuntos/regulados/aerodromos
+- **ANAC — RBAC 154 (Projeto de Aeródromos):** https://www.gov.br/anac/pt-br/assuntos/regulados/aeroportos-e-aerodromos/cadastro-publico/normas-do-setor/rbac-154
 - **ICAO — Annex 14, Aerodromes:** https://www.icao.int/
 - **HORONJEFF, R. et al.** *Planning and Design of Airports*. McGraw-Hill.
 - **Wikipedia — Aeroporto Internacional de São Paulo/Guarulhos:** https://pt.wikipedia.org/wiki/Aeroporto_Internacional_de_S%C3%A3o_Paulo/Guarulhos
 
 ## Aula 9 — Roteiro da Videoaula 9: "Sistema aeroportuário e planejamento de aeroportos"
+
+**Duração: 7 a 10 minutos**
 
 ### 1. Abertura (0:00 – 0:40)
 
@@ -110,9 +112,9 @@ Escolha um aeroporto que você conhece (pode ser Congonhas, Galeão ou o aeropor
 
 > "Agora a divisão mais importante de todas: lado ar e lado terra. Lado ar é pista, taxiway, pátio — o mundo das aeronaves, restrito e controlado. Lado terra é o terminal, o estacionamento, as vias — o mundo das pessoas, público. A fronteira entre eles é o canal de inspeção de segurança. E como dimensionamos tudo isso? Pela demanda. Um aeroporto de 800 mil passageiros crescendo 6% ao ano chega a 1,4 milhão em dez anos. Mas o que dimensiona o terminal é a hora-pico de projeto — cerca de 0,04% do anual, uns 570 passageiros na hora cheia."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 10:00)
 
-> "Recapitulando: o aeroporto é o nó de solo de um sistema aéreo; a OACI e a ANAC ditam as regras; o plano diretor organiza o futuro; e tudo se divide entre lado ar e lado terra. Na próxima aula, vamos descer ao lado ar e entender a engenharia das pistas, dos pátios e da geometria aeroportuária — por que uma pista tem aquele número pintado nela e como se calcula o seu comprimento. Até lá!"
+> "Recapitulando: o aeroporto é o nó de solo de um sistema aéreo; a OACI e a ANAC ditam as regras pelo Anexo 14 e pelo RBAC 154; o plano diretor organiza o futuro por 20 anos; e tudo se divide entre lado ar e lado terra. Na próxima aula, vamos descer ao lado ar e entender a engenharia das pistas, dos pátios e da geometria aeroportuária — por que uma pista tem aquele número pintado nela e como se calcula o seu comprimento. Até lá!"
 
 ---
 
@@ -206,6 +208,8 @@ Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um B
 
 ## Aula 10 — Roteiro da Videoaula 10: "Lado ar: pistas, pátios e geometria aeroportuária"
 
+**Duração: 7 a 10 minutos**
+
 ### 1. Abertura (0:00 – 0:40)
 
 > "Você já reparou no número pintado na cabeceira de uma pista? Ou já se perguntou por que algumas pistas são enormes e outras curtas? Hoje vamos entrar no lado ar do aeroporto — o mundo das aeronaves — e desvendar a engenharia das pistas, dos pátios e dos auxílios que permitem pousar quase no escuro."
@@ -222,9 +226,9 @@ Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um B
 
 > "E o comprimento? É o cálculo mais crítico. Parte do comprimento básico da aeronave em condições padrão e recebe três correções: altitude, mais 7% a cada 300 metros; temperatura, mais 1% por grau acima da padrão; e rampa, mais 10% por ponto percentual. Vejam o exemplo: uma pista de 2.400 metros básicos, num aeroporto a 900 metros de altitude e 30 graus, salta para quase 3.800 metros. São 1.400 metros a mais só por causa do calor e da altitude! E para pousar com segurança, entram os auxílios: o ILS guia o avião por rádio, o PAPI mostra com luzes se ele está alto ou baixo, e o balizamento ilumina a pista."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 10:00)
 
-> "Resumindo: a pista nasce do código de referência e do vento; as taxiways e o pátio completam o lado ar; o comprimento se corrige por altitude, temperatura e rampa; e os auxílios garantem o pouso. Mas tem uma pergunta que ficou no ar: como esse pavimento aguenta um avião de centenas de toneladas pousando sobre ele milhares de vezes? Essa é a aula de pavimentos aeroportuários, a nossa próxima. Te espero!"
+> "Resumindo: a pista nasce do código de referência e do vento; as taxiways e o pátio completam o lado ar; o comprimento se corrige por altitude, temperatura e rampa; e o ILS, o PAPI e o balizamento garantem o pouso seguro. Mas como esse pavimento aguenta um avião de centenas de toneladas pousando sobre ele milhares de vezes? Essa é a aula de pavimentos aeroportuários — a nossa próxima. Te espero!"
 
 ---
 
@@ -327,6 +331,8 @@ Consulte a publicação de informações aeronáuticas (AIP Brasil, do DECEA) ou
 
 ## Aula 11 — Roteiro da Videoaula 11: "Pavimentos aeroportuários e dimensionamento"
 
+**Duração: 7 a 10 minutos**
+
 ### 1. Abertura (0:00 – 0:40)
 
 > "Um Boeing 777 pesa 350 toneladas e pousa a mais de 250 quilômetros por hora. Agora imagine isso acontecendo milhares de vezes por ano, sempre no mesmo pavimento. Como é que o concreto e o asfalto aguentam? Hoje a gente entra na engenharia dos pavimentos aeroportuários — e descobre o método que decide se um avião pode ou não pousar numa pista."
@@ -343,9 +349,9 @@ Consulte a publicação de informações aeronáuticas (AIP Brasil, do DECEA) ou
 
 > "E como se projeta esse pavimento? Há duas famílias: o flexível, de asfalto, que domina as pistas e se deforma sob calor; e o rígido, de concreto, que trabalha por flexão e é ideal para os pátios, onde o avião fica parado e carregado por horas. O método mais usado é o da FAA, hoje no software FAARFIELD: ele pega todo o mix de tráfego, converte em decolagens equivalentes, considera o subleito e o período de 20 anos, e calcula a espessura de cada camada — sempre pensando em fadiga, porque cada pouso consome um pedacinho da vida da pista. E nunca esqueçam da manutenção: uma trinca vira FOD, e FOD sugado por uma turbina é tragédia."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 10:00)
 
-> "Fechando: a carga vem pelo trem de pouso; o ACN-PCN decide a compatibilidade; flexível para pista, rígido para pátio; e o método FAA dimensiona pela fadiga acumulada. Pensem no desafio que deixei: vale a pena reforçar uma pista por 40 milhões para ganhar uma rota? Na próxima aula, atravessamos a fronteira e vamos para o lado terra — os terminais de passageiros, os fluxos e a carga aérea. Te espero!"
+> "Fechando: a carga vem pelo trem de pouso; o ACN-PCN decide a compatibilidade; pavimento flexível para pista, rígido para pátio; e o método FAA dimensiona pela fadiga acumulada em 20 anos. Pensem no desafio que deixei: vale a pena reforçar uma pista por 40 milhões para ganhar uma rota? Na próxima aula, atravessamos a fronteira e vamos para o lado terra — terminais de passageiros, fluxos e carga aérea. Te espero!"
 
 ---
 
@@ -439,7 +445,7 @@ Visite (presencialmente ou pelo Google Maps/Street View) um terminal de passagei
 ### Para saber mais
 
 - **IATA — Airport Development Reference Manual (ADRM):** https://www.iata.org/en/publications/store/airport-development-reference-manual/
-- **ANAC — Infraestrutura aeroportuária:** https://www.gov.br/anac/pt-br/assuntos/regulados/aerodromos
+- **ANAC — Infraestrutura aeroportuária:** https://www.gov.br/anac/pt-br/assuntos/regulados/aeroportos-e-aerodromos/cadastro-publico/normas-do-setor/rbac-154
 - **HORONJEFF, R. et al.** *Planning and Design of Airports* (cap. sobre terminais). McGraw-Hill.
 - **Wikipedia — Airport terminal:** https://en.wikipedia.org/wiki/Airport_terminal
 
@@ -448,6 +454,8 @@ Visite (presencialmente ou pelo Google Maps/Street View) um terminal de passagei
 Encerramos os aeroportos e, na **Unidade 4 — Ferrovias**, voltamos ao chão para percorrer trilhos. Você vai conhecer a história e a geometria da via férrea (bitola, superelevação, traçado), a **superestrutura** (trilhos, dormentes, lastro) e a **infraestrutura** ferroviária, o **material rodante** e a tração, e os sistemas de **sinalização e operação**, com olhar para o cenário brasileiro — das ferrovias de carga (Carajás, malha da Rumo) aos trens urbanos e ao debate sobre alta velocidade. Se nos aeroportos a palavra-chave foi *desempenho da aeronave*, nas ferrovias será *capacidade e eficiência energética* do modo mais econômico para grandes volumes em longas distâncias.
 
 ## Aula 12 — Roteiro da Videoaula 12: "Lado terra: terminais de passageiros e carga aérea"
+
+**Duração: 7 a 10 minutos**
 
 ### 1. Abertura (0:00 – 0:40)
 
@@ -465,9 +473,9 @@ Encerramos os aeroportos e, na **Unidade 4 — Ferrovias**, voltamos ao chão pa
 
 > "Vamos dimensionar um saguão. Hora-pico de 600 passageiros, cada um ficando 40 minutos, com acompanhantes e 2 metros quadrados por pessoa. Quem está simultaneamente no saguão? 600 vezes 40 sobre 60, dá 400 passageiros. Com acompanhantes, vezes 1,3, são 520 pessoas. Vezes 2 metros quadrados: 1.040 metros quadrados de saguão. E não esqueçam: o aeroporto precisa que as pessoas cheguem a ele. Por isso o acesso terrestre e a integração modal — meio-fio, estacionamento, ônibus e, o ideal, trem ou metrô, como a conexão de Guarulhos com a CPTM."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (9:00 – 10:00)
 
-> "Fechamos a Unidade 3. Você agora entende o aeroporto inteiro: o sistema e o planejamento, o lado ar com pistas e geometria, os pavimentos e o ACN-PCN, e o lado terra com terminais e carga. Na próxima unidade, descemos de novo ao chão — mas sobre trilhos. Vamos às ferrovias: o modo mais eficiente para mover muita carga por longas distâncias. Te espero lá!"
+> "Fechamos a Unidade 3. Você agora entende o aeroporto inteiro: o sistema e o planejamento, o lado ar com pistas e geometria, os pavimentos e o ACN-PCN, e o lado terra com terminais, fluxos e carga aérea. Na próxima unidade descemos ao chão — mas sobre trilhos. Ferrovias: o modo mais eficiente para mover muito volume por longas distâncias. Te espero lá!"
 
 ---
 
@@ -544,7 +552,7 @@ A respeito do **comprimento de pista** e suas correções, assinale a alternativ
 
 > Recomendo a série documental **"Megaestruturas / Megastructures"** (National Geographic), em especial os episódios sobre grandes aeroportos como o de Hong Kong (Chek Lap Kok) e Dubai. Mostram, em escala real, a engenharia de pistas, pátios e terminais que estudamos — útil para visualizar como os conceitos se materializam em obras gigantescas. Trechos estão disponíveis no YouTube.
 
-- **Link(s):** https://www.youtube.com/results?search_query=megastructures+airport+national+geographic
+- **Link(s):** https://www.youtube.com/watch?v=NXeI7Bfg5rY
 - **Aula em que entra:** Aulas 9 e 12
 
 ### Podcast (curadoria, até 45 min)

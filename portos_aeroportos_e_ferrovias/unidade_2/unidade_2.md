@@ -108,25 +108,25 @@ Escolha um dos cinco maiores portos brasileiros (Santos, Itaqui, Paranaguá, Rio
 
 ## Aula 5 — Roteiro da Videoaula 5: "Sistemas portuários: organização e tipos de porto"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 7 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:35)
 
 > "Olhe à sua volta. O celular, a roupa, o café da manhã — quase tudo passou por um porto. Cerca de 95% do que o Brasil importa e exporta em volume entra ou sai pelo mar. Hoje você vai entender o porto não como um cais com guindastes, mas como um sistema: instituições, leis, estruturas físicas e logística trabalhando juntas."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
 > "Vamos começar pela organização do setor. Quem manda no porto? Temos o Ministério de Portos e Aeroportos formulando a política, a ANTAQ regulando e fiscalizando, e a autoridade portuária administrando cada porto no dia a dia. Os gigantes nacionais são Santos, Itaqui, Paranaguá, Rio Grande e Tubarão. Só Santos movimenta mais de 160 milhões de toneladas por ano — é o maior da América Latina. E não existe um único tipo de porto: temos marítimos, fluviais como Manaus, estuarinos como Paranaguá e até portos secos, lá no interior, sem nenhum navio à vista."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
 > "Agora a peça regulatória central: a Lei dos Portos, número 12.815 de 2013. Ela abriu o setor à iniciativa privada e criou conceitos que você vai usar a vida toda: porto organizado, arrendamento, e principalmente o TUP — Terminal de Uso Privado. O Porto do Açu, no Rio, é 100% privado e nasceu sob essa lei. Esse modelo de concorrência entre público e privado foi o que mais transformou os portos brasileiros nos últimos dez anos."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "Todo porto tem seis componentes: acesso aquaviário, obras de abrigo, cais, equipamentos, retroárea e acessos terrestres. E tem dois conceitos de geografia econômica que definem se ele vence ou perde: hinterland, a área terrestre de onde vem a carga, e foreland, os portos estrangeiros conectados. Quem tem hinterland grande e bem conectado por ferrovia e hidrovia ganha o jogo. Vejam o cálculo: três berços, 30 movimentos por hora, e chegamos a um milhão de TEU por ano num único terminal."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Hoje você viu o porto como sistema, conheceu a Lei dos Portos e entendeu hinterland e foreland. Na próxima aula vamos descer ao concreto, literalmente: cais, molhes, quebra-mares, dragagem, defensas e como o mar — ondas e marés — impõe as regras do projeto. É a engenharia que mantém o porto de pé. Te espero!"
 
@@ -244,25 +244,25 @@ Você é o engenheiro de um terminal que quer passar a receber navios de calado 
 
 ## Aula 6 — Roteiro da Videoaula 6: "Estruturas portuárias e obras de abrigo"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 7 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:35)
 
 > "Um navio de 300 metros e 14 metros de calado encosta num cais como se fosse natural. Não é. Por trás disso há cais projetado, canal dragado, quebra-mar segurando a ondulação e defensas absorvendo o impacto. Hoje a gente coloca o capacete e olha a engenharia que mantém o porto de pé."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
 > "Começamos pelas obras de acostagem: o cais, paralelo à margem, e o píer, que avança sobre a água. Por dentro, podem ser de gravidade — com caixões de concreto —, de estacas ou de estacas-prancha. Um cais para portêineres precisa aguentar reações de roda de 50 a 80 toneladas. Depois vêm as obras de abrigo: quebra-mares e molhes. E aqui tem uma fórmula que você não esquece, a de Hudson: o peso do bloco do quebra-mar cresce com o cubo da altura da onda. Dobrou a onda, o bloco fica oito vezes maior. É por isso que quebra-mar é caro."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
 > "Agora a dragagem, que garante o calado. Dragagem de aprofundamento abre o canal; de manutenção recompõe o que o assoreamento tira. E atenção ao cálculo do calado de projeto: não basta o calado do navio. Soma folga sob a quilha, soma o squat — aquele afundamento extra do navio em movimento — soma a maré e a tolerância de dragagem. Esquecer o squat já causou encalhe famoso. No nosso exemplo, um navio de 12 metros exige canal dragado a 14 metros."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "Faltam os acessórios e o ambiente. Defensas, de borracha, absorvem a energia de atracação; cabeços de amarração resistem ao vento e à corrente. E o que comanda todo o projeto? Ondas, marés e correntes. Veja como a maré muda tudo no Brasil: em Santos a amplitude é de 1,3 metro; em Itaqui, no Maranhão, passa de 6 metros. Projetar cais em cada lugar é um problema diferente. Isso é engenharia costeira."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Hoje você viu cais, píer, quebra-mar, dragagem, defensas e as ações do mar. A estrutura está pronta, o navio atracou. E agora? Agora a carga precisa entrar e sair com rapidez. Na próxima aula entramos na operação portuária e nos terminais — contêiner, granel, carga geral — e nos números que medem se o porto é eficiente. Te espero!"
 
@@ -367,32 +367,32 @@ Escolha um terminal de contêineres brasileiro (BTP, DP World Santos, Tecon Rio 
 
 ### Para saber mais
 
-- **ANTAQ — estatísticas e desempenho portuário (Anuário):** https://www.gov.br/antaq/pt-br/assuntos/dados-do-setor-aquaviario
+- **ANTAQ — Estatísticos Aquaviários (publicações e anuário):** https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/estatisticos-aquaviarios
 - **Contêiner (Wikipedia):** https://pt.wikipedia.org/wiki/Cont%C3%AAiner
 - **Programa Porto Sem Papel (gov.br):** https://www.gov.br/portos-e-aeroportos/
 - **NOVAES, A. G.** *Logística e Gerenciamento da Cadeia de Distribuição*. Elsevier — capítulos sobre intermodalidade e contêineres.
 
 ## Aula 7 — Roteiro da Videoaula 7: "Operação portuária e terminais"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 7 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:35)
 
 > "Navio parado custa caro. Um porta-contêineres grande queima mais de 60 mil dólares por dia só esperando. Por isso, depois que o navio atraca, começa uma corrida contra o relógio. Hoje você vai entender a operação portuária: os tipos de terminal, os equipamentos e os números que dizem se o porto é rápido ou lento."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
 > "Cada carga pede um terminal. Contêiner usa portêiner e transtêiner. Granel sólido — minério, soja — usa correia e carregador de navio, movendo milhares de toneladas por hora. Granel líquido usa dutos e braços de carregamento. Carga geral usa guindaste e, no caso de veículos, rampas Ro-Ro. Em Santos tem de tudo; em Itaqui domina o granel sólido. E a estrela do comércio mundial é o contêiner, medido em TEU — a unidade de 20 pés. A mágica é a intermodalidade: a mesma caixa vai de navio, trem e caminhão, lacrada, sem ser aberta."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
 > "Como medir eficiência? Pela produtividade do berço, em movimentos por hora. Terminal brasileiro bom faz de 25 a 35 movimentos por hora por navio; terminal asiático automatizado passa de 40. Olha o cálculo: navio com 1.800 contêineres, três portêineres a 28 movimentos cada, dá 84 por hora. Resultado: cerca de 21 horas de operação. Cada hora economizada vale 2.500 dólares. É por isso que o terminal investe pesado em mais guindaste e mais velocidade."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "Mas cuidado com a ilusão de acelerar só o cais. Pensa comigo: se você dobra os portêineres, mas a carga fica 8 dias parada no pátio e o caminhão pega 6 horas de fila no portão, o porto melhorou? O porto é um sistema de filas em série. Por isso o porto digital é tão importante: o Port Community System integra todos os agentes, elimina papel; gêmeos digitais simulam a operação; IoT prevê manutenção; e os AGVs, veículos autônomos, já operam em Roterdã e Xangai."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Hoje você viu terminais, equipamentos, TEU, produtividade do berço e o porto digital. Mas o porto não termina no cais — ele precisa de hinterland conectado. E o modal mais barato para granéis no interior é a água. Na próxima e última aula da unidade vamos navegar para dentro do país: hidrovias, eclusas, comboios e a integração porto-hidrovia. Te espero!"
 
@@ -499,25 +499,25 @@ Na **Unidade 3** deixamos a água e subimos aos céus: vamos estudar os **aeropo
 
 ## Aula 8 — Roteiro da Videoaula 8: "Hidrovias e navegação interior"
 
-**Duração:** 9 a 11 minutos.
+**Duração:** 7 a 10 minutos.
 
-### 1. Abertura (0:00 – 0:40)
+### 1. Abertura (0:00 – 0:35)
 
 > "Transportar uma tonelada de soja por mil quilômetros: de caminhão, gasta muito; de trem, menos; de comboio fluvial, pouquíssimo. A hidrovia é o modal mais eficiente que existe. E o Brasil, cheio de rios, usa pouquíssimo esse potencial. Hoje, na última aula da unidade, a gente navega para dentro do país."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
 > "O Brasil tem cerca de 63 mil quilômetros de rios navegáveis, mas usa só uma fração. As grandes hidrovias são a Tietê-Paraná, a do Madeira, a do Tapajós e a Paraguai-Paraná. O problema é que a nossa matriz de transporte é dominada pelo caminhão — uns 60% — enquanto a hidrovia tem fatia pequena. E aí entra a estrela da engenharia fluvial: a eclusa. Ela é um elevador de água. O comboio entra na câmara, as comportas fecham, enche ou esvazia até igualar o nível do outro lado, e segue viagem. A de Tucuruí vence 72 metros de desnível."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
 > "Duas palavras comandam a navegação interior: calado e gabarito. Calado é o quanto o comboio afunda — e ele depende da profundidade do rio, que muda com a cheia e a seca. Na seca, carrega menos. Gabarito é o conjunto de limites da hidrovia: largura do canal, raio das curvas, altura das pontes e tamanho das eclusas. Uma ponte baixa ou uma eclusa estreita define o comboio máximo. E o comboio é assim: um empurrador empurrando barcaças amarradas. Na Tietê são 4 barcaças; no Amazonas, 20 ou mais."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "Olha a força do número: um comboio de 4 barcaças leva 8.800 toneladas. Dividido pela carga de um caminhão, 30 toneladas, são quase 300 caminhões a menos na estrada — por viagem. Mas a hidrovia não vive sozinha: ela entrega a carga num porto. É a integração porto-hidrovia. O grão sobe no comboio em Miritituba, desce o Tapajós e chega ao porto do Arco Norte para virar exportação. Lembram do hinterland da Aula 5? Quando ele é servido por hidrovia, o frete despenca."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Fechamos a Unidade 2: vimos sistemas portuários, estruturas e obras de abrigo, operação e terminais, e hoje as hidrovias e a navegação interior. Você já entende como o Brasil se conecta pela água. Na próxima unidade a gente decola: aeroportos, pistas, terminais de passageiros e a engenharia de quem conecta o país pelos céus. Te espero na Unidade 3!"
 
@@ -581,14 +581,14 @@ A respeito da **produtividade do berço** em terminais de contêineres, assinale
 - **Capítulo:** Capítulos sobre concepção de portos, obras de acostagem, obras de abrigo e dragagem
 - **Organizador:** Paolo Alfredini e Emília Arasaki
 - **Editora:** Blucher
-- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Publicacao/2860
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/
 - **Aula em que entra:** Aulas 5 a 8
 
 ### Para mergulhar no assunto
 
 > Recomendo o documentário **"O maior porto da América Latina"** e materiais de vídeo sobre o Porto de Santos, que mostram em escala real os cais, portêineres, dragagem e a operação 24 horas que coordena navios, caminhões e trens. Ver a operação real ajuda a transformar os conceitos da unidade em imagem concreta. Como leitura complementar, o livro-reportagem *The Box*, de Marc Levinson, conta como o contêiner mudou o mundo.
 
-- **Link(s):** https://www.youtube.com/results?search_query=porto+de+santos+documentario
+- **Link(s):** https://www.youtube.com/watch?v=tZLuVHUhURo
 - **Aula em que entra:** Aulas 5 e 7
 
 ### Podcast (curadoria, até 45 min)
@@ -597,14 +597,14 @@ A respeito da **produtividade do berço** em terminais de contêineres, assinale
 
 - **Nome do podcast/canal:** ANTAQ — Agência Nacional de Transportes Aquaviários (canal oficial no YouTube)
 - **Tema recomendado:** Regulação portuária, desempenho dos portos e navegação interior
-- **Link:** https://www.youtube.com/@antaqoficial (YouTube)
+- **Link:** https://www.youtube.com/@ANTAQ_oficial (YouTube)
 - **Aula em que entra:** Aulas 5 e 8
 
 ### Artigo científico
 
 > Artigo que analisa o desempenho e a eficiência de portos brasileiros, discutindo produtividade, gargalos e fatores de competitividade portuária. Leitura essencial para fundamentar argumentos sobre operação portuária e os indicadores que vimos na Aula 7.
 
-- **Link:** https://doi.org/10.1590/0103-6513.20180014
+- **Link:** https://doi.org/10.1590/0103-6513.20200113
 - **Aula em que entra:** Aula 7
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > WANKE, Peter F.; BARBASTEFANO, Rafael G.; HIJJAR, Maria Fernanda. **Determinants of efficiency at major Brazilian port terminals**. *Production*, v. 28, e20180014, 2018. DOI: 10.1590/0103-6513.20180014.
+  > CALCERANO, Thiago Augusto; HILSDORF, Wilson de Castro. **Sustainability practices in container terminals in Brazil**. *Production*, v. 31, e20200113, 2021. DOI: 10.1590/0103-6513.20200113.

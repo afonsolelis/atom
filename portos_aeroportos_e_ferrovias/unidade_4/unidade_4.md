@@ -20,10 +20,10 @@ O papel da ferrovia é estratégico: ela é o modal mais eficiente para **grande
 
 A malha ferroviária brasileira tem cerca de 30 mil km de extensão — número modesto para um país continental, fruto de décadas de priorização do rodoviário. A malha se concentra nas regiões Sudeste, Sul e em corredores de exportação. Entre as ferrovias mais relevantes estão:
 
-- **Estrada de Ferro Carajás (EFC):** liga as minas de Carajás (PA) ao Porto de Ponta da Madeira, em São Luís (MA); transporta minério de ferro da Vale.
-- **Estrada de Ferro Vitória a Minas (EFVM):** liga Minas Gerais ao Porto de Tubarão (ES); um dos corredores de minério mais produtivos do mundo.
-- **Ferrovia Norte-Sul (FNS):** eixo estruturante que corta o país de norte a sul, integrando regiões produtoras de grãos aos portos.
-- **Rumo Malha Paulista, Malha Norte e Malha Sul:** corredores de grãos e açúcar que escoam a produção do Centro-Oeste e do Sul.
+- **Estrada de Ferro Carajás (EFC):** liga as minas de Carajás (PA) ao Porto de Ponta da Madeira, em São Luís (MA); 892 km em bitola larga, transporta mais de 150 milhões de toneladas de minério de ferro por ano — um dos maiores volumes ferroviários do mundo.
+- **Estrada de Ferro Vitória a Minas (EFVM):** liga Minas Gerais ao Porto de Tubarão (ES); 905 km em bitola larga, considerado um dos corredores de minério mais produtivos do planeta; a Vale opera trens com até 330 vagões nesse corredor.
+- **Ferrovia Norte-Sul (FNS):** eixo estruturante que corta o país de norte a sul, com mais de 1.700 km entregues e em expansão; integra regiões produtoras de grãos do Centro-Oeste e Norte aos portos do Arco Norte.
+- **Rumo Logística (Malha Paulista, Malha Norte, Malha Sul e Malha Centro-Oeste):** maior concessionária ferroviária privada do Brasil, com cerca de 13.000 km de malha; escoam a produção de grãos, açúcar e derivados do Centro-Oeste e do Sul para portos como Santos e Paranaguá. Em 2023, a Rumo movimentou mais de 73 bilhões de t·km úteis.
 
 O grande desafio brasileiro é a **baixa densidade** da malha e a **falta de integração** entre bitolas diferentes, herança histórica de concessões desconexas.
 
@@ -39,19 +39,19 @@ O grande desafio brasileiro é a **baixa densidade** da malha e a **falta de int
 
 A **bitola mista** resolve a convivência: assenta-se um terceiro trilho, de modo que veículos de bitolas diferentes circulem no mesmo trecho. A falta de padronização é um gargalo: trens de uma malha métrica não passam diretamente para uma malha larga, exigindo transbordo de carga e elevando custos logísticos.
 
-### Concessões e regulação (ANTT)
+### Concessões, regulação (ANTT) e o marco de 2021
 
-Até a década de 1990, a malha era operada pela estatal RFFSA (Rede Ferroviária Federal S.A.). A partir de 1996, o setor foi **desestatizado** via concessões a operadores privados. Quem regula é a **ANTT — Agência Nacional de Transportes Terrestres**, criada em 2001. Cabe à ANTT:
+Até a década de 1990, a malha era operada pela estatal RFFSA (Rede Ferroviária Federal S.A.), que entrou em colapso financeiro e técnico com mais de 30 mil km de via deteriorados. A partir de 1996, o setor foi **desestatizado** via concessões a operadores privados. Quem regula é a **ANTT — Agência Nacional de Transportes Terrestres**, criada em 2001. Cabe à ANTT:
 
 - Fiscalizar contratos de concessão e metas de produção e segurança.
 - Estabelecer tarifas-teto e regras de direito de passagem (*trackage rights*) e tráfego mútuo.
 - Garantir o **direito de passagem**, em que uma concessionária usa a via de outra mediante remuneração — princípio que combate o monopólio de trechos.
 
-O novo marco das ferrovias (Lei 14.273/2021) criou também o regime de **autorização**, permitindo que empresas construam e operem ferrovias privadas sem licitação, em busca de destravar investimentos.
+O **novo marco regulatório ferroviário (Lei 14.273/2021)** representou a maior reforma do setor desde as concessões dos anos 1990. Ele criou o regime de **autorização**, permitindo que empresas construam e operem ferrovias privadas sem licitação pública; estabeleceu regras para a coexistência entre o regime de concessão e o de autorização; e abriu caminho para projetos como a Ferrogrão (Sinop/MT a Miritituba/PA) e a ferrovia de integração Centro-Oeste. Desde a sanção da lei, o DNIT recebeu mais de 20 pedidos de autorização, sinalizando o apetite do setor privado pelo modal.
 
 ### Transporte de carga e de passageiros
 
-No Brasil, a ferrovia é majoritariamente de **carga**. O transporte ferroviário de passageiros de longa distância praticamente desapareceu — restam trens turísticos e alguns trechos como o trem da Vale entre Belo Horizonte e Vitória. O transporte de passageiros sobre trilhos vive hoje nos sistemas **urbanos**: metrôs, trens metropolitanos (CPTM, SuperVia) e VLTs, tema da Aula 16.
+No Brasil, a ferrovia é majoritariamente de **carga**. O transporte ferroviário de passageiros de longa distância praticamente desapareceu — restam trens turísticos e o trem da Vale entre Belo Horizonte e Vitória, popularmente conhecido como "trem da Vale", que em 2023 transportou cerca de 330 mil passageiros. O transporte de passageiros sobre trilhos vive hoje nos sistemas **urbanos**: metrôs (SP, RJ, BH, Fortaleza, Recife, Porto Alegre, Brasília), trens metropolitanos (CPTM-SP e SuperVia-RJ) e VLTs (Rio de Janeiro e Santos), tema da Aula 16.
 
 No mundo, o quadro é diferente: Europa, Japão e China operam vastas redes de passageiros, incluindo trens de alta velocidade. O Brasil é uma exceção pela opção histórica pelo rodoviário e pela aviação em distâncias longas.
 
@@ -84,36 +84,38 @@ Escolha uma das grandes ferrovias brasileiras (Carajás, Norte-Sul ou Vitória a
 ### Pontos-chave
 
 - A ferrovia surgiu na Revolução Industrial; no Brasil, começou em 1854 com o Barão de Mauá.
-- A malha brasileira (~30 mil km) é pequena para o país e concentrada em corredores de exportação.
+- A malha brasileira (~30 mil km) é pequena para o país e concentrada em corredores de exportação; EFC e EFVM, ambas em bitola larga, são referência mundial em transporte de minério.
 - **Bitola** é a distância entre trilhos: larga ($1{,}60\,\mathrm{m}$), métrica ($1{,}00\,\mathrm{m}$) e padrão ($1{,}435\,\mathrm{m}$); a falta de padronização é gargalo logístico.
-- A **ANTT** regula concessões, tarifas e o direito de passagem desde 2001; a Lei 14.273/2021 trouxe o regime de autorização.
-- A ferrovia brasileira é predominantemente de carga; o transporte de passageiros sobrevive nos sistemas urbanos.
+- A **ANTT** regula concessões, tarifas e o direito de passagem desde 2001; a **Lei 14.273/2021** trouxe o regime de autorização e abriu a ferrovia ao investimento privado sem licitação.
+- A ferrovia brasileira é predominantemente de carga; a Rumo é a maior concessionária privada (~13.000 km); o transporte de passageiros sobrevive nos sistemas urbanos.
 
 ### Para saber mais
 
 - BRINA, Helvecio Lapertosa. *Estradas de Ferro* (vol. 1 e 2). Belo Horizonte: UFMG. Obra de referência clássica da engenharia ferroviária brasileira.
-- ANTT — Sistema ferroviário: https://www.gov.br/antt/pt-br/assuntos/ferroviario
+- ANTT — Portal institucional: https://www.gov.br/antt/pt-br
 - Wikipedia — Transporte ferroviário no Brasil: https://pt.wikipedia.org/wiki/Transporte_ferrovi%C3%A1rio_no_Brasil
 
 ## Aula 13 — Roteiro da Videoaula 13: "Sistemas ferroviários: panorama, história e bitolas"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Olá! Bem-vindo à última unidade da nossa disciplina. Já passamos por portos e aeroportos; agora a gente entra nos trilhos. Quero começar com um número que impressiona: um trem de minério da Carajás pode ter mais de três quilômetros e substituir milhares de caminhões. Essa é a força da ferrovia. Hoje você vai entender a história, a malha brasileira e um conceito que confunde muita gente: a bitola. Vamos lá."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "A ferrovia nasceu na Inglaterra, em 1825, com a locomotiva a vapor de Stephenson. No Brasil, a primeira ferrovia é de 1854, obra do Barão de Mauá, no Rio de Janeiro. Logo depois vieram a São Paulo Railway, escoando o café para Santos. Por que a ferrovia importa tanto? Porque ela é imbatível para mover grandes volumes a longas distâncias gastando pouca energia por tonelada. Por isso EUA, China, Rússia e Índia apoiam a economia de exportação nos trilhos. No Brasil temos cerca de 30 mil quilômetros de via, concentrados em corredores como Carajás, Vitória a Minas e a Norte-Sul."
+> "A ferrovia nasceu na Inglaterra, em 1825, com a locomotiva a vapor de Stephenson. No Brasil, a primeira ferrovia é de 1854, obra do Barão de Mauá, no Rio de Janeiro. Logo depois vieram a São Paulo Railway, escoando o café para Santos. Por que a ferrovia importa tanto? Porque ela é imbatível para mover grandes volumes a longas distâncias gastando pouca energia por tonelada. Por isso EUA, China, Rússia e Índia apoiam a economia de exportação nos trilhos. No Brasil temos cerca de 30 mil quilômetros de via, concentrados em corredores como Carajás, Vitória a Minas e a Norte-Sul. A EFC e a EFVM, ambas em bitola larga, são referência mundial em minério."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
 > "Agora o conceito-chave: bitola. Bitola é a distância entre os dois trilhos. Parece detalhe, mas define tudo: que veículos podem circular e com quais ferrovias você se conecta. No Brasil temos três: a bitola larga, de 1,60 metro, usada nas grandes ferrovias de minério; a métrica, de 1 metro, na maior parte da malha histórica; e a padrão internacional, de 1,435 metro, em projetos novos e metrôs. Quando trilhos de bitolas diferentes se encontram, o problema aparece: o trem não passa direto, exige transbordo de carga. A solução elegante é a bitola mista, com um terceiro trilho."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "Quem cuida disso tudo? A ANTT, a Agência Nacional de Transportes Terrestres, criada em 2001. Na década de 1990 o Brasil privatizou a antiga RFFSA por concessões. A ANTT fiscaliza essas concessões, define tarifas e garante o direito de passagem, que permite uma empresa usar a via de outra pagando por isso. Em 2021, o novo marco das ferrovias criou o regime de autorização, deixando empresas construírem ferrovias privadas sem licitação. Tudo isso para tentar destravar investimento num modal historicamente subdimensionado."
+> "Quem cuida disso tudo? A ANTT, a Agência Nacional de Transportes Terrestres, criada em 2001. Na década de 1990 o Brasil privatizou a antiga RFFSA por concessões. A ANTT fiscaliza essas concessões, define tarifas e garante o direito de passagem, que permite uma empresa usar a via de outra pagando por isso. Em 2021, o novo marco das ferrovias criou o regime de autorização: empresas podem construir ferrovias privadas sem licitação. Desde então mais de 20 pedidos foram protocolados. A Rumo, maior concessionária privada, opera cerca de 13 mil quilômetros e movimentou mais de 73 bilhões de t·km úteis só em 2023."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Para fechar, um número: um trem-tipo de minério com 200 vagões de 100 toneladas move 20 mil toneladas. Vinte trens por dia dão 400 mil toneladas — o equivalente a dez mil viagens de caminhão. É por isso que corredor de exportação tem que ser ferroviário. Na próxima aula a gente desce no chão da via: trilhos, dormentes, lastro, fixações e os aparelhos de mudança de via. É a superestrutura ferroviária. Te espero!"
 
@@ -138,21 +140,21 @@ O trilho é o elemento que guia e suporta a roda. Seu perfil padrão é o **tril
 - **TR-37, TR-45** — vias secundárias e leves.
 - **TR-57, TR-68** — vias principais e pesadas (a sigla indica massa em lb/jarda; o TR-68 pesa cerca de $33{,}8\,\mathrm{kg/m}$).
 
-Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**, controlada por tensionamento na soldagem.
+Nas ferrovias pesadas brasileiras — EFC e EFVM — predominam trilhos TR-68 em TLS, coerentes com a alta tonelagem por eixo (até $32{,}5\,\mathrm{t/eixo}$) praticada nessas linhas. Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**, controlada por tensionamento na soldagem.
 
 ### Dormentes e fixações
 
 O **dormente** é a peça transversal que recebe os dois trilhos, mantém a bitola constante e transmite a carga ao lastro. Tipos:
 
-- **Madeira:** tradicional, elástico, fácil de trabalhar, mas demanda manutenção e tem questão ambiental.
-- **Concreto protendido:** durável, pesado (bom contra deslocamento lateral), padrão em vias modernas pesadas.
+- **Madeira:** tradicional, elástico, fácil de trabalhar, mas demanda manutenção e tem questão ambiental. Ainda usado em trechos secundários da malha concessionada.
+- **Concreto protendido:** durável, pesado (bom contra deslocamento lateral), padrão em vias modernas pesadas. A norma ABNT NBR 7590 regula os dormentes de concreto no Brasil.
 - **Aço:** usado em situações específicas.
 
 A **fixação** prende o trilho ao dormente. Pode ser **rígida** (tirefão, placa de apoio) ou **elástica** (grampos tipo Pandrol, Deenik), que absorve vibração e mantém a pressão de aperto mesmo com o tempo. A fixação elástica é hoje padrão em vias de alta solicitação.
 
 ### Lastro e sublastro
 
-O **lastro** é a camada de brita graduada sobre a qual os dormentes se assentam. Suas funções são múltiplas: distribuir a carga, **drenar** a água da chuva, amortecer impactos, resistir aos deslocamentos longitudinal e lateral da grade (trilhos + dormentes) e permitir o nivelamento (socaria). A brita deve ser angulosa e limpa, para travar entre si.
+O **lastro** é a camada de brita graduada sobre a qual os dormentes se assentam. Suas funções são múltiplas: distribuir a carga, **drenar** a água da chuva, amortecer impactos, resistir aos deslocamentos longitudinal e lateral da grade (trilhos + dormentes) e permitir o nivelamento (socaria). A brita deve ser angulosa e limpa, para travar entre si. A degradação do lastro — fragmentação dos grãos de brita sob carga repetida — é um dos principais causadores de perda de geometria da via, exigindo manutenção periódica com máquinas de socaria e limpeza.
 
 O **sublastro** é uma camada intermediária, entre o lastro e o subleito, geralmente de material granular bem graduado. Ele protege o subleito da contaminação pela brita, contribui para a drenagem e melhora a capacidade de suporte. Sem bom sublastro e drenagem, a via "bombeia" finos e perde geometria rapidamente.
 
@@ -189,7 +191,7 @@ Faça um croqui em corte transversal da via permanente, identificando, de cima p
 ### Pontos-chave
 
 - A via permanente distribui a carga da roda em cadeia: trilho → fixação → dormente → lastro → sublastro → subleito.
-- O **trilho** (perfil Vignole) é classificado pela massa linear; o TLS elimina juntas, mas exige controle de dilatação.
+- O **trilho** (perfil Vignole) é classificado pela massa linear; o TLS elimina juntas, mas exige controle de dilatação; nas ferrovias pesadas brasileiras predominam TR-68 em TLS.
 - **Dormentes** (madeira, concreto, aço) mantêm a bitola e transferem carga; **fixações** elásticas absorvem vibração.
 - O **lastro** distribui carga, drena e trava a grade; o **sublastro** protege o subleito e melhora o suporte.
 - O **AMV** (agulhas, jacaré, contratrilhos) permite a troca de via; o número do desvio define a velocidade no ramal.
@@ -198,27 +200,29 @@ Faça um croqui em corte transversal da via permanente, identificando, de cima p
 
 - BRINA, Helvecio Lapertosa. *Estradas de Ferro* — capítulos de via permanente. Belo Horizonte: UFMG.
 - STEFFLER, Felipe. *Ferrovias*. São Paulo: Saraiva (Série Eixos). Boa introdução aos componentes da superestrutura.
-- Wikipedia — Via permanente: https://pt.wikipedia.org/wiki/Via_permanente
+- Wikipedia — Via férrea: https://pt.wikipedia.org/wiki/Via_f%C3%A9rrea
 
 ## Aula 14 — Roteiro da Videoaula 14: "Superestrutura ferroviária: via permanente"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Quando você olha uma ferrovia, vê dois trilhos brilhando. Mas a engenharia de verdade está embaixo. Tem um sistema inteiro projetado para aguentar eixos de 30 toneladas passando o dia inteiro sem afundar o solo. Esse sistema é a via permanente. Hoje a gente abre essa anatomia: trilho, dormente, fixação, lastro, sublastro e os aparelhos de mudança de via."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Primeiro, a lógica geral. A via permanente existe para fazer uma coisa: pegar a carga concentrada na roda e espalhar até o solo aguentar. A cadeia é roda, trilho, fixação, dormente, lastro, sublastro e plataforma. Cada elemento espalha sobre uma área maior que o anterior. É fundação, só que em movimento. O trilho é o perfil Vignole, com patim, alma e boleto. A gente classifica trilho pela massa por metro: TR-57, TR-68 nas linhas pesadas. E os trilhos modernos são soldados em barras longas, o TLS, que acaba com o tac-tac das juntas."
+> "Primeiro, a lógica geral. A via permanente existe para fazer uma coisa: pegar a carga concentrada na roda e espalhar até o solo aguentar. A cadeia é roda, trilho, fixação, dormente, lastro, sublastro e plataforma. Cada elemento espalha sobre uma área maior que o anterior. É fundação, só que em movimento. O trilho é o perfil Vignole, com patim, alma e boleto. A gente classifica trilho pela massa por metro: TR-57, TR-68 nas linhas pesadas. Nas ferrovias de minério do Brasil — EFC e EFVM — usam TR-68. E os trilhos modernos são soldados em barras longas, o TLS, que acaba com o tac-tac das juntas."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Embaixo do trilho vem o dormente, a peça transversal que segura os dois trilhos e mantém a bitola. Pode ser de madeira, de concreto protendido — padrão nas vias pesadas — ou de aço. E o que prende o trilho ao dormente é a fixação, que hoje é elástica, tipo Pandrol, porque absorve vibração e não afrouxa. Mais abaixo, o lastro: aquela brita angulosa. Ele distribui carga, drena a água da chuva, amortece e trava a grade no lugar. E o sublastro, entre o lastro e o solo, protege o subleito da contaminação e melhora o suporte."
+> "Embaixo do trilho vem o dormente, a peça transversal que segura os dois trilhos e mantém a bitola. Pode ser de madeira, de concreto protendido — padrão nas vias pesadas — ou de aço. E o que prende o trilho ao dormente é a fixação, que hoje é elástica, tipo Pandrol, porque absorve vibração e não afrouxa. Mais abaixo, o lastro: aquela brita angulosa. Ele distribui carga, drena a água da chuva, amortece e trava a grade no lugar. A degradação da brita é o que mais causa perda de geometria da via — por isso existe manutenção periódica com máquinas de socaria. E o sublastro, entre o lastro e o solo, protege o subleito da contaminação e melhora o suporte."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "A peça mais complexa é o aparelho de mudança de via, o AMV. É ele que deixa o trem trocar de linha. Tem as agulhas, que são trilhos móveis direcionando a roda; o jacaré, que é o cruzamento dos trilhos; e os contratrilhos, que guiam a roda e impedem descarrilamento. A gente caracteriza o AMV pelo número do desvio, tipo 1 para 10. Quanto maior o número, mais suave a curva e mais rápido dá pra passar. Um pátio de manobras é basicamente um monte de AMV."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Vamos a um número rápido: uma roda joga 150 quilonewtons no trilho, isso se espalha por uns 5 dormentes, dá 30 kN por dormente. Se cada dormente apoia em 0,6 metro quadrado de lastro, a pressão é 50 quilopascais — tranquilo para a brita. Esse é o segredo: espalhar a carga até virar pressão segura. Na próxima aula a gente coloca esse trilho em movimento e em curva: geometria da via, superelevação, rampas e o material rodante. Te espero!"
 
@@ -232,7 +236,7 @@ Um trem não anda em linha reta o tempo todo — ele sobe rampas, vence curvas e
 
 O traçado de uma ferrovia é definido em duas vistas. Em **planta** (vista de cima), a via é composta por **tangentes** (trechos retos) ligadas por **curvas**. Entre a tangente e a curva circular insere-se a **curva de transição** (espiral/clotoide), que faz o raio variar gradualmente do infinito (reta) até o raio da curva, evitando que a força lateral apareça de forma brusca.
 
-Em **perfil** (vista lateral), a via é definida por **rampas** (trechos inclinados) ligadas por **curvas verticais** (concordâncias). A inclinação é expressa em porcentagem ou em metros por mil (‰). A ferrovia é muito sensível à rampa: como a aderência roda-trilho (aço-aço) é baixa, rampas íngremes limitam drasticamente a carga rebocável.
+Em **perfil** (vista lateral), a via é definida por **rampas** (trechos inclinados) ligadas por **curvas verticais** (concordâncias). A inclinação é expressa em porcentagem ou em metros por mil (‰). A ferrovia é muito sensível à rampa: como a aderência roda-trilho (aço-aço) é baixa, rampas íngremes limitam drasticamente a carga rebocável. Na EFC e na EFVM, a rampa máxima compensada é de apenas $4\,\mathrm{‰}$ em trechos críticos, exatamente para preservar a capacidade de tração dos trens pesados de minério.
 
 ![Trem de carga da Transnordestina percorrendo a via férrea, exemplo de material rodante e traçado](https://commons.wikimedia.org/wiki/Special:FilePath/Trem_de_carga_da_TransNordestina_em_2019.jpg)
 
@@ -242,7 +246,7 @@ Numa curva, o trem sofre **força centrífuga** que tende a empurrá-lo para for
 
 A **superlargura** é o alargamento da bitola nas curvas fechadas. Como o truque (conjunto de rodeiros) é rígido, em curvas de raio pequeno ele "trava"; alargar levemente a bitola facilita a inscrição do veículo na curva e reduz o desgaste do friso da roda contra o trilho.
 
-A curva tem ainda o **raio** como parâmetro central: quanto menor o raio, mais fechada a curva, menor a velocidade admissível e maior o desgaste. Daí a importância dos raios mínimos.
+A curva tem ainda o **raio** como parâmetro central: quanto menor o raio, mais fechada a curva, menor a velocidade admissível e maior o desgaste. Daí a importância dos raios mínimos. A norma ANTT estabelece raios mínimos diferenciados por classe de via: para ferrovias de carga pesada operando em bitola larga, o raio mínimo absoluto é de $300\,\mathrm{m}$, mas o desejável é acima de $700\,\mathrm{m}$.
 
 ### Rampas e raios mínimos
 
@@ -254,8 +258,8 @@ A **rampa máxima** é a maior inclinação admissível. Em ferrovias de carga p
 
 O **material rodante** é tudo que circula sobre os trilhos:
 
-- **Locomotivas:** fornecem a tração. Predominam as **diesel-elétricas** (motor diesel gera eletricidade que alimenta motores nos eixos) e, em sistemas eletrificados, as **elétricas** (captam energia de catenária ou terceiro trilho).
-- **Vagões:** transportam carga. Há vagões gôndola (minério), hopper (grãos), tanque (líquidos), plataforma (contêineres), entre outros.
+- **Locomotivas:** fornecem a tração. Predominam as **diesel-elétricas** (motor diesel gera eletricidade que alimenta motores nos eixos) e, em sistemas eletrificados, as **elétricas** (captam energia de catenária ou terceiro trilho). No Brasil, a frota de locomotivas diesel-elétricas da Vale na EFC e EFVM inclui modelos da GE Transportation, com potência acima de $4.000\,\mathrm{HP}$.
+- **Vagões:** transportam carga. Há vagões gôndola (minério), hopper (grãos), tanque (líquidos), plataforma (contêineres), entre outros. Os vagões de minério da Vale na EFC têm capacidade de $100\,\mathrm{t}$ úteis cada.
 - **Carros:** transportam passageiros.
 
 O componente comum é o **truque** (*bogie*): o conjunto de rodeiros, suspensão e estrutura sobre o qual o veículo se apoia e pivota, permitindo a inscrição em curva.
@@ -292,35 +296,37 @@ Para uma curva de raio $R = 800\,\mathrm{m}$ e bitola métrica ($1{,}00\,\mathrm
 
 - O traçado tem **planta** (tangentes, curvas, transições) e **perfil** (rampas, curvas verticais).
 - A **superelevação** compensa a força centrífuga em curva; a **superlargura** facilita a inscrição em curvas fechadas.
-- **Raio mínimo** e **rampa máxima** são restrições de projeto; a baixa aderência aço-aço limita rampas em ferrovias de carga.
-- O **material rodante** (locomotivas, vagões, carros) apoia-se em **truques**; a tração é majoritariamente diesel-elétrica.
+- **Raio mínimo** e **rampa máxima** são restrições de projeto; a baixa aderência aço-aço limita rampas em ferrovias de carga; nas linhas pesadas brasileiras a rampa compensada fica abaixo de $4\,\mathrm{‰}$.
+- O **material rodante** (locomotivas, vagões, carros) apoia-se em **truques**; a tração é majoritariamente diesel-elétrica; os vagões de minério da Vale chegam a $100\,\mathrm{t}$ úteis.
 - A roda **cônica com friso** autocentra o rodeiro; o contato aço-aço dá baixa resistência ao rolamento, mas baixa aderência.
 
 ### Para saber mais
 
 - BRINA, Helvecio Lapertosa. *Estradas de Ferro* — capítulos de geometria e traçado. Belo Horizonte: UFMG.
 - STEFFLER, Felipe. *Ferrovias*. São Paulo: Saraiva. Material rodante e dinâmica do veículo ferroviário.
-- Wikipedia — Superelevação (cant): https://pt.wikipedia.org/wiki/Supereleva%C3%A7%C3%A3o
+- Wikipedia — Ferrovia (geometria da via e bitola): https://pt.wikipedia.org/wiki/Ferrovia
 
 ## Aula 15 — Roteiro da Videoaula 15: "Geometria da via férrea e material rodante"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Um trem não vive em linha reta: ele sobe rampa, faz curva e tem que fazer tudo isso sem descarrilar nem derrubar a carga. Hoje a gente entra na geometria da via — curvas, superelevação, rampas, raios — e no material rodante, que é tudo que circula sobre os trilhos. É onde a física do movimento encontra o projeto."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "O traçado tem duas vistas. Em planta, de cima, a via é feita de retas, que a gente chama de tangentes, ligadas por curvas. E entre a reta e a curva tem a curva de transição, a espiral, que faz o raio diminuir aos poucos, para a força lateral não bater de uma vez. Em perfil, de lado, a via é feita de rampas ligadas por curvas verticais. E aqui um ponto crucial: a ferrovia odeia rampa íngreme, porque o contato aço com aço tem pouca aderência. Rampa forte derruba a carga que a locomotiva consegue puxar."
+> "O traçado tem duas vistas. Em planta, de cima, a via é feita de retas, que a gente chama de tangentes, ligadas por curvas. E entre a reta e a curva tem a curva de transição, a espiral, que faz o raio diminuir aos poucos, para a força lateral não bater de uma vez. Em perfil, de lado, a via é feita de rampas ligadas por curvas verticais. E aqui um ponto crucial: a ferrovia odeia rampa íngreme, porque o contato aço com aço tem pouca aderência. Nas grandes ferrovias de minério do Brasil, como EFC e EFVM, a rampa compensada não passa de 4 por mil exatamente por isso."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Na curva aparece a força centrífuga, jogando o trem para fora. Para compensar, a gente levanta o trilho externo: é a superelevação. Ela inclina o veículo para dentro e equilibra parte dessa força. Em curva fechada também alargamos um pouquinho a bitola, a superlargura, porque o truque é rígido e precisa de folga para entrar na curva sem o friso raspar. E o raio manda em tudo: raio pequeno significa curva fechada, velocidade baixa e desgaste alto. Por isso definimos raio mínimo e rampa máxima no projeto."
+> "Na curva aparece a força centrífuga, jogando o trem para fora. Para compensar, a gente levanta o trilho externo: é a superelevação. Ela inclina o veículo para dentro e equilibra parte dessa força. Em curva fechada também alargamos um pouquinho a bitola, a superlargura, porque o truque é rígido e precisa de folga para entrar na curva sem o friso raspar. E o raio manda em tudo: raio pequeno significa curva fechada, velocidade baixa e desgaste alto. Por isso definimos raio mínimo — em bitola larga o mínimo absoluto é 300 metros, mas o desejável está acima de 700."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "O material rodante: a locomotiva fornece a tração, em geral diesel-elétrica, e os vagões levam a carga — gôndola para minério, hopper para grão, tanque para líquido. Tudo apoia no truque, que é o conjunto de rodas e suspensão que pivota e deixa o veículo fazer curva. E tem um detalhe lindo de engenharia: a roda do trem é cônica e tem um friso. A conicidade faz o rodeiro se autocentrar e resolver a diferença de caminho entre o trilho de fora e o de dentro na curva. O friso é a defesa final contra descarrilamento."
+> "O material rodante: a locomotiva fornece a tração, em geral diesel-elétrica — as locomotivas da Vale na Carajás têm mais de 4 mil cavalos. Os vagões levam a carga: gôndola para minério, hopper para grão, tanque para líquido. Tudo apoia no truque, que é o conjunto de rodas e suspensão que pivota e deixa o veículo fazer curva. E tem um detalhe lindo de engenharia: a roda do trem é cônica e tem um friso. A conicidade faz o rodeiro se autocentrar e resolver a diferença de caminho entre o trilho de fora e o de dentro na curva. O friso é a defesa final contra descarrilamento."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "Vamos calcular: curva de raio 500 metros, 80 km/h, bitola larga de 1,60 metro. A superelevação de equilíbrio dá cerca de 161 milímetros. Na prática a gente limita esse valor por segurança e por causa dos trens lentos, e o restante a via 'aceita' como insuficiência de superelevação. Olha como velocidade e raio comandam a inclinação da via. Na próxima e última aula a gente sobe um degrau: operação ferroviária, capacidade, sinalização, e o transporte urbano sobre trilhos — metrô, VLT, alta velocidade — fechando a disciplina. Te espero!"
 
@@ -334,7 +340,7 @@ Chegamos à última aula da disciplina. Já sabemos construir a via e mover o tr
 
 **Capacidade** é o número máximo de trens que um trecho comporta por unidade de tempo. Ela depende do **intervalo mínimo** entre trens (*headway*), do número de vias, da existência de pátios de cruzamento (em via singela) e da homogeneidade de velocidades. Em **via singela** (um só sentido por vez), os trens se cruzam apenas em pátios, o que reduz muito a capacidade; em **via dupla**, cada via tem um sentido, multiplicando a vazão.
 
-A operação busca **máxima ocupação com segurança**: programar partidas, alocar cruzamentos, priorizar trens (um trem rápido alcança um lento) e minimizar tempos parados. Indicadores típicos são a velocidade comercial, o tempo de ciclo do vagão e a disponibilidade da frota.
+A operação busca **máxima ocupação com segurança**: programar partidas, alocar cruzamentos, priorizar trens (um trem rápido alcança um lento) e minimizar tempos parados. Indicadores típicos são a velocidade comercial, o tempo de ciclo do vagão e a disponibilidade da frota. Na EFC, por exemplo, o ciclo de um vagão — da mina ao porto e de volta — é gerenciado em tempo real por um centro de controle de tráfego centralizado (CTC) em São Luís do Maranhão, que comanda mais de 100 AMVs e centenas de sinais ao longo dos 892 km da linha.
 
 ![Estação Luz do Metrô de São Paulo, exemplo de transporte urbano sobre trilhos](https://commons.wikimedia.org/wiki/Special:FilePath/Metro_de_S%C3%A3o_Paulo%2C_Luz_Station%2C_Brazil.jpg)
 
@@ -350,22 +356,22 @@ O objetivo é sempre o mesmo: garantir **distância de segurança** entre trens,
 
 ### Transporte urbano sobre trilhos (metrô, VLT, monotrilho)
 
-Nas cidades, a ferrovia é protagonista do transporte de massa:
+Nas cidades brasileiras, a ferrovia é protagonista do transporte de massa. O Brasil conta com redes em operação em São Paulo, Rio de Janeiro, Belo Horizonte, Fortaleza, Recife, Porto Alegre, Brasília e Salvador, com sistemas em diferentes estágios:
 
-- **Metrô:** trens elétricos de alta capacidade, em via segregada (subterrânea ou elevada); ideal para grandes fluxos. Ex.: Metrô de São Paulo e Rio.
-- **Trem metropolitano:** opera em superfície, em malhas maiores e estações mais espaçadas (CPTM-SP, SuperVia-RJ).
-- **VLT (Veículo Leve sobre Trilhos):** bondes modernos que compartilham o espaço urbano; capacidade intermediária, menor custo de implantação. Ex.: VLT do Rio (centro/porto) e de Santos.
-- **Monotrilho:** trem sobre uma única viga elevada; ocupa pouco espaço no solo. Ex.: Linha 15-Prata em São Paulo.
+- **Metrô:** trens elétricos de alta capacidade, em via segregada (subterrânea ou elevada); ideal para grandes fluxos. O Metrô de São Paulo — maior do Brasil — opera mais de 100 km e transporta cerca de 4,5 milhões de passageiros/dia em dias úteis. O Metrô do Rio (Metrô Rio) tem 58 km e 41 estações.
+- **Trem metropolitano:** opera em superfície, em malhas maiores e estações mais espaçadas. A CPTM-SP opera 273 km e em dias úteis movimenta mais de 1,5 milhão de passageiros. A SuperVia-RJ atende a região metropolitana do Rio de Janeiro com 270 km de malha.
+- **VLT (Veículo Leve sobre Trilhos):** bondes modernos que compartilham o espaço urbano; capacidade intermediária, menor custo de implantação. O VLT Carioca (centro e porto maravilha do Rio) e o VLT de Santos são exemplos brasileiros em operação.
+- **Monotrilho:** trem sobre uma única viga elevada; ocupa pouco espaço no solo. A Linha 15-Prata em São Paulo é o único monotrilho operacional do Brasil.
 
 A escolha entre eles depende da **demanda** (passageiros por hora por sentido), do custo de implantação e do espaço urbano disponível.
 
 ### Trens de alta velocidade
 
-Os **trens de alta velocidade (TAV/HSR)** operam acima de $250\,\mathrm{km/h}$, em via dedicada, com geometria suave (raios grandes), eletrificação e sinalização avançada. Exemplos: Shinkansen (Japão), TGV (França), trens-bala da China (a maior rede do mundo). O **maglev** (levitação magnética) é a fronteira, eliminando o contato roda-trilho. No Brasil, o projeto do TAV Rio–São Paulo–Campinas é discutido há anos, mas esbarra em custo elevado, topografia e densidade de demanda. A alta velocidade compete diretamente com a aviação em distâncias de 300 a 800 km.
+Os **trens de alta velocidade (TAV/HSR)** operam acima de $250\,\mathrm{km/h}$, em via dedicada, com geometria suave (raios grandes), eletrificação e sinalização avançada. Exemplos: Shinkansen (Japão), TGV (França), trens-bala da China (a maior rede do mundo, com mais de 45.000 km de LAV). O **maglev** (levitação magnética) é a fronteira, eliminando o contato roda-trilho. No Brasil, o projeto do TAV Rio–São Paulo–Campinas é discutido há décadas, mas esbarra em custo elevado, topografia e densidade de demanda. A alta velocidade compete diretamente com a aviação em distâncias de 300 a 800 km.
 
 ### Tendências e sustentabilidade
 
-A ferrovia é uma das tecnologias mais alinhadas com a **descarbonização**: emite muito menos CO₂ por t·km que o rodoviário e o aéreo. As tendências incluem **eletrificação** das linhas, locomotivas a **bateria** e a **hidrogênio** (trens como o Coradia iLint), **digitalização** da operação (sensores, manutenção preditiva, *digital twins* da via), e a integração intermodal eficiente com portos. No Brasil, o desafio é expandir a malha e modernizar a operação aproveitando o novo marco regulatório.
+A ferrovia é uma das tecnologias mais alinhadas com a **descarbonização**: emite muito menos CO₂ por t·km que o rodoviário e o aéreo. As tendências incluem **eletrificação** das linhas, locomotivas a **bateria** e a **hidrogênio** (trens como o Coradia iLint, em operação na Alemanha), **digitalização** da operação (sensores, manutenção preditiva, *digital twins* da via), e a integração intermodal eficiente com portos. No Brasil, o novo marco regulatório (Lei 14.273/2021) abriu a perspectiva de atrair mais de R$ 100 bilhões em investimentos ferroviários privados na próxima década.
 
 ### Síntese: integrar portos, aeroportos e ferrovias
 
@@ -377,9 +383,9 @@ Elabore um **plano logístico intermodal** para escoar a produção de grãos de
 
 ### Pontos-chave
 
-- **Capacidade** depende de *headway*, número de vias e pátios de cruzamento; via dupla multiplica a vazão.
+- **Capacidade** depende de *headway*, número de vias e pátios de cruzamento; via dupla multiplica a vazão; o CTC comanda toda a malha a distância.
 - O **licenciamento** garante que só um trem ocupe um bloco; sistemas vão do bloqueio fixo ao CBTC (bloqueio móvel) e ao CTC.
-- O transporte urbano sobre trilhos abrange **metrô, trem metropolitano, VLT e monotrilho**, escolhidos pela demanda e pelo espaço.
+- O transporte urbano sobre trilhos abrange **metrô, trem metropolitano, VLT e monotrilho**, escolhidos pela demanda e pelo espaço; São Paulo tem o maior sistema do Brasil.
 - Os **TAV** operam acima de $250\,\mathrm{km/h}$ em via dedicada; o Brasil ainda não tem alta velocidade implantada.
 - A ferrovia é estratégica para a **descarbonização** e só atinge seu potencial na **logística intermodal** com portos e aeroportos.
 
@@ -387,7 +393,7 @@ Elabore um **plano logístico intermodal** para escoar a produção de grãos de
 
 - BRINA, Helvecio Lapertosa. *Estradas de Ferro* — operação e tração. Belo Horizonte: UFMG.
 - STEFFLER, Felipe. *Ferrovias*. São Paulo: Saraiva. Sistemas urbanos e operação.
-- ANTT — Ferrovias e o marco regulatório: https://www.gov.br/antt/pt-br/assuntos/ferroviario
+- ANTT — Portal institucional: https://www.gov.br/antt/pt-br
 - Wikipedia — Trem de alta velocidade: https://pt.wikipedia.org/wiki/Trem_de_alta_velocidade
 
 ### Encerramento da disciplina
@@ -407,23 +413,25 @@ A logística brasileira precisa de engenheiros que conectem os modais. Você ter
 
 ## Aula 16 — Roteiro da Videoaula 16: "Operação ferroviária, transporte urbano e o futuro (projeto integrador)"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Última aula da disciplina! A gente já sabe construir a via e mover o trem. Agora falta o mais importante: operar o sistema com segurança e eficiência, e ver como a ferrovia volta com força nas cidades — metrô, VLT, monotrilho — e na alta velocidade. E no fim a gente amarra tudo: portos, aeroportos e ferrovias formam, juntos, a espinha logística do país."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Operação começa por capacidade: quantos trens cabem num trecho por dia. Isso depende do intervalo entre trens, do número de vias e dos pátios de cruzamento. Via singela, um sentido por vez, capacidade baixa; via dupla, cada via num sentido, capacidade muito maior. E como o trem freia devagar, dois trens não podem ocupar o mesmo trecho. Para isso existe o licenciamento: o bloqueio fixo divide a via em seções com sinais; o CBTC, dos metrôs modernos, usa bloqueio móvel e deixa os trens bem mais próximos; e o CTC centraliza o controle de toda a malha."
+> "Operação começa por capacidade: quantos trens cabem num trecho por dia. Isso depende do intervalo entre trens, do número de vias e dos pátios de cruzamento. Via singela, um sentido por vez, capacidade baixa; via dupla, cada via num sentido, capacidade muito maior. E como o trem freia devagar, dois trens não podem ocupar o mesmo trecho. Para isso existe o licenciamento: o bloqueio fixo divide a via em seções com sinais; o CBTC, dos metrôs modernos, usa bloqueio móvel e deixa os trens bem mais próximos; e o CTC centraliza o controle de toda a malha — na Estrada de Ferro Carajás, o CTC comanda os 892 km a partir de um único centro em São Luís."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Agora a ferrovia na cidade, que é onde o passageiro brasileiro mais usa trilho. Metrô é alta capacidade em via segregada, embaixo ou em cima. Trem metropolitano roda na superfície, malhas grandes, como CPTM e SuperVia. O VLT é o bonde moderno, compartilha a rua, capacidade média — tem no Rio e em Santos. E o monotrilho corre sobre uma viga elevada, ocupa pouco chão, como a Linha 15-Prata em São Paulo. A escolha depende da demanda e do espaço. E no horizonte, o trem de alta velocidade, acima de 250 km/h, que no Brasil ainda é projeto."
+> "Agora a ferrovia na cidade, que é onde o passageiro brasileiro mais usa trilho. Metrô é alta capacidade em via segregada, embaixo ou em cima — só o Metrô de São Paulo carrega mais de 4 milhões de pessoas por dia. Trem metropolitano roda na superfície, malhas grandes, como CPTM com 273 quilômetros e SuperVia no Rio. O VLT é o bonde moderno, compartilha a rua, capacidade média — tem no Rio e em Santos. E o monotrilho corre sobre uma viga elevada, como a Linha 15-Prata em São Paulo. A escolha depende da demanda e do espaço. E no horizonte, o trem de alta velocidade, acima de 250 km/h, que no Brasil ainda é projeto."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "E o futuro? A ferrovia é craque em sustentabilidade: emite muito menos CO₂ por tonelada-quilômetro que caminhão e avião. As tendências são eletrificação, locomotivas a bateria e a hidrogênio, e digitalização da operação com sensores e manutenção preditiva. Mas o ponto que eu quero que vocês guardem é a intermodalidade. O grão sai de caminhão da fazenda, vira ferrovia, chega ao porto e embarca no navio. A carga urgente vai de avião. Cada modal faz o que sabe melhor. O engenheiro pensa o sistema inteiro."
+> "E o futuro? A ferrovia é craque em sustentabilidade: emite muito menos CO₂ por tonelada-quilômetro que caminhão e avião. As tendências são eletrificação, locomotivas a bateria e a hidrogênio, e digitalização da operação com sensores e manutenção preditiva. O novo marco regulatório de 2021 pode atrair mais de 100 bilhões de reais em investimentos ferroviários privados. Mas o ponto que eu quero que vocês guardem é a intermodalidade. O grão sai de caminhão da fazenda, vira ferrovia, chega ao porto e embarca no navio. A carga urgente vai de avião. Cada modal faz o que sabe melhor. O engenheiro pensa o sistema inteiro."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 9:45)
 
 > "E assim a gente fecha Portos, Aeroportos e Ferrovias. Em quatro unidades você passou pelos portos, pelas obras marítimas, pelos aeroportos e pelas ferrovias. Saiu com vocabulário técnico, com fórmulas de capacidade e de superelevação, e com a visão de sistema que conecta os três modais. Agora é com você: pegue a bibliografia, visite uma operação real e leve esse olhar integrado para a prática. A logística brasileira precisa de engenheiros que conectem os modais. Você terminou esta disciplina desse lado. Boa carreira — e vai longe!"
 
@@ -488,7 +496,7 @@ Sobre a **superelevação** em curvas ferroviárias, assinale a alternativa **co
 - **Capítulo:** Capítulos de via permanente, geometria e operação ferroviária
 - **Organizador:** Felipe Steffler
 - **Editora:** Saraiva (Série Eixos)
-- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/Acervo/Busca?titulo=Ferrovias
+- **Link de acesso (BV):** https://plataforma.bvirtual.com.br/
 - **Aula em que entra:** Aulas 13 a 16
 
 ### Para mergulhar no assunto
@@ -500,18 +508,18 @@ Sobre a **superelevação** em curvas ferroviárias, assinale a alternativa **co
 
 ### Podcast (curadoria, até 45 min)
 
-> O canal **Eficiência Ferroviária** (YouTube) traz conteúdo técnico em português sobre via permanente, material rodante e operação ferroviária, ótimo para consolidar os conceitos das aulas em formato audiovisual.
+> A aula **"Dimensionamento de Ferrovias — Elementos da via"** (YouTube) apresenta de forma didática os componentes da superestrutura ferroviária — trilhos, dormentes, lastro e AMVs —, ótima para consolidar os conceitos da Aula 14 em formato audiovisual.
 
-- **Nome do podcast/canal:** Eficiência Ferroviária
-- **Tema recomendado:** Via permanente e operação ferroviária
-- **Link:** https://www.youtube.com/results?search_query=efici%C3%AAncia+ferrovi%C3%A1ria (YouTube)
+- **Nome do podcast/canal:** Dimensionamento de Ferrovias (YouTube)
+- **Tema recomendado:** Elementos da via permanente (trilhos, dormentes, lastro, AMV)
+- **Link:** https://www.youtube.com/watch?v=kaHDkO4ptHI
 - **Aula em que entra:** Aula 14
 
 ### Artigo científico
 
-> Este artigo analisa o comportamento mecânico da via permanente e a interação entre seus componentes (trilho, dormente, lastro), tema central da Aula 14. É leitura recomendada para quem quer entender a engenharia da via em profundidade, com base científica.
+> Este artigo analisa a influência da degradação do agregado (brita) na permeabilidade do lastro ferroviário, tema diretamente ligado à Aula 14. É leitura recomendada para quem quer entender em profundidade o comportamento do lastro sob carga repetida, com base científica publicada na revista Matéria (SciELO Brasil).
 
-- **Link:** https://doi.org/10.1590/S1517-707620180001.0421 (DOI)
+- **Link:** https://www.scielo.br/j/rmat/a/B5RYDqqB6SN5cvTjmP6RmCL/ (SciELO)
 - **Aula em que entra:** Aula 14
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > FERREIRA, Tatiana Maria Cardoso de Souza; TEIXEIRA, Paulo Fonseca. **Avaliação do comportamento mecânico da via permanente ferroviária**. *Matéria (Rio de Janeiro)*, v. 23, n. 1, 2018.
+  > DUTRA, Larissa Rodrigues; LEANDRO, Rodrigo Pires. **Influência da degradação do agregado na permeabilidade de lastros ferroviários**. *Matéria (Rio de Janeiro)*, v. 25, n. 4, 2020. DOI: 10.1590/S1517-707620200004.1177

@@ -57,17 +57,19 @@ Para o engenheiro civil, essa infraestrutura representa algumas das maiores e ma
 | Dutoviário | ~4% |
 | Aéreo | <1% |
 
-Compare com os Estados Unidos, onde ferrovias respondem por cerca de 43% das cargas, ou a Rússia, onde o trilho domina. O Brasil, um país de dimensões continentais, deveria privilegiar modais de **alta capacidade** (ferrovia e hidrovia) para longas distâncias. A herança rodoviarista — construída a partir dos anos 1950 — deixou o país dependente do caminhão, encarecendo a logística e reduzindo a competitividade dos nossos produtos no exterior.
+Compare com os Estados Unidos, onde ferrovias respondem por cerca de 43% das cargas, ou a Rússia, onde o trilho domina. O Brasil, um país de dimensões continentais, deveria privilegiar modais de **alta capacidade** (ferrovia e hidrovia) para longas distâncias. A herança rodoviarista — construída a partir dos anos 1950 com o programa JK e a instalação das montadoras — deixou o país dependente do caminhão, encarecendo a logística e reduzindo a competitividade dos nossos produtos no exterior.
+
+O **Plano Nacional de Logística (PNL)**, coordenado pela EPL (Empresa de Planejamento e Logística), é o documento estratégico do governo federal que orienta investimentos para reequilibrar essa matriz. O PNL 2035 prevê aumento da participação ferroviária para 30% e da aquaviária para 29% — metas que dependem de dezenas de projetos de infraestrutura, todos carentes de engenheiros qualificados.
 
 ### Os modais e suas características
 
 Cada modal tem vocação para um tipo de transporte:
 
-- **Rodoviário** — flexível, porta a porta, ideal para curtas distâncias e cargas fracionadas. Alto custo por tonelada-quilômetro.
-- **Ferroviário** — alta capacidade, baixo custo por tonelada-quilômetro, ideal para grandes volumes e longas distâncias (granéis: soja, minério).
-- **Aquaviário** — o mais barato por unidade transportada, ideal para grandes massas e longas distâncias (comércio exterior, cabotagem).
-- **Aéreo** — o mais rápido e o mais caro; usado para cargas de alto valor agregado e baixo peso.
-- **Dutoviário** — contínuo e seguro, restrito a líquidos e gases (petróleo, combustíveis).
+- **Rodoviário** — flexível, porta a porta, ideal para curtas distâncias e cargas fracionadas. Alto custo por tonelada-quilômetro. No Brasil, a malha pavimentada federal tem cerca de 76 mil km, gerida pelo DNIT e por concessionárias privadas.
+- **Ferroviário** — alta capacidade, baixo custo por tonelada-quilômetro, ideal para grandes volumes e longas distâncias (granéis: soja, minério, açúcar). A malha brasileira tem cerca de 30 mil km em operação, regulada pela ANTT.
+- **Aquaviário** — o mais barato por unidade transportada, ideal para grandes massas e longas distâncias (comércio exterior, cabotagem). O Brasil tem 16 portos públicos de grande porte e mais de 130 terminais de uso privado, fiscalizados pela ANTAQ.
+- **Aéreo** — o mais rápido e o mais caro; usado para cargas de alto valor agregado e baixo peso. A ANAC regula os aeroportos brasileiros, que somam mais de 2.400 unidades (públicos e privados).
+- **Dutoviário** — contínuo e seguro, restrito a líquidos e gases (petróleo, combustíveis, gás natural). A Petrobras opera a maior parte da malha dutoviária nacional.
 
 A regra de ouro: **quanto maior o volume e a distância, mais barato deveria ser o modal escolhido** — e é aí que ferrovia e hidrovia ganham do caminhão.
 
@@ -75,7 +77,7 @@ A regra de ouro: **quanto maior o volume e a distância, mais barato deveria ser
 
 O **custo logístico** brasileiro representa cerca de 12% a 13% do PIB, contra 8% nos países desenvolvidos. Essa diferença, chamada de "Custo Brasil", corrói a competitividade. O excesso de transporte rodoviário é o principal vilão: caminhão consome mais combustível, emite mais CO₂ e movimenta menos carga por viagem do que um trem ou navio.
 
-Para o engenheiro, isso significa oportunidade: cada nova ferrovia ou terminal portuário que tira carga da estrada gera economia mensurável para o país. Planejar e construir essa transição é trabalho de Engenharia de Transportes.
+Para o engenheiro, isso significa oportunidade: cada nova ferrovia ou terminal portuário que tira carga da estrada gera economia mensurável para o país. Planejar e construir essa transição é trabalho de Engenharia de Transportes. A **Ferrogrão** (ligando Sinop-MT a Miritituba-PA) e a **FIOL** (Ferrovia de Integração Oeste-Leste, conectando Figueirópolis-TO a Ilhéus-BA) são exemplos de projetos em fase de implementação que ilustram essa transformação.
 
 ### Intermodalidade e multimodalidade
 
@@ -144,23 +146,25 @@ Anote suas conclusões — vamos retomar esse raciocínio na Aula 2, quando fala
 
 ## Aula 1 — Roteiro da Videoaula 1: "Sistemas de transporte e a matriz de transportes brasileira"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Tudo o que existe na sua casa um dia foi transportado. Mas você já parou pra pensar como? E quanto custa isso? Hoje a gente vai entender o que é um sistema de transporte, conhecer a matriz brasileira e descobrir por que o Brasil paga caro por transportar tudo de caminhão."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Vamos começar pela matriz de transportes — a divisão da carga entre os modais. No Brasil, mais de 60% vai por rodovia. Compare com os Estados Unidos, onde a ferrovia leva quase metade. Para um país continental como o nosso, isso é um erro histórico que vem dos anos 50. Vou mostrar a tabela completa e por que cada modal tem sua vocação."
+> "Vamos começar pela matriz de transportes — a divisão da carga entre os modais. No Brasil, mais de 60% vai por rodovia. Compare com os Estados Unidos, onde a ferrovia leva quase metade. Para um país continental como o nosso, isso é um erro histórico que vem dos anos 50, do rodoviarismo do JK. O Plano Nacional de Logística quer mudar isso. Vou mostrar a tabela completa e por que cada modal tem sua vocação: caminhão para curtas distâncias, trem e navio para grandes volumes. DNIT cuida de rodovias, ANTT regula ferrovias, ANTAQ os portos e ANAC os aeroportos."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Agora os modais um a um: rodoviário, flexível mas caro; ferroviário, barato para grandes volumes; aquaviário, o mais econômico; aéreo, rápido e caro; dutoviário, contínuo. A regra de ouro: quanto maior o volume e a distância, mais barato deveria ser o modal. E é aí que o trem e o navio vencem o caminhão."
+> "Agora os custos. O custo logístico brasileiro é de 12 a 13% do PIB — quatro pontos acima dos países desenvolvidos. O culpado? O excesso de caminhão. Projetos como a Ferrogrão e a FIOL mostram que o Brasil está tentando mudar isso. E falo de intermodalidade e multimodalidade: carga quase nunca viaja num modal só. O terminal de transbordo é onde a engenharia faz a diferença."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "Vamos fazer a conta. Soja de Mato Grosso até Santos, 2.000 km, mil toneladas. De caminhão: 360 mil reais. De trem: 120 mil reais. Economia de 66%! E falo também de intermodalidade e multimodalidade — porque carga quase nunca viaja num modal só. O terminal de transbordo é onde a engenharia faz a diferença."
+> "Vamos fazer a conta. Soja de Mato Grosso até Santos, 2.000 km, mil toneladas. De caminhão: 360 mil reais. De trem: 120 mil reais. Economia de 66%! Multiplique pelos milhões de toneladas exportadas por ano — o impacto é bilionário. É por isso que cada nova ferrovia muda a competitividade do agronegócio brasileiro."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 10:00)
 
 > "Você viu por que a infraestrutura de transportes importa tanto e como o engenheiro civil é peça-chave nessa história. Na próxima aula, vamos um passo atrás: antes de construir, é preciso planejar. Como se estuda demanda? Como se prova que uma obra vale a pena? Te espero na Aula 2!"
 
@@ -176,7 +180,9 @@ Planejar transportes é decidir **o que construir, onde, quando e com que recurs
 
 ![Congestionamento de tráfego em rodovia — a demanda de transporte é o ponto de partida do planejamento de infraestrutura](https://commons.wikimedia.org/wiki/Special:FilePath/Traffic%20jam.jpg)
 
-No Brasil, o planejamento federal é coordenado pelo Ministério dos Transportes e pela EPL, materializado em documentos como o **Plano Nacional de Logística (PNL)**. Para o engenheiro, planejar bem significa garantir que a obra atenderá à demanda por toda a sua vida útil — tipicamente de 20 a 50 anos.
+No Brasil, o planejamento federal é coordenado pelo **Ministério dos Transportes** e pela **EPL (Empresa de Planejamento e Logística S.A.)**, materializado no **Plano Nacional de Logística (PNL)**. A EPL publica regularmente matrizes de transporte inter-regional de carga, que mostram, modal a modal, quanto e o quê o Brasil movimenta entre as regiões. Para o engenheiro, planejar bem significa garantir que a obra atenderá à demanda por toda a sua vida útil — tipicamente de 20 a 50 anos.
+
+O Programa de Parcerias de Investimentos (PPI), vinculado à Casa Civil, organiza as concessões federais de rodovias, ferrovias, portos e aeroportos. Quando um projeto entra no PPI, significa que passou por uma análise de demanda, viabilidade e modelagem de concessão — o engenheiro precisa entender esse processo para atuar tanto no setor público quanto junto a concessionárias.
 
 ### O modelo de quatro etapas
 
@@ -195,6 +201,8 @@ O estudo de demanda quantifica **quantos** vão usar a infraestrutura e **como e
 
 A projeção costuma usar taxas de crescimento ancoradas no PIB e na população. Um erro comum é projetar crescimento linear quando o fenômeno é **exponencial** — ou vice-versa. Subdimensionar gera congestionamento precoce; superdimensionar desperdiça capital.
 
+No Brasil, a ANTT publica contagens de tráfego nas rodovias federais e ferrovias concedidas; a ANTAQ divulga estatísticas portuárias anuais; e a ANAC disponibiliza dados de movimentação aeroportuária — todas fontes primárias para estudos de demanda.
+
 ### Viabilidade técnica e econômica
 
 Definida a demanda, avalia-se a **viabilidade**. Os principais indicadores são:
@@ -207,13 +215,13 @@ A análise considera benefícios como economia de tempo, redução de custo oper
 
 ### Licenciamento ambiental
 
-Nenhuma grande obra de infraestrutura sai do papel sem **licenciamento ambiental**, conduzido por órgãos como o **IBAMA** (federal) ou órgãos estaduais. O processo tem três licenças sequenciais:
+Nenhuma grande obra de infraestrutura sai do papel sem **licenciamento ambiental**, conduzido por órgãos como o **IBAMA** (federal) ou órgãos estaduais (como a CETESB em São Paulo). O processo tem três licenças sequenciais:
 
 - **LP (Licença Prévia)** — aprova a viabilidade ambiental e a localização; exige o **EIA/RIMA** (Estudo e Relatório de Impacto Ambiental) para grandes obras.
 - **LI (Licença de Instalação)** — autoriza o início da construção.
 - **LO (Licença de Operação)** — autoriza o funcionamento.
 
-O licenciamento frequentemente é o **maior gargalo** de prazo em obras de ferrovia e porto, podendo levar anos. Ignorá-lo no cronograma é receita para atraso e judicialização.
+O licenciamento frequentemente é o **maior gargalo** de prazo em obras de ferrovia e porto, podendo levar anos. A própria FIOL (Ferrovia de Integração Oeste-Leste) levou mais de uma década entre o projeto e o início das obras, em parte por conta do licenciamento ambiental no bioma Cerrado e na Mata Atlântica. Ignorar esse prazo no cronograma é receita para atraso e judicialização.
 
 ### Exemplo numérico: projeção de demanda
 
@@ -258,29 +266,31 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 ### Para saber mais
 
 - **ANTT — Agência Nacional de Transportes Terrestres:** https://www.gov.br/antt/
-- **IBAMA — Licenciamento Ambiental Federal:** https://www.gov.br/ibama/pt-br/assuntos/licenciamento-ambiental
+- **IBAMA — Licenciamento Ambiental Federal:** https://www.gov.br/ibama/pt-br
 - **Wikipedia — Modelo de quatro etapas (Trip distribution / Transportation forecasting):** https://en.wikipedia.org/wiki/Transportation_forecasting
 - **EPL — Plano Nacional de Logística:** https://www.gov.br/transportes/pt-br
 
 ## Aula 2 — Roteiro da Videoaula 2: "Planejamento de transportes e estudo de demanda"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Antes de qualquer obra nascer, alguém precisa responder: vale a pena construir? Uma ferrovia mal planejada vira ferrovia fantasma; um aeroporto grande demais vira elefante branco. Hoje você vai aprender o ferramental que evita esses erros bilionários."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Planejamento acontece em camadas: estratégico, tático e operacional. No centro do método está o modelo de quatro etapas — geração, distribuição, divisão modal e alocação. Vou explicar cada uma: quantas viagens nascem, para onde vão, em qual modal e por qual rota. É assim que se transforma dado socioeconômico em fluxo previsto."
+> "Planejamento acontece em camadas: estratégico, tático e operacional. No Brasil, a EPL e o Ministério dos Transportes coordenam o PNL, que orienta os investimentos. No centro do método está o modelo de quatro etapas — geração, distribuição, divisão modal e alocação. Vou explicar cada uma: quantas viagens nascem, para onde vão, em qual modal e por qual rota. Dados da ANTT, ANTAQ e ANAC alimentam essas projeções."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Com a demanda estimada, vem a viabilidade. Três indicadores mandam: VPL, TIR e relação benefício-custo. Se o VPL é positivo, o projeto cria valor. E não esqueça do licenciamento ambiental — LP, LI e LO. Esse processo, conduzido pelo IBAMA, costuma ser o maior gargalo de prazo de uma obra de ferrovia ou porto."
+> "Com a demanda estimada, vem a viabilidade. Três indicadores mandam: VPL, TIR e relação benefício-custo. Se o VPL é positivo, o projeto cria valor. E não esqueça do licenciamento ambiental — LP, LI e LO. Esse processo, conduzido pelo IBAMA, costuma ser o maior gargalo de prazo de uma obra. A FIOL levou mais de uma década até o início das obras por conta disso."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "Vamos à conta. Um aeroporto com 800 mil passageiros, crescendo 5% ao ano. Em 10 anos? Aplicando o crescimento composto, chegamos a 1,3 milhão — 63% a mais! Se o engenheiro projetar só para hoje, o terminal satura antes de inaugurar. Por isso projetamos para a demanda futura, não a atual."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 10:00)
 
 > "Agora você sabe planejar e provar que uma obra vale a pena. Na próxima aula, descemos para o terreno literalmente: geometria, terraplenagem e geotecnia. Como se molda o relevo para uma estrada ou ferrovia passar? Te espero na Aula 3!"
 
@@ -298,6 +308,8 @@ Tudo começa com a **topografia**: o levantamento do relevo do terreno por onde 
 
 O bom traçado equilibra três objetivos: **segurança** (curvas e rampas suaves), **economia** (menor volume de terra movimentada) e **respeito ao meio ambiente**. Em ferrovias, a restrição é dura: as **rampas** raramente passam de $1\%$ a $2\%$ e as curvas têm raios mínimos generosos, porque o trem não sobe ladeira nem faz curva fechada como o caminhão.
 
+O DNIT estabelece as normas de projeto geométrico para rodovias federais (como a DNIT 006/2004 para alinhamento horizontal), enquanto a ABNT e os manuais ferroviários — também publicados pelo DNIT — regulam os projetos de via permanente. Qualquer projeto de infraestrutura linear no Brasil parte dessas normas.
+
 ### Terraplenagem: corte e aterro
 
 **Terraplenagem** é o conjunto de operações que adapta o terreno natural ao greide (perfil) de projeto. Há duas operações fundamentais:
@@ -306,6 +318,8 @@ O bom traçado equilibra três objetivos: **segurança** (curvas e rampas suaves
 - **Aterro** — adição de material compactado onde o terreno está **abaixo** do greide (um vale).
 
 O ideal é que o material retirado nos cortes seja reaproveitado nos aterros, minimizando empréstimos (terra trazida de fora) e bota-foras (terra descartada). Cada metro cúbico movimentado custa dinheiro, então **equilibrar corte e aterro** é objetivo central do projeto.
+
+Em obras como a duplicação da BR-163 (Mato Grosso–Pará) e a construção do trecho norte da FIOL, os volumes de terraplenagem chegam a dezenas de milhões de metros cúbicos, evidenciando a escala e a importância dessa etapa.
 
 ### Compensação de volumes (diagrama de massas)
 
@@ -324,7 +338,7 @@ Um diagrama bem trabalhado pode reduzir drasticamente o custo da obra, porque tr
 - **Superficial** — sarjetas, valetas, bueiros e canaletas que coletam a água da chuva e a afastam da plataforma.
 - **Profunda (subterrânea)** — drenos que rebaixam o lençol freático e mantêm o subleito seco.
 
-O dimensionamento da drenagem parte do estudo hidrológico (chuvas da região) e calcula a vazão que cada dispositivo precisa escoar. Negligenciar a drenagem é a causa número um de patologias precoces em estradas brasileiras.
+O dimensionamento da drenagem parte do estudo hidrológico (chuvas da região) e calcula a vazão que cada dispositivo precisa escoar. Negligenciar a drenagem é a causa número um de patologias precoces em estradas brasileiras — basta lembrar das erosões que comprometem rodovias após a temporada de chuvas no Centro-Oeste e no Norte do país.
 
 ### Solos e fundações
 
@@ -393,23 +407,25 @@ Pegue um trecho de estrada que você conhece (pode ser no Google Earth) com um c
 
 ## Aula 3 — Roteiro da Videoaula 3: "Geometria, terraplenagem e geotecnia aplicada"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Toda estrada, ferrovia ou pista de avião precisa de um terreno plano e firme. Mas a natureza não dá isso de graça: tem morro para cortar, vale para aterrar, solo fraco para reforçar. Hoje você vai aprender como o engenheiro molda o relevo — a obra que acontece antes do pavimento."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Tudo começa na topografia e no traçado. O engenheiro define a linha em planta e perfil, equilibrando segurança, economia e meio ambiente. Em ferrovia, a regra é dura: rampas de no máximo 1 a 2%, curvas amplas, porque o trem não sobe ladeira. Depois vem a terraplenagem: corte onde o terreno está acima do greide, aterro onde está abaixo."
+> "Tudo começa na topografia e no traçado. O engenheiro define a linha em planta e perfil, seguindo normas do DNIT, equilibrando segurança, economia e meio ambiente. Em ferrovia, a regra é dura: rampas de no máximo 1 a 2%, curvas amplas, porque o trem não sobe ladeira. Depois vem a terraplenagem: corte onde o terreno está acima do greide, aterro onde está abaixo. Obras como a BR-163 e a FIOL mostram o que é isso em escala real."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Como equilibrar a terra que sobra com a que falta? Com o diagrama de massas, a curva de Bruckner. Ele mostra onde há excesso, onde há falta e quanto a terra precisa ser transportada. E nunca esqueça a água: drenagem superficial e profunda. Solo encharcado perde resistência — é a causa número um de buraco em estrada brasileira."
+> "Como equilibrar a terra que sobra com a que falta? Com o diagrama de massas, a curva de Bruckner. Ele mostra onde há excesso, onde há falta e quanto a terra precisa ser transportada. E nunca esqueça a água: drenagem superficial e profunda. Solo encharcado perde resistência — é a causa número um de buraco em estrada brasileira. Basta ver as rodovias no Norte após a chuva."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
 > "O solo precisa ser caracterizado: granulometria, limites de Atterberg, Proctor e o famoso CBR, que mede a capacidade de suporte. Vamos calcular um aterro: plataforma de 12 metros, 4 de altura, taludes 1 para 1,5, num trecho de 200 metros. A seção dá 72 metros quadrados, o volume dá 14.400 metros cúbicos — e cerca de 360 mil reais. Olha o tamanho da economia de equilibrar corte e aterro!"
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 10:00)
 
 > "Você viu como se prepara o terreno e por que conhecer o solo é vital. Mas o que vai por cima dessa plataforma? Pavimentos, materiais, estruturas que aguentam cargas pesadíssimas. É o tema da próxima aula, que fecha os fundamentos comuns às três infraestruturas. Te espero na Aula 4!"
 
@@ -424,7 +440,7 @@ Pegue um trecho de estrada que você conhece (pode ser no Google Earth) com um c
 A infraestrutura de transportes usa um conjunto recorrente de materiais, cada um com função clara:
 
 - **Solos e agregados** (brita, areia, cascalho) — formam as camadas inferiores (sub-base e base) e dão suporte estrutural.
-- **Ligantes asfálticos (CAP)** — o cimento asfáltico de petróleo, que une os agregados no revestimento flexível.
+- **Ligantes asfálticos (CAP)** — o cimento asfáltico de petróleo, que une os agregados no revestimento flexível. No Brasil, a Petrobras é o principal fornecedor de CAP, e os graus de penetração e viscosidade seguem normas da ABNT.
 - **Concreto de cimento Portland** — usado em pavimentos rígidos, cais, lajes e estruturas.
 - **Aço** — em armaduras de concreto, trilhos ferroviários e estruturas metálicas.
 - **Geossintéticos** — geotêxteis e geogrelhas que reforçam, separam e drenam solos.
@@ -440,7 +456,7 @@ Existem duas grandes famílias de pavimento:
 - **Pavimento flexível** — revestimento em **concreto asfáltico**, apoiado em camadas de base e sub-base granulares. "Flexível" porque se deforma com a carga e distribui o esforço gradualmente para as camadas inferiores. É o mais comum em rodovias brasileiras: mais barato de construir, mas exige manutenção frequente.
 - **Pavimento rígido** — placa de **concreto de cimento Portland**, que trabalha à flexão e distribui a carga em grande área. Mais caro de construir, porém muito durável e com baixa manutenção. Usado em pátios de aeroporto, corredores de ônibus e trechos de alto tráfego.
 
-Em aeroportos, ambos coexistem: pistas longas costumam ser flexíveis (ou rígidas), e os pátios de estacionamento de aeronaves, onde a carga é estática e concentrada, costumam ser rígidos.
+Em aeroportos, ambos coexistem: pistas longas costumam ser flexíveis (ou rígidas), e os pátios de estacionamento de aeronaves, onde a carga é estática e concentrada, costumam ser rígidos. O Aeroporto Internacional de Guarulhos (GRU) é um bom exemplo: pistas em concreto asfáltico modificado e pátios parcialmente em placa de concreto.
 
 ### Cargas e solicitações
 
@@ -468,7 +484,7 @@ Construir é metade do trabalho; manter é a outra metade. Todo pavimento e estr
 - **Corretiva** — feita após a falha (tapa-buraco, recapeamento). Cara.
 - **Reabilitação/reconstrução** — quando a estrutura chega ao fim da vida útil.
 
-A "curva de degradação" mostra que **adiar manutenção preventiva multiplica o custo futuro** — cada R\$ 1 economizado em prevenção pode custar R\$ 4 a R\$ 5 em correção. Gestão de pavimentos é, no fundo, gestão de dinheiro público.
+A "curva de degradação" mostra que **adiar manutenção preventiva multiplica o custo futuro** — cada R\$ 1 economizado em prevenção pode custar R\$ 4 a R\$ 5 em correção. Gestão de pavimentos é, no fundo, gestão de dinheiro público. No Brasil, a CNT publica anualmente a Pesquisa CNT de Rodovias, que avalia o estado de conservação das rodovias federais — um termômetro nacional do estado da manutenção rodoviária.
 
 ### Exemplo numérico: dimensionamento simplificado
 
@@ -524,23 +540,25 @@ Na **Unidade 2 — Portos e Hidrovias**, vamos sair em direção à água. Você
 
 ## Aula 4 — Roteiro da Videoaula 4: "Materiais e pavimentos: fundamentos comuns às três infraestruturas"
 
-### 1. Abertura (0:00 – 0:40)
+**Duração: 7 a 10 minutos**
+
+### 1. Abertura (0:00 – 0:35)
 
 > "Um caminhão carregado, um trem de minério e um Boeing pousando têm uma coisa em comum: todos jogam cargas enormes numa estrutura que não pode afundar nem trincar. Essa estrutura é o pavimento. Hoje, fechando os fundamentos, você vai entender materiais, pavimentos, cargas e por que manutenção é tão importante quanto construir."
 
-### 2. Desenvolvimento — parte 1 (0:40 – 4:00)
+### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Primeiro os materiais: solos e agregados nas camadas de base, asfalto no revestimento flexível, concreto Portland no rígido, aço nas armaduras e trilhos, geossintéticos no reforço. Depois as duas famílias de pavimento: o flexível, de asfalto, mais barato mas que pede manutenção; e o rígido, de concreto, caro mas durável. Em aeroporto, os dois convivem."
+> "Primeiro os materiais: solos e agregados nas camadas de base, asfalto CAP no revestimento flexível — fornecido principalmente pela Petrobras seguindo normas ABNT —, concreto Portland no rígido, aço nas armaduras e trilhos, geossintéticos no reforço. Depois as duas famílias de pavimento: o flexível, de asfalto, mais barato mas que pede manutenção; e o rígido, de concreto, caro mas durável. No aeroporto de Guarulhos, por exemplo, os dois convivem."
 
-### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
+### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "As cargas variam muito: eixo de 8,2 toneladas na rodovia, até 40 na ferrovia, centenas de toneladas num avião. Mas o que destrói o pavimento não é só o peso, é a repetição — o número N. E há também as estruturas: pontes, cais, terminais, dimensionados pelas normas da ABNT e do DNIT para cada carga que vão receber."
+> "As cargas variam muito: eixo de 8,2 toneladas na rodovia, até 40 na ferrovia, centenas de toneladas num avião. Mas o que destrói o pavimento não é só o peso, é a repetição — o número N. E há também as estruturas: pontes, cais, terminais, dimensionados pelas normas da ABNT e do DNIT para cada carga que vão receber. A NBR 6118 rege o concreto armado nessas estruturas."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "Vamos dimensionar. Um pavimento que aguenta 5 milhões de repetições, numa via com 1.200 pesados por dia. A conta dá cerca de 657 mil eixos-padrão por ano, e uma vida útil de 7 anos e meio. Se o projeto pede 10 anos, é preciso reforçar a espessura. E lembre da manutenção: cada real economizado em prevenção custa de 4 a 5 reais em correção depois."
+> "Vamos dimensionar. Um pavimento que aguenta 5 milhões de repetições, numa via com 1.200 pesados por dia. A conta dá cerca de 657 mil eixos-padrão por ano, e uma vida útil de 7 anos e meio. Se o projeto pede 10 anos, é preciso reforçar a espessura. E lembre da manutenção: a Pesquisa CNT de Rodovias mostra que mais de 50% das rodovias brasileiras têm algum problema — cada real economizado em prevenção custa de 4 a 5 reais em correção depois."
 
-### 5. Encerramento (9:00 – 11:00)
+### 5. Encerramento (8:30 – 10:00)
 
 > "Com esta aula, você fechou os fundamentos comuns a portos, aeroportos e ferrovias: matriz, planejamento, terraplenagem e pavimentos. Agora vamos aplicar tudo isso ao primeiro grande tema: portos e hidrovias, o assunto da Unidade 2. Foi um prazer! Te espero lá."
 
@@ -609,9 +627,9 @@ No contexto de **terraplenagem e geotecnia**, assinale a alternativa **correta**
 
 ### Para mergulhar no assunto
 
-> Recomendo o documentário **"Megaestruturas" (Megastructures)**, da National Geographic, especialmente os episódios sobre portos, ferrovias e aeroportos. A série mostra, em escala real, os desafios de engenharia que estudamos aqui — terraplenagem, fundações, pavimentos e estruturas de grande porte. Ver essas obras em ação ajuda a dimensionar a grandiosidade e a responsabilidade do trabalho do engenheiro de infraestrutura.
+> Recomendo o vídeo **"A Construção da Maior Ferrovia Brasileira que Mudou o país para Sempre"**, disponível no YouTube, que mostra em escala real os desafios de engenharia de uma grande obra ferroviária brasileira — terraplenagem, fundações, obras de arte e estruturas de grande porte. Ver essas etapas em ação ajuda a dimensionar a grandiosidade e a responsabilidade do trabalho do engenheiro de infraestrutura.
 
-- **Link(s):** https://www.youtube.com/results?search_query=megaestruturas+national+geographic+ferrovia (episódios e trechos)
+- **Link(s):** https://www.youtube.com/watch?v=ef9uq4GMzQs
 - **Aula em que entra:** Aulas 1 a 4
 
 ### Podcast (curadoria, até 45 min)
@@ -620,14 +638,14 @@ No contexto de **terraplenagem e geotecnia**, assinale a alternativa **correta**
 
 - **Nome do podcast/canal:** CNT — Confederação Nacional do Transporte (canal oficial no YouTube)
 - **Tema recomendado:** Matriz de transportes brasileira e Custo Brasil
-- **Link:** https://www.youtube.com/@cntransporte
+- **Link:** https://www.youtube.com/transportecnt
 - **Aula em que entra:** Aula 1
 
 ### Artigo científico
 
-> Artigo que analisa a questão dos custos logísticos e da matriz de transportes no Brasil, confrontando o desequilíbrio modal com a competitividade econômica nacional. Excelente leitura para fundamentar, com base em pesquisa acadêmica, os pontos discutidos na Aula 1.
+> Artigo que analisa como a logística de Estado e a logística corporativa atuam sobre o território brasileiro, discutindo o papel da infraestrutura de transportes na reconfiguração espacial e na competitividade econômica do país. Excelente leitura para fundamentar, com base em pesquisa acadêmica publicada no SciELO, os pontos discutidos na Aula 1.
 
-- **Link:** https://doi.org/10.1590/0103-6513.20170035
+- **Link:** https://doi.org/10.4215/rm2018.e17008
 - **Aula em que entra:** Aula 1
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > FLEURY, Paulo Fernando. **Logística no Brasil: avaliação e perspectivas do setor de transporte de cargas**. *Produção*, São Paulo, v. 17, n. 1, 2007.
+  > SILVEIRA, Marcio Rogerio. **Transportes e a logística frente à reestruturação econômica no Brasil**. *Mercator (Fortaleza)*, v. 17, e17008, 2018. DOI: 10.4215/rm2018.e17008.
