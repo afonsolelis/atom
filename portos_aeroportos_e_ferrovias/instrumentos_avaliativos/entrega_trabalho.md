@@ -52,6 +52,7 @@ O estudante deverá pesquisar como o setor planeja e executa corredores logísti
 6. **ANAC, RBAC 154 / OACI Anexo 14** — https://www.gov.br/anac/ (projeto de aeródromos, geometria de pista, método ACN-PCN e FAA para pavimentos).
 7. **Casos brasileiros reais** — Ferrovia Norte-Sul e Ferrogrão (corredores de grãos), Porto de Itaqui e Terminal de Tubarão (granel), Hidrovia Tietê-Paraná (intermodalidade), Terminal de Cargas (TECA) de Viracopos.
 8. **Livros e normas técnicas** — *Estradas de Ferro* (Brina), *Portos e Vias Navegáveis* (Alfredini & Arasaki), normas ABNT NBR aplicáveis e manuais do DNIT e da Infraero.
+9. **Teoria das filas aplicada a portos (Projeto Integrador / Python)** — modelo $M/M/c$ e Erlang C para dimensionar berços e pátios de caminhões; ver *Teoria das filas e simulação aplicada ao embarque* (ENEGEP/ABEPRO) — https://abepro.org.br/biblioteca/enegep2010_tn_sto_129_830_14824.pdf — e a fila $M/M/c$ na Wikipédia — https://en.wikipedia.org/wiki/M/M/c_queue. Bibliotecas Python úteis: `SimPy` (simulação por eventos discretos) e `NumPy` (Monte Carlo).
 
 **Aulas relacionadas:** todas as 16 servem de insumo. Em ordem de relevância: Aula 1 (matriz e custo por t·km), Aula 2 (planejamento e estudo de demanda), Aula 3 (geometria/terraplenagem/geotecnia), Aula 4 (materiais e pavimentos), Aulas 5–6 (sistema portuário, estruturas de abrigo e calado), Aulas 7–8 (operação portuária e integração porto-hidrovia), Aulas 10–11 (lado ar e pavimentos aeroportuários), Aula 12 (carga aérea), Aulas 13–16 (via permanente, geometria da via e operação ferroviária).
 
@@ -59,18 +60,24 @@ O estudante deverá pesquisar como o setor planeja e executa corredores logísti
 
 ## 4. Entregável e distribuição da pontuação
 
-**Formato da entrega:** **Documento técnico** em PDF (entre 16 e 24 páginas) + **apresentação executiva** em slides (entre 12 e 18 slides) para defender perante banca simulada (conselho da PPP fictício).
+**Formato da entrega:** **Documento técnico** em PDF (entre 16 e 24 páginas) + **apresentação executiva** em slides (entre 12 e 18 slides) para defender perante banca simulada (conselho da PPP fictício) + **script em Python** (arquivo `.py` ou notebook `.ipynb`) que sustente numericamente uma das decisões do plano. Este é o componente de **Projeto Integrador / engenharia digital** da disciplina: a banca quer ver o número **calculado por código**, não estimado "no olho".
 
 **Pontuação:**
 
 - **15%** — **Diagnóstico da matriz e dos gargalos**: análise da situação atual com dados verificáveis (custo por t·km, sazonalidade, distâncias, capacidade do porto e do aeroporto), aplicando o conceito de matriz de transportes e a comparação rodo × ferro × hidro.
 - **15%** — **Estudo de demanda e priorização**: projeção de carga no horizonte de 8 anos (modelo de quatro etapas simplificado), definição do trecho/modal prioritário com justificativa por **impacto financeiro mensurável**.
 - **25%** — **Soluções técnicas por modal**: (a) **ferrovia** — bitola, via permanente, geometria (rampas, raios, superelevação), terraplenagem e drenagem; (b) **porto** — berço, dragagem/calado de projeto, obras de abrigo, equipamentos de granel; (c) **aeroporto** — adequação da pista (comprimento e ACN-PCN) e TECA de carga. Cada modal com dimensionamento numérico.
-- **20%** — **Intermodalidade e plano faseado em 8 anos**: pontos de transbordo, cronograma por fase com orçamento detalhado (dentro do teto de R\$ 6,5 bilhões), governança da PPP e KPIs.
-- **15%** — **Orçamento e viabilidade econômica**: estimativa de CAPEX por modal, comparação de custo logístico antes/depois, payback/retorno e fontes de financiamento.
-- **10%** — **Riscos, sustentabilidade e visão de futuro**: licenciamento ambiental, riscos técnicos e de demanda, redução de emissões e visão de 15–20 anos (expansão, descarbonização).
+- **15%** — **Intermodalidade e plano faseado em 8 anos**: pontos de transbordo, cronograma por fase com orçamento detalhado (dentro do teto de R\$ 6,5 bilhões), governança da PPP e KPIs.
+- **15%** — **Script Python de análise quantitativa (Projeto Integrador)**: um programa funcional, comentado e reprodutível que modele **uma** das três análises abaixo, alimentado pelos dados do próprio case e com a saída discutida no documento técnico. Avalia-se correção do modelo, clareza do código, uso dos dados do case e interpretação do resultado (não a sofisticação gráfica).
+  - **(a) Análise de capacidade de pátio/berço por teoria das filas (M/M/c)** — modelar a fila de caminhões no acesso ao porto (ou de navios no fundeio) como sistema $M/M/c$ e responder: com a chegada de pico de safra ($\lambda$) e a produtividade de atendimento ($\mu$), **quantos servidores $c$** (posições de descarga / berços) são necessários para derrubar a fila de 48 h para a meta de **< 8 h**?
+  - **(b) Simulação de filas por eventos discretos / Monte Carlo** — simular a chegada estocástica de caminhões ou navios ao longo da safra (chegadas Poisson, atendimento exponencial) e estimar tempo médio de espera, comprimento de fila e taxa de ocupação para a configuração proposta.
+  - **(c) Análise probabilística de risco operacional** — Monte Carlo sobre as variáveis incertas do case (demanda a 4% a.a. com desvio, CAPEX por fase, prazo de licenciamento) para estimar a **probabilidade de estouro do teto de R\$ 6,5 bilhões** e a distribuição do payback.
+- **10%** — **Orçamento e viabilidade econômica**: estimativa de CAPEX por modal, comparação de custo logístico antes/depois, payback/retorno e fontes de financiamento.
+- **5%** — **Riscos, sustentabilidade e visão de futuro**: licenciamento ambiental, riscos técnicos e de demanda, redução de emissões e visão de 15–20 anos (expansão, descarbonização).
 
-**Critérios qualitativos transversais:** **clareza** e organização do texto e dos desenhos/esquemas; **profundidade técnica** (não generalidades); **realismo** dos números (CAPEX, prazos, capacidade, payback); **coerência interna** (diagnóstico → demanda → soluções → orçamento → KPIs alinhados); e **integração** dos conceitos das 4 unidades (não tratar os modais de forma isolada).
+> **Soma das pontuações:** 15 + 15 + 25 + 15 + 15 + 10 + 5 = **100%**.
+
+**Critérios qualitativos transversais:** **clareza** e organização do texto e dos desenhos/esquemas; **profundidade técnica** (não generalidades); **realismo** dos números (CAPEX, prazos, capacidade, payback); **coerência interna** (diagnóstico → demanda → soluções → orçamento → KPIs alinhados); **rastreabilidade** (a saída do script Python deve usar os números do case e ser citada no documento); e **integração** dos conceitos das 4 unidades (não tratar os modais de forma isolada).
 
 ---
 
@@ -112,6 +119,51 @@ O estudante deverá pesquisar como o setor planeja e executa corredores logísti
 5. **Tempo de fila no acesso ao porto** — alvo: de até 48 h para **< 8 h**.
 6. **Capacidade aeroportuária de carga** — alvo: **TECA operacional** com câmara fria, ≥ 1–2 cargueiros/semana.
 7. **Emissões de CO₂ por tonelada-quilômetro** — alvo: redução de **~70%** no volume migrado para a ferrovia.
+
+**Script Python esperado (Projeto Integrador):** o estudante deve entregar um programa que **calcule** — não estime — pelo menos uma decisão do plano. A opção mais conectada ao diagnóstico é a **análise de filas $M/M/c$ do acesso ao porto**, que ataca diretamente o gargalo da fila de 48 h. O modelo trata as posições de descarga (ou os berços) como $c$ servidores, com chegadas de pico de safra a taxa $\lambda$ e atendimento a taxa $\mu$ por servidor; a intensidade de tráfego é $\rho = \lambda / (c\,\mu)$, e o sistema só é estável se $\rho < 1$. A probabilidade de fila (fórmula de Erlang C) e a espera média $W_q$ são:
+
+$$
+P_{\text{fila}} = \frac{\dfrac{(c\rho)^c}{c!}\cdot\dfrac{1}{1-\rho}}{\displaystyle\sum_{n=0}^{c-1}\frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!}\cdot\frac{1}{1-\rho}}
+\qquad\qquad
+W_q = \frac{P_{\text{fila}}}{c\,\mu - \lambda}
+$$
+
+Exemplo de calibração coerente com o case (pico de safra): demanda diária no pico estimada em $\lambda = 18\,$caminhões/h chegando ao pátio, atendimento por posição de descarga a $\mu = 5\,$caminhões/h. Com a configuração atual saturada, a fila explode; o estudante deve encontrar o menor $c$ que leve $W_q$ abaixo da meta (**< 8 h**) e traduzir isso em número de posições de descarga / berços a construir. A mesma estrutura serve para navios no fundeio (trocando as unidades). Código de referência (executável, só dependência de biblioteca-padrão):
+
+```python
+import math
+
+def erlang_c(lmbda, mu, c):
+    """Sistema M/M/c. lmbda=chegadas/h, mu=atendimentos/h por servidor, c=servidores.
+    Retorna (rho, prob_fila, Wq_horas)."""
+    rho = lmbda / (c * mu)          # intensidade de trafego por servidor
+    if rho >= 1:
+        return rho, 1.0, float("inf")   # sistema instavel: fila cresce sem limite
+    a = lmbda / mu                  # carga oferecida (Erlangs)
+    soma = sum(a**n / math.factorial(n) for n in range(c))
+    ultimo = (a**c / math.factorial(c)) * (1 / (1 - rho))
+    prob_fila = ultimo / (soma + ultimo)        # formula de Erlang C
+    wq_horas = prob_fila / (c * mu - lmbda)      # espera media na fila
+    return rho, prob_fila, wq_horas
+
+# Dados do case (pico de safra no acesso ao porto)
+LAMBDA = 18.0   # caminhoes/h chegando ao patio
+MU = 5.0        # caminhoes/h atendidos por posicao de descarga
+META_HORAS = 8.0
+
+print(f"{'c':>3} | {'rho':>6} | {'P_fila':>7} | {'Wq (h)':>8}")
+c = math.ceil(LAMBDA / MU)          # minimo teorico para estabilidade
+while True:
+    rho, pf, wq = erlang_c(LAMBDA, MU, c)
+    wq_txt = f"{wq:8.2f}" if math.isfinite(wq) else "    inf"
+    print(f"{c:>3} | {rho:6.3f} | {pf:7.3f} | {wq_txt}")
+    if math.isfinite(wq) and wq <= META_HORAS:
+        print(f"\nMenor c que atende a meta (< {META_HORAS} h): {c} posicoes de descarga.")
+        break
+    c += 1
+```
+
+Rodando o código com a calibração acima, o estudante encontra que **4 posições de descarga** já estabilizam o sistema e derrubam a espera para **~0,4 h (≈ 24 min)** — bem abaixo da meta de 8 h — sendo o menor $c$ que o laço seleciona; uma **5ª posição** de margem leva a espera para poucos minutos e absorve picos acima do cenário-base. Esse é o tipo de número defensável que a banca espera ver **saindo do script**, citado no documento técnico e amarrado ao KPI de "tempo de fila no acesso ao porto: de 48 h para < 8 h". Aceitam-se igualmente a variante de **simulação por eventos discretos/Monte Carlo** (mesmas premissas, validando $W_q$ por amostragem) ou a de **risco probabilístico** (Monte Carlo sobre demanda, CAPEX e prazo estimando a probabilidade de estourar o teto de R\$ 6,5 bilhões). O que **não** se aceita é ausência de código ou um script desconectado dos números do case.
 
 **Governança esperada (PPP):** conselho gestor com poder concedente (autarquia estadual) + concessionária + agências reguladoras (ANTT, ANTAQ, ANAC); marcos contratuais por fase; matriz de risco compartilhada; auditoria técnica independente; ritual trimestral de acompanhamento de KPIs e do cronograma físico-financeiro.
 
@@ -158,7 +210,7 @@ Antes de propor solução, reúna referências e ancore seus números:
 
 - **Releia** as Unidades 1 a 4 — todas são insumo direto (matriz e custo, planejamento e demanda, geometria/terraplenagem, pavimentos, portos, hidrovias, aeroportos, ferrovias).
 - **Aprofunde** os casos brasileiros: Ferrovia Norte-Sul, Ferrogrão, Porto de Itaqui/Tubarão, Hidrovia Tietê-Paraná, TECA de Viracopos.
-- **Estude** os métodos que vai aplicar: cálculo do **calado de projeto** (folga + squat + tolerância), **comprimento de pista** corrigido, método **ACN-PCN/FAA**, geometria ferroviária (rampa, raio, superelevação) e **compensação de volumes** na terraplenagem.
+- **Estude** os métodos que vai aplicar: cálculo do **calado de projeto** (folga + squat + tolerância), **comprimento de pista** corrigido, método **ACN-PCN/FAA**, geometria ferroviária (rampa, raio, superelevação), **compensação de volumes** na terraplenagem e, para o **script Python**, a **teoria das filas $M/M/c$** (Erlang C) ou a **simulação de Monte Carlo** que vai sustentar o dimensionamento de berços/pátio ou a análise de risco.
 - **Pesquise** ordens de grandeza de mercado: quanto custa o km de ferrovia de carga? Quanto custa a dragagem por m³? Quanto custa um ship loader e uma TECA? Ancore seu CAPEX.
 - **Consulte** PNL, DNIT, ANTT, ANTAQ e ANAC para projeções, manuais e normas.
 
@@ -178,6 +230,8 @@ Estruture o **documento técnico (PDF, 16-24 páginas)** assim:
 8. **Sustentabilidade e visão de futuro** (1 página) — emissões, descarbonização, expansão em 15-20 anos.
 9. **Referências** — fontes consultadas, ABNT.
 
+Além do PDF e dos slides, entregue o **script Python (Projeto Integrador)** que sustenta um dos seus números. Escolha **uma** das três análises: (a) **capacidade de pátio/berço por teoria das filas $M/M/c$** — modele a fila de caminhões (ou navios) no acesso ao porto, alimente com a chegada de pico de safra e a produtividade de atendimento, e descubra **quantos servidores $c$** (posições de descarga / berços) derrubam a fila de 48 h para menos de 8 h; (b) **simulação por eventos discretos / Monte Carlo** das chegadas estocásticas, estimando espera média e ocupação; ou (c) **risco probabilístico** por Monte Carlo (demanda, CAPEX e prazo) estimando a chance de estourar o teto de R\$ 6,5 bilhões. Regras: código **comentado, reprodutível e alimentado pelos números do case**; a saída precisa aparecer e ser discutida no documento técnico (não basta anexar o `.py`). Bibliotecas livres (`math`, `random`, `numpy`, `simpy`, `matplotlib`). Lembre: matemática vai em LaTeX no texto; **código vai em bloco de código** no anexo.
+
 Para a **apresentação executiva (12-18 slides)**:
 
 - 1 slide com **a recomendação central**.
@@ -185,12 +239,13 @@ Para a **apresentação executiva (12-18 slides)**:
 - 1 slide de demanda e priorização.
 - 3 slides de solução (um por modal, com esquema visual e dimensionamento).
 - 1 slide de intermodalidade (o corredor integrado).
-- 2 slides de plano, orçamento e KPIs.
+- 1 slide de plano, orçamento e KPIs.
+- 1 slide com **a saída do script Python** (gráfico/tabela de filas, simulação ou risco) e a leitura do resultado.
 - 1 slide de riscos.
 - 1 slide de sustentabilidade e visão de futuro.
 - 1 slide de pedido de aprovação e próximos passos.
 
-**Dica final:** capriche na **defesa numérica**. Um conselho de PPP não compra ideia bonita — compra plano com **números defensáveis**. Cada decisão (bitola, calado, comprimento de pista, CAPEX por fase) deve estar ancorada em cálculo ou referência de mercado, não em opinião.
+**Dica final:** capriche na **defesa numérica**. Um conselho de PPP não compra ideia bonita — compra plano com **números defensáveis**. Cada decisão (bitola, calado, comprimento de pista, CAPEX por fase, número de berços/posições de descarga) deve estar ancorada em cálculo ou referência de mercado, não em opinião — e o **script Python** é a sua prova de que o número foi de fato calculado, não chutado.
 
 Esse projeto é seu **portfólio final** — o tipo de plano que se apresenta a órgãos públicos, concessionárias e bancos de fomento para defender investimentos de infraestrutura. **Capricha**.
 

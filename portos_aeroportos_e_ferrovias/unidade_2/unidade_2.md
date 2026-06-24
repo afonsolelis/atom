@@ -336,14 +336,34 @@ Em resumo, os principais indicadores de desempenho de um terminal:
 | *Dwell time* (pátio) | dias até a carga deixar o porto | $3\text{–}8$ dias |
 | Tempo de espera | fundeio antes de atracar | quanto menor, melhor |
 
-### Porto digital e automação
+### Smart Ports: operação automatizada, AGVs e gêmeos digitais
 
-O **Port Community System (PCS)** integra digitalmente todos os agentes (armador, terminal, despachante, alfândega, autoridade portuária), eliminando papel e filas. No Brasil, o **Porto Sem Papel** caminha nessa direção. A automação avança com:
+A fronteira da competitividade portuária hoje tem nome: **Smart Port** — o porto inteligente, em que sensores, dados e inteligência artificial coordenam a operação física em tempo real. O ponto de partida continua sendo a digitalização documental: o **Port Community System (PCS)** integra todos os agentes (armador, terminal, despachante, alfândega, autoridade portuária), eliminando papel e filas. No Brasil, o **Porto Sem Papel** caminha nessa direção. Mas o Smart Port vai além do papel — ele automatiza o pátio e usa o dado para *antecipar* o gargalo.
 
-- **Terminais automatizados** — AGVs, transtêineres automáticos (Roterdã, Xangai).
-- **Gêmeos digitais (digital twins)** do porto para simular operações.
-- **IoT e sensores** em equipamentos para manutenção preditiva.
-- **Janelas de atracação** otimizadas por algoritmos.
+**Operação automatizada e AGVs guiados por IA.** Nos terminais de ponta, o transporte horizontal entre o cais e o pátio — antes feito por cavalos mecânicos com motorista — passa a ser executado por **AGVs (Automated Guided Vehicles)**, veículos de transporte horizontal autônomos, sem condutor. Eles recebem suas rotas de um sistema central que usa **algoritmos de IA de roteamento e prevenção de colisão (path planning)**: cada AGV recalcula o trajeto em tempo real quando a programação dos navios muda, evitando congestionamentos e paradas que desperdiçam energia. No terminal **APM Terminals Maasvlakte II**, em **Roterdã** — o primeiro terminal totalmente automatizado do mundo —, uma frota de **62 Lift-AGVs elétricos** trabalha junto a **54 pórticos de empilhamento automáticos (ARMG)** e portêineres operados remotamente; a operação inteira é conduzida por apenas **10 a 15 pessoas por turno**. A automação opera **24 horas por dia, sem fadiga**, e a operadora reporta produtividade da ordem de **40% superior** à de um terminal convencional equivalente.
+
+**Gêmeos digitais logísticos.** Um **gêmeo digital (digital twin)** é uma réplica virtual do terminal, alimentada por **IoT e sensores** nos equipamentos e conectada ao **TOS (Terminal Operating System)**. Com ele, o operador faz duas coisas que antes eram impossíveis:
+
+- **Simular o pátio de contêineres** — testar diferentes estratégias de empilhamento, alocação de berço e despacho de AGVs *no modelo virtual* antes de aplicá-las no cais real, sem interromper a operação. É um "laboratório" do porto.
+- **Predizer gargalos aduaneiros** — modelos de *machine learning* aprendem com o histórico de milhões de contêineres para prever o **dwell time** (tempo de permanência no pátio) e antecipar os **gargalos de liberação aduaneira**, que pioram à noite, em fins de semana e quando falta capacidade da alfândega. Antecipando onde a fila vai se formar, o porto remaneja recursos antes do congestionamento — não depois.
+
+Outras frentes do Smart Port incluem a **manutenção preditiva** (sensores avisam a falha do equipamento antes que ela aconteça) e as **janelas de atracação** otimizadas por algoritmos.
+
+### Exemplo numérico: ganho operacional de um Smart Port
+
+Considere o terminal da Aula que opera **3 portêineres**. Num terminal convencional, cada portêiner depende de **cavalos mecânicos com motorista** que, com filas e trocas de turno, sustentam uma produtividade efetiva de **28 mov/h**. Ao migrar para operação **Smart Port** — AGVs autônomos roteados por IA, sem fadiga e sem fila de espera no cais —, a produtividade efetiva sobe para cerca de **39 mov/h** por portêiner (um ganho realista de ~40% no transporte horizontal). A taxa combinada passa de:
+
+$$
+3 \times 28 = 84\ \text{mov/h} \quad\longrightarrow\quad 3 \times 39 \approx 117\ \text{mov/h}
+$$
+
+Para um navio com **1.800 movimentos**, o tempo de operação no berço cai de:
+
+$$
+t_{\text{conv}} = \frac{1\,800}{84} \approx 21{,}4\ \mathrm{h} \quad\longrightarrow\quad t_{\text{smart}} = \frac{1\,800}{117} \approx 15{,}4\ \mathrm{h}
+$$
+
+São cerca de **6 horas economizadas por navio**. A **US$ 2.500 por hora** de frete-tempo, isso representa **US$ 15 mil por escala** — e, ao longo de centenas de escalas por ano, é a diferença entre um porto competitivo e um porto que afasta cargas. Em termos de capacidade, as mesmas estruturas físicas passam a movimentar **~40% mais TEUs** sem construir um único berço novo.
 
 ### Exemplo numérico: tempo de atracação
 
@@ -380,13 +400,14 @@ Escolha um terminal de contêineres brasileiro (BTP, DP World Santos, Tecon Rio 
 - O **portêiner (STS)** e o **transtêiner (RTG/RMG)** são o coração do terminal de contêineres; granel usa **correias e shiploaders**.
 - O **TEU** é a unidade de medida do contêiner; a intermodalidade (mesma caixa em navio, trem e caminhão) viabilizou a globalização.
 - A **produtividade do berço** (mov/h) é o indicador-rei: 25–35 mov/h no Brasil, >40 em terminais automatizados.
-- O **porto digital** (PCS, gêmeos digitais, IoT, AGVs) é a fronteira da competitividade — mas o gargalo pode estar no pátio ou no portão, não só no cais.
+- O **Smart Port** (PCS, **AGVs autônomos guiados por IA**, **gêmeos digitais** que simulam o pátio de contêineres e **preveem gargalos aduaneiros**, IoT) é a fronteira da competitividade: em Roterdã (Maasvlakte II), a automação rende ~40% mais produtividade — mas o gargalo pode estar no pátio ou no portão, não só no cais.
 
 ### Para saber mais
 
 - **ANTAQ — Estatísticos Aquaviários (publicações e anuário):** https://www.gov.br/antaq/pt-br/central-de-conteudos/publicacoes-da-antaq/estatisticos-aquaviarios
 - **Contêiner (Wikipedia):** https://pt.wikipedia.org/wiki/Cont%C3%AAiner
 - **Programa Porto Sem Papel (gov.br):** https://www.gov.br/portos-e-aeroportos/
+- **Smart Port — APM Terminals Maasvlakte II (Roterdã), o terminal totalmente automatizado:** https://www.apmterminals.com/en/maasvlakte/about/our-terminal
 - **NOVAES, A. G.** *Logística e Gerenciamento da Cadeia de Distribuição*. Elsevier — capítulos sobre intermodalidade e contêineres.
 
 ## Aula 7 — Roteiro da Videoaula 7: "Operação portuária e terminais"
@@ -407,7 +428,7 @@ Escolha um terminal de contêineres brasileiro (BTP, DP World Santos, Tecon Rio 
 
 ### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "Mas cuidado com a ilusão de acelerar só o cais. Pensa comigo: se você dobra os portêineres, mas a carga fica 8 dias parada no pátio e o caminhão pega 6 horas de fila no portão, o porto melhorou? O porto é um sistema de filas em série. Por isso o porto digital é tão importante: o Port Community System integra todos os agentes, elimina papel; gêmeos digitais simulam a operação; IoT prevê manutenção; e os AGVs, veículos autônomos, já operam em Roterdã e Xangai."
+> "Mas cuidado com a ilusão de acelerar só o cais. Pensa comigo: se você dobra os portêineres, mas a carga fica 8 dias parada no pátio e o caminhão pega 6 horas de fila no portão, o porto melhorou? O porto é um sistema de filas em série. É aqui que entra o Smart Port — o porto inteligente. Primeiro, a operação automatizada: os AGVs, veículos de transporte horizontal autônomos guiados por IA, substituem os cavalos mecânicos e levam o contêiner do cais ao pátio sem motorista e sem fila — em Roterdã, no Maasvlakte, 62 AGVs elétricos rodam o terminal inteiro com 10 a 15 pessoas por turno e 40% mais produtividade. Segundo, o gêmeo digital logístico: uma réplica virtual do porto, alimentada por IoT, que simula o pátio de contêineres antes de mexer no cais real e, com machine learning, prevê o dwell time e antecipa o gargalo aduaneiro — em vez de descobrir a fila depois que ela se formou, o porto remaneja recursos antes. No nosso exemplo, migrar para Smart Port leva o terminal de 84 para 117 movimentos por hora: seis horas a menos por navio, 15 mil dólares por escala, 40% mais TEUs sem construir um berço."
 
 ### 5. Encerramento (8:30 – 9:45)
 

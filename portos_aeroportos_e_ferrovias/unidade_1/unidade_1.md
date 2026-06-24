@@ -90,6 +90,25 @@ Raramente uma carga viaja em um único modal. Os conceitos-chave são:
 
 O ponto onde os modais se conectam é o **terminal intermodal** (ou pátio de transbordo). Projetar terminais eficientes — reduzindo o tempo e o custo da transferência de carga — é um dos grandes desafios da infraestrutura moderna.
 
+### A moldura da engenharia digital: a nova fronteira dos transportes
+
+Construir o cais, a pista e o trilho é a metade clássica da engenharia de transportes. A outra metade, cada vez mais decisiva, é **digital** — e ela vai reaparecer em cada modal ao longo desta disciplina. Quatro tecnologias formam essa moldura:
+
+- **Gêmeos digitais (Digital Twins)** — uma réplica virtual e dinâmica de um ativo físico (um terminal, um cais, um aeroporto), atualizada em **tempo real** a partir de sensores. O engenheiro simula no gêmeo o que aconteceria na realidade — fluxo de guindastes, posicionamento de navios, ocupação de pista — **antes** de gastar dinheiro ou interromper a operação.
+- **IoT (Internet das Coisas)** — sensores embarcados em estruturas, equipamentos e veículos que enviam dados continuamente (temperatura, vibração, posição, carga). É a "fonte de verdade" que alimenta o gêmeo digital e os modelos de IA.
+- **Smart Ports / infraestrutura inteligente** — terminais e aeroportos que integram automação, redes 5G, IoT e IA para otimizar operações. O **Porto de Santos**, por exemplo, vem implantando redes 5G e gêmeo digital com a meta de se tornar referência como *smart port* no hemisfério sul.
+- **Inteligência Artificial (IA)** — algoritmos que aprendem com os dados para **prever** (demanda, falhas, congestionamentos) e **otimizar** (rotas, escalas, manutenção).
+
+Guarde estes quatro nomes: eles são as **novas fronteiras** do setor. Em Portos veremos o gêmeo digital e o AGV; em Aeroportos, o A-CDM e a previsão de fluxo; em Ferrovias, a defectoscopia automatizada e o ETCS/ERTMS. A infraestrutura física continua sendo a base — mas quem domina a camada digital projeta sistemas mais baratos, seguros e resilientes.
+
+### Sistemas inteligentes de monitoramento climático e resiliência
+
+Eventos climáticos extremos — chuvas intensas, ondas de calor, ventos fortes — são hoje a principal causa de **interrupções operacionais** e danos a portos, aeroportos e ferrovias. A resposta da engenharia moderna é a **gestão de resiliência** apoiada em dados.
+
+A combinação de **sensores IoT** (umidade do solo em taludes, nível de rios, vibração em trilhos, vento em pistas) com **modelos de IA** permite o **monitoramento contínuo** da infraestrutura e a emissão de **alertas precoces**. Em vez de descobrir o problema depois do acidente, o sistema prevê a tempestade, identifica a encosta que está saturando ou o trecho de via sob risco e dispara a ação preventiva — reduzir velocidade, desviar a operação, mobilizar equipes — **em tempo real**, mitigando danos e tempo de parada.
+
+É a engenharia mudando de uma postura **reativa** (consertar depois) para uma postura **preditiva** (antecipar e prevenir). Essa capacidade de manter a operação de pé diante de eventos climáticos é o que se chama de **resiliência** — e ela atravessa todos os modais que estudaremos.
+
 ### Exemplo numérico: custo por tonelada-quilômetro
 
 Vamos comparar o custo de transportar a soja de Sorriso (MT) a Santos (SP), distância de aproximadamente $2.000\,\mathrm{km}$, para um volume de $1.000\,\mathrm{t}$.
@@ -138,6 +157,8 @@ Anote suas conclusões — vamos retomar esse raciocínio na Aula 2, quando fala
 - O **custo logístico** brasileiro (~12-13% do PIB) é alto justamente pelo excesso de transporte rodoviário.
 - **Intermodalidade** usa vários modais com documentos separados; **multimodalidade** usa um único documento e operador.
 - Substituir rodovia por ferrovia em longas distâncias pode reduzir o custo de transporte em mais de 60%.
+- A **engenharia digital** — gêmeos digitais, IoT, *smart ports* e IA — é a nova fronteira que perpassa todos os modais da disciplina.
+- Sistemas de **monitoramento climático com IoT + IA** dão **alertas precoces** e levam a infraestrutura de uma postura reativa a uma postura **preditiva** (resiliência).
 
 ### Para saber mais
 
@@ -145,6 +166,8 @@ Anote suas conclusões — vamos retomar esse raciocínio na Aula 2, quando fala
 - **EPL/Ministério dos Transportes — Plano Nacional de Logística (PNL):** https://www.gov.br/transportes/pt-br
 - **Wikipedia — Transporte no Brasil:** https://pt.wikipedia.org/wiki/Transporte_no_Brasil
 - **CNT — Confederação Nacional do Transporte (boletins e pesquisas):** https://www.cnt.org.br/
+- **Porto de Santos rumo a *smart port* — redes 5G e Gêmeo Digital (Ministério de Portos e Aeroportos):** https://www.gov.br/portos-e-aeroportos/pt-br/assuntos/noticias/2026/01/porto-de-santos-avanca-para-se-tornar-referencia-global-em-logistica-verde-e-conectada
+- **IA em monitoramento ambiental e prevenção de desastres (Jornal da USP):** https://jornal.usp.br/radio-usp/o-uso-da-ia-em-sistemas-de-monitoramento-ambiental-pode-auxiliar-na-prevencao-de-desastres-ambientais/
 
 ## Aula 1 — Roteiro da Videoaula 1: "Sistemas de transporte e a matriz de transportes brasileira"
 
@@ -166,9 +189,13 @@ Anote suas conclusões — vamos retomar esse raciocínio na Aula 2, quando fala
 
 > "Vamos fazer a conta. Soja de Mato Grosso até Santos, 2.000 km, mil toneladas. De caminhão: 360 mil reais. De trem: 120 mil reais. Economia de 66%! Multiplique pelos milhões de toneladas exportadas por ano — o impacto é bilionário. É por isso que cada nova ferrovia muda a competitividade do agronegócio brasileiro."
 
-### 5. Encerramento (8:30 – 10:00)
+### 4b. A nova fronteira digital (8:30 – 9:15)
 
-> "Você viu por que a infraestrutura de transportes importa tanto e como o engenheiro civil é peça-chave nessa história. Na próxima aula, vamos um passo atrás: antes de construir, é preciso planejar. Como se estuda demanda? Como se prova que uma obra vale a pena? Te espero na Aula 2!"
+> "Mas tem uma camada nova que vai aparecer em toda a disciplina: a engenharia digital. Guardem quatro nomes. Gêmeo digital: uma cópia virtual do porto ou do aeroporto, atualizada por sensores em tempo real, onde a gente simula antes de mexer no real. IoT: os sensores que alimentam tudo. Smart port: o terminal inteligente, como Santos virando referência com 5G e gêmeo digital. E IA, que prevê e otimiza. Some a isso o monitoramento climático com IA: sensores e modelos que dão alerta precoce de chuva, vento ou encosta saturando — a infraestrutura deixa de ser reativa e passa a ser preditiva. Isso é resiliência."
+
+### 5. Encerramento (9:15 – 10:00)
+
+> "Você viu por que a infraestrutura de transportes importa tanto, como o engenheiro civil é peça-chave e qual é a nova fronteira digital do setor. Na próxima aula, vamos um passo atrás: antes de construir, é preciso planejar. Como se estuda demanda? Como se prova que uma obra vale a pena? Te espero na Aula 2!"
 
 ---
 
@@ -216,6 +243,37 @@ Definida a demanda, avalia-se a **viabilidade**. Os principais indicadores são:
 - **Relação Benefício/Custo (B/C)** — benefícios divididos por custos; viável se B/C > 1.
 
 A análise considera benefícios como economia de tempo, redução de custo operacional e de acidentes, e externalidades (emissões, ruído). É a etapa que separa obra útil de desperdício de dinheiro público.
+
+### O EVTEA: o estudo que decide o que se constrói
+
+No Brasil, todos esses indicadores são consolidados em um documento formal: o **EVTEA — Estudo de Viabilidade Técnica, Econômica e Ambiental**. Ele é a peça que **prioriza** quais obras entram na carteira de investimentos. Por lei, **obras de infraestrutura de transporte de grande porte (acima de R\$ 20 milhões) devem ser precedidas de EVTEA**, que por sua vez antecede os estudos ambientais e os projetos de engenharia.
+
+O EVTEA reúne três análises integradas, desenvolvidas em etapas:
+
+1. **Estudos preliminares** — coleta e tratamento de dados disponíveis (tráfego, socioeconômicos, ambientais).
+2. **Diagnóstico e alternativas** — análise dos dados, identificação dos problemas e proposição de soluções de traçado/projeto.
+3. **Análise técnica** — define as obras de adequação/construção necessárias e estima os custos.
+4. **Avaliação ambiental** — identifica os impactos de cada alternativa (insumo para o licenciamento posterior).
+5. **Análise econômica e socioeconômica** — consolida tudo e calcula os indicadores **TIR, VPL e B/C** que decidem a viabilidade.
+
+Na prática, é o EVTEA que responde à pergunta de abertura desta aula — "vale a pena construir?" — com números defensáveis. Órgãos como o **DNIT** e a antiga **VALEC** publicam EVTEA de rodovias e ferrovias; sem ele, uma obra federal de grande porte simplesmente não avança.
+
+### Marcos regulatórios: quem regula o quê
+
+Saber a quem o projeto se reporta é parte do planejamento. Quatro instituições estruturam o setor — e cada uma reaparecerá nos modais desta disciplina:
+
+- **DNIT (Departamento Nacional de Infraestrutura de Transportes)** — **executa e gere** a infraestrutura federal **não concedida** (rodovias, ferrovias e hidrovias sob gestão direta); publica EVTEA, normas e manuais. É órgão de execução, não agência reguladora.
+- **ANTT (Agência Nacional de Transportes Terrestres)** — **regula** o transporte **terrestre**: ferrovias e rodovias concedidas, transporte interestadual de passageiros e cargas perigosas.
+- **ANTAQ (Agência Nacional de Transportes Aquaviários)** — **regula** o transporte **aquaviário**: portos organizados, terminais, cabotagem, navegação interior e de longo curso.
+- **ANAC (Agência Nacional de Aviação Civil)** — **regula** a **aviação civil** e a infraestrutura aeroportuária (criada pela Lei nº 11.182/2005).
+
+A regra mnemônica: **DNIT constrói e gere; as agências (ANTT, ANTAQ, ANAC) regulam serviços e concessões.** As concessões federais ainda passam pelo **PPI** (Programa de Parcerias de Investimentos), já citado.
+
+### Descarbonização e ESG na decisão de projetos
+
+A viabilidade de uma obra deixou de ser só técnica e econômica — passou a ser também **ambiental e social**. Metas de **descarbonização** (redução de emissões de CO₂, alinhadas a compromissos climáticos do país) hoje **pesam na priorização**: projetos que tiram carga do caminhão e a colocam no trilho ou na hidrovia ganham pontos justamente por emitirem menos por tonelada transportada.
+
+Esse olhar se sistematiza na sigla **ESG** (*Environmental, Social, Governance* — ambiental, social e governança). Cada vez mais, financiadores e órgãos exigem que o projeto demonstre **desempenho ambiental** (emissões, biodiversidade), **impacto social** (comunidades, segurança, empregos) e **governança** (transparência, controle). Para o engenheiro, isso significa que o EVTEA e a análise de viabilidade já incorporam critérios de descarbonização e ESG — uma obra que ignora esses fatores tem cada vez menos chance de receber financiamento e licença.
 
 ### Licenciamento ambiental
 
@@ -266,6 +324,9 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 - Planejamento de transportes alinha **oferta de infraestrutura** à **demanda futura**, em horizontes de 20 a 50 anos.
 - O **modelo de quatro etapas** (geração, distribuição, divisão modal, alocação) é o método clássico de previsão de demanda.
 - Indicadores de viabilidade: **VPL**, **TIR** e **relação Benefício/Custo** — eles separam obra útil de "elefante branco".
+- O **EVTEA** (Estudo de Viabilidade Técnica, Econômica e Ambiental) é obrigatório para obras acima de R\$ 20 milhões e **prioriza** o que se constrói, antecedendo estudos ambientais e projetos.
+- Marcos regulatórios: **DNIT** executa/gere a infraestrutura não concedida; **ANTT**, **ANTAQ** e **ANAC** regulam, respectivamente, o terrestre, o aquaviário e a aviação civil.
+- **Descarbonização** e critérios **ESG** (ambiental, social, governança) hoje pesam na priorização e no financiamento dos projetos.
 - O **licenciamento ambiental** (LP, LI, LO) é etapa obrigatória e costuma ser o maior gargalo de prazo.
 - Projetar para a demanda de hoje é erro: deve-se usar **crescimento composto** para dimensionar a vida útil da obra.
 
@@ -275,6 +336,9 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 - **IBAMA — Licenciamento Ambiental Federal:** https://www.gov.br/ibama/pt-br
 - **Wikipedia — Modelo de quatro etapas (Trip distribution / Transportation forecasting):** https://en.wikipedia.org/wiki/Transportation_forecasting
 - **EPL — Plano Nacional de Logística:** https://www.gov.br/transportes/pt-br
+- **DNIT — Estudo de Viabilidade Técnica, Econômica e Ambiental (EVTEA):** https://www.gov.br/dnit/pt-br/assuntos/planejamento-e-pesquisa/planejamento/covide-estudos-de-viabilidade/estudo-de-viabilidade-tecnica-economica-e-ambiental-evtea
+- **Lei nº 10.233/2001 — cria ANTT, ANTAQ e DNIT (marco regulatório dos transportes):** https://www.planalto.gov.br/ccivil_03/leis/leis_2001/l10233.htm
+- **ANTAQ — Agência Nacional de Transportes Aquaviários (regulação portuária e descarbonização do setor):** https://www.gov.br/antaq/pt-br
 
 ## Aula 2 — Roteiro da Videoaula 2: "Planejamento de transportes e estudo de demanda"
 
@@ -290,7 +354,7 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 
 ### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "Com a demanda estimada, vem a viabilidade. Três indicadores mandam: VPL, TIR e relação benefício-custo. Se o VPL é positivo, o projeto cria valor. E não esqueça do licenciamento ambiental — LP, LI e LO. Esse processo, conduzido pelo IBAMA, costuma ser o maior gargalo de prazo de uma obra. A FIOL levou mais de uma década até o início das obras por conta disso."
+> "Com a demanda estimada, vem a viabilidade. Três indicadores mandam: VPL, TIR e relação benefício-custo. No Brasil, tudo isso é consolidado no EVTEA — o Estudo de Viabilidade Técnica, Econômica e Ambiental. Obra de transporte acima de 20 milhões de reais exige EVTEA, que vem antes dos estudos ambientais e do projeto. E é bom saber quem regula o quê: o DNIT executa e gere a infraestrutura não concedida; a ANTT cuida do terrestre, a ANTAQ do aquaviário, a ANAC da aviação. Hoje entra também a descarbonização e o ESG: tirar carga do caminhão emite menos CO₂, e isso pesa na priorização e no financiamento. E não esqueça do licenciamento ambiental — LP, LI e LO. Esse processo, conduzido pelo IBAMA, costuma ser o maior gargalo de prazo. A FIOL levou mais de uma década até o início das obras por conta disso."
 
 ### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 

@@ -52,6 +52,17 @@ A regulação tem três camadas:
 2. **ANAC** (Agência Nacional de Aviação Civil) — órgão regulador brasileiro criado em 2005. Edita os **RBAC** (Regulamentos Brasileiros da Aviação Civil), com destaque para o **RBAC 154** (projeto de aeródromos), que internaliza o Anexo 14 da OACI. A ANAC também certifica aeródromos públicos e fiscaliza a conformidade das obras.
 3. **Operadores e gestores** — a **Infraero** (empresa pública federal) administra dezenas de aeroportos regionais e de médio porte. Os principais hubs foram concedidos à iniciativa privada a partir de 2012: GRU Airport (Guarulhos), Aeroportos Brasil Viracopos (Campinas/VCP), Aeroportos do Sudeste (Congonhas/CGH, Brasília/BSB, entre outros) e grupos como CCR e Flughafen Zürich. O **DECEA** (Departamento de Controle do Espaço Aéreo, vinculado à Aeronáutica) gerencia as rotas, o controle de tráfego aéreo e a publicação do **AIP Brasil** (Aeronautical Information Publication), onde constam PCN de pistas e dados técnicos de cada aeródromo.
 
+### Otimização dinâmica do tráfego aéreo (A-CDM e IA)
+
+Planejar a infraestrutura é metade do problema; a outra metade é **operá-la em tempo real** com a maior fluidez possível. É aqui que entra a camada digital do sistema aéreo. O paradigma operacional consolidado mundialmente é o **A-CDM (Airport Collaborative Decision Making)**: uma plataforma de **decisão colaborativa** em que operador do aeroporto, companhias aéreas, *handlers* (serviço de solo), controle de tráfego (DECEA) e o gestor de rede (no Brasil, o CGNA) compartilham, em tempo real, dados precisos de cada voo. O coração do A-CDM é o **TOBT/TSAT** — o *Target Off-Block Time* (horário-alvo de calço fora) e o *Target Start-up Approval Time* (horário-alvo de autorização de partida) —, que substituem o caótico "primeiro a pedir, primeiro a sair" por uma **sequência de partida pré-calculada**.
+
+Sobre essa base de dados operam dois algoritmos de **sequenciamento**:
+
+- **AMAN (Arrival Manager):** ordena os pousos, calculando para cada aeronave em rota um horário-alvo de toque (*Target Landing Time*) que espaça as chegadas no limite mínimo de separação, evitando "esperas em órbita" (*holdings*) que queimam combustível.
+- **DMAN (Departure Manager):** ordena as decolagens, integrando restrições de *slot* da rede, capacidade da pista e tempo de táxi.
+
+A **integração AMAN-DMAN** (com o A-SMGCS, que vigia a superfície) permite otimizar pousos e decolagens na **mesma pista** simultaneamente. O problema de sequenciamento é combinatório e cresce de forma fatorial com o número de aeronaves, e por isso é hoje atacado por técnicas de **pesquisa operacional e inteligência artificial** — programação inteira mista, algoritmos genéticos e, na fronteira da pesquisa, **aprendizado por reforço multiagente**, que aprende políticas de sequenciamento que minimizam atraso total e consumo de combustível. O ganho não é trivial: ao reduzir o táxi e os *holdings*, o A-CDM corta diretamente atraso, custo e **emissões de $\mathrm{CO_2}$** — um vetor explícito da agenda **ESG** do setor.
+
 ### Plano diretor aeroportuário
 
 O **Plano Diretor** (PDIR) é o documento de planejamento de longo prazo (horizonte de 20 anos) que orienta toda a expansão física do aeroporto. Ele projeta a **demanda** futura, define as fases de obras, reserva áreas para pistas, pátios e terminais, e protege o entorno (zoneamento de ruído e de altura de obstáculos). Um bom plano diretor evita o erro clássico de construir um terminal hoje no lugar onde a pista precisará crescer amanhã. É um trabalho multidisciplinar em que o engenheiro civil dialoga com economistas, meteorologistas e urbanistas.
@@ -68,6 +79,26 @@ A divisão conceitual mais importante de um aeroporto é entre dois mundos:
 | **Disciplina dominante** | Geometria e pavimentos pesados | Arquitetura e fluxos de pessoas |
 
 A fronteira entre eles é o **canal de inspeção de segurança** (raio-X, detector de metais) no terminal e a cerca operacional no perímetro. As Aulas 10 e 11 tratam do lado ar; a Aula 12, do lado terra.
+
+### Segurança perimetral inteligente por fibra óptica (DAS)
+
+O perímetro de um aeroporto pode ter dezenas de quilômetros de cerca a proteger contra intrusão de pessoas e de fauna. A vigilância clássica — patrulhas e câmeras fixas — não cobre essa extensão com a densidade necessária. A tecnologia que mudou esse jogo é o **DAS (Distributed Acoustic Sensing — sensoriamento acústico distribuído)**, que transforma um **cabo de fibra óptica comum**, enterrado junto à cerca, em uma cadeia de milhares de "microfones virtuais".
+
+O princípio é a **reflectometria óptica no domínio do tempo coerente (C-OTDR)**: um pulso de laser é injetado na fibra e, a cada instante, mede-se a luz **retroespalhada** (efeito de *Rayleigh backscattering*). Qualquer vibração no solo — passos, escavação, alguém cortando ou escalando a cerca, um veículo se aproximando — deforma microscopicamente a fibra e altera a fase da luz retroespalhada naquele trecho. Como a luz viaja a uma velocidade conhecida, o **tempo de retorno do eco localiza o evento** ao longo do cabo com resolução de poucos metros. Sistemas comerciais cobrem tipicamente até $40$–$50\,\mathrm{km}$ por unidade interrogadora, com resolução espacial de $1$ a $10\,\mathrm{m}$. Sobre o sinal acústico, algoritmos de **classificação (machine learning)** distinguem a "assinatura" de um intruso humano da de um animal, da chuva ou do vento — reduzindo alarmes falsos. As vantagens estruturais: a fibra é **passiva** (não precisa de energia no campo, não atrai raios) e **imune a interferência eletromagnética**.
+
+#### Exemplo numérico: localização de uma intrusão por DAS
+
+Um interrogador DAS monitora um perímetro com fibra de índice de refração $n = 1{,}47$. Um pico acústico é detectado e o eco retorna $\Delta t = 142\,\mathrm{\mu s}$ após o pulso. A que distância da central está o ponto de intrusão? A luz percorre a fibra à velocidade $v = c/n$, e o pulso faz o **caminho de ida e volta** ($2L$):
+
+$$
+v = \frac{c}{n} = \frac{3{,}0 \times 10^{8}}{1{,}47} \approx 2{,}04 \times 10^{8}\,\mathrm{m/s}
+$$
+
+$$
+L = \frac{v \cdot \Delta t}{2} = \frac{2{,}04 \times 10^{8} \cdot 142 \times 10^{-6}}{2} \approx 14\,490\,\mathrm{m} \approx 14{,}5\,\mathrm{km}
+$$
+
+O sistema aponta a intrusão no **km $14{,}5$** do perímetro. Se a resolução espacial do equipamento é de $5\,\mathrm{m}$, a equipe de segurança é despachada para um trecho de cerca bem definido — em vez de varrer 14 km de perímetro às cegas.
 
 ### Exemplo numérico: demanda de passageiros
 
@@ -102,12 +133,15 @@ Escolha um aeroporto que você conhece (pode ser Congonhas, Galeão ou o aeropor
 - O **código de referência** (número 1–4 + letra A–F) traduz o porte das aeronaves em parâmetros de projeto.
 - O **plano diretor** planeja a expansão por 20 anos e protege áreas e o entorno.
 - A divisão **lado ar × lado terra** organiza todo o projeto aeroportuário.
+- O **A-CDM** (com AMAN/DMAN e IA de sequenciamento) otimiza pousos e decolagens em tempo real, cortando atraso, combustível e emissões — a camada digital da operação.
+- A **segurança perimetral por DAS** usa fibra óptica como milhares de microfones virtuais, localizando intrusões em todo o perímetro pelo tempo de retorno do eco.
 
 ### Para saber mais
 
 - **ANAC — RBAC 154 (Projeto de Aeródromos):** https://www.gov.br/anac/pt-br/assuntos/regulados/aeroportos-e-aerodromos/cadastro-publico/normas-do-setor/rbac-154
 - **ICAO — Annex 14, Aerodromes:** https://www.icao.int/
 - **HORONJEFF, R. et al.** *Planning and Design of Airports*. McGraw-Hill.
+- **EUROCONTROL — Airport Collaborative Decision-Making (A-CDM):** https://www.eurocontrol.int/concept/airport-collaborative-decision-making
 - **Wikipedia — Aeroporto Internacional de São Paulo/Guarulhos:** https://pt.wikipedia.org/wiki/Aeroporto_Internacional_de_S%C3%A3o_Paulo/Guarulhos
 
 ## Aula 9 — Roteiro da Videoaula 9: "Sistema aeroportuário e planejamento de aeroportos"
@@ -124,11 +158,11 @@ Escolha um aeroporto que você conhece (pode ser Congonhas, Galeão ou o aeropor
 
 ### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
 
-> "Quem manda nas regras? Três camadas. No topo, a OACI, agência da ONU, que publica o Anexo 14, a bíblia do projeto de aeródromos. No Brasil, a ANAC traduz isso no RBAC 154 — é esse o documento que você vai consultar na vida profissional. E há ainda o DECEA, que cuida do espaço aéreo, e os operadores: Infraero e as concessionárias privadas. Acima de tudo isso paira o Plano Diretor, que projeta a demanda e organiza a expansão por 20 anos. Sem plano diretor, o aeroporto constrói um terminal hoje onde a pista vai precisar crescer amanhã."
+> "Quem manda nas regras? Três camadas. No topo, a OACI, agência da ONU, que publica o Anexo 14, a bíblia do projeto de aeródromos. No Brasil, a ANAC traduz isso no RBAC 154 — é esse o documento que você vai consultar na vida profissional. E há ainda o DECEA, que cuida do espaço aéreo, e os operadores: Infraero e as concessionárias privadas. Acima de tudo isso paira o Plano Diretor, que projeta a demanda e organiza a expansão por 20 anos. Sem plano diretor, o aeroporto constrói um terminal hoje onde a pista vai precisar crescer amanhã. Mas planejar é só metade: a outra metade é operar em tempo real. Hoje isso se faz com o A-CDM, uma plataforma em que aeroporto, companhias, handlers e controle compartilham dados de cada voo. Sobre ela rodam dois algoritmos — o AMAN, que ordena os pousos, e o DMAN, que ordena as decolagens —, cada vez mais com inteligência artificial. Sequenciar pousos e decolagens é um problema combinatório enorme, e a IA aprende a minimizar atraso, combustível e emissões."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (7:00 – 9:30)
 
-> "Agora a divisão mais importante de todas: lado ar e lado terra. Lado ar é pista, taxiway, pátio — o mundo das aeronaves, restrito e controlado. Lado terra é o terminal, o estacionamento, as vias — o mundo das pessoas, público. A fronteira entre eles é o canal de inspeção de segurança. E como dimensionamos tudo isso? Pela demanda. Um aeroporto de 800 mil passageiros crescendo 6% ao ano chega a 1,4 milhão em dez anos. Mas o que dimensiona o terminal é a hora-pico de projeto — cerca de 0,04% do anual, uns 570 passageiros na hora cheia."
+> "Agora a divisão mais importante de todas: lado ar e lado terra. Lado ar é pista, taxiway, pátio — o mundo das aeronaves, restrito e controlado. Lado terra é o terminal, o estacionamento, as vias — o mundo das pessoas, público. A fronteira entre eles é o canal de inspeção de segurança no terminal e a cerca lá no perímetro. E proteger dezenas de quilômetros de cerca é um desafio: a solução moderna é o DAS, sensoriamento acústico distribuído. Um cabo de fibra óptica enterrado vira milhares de microfones virtuais. Alguém escala a cerca, a vibração deforma a fibra, e o tempo que o eco de luz leva para voltar diz exatamente em que metro do perímetro está o intruso. E como dimensionamos a infraestrutura? Pela demanda. Um aeroporto de 800 mil passageiros crescendo 6% ao ano chega a 1,4 milhão em dez anos. Mas o que dimensiona o terminal é a hora-pico de projeto — cerca de 0,04% do anual, uns 570 passageiros na hora cheia."
 
 ### 5. Encerramento (9:00 – 10:00)
 
@@ -425,6 +459,21 @@ Por exemplo, a área recomendada para um passageiro na sala de embarque em níve
 | Sala de embarque (gate) | $1{,}5\text{–}2{,}3\,\mathrm{m^2}$ | permanência $\approx 30\text{–}45\,\mathrm{min}$ |
 | Restituição de bagagem | $1{,}7\text{–}2{,}0\,\mathrm{m^2}$ | $\leq$ tempo de chegada das malas |
 
+### Simulação preditiva de fluxos de passageiros (IA)
+
+Dimensionar um saguão por área-por-passageiro (como faremos no exemplo numérico) é o método estático clássico. Mas o terminal é um **sistema dinâmico**: as pessoas chegam em rajadas (um voo de 300 lugares despeja seus passageiros na imigração de uma só vez), formam filas, são atendidas e seguem adiante. Para projetar e operar terminais modernos, a engenharia usa **modelos de simulação** que preveem onde e quando os gargalos vão se formar.
+
+Há duas grandes famílias de modelos:
+
+- **Teoria de filas:** cada estação de serviço (check-in, inspeção, imigração) é modelada como uma fila. Um balcão de imigração com $c$ guichês idênticos, chegadas aleatórias (Poisson) à taxa $\lambda$ e atendimento à taxa $\mu$ por guichê é um sistema **M/M/c**. A teoria fornece, em fórmula fechada, o tempo médio de espera e o tamanho da fila — e, crucialmente, mostra que à medida que a **utilização** $\rho = \lambda/(c\,\mu)$ se aproxima de $1$, a fila **explode de forma não linear**. É por isso que um pequeno aumento de demanda na hora-pico vira uma fila gigantesca.
+- **Modelos baseados em agentes (ABM):** cada passageiro é um "agente" de software com características próprias (velocidade, bagagem, se é família, se vai à loja) que se move pela planta do terminal. Rodando milhares de agentes, simula-se o terminal inteiro e medem-se tamanho de fila, tempo de permanência e ocupação instantânea de cada ambiente — algo que a fórmula fechada não captura.
+
+A camada de **inteligência artificial** entra de dois modos. Primeiro, na **previsão de picos**: modelos de *machine learning* aprendem com o histórico de voos, antecedência de chegada dos passageiros, dia da semana e sazonalidade para **prever a curva de chegada** ao terminal hora a hora. Segundo, na **otimização operacional**: alimentado por essa previsão e por câmeras que contam pessoas nas filas em tempo real, o sistema recomenda **abrir ou fechar guichês de check-in e canais de inspeção dinamicamente**, mantendo o tempo de espera dentro do nível de serviço-alvo da IATA sem superdimensionar a equipe. É o mesmo raciocínio do A-CDM da Aula 9, agora aplicado às pessoas em vez das aeronaves: dados em tempo real alimentando uma decisão de alocação de recursos.
+
+#### Mini-exemplo (fila M/M/c): quantos guichês na imigração?
+
+Na hora-pico, $\lambda = 600$ passageiros/hora chegam à imigração e cada guichê processa $\mu = 90$ passageiros/hora. Para a fila ser **estável**, a utilização precisa ficar abaixo de 1: é necessário $c$ tal que $\rho = \lambda/(c\,\mu) < 1$, ou seja, $c > \lambda/\mu = 600/90 \approx 6{,}7$. O mínimo teórico é **7 guichês**, mas com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais, e a fila ainda seria longa e instável. Por isso, na prática, dimensiona-se com **folga** ($c = 8$ ou $9$, $\rho \approx 0{,}8$) — exatamente a margem que a simulação preditiva ajuda a calibrar para cada hora do dia.
+
 ### Terminal de carga aérea
 
 A carga aérea move mercadorias de **alto valor e urgência** (eletrônicos, fármacos, peças, perecíveis). Embora represente uma fração do peso do comércio mundial, responde por parcela expressiva do **valor**. O **TECA (Terminal de Carga)** processa importação e exportação, com áreas alfandegadas, câmaras frias, armazéns e a interface com aeronaves cargueiras ou os porões de aviões de passageiros (*belly cargo*). Hubs de carga como Viracopos (Campinas) são estratégicos para a economia. A carga é unitizada em **ULD (Unit Load Devices)** — contêineres e paletes próprios para o formato dos porões.
@@ -436,6 +485,24 @@ Um aeroporto só funciona se as pessoas chegam a ele. O **acesso terrestre** pre
 - **Vias e meios-fios (*curbside*)** dimensionados para embarque/desembarque de veículos.
 - **Estacionamentos** rotativos e de longa permanência.
 - **Transporte público:** ônibus, BRT e, idealmente, **conexão ferroviária/metroviária** (como o trem que liga GRU à malha da CPTM). A integração modal reduz congestionamento e é tendência mundial.
+
+### Monitoramento visual inteligente de pátios e pistas (visão computacional)
+
+Voltando por um instante ao lado ar — mas agora com olhar digital: o pátio e a pista são ambientes de **risco altíssimo**, e a vigilância humana não dá conta de monitorá-los continuamente. A tecnologia que está se consolidando é a **visão computacional** — câmeras de alta resolução (ópticas, térmicas, às vezes apoiadas por radar e LiDAR) cujo vídeo é processado por redes neurais de **detecção de objetos**, da família **YOLO** (*You Only Look Once*) e dos *vision transformers*. Três aplicações são centrais:
+
+- **Detecção de FOD (*Foreign Object Debris*):** lembre da Aula 11 — um parafuso ou fragmento de pavimento sugado por uma turbina causa acidentes graves. Sistemas de câmeras instaladas ao longo da pista (ou drones de inspeção) detectam automaticamente um objeto estranho, classificam-no e **localizam-no com precisão**, emitindo alerta para a torre em **menos de 10 segundos** — contra os longos minutos de uma inspeção manual ("*runway walk*"). Aeroportos como Narita (Tóquio) e Schiphol (Amsterdã) já operam FOD detection fixo.
+- **Detecção de intrusão:** complementando o DAS de perímetro (Aula 9), a visão computacional detecta pessoas, veículos ou **fauna** (o risco de colisão com aves e mamíferos, o *wildlife strike*) invadindo a área operacional.
+- **Rastreamento (*tracking*) de pátio:** o sistema acompanha aeronaves e veículos de apoio no pátio, alimentando o **A-SMGCS** e o A-CDM com a posição real de cada ator — útil para evitar conflitos de solo e medir tempos de *turnaround*.
+
+#### Exemplo numérico: cobertura de câmeras na pista
+
+Uma pista de $3.000\,\mathrm{m}$ deve ser monitorada por câmeras fixas para detecção de FOD. Cada câmera tem alcance útil de detecção confiável de **$250\,\mathrm{m}$** ao longo do eixo. Quantas câmeras são necessárias por borda da pista?
+
+$$
+N = \left\lceil \frac{3\,000}{250} \right\rceil = 12 \text{ câmeras por borda}
+$$
+
+Cobrindo as **duas bordas**, são $24$ câmeras. Suponha que cada câmera entregue $30$ quadros por segundo e a rede neural precise de $40\,\mathrm{ms}$ por quadro para inferência: a taxa máxima de processamento por câmera é $1/0{,}040 = 25\,\mathrm{quadros/s}$ — **abaixo** dos $30\,\mathrm{fps}$ gerados. Conclusão de engenharia: ou se reduz a taxa de amostragem para $25\,\mathrm{fps}$ (suficiente para FOD estático), ou se usa *hardware* de borda mais potente (GPU/Jetson) para não perder quadros. É a típica negociação entre cobertura, latência e custo computacional de um sistema de visão em tempo real.
 
 ### Exemplo numérico: dimensionamento de saguão
 
@@ -470,6 +537,8 @@ Visite (presencialmente ou pelo Google Maps/Street View) um terminal de passagei
 - O **TPS** processa o passageiro entre acesso e aeronave; configurações: linear, píer, satélite, transporter.
 - Os **fluxos** de embarque e desembarque (e o de bagagem, via BHS) **não devem se cruzar**.
 - A **IATA (ADRM)** define **níveis de serviço** (over/optimum/sub) por área-por-passageiro e tempo de espera.
+- A **simulação preditiva** (filas M/M/c + modelos de agentes + IA de previsão de picos) antecipa gargalos e dimensiona dinamicamente check-in, inspeção e imigração.
+- A **visão computacional** (redes YOLO) monitora pátios e pistas: detecção de FOD em <10 s, intrusão/fauna e rastreamento de solo, alimentando o A-SMGCS.
 - A **carga aérea** (TECA, ULD) move pouco peso mas alto valor; hubs como Viracopos são estratégicos.
 - O **acesso terrestre** e a **integração modal** (trem/metrô) são essenciais para o aeroporto funcionar.
 
@@ -478,6 +547,7 @@ Visite (presencialmente ou pelo Google Maps/Street View) um terminal de passagei
 - **IATA — Airport Development Reference Manual (ADRM):** https://www.iata.org/en/publications/store/airport-development-reference-manual/
 - **ANAC — Infraestrutura aeroportuária:** https://www.gov.br/anac/pt-br/assuntos/regulados/aeroportos-e-aerodromos/cadastro-publico/normas-do-setor/rbac-154
 - **HORONJEFF, R. et al.** *Planning and Design of Airports* (cap. sobre terminais). McGraw-Hill.
+- **MDPI — A Review of Foreign Object Debris Detection on Airport Runways: Sensors and Algorithms:** https://www.mdpi.com/2072-4292/17/2/225
 - **Wikipedia — Airport terminal:** https://en.wikipedia.org/wiki/Airport_terminal
 
 ### O que você verá na próxima unidade
@@ -498,15 +568,15 @@ Encerramos os aeroportos e, na **Unidade 4 — Ferrovias**, voltamos ao chão pa
 
 ### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
 
-> "Como saber se o terminal está bem dimensionado? A IATA criou os níveis de serviço, no manual ADRM. Três faixas: superdimensionado, que desperdiça dinheiro; ótimo, o alvo, com conforto e custo equilibrados; e subdimensionado, com filas e aglomeração. Tudo medido em metros quadrados por passageiro e tempo de espera. Na sala de embarque, o ótimo gira em torno de 2 metros quadrados por pessoa. E tem ainda a carga aérea: o TECA processa importação e exportação, em ULDs, aqueles contêineres dos porões. Pouco peso, muito valor — eletrônicos, remédios, perecíveis. Viracopos é um hub de carga estratégico para o Brasil."
+> "Como saber se o terminal está bem dimensionado? A IATA criou os níveis de serviço, no manual ADRM. Três faixas: superdimensionado, que desperdiça dinheiro; ótimo, o alvo, com conforto e custo equilibrados; e subdimensionado, com filas e aglomeração. Tudo medido em metros quadrados por passageiro e tempo de espera. Na sala de embarque, o ótimo gira em torno de 2 metros quadrados por pessoa. Mas medir por área é o método estático. O terminal é dinâmico: as pessoas chegam em rajadas, formam filas, são atendidas. Por isso usamos simulação. Teoria de filas: cada balcão é uma fila M/M/c, e quando a utilização chega perto de 100%, a fila explode de forma não linear. E modelos de agentes, em que cada passageiro é um software que anda pela planta. Por cima, a inteligência artificial prevê a curva de chegada hora a hora e recomenda abrir ou fechar guichês em tempo real — o mesmo A-CDM da aula 9, agora aplicado às pessoas. E tem ainda a carga aérea: o TECA processa importação e exportação, em ULDs, aqueles contêineres dos porões. Pouco peso, muito valor. Viracopos é um hub de carga estratégico para o Brasil."
 
-### 4. Desenvolvimento — parte 3 (7:00 – 9:00)
+### 4. Desenvolvimento — parte 3 (7:00 – 9:30)
 
-> "Vamos dimensionar um saguão. Hora-pico de 600 passageiros, cada um ficando 40 minutos, com acompanhantes e 2 metros quadrados por pessoa. Quem está simultaneamente no saguão? 600 vezes 40 sobre 60, dá 400 passageiros. Com acompanhantes, vezes 1,3, são 520 pessoas. Vezes 2 metros quadrados: 1.040 metros quadrados de saguão. E não esqueçam: o aeroporto precisa que as pessoas cheguem a ele. Por isso o acesso terrestre e a integração modal — meio-fio, estacionamento, ônibus e, o ideal, trem ou metrô, como a conexão de Guarulhos com a CPTM."
+> "Vamos dimensionar um saguão pelo método estático. Hora-pico de 600 passageiros, cada um ficando 40 minutos, com acompanhantes e 2 metros quadrados por pessoa. Quem está simultaneamente no saguão? 600 vezes 40 sobre 60, dá 400 passageiros. Com acompanhantes, vezes 1,3, são 520 pessoas. Vezes 2 metros quadrados: 1.040 metros quadrados de saguão. E o aeroporto precisa que as pessoas cheguem a ele: por isso o acesso terrestre e a integração modal — meio-fio, estacionamento, ônibus e, o ideal, trem ou metrô, como a conexão de Guarulhos com a CPTM. Antes de fechar, um salto digital de volta ao lado ar: a visão computacional. Câmeras com redes neurais, da família YOLO, vigiam pista e pátio. Detectam um FOD — aquele fragmento que pode destruir uma turbina — em menos de 10 segundos, contra minutos de uma inspeção a pé. Detectam intrusão e fauna invadindo a pista. E rastreiam aeronaves e veículos no pátio, alimentando o A-CDM. Uma pista de 3 quilômetros, com câmeras de 250 metros de alcance, pede 12 câmeras por borda."
 
-### 5. Encerramento (9:00 – 10:00)
+### 5. Encerramento (9:30 – 10:30)
 
-> "Fechamos a Unidade 3. Você agora entende o aeroporto inteiro: o sistema e o planejamento, o lado ar com pistas e geometria, os pavimentos e o ACN-PCN, e o lado terra com terminais, fluxos e carga aérea. Na próxima unidade descemos ao chão — mas sobre trilhos. Ferrovias: o modo mais eficiente para mover muito volume por longas distâncias. Te espero lá!"
+> "Fechamos a Unidade 3. Você agora entende o aeroporto inteiro: o sistema e o planejamento, o lado ar com pistas e geometria, os pavimentos e o ACN-PCN, e o lado terra com terminais, fluxos e carga aérea — tudo atravessado pela camada digital, do A-CDM à simulação de filas e à visão computacional que torna o aeroporto inteligente. Na próxima unidade descemos ao chão — mas sobre trilhos. Ferrovias: o modo mais eficiente para mover muito volume por longas distâncias. Te espero lá!"
 
 ---
 
