@@ -432,7 +432,7 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 - **a.** Incorreta. A demanda projetada está correta, mas a HPP de $0{,}04\%$ de $1.432.700$ é $\approx 573$, e não $14.327$.
 - **b.** Incorreta. A demanda cresce; não permanece em 800.000.
 - **c.** Incorreta. O crescimento é geométrico (composto), não linear; o valor correto é $\approx 1.432.700$.
-- **d.** *Correta!* $P_{10} = 800.000 \cdot 1{,}79 \approx 1.432.700$ passageiros/ano, e a HPP $= 1.432.700 \cdot 0{,}0004 \approx 573$ passageiros na hora-pico.
+- **d.** *Correta!* $P_{10} = 800.000 \cdot (1{,}06)^{10} \approx 1.432.700$ passageiros/ano, e a HPP $= 1.432.700 \cdot 0{,}0004 \approx 573$ passageiros na hora-pico.
 - **e.** Incorreta. A hora-pico é justamente estimada como uma fração ($0{,}04\%$) do movimento anual.
 
 ### Questão 15
