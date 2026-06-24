@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="'Segoe UI',Arial,sans-serif" role="img" aria-label="Vista em planta de uma pista, mostrando a designação 09 e 27 a partir do azimute magnético, cabeceiras, RESA e largura">
+  <defs>
+    <marker id="pa" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#002057"/></marker>
+    <marker id="ps" markerWidth="9" markerHeight="9" refX="2" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M7,0 L0,3 L7,6 Z" fill="#002057"/></marker>
+  </defs>
+  <rect x="0" y="0" width="640" height="300" fill="#ffffff"/>
+  <text x="320" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#002057">Designação e geometria de pista (vista em planta)</text>
+
+  <!-- RESA -->
+  <rect x="88" y="135" width="30" height="44" fill="#8DD17E" stroke="#1F8A4E" stroke-width="1.2"/>
+  <rect x="502" y="135" width="30" height="44" fill="#8DD17E" stroke="#1F8A4E" stroke-width="1.2"/>
+  <text x="103" y="194" text-anchor="middle" font-size="9.5" fill="#1F8A4E" font-weight="700">RESA</text>
+  <text x="517" y="194" text-anchor="middle" font-size="9.5" fill="#1F8A4E" font-weight="700">RESA</text>
+
+  <!-- pista -->
+  <rect x="118" y="135" width="404" height="44" fill="#3a4250" stroke="#002057" stroke-width="2"/>
+  <!-- piano keys -->
+  <g fill="#ffffff">
+    <rect x="126" y="140" width="4" height="34"/><rect x="133" y="140" width="4" height="34"/><rect x="140" y="140" width="4" height="34"/><rect x="147" y="140" width="4" height="34"/>
+    <rect x="496" y="140" width="4" height="34"/><rect x="489" y="140" width="4" height="34"/><rect x="482" y="140" width="4" height="34"/><rect x="475" y="140" width="4" height="34"/>
+  </g>
+  <!-- eixo -->
+  <line x1="160" y1="157" x2="468" y2="157" stroke="#ffffff" stroke-width="2" stroke-dasharray="14 10"/>
+  <!-- números -->
+  <text x="190" y="166" font-size="26" font-weight="800" fill="#ffffff">09</text>
+  <text x="412" y="166" font-size="26" font-weight="800" fill="#ffffff">27</text>
+
+  <!-- cota de largura -->
+  <line x1="68" y1="135" x2="68" y2="179" stroke="#002057" stroke-width="1.3" marker-start="url(#ps)" marker-end="url(#pa)"/>
+  <line x1="88" y1="135" x2="64" y2="135" stroke="#002057" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <line x1="88" y1="179" x2="64" y2="179" stroke="#002057" stroke-width="0.8" stroke-dasharray="3 3"/>
+  <text x="50" y="157" font-size="12.5" font-weight="700" fill="#002057" transform="rotate(-90 50 157)" text-anchor="middle">45 m</text>
+
+  <!-- bússola/azimute -->
+  <circle cx="582" cy="70" r="26" fill="none" stroke="#002057" stroke-width="1.4"/>
+  <line x1="582" y1="70" x2="582" y2="46" stroke="#002057" stroke-width="1.6" marker-end="url(#pa)"/>
+  <text x="582" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#002057">N</text>
+  <line x1="582" y1="70" x2="606" y2="71" stroke="#c0392b" stroke-width="2" marker-end="url(#pa)"/>
+  <text x="582" y="110" text-anchor="middle" font-size="11" font-weight="700" fill="#c0392b">az. mag. 093°</text>
+
+  <!-- sentido -->
+  <line x1="150" y1="120" x2="200" y2="120" stroke="#1F8A4E" stroke-width="1.6" marker-end="url(#pa)"/>
+  <text x="205" y="124" font-size="10.5" fill="#1F8A4E" font-weight="700">sentido de pouso/decolagem na pista 09</text>
+
+  <!-- notas -->
+  <text x="60" y="222" font-size="12" fill="#002057">Designação = azimute magnético ÷ 10 (arredondado): <tspan font-weight="700">093° → 09</tspan>; sentido oposto <tspan font-weight="700">27</tspan> (sempre diferem 18).</text>
+  <text x="60" y="244" font-size="12" fill="#002057">Pistas paralelas recebem letra: <tspan font-weight="700">09L</tspan> (left), <tspan font-weight="700">09C</tspan> (center), <tspan font-weight="700">09R</tspan> (right).</text>
+  <text x="60" y="266" font-size="11" fill="#3a4250">A orientação segue o vento predominante; a OACI exige coeficiente de utilização ≥ 95%.</text>
+</svg>

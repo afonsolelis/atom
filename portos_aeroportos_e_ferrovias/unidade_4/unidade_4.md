@@ -37,6 +37,10 @@ O grande desafio brasileiro é a **baixa densidade** da malha e a **falta de int
 | **Métrica** | $1{,}00\,\mathrm{m}$ | maior parte da malha histórica brasileira |
 | **Padrão (internacional)** | $1{,}435\,\mathrm{m}$ | novos projetos, alta velocidade, metrôs |
 
+Atenção a um detalhe técnico que muita gente erra: a bitola **não** é medida de centro a centro dos trilhos, e sim entre as **faces internas dos boletos** (a $14\,\mathrm{mm}$ abaixo do topo do trilho, pela norma), justamente onde o friso da roda se aproxima.
+
+![Seção transversal mostrando que a bitola é medida entre as faces internas dos dois boletos, com os valores larga, métrica e padrão](assets/bitola_secao.svg)
+
 A **bitola mista** resolve a convivência: assenta-se um terceiro trilho, de modo que veículos de bitolas diferentes circulem no mesmo trecho. A falta de padronização é um gargalo: trens de uma malha métrica não passam diretamente para uma malha larga, exigindo transbordo de carga e elevando custos logísticos.
 
 ### Concessões, regulação (ANTT) e o marco de 2021
@@ -135,12 +139,26 @@ A cadeia de transmissão de esforços é: roda → trilho → fixação → dorm
 
 ### Trilhos e perfis
 
-O trilho é o elemento que guia e suporta a roda. Seu perfil padrão é o **trilho Vignole** (perfil em "I" com patim, alma e boleto). Trilhos são classificados pela **massa linear**, em quilogramas por metro: quanto mais pesada a operação, mais pesado o trilho. Perfis comuns:
+O trilho é o elemento que guia e suporta a roda. Seu perfil padrão é o **trilho Vignole** — uma seção em forma de "I" assimétrico com três partes bem definidas: o **boleto** (a cabeça, onde a roda apoia e rola), a **alma** (a nervura vertical que dá altura e rigidez à flexão) e o **patim** (a base larga que se assenta no dormente e espalha a carga).
 
-- **TR-37, TR-45** — vias secundárias e leves.
-- **TR-57, TR-68** — vias principais e pesadas (a sigla indica massa em lb/jarda; o TR-68 pesa cerca de $33{,}8\,\mathrm{kg/m}$).
+![Perfil Vignole de trilho ferroviário, com boleto, alma e patim cotados (dimensões do TR-68)](assets/perfil_trilho_vignole.svg)
 
-Nas ferrovias pesadas brasileiras — EFC e EFVM — predominam trilhos TR-68 em TLS, coerentes com a alta tonelagem por eixo (até $32{,}5\,\mathrm{t/eixo}$) praticada nessas linhas. Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**, controlada por tensionamento na soldagem.
+Trilhos são classificados pela **massa linear**, em quilogramas por metro (kg/m): quanto mais pesada a operação, mais pesado e alto o perfil. Na nomenclatura brasileira **TR-XX**, o número corresponde aproximadamente à massa em kg/m — e a cerca de metade do peso em libras por jarda da norma AREMA (o TR-68, por exemplo, equivale ao perfil norte-americano *136 RE*, de $136\,\mathrm{lb/yd}$). Os perfis padronizados mais usados no Brasil:
+
+| Perfil | Massa linear | Altura (H) | Patim (B) | Boleto | Uso típico |
+| --- | --- | --- | --- | --- | --- |
+| **TR-37** | $37{,}2\,\mathrm{kg/m}$ | $122{,}2\,\mathrm{mm}$ | $122{,}2\,\mathrm{mm}$ | $62{,}7\,\mathrm{mm}$ | ramais e vias leves |
+| **TR-45** | $44{,}6\,\mathrm{kg/m}$ | $127{,}0\,\mathrm{mm}$ | $127{,}0\,\mathrm{mm}$ | $63{,}5\,\mathrm{mm}$ | vias secundárias |
+| **TR-57** | $56{,}9\,\mathrm{kg/m}$ | $142{,}8\,\mathrm{mm}$ | $130{,}2\,\mathrm{mm}$ | $65{,}1\,\mathrm{mm}$ | vias principais |
+| **TR-68** | $67{,}4\,\mathrm{kg/m}$ | $185{,}7\,\mathrm{mm}$ | $152{,}4\,\mathrm{mm}$ | $74{,}6\,\mathrm{mm}$ | ferrovias pesadas (minério) |
+
+Nas ferrovias pesadas brasileiras — EFC e EFVM — predominam trilhos **TR-68** em TLS, coerentes com a alta tonelagem por eixo (até $32{,}5\,\mathrm{t/eixo}$) praticada nessas linhas. Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**: a barra é tensionada e fixada numa *temperatura neutra* de projeto (em torno de $25\text{–}30\,^{\circ}\mathrm{C}$ no Brasil), de modo a não flambar no calor nem romper no frio.
+
+### Material do trilho e normas técnicas
+
+O trilho é forjado em **aço-carbono de microestrutura perlítica**, escolhido pela combinação de resistência ao desgaste e tenacidade. A composição típica fica em torno de **0,60–0,82 % de carbono** e **0,70–1,25 % de manganês**, com silício e controle rígido de enxofre e fósforo. Quanto mais fina e dura a perlita, maior a resistência ao desgaste no boleto — por isso as curvas e as linhas de minério recebem trilhos de **dureza elevada**.
+
+Os graus de aço são definidos por norma. A referência internacional é a **UIC 860** (hoje absorvida pela EN 13674), que classifica os aços pela dureza do boleto: **R260** (~ $260\,\mathrm{HB}$, resistência à tração ~ $880\,\mathrm{MPa}$) para uso geral, e **R350HT** (*head-hardened*, boleto endurecido a ~ $350\,\mathrm{HB}$) para linhas pesadas e curvas fechadas. No padrão norte-americano — o mais adotado no Brasil — a especificação clássica é a **ASTM A1** (*Standard Specification for Carbon Steel Tee Rails*), que cobre trilhos a partir de $60\,\mathrm{lb/yd}$ ($29{,}8\,\mathrm{kg/m}$), complementada pelo **Manual da AREMA, Capítulo 4 (Rail)**, que padroniza os perfis (como o 136 RE = TR-68). As concessionárias brasileiras especificam seus trilhos referenciando essas normas (AREMA/ASTM e UIC), e a inspeção de recebimento segue procedimentos do **DNIT** (*PIM 001 — Trilho para linha férrea*).
 
 ### Dormentes e fixações
 
@@ -250,7 +268,14 @@ A curva tem ainda o **raio** como parâmetro central: quanto menor o raio, mais 
 
 ### Rampas e raios mínimos
 
-O **raio mínimo** é o menor raio de curva admitido no projeto, função da velocidade, da bitola e do tipo de tráfego. Vias de alta velocidade exigem raios enormes (quilômetros); ramais industriais aceitam raios pequenos a baixa velocidade.
+O **raio mínimo** é o menor raio de curva admitido no projeto, função da velocidade, da bitola e do tipo de tráfego. Vias de alta velocidade exigem raios enormes (quilômetros); ramais industriais aceitam raios pequenos a baixa velocidade. A ordem de grandeza dos raios desejáveis cresce com o quadrado da velocidade ($R \propto V^2$):
+
+| Velocidade de projeto | Raio mínimo desejável | Aplicação típica |
+| --- | --- | --- |
+| $40\,\mathrm{km/h}$ | ~ $150\text{–}250\,\mathrm{m}$ | pátios, ramais industriais |
+| $80\,\mathrm{km/h}$ | ~ $600\text{–}800\,\mathrm{m}$ | ferrovia de carga (minério/grãos) |
+| $120\,\mathrm{km/h}$ | ~ $1\,200\text{–}1\,500\,\mathrm{m}$ | linhas-tronco e trens regionais |
+| $\geq 250\,\mathrm{km/h}$ | $> 7\,000\,\mathrm{m}$ | alta velocidade (TAV) |
 
 A **rampa máxima** é a maior inclinação admissível. Em ferrovias de carga pesada, busca-se rampas suaves (frequentemente abaixo de $1\%$, ou seja, $10\,\mathrm{m}$ de subida por km), porque a força de tração disponível é limitada pela aderência. Onde a topografia é severa, recorre-se a soluções como **cremalheira** (trem dentado) ou traçados sinuosos que ganham altura aos poucos.
 
@@ -266,7 +291,9 @@ O componente comum é o **truque** (*bogie*): o conjunto de rodeiros, suspensão
 
 ### Interação roda-trilho
 
-A roda ferroviária não é cilíndrica: tem perfil **cônico** e um **friso** (flange) interno. A conicidade faz o rodeiro se autocentrar na via — em curva, a roda externa rola num diâmetro maior e a interna num diâmetro menor, compensando o caminho mais longo do trilho externo. O friso é a última linha de defesa contra o descarrilamento, mas seu contato com o trilho gera desgaste e ruído (o "guincho" em curva fechada). O contato aço-aço dá baixa resistência ao rolamento (eficiência energética), mas baixa aderência (limita rampa e frenagem) — o dilema central da tração ferroviária.
+A roda ferroviária não é cilíndrica: tem perfil **cônico** (conicidade típica de $1{:}20$ a $1{:}40$) e um **friso** (flange) interno. A conicidade faz o rodeiro se autocentrar na via — em curva, a roda externa rola num diâmetro maior e a interna num diâmetro menor, compensando o caminho mais longo do trilho externo. O friso é a última linha de defesa contra o descarrilamento, mas seu contato com o trilho gera desgaste e ruído (o "guincho" em curva fechada). O contato aço-aço dá baixa resistência ao rolamento (eficiência energética), mas baixa aderência (limita rampa e frenagem) — o dilema central da tração ferroviária.
+
+![Contato roda-trilho: a banda de rodagem cônica apoia no boleto e o friso interno guia a roda](assets/roda_trilho_conico.svg)
 
 ### Exemplo numérico: superelevação
 
@@ -363,7 +390,16 @@ Nas cidades brasileiras, a ferrovia é protagonista do transporte de massa. O Br
 - **VLT (Veículo Leve sobre Trilhos):** bondes modernos que compartilham o espaço urbano; capacidade intermediária, menor custo de implantação. O VLT Carioca (centro e porto maravilha do Rio) e o VLT de Santos são exemplos brasileiros em operação.
 - **Monotrilho:** trem sobre uma única viga elevada; ocupa pouco espaço no solo. A Linha 15-Prata em São Paulo é o único monotrilho operacional do Brasil.
 
-A escolha entre eles depende da **demanda** (passageiros por hora por sentido), do custo de implantação e do espaço urbano disponível.
+A escolha entre eles depende da **demanda** (passageiros por hora por sentido — pphps), do custo de implantação e do espaço urbano disponível. A capacidade cresce do VLT ao metrô:
+
+| Sistema | Capacidade típica (pphps) | Via | Custo relativo de implantação |
+| --- | --- | --- | --- |
+| **VLT** | $3\,000\text{–}15\,000$ | compartilhada/segregada em superfície | baixo |
+| **Monotrilho** | $10\,000\text{–}40\,000$ | viga elevada exclusiva | médio |
+| **Trem metropolitano** | $20\,000\text{–}60\,000$ | superfície segregada | médio-alto |
+| **Metrô** | $40\,000\text{–}80\,000$ | totalmente segregada (sub/elevada) | alto |
+
+Regra prática de projeto: dimensiona-se o sistema pela **demanda da hora-pico no trecho mais carregado**; superdimensionar encarece a obra, subdimensionar gera superlotação e perda de confiabilidade.
 
 ### Trens de alta velocidade
 

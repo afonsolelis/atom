@@ -57,6 +57,8 @@ Para o engenheiro civil, essa infraestrutura representa algumas das maiores e ma
 | Dutoviário | ~4% |
 | Aéreo | <1% |
 
+![Gráfico de barras da matriz de transporte de cargas do Brasil: rodoviário ~61%, ferroviário ~21%, aquaviário ~14%, dutoviário ~4% e aéreo <1%](assets/matriz_modal.svg)
+
 Compare com os Estados Unidos, onde ferrovias respondem por cerca de 43% das cargas, ou a Rússia, onde o trilho domina. O Brasil, um país de dimensões continentais, deveria privilegiar modais de **alta capacidade** (ferrovia e hidrovia) para longas distâncias. A herança rodoviarista — construída a partir dos anos 1950 com o programa JK e a instalação das montadoras — deixou o país dependente do caminhão, encarecendo a logística e reduzindo a competitividade dos nossos produtos no exterior.
 
 O **Plano Nacional de Logística (PNL)**, coordenado pela EPL (Empresa de Planejamento e Logística), é o documento estratégico do governo federal que orienta investimentos para reequilibrar essa matriz. O PNL 2035 prevê aumento da participação ferroviária para 30% e da aquaviária para 29% — metas que dependem de dezenas de projetos de infraestrutura, todos carentes de engenheiros qualificados.
@@ -193,6 +195,8 @@ O método clássico de previsão de demanda de transportes é o **modelo de quat
 3. **Divisão modal** — qual modal cada viagem usará (carro, ônibus, trem), conforme custo, tempo e conforto.
 4. **Alocação de tráfego** — por quais rotas/vias as viagens se distribuem na rede.
 
+![Fluxo do modelo de quatro etapas: geração, distribuição, divisão modal e alocação de tráfego, transformando dados socioeconômicos em fluxos previstos](assets/modelo_4_etapas.svg)
+
 Esse modelo transforma dados socioeconômicos em **fluxos previstos** — a base de todo dimensionamento de capacidade.
 
 ### Estudo de demanda e de tráfego
@@ -220,6 +224,8 @@ Nenhuma grande obra de infraestrutura sai do papel sem **licenciamento ambiental
 - **LP (Licença Prévia)** — aprova a viabilidade ambiental e a localização; exige o **EIA/RIMA** (Estudo e Relatório de Impacto Ambiental) para grandes obras.
 - **LI (Licença de Instalação)** — autoriza o início da construção.
 - **LO (Licença de Operação)** — autoriza o funcionamento.
+
+![Sequência do licenciamento ambiental: Licença Prévia (LP), de Instalação (LI) e de Operação (LO), ao longo do tempo](assets/licenciamento.svg)
 
 O licenciamento frequentemente é o **maior gargalo** de prazo em obras de ferrovia e porto, podendo levar anos. A própria FIOL (Ferrovia de Integração Oeste-Leste) levou mais de uma década entre o projeto e o início das obras, em parte por conta do licenciamento ambiental no bioma Cerrado e na Mata Atlântica. Ignorar esse prazo no cronograma é receita para atraso e judicialização.
 
@@ -331,6 +337,8 @@ A ferramenta para equilibrar terra é o **diagrama de massas** (ou curva de Bruc
 
 Um diagrama bem trabalhado pode reduzir drasticamente o custo da obra, porque transporte de terra é um dos itens mais caros da terraplenagem.
 
+![Diagrama de massas (curva de Bruckner): perfil com cortes e aterros acima e a curva de volume acumulado abaixo, que sobe nos cortes e desce nos aterros](assets/diagrama_massas.svg)
+
 ### Drenagem
 
 Água é a maior inimiga da infraestrutura. Solo encharcado perde resistência; pavimento com água por baixo se desfaz. Por isso, todo projeto inclui **drenagem**:
@@ -372,6 +380,8 @@ O volume do aterro no trecho é a área multiplicada pelo comprimento:
 $$
 V = A \times L = 72 \times 200 = 14.400\,\mathrm{m^3}
 $$
+
+![Seção transversal do aterro trapezoidal cotado: plataforma b = 12 m, base B = 24 m, altura h = 4 m e taludes 1:1,5, com A = 72 m² e V = 14.400 m³](assets/secao_terraplenagem.svg)
 
 Se cada metro cúbico de aterro custa cerca de $25\,\mathrm{R\$}$ (escavação, transporte e compactação), o custo desse trecho seria $14.400 \times 25 = 360.000\,\mathrm{R\$}$. É o tipo de conta que mostra por que compensar corte e aterro economiza fortunas.
 
@@ -465,8 +475,10 @@ As cargas variam enormemente entre os três modais:
 | Infraestrutura | Carga típica de referência |
 | --- | --- |
 | Rodovia | Eixo padrão de $8{,}2\,\mathrm{t}$ (80 kN) |
-| Ferrovia | Carga por eixo de $25$ a $40\,\mathrm{t}$ |
+| Ferrovia | Carga por eixo de $25$ a $32{,}5\,\mathrm{t}$ |
 | Aeroporto | Trem de pouso com centenas de toneladas distribuídas |
+
+![Cargas de referência por modal: eixo rodoviário padrão de 8,2 t (80 kN), eixo ferroviário de 25 a 32,5 t e trem de pouso de aeronave com centenas de toneladas distribuídas](assets/cargas_eixo.svg)
 
 A solicitação do pavimento não depende só do peso, mas da **repetição**. Por isso usa-se o conceito de **número N**: o número equivalente de passagens do eixo padrão ao longo da vida útil. Quanto maior o N, mais robusto precisa ser o pavimento. Um trem de minério, com eixos de 30 toneladas passando milhares de vezes, impõe solicitações muito superiores às de uma rodovia comum.
 
@@ -552,7 +564,7 @@ Na **Unidade 2 — Portos e Hidrovias**, vamos sair em direção à água. Você
 
 ### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
-> "As cargas variam muito: eixo de 8,2 toneladas na rodovia, até 40 na ferrovia, centenas de toneladas num avião. Mas o que destrói o pavimento não é só o peso, é a repetição — o número N. E há também as estruturas: pontes, cais, terminais, dimensionados pelas normas da ABNT e do DNIT para cada carga que vão receber. A NBR 6118 rege o concreto armado nessas estruturas."
+> "As cargas variam muito: eixo de 8,2 toneladas na rodovia, até cerca de 32 na ferrovia, centenas de toneladas num avião. Mas o que destrói o pavimento não é só o peso, é a repetição — o número N. E há também as estruturas: pontes, cais, terminais, dimensionados pelas normas da ABNT e do DNIT para cada carga que vão receber. A NBR 6118 rege o concreto armado nessas estruturas."
 
 ### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 

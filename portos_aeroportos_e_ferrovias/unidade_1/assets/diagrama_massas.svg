@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" font-family="'Segoe UI',Arial,sans-serif" role="img" aria-label="Diagrama de massas (curva de Bruckner): perfil com corte e aterro acima, e curva de volume acumulado abaixo">
+  <rect x="0" y="0" width="680" height="380" fill="#ffffff"/>
+  <text x="340" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#002057">Diagrama de massas (curva de Bruckner)</text>
+
+  <!-- ===== painel superior: perfil ===== -->
+  <text x="40" y="50" font-size="11.5" font-weight="700" fill="#002057">Perfil longitudinal</text>
+  <!-- regiões corte/aterro (preenchimento) -->
+  <polygon points="70,120 70,96 160,98 240,120" fill="#c0392b" opacity="0.22"/>
+  <polygon points="240,120 320,150 390,158 460,120" fill="#1F44A8" opacity="0.22"/>
+  <polygon points="460,120 540,100 620,102 620,120" fill="#c0392b" opacity="0.22"/>
+  <!-- greide -->
+  <line x1="70" y1="120" x2="620" y2="120" stroke="#002057" stroke-width="1.8"/>
+  <text x="624" y="124" font-size="9.5" fill="#002057">greide</text>
+  <!-- terreno natural -->
+  <polyline points="70,96 160,98 240,120 320,150 390,158 460,120 540,100 620,102" fill="none" stroke="#6b5d3f" stroke-width="2"/>
+  <text x="70" y="88" font-size="9.5" fill="#6b5d3f">terreno natural</text>
+  <!-- rótulos -->
+  <text x="150" y="112" text-anchor="middle" font-size="11" font-weight="700" fill="#c0392b">CORTE</text>
+  <text x="350" y="142" text-anchor="middle" font-size="11" font-weight="700" fill="#1F44A8">ATERRO</text>
+  <text x="548" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#c0392b">CORTE</text>
+
+  <!-- ===== painel inferior: curva de massas ===== -->
+  <text x="40" y="212" font-size="11.5" font-weight="700" fill="#002057">Volume acumulado</text>
+  <!-- eixo / linha de compensação (zero) -->
+  <line x1="70" y1="300" x2="620" y2="300" stroke="#002057" stroke-width="1.2" stroke-dasharray="6 4"/>
+  <text x="624" y="304" font-size="9.5" fill="#002057">0</text>
+  <line x1="70" y1="210" x2="70" y2="345" stroke="#002057" stroke-width="1.2"/>
+  <!-- curva de Bruckner -->
+  <path d="M70,300 C130,300 200,238 240,232 C300,224 410,322 460,322 C520,322 590,284 620,278" fill="none" stroke="#1F8A4E" stroke-width="2.6"/>
+  <!-- pontos-chave -->
+  <circle cx="240" cy="232" r="3.2" fill="#1F8A4E"/>
+  <circle cx="460" cy="322" r="3.2" fill="#1F8A4E"/>
+  <!-- anotações -->
+  <text x="150" y="262" text-anchor="middle" font-size="10.5" fill="#1F8A4E" font-weight="700">↑ sobe no corte</text>
+  <text x="372" y="262" text-anchor="middle" font-size="10.5" fill="#1F44A8" font-weight="700">↓ desce no aterro</text>
+  <text x="240" y="222" text-anchor="middle" font-size="9.5" fill="#5a6573">máx. de corte</text>
+  <text x="640" y="334" text-anchor="end" font-size="9.5" fill="#5a6573">déficit → empréstimo</text>
+
+  <text x="340" y="366" text-anchor="middle" font-size="11" fill="#002057">A curva sobe nos cortes e desce nos aterros; entre cruzamentos da <tspan font-weight="700">linha de compensação</tspan>, corte = aterro (terra reaproveitada).</text>
+</svg>

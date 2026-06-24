@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 380" font-family="'Segoe UI',Arial,sans-serif" role="img" aria-label="Seção vertical do canal mostrando a profundidade de projeto: calado do navio, folga de quilha, squat e sobreprofundidade de dragagem">
+  <defs>
+    <marker id="da" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#002057"/></marker>
+    <marker id="ds" markerWidth="9" markerHeight="9" refX="2" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M7,0 L0,3 L7,6 Z" fill="#002057"/></marker>
+  </defs>
+  <rect x="0" y="0" width="620" height="380" fill="#ffffff"/>
+  <text x="310" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#002057">Profundidade de projeto do canal</text>
+
+  <!-- água -->
+  <rect x="90" y="70" width="340" height="180" fill="#bcd9ea"/>
+  <!-- fundo dragado / solo -->
+  <rect x="90" y="250" width="340" height="60" fill="#8a6d4f"/>
+  <line x1="90" y1="250" x2="430" y2="250" stroke="#5e4a35" stroke-width="2" stroke-dasharray="7 4"/>
+  <text x="120" y="270" font-size="10.5" fill="#f3ead9">fundo dragado</text>
+
+  <!-- N.A. -->
+  <path d="M90,70 q12,-5 24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0 t24,0" fill="none" stroke="#2a6f97" stroke-width="2"/>
+  <text x="98" y="62" font-size="11" font-weight="700" fill="#2a6f97">N.A. (nível d'água)</text>
+
+  <!-- casco do navio -->
+  <polygon points="200,55 310,55 296,188 214,188" fill="#46566a" stroke="#002057" stroke-width="1.6"/>
+  <text x="255" y="120" font-size="11.5" font-weight="700" fill="#ffffff" transform="rotate(-90 255 120)" text-anchor="middle">calado 12,0 m</text>
+
+  <!-- bandas de folga -->
+  <line x1="150" y1="188" x2="430" y2="188" stroke="#002057" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="150" y1="212" x2="430" y2="212" stroke="#002057" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="150" y1="231" x2="430" y2="231" stroke="#002057" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- P de projeto (esquerda) -->
+  <line x1="55" y1="70" x2="55" y2="250" stroke="#002057" stroke-width="1.4" marker-start="url(#ds)" marker-end="url(#da)"/>
+  <text x="40" y="160" font-size="13" font-weight="700" fill="#002057" transform="rotate(-90 40 160)" text-anchor="middle">P de projeto = 14,0 m</text>
+
+  <!-- rótulos das folgas (direita) -->
+  <g font-size="11" fill="#002057">
+    <text x="442" y="204">folga de quilha — 1,0 m</text>
+    <text x="442" y="225">squat — 0,5 m</text>
+    <text x="442" y="244">sobreprof. de dragagem — 0,5 m</text>
+  </g>
+  <line x1="436" y1="200" x2="412" y2="200" stroke="#002057" stroke-width="0.9"/>
+  <line x1="436" y1="221" x2="412" y2="221" stroke="#002057" stroke-width="0.9"/>
+  <line x1="436" y1="240" x2="412" y2="240" stroke="#002057" stroke-width="0.9"/>
+
+  <text x="310" y="335" text-anchor="middle" font-size="11.5" fill="#002057">P = calado 12,0 + folga 1,0 + squat 0,5 + dragagem 0,5 = <tspan font-weight="700">14,0 m</tspan></text>
+  <text x="310" y="356" text-anchor="middle" font-size="10" fill="#7a828c">(esquema fora de escala)</text>
+</svg>

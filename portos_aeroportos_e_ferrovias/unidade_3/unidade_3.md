@@ -24,6 +24,24 @@ Aeroportos são classificados sob vários critérios. Os principais:
 - **Por função na rede:** hub, regional, executivo ou de carga.
 - **Pelo "código de referência" da OACI/ICAO:** combina um **número** (1 a 4), ligado ao comprimento de pista de referência da aeronave, e uma **letra** (A a F), ligada à envergadura e à bitola do trem de pouso. Por exemplo, um aeroporto **4E** atende aeronaves de grande porte como o Boeing 777; **4F** atende o Airbus A380 (envergadura de até $80\,\mathrm{m}$).
 
+O código de referência (OACI, Anexo 14 / RBAC 154) é definido por duas tabelas:
+
+| Número | Comprimento de pista de referência |
+| --- | --- |
+| **1** | $< 800\,\mathrm{m}$ |
+| **2** | $800$ a $< 1\,200\,\mathrm{m}$ |
+| **3** | $1\,200$ a $< 1\,800\,\mathrm{m}$ |
+| **4** | $\geq 1\,800\,\mathrm{m}$ |
+
+| Letra | Envergadura | Exemplo de aeronave |
+| --- | --- | --- |
+| **A** | $< 15\,\mathrm{m}$ | aviação geral leve |
+| **B** | $15$ a $< 24\,\mathrm{m}$ | ATR 72, E145 |
+| **C** | $24$ a $< 36\,\mathrm{m}$ | A320, B737 |
+| **D** | $36$ a $< 52\,\mathrm{m}$ | B767 |
+| **E** | $52$ a $< 65\,\mathrm{m}$ | B777, B787 |
+| **F** | $65$ a $< 80\,\mathrm{m}$ | A380 |
+
 Essa codificação é decisiva no projeto: ela define larguras de pista, distâncias de segurança, raios de curva de taxiway e dimensões de pátio.
 
 ### Órgãos reguladores (ANAC, OACI)
@@ -124,7 +142,7 @@ A pista é o coração do lado ar — a faixa de pavimento onde a aeronave acele
 
 ### Pistas de pouso e decolagem
 
-A **pista** (*runway*) é uma área retangular destinada ao pouso e à decolagem. Suas dimensões dependem do código de referência: pistas de código 4 (as maiores) têm tipicamente **45\,\mathrm{m} de largura** e comprimentos entre $1.800$ e $4.000\,\mathrm{m}$. A pista é cercada por **faixas de segurança** (laterais e nas pontas, as *RESA — Runway End Safety Areas*), que absorvem eventuais saídas de pista. Aeroportos grandes podem ter pistas **paralelas** (como Guarulhos) para aumentar a capacidade, ou pistas que se cruzam.
+A **pista** (*runway*) é uma área retangular destinada ao pouso e à decolagem. Suas dimensões dependem do código de referência: pistas de código 4 (as maiores) têm tipicamente **$45\,\mathrm{m}$ de largura** e comprimentos entre $1.800$ e $4.000\,\mathrm{m}$. A pista é cercada por **faixas de segurança** (laterais e nas pontas, as *RESA — Runway End Safety Areas*), que absorvem eventuais saídas de pista. Aeroportos grandes podem ter pistas **paralelas** (como Guarulhos) para aumentar a capacidade, ou pistas que se cruzam.
 
 ### Taxiways e pátios
 
@@ -139,6 +157,8 @@ O **pátio** (*apron* ou *ramp*) é onde as aeronaves estacionam para embarque, 
 A pista é orientada segundo a direção do **vento predominante** — aviões pousam e decolam contra o vento, o que reduz a velocidade em relação ao solo e encurta a corrida. A **designação numérica** da pista vem do seu azimute magnético dividido por 10 e arredondado. Uma pista alinhada a $093°$ vira pista **09** de um lado e **27** do outro (sentido oposto, $093° - 180° = 273° \to 27$). Os dois números de uma mesma pista sempre diferem de 18. Quando há pistas paralelas, acrescentam-se letras: **09L** (*left*) e **09R** (*right*).
 
 O alinhamento ótimo é definido pela **rosa dos ventos**, que cruza dados de direção e intensidade do vento. A OACI exige que a pista atenda a um **coeficiente de utilização de pelo menos 95%** — ou seja, o vento de través (*crosswind*) deve estar dentro do limite tolerável em pelo menos 95% do tempo.
+
+![Vista em planta de uma pista mostrando a designação 09/27 obtida do azimute magnético, cabeceiras, RESA e largura](assets/designacao_pista.svg)
 
 ### Comprimento de pista e desempenho
 
@@ -196,7 +216,7 @@ Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um B
 - A **pista** é dimensionada pelo código de referência; pistas código 4 têm cerca de $45\,\mathrm{m}$ de largura.
 - **Taxiways** conectam pista e pátio; saídas rápidas a 30° liberam a pista mais cedo.
 - A **designação numérica** vem do azimute magnético /10; pistas paralelas recebem L/R.
-- O **comprimento de pista** parte do básico e recebe correções de **altitude (7%/300\,\mathrm{m}), temperatura (1%/°C) e rampa (10%/1%)**.
+- O **comprimento de pista** parte do básico e recebe correções de **altitude (7% por 300 m), temperatura (1% por °C) e rampa (10% por 1%)**.
 - **ILS, PAPI e balizamento** garantem aproximação e pouso seguros mesmo em baixa visibilidade.
 
 ### Para saber mais
@@ -243,6 +263,8 @@ A carga de uma aeronave não chega ao pavimento como um peso único: ela se dist
 - A **carga por roda**, que define o esforço pontual.
 - A **pressão dos pneus**, que pode passar de $1{,}4\,\mathrm{MPa}$ (14 atmosferas) e afeta as camadas superficiais.
 
+![Configurações de trem de pouso — simples, dual e dual tandem — e o efeito de distribuir a mesma carga por mais rodas](assets/trem_de_pouso.svg)
+
 ### O método ACN-PCN
 
 Como saber se um avião pode operar em determinada pista sem danificá-la? A OACI criou um sistema simples e universal: o **ACN-PCN**.
@@ -270,6 +292,8 @@ Como nas rodovias, há duas grandes famílias:
 - **Pavimento rígido** (concreto de cimento Portland): placas de concreto que trabalham por **flexão**, distribuindo a carga em grande área. Mais durável, ideal para **pátios** (onde aeronaves ficam paradas, abastecidas, sob carga estática prolongada) e cabeceiras. Mais caro e lento de executar.
 
 É comum um mesmo aeroporto combinar os dois: pista flexível, pátio rígido.
+
+![Seções de pavimento flexível e rígido lado a lado, com as camadas (revestimento, base, sub-base, subleito) e a forma como cada um distribui a carga](assets/pavimento_secao.svg)
 
 ![Aeronaves no pátio de aeroporto brasileiro durante o embarque, evidenciando o pavimento rígido típico das áreas de estacionamento sob carga estática](https://commons.wikimedia.org/wiki/Special:FilePath/Embarque_em_avi%C3%A3o_no_Aeroporto_de_Congonhas%2C_S%C3%A3o_Paulo%2C_novembro_de_2024_%281%29.jpg)
 
@@ -392,7 +416,14 @@ A **IATA** (associação internacional das companhias aéreas) publica, no *Airp
 | **Optimum** | Ótimo | Conforto e custo equilibrados (alvo de projeto) |
 | **Sub-optimum** | Subdimensionado | Aglomeração, filas, desconforto |
 
-Por exemplo, a área recomendada para um passageiro na sala de embarque em nível ótimo gira em torno de **$1{,}5\,\mathrm{m^2}$ a $2{,}3\,\mathrm{m^2}$ por pessoa**, e o tempo de fila no check-in deve ficar abaixo de poucos minutos.
+Por exemplo, a área recomendada para um passageiro na sala de embarque em nível ótimo gira em torno de **$1{,}5\,\mathrm{m^2}$ a $2{,}3\,\mathrm{m^2}$ por pessoa**, e o tempo de fila no check-in deve ficar abaixo de poucos minutos. Como referência de projeto (IATA ADRM, nível ótimo — ordem de grandeza):
+
+| Ambiente | Área por passageiro (ótimo) | Espera de referência |
+| --- | --- | --- |
+| Saguão de check-in | $1{,}8\text{–}2{,}3\,\mathrm{m^2}$ | fila $\leq$ poucos minutos |
+| Inspeção de segurança | $1{,}0\text{–}1{,}2\,\mathrm{m^2}$ | $\leq 5\,\mathrm{min}$ |
+| Sala de embarque (gate) | $1{,}5\text{–}2{,}3\,\mathrm{m^2}$ | permanência $\approx 30\text{–}45\,\mathrm{min}$ |
+| Restituição de bagagem | $1{,}7\text{–}2{,}0\,\mathrm{m^2}$ | $\leq$ tempo de chegada das malas |
 
 ### Terminal de carga aérea
 

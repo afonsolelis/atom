@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 250" font-family="'Segoe UI',Arial,sans-serif" role="img" aria-label="Configurações de trem de pouso: simples, dual e dual tandem, e o efeito na distribuição de carga">
+  <rect x="0" y="0" width="620" height="250" fill="#ffffff"/>
+  <text x="310" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#002057">Configurações do trem de pouso (vista inferior)</text>
+
+  <!-- SIMPLES -->
+  <rect x="100" y="56" width="22" height="42" rx="5" fill="#2b2b2b"/>
+  <line x1="104" y1="62" x2="104" y2="92" stroke="#7a828c" stroke-width="1.4"/>
+  <text x="111" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#002057">Simples</text>
+  <text x="111" y="140" text-anchor="middle" font-size="11" fill="#3a4250">1 roda</text>
+  <text x="111" y="170" text-anchor="middle" font-size="12" font-weight="700" fill="#c0392b">100% carga/roda</text>
+
+  <!-- DUAL -->
+  <rect x="288" y="56" width="22" height="42" rx="5" fill="#2b2b2b"/>
+  <rect x="318" y="56" width="22" height="42" rx="5" fill="#2b2b2b"/>
+  <text x="314" y="124" text-anchor="middle" font-size="12.5" font-weight="700" fill="#002057">Dual</text>
+  <text x="314" y="140" text-anchor="middle" font-size="11" fill="#3a4250">2 rodas no eixo</text>
+  <text x="314" y="170" text-anchor="middle" font-size="12" font-weight="700" fill="#e67e22">~50% carga/roda</text>
+
+  <!-- DUAL TANDEM -->
+  <rect x="478" y="48" width="22" height="38" rx="5" fill="#2b2b2b"/>
+  <rect x="508" y="48" width="22" height="38" rx="5" fill="#2b2b2b"/>
+  <rect x="478" y="92" width="22" height="38" rx="5" fill="#2b2b2b"/>
+  <rect x="508" y="92" width="22" height="38" rx="5" fill="#2b2b2b"/>
+  <text x="504" y="150" text-anchor="middle" font-size="12.5" font-weight="700" fill="#002057">Dual tandem</text>
+  <text x="504" y="166" text-anchor="middle" font-size="11" fill="#3a4250">4 rodas (2 eixos)</text>
+  <text x="504" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#1F8A4E">~25% carga/roda</text>
+
+  <!-- faixa inferior -->
+  <line x1="60" y1="214" x2="560" y2="214" stroke="#002057" stroke-width="1.6" marker-end="url(#tg)"/>
+  <defs><marker id="tg" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#002057"/></marker></defs>
+  <text x="310" y="234" text-anchor="middle" font-size="11.5" fill="#002057" font-weight="700">mais rodas → mesma carga mais distribuída → menor pressão por roda e no pavimento</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="'Segoe UI',Arial,sans-serif" role="img" aria-label="Seção transversal de quebra-mar de talude com núcleo, sub-camada e carapaça de tetrápodes, nível d'água e ângulo do talude">
+  <defs>
+    <marker id="qm" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3 L0,6 Z" fill="#2a6f97"/></marker>
+  </defs>
+  <rect x="0" y="0" width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="700" fill="#002057">Quebra-mar de talude (seção transversal)</text>
+
+  <!-- solo de fundo -->
+  <rect x="0" y="300" width="720" height="18" fill="#8a6d4f"/>
+  <!-- água (lado do mar) -->
+  <rect x="20" y="185" width="280" height="115" fill="#bcd9ea"/>
+
+  <!-- mound: sub-camada -->
+  <polygon points="150,300 300,130 410,130 560,300" fill="#9a8c6a" stroke="#6b5d3f" stroke-width="1.2"/>
+  <!-- núcleo -->
+  <polygon points="188,300 306,150 404,150 522,300" fill="#c4b58c"/>
+  <!-- carapaça (face do mar + crista) -->
+  <polyline points="150,300 300,130 410,130" fill="none" stroke="#6b7280" stroke-width="16" stroke-linejoin="round"/>
+
+  <!-- tetrápodes -->
+  <g stroke="#3f454c" stroke-width="2.2">
+    <g transform="translate(180,268)"><line x1="-6" y1="6" x2="6" y2="-6"/><line x1="-6" y1="-6" x2="6" y2="6"/><line x1="0" y1="-8" x2="0" y2="8"/></g>
+    <g transform="translate(212,234)"><line x1="-6" y1="6" x2="6" y2="-6"/><line x1="-6" y1="-6" x2="6" y2="6"/><line x1="0" y1="-8" x2="0" y2="8"/></g>
+    <g transform="translate(244,200)"><line x1="-6" y1="6" x2="6" y2="-6"/><line x1="-6" y1="-6" x2="6" y2="6"/><line x1="0" y1="-8" x2="0" y2="8"/></g>
+    <g transform="translate(276,166)"><line x1="-6" y1="6" x2="6" y2="-6"/><line x1="-6" y1="-6" x2="6" y2="6"/><line x1="0" y1="-8" x2="0" y2="8"/></g>
+    <g transform="translate(355,131)"><line x1="-6" y1="6" x2="6" y2="-6"/><line x1="-6" y1="-6" x2="6" y2="6"/><line x1="0" y1="-8" x2="0" y2="8"/></g>
+  </g>
+
+  <!-- N.A. e ondas -->
+  <line x1="20" y1="185" x2="246" y2="185" stroke="#2a6f97" stroke-width="2"/>
+  <text x="40" y="178" font-size="11" font-weight="700" fill="#2a6f97">N.A.</text>
+  <path d="M60,165 q10,-10 20,0 M95,165 q10,-10 20,0 M130,165 q10,-10 20,0" fill="none" stroke="#2a6f97" stroke-width="1.6"/>
+  <line x1="150" y1="172" x2="178" y2="186" stroke="#2a6f97" stroke-width="1.6" marker-end="url(#qm)"/>
+
+  <!-- ângulo do talude -->
+  <line x1="150" y1="300" x2="212" y2="300" stroke="#002057" stroke-width="1"/>
+  <path d="M192,300 A 42 42 0 0 0 176,278" fill="none" stroke="#002057" stroke-width="1"/>
+  <text x="198" y="294" font-size="11" font-weight="700" fill="#002057">α</text>
+  <text x="95" y="335" font-size="10.5" fill="#002057">talude (cot α)</text>
+
+  <!-- rótulos -->
+  <text x="430" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#002057">Carapaça (tetrápodes/blocos)</text>
+  <line x1="430" y1="96" x2="362" y2="128" stroke="#002057" stroke-width="1"/>
+  <text x="712" y="200" text-anchor="end" font-size="12" font-weight="700" fill="#002057">Sub-camada (filtro)</text>
+  <line x1="558" y1="204" x2="506" y2="234" stroke="#002057" stroke-width="1"/>
+  <text x="355" y="116" text-anchor="middle" font-size="12" font-weight="700" fill="#002057">Crista</text>
+  <text x="355" y="250" text-anchor="middle" font-size="12" font-weight="700" fill="#002057">Núcleo</text>
+
+  <text x="360" y="348" text-anchor="middle" font-size="11.5" fill="#c0392b" font-weight="700">Fórmula de Hudson: peso do bloco da carapaça W ∝ H³ (cresce com o cubo da altura de onda)</text>
+</svg>

@@ -55,6 +55,8 @@ Um porto organizado típico reúne:
 6. **Acessos terrestres** — rodovias, ferrovias e dutos que ligam o porto ao interior.
 7. **Sistemas de apoio** — praticagem, rebocadores, VTS (Vessel Traffic Service), alfândega.
 
+![Esquema em planta de um porto organizado, com canal de acesso, quebra-mar, bacia de evolução, cais e berços, retroárea e acessos terrestres](assets/esquema_porto.svg)
+
 Um porto eficiente equilibra os três modais — **navio (aquaviário), cais e terra** — de modo que nenhum deles vire gargalo.
 
 ### Hinterland e foreland
@@ -162,6 +164,8 @@ $$
 
 onde $W$ é o peso do bloco, $\gamma_r$ o peso específico da rocha, $H$ a altura de onda de projeto, $K_D$ o coeficiente de estabilidade do tipo de bloco e $\alpha$ o ângulo do talude. A mensagem prática: **quanto maior a onda, maior — ao cubo — o bloco necessário**.
 
+![Seção transversal de um quebra-mar de talude, com núcleo, sub-camada (filtro) e carapaça de tetrápodes na face exposta às ondas](assets/quebra_mar_talude.svg)
+
 ### Dragagem e calado
 
 A **dragagem** remove material do fundo para criar ou manter a profundidade necessária. Distinguimos:
@@ -176,6 +180,8 @@ P_{\text{projeto}} = C_{\text{navio}} + \text{folga de quilha} + \text{efeito de
 $$
 
 O **squat** é o afundamento adicional do navio em movimento (efeito hidrodinâmico). Negligenciá-lo já causou encalhes históricos.
+
+![Seção vertical do canal mostrando como a profundidade de projeto soma o calado do navio, a folga de quilha, o squat e a sobreprofundidade de dragagem](assets/profundidade_projeto.svg)
 
 ### Defensas e cabeços de amarração
 
@@ -303,6 +309,8 @@ Nos terminais de granel, o protagonista é a **correia transportadora** e o **ca
 
 O contêiner padronizou o comércio mundial. A unidade de medida é o **TEU** (*Twenty-foot Equivalent Unit* — contêiner de 20 pés). Um contêiner de 40 pés equivale a **2 TEU**. A maioria das cargas hoje usa o de 40 pés, então a relação típica é de **~1,6 a 1,7 TEU por contêiner físico movimentado**.
 
+![Comparação entre o contêiner de 20 pés (1 TEU) e o de 40 pés (2 TEU), com as dimensões ISO](assets/teu_conteiner.svg)
+
 A revolução do contêiner está na **intermodalidade**: a mesma caixa viaja de navio, ferrovia e caminhão sem ser aberta, com lacre e rastreamento — reduzindo furto, avaria e tempo. Foi essa padronização, iniciada por Malcom McLean nos anos 1950, que viabilizou a globalização logística.
 
 ### Produtividade do berço
@@ -318,6 +326,15 @@ Terminais brasileiros bem operados atingem **25 a 35 mov/h por navio**; terminai
 - **Tempo de espera** (fundeio antes de atracar) — quanto menor, melhor.
 - **Tempo de permanência (berth occupancy)** — taxa de ocupação do berço.
 - **Tempo de estadia da carga no pátio (dwell time)** — dias até a carga sair.
+
+Em resumo, os principais indicadores de desempenho de um terminal:
+
+| Indicador | O que mede | Faixa típica |
+| --- | --- | --- |
+| Produtividade do berço | movimentos por hora por navio | $25\text{–}35$ (Brasil); $> 40$ (automatizado) |
+| Ocupação do berço | % do tempo com navio atracado | alvo $\approx 60\text{–}70\%$ |
+| *Dwell time* (pátio) | dias até a carga deixar o porto | $3\text{–}8$ dias |
+| Tempo de espera | fundeio antes de atracar | quanto menor, melhor |
 
 ### Porto digital e automação
 
@@ -423,6 +440,8 @@ Rios têm desníveis — corredeiras, quedas e, principalmente, **barragens de u
 2. As comportas se fecham.
 3. A câmara é enchida (para subir) ou esvaziada (para descer) até igualar o nível do outro lado.
 4. As comportas do outro lado se abrem e o comboio segue.
+
+![Seção de uma eclusa: montante com nível alto, câmara com o comboio e jusante com nível baixo, separados por comportas, com o desnível vencido](assets/eclusa.svg)
 
 A eclusa de **Tucuruí (PA)**, no rio Tocantins, é uma das maiores do mundo, vencendo um desnível de cerca de **72 m** em duas câmaras. Quando uma barragem é construída **sem eclusa**, ela interrompe a navegação — um conflito clássico entre os usos da água (energia × transporte) que o engenheiro precisa conhecer.
 

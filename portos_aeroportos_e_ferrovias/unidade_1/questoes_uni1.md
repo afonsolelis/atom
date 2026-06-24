@@ -280,7 +280,7 @@ A tabela relaciona infraestruturas e suas cargas típicas de referência:
 | Infraestrutura | Carga típica de referência |
 | --- | --- |
 | Rodovia | Eixo padrão de 8,2 t (80 kN) |
-| Ferrovia | Carga por eixo de 25 a 40 t |
+| Ferrovia | Carga por eixo de 25 a 32,5 t |
 | Aeroporto | Trem de pouso com centenas de toneladas distribuídas |
 
 A leitura **mais coerente** com a tabela é:
@@ -465,7 +465,7 @@ d. Gestão de pavimentos é tema apenas operacional, sem relação com a gestão
 - **b.** Incorreta. A rodovia tem a menor carga por eixo (8,2 t) entre os exemplos da tabela.
 - **c.** *Correta!* As cargas variam fortemente entre rodovia, ferrovia e aeroporto; por isso o dimensionamento deve considerar tanto a carga por eixo quanto a repetição (número N) de cada situação.
 - **d.** Incorreta. O trem de pouso de aeronaves distribui centenas de toneladas — carga elevada, não a menor.
-- **e.** Incorreta. A ferrovia tem cargas por eixo **maiores** que a rodovia (25 a 40 t), exigindo estruturas robustas.
+- **e.** Incorreta. A ferrovia tem cargas por eixo **maiores** que a rodovia (25 a 32,5 t), exigindo estruturas robustas.
 
 ### Questão 19
 
