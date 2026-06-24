@@ -15,11 +15,11 @@
 
 ### Questão 1 (Asserção-Razão)
 
-> **Asserção I:** O comprimento de pista necessário a um aeroporto aumenta em altitudes elevadas e temperaturas altas em relação ao comprimento básico de projeto.
+> **Asserção I:** O A-CDM (Airport Collaborative Decision Making), apoiado por algoritmos AMAN/DMAN com inteligência artificial, reduz os *holdings* (esperas em órbita) e o atraso total ao substituir o "primeiro a pedir, primeiro a sair" por uma sequência de pousos e decolagens pré-calculada.
 >
 > **porque**
 >
-> **Razão II:** O ar rarefeito da altitude e o ar quente, menos denso, reduzem a sustentação e o empuxo das aeronaves, exigindo correções que acrescem cerca de 7% a cada $300\,\mathrm{m}$ de elevação e 1% por $°\mathrm{C}$ acima da temperatura padrão local.
+> **Razão II:** O sequenciamento ótimo de pousos e decolagens é um problema combinatório que cresce de forma fatorial com o número de aeronaves, de modo que técnicas de pesquisa operacional e IA aprendem políticas que minimizam atraso total e consumo de combustível, espaçando as chegadas no limite mínimo de separação.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -177,15 +177,15 @@ d. A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 **Estímulo:**
 
-> Um aeroporto de altitude tem uma aeronave-crítica que exige comprimento básico de $2.000\,\mathrm{m}$ em condições padrão. Aplicando os fatores de correção do método de comprimento de pista, obtém-se: correção de altitude $f_a = 1{,}20$; correção de temperatura $f_t = 1{,}15$; correção de rampa $f_r = 1{,}05$.
+> Na hora-pico, a imigração de um aeroporto recebe chegadas aleatórias (Poisson) à taxa $\lambda = 600$ passageiros/hora, e cada guichê processa $\mu = 90$ passageiros/hora. Modela-se o sistema como uma fila **M/M/c**, em que a utilização é $\rho = \lambda/(c\,\mu)$ e a fila só é estável quando $\rho < 1$.
 
-Qual é, aproximadamente, o comprimento de pista corrigido necessário?
+Quantos guichês são, no mínimo, teoricamente necessários, e por que se costuma dimensionar com mais do que esse mínimo?
 
-*a. $2.000 \cdot 1{,}20 \cdot 1{,}15 \cdot 1{,}05 \approx 2.898\,\mathrm{m}$.
-b. $2.000 + 1{,}20 + 1{,}15 + 1{,}05 \approx 2.003\,\mathrm{m}$, pois os fatores são somados ao básico.
-c. $2.000\,\mathrm{m}$, pois os fatores de correção não alteram o comprimento básico.
-d. $2.000 \cdot 1{,}20 \approx 2.400\,\mathrm{m}$, considerando apenas a altitude.
-e. $2.000 / (1{,}20 \cdot 1{,}15 \cdot 1{,}05) \approx 1.380\,\mathrm{m}$, pois condições adversas reduzem a pista necessária.
+*a. São necessários **7 guichês** ($c > \lambda/\mu = 600/90 \approx 6{,}7$); como com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais —, dimensiona-se com folga ($c = 8$ ou $9$, $\rho \approx 0{,}8$).
+b. Bastam **2 guichês**, pois $600/90 \approx 6{,}7$ deve ser dividido pela metade para obter o número de filas.
+c. São necessários **600 guichês**, um para cada passageiro da hora-pico, garantindo $\rho = 0$.
+d. Com **7 guichês** a utilização fica $\rho \approx 0{,}95$, o que é ideal: quanto mais próximo de $1$, menor a fila e o tempo de espera.
+e. O número de guichês é irrelevante, pois na fila M/M/c o tempo de espera não depende da utilização $\rho$.
 
 ### Questão 12 (Interpretação)
 
@@ -325,10 +325,10 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 ### Questão 1
 
-- **a.** *Correta!* Ambas verdadeiras e a II justifica a I. O comprimento de pista realmente cresce com altitude e temperatura, e a Razão explica diretamente o porquê: ar rarefeito e ar quente reduzem sustentação e empuxo, motivando as correções de +7% por $300\,\mathrm{m}$ e +1% por $°\mathrm{C}$.
-- **b.** Incorreta. A Razão justifica sim a Asserção, pois apresenta a causa física do aumento do comprimento.
-- **c.** Incorreta. A Razão é verdadeira (descreve corretamente o efeito do ar rarefeito/quente e os fatores de correção).
-- **d.** Incorreta. A Asserção é verdadeira: o comprimento necessário aumenta em altitude e calor.
+- **a.** *Correta!* Ambas verdadeiras e a II justifica a I. O A-CDM com AMAN/DMAN e IA realmente reduz *holdings* e atraso ao impor uma sequência pré-calculada, e a Razão explica diretamente o porquê: como o sequenciamento é um problema combinatório de crescimento fatorial, a pesquisa operacional e a IA aprendem políticas que minimizam atraso e combustível, espaçando as chegadas no limite mínimo de separação.
+- **b.** Incorreta. A Razão justifica sim a Asserção, pois apresenta a causa (a natureza combinatória do problema e o objetivo de minimizar atraso/combustível) do ganho do A-CDM.
+- **c.** Incorreta. A Razão é verdadeira: o sequenciamento de pousos e decolagens é de fato combinatório/fatorial e é atacado por PO e IA para minimizar atraso e consumo.
+- **d.** Incorreta. A Asserção é verdadeira: o A-CDM (TOBT/TSAT + AMAN/DMAN) substitui o "primeiro a pedir, primeiro a sair" e corta *holdings* e atraso.
 - **e.** Incorreta. Ambas são verdadeiras.
 
 ### Questão 2
@@ -405,11 +405,11 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 ### Questão 11
 
-- **a.** *Correta!* Os fatores de correção são **multiplicados** entre si e pelo comprimento básico: $2.000 \cdot 1{,}20 \cdot 1{,}15 \cdot 1{,}05 \approx 2.898\,\mathrm{m}$.
-- **b.** Incorreta. Os fatores não são somados ao básico; são fatores multiplicativos.
-- **c.** Incorreta. Os fatores de correção aumentam, sim, o comprimento necessário.
-- **d.** Incorreta. Considera apenas a altitude e ignora temperatura e rampa.
-- **e.** Incorreta. Condições adversas **aumentam** o comprimento necessário, não o reduzem.
+- **a.** *Correta!* O mínimo teórico vem de $\rho < 1 \Rightarrow c > \lambda/\mu = 600/90 \approx 6{,}7$, ou seja, $c = 7$ guichês. Como com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais, com fila longa e instável —, dimensiona-se com folga ($c = 8$ ou $9$, $\rho \approx 0{,}8$).
+- **b.** Incorreta. Não se divide $\lambda/\mu$ pela metade; o número de guichês precisa satisfazer $c > \lambda/\mu \approx 6{,}7$, logo $c = 7$ no mínimo.
+- **c.** Incorreta. Não é necessário um guichê por passageiro; basta $c$ que torne $\rho = \lambda/(c\,\mu) < 1$, ou seja, $c = 7$.
+- **d.** Incorreta. Utilização próxima de $1$ é **ruim**: à medida que $\rho \to 1$, a fila e o tempo de espera **explodem** de forma não linear, por isso $\rho \approx 0{,}95$ é alta demais.
+- **e.** Incorreta. Na fila M/M/c o tempo de espera depende fortemente de $\rho$: cresce de forma não linear quando $\rho$ se aproxima de $1$.
 
 ### Questão 12
 

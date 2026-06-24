@@ -282,15 +282,15 @@ e. A escolha entre cais e píer independe da retroárea disponível ou da largur
 
 **Estímulo:**
 
-> "O contêiner padronizou o comércio mundial. A unidade de medida é o TEU (*Twenty-foot Equivalent Unit*). A revolução está na intermodalidade: a mesma caixa viaja de navio, ferrovia e caminhão sem ser aberta, com lacre e rastreamento — reduzindo furto, avaria e tempo."
+> "Um terminal de contêineres opera **3 portêineres**. Na operação convencional, com cavalos mecânicos conduzidos por motoristas, a produtividade efetiva é de **28 mov/h** por portêiner. Ao migrar para **Smart Port** — **AGVs autônomos roteados por IA** (que recalculam o trajeto em tempo real e evitam congestionamentos) somados a um **gêmeo digital logístico** que simula o pátio de contêineres e prevê o *dwell time* e os gargalos aduaneiros —, a produtividade efetiva sobe para cerca de **39 mov/h** por portêiner. Para um navio com **1.800 movimentos**, o tempo de operação no berço cai de ~21,4 h para ~15,4 h."
 
 A leitura mais coerente com o texto é:
 
-a. O TEU é uma unidade de peso bruto que mede a tonelagem total movimentada por um navio.
-b. A intermodalidade exige abrir e reembalar a carga a cada troca de modal de transporte.
-*c. O contêiner viabilizou a globalização logística porque sua padronização permite que a mesma caixa lacrada percorra navio, ferrovia e caminhão sem reembalo, reduzindo furto, avaria e tempo.
-d. O contêiner só pode ser transportado por navios, não sendo compatível com ferrovia ou caminhão.
-e. A padronização do contêiner aumentou o furto e a avaria das cargas em trânsito.
+a. O ganho vem apenas de o gêmeo digital substituir fisicamente os portêineres no cais, sem qualquer mudança no transporte horizontal entre o cais e o pátio.
+b. A taxa combinada dos 3 portêineres permanece em $3 \times 28 = 84$ mov/h mesmo após a migração, pois os AGVs atuam só na liberação aduaneira, e não na movimentação.
+*c. Os AGVs guiados por IA elevam a taxa combinada de $3 \times 28 = 84$ para $3 \times 39 \approx 117$ mov/h, enquanto o gêmeo digital antecipa o gargalo no pátio/alfândega — juntos cortam ~6 h por navio e elevam a capacidade em ~40% sem construir um novo berço.
+d. O gêmeo digital só registra o que já aconteceu (*dwell time* passado) e não consegue prever gargalos aduaneiros, de modo que a redução de 21,4 h para 15,4 h decorre exclusivamente de obras civis de ampliação do cais.
+e. A automação por AGVs reduz a produtividade do berço, pois veículos sem motorista são mais lentos e exigem desligar o terminal à noite por questão de segurança.
 
 ### Questão 19 (Interpretação)
 
@@ -460,11 +460,11 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 
 ### Questão 18
 
-- **a.** Incorreta. O TEU é a unidade de **contêiner equivalente de 20 pés**, não uma medida de peso bruto.
-- **b.** Incorreta. A intermodalidade dispensa abrir a caixa — ela viaja lacrada entre os modais.
-- **c.** *Correta!* O texto destaca que a padronização do contêiner permite que a mesma caixa lacrada percorra navio, ferrovia e caminhão sem reembalo, reduzindo furto, avaria e tempo — a base da globalização logística.
-- **d.** Incorreta. O contêiner é justamente intermodal: navio, ferrovia e caminhão.
-- **e.** Incorreta. A padronização **reduziu** furto e avaria, ao contrário do afirmado.
+- **a.** Incorreta. O gêmeo digital é uma **réplica virtual** (simulação/predição), não um equipamento de cais; o ganho vem do transporte horizontal automatizado pelos AGVs, não da substituição física dos portêineres.
+- **b.** Incorreta. A taxa **não** permanece em 84 mov/h: ao subir a produtividade de 28 para 39 mov/h por portêiner, ela passa a $3 \times 39 \approx 117$ mov/h. Os AGVs atuam exatamente no transporte horizontal cais–pátio, não apenas na alfândega.
+- **c.** *Correta!* Os AGVs roteados por IA elevam a taxa combinada de $3 \times 28 = 84$ para $3 \times 39 \approx 117$ mov/h, derrubando o tempo de berço de ~21,4 h para ~15,4 h (≈ 6 h por navio); em paralelo, o gêmeo digital simula o pátio e antecipa o gargalo aduaneiro (*dwell time*). O resultado é ~40% mais TEUs nas mesmas estruturas físicas, sem construir um novo berço — exatamente o exemplo da Aula 7.
+- **d.** Incorreta. O gêmeo digital usa *machine learning* para **prever** o *dwell time* e os gargalos aduaneiros (antes que ocorram), não apenas registrar o passado; e a queda de 21,4 h para 15,4 h vem da automação (AGVs), não de obras civis no cais.
+- **e.** Incorreta. A automação **aumenta** a produtividade e opera **24 h por dia, sem fadiga**; em Roterdã (Maasvlakte II), a frota de AGVs rende ~40% mais produtividade — o oposto do afirmado.
 
 ### Questão 19
 

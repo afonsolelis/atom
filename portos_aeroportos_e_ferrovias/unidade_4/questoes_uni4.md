@@ -159,11 +159,11 @@ e. As asserções I e II são proposições falsas.
 
 ### Questão 10 (Asserção-Razão)
 
-> **Asserção I:** O sistema CBTC (bloqueio móvel) só pode ser empregado em ferrovias de carga de bitola larga, sendo tecnicamente incompatível com sistemas metroviários urbanos.
+> **Asserção I:** No ETCS/ERTMS, o Nível 1 já opera em bloqueio móvel e dispensa os sinais laterais, enquanto o Nível 3 mantém o bloqueio fixo com sinalização ao lado da via.
 >
 > **porque**
 >
-> **Razão II:** A roda ferroviária é cilíndrica e desprovida de friso, motivo pelo qual o autocentramento do rodeiro na via depende exclusivamente da superelevação aplicada às curvas.
+> **Razão II:** A principal vantagem do CBTC sobre o ETCS é a interoperabilidade: todo equipamento CBTC é padronizado e compatível entre fabricantes, ao passo que o ETCS depende de protocolos proprietários de cada fornecedor.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -309,15 +309,15 @@ e. O regime de autorização tornou obrigatória a licitação prévia para qual
 
 **Estímulo:**
 
-> "A ferrovia é uma das tecnologias mais alinhadas com a descarbonização: emite muito menos CO₂ por t·km que o rodoviário e o aéreo. As tendências incluem eletrificação das linhas, locomotivas a bateria e a hidrogênio (como o Coradia iLint), digitalização da operação e integração intermodal eficiente com portos."
+> Num trecho de minério com fluxo de $T = 150\,\mathrm{MGT/ano}$, uma trinca interna torna-se detectável ao ultrassom com $a_0 = 3{,}5\,\mathrm{mm}$ e leva $\Delta = 12\,\mathrm{MGT}$ para evoluir do tamanho detectável até a fratura. Para garantir pelo menos duas inspeções dentro dessa janela (fator de segurança 2), adota-se $T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}$, o que, ao fluxo de $150\,\mathrm{MGT/ano}$, corresponde a $t_{\text{insp}} = 6/150\,\mathrm{ano} \approx 15$ dias entre auscultações.
 
 A leitura mais coerente com o estímulo é:
 
-a. A ferrovia emite mais CO₂ por tonelada-quilômetro que o transporte rodoviário e o aéreo.
-b. A descarbonização do setor ferroviário depende exclusivamente do aumento das rampas máximas.
-c. A eletrificação e o uso de hidrogênio são incompatíveis com a operação ferroviária moderna.
-d. A digitalização da operação contraria as metas de sustentabilidade do modal ferroviário.
-*e. A ferrovia é estratégica para a descarbonização por sua baixa emissão por t·km, e tendências como eletrificação, tração a bateria/hidrogênio e digitalização reforçam seu potencial sustentável em uma logística intermodal.
+a. O intervalo de inspeção é fixado em tempo de calendário, sendo indiferente à tonelagem bruta que circula no trecho.
+b. Como a janela de crescimento da trinca é de $12\,\mathrm{MGT}$, basta inspecionar a cada $12\,\mathrm{MGT}$ para que toda fratura seja detectada a tempo.
+c. O ultrassom (defectoscopia) só detecta trincas já visíveis na superfície do boleto, de modo que a inspeção periódica é dispensável.
+d. O exemplo descreve manutenção corretiva, em que a via é auscultada somente após a quebra do trilho.
+*e. O gêmeo digital alimentado por IoT habilita a manutenção preditiva: medindo o avanço da fadiga e usando a tonelagem acumulada (MGT) como relógio do dano, define-se $T_{\text{insp}} = 6\,\mathrm{MGT}$ (~15 dias) para flagrar a trinca antes da fratura e maximizar a disponibilidade da via.
 
 ---
 
@@ -401,7 +401,7 @@ d. A digitalização da operação contraria as metas de sustentabilidade do mod
 - **b.** Incorreta. Ambas são falsas.
 - **c.** Incorreta. A Razão também é falsa.
 - **d.** Incorreta. A Asserção também é falsa.
-- **e.** *Correta!* As duas proposições são falsas. O CBTC (bloqueio móvel) é, na verdade, **típico de metrôs modernos** — onde permite headways menores —, não restrito a ferrovias de carga de bitola larga. E a roda ferroviária **não** é cilíndrica nem desprovida de friso: ela tem perfil **cônico** com **friso**, e é a conicidade que promove o autocentramento do rodeiro, não a superelevação.
+- **e.** *Correta!* As duas proposições são falsas, com os papéis **invertidos**. Na Asserção (I): no ETCS, é o **Nível 1** que mantém **bloqueio fixo** com sinalização lateral (autorização por *eurobalises* no leito), e é o **Nível 3** que caminha para o **bloqueio móvel**, dependendo da integridade do trem informada a bordo — exatamente o contrário do que afirma a proposição. Na Razão (II): a vantagem da padronização/interoperabilidade é do **ETCS** (todo equipamento ETCS é compatível entre fabricantes), enquanto o **CBTC** usa **protocolos proprietários** por fabricante — novamente o oposto do enunciado.
 
 ### Questão 11
 
@@ -477,8 +477,8 @@ d. A digitalização da operação contraria as metas de sustentabilidade do mod
 
 ### Questão 20
 
-- **a.** Incorreta. A ferrovia emite **menos** CO₂ por t·km que o rodoviário e o aéreo.
-- **b.** Incorreta. A descarbonização não depende do aumento de rampas; relaciona-se a eletrificação, tração limpa e eficiência.
-- **c.** Incorreta. Eletrificação e hidrogênio são justamente tendências de modernização, plenamente compatíveis com a operação.
-- **d.** Incorreta. A digitalização (sensores, manutenção preditiva) **reforça** eficiência e sustentabilidade, não as contraria.
-- **e.** *Correta!* A ferrovia é estratégica para a descarbonização por sua baixa emissão por t·km, e tendências como eletrificação, locomotivas a bateria/hidrogênio e digitalização ampliam seu potencial sustentável dentro de uma logística intermodal — síntese fiel ao estímulo.
+- **a.** Incorreta. O intervalo é definido por **tonelagem acumulada** ($T_{\text{insp}} = 6\,\mathrm{MGT}$) e só depois convertido em dias; é o fluxo (MGT/ano) que governa cada quantos dias se inspeciona.
+- **b.** Incorreta. Inspecionar a cada $12\,\mathrm{MGT}$ daria **uma só** ausculta na janela de crescimento; adota-se fator de segurança 2, logo $T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}$, garantindo **pelo menos duas** inspeções antes da fratura.
+- **c.** Incorreta. A defectoscopia por ultrassom detecta justamente **trincas internas** que **não** aparecem na superfície (menor defeito confiável ~$3{,}5\,\mathrm{mm}$); por isso a ausculta periódica é essencial.
+- **d.** Incorreta. O estímulo descreve manutenção **preditiva** (intervir antes da falha, guiado pelo dado), não corretiva — esta consertaria só após a quebra do trilho.
+- **e.** *Correta!* O gêmeo digital alimentado por sensores IoT mede o avanço da fadiga e usa a tonelagem acumulada (MGT) como "relógio" do dano: com $\Delta = 12\,\mathrm{MGT}$ e fator de segurança 2, $T_{\text{insp}} = 6\,\mathrm{MGT}$, que a $150\,\mathrm{MGT/ano}$ equivale a ~15 dias entre auscultações — flagrando a trinca antes da fratura e maximizando a disponibilidade da via, exatamente o exemplo numérico da Aula 14.

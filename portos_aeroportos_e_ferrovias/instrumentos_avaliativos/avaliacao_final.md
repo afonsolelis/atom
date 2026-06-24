@@ -304,29 +304,29 @@ e. Cerca de 20 milhões de TEU/ano.
 
 **Estímulo:**
 
-> Considere o cálculo da profundidade de projeto de um canal para um navio Panamax com calado carregado de 12,0 m, folga sob a quilha de 1,0 m, *squat* de 0,5 m e sobreprofundidade de dragagem de 0,5 m (o nível de maré mínima já está incorporado ao nível de referência).
+> Um terminal de contêineres avalia migrar para operação **Smart Port**. Hoje, em modo convencional, **3 portêineres** sustentam uma produtividade efetiva de **28 mov/h** cada, limitada por cavalos mecânicos com motorista, filas e trocas de turno. Com **AGVs autônomos roteados por IA** (transporte horizontal sem fadiga nem fila no cais), a produtividade efetiva sobe para cerca de **39 mov/h** por portêiner. Para um navio com **1.800 movimentos**, compare o tempo de operação no berço antes e depois.
 
-A profundidade de projeto do canal deve ser de aproximadamente:
+O tempo de operação no berço e o ganho com o Smart Port são de aproximadamente:
 
-a. 12,0 m, igual ao calado carregado do navio.
-b. 13,0 m, somando apenas a folga sob a quilha.
-c. 13,5 m, sem considerar o *squat*.
-*d. 14,0 m — pois $P = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0$ m, somando calado, folga, *squat* e sobreprofundidade.
-e. 24,0 m, dobrando o calado carregado por segurança.
+a. Permanece em 21,4 h, pois os AGVs não alteram a taxa do portêiner.
+b. Cai para 21,4 h, pois só a manobra é afetada, não a movimentação.
+c. Cai de 84 h para 60 h, economizando 24 h por navio.
+*d. Cai de cerca de 21,4 h para 15,4 h — pois $3 \times 28 = 84$ mov/h e $1.800 \div 84 \approx 21{,}4$ h passam a $3 \times 39 = 117$ mov/h e $1.800 \div 117 \approx 15{,}4$ h, cerca de 6 h economizadas por escala.
+e. Cai para 7,7 h, dobrando-se o número de portêineres físicos.
 
 ### Questão 20 (Interpretação)
 
 **Estímulo:**
 
-> Um comboio fluvial na Hidrovia Tietê-Paraná é formado por 4 barcaças de 2.200 t cada. Um caminhão graneleiro transporta cerca de 30 t por viagem.
+> Um corredor de minério implanta **gêmeo digital da via** com sensores IoT (ultrassom/defectoscopia) para passar da manutenção corretiva à **preditiva**. Estima-se que a preditiva passe a flagrar **$N = 10$ defeitos/ano** antes da fratura do trilho. Cada falha **não detectada** causa, em média, $H_{\text{corr}} = 8$ h de via interditada (emergência + troca), enquanto a troca **programada** do trilho deteriorado consome só $H_{\text{prev}} = 2$ h em janela planejada.
 
-Quantos caminhões um único comboio substitui por viagem?
+O tempo de interdição de via **evitado por ano** com a manutenção preditiva é de aproximadamente:
 
-a. Cerca de 30 caminhões.
-b. Cerca de 73 caminhões.
-c. Cerca de 150 caminhões.
-d. Cerca de 220 caminhões.
-*e. Cerca de 293 caminhões — pois $4 \times 2.200 = 8.800$ t por viagem, e $8.800 \div 30 \approx 293$.
+a. 20 h/ano, considerando apenas o tempo da troca corretiva.
+b. 80 h/ano, somando os tempos corretivo e preventivo de todos os defeitos.
+c. 100 h/ano, multiplicando os 10 defeitos pelas 10 h totais.
+d. 6 h/ano, esquecendo de multiplicar pelos 10 defeitos.
+*e. Cerca de 60 h/ano — pois $\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60$ h/ano.
 
 ### Questão 21 (Interpretação)
 
@@ -374,15 +374,15 @@ e. Somente o B767-300 pode operar, por ser a aeronave mais pesada.
 
 **Estímulo:**
 
-> A designação numérica de uma pista corresponde ao azimute magnético dividido por 10 e arredondado. Os dois números de uma mesma pista sempre diferem de 18 (correspondendo a sentidos opostos, separados por 180°).
+> A segurança perimetral de um aeroporto usa **DAS (Distributed Acoustic Sensing)**, que transforma um cabo de **fibra óptica** enterrado junto à cerca em milhares de "microfones virtuais". A fibra tem índice de refração $n = 1{,}47$ e o interrogador detecta o eco de uma intrusão $\Delta t = 142\,\mathrm{\mu s}$ após o pulso. A luz percorre a fibra à velocidade $v = c/n$ (com $c = 3{,}0 \times 10^{8}$ m/s) e o pulso faz o caminho de ida e volta ($2L$).
 
-Uma pista alinhada a 093° de azimute magnético recebe as designações:
+A distância da central até o ponto de intrusão é de aproximadamente:
 
-a. 93 e 27.
-b. 09 e 18.
-c. 09 e 09L.
-*d. 09 e 27 — pois $093 \div 10 \approx 09$, e o sentido oposto é $273° \div 10 \approx 27$.
-e. 18 e 36.
+a. 29,0 km, corrigindo $n$ mas esquecendo o fator 2 do ida-e-volta ($L = v \cdot \Delta t$).
+b. 21,3 km, usando a velocidade no vácuo (sem corrigir $n$), mas com o fator 2 ($L = c \cdot \Delta t / 2$).
+c. 42,6 km, usando a velocidade no vácuo e sem dividir por 2.
+*d. 14,5 km — pois $v = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}$ m/s e $L = v \cdot \Delta t / 2 \approx 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5$ km.
+e. 142 m, confundindo o tempo de eco com a distância em metros.
 
 ### Questão 25 (Interpretação)
 
@@ -720,19 +720,19 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 ### Questão 19
 
-- **a.** Incorreta. Não considera folga, *squat* nem sobreprofundidade.
-- **b.** Incorreta. Soma apenas a folga sob a quilha.
-- **c.** Incorreta. Ignora o *squat* (afundamento dinâmico).
-- **d.** *Correta!* $P = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0$ m, somando calado, folga sob a quilha, *squat* e sobreprofundidade de dragagem.
-- **e.** Incorreta. Dobrar o calado superdimensiona absurdamente o canal.
+- **a.** Incorreta. Os AGVs elevam a produtividade efetiva do transporte horizontal (de 28 para ~39 mov/h), reduzindo o tempo de berço.
+- **b.** Incorreta. O Smart Port acelera a movimentação (taxa combinada), não apenas a manobra.
+- **c.** Incorreta. Confunde mov/h com horas; a taxa não cai de 84 para 60.
+- **d.** *Correta!* Convencional: $3 \times 28 = 84$ mov/h → $1.800 \div 84 \approx 21{,}4$ h. Smart Port: $3 \times 39 = 117$ mov/h → $1.800 \div 117 \approx 15{,}4$ h. Economia de ~6 h por escala, sem construir berço novo.
+- **e.** Incorreta. O ganho vem da automação (AGVs/IA), não de dobrar o número físico de portêineres.
 
 ### Questão 20
 
-- **a.** Incorreta. Corresponde à carga de um único caminhão, não ao comboio.
-- **b.** Incorreta. Subestima a capacidade do comboio.
-- **c.** Incorreta. Abaixo do valor real.
-- **d.** Incorreta. Abaixo do valor real.
-- **e.** *Correta!* $4 \times 2.200 = 8.800$ t por viagem; $8.800 \div 30 \approx 293$ caminhões substituídos.
+- **a.** Incorreta. Considera só o tempo corretivo; o ganho é a **diferença** entre corretivo e preventivo, vezes o número de defeitos.
+- **b.** Incorreta. Soma indevidamente os tempos; deve-se subtrair $H_{\text{prev}}$ de $H_{\text{corr}}$.
+- **c.** Incorreta. Usa as 10 h totais (8 + 2) em vez da diferença de 6 h por defeito.
+- **d.** Incorreta. Calcula a economia de um único defeito (6 h) sem multiplicar pelos 10 defeitos/ano.
+- **e.** *Correta!* $\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60$ h/ano de via interditada evitadas — ganho de disponibilidade da manutenção preditiva habilitada pelo gêmeo digital.
 
 ### Questão 21
 
@@ -760,11 +760,11 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 ### Questão 24
 
-- **a.** Incorreta. "93" não é uma designação válida; usa-se o azimute dividido por 10.
-- **b.** Incorreta. Os dois números diferem de 18, não de 9.
-- **c.** Incorreta. "L" só se aplica a pistas paralelas; aqui são sentidos opostos.
-- **d.** *Correta!* $093 \div 10 \approx 09$; o sentido oposto $273° \div 10 \approx 27$. Logo, pista **09/27**.
-- **e.** Incorreta. Corresponderia a um azimute de 180°, não 093°.
+- **a.** Incorreta. Corrige o índice $n$, mas esquece que o pulso percorre $2L$ (ida e volta); $v \cdot \Delta t \approx 29{,}0$ km é o dobro do correto.
+- **b.** Incorreta. Divide pelo fator 2, mas usa a velocidade no vácuo ($c$) sem corrigir pelo índice de refração; $c \cdot \Delta t / 2 \approx 21{,}3$ km.
+- **c.** Incorreta. Usa a velocidade no vácuo (sem $n$) e ainda ignora o fator 2.
+- **d.** *Correta!* $v = c/n = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}$ m/s; $L = v\,\Delta t / 2 = 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5$ km. O DAS localiza a intrusão no km 14,5 do perímetro.
+- **e.** Incorreta. Confunde a grandeza de tempo (µs) com distância (m); é preciso multiplicar pela velocidade da luz na fibra.
 
 ### Questão 25
 
