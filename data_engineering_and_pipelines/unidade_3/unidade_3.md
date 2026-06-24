@@ -336,6 +336,12 @@ As consequências: **múltiplos clusters lendo os mesmos dados** sem conflito (B
 
 Para o Olist usaremos o **BigQuery** na demonstração (serverless, cobra por TB varrido — ótimo para mostrar custo). O ponto pedagógico vale para os três: nenhum exige reescrever nossos modelos dbt.
 
+### ClickHouse: OLAP colunar de alta performance (com conta na nuvem)
+
+BigQuery, Snowflake e Redshift não são as únicas opções. O **ClickHouse** é um banco **colunar** open-source famoso pela **velocidade** em consultas analíticas — agregações sobre bilhões de linhas em frações de segundo —, muito usado como camada de *analytics* quase em tempo real. Diferente das demonstrações anteriores (que rodam sem conta), aqui vale **colocar a mão na massa na nuvem de verdade**: o **ClickHouse Cloud** oferece um *trial* gratuito com conta online.
+
+Roteiro mão na massa (≈15 min): crie a conta gratuita no **ClickHouse Cloud** (`clickhouse.com/cloud`), exporte a `fct_order_items` do Olist para CSV/Parquet e carregue-a numa tabela com o motor **`MergeTree`** (o coração colunar do ClickHouse), usando `ORDER BY (product_category_name, order_purchase_date)` — que faz, de uma vez, o papel de partição e de clustering. Rode então a mesma agregação de faturamento por categoria que fizemos no DuckDB: a query que varre a categoria inteira volta praticamente instantânea, o efeito de um motor colunar projetado para OLAP. *A lição: a separação storage/compute e o pruning colunar não são exclusivos dos três grandes — são o padrão de todo DW analítico moderno.*
+
 ### Trocar o adapter: dbt-duckdb → dbt-bigquery
 
 A migração do Olist para a nuvem é, na prática, **trocar o adapter do dbt e o `profiles.yml`**. Hoje temos:
@@ -436,7 +442,7 @@ Sem precisar de conta na nuvem:
 ### Pontos-chave
 
 - A **separação storage/compute** torna o DW em nuvem elástico — o DuckDB local já antecipa a ideia sobre Parquet.
-- **BigQuery** (serverless), **Snowflake** (virtual warehouses) e **Redshift** (AWS) têm filosofias distintas; nenhum exige reescrever os modelos dbt.
+- **BigQuery** (serverless), **Snowflake** (virtual warehouses), **Redshift** (AWS) e **ClickHouse** (colunar open-source, com ClickHouse Cloud) têm filosofias distintas; nenhum exige reescrever os modelos dbt.
 - Migrar o Olist é **trocar o adapter e o `profiles.yml`** (`dbt-duckdb` → `dbt-bigquery`); `stg_*`/`dim_*`/`fct_*` ficam idênticos.
 - **Particionar** por `order_purchase_date` + **clusterizar** por `product_category_name` ativa pruning e derruba o custo por byte.
 - No "Olist × 1000", a mesma query pode custar **US\$ 12,50 ou US\$ 0,05** — **otimização e FinOps** são parte do trabalho.
@@ -446,7 +452,7 @@ Sem precisar de conta na nuvem:
 - **dbt — BigQuery configs (partition + cluster):** https://docs.getdbt.com/reference/resource-configs/bigquery-configs
 - **BigQuery — Partitioned tables:** https://cloud.google.com/bigquery/docs/partitioned-tables
 - **BigQuery — Clustered tables:** https://cloud.google.com/bigquery/docs/clustered-tables
-- **Repositório do adapter dbt-bigquery:** https://github.com/dbt-labs/dbt-bigquery
+- **ClickHouse Cloud — trial gratuito e início rápido (OLAP colunar):** https://clickhouse.com/cloud
 
 ## Aula 11 — Roteiro da Videoaula 11: "Data Warehouses na nuvem (BigQuery, Snowflake, Redshift)"
 
@@ -458,7 +464,7 @@ Sem precisar de conta na nuvem:
 
 ### 2. Desenvolvimento — parte 1 (0:45 – 4:00)
 
-> "Começo pela separação storage e compute: no on-premises eram acoplados; na nuvem, dados ficam em object storage barato e a computação é acionada sob demanda. Nosso DuckDB sobre Parquet já antecipa isso. Comparo os três grandes — BigQuery serverless, Snowflake com virtual warehouses, Redshift na AWS. E aí o ponto central: nenhum deles exige reescrever nossos modelos dbt do Olist."
+> "Começo pela separação storage e compute: no on-premises eram acoplados; na nuvem, dados ficam em object storage barato e a computação é acionada sob demanda. Nosso DuckDB sobre Parquet já antecipa isso. Comparo os três grandes — BigQuery serverless, Snowflake com virtual warehouses, Redshift na AWS. E não para neles: mostro também o ClickHouse, um colunar open-source absurdamente rápido pra OLAP, com um ClickHouse Cloud gratuito onde dá pra botar a mão na massa — criar conta, carregar a fct_order_items numa tabela MergeTree e sentir a velocidade. E aí o ponto central: nenhum deles exige reescrever nossos modelos dbt do Olist."
 
 ### 3. Desenvolvimento — parte 2 (4:00 – 6:45)
 

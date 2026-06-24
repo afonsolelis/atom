@@ -70,6 +70,8 @@ batch.expect_column_values_to_be_between(
     column="freight_value", min_value=0, max_value=None)
 ```
 
+O GE não está sozinho: o **Soda** (com a *Soda Checks Language*, declarada em YAML) cobre o mesmo terreno — checagens de qualidade e **alertas de anomalia** — de forma leve e fácil de plugar no CI. GE e Soda competem na mesma categoria; basta escolher um.
+
 A diferença entre teste e **observabilidade**: o teste verifica regras que você **antecipou**; a observabilidade detecta o que você **não previu**, monitorando frescor, volume, distribuição, esquema e linhagem ao longo do tempo. Se o volume diário de pedidos do Olist cair de ~135 para 12, nenhum `not_null` acusa — observabilidade sim.
 
 ### A regra 1-10-100 no pipeline Olist
@@ -104,7 +106,7 @@ Adicione a primeira rede de qualidade ao seu projeto Olist:
 ### Pontos-chave
 
 - Qualidade é **mensurável** pelas 6 dimensões DAMA — completude, acurácia, consistência, unicidade, validade, pontualidade — instanciadas em tabelas reais do Olist.
-- **dbt tests** (`not_null`, `unique`, `relationships`, `accepted_values`) cobrem estrutura barata no `schema.yml`; **Great Expectations** cobre regras de negócio (review 1–5, entrega ≥ compra, frete ≥ 0) com documentação.
+- **dbt tests** (`not_null`, `unique`, `relationships`, `accepted_values`) cobrem estrutura barata no `schema.yml`; **Great Expectations** (ou o **Soda**, em YAML) cobre regras de negócio (review 1–5, entrega ≥ compra, frete ≥ 0) com documentação.
 - **Testes** pegam o previsto; **observabilidade** pega o imprevisto (volume, frescor, distribuição) monitorando o histórico.
 - A **regra 1-10-100** mostra que prevenir no `schema.yml` é ~100× mais barato que conviver com o defeito no mart.
 - Esta é a **primeira camada de confiança** sobre o pipeline Olist que já existia — o `dbt test` agora roda dentro do DAG `olist_pipeline`.
@@ -113,6 +115,7 @@ Adicione a primeira rede de qualidade ao seu projeto Olist:
 
 - **Great Expectations — documentação oficial:** https://docs.greatexpectations.io/docs/
 - **dbt — Data tests:** https://docs.getdbt.com/docs/build/data-tests
+- **Soda — checks e monitoramento de qualidade de dados:** https://docs.soda.io/
 - **Qualidade de dados / DAMA (Wikipedia):** https://en.wikipedia.org/wiki/Data_quality
 - **Barr Moses — "What is Data Observability?" (Monte Carlo):** https://www.montecarlodata.com/blog-what-is-data-observability/
 
@@ -128,7 +131,7 @@ Adicione a primeira rede de qualidade ao seu projeto Olist:
 
 ### 3. Desenvolvimento — parte 2 (4:00 – 7:00)
 
-> "Agora a parte prática. A arma mais barata mora ao lado do modelo: dbt tests no `schema.yml`. Quatro tipos: `not_null` no `order_id`, `unique`, `relationships` ligando `fct_order_items` ao `dim_products` — integridade referencial — e `accepted_values` listando os status válidos do pedido. Rodou `dbt test`, falhou, o pipeline para. Pra regra de negócio mais rica entra o Great Expectations: review entre 1 e 5, entrega maior ou igual à compra, frete não-negativo. E ainda tem a observabilidade, que é diferente do teste: teste pega o que você previu; observabilidade pega o que você não previu — se o volume de pedidos despencar de 135 por dia pra 12, nenhum `not_null` acusa, mas a observabilidade sim."
+> "Agora a parte prática. A arma mais barata mora ao lado do modelo: dbt tests no `schema.yml`. Quatro tipos: `not_null` no `order_id`, `unique`, `relationships` ligando `fct_order_items` ao `dim_products` — integridade referencial — e `accepted_values` listando os status válidos do pedido. Rodou `dbt test`, falhou, o pipeline para. Pra regra de negócio mais rica entra o Great Expectations — ou o Soda, que faz o mesmo em YAML: review entre 1 e 5, entrega maior ou igual à compra, frete não-negativo. E ainda tem a observabilidade, que é diferente do teste: teste pega o que você previu; observabilidade pega o que você não previu — se o volume de pedidos despencar de 135 por dia pra 12, nenhum `not_null` acusa, mas a observabilidade sim."
 
 ### 4. Desenvolvimento — parte 3 (7:00 – 9:15)
 
@@ -180,6 +183,8 @@ $$
 
 A linhagem responde às duas perguntas opostas: *a jusante* — "se eu remover este titular, quais marts mudam?" (impacto) — e *a montante* — "este número estranho, de onde saiu?" (causa-raiz). É também a planta baixa do processo de exclusão automatizada.
 
+O lineage do dbt vive dentro do projeto; em escala de organização, **catálogos de dados** dedicados centralizam **metadados**, **dicionário de dados** (o significado de cada campo) e a linhagem ponta a ponta entre times e ferramentas. Os mais usados são o **DataHub** (open source) e o **Atlan** (comercial) — é onde um `customer_unique_id`, e tudo que depende dele, ficaria catalogado, classificado e governado.
+
 ### Minimização, base legal e retenção
 
 Três princípios práticos da LGPD para o pipeline Olist: **minimização** (só ingerir o necessário — o Olist já remove nomes e comentários identificáveis); **base legal** (todo tratamento precisa de uma das 10 bases — execução de contrato, legítimo interesse etc.); e **retenção** (toda tabela com PII precisa de política de tempo de guarda — dado que você não guarda é dado que não vaza). Engenharia de dados **materializa** a lei: classificar no catálogo, mascarar por padrão, registrar lineage e automatizar a exclusão são tarefas do pipeline, não do jurídico.
@@ -210,7 +215,7 @@ Para o pipeline Olist (que você construiu):
 - O **Olist já é anonimizado/pseudonimizado** (IDs *hash*, geolocation por prefixo de CEP) — um caso real de tratamento sob a **LGPD (Lei 13.709/2018)**.
 - **Anonimizar** tira o dado do escopo da LGPD; **pseudonimizar** não (o `customer_unique_id` ainda liga compras do mesmo titular).
 - **Mascaramento** do `zip_code_prefix`, **RBAC** por papel e **column/row-level security** aplicam menor privilégio mesmo sobre dado já pseudonimizado.
-- O **lineage do dbt** (`dbt docs generate`) é a base técnica do **direito de exclusão**: rastreia `customer_unique_id` de `raw` ao mart.
+- O **lineage do dbt** (`dbt docs generate`) é a base técnica do **direito de exclusão**: rastreia `customer_unique_id` de `raw` ao mart; em escala, **catálogos** como **DataHub** (open source) ou **Atlan** centralizam metadados e linhagem.
 - A **multa** chega a 2% do faturamento (teto R\$ 50 mi/infração), mas reputação e *churn* custam mais; pseudonimizar na origem é a prevenção mais barata.
 
 ### Para saber mais
@@ -232,7 +237,7 @@ Para o pipeline Olist (que você construiu):
 
 ### 3. Desenvolvimento — parte 2 (3:45 – 7:00)
 
-> "Mesmo já pseudonimizado, a gente aplica defesa em profundidade. Mascaramento: pego o `customer_zip_code_prefix` e deixo só os três primeiros dígitos mais um XX — reduzo a granularidade pra quem não precisa do prefixo cheio. Controle de acesso por menor privilégio, com RBAC: o analista de marketing vê o mart agregado, o cientista vê o gold pra treinar modelo, e só o engenheiro custodian toca no schema raw. E agora a peça central: o direito de exclusão da LGPD. Pra apagar todos os rastros de um titular, você precisa saber onde ele pousou — e o lineage do dbt te dá isso de graça. O `customer_unique_id` vai de raw.customers, pra stg_customers, pra dim_customers, pra fct_orders, pra mart_payment_analysis. Esse grafo é a planta baixa da exclusão."
+> "Mesmo já pseudonimizado, a gente aplica defesa em profundidade. Mascaramento: pego o `customer_zip_code_prefix` e deixo só os três primeiros dígitos mais um XX — reduzo a granularidade pra quem não precisa do prefixo cheio. Controle de acesso por menor privilégio, com RBAC: o analista de marketing vê o mart agregado, o cientista vê o gold pra treinar modelo, e só o engenheiro custodian toca no schema raw. E agora a peça central: o direito de exclusão da LGPD. Pra apagar todos os rastros de um titular, você precisa saber onde ele pousou — e o lineage do dbt te dá isso de graça. O `customer_unique_id` vai de raw.customers, pra stg_customers, pra dim_customers, pra fct_orders, pra mart_payment_analysis. Esse grafo é a planta baixa da exclusão. E quando isso cresce pra empresa inteira, entra um catálogo de dados — o DataHub, que é open source, ou o Atlan — pra centralizar metadados, dicionário de campos e lineage de todos os times num lugar só."
 
 ### 4. Desenvolvimento — parte 3 (7:00 – 9:15)
 

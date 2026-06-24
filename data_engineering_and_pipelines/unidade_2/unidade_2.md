@@ -77,6 +77,8 @@ São **7 das 9 tabelas** do Olist que viram source agora — as duas restantes (
 
 Cada fonte ganha um modelo **staging** (`stg_*`): uma camada 1:1 que **renomeia, casta tipos e limpa nulos**, sem ainda fazer joins ou agregações. É a base de tudo que vem depois.
 
+Além de `sources` e `models`, o dbt traz outros blocos úteis. Os **seeds** são CSVs pequenos e estáveis, versionados junto do código e materializados como tabela por `dbt seed`: o `product_category_name_translation.csv` (≈71 traduções de categoria, que quase nunca mudam) é o **seed** de manual do Olist — pequeno demais para um pipeline de ingestão, estável o bastante para morar no repositório; é exatamente assim que ele entra na Unidade 3 para enriquecer as dimensões. (Há ainda os **snapshots**, que versionam o histórico de mudanças — também na Unidade 3.)
+
 ### Carga incremental e idempotência no `stg_orders`
 
 Independentemente de ELT, a extração tem dois modos. **Carga full:** lê a tabela inteira toda vez — simples, mas cara conforme cresce. **Carga incremental:** lê apenas o que mudou desde a última execução, usando uma coluna marcadora. No Olist, a marca natural é `order_purchase_timestamp`. Configuramos o `stg_orders` como **incremental** com `unique_key='order_id'`, o que dá **idempotência**: rodar duas vezes não duplica pedidos.
@@ -122,7 +124,7 @@ Use os CSVs do Olist já carregados no schema `raw` (Unidade 1).
 
 - **Ingestão** é a primeira e mais frágil etapa; o Olist entra cru no schema `raw` do DuckDB (ELT).
 - **ETL** transforma antes de carregar; **ELT** carrega o bruto e transforma no destino com **dbt** — o padrão do nosso projeto.
-- O projeto **`dbt_olist`** define o source `olist_raw` e os modelos **`stg_*`** (renomeiam, castam, limpam).
+- O projeto **`dbt_olist`** define o source `olist_raw`, os modelos **`stg_*`** (renomeiam, castam, limpam) e **seeds** para CSVs estáveis (ex.: a tradução de categorias).
 - **Carga incremental** por `order_purchase_timestamp` + **`unique_key='order_id'`** dá **idempotência** — rodar duas vezes não duplica.
 - **CDC** (ex.: Debezium no WAL) capturaria deletes se o Olist fosse um banco ao vivo — ponte para o streaming da Aula 7.
 
@@ -146,7 +148,7 @@ Use os CSVs do Olist já carregados no schema `raw` (Unidade 1).
 
 ### 3. Desenvolvimento — parte 2 (4:00 – 6:50)
 
-> "Vamos montar o projeto. dbt init dbt_olist com o adapter duckdb, o profiles.yml aponta para o nosso arquivo. Aí declaro as tabelas raw como sources, no grupo olist_raw, e crio um modelo staging para cada fonte: stg_orders, stg_order_items, stg_customers. Staging é a camada um-para-um que renomeia coluna, casta tipo, limpa nulo — sem join ainda. É a fundação de tudo que vem nas próximas unidades."
+> "Vamos montar o projeto. dbt init dbt_olist com o adapter duckdb, o profiles.yml aponta para o nosso arquivo. Aí declaro as tabelas raw como sources, no grupo olist_raw, e crio um modelo staging para cada fonte: stg_orders, stg_order_items, stg_customers. Staging é a camada um-para-um que renomeia coluna, casta tipo, limpa nulo — sem join ainda. E pros CSVs pequenos e estáveis, tipo a tabela de tradução das categorias de produto, eu nem monto ingestão: viram seed, um arquivo versionado no repositório que o dbt seed materializa como tabela. É a fundação de tudo que vem nas próximas unidades."
 
 ### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
@@ -357,6 +359,15 @@ Como agregar um fluxo que nunca termina? Recortando-o no tempo, com **janelas**.
 
 E as **garantias de entrega**: **at-most-once** pode perder, nunca duplica (barato); **at-least-once** nunca perde, mas pode duplicar (o padrão — por isso o **consumo idempotente** da Aula 5 brilha de novo); **exactly-once** processa uma vez só, sem perda nem duplicação, mas é caro (produtores idempotentes + transações). A regra prática: **at-least-once + processamento idempotente**.
 
+### Motores de stream processing: Flink e Spark Streaming
+
+Nosso produtor/consumidor em Python ilustra os conceitos, mas não é o que sustenta um fluxo de verdade em produção. Quando o tempo real é requisito — janelas por *event time*, **watermarks** que decidem quando fechar uma janela mesmo com eventos atrasados, e estado tolerante a falhas —, entra um **motor de stream processing** dedicado:
+
+- **Apache Flink** — *streaming-first*: o fluxo é cidadão de primeira classe, com latência de milissegundos, janelas por tempo de evento e **watermarks** nativos. É a escolha quando a latência baixa é inegociável.
+- **Spark Structured Streaming** — o **mesmo Spark** do lote (Aula 6), agora em **micro-batches**: reaproveita a API de DataFrames e entrega quase-tempo-real (latência de segundos), útil quando a equipe já vive no ecossistema Spark.
+
+No projeto Olist mantemos o **Spark como motor de lote** e *simulamos* o streaming em Python; um **Flink** ou um **Spark Structured Streaming** só entraria se o marketplace precisasse mesmo de contagem ao vivo. *A regra: não pague o custo do streaming sem o negócio exigir tempo real.*
+
 ### Lambda e Kappa: como o stream coexiste com o batch
 
 Se construíssemos o Olist em tempo real, como a camada de streaming conviveria com o batch que já temos? Duas arquiteturas respondem. A **Lambda** mantém *dois* caminhos: um batch (lento, completo, é o nosso dbt) e um speed layer (rápido, aproximado) — e reconcilia. A **Kappa** simplifica: **tudo é stream**; o histórico é apenas o log reprocessado do começo. Para o Olist, o caminho natural seria Kappa — o mesmo log `olist.orders` alimenta tanto a contagem ao vivo quanto, reprocessado, os marts. *Mensagem: a estrela continua a mesma; muda só a forma de alimentá-la.*
@@ -395,7 +406,7 @@ Você pode simular tudo em Python puro (sem instalar Kafka).
 - **Batch** processa lotes finitos (Aula 6); **streaming** processa um fluxo infinito quase em tempo real.
 - O **Kafka** é um **log distribuído e durável** que desacopla produtor de consumidor; nosso tópico é `olist.orders`.
 - Simulamos o stream do Olist com `stream_orders.py` (produtor lê `raw.orders` ordenado e emite JSON; consumidor agrega por janela).
-- **Janelas** (tumbling, sliding) recortam o fluxo; **at-least-once + consumo idempotente** é a escolha prática.
+- **Janelas** (tumbling, sliding) recortam o fluxo e **watermarks** lidam com dados atrasados; em produção, motores como **Flink** e **Spark Structured Streaming** processam o stream (no projeto, Spark fica no lote). **At-least-once + consumo idempotente** é a escolha prática.
 - Na arquitetura **Kappa**, o mesmo log `olist.orders` alimenta a contagem ao vivo e, reprocessado, os marts — a estrela é a mesma.
 
 ### Para saber mais
@@ -403,6 +414,7 @@ Você pode simular tudo em Python puro (sem instalar Kafka).
 - **Documentação oficial do Apache Kafka:** https://kafka.apache.org/documentation/
 - **Apache Kafka — guia de design e conceitos (log, partições, offsets):** https://kafka.apache.org/intro
 - **"Turning the database inside out", de Martin Kleppmann (log como fonte da verdade):** https://martin.kleppmann.com/2015/03/04/turning-the-database-inside-out.html
+- **Apache Flink — tempo de evento e watermarks:** https://nightlies.apache.org/flink/flink-docs-stable/docs/concepts/time/
 
 ## Aula 7 — Roteiro da Videoaula 7: "Processamento em tempo real e streaming"
 
@@ -422,7 +434,7 @@ Você pode simular tudo em Python puro (sem instalar Kafka).
 
 ### 4. Desenvolvimento — parte 3 (6:50 – 9:00)
 
-> "Como agregar um fluxo que nunca acaba? Com janelas. Tumbling: blocos fixos, pedidos do Olist a cada minuto. Sliding: janela que desliza, faturamento da última hora recalculado a cada 5 minutos. E as garantias: at-most-once pode perder; at-least-once nunca perde mas pode duplicar — e por isso o consumo idempotente da aula 5 volta a brilhar; exactly-once é o ideal mas custa caro. Minha recomendação: at-least-once com processamento idempotente. E como isso conviveria com o batch que já temos? Na arquitetura Kappa: tudo é stream, e o histórico é só o log reprocessado. O mesmo olist.orders alimenta o painel ao vivo e, reprocessado, os marts."
+> "Como agregar um fluxo que nunca acaba? Com janelas. Tumbling: blocos fixos, pedidos do Olist a cada minuto. Sliding: janela que desliza, faturamento da última hora recalculado a cada 5 minutos. E as garantias: at-most-once pode perder; at-least-once nunca perde mas pode duplicar — e por isso o consumo idempotente da aula 5 volta a brilhar; exactly-once é o ideal mas custa caro. Minha recomendação: at-least-once com processamento idempotente. E onde tudo isso roda de verdade? Janelas por tempo de evento e watermarks — que fecham a janela mesmo com um evento atrasado — vivem num motor dedicado: o Flink, que é streaming puro com latência de milissegundos, ou o Spark Structured Streaming, o mesmo Spark da aula de lote rodando em micro-batches. No nosso projeto o Spark fica no lote e a gente simula o stream em Python. E como isso conviveria com o batch que já temos? Na arquitetura Kappa: tudo é stream, e o histórico é só o log reprocessado. O mesmo olist.orders alimenta o painel ao vivo e, reprocessado, os marts."
 
 ### 5. Encerramento (9:00 – 9:50)
 
