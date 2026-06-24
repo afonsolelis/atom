@@ -1,0 +1,9 @@
+{
+  "name": "slide-audit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright audit harness for UniFECAF slide decks",
+  "dependencies": {
+    "playwright-core": "^1.61.1"
+  }
+}
