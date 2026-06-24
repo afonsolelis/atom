@@ -27,7 +27,7 @@
 >
 > **Por quê?** A VemComprar **não tem data warehouse nem data lake**. Toda análise nasce de exportações manuais para Excel/Sheets, consolidadas a mão. **Indicadores atuais**:
 >
-> - **Nº de fontes de dados** relevantes e não integradas: **9** (3 bancos/ERP + 4 APIs de terceiros + planilhas + WMS).
+> - **Nº de fontes de dados** relevantes e não integradas: **9** — bancos e ERP (PostgreSQL transacional + ERP TOTVS), APIs de terceiros (RD Station, Google Ads, Meta Ads, gateway de pagamento, transportadora/Correios), planilhas e WMS.
 > - **Volume de dados:** ~**1,8 TB** acumulados; o transacional cresce **~6 GB/dia** (pedidos, eventos de navegação, logs).
 > - **Tempo para fechar o relatório gerencial mensal:** **5 dias úteis** de trabalho manual de 2 analistas (consolidação de 30+ planilhas).
 > - **Divergência entre fontes:** o faturamento do **ERP** e o do **e-commerce** divergem em **até 7%** todo mês — ninguém sabe qual está certo.
@@ -36,7 +36,7 @@
 > - **Incidentes de "número errado em reunião":** **~3 por mês**, gerando refação de relatório e perda de confiança da diretoria nos dados.
 > - **LGPD:** dados pessoais de 3,8 milhões de clientes (CPF, e-mail, endereço, histórico de compra) circulam **em planilhas sem controle de acesso nem mascaramento** — risco regulatório direto.
 >
-> A VemComprar **não tem engenheiro de dados** (apenas 2 analistas de BI e 1 DBA). **Não tem orquestração, testes de dados, catálogo, linhagem nem observabilidade.** A diretoria aprovou um **investimento máximo de R\$ 900 mil** (CAPEX + 9 meses de OPEX de nuvem e ferramentas) para resolver o problema de uma vez.
+> A VemComprar **não tem engenheiro de dados** — dos 540 funcionários, o time de dados é minúsculo: **apenas 2 analistas de BI e 1 DBA**. **Não tem orquestração, testes de dados, catálogo, linhagem nem observabilidade.** A diretoria aprovou um **investimento máximo de R\$ 900 mil** (CAPEX + 9 meses de OPEX de nuvem e ferramentas) para resolver o problema de uma vez.
 >
 > **Sua missão como engenheiro(a) de dados:** projetar uma **plataforma de dados completa e defensável**, de ponta a ponta — **ingestão → armazenamento (DW/Lakehouse) → transformação → orquestração → qualidade/observabilidade → governança/LGPD → BI** —, integrando os conceitos das 4 unidades da disciplina, com **arquitetura desenhada, stack justificada, orçamento realista (R\$) e cronograma de 9 meses**, e KPIs mensuráveis de sucesso.
 

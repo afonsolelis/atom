@@ -4,6 +4,8 @@
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas desta unidade:** 13 a 16
 
+> **Recap da Unidade 3:** guardamos o pipeline do Olist com **arquitetura**. Construímos o **Data Warehouse em camadas** (staging → core → marts, com a estrela `fct_orders`/`fct_order_items` + dimensões), organizamos o storage em **Lakehouse Medallion** (bronze/silver/gold), vimos o mesmo dbt rodando **na nuvem** (BigQuery/Snowflake/Redshift) com particionamento e controle de custo, e fechamos montando a **Modern Data Stack** completa do projeto. O dado do Olist agora está **guardado, modelado e barato de consultar** — mas dá para **confiar** nele, **governá-lo** e **operá-lo** com segurança? É o que esta unidade ataca.
+
 ## Aula 13 — Qualidade e observabilidade de dados
 
 Nas três primeiras unidades nós **construímos** o pipeline do Olist do zero: ingerimos os 9 CSVs do marketplace, modelamos a estrela (`fct_orders`, `fct_order_items`, `dim_customers`, `dim_products`, `dim_sellers`, `dim_dates`), processamos em lote, orquestramos com o DAG `olist_pipeline` no Airflow e organizamos o storage em Medallion (bronze/silver/gold) num lakehouse local com DuckDB. O dado **anda**. Esta unidade muda a pergunta: como garantir que o dado que anda é **confiável**, **governado** e **operável**? Começamos pelo alicerce — **qualidade e observabilidade**. A pergunta-guia é brutal: *como você sabe, sem ninguém te avisar, que o `mart_sales_by_category` de hoje está certo?* Hoje adicionamos a primeira rede de proteção ao pipeline Olist: testes do dbt e do Great Expectations.
@@ -337,7 +339,6 @@ Coloque o pipeline Olist em DataOps:
 - **DORA — State of DevOps (Google Cloud):** https://dora.dev/
 - **GitHub Actions — documentação oficial:** https://docs.github.com/en/actions
 - **dbt — Continuous integration:** https://docs.getdbt.com/docs/deploy/continuous-integration
-- **Terraform — documentação oficial (HashiCorp):** https://developer.hashicorp.com/terraform/docs
 
 ## Aula 15 — Roteiro da Videoaula 15: "DataOps e CI/CD para pipelines de dados"
 
@@ -432,7 +433,7 @@ A engenharia de dados é uma das carreiras mais demandadas no Brasil. Um roteiro
 
 ### Exemplo numérico: pedidos atrasados no Olist e o lift do modelo
 
-No Olist, dos pedidos efetivamente entregues, cerca de $8\%$ chegam **após** a data estimada. Sobre os $\approx 96\,478$ pedidos com entrega registrada:
+No Olist, dos pedidos efetivamente entregues, cerca de $8\%$ chegam **após** a data estimada. Sobre os $\approx 96\,478$ **pedidos** com entrega registrada (grandeza distinta dos $96\,096$ **clientes** únicos da Aula 14):
 
 $$
 N_{atraso} \approx 0{,}08 \times 96\,478 \approx 7\,718 \text{ pedidos atrasados}
@@ -543,7 +544,7 @@ O Olist **já vem anonimizado** (IDs *hash*, geolocalização por prefixo de CEP
 
 **Pergunta:**
 
-> Você acabou de construir o **pipeline de dados do Olist** ao longo da disciplina: ingestão dos 9 CSVs no DuckDB, transformação com dbt (staging → core → marts: `fct_orders`, `fct_order_items`, `dim_customers`, `dim_products`, `dim_sellers`, `mart_sales_by_category`, `mart_delivery_performance`), orquestração no Airflow e storage Medallion. Agora, nesta unidade, você precisa **profissionalizá-lo** e entregá-lo no portfólio.
+> Você acabou de construir o **pipeline de dados do Olist** ao longo da disciplina: ingestão dos 9 CSVs no DuckDB, transformação com dbt (staging → core → marts) e storage Medallion, orquestrado no Airflow. Os fatos e dimensões do core são `fct_orders`, `fct_order_items`, `dim_customers`, `dim_products` e `dim_sellers`; e os marts de negócio são `mart_sales_by_category` (receita por categoria de produto), `mart_delivery_performance` (prazo e atraso de entrega), `mart_payment_analysis` (valor e parcelas de pagamento por pedido) e `mart_seller_scorecard` (desempenho de vendedores). Agora, nesta unidade, você precisa **profissionalizá-lo** e entregá-lo no portfólio.
 >
 > Elabore uma resposta dissertativa estruturada em quatro partes, **citando os artefatos reais do projeto**:
 >
@@ -568,7 +569,8 @@ O Olist **já vem anonimizado** (IDs *hash*, geolocalização por prefixo de CEP
 - **Capítulo:** Capítulo 2 — *The Data Engineering Lifecycle* (foco nos *undercurrents*: Data Management, DataOps, Security)
 - **Organizador:** Joe Reis e Matt Housley
 - **Editora:** O'Reilly Media
-- **Link de acesso (BV):** https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce (dataset Olist do projeto; o livro está disponível na BV/O'Reilly)
+- **Link de acesso (BV):** consultar na Biblioteca Virtual (BV) — buscar por *"Fundamentals of Data Engineering"* (O'Reilly) no acervo da BV
+- **Dataset do projeto (Kaggle):** https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce (Brazilian E-Commerce Public Dataset by Olist)
 - **Aula em que entra:** Aulas 13 a 16
 
 ### Para mergulhar no assunto

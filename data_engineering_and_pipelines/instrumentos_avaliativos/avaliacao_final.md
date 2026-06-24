@@ -40,7 +40,7 @@ e. As asserções I e II são proposições falsas.
 >
 > **porque**
 >
-> **Razão II:** O Apache Kafka, criado no LinkedIn em 2011, é um log distribuído e durável que desacopla produtores de consumidores no processamento de streaming.
+> **Razão II:** O Apache Kafka, tornado open-source pelo LinkedIn em 2011, é um log distribuído e durável que desacopla produtores de consumidores no processamento de streaming.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -327,7 +327,7 @@ e. ETL clássico em servidor intermediário, com reprocessamento full mensal e e
 
 **Estímulo:**
 
-> "No Spark, distribuir um job de 1 TB de logs entre 40 executors reduziria o tempo ideal de mais de 5 horas para cerca de 8 minutos. Mas, se 15% do trabalho for serial (coleta de resultados, shuffle final), a Lei de Amdahl limita o ganho máximo a um fator próximo de 5,8."
+> "No Spark, distribuir um job de 1 TB de logs entre 40 executors reduziria o tempo ideal de mais de 5 horas para cerca de 8 minutos. Mas, se 15% do trabalho for serial (coleta de resultados, shuffle final), a Lei de Amdahl limita o ganho a cerca de 5,8x com 40 executors — e a no máximo ~6,7x mesmo com infinitos nós."
 
 A leitura mais correta do texto é:
 
@@ -742,7 +742,7 @@ d. Modelos de IA produzem bons resultados independentemente da qualidade do pipe
 ### Questão 20
 
 - **a.** Incorreta. O ganho não é linear — a Lei de Amdahl limita o speedup.
-- **b.** Incorreta. A fração serial é decisiva: 15% serial trava o ganho em ~5,8.
+- **b.** Incorreta. A fração serial é decisiva: com 15% serial, o ganho fica em ~5,8x com 40 executors e não passa de ~6,7x nem com infinitos nós.
 - **c.** Incorreta. O shuffle é a operação **mais cara**; deve ser minimizado, não maximizado.
 - **d.** Incorreta. A Lei de Amdahl limita, mas não anula, os benefícios do paralelismo.
 - **e.** *Correta!* O paralelismo tem retorno decrescente; reduzir a fração serial (o shuffle) frequentemente rende mais que apenas adicionar executors.

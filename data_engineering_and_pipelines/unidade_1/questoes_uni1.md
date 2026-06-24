@@ -205,7 +205,7 @@ e. Para essa consulta, o CSV é preferível, pois 4 GB são lidos mais rápido d
 
 **Estímulo:**
 
-> Uma plataforma de IoT recebe leituras de 50.000 sensores, cada um enviando 1 medição por segundo. Um banco relacional com garantias ACID completas suporta tipicamente de 5.000 a 10.000 escritas por segundo em um único nó. Um banco colunar distribuído como o Cassandra suporta na ordem de 50.000 escritas por segundo em poucos nós, com escalabilidade horizontal.
+> Uma plataforma de IoT recebe leituras de 50.000 sensores, cada um enviando 1 medição por segundo. Um banco relacional com garantias ACID completas suporta tipicamente de 5.000 a 10.000 escritas por segundo em um único nó (cerca de 8.000 escritas/s por nó). Um banco colunar distribuído como o Cassandra suporta na ordem de 50.000 escritas por segundo em poucos nós, com escalabilidade horizontal.
 
 A leitura **mais adequada** do cenário é:
 

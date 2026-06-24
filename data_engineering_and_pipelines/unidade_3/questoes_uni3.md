@@ -177,7 +177,7 @@ d. A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 **Estímulo:**
 
-> Uma tabela de eventos tem **10 TB**, particionada por dia, com 365 dias de dados (~27,4 GB/dia). Sem particionamento e com `SELECT *`, uma consulta varre os 10 TB e custa, a US\$ 6,25 por TB, cerca de **US\$ 62,50**. Com particionamento por dia e seleção de apenas 1 das 50 colunas, a mesma consulta varre uma fração mínima e custa cerca de **US\$ 0,003**.
+> Uma tabela de eventos tem **10 TB**, particionada por dia, com 365 dias de dados (~27,4 GB/dia). Sem particionamento e com `SELECT *`, uma consulta varre os 10 TB e custa, a US\$ 6,25 por TB, cerca de **US\$ 62,50**. Com particionamento por dia e seleção de apenas 1 das 50 colunas, a mesma consulta varre uma fração mínima e custa cerca de **US\$ 0,0034**.
 
 Considerando os conceitos da Unidade 3, qual leitura é **mais adequada**?
 
@@ -408,7 +408,7 @@ d. Adotar somente um Data Lake sem governança, jogando todos os dados brutos se
 
 ### Questão 11
 
-- **a.** *Correta!* O caso mostra a mesma consulta variando de US\$ 62,50 para ~US\$ 0,003 conforme a modelagem física e o SQL — exatamente o ponto da Aula 11: otimização e FinOps são parte do trabalho do engenheiro de dados.
+- **a.** *Correta!* O caso mostra a mesma consulta variando de US\$ 62,50 para ~US\$ 0,0034 conforme a modelagem física e o SQL — exatamente o ponto da Aula 11: otimização e FinOps são parte do trabalho do engenheiro de dados.
 - **b.** Incorreta. O engenheiro influencia o custo fortemente via particionamento, clustering e seleção de colunas.
 - **c.** Incorreta. A diferença chega a ordens de grandeza (~18.000×), longe de desprezível.
 - **d.** Incorreta. `SELECT *` em colunar **aumenta** o custo, não o reduz.

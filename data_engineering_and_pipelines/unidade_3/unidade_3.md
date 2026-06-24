@@ -104,7 +104,7 @@ A virada de desempenho dos DWs é o **armazenamento colunar**. Bancos transacion
 
 ### Exemplo numérico: economia colunar na fct_order_items
 
-A `fct_order_items` do Olist tem ~112.650 linhas. Suponha 14 colunas, das quais `price` e `freight_value` são as métricas de interesse, e que uma análise de faturamento só precise de `price` (1 de 14 colunas). Lendo a tabela inteira por linha o motor varreria as 14 colunas; no colunar lê a fração:
+A `fct_order_items` do Olist tem ~112.650 linhas. Enriquecida com atributos das dimensões (produto, categoria, datas), ela chega a ~14 colunas — bem mais que as 7 da tabela bruta de itens vista na Unidade 1 —, das quais `price` e `freight_value` são as métricas de interesse, e uma análise de faturamento só precisa de `price` (1 de 14 colunas). Lendo a tabela inteira por linha o motor varreria as 14 colunas; no colunar lê a fração:
 
 $$
 \text{fração lida} = \frac{1}{14} \approx 0{,}071 = 7{,}1\%
@@ -409,7 +409,7 @@ $$
 **Com partição por mês** (1 de ~25 meses) **e seleção de ~10% das colunas:**
 
 $$
-2 \times \frac{1}{25} \times 0{,}10 \times 6{,}25 = 0{,}08 \times 6{,}25 = \text{US\$ }0{,}05\ \text{por consulta}
+2 \times \frac{1}{25} \times 0{,}10 \times 6{,}25 = 0{,}008 \times 6{,}25 = \text{US\$ }0{,}05\ \text{por consulta}
 $$
 
 Uma diferença de **~250×** na mesma pergunta. Com 20 analistas rodando 30 consultas/dia em 22 dias úteis, a versão ingênua custaria
@@ -419,6 +419,10 @@ $$
 $$
 
 contra **~US\$ 660/mês** na versão particionada e enxuta. É a diferença entre um projeto inviável e um trivial — sem trocar uma linha da lógica dos modelos.
+
+### Pausa para Reflexão
+
+> Antes de olhar a conta acima, faça a estimativa de cabeça no "Olist × 1000": se a `fct_order_items` tem ~2 TB e você varre a tabela inteira contra uma única partição de mês, quantas vezes menos dados a versão particionada lê? E se ainda selecionar só 10% das colunas? Anote seu palpite em uma frase e compare com os 250× do exemplo — perceber essa ordem de grandeza *antes* de rodar a query é exatamente a intuição de FinOps que separa o engenheiro que controla o custo do que recebe a fatura no fim do mês.
 
 ### Atividade prática
 
@@ -515,7 +519,7 @@ Sobre essa camada vem o **BI**. No projeto Olist conectamos o **Metabase ao Duck
 
 - **Vendas por categoria** (de `mart_sales_by_category`): top categorias do Olist.
 - **Performance de entrega** (de `mart_delivery_performance`): % no prazo, atraso médio por UF.
-- **Reviews**: distribuição das notas 1–5 (média ≈ 4,09).
+- **Reviews**: distribuição das notas 1–5 (média ≈ 4,0).
 
 Metabase, Power BI, Looker e Superset são opções; o Metabase é open source e lê o DuckDB direto, mantendo o projeto 100% local e grátis.
 

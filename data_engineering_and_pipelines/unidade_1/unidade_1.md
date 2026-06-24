@@ -237,8 +237,13 @@ import duckdb, glob, os
 
 con = duckdb.connect("olist.duckdb")
 os.makedirs("data/bronze", exist_ok=True)
-for csv in glob.glob("data/raw/olist_*_dataset.csv"):
-    nome = os.path.basename(csv).replace("olist_", "").replace("_dataset.csv", "")
+# varre TODOS os CSVs da pasta: 8 no padrão olist_*_dataset.csv
+# + o product_category_name_translation.csv (sem prefixo/sufixo) = 9
+for csv in glob.glob("data/raw/*.csv"):
+    nome = (os.path.basename(csv)
+            .replace("olist_", "")
+            .replace("_dataset", "")
+            .replace(".csv", ""))
     con.sql(f"COPY (SELECT * FROM read_csv_auto('{csv}')) "
             f"TO 'data/bronze/{nome}.parquet' (FORMAT PARQUET)")
 con.close()

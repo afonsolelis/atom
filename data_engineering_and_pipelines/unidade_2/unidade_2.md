@@ -73,6 +73,8 @@ sources:
       - name: sellers
 ```
 
+São **7 das 9 tabelas** do Olist que viram source agora — as duas restantes (`geolocation` e `product_category_name_translation`) só entram na **Unidade 3**, quando elas servirão para enriquecer as dimensões.
+
 Cada fonte ganha um modelo **staging** (`stg_*`): uma camada 1:1 que **renomeia, casta tipos e limpa nulos**, sem ainda fazer joins ou agregações. É a base de tudo que vem depois.
 
 ### Carga incremental e idempotência no `stg_orders`
