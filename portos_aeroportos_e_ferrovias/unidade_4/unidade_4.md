@@ -463,55 +463,41 @@ A ferrovia é uma das tecnologias mais alinhadas com a **descarbonização**: em
 
 Operar uma ferrovia é, no fundo, um problema de **filas**: trens chegam ao pátio ou ao terminal de descarga, disputam um número limitado de **baias** (servidores) e esperam quando todas estão ocupadas. O engenheiro de transportes moderno apoia suas decisões em ferramentas digitais — **GIS 3D** para modelar a geometria do pátio e dos ativos, **gêmeos digitais** para refletir o estado real da operação, e **simulação** para dimensionar capacidade. Quando as chegadas são aleatórias (processo de Poisson) e os tempos de serviço seguem distribuição exponencial, o sistema é uma **fila M/M/c** (c baias em paralelo), descrita pela **fórmula de Erlang C**.
 
-Os parâmetros são: taxa de chegada $\lambda$ (trens/h), taxa de serviço por baia $\mu$ (trens/h) e número de baias $c$. A **utilização** é $\rho = \dfrac{\lambda}{c\,\mu}$, e o sistema só é estável se $\rho < 1$. O código Python abaixo é **executável** (usa apenas a biblioteca-padrão `math`) e calcula as métricas de desempenho do pátio para diferentes números de baias:
+Os parâmetros são: taxa de chegada $\lambda$ (trens/h), taxa de serviço por baia $\mu$ (trens/h) e número de baias $c$. A **utilização** é $\rho = \dfrac{\lambda}{c\,\mu}$, e o sistema só é estável se $\rho < 1$. A **carga oferecida** é $a = \lambda/\mu$ (em Erlangs) e a **probabilidade de espera** vem da **fórmula de Erlang C**:
 
-```python
-import math
+$$
+P_{\text{espera}} = \dfrac{\dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}{\displaystyle\sum_{n=0}^{c-1}\dfrac{a^{n}}{n!} + \dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}
+$$
 
-def metricas_mmc(lmbda, mu, c):
-    """Metricas de uma fila M/M/c (formula de Erlang C).
+Dela saem o número médio de trens na fila, $L_q = P_{\text{espera}}\,\dfrac{\rho}{1-\rho}$, e o tempo médio de espera, $W_q = L_q/\lambda$.
 
-    lmbda: taxa de chegada de trens (trens/h)
-    mu:    taxa de servico de UMA baia de descarga (trens/h)
-    c:     numero de baias de descarga em paralelo (servidores)
-    """
-    a = lmbda / mu            # intensidade de trafego (em Erlangs)
-    rho = a / c              # utilizacao por baia; precisa ser < 1 (estabilidade)
-    if rho >= 1:
-        raise ValueError("Sistema instavel: utilizacao >= 1 (a fila cresce sem limite).")
+**Cálculo à mão.** Suponha que cheguem em média $\lambda = 3\,$trens/h e que cada baia descarregue um trem em $1{,}2\,$h, ou seja $\mu = 1/1{,}2 \approx 0{,}833\,$trem/h. A carga oferecida é $a = 3/0{,}833 = 3{,}6$. Com **$c = 4$ baias**, a utilização é $\rho = 3{,}6/4 = 0{,}90$. Calculando os termos do denominador:
 
-    # Probabilidade de o sistema estar vazio (P0)
-    soma = sum(a**n / math.factorial(n) for n in range(c))
-    termo_c = a**c / (math.factorial(c) * (1 - rho))
-    p0 = 1 / (soma + termo_c)
+$$
+\sum_{n=0}^{3}\frac{a^{n}}{n!} = 1 + 3{,}6 + \frac{3{,}6^{2}}{2} + \frac{3{,}6^{3}}{6} = 1 + 3{,}6 + 6{,}48 + 7{,}78 = 18{,}86
+$$
 
-    pwait = termo_c * p0          # P(esperar) — formula de Erlang C
-    Lq = pwait * rho / (1 - rho)  # numero medio de trens na fila
-    Wq = Lq / lmbda              # tempo medio de espera na fila (h)
-    W = Wq + 1 / mu              # tempo medio no sistema = espera + descarga (h)
-    return rho, pwait, Lq, Wq, W
+$$
+\frac{a^{4}}{4!}\cdot\frac{1}{1-\rho} = \frac{167{,}96}{24}\cdot\frac{1}{0{,}10} = 7{,}00 \times 10 = 69{,}98
+$$
 
-# Cenario: chegam em media 3 trens/h; cada baia descarrega 1 trem em 1,2 h
-lmbda = 3.0
-mu = 1 / 1.2                      # mu = 0,833 trem/h por baia
+Logo, para $c = 4$:
 
-print("c | utilizacao | P(espera) | fila (trens) | espera (min) | sistema (min)")
-for c in (4, 5, 6):
-    rho, pwait, Lq, Wq, W = metricas_mmc(lmbda, mu, c)
-    print(f"{c} |   {rho:5.2f}    |   {pwait:5.2f}   |    {Lq:6.2f}    |"
-          f"   {Wq*60:6.1f}    |   {W*60:6.1f}")
-```
+$$
+P_{\text{espera}} = \frac{69{,}98}{18{,}86 + 69{,}98} = 0{,}79,\qquad
+L_q = 0{,}79\cdot\frac{0{,}90}{0{,}10} \approx 7{,}1\ \text{trens},\qquad
+W_q = \frac{7{,}1}{3} \approx 2{,}4\ \mathrm{h}\ (\approx 142\,\mathrm{min}).
+$$
 
-A saída é:
+Refazendo a mesma conta para $c = 5$ e $c = 6$ baias, monta-se a tabela de desempenho do pátio:
 
-```text
-c | utilizacao | P(espera) | fila (trens) | espera (min) | sistema (min)
-4 |    0.90    |    0.79   |      7.09    |    141.8    |    213.8
-5 |    0.72    |    0.41   |      1.06    |     21.1    |     93.1
-6 |    0.60    |    0.20   |      0.29    |      5.9    |     77.9
-```
+| Baias $c$ | Utilização $\rho$ | $P_{\text{espera}}$ | Fila $L_q$ (trens) | Espera $W_q$ |
+| --- | --- | --- | --- | --- |
+| 4 | 0,90 | 0,79 | 7,1 | $\approx 142\,\mathrm{min}$ |
+| 5 | 0,72 | 0,41 | 1,1 | $\approx 21\,\mathrm{min}$ |
+| 6 | 0,60 | 0,20 | 0,3 | $\approx 6\,\mathrm{min}$ |
 
-**Interpretação.** Com apenas **4 baias** a utilização sobe a $0{,}90$ e o sistema entra em colapso prático: a espera média explode para quase $142\,\mathrm{min}$ por trem — o efeito clássico de operar perto de $100\,\%$, em que pequenas variações geram filas enormes. Acrescentar **uma quinta baia** derruba a espera para $\approx 21\,\mathrm{min}$, e a **sexta** a leva a menos de $6\,\mathrm{min}$. A lição de engenharia é que **capacidade não é linear**: a última fração de utilização custa caríssimo em tempo de espera, e o dimensionamento certo do pátio é o que evita trens parados na linha esperando descarga — gargalo típico na interface ferrovia–porto. Para chegadas com horários (não puramente aleatórias) ou para incluir falhas e manutenção, parte-se deste modelo analítico para uma **simulação de eventos discretos** (ex.: `simpy`) ou para uma **análise de Monte Carlo** de risco, mantendo a mesma lógica de servidores e fila.
+**Interpretação.** Com apenas **4 baias** a utilização sobe a $0{,}90$ e o sistema entra em colapso prático: a espera média explode para quase $142\,\mathrm{min}$ por trem — o efeito clássico de operar perto de $100\,\%$, em que pequenas variações geram filas enormes. Acrescentar **uma quinta baia** derruba a espera para $\approx 21\,\mathrm{min}$, e a **sexta** a leva a menos de $6\,\mathrm{min}$. A lição de engenharia é que **capacidade não é linear**: a última fração de utilização custa caríssimo em tempo de espera, e o dimensionamento certo do pátio é o que evita trens parados na linha esperando descarga — gargalo típico na interface ferrovia–porto. Para chegadas com horários (não puramente aleatórias) ou para incluir falhas e manutenção, parte-se deste modelo analítico para uma **simulação de eventos discretos** ou para uma **análise de Monte Carlo** de risco, mantendo a mesma lógica de servidores e fila.
 
 ### Síntese: integrar portos, aeroportos e ferrovias
 
@@ -537,7 +523,7 @@ Elabore um **plano logístico intermodal** para escoar a produção de grãos de
 - ANTT — Portal institucional: https://www.gov.br/antt/pt-br
 - Wikipedia — Trem de alta velocidade: https://pt.wikipedia.org/wiki/Trem_de_alta_velocidade
 - ETCS Levels and Modes — Comissão Europeia (Mobility and Transport), referência sobre os níveis ETCS/ERTMS e bloqueio móvel: https://transport.ec.europa.eu/transport-modes/rail/ertms/what-ertms-and-how-does-it-work/etcs-levels-and-modes_en
-- Documentação da fila M/M/c / fórmula de Erlang C (MetricGate) — base do exemplo em Python de capacidade de pátio: https://metricgate.com/docs/queueing-theory/
+- Documentação da fila M/M/c / fórmula de Erlang C (MetricGate) — base do exemplo de cálculo de capacidade de pátio: https://metricgate.com/docs/queueing-theory/
 
 ### Encerramento da disciplina
 
