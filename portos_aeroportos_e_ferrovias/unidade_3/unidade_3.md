@@ -12,7 +12,7 @@ Um aeroporto não é apenas uma pista com um prédio ao lado. É um sistema comp
 
 O transporte aéreo é um **sistema integrado** composto por quatro grandes elementos que precisam funcionar em harmonia: a **aeronave**, o **espaço aéreo** (rotas e controle de tráfego), o **aeroporto** (infraestrutura de solo) e o **usuário** (passageiro ou carga). O aeroporto é o nó físico onde o transporte aéreo toca o solo — é o ponto de transição entre o modo aéreo e os demais modos (rodoviário, ferroviário, metroviário).
 
-No Brasil, esse sistema é gigantesco: são mais de 2.500 aeródromos cadastrados, dos quais cerca de 600 públicos. Os 10 maiores concentram a maior parte do tráfego — uma característica típica de redes aéreas, organizadas em **hubs** (centros concentradores como GRU e Brasília) e **spokes** (aeroportos regionais que alimentam os hubs).
+No Brasil, esse sistema é gigantesco: são mais de 2.500 aeródromos cadastrados, dos quais cerca de 500 públicos. Os 10 maiores concentram a maior parte do tráfego — uma característica típica de redes aéreas, organizadas em **hubs** (centros concentradores como GRU e Brasília) e **spokes** (aeroportos regionais que alimentam os hubs).
 
 ![Boeing 777 da Oceanair pronto para decolar em pista de aeroporto, ilustrando a interface entre aeronave e infraestrutura de solo](https://commons.wikimedia.org/wiki/Special:FilePath/Oceanair_6304_cleared_for_takeoff_09L_%287980468614%29.jpg)
 
@@ -22,25 +22,25 @@ Aeroportos são classificados sob vários critérios. Os principais:
 
 - **Por natureza do tráfego:** doméstico ou internacional (estes com alfândega, imigração e vigilância sanitária).
 - **Por função na rede:** hub, regional, executivo ou de carga.
-- **Pelo "código de referência" da OACI/ICAO:** combina um **número** (1 a 4), ligado ao comprimento de pista de referência da aeronave, e uma **letra** (A a F), ligada à envergadura e à bitola do trem de pouso. Por exemplo, um aeroporto **4E** atende aeronaves de grande porte como o Boeing 777; **4F** atende o Airbus A380 (envergadura de até $80\,\mathrm{m}$).
+- **Pelo "código de referência" da OACI/ICAO:** combina um **número** (1 a 4), ligado ao comprimento de pista de referência da aeronave, e uma **letra** (A a F), ligada à envergadura e à bitola do trem de pouso. Por exemplo, um aeroporto **4E** atende aeronaves de grande porte como o Boeing 777; **4F** atende o Airbus A380 (envergadura de até <img src="assets/eq/u3_001.png" alt="80\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />).
 
 O código de referência (OACI, Anexo 14 / RBAC 154) é definido por duas tabelas:
 
 | Número | Comprimento de pista de referência |
 | --- | --- |
-| **1** | $< 800\,\mathrm{m}$ |
-| **2** | $800$ a $< 1\,200\,\mathrm{m}$ |
-| **3** | $1\,200$ a $< 1\,800\,\mathrm{m}$ |
-| **4** | $\geq 1\,800\,\mathrm{m}$ |
+| **1** | <img src="assets/eq/u3_002.png" alt="&lt; 800\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> |
+| **2** | <img src="assets/eq/u3_003.png" alt="800" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_004.png" alt="&lt; 1\,200\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> |
+| **3** | <img src="assets/eq/u3_005.png" alt="1\,200" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_006.png" alt="&lt; 1\,800\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> |
+| **4** | <img src="assets/eq/u3_007.png" alt="\geq 1\,800\,\mathrm{m}" style="height:1.819ex; vertical-align:0ex;" /> |
 
 | Letra | Envergadura | Exemplo de aeronave |
 | --- | --- | --- |
-| **A** | $< 15\,\mathrm{m}$ | aviação geral leve |
-| **B** | $15$ a $< 24\,\mathrm{m}$ | ATR 72, E145 |
-| **C** | $24$ a $< 36\,\mathrm{m}$ | A320, B737 |
-| **D** | $36$ a $< 52\,\mathrm{m}$ | B767 |
-| **E** | $52$ a $< 65\,\mathrm{m}$ | B777, B787 |
-| **F** | $65$ a $< 80\,\mathrm{m}$ | A380 |
+| **A** | <img src="assets/eq/u3_008.png" alt="&lt; 15\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> | aviação geral leve |
+| **B** | <img src="assets/eq/u3_009.png" alt="15" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_010.png" alt="&lt; 24\,\mathrm{m}" style="height:1.622ex; vertical-align:0ex;" /> | ATR 72, E145 |
+| **C** | <img src="assets/eq/u3_011.png" alt="24" style="height:1.532ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_012.png" alt="&lt; 36\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> | A320, B737 |
+| **D** | <img src="assets/eq/u3_013.png" alt="36" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_014.png" alt="&lt; 52\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> | B767 |
+| **E** | <img src="assets/eq/u3_015.png" alt="52" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_016.png" alt="&lt; 65\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> | B777, B787 |
+| **F** | <img src="assets/eq/u3_017.png" alt="65" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_018.png" alt="&lt; 80\,\mathrm{m}" style="height:1.597ex; vertical-align:0ex;" /> | A380 |
 
 Essa codificação é decisiva no projeto: ela define larguras de pista, distâncias de segurança, raios de curva de taxiway e dimensões de pátio.
 
@@ -61,7 +61,7 @@ Sobre essa base de dados operam dois algoritmos de **sequenciamento**:
 - **AMAN (Arrival Manager):** ordena os pousos, calculando para cada aeronave em rota um horário-alvo de toque (*Target Landing Time*) que espaça as chegadas no limite mínimo de separação, evitando "esperas em órbita" (*holdings*) que queimam combustível.
 - **DMAN (Departure Manager):** ordena as decolagens, integrando restrições de *slot* da rede, capacidade da pista e tempo de táxi.
 
-A **integração AMAN-DMAN** (com o A-SMGCS, que vigia a superfície) permite otimizar pousos e decolagens na **mesma pista** simultaneamente. O problema de sequenciamento é combinatório e cresce de forma fatorial com o número de aeronaves, e por isso é hoje atacado por técnicas de **pesquisa operacional e inteligência artificial** — programação inteira mista, algoritmos genéticos e, na fronteira da pesquisa, **aprendizado por reforço multiagente**, que aprende políticas de sequenciamento que minimizam atraso total e consumo de combustível. O ganho não é trivial: ao reduzir o táxi e os *holdings*, o A-CDM corta diretamente atraso, custo e **emissões de $\mathrm{CO_2}$** — um vetor explícito da agenda **ESG** do setor.
+A **integração AMAN-DMAN** (com o A-SMGCS, que vigia a superfície) permite otimizar pousos e decolagens na **mesma pista** simultaneamente. O problema de sequenciamento é combinatório e cresce de forma fatorial com o número de aeronaves, e por isso é hoje atacado por técnicas de **pesquisa operacional e inteligência artificial** — programação inteira mista, algoritmos genéticos e, na fronteira da pesquisa, **aprendizado por reforço multiagente**, que aprende políticas de sequenciamento que minimizam atraso total e consumo de combustível. O ganho não é trivial: ao reduzir o táxi e os *holdings*, o A-CDM corta diretamente atraso, custo e **emissões de <img src="assets/eq/u3_019.png" alt="\mathrm{CO_2}" style="height:1.934ex; vertical-align:0ex;" />** — um vetor explícito da agenda **ESG** do setor.
 
 ### Plano diretor aeroportuário
 
@@ -84,41 +84,31 @@ A fronteira entre eles é o **canal de inspeção de segurança** (raio-X, detec
 
 O perímetro de um aeroporto pode ter dezenas de quilômetros de cerca a proteger contra intrusão de pessoas e de fauna. A vigilância clássica — patrulhas e câmeras fixas — não cobre essa extensão com a densidade necessária. A tecnologia que mudou esse jogo é o **DAS (Distributed Acoustic Sensing — sensoriamento acústico distribuído)**, que transforma um **cabo de fibra óptica comum**, enterrado junto à cerca, em uma cadeia de milhares de "microfones virtuais".
 
-O princípio é a **reflectometria óptica no domínio do tempo coerente (C-OTDR)**: um pulso de laser é injetado na fibra e, a cada instante, mede-se a luz **retroespalhada** (efeito de *Rayleigh backscattering*). Qualquer vibração no solo — passos, escavação, alguém cortando ou escalando a cerca, um veículo se aproximando — deforma microscopicamente a fibra e altera a fase da luz retroespalhada naquele trecho. Como a luz viaja a uma velocidade conhecida, o **tempo de retorno do eco localiza o evento** ao longo do cabo com resolução de poucos metros. Sistemas comerciais cobrem tipicamente até $40$–$50\,\mathrm{km}$ por unidade interrogadora, com resolução espacial de $1$ a $10\,\mathrm{m}$. Sobre o sinal acústico, algoritmos de **classificação (machine learning)** distinguem a "assinatura" de um intruso humano da de um animal, da chuva ou do vento — reduzindo alarmes falsos. As vantagens estruturais: a fibra é **passiva** (não precisa de energia no campo, não atrai raios) e **imune a interferência eletromagnética**.
+O princípio é a **reflectometria óptica no domínio do tempo coerente (C-OTDR)**: um pulso de laser é injetado na fibra e, a cada instante, mede-se a luz **retroespalhada** (efeito de *Rayleigh backscattering*). Qualquer vibração no solo — passos, escavação, alguém cortando ou escalando a cerca, um veículo se aproximando — deforma microscopicamente a fibra e altera a fase da luz retroespalhada naquele trecho. Como a luz viaja a uma velocidade conhecida, o **tempo de retorno do eco localiza o evento** ao longo do cabo com resolução de poucos metros. Sistemas comerciais cobrem tipicamente até <img src="assets/eq/u3_020.png" alt="40" style="height:1.581ex; vertical-align:0ex;" />–<img src="assets/eq/u3_021.png" alt="50\,\mathrm{km}" style="height:1.62ex; vertical-align:0ex;" /> por unidade interrogadora, com resolução espacial de <img src="assets/eq/u3_022.png" alt="1" style="height:1.507ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_023.png" alt="10\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />. Sobre o sinal acústico, algoritmos de **classificação (machine learning)** distinguem a "assinatura" de um intruso humano da de um animal, da chuva ou do vento — reduzindo alarmes falsos. As vantagens estruturais: a fibra é **passiva** (não precisa de energia no campo, não atrai raios) e **imune a interferência eletromagnética**.
 
 #### Exemplo numérico: localização de uma intrusão por DAS
 
-Um interrogador DAS monitora um perímetro com fibra de índice de refração $n = 1{,}47$. Um pico acústico é detectado e o eco retorna $\Delta t = 142\,\mathrm{\mu s}$ após o pulso. A que distância da central está o ponto de intrusão? A luz percorre a fibra à velocidade $v = c/n$, e o pulso faz o **caminho de ida e volta** ($2L$):
+Um interrogador DAS monitora um perímetro com fibra de índice de refração <img src="assets/eq/u3_024.png" alt="n = 1{,}47" style="height:1.971ex; vertical-align:0ex;" />. Um pico acústico é detectado e o eco retorna <img src="assets/eq/u3_025.png" alt="\Delta t = 142\,\mathrm{\mu s}" style="height:2.109ex; vertical-align:0ex;" /> após o pulso. A que distância da central está o ponto de intrusão? A luz percorre a fibra à velocidade <img src="assets/eq/u3_026.png" alt="v = c/n" style="height:2.262ex; vertical-align:0ex;" />, e o pulso faz o **caminho de ida e volta** (<img src="assets/eq/u3_027.png" alt="2L" style="height:1.545ex; vertical-align:0ex;" />):
 
-$$
-v = \frac{c}{n} = \frac{3{,}0 \times 10^{8}}{1{,}47} \approx 2{,}04 \times 10^{8}\,\mathrm{m/s}
-$$
+<p align="center"><img src="assets/eq/u3_028.png" alt="v = \frac{c}{n} = \frac{3{,}0 \times 10^{8}}{1{,}47} \approx 2{,}04 \times 10^{8}\,\mathrm{m/s}" width="371" style="max-width:100%; height:auto;" /></p>
 
-$$
-L = \frac{v \cdot \Delta t}{2} = \frac{2{,}04 \times 10^{8} \cdot 142 \times 10^{-6}}{2} \approx 14\,490\,\mathrm{m} \approx 14{,}5\,\mathrm{km}
-$$
+<p align="center"><img src="assets/eq/u3_029.png" alt="L = \frac{v \cdot \Delta t}{2} = \frac{2{,}04 \times 10^{8} \cdot 142 \times 10^{-6}}{2} \approx 14\,490\,\mathrm{m} \approx 14{,}5\,\mathrm{km}" width="597" style="max-width:100%; height:auto;" /></p>
 
-O sistema aponta a intrusão no **km $14{,}5$** do perímetro. Se a resolução espacial do equipamento é de $5\,\mathrm{m}$, a equipe de segurança é despachada para um trecho de cerca bem definido — em vez de varrer 14 km de perímetro às cegas.
+O sistema aponta a intrusão no **km <img src="assets/eq/u3_030.png" alt="14{,}5" style="height:1.971ex; vertical-align:0ex;" />** do perímetro. Se a resolução espacial do equipamento é de <img src="assets/eq/u3_031.png" alt="5\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />, a equipe de segurança é despachada para um trecho de cerca bem definido — em vez de varrer 14 km de perímetro às cegas.
 
 ### Exemplo numérico: demanda de passageiros
 
 Um aeroporto regional movimenta hoje **800.000 passageiros/ano** e cresce a uma taxa de **6% ao ano**. Quantos passageiros são esperados em **10 anos**? Usamos a projeção de crescimento geométrico:
 
-$$
-P_{10} = P_0 \cdot (1 + i)^{n}
-$$
+<p align="center"><img src="assets/eq/u3_032.png" alt="P_{10} = P_0 \cdot (1 + i)^{n}" width="181" style="max-width:100%; height:auto;" /></p>
 
-Com $P_0 = 800.000$, $i = 0{,}06$ e $n = 10$:
+Com <img src="assets/eq/u3_033.png" alt="P_0 = 800.000" style="height:1.92ex; vertical-align:0ex;" />, <img src="assets/eq/u3_034.png" alt="i = 0{,}06" style="height:1.946ex; vertical-align:0ex;" /> e <img src="assets/eq/u3_035.png" alt="n = 10" style="height:1.692ex; vertical-align:0ex;" />:
 
-$$
-P_{10} = 800.000 \cdot (1{,}06)^{10} = 800.000 \cdot 1{,}7908 \approx 1.432.700 \text{ passageiros/ano}
-$$
+<p align="center"><img src="assets/eq/u3_036.png" alt="P_{10} = 800.000 \cdot (1{,}06)^{10} = 800.000 \cdot 1{,}7908 \approx 1.432.700 \text{ passageiros/ano}" width="703" style="max-width:100%; height:auto;" /></p>
 
-Para dimensionar o terminal, porém, não usamos o total anual, mas a **hora-pico de projeto (HPP)** — tipicamente entre $0{,}03\%$ e $0{,}05\%$ do movimento anual. Adotando $0{,}04\%$:
+Para dimensionar o terminal, porém, não usamos o total anual, mas a **hora-pico de projeto (HPP)** — tipicamente entre <img src="assets/eq/u3_037.png" alt="0{,}03\%" style="height:2.136ex; vertical-align:0ex;" /> e <img src="assets/eq/u3_038.png" alt="0{,}05\%" style="height:2.136ex; vertical-align:0ex;" /> do movimento anual. Adotando <img src="assets/eq/u3_039.png" alt="0{,}04\%" style="height:2.136ex; vertical-align:0ex;" />:
 
-$$
-\text{HPP} = 1.432.700 \cdot 0{,}0004 \approx 573 \text{ passageiros na hora-pico}
-$$
+<p align="center"><img src="assets/eq/u3_040.png" alt="\text{HPP} = 1.432.700 \cdot 0{,}0004 \approx 573 \text{ passageiros na hora-pico}" width="561" style="max-width:100%; height:auto;" /></p>
 
 É esse número — e não o anual — que dita o tamanho dos balcões de check-in e dos saguões.
 
@@ -172,23 +162,23 @@ Escolha um aeroporto que você conhece (pode ser Congonhas, Galeão ou o aeropor
 
 ## Aula 10 — Lado ar: pistas, pátios e geometria aeroportuária
 
-A pista é o coração do lado ar — a faixa de pavimento onde a aeronave acelera de zero a mais de $300\,\mathrm{km/h}$ na decolagem, ou dissipa essa energia toda no pouso. Mas o lado ar é muito mais que a pista: é um conjunto coreografado de pistas, taxiways e pátios em que cada metro, cada ângulo e cada distância seguem normas rígidas da OACI. Nesta aula, você vai entender por que uma pista recebe um número pintado em sua cabeceira, como se decide seu comprimento, e como os auxílios à navegação permitem pousos seguros mesmo com visibilidade quase nula.
+A pista é o coração do lado ar — a faixa de pavimento onde a aeronave acelera de zero a mais de <img src="assets/eq/u3_041.png" alt="300\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> na decolagem, ou dissipa essa energia toda no pouso. Mas o lado ar é muito mais que a pista: é um conjunto coreografado de pistas, taxiways e pátios em que cada metro, cada ângulo e cada distância seguem normas rígidas da OACI. Nesta aula, você vai entender por que uma pista recebe um número pintado em sua cabeceira, como se decide seu comprimento, e como os auxílios à navegação permitem pousos seguros mesmo com visibilidade quase nula.
 
 ### Pistas de pouso e decolagem
 
-A **pista** (*runway*) é uma área retangular destinada ao pouso e à decolagem. Suas dimensões dependem do código de referência: pistas de código 4 (as maiores) têm tipicamente **$45\,\mathrm{m}$ de largura** e comprimentos entre $1.800$ e $4.000\,\mathrm{m}$. A pista é cercada por **faixas de segurança** (laterais e nas pontas, as *RESA — Runway End Safety Areas*), que absorvem eventuais saídas de pista. Aeroportos grandes podem ter pistas **paralelas** (como Guarulhos) para aumentar a capacidade, ou pistas que se cruzam.
+A **pista** (*runway*) é uma área retangular destinada ao pouso e à decolagem. Suas dimensões dependem do código de referência: pistas de código 4 (as maiores) têm tipicamente **<img src="assets/eq/u3_042.png" alt="45\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" /> de largura** e comprimentos entre <img src="assets/eq/u3_043.png" alt="1.800" style="height:1.557ex; vertical-align:0ex;" /> e <img src="assets/eq/u3_044.png" alt="4.000\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" />. A pista é cercada por **faixas de segurança** (laterais e nas pontas, as *RESA — Runway End Safety Areas*), que absorvem eventuais saídas de pista. Aeroportos grandes podem ter pistas **paralelas** (como Guarulhos) para aumentar a capacidade, ou pistas que se cruzam.
 
 ### Taxiways e pátios
 
 As **taxiways** (pistas de táxi) conectam a pista aos pátios. São mais estreitas que a pista e projetadas para baixa velocidade. Uma boa rede de taxiways tem **saídas rápidas** (*rapid exit taxiways*), com ângulos de 30°, que permitem à aeronave deixar a pista sem reduzir tanto a velocidade — liberando a pista mais rápido para o próximo pouso.
 
-O **pátio** (*apron* ou *ramp*) é onde as aeronaves estacionam para embarque, desembarque, abastecimento e manutenção. Cada posição de estacionamento é um *gate*. O pátio precisa de espaço generoso: uma posição para um A320 ocupa cerca de $50 \times 40\,\mathrm{m}$, mais as faixas de circulação dos veículos de apoio.
+O **pátio** (*apron* ou *ramp*) é onde as aeronaves estacionam para embarque, desembarque, abastecimento e manutenção. Cada posição de estacionamento é um *gate*. O pátio precisa de espaço generoso: uma posição para um A320 ocupa cerca de <img src="assets/eq/u3_045.png" alt="50 \times 40\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" />, mais as faixas de circulação dos veículos de apoio.
 
 ![Aeronaves estacionadas no pátio do Aeroporto de Congonhas, em São Paulo, mostrando posições de estacionamento e movimentação de solo](https://commons.wikimedia.org/wiki/Special:FilePath/Aeroporto_de_Congonhas_-_Aeronaves.jpg)
 
 ### Geometria e orientação de pista
 
-A pista é orientada segundo a direção do **vento predominante** — aviões pousam e decolam contra o vento, o que reduz a velocidade em relação ao solo e encurta a corrida. A **designação numérica** da pista vem do seu azimute magnético dividido por 10 e arredondado. Uma pista alinhada a $093°$ vira pista **09** de um lado e **27** do outro (sentido oposto, $093° - 180° = 273° \to 27$). Os dois números de uma mesma pista sempre diferem de 18. Quando há pistas paralelas, acrescentam-se letras: **09L** (*left*) e **09R** (*right*).
+A pista é orientada segundo a direção do **vento predominante** — aviões pousam e decolam contra o vento, o que reduz a velocidade em relação ao solo e encurta a corrida. A **designação numérica** da pista vem do seu azimute magnético dividido por 10 e arredondado. Uma pista alinhada a <img src="assets/eq/u3_046.png" alt="093°" style="height:1.667ex; vertical-align:0ex;" /> vira pista **09** de um lado e **27** do outro (sentido oposto, <img src="assets/eq/u3_047.png" alt="093° - 180° = 273° \to 27" style="height:1.803ex; vertical-align:0ex;" />). Os dois números de uma mesma pista sempre diferem de 18. Quando há pistas paralelas, acrescentam-se letras: **09L** (*left*), **09C** (*center*, em pistas triplas) e **09R** (*right*).
 
 O alinhamento ótimo é definido pela **rosa dos ventos**, que cruza dados de direção e intensidade do vento. A OACI exige que a pista atenda a um **coeficiente de utilização de pelo menos 95%** — ou seja, o vento de través (*crosswind*) deve estar dentro do limite tolerável em pelo menos 95% do tempo.
 
@@ -196,10 +186,10 @@ O alinhamento ótimo é definido pela **rosa dos ventos**, que cruza dados de di
 
 ### Comprimento de pista e desempenho
 
-O comprimento de pista é talvez o cálculo mais crítico do projeto. Parte-se do **comprimento básico** exigido pela aeronave-crítica em condições padrão (nível do mar, $15°\mathrm{C}$, pista horizontal) e aplicam-se **fatores de correção**, porque condições reais reduzem o desempenho do avião:
+O comprimento de pista é talvez o cálculo mais crítico do projeto. Parte-se do **comprimento básico** exigido pela aeronave-crítica em condições padrão (nível do mar, <img src="assets/eq/u3_048.png" alt="15°\mathrm{C}" style="height:1.667ex; vertical-align:0ex;" />, pista horizontal) e aplicam-se **fatores de correção**, porque condições reais reduzem o desempenho do avião:
 
-- **Altitude:** o ar rarefeito reduz a sustentação e o empuxo. Acrescenta-se **7% a cada $300\,\mathrm{m}$** de elevação.
-- **Temperatura:** ar quente é menos denso. Acrescenta-se **1% a cada $1°\mathrm{C}$** acima da temperatura padrão do local.
+- **Altitude:** o ar rarefeito reduz a sustentação e o empuxo. Acrescenta-se **7% a cada <img src="assets/eq/u3_049.png" alt="300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />** de elevação.
+- **Temperatura:** ar quente é menos denso. Acrescenta-se **1% a cada <img src="assets/eq/u3_050.png" alt="1°\mathrm{C}" style="height:1.665ex; vertical-align:0ex;" />** acima da temperatura padrão do local.
 - **Rampa (declividade):** acrescenta-se **10% a cada 1%** de rampa ascendente efetiva.
 
 ### Auxílios à navegação aérea
@@ -213,41 +203,33 @@ Para pousar com segurança em qualquer condição, a aeronave conta com auxílio
 
 ### Exemplo numérico: comprimento de pista
 
-Uma aeronave exige comprimento básico de **$2.400\,\mathrm{m}$** em condições padrão. O aeroporto está a **$900\,\mathrm{m}$** de altitude, com temperatura de referência **$30°\mathrm{C}$** e rampa de **$0{,}8\%$**. A temperatura padrão ao nível do mar é $15°\mathrm{C}$, mas decresce $6{,}5°\mathrm{C}$ a cada $1.000\,\mathrm{m}$; a $900\,\mathrm{m}$, a padrão local é $15 - 6{,}5 \cdot 0{,}9 \approx 9{,}1°\mathrm{C}$.
+Uma aeronave exige comprimento básico de **<img src="assets/eq/u3_051.png" alt="2.400\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" />** em condições padrão. O aeroporto está a **<img src="assets/eq/u3_052.png" alt="900\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />** de altitude, com temperatura de referência **<img src="assets/eq/u3_053.png" alt="30°\mathrm{C}" style="height:1.667ex; vertical-align:0ex;" />** e rampa de **<img src="assets/eq/u3_054.png" alt="0{,}8\%" style="height:2.136ex; vertical-align:0ex;" />**. A temperatura padrão ao nível do mar é <img src="assets/eq/u3_055.png" alt="15°\mathrm{C}" style="height:1.667ex; vertical-align:0ex;" />, mas decresce <img src="assets/eq/u3_056.png" alt="6{,}5°\mathrm{C}" style="height:2.057ex; vertical-align:0ex;" /> a cada <img src="assets/eq/u3_057.png" alt="1.000\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />; a <img src="assets/eq/u3_058.png" alt="900\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />, a padrão local é <img src="assets/eq/u3_059.png" alt="15 - 6{,}5 \cdot 0{,}9 \approx 9{,}1°\mathrm{C}" style="height:2.057ex; vertical-align:0ex;" />.
 
-**Correção de altitude** ($+7\%$ por $300\,\mathrm{m}$):
+**Correção de altitude** (<img src="assets/eq/u3_060.png" alt="+7\%" style="height:1.882ex; vertical-align:0ex;" /> por <img src="assets/eq/u3_061.png" alt="300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />):
 
-$$
-f_a = 1 + 0{,}07 \cdot \frac{900}{300} = 1 + 0{,}21 = 1{,}21
-$$
+<p align="center"><img src="assets/eq/u3_062.png" alt="f_a = 1 + 0{,}07 \cdot \frac{900}{300} = 1 + 0{,}21 = 1{,}21" width="374" style="max-width:100%; height:auto;" /></p>
 
-**Correção de temperatura** ($+1\%$ por $°\mathrm{C}$ acima da padrão local; excesso $= 30 - 9{,}1 = 20{,}9°\mathrm{C}$):
+**Correção de temperatura** (<img src="assets/eq/u3_063.png" alt="+1\%" style="height:1.882ex; vertical-align:0ex;" /> por <img src="assets/eq/u3_064.png" alt="°\mathrm{C}" style="height:1.665ex; vertical-align:0ex;" /> acima da padrão local; excesso <img src="assets/eq/u3_065.png" alt="= 30 - 9{,}1 = 20{,}9°\mathrm{C}" style="height:2.057ex; vertical-align:0ex;" />):
 
-$$
-f_t = 1 + 0{,}01 \cdot 20{,}9 = 1{,}209
-$$
+<p align="center"><img src="assets/eq/u3_066.png" alt="f_t = 1 + 0{,}01 \cdot 20{,}9 = 1{,}209" width="269" style="max-width:100%; height:auto;" /></p>
 
-**Correção de rampa** ($+10\%$ por $1\%$):
+**Correção de rampa** (<img src="assets/eq/u3_067.png" alt="+10\%" style="height:1.882ex; vertical-align:0ex;" /> por <img src="assets/eq/u3_068.png" alt="1\%" style="height:1.824ex; vertical-align:0ex;" />):
 
-$$
-f_r = 1 + 0{,}10 \cdot 0{,}8 = 1{,}08
-$$
+<p align="center"><img src="assets/eq/u3_069.png" alt="f_r = 1 + 0{,}10 \cdot 0{,}8 = 1{,}08" width="248" style="max-width:100%; height:auto;" /></p>
 
 O comprimento corrigido é o produto:
 
-$$
-L = 2.400 \cdot 1{,}21 \cdot 1{,}209 \cdot 1{,}08 \approx 3.792\,\mathrm{m}
-$$
+<p align="center"><img src="assets/eq/u3_070.png" alt="L = 2.400 \cdot 1{,}21 \cdot 1{,}209 \cdot 1{,}08 \approx 3.792\,\mathrm{m}" width="386" style="max-width:100%; height:auto;" /></p>
 
-As condições adversas exigiram quase **$1.400\,\mathrm{m}$ a mais** que o comprimento básico — uma diferença que pode inviabilizar operações de aeronaves grandes em aeroportos de altitude e clima quente.
+As condições adversas exigiram quase **<img src="assets/eq/u3_071.png" alt="1.400\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" /> a mais** que o comprimento básico — uma diferença que pode inviabilizar operações de aeronaves grandes em aeroportos de altitude e clima quente.
 
 ### Atividade prática
 
-Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um Boeing 737 MAX) nos manuais ou em fontes confiáveis. Para um aeroporto fictício a $1.200\,\mathrm{m}$ de altitude, $32°\mathrm{C}$ de temperatura de referência e $0{,}5\%$ de rampa, calcule o comprimento de pista corrigido necessário para cada uma. Qual aeronave é a "crítica" (a que exige mais pista)? É ela que define o projeto.
+Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um Boeing 737 MAX) nos manuais ou em fontes confiáveis. Para um aeroporto fictício a <img src="assets/eq/u3_072.png" alt="1.200\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> de altitude, <img src="assets/eq/u3_073.png" alt="32°\mathrm{C}" style="height:1.667ex; vertical-align:0ex;" /> de temperatura de referência e <img src="assets/eq/u3_074.png" alt="0{,}5\%" style="height:2.136ex; vertical-align:0ex;" /> de rampa, calcule o comprimento de pista corrigido necessário para cada uma. Qual aeronave é a "crítica" (a que exige mais pista)? É ela que define o projeto.
 
 ### Pontos-chave
 
-- A **pista** é dimensionada pelo código de referência; pistas código 4 têm cerca de $45\,\mathrm{m}$ de largura.
+- A **pista** é dimensionada pelo código de referência; pistas código 4 têm cerca de <img src="assets/eq/u3_075.png" alt="45\,\mathrm{m}" style="height:1.581ex; vertical-align:0ex;" /> de largura.
 - **Taxiways** conectam pista e pátio; saídas rápidas a 30° liberam a pista mais cedo.
 - A **designação numérica** vem do azimute magnético /10; pistas paralelas recebem L/R.
 - O **comprimento de pista** parte do básico e recebe correções de **altitude (7% por 300 m), temperatura (1% por °C) e rampa (10% por 1%)**.
@@ -288,14 +270,14 @@ Pegue os dados de duas aeronaves comerciais (por exemplo, um Embraer E195 e um B
 
 ## Aula 11 — Pavimentos aeroportuários e dimensionamento
 
-Um Boeing 777 totalmente carregado pesa cerca de **$350\,\mathrm{t}$** e toca a pista a mais de $250\,\mathrm{km/h}$, transmitindo ao pavimento cargas concentradas dezenas de vezes maiores que as de um caminhão rodoviário. Multiplique isso por milhares de pousos por ano, e você entende por que pavimentos aeroportuários são uma especialidade própria da engenharia civil. Nesta aula, você vai aprender como as cargas das aeronaves chegam ao pavimento, como o engenheiro garante a compatibilidade entre avião e pista pelo método **ACN-PCN**, e como se dimensiona um pavimento aeroportuário pelo método da **FAA**.
+Um Boeing 777 totalmente carregado pesa cerca de **<img src="assets/eq/u3_076.png" alt="350\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" />** e toca a pista a mais de <img src="assets/eq/u3_077.png" alt="250\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />, transmitindo ao pavimento cargas concentradas dezenas de vezes maiores que as de um caminhão rodoviário. Multiplique isso por milhares de pousos por ano, e você entende por que pavimentos aeroportuários são uma especialidade própria da engenharia civil. Nesta aula, você vai aprender como as cargas das aeronaves chegam ao pavimento, como o engenheiro garante a compatibilidade entre avião e pista pelo método **ACN-PCN**, e como se dimensiona um pavimento aeroportuário pelo método da **FAA**.
 
 ### Cargas das aeronaves
 
 A carga de uma aeronave não chega ao pavimento como um peso único: ela se distribui pelo **trem de pouso**. Um avião grande tem o peso dividido entre o trem de nariz e os trens principais, e cada trem principal pode ter múltiplas rodas em arranjos como *dual* (duas rodas), *dual tandem* (quatro rodas em duas filas) ou *dual tandem duplo* (o A380 tem trens com até seis rodas). Quanto mais rodas, mais distribuída a carga e menor a pressão por roda. Dois parâmetros importam:
 
 - A **carga por roda**, que define o esforço pontual.
-- A **pressão dos pneus**, que pode passar de $1{,}4\,\mathrm{MPa}$ (14 atmosferas) e afeta as camadas superficiais.
+- A **pressão dos pneus**, que pode passar de <img src="assets/eq/u3_078.png" alt="1{,}4\,\mathrm{MPa}" style="height:1.984ex; vertical-align:0ex;" /> (14 atmosferas) e afeta as camadas superficiais.
 
 ![Configurações de trem de pouso — simples, dual e dual tandem — e o efeito de distribuir a mesma carga por mais rodas](assets/trem_de_pouso.svg)
 
@@ -306,7 +288,7 @@ Como saber se um avião pode operar em determinada pista sem danificá-la? A OAC
 - **ACN (Aircraft Classification Number):** número que expressa o efeito relativo de uma aeronave sobre o pavimento, para uma dada categoria de resistência do subleito. Cada aeronave tem seu ACN tabelado pelo fabricante.
 - **PCN (Pavement Classification Number):** número que expressa a capacidade de suporte do pavimento.
 
-A regra de ouro: **uma aeronave pode operar livremente se $\text{ACN} \le \text{PCN}$**. Se o ACN for maior, a operação é restrita ou proibida.
+A regra de ouro: **uma aeronave pode operar livremente se <img src="assets/eq/u3_079.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" />**. Se o ACN for maior, a operação é restrita ou proibida.
 
 O PCN é publicado como um código de cinco partes, por exemplo **PCN 80/F/A/W/T**:
 
@@ -337,7 +319,7 @@ O método mais usado mundialmente é o da **FAA** (administração da aviação 
 
 1. O **mix de tráfego** — todas as aeronaves que vão operar, com seus pesos e número de pousos anuais.
 2. A conversão de todas elas em **decolagens anuais equivalentes** de uma aeronave de projeto.
-3. A resistência do subleito (medida pelo **CBR** em flexíveis ou pelo **módulo de reação $k$** em rígidos).
+3. A resistência do subleito (medida pelo **CBR** em flexíveis ou pelo **módulo de reação <img src="assets/eq/u3_080.png" alt="k" style="height:1.595ex; vertical-align:0ex;" />** em rígidos).
 4. O **período de projeto** (tipicamente 20 anos).
 
 O resultado é a espessura de cada camada. O conceito-chave é a **acumulação de dano por fadiga**: cada passagem de aeronave consome uma fração da vida do pavimento.
@@ -350,23 +332,21 @@ Pavimentos aeroportuários exigem manutenção rigorosa, pois um defeito pode ge
 
 Uma pista tem **PCN 60/F/B/X/T**. Três aeronaves desejam operar, com os seguintes ACN (para subleito categoria B, pavimento flexível):
 
-| Aeronave | ACN | $\text{ACN} \le \text{PCN}$? | Situação |
+| Aeronave | ACN | <img src="assets/eq/u3_081.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" />? | Situação |
 | --- | --- | --- | --- |
-| Embraer E195 | 28 | $28 \le 60$ ✔ | Operação livre |
-| Boeing 737-800 | 47 | $47 \le 60$ ✔ | Operação livre |
-| Boeing 767-300 | 68 | $68 > 60$ ✘ | Operação restrita |
+| Embraer E195 | 28 | <img src="assets/eq/u3_082.png" alt="28 \le 60" style="height:1.819ex; vertical-align:0ex;" /> ✔ | Operação livre |
+| Boeing 737-800 | 47 | <img src="assets/eq/u3_083.png" alt="47 \le 60" style="height:1.844ex; vertical-align:0ex;" /> ✔ | Operação livre |
+| Boeing 767-300 | 68 | <img src="assets/eq/u3_084.png" alt="68 &gt; 60" style="height:1.597ex; vertical-align:0ex;" /> ✘ | Operação restrita |
 
-O B767-300, com $\text{ACN} = 68 > \text{PCN} = 60$, **excede a capacidade** em:
+O B767-300, com <img src="assets/eq/u3_085.png" alt="\text{ACN} = 68 &gt; \text{PCN} = 60" style="height:1.805ex; vertical-align:0ex;" />, **excede a capacidade** em:
 
-$$
-\frac{68 - 60}{60} \cdot 100 \approx 13{,}3\%
-$$
+<p align="center"><img src="assets/eq/u3_086.png" alt="\frac{68 - 60}{60} \cdot 100 \approx 13{,}3\%" width="225" style="max-width:100%; height:auto;" /></p>
 
 Operações eventuais (poucos pousos por ano) podem ser autorizadas sob critério do operador, mas o uso regular aceleraria a fadiga do pavimento. Para liberar essa aeronave de forma plena, seria preciso **reforçar o pavimento** até elevar o PCN a pelo menos 68.
 
 ### Pausa para reflexão (Desafio)
 
-Pense no seguinte dilema de engenharia e gestão: um aeroporto regional com pista **PCN 50** recebe uma proposta de uma companhia para operar uma rota lucrativa com uma aeronave de **ACN 62**. Reforçar a pista custaria $\mathrm{R}\$\,40$ milhões e levaria 8 meses, com fechamento parcial. O operador pode (a) recusar a rota, (b) autorizar operações restritas (poucas frequências) monitorando o pavimento, ou (c) investir no reforço. Quais variáveis você colocaria na balança — receita da rota, vida útil residual do pavimento, risco de FOD, custo de oportunidade do fechamento? Não há resposta única: justifique a sua.
+Pense no seguinte dilema de engenharia e gestão: um aeroporto regional com pista **PCN 50** recebe uma proposta de uma companhia para operar uma rota lucrativa com uma aeronave de **ACN 62**. Reforçar a pista custaria <img src="assets/eq/u3_087.png" alt="\mathrm{R}\$\,40" style="height:1.824ex; vertical-align:0ex;" /> milhões e levaria 8 meses, com fechamento parcial. O operador pode (a) recusar a rota, (b) autorizar operações restritas (poucas frequências) monitorando o pavimento, ou (c) investir no reforço. Quais variáveis você colocaria na balança — receita da rota, vida útil residual do pavimento, risco de FOD, custo de oportunidade do fechamento? Não há resposta única: justifique a sua.
 
 ### Atividade prática
 
@@ -375,7 +355,7 @@ Consulte a publicação de informações aeronáuticas (AIP Brasil, do DECEA) ou
 ### Pontos-chave
 
 - A carga da aeronave chega ao pavimento pelo **trem de pouso**; mais rodas = carga mais distribuída.
-- O método **ACN-PCN** é a regra universal de compatibilidade: opera-se livremente se **$\text{ACN} \le \text{PCN}$**.
+- O método **ACN-PCN** é a regra universal de compatibilidade: opera-se livremente se **<img src="assets/eq/u3_088.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" />**.
 - O **PCN** é um código de 5 partes (número/tipo/subleito/pressão/método).
 - Pavimentos **flexíveis** dominam pistas; **rígidos** dominam pátios (carga estática prolongada).
 - O dimensionamento **FAA (FAARFIELD)** converte o tráfego em decolagens equivalentes e acumula dano por fadiga ao longo de ~20 anos.
@@ -432,9 +412,7 @@ O **Terminal de Passageiros (TPS)** é a edificação que processa o passageiro 
 
 O segredo de um bom terminal é separar e ordenar os fluxos. O **fluxo de embarque (saída)** segue uma sequência clássica:
 
-$$
-\text{Acesso} \to \text{Check-in} \to \text{Inspeção de segurança} \to \text{Sala de embarque} \to \text{Aeronave}
-$$
+<p align="center"><img src="assets/eq/u3_089.png" alt="\text{Acesso} \to \text{Check-in} \to \text{Inspeção de segurança} \to \text{Sala de embarque} \to \text{Aeronave}" width="780" style="max-width:100%; height:auto;" /></p>
 
 O **fluxo de desembarque (chegada)** percorre o caminho inverso, somando, nos voos internacionais, a **imigração** e a **alfândega**. Esses fluxos **não devem se cruzar** — daí o uso de pavimentos diferentes (chegadas embaixo, partidas em cima, em muitos aeroportos).
 
@@ -450,14 +428,14 @@ A **IATA** (associação internacional das companhias aéreas) publica, no *Airp
 | **Optimum** | Ótimo | Conforto e custo equilibrados (alvo de projeto) |
 | **Sub-optimum** | Subdimensionado | Aglomeração, filas, desconforto |
 
-Por exemplo, a área recomendada para um passageiro na sala de embarque em nível ótimo gira em torno de **$1{,}5\,\mathrm{m^2}$ a $2{,}3\,\mathrm{m^2}$ por pessoa**, e o tempo de fila no check-in deve ficar abaixo de poucos minutos. Como referência de projeto (IATA ADRM, nível ótimo — ordem de grandeza):
+Por exemplo, a área recomendada para um passageiro na sala de embarque em nível ótimo gira em torno de **<img src="assets/eq/u3_090.png" alt="1{,}5\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> a <img src="assets/eq/u3_091.png" alt="2{,}3\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> por pessoa**, e o tempo de fila no check-in deve ficar abaixo de poucos minutos. Como referência de projeto (IATA ADRM, nível ótimo — ordem de grandeza):
 
 | Ambiente | Área por passageiro (ótimo) | Espera de referência |
 | --- | --- | --- |
-| Saguão de check-in | $1{,}8\text{–}2{,}3\,\mathrm{m^2}$ | fila $\leq$ poucos minutos |
-| Inspeção de segurança | $1{,}0\text{–}1{,}2\,\mathrm{m^2}$ | $\leq 5\,\mathrm{min}$ |
-| Sala de embarque (gate) | $1{,}5\text{–}2{,}3\,\mathrm{m^2}$ | permanência $\approx 30\text{–}45\,\mathrm{min}$ |
-| Restituição de bagagem | $1{,}7\text{–}2{,}0\,\mathrm{m^2}$ | $\leq$ tempo de chegada das malas |
+| Saguão de check-in | <img src="assets/eq/u3_092.png" alt="1{,}8\text{–}2{,}3\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> | fila <img src="assets/eq/u3_093.png" alt="\leq" style="height:1.751ex; vertical-align:0ex;" /> poucos minutos |
+| Inspeção de segurança | <img src="assets/eq/u3_094.png" alt="1{,}0\text{–}1{,}2\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> | <img src="assets/eq/u3_095.png" alt="\leq 5\,\mathrm{min}" style="height:1.826ex; vertical-align:0ex;" /> |
+| Sala de embarque (gate) | <img src="assets/eq/u3_096.png" alt="1{,}5\text{–}2{,}3\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> | permanência <img src="assets/eq/u3_097.png" alt="\approx 30\text{–}45\,\mathrm{min}" style="height:1.581ex; vertical-align:0ex;" /> |
+| Restituição de bagagem | <img src="assets/eq/u3_098.png" alt="1{,}7\text{–}2{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> | <img src="assets/eq/u3_099.png" alt="\leq" style="height:1.751ex; vertical-align:0ex;" /> tempo de chegada das malas |
 
 ### Simulação preditiva de fluxos de passageiros (IA)
 
@@ -465,14 +443,14 @@ Dimensionar um saguão por área-por-passageiro (como faremos no exemplo numéri
 
 Há duas grandes famílias de modelos:
 
-- **Teoria de filas:** cada estação de serviço (check-in, inspeção, imigração) é modelada como uma fila. Um balcão de imigração com $c$ guichês idênticos, chegadas aleatórias (Poisson) à taxa $\lambda$ e atendimento à taxa $\mu$ por guichê é um sistema **M/M/c**. A teoria fornece, em fórmula fechada, o tempo médio de espera e o tamanho da fila — e, crucialmente, mostra que à medida que a **utilização** $\rho = \lambda/(c\,\mu)$ se aproxima de $1$, a fila **explode de forma não linear**. É por isso que um pequeno aumento de demanda na hora-pico vira uma fila gigantesca.
+- **Teoria de filas:** cada estação de serviço (check-in, inspeção, imigração) é modelada como uma fila. Um balcão de imigração com <img src="assets/eq/u3_100.png" alt="c" style="height:1.025ex; vertical-align:0ex;" /> guichês idênticos, chegadas aleatórias (Poisson) à taxa <img src="assets/eq/u3_101.png" alt="\lambda" style="height:1.597ex; vertical-align:0ex;" /> e atendimento à taxa <img src="assets/eq/u3_102.png" alt="\mu" style="height:1.489ex; vertical-align:0ex;" /> por guichê é um sistema **M/M/c**. A teoria fornece, em fórmula fechada, o tempo médio de espera e o tamanho da fila — e, crucialmente, mostra que à medida que a **utilização** <img src="assets/eq/u3_103.png" alt="\rho = \lambda/(c\,\mu)" style="height:2.262ex; vertical-align:0ex;" /> se aproxima de <img src="assets/eq/u3_104.png" alt="1" style="height:1.507ex; vertical-align:0ex;" />, a fila **explode de forma não linear**. É por isso que um pequeno aumento de demanda na hora-pico vira uma fila gigantesca.
 - **Modelos baseados em agentes (ABM):** cada passageiro é um "agente" de software com características próprias (velocidade, bagagem, se é família, se vai à loja) que se move pela planta do terminal. Rodando milhares de agentes, simula-se o terminal inteiro e medem-se tamanho de fila, tempo de permanência e ocupação instantânea de cada ambiente — algo que a fórmula fechada não captura.
 
 A camada de **inteligência artificial** entra de dois modos. Primeiro, na **previsão de picos**: modelos de *machine learning* aprendem com o histórico de voos, antecedência de chegada dos passageiros, dia da semana e sazonalidade para **prever a curva de chegada** ao terminal hora a hora. Segundo, na **otimização operacional**: alimentado por essa previsão e por câmeras que contam pessoas nas filas em tempo real, o sistema recomenda **abrir ou fechar guichês de check-in e canais de inspeção dinamicamente**, mantendo o tempo de espera dentro do nível de serviço-alvo da IATA sem superdimensionar a equipe. É o mesmo raciocínio do A-CDM da Aula 9, agora aplicado às pessoas em vez das aeronaves: dados em tempo real alimentando uma decisão de alocação de recursos.
 
 #### Mini-exemplo (fila M/M/c): quantos guichês na imigração?
 
-Na hora-pico, $\lambda = 600$ passageiros/hora chegam à imigração e cada guichê processa $\mu = 90$ passageiros/hora. Para a fila ser **estável**, a utilização precisa ficar abaixo de 1: é necessário $c$ tal que $\rho = \lambda/(c\,\mu) < 1$, ou seja, $c > \lambda/\mu = 600/90 \approx 6{,}7$. O mínimo teórico é **7 guichês**, mas com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais, e a fila ainda seria longa e instável. Por isso, na prática, dimensiona-se com **folga** ($c = 8$ ou $9$, $\rho \approx 0{,}8$) — exatamente a margem que a simulação preditiva ajuda a calibrar para cada hora do dia.
+Na hora-pico, <img src="assets/eq/u3_105.png" alt="\lambda = 600" style="height:1.756ex; vertical-align:0ex;" /> passageiros/hora chegam à imigração e cada guichê processa <img src="assets/eq/u3_106.png" alt="\mu = 90" style="height:1.995ex; vertical-align:0ex;" /> passageiros/hora. Para a fila ser **estável**, a utilização precisa ficar abaixo de 1: é necessário <img src="assets/eq/u3_107.png" alt="c" style="height:1.025ex; vertical-align:0ex;" /> tal que <img src="assets/eq/u3_108.png" alt="\rho = \lambda/(c\,\mu) &lt; 1" style="height:2.262ex; vertical-align:0ex;" />, ou seja, <img src="assets/eq/u3_109.png" alt="c &gt; \lambda/\mu = 600/90 \approx 6{,}7" style="height:2.262ex; vertical-align:0ex;" />. O mínimo teórico é **7 guichês**, mas com <img src="assets/eq/u3_110.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" /> a utilização é <img src="assets/eq/u3_111.png" alt="\rho = 600/(7 \cdot 90) \approx 0{,}95" style="height:2.262ex; vertical-align:0ex;" /> — alta demais, e a fila ainda seria longa e instável. Por isso, na prática, dimensiona-se com **folga** (<img src="assets/eq/u3_112.png" alt="c = 8" style="height:1.692ex; vertical-align:0ex;" /> ou <img src="assets/eq/u3_113.png" alt="9" style="height:1.557ex; vertical-align:0ex;" />, <img src="assets/eq/u3_114.png" alt="\rho \approx 0{,}8" style="height:1.995ex; vertical-align:0ex;" />) — exatamente a margem que a simulação preditiva ajuda a calibrar para cada hora do dia.
 
 ### Terminal de carga aérea
 
@@ -496,37 +474,29 @@ Voltando por um instante ao lado ar — mas agora com olhar digital: o pátio e 
 
 #### Exemplo numérico: cobertura de câmeras na pista
 
-Uma pista de $3.000\,\mathrm{m}$ deve ser monitorada por câmeras fixas para detecção de FOD. Cada câmera tem alcance útil de detecção confiável de **$250\,\mathrm{m}$** ao longo do eixo. Quantas câmeras são necessárias por borda da pista?
+Uma pista de <img src="assets/eq/u3_115.png" alt="3.000\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> deve ser monitorada por câmeras fixas para detecção de FOD. Cada câmera tem alcance útil de detecção confiável de **<img src="assets/eq/u3_116.png" alt="250\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />** ao longo do eixo. Quantas câmeras são necessárias por borda da pista?
 
-$$
-N = \left\lceil \frac{3\,000}{250} \right\rceil = 12 \text{ câmeras por borda}
-$$
+<p align="center"><img src="assets/eq/u3_117.png" alt="N = \left\lceil \frac{3\,000}{250} \right\rceil = 12 \text{ câmeras por borda}" width="376" style="max-width:100%; height:auto;" /></p>
 
-Cobrindo as **duas bordas**, são $24$ câmeras. Suponha que cada câmera entregue $30$ quadros por segundo e a rede neural precise de $40\,\mathrm{ms}$ por quadro para inferência: a taxa máxima de processamento por câmera é $1/0{,}040 = 25\,\mathrm{quadros/s}$ — **abaixo** dos $30\,\mathrm{fps}$ gerados. Conclusão de engenharia: ou se reduz a taxa de amostragem para $25\,\mathrm{fps}$ (suficiente para FOD estático), ou se usa *hardware* de borda mais potente (GPU/Jetson) para não perder quadros. É a típica negociação entre cobertura, latência e custo computacional de um sistema de visão em tempo real.
+Cobrindo as **duas bordas**, são <img src="assets/eq/u3_118.png" alt="24" style="height:1.532ex; vertical-align:0ex;" /> câmeras. Suponha que cada câmera entregue <img src="assets/eq/u3_119.png" alt="30" style="height:1.557ex; vertical-align:0ex;" /> quadros por segundo e a rede neural precise de <img src="assets/eq/u3_120.png" alt="40\,\mathrm{ms}" style="height:1.581ex; vertical-align:0ex;" /> por quadro para inferência: a taxa máxima de processamento por câmera é <img src="assets/eq/u3_121.png" alt="1/0{,}040 = 25\,\mathrm{quadros/s}" style="height:2.262ex; vertical-align:0ex;" /> — **abaixo** dos <img src="assets/eq/u3_122.png" alt="30\,\mathrm{fps}" style="height:2.034ex; vertical-align:0ex;" /> gerados. Conclusão de engenharia: ou se reduz a taxa de amostragem para <img src="assets/eq/u3_123.png" alt="25\,\mathrm{fps}" style="height:2.034ex; vertical-align:0ex;" /> (suficiente para FOD estático), ou se usa *hardware* de borda mais potente (GPU/Jetson) para não perder quadros. É a típica negociação entre cobertura, latência e custo computacional de um sistema de visão em tempo real.
 
 ### Exemplo numérico: dimensionamento de saguão
 
-Dimensione a área do **saguão de embarque** para uma hora-pico de **600 passageiros**. Adotamos: tempo médio de permanência de **40 minutos**, fator de acompanhantes de **1,3** (cada passageiro traz, em média, 0,3 acompanhante) e área por pessoa de **$2{,}0\,\mathrm{m^2}$** (nível de serviço ótimo da IATA).
+Dimensione a área do **saguão de embarque** para uma hora-pico de **600 passageiros**. Adotamos: tempo médio de permanência de **40 minutos**, fator de acompanhantes de **1,3** (cada passageiro traz, em média, 0,3 acompanhante) e área por pessoa de **<img src="assets/eq/u3_124.png" alt="2{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />** (nível de serviço ótimo da IATA).
 
-Primeiro, o número de pessoas **simultaneamente presentes** no saguão. Se 600 passageiros chegam ao longo da hora e cada um permanece 40 min ($40/60$ da hora), a ocupação simultânea de passageiros é:
+Primeiro, o número de pessoas **simultaneamente presentes** no saguão. Se 600 passageiros chegam ao longo da hora e cada um permanece 40 min (<img src="assets/eq/u3_125.png" alt="40/60" style="height:2.262ex; vertical-align:0ex;" /> da hora), a ocupação simultânea de passageiros é:
 
-$$
-N_{pax} = 600 \cdot \frac{40}{60} = 400 \text{ passageiros}
-$$
+<p align="center"><img src="assets/eq/u3_126.png" alt="N_{pax} = 600 \cdot \frac{40}{60} = 400 \text{ passageiros}" width="342" style="max-width:100%; height:auto;" /></p>
 
 Somando os acompanhantes:
 
-$$
-N_{total} = 400 \cdot 1{,}3 = 520 \text{ pessoas}
-$$
+<p align="center"><img src="assets/eq/u3_127.png" alt="N_{total} = 400 \cdot 1{,}3 = 520 \text{ pessoas}" width="307" style="max-width:100%; height:auto;" /></p>
 
 Aplicando a área por pessoa:
 
-$$
-A = 520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}
-$$
+<p align="center"><img src="assets/eq/u3_128.png" alt="A = 520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}" width="243" style="max-width:100%; height:auto;" /></p>
 
-O saguão de embarque precisa de aproximadamente **$1.040\,\mathrm{m^2}$** úteis para atender ao nível de serviço ótimo. Se o conforto-alvo fosse reduzido para $1{,}5\,\mathrm{m^2}$/pessoa (subótimo), a área cairia para $780\,\mathrm{m^2}$ — economia de obra ao custo de mais aglomeração.
+O saguão de embarque precisa de aproximadamente **<img src="assets/eq/u3_129.png" alt="1.040\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />** úteis para atender ao nível de serviço ótimo. Se o conforto-alvo fosse reduzido para <img src="assets/eq/u3_130.png" alt="1{,}5\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />/pessoa (subótimo), a área cairia para <img src="assets/eq/u3_131.png" alt="780\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" /> — economia de obra ao custo de mais aglomeração.
 
 ### Atividade prática
 
@@ -587,7 +557,7 @@ Encerramos os aeroportos e, na **Unidade 4 — Ferrovias**, voltamos ao chão pa
 Sobre o sistema **ACN-PCN** usado para avaliar a compatibilidade entre aeronaves e pavimentos aeroportuários, assinale a alternativa **correta**:
 
 - [ ] a. Uma aeronave pode operar livremente em uma pista somente quando o seu ACN for **maior** que o PCN do pavimento.
-- [x] b. Uma aeronave opera livremente quando $\text{ACN} \le \text{PCN}$; o ACN mede o efeito da aeronave sobre o pavimento e o PCN mede a capacidade de suporte do pavimento.
+- [x] b. Uma aeronave opera livremente quando <img src="assets/eq/u3_132.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" />; o ACN mede o efeito da aeronave sobre o pavimento e o PCN mede a capacidade de suporte do pavimento.
 - [ ] c. O ACN é uma propriedade do pavimento, e o PCN é uma propriedade da aeronave.
 - [ ] d. O método ACN-PCN substitui o cálculo de comprimento de pista e dispensa o conhecimento das cargas do trem de pouso.
 
@@ -601,7 +571,7 @@ A respeito do **comprimento de pista** e suas correções, assinale a alternativ
 
 - [ ] a. O comprimento de pista independe da altitude e da temperatura do aeroporto.
 - [ ] b. Em altitudes elevadas e temperaturas altas, o comprimento de pista necessário **diminui**, pois o ar quente facilita a decolagem.
-- [x] c. Parte-se do comprimento básico e aplicam-se fatores de correção; aumenta-se cerca de 7% a cada $300\,\mathrm{m}$ de altitude, 1% por $°\mathrm{C}$ acima da temperatura padrão local e 10% a cada 1% de rampa.
+- [x] c. Parte-se do comprimento básico e aplicam-se fatores de correção; aumenta-se cerca de 7% a cada <img src="assets/eq/u3_133.png" alt="300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> de altitude, 1% por <img src="assets/eq/u3_134.png" alt="°\mathrm{C}" style="height:1.665ex; vertical-align:0ex;" /> acima da temperatura padrão local e 10% a cada 1% de rampa.
 - [ ] d. A orientação da pista segue a direção da via de acesso ao aeroporto, e não a do vento predominante.
 
 **Resposta correta:** `c`
@@ -614,7 +584,7 @@ A respeito do **comprimento de pista** e suas correções, assinale a alternativ
 
 **Pergunta:**
 
-> Um município de porte médio possui um aeroporto regional com **pista de $2.000\,\mathrm{m}$** e **PCN 45/F/B/X/T**, hoje operando apenas aeronaves turboélice e jatos regionais. A prefeitura, em parceria com uma concessionária, deseja **atrair voos diretos para um hub internacional**, o que exigiria operar aeronaves narrow-body de maior porte (por exemplo, um Boeing 737 MAX com ACN próximo de 55 e comprimento básico de pista de cerca de $2.300\,\mathrm{m}$ em condições padrão). O aeroporto está a **$700\,\mathrm{m}$ de altitude**, com temperatura de referência de **$31°\mathrm{C}$** e rampa desprezível.
+> Um município de porte médio possui um aeroporto regional com **pista de <img src="assets/eq/u3_135.png" alt="2.000\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />** e **PCN 45/F/B/X/T**, hoje operando apenas aeronaves turboélice e jatos regionais. A prefeitura, em parceria com uma concessionária, deseja **atrair voos diretos para um hub internacional**, o que exigiria operar aeronaves narrow-body de maior porte (por exemplo, um Boeing 737 MAX com ACN próximo de 55 e comprimento básico de pista de cerca de <img src="assets/eq/u3_136.png" alt="2.300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> em condições padrão). O aeroporto está a **<img src="assets/eq/u3_137.png" alt="700\,\mathrm{m}" style="height:1.579ex; vertical-align:0ex;" /> de altitude**, com temperatura de referência de **<img src="assets/eq/u3_138.png" alt="31°\mathrm{C}" style="height:1.667ex; vertical-align:0ex;" />** e rampa desprezível.
 >
 > Como engenheiro(a) responsável, estruture um parecer técnico em três partes:
 >
@@ -626,9 +596,9 @@ A respeito do **comprimento de pista** e suas correções, assinale a alternativ
 
 > Uma resposta de qualidade desenvolve as três frentes com cálculos e raciocínio de engenharia.
 >
-> **(1) Comprimento de pista:** a partir do básico de $2.300\,\mathrm{m}$, aplica-se a correção de altitude ($+7\%$ por $300\,\mathrm{m}$): $f_a = 1 + 0{,}07 \cdot (700/300) \approx 1{,}163$. Para a temperatura, a padrão local a $700\,\mathrm{m}$ é cerca de $15 - 6{,}5 \cdot 0{,}7 \approx 10{,}5°\mathrm{C}$, então o excesso é $31 - 10{,}5 = 20{,}5°\mathrm{C}$, dando $f_t = 1 + 0{,}205 = 1{,}205$. Rampa desprezível ($f_r \approx 1{,}0$). O comprimento corrigido é $2.300 \cdot 1{,}163 \cdot 1{,}205 \approx 3.223\,\mathrm{m}$. Conclusão: a pista de $2.000\,\mathrm{m}$ é **insuficiente**; seria necessário alongá-la em mais de $1.200\,\mathrm{m}$ (ou impor restrição de peso/payload à aeronave). A resposta deve reconhecer altitude e calor como fatores críticos.
+> **(1) Comprimento de pista:** a partir do básico de <img src="assets/eq/u3_139.png" alt="2.300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />, aplica-se a correção de altitude (<img src="assets/eq/u3_140.png" alt="+7\%" style="height:1.882ex; vertical-align:0ex;" /> por <img src="assets/eq/u3_141.png" alt="300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />): <img src="assets/eq/u3_142.png" alt="f_a = 1 + 0{,}07 \cdot (700/300) \approx 1{,}163" style="height:2.262ex; vertical-align:0ex;" />. Para a temperatura, a padrão local a <img src="assets/eq/u3_143.png" alt="700\,\mathrm{m}" style="height:1.579ex; vertical-align:0ex;" /> é cerca de <img src="assets/eq/u3_144.png" alt="15 - 6{,}5 \cdot 0{,}7 \approx 10{,}5°\mathrm{C}" style="height:2.057ex; vertical-align:0ex;" />, então o excesso é <img src="assets/eq/u3_145.png" alt="31 - 10{,}5 = 20{,}5°\mathrm{C}" style="height:2.057ex; vertical-align:0ex;" />, dando <img src="assets/eq/u3_146.png" alt="f_t = 1 + 0{,}205 = 1{,}205" style="height:2.059ex; vertical-align:0ex;" />. Rampa desprezível (<img src="assets/eq/u3_147.png" alt="f_r \approx 1{,}0" style="height:2.059ex; vertical-align:0ex;" />). O comprimento corrigido é <img src="assets/eq/u3_148.png" alt="2.300 \cdot 1{,}163 \cdot 1{,}205 \approx 3.223\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />. Conclusão: a pista de <img src="assets/eq/u3_149.png" alt="2.000\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> é **insuficiente**; seria necessário alongá-la em mais de <img src="assets/eq/u3_150.png" alt="1.200\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> (ou impor restrição de peso/payload à aeronave). A resposta deve reconhecer altitude e calor como fatores críticos.
 >
-> **(2) Pavimento:** com $\text{ACN} \approx 55 > \text{PCN} = 45$, a aeronave **excede** a capacidade estrutural em cerca de $22\%$; operação regular não é permitida sem **reforço do pavimento** para elevar o PCN a pelo menos 55 (recapeamento/reconstrução de camadas), ou operações eventuais restritas com monitoramento por PCI. Deve mencionar o risco de fadiga acelerada.
+> **(2) Pavimento:** com <img src="assets/eq/u3_151.png" alt="\text{ACN} \approx 55 &gt; \text{PCN} = 45" style="height:1.805ex; vertical-align:0ex;" />, a aeronave **excede** a capacidade estrutural em cerca de <img src="assets/eq/u3_152.png" alt="22\%" style="height:1.824ex; vertical-align:0ex;" />; operação regular não é permitida sem **reforço do pavimento** para elevar o PCN a pelo menos 55 (recapeamento/reconstrução de camadas), ou operações eventuais restritas com monitoramento por PCI. Deve mencionar o risco de fadiga acelerada.
 >
 > **(3) Lado terra:** voos internacionais exigem **áreas alfandegadas** (imigração, alfândega, vigilância sanitária), ampliação do TPS e dos saguões para a nova hora-pico (dimensionada por nível de serviço IATA), separação rigorosa de fluxos chegada/partida, e reforço de acessos/estacionamento e, idealmente, transporte público.
 >
@@ -667,11 +637,9 @@ A respeito do **comprimento de pista** e suas correções, assinale a alternativ
 
 ### Artigo científico
 
-> Artigo que revisa criticamente o método ACN-PCN e suas limitações na avaliação estrutural de pavimentos aeroportuários, discutindo a transição para o novo sistema ACR-PCR da OACI. Leitura essencial para entender, em profundidade, o tema central da Aula 11 e o estado da arte da regulação de pavimentos.
+> Artigo de estado da arte sobre **revestimentos asfálticos de pavimentos aeroportuários**: revisa as misturas empregadas em pistas e taxiways (concreto asfáltico Marshall com ranhuras, *stone mastic asphalt*), os esforços impostos pelas aeronaves e os principais mecanismos de defeito do pavimento flexível. Complementa a Aula 11 ao aprofundar o dimensionamento e a manutenção da camada de revestimento.
 
-- **Link:** https://doi.org/10.1016/j.trpro.2016.11.118 (DOI)
+- **Link:** https://doi.org/10.1016/j.ijprt.2017.07.008 (DOI)
 - **Aula em que entra:** Aula 11
 - **Referência bibliográfica do artigo no formato ABNT:**
   > WHITE, Greg. **State of the art: asphalt for airport pavement surfacing**. *International Journal of Pavement Research and Technology*, v. 11, n. 1, p. 77-98, jan. 2018.
-</content>
-</invoke>

@@ -59,15 +59,15 @@ Para o engenheiro civil, essa infraestrutura representa algumas das maiores e ma
 
 ![Gráfico de barras da matriz de transporte de cargas do Brasil: rodoviário ~61%, ferroviário ~21%, aquaviário ~14%, dutoviário ~4% e aéreo <1%](assets/matriz_modal.svg)
 
-Compare com os Estados Unidos, onde ferrovias respondem por cerca de 43% das cargas, ou a Rússia, onde o trilho domina. O Brasil, um país de dimensões continentais, deveria privilegiar modais de **alta capacidade** (ferrovia e hidrovia) para longas distâncias. A herança rodoviarista — construída a partir dos anos 1950 com o programa JK e a instalação das montadoras — deixou o país dependente do caminhão, encarecendo a logística e reduzindo a competitividade dos nossos produtos no exterior.
+Compare com os Estados Unidos, onde a ferrovia movimenta cerca de um terço das cargas em tonelada-quilômetro (chegando a perto de 40% nas longas distâncias), ou a Rússia, onde o trilho domina. O Brasil, um país de dimensões continentais, deveria privilegiar modais de **alta capacidade** (ferrovia e hidrovia) para longas distâncias. A herança rodoviarista — construída a partir dos anos 1950 com o programa JK e a instalação das montadoras — deixou o país dependente do caminhão, encarecendo a logística e reduzindo a competitividade dos nossos produtos no exterior.
 
-O **Plano Nacional de Logística (PNL)**, coordenado pela EPL (Empresa de Planejamento e Logística), é o documento estratégico do governo federal que orienta investimentos para reequilibrar essa matriz. O PNL 2035 prevê aumento da participação ferroviária para 30% e da aquaviária para 29% — metas que dependem de dezenas de projetos de infraestrutura, todos carentes de engenheiros qualificados.
+O **Plano Nacional de Logística (PNL)**, coordenado pelo Ministério dos Transportes (com apoio da Infra S.A., sucessora da antiga EPL), é o documento estratégico do governo federal que orienta investimentos para reequilibrar essa matriz. O PNL 2035 prevê elevar a participação ferroviária para mais de 30% e ampliar a aquaviária — metas que dependem de dezenas de projetos de infraestrutura, todos carentes de engenheiros qualificados.
 
 ### Os modais e suas características
 
 Cada modal tem vocação para um tipo de transporte:
 
-- **Rodoviário** — flexível, porta a porta, ideal para curtas distâncias e cargas fracionadas. Alto custo por tonelada-quilômetro. No Brasil, a malha pavimentada federal tem cerca de 76 mil km, gerida pelo DNIT e por concessionárias privadas.
+- **Rodoviário** — flexível, porta a porta, ideal para curtas distâncias e cargas fracionadas. Alto custo por tonelada-quilômetro. No Brasil, a malha rodoviária federal tem cerca de 76 mil km (dos quais aproximadamente 65 mil km pavimentados), gerida pelo DNIT e por concessionárias privadas.
 - **Ferroviário** — alta capacidade, baixo custo por tonelada-quilômetro, ideal para grandes volumes e longas distâncias (granéis: soja, minério, açúcar). A malha brasileira tem cerca de 30 mil km em operação, regulada pela ANTT.
 - **Aquaviário** — o mais barato por unidade transportada, ideal para grandes massas e longas distâncias (comércio exterior, cabotagem). O Brasil tem 16 portos públicos de grande porte e mais de 130 terminais de uso privado, fiscalizados pela ANTAQ.
 - **Aéreo** — o mais rápido e o mais caro; usado para cargas de alto valor agregado e baixo peso. A ANAC regula os aeroportos brasileiros, que somam mais de 2.400 unidades (públicos e privados).
@@ -111,34 +111,28 @@ A combinação de **sensores IoT** (umidade do solo em taludes, nível de rios, 
 
 ### Exemplo numérico: custo por tonelada-quilômetro
 
-Vamos comparar o custo de transportar a soja de Sorriso (MT) a Santos (SP), distância de aproximadamente $2.000\,\mathrm{km}$, para um volume de $1.000\,\mathrm{t}$.
+Vamos comparar o custo de transportar a soja de Sorriso (MT) a Santos (SP), distância de aproximadamente <img src="assets/eq/u1_001.png" alt="2.000\,\mathrm{km}" style="height:1.62ex; vertical-align:0ex;" />, para um volume de <img src="assets/eq/u1_002.png" alt="1.000\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" />.
 
 Considere os custos médios por tonelada-quilômetro (R\$/t·km):
 
-- Rodoviário: $0{,}18\,\mathrm{R\$/t \cdot km}$
-- Ferroviário: $0{,}06\,\mathrm{R\$/t \cdot km}$
+- Rodoviário: <img src="assets/eq/u1_003.png" alt="0{,}18\,\mathrm{R\$/t \cdot km}" style="height:2.262ex; vertical-align:0ex;" />
+- Ferroviário: <img src="assets/eq/u1_004.png" alt="0{,}06\,\mathrm{R\$/t \cdot km}" style="height:2.262ex; vertical-align:0ex;" />
 
 O custo total é dado por:
 
-$$
-C = c \times d \times m
-$$
+<p align="center"><img src="assets/eq/u1_005.png" alt="C = c \times d \times m" width="146" style="max-width:100%; height:auto;" /></p>
 
-onde $c$ é o custo unitário, $d$ a distância e $m$ a massa transportada.
+onde <img src="assets/eq/u1_006.png" alt="c" style="height:1.025ex; vertical-align:0ex;" /> é o custo unitário, <img src="assets/eq/u1_007.png" alt="d" style="height:1.593ex; vertical-align:0ex;" /> a distância e <img src="assets/eq/u1_008.png" alt="m" style="height:1.025ex; vertical-align:0ex;" /> a massa transportada.
 
 Para o rodoviário:
 
-$$
-C_{\text{rod}} = 0{,}18 \times 2.000 \times 1.000 = 360.000\,\mathrm{R\$}
-$$
+<p align="center"><img src="assets/eq/u1_009.png" alt="C_{\text{rod}} = 0{,}18 \times 2.000 \times 1.000 = 360.000\,\mathrm{R\$}" width="410" style="max-width:100%; height:auto;" /></p>
 
 Para o ferroviário:
 
-$$
-C_{\text{fer}} = 0{,}06 \times 2.000 \times 1.000 = 120.000\,\mathrm{R\$}
-$$
+<p align="center"><img src="assets/eq/u1_010.png" alt="C_{\text{fer}} = 0{,}06 \times 2.000 \times 1.000 = 120.000\,\mathrm{R\$}" width="405" style="max-width:100%; height:auto;" /></p>
 
-A economia ao usar ferrovia é de $360.000 - 120.000 = 240.000\,\mathrm{R\$}$, ou **66,7% menos** que o caminhão. Multiplique isso pelos milhões de toneladas de grãos exportados por ano e você entende por que o Brasil precisa de mais ferrovias.
+A economia ao usar ferrovia é de <img src="assets/eq/u1_011.png" alt="360.000 - 120.000 = 240.000\,\mathrm{R\$}" style="height:1.882ex; vertical-align:0ex;" />, ou **66,7% menos** que o caminhão. Multiplique isso pelos milhões de toneladas de grãos exportados por ano e você entende por que o Brasil precisa de mais ferrovias.
 
 ### Atividade prática
 
@@ -163,7 +157,7 @@ Anote suas conclusões — vamos retomar esse raciocínio na Aula 2, quando fala
 ### Para saber mais
 
 - **DNIT — Departamento Nacional de Infraestrutura de Transportes:** https://www.gov.br/dnit/
-- **EPL/Ministério dos Transportes — Plano Nacional de Logística (PNL):** https://www.gov.br/transportes/pt-br
+- **Infra S.A./Ministério dos Transportes — Plano Nacional de Logística (PNL):** https://www.gov.br/transportes/pt-br
 - **Wikipedia — Transporte no Brasil:** https://pt.wikipedia.org/wiki/Transporte_no_Brasil
 - **CNT — Confederação Nacional do Transporte (boletins e pesquisas):** https://www.cnt.org.br/
 - **Porto de Santos rumo a *smart port* — redes 5G e Gêmeo Digital (Ministério de Portos e Aeroportos):** https://www.gov.br/portos-e-aeroportos/pt-br/assuntos/noticias/2026/01/porto-de-santos-avanca-para-se-tornar-referencia-global-em-logistica-verde-e-conectada
@@ -209,7 +203,7 @@ Planejar transportes é decidir **o que construir, onde, quando e com que recurs
 
 ![Congestionamento de tráfego em rodovia — a demanda de transporte é o ponto de partida do planejamento de infraestrutura](https://commons.wikimedia.org/wiki/Special:FilePath/Traffic%20jam.jpg)
 
-No Brasil, o planejamento federal é coordenado pelo **Ministério dos Transportes** e pela **EPL (Empresa de Planejamento e Logística S.A.)**, materializado no **Plano Nacional de Logística (PNL)**. A EPL publica regularmente matrizes de transporte inter-regional de carga, que mostram, modal a modal, quanto e o quê o Brasil movimenta entre as regiões. Para o engenheiro, planejar bem significa garantir que a obra atenderá à demanda por toda a sua vida útil — tipicamente de 20 a 50 anos.
+No Brasil, o planejamento federal é coordenado pelo **Ministério dos Transportes** e pela **Infra S.A.** (sucessora da antiga EPL — Empresa de Planejamento e Logística), materializado no **Plano Nacional de Logística (PNL)**. A Infra S.A. publica regularmente matrizes de transporte inter-regional de carga, que mostram, modal a modal, quanto e o quê o Brasil movimenta entre as regiões. Para o engenheiro, planejar bem significa garantir que a obra atenderá à demanda por toda a sua vida útil — tipicamente de 20 a 50 anos.
 
 O Programa de Parcerias de Investimentos (PPI), vinculado à Casa Civil, organiza as concessões federais de rodovias, ferrovias, portos e aeroportos. Quando um projeto entra no PPI, significa que passou por uma análise de demanda, viabilidade e modelagem de concessão — o engenheiro precisa entender esse processo para atuar tanto no setor público quanto junto a concessionárias.
 
@@ -289,34 +283,28 @@ O licenciamento frequentemente é o **maior gargalo** de prazo em obras de ferro
 
 ### Exemplo numérico: projeção de demanda
 
-Suponha um aeroporto regional que movimentou $800.000$ passageiros em 2025, com crescimento anual estimado em $5\%$. Qual a demanda projetada para 2035 (10 anos depois)?
+Suponha um aeroporto regional que movimentou <img src="assets/eq/u1_012.png" alt="800.000" style="height:1.557ex; vertical-align:0ex;" /> passageiros em 2025, com crescimento anual estimado em <img src="assets/eq/u1_013.png" alt="5\%" style="height:1.824ex; vertical-align:0ex;" />. Qual a demanda projetada para 2035 (10 anos depois)?
 
 Usamos a fórmula de crescimento composto:
 
-$$
-D_n = D_0 \times (1 + i)^n
-$$
+<p align="center"><img src="assets/eq/u1_014.png" alt="D_n = D_0 \times (1 + i)^n" width="194" style="max-width:100%; height:auto;" /></p>
 
-onde $D_0 = 800.000$, $i = 0{,}05$ e $n = 10$:
+onde <img src="assets/eq/u1_015.png" alt="D_0 = 800.000" style="height:1.92ex; vertical-align:0ex;" />, <img src="assets/eq/u1_016.png" alt="i = 0{,}05" style="height:1.946ex; vertical-align:0ex;" /> e <img src="assets/eq/u1_017.png" alt="n = 10" style="height:1.692ex; vertical-align:0ex;" />:
 
-$$
-D_{10} = 800.000 \times (1{,}05)^{10}
-$$
+<p align="center"><img src="assets/eq/u1_018.png" alt="D_{10} = 800.000 \times (1{,}05)^{10}" width="247" style="max-width:100%; height:auto;" /></p>
 
-Como $(1{,}05)^{10} \approx 1{,}629$:
+Como <img src="assets/eq/u1_019.png" alt="(1{,}05)^{10} \approx 1{,}629" style="height:2.452ex; vertical-align:0ex;" />:
 
-$$
-D_{10} \approx 800.000 \times 1{,}629 = 1.303.000 \text{ passageiros}
-$$
+<p align="center"><img src="assets/eq/u1_020.png" alt="D_{10} \approx 800.000 \times 1{,}629 = 1.303.000 \text{ passageiros}" width="462" style="max-width:100%; height:auto;" /></p>
 
-Ou seja, em 10 anos a demanda saltaria de $800$ mil para cerca de $1{,}3$ milhão de passageiros — um crescimento de **63%**. Esse número é o que define se o terminal atual aguenta ou se será preciso ampliá-lo. Se o engenheiro projetar apenas para a demanda de hoje, o aeroporto estará saturado antes mesmo de a obra ser inaugurada.
+Ou seja, em 10 anos a demanda saltaria de <img src="assets/eq/u1_021.png" alt="800" style="height:1.557ex; vertical-align:0ex;" /> mil para cerca de <img src="assets/eq/u1_022.png" alt="1{,}3" style="height:1.946ex; vertical-align:0ex;" /> milhão de passageiros — um crescimento de **63%**. Esse número é o que define se o terminal atual aguenta ou se será preciso ampliá-lo. Se o engenheiro projetar apenas para a demanda de hoje, o aeroporto estará saturado antes mesmo de a obra ser inaugurada.
 
 ### Atividade prática
 
 Escolha uma cidade média da sua região e imagine um novo terminal rodoviário interestadual. Em uma folha:
 
 1. Liste **3 variáveis socioeconômicas** que você usaria para estimar a geração de viagens (população, renda, turismo, etc.).
-2. Projete a demanda para 15 anos supondo um crescimento anual de $4\%$ a partir de um valor inicial que você arbitrar.
+2. Projete a demanda para 15 anos supondo um crescimento anual de <img src="assets/eq/u1_023.png" alt="4\%" style="height:1.824ex; vertical-align:0ex;" /> a partir de um valor inicial que você arbitrar.
 3. Aponte **um benefício** e **um impacto ambiental** que apareceriam no estudo de viabilidade e licenciamento.
 
 ### Pontos-chave
@@ -335,7 +323,7 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 - **ANTT — Agência Nacional de Transportes Terrestres:** https://www.gov.br/antt/
 - **IBAMA — Licenciamento Ambiental Federal:** https://www.gov.br/ibama/pt-br
 - **Wikipedia — Modelo de quatro etapas (Trip distribution / Transportation forecasting):** https://en.wikipedia.org/wiki/Transportation_forecasting
-- **EPL — Plano Nacional de Logística:** https://www.gov.br/transportes/pt-br
+- **Infra S.A. — Plano Nacional de Logística:** https://www.gov.br/transportes/pt-br
 - **DNIT — Estudo de Viabilidade Técnica, Econômica e Ambiental (EVTEA):** https://www.gov.br/dnit/pt-br/assuntos/planejamento-e-pesquisa/planejamento/covide-estudos-de-viabilidade/estudo-de-viabilidade-tecnica-economica-e-ambiental-evtea
 - **Lei nº 10.233/2001 — cria ANTT, ANTAQ e DNIT (marco regulatório dos transportes):** https://www.planalto.gov.br/ccivil_03/leis/leis_2001/l10233.htm
 - **ANTAQ — Agência Nacional de Transportes Aquaviários (regulação portuária e descarbonização do setor):** https://www.gov.br/antaq/pt-br
@@ -350,7 +338,7 @@ Escolha uma cidade média da sua região e imagine um novo terminal rodoviário 
 
 ### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Planejamento acontece em camadas: estratégico, tático e operacional. No Brasil, a EPL e o Ministério dos Transportes coordenam o PNL, que orienta os investimentos. No centro do método está o modelo de quatro etapas — geração, distribuição, divisão modal e alocação. Vou explicar cada uma: quantas viagens nascem, para onde vão, em qual modal e por qual rota. Dados da ANTT, ANTAQ e ANAC alimentam essas projeções."
+> "Planejamento acontece em camadas: estratégico, tático e operacional. No Brasil, a Infra S.A. e o Ministério dos Transportes coordenam o PNL, que orienta os investimentos. No centro do método está o modelo de quatro etapas — geração, distribuição, divisão modal e alocação. Vou explicar cada uma: quantas viagens nascem, para onde vão, em qual modal e por qual rota. Dados da ANTT, ANTAQ e ANAC alimentam essas projeções."
 
 ### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
@@ -376,7 +364,7 @@ Tudo começa com a **topografia**: o levantamento do relevo do terreno por onde 
 
 ![Corte em rocha em obra rodoviária, resultado de operações de terraplenagem](https://commons.wikimedia.org/wiki/Special:FilePath/Road%20cut.jpg)
 
-O bom traçado equilibra três objetivos: **segurança** (curvas e rampas suaves), **economia** (menor volume de terra movimentada) e **respeito ao meio ambiente**. Em ferrovias, a restrição é dura: as **rampas** raramente passam de $1\%$ a $2\%$ e as curvas têm raios mínimos generosos, porque o trem não sobe ladeira nem faz curva fechada como o caminhão.
+O bom traçado equilibra três objetivos: **segurança** (curvas e rampas suaves), **economia** (menor volume de terra movimentada) e **respeito ao meio ambiente**. Em ferrovias, a restrição é dura: as **rampas** raramente passam de <img src="assets/eq/u1_024.png" alt="1\%" style="height:1.824ex; vertical-align:0ex;" /> a <img src="assets/eq/u1_025.png" alt="2\%" style="height:1.824ex; vertical-align:0ex;" /> e as curvas têm raios mínimos generosos, porque o trem não sobe ladeira nem faz curva fechada como o caminhão.
 
 O DNIT estabelece as normas de projeto geométrico para rodovias federais (como a DNIT 006/2004 para alinhamento horizontal), enquanto a ABNT e os manuais ferroviários — também publicados pelo DNIT — regulam os projetos de via permanente. Qualquer projeto de infraestrutura linear no Brasil parte dessas normas.
 
@@ -425,29 +413,23 @@ Solos fracos (argilas moles, turfas) exigem soluções de **reforço**: troca de
 
 ### Exemplo numérico: volume de terraplenagem
 
-Vamos calcular o volume de um aterro com seção trapezoidal. A plataforma tem **base superior** $b = 12\,\mathrm{m}$, **altura** $h = 4\,\mathrm{m}$ e **taludes** com inclinação $1{:}1{,}5$ (1 vertical para 1,5 horizontal), aplicados nos dois lados, ao longo de um trecho de $L = 200\,\mathrm{m}$.
+Vamos calcular o volume de um aterro com seção trapezoidal. A plataforma tem **base superior** <img src="assets/eq/u1_026.png" alt="b = 12\,\mathrm{m}" style="height:1.756ex; vertical-align:0ex;" />, **altura** <img src="assets/eq/u1_027.png" alt="h = 4\,\mathrm{m}" style="height:1.756ex; vertical-align:0ex;" /> e **taludes** com inclinação <img src="assets/eq/u1_028.png" alt="1{:}1{,}5" style="height:1.946ex; vertical-align:0ex;" /> (1 vertical para 1,5 horizontal), aplicados nos dois lados, ao longo de um trecho de <img src="assets/eq/u1_029.png" alt="L = 200\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" />.
 
 Primeiro, a base inferior (maior), que soma a projeção horizontal dos dois taludes:
 
-$$
-B = b + 2 \times (1{,}5 \times h) = 12 + 2 \times (1{,}5 \times 4) = 12 + 12 = 24\,\mathrm{m}
-$$
+<p align="center"><img src="assets/eq/u1_030.png" alt="B = b + 2 \times (1{,}5 \times h) = 12 + 2 \times (1{,}5 \times 4) = 12 + 12 = 24\,\mathrm{m}" width="600" style="max-width:100%; height:auto;" /></p>
 
 A área da seção transversal trapezoidal é:
 
-$$
-A = \frac{(b + B)}{2} \times h = \frac{(12 + 24)}{2} \times 4 = 18 \times 4 = 72\,\mathrm{m^2}
-$$
+<p align="center"><img src="assets/eq/u1_031.png" alt="A = \frac{(b + B)}{2} \times h = \frac{(12 + 24)}{2} \times 4 = 18 \times 4 = 72\,\mathrm{m^2}" width="522" style="max-width:100%; height:auto;" /></p>
 
 O volume do aterro no trecho é a área multiplicada pelo comprimento:
 
-$$
-V = A \times L = 72 \times 200 = 14.400\,\mathrm{m^3}
-$$
+<p align="center"><img src="assets/eq/u1_032.png" alt="V = A \times L = 72 \times 200 = 14.400\,\mathrm{m^3}" width="351" style="max-width:100%; height:auto;" /></p>
 
 ![Seção transversal do aterro trapezoidal cotado: plataforma b = 12 m, base B = 24 m, altura h = 4 m e taludes 1:1,5, com A = 72 m² e V = 14.400 m³](assets/secao_terraplenagem.svg)
 
-Se cada metro cúbico de aterro custa cerca de $25\,\mathrm{R\$}$ (escavação, transporte e compactação), o custo desse trecho seria $14.400 \times 25 = 360.000\,\mathrm{R\$}$. É o tipo de conta que mostra por que compensar corte e aterro economiza fortunas.
+Se cada metro cúbico de aterro custa cerca de <img src="assets/eq/u1_033.png" alt="25\,\mathrm{R\$}" style="height:1.824ex; vertical-align:0ex;" /> (escavação, transporte e compactação), o custo desse trecho seria <img src="assets/eq/u1_034.png" alt="14.400 \times 25 = 360.000\,\mathrm{R\$}" style="height:1.882ex; vertical-align:0ex;" />. É o tipo de conta que mostra por que compensar corte e aterro economiza fortunas.
 
 ### Pausa para reflexão (Desafio)
 
@@ -538,8 +520,8 @@ As cargas variam enormemente entre os três modais:
 
 | Infraestrutura | Carga típica de referência |
 | --- | --- |
-| Rodovia | Eixo padrão de $8{,}2\,\mathrm{t}$ (80 kN) |
-| Ferrovia | Carga por eixo de $25$ a $32{,}5\,\mathrm{t}$ |
+| Rodovia | Eixo padrão de <img src="assets/eq/u1_035.png" alt="8{,}2\,\mathrm{t}" style="height:1.946ex; vertical-align:0ex;" /> (80 kN) |
+| Ferrovia | Carga por eixo de <img src="assets/eq/u1_036.png" alt="25" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u1_037.png" alt="32{,}5\,\mathrm{t}" style="height:1.946ex; vertical-align:0ex;" /> |
 | Aeroporto | Trem de pouso com centenas de toneladas distribuídas |
 
 ![Cargas de referência por modal: eixo rodoviário padrão de 8,2 t (80 kN), eixo ferroviário de 25 a 32,5 t e trem de pouso de aeronave com centenas de toneladas distribuídas](assets/cargas_eixo.svg)
@@ -564,25 +546,19 @@ A "curva de degradação" mostra que **adiar manutenção preventiva multiplica 
 
 ### Exemplo numérico: dimensionamento simplificado
 
-Vamos estimar a **vida útil em repetições de carga** de um pavimento usando a relação simplificada de fadiga. Suponha que o pavimento suporte um número $N = 5 \times 10^6$ repetições do eixo padrão antes de falhar, e que a via receba $V = 1.200$ veículos pesados por dia, cada um equivalente a $1{,}5$ eixo padrão (fator de equivalência).
+Vamos estimar a **vida útil em repetições de carga** de um pavimento usando a relação simplificada de fadiga. Suponha que o pavimento suporte um número <img src="assets/eq/u1_038.png" alt="N = 5 \times 10^6" style="height:2.14ex; vertical-align:0ex;" /> repetições do eixo padrão antes de falhar, e que a via receba <img src="assets/eq/u1_039.png" alt="V = 1.200" style="height:1.731ex; vertical-align:0ex;" /> veículos pesados por dia, cada um equivalente a <img src="assets/eq/u1_040.png" alt="1{,}5" style="height:1.946ex; vertical-align:0ex;" /> eixo padrão (fator de equivalência).
 
 As repetições por dia são:
 
-$$
-N_{\text{dia}} = V \times f = 1.200 \times 1{,}5 = 1.800 \text{ eixos-padrão/dia}
-$$
+<p align="center"><img src="assets/eq/u1_041.png" alt="N_{\text{dia}} = V \times f = 1.200 \times 1{,}5 = 1.800 \text{ eixos-padrão/dia}" width="524" style="max-width:100%; height:auto;" /></p>
 
 As repetições por ano (365 dias):
 
-$$
-N_{\text{ano}} = 1.800 \times 365 = 657.000 \text{ eixos-padrão/ano}
-$$
+<p align="center"><img src="assets/eq/u1_042.png" alt="N_{\text{ano}} = 1.800 \times 365 = 657.000 \text{ eixos-padrão/ano}" width="472" style="max-width:100%; height:auto;" /></p>
 
 A vida útil em anos é o total suportado dividido pela solicitação anual:
 
-$$
-t = \frac{N}{N_{\text{ano}}} = \frac{5 \times 10^6}{657.000} \approx 7{,}6 \text{ anos}
-$$
+<p align="center"><img src="assets/eq/u1_043.png" alt="t = \frac{N}{N_{\text{ano}}} = \frac{5 \times 10^6}{657.000} \approx 7{,}6 \text{ anos}" width="319" style="max-width:100%; height:auto;" /></p>
 
 Ou seja, esse pavimento atingiria o fim da vida estrutural em cerca de **7 anos e meio** sem intervenções. Se o projeto exigir 10 anos, o engenheiro precisa **reforçar as camadas** (aumentar a espessura) ou usar materiais mais resistentes. É exatamente assim que se calibra a espessura de um pavimento na prática.
 
@@ -674,17 +650,17 @@ No contexto de **terraplenagem e geotecnia**, assinale a alternativa **correta**
 
 **Pergunta:**
 
-> Uma cooperativa agrícola do interior de Goiás produz $600.000\,\mathrm{t}$ de grãos por ano e hoje transporta toda essa produção por **caminhão** até o Porto de Santos, a $900\,\mathrm{km}$ de distância. Surge a possibilidade de construir um **ramal ferroviário** que ligaria a região a uma ferrovia existente, permitindo levar a carga por trilho.
+> Uma cooperativa agrícola do interior de Goiás produz <img src="assets/eq/u1_044.png" alt="600.000\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> de grãos por ano e hoje transporta toda essa produção por **caminhão** até o Porto de Santos, a <img src="assets/eq/u1_045.png" alt="900\,\mathrm{km}" style="height:1.62ex; vertical-align:0ex;" /> de distância. Surge a possibilidade de construir um **ramal ferroviário** que ligaria a região a uma ferrovia existente, permitindo levar a carga por trilho.
 >
 > Você foi convidado(a) a elaborar uma **análise técnica preliminar** dessa proposta. Estruture sua resposta em três partes:
 >
-> 1. **Comparação de custos** — usando custos médios de $0{,}18\,\mathrm{R\$/t \cdot km}$ (rodovia) e $0{,}06\,\mathrm{R\$/t \cdot km}$ (ferrovia), calcule e compare o custo anual de transporte em cada modal e a economia potencial.
+> 1. **Comparação de custos** — usando custos médios de <img src="assets/eq/u1_046.png" alt="0{,}18\,\mathrm{R\$/t \cdot km}" style="height:2.262ex; vertical-align:0ex;" /> (rodovia) e <img src="assets/eq/u1_047.png" alt="0{,}06\,\mathrm{R\$/t \cdot km}" style="height:2.262ex; vertical-align:0ex;" /> (ferrovia), calcule e compare o custo anual de transporte em cada modal e a economia potencial.
 > 2. **Fatores de planejamento** — quais estudos e etapas (demanda, viabilidade, licenciamento, geotecnia/terraplenagem) seriam necessários antes da decisão de construir? Justifique.
 > 3. **Riscos e recomendação** — aponte 2 riscos do projeto e dê uma recomendação final fundamentada.
 
 **Resposta esperada:**
 
-> Na parte 1, espera-se o cálculo correto. Custo rodoviário anual: $C_{\text{rod}} = 0{,}18 \times 900 \times 600.000 = 97.200.000\,\mathrm{R\$}$ (R\$ 97,2 milhões/ano). Custo ferroviário: $C_{\text{fer}} = 0{,}06 \times 900 \times 600.000 = 32.400.000\,\mathrm{R\$}$ (R\$ 32,4 milhões/ano). A economia anual é de R\$ 64,8 milhões — uma redução de aproximadamente **66,7%**. A resposta de qualidade observa que essa economia precisa ser confrontada com o **custo de construção** do ramal e seu prazo de retorno (payback). Na parte 2, espera-se a menção ao **estudo de demanda** (confirmar volume estável a longo prazo), à **análise de viabilidade** (VPL, TIR, B/C, comparando economia com investimento), ao **licenciamento ambiental** (LP, LI, LO — possível gargalo de prazo) e aos **estudos geotécnicos e de terraplenagem** (topografia, traçado, CBR do solo, equilíbrio corte/aterro, drenagem). Na parte 3, riscos plausíveis incluem: variação de demanda/safra, sobrecusto e atraso de obra, dependência da capacidade da ferrovia existente, e questões fundiárias/ambientais. A recomendação deve ser fundamentada e demonstrar que a economia operacional, embora expressiva, só justifica o investimento se a viabilidade econômica e o licenciamento forem favoráveis. Resposta exemplar evita concluir "vale a pena" só pela economia anual, sem considerar investimento e prazo.
+> Na parte 1, espera-se o cálculo correto. Custo rodoviário anual: <img src="assets/eq/u1_048.png" alt="C_{\text{rod}} = 0{,}18 \times 900 \times 600.000 = 97.200.000\,\mathrm{R\$}" style="height:2.136ex; vertical-align:0ex;" /> (R\$ 97,2 milhões/ano). Custo ferroviário: <img src="assets/eq/u1_049.png" alt="C_{\text{fer}} = 0{,}06 \times 900 \times 600.000 = 32.400.000\,\mathrm{R\$}" style="height:2.136ex; vertical-align:0ex;" /> (R\$ 32,4 milhões/ano). A economia anual é de R\$ 64,8 milhões — uma redução de aproximadamente **66,7%**. A resposta de qualidade observa que essa economia precisa ser confrontada com o **custo de construção** do ramal e seu prazo de retorno (payback). Na parte 2, espera-se a menção ao **estudo de demanda** (confirmar volume estável a longo prazo), à **análise de viabilidade** (VPL, TIR, B/C, comparando economia com investimento), ao **licenciamento ambiental** (LP, LI, LO — possível gargalo de prazo) e aos **estudos geotécnicos e de terraplenagem** (topografia, traçado, CBR do solo, equilíbrio corte/aterro, drenagem). Na parte 3, riscos plausíveis incluem: variação de demanda/safra, sobrecusto e atraso de obra, dependência da capacidade da ferrovia existente, e questões fundiárias/ambientais. A recomendação deve ser fundamentada e demonstrar que a economia operacional, embora expressiva, só justifica o investimento se a viabilidade econômica e o licenciamento forem favoráveis. Resposta exemplar evita concluir "vale a pena" só pela economia anual, sem considerar investimento e prazo.
 
 ---
 

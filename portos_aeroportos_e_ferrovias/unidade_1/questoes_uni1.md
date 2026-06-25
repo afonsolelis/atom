@@ -177,7 +177,7 @@ d. A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 **Estímulo:**
 
-> A matriz de transportes brasileira distribui-se aproximadamente assim: rodoviário ~61%, ferroviário ~21%, aquaviário ~14%, dutoviário ~4% e aéreo <1%. Nos Estados Unidos, a ferrovia responde por cerca de 43% das cargas. O Brasil, país de dimensões continentais, herdou do rodoviarismo dos anos 1950 uma forte dependência do caminhão.
+> A matriz de transportes brasileira distribui-se aproximadamente assim: rodoviário ~61%, ferroviário ~21%, aquaviário ~14%, dutoviário ~4% e aéreo <1%. Nos Estados Unidos, a ferrovia responde por cerca de um terço das cargas (em tonelada-quilômetro). O Brasil, país de dimensões continentais, herdou do rodoviarismo dos anos 1950 uma forte dependência do caminhão.
 
 A leitura mais alinhada aos dados é:
 
@@ -191,7 +191,7 @@ e. A dependência do caminhão é uma vantagem competitiva, pois reduz o custo l
 
 **Estímulo:**
 
-> Uma cooperativa transporta soja de Sorriso (MT) até o Porto de Santos (SP), a cerca de 2.000 km, num volume de 1.000 toneladas. Os custos médios são de R\$ 0,18/t·km no rodoviário e R\$ 0,06/t·km no ferroviário. O custo total segue $C = c \times d \times m$.
+> Uma cooperativa transporta soja de Sorriso (MT) até o Porto de Santos (SP), a cerca de 2.000 km, num volume de 1.000 toneladas. Os custos médios são de R\$ 0,18/t·km no rodoviário e R\$ 0,06/t·km no ferroviário. O custo total segue <img src="assets/eq/u1q_001.png" alt="C = c \times d \times m" style="height:1.781ex; vertical-align:0ex;" />.
 
 Sobre a comparação de custos, a leitura **mais adequada** é:
 
@@ -205,7 +205,7 @@ e. O custo ferroviário supera o rodoviário porque o trem percorre mais quilôm
 
 **Estímulo:**
 
-> Um aeroporto regional movimentou 800.000 passageiros em 2025, com crescimento anual estimado em 5%. A projeção de demanda usa crescimento composto: $D_n = D_0 \times (1 + i)^n$, e considera-se $(1{,}05)^{10} \approx 1{,}629$.
+> Um aeroporto regional movimentou 800.000 passageiros em 2025, com crescimento anual estimado em 5%. A projeção de demanda usa crescimento composto: <img src="assets/eq/u1q_002.png" alt="D_n = D_0 \times (1 + i)^n" style="height:2.262ex; vertical-align:0ex;" />, e considera-se <img src="assets/eq/u1q_003.png" alt="(1{,}05)^{10} \approx 1{,}629" style="height:2.452ex; vertical-align:0ex;" />.
 
 A demanda projetada para 2035 (10 anos depois) e sua leitura **mais bem suportada** é:
 
@@ -219,21 +219,21 @@ e. Exatamente 800.000 passageiros, pois a demanda permanece estável no horizont
 
 **Estímulo:**
 
-> Calcula-se o volume de um aterro de seção trapezoidal: base superior $b = 12\,\mathrm{m}$, altura $h = 4\,\mathrm{m}$, taludes $1{:}1{,}5$ nos dois lados, ao longo de um trecho de $L = 200\,\mathrm{m}$. A base inferior é $B = b + 2 \times (1{,}5 \times h)$ e a área da seção é $A = \frac{(b + B)}{2} \times h$.
+> Calcula-se o volume de um aterro de seção trapezoidal: base superior <img src="assets/eq/u1q_004.png" alt="b = 12\,\mathrm{m}" style="height:1.756ex; vertical-align:0ex;" />, altura <img src="assets/eq/u1q_005.png" alt="h = 4\,\mathrm{m}" style="height:1.756ex; vertical-align:0ex;" />, taludes <img src="assets/eq/u1q_006.png" alt="1{:}1{,}5" style="height:1.946ex; vertical-align:0ex;" /> nos dois lados, ao longo de um trecho de <img src="assets/eq/u1q_007.png" alt="L = 200\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" />. A base inferior é <img src="assets/eq/u1q_008.png" alt="B = b + 2 \times (1{,}5 \times h)" style="height:2.262ex; vertical-align:0ex;" /> e a área da seção é <img src="assets/eq/u1q_009.png" alt="A = \frac{(b + B)}{2} \times h" style="height:3.15ex; vertical-align:0ex;" />.
 
 O volume do aterro nesse trecho é:
 
-a. $7.200\,\mathrm{m^3}$, obtido multiplicando a base superior pela altura e pelo comprimento.
-b. $9.600\,\mathrm{m^3}$, considerando apenas a base superior como área média.
-c. $48.000\,\mathrm{m^3}$, somando as áreas dos dois taludes ao corpo do aterro.
-*d. $14.400\,\mathrm{m^3}$, pois $B = 24\,\mathrm{m}$, $A = 72\,\mathrm{m^2}$ e $V = A \times L = 72 \times 200$.
-e. $3.600\,\mathrm{m^3}$, dividindo a área da seção pela metade do comprimento.
+a. <img src="assets/eq/u1q_010.png" alt="7.200\,\mathrm{m^3}" style="height:1.935ex; vertical-align:0ex;" />, obtido multiplicando a base superior pela altura e pelo comprimento.
+b. <img src="assets/eq/u1q_011.png" alt="9.600\,\mathrm{m^3}" style="height:1.935ex; vertical-align:0ex;" />, considerando apenas a base superior como área média.
+c. <img src="assets/eq/u1q_012.png" alt="48.000\,\mathrm{m^3}" style="height:1.935ex; vertical-align:0ex;" />, somando as áreas dos dois taludes ao corpo do aterro.
+*d. <img src="assets/eq/u1q_013.png" alt="14.400\,\mathrm{m^3}" style="height:1.935ex; vertical-align:0ex;" />, pois <img src="assets/eq/u1q_014.png" alt="B = 24\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" />, <img src="assets/eq/u1q_015.png" alt="A = 72\,\mathrm{m^2}" style="height:2.072ex; vertical-align:0ex;" /> e <img src="assets/eq/u1q_016.png" alt="V = A \times L = 72 \times 200" style="height:1.805ex; vertical-align:0ex;" />.
+e. <img src="assets/eq/u1q_017.png" alt="3.600\,\mathrm{m^3}" style="height:1.935ex; vertical-align:0ex;" />, dividindo a área da seção pela metade do comprimento.
 
 ### Questão 15 (Interpretação)
 
 **Estímulo:**
 
-> Um pavimento suporta $N = 5 \times 10^6$ repetições do eixo padrão antes de falhar. A via recebe 1.200 veículos pesados por dia, cada um equivalente a 1,5 eixo padrão. As repetições anuais são $N_{\text{ano}} = 1.200 \times 1{,}5 \times 365$ e a vida útil é $t = N / N_{\text{ano}}$.
+> Um pavimento suporta <img src="assets/eq/u1q_018.png" alt="N = 5 \times 10^6" style="height:2.14ex; vertical-align:0ex;" /> repetições do eixo padrão antes de falhar. A via recebe 1.200 veículos pesados por dia, cada um equivalente a 1,5 eixo padrão. As repetições anuais são <img src="assets/eq/u1q_019.png" alt="N_{\text{ano}} = 1.200 \times 1{,}5 \times 365" style="height:1.984ex; vertical-align:0ex;" /> e a vida útil é <img src="assets/eq/u1q_020.png" alt="t = N / N_{\text{ano}}" style="height:2.262ex; vertical-align:0ex;" />.
 
 A conclusão **mais bem suportada** pelos dados é:
 
@@ -295,7 +295,7 @@ e. A ferrovia, por ter cargas menores que a rodovia, dispensa estruturas robusta
 
 **Estímulo:**
 
-> Uma cooperativa produz 600.000 t de grãos por ano e hoje as transporta por caminhão até o Porto de Santos, a 900 km. Avalia-se construir um ramal ferroviário. Custos médios: R\$ 0,18/t·km (rodovia) e R\$ 0,06/t·km (ferrovia), com $C = c \times d \times m$.
+> Uma cooperativa produz 600.000 t de grãos por ano e hoje as transporta por caminhão até o Porto de Santos, a 900 km. Avalia-se construir um ramal ferroviário. Custos médios: R\$ 0,18/t·km (rodovia) e R\$ 0,06/t·km (ferrovia), com <img src="assets/eq/u1q_021.png" alt="C = c \times d \times m" style="height:1.781ex; vertical-align:0ex;" />.
 
 A economia anual de transporte ao migrar todo o volume para a ferrovia é aproximadamente:
 
@@ -413,8 +413,8 @@ d. Gestão de pavimentos é tema apenas operacional, sem relação com a gestão
 
 ### Questão 12
 
-- **a.** Incorreta. Os valores estão invertidos: $0{,}18 \times 2.000 \times 1.000 = 360.000$ (rodovia) e $0{,}06 \times 2.000 \times 1.000 = 120.000$ (ferrovia).
-- **b.** *Correta!* Aplicando $C = c \times d \times m$: rodovia = R\$ 360.000 e ferrovia = R\$ 120.000, gerando economia de R\$ 240.000, ou cerca de 66,7% a favor da ferrovia.
+- **a.** Incorreta. Os valores estão invertidos: <img src="assets/eq/u1q_022.png" alt="0{,}18 \times 2.000 \times 1.000 = 360.000" style="height:1.946ex; vertical-align:0ex;" /> (rodovia) e <img src="assets/eq/u1q_023.png" alt="0{,}06 \times 2.000 \times 1.000 = 120.000" style="height:1.946ex; vertical-align:0ex;" /> (ferrovia).
+- **b.** *Correta!* Aplicando <img src="assets/eq/u1q_024.png" alt="C = c \times d \times m" style="height:1.781ex; vertical-align:0ex;" />: rodovia = R\$ 360.000 e ferrovia = R\$ 120.000, gerando economia de R\$ 240.000, ou cerca de 66,7% a favor da ferrovia.
 - **c.** Incorreta. Embora distância e massa sejam iguais, o custo unitário difere, levando a custos totais distintos.
 - **d.** Incorreta. A economia é de ~66,7%, muito superior a 10%.
 - **e.** Incorreta. O custo ferroviário é menor, não maior; ambos percorrem a mesma distância de 2.000 km.
@@ -423,8 +423,8 @@ d. Gestão de pavimentos é tema apenas operacional, sem relação com a gestão
 
 - **a.** Incorreta. Aplicar o crescimento uma única vez ignora o efeito composto ao longo dos 10 anos.
 - **b.** Incorreta. Esse valor pressupõe crescimento linear; o fenômeno é composto.
-- **c.** *Correta!* $D_{10} = 800.000 \times (1{,}05)^{10} \approx 800.000 \times 1{,}629 \approx 1.303.000$ passageiros (cerca de +63%), valor que determina se o terminal aguenta ou precisará ser ampliado.
-- **d.** Incorreta. O fator $(1{,}05)^{10}$ é ~1,629, não 5; a demanda não quintuplica.
+- **c.** *Correta!* <img src="assets/eq/u1q_025.png" alt="D_{10} = 800.000 \times (1{,}05)^{10} \approx 800.000 \times 1{,}629 \approx 1.303.000" style="height:2.452ex; vertical-align:0ex;" /> passageiros (cerca de +63%), valor que determina se o terminal aguenta ou precisará ser ampliado.
+- **d.** Incorreta. O fator <img src="assets/eq/u1q_026.png" alt="(1{,}05)^{10}" style="height:2.452ex; vertical-align:0ex;" /> é ~1,629, não 5; a demanda não quintuplica.
 - **e.** Incorreta. Com crescimento de 5% ao ano, a demanda não permanece estável.
 
 ### Questão 14
@@ -432,16 +432,16 @@ d. Gestão de pavimentos é tema apenas operacional, sem relação com a gestão
 - **a.** Incorreta. Não se multiplica simplesmente a base superior pela altura; a seção é trapezoidal e exige a base inferior.
 - **b.** Incorreta. Usar só a base superior subestima a área média da seção.
 - **c.** Incorreta. Os taludes já estão incorporados ao cálculo da base inferior; não se somam áreas separadas dessa forma.
-- **d.** *Correta!* $B = 12 + 2 \times (1{,}5 \times 4) = 24\,\mathrm{m}$; $A = \frac{(12 + 24)}{2} \times 4 = 72\,\mathrm{m^2}$; $V = 72 \times 200 = 14.400\,\mathrm{m^3}$.
+- **d.** *Correta!* <img src="assets/eq/u1q_027.png" alt="B = 12 + 2 \times (1{,}5 \times 4) = 24\,\mathrm{m}" style="height:2.262ex; vertical-align:0ex;" />; <img src="assets/eq/u1q_028.png" alt="A = \frac{(12 + 24)}{2} \times 4 = 72\,\mathrm{m^2}" style="height:3.15ex; vertical-align:0ex;" />; <img src="assets/eq/u1q_029.png" alt="V = 72 \times 200 = 14.400\,\mathrm{m^3}" style="height:2.071ex; vertical-align:0ex;" />.
 - **e.** Incorreta. O volume é a área pelo comprimento total (200 m), não pela metade.
 
 ### Questão 15
 
-- **a.** Incorreta. A vida útil resulta de $5 \times 10^6 / 657.000 \approx 7{,}6$ anos, não 50.
+- **a.** Incorreta. A vida útil resulta de <img src="assets/eq/u1q_030.png" alt="5 \times 10^6 / 657.000 \approx 7{,}6" style="height:2.52ex; vertical-align:0ex;" /> anos, não 50.
 - **b.** Incorreta. A vida útil depende diretamente da solicitação (veículos × fator de equivalência).
 - **c.** Incorreta. Sem reforço, a vida estrutural fica em ~7,6 anos, abaixo de 10.
 - **d.** Incorreta. A repetição de carga (número N) é justamente o que mais solicita o pavimento.
-- **e.** *Correta!* $N_{\text{ano}} = 1.200 \times 1{,}5 \times 365 = 657.000$ e $t = 5 \times 10^6 / 657.000 \approx 7{,}6$ anos; para atender prazos maiores, reforça-se a espessura ou usam-se materiais mais resistentes.
+- **e.** *Correta!* <img src="assets/eq/u1q_031.png" alt="N_{\text{ano}} = 1.200 \times 1{,}5 \times 365 = 657.000" style="height:1.984ex; vertical-align:0ex;" /> e <img src="assets/eq/u1q_032.png" alt="t = 5 \times 10^6 / 657.000 \approx 7{,}6" style="height:2.52ex; vertical-align:0ex;" /> anos; para atender prazos maiores, reforça-se a espessura ou usam-se materiais mais resistentes.
 
 ### Questão 16
 
@@ -472,7 +472,7 @@ d. Gestão de pavimentos é tema apenas operacional, sem relação com a gestão
 - **a.** Incorreta. R\$ 32,4 milhões é o custo ferroviário anual, não a economia.
 - **b.** Incorreta. R\$ 97,2 milhões é o custo rodoviário anual; a economia é a diferença entre os dois custos.
 - **c.** Incorreta. A redução é de ~66,7%, não de 10%.
-- **d.** *Correta!* Rodovia: $0{,}18 \times 900 \times 600.000 = 97{,}2$ milhões; ferrovia: $0{,}06 \times 900 \times 600.000 = 32{,}4$ milhões; economia = R\$ 64,8 milhões (~66,7%), que ainda precisa ser confrontada com o custo de construção do ramal.
+- **d.** *Correta!* Rodovia: <img src="assets/eq/u1q_033.png" alt="0{,}18 \times 900 \times 600.000 = 97{,}2" style="height:1.968ex; vertical-align:0ex;" /> milhões; ferrovia: <img src="assets/eq/u1q_034.png" alt="0{,}06 \times 900 \times 600.000 = 32{,}4" style="height:1.971ex; vertical-align:0ex;" /> milhões; economia = R\$ 64,8 milhões (~66,7%), que ainda precisa ser confrontada com o custo de construção do ramal.
 - **e.** Incorreta. A ferrovia é mais barata por t·km, gerando economia expressiva.
 
 ### Questão 20

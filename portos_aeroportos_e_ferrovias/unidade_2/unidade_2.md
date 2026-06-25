@@ -10,11 +10,11 @@ Cerca de **95% do comércio exterior brasileiro em volume** passa por portos. Qu
 
 ### O sistema portuário nacional
 
-O Brasil tem mais de **8.500 km de costa** e um sistema portuário composto por dezenas de portos organizados (públicos) e centenas de terminais privados. A coordenação envolve três atores principais: o **Ministério de Portos e Aeroportos**, que formula a política setorial; a **ANTAQ** (Agência Nacional de Transportes Aquaviários), que regula, fiscaliza e arbitra; e as **autoridades portuárias** (antigas Companhias Docas), que administram cada porto público no dia a dia.
+O Brasil tem cerca de **7.400 km de linha de costa** (mais de 9.000 km considerando reentrâncias) e um sistema portuário composto por dezenas de portos organizados (públicos) e centenas de terminais privados. A coordenação envolve três atores principais: o **Ministério de Portos e Aeroportos**, que formula a política setorial; a **ANTAQ** (Agência Nacional de Transportes Aquaviários), que regula, fiscaliza e arbitra; e as **autoridades portuárias** (antigas Companhias Docas), que administram cada porto público no dia a dia.
 
-Os maiores portos do país, em movimentação, são **Santos (SP)**, **Itaqui (MA)**, **Paranaguá (PR)**, **Rio Grande (RS)** e o complexo de **Tubarão/Vitória (ES)**. Santos sozinho movimenta mais de **160 milhões de toneladas por ano** e é o maior porto da América Latina.
+Os maiores portos do país, em movimentação, são **Santos (SP)**, **Itaqui (MA)**, **Paranaguá (PR)**, **Rio Grande (RS)** e o complexo de **Tubarão/Vitória (ES)**. Santos sozinho movimenta mais de **160 milhões de toneladas por ano** e é o maior porto da América do Sul.
 
-![Vista aérea do Porto de Santos (SP), o maior porto da América Latina, com cais, navios atracados e pátios de armazenagem](https://commons.wikimedia.org/wiki/Special:FilePath/Porto%20de%20Santos.jpg)
+![Vista aérea do Porto de Santos (SP), o maior porto da América do Sul, com cais, navios atracados e pátios de armazenagem](https://commons.wikimedia.org/wiki/Special:FilePath/Porto%20de%20Santos.jpg)
 
 ### Tipos de porto (marítimo, fluvial, seco)
 
@@ -72,15 +72,11 @@ Quanto maior e mais bem conectado o hinterland (por ferrovia e hidrovia, não s�
 
 Suponha um terminal de contêineres que opera **3 berços**, cada um com produtividade média de **30 movimentos de contêiner por hora**, operando **20 horas úteis por dia** (descontando manobras e paradas) e **350 dias por ano**. A capacidade anual em movimentos é:
 
-$$
-C = 3 \times 30\,\tfrac{\text{mov}}{\mathrm{h}} \times 20\,\tfrac{\mathrm{h}}{\text{dia}} \times 350\,\tfrac{\text{dia}}{\text{ano}} = 630\,000\ \text{movimentos/ano}
-$$
+<p align="center"><img src="assets/eq/u2_001.png" alt="C = 3 \times 30\,\tfrac{\text{mov}}{\mathrm{h}} \times 20\,\tfrac{\mathrm{h}}{\text{dia}} \times 350\,\tfrac{\text{dia}}{\text{ano}} = 630\,000\ \text{movimentos/ano}" width="617" style="max-width:100%; height:auto;" /></p>
 
 Se a relação média for de **1,6 TEU por movimento** (porque parte são contêineres de 40 pés, que valem 2 TEU), a capacidade em TEU é:
 
-$$
-630\,000 \times 1{,}6 = 1\,008\,000\ \mathrm{TEU/ano} \approx 1\,\text{milhão de TEU}
-$$
+<p align="center"><img src="assets/eq/u2_002.png" alt="630\,000 \times 1{,}6 = 1\,008\,000\ \mathrm{TEU/ano} \approx 1\,\text{milhão de TEU}" width="544" style="max-width:100%; height:auto;" /></p>
 
 Para efeito de comparação, o complexo de Santos movimenta cerca de **5 milhões de TEU/ano** — ou seja, equivale a aproximadamente cinco terminais como o do nosso exemplo.
 
@@ -95,7 +91,7 @@ Escolha um dos cinco maiores portos brasileiros (Santos, Itaqui, Paranaguá, Rio
 
 ### Pontos-chave
 
-- Cerca de **95% do comércio exterior brasileiro em volume** passa por portos; Santos é o maior da América Latina.
+- Cerca de **95% do comércio exterior brasileiro em volume** passa por portos; Santos é o maior da América do Sul.
 - O setor é regido pela **Lei nº 12.815/2013**, com ANTAQ como reguladora e a **autoridade portuária** administrando cada porto organizado.
 - Portos classificam-se em **marítimos, fluviais, secos e estuarinos**; **TUPs** são terminais privados que concorrem com portos públicos.
 - Um porto é um **sistema** de acesso aquaviário, obras de abrigo, cais, equipamentos, retroárea e acessos terrestres.
@@ -118,7 +114,7 @@ Escolha um dos cinco maiores portos brasileiros (Santos, Itaqui, Paranaguá, Rio
 
 ### 2. Desenvolvimento — parte 1 (0:35 – 3:30)
 
-> "Vamos começar pela organização do setor. Quem manda no porto? Temos o Ministério de Portos e Aeroportos formulando a política, a ANTAQ regulando e fiscalizando, e a autoridade portuária administrando cada porto no dia a dia. Os gigantes nacionais são Santos, Itaqui, Paranaguá, Rio Grande e Tubarão. Só Santos movimenta mais de 160 milhões de toneladas por ano — é o maior da América Latina. E não existe um único tipo de porto: temos marítimos, fluviais como Manaus, estuarinos como Paranaguá e até portos secos, lá no interior, sem nenhum navio à vista."
+> "Vamos começar pela organização do setor. Quem manda no porto? Temos o Ministério de Portos e Aeroportos formulando a política, a ANTAQ regulando e fiscalizando, e a autoridade portuária administrando cada porto no dia a dia. Os gigantes nacionais são Santos, Itaqui, Paranaguá, Rio Grande e Tubarão. Só Santos movimenta mais de 160 milhões de toneladas por ano — é o maior da América do Sul. E não existe um único tipo de porto: temos marítimos, fluviais como Manaus, estuarinos como Paranaguá e até portos secos, lá no interior, sem nenhum navio à vista."
 
 ### 3. Desenvolvimento — parte 2 (3:30 – 6:30)
 
@@ -158,11 +154,9 @@ As **obras de abrigo** protegem a bacia portuária da agitação marítima:
 
 O dimensionamento de um quebra-mar de talude usa a **fórmula de Hudson** para o peso mínimo dos blocos da carapaça:
 
-$$
-W = \frac{\gamma_r \, H^3}{K_D \,\left(\dfrac{\gamma_r}{\gamma_w} - 1\right)^3 \cot\alpha}
-$$
+<p align="center"><img src="assets/eq/u2_003.png" alt="W = \frac{\gamma_r \, H^3}{K_D \,\left(\dfrac{\gamma_r}{\gamma_w} - 1\right)^3 \cot\alpha}" width="274" style="max-width:100%; height:auto;" /></p>
 
-onde $W$ é o peso do bloco, $\gamma_r$ o peso específico da rocha, $H$ a altura de onda de projeto, $K_D$ o coeficiente de estabilidade do tipo de bloco e $\alpha$ o ângulo do talude. A mensagem prática: **quanto maior a onda, maior — ao cubo — o bloco necessário**.
+onde <img src="assets/eq/u2_004.png" alt="W" style="height:1.595ex; vertical-align:0ex;" /> é o peso do bloco, <img src="assets/eq/u2_005.png" alt="\gamma_r" style="height:1.486ex; vertical-align:0ex;" /> o peso específico da rocha, <img src="assets/eq/u2_006.png" alt="H" style="height:1.545ex; vertical-align:0ex;" /> a altura de onda de projeto, <img src="assets/eq/u2_007.png" alt="K_D" style="height:1.885ex; vertical-align:0ex;" /> o coeficiente de estabilidade do tipo de bloco e <img src="assets/eq/u2_008.png" alt="\alpha" style="height:1.025ex; vertical-align:0ex;" /> o ângulo do talude. A mensagem prática: **quanto maior a onda, maior — ao cubo — o bloco necessário**.
 
 ![Seção transversal de um quebra-mar de talude, com núcleo, sub-camada (filtro) e carapaça de tetrápodes na face exposta às ondas](assets/quebra_mar_talude.svg)
 
@@ -175,9 +169,7 @@ A **dragagem** remove material do fundo para criar ou manter a profundidade nece
 
 O **calado** é a profundidade que o navio submerge. O **calado de projeto** do canal deve ser maior que o calado do navio, incluindo folgas:
 
-$$
-P_{\text{projeto}} = C_{\text{navio}} + \text{folga de quilha} + \text{efeito de maré} + \text{squat} + \text{sobreprofundidade de dragagem}
-$$
+<p align="center"><img src="assets/eq/u2_009.png" alt="P_{\text{projeto}} = C_{\text{navio}} + \text{folga de quilha} + \text{efeito de maré} + \text{squat} + \text{sobreprofundidade de dragagem}" width="914" style="max-width:100%; height:auto;" /></p>
 
 O **squat** é o afundamento adicional do navio em movimento (efeito hidrodinâmico). Negligenciá-lo já causou encalhes históricos.
 
@@ -192,17 +184,15 @@ Quando o navio atraca, ele chega com energia cinética que precisa ser absorvida
 
 A energia de atracação a ser absorvida é, de forma simplificada:
 
-$$
-E = \tfrac{1}{2} \, m \, v^2 \, C_m \, C_e
-$$
+<p align="center"><img src="assets/eq/u2_010.png" alt="E = \tfrac{1}{2} \, m \, v^2 \, C_m \, C_e" width="181" style="max-width:100%; height:auto;" /></p>
 
-onde $m$ é a massa deslocada, $v$ a velocidade de aproximação, $C_m$ o coeficiente de massa adicional e $C_e$ o de excentricidade.
+onde <img src="assets/eq/u2_011.png" alt="m" style="height:1.025ex; vertical-align:0ex;" /> é a massa deslocada, <img src="assets/eq/u2_012.png" alt="v" style="height:1.027ex; vertical-align:0ex;" /> a velocidade de aproximação, <img src="assets/eq/u2_013.png" alt="C_m" style="height:1.952ex; vertical-align:0ex;" /> o coeficiente de massa adicional e <img src="assets/eq/u2_014.png" alt="C_e" style="height:1.952ex; vertical-align:0ex;" /> o de excentricidade.
 
 ### Ações de ondas, marés e correntes
 
 O mar impõe as cargas ambientais que dominam o projeto:
 
-- **Ondas** — geram cargas dinâmicas e definem as obras de abrigo. A altura significativa $H_s$ e o período de retorno são os parâmetros centrais.
+- **Ondas** — geram cargas dinâmicas e definem as obras de abrigo. A altura significativa <img src="assets/eq/u2_015.png" alt="H_s" style="height:1.901ex; vertical-align:0ex;" /> e o período de retorno são os parâmetros centrais.
 - **Marés** — variação periódica do nível do mar (astronômica) e ocasional (meteorológica). Em Santos a amplitude é de cerca de **1,3 m**; no litoral do Maranhão (Itaqui) passa de **6 m**, o que muda tudo no projeto do cais.
 - **Correntes** — atuam sobre o navio amarrado e influenciam o assoreamento e a manobra.
 
@@ -210,23 +200,21 @@ Esses fenômenos são objeto da **engenharia costeira**, disciplina-irmã da por
 
 ### Exemplo numérico: profundidade de projeto
 
-Um navio Panamax tem calado carregado de $C_{\text{navio}} = 12{,}0\,\mathrm{m}$. O canal de acesso será dimensionado com:
+Um navio Panamax tem calado carregado de <img src="assets/eq/u2_016.png" alt="C_{\text{navio}} = 12{,}0\,\mathrm{m}" style="height:2.034ex; vertical-align:0ex;" />. O canal de acesso será dimensionado com:
 
-- folga sob a quilha (*underkeel clearance*): $1{,}0\,\mathrm{m}$;
-- *squat* estimado em velocidade de manobra: $0{,}5\,\mathrm{m}$;
-- sobreprofundidade de dragagem (tolerância): $0{,}5\,\mathrm{m}$.
+- folga sob a quilha (*underkeel clearance*): <img src="assets/eq/u2_017.png" alt="1{,}0\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />;
+- *squat* estimado em velocidade de manobra: <img src="assets/eq/u2_018.png" alt="0{,}5\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />;
+- sobreprofundidade de dragagem (tolerância): <img src="assets/eq/u2_019.png" alt="0{,}5\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />.
 
 Considerando que a maré mínima já está incorporada ao nível de referência, a profundidade de projeto fica:
 
-$$
-P_{\text{projeto}} = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0\,\mathrm{m}
-$$
+<p align="center"><img src="assets/eq/u2_020.png" alt="P_{\text{projeto}} = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0\,\mathrm{m}" width="403" style="max-width:100%; height:auto;" /></p>
 
 Ou seja, para receber um navio de **12 m de calado**, o canal precisa ser dragado a **14 m** — uma folga de **2 m** que parece pequena, mas que, ao longo de quilômetros de canal, representa milhões de metros cúbicos de material dragado.
 
 ### Atividade prática
 
-Você é o engenheiro de um terminal que quer passar a receber navios de calado $14{,}5\,\mathrm{m}$ (hoje recebe $11\,\mathrm{m}$). Esboce:
+Você é o engenheiro de um terminal que quer passar a receber navios de calado <img src="assets/eq/u2_021.png" alt="14{,}5\,\mathrm{m}" style="height:1.971ex; vertical-align:0ex;" /> (hoje recebe <img src="assets/eq/u2_022.png" alt="11\,\mathrm{m}" style="height:1.507ex; vertical-align:0ex;" />). Esboce:
 
 1. Qual a **profundidade de projeto** necessária (use as folgas da aula)?
 2. A dragagem é de **aprofundamento ou de manutenção**?
@@ -276,7 +264,7 @@ Você é o engenheiro de um terminal que quer passar a receber navios de calado 
 
 ## Aula 7 — Operação portuária e terminais
 
-O cais está construído, o canal dragado, o navio atracado. Agora começa a corrida contra o relógio: **navio parado custa caro** — um porta-contêineres grande pode custar mais de **US$ 60 mil por dia**. A eficiência da operação portuária é o que separa um porto competitivo de um porto que afugenta cargas. Nesta aula vamos conhecer os tipos de terminal (contêiner, granel sólido, granel líquido, carga geral), os equipamentos de movimentação, a lógica do contêiner medida em TEU, os indicadores de produtividade do berço e como a digitalização e a automação estão transformando os portos modernos.
+O cais está construído, o canal dragado, o navio atracado. Agora começa a corrida contra o relógio: **navio parado custa caro** — um porta-contêineres grande pode custar mais de **US\$ 60 mil por dia**. A eficiência da operação portuária é o que separa um porto competitivo de um porto que afugenta cargas. Nesta aula vamos conhecer os tipos de terminal (contêiner, granel sólido, granel líquido, carga geral), os equipamentos de movimentação, a lógica do contêiner medida em TEU, os indicadores de produtividade do berço e como a digitalização e a automação estão transformando os portos modernos.
 
 ### Tipos de terminais (contêiner, granel, carga geral)
 
@@ -307,9 +295,9 @@ Nos terminais de granel, o protagonista é a **correia transportadora** e o **ca
 
 ### Logística de contêineres (TEU)
 
-O contêiner padronizou o comércio mundial. A unidade de medida é o **TEU** (*Twenty-foot Equivalent Unit* — contêiner de 20 pés). Um contêiner de 40 pés equivale a **2 TEU**. A maioria das cargas hoje usa o de 40 pés, então a relação típica é de **~1,6 a 1,7 TEU por contêiner físico movimentado**.
+O contêiner padronizou o comércio mundial. A unidade de medida é o **TEU** (*Twenty-foot Equivalent Unit* — contêiner de 20 pés). Um contêiner de 40 pés equivale a **2 TEU**. Como boa parte das cargas usa o de 40 pés, em muitos terminais a relação fica em torno de **~1,5 a 1,7 TEU por contêiner físico movimentado**, dependendo da participação dos contêineres de 40 pés.
 
-![Comparação entre o contêiner de 20 pés (1 TEU) e o de 40 pés (2 TEU), com as dimensões ISO](assets/teu_conteiner.svg)
+![Comparação entre o contêiner de 20 pés (1 TEU) e o de 40 pés (2 TEU), com o comprimento ISO de cada um](assets/teu_conteiner.svg)
 
 A revolução do contêiner está na **intermodalidade**: a mesma caixa viaja de navio, ferrovia e caminhão sem ser aberta, com lacre e rastreamento — reduzindo furto, avaria e tempo. Foi essa padronização, iniciada por Malcom McLean nos anos 1950, que viabilizou a globalização logística.
 
@@ -317,9 +305,7 @@ A revolução do contêiner está na **intermodalidade**: a mesma caixa viaja de
 
 O indicador-rei do terminal de contêineres é a **produtividade do berço**, medida em **movimentos por hora**:
 
-$$
-\text{Produtividade} = \frac{\text{movimentos realizados}}{\text{tempo de operação no berço}}
-$$
+<p align="center"><img src="assets/eq/u2_023.png" alt="\text{Produtividade} = \frac{\text{movimentos realizados}}{\text{tempo de operação no berço}}" width="453" style="max-width:100%; height:auto;" /></p>
 
 Terminais brasileiros bem operados atingem **25 a 35 mov/h por navio**; terminais asiáticos automatizados ultrapassam **40 mov/h**. Outros indicadores importantes:
 
@@ -331,9 +317,9 @@ Em resumo, os principais indicadores de desempenho de um terminal:
 
 | Indicador | O que mede | Faixa típica |
 | --- | --- | --- |
-| Produtividade do berço | movimentos por hora por navio | $25\text{–}35$ (Brasil); $> 40$ (automatizado) |
-| Ocupação do berço | % do tempo com navio atracado | alvo $\approx 60\text{–}70\%$ |
-| *Dwell time* (pátio) | dias até a carga deixar o porto | $3\text{–}8$ dias |
+| Produtividade do berço | movimentos por hora por navio | <img src="assets/eq/u2_024.png" alt="25\text{–}35" style="height:1.557ex; vertical-align:0ex;" /> (Brasil); <img src="assets/eq/u2_025.png" alt="&gt; 40" style="height:1.622ex; vertical-align:0ex;" /> (automatizado) |
+| Ocupação do berço | % do tempo com navio atracado | alvo <img src="assets/eq/u2_026.png" alt="\approx 60\text{–}70\%" style="height:1.824ex; vertical-align:0ex;" /> |
+| *Dwell time* (pátio) | dias até a carga deixar o porto | <img src="assets/eq/u2_027.png" alt="3\text{–}8" style="height:1.557ex; vertical-align:0ex;" /> dias |
 | Tempo de espera | fundeio antes de atracar | quanto menor, melhor |
 
 ### Smart Ports: operação automatizada, AGVs e gêmeos digitais
@@ -353,33 +339,25 @@ Outras frentes do Smart Port incluem a **manutenção preditiva** (sensores avis
 
 Considere o terminal da Aula que opera **3 portêineres**. Num terminal convencional, cada portêiner depende de **cavalos mecânicos com motorista** que, com filas e trocas de turno, sustentam uma produtividade efetiva de **28 mov/h**. Ao migrar para operação **Smart Port** — AGVs autônomos roteados por IA, sem fadiga e sem fila de espera no cais —, a produtividade efetiva sobe para cerca de **39 mov/h** por portêiner (um ganho realista de ~40% no transporte horizontal). A taxa combinada passa de:
 
-$$
-3 \times 28 = 84\ \text{mov/h} \quad\longrightarrow\quad 3 \times 39 \approx 117\ \text{mov/h}
-$$
+<p align="center"><img src="assets/eq/u2_028.png" alt="3 \times 28 = 84\ \text{mov/h} \quad\longrightarrow\quad 3 \times 39 \approx 117\ \text{mov/h}" width="483" style="max-width:100%; height:auto;" /></p>
 
 Para um navio com **1.800 movimentos**, o tempo de operação no berço cai de:
 
-$$
-t_{\text{conv}} = \frac{1\,800}{84} \approx 21{,}4\ \mathrm{h} \quad\longrightarrow\quad t_{\text{smart}} = \frac{1\,800}{117} \approx 15{,}4\ \mathrm{h}
-$$
+<p align="center"><img src="assets/eq/u2_029.png" alt="t_{\text{conv}} = \frac{1\,800}{84} \approx 21{,}4\ \mathrm{h} \quad\longrightarrow\quad t_{\text{smart}} = \frac{1\,800}{117} \approx 15{,}4\ \mathrm{h}" width="548" style="max-width:100%; height:auto;" /></p>
 
-São cerca de **6 horas economizadas por navio**. A **US$ 2.500 por hora** de frete-tempo, isso representa **US$ 15 mil por escala** — e, ao longo de centenas de escalas por ano, é a diferença entre um porto competitivo e um porto que afasta cargas. Em termos de capacidade, as mesmas estruturas físicas passam a movimentar **~40% mais TEUs** sem construir um único berço novo.
+São cerca de **6 horas economizadas por navio**. A **US\$ 2.500 por hora** de frete-tempo, isso representa **US\$ 15 mil por escala** — e, ao longo de centenas de escalas por ano, é a diferença entre um porto competitivo e um porto que afasta cargas. Em termos de capacidade, as mesmas estruturas físicas passam a movimentar **~40% mais TEUs** sem construir um único berço novo.
 
 ### Exemplo numérico: tempo de atracação
 
 Um navio chega com **1.800 contêineres a movimentar** (entre descarga e carga). O terminal aloca **3 portêineres** trabalhando simultaneamente, cada um com produtividade de **28 mov/h**. A taxa combinada é:
 
-$$
-3 \times 28 = 84\ \text{mov/h}
-$$
+<p align="center"><img src="assets/eq/u2_030.png" alt="3 \times 28 = 84\ \text{mov/h}" width="188" style="max-width:100%; height:auto;" /></p>
 
 O tempo de operação no berço é:
 
-$$
-t = \frac{1\,800\ \text{mov}}{84\ \text{mov/h}} \approx 21{,}4\ \mathrm{h}
-$$
+<p align="center"><img src="assets/eq/u2_031.png" alt="t = \frac{1\,800\ \text{mov}}{84\ \text{mov/h}} \approx 21{,}4\ \mathrm{h}" width="236" style="max-width:100%; height:auto;" /></p>
 
-Somando **2 h de manobra e amarração**, a estadia total no berço é de cerca de **23,5 h**. Se o frete-tempo do navio é de **US$ 60 mil/dia**, cada hora economizada vale **US$ 2.500** — daí o esforço por mais portêineres e maior produtividade.
+Somando **2 h de manobra e amarração**, a estadia total no berço é de cerca de **23,4 h**. Se o frete-tempo do navio é de **US\$ 60 mil/dia**, cada hora economizada vale **US\$ 2.500** — daí o esforço por mais portêineres e maior produtividade.
 
 ### Pausa para reflexão (Desafio)
 
@@ -491,21 +469,15 @@ Essa **integração intermodal** — caminhão/trem → hidrovia → porto → n
 
 Um comboio da Hidrovia Tietê-Paraná é formado por **4 barcaças**, cada uma com capacidade de **2.200 toneladas** de grãos. A capacidade por viagem é:
 
-$$
-4 \times 2\,200 = 8\,800\ \mathrm{t}
-$$
+<p align="center"><img src="assets/eq/u2_032.png" alt="4 \times 2\,200 = 8\,800\ \mathrm{t}" width="183" style="max-width:100%; height:auto;" /></p>
 
 Comparando com o caminhão graneleiro, que leva cerca de **30 t** por viagem, um único comboio substitui:
 
-$$
-\frac{8\,800}{30} \approx 293\ \text{caminhões}
-$$
+<p align="center"><img src="assets/eq/u2_033.png" alt="\frac{8\,800}{30} \approx 293\ \text{caminhões}" width="232" style="max-width:100%; height:auto;" /></p>
 
 Se esse comboio faz **2 viagens por mês** ao longo de **10 meses** navegáveis (descontando a seca), ele movimenta:
 
-$$
-8\,800 \times 2 \times 10 = 176\,000\ \mathrm{t/ano}
-$$
+<p align="center"><img src="assets/eq/u2_034.png" alt="8\,800 \times 2 \times 10 = 176\,000\ \mathrm{t/ano}" width="304" style="max-width:100%; height:auto;" /></p>
 
 Quase **300 caminhões a menos nas estradas por viagem** — com menor consumo de combustível e menor emissão por tonelada transportada. É a tradução numérica de por que a hidrovia é o modal mais eficiente para granéis.
 
@@ -607,7 +579,7 @@ A respeito da **produtividade do berço** em terminais de contêineres, assinale
 
 **Resposta esperada:**
 
-> Uma resposta de qualidade deve **(1)** explicar que a hidrovia é o modal mais eficiente energeticamente para **granéis de baixo valor agregado e grande volume** como a soja, e que a nova rota é **intermodal**: caminhão (curta distância até o transbordo) → hidrovia (longa distância, baixo custo) → porto → navio. Deve definir corretamente **transbordo**, **calado** (limitado pela profundidade do rio, que cai na seca, reduzindo a carga por barcaça) e **gabarito** (dimensões-limite que definem o comboio máximo). **(2)** No cálculo: cada comboio leva $4 \times 2\,200 = 8\,800\,\mathrm{t}$; para 600 mil t, são $600\,000 / 8\,800 \approx 68$ viagens de comboio por ano; cada comboio substitui $8\,800/30 \approx 293$ caminhões por viagem. **(3)** Deve apontar riscos reais: a **sazonalidade** (na seca o calado cai e a carga por viagem diminui), a **dependência do terminal de transbordo**, os possíveis **gargalos de profundidade/eclusa** ao longo da hidrovia e o conflito quando há **barragem sem eclusa**. A recomendação madura é uma **estratégia híbrida** — migrar parte do volume para o Arco Norte (reduzindo custo e dependência de uma única rota) mantendo flexibilidade rodoviária na entressafra/seca — demonstrando **pensamento sistêmico** e conexão com o conceito de hinterland visto na Aula 5. Respostas que apenas dizem "usar a hidrovia porque é mais barata" sem quantificar nem discutir riscos devem receber pontuação parcial.
+> Uma resposta de qualidade deve **(1)** explicar que a hidrovia é o modal mais eficiente energeticamente para **granéis de baixo valor agregado e grande volume** como a soja, e que a nova rota é **intermodal**: caminhão (curta distância até o transbordo) → hidrovia (longa distância, baixo custo) → porto → navio. Deve definir corretamente **transbordo**, **calado** (limitado pela profundidade do rio, que cai na seca, reduzindo a carga por barcaça) e **gabarito** (dimensões-limite que definem o comboio máximo). **(2)** No cálculo: cada comboio leva <img src="assets/eq/u2_035.png" alt="4 \times 2\,200 = 8\,800\,\mathrm{t}" style="height:1.717ex; vertical-align:0ex;" />; para 600 mil t, são <img src="assets/eq/u2_036.png" alt="600\,000 / 8\,800 \approx 68" style="height:2.262ex; vertical-align:0ex;" /> viagens de comboio por ano; cada comboio substitui <img src="assets/eq/u2_037.png" alt="8\,800/30 \approx 293" style="height:2.262ex; vertical-align:0ex;" /> caminhões por viagem. **(3)** Deve apontar riscos reais: a **sazonalidade** (na seca o calado cai e a carga por viagem diminui), a **dependência do terminal de transbordo**, os possíveis **gargalos de profundidade/eclusa** ao longo da hidrovia e o conflito quando há **barragem sem eclusa**. A recomendação madura é uma **estratégia híbrida** — migrar parte do volume para o Arco Norte (reduzindo custo e dependência de uma única rota) mantendo flexibilidade rodoviária na entressafra/seca — demonstrando **pensamento sistêmico** e conexão com o conceito de hinterland visto na Aula 5. Respostas que apenas dizem "usar a hidrovia porque é mais barata" sem quantificar nem discutir riscos devem receber pontuação parcial.
 
 ---
 

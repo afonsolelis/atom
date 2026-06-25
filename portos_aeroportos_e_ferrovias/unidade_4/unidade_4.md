@@ -33,11 +33,11 @@ O grande desafio brasileiro é a **baixa densidade** da malha e a **falta de int
 
 | Tipo de bitola | Distância | Onde predomina |
 | --- | --- | --- |
-| **Larga** | $1{,}60\,\mathrm{m}$ | EFVM, EFC, malhas de minério e parte do Sudeste |
-| **Métrica** | $1{,}00\,\mathrm{m}$ | maior parte da malha histórica brasileira |
-| **Padrão (internacional)** | $1{,}435\,\mathrm{m}$ | novos projetos, alta velocidade, metrôs |
+| **Larga** | <img src="assets/eq/u4_001.png" alt="1{,}60\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" /> | EFVM, EFC, malhas de minério e parte do Sudeste |
+| **Métrica** | <img src="assets/eq/u4_002.png" alt="1{,}00\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" /> | maior parte da malha histórica brasileira |
+| **Padrão (internacional)** | <img src="assets/eq/u4_003.png" alt="1{,}435\,\mathrm{m}" style="height:1.971ex; vertical-align:0ex;" /> | novos projetos, alta velocidade, metrôs |
 
-Atenção a um detalhe técnico que muita gente erra: a bitola **não** é medida de centro a centro dos trilhos, e sim entre as **faces internas dos boletos** (a $14\,\mathrm{mm}$ abaixo do topo do trilho, pela norma), justamente onde o friso da roda se aproxima.
+Atenção a um detalhe técnico que muita gente erra: a bitola **não** é medida de centro a centro dos trilhos, e sim entre as **faces internas dos boletos** (a <img src="assets/eq/u4_004.png" alt="14\,\mathrm{mm}" style="height:1.532ex; vertical-align:0ex;" /> abaixo do topo do trilho, pela norma), justamente onde o friso da roda se aproxima.
 
 ![Seção transversal mostrando que a bitola é medida entre as faces internas dos dois boletos, com os valores larga, métrica e padrão](assets/bitola_secao.svg)
 
@@ -55,29 +55,23 @@ O **novo marco regulatório ferroviário (Lei 14.273/2021)** representou a maior
 
 ### Transporte de carga e de passageiros
 
-No Brasil, a ferrovia é majoritariamente de **carga**. O transporte ferroviário de passageiros de longa distância praticamente desapareceu — restam trens turísticos e o trem da Vale entre Belo Horizonte e Vitória, popularmente conhecido como "trem da Vale", que em 2023 transportou cerca de 330 mil passageiros. O transporte de passageiros sobre trilhos vive hoje nos sistemas **urbanos**: metrôs (SP, RJ, BH, Fortaleza, Recife, Porto Alegre, Brasília), trens metropolitanos (CPTM-SP e SuperVia-RJ) e VLTs (Rio de Janeiro e Santos), tema da Aula 16.
+No Brasil, a ferrovia é majoritariamente de **carga**. O transporte ferroviário de passageiros de longa distância praticamente desapareceu — restam trens turísticos e o trem de passageiros da EFVM, que liga Belo Horizonte a Vitória (popularmente o "trem da Vale") e que em 2023 transportou cerca de 330 mil passageiros. O transporte de passageiros sobre trilhos vive hoje nos sistemas **urbanos**: metrôs (SP, RJ, BH, Fortaleza, Recife, Porto Alegre, Brasília), trens metropolitanos (CPTM-SP e SuperVia-RJ) e VLTs (Rio de Janeiro e Santos), tema da Aula 16.
 
 No mundo, o quadro é diferente: Europa, Japão e China operam vastas redes de passageiros, incluindo trens de alta velocidade. O Brasil é uma exceção pela opção histórica pelo rodoviário e pela aviação em distâncias longas.
 
 ### Exemplo numérico: capacidade de transporte
 
-Considere um trem-tipo de minério com $200$ vagões, cada um com capacidade útil de $100\,\mathrm{t}$. A carga por trem é:
+Considere um trem-tipo de minério com <img src="assets/eq/u4_005.png" alt="200" style="height:1.557ex; vertical-align:0ex;" /> vagões, cada um com capacidade útil de <img src="assets/eq/u4_006.png" alt="100\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" />. A carga por trem é:
 
-$$
-C_{\text{trem}} = 200 \times 100\,\mathrm{t} = 20\,000\,\mathrm{t}
-$$
+<p align="center"><img src="assets/eq/u4_007.png" alt="C_{\text{trem}} = 200 \times 100\,\mathrm{t} = 20\,000\,\mathrm{t}" width="295" style="max-width:100%; height:auto;" /></p>
 
-Se a ferrovia operar $20$ trens por dia em determinado sentido, a capacidade diária é:
+Se a ferrovia operar <img src="assets/eq/u4_008.png" alt="20" style="height:1.557ex; vertical-align:0ex;" /> trens por dia em determinado sentido, a capacidade diária é:
 
-$$
-C_{\text{dia}} = 20 \times 20\,000\,\mathrm{t} = 400\,000\,\mathrm{t/dia}
-$$
+<p align="center"><img src="assets/eq/u4_009.png" alt="C_{\text{dia}} = 20 \times 20\,000\,\mathrm{t} = 400\,000\,\mathrm{t/dia}" width="352" style="max-width:100%; height:auto;" /></p>
 
-Comparando com o caminhão: um bitrem transporta cerca de $40\,\mathrm{t}$. Para mover as mesmas $400\,000\,\mathrm{t/dia}$ seriam necessários:
+Comparando com o caminhão: um bitrem transporta cerca de <img src="assets/eq/u4_010.png" alt="40\,\mathrm{t}" style="height:1.581ex; vertical-align:0ex;" />. Para mover as mesmas <img src="assets/eq/u4_011.png" alt="400\,000\,\mathrm{t/dia}" style="height:2.262ex; vertical-align:0ex;" /> seriam necessários:
 
-$$
-N_{\text{caminhões}} = \frac{400\,000}{40} = 10\,000 \text{ viagens/dia}
-$$
+<p align="center"><img src="assets/eq/u4_012.png" alt="N_{\text{caminhões}} = \frac{400\,000}{40} = 10\,000 \text{ viagens/dia}" width="418" style="max-width:100%; height:auto;" /></p>
 
 Ou seja, **um único corredor ferroviário substitui dez mil viagens diárias de caminhão** — o que evidencia por que ferrovias são insubstituíveis em corredores de exportação de granéis.
 
@@ -89,7 +83,7 @@ Escolha uma das grandes ferrovias brasileiras (Carajás, Norte-Sul ou Vitória a
 
 - A ferrovia surgiu na Revolução Industrial; no Brasil, começou em 1854 com o Barão de Mauá.
 - A malha brasileira (~30 mil km) é pequena para o país e concentrada em corredores de exportação; EFC e EFVM, ambas em bitola larga, são referência mundial em transporte de minério.
-- **Bitola** é a distância entre trilhos: larga ($1{,}60\,\mathrm{m}$), métrica ($1{,}00\,\mathrm{m}$) e padrão ($1{,}435\,\mathrm{m}$); a falta de padronização é gargalo logístico.
+- **Bitola** é a distância entre trilhos: larga (<img src="assets/eq/u4_013.png" alt="1{,}60\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />), métrica (<img src="assets/eq/u4_014.png" alt="1{,}00\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />) e padrão (<img src="assets/eq/u4_015.png" alt="1{,}435\,\mathrm{m}" style="height:1.971ex; vertical-align:0ex;" />); a falta de padronização é gargalo logístico.
 - A **ANTT** regula concessões, tarifas e o direito de passagem desde 2001; a **Lei 14.273/2021** trouxe o regime de autorização e abriu a ferrovia ao investimento privado sem licitação.
 - A ferrovia brasileira é predominantemente de carga; a Rumo é a maior concessionária privada (~13.000 km); o transporte de passageiros sobrevive nos sistemas urbanos.
 
@@ -127,7 +121,7 @@ Escolha uma das grandes ferrovias brasileiras (Carajás, Norte-Sul ou Vitória a
 
 ## Aula 14 — Superestrutura ferroviária: via permanente
 
-Quando você olha uma ferrovia, vê dois trilhos brilhando ao sol. Mas debaixo deles existe um sistema cuidadosamente projetado para suportar cargas brutais — eixos de até $30\,\mathrm{t}$ passando dezenas de vezes por dia — e distribuí-las até o solo sem afundar. Esse conjunto é a **via permanente** ou **superestrutura ferroviária**. Nesta aula você vai conhecer cada componente: trilhos, dormentes, fixações, lastro, sublastro e os aparelhos que permitem ao trem trocar de via. Entender essa anatomia é o que separa quem olha trilhos de quem projeta ferrovias.
+Quando você olha uma ferrovia, vê dois trilhos brilhando ao sol. Mas debaixo deles existe um sistema cuidadosamente projetado para suportar cargas brutais — eixos de até <img src="assets/eq/u4_016.png" alt="30\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> passando dezenas de vezes por dia — e distribuí-las até o solo sem afundar. Esse conjunto é a **via permanente** ou **superestrutura ferroviária**. Nesta aula você vai conhecer cada componente: trilhos, dormentes, fixações, lastro, sublastro e os aparelhos que permitem ao trem trocar de via. Entender essa anatomia é o que separa quem olha trilhos de quem projeta ferrovias.
 
 ### Os componentes da via permanente
 
@@ -143,22 +137,22 @@ O trilho é o elemento que guia e suporta a roda. Seu perfil padrão é o **tril
 
 ![Perfil Vignole de trilho ferroviário, com boleto, alma e patim cotados (dimensões do TR-68)](assets/perfil_trilho_vignole.svg)
 
-Trilhos são classificados pela **massa linear**, em quilogramas por metro (kg/m): quanto mais pesada a operação, mais pesado e alto o perfil. Na nomenclatura brasileira **TR-XX**, o número corresponde aproximadamente à massa em kg/m — e a cerca de metade do peso em libras por jarda da norma AREMA (o TR-68, por exemplo, equivale ao perfil norte-americano *136 RE*, de $136\,\mathrm{lb/yd}$). Os perfis padronizados mais usados no Brasil:
+Trilhos são classificados pela **massa linear**, em quilogramas por metro (kg/m): quanto mais pesada a operação, mais pesado e alto o perfil. Na nomenclatura brasileira **TR-XX**, o número corresponde aproximadamente à massa em kg/m — e a cerca de metade do peso em libras por jarda da norma AREMA (o TR-68, por exemplo, equivale ao perfil norte-americano *136 RE*, de <img src="assets/eq/u4_017.png" alt="136\,\mathrm{lb/yd}" style="height:2.262ex; vertical-align:0ex;" />). Os perfis padronizados mais usados no Brasil:
 
 | Perfil | Massa linear | Altura (H) | Patim (B) | Boleto | Uso típico |
 | --- | --- | --- | --- | --- | --- |
-| **TR-37** | $37{,}2\,\mathrm{kg/m}$ | $122{,}2\,\mathrm{mm}$ | $122{,}2\,\mathrm{mm}$ | $62{,}7\,\mathrm{mm}$ | ramais e vias leves |
-| **TR-45** | $44{,}6\,\mathrm{kg/m}$ | $127{,}0\,\mathrm{mm}$ | $127{,}0\,\mathrm{mm}$ | $63{,}5\,\mathrm{mm}$ | vias secundárias |
-| **TR-57** | $56{,}9\,\mathrm{kg/m}$ | $142{,}8\,\mathrm{mm}$ | $130{,}2\,\mathrm{mm}$ | $65{,}1\,\mathrm{mm}$ | vias principais |
-| **TR-68** | $67{,}4\,\mathrm{kg/m}$ | $185{,}7\,\mathrm{mm}$ | $152{,}4\,\mathrm{mm}$ | $74{,}6\,\mathrm{mm}$ | ferrovias pesadas (minério) |
+| **TR-37** | <img src="assets/eq/u4_018.png" alt="37{,}2\,\mathrm{kg/m}" style="height:2.262ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_019.png" alt="122{,}2\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_020.png" alt="122{,}2\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_021.png" alt="62{,}7\,\mathrm{mm}" style="height:1.968ex; vertical-align:0ex;" /> | ramais e vias leves |
+| **TR-45** | <img src="assets/eq/u4_022.png" alt="44{,}6\,\mathrm{kg/m}" style="height:2.262ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_023.png" alt="127{,}0\,\mathrm{mm}" style="height:1.968ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_024.png" alt="127{,}0\,\mathrm{mm}" style="height:1.968ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_025.png" alt="63{,}5\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> | vias secundárias |
+| **TR-57** | <img src="assets/eq/u4_026.png" alt="56{,}9\,\mathrm{kg/m}" style="height:2.262ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_027.png" alt="142{,}8\,\mathrm{mm}" style="height:1.971ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_028.png" alt="130{,}2\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_029.png" alt="65{,}1\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> | vias principais |
+| **TR-68** | <img src="assets/eq/u4_030.png" alt="67{,}4\,\mathrm{kg/m}" style="height:2.262ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_031.png" alt="185{,}7\,\mathrm{mm}" style="height:1.968ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_032.png" alt="152{,}4\,\mathrm{mm}" style="height:1.971ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_033.png" alt="74{,}6\,\mathrm{mm}" style="height:1.971ex; vertical-align:0ex;" /> | ferrovias pesadas (minério) |
 
-Nas ferrovias pesadas brasileiras — EFC e EFVM — predominam trilhos **TR-68** em TLS, coerentes com a alta tonelagem por eixo (até $32{,}5\,\mathrm{t/eixo}$) praticada nessas linhas. Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**: a barra é tensionada e fixada numa *temperatura neutra* de projeto (em torno de $25\text{–}30\,^{\circ}\mathrm{C}$ no Brasil), de modo a não flambar no calor nem romper no frio.
+Nas ferrovias pesadas brasileiras — EFC e EFVM — predominam trilhos **TR-68** em TLS, coerentes com a alta tonelagem por eixo (até <img src="assets/eq/u4_034.png" alt="32{,}5\,\mathrm{t/eixo}" style="height:2.262ex; vertical-align:0ex;" />) praticada nessas linhas. Os trilhos podem ser **soldados** em barras longas (TLS — Trilho Longo Soldado), eliminando as juntas e o característico "tac-tac". Isso reduz desgaste, ruído e manutenção, mas exige cuidado com a **dilatação térmica**: a barra é tensionada e fixada numa *temperatura neutra* de projeto (em torno de <img src="assets/eq/u4_035.png" alt="25\text{–}30\,^{\circ}\mathrm{C}" style="height:1.645ex; vertical-align:0ex;" /> no Brasil), de modo a não flambar no calor nem romper no frio.
 
 ### Material do trilho e normas técnicas
 
 O trilho é forjado em **aço-carbono de microestrutura perlítica**, escolhido pela combinação de resistência ao desgaste e tenacidade. A composição típica fica em torno de **0,60–0,82 % de carbono** e **0,70–1,25 % de manganês**, com silício e controle rígido de enxofre e fósforo. Quanto mais fina e dura a perlita, maior a resistência ao desgaste no boleto — por isso as curvas e as linhas de minério recebem trilhos de **dureza elevada**.
 
-Os graus de aço são definidos por norma. A referência internacional é a **UIC 860** (hoje absorvida pela EN 13674), que classifica os aços pela dureza do boleto: **R260** (~ $260\,\mathrm{HB}$, resistência à tração ~ $880\,\mathrm{MPa}$) para uso geral, e **R350HT** (*head-hardened*, boleto endurecido a ~ $350\,\mathrm{HB}$) para linhas pesadas e curvas fechadas. No padrão norte-americano — o mais adotado no Brasil — a especificação clássica é a **ASTM A1** (*Standard Specification for Carbon Steel Tee Rails*), que cobre trilhos a partir de $60\,\mathrm{lb/yd}$ ($29{,}8\,\mathrm{kg/m}$), complementada pelo **Manual da AREMA, Capítulo 4 (Rail)**, que padroniza os perfis (como o 136 RE = TR-68). As concessionárias brasileiras especificam seus trilhos referenciando essas normas (AREMA/ASTM e UIC), e a inspeção de recebimento segue procedimentos do **DNIT** (*PIM 001 — Trilho para linha férrea*).
+Os graus de aço são definidos por norma. A referência internacional é a **UIC 860** (hoje absorvida pela EN 13674), que classifica os aços pela dureza do boleto: **R260** (~ <img src="assets/eq/u4_036.png" alt="260\,\mathrm{HB}" style="height:1.595ex; vertical-align:0ex;" />, resistência à tração ~ <img src="assets/eq/u4_037.png" alt="880\,\mathrm{MPa}" style="height:1.595ex; vertical-align:0ex;" />) para uso geral, e **R350HT** (*head-hardened*, boleto endurecido a ~ <img src="assets/eq/u4_038.png" alt="350\,\mathrm{HB}" style="height:1.595ex; vertical-align:0ex;" />) para linhas pesadas e curvas fechadas. No padrão norte-americano — o mais adotado no Brasil — a especificação clássica é a **ASTM A1** (*Standard Specification for Carbon Steel Tee Rails*), que cobre trilhos a partir de <img src="assets/eq/u4_039.png" alt="60\,\mathrm{lb/yd}" style="height:2.262ex; vertical-align:0ex;" /> (<img src="assets/eq/u4_040.png" alt="29{,}8\,\mathrm{kg/m}" style="height:2.262ex; vertical-align:0ex;" />), complementada pelo **Manual da AREMA, Capítulo 4 (Rail)**, que padroniza os perfis (como o 136 RE = TR-68). As concessionárias brasileiras especificam seus trilhos referenciando essas normas (AREMA/ASTM e UIC), e a inspeção de recebimento segue procedimentos do **DNIT** (*PIM 001 — Trilho para linha férrea*).
 
 ### Dormentes e fixações
 
@@ -194,7 +188,7 @@ Os sensores típicos instalados na via e no material rodante são:
 
 - **Acelerômetros / sensores de vibração:** medem o comportamento dinâmico da via e do veículo; mudanças no espectro de vibração denunciam perda de geometria, dormente solto ou defeito incipiente no boleto.
 - **Extensômetros (*strain gauges*):** medem a deformação (e, por consequência, a tensão) no trilho sob carga — base para estimar o consumo de vida em fadiga.
-- **Ultrassom (defectoscopia):** carros-controle e sensores ultrassônicos detectam **trincas internas** no trilho que não aparecem na superfície; o menor defeito detectável de forma confiável é da ordem de $3{,}5\,\mathrm{mm}$ (cerca de 5 % da seção do boleto).
+- **Ultrassom (defectoscopia):** carros-controle e sensores ultrassônicos detectam **trincas internas** no trilho que não aparecem na superfície; o menor defeito detectável de forma confiável é da ordem de <img src="assets/eq/u4_041.png" alt="3{,}5\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> (cerca de 5 % da seção do boleto).
 - **Radar de penetração no solo (GPR)** e sensores de umidade: avaliam a contaminação e a drenagem do lastro e do subleito.
 
 O ponto-chave é o **monitoramento de vibrações** e a **detecção precoce de fadiga/trincas**: trilhos sob carga repetida acumulam dano por **fadiga de contato de rolamento** (RCF) e trincas que, se não detectadas, crescem até a **fratura frágil** do trilho — uma das principais causas de descarrilamento por quebra de trilho. Medições de deformação podem antecipar a falha com semanas a meses de antecedência.
@@ -209,39 +203,29 @@ A **regra de quando vale a pena** a preditiva: ela se justifica quando o **custo
 
 ### Exemplo numérico: intervalo de inspeção por tonelagem e ganho de disponibilidade
 
-Suponha um trecho com fluxo de $T = 150\,\text{MGT/ano}$ (milhões de toneladas brutas por ano). Uma trinca interna torna-se detectável ao ultrassom com $a_0 = 3{,}5\,\mathrm{mm}$ e leva, por modelo de crescimento, **$\Delta = 12\,\mathrm{MGT}$** de tráfego para evoluir do tamanho detectável até o tamanho crítico de fratura. Para garantir **pelo menos duas** inspeções dentro dessa janela (fator de segurança 2), o intervalo de inspeção em tonelagem é:
+Suponha um trecho com fluxo de <img src="assets/eq/u4_042.png" alt="T = 150\,\text{MGT/ano}" style="height:2.262ex; vertical-align:0ex;" /> (milhões de toneladas brutas por ano). Uma trinca interna torna-se detectável ao ultrassom com <img src="assets/eq/u4_043.png" alt="a_0 = 3{,}5\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> e leva, por modelo de crescimento, **<img src="assets/eq/u4_044.png" alt="\Delta = 12\,\mathrm{MGT}" style="height:1.805ex; vertical-align:0ex;" />** de tráfego para evoluir do tamanho detectável até o tamanho crítico de fratura. Para garantir **pelo menos duas** inspeções dentro dessa janela (fator de segurança 2), o intervalo de inspeção em tonelagem é:
 
-$$
-T_{\text{insp}} = \frac{\Delta}{2} = \frac{12}{2} = 6\,\text{MGT}
-$$
+<p align="center"><img src="assets/eq/u4_045.png" alt="T_{\text{insp}} = \frac{\Delta}{2} = \frac{12}{2} = 6\,\text{MGT}" width="268" style="max-width:100%; height:auto;" /></p>
 
-Convertendo para tempo, com $150\,\text{MGT/ano}$:
+Convertendo para tempo, com <img src="assets/eq/u4_046.png" alt="150\,\text{MGT/ano}" style="height:2.262ex; vertical-align:0ex;" />:
 
-$$
-t_{\text{insp}} = \frac{T_{\text{insp}}}{T} = \frac{6}{150}\,\text{ano} = 0{,}04\,\text{ano} \approx 14{,}6\,\text{dias}
-$$
+<p align="center"><img src="assets/eq/u4_047.png" alt="t_{\text{insp}} = \frac{T_{\text{insp}}}{T} = \frac{6}{150}\,\text{ano} = 0{,}04\,\text{ano} \approx 14{,}6\,\text{dias}" width="463" style="max-width:100%; height:auto;" /></p>
 
-Ou seja, a via deve ser auscultada por ultrassom a cada **$\approx 15$ dias**. Agora o **ganho de disponibilidade** da preditiva: imagine que a falha não detectada cause, em média, $H_{\text{corr}} = 8\,\mathrm{h}$ de via interditada (emergência + troca), enquanto a troca **programada** do trilho deteriorado consome só $H_{\text{prev}} = 2\,\mathrm{h}$ numa janela já planejada. Para $N = 10$ defeitos/ano que a preditiva passa a flagrar antes da fratura, o tempo de interdição evitado é:
+Ou seja, a via deve ser auscultada por ultrassom a cada **<img src="assets/eq/u4_048.png" alt="\approx 15" style="height:1.557ex; vertical-align:0ex;" /> dias**. Agora o **ganho de disponibilidade** da preditiva: imagine que a falha não detectada cause, em média, <img src="assets/eq/u4_049.png" alt="H_{\text{corr}} = 8\,\mathrm{h}" style="height:1.927ex; vertical-align:0ex;" /> de via interditada (emergência + troca), enquanto a troca **programada** do trilho deteriorado consome só <img src="assets/eq/u4_050.png" alt="H_{\text{prev}} = 2\,\mathrm{h}" style="height:2.22ex; vertical-align:0ex;" /> numa janela já planejada. Para <img src="assets/eq/u4_051.png" alt="N = 10" style="height:1.731ex; vertical-align:0ex;" /> defeitos/ano que a preditiva passa a flagrar antes da fratura, o tempo de interdição evitado é:
 
-$$
-\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60\,\mathrm{h/ano}
-$$
+<p align="center"><img src="assets/eq/u4_052.png" alt="\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60\,\mathrm{h/ano}" width="507" style="max-width:100%; height:auto;" /></p>
 
-Sobre as $8\,760\,\mathrm{h}$ de um ano, isso eleva a disponibilidade da via em $\dfrac{60}{8\,760} \approx 0{,}68\,\%$ — que, num corredor que move centenas de milhares de toneladas por dia, representa **milhões de toneladas a mais escoadas** e a possível diferença entre cumprir ou não a meta contratual de produção.
+Sobre as <img src="assets/eq/u4_053.png" alt="8\,760\,\mathrm{h}" style="height:1.62ex; vertical-align:0ex;" /> de um ano, isso eleva a disponibilidade da via em <img src="assets/eq/u4_054.png" alt="\dfrac{60}{8\,760} \approx 0{,}68\,\%" style="height:4.638ex; vertical-align:0ex;" /> — que, num corredor que move centenas de milhares de toneladas por dia, representa **milhões de toneladas a mais escoadas** e a possível diferença entre cumprir ou não a meta contratual de produção.
 
 ### Exemplo numérico: tensão no trilho
 
-Considere uma roda transmitindo uma carga vertical de $P = 150\,\mathrm{kN}$ ao trilho. Suponha que, pela rigidez do conjunto, essa carga seja distribuída por 5 dormentes consecutivos (efeito da viga sobre apoio elástico). A carga média por dormente é:
+Considere uma roda transmitindo uma carga vertical de <img src="assets/eq/u4_055.png" alt="P = 150\,\mathrm{kN}" style="height:1.756ex; vertical-align:0ex;" /> ao trilho. Suponha que, pela rigidez do conjunto, essa carga seja distribuída por 5 dormentes consecutivos (efeito da viga sobre apoio elástico). A carga média por dormente é:
 
-$$
-R_{\text{dormente}} = \frac{150\,\mathrm{kN}}{5} = 30\,\mathrm{kN}
-$$
+<p align="center"><img src="assets/eq/u4_056.png" alt="R_{\text{dormente}} = \frac{150\,\mathrm{kN}}{5} = 30\,\mathrm{kN}" width="280" style="max-width:100%; height:auto;" /></p>
 
-Se cada dormente de concreto distribui essa reação sobre uma área de contato com o lastro de $A = 0{,}6\,\mathrm{m}^2$, a pressão média no lastro é:
+Se cada dormente de concreto distribui essa reação sobre uma área de contato com o lastro de <img src="assets/eq/u4_057.png" alt="A = 0{,}6\,\mathrm{m}^2" style="height:2.326ex; vertical-align:0ex;" />, a pressão média no lastro é:
 
-$$
-\sigma_{\text{lastro}} = \frac{R_{\text{dormente}}}{A} = \frac{30\,\mathrm{kN}}{0{,}6\,\mathrm{m}^2} = 50\,\mathrm{kPa}
-$$
+<p align="center"><img src="assets/eq/u4_058.png" alt="\sigma_{\text{lastro}} = \frac{R_{\text{dormente}}}{A} = \frac{30\,\mathrm{kN}}{0{,}6\,\mathrm{m}^2} = 50\,\mathrm{kPa}" width="379" style="max-width:100%; height:auto;" /></p>
 
 Esse valor está bem abaixo da resistência típica de um lastro de brita bem confinado (centenas de kPa). O exemplo mostra o princípio central da via: **espalhar a carga concentrada da roda até que a pressão seja segura para a camada inferior**. Se o trilho fosse mais leve ou o dormente mal apoiado, a carga se concentraria em poucos apoios e a tensão dispararia.
 
@@ -303,7 +287,7 @@ Um trem não anda em linha reta o tempo todo — ele sobe rampas, vence curvas e
 
 O traçado de uma ferrovia é definido em duas vistas. Em **planta** (vista de cima), a via é composta por **tangentes** (trechos retos) ligadas por **curvas**. Entre a tangente e a curva circular insere-se a **curva de transição** (espiral/clotoide), que faz o raio variar gradualmente do infinito (reta) até o raio da curva, evitando que a força lateral apareça de forma brusca.
 
-Em **perfil** (vista lateral), a via é definida por **rampas** (trechos inclinados) ligadas por **curvas verticais** (concordâncias). A inclinação é expressa em porcentagem ou em metros por mil (‰). A ferrovia é muito sensível à rampa: como a aderência roda-trilho (aço-aço) é baixa, rampas íngremes limitam drasticamente a carga rebocável. Na EFC e na EFVM, a rampa máxima compensada é de apenas $4\,\mathrm{‰}$ em trechos críticos, exatamente para preservar a capacidade de tração dos trens pesados de minério.
+Em **perfil** (vista lateral), a via é definida por **rampas** (trechos inclinados) ligadas por **curvas verticais** (concordâncias). A inclinação é expressa em porcentagem ou em metros por mil (‰). A ferrovia é muito sensível à rampa: como a aderência roda-trilho (aço-aço) é baixa, rampas íngremes limitam drasticamente a carga rebocável. Na EFC e na EFVM, a rampa máxima compensada é de apenas <img src="assets/eq/u4_059.png" alt="4\,\mathrm{‰}" style="height:2.149ex; vertical-align:0ex;" /> em trechos críticos, exatamente para preservar a capacidade de tração dos trens pesados de minério.
 
 ![Trem de carga da Transnordestina percorrendo a via férrea, exemplo de material rodante e traçado](https://commons.wikimedia.org/wiki/Special:FilePath/Trem_de_carga_da_TransNordestina_em_2019.jpg)
 
@@ -313,67 +297,63 @@ Numa curva, o trem sofre **força centrífuga** que tende a empurrá-lo para for
 
 A **superlargura** é o alargamento da bitola nas curvas fechadas. Como o truque (conjunto de rodeiros) é rígido, em curvas de raio pequeno ele "trava"; alargar levemente a bitola facilita a inscrição do veículo na curva e reduz o desgaste do friso da roda contra o trilho.
 
-A curva tem ainda o **raio** como parâmetro central: quanto menor o raio, mais fechada a curva, menor a velocidade admissível e maior o desgaste. Daí a importância dos raios mínimos. A norma ANTT estabelece raios mínimos diferenciados por classe de via: para ferrovias de carga pesada operando em bitola larga, o raio mínimo absoluto é de $300\,\mathrm{m}$, mas o desejável é acima de $700\,\mathrm{m}$.
+A curva tem ainda o **raio** como parâmetro central: quanto menor o raio, mais fechada a curva, menor a velocidade admissível e maior o desgaste. Daí a importância dos raios mínimos. A norma ANTT estabelece raios mínimos diferenciados por classe de via: para ferrovias de carga pesada operando em bitola larga, o raio mínimo absoluto é de <img src="assets/eq/u4_060.png" alt="300\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" />, mas o desejável é acima de <img src="assets/eq/u4_061.png" alt="700\,\mathrm{m}" style="height:1.579ex; vertical-align:0ex;" />.
 
 ### Rampas e raios mínimos
 
-O **raio mínimo** é o menor raio de curva admitido no projeto, função da velocidade, da bitola e do tipo de tráfego. Vias de alta velocidade exigem raios enormes (quilômetros); ramais industriais aceitam raios pequenos a baixa velocidade. A ordem de grandeza dos raios desejáveis cresce com o quadrado da velocidade ($R \propto V^2$):
+O **raio mínimo** é o menor raio de curva admitido no projeto, função da velocidade, da bitola e do tipo de tráfego. Vias de alta velocidade exigem raios enormes (quilômetros); ramais industriais aceitam raios pequenos a baixa velocidade. A ordem de grandeza dos raios desejáveis cresce com o quadrado da velocidade (<img src="assets/eq/u4_062.png" alt="R \propto V^2" style="height:1.937ex; vertical-align:0ex;" />):
 
 | Velocidade de projeto | Raio mínimo desejável | Aplicação típica |
 | --- | --- | --- |
-| $40\,\mathrm{km/h}$ | ~ $150\text{–}250\,\mathrm{m}$ | pátios, ramais industriais |
-| $80\,\mathrm{km/h}$ | ~ $600\text{–}800\,\mathrm{m}$ | ferrovia de carga (minério/grãos) |
-| $120\,\mathrm{km/h}$ | ~ $1\,200\text{–}1\,500\,\mathrm{m}$ | linhas-tronco e trens regionais |
-| $\geq 250\,\mathrm{km/h}$ | $> 7\,000\,\mathrm{m}$ | alta velocidade (TAV) |
+| <img src="assets/eq/u4_063.png" alt="40\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> | ~ <img src="assets/eq/u4_064.png" alt="150\text{–}250\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> | pátios, ramais industriais |
+| <img src="assets/eq/u4_065.png" alt="80\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> | ~ <img src="assets/eq/u4_066.png" alt="600\text{–}800\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> | ferrovia de carga (minério/grãos) |
+| <img src="assets/eq/u4_067.png" alt="120\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> | ~ <img src="assets/eq/u4_068.png" alt="1\,200\text{–}1\,500\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> | linhas-tronco e trens regionais |
+| <img src="assets/eq/u4_069.png" alt="\geq 250\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_070.png" alt="&gt; 7\,000\,\mathrm{m}" style="height:1.62ex; vertical-align:0ex;" /> | alta velocidade (TAV) |
 
-A **rampa máxima** é a maior inclinação admissível. Em ferrovias de carga pesada, busca-se rampas suaves (frequentemente abaixo de $1\%$, ou seja, $10\,\mathrm{m}$ de subida por km), porque a força de tração disponível é limitada pela aderência. Onde a topografia é severa, recorre-se a soluções como **cremalheira** (trem dentado) ou traçados sinuosos que ganham altura aos poucos.
+A **rampa máxima** é a maior inclinação admissível. Em ferrovias de carga pesada, busca-se rampas suaves (frequentemente abaixo de <img src="assets/eq/u4_071.png" alt="1\%" style="height:1.824ex; vertical-align:0ex;" />, ou seja, <img src="assets/eq/u4_072.png" alt="10\,\mathrm{m}" style="height:1.557ex; vertical-align:0ex;" /> de subida por km), porque a força de tração disponível é limitada pela aderência. Onde a topografia é severa, recorre-se a soluções como **cremalheira** (trem dentado) ou traçados sinuosos que ganham altura aos poucos.
 
 ### Material rodante (locomotivas e vagões)
 
 O **material rodante** é tudo que circula sobre os trilhos:
 
-- **Locomotivas:** fornecem a tração. Predominam as **diesel-elétricas** (motor diesel gera eletricidade que alimenta motores nos eixos) e, em sistemas eletrificados, as **elétricas** (captam energia de catenária ou terceiro trilho). No Brasil, a frota de locomotivas diesel-elétricas da Vale na EFC e EFVM inclui modelos da GE Transportation, com potência acima de $4.000\,\mathrm{HP}$.
-- **Vagões:** transportam carga. Há vagões gôndola (minério), hopper (grãos), tanque (líquidos), plataforma (contêineres), entre outros. Os vagões de minério da Vale na EFC têm capacidade de $100\,\mathrm{t}$ úteis cada.
+- **Locomotivas:** fornecem a tração. Predominam as **diesel-elétricas** (motor diesel gera eletricidade que alimenta motores nos eixos) e, em sistemas eletrificados, as **elétricas** (captam energia de catenária ou terceiro trilho). No Brasil, a frota de locomotivas diesel-elétricas da Vale na EFC e EFVM inclui modelos da GE Transportation, com potência acima de <img src="assets/eq/u4_073.png" alt="4.000\,\mathrm{HP}" style="height:1.595ex; vertical-align:0ex;" />.
+- **Vagões:** transportam carga. Há vagões gôndola (minério), hopper (grãos), tanque (líquidos), plataforma (contêineres), entre outros. Os vagões de minério da Vale na EFC têm capacidade de <img src="assets/eq/u4_074.png" alt="100\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> úteis cada.
 - **Carros:** transportam passageiros.
 
 O componente comum é o **truque** (*bogie*): o conjunto de rodeiros, suspensão e estrutura sobre o qual o veículo se apoia e pivota, permitindo a inscrição em curva.
 
 ### Interação roda-trilho
 
-A roda ferroviária não é cilíndrica: tem perfil **cônico** (conicidade típica de $1{:}20$ a $1{:}40$) e um **friso** (flange) interno. A conicidade faz o rodeiro se autocentrar na via — em curva, a roda externa rola num diâmetro maior e a interna num diâmetro menor, compensando o caminho mais longo do trilho externo. O friso é a última linha de defesa contra o descarrilamento, mas seu contato com o trilho gera desgaste e ruído (o "guincho" em curva fechada). O contato aço-aço dá baixa resistência ao rolamento (eficiência energética), mas baixa aderência (limita rampa e frenagem) — o dilema central da tração ferroviária.
+A roda ferroviária não é cilíndrica: tem perfil **cônico** (conicidade típica de <img src="assets/eq/u4_075.png" alt="1{:}20" style="height:1.557ex; vertical-align:0ex;" /> a <img src="assets/eq/u4_076.png" alt="1{:}40" style="height:1.581ex; vertical-align:0ex;" />) e um **friso** (flange) interno. A conicidade faz o rodeiro se autocentrar na via — em curva, a roda externa rola num diâmetro maior e a interna num diâmetro menor, compensando o caminho mais longo do trilho externo. O friso é a última linha de defesa contra o descarrilamento, mas seu contato com o trilho gera desgaste e ruído (o "guincho" em curva fechada). O contato aço-aço dá baixa resistência ao rolamento (eficiência energética), mas baixa aderência (limita rampa e frenagem) — o dilema central da tração ferroviária.
 
 ![Contato roda-trilho: a banda de rodagem cônica apoia no boleto e o friso interno guia a roda](assets/roda_trilho_conico.svg)
 
 ### Exemplo numérico: superelevação
 
-Calcule a **superelevação teórica** de uma curva de raio $R = 500\,\mathrm{m}$ percorrida a $V = 80\,\mathrm{km/h}$, em bitola larga $b = 1{,}60\,\mathrm{m}$. A superelevação que equilibra totalmente a força centrífuga é:
+Calcule a **superelevação teórica** de uma curva de raio <img src="assets/eq/u4_077.png" alt="R = 500\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" /> percorrida a <img src="assets/eq/u4_078.png" alt="V = 80\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />, em bitola larga <img src="assets/eq/u4_079.png" alt="b = 1{,}60\,\mathrm{m}" style="height:2.009ex; vertical-align:0ex;" />. A superelevação que equilibra totalmente a força centrífuga é:
 
-$$
-h = \frac{b \cdot V^2}{g \cdot R}
-$$
+<p align="center"><img src="assets/eq/u4_080.png" alt="h = \frac{b \cdot V^2}{g \cdot R}" width="109" style="max-width:100%; height:auto;" /></p>
 
-Convertendo a velocidade: $V = 80/3{,}6 = 22{,}2\,\mathrm{m/s}$, e $V^2 = 493\,\mathrm{m^2/s^2}$. Com $g = 9{,}81\,\mathrm{m/s^2}$:
+Convertendo a velocidade: <img src="assets/eq/u4_081.png" alt="V = 80/3{,}6 = 22{,}2\,\mathrm{m/s}" style="height:2.262ex; vertical-align:0ex;" />, e <img src="assets/eq/u4_082.png" alt="V^2 = 493\,\mathrm{m^2/s^2}" style="height:2.452ex; vertical-align:0ex;" />. Com <img src="assets/eq/u4_083.png" alt="g = 9{,}81\,\mathrm{m/s^2}" style="height:2.452ex; vertical-align:0ex;" />:
 
-$$
-h = \frac{1{,}60 \times 493}{9{,}81 \times 500} = \frac{789}{4905} \approx 0{,}161\,\mathrm{m}
-$$
+<p align="center"><img src="assets/eq/u4_084.png" alt="h = \frac{1{,}60 \times 493}{9{,}81 \times 500} = \frac{789}{4905} \approx 0{,}161\,\mathrm{m}" width="348" style="max-width:100%; height:auto;" /></p>
 
-Ou seja, $h \approx 161\,\mathrm{mm}$. Na prática, a superelevação é limitada (tipicamente a um máximo de $\approx 160\,\mathrm{mm}$ em bitola larga) por conta dos trens lentos e por conforto/segurança; o restante da compensação fica por conta da **insuficiência de superelevação** admitida em projeto. O cálculo mostra como velocidade e raio governam diretamente a inclinação necessária da via.
+Ou seja, <img src="assets/eq/u4_085.png" alt="h \approx 161\,\mathrm{mm}" style="height:1.62ex; vertical-align:0ex;" />. Na prática, a superelevação é limitada (tipicamente a um máximo de <img src="assets/eq/u4_086.png" alt="\approx 160\,\mathrm{mm}" style="height:1.557ex; vertical-align:0ex;" /> em bitola larga) por conta dos trens lentos e por conforto/segurança; o restante da compensação fica por conta da **insuficiência de superelevação** admitida em projeto. O cálculo mostra como velocidade e raio governam diretamente a inclinação necessária da via.
 
 ### Pausa para reflexão (Desafio)
 
-Você é responsável por um trecho onde trafegam, na mesma via, trens de minério lentos e pesados ($60\,\mathrm{km/h}$) e trens mais leves e rápidos ($100\,\mathrm{km/h}$). A superelevação ideal de cada um é diferente: o trem rápido "pede" mais inclinação; o trem lento, se a superelevação for alta, tende a "cair" para dentro e desgastar o trilho interno. **Como você definiria a superelevação de projeto para atender aos dois?** Pense em superelevação de equilíbrio para uma velocidade intermediária, nos limites de insuficiência e de excesso admitidos, e no impacto sobre desgaste e manutenção.
+Você é responsável por um trecho onde trafegam, na mesma via, trens de minério lentos e pesados (<img src="assets/eq/u4_087.png" alt="60\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />) e trens mais leves e rápidos (<img src="assets/eq/u4_088.png" alt="100\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />). A superelevação ideal de cada um é diferente: o trem rápido "pede" mais inclinação; o trem lento, se a superelevação for alta, tende a "cair" para dentro e desgastar o trilho interno. **Como você definiria a superelevação de projeto para atender aos dois?** Pense em superelevação de equilíbrio para uma velocidade intermediária, nos limites de insuficiência e de excesso admitidos, e no impacto sobre desgaste e manutenção.
 
 ### Atividade prática
 
-Para uma curva de raio $R = 800\,\mathrm{m}$ e bitola métrica ($1{,}00\,\mathrm{m}$), calcule a superelevação teórica para uma velocidade de $V = 90\,\mathrm{km/h}$ usando $h = \dfrac{b\,V^2}{g\,R}$. Em seguida, discuta: esse valor é exequível na prática? Que ajustes você faria se o limite de superelevação fosse de $120\,\mathrm{mm}$?
+Para uma curva de raio <img src="assets/eq/u4_089.png" alt="R = 800\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" /> e bitola métrica (<img src="assets/eq/u4_090.png" alt="1{,}00\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />), calcule a superelevação teórica para uma velocidade de <img src="assets/eq/u4_091.png" alt="V = 90\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> usando <img src="assets/eq/u4_092.png" alt="h = \dfrac{b\,V^2}{g\,R}" style="height:5.432ex; vertical-align:0ex;" />. Em seguida, discuta: esse valor é exequível na prática? Que ajustes você faria se o limite de superelevação fosse de <img src="assets/eq/u4_093.png" alt="120\,\mathrm{mm}" style="height:1.557ex; vertical-align:0ex;" />?
 
 ### Pontos-chave
 
 - O traçado tem **planta** (tangentes, curvas, transições) e **perfil** (rampas, curvas verticais).
 - A **superelevação** compensa a força centrífuga em curva; a **superlargura** facilita a inscrição em curvas fechadas.
-- **Raio mínimo** e **rampa máxima** são restrições de projeto; a baixa aderência aço-aço limita rampas em ferrovias de carga; nas linhas pesadas brasileiras a rampa compensada fica abaixo de $4\,\mathrm{‰}$.
-- O **material rodante** (locomotivas, vagões, carros) apoia-se em **truques**; a tração é majoritariamente diesel-elétrica; os vagões de minério da Vale chegam a $100\,\mathrm{t}$ úteis.
+- **Raio mínimo** e **rampa máxima** são restrições de projeto; a baixa aderência aço-aço limita rampas em ferrovias de carga; nas linhas pesadas brasileiras a rampa compensada fica abaixo de <img src="assets/eq/u4_094.png" alt="4\,\mathrm{‰}" style="height:2.149ex; vertical-align:0ex;" />.
+- O **material rodante** (locomotivas, vagões, carros) apoia-se em **truques**; a tração é majoritariamente diesel-elétrica; os vagões de minério da Vale chegam a <img src="assets/eq/u4_095.png" alt="100\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> úteis.
 - A roda **cônica com friso** autocentra o rodeiro; o contato aço-aço dá baixa resistência ao rolamento, mas baixa aderência.
 
 ### Para saber mais
@@ -444,60 +424,50 @@ A escolha entre eles depende da **demanda** (passageiros por hora por sentido �
 
 | Sistema | Capacidade típica (pphps) | Via | Custo relativo de implantação |
 | --- | --- | --- | --- |
-| **VLT** | $3\,000\text{–}15\,000$ | compartilhada/segregada em superfície | baixo |
-| **Monotrilho** | $10\,000\text{–}40\,000$ | viga elevada exclusiva | médio |
-| **Trem metropolitano** | $20\,000\text{–}60\,000$ | superfície segregada | médio-alto |
-| **Metrô** | $40\,000\text{–}80\,000$ | totalmente segregada (sub/elevada) | alto |
+| **VLT** | <img src="assets/eq/u4_096.png" alt="3\,000\text{–}15\,000" style="height:1.557ex; vertical-align:0ex;" /> | compartilhada/segregada em superfície | baixo |
+| **Monotrilho** | <img src="assets/eq/u4_097.png" alt="10\,000\text{–}40\,000" style="height:1.581ex; vertical-align:0ex;" /> | viga elevada exclusiva | médio |
+| **Trem metropolitano** | <img src="assets/eq/u4_098.png" alt="20\,000\text{–}60\,000" style="height:1.557ex; vertical-align:0ex;" /> | superfície segregada | médio-alto |
+| **Metrô** | <img src="assets/eq/u4_099.png" alt="40\,000\text{–}80\,000" style="height:1.581ex; vertical-align:0ex;" /> | totalmente segregada (sub/elevada) | alto |
 
 Regra prática de projeto: dimensiona-se o sistema pela **demanda da hora-pico no trecho mais carregado**; superdimensionar encarece a obra, subdimensionar gera superlotação e perda de confiabilidade.
 
 ### Trens de alta velocidade
 
-Os **trens de alta velocidade (TAV/HSR)** operam acima de $250\,\mathrm{km/h}$, em via dedicada, com geometria suave (raios grandes), eletrificação e sinalização avançada. Exemplos: Shinkansen (Japão), TGV (França), trens-bala da China (a maior rede do mundo, com mais de 45.000 km de LAV). O **maglev** (levitação magnética) é a fronteira, eliminando o contato roda-trilho. No Brasil, o projeto do TAV Rio–São Paulo–Campinas é discutido há décadas, mas esbarra em custo elevado, topografia e densidade de demanda. A alta velocidade compete diretamente com a aviação em distâncias de 300 a 800 km.
+Os **trens de alta velocidade (TAV/HSR)** operam acima de <img src="assets/eq/u4_100.png" alt="250\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />, em via dedicada, com geometria suave (raios grandes), eletrificação e sinalização avançada. Exemplos: Shinkansen (Japão), TGV (França), trens-bala da China (a maior rede do mundo, com mais de 45.000 km de LAV). O **maglev** (levitação magnética) é a fronteira, eliminando o contato roda-trilho. No Brasil, o projeto do TAV Rio–São Paulo–Campinas é discutido há décadas, mas esbarra em custo elevado, topografia e densidade de demanda. A alta velocidade compete diretamente com a aviação em distâncias de 300 a 800 km.
 
 ### Tendências e sustentabilidade
 
-A ferrovia é uma das tecnologias mais alinhadas com a **descarbonização**: emite muito menos CO₂ por t·km que o rodoviário e o aéreo. As tendências incluem **eletrificação** das linhas, locomotivas a **bateria** e a **hidrogênio** (trens como o Coradia iLint, em operação na Alemanha), **digitalização** da operação (sensores, manutenção preditiva, *digital twins* da via), e a integração intermodal eficiente com portos. No Brasil, o novo marco regulatório (Lei 14.273/2021) abriu a perspectiva de atrair mais de R$ 100 bilhões em investimentos ferroviários privados na próxima década.
+A ferrovia é uma das tecnologias mais alinhadas com a **descarbonização**: emite muito menos CO₂ por t·km que o rodoviário e o aéreo. As tendências incluem **eletrificação** das linhas, locomotivas a **bateria** e a **hidrogênio** (trens como o Coradia iLint, em operação na Alemanha), **digitalização** da operação (sensores, manutenção preditiva, *digital twins* da via), e a integração intermodal eficiente com portos. No Brasil, o novo marco regulatório (Lei 14.273/2021) abriu a perspectiva de atrair mais de R\$ 100 bilhões em investimentos ferroviários privados na próxima década.
 
 ### Engenharia digital aplicada: simulando a capacidade de um pátio
 
 Operar uma ferrovia é, no fundo, um problema de **filas**: trens chegam ao pátio ou ao terminal de descarga, disputam um número limitado de **baias** (servidores) e esperam quando todas estão ocupadas. O engenheiro de transportes moderno apoia suas decisões em ferramentas digitais — **GIS 3D** para modelar a geometria do pátio e dos ativos, **gêmeos digitais** para refletir o estado real da operação, e **simulação** para dimensionar capacidade. Quando as chegadas são aleatórias (processo de Poisson) e os tempos de serviço seguem distribuição exponencial, o sistema é uma **fila M/M/c** (c baias em paralelo), descrita pela **fórmula de Erlang C**.
 
-Os parâmetros são: taxa de chegada $\lambda$ (trens/h), taxa de serviço por baia $\mu$ (trens/h) e número de baias $c$. A **utilização** é $\rho = \dfrac{\lambda}{c\,\mu}$, e o sistema só é estável se $\rho < 1$. A **carga oferecida** é $a = \lambda/\mu$ (em Erlangs) e a **probabilidade de espera** vem da **fórmula de Erlang C**:
+Os parâmetros são: taxa de chegada <img src="assets/eq/u4_101.png" alt="\lambda" style="height:1.597ex; vertical-align:0ex;" /> (trens/h), taxa de serviço por baia <img src="assets/eq/u4_102.png" alt="\mu" style="height:1.489ex; vertical-align:0ex;" /> (trens/h) e número de baias <img src="assets/eq/u4_103.png" alt="c" style="height:1.025ex; vertical-align:0ex;" />. A **utilização** é <img src="assets/eq/u4_104.png" alt="\rho = \dfrac{\lambda}{c\,\mu}" style="height:5.14ex; vertical-align:0ex;" />, e o sistema só é estável se <img src="assets/eq/u4_105.png" alt="\rho &lt; 1" style="height:1.995ex; vertical-align:0ex;" />. A **carga oferecida** é <img src="assets/eq/u4_106.png" alt="a = \lambda/\mu" style="height:2.262ex; vertical-align:0ex;" /> (em Erlangs) e a **probabilidade de espera** vem da **fórmula de Erlang C**:
 
-$$
-P_{\text{espera}} = \dfrac{\dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}{\displaystyle\sum_{n=0}^{c-1}\dfrac{a^{n}}{n!} + \dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}
-$$
+<p align="center"><img src="assets/eq/u4_107.png" alt="P_{\text{espera}} = \dfrac{\dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}{\displaystyle\sum_{n=0}^{c-1}\dfrac{a^{n}}{n!} + \dfrac{a^{c}}{c!}\cdot\dfrac{1}{1-\rho}}" width="308" style="max-width:100%; height:auto;" /></p>
 
-Dela saem o número médio de trens na fila, $L_q = P_{\text{espera}}\,\dfrac{\rho}{1-\rho}$, e o tempo médio de espera, $W_q = L_q/\lambda$.
+Dela saem o número médio de trens na fila, <img src="assets/eq/u4_108.png" alt="L_q = P_{\text{espera}}\,\dfrac{\rho}{1-\rho}" style="height:4.57ex; vertical-align:0ex;" />, e o tempo médio de espera, <img src="assets/eq/u4_109.png" alt="W_q = L_q/\lambda" style="height:2.347ex; vertical-align:0ex;" />.
 
-**Cálculo à mão.** Suponha que cheguem em média $\lambda = 3\,$trens/h e que cada baia descarregue um trem em $1{,}2\,$h, ou seja $\mu = 1/1{,}2 \approx 0{,}833\,$trem/h. A carga oferecida é $a = 3/0{,}833 = 3{,}6$. Com **$c = 4$ baias**, a utilização é $\rho = 3{,}6/4 = 0{,}90$. Calculando os termos do denominador:
+**Cálculo à mão.** Suponha que cheguem em média <img src="assets/eq/u4_110.png" alt="\lambda = 3\," style="height:1.756ex; vertical-align:0ex;" />trens/h e que cada baia descarregue um trem em <img src="assets/eq/u4_111.png" alt="1{,}2\," style="height:1.946ex; vertical-align:0ex;" />h, ou seja <img src="assets/eq/u4_112.png" alt="\mu = 1/1{,}2 \approx 0{,}833\," style="height:2.262ex; vertical-align:0ex;" />trem/h. A carga oferecida é <img src="assets/eq/u4_113.png" alt="a = 3/0{,}833 = 3{,}6" style="height:2.262ex; vertical-align:0ex;" />. Com **<img src="assets/eq/u4_114.png" alt="c = 4" style="height:1.717ex; vertical-align:0ex;" /> baias**, a utilização é <img src="assets/eq/u4_115.png" alt="\rho = 3{,}6/4 = 0{,}90" style="height:2.262ex; vertical-align:0ex;" />. Calculando os termos do denominador:
 
-$$
-\sum_{n=0}^{3}\frac{a^{n}}{n!} = 1 + 3{,}6 + \frac{3{,}6^{2}}{2} + \frac{3{,}6^{3}}{6} = 1 + 3{,}6 + 6{,}48 + 7{,}78 = 18{,}86
-$$
+<p align="center"><img src="assets/eq/u4_116.png" alt="\sum_{n=0}^{3}\frac{a^{n}}{n!} = 1 + 3{,}6 + \frac{3{,}6^{2}}{2} + \frac{3{,}6^{3}}{6} = 1 + 3{,}6 + 6{,}48 + 7{,}78 = 18{,}86" width="642" style="max-width:100%; height:auto;" /></p>
 
-$$
-\frac{a^{4}}{4!}\cdot\frac{1}{1-\rho} = \frac{167{,}96}{24}\cdot\frac{1}{0{,}10} = 7{,}00 \times 10 = 69{,}98
-$$
+<p align="center"><img src="assets/eq/u4_117.png" alt="\frac{a^{4}}{4!}\cdot\frac{1}{1-\rho} = \frac{167{,}96}{24}\cdot\frac{1}{0{,}10} = 7{,}00 \times 10 = 69{,}98" width="485" style="max-width:100%; height:auto;" /></p>
 
-Logo, para $c = 4$:
+Logo, para <img src="assets/eq/u4_118.png" alt="c = 4" style="height:1.717ex; vertical-align:0ex;" />:
 
-$$
-P_{\text{espera}} = \frac{69{,}98}{18{,}86 + 69{,}98} = 0{,}79,\qquad
-L_q = 0{,}79\cdot\frac{0{,}90}{0{,}10} \approx 7{,}1\ \text{trens},\qquad
-W_q = \frac{7{,}1}{3} \approx 2{,}4\ \mathrm{h}\ (\approx 142\,\mathrm{min}).
-$$
+<p align="center"><img src="assets/eq/u4_119.png" alt="P_{\text{espera}} = \frac{69{,}98}{18{,}86 + 69{,}98} = 0{,}79,\qquad L_q = 0{,}79\cdot\frac{0{,}90}{0{,}10} \approx 7{,}1\ \text{trens},\qquad W_q = \frac{7{,}1}{3} \approx 2{,}4\ \mathrm{h}\ (\approx 142\,\mathrm{min})." width="1003" style="max-width:100%; height:auto;" /></p>
 
-Refazendo a mesma conta para $c = 5$ e $c = 6$ baias, monta-se a tabela de desempenho do pátio:
+Refazendo a mesma conta para <img src="assets/eq/u4_120.png" alt="c = 5" style="height:1.692ex; vertical-align:0ex;" /> e <img src="assets/eq/u4_121.png" alt="c = 6" style="height:1.692ex; vertical-align:0ex;" /> baias, monta-se a tabela de desempenho do pátio:
 
-| Baias $c$ | Utilização $\rho$ | $P_{\text{espera}}$ | Fila $L_q$ (trens) | Espera $W_q$ |
+| Baias <img src="assets/eq/u4_122.png" alt="c" style="height:1.025ex; vertical-align:0ex;" /> | Utilização <img src="assets/eq/u4_123.png" alt="\rho" style="height:1.489ex; vertical-align:0ex;" /> | <img src="assets/eq/u4_124.png" alt="P_{\text{espera}}" style="height:2.195ex; vertical-align:0ex;" /> | Fila <img src="assets/eq/u4_125.png" alt="L_q" style="height:2.195ex; vertical-align:0ex;" /> (trens) | Espera <img src="assets/eq/u4_126.png" alt="W_q" style="height:2.195ex; vertical-align:0ex;" /> |
 | --- | --- | --- | --- | --- |
-| 4 | 0,90 | 0,79 | 7,1 | $\approx 142\,\mathrm{min}$ |
-| 5 | 0,72 | 0,41 | 1,1 | $\approx 21\,\mathrm{min}$ |
-| 6 | 0,60 | 0,20 | 0,3 | $\approx 6\,\mathrm{min}$ |
+| 4 | 0,90 | 0,79 | 7,1 | <img src="assets/eq/u4_127.png" alt="\approx 142\,\mathrm{min}" style="height:1.532ex; vertical-align:0ex;" /> |
+| 5 | 0,72 | 0,41 | 1,1 | <img src="assets/eq/u4_128.png" alt="\approx 21\,\mathrm{min}" style="height:1.514ex; vertical-align:0ex;" /> |
+| 6 | 0,60 | 0,20 | 0,3 | <img src="assets/eq/u4_129.png" alt="\approx 6\,\mathrm{min}" style="height:1.563ex; vertical-align:0ex;" /> |
 
-**Interpretação.** Com apenas **4 baias** a utilização sobe a $0{,}90$ e o sistema entra em colapso prático: a espera média explode para quase $142\,\mathrm{min}$ por trem — o efeito clássico de operar perto de $100\,\%$, em que pequenas variações geram filas enormes. Acrescentar **uma quinta baia** derruba a espera para $\approx 21\,\mathrm{min}$, e a **sexta** a leva a menos de $6\,\mathrm{min}$. A lição de engenharia é que **capacidade não é linear**: a última fração de utilização custa caríssimo em tempo de espera, e o dimensionamento certo do pátio é o que evita trens parados na linha esperando descarga — gargalo típico na interface ferrovia–porto. Para chegadas com horários (não puramente aleatórias) ou para incluir falhas e manutenção, parte-se deste modelo analítico para uma **simulação de eventos discretos** ou para uma **análise de Monte Carlo** de risco, mantendo a mesma lógica de servidores e fila.
+**Interpretação.** Com apenas **4 baias** a utilização sobe a <img src="assets/eq/u4_130.png" alt="0{,}90" style="height:1.946ex; vertical-align:0ex;" /> e o sistema entra em colapso prático: a espera média explode para quase <img src="assets/eq/u4_131.png" alt="142\,\mathrm{min}" style="height:1.532ex; vertical-align:0ex;" /> por trem — o efeito clássico de operar perto de <img src="assets/eq/u4_132.png" alt="100\,\%" style="height:1.824ex; vertical-align:0ex;" />, em que pequenas variações geram filas enormes. Acrescentar **uma quinta baia** derruba a espera para <img src="assets/eq/u4_133.png" alt="\approx 21\,\mathrm{min}" style="height:1.514ex; vertical-align:0ex;" />, e a **sexta** a leva a menos de <img src="assets/eq/u4_134.png" alt="6\,\mathrm{min}" style="height:1.563ex; vertical-align:0ex;" />. A lição de engenharia é que **capacidade não é linear**: a última fração de utilização custa caríssimo em tempo de espera, e o dimensionamento certo do pátio é o que evita trens parados na linha esperando descarga — gargalo típico na interface ferrovia–porto. Para chegadas com horários (não puramente aleatórias) ou para incluir falhas e manutenção, parte-se deste modelo analítico para uma **simulação de eventos discretos** ou para uma **análise de Monte Carlo** de risco, mantendo a mesma lógica de servidores e fila.
 
 ### Síntese: integrar portos, aeroportos e ferrovias
 
@@ -512,8 +482,8 @@ Elabore um **plano logístico intermodal** para escoar a produção de grãos de
 - **Capacidade** depende de *headway*, número de vias e pátios de cruzamento; via dupla multiplica a vazão; o CTC comanda toda a malha a distância.
 - O **licenciamento** garante que só um trem ocupe um bloco; sistemas vão do bloqueio fixo ao **CBTC** (bloqueio móvel) e ao **ETCS/ERTMS** (padrão europeu interoperável, Níveis 1 a 3), além do CTC.
 - O transporte urbano sobre trilhos abrange **metrô, trem metropolitano, VLT e monotrilho**, escolhidos pela demanda e pelo espaço; São Paulo tem o maior sistema do Brasil.
-- Os **TAV** operam acima de $250\,\mathrm{km/h}$ em via dedicada; o Brasil ainda não tem alta velocidade implantada.
-- A **engenharia digital** dimensiona pátios/terminais como **filas M/M/c** (Erlang C) — capacidade não é linear: perto de $100\,\%$ de utilização a espera explode; **GIS 3D** e **gêmeos digitais** apoiam a decisão.
+- Os **TAV** operam acima de <img src="assets/eq/u4_135.png" alt="250\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" /> em via dedicada; o Brasil ainda não tem alta velocidade implantada.
+- A **engenharia digital** dimensiona pátios/terminais como **filas M/M/c** (Erlang C) — capacidade não é linear: perto de <img src="assets/eq/u4_136.png" alt="100\,\%" style="height:1.824ex; vertical-align:0ex;" /> de utilização a espera explode; **GIS 3D** e **gêmeos digitais** apoiam a decisão.
 - A ferrovia é estratégica para a **descarbonização** e só atinge seu potencial na **logística intermodal** com portos e aeroportos.
 
 ### Para saber mais
@@ -558,7 +528,7 @@ A logística brasileira precisa de engenheiros que conectem os modais. Você ter
 
 ### 4. Desenvolvimento — parte 3 (6:30 – 8:30)
 
-> "E o futuro? A ferrovia é craque em sustentabilidade: emite muito menos CO₂ por tonelada-quilômetro que caminhão e avião. As tendências são eletrificação, locomotivas a bateria e a hidrogênio, e digitalização da operação com sensores e manutenção preditiva. E tem a engenharia digital do dia a dia: dimensionar um pátio é resolver um problema de filas. No material da aula tem um código em Python, uma fila M/M/c com a fórmula de Erlang C, que mostra uma coisa contraintuitiva — com 4 baias e utilização de 90 por cento a espera explode para mais de duas horas; basta uma quinta baia e cai para vinte minutos. Capacidade não é linear. Junto com GIS 3D e gêmeo digital, é assim que o engenheiro decide quantas baias o terminal precisa. O novo marco regulatório de 2021 pode atrair mais de 100 bilhões de reais em investimentos ferroviários privados. Mas o ponto que eu quero que vocês guardem é a intermodalidade. O grão sai de caminhão da fazenda, vira ferrovia, chega ao porto e embarca no navio. A carga urgente vai de avião. Cada modal faz o que sabe melhor. O engenheiro pensa o sistema inteiro."
+> "E o futuro? A ferrovia é craque em sustentabilidade: emite muito menos CO₂ por tonelada-quilômetro que caminhão e avião. As tendências são eletrificação, locomotivas a bateria e a hidrogênio, e digitalização da operação com sensores e manutenção preditiva. E tem a engenharia digital do dia a dia: dimensionar um pátio é resolver um problema de filas. No material da aula a gente resolve à mão uma fila M/M/c com a fórmula de Erlang C, que mostra uma coisa contraintuitiva — com 4 baias e utilização de 90 por cento a espera explode para mais de duas horas; basta uma quinta baia e cai para vinte minutos. Capacidade não é linear. Junto com GIS 3D e gêmeo digital, é assim que o engenheiro decide quantas baias o terminal precisa. O novo marco regulatório de 2021 pode atrair mais de 100 bilhões de reais em investimentos ferroviários privados. Mas o ponto que eu quero que vocês guardem é a intermodalidade. O grão sai de caminhão da fazenda, vira ferrovia, chega ao porto e embarca no navio. A carga urgente vai de avião. Cada modal faz o que sabe melhor. O engenheiro pensa o sistema inteiro."
 
 ### 5. Encerramento (8:30 – 9:45)
 
@@ -573,7 +543,7 @@ A logística brasileira precisa de engenheiros que conectem os modais. Você ter
 Sobre o conceito de **bitola** ferroviária, assinale a alternativa **correta**:
 
 - [ ] a. Bitola é a distância entre dois dormentes consecutivos ao longo da via.
-- [x] b. Bitola é a distância entre as faces internas dos dois trilhos; no Brasil convivem a larga ($1{,}60\,\mathrm{m}$), a métrica ($1{,}00\,\mathrm{m}$) e a padrão ($1{,}435\,\mathrm{m}$).
+- [x] b. Bitola é a distância entre as faces internas dos dois trilhos; no Brasil convivem a larga (<img src="assets/eq/u4_137.png" alt="1{,}60\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />), a métrica (<img src="assets/eq/u4_138.png" alt="1{,}00\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />) e a padrão (<img src="assets/eq/u4_139.png" alt="1{,}435\,\mathrm{m}" style="height:1.971ex; vertical-align:0ex;" />).
 - [ ] c. Bitola é a massa do trilho por metro linear, expressa em kg/m.
 - [ ] d. Bitola é o ângulo de inclinação do trilho externo nas curvas.
 
@@ -587,12 +557,12 @@ Sobre a **superelevação** em curvas ferroviárias, assinale a alternativa **co
 
 - [ ] a. A superelevação alarga a bitola nas curvas para o truque inscrever-se melhor.
 - [ ] b. A superelevação é o trecho reto que liga duas curvas no traçado em planta.
-- [x] c. A superelevação é a elevação do trilho externo em relação ao interno, para compensar a força centrífuga; cresce com $V^2$ e diminui com o raio $R$.
+- [x] c. A superelevação é a elevação do trilho externo em relação ao interno, para compensar a força centrífuga; cresce com <img src="assets/eq/u4_140.png" alt="V^2" style="height:1.937ex; vertical-align:0ex;" /> e diminui com o raio <img src="assets/eq/u4_141.png" alt="R" style="height:1.593ex; vertical-align:0ex;" />.
 - [ ] d. A superelevação é a inclinação longitudinal da via, expressa em porcentagem (rampa).
 
 **Resposta correta:** `c`
 
-**Feedback:** A superelevação eleva o trilho externo para equilibrar a força centrífuga, e pela fórmula $h = \dfrac{b\,V^2}{g\,R}$ ela cresce com o quadrado da velocidade e cai com o raio. A (a) descreve a superlargura; a (b) descreve a tangente; a (d) descreve a rampa (traçado em perfil).
+**Feedback:** A superelevação eleva o trilho externo para equilibrar a força centrífuga, e pela fórmula <img src="assets/eq/u4_142.png" alt="h = \dfrac{b\,V^2}{g\,R}" style="height:5.432ex; vertical-align:0ex;" /> ela cresce com o quadrado da velocidade e cai com o raio. A (a) descreve a superlargura; a (b) descreve a tangente; a (d) descreve a rampa (traçado em perfil).
 
 ---
 
@@ -600,18 +570,18 @@ Sobre a **superelevação** em curvas ferroviárias, assinale a alternativa **co
 
 **Pergunta:**
 
-> Uma mineradora pretende construir um novo corredor ferroviário de $400\,\mathrm{km}$ para escoar minério de ferro de uma mina até um porto de exportação. A topografia é movimentada e há trechos com curvas fechadas. Você é o(a) engenheiro(a) responsável pelo projeto da via.
+> Uma mineradora pretende construir um novo corredor ferroviário de <img src="assets/eq/u4_143.png" alt="400\,\mathrm{km}" style="height:1.62ex; vertical-align:0ex;" /> para escoar minério de ferro de uma mina até um porto de exportação. A topografia é movimentada e há trechos com curvas fechadas. Você é o(a) engenheiro(a) responsável pelo projeto da via.
 >
 > Elabore uma resposta dissertativa que aborde:
 >
 > 1. **Bitola e tipo de via:** que bitola você adotaria e por quê; via singela ou dupla, considerando a capacidade necessária.
 > 2. **Superestrutura:** que tipo de trilho (perfil/massa), dormente e fixação seriam adequados a uma operação de alta tonelagem, justificando.
 > 3. **Geometria:** como você trataria as curvas fechadas (superelevação, superlargura, raios mínimos) e as rampas, dada a baixa aderência aço-aço.
-> 4. **Capacidade:** estime a capacidade diária de transporte para um trem-tipo de $180$ vagões de $100\,\mathrm{t}$ operando $18$ trens/dia, e comente se atende a uma meta de $50$ milhões de toneladas/ano.
+> 4. **Capacidade:** estime a capacidade diária de transporte para um trem-tipo de <img src="assets/eq/u4_144.png" alt="180" style="height:1.557ex; vertical-align:0ex;" /> vagões de <img src="assets/eq/u4_145.png" alt="100\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> operando <img src="assets/eq/u4_146.png" alt="18" style="height:1.557ex; vertical-align:0ex;" /> trens/dia, e comente se atende a uma meta de <img src="assets/eq/u4_147.png" alt="50" style="height:1.557ex; vertical-align:0ex;" /> milhões de toneladas/ano.
 
 **Resposta esperada:**
 
-> Uma resposta de qualidade adota a **bitola larga ($1{,}60\,\mathrm{m}$)**, padrão das ferrovias de minério brasileiras (EFC, EFVM), por oferecer maior estabilidade e capacidade de carga por eixo, e justifica **via dupla** (ou via singela com pátios bem dimensionados) conforme a meta de produção. Para a **superestrutura**, escolhe **trilho pesado** (TR-57 ou TR-68, preferencialmente TLS para reduzir manutenção), **dormente de concreto protendido** (durabilidade e resistência ao deslocamento lateral sob alta tonelagem) e **fixação elástica** (absorve vibração e mantém o aperto). Na **geometria**, propõe **raios o maiores possíveis**, recorrendo a curvas de transição, **superelevação** dimensionada para a velocidade de operação (respeitando o limite de ~160 mm e a insuficiência admitida) e **superlargura** nas curvas fechadas, além de **rampas suaves** (idealmente bem abaixo de 1%) por causa da baixa aderência aço-aço. Na **capacidade**: cada trem move $180 \times 100 = 18\,000\,\mathrm{t}$; com 18 trens/dia, são $324\,000\,\mathrm{t/dia}$; em 350 dias úteis, $\approx 113$ milhões de t/ano — folgadamente acima da meta de 50 milhões, indicando margem para manutenção e variações. A resposta completa conecta as decisões (volume, distância, topografia) e demonstra raciocínio de sistema, não apenas fórmulas isoladas.
+> Uma resposta de qualidade adota a **bitola larga (<img src="assets/eq/u4_148.png" alt="1{,}60\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" />)**, padrão das ferrovias de minério brasileiras (EFC, EFVM), por oferecer maior estabilidade e capacidade de carga por eixo, e justifica **via dupla** (ou via singela com pátios bem dimensionados) conforme a meta de produção. Para a **superestrutura**, escolhe **trilho pesado** (TR-57 ou TR-68, preferencialmente TLS para reduzir manutenção), **dormente de concreto protendido** (durabilidade e resistência ao deslocamento lateral sob alta tonelagem) e **fixação elástica** (absorve vibração e mantém o aperto). Na **geometria**, propõe **raios o maiores possíveis**, recorrendo a curvas de transição, **superelevação** dimensionada para a velocidade de operação (respeitando o limite de ~160 mm e a insuficiência admitida) e **superlargura** nas curvas fechadas, além de **rampas suaves** (idealmente bem abaixo de 1%) por causa da baixa aderência aço-aço. Na **capacidade**: cada trem move <img src="assets/eq/u4_149.png" alt="180 \times 100 = 18\,000\,\mathrm{t}" style="height:1.692ex; vertical-align:0ex;" />; com 18 trens/dia, são <img src="assets/eq/u4_150.png" alt="324\,000\,\mathrm{t/dia}" style="height:2.262ex; vertical-align:0ex;" />; em 350 dias úteis, <img src="assets/eq/u4_151.png" alt="\approx 113" style="height:1.557ex; vertical-align:0ex;" /> milhões de t/ano — folgadamente acima da meta de 50 milhões, indicando margem para manutenção e variações. A resposta completa conecta as decisões (volume, distância, topografia) e demonstra raciocínio de sistema, não apenas fórmulas isoladas.
 
 ---
 

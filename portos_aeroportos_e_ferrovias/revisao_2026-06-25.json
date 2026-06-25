@@ -1,0 +1,313 @@
+{
+  "disciplina": "portos_aeroportos_e_ferrovias",
+  "titulo": "Portos, Aeroportos e Ferrovias",
+  "layout": "Átomo 3.0",
+  "data_revisao": "2026-06-25",
+  "metodo": "skill revisar-disciplina; 5 agentes paralelos (4 unidades + instrumentos avaliativos); aritmética recalculada; fatos de engenharia verificados via WebSearch",
+  "eixos": {
+    "1": "Correção técnica/factual",
+    "2": "Matemática/LaTeX no markdown",
+    "3": "Decks HTML (sem MathJax)",
+    "4": "Estrutura/conformidade com o template",
+    "5": "Questões",
+    "6": "Imagens/assets"
+  },
+  "severidades": {
+    "🔴": "erro factual / quebra de render",
+    "🟡": "desvio de template / dado a corrigir ou checar",
+    "🔵": "melhoria opcional ou confirmação (sem ação obrigatória)"
+  },
+  "resumo": {
+    "total_achados": 39,
+    "por_severidade": { "🔴": 3, "🟡": 16, "🔵": 20 },
+    "acionaveis_pendentes": 19,
+    "confirmacoes_ok": 20,
+    "destaques": [
+      "3 erros 🔴: U3 artigo complementar (blurb≠referência) + DOI errado; U4 slide aula13 '40.000 t de carga' contradiz 100 t/vagão",
+      "Toda a aritmética dos exemplos numéricos confere em todas as unidades e na avaliação final",
+      "Decks HTML sem nenhum resíduo de LaTeX (tudo unicode); questões 100% consistentes (20 por unidade, 30 objetivas na final, distribuição balanceada)",
+      "Fatos ferroviários críticos (TR-68=67,4 kg/m; bitolas 1,60/1,00/1,435 m; carga/eixo até 32,5 t) corretos em md, slides e SVGs"
+    ]
+  },
+  "aplicacao_correcoes": {
+    "data": "2026-06-25",
+    "aplicadas": {
+      "🔴": ["U3-01 (blurb do artigo alinhado ao paper de White)", "U3-02 (DOI corrigido p/ 10.1016/j.ijprt.2017.07.008, verificado via web)", "U4-01 (slide aula13: 40.000 t -> ~33.000 t úteis (≈40.000 t bruta))", "EXTRA: removido lixo '</content></invoke>' do fim de unidade_3.md"],
+      "🟡": ["U1-01/02/03 (EUA 43% -> ~um terço em t·km, em md+slide+questão)", "U1-04 (76 mil km -> 76 mil total / ~65 mil pavimentados)", "U1-05 (EPL -> Infra S.A. em 5 pontos do md + slide aula2)", "U1-06 (PNL 2035: removido 30%/29% não confirmado -> 'mais de 30% ferroviária')", "U2-03 (23,5 h -> 23,4 h em md + slide aula7)", "U2-04 (8.500 km -> ~7.400 km em md + slide aula5 + avaliação×2)", "U2-05 (fator TEU 1,6-1,7 suavizado)", "U2-06 (alt do SVG teu)", "U3-03 (600 -> ~500 aeródromos públicos em md + slide aula9)", "U3-06 (09C/center uniformizado md×SVG)", "U4-02 (roteiro aula16: 'código Python' -> 'à mão')", "U4-06 (slide aula16: Ana Rosa -> Linhas 1-Azul e 2-Verde)", "U4-07 (redundância 'trem da Vale' reescrita)", "INST-01 (Santos 'maior da América Latina' -> 'América do Sul', propagado a avaliação×2 + md×4 + questoes_uni2×2 + slides aula0/aula5/aula7)", "INST-02 (CO2: ~5x -> 'cerca de 3 a 5x' consistente com -70%)"]
+    },
+    "adiadas_sugestao": {
+      "motivo": "exigem reescrita editorial ou adição de conteúdo a decks — melhor decidir com o professor",
+      "itens": ["U1-07/08 (encurtar Aula 1 e 2 p/ ≤1200 palavras)", "U2-01 (encurtar Aula 7)", "U3-04/05 (encurtar Aula 9 e 12)", "U2-02 (sincronizar deck aula7 com exemplo Smart Port/Maasvlakte do md)", "U4-03 (add slide de via inteligente/gêmeo digital ao deck aula14)", "U4-04 (add slide da fila M/M/c do pátio ao deck aula16)", "U4-05 (add slide 'Pausa para Reflexão' ao deck aula15)"]
+    },
+    "nota": "Os enunciados asserção-razão tocados (Santos, costa) mantêm a Razão verdadeira -> gabaritos inalterados. Título de documentário 'O maior porto da América Latina' (unidade_2.md material complementar) mantido por ser citação. Nome de empresa 'América Latina Logística (ALL)' mantido."
+  },
+  "tarefa_pos_revisao": {
+    "descricao": "Converter TODO o LaTeX dos markdowns em imagens PNG (decisão do usuário: bloco + inline) para colar limpo nos Google Docs/Word da Ânima",
+    "status": "CONCLUÍDA em 2026-06-25",
+    "resultado": {
+      "markdowns_convertidos": 10,
+      "expressoes_convertidas": 679,
+      "pngs_gerados": 679,
+      "por_arquivo": { "unidade_1.md": "12 bloco + 37 inline = 49", "questoes_uni1.md": "34 inline", "unidade_2.md": "14 bloco + 23 inline = 37", "questoes_uni2.md": "12 inline", "unidade_3.md": "15 bloco + 137 inline = 152", "questoes_uni3.md": "86 inline", "unidade_4.md": "14 bloco + 137 inline = 151", "questoes_uni4.md": "42 inline", "avaliacao_final.md": "96 inline", "entrega_trabalho.md": "20 inline" },
+      "saida": "PNGs (fundo transparente, azul #0d1b2a) em <unidade>/assets/eq/ e instrumentos_avaliativos/assets/eq/",
+      "markup": "bloco -> <p align=center><img width=... style=max-width:100%;height:auto> (fonte-de-math fixa ~22px); inline -> <img style=height:Nex;vertical-align:Nex> (escala/alinha com a fonte do Doc); alt = LaTeX original",
+      "pipeline": "HTML+MathJax(tex-svg) -> screenshot do <svg> via chromium (puppeteer-core, deviceScaleFactor 2)",
+      "efeito_colateral_positivo": "moeda não-escapada (US$ em unidade_2, R$ em unidade_4) foi normalizada para \\$ — bug latente que quebraria pandoc/KaTeX se a disciplina fosse compilada",
+      "reversivel": "originais em git (working tree estava limpo): git checkout HEAD -- <arquivo>"
+    },
+    "observacao": "O math estava todo correto (revisão confirmou a aritmética), então a conversão não congelou nenhum erro. As correções de prosa/dados/DOI/slides abaixo são independentes e seguem pendentes nos respectivos arquivos."
+  },
+  "achados": [
+    {
+      "id": "U1-01", "arquivo": "unidade_1/unidade_1.md", "linha": "62", "eixo": 1,
+      "categoria": "dado desatualizado", "severidade": "🟡", "status": "pendente",
+      "problema": "Afirma que nos EUA as ferrovias respondem por '~43% das cargas'. Otimista/datado: ~8% por peso, ~19% por ton-milha (Class I); ~40% só em longa distância. A matriz BR do mesmo parágrafo está em ton-km.",
+      "correcao_proposta": "Trocar por valor comparável em ton-km, ex.: '~28% das cargas (perto de 40% nas longas distâncias)' ou 'cerca de um terço'. Confirmar em BTS/AAR."
+    },
+    {
+      "id": "U1-02", "arquivo": "unidade_1/slides/aula1.html", "linha": "907", "eixo": 1,
+      "categoria": "dado desatualizado (espelho de U1-01)", "severidade": "🟡", "status": "pendente",
+      "problema": "Repete os '~43% das cargas' dos EUA (consistente com o md, mas fonte questionável).",
+      "correcao_proposta": "Alinhar ao valor corrigido em U1-01."
+    },
+    {
+      "id": "U1-03", "arquivo": "unidade_1/questoes_uni1.md", "linha": "180", "eixo": 5,
+      "categoria": "dado desatualizado no estímulo", "severidade": "🟡", "status": "pendente",
+      "problema": "Estímulo da Questão 11 repete '~43% das cargas' dos EUA. O gabarito (a) não depende do número, mas o dado segue impreciso.",
+      "correcao_proposta": "Ajustar o estímulo ao valor corrigido; a chave da questão não muda."
+    },
+    {
+      "id": "U1-04", "arquivo": "unidade_1/unidade_1.md", "linha": "70", "eixo": 1,
+      "categoria": "valor impreciso", "severidade": "🟡", "status": "pendente",
+      "problema": "'malha pavimentada federal tem cerca de 76 mil km' confunde a malha federal TOTAL (~75,8 mil km) com a parcela PAVIMENTADA (~65,4 mil km, DNIT).",
+      "correcao_proposta": "Usar '~76 mil km (dos quais ~65 mil km pavimentados)' ou trocar para '~65 mil km' se mantiver 'pavimentada'."
+    },
+    {
+      "id": "U1-05", "arquivo": "unidade_1/unidade_1.md", "linha": "64, 166, 212, 338, 353", "eixo": 1,
+      "categoria": "entidade desatualizada", "severidade": "🟡", "status": "pendente",
+      "problema": "Atribui a coordenação do PNL à 'EPL (Empresa de Planejamento e Logística S.A.)'. A EPL foi incorporada à VALEC em out/2022, originando a Infra S.A.",
+      "correcao_proposta": "Atualizar para 'Ministério dos Transportes / Infra S.A. (sucessora da antiga EPL)' ou 'EPL/Infra S.A.'."
+    },
+    {
+      "id": "U1-06", "arquivo": "unidade_1/unidade_1.md", "linha": "64", "eixo": 1,
+      "categoria": "checar meta numérica", "severidade": "🟡", "status": "checar",
+      "problema": "'O PNL 2035 prevê aumento da participação ferroviária para 30% e da aquaviária para 29%'. Ferroviária defensável; o par exato 30%/29% (sobretudo aquaviária 29%) não foi confirmado.",
+      "correcao_proposta": "Verificar no relatório oficial do PNL 2035; se mantido, usar 'mais de 30% para a ferrovia' com fonte e confirmar o valor aquaviário."
+    },
+    {
+      "id": "U1-07", "arquivo": "unidade_1/unidade_1.md", "linha": "36-200", "eixo": 4,
+      "categoria": "extensão/subseções acima do limite", "severidade": "🟡", "status": "pendente",
+      "problema": "Aula 1 ~1.800 palavras e 11 subseções '###' (template pede 700-1200 e 6-10). Subseções extras de engenharia digital/resiliência inflam o texto.",
+      "correcao_proposta": "Condensar/fundir as subseções de engenharia digital/monitoramento climático para ≤1200 palavras e ≤10 subseções."
+    },
+    {
+      "id": "U1-08", "arquivo": "unidade_1/unidade_1.md", "linha": "202-342", "eixo": 4,
+      "categoria": "extensão/subseções acima do limite", "severidade": "🟡", "status": "pendente",
+      "problema": "Aula 2 ~1.785 palavras e 12 subseções '###' (EVTEA, Marcos regulatórios, Descarbonização e ESG), acima do template.",
+      "correcao_proposta": "Reduzir/fundir subseções (ex.: integrar 'Descarbonização e ESG' a 'Viabilidade' e enxugar 'Marcos regulatórios')."
+    },
+    {
+      "id": "U1-09", "arquivo": "unidade_1/unidade_1.md", "linha": "371-616", "eixo": 4,
+      "categoria": "extensão levemente acima", "severidade": "🔵", "status": "opcional",
+      "problema": "Aulas 3 (~1.299) e 4 (~1.256 palavras) pouco acima de 1.200 (contagem inclui sintaxe LaTeX/markdown). 10 subseções cada — dentro do limite.",
+      "correcao_proposta": "Opcional: enxugar 1-2 parágrafos para entrar com folga na faixa. Baixa prioridade."
+    },
+
+    {
+      "id": "U2-01", "arquivo": "unidade_2/unidade_2.md", "linha": "277-411", "eixo": 4,
+      "categoria": "limite de palavras", "severidade": "🟡", "status": "pendente",
+      "problema": "Aula 7 ~1.684 palavras (demais aulas 1151-1189). Excesso vem de dois exemplos numéricos completos + seção longa de Smart Port.",
+      "correcao_proposta": "Fundir os dois exemplos (manter o Smart Port, que já inclui o caso convencional 84/21,4h) e condensar 'Smart Ports' para ≤1200 palavras."
+    },
+    {
+      "id": "U2-02", "arquivo": "unidade_2/slides/aula7.html", "linha": "402-409", "eixo": 1,
+      "categoria": "contradição markdown↔slide", "severidade": "🟡", "status": "pendente",
+      "problema": "Slide aula7 ainda traz a versão antiga/genérica (PCS, AGVs, 'Roterdã, Xangai') e só o exemplo convencional 84 mov/h→21,4h. O md foi enriquecido com Maasvlakte II (62 AGVs), exemplo Smart Port 84→117 mov/h, ~6h economizadas, ~40% de ganho.",
+      "correcao_proposta": "Sincronizar o slide com o md: incluir o exemplo Smart Port (3×28=84 → 3×39≈117 mov/h; ~6h/navio; ~40% mais TEUs) e Maasvlakte II nos pontos-chave, em unicode (×, ≈, →)."
+    },
+    {
+      "id": "U2-03", "arquivo": "unidade_2/unidade_2.md", "linha": "382", "eixo": 1,
+      "categoria": "arredondamento", "severidade": "🔵", "status": "pendente",
+      "problema": "Diz que 21,4h + 2h de manobra = '~23,5 h'; o correto é 21,43+2=23,43 → 23,4 h. O slide aula7 repete '~23,5 h'.",
+      "correcao_proposta": "Trocar '23,5 h' por '23,4 h' (ou '~23 h') no md (l.382) e no slide aula7."
+    },
+    {
+      "id": "U2-04", "arquivo": "unidade_2/unidade_2.md", "linha": "12", "eixo": 1,
+      "categoria": "dado factual a checar", "severidade": "🟡", "status": "checar",
+      "problema": "'mais de 8.500 km de costa'. A figura oficial mais citada (IBGE) é ~7.367 km (até ~9.200-10.959 km com reentrâncias). 8.500 km é intermediário, não canônico. Slide aula5 repete.",
+      "correcao_proposta": "Usar '~7.400 km de linha de costa (mais de 9.000 km com reentrâncias)' ou citar a fonte de 8.500 km. Alinhar md e slide."
+    },
+    {
+      "id": "U2-05", "arquivo": "unidade_2/unidade_2.md", "linha": "310", "eixo": 1,
+      "categoria": "definição/fator a checar", "severidade": "🟡", "status": "checar",
+      "problema": "'~1,6 a 1,7 TEU por contêiner físico' e 'a maioria das cargas usa o de 40 pés' é estimativa de mercado plausível, não constante normativa universal.",
+      "correcao_proposta": "Manter 1,6 como hipótese do exemplo, mas suavizar: 'em muitos terminais a relação fica em ~1,5-1,7 TEU/movimento, dependendo da participação de contêineres de 40 pés'."
+    },
+    {
+      "id": "U2-06", "arquivo": "unidade_2/assets/teu_conteiner.svg", "linha": "16", "eixo": 6,
+      "categoria": "alt vs conteúdo do SVG", "severidade": "🔵", "status": "opcional",
+      "problema": "Alt (md l.312) promete 'as dimensões ISO', mas o SVG mostra só comprimento para o de 40 pés (falta largura/altura).",
+      "correcao_proposta": "Ajustar alt para 'o comprimento ISO de cada contêiner' ou acrescentar 2,44 m × 2,59 m ao bloco de 40 pés no SVG."
+    },
+
+    {
+      "id": "U3-01", "arquivo": "unidade_3/unidade_3.md", "linha": "668-675", "eixo": 4,
+      "categoria": "material complementar — artigo incoerente", "severidade": "🔴", "status": "pendente",
+      "problema": "O blurb do Artigo científico descreve 'revisão do método ACN-PCN e transição para ACR-PCR da OACI', mas a referência ABNT citada é WHITE, Greg. 'State of the art: asphalt for airport pavement surfacing' (IJPRT, v.11, n.1, p.77-98, 2018), sobre REVESTIMENTO ASFÁLTICO. Descrição e referência não correspondem ao mesmo trabalho.",
+      "correcao_proposta": "Alinhar o blurb ao artigo de White (asfalto/revestimento) OU substituir a referência por um artigo que realmente trate de ACN-PCN/ACR-PCR. Manter blurb ↔ referência ↔ DOI coerentes."
+    },
+    {
+      "id": "U3-02", "arquivo": "unidade_3/unidade_3.md", "linha": "672", "eixo": 6,
+      "categoria": "DOI incorreto", "severidade": "🔴", "status": "pendente",
+      "problema": "O DOI '10.1016/j.trpro.2016.11.118' (Transportation Research Procedia) NÃO corresponde à referência citada (White, IJPRT, 2018). DOI correto: 10.1016/j.ijprt.2017.07.008.",
+      "correcao_proposta": "Trocar o DOI para 10.1016/j.ijprt.2017.07.008, ou ajustar referência/DOI ao trabalho realmente pretendido (junto com U3-01)."
+    },
+    {
+      "id": "U3-03", "arquivo": "unidade_3/unidade_3.md", "linha": "15", "eixo": 1,
+      "categoria": "dado de aeródromos públicos", "severidade": "🟡", "status": "checar",
+      "problema": "'cerca de 600 públicos'. ANAC atual ~498 aeródromos públicos; faixa histórica ~600-700. 'mais de 2.500 cadastrados' é conservador (total >4.000 com privados).",
+      "correcao_proposta": "Ajustar para '~500 públicos' (ou 'centenas') e, se quiser, atualizar o total; ou manter '>2.500' como ordem de grandeza pedagógica."
+    },
+    {
+      "id": "U3-04", "arquivo": "unidade_3/unidade_3.md", "linha": "7-145", "eixo": 4,
+      "categoria": "extensão da aula", "severidade": "🟡", "status": "pendente",
+      "problema": "Aula 9 texto-base ~1.735 palavras (acima de 700-1200). Excesso das seções de enriquecimento digital (A-CDM/AMAN-DMAN e DAS). Subseções (8) OK.",
+      "correcao_proposta": "Condensar 'A-CDM e IA' e 'DAS' (ou movê-las para material complementar) se a faixa for rígida. Se intencional (enriquecimento), registrar a exceção."
+    },
+    {
+      "id": "U3-05", "arquivo": "unidade_3/unidade_3.md", "linha": "416-555", "eixo": 4,
+      "categoria": "extensão da aula", "severidade": "🟡", "status": "pendente",
+      "problema": "Aula 12 texto-base ~1.796 palavras (acima de 700-1200). Excesso das seções 'Simulação preditiva (IA/M/M/c)' e 'Monitoramento visual inteligente'. Subseções (8) OK.",
+      "correcao_proposta": "Condensar as seções de IA ou tratá-las como leitura complementar. Se intencional, registrar a exceção."
+    },
+    {
+      "id": "U3-06", "arquivo": "unidade_3/assets/designacao_pista.svg", "linha": "47", "eixo": 6,
+      "categoria": "inconsistência SVG × texto", "severidade": "🟡", "status": "pendente",
+      "problema": "O SVG cita '09L, 09C (center), 09R', enquanto o md (l.191) menciona só '09L e 09R'. Ambos corretos, mas divergem no detalhe.",
+      "correcao_proposta": "Uniformizar: acrescentar 09C/center ao md, ou remover 09C do SVG."
+    },
+
+    {
+      "id": "U4-01", "arquivo": "unidade_4/slides/aula13.html", "linha": "986", "eixo": 1,
+      "categoria": "contradição de dado entre md/slide", "severidade": "🔴", "status": "pendente",
+      "problema": "Legenda diz 'trens com até 330 vagões e 40.000 t de carga'. A aula usa 100 t úteis/vagão → 330×100 = 33.000 t úteis. 40.000 t só vale como carga BRUTA (minério + tara + locomotivas), não 'carga'. Contradição interna com o trem-tipo da própria aula.",
+      "correcao_proposta": "Trocar para 'até 330 vagões e ~33.000 t úteis de minério' (coerente com 100 t/vagão) ou explicitar '~40.000 t de carga BRUTA (minério + tara)'."
+    },
+    {
+      "id": "U4-02", "arquivo": "unidade_4/unidade_4.md", "linha": "561", "eixo": 4,
+      "categoria": "inconsistência md vs roteiro (resíduo)", "severidade": "🟡", "status": "pendente",
+      "problema": "Roteiro da Videoaula 16 diz 'No material da aula tem um código em Python, uma fila M/M/c com a fórmula de Erlang C'. Mas o corpo da Aula 16 (l.474) foi reescrito para 'Cálculo à mão' (commit que removeu Python). Roteiro desatualizado.",
+      "correcao_proposta": "Reescrever para 'No material da aula a gente resolve à mão uma fila M/M/c com a fórmula de Erlang C...', removendo 'código em Python'."
+    },
+    {
+      "id": "U4-03", "arquivo": "unidade_4/slides/aula14.html", "linha": "877-1101", "eixo": 4,
+      "categoria": "conteúdo do md ausente no deck", "severidade": "🟡", "status": "pendente",
+      "problema": "A Aula 14 do md tem 'Gêmeos digitais e manutenção preditiva da via permanente' + exemplo numérico de intervalo de inspeção por tonelagem (MGT, ~15 dias), cobrado na Questão 20. Nenhum slide do deck cobre isso (vai de AMV → tensão → quote).",
+      "correcao_proposta": "Adicionar 1-2 slides sobre via inteligente (gêmeo digital/IoT, corretiva×preventiva×preditiva) e o exemplo T_insp = Δ/2 = 6 MGT ≈ 15 dias, em unicode."
+    },
+    {
+      "id": "U4-04", "arquivo": "unidade_4/slides/aula16.html", "linha": "1004-1021", "eixo": 4,
+      "categoria": "conteúdo do md ausente no deck", "severidade": "🟡", "status": "pendente",
+      "problema": "O deck aula16 não tem slide para 'Engenharia digital aplicada: simulando a capacidade de um pátio' (fila M/M/c, Erlang C, tabela 4/5/6 baias: 4→142 min, 5→21 min, 6→6 min), um dos pontos-chave e tema de questão.",
+      "correcao_proposta": "Adicionar um slide com a tabela de capacidade do pátio (baias × espera) e a lição 'capacidade não é linear', em unicode."
+    },
+    {
+      "id": "U4-05", "arquivo": "unidade_4/slides/aula15.html", "linha": "1055-1062", "eixo": 4,
+      "categoria": "Pausa para Reflexão ausente no deck", "severidade": "🔵", "status": "opcional",
+      "problema": "A Aula 15 é a 3ª da unidade; o md traz 'Pausa para reflexão (Desafio)' sobre superelevação para dois trens de velocidades distintas. O deck aula15 não tem slide de Pausa/Desafio.",
+      "correcao_proposta": "Incluir no deck um slide 'Pausa para reflexão / Desafio' com a superelevação de projeto para trens de 60 e 100 km/h na mesma via."
+    },
+    {
+      "id": "U4-06", "arquivo": "unidade_4/slides/aula16.html", "linha": "969-971", "eixo": 1,
+      "categoria": "rótulo incompleto (não errado)", "severidade": "🔵", "status": "opcional",
+      "problema": "Slide rotula a Estação Ana Rosa apenas como 'Linha 2-Verde'. Ana Rosa é integração das Linhas 1-Azul e 2-Verde do Metrô de SP.",
+      "correcao_proposta": "Ajustar para 'Linhas 1-Azul e 2-Verde (integração)'."
+    },
+    {
+      "id": "U4-07", "arquivo": "unidade_4/unidade_4.md", "linha": "58", "eixo": 1,
+      "categoria": "redundância/imprecisão", "severidade": "🔵", "status": "opcional",
+      "problema": "'restam trens turísticos e o trem da Vale entre Belo Horizonte e Vitória, popularmente conhecido como \"trem da Vale\"' — aposição circular/redundante.",
+      "correcao_proposta": "Reescrever: 'restam trens turísticos e o trem de passageiros da EFVM, que liga Belo Horizonte a Vitória (popularmente o \"trem da Vale\")'."
+    },
+    {
+      "id": "U4-08", "arquivo": "unidade_4/assets/bitola_secao.svg", "linha": "35", "eixo": 6,
+      "categoria": "coerência SVG×texto (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "SVG cota 'Larga 1,60 m · Métrica 1,00 m · Padrão (UIC) 1,435 m', coerente com a tabela do md e os fatos BR. Texto cita medição '14 mm abaixo do topo do trilho', não ilustrada no SVG.",
+      "correcao_proposta": "Opcional: indicar no SVG a linha de medição a ~14 mm abaixo do topo do boleto. Nenhuma correção obrigatória."
+    },
+    {
+      "id": "U4-09", "arquivo": "unidade_4/unidade_4.md", "linha": "456", "eixo": 1,
+      "categoria": "checar dado", "severidade": "🔵", "status": "checar",
+      "problema": "'trens-bala da China (a maior rede do mundo, com mais de 45.000 km de LAV)'. Plausível (~45.000 km em 2023; >48.000 km em 2025); pode estar levemente defasado para baixo.",
+      "correcao_proposta": "Opcional: atualizar para 'mais de 45.000 km' (segue conservador e correto) ou citar o ano de referência."
+    },
+
+    {
+      "id": "INST-01", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": "123 (e feedback l.628)", "eixo": 1,
+      "categoria": "fato portuário (debatível)", "severidade": "🟡", "status": "pendente",
+      "problema": "Razão II da Q7 (e feedback l.628) afirma 'O Porto de Santos é o maior porto da América Latina'. Por tonelagem, Santos é o maior da América do Sul, 2º da América Latina (atrás de Colón, Panamá). A movimentação citada (>160 Mt/ano) está correta. Como a Razão é tida como verdadeira mas não justifica a Asserção, o gabarito (b) não muda.",
+      "correcao_proposta": "Trocar para 'o maior porto da América do Sul' (inquestionável) ou 'um dos maiores da América Latina'. Ajustar também o feedback da l.628."
+    },
+    {
+      "id": "INST-02", "arquivo": "instrumentos_avaliativos/entrega_trabalho.md", "linha": "35 (e KPI l.122)", "eixo": 1,
+      "categoria": "consistência interna do case", "severidade": "🟡", "status": "pendente",
+      "problema": "O diagnóstico diz que o rodoviário emite '~5× mais CO₂/t·km que a ferrovia', mas o KPI 7 (l.122) projeta 'redução de ~70%' das emissões. Não são incoerentes (70% ≈ fator ~3,3×), mas convém usar o mesmo número.",
+      "correcao_proposta": "Padronizar (ex.: 'cerca de 3 a 5× menos emissões / redução de até ~70%') entre l.35 e l.122, ou citar a fonte (PNL/EPL) do fator."
+    },
+    {
+      "id": "INST-03", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": null, "eixo": 3,
+      "categoria": "estrutura conforme template (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "40 questões = 15 asserção-razão (Q1-15) + 15 interpretação (Q16-30) + 10 discursivas (Q31-40, ao final). 30 alternativas '*', 30 feedbacks na ordem, 10 discursivas com 'Resposta esperada'. Rotação a-b-c-d-e perfeita (6× cada). Sem alternativa duplicada.",
+      "correcao_proposta": "Nenhuma ação; estrutura plenamente conforme ao Átomo 3.0."
+    },
+    {
+      "id": "INST-04", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": null, "eixo": 1,
+      "categoria": "verificação de cálculos (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Todos os exemplos numéricos refeitos conferem: Q16 (66,7%); Q18 (1.008.000 TEU); Q19 (21,4→15,4 h); Q21 (1,432 mi); Q22 (3.792 m); Q24 (14,5 km); Q25 (1.040 m²); Q27 (161 mm); Q28 (50 kPa); discursivas Q32-Q37.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+    {
+      "id": "INST-05", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": null, "eixo": 1,
+      "categoria": "verificação de fatos técnicos (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Fatos-chave verificados: Hudson peso ∝ H³; ACN/PCN (Q13 inverte propositalmente e o feedback identifica); correção de pista ~7%/300 m e ~1%/°C; lapse rate 6,5°C/1000 m; bitola larga 1,60 m e TR-68 ~67,5 kg/m; matriz rodoviária ~61% e custo logístico 12-13% do PIB; autocentramento cônico.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+    {
+      "id": "INST-06", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": null, "eixo": 2,
+      "categoria": "LaTeX/matemática (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "LaTeX sempre dentro de '$...$', sem code fences, sem '$' desbalanceado; decimal com vírgula '{,}'; 'R\\$' escapado fora de math; unidades \\mathrm{}+\\,.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+    {
+      "id": "INST-07", "arquivo": "instrumentos_avaliativos/avaliacao_final.md", "linha": null, "eixo": 5,
+      "categoria": "cobertura das 4 unidades (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Cobertura equilibrada entre U1/planejamento, U2/portos, U3/aeroportos, U4/ferrovias; Q40 integra as 4 unidades. Sem desequilíbrio grosseiro.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+    {
+      "id": "INST-08", "arquivo": "instrumentos_avaliativos/entrega_trabalho.md", "linha": null, "eixo": 4,
+      "categoria": "estrutura PBL (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "5 seções obrigatórias presentes (Título; Desafio; Fontes com 9 ≥4; Entregável + distribuição somando 100%; Solução com aviso de remoção) + Roteiro do Estudante. Case coerente.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+    {
+      "id": "INST-09", "arquivo": "instrumentos_avaliativos/entrega_trabalho.md", "linha": "89, 126", "eixo": 1,
+      "categoria": "verificação de cálculos do case (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Cálculos da Solução conferem: rodoviário R$3,564 bi/ano; ferroviário R$1,188 bi/ano; economia ≈R$2,376 bi/ano; projeção 18×1,04^8 ≈ 24,6 Mt no ano 8; calado 14,0 m; CAPEX soma o teto de R$6,5 bi.",
+      "correcao_proposta": "Nenhuma ação."
+    },
+
+    {
+      "id": "GLOB-01", "arquivo": "(todas as unidades)", "linha": null, "eixo": 2,
+      "categoria": "verificação global de LaTeX/decks (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Em U1-U4: todo o LaTeX do markdown está em '$...$'/'$$', com vírgula decimal e \\mathrm{}+\\,; os decks HTML não têm NENHUM resíduo de LaTeX (tudo unicode: m², m³, ≥, ≤, ×, →, ≈, CO₂, ‰); 'R$'/'US$' são moeda.",
+      "correcao_proposta": "Nenhuma ação. (Estado a preservar ao converter o LaTeX dos markdowns em imagens.)"
+    },
+    {
+      "id": "GLOB-02", "arquivo": "unidade_*/questoes_uni*.md", "linha": null, "eixo": 5,
+      "categoria": "verificação global de questões (confirmação)", "severidade": "🔵", "status": "ok",
+      "problema": "Cada unidade: 20 questões (10 asserção-razão + 10 interpretação), 5 alternativas a-e, exatamente uma '*', 20 feedbacks na ordem, distribuição balanceada (4× cada letra), gabaritos coerentes com os feedbacks. Sem alternativa duplicada.",
+      "correcao_proposta": "Nenhuma ação."
+    }
+  ]
+}

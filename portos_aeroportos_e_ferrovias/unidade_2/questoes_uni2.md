@@ -31,7 +31,7 @@ e. As asserções I e II são proposições falsas.
 
 ### Questão 2 (Asserção-Razão)
 
-> **Asserção I:** Cerca de 95% do comércio exterior brasileiro em volume passa pelos portos, sendo Santos (SP) o maior porto da América Latina.
+> **Asserção I:** Cerca de 95% do comércio exterior brasileiro em volume passa pelos portos, sendo Santos (SP) o maior porto da América do Sul.
 >
 > **porque**
 >
@@ -115,7 +115,7 @@ e. As asserções I e II são proposições falsas.
 >
 > **porque**
 >
-> **Razão II:** Um porta-contêineres de grande porte pode custar mais de US$ 60 mil por dia parado, de modo que cada hora economizada no berço representa economia direta para o armador.
+> **Razão II:** Um porta-contêineres de grande porte pode custar mais de US\$ 60 mil por dia parado, de modo que cada hora economizada no berço representa economia direta para o armador.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -287,8 +287,8 @@ e. A escolha entre cais e píer independe da retroárea disponível ou da largur
 A leitura mais coerente com o texto é:
 
 a. O ganho vem apenas de o gêmeo digital substituir fisicamente os portêineres no cais, sem qualquer mudança no transporte horizontal entre o cais e o pátio.
-b. A taxa combinada dos 3 portêineres permanece em $3 \times 28 = 84$ mov/h mesmo após a migração, pois os AGVs atuam só na liberação aduaneira, e não na movimentação.
-*c. Os AGVs guiados por IA elevam a taxa combinada de $3 \times 28 = 84$ para $3 \times 39 \approx 117$ mov/h, enquanto o gêmeo digital antecipa o gargalo no pátio/alfândega — juntos cortam ~6 h por navio e elevam a capacidade em ~40% sem construir um novo berço.
+b. A taxa combinada dos 3 portêineres permanece em <img src="assets/eq/u2q_001.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> mov/h mesmo após a migração, pois os AGVs atuam só na liberação aduaneira, e não na movimentação.
+*c. Os AGVs guiados por IA elevam a taxa combinada de <img src="assets/eq/u2q_002.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> para <img src="assets/eq/u2q_003.png" alt="3 \times 39 \approx 117" style="height:1.579ex; vertical-align:0ex;" /> mov/h, enquanto o gêmeo digital antecipa o gargalo no pátio/alfândega — juntos cortam ~6 h por navio e elevam a capacidade em ~40% sem construir um novo berço.
 d. O gêmeo digital só registra o que já aconteceu (*dwell time* passado) e não consegue prever gargalos aduaneiros, de modo que a redução de 21,4 h para 15,4 h decorre exclusivamente de obras civis de ampliação do cais.
 e. A automação por AGVs reduz a produtividade do berço, pois veículos sem motorista são mais lentos e exigem desligar o terminal à noite por questão de segurança.
 
@@ -333,7 +333,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 ### Questão 2
 
 - **a.** Incorreta. A Razão não justifica a Asserção — tratam de temas independentes.
-- **b.** *Correta!* As duas proposições são individualmente verdadeiras: cerca de 95% do comércio exterior brasileiro em volume passa por portos e Santos é o maior da América Latina (I); a Lei nº 12.815/2013 de fato ampliou a participação privada e criou o TUP (II). Mas a Razão (marco regulatório) **não explica** o percentual de comércio exterior nem a liderança de Santos — são fatos independentes.
+- **b.** *Correta!* As duas proposições são individualmente verdadeiras: cerca de 95% do comércio exterior brasileiro em volume passa por portos e Santos é o maior da América do Sul (I); a Lei nº 12.815/2013 de fato ampliou a participação privada e criou o TUP (II). Mas a Razão (marco regulatório) **não explica** o percentual de comércio exterior nem a liderança de Santos — são fatos independentes.
 - **c.** Incorreta. A Razão II é verdadeira.
 - **d.** Incorreta. A Asserção I é verdadeira.
 - **e.** Incorreta. Ambas são verdadeiras.
@@ -373,7 +373,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 ### Questão 7
 
 - **a.** Incorreta. A Razão não justifica a Asserção — são fatos relacionados, mas independentes.
-- **b.** *Correta!* As duas proposições são verdadeiras: a produtividade do berço (mov/h) é o indicador-rei e o Brasil opera de 25 a 35 mov/h (I); um porta-contêineres grande custa mais de US$ 60 mil/dia parado (II). Porém a Razão (custo do navio parado) **não explica** a definição nem os valores da produtividade do berço — ela motiva buscar produtividade alta, mas não a justifica conceitualmente.
+- **b.** *Correta!* As duas proposições são verdadeiras: a produtividade do berço (mov/h) é o indicador-rei e o Brasil opera de 25 a 35 mov/h (I); um porta-contêineres grande custa mais de US\$ 60 mil/dia parado (II). Porém a Razão (custo do navio parado) **não explica** a definição nem os valores da produtividade do berço — ela motiva buscar produtividade alta, mas não a justifica conceitualmente.
 - **c.** Incorreta. A Razão II é verdadeira.
 - **d.** Incorreta. A Asserção I é verdadeira.
 - **e.** Incorreta. Ambas são verdadeiras.
@@ -413,7 +413,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 ### Questão 12
 
 - **a.** Incorreta. Subestima em uma ordem de grandeza; não considera os 350 dias.
-- **b.** *Correta!* $3 \times 30 \times 20 \times 350 = 630\,000$ movimentos/ano, conforme o exemplo numérico da Aula 5.
+- **b.** *Correta!* <img src="assets/eq/u2q_004.png" alt="3 \times 30 \times 20 \times 350 = 630\,000" style="height:1.692ex; vertical-align:0ex;" /> movimentos/ano, conforme o exemplo numérico da Aula 5.
 - **c.** Incorreta. 1.008.000 é a capacidade em **TEU** (630.000 × 1,6), não em movimentos.
 - **d.** Incorreta. Resulta de ignorar a quantidade de dias por ano.
 - **e.** Incorreta. Resulta de multiplicar por um fator dez vezes maior que o correto.
@@ -422,7 +422,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 
 - **a.** Incorreta. 12,0 m é apenas o calado do navio, sem as folgas.
 - **b.** Incorreta. Soma apenas a folga de quilha, ignorando *squat* e sobreprofundidade.
-- **c.** *Correta!* $P_{\text{projeto}} = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0\,\mathrm{m}$, exatamente o exemplo da Aula 6.
+- **c.** *Correta!* <img src="assets/eq/u2q_005.png" alt="P_{\text{projeto}} = 12{,}0 + 1{,}0 + 0{,}5 + 0{,}5 = 14{,}0\,\mathrm{m}" style="height:2.213ex; vertical-align:0ex;" />, exatamente o exemplo da Aula 6.
 - **d.** Incorreta. 11,0 m é menor que o próprio calado do navio — inviável.
 - **e.** Incorreta. Superestima as folgas; o total correto é 14,0 m.
 
@@ -440,7 +440,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 - **b.** Incorreta. Corresponderia à carga de uma barcaça (2.200/30), não do comboio inteiro.
 - **c.** Incorreta. Cerca de metade do valor correto.
 - **d.** Incorreta. 8.800 é a carga total em toneladas, não o número de caminhões.
-- **e.** *Correta!* Carga do comboio = $4 \times 2\,200 = 8\,800\,\mathrm{t}$; dividida por 30 t/caminhão, $8\,800/30 \approx 293$ caminhões substituídos por viagem, conforme a Aula 8.
+- **e.** *Correta!* Carga do comboio = <img src="assets/eq/u2q_006.png" alt="4 \times 2\,200 = 8\,800\,\mathrm{t}" style="height:1.717ex; vertical-align:0ex;" />; dividida por 30 t/caminhão, <img src="assets/eq/u2q_007.png" alt="8\,800/30 \approx 293" style="height:2.262ex; vertical-align:0ex;" /> caminhões substituídos por viagem, conforme a Aula 8.
 
 ### Questão 16
 
@@ -461,8 +461,8 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 ### Questão 18
 
 - **a.** Incorreta. O gêmeo digital é uma **réplica virtual** (simulação/predição), não um equipamento de cais; o ganho vem do transporte horizontal automatizado pelos AGVs, não da substituição física dos portêineres.
-- **b.** Incorreta. A taxa **não** permanece em 84 mov/h: ao subir a produtividade de 28 para 39 mov/h por portêiner, ela passa a $3 \times 39 \approx 117$ mov/h. Os AGVs atuam exatamente no transporte horizontal cais–pátio, não apenas na alfândega.
-- **c.** *Correta!* Os AGVs roteados por IA elevam a taxa combinada de $3 \times 28 = 84$ para $3 \times 39 \approx 117$ mov/h, derrubando o tempo de berço de ~21,4 h para ~15,4 h (≈ 6 h por navio); em paralelo, o gêmeo digital simula o pátio e antecipa o gargalo aduaneiro (*dwell time*). O resultado é ~40% mais TEUs nas mesmas estruturas físicas, sem construir um novo berço — exatamente o exemplo da Aula 7.
+- **b.** Incorreta. A taxa **não** permanece em 84 mov/h: ao subir a produtividade de 28 para 39 mov/h por portêiner, ela passa a <img src="assets/eq/u2q_008.png" alt="3 \times 39 \approx 117" style="height:1.579ex; vertical-align:0ex;" /> mov/h. Os AGVs atuam exatamente no transporte horizontal cais–pátio, não apenas na alfândega.
+- **c.** *Correta!* Os AGVs roteados por IA elevam a taxa combinada de <img src="assets/eq/u2q_009.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> para <img src="assets/eq/u2q_010.png" alt="3 \times 39 \approx 117" style="height:1.579ex; vertical-align:0ex;" /> mov/h, derrubando o tempo de berço de ~21,4 h para ~15,4 h (≈ 6 h por navio); em paralelo, o gêmeo digital simula o pátio e antecipa o gargalo aduaneiro (*dwell time*). O resultado é ~40% mais TEUs nas mesmas estruturas físicas, sem construir um novo berço — exatamente o exemplo da Aula 7.
 - **d.** Incorreta. O gêmeo digital usa *machine learning* para **prever** o *dwell time* e os gargalos aduaneiros (antes que ocorram), não apenas registrar o passado; e a queda de 21,4 h para 15,4 h vem da automação (AGVs), não de obras civis no cais.
 - **e.** Incorreta. A automação **aumenta** a produtividade e opera **24 h por dia, sem fadiga**; em Roterdã (Maasvlakte II), a frota de AGVs rende ~40% mais produtividade — o oposto do afirmado.
 
@@ -471,7 +471,7 @@ d. Os terminais de transbordo do Arco Norte recebem o grão diretamente do navio
 - **a.** Incorreta. Corresponderia a usar um único portêiner, não três simultâneos.
 - **b.** Incorreta. Subestima a carga; resulta de dividir por uma taxa muito maior que a real.
 - **c.** Incorreta. Irrealista para 1.800 movimentos.
-- **d.** *Correta!* Taxa combinada = $3 \times 28 = 84$ mov/h; tempo $= 1\,800 / 84 \approx 21{,}4\,\mathrm{h}$, conforme o exemplo da Aula 7.
+- **d.** *Correta!* Taxa combinada = <img src="assets/eq/u2q_011.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> mov/h; tempo <img src="assets/eq/u2q_012.png" alt="= 1\,800 / 84 \approx 21{,}4\,\mathrm{h}" style="height:2.262ex; vertical-align:0ex;" />, conforme o exemplo da Aula 7.
 - **e.** Incorreta. Superestima o tempo; o cálculo correto fica em torno de 21 h.
 
 ### Questão 20

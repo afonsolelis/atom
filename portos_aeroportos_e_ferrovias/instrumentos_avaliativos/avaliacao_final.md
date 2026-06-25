@@ -40,7 +40,7 @@ e. As asserções I e II são proposições falsas.
 >
 > **porque**
 >
-> **Razão II:** O Brasil possui dimensões continentais e mais de 8.500 km de costa, característica geográfica relevante para o comércio exterior marítimo.
+> **Razão II:** O Brasil possui dimensões continentais e cerca de 7.400 km de costa (mais de 9.000 km com reentrâncias), característica geográfica relevante para o comércio exterior marítimo.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -120,7 +120,7 @@ e. As asserções I e II são proposições falsas.
 >
 > **porque**
 >
-> **Razão II:** O Porto de Santos é o maior porto da América Latina e movimenta mais de 160 milhões de toneladas por ano.
+> **Razão II:** O Porto de Santos é o maior porto da América do Sul e movimenta mais de 160 milhões de toneladas por ano.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -262,7 +262,7 @@ d. A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 **Estímulo:**
 
-> Uma cooperativa de Goiás produz 600.000 toneladas/ano de grãos transportadas hoje 100% por caminhão até o Porto de Santos, distância de 900 km. Os custos médios são de 0,18 R\$/t·km no rodoviário e 0,06 R\$/t·km no ferroviário. A fórmula de custo é $C = c \times d \times m$.
+> Uma cooperativa de Goiás produz 600.000 toneladas/ano de grãos transportadas hoje 100% por caminhão até o Porto de Santos, distância de 900 km. Os custos médios são de 0,18 R\$/t·km no rodoviário e 0,06 R\$/t·km no ferroviário. A fórmula de custo é <img src="assets/eq/af_001.png" alt="C = c \times d \times m" style="height:1.781ex; vertical-align:0ex;" />.
 
 Comparando o custo anual rodoviário com o ferroviário, a economia anual aproximada da migração modal seria de:
 
@@ -296,7 +296,7 @@ A capacidade anual aproximada do terminal, em TEU, é de:
 
 a. Cerca de 100 mil TEU/ano.
 b. Cerca de 400 mil TEU/ano.
-*c. Cerca de 1 milhão de TEU/ano — pois $3 \times 30 \times 20 \times 350 = 630.000$ movimentos, e $630.000 \times 1{,}6 \approx 1.008.000$ TEU.
+*c. Cerca de 1 milhão de TEU/ano — pois <img src="assets/eq/af_002.png" alt="3 \times 30 \times 20 \times 350 = 630.000" style="height:1.692ex; vertical-align:0ex;" /> movimentos, e <img src="assets/eq/af_003.png" alt="630.000 \times 1{,}6 \approx 1.008.000" style="height:1.946ex; vertical-align:0ex;" /> TEU.
 d. Cerca de 5 milhões de TEU/ano.
 e. Cerca de 20 milhões de TEU/ano.
 
@@ -311,14 +311,14 @@ O tempo de operação no berço e o ganho com o Smart Port são de aproximadamen
 a. Permanece em 21,4 h, pois os AGVs não alteram a taxa do portêiner.
 b. Cai para 21,4 h, pois só a manobra é afetada, não a movimentação.
 c. Cai de 84 h para 60 h, economizando 24 h por navio.
-*d. Cai de cerca de 21,4 h para 15,4 h — pois $3 \times 28 = 84$ mov/h e $1.800 \div 84 \approx 21{,}4$ h passam a $3 \times 39 = 117$ mov/h e $1.800 \div 117 \approx 15{,}4$ h, cerca de 6 h economizadas por escala.
+*d. Cai de cerca de 21,4 h para 15,4 h — pois <img src="assets/eq/af_004.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> mov/h e <img src="assets/eq/af_005.png" alt="1.800 \div 84 \approx 21{,}4" style="height:1.971ex; vertical-align:0ex;" /> h passam a <img src="assets/eq/af_006.png" alt="3 \times 39 = 117" style="height:1.715ex; vertical-align:0ex;" /> mov/h e <img src="assets/eq/af_007.png" alt="1.800 \div 117 \approx 15{,}4" style="height:1.971ex; vertical-align:0ex;" /> h, cerca de 6 h economizadas por escala.
 e. Cai para 7,7 h, dobrando-se o número de portêineres físicos.
 
 ### Questão 20 (Interpretação)
 
 **Estímulo:**
 
-> Um corredor de minério implanta **gêmeo digital da via** com sensores IoT (ultrassom/defectoscopia) para passar da manutenção corretiva à **preditiva**. Estima-se que a preditiva passe a flagrar **$N = 10$ defeitos/ano** antes da fratura do trilho. Cada falha **não detectada** causa, em média, $H_{\text{corr}} = 8$ h de via interditada (emergência + troca), enquanto a troca **programada** do trilho deteriorado consome só $H_{\text{prev}} = 2$ h em janela planejada.
+> Um corredor de minério implanta **gêmeo digital da via** com sensores IoT (ultrassom/defectoscopia) para passar da manutenção corretiva à **preditiva**. Estima-se que a preditiva passe a flagrar **<img src="assets/eq/af_008.png" alt="N = 10" style="height:1.731ex; vertical-align:0ex;" /> defeitos/ano** antes da fratura do trilho. Cada falha **não detectada** causa, em média, <img src="assets/eq/af_009.png" alt="H_{\text{corr}} = 8" style="height:1.902ex; vertical-align:0ex;" /> h de via interditada (emergência + troca), enquanto a troca **programada** do trilho deteriorado consome só <img src="assets/eq/af_010.png" alt="H_{\text{prev}} = 2" style="height:2.195ex; vertical-align:0ex;" /> h em janela planejada.
 
 O tempo de interdição de via **evitado por ano** com a manutenção preditiva é de aproximadamente:
 
@@ -326,17 +326,17 @@ a. 20 h/ano, considerando apenas o tempo da troca corretiva.
 b. 80 h/ano, somando os tempos corretivo e preventivo de todos os defeitos.
 c. 100 h/ano, multiplicando os 10 defeitos pelas 10 h totais.
 d. 6 h/ano, esquecendo de multiplicar pelos 10 defeitos.
-*e. Cerca de 60 h/ano — pois $\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60$ h/ano.
+*e. Cerca de 60 h/ano — pois <img src="assets/eq/af_011.png" alt="\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60" style="height:2.347ex; vertical-align:0ex;" /> h/ano.
 
 ### Questão 21 (Interpretação)
 
 **Estímulo:**
 
-> Um aeroporto regional movimenta 800.000 passageiros/ano e projeta crescimento de 6% ao ano por 10 anos. A fórmula de crescimento geométrico é $P_n = P_0 \cdot (1+i)^n$, com $(1{,}06)^{10} \approx 1{,}79$.
+> Um aeroporto regional movimenta 800.000 passageiros/ano e projeta crescimento de 6% ao ano por 10 anos. A fórmula de crescimento geométrico é <img src="assets/eq/af_012.png" alt="P_n = P_0 \cdot (1+i)^n" style="height:2.262ex; vertical-align:0ex;" />, com <img src="assets/eq/af_013.png" alt="(1{,}06)^{10} \approx 1{,}79" style="height:2.452ex; vertical-align:0ex;" />.
 
 A demanda projetada para o décimo ano será de aproximadamente:
 
-*a. Cerca de 1,43 milhão de passageiros/ano — pois $800.000 \times 1{,}79 \approx 1.432.000$.
+*a. Cerca de 1,43 milhão de passageiros/ano — pois <img src="assets/eq/af_014.png" alt="800.000 \times 1{,}79 \approx 1.432.000" style="height:1.971ex; vertical-align:0ex;" />.
 b. Cerca de 880 mil passageiros/ano, com crescimento de apenas 10% no total.
 c. Cerca de 4,8 milhões de passageiros/ano, multiplicando-se por seis.
 d. Cerca de 800 mil passageiros/ano, pois a demanda permanece estável.
@@ -346,12 +346,12 @@ e. Cerca de 8 milhões de passageiros/ano, dobrando a cada dois anos.
 
 **Estímulo:**
 
-> Calcula-se o comprimento de pista a partir do comprimento básico de 2.400 m, aplicando-se os fatores de correção: altitude de 900 m (acréscimo de 7% a cada 300 m), excesso de temperatura de 20,9 °C sobre a padrão local (1% por °C) e rampa de 0,8% (10% por 1% de rampa). Os fatores resultantes são $f_a = 1{,}21$, $f_t \approx 1{,}209$ e $f_r = 1{,}08$.
+> Calcula-se o comprimento de pista a partir do comprimento básico de 2.400 m, aplicando-se os fatores de correção: altitude de 900 m (acréscimo de 7% a cada 300 m), excesso de temperatura de 20,9 °C sobre a padrão local (1% por °C) e rampa de 0,8% (10% por 1% de rampa). Os fatores resultantes são <img src="assets/eq/af_015.png" alt="f_a = 1{,}21" style="height:2.059ex; vertical-align:0ex;" />, <img src="assets/eq/af_016.png" alt="f_t \approx 1{,}209" style="height:2.059ex; vertical-align:0ex;" /> e <img src="assets/eq/af_017.png" alt="f_r = 1{,}08" style="height:2.059ex; vertical-align:0ex;" />.
 
 O comprimento de pista corrigido é de aproximadamente:
 
 a. 2.400 m, pois as correções se cancelam.
-*b. 3.792 m — pois $2.400 \times 1{,}21 \times 1{,}209 \times 1{,}08 \approx 3.792$ m.
+*b. 3.792 m — pois <img src="assets/eq/af_018.png" alt="2.400 \times 1{,}21 \times 1{,}209 \times 1{,}08 \approx 3.792" style="height:1.971ex; vertical-align:0ex;" /> m.
 c. 2.900 m, considerando apenas a correção de altitude.
 d. 1.900 m, pois o ar quente reduz o comprimento necessário.
 e. 7.200 m, triplicando o comprimento básico.
@@ -374,21 +374,21 @@ e. Somente o B767-300 pode operar, por ser a aeronave mais pesada.
 
 **Estímulo:**
 
-> A segurança perimetral de um aeroporto usa **DAS (Distributed Acoustic Sensing)**, que transforma um cabo de **fibra óptica** enterrado junto à cerca em milhares de "microfones virtuais". A fibra tem índice de refração $n = 1{,}47$ e o interrogador detecta o eco de uma intrusão $\Delta t = 142\,\mathrm{\mu s}$ após o pulso. A luz percorre a fibra à velocidade $v = c/n$ (com $c = 3{,}0 \times 10^{8}$ m/s) e o pulso faz o caminho de ida e volta ($2L$).
+> A segurança perimetral de um aeroporto usa **DAS (Distributed Acoustic Sensing)**, que transforma um cabo de **fibra óptica** enterrado junto à cerca em milhares de "microfones virtuais". A fibra tem índice de refração <img src="assets/eq/af_019.png" alt="n = 1{,}47" style="height:1.971ex; vertical-align:0ex;" /> e o interrogador detecta o eco de uma intrusão <img src="assets/eq/af_020.png" alt="\Delta t = 142\,\mathrm{\mu s}" style="height:2.109ex; vertical-align:0ex;" /> após o pulso. A luz percorre a fibra à velocidade <img src="assets/eq/af_021.png" alt="v = c/n" style="height:2.262ex; vertical-align:0ex;" /> (com <img src="assets/eq/af_022.png" alt="c = 3{,}0 \times 10^{8}" style="height:2.394ex; vertical-align:0ex;" /> m/s) e o pulso faz o caminho de ida e volta (<img src="assets/eq/af_023.png" alt="2L" style="height:1.545ex; vertical-align:0ex;" />).
 
 A distância da central até o ponto de intrusão é de aproximadamente:
 
-a. 29,0 km, corrigindo $n$ mas esquecendo o fator 2 do ida-e-volta ($L = v \cdot \Delta t$).
-b. 21,3 km, usando a velocidade no vácuo (sem corrigir $n$), mas com o fator 2 ($L = c \cdot \Delta t / 2$).
+a. 29,0 km, corrigindo <img src="assets/eq/af_024.png" alt="n" style="height:1.025ex; vertical-align:0ex;" /> mas esquecendo o fator 2 do ida-e-volta (<img src="assets/eq/af_025.png" alt="L = v \cdot \Delta t" style="height:1.805ex; vertical-align:0ex;" />).
+b. 21,3 km, usando a velocidade no vácuo (sem corrigir <img src="assets/eq/af_026.png" alt="n" style="height:1.025ex; vertical-align:0ex;" />), mas com o fator 2 (<img src="assets/eq/af_027.png" alt="L = c \cdot \Delta t / 2" style="height:2.262ex; vertical-align:0ex;" />).
 c. 42,6 km, usando a velocidade no vácuo e sem dividir por 2.
-*d. 14,5 km — pois $v = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}$ m/s e $L = v \cdot \Delta t / 2 \approx 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5$ km.
+*d. 14,5 km — pois <img src="assets/eq/af_028.png" alt="v = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}" style="height:2.52ex; vertical-align:0ex;" /> m/s e <img src="assets/eq/af_029.png" alt="L = v \cdot \Delta t / 2 \approx 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5" style="height:2.52ex; vertical-align:0ex;" /> km.
 e. 142 m, confundindo o tempo de eco com a distância em metros.
 
 ### Questão 25 (Interpretação)
 
 **Estímulo:**
 
-> Dimensiona-se um saguão de embarque para hora-pico de 600 passageiros, tempo médio de permanência de 40 minutos, fator de acompanhantes de 1,3 e área de 2,0 m² por pessoa (nível de serviço ótimo da IATA). O número de passageiros simultâneos é $600 \times (40/60) = 400$.
+> Dimensiona-se um saguão de embarque para hora-pico de 600 passageiros, tempo médio de permanência de 40 minutos, fator de acompanhantes de 1,3 e área de 2,0 m² por pessoa (nível de serviço ótimo da IATA). O número de passageiros simultâneos é <img src="assets/eq/af_030.png" alt="600 \times (40/60) = 400" style="height:2.262ex; vertical-align:0ex;" />.
 
 A área útil necessária para o saguão é de aproximadamente:
 
@@ -396,7 +396,7 @@ a. 1.200 m², usando os 600 passageiros da hora-pico diretamente.
 b. 800 m², desprezando os acompanhantes.
 c. 400 m², considerando apenas 1,0 m² por pessoa.
 d. 2.400 m², dobrando o resultado por segurança.
-*e. 1.040 m² — pois $400 \times 1{,}3 = 520$ pessoas e $520 \times 2{,}0 = 1.040$ m².
+*e. 1.040 m² — pois <img src="assets/eq/af_031.png" alt="400 \times 1{,}3 = 520" style="height:1.971ex; vertical-align:0ex;" /> pessoas e <img src="assets/eq/af_032.png" alt="520 \times 2{,}0 = 1.040" style="height:1.971ex; vertical-align:0ex;" /> m².
 
 ### Questão 26 (Interpretação)
 
@@ -406,7 +406,7 @@ d. 2.400 m², dobrando o resultado por segurança.
 
 A quantidade diária de viagens de caminhão substituídas pelo corredor é de aproximadamente:
 
-*a. 10.000 viagens/dia — pois $200 \times 100 = 20.000$ t/trem, $20.000 \times 20 = 400.000$ t/dia, e $400.000 \div 40 = 10.000$.
+*a. 10.000 viagens/dia — pois <img src="assets/eq/af_033.png" alt="200 \times 100 = 20.000" style="height:1.692ex; vertical-align:0ex;" /> t/trem, <img src="assets/eq/af_034.png" alt="20.000 \times 20 = 400.000" style="height:1.717ex; vertical-align:0ex;" /> t/dia, e <img src="assets/eq/af_035.png" alt="400.000 \div 40 = 10.000" style="height:1.717ex; vertical-align:0ex;" />.
 b. 2.000 viagens/dia, considerando apenas um trem.
 c. 500 viagens/dia, pois o caminhão tem capacidade equivalente.
 d. 200 viagens/dia, igual ao número de vagões.
@@ -416,12 +416,12 @@ e. 40.000 viagens/dia, multiplicando-se erradamente os trens.
 
 **Estímulo:**
 
-> A superelevação teórica de uma curva ferroviária é dada por $h = \dfrac{b \cdot V^2}{g \cdot R}$. Para uma curva de raio $R = 500$ m, velocidade $V = 80$ km/h (≈ 22,2 m/s) e bitola larga $b = 1{,}60$ m, com $g = 9{,}81$ m/s².
+> A superelevação teórica de uma curva ferroviária é dada por <img src="assets/eq/af_036.png" alt="h = \dfrac{b \cdot V^2}{g \cdot R}" style="height:5.432ex; vertical-align:0ex;" />. Para uma curva de raio <img src="assets/eq/af_037.png" alt="R = 500" style="height:1.731ex; vertical-align:0ex;" /> m, velocidade <img src="assets/eq/af_038.png" alt="V = 80" style="height:1.731ex; vertical-align:0ex;" /> km/h (≈ 22,2 m/s) e bitola larga <img src="assets/eq/af_039.png" alt="b = 1{,}60" style="height:2.009ex; vertical-align:0ex;" /> m, com <img src="assets/eq/af_040.png" alt="g = 9{,}81" style="height:1.971ex; vertical-align:0ex;" /> m/s².
 
 A superelevação teórica calculada é de aproximadamente:
 
 a. 50 mm, pois a velocidade não influencia o resultado.
-*b. 161 mm — pois $h = \dfrac{1{,}60 \times 493}{9{,}81 \times 500} \approx 0{,}161$ m, valor próximo do limite prático de superelevação em bitola larga.
+*b. 161 mm — pois <img src="assets/eq/af_041.png" alt="h = \dfrac{1{,}60 \times 493}{9{,}81 \times 500} \approx 0{,}161" style="height:5.052ex; vertical-align:0ex;" /> m, valor próximo do limite prático de superelevação em bitola larga.
 c. 16 mm, dividindo-se incorretamente por mil.
 d. 320 mm, dobrando a bitola.
 e. 800 mm, ignorando o raio da curva.
@@ -430,13 +430,13 @@ e. 800 mm, ignorando o raio da curva.
 
 **Estímulo:**
 
-> Na cadeia de transmissão de esforços da via permanente, a carga vertical de uma roda de $P = 150$ kN distribui-se por 5 dormentes (modelo de viga sobre apoio elástico). O dormente de concreto distribui sua reação sobre uma área de contato com o lastro de 0,6 m².
+> Na cadeia de transmissão de esforços da via permanente, a carga vertical de uma roda de <img src="assets/eq/af_042.png" alt="P = 150" style="height:1.731ex; vertical-align:0ex;" /> kN distribui-se por 5 dormentes (modelo de viga sobre apoio elástico). O dormente de concreto distribui sua reação sobre uma área de contato com o lastro de 0,6 m².
 
 A tensão transmitida ao lastro sob esse dormente é de aproximadamente:
 
 a. 150 kPa, atribuindo toda a carga da roda a um único dormente.
 b. 30 kPa, sem dividir pela área de contato.
-*c. 50 kPa — pois $R_{dormente} = 150 \div 5 = 30$ kN, e $\sigma = 30 \div 0{,}6 = 50$ kPa, bem abaixo da resistência do lastro confinado.
+*c. 50 kPa — pois <img src="assets/eq/af_043.png" alt="R_{dormente} = 150 \div 5 = 30" style="height:1.902ex; vertical-align:0ex;" /> kN, e <img src="assets/eq/af_044.png" alt="\sigma = 30 \div 0{,}6 = 50" style="height:1.946ex; vertical-align:0ex;" /> kPa, bem abaixo da resistência do lastro confinado.
 d. 250 kPa, somando-se as reações de todos os dormentes.
 e. 5 kPa, dividindo-se a carga por 30.
 
@@ -478,7 +478,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> Resposta de qualidade calcula corretamente: rodoviário $= 0{,}18 \times 900 \times 600.000 = $ **R\$ 97,2 milhões/ano**; ferroviário $= 0{,}06 \times 900 \times 600.000 = $ **R\$ 32,4 milhões/ano**; economia anual de **R\$ 64,8 milhões (≈ 66,7%)**. Aponta que a economia operacional precisa ser confrontada com o **custo de construção do ramal** e o **payback** — só assim se sabe se o VPL é positivo. Cita as etapas: estudo de demanda (verificar se o volume é estável a longo prazo, evitando "ferrovia fantasma"); viabilidade econômica (VPL > 0, TIR acima da taxa mínima, relação B/C > 1); licenciamento ambiental (LP, LI e LO, com EIA/RIMA — frequentemente o maior gargalo de prazo); estudos geotécnicos e de terraplenagem (topografia, traçado com rampas suaves, CBR, equilíbrio corte/aterro, drenagem). Riscos válidos: variação de demanda/safra; sobrecusto e atraso de obra; dependência da capacidade da ferrovia existente para direito de passagem; questões fundiárias/ambientais. Resposta madura **não conclui "vale a pena" apenas pela economia anual**, recomendando a decisão com base no investimento total, no prazo e na estabilidade da demanda.
+> Resposta de qualidade calcula corretamente: rodoviário <img src="assets/eq/af_045.png" alt="= 0{,}18 \times 900 \times 600.000 =" style="height:1.946ex; vertical-align:0ex;" /> **R\$ 97,2 milhões/ano**; ferroviário <img src="assets/eq/af_046.png" alt="= 0{,}06 \times 900 \times 600.000 =" style="height:1.946ex; vertical-align:0ex;" /> **R\$ 32,4 milhões/ano**; economia anual de **R\$ 64,8 milhões (≈ 66,7%)**. Aponta que a economia operacional precisa ser confrontada com o **custo de construção do ramal** e o **payback** — só assim se sabe se o VPL é positivo. Cita as etapas: estudo de demanda (verificar se o volume é estável a longo prazo, evitando "ferrovia fantasma"); viabilidade econômica (VPL > 0, TIR acima da taxa mínima, relação B/C > 1); licenciamento ambiental (LP, LI e LO, com EIA/RIMA — frequentemente o maior gargalo de prazo); estudos geotécnicos e de terraplenagem (topografia, traçado com rampas suaves, CBR, equilíbrio corte/aterro, drenagem). Riscos válidos: variação de demanda/safra; sobrecusto e atraso de obra; dependência da capacidade da ferrovia existente para direito de passagem; questões fundiárias/ambientais. Resposta madura **não conclui "vale a pena" apenas pela economia anual**, recomendando a decisão com base no investimento total, no prazo e na estabilidade da demanda.
 
 ### Questão 32 (Discursiva)
 
@@ -488,7 +488,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> Resposta de qualidade calcula a capacidade do comboio: $4 \times 2.200 = $ **8.800 t por viagem**; para 600.000 t: $600.000 \div 8.800 \approx$ **68 viagens/ano**; observa que cada comboio substitui $8.800 \div 30 \approx$ **293 caminhões** por viagem. Discute o conceito de **hinterland** — o Arco Norte amplia a área de influência terrestre de portos do Norte sobre o Centro-Oeste produtor, reduzindo a distância de escoamento; e a **integração porto-hidrovia**, em que a hidrovia alimenta o porto via terminal de transbordo (Miritituba), reduzindo o Custo Brasil. Riscos: **sazonalidade** (na seca o calado cai e o comboio viaja com menos carga); dependência do terminal de transbordo; gargalos de profundidade e de eclusa; barragem sem eclusa interrompendo a navegação. Recomendação madura: **estratégia híbrida** — migrar parte do volume ao Arco Norte mantendo flexibilidade rodoviária na entressafra/seca — demonstrando pensamento sistêmico e domínio da intermodalidade.
+> Resposta de qualidade calcula a capacidade do comboio: <img src="assets/eq/af_047.png" alt="4 \times 2.200 =" style="height:1.717ex; vertical-align:0ex;" /> **8.800 t por viagem**; para 600.000 t: <img src="assets/eq/af_048.png" alt="600.000 \div 8.800 \approx" style="height:1.588ex; vertical-align:0ex;" /> **68 viagens/ano**; observa que cada comboio substitui <img src="assets/eq/af_049.png" alt="8.800 \div 30 \approx" style="height:1.588ex; vertical-align:0ex;" /> **293 caminhões** por viagem. Discute o conceito de **hinterland** — o Arco Norte amplia a área de influência terrestre de portos do Norte sobre o Centro-Oeste produtor, reduzindo a distância de escoamento; e a **integração porto-hidrovia**, em que a hidrovia alimenta o porto via terminal de transbordo (Miritituba), reduzindo o Custo Brasil. Riscos: **sazonalidade** (na seca o calado cai e o comboio viaja com menos carga); dependência do terminal de transbordo; gargalos de profundidade e de eclusa; barragem sem eclusa interrompendo a navegação. Recomendação madura: **estratégia híbrida** — migrar parte do volume ao Arco Norte mantendo flexibilidade rodoviária na entressafra/seca — demonstrando pensamento sistêmico e domínio da intermodalidade.
 
 ### Questão 33 (Discursiva)
 
@@ -498,7 +498,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> Resposta de qualidade calcula a profundidade: $P = C_{navio} + \text{folga de quilha} + \text{maré} + squat + \text{sobreprofundidade de dragagem}$. Com calado 12,0 m, folga 1,0 m, *squat* 0,5 m e sobreprofundidade 0,5 m (maré já no nível de referência): $P = $ **14,0 m**. Explica a **fórmula de Hudson**, $W = \dfrac{\gamma_r H^3}{K_D (\gamma_r/\gamma_w - 1)^3 \cot\alpha}$, destacando que o peso do bloco cresce com o **cubo da altura de onda** (dobrar a onda octuplica o bloco), o que explica o alto custo dos quebra-mares de talude. Descreve **defensas (fenders)** absorvendo a energia do impacto da atracação ($E = \frac{1}{2} m v^2 C_m C_e$) e **cabeços de amarração (bollards)** resistindo a vento e corrente sobre o navio amarrado. Justifica que a folga de 2 m ao longo de quilômetros de canal representa **milhões de m³ de material dragado**, com alto custo de dragagem de aprofundamento e de manutenção periódica (assoreamento).
+> Resposta de qualidade calcula a profundidade: <img src="assets/eq/af_050.png" alt="P = C_{navio} + \text{folga de quilha} + \text{maré} + squat + \text{sobreprofundidade de dragagem}" style="height:2.163ex; vertical-align:0ex;" />. Com calado 12,0 m, folga 1,0 m, *squat* 0,5 m e sobreprofundidade 0,5 m (maré já no nível de referência): <img src="assets/eq/af_051.png" alt="P =" style="height:1.731ex; vertical-align:0ex;" /> **14,0 m**. Explica a **fórmula de Hudson**, <img src="assets/eq/af_052.png" alt="W = \dfrac{\gamma_r H^3}{K_D (\gamma_r/\gamma_w - 1)^3 \cot\alpha}" style="height:5.607ex; vertical-align:0ex;" />, destacando que o peso do bloco cresce com o **cubo da altura de onda** (dobrar a onda octuplica o bloco), o que explica o alto custo dos quebra-mares de talude. Descreve **defensas (fenders)** absorvendo a energia do impacto da atracação (<img src="assets/eq/af_053.png" alt="E = \frac{1}{2} m v^2 C_m C_e" style="height:2.737ex; vertical-align:0ex;" />) e **cabeços de amarração (bollards)** resistindo a vento e corrente sobre o navio amarrado. Justifica que a folga de 2 m ao longo de quilômetros de canal representa **milhões de m³ de material dragado**, com alto custo de dragagem de aprofundamento e de manutenção periódica (assoreamento).
 
 ### Questão 34 (Discursiva)
 
@@ -508,7 +508,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> Resposta de qualidade calcula a taxa combinada: $3 \times 28 = $ **84 mov/h**; tempo de operação $= 1.800 \div 84 \approx$ **21,4 h**; somando 2 h de manobra e amarração, estadia ≈ **23,4 h**. Cada hora economizada vale $60.000 \div 24 = $ **US\$ 2.500**. Argumenta, com base no conceito de **sistema de filas em série**, que dobrar portêineres acelera o cais, mas se o ***dwell time*** permanece em 8 dias e há 6 h de fila no portão, o gargalo está fora do cais — acelerar uma etapa não melhora o desempenho global. Cita indicadores: **produtividade do berço** (mov/h, 25–35 no Brasil, > 40 em terminais asiáticos automatizados), **tempo de espera** (fundeio), **taxa de ocupação do berço** e ***dwell time***. Destaca a digitalização: **Port Community System (PCS)** e o programa **Porto Sem Papel**, integrando armador, terminal, despachante e alfândega; AGVs e janelas de atracação otimizadas por algoritmos. Resposta madura conclui que o investimento só compensa se o sistema inteiro for balanceado.
+> Resposta de qualidade calcula a taxa combinada: <img src="assets/eq/af_054.png" alt="3 \times 28 =" style="height:1.692ex; vertical-align:0ex;" /> **84 mov/h**; tempo de operação <img src="assets/eq/af_055.png" alt="= 1.800 \div 84 \approx" style="height:1.717ex; vertical-align:0ex;" /> **21,4 h**; somando 2 h de manobra e amarração, estadia ≈ **23,4 h**. Cada hora economizada vale <img src="assets/eq/af_056.png" alt="60.000 \div 24 =" style="height:1.717ex; vertical-align:0ex;" /> **US\$ 2.500**. Argumenta, com base no conceito de **sistema de filas em série**, que dobrar portêineres acelera o cais, mas se o ***dwell time*** permanece em 8 dias e há 6 h de fila no portão, o gargalo está fora do cais — acelerar uma etapa não melhora o desempenho global. Cita indicadores: **produtividade do berço** (mov/h, 25–35 no Brasil, > 40 em terminais asiáticos automatizados), **tempo de espera** (fundeio), **taxa de ocupação do berço** e ***dwell time***. Destaca a digitalização: **Port Community System (PCS)** e o programa **Porto Sem Papel**, integrando armador, terminal, despachante e alfândega; AGVs e janelas de atracação otimizadas por algoritmos. Resposta madura conclui que o investimento só compensa se o sistema inteiro for balanceado.
 
 ### Questão 35 (Discursiva)
 
@@ -518,7 +518,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> **(a) Pista:** $f_a = 1 + 0{,}07 \times (700/300) \approx 1{,}163$; temperatura padrão local a 700 m $= 15 - 6{,}5 \times 0{,}7 \approx 10{,}5$ °C; excesso $= 31 - 10{,}5 = 20{,}5$ °C → $f_t \approx 1{,}205$; $f_r \approx 1{,}0$. Comprimento corrigido $= 2.300 \times 1{,}163 \times 1{,}205 \approx$ **3.223 m**. A pista de 2.000 m é **insuficiente** (faltam mais de 1.200 m); seria preciso alongá-la ou restringir peso/payload. **(b) Pavimento:** ACN 55 > PCN 45 → excede ≈ 22%; a operação regular exige **reforço** do pavimento até PCN ≥ 55 (recapeamento/reconstrução), ou operações eventuais restritas com monitoramento por PCI, sob risco de fadiga acelerada. **(c) Lado terra:** voos internacionais exigem **áreas alfandegadas** (imigração, alfândega, vigilância sanitária), ampliação do TPS dimensionado pela nova hora-pico de projeto segundo o LoS da IATA, separação rigorosa de fluxos chegada/partida, e reforço de acessos, estacionamento e transporte público. **(d)** Resposta de excelência **integra as três dimensões** (geometria de pista, capacidade de pavimento e lado terra), quantifica o comprimento corrigido e a folga ACN-PCN, e recomenda fasear os investimentos conforme a demanda projetada.
+> **(a) Pista:** <img src="assets/eq/af_057.png" alt="f_a = 1 + 0{,}07 \times (700/300) \approx 1{,}163" style="height:2.262ex; vertical-align:0ex;" />; temperatura padrão local a 700 m <img src="assets/eq/af_058.png" alt="= 15 - 6{,}5 \times 0{,}7 \approx 10{,}5" style="height:1.968ex; vertical-align:0ex;" /> °C; excesso <img src="assets/eq/af_059.png" alt="= 31 - 10{,}5 = 20{,}5" style="height:1.946ex; vertical-align:0ex;" /> °C → <img src="assets/eq/af_060.png" alt="f_t \approx 1{,}205" style="height:2.059ex; vertical-align:0ex;" />; <img src="assets/eq/af_061.png" alt="f_r \approx 1{,}0" style="height:2.059ex; vertical-align:0ex;" />. Comprimento corrigido <img src="assets/eq/af_062.png" alt="= 2.300 \times 1{,}163 \times 1{,}205 \approx" style="height:1.946ex; vertical-align:0ex;" /> **3.223 m**. A pista de 2.000 m é **insuficiente** (faltam mais de 1.200 m); seria preciso alongá-la ou restringir peso/payload. **(b) Pavimento:** ACN 55 > PCN 45 → excede ≈ 22%; a operação regular exige **reforço** do pavimento até PCN ≥ 55 (recapeamento/reconstrução), ou operações eventuais restritas com monitoramento por PCI, sob risco de fadiga acelerada. **(c) Lado terra:** voos internacionais exigem **áreas alfandegadas** (imigração, alfândega, vigilância sanitária), ampliação do TPS dimensionado pela nova hora-pico de projeto segundo o LoS da IATA, separação rigorosa de fluxos chegada/partida, e reforço de acessos, estacionamento e transporte público. **(d)** Resposta de excelência **integra as três dimensões** (geometria de pista, capacidade de pavimento e lado terra), quantifica o comprimento corrigido e a folga ACN-PCN, e recomenda fasear os investimentos conforme a demanda projetada.
 
 ### Questão 36 (Discursiva)
 
@@ -548,7 +548,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 **Resposta esperada:**
 
-> Resposta de qualidade escolhe **bitola larga (1,60 m)**, padrão das ferrovias de minério brasileiras (EFC, EFVM), por sua maior estabilidade e capacidade de carga por eixo. **Superestrutura:** trilho pesado **TR-57 ou TR-68**, preferencialmente **Trilho Longo Soldado (TLS)**; **dormente de concreto protendido** (durável e pesado, bom contra deslocamento lateral); **fixação elástica** (tipo Pandrol/Deenik); **lastro de brita graduada** angulosa e limpa, com bom sublastro e drenagem. **Geometria:** maiores raios possíveis, **curvas de transição** (espiral), **superelevação** dimensionada (limite prático ≈ 160 mm em bitola larga, mais a insuficiência admitida), **superlargura** em curvas fechadas e **rampas suaves** (idealmente bem abaixo de 1%, pela baixa aderência aço-aço). **Capacidade:** ex. 180 vagões × 100 t $= 18.000$ t/trem; 18 trens/dia $= 324.000$ t/dia; em 350 dias úteis $\approx$ **113 milhões t/ano** — folgadamente acima da meta de 50 milhões t/ano, com margem para manutenção e variações. Resposta madura justifica via dupla (ou singela com pátios bem dimensionados) e conecta tudo à interface com o porto.
+> Resposta de qualidade escolhe **bitola larga (1,60 m)**, padrão das ferrovias de minério brasileiras (EFC, EFVM), por sua maior estabilidade e capacidade de carga por eixo. **Superestrutura:** trilho pesado **TR-57 ou TR-68**, preferencialmente **Trilho Longo Soldado (TLS)**; **dormente de concreto protendido** (durável e pesado, bom contra deslocamento lateral); **fixação elástica** (tipo Pandrol/Deenik); **lastro de brita graduada** angulosa e limpa, com bom sublastro e drenagem. **Geometria:** maiores raios possíveis, **curvas de transição** (espiral), **superelevação** dimensionada (limite prático ≈ 160 mm em bitola larga, mais a insuficiência admitida), **superlargura** em curvas fechadas e **rampas suaves** (idealmente bem abaixo de 1%, pela baixa aderência aço-aço). **Capacidade:** ex. 180 vagões × 100 t <img src="assets/eq/af_063.png" alt="= 18.000" style="height:1.692ex; vertical-align:0ex;" /> t/trem; 18 trens/dia <img src="assets/eq/af_064.png" alt="= 324.000" style="height:1.717ex; vertical-align:0ex;" /> t/dia; em 350 dias úteis <img src="assets/eq/af_065.png" alt="\approx" style="height:0.968ex; vertical-align:0ex;" /> **113 milhões t/ano** — folgadamente acima da meta de 50 milhões t/ano, com margem para manutenção e variações. Resposta madura justifica via dupla (ou singela com pátios bem dimensionados) e conecta tudo à interface com o porto.
 
 ### Questão 39 (Discursiva)
 
@@ -585,7 +585,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 ### Questão 2
 
 - **a.** Incorreta. A Razão não justifica a Asserção.
-- **b.** *Correta!* As duas proposições são verdadeiras: o modelo de quatro etapas é clássico na previsão de demanda; e o Brasil tem dimensões continentais e mais de 8.500 km de costa. Mas a Razão (geografia/costa) **não justifica** o uso do modelo de quatro etapas — são informações independentes.
+- **b.** *Correta!* As duas proposições são verdadeiras: o modelo de quatro etapas é clássico na previsão de demanda; e o Brasil tem dimensões continentais e cerca de 7.400 km de costa. Mas a Razão (geografia/costa) **não justifica** o uso do modelo de quatro etapas — são informações independentes.
 - **c.** Incorreta. A Razão é verdadeira.
 - **d.** Incorreta. A Asserção é verdadeira.
 - **e.** Incorreta. Ambas são verdadeiras.
@@ -625,7 +625,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 ### Questão 7
 
 - **a.** Incorreta. A Razão não justifica a Asserção.
-- **b.** *Correta!* Ambas verdadeiras: as defensas absorvem a energia do impacto da atracação; e Santos é o maior porto da América Latina (> 160 milhões t/ano). Mas a Razão (movimentação de Santos) **não justifica** a função das defensas — são informações independentes.
+- **b.** *Correta!* Ambas verdadeiras: as defensas absorvem a energia do impacto da atracação; e Santos é o maior porto da América do Sul (> 160 milhões t/ano). Mas a Razão (movimentação de Santos) **não justifica** a função das defensas — são informações independentes.
 - **c.** Incorreta. A Razão é verdadeira.
 - **d.** Incorreta. A Asserção é verdadeira.
 - **e.** Incorreta. Ambas são verdadeiras.
@@ -696,7 +696,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 ### Questão 16
 
-- **a.** *Correta!* Cálculo: rodoviário $= 0{,}18 \times 900 \times 600.000 =$ R\$ 97,2 milhões; ferroviário $= 0{,}06 \times 900 \times 600.000 =$ R\$ 32,4 milhões; economia $=$ R\$ 64,8 milhões (≈ 66,7%).
+- **a.** *Correta!* Cálculo: rodoviário <img src="assets/eq/af_066.png" alt="= 0{,}18 \times 900 \times 600.000 =" style="height:1.946ex; vertical-align:0ex;" /> R\$ 97,2 milhões; ferroviário <img src="assets/eq/af_067.png" alt="= 0{,}06 \times 900 \times 600.000 =" style="height:1.946ex; vertical-align:0ex;" /> R\$ 32,4 milhões; economia <img src="assets/eq/af_068.png" alt="=" style="height:1.505ex; vertical-align:0ex;" /> R\$ 64,8 milhões (≈ 66,7%).
 - **b.** Incorreta. O ferroviário é mais **barato** que o rodoviário, não mais caro.
 - **c.** Incorreta. O ferroviário é cerca de 1/3 do rodoviário, não o triplo.
 - **d.** Incorreta. Os custos unitários são bem distintos (0,06 vs. 0,18 R\$/t·km).
@@ -714,7 +714,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 - **a.** Incorreta. Muito abaixo do valor calculado.
 - **b.** Incorreta. Corresponde apenas aos movimentos sem aplicar a relação TEU/movimento.
-- **c.** *Correta!* $3 \times 30 \times 20 \times 350 = 630.000$ movimentos; $630.000 \times 1{,}6 \approx 1.008.000$ TEU ≈ 1 milhão de TEU/ano.
+- **c.** *Correta!* <img src="assets/eq/af_069.png" alt="3 \times 30 \times 20 \times 350 = 630.000" style="height:1.692ex; vertical-align:0ex;" /> movimentos; <img src="assets/eq/af_070.png" alt="630.000 \times 1{,}6 \approx 1.008.000" style="height:1.946ex; vertical-align:0ex;" /> TEU ≈ 1 milhão de TEU/ano.
 - **d.** Incorreta. Esse é o porte aproximado do Porto de Santos inteiro (~5 terminais como este).
 - **e.** Incorreta. Valor muito acima do real.
 
@@ -723,20 +723,20 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 - **a.** Incorreta. Os AGVs elevam a produtividade efetiva do transporte horizontal (de 28 para ~39 mov/h), reduzindo o tempo de berço.
 - **b.** Incorreta. O Smart Port acelera a movimentação (taxa combinada), não apenas a manobra.
 - **c.** Incorreta. Confunde mov/h com horas; a taxa não cai de 84 para 60.
-- **d.** *Correta!* Convencional: $3 \times 28 = 84$ mov/h → $1.800 \div 84 \approx 21{,}4$ h. Smart Port: $3 \times 39 = 117$ mov/h → $1.800 \div 117 \approx 15{,}4$ h. Economia de ~6 h por escala, sem construir berço novo.
+- **d.** *Correta!* Convencional: <img src="assets/eq/af_071.png" alt="3 \times 28 = 84" style="height:1.717ex; vertical-align:0ex;" /> mov/h → <img src="assets/eq/af_072.png" alt="1.800 \div 84 \approx 21{,}4" style="height:1.971ex; vertical-align:0ex;" /> h. Smart Port: <img src="assets/eq/af_073.png" alt="3 \times 39 = 117" style="height:1.715ex; vertical-align:0ex;" /> mov/h → <img src="assets/eq/af_074.png" alt="1.800 \div 117 \approx 15{,}4" style="height:1.971ex; vertical-align:0ex;" /> h. Economia de ~6 h por escala, sem construir berço novo.
 - **e.** Incorreta. O ganho vem da automação (AGVs/IA), não de dobrar o número físico de portêineres.
 
 ### Questão 20
 
 - **a.** Incorreta. Considera só o tempo corretivo; o ganho é a **diferença** entre corretivo e preventivo, vezes o número de defeitos.
-- **b.** Incorreta. Soma indevidamente os tempos; deve-se subtrair $H_{\text{prev}}$ de $H_{\text{corr}}$.
+- **b.** Incorreta. Soma indevidamente os tempos; deve-se subtrair <img src="assets/eq/af_075.png" alt="H_{\text{prev}}" style="height:2.195ex; vertical-align:0ex;" /> de <img src="assets/eq/af_076.png" alt="H_{\text{corr}}" style="height:1.902ex; vertical-align:0ex;" />.
 - **c.** Incorreta. Usa as 10 h totais (8 + 2) em vez da diferença de 6 h por defeito.
 - **d.** Incorreta. Calcula a economia de um único defeito (6 h) sem multiplicar pelos 10 defeitos/ano.
-- **e.** *Correta!* $\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60$ h/ano de via interditada evitadas — ganho de disponibilidade da manutenção preditiva habilitada pelo gêmeo digital.
+- **e.** *Correta!* <img src="assets/eq/af_077.png" alt="\Delta H = N\,(H_{\text{corr}} - H_{\text{prev}}) = 10 \times (8 - 2) = 60" style="height:2.347ex; vertical-align:0ex;" /> h/ano de via interditada evitadas — ganho de disponibilidade da manutenção preditiva habilitada pelo gêmeo digital.
 
 ### Questão 21
 
-- **a.** *Correta!* $800.000 \times (1{,}06)^{10} \approx 800.000 \times 1{,}79 \approx 1.432.000$ passageiros/ano.
+- **a.** *Correta!* <img src="assets/eq/af_078.png" alt="800.000 \times (1{,}06)^{10} \approx 800.000 \times 1{,}79 \approx 1.432.000" style="height:2.452ex; vertical-align:0ex;" /> passageiros/ano.
 - **b.** Incorreta. O crescimento composto a 6% por 10 anos é de ~79%, não 10%.
 - **c.** Incorreta. Multiplicar por seis superestima grosseiramente.
 - **d.** Incorreta. A demanda cresce; não permanece estável.
@@ -745,7 +745,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 ### Questão 22
 
 - **a.** Incorreta. As correções se somam (multiplicam), não se cancelam.
-- **b.** *Correta!* $2.400 \times 1{,}21 \times 1{,}209 \times 1{,}08 \approx 3.792$ m — quase 1.400 m a mais que o básico.
+- **b.** *Correta!* <img src="assets/eq/af_079.png" alt="2.400 \times 1{,}21 \times 1{,}209 \times 1{,}08 \approx 3.792" style="height:1.971ex; vertical-align:0ex;" /> m — quase 1.400 m a mais que o básico.
 - **c.** Incorreta. Considera apenas a altitude, ignorando temperatura e rampa.
 - **d.** Incorreta. Ar quente **aumenta** o comprimento necessário, não o reduz.
 - **e.** Incorreta. Triplicar o básico superestima o resultado.
@@ -760,10 +760,10 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 ### Questão 24
 
-- **a.** Incorreta. Corrige o índice $n$, mas esquece que o pulso percorre $2L$ (ida e volta); $v \cdot \Delta t \approx 29{,}0$ km é o dobro do correto.
-- **b.** Incorreta. Divide pelo fator 2, mas usa a velocidade no vácuo ($c$) sem corrigir pelo índice de refração; $c \cdot \Delta t / 2 \approx 21{,}3$ km.
-- **c.** Incorreta. Usa a velocidade no vácuo (sem $n$) e ainda ignora o fator 2.
-- **d.** *Correta!* $v = c/n = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}$ m/s; $L = v\,\Delta t / 2 = 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5$ km. O DAS localiza a intrusão no km 14,5 do perímetro.
+- **a.** Incorreta. Corrige o índice <img src="assets/eq/af_080.png" alt="n" style="height:1.025ex; vertical-align:0ex;" />, mas esquece que o pulso percorre <img src="assets/eq/af_081.png" alt="2L" style="height:1.545ex; vertical-align:0ex;" /> (ida e volta); <img src="assets/eq/af_082.png" alt="v \cdot \Delta t \approx 29{,}0" style="height:2.059ex; vertical-align:0ex;" /> km é o dobro do correto.
+- **b.** Incorreta. Divide pelo fator 2, mas usa a velocidade no vácuo (<img src="assets/eq/af_083.png" alt="c" style="height:1.025ex; vertical-align:0ex;" />) sem corrigir pelo índice de refração; <img src="assets/eq/af_084.png" alt="c \cdot \Delta t / 2 \approx 21{,}3" style="height:2.262ex; vertical-align:0ex;" /> km.
+- **c.** Incorreta. Usa a velocidade no vácuo (sem <img src="assets/eq/af_085.png" alt="n" style="height:1.025ex; vertical-align:0ex;" />) e ainda ignora o fator 2.
+- **d.** *Correta!* <img src="assets/eq/af_086.png" alt="v = c/n = 3{,}0 \times 10^{8} / 1{,}47 \approx 2{,}04 \times 10^{8}" style="height:2.52ex; vertical-align:0ex;" /> m/s; <img src="assets/eq/af_087.png" alt="L = v\,\Delta t / 2 = 2{,}04 \times 10^{8} \cdot 142 \times 10^{-6} / 2 \approx 14{,}5" style="height:2.52ex; vertical-align:0ex;" /> km. O DAS localiza a intrusão no km 14,5 do perímetro.
 - **e.** Incorreta. Confunde a grandeza de tempo (µs) com distância (m); é preciso multiplicar pela velocidade da luz na fibra.
 
 ### Questão 25
@@ -772,11 +772,11 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 - **b.** Incorreta. Despreza o fator de acompanhantes (1,3).
 - **c.** Incorreta. Usa 1,0 m²/pessoa (abaixo do nível ótimo da IATA).
 - **d.** Incorreta. Dobrar o resultado superdimensiona o saguão.
-- **e.** *Correta!* $400 \times 1{,}3 = 520$ pessoas; $520 \times 2{,}0 = 1.040$ m² úteis no nível de serviço ótimo.
+- **e.** *Correta!* <img src="assets/eq/af_088.png" alt="400 \times 1{,}3 = 520" style="height:1.971ex; vertical-align:0ex;" /> pessoas; <img src="assets/eq/af_089.png" alt="520 \times 2{,}0 = 1.040" style="height:1.971ex; vertical-align:0ex;" /> m² úteis no nível de serviço ótimo.
 
 ### Questão 26
 
-- **a.** *Correta!* $200 \times 100 = 20.000$ t/trem; $20.000 \times 20 = 400.000$ t/dia; $400.000 \div 40 = 10.000$ viagens/dia de caminhão.
+- **a.** *Correta!* <img src="assets/eq/af_090.png" alt="200 \times 100 = 20.000" style="height:1.692ex; vertical-align:0ex;" /> t/trem; <img src="assets/eq/af_091.png" alt="20.000 \times 20 = 400.000" style="height:1.717ex; vertical-align:0ex;" /> t/dia; <img src="assets/eq/af_092.png" alt="400.000 \div 40 = 10.000" style="height:1.717ex; vertical-align:0ex;" /> viagens/dia de caminhão.
 - **b.** Incorreta. Considera apenas um trem, não os 20/dia.
 - **c.** Incorreta. O caminhão (40 t) tem capacidade muito menor que o trem.
 - **d.** Incorreta. Confunde o número de vagões com o de caminhões.
@@ -785,7 +785,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 ### Questão 27
 
 - **a.** Incorreta. A velocidade entra ao quadrado na fórmula e é determinante.
-- **b.** *Correta!* $h = \dfrac{1{,}60 \times 493}{9{,}81 \times 500} \approx 0{,}161$ m $= 161$ mm, próximo do limite prático em bitola larga.
+- **b.** *Correta!* <img src="assets/eq/af_093.png" alt="h = \dfrac{1{,}60 \times 493}{9{,}81 \times 500} \approx 0{,}161" style="height:5.052ex; vertical-align:0ex;" /> m <img src="assets/eq/af_094.png" alt="= 161" style="height:1.692ex; vertical-align:0ex;" /> mm, próximo do limite prático em bitola larga.
 - **c.** Incorreta. Erro de divisão por mil; o resultado é ~0,161 m, não 0,016 m.
 - **d.** Incorreta. Dobrar a bitola não corresponde aos dados (b = 1,60 m).
 - **e.** Incorreta. Ignorar o raio invalida o cálculo.
@@ -794,7 +794,7 @@ d. Ferrovia e hidrovia são incompatíveis com a operação portuária.
 
 - **a.** Incorreta. A carga distribui-se por 5 dormentes, não cai toda em um.
 - **b.** Incorreta. Falta dividir a reação pela área de contato (0,6 m²).
-- **c.** *Correta!* $R_{dormente} = 150 \div 5 = 30$ kN; $\sigma = 30 \div 0{,}6 = 50$ kPa — bem abaixo da resistência do lastro confinado.
+- **c.** *Correta!* <img src="assets/eq/af_095.png" alt="R_{dormente} = 150 \div 5 = 30" style="height:1.902ex; vertical-align:0ex;" /> kN; <img src="assets/eq/af_096.png" alt="\sigma = 30 \div 0{,}6 = 50" style="height:1.946ex; vertical-align:0ex;" /> kPa — bem abaixo da resistência do lastro confinado.
 - **d.** Incorreta. Somar as reações de todos os dormentes não tem sentido físico aqui.
 - **e.** Incorreta. Dividir por 30 não corresponde ao modelo (5 dormentes, área de 0,6 m²).
 

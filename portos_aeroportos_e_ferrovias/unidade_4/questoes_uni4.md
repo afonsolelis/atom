@@ -195,9 +195,9 @@ A tabela resume as bitolas em uso no Brasil:
 
 | Tipo de bitola | Distância | Onde predomina |
 | --- | --- | --- |
-| Larga | $1{,}60\,\mathrm{m}$ | EFVM, EFC, malhas de minério |
-| Métrica | $1{,}00\,\mathrm{m}$ | maior parte da malha histórica |
-| Padrão | $1{,}435\,\mathrm{m}$ | novos projetos, alta velocidade, metrôs |
+| Larga | <img src="assets/eq/u4q_001.png" alt="1{,}60\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" /> | EFVM, EFC, malhas de minério |
+| Métrica | <img src="assets/eq/u4q_002.png" alt="1{,}00\,\mathrm{m}" style="height:1.946ex; vertical-align:0ex;" /> | maior parte da malha histórica |
+| Padrão | <img src="assets/eq/u4q_003.png" alt="1{,}435\,\mathrm{m}" style="height:1.971ex; vertical-align:0ex;" /> | novos projetos, alta velocidade, metrôs |
 
 Uma concessionária precisa fazer trens de uma malha **métrica** circularem em um trecho de bitola **larga** sem realizar transbordo. A solução técnica mais adequada é:
 
@@ -225,21 +225,21 @@ e. O sublastro é o primeiro elemento a receber a carga, antes do trilho.
 
 **Estímulo:**
 
-> Uma roda transmite carga vertical de $P = 150\,\mathrm{kN}$ ao trilho. Pela rigidez do conjunto, essa carga distribui-se por 5 dormentes consecutivos. Cada dormente de concreto apoia-se sobre uma área de contato com o lastro de $A = 0{,}6\,\mathrm{m}^2$.
+> Uma roda transmite carga vertical de <img src="assets/eq/u4q_004.png" alt="P = 150\,\mathrm{kN}" style="height:1.756ex; vertical-align:0ex;" /> ao trilho. Pela rigidez do conjunto, essa carga distribui-se por 5 dormentes consecutivos. Cada dormente de concreto apoia-se sobre uma área de contato com o lastro de <img src="assets/eq/u4q_005.png" alt="A = 0{,}6\,\mathrm{m}^2" style="height:2.326ex; vertical-align:0ex;" />.
 
 A pressão média transmitida ao lastro por dormente é:
 
-a. $250\,\mathrm{kPa}$, porque toda a carga da roda recai sobre um único dormente.
-b. $150\,\mathrm{kPa}$, dividindo diretamente a carga da roda pela área de contato.
-c. $90\,\mathrm{kPa}$, considerando a carga total dividida apenas por 3 dormentes.
-*d. $50\,\mathrm{kPa}$, pois cada dormente recebe $150/5 = 30\,\mathrm{kN}$ e $30\,\mathrm{kN}/0{,}6\,\mathrm{m}^2 = 50\,\mathrm{kPa}$.
-e. $30\,\mathrm{kPa}$, igualando a pressão à reação por dormente em kN.
+a. <img src="assets/eq/u4q_006.png" alt="250\,\mathrm{kPa}" style="height:1.62ex; vertical-align:0ex;" />, porque toda a carga da roda recai sobre um único dormente.
+b. <img src="assets/eq/u4q_007.png" alt="150\,\mathrm{kPa}" style="height:1.62ex; vertical-align:0ex;" />, dividindo diretamente a carga da roda pela área de contato.
+c. <img src="assets/eq/u4q_008.png" alt="90\,\mathrm{kPa}" style="height:1.62ex; vertical-align:0ex;" />, considerando a carga total dividida apenas por 3 dormentes.
+*d. <img src="assets/eq/u4q_009.png" alt="50\,\mathrm{kPa}" style="height:1.62ex; vertical-align:0ex;" />, pois cada dormente recebe <img src="assets/eq/u4q_010.png" alt="150/5 = 30\,\mathrm{kN}" style="height:2.262ex; vertical-align:0ex;" /> e <img src="assets/eq/u4q_011.png" alt="30\,\mathrm{kN}/0{,}6\,\mathrm{m}^2 = 50\,\mathrm{kPa}" style="height:2.452ex; vertical-align:0ex;" />.
+e. <img src="assets/eq/u4q_012.png" alt="30\,\mathrm{kPa}" style="height:1.62ex; vertical-align:0ex;" />, igualando a pressão à reação por dormente em kN.
 
 ### Questão 15 (Interpretação)
 
 **Estímulo:**
 
-> Para uma curva de raio $R = 500\,\mathrm{m}$, percorrida a $V = 80\,\mathrm{km/h}$, em bitola larga $b = 1{,}60\,\mathrm{m}$, a superelevação teórica de equilíbrio resulta em $h \approx 161\,\mathrm{mm}$, calculada por $h = \dfrac{b\,V^2}{g\,R}$. Na prática, a superelevação é limitada (tipicamente a ~160 mm em bitola larga).
+> Para uma curva de raio <img src="assets/eq/u4q_013.png" alt="R = 500\,\mathrm{m}" style="height:1.731ex; vertical-align:0ex;" />, percorrida a <img src="assets/eq/u4q_014.png" alt="V = 80\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />, em bitola larga <img src="assets/eq/u4q_015.png" alt="b = 1{,}60\,\mathrm{m}" style="height:2.009ex; vertical-align:0ex;" />, a superelevação teórica de equilíbrio resulta em <img src="assets/eq/u4q_016.png" alt="h \approx 161\,\mathrm{mm}" style="height:1.62ex; vertical-align:0ex;" />, calculada por <img src="assets/eq/u4q_017.png" alt="h = \dfrac{b\,V^2}{g\,R}" style="height:5.432ex; vertical-align:0ex;" />. Na prática, a superelevação é limitada (tipicamente a ~160 mm em bitola larga).
 
 A conclusão mais bem sustentada pelo estímulo é:
 
@@ -309,15 +309,15 @@ e. O regime de autorização tornou obrigatória a licitação prévia para qual
 
 **Estímulo:**
 
-> Num trecho de minério com fluxo de $T = 150\,\mathrm{MGT/ano}$, uma trinca interna torna-se detectável ao ultrassom com $a_0 = 3{,}5\,\mathrm{mm}$ e leva $\Delta = 12\,\mathrm{MGT}$ para evoluir do tamanho detectável até a fratura. Para garantir pelo menos duas inspeções dentro dessa janela (fator de segurança 2), adota-se $T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}$, o que, ao fluxo de $150\,\mathrm{MGT/ano}$, corresponde a $t_{\text{insp}} = 6/150\,\mathrm{ano} \approx 15$ dias entre auscultações.
+> Num trecho de minério com fluxo de <img src="assets/eq/u4q_018.png" alt="T = 150\,\mathrm{MGT/ano}" style="height:2.262ex; vertical-align:0ex;" />, uma trinca interna torna-se detectável ao ultrassom com <img src="assets/eq/u4q_019.png" alt="a_0 = 3{,}5\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" /> e leva <img src="assets/eq/u4q_020.png" alt="\Delta = 12\,\mathrm{MGT}" style="height:1.805ex; vertical-align:0ex;" /> para evoluir do tamanho detectável até a fratura. Para garantir pelo menos duas inspeções dentro dessa janela (fator de segurança 2), adota-se <img src="assets/eq/u4q_021.png" alt="T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}" style="height:2.347ex; vertical-align:0ex;" />, o que, ao fluxo de <img src="assets/eq/u4q_022.png" alt="150\,\mathrm{MGT/ano}" style="height:2.262ex; vertical-align:0ex;" />, corresponde a <img src="assets/eq/u4q_023.png" alt="t_{\text{insp}} = 6/150\,\mathrm{ano} \approx 15" style="height:2.347ex; vertical-align:0ex;" /> dias entre auscultações.
 
 A leitura mais coerente com o estímulo é:
 
 a. O intervalo de inspeção é fixado em tempo de calendário, sendo indiferente à tonelagem bruta que circula no trecho.
-b. Como a janela de crescimento da trinca é de $12\,\mathrm{MGT}$, basta inspecionar a cada $12\,\mathrm{MGT}$ para que toda fratura seja detectada a tempo.
+b. Como a janela de crescimento da trinca é de <img src="assets/eq/u4q_024.png" alt="12\,\mathrm{MGT}" style="height:1.645ex; vertical-align:0ex;" />, basta inspecionar a cada <img src="assets/eq/u4q_025.png" alt="12\,\mathrm{MGT}" style="height:1.645ex; vertical-align:0ex;" /> para que toda fratura seja detectada a tempo.
 c. O ultrassom (defectoscopia) só detecta trincas já visíveis na superfície do boleto, de modo que a inspeção periódica é dispensável.
 d. O exemplo descreve manutenção corretiva, em que a via é auscultada somente após a quebra do trilho.
-*e. O gêmeo digital alimentado por IoT habilita a manutenção preditiva: medindo o avanço da fadiga e usando a tonelagem acumulada (MGT) como relógio do dano, define-se $T_{\text{insp}} = 6\,\mathrm{MGT}$ (~15 dias) para flagrar a trinca antes da fratura e maximizar a disponibilidade da via.
+*e. O gêmeo digital alimentado por IoT habilita a manutenção preditiva: medindo o avanço da fadiga e usando a tonelagem acumulada (MGT) como relógio do dano, define-se <img src="assets/eq/u4q_026.png" alt="T_{\text{insp}} = 6\,\mathrm{MGT}" style="height:2.245ex; vertical-align:0ex;" /> (~15 dias) para flagrar a trinca antes da fratura e maximizar a disponibilidade da via.
 
 ---
 
@@ -432,16 +432,16 @@ d. O exemplo descreve manutenção corretiva, em que a via é auscultada somente
 - **a.** Incorreta. A carga não recai sobre um único dormente; distribui-se por 5.
 - **b.** Incorreta. Não se divide a carga total da roda diretamente pela área de um dormente.
 - **c.** Incorreta. O enunciado especifica 5 dormentes, não 3.
-- **d.** *Correta!* Cada dormente recebe $150\,\mathrm{kN}/5 = 30\,\mathrm{kN}$; a pressão no lastro é $30\,\mathrm{kN}/0{,}6\,\mathrm{m}^2 = 50\,\mathrm{kPa}$, valor seguro frente à resistência típica de um lastro bem confinado.
+- **d.** *Correta!* Cada dormente recebe <img src="assets/eq/u4q_027.png" alt="150\,\mathrm{kN}/5 = 30\,\mathrm{kN}" style="height:2.262ex; vertical-align:0ex;" />; a pressão no lastro é <img src="assets/eq/u4q_028.png" alt="30\,\mathrm{kN}/0{,}6\,\mathrm{m}^2 = 50\,\mathrm{kPa}" style="height:2.452ex; vertical-align:0ex;" />, valor seguro frente à resistência típica de um lastro bem confinado.
 - **e.** Incorreta. Confunde a reação por dormente (em kN) com a pressão (em kPa), sem dividir pela área.
 
 ### Questão 15
 
-- **a.** Incorreta. A superelevação teórica depende diretamente de $V$ e de $R$ pela fórmula $h = b\,V^2/(g\,R)$.
+- **a.** Incorreta. A superelevação teórica depende diretamente de <img src="assets/eq/u4q_029.png" alt="V" style="height:1.595ex; vertical-align:0ex;" /> e de <img src="assets/eq/u4q_030.png" alt="R" style="height:1.593ex; vertical-align:0ex;" /> pela fórmula <img src="assets/eq/u4q_031.png" alt="h = b\,V^2/(g\,R)" style="height:2.452ex; vertical-align:0ex;" />.
 - **b.** Incorreta. A superelevação cresce com o **quadrado** da velocidade e **diminui** com o aumento do raio.
 - **c.** Incorreta. Existe limite prático (~160 mm em bitola larga); não se adota a superelevação teórica integral.
-- **d.** Incorreta. É o oposto: a superelevação aumenta quando $V$ cresce e quando $R$ diminui.
-- **e.** *Correta!* A superelevação teórica cresce com $V^2$ e cai com $R$; quando o valor calculado excede o limite prático (~160 mm em bitola larga), a parcela não compensada é admitida em projeto como **insuficiência de superelevação**, exatamente como mostra o exemplo numérico da Aula 15.
+- **d.** Incorreta. É o oposto: a superelevação aumenta quando <img src="assets/eq/u4q_032.png" alt="V" style="height:1.595ex; vertical-align:0ex;" /> cresce e quando <img src="assets/eq/u4q_033.png" alt="R" style="height:1.593ex; vertical-align:0ex;" /> diminui.
+- **e.** *Correta!* A superelevação teórica cresce com <img src="assets/eq/u4q_034.png" alt="V^2" style="height:1.937ex; vertical-align:0ex;" /> e cai com <img src="assets/eq/u4q_035.png" alt="R" style="height:1.593ex; vertical-align:0ex;" />; quando o valor calculado excede o limite prático (~160 mm em bitola larga), a parcela não compensada é admitida em projeto como **insuficiência de superelevação**, exatamente como mostra o exemplo numérico da Aula 15.
 
 ### Questão 16
 
@@ -477,8 +477,8 @@ d. O exemplo descreve manutenção corretiva, em que a via é auscultada somente
 
 ### Questão 20
 
-- **a.** Incorreta. O intervalo é definido por **tonelagem acumulada** ($T_{\text{insp}} = 6\,\mathrm{MGT}$) e só depois convertido em dias; é o fluxo (MGT/ano) que governa cada quantos dias se inspeciona.
-- **b.** Incorreta. Inspecionar a cada $12\,\mathrm{MGT}$ daria **uma só** ausculta na janela de crescimento; adota-se fator de segurança 2, logo $T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}$, garantindo **pelo menos duas** inspeções antes da fratura.
-- **c.** Incorreta. A defectoscopia por ultrassom detecta justamente **trincas internas** que **não** aparecem na superfície (menor defeito confiável ~$3{,}5\,\mathrm{mm}$); por isso a ausculta periódica é essencial.
+- **a.** Incorreta. O intervalo é definido por **tonelagem acumulada** (<img src="assets/eq/u4q_036.png" alt="T_{\text{insp}} = 6\,\mathrm{MGT}" style="height:2.245ex; vertical-align:0ex;" />) e só depois convertido em dias; é o fluxo (MGT/ano) que governa cada quantos dias se inspeciona.
+- **b.** Incorreta. Inspecionar a cada <img src="assets/eq/u4q_037.png" alt="12\,\mathrm{MGT}" style="height:1.645ex; vertical-align:0ex;" /> daria **uma só** ausculta na janela de crescimento; adota-se fator de segurança 2, logo <img src="assets/eq/u4q_038.png" alt="T_{\text{insp}} = \Delta/2 = 6\,\mathrm{MGT}" style="height:2.347ex; vertical-align:0ex;" />, garantindo **pelo menos duas** inspeções antes da fratura.
+- **c.** Incorreta. A defectoscopia por ultrassom detecta justamente **trincas internas** que **não** aparecem na superfície (menor defeito confiável ~<img src="assets/eq/u4q_039.png" alt="3{,}5\,\mathrm{mm}" style="height:1.946ex; vertical-align:0ex;" />); por isso a ausculta periódica é essencial.
 - **d.** Incorreta. O estímulo descreve manutenção **preditiva** (intervir antes da falha, guiado pelo dado), não corretiva — esta consertaria só após a quebra do trilho.
-- **e.** *Correta!* O gêmeo digital alimentado por sensores IoT mede o avanço da fadiga e usa a tonelagem acumulada (MGT) como "relógio" do dano: com $\Delta = 12\,\mathrm{MGT}$ e fator de segurança 2, $T_{\text{insp}} = 6\,\mathrm{MGT}$, que a $150\,\mathrm{MGT/ano}$ equivale a ~15 dias entre auscultações — flagrando a trinca antes da fratura e maximizando a disponibilidade da via, exatamente o exemplo numérico da Aula 14.
+- **e.** *Correta!* O gêmeo digital alimentado por sensores IoT mede o avanço da fadiga e usa a tonelagem acumulada (MGT) como "relógio" do dano: com <img src="assets/eq/u4q_040.png" alt="\Delta = 12\,\mathrm{MGT}" style="height:1.805ex; vertical-align:0ex;" /> e fator de segurança 2, <img src="assets/eq/u4q_041.png" alt="T_{\text{insp}} = 6\,\mathrm{MGT}" style="height:2.245ex; vertical-align:0ex;" />, que a <img src="assets/eq/u4q_042.png" alt="150\,\mathrm{MGT/ano}" style="height:2.262ex; vertical-align:0ex;" /> equivale a ~15 dias entre auscultações — flagrando a trinca antes da fratura e maximizando a disponibilidade da via, exatamente o exemplo numérico da Aula 14.

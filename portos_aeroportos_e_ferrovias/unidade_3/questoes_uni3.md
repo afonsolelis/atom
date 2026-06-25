@@ -177,15 +177,15 @@ d. A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 **Estímulo:**
 
-> Na hora-pico, a imigração de um aeroporto recebe chegadas aleatórias (Poisson) à taxa $\lambda = 600$ passageiros/hora, e cada guichê processa $\mu = 90$ passageiros/hora. Modela-se o sistema como uma fila **M/M/c**, em que a utilização é $\rho = \lambda/(c\,\mu)$ e a fila só é estável quando $\rho < 1$.
+> Na hora-pico, a imigração de um aeroporto recebe chegadas aleatórias (Poisson) à taxa <img src="assets/eq/u3q_001.png" alt="\lambda = 600" style="height:1.756ex; vertical-align:0ex;" /> passageiros/hora, e cada guichê processa <img src="assets/eq/u3q_002.png" alt="\mu = 90" style="height:1.995ex; vertical-align:0ex;" /> passageiros/hora. Modela-se o sistema como uma fila **M/M/c**, em que a utilização é <img src="assets/eq/u3q_003.png" alt="\rho = \lambda/(c\,\mu)" style="height:2.262ex; vertical-align:0ex;" /> e a fila só é estável quando <img src="assets/eq/u3q_004.png" alt="\rho &lt; 1" style="height:1.995ex; vertical-align:0ex;" />.
 
 Quantos guichês são, no mínimo, teoricamente necessários, e por que se costuma dimensionar com mais do que esse mínimo?
 
-*a. São necessários **7 guichês** ($c > \lambda/\mu = 600/90 \approx 6{,}7$); como com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais —, dimensiona-se com folga ($c = 8$ ou $9$, $\rho \approx 0{,}8$).
-b. Bastam **2 guichês**, pois $600/90 \approx 6{,}7$ deve ser dividido pela metade para obter o número de filas.
-c. São necessários **600 guichês**, um para cada passageiro da hora-pico, garantindo $\rho = 0$.
-d. Com **7 guichês** a utilização fica $\rho \approx 0{,}95$, o que é ideal: quanto mais próximo de $1$, menor a fila e o tempo de espera.
-e. O número de guichês é irrelevante, pois na fila M/M/c o tempo de espera não depende da utilização $\rho$.
+*a. São necessários **7 guichês** (<img src="assets/eq/u3q_005.png" alt="c &gt; \lambda/\mu = 600/90 \approx 6{,}7" style="height:2.262ex; vertical-align:0ex;" />); como com <img src="assets/eq/u3q_006.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" /> a utilização é <img src="assets/eq/u3q_007.png" alt="\rho = 600/(7 \cdot 90) \approx 0{,}95" style="height:2.262ex; vertical-align:0ex;" /> — alta demais —, dimensiona-se com folga (<img src="assets/eq/u3q_008.png" alt="c = 8" style="height:1.692ex; vertical-align:0ex;" /> ou <img src="assets/eq/u3q_009.png" alt="9" style="height:1.557ex; vertical-align:0ex;" />, <img src="assets/eq/u3q_010.png" alt="\rho \approx 0{,}8" style="height:1.995ex; vertical-align:0ex;" />).
+b. Bastam **2 guichês**, pois <img src="assets/eq/u3q_011.png" alt="600/90 \approx 6{,}7" style="height:2.262ex; vertical-align:0ex;" /> deve ser dividido pela metade para obter o número de filas.
+c. São necessários **600 guichês**, um para cada passageiro da hora-pico, garantindo <img src="assets/eq/u3q_012.png" alt="\rho = 0" style="height:1.995ex; vertical-align:0ex;" />.
+d. Com **7 guichês** a utilização fica <img src="assets/eq/u3q_013.png" alt="\rho \approx 0{,}95" style="height:1.995ex; vertical-align:0ex;" />, o que é ideal: quanto mais próximo de <img src="assets/eq/u3q_014.png" alt="1" style="height:1.507ex; vertical-align:0ex;" />, menor a fila e o tempo de espera.
+e. O número de guichês é irrelevante, pois na fila M/M/c o tempo de espera não depende da utilização <img src="assets/eq/u3q_015.png" alt="\rho" style="height:1.489ex; vertical-align:0ex;" />.
 
 ### Questão 12 (Interpretação)
 
@@ -196,7 +196,7 @@ e. O número de guichês é irrelevante, pois na fila M/M/c o tempo de espera n�
 Considerando a regra do método ACN-PCN, qual leitura é **mais adequada**?
 
 a. As três aeronaves operam livremente, pois todos os ACN são inferiores a 100.
-*b. O E195 e o 737-800 operam livremente ($\text{ACN} \le 60$); o 767-300, com $\text{ACN} = 68 > 60$, fica em operação restrita, pois excede a capacidade do pavimento.
+*b. O E195 e o 737-800 operam livremente (<img src="assets/eq/u3q_016.png" alt="\text{ACN} \le 60" style="height:1.932ex; vertical-align:0ex;" />); o 767-300, com <img src="assets/eq/u3q_017.png" alt="\text{ACN} = 68 &gt; 60" style="height:1.805ex; vertical-align:0ex;" />, fica em operação restrita, pois excede a capacidade do pavimento.
 c. Apenas o 767-300 opera livremente, pois quanto maior o ACN, mais segura é a operação.
 d. Nenhuma das aeronaves pode operar, pois o PCN 60 só admite ACN igual a zero.
 e. As letras F/B/X/T do PCN tornam irrelevante a comparação numérica entre ACN e PCN.
@@ -225,21 +225,21 @@ e. Na torre de controle, que é o único ponto de contato entre passageiros e ae
 
 **Estímulo:**
 
-> Um aeroporto regional movimenta hoje 800.000 passageiros/ano e cresce a uma taxa de 6% ao ano. A projeção de crescimento geométrico é $P_n = P_0 \cdot (1 + i)^n$, e adota-se que a hora-pico de projeto (HPP) corresponde a $0{,}04\%$ do movimento anual.
+> Um aeroporto regional movimenta hoje 800.000 passageiros/ano e cresce a uma taxa de 6% ao ano. A projeção de crescimento geométrico é <img src="assets/eq/u3q_018.png" alt="P_n = P_0 \cdot (1 + i)^n" style="height:2.262ex; vertical-align:0ex;" />, e adota-se que a hora-pico de projeto (HPP) corresponde a <img src="assets/eq/u3q_019.png" alt="0{,}04\%" style="height:2.136ex; vertical-align:0ex;" /> do movimento anual.
 
-Aplicando a projeção para 10 anos, com $(1{,}06)^{10} \approx 1{,}79$, a demanda anual projetada e a hora-pico de projeto serão, aproximadamente:
+Aplicando a projeção para 10 anos, com <img src="assets/eq/u3q_020.png" alt="(1{,}06)^{10} \approx 1{,}79" style="height:2.452ex; vertical-align:0ex;" />, a demanda anual projetada e a hora-pico de projeto serão, aproximadamente:
 
-a. $1.432.700$ passageiros/ano e $14.327$ passageiros na hora-pico.
-b. $800.000$ passageiros/ano e $320$ passageiros na hora-pico, pois a demanda permanece estável.
-c. $4.800.000$ passageiros/ano e $1.920$ passageiros na hora-pico, somando 6% por ano linearmente.
-*d. $1.432.700$ passageiros/ano e $573$ passageiros na hora-pico.
-e. $1.432.700$ passageiros/ano, mas a hora-pico não pode ser estimada a partir do movimento anual.
+a. <img src="assets/eq/u3q_021.png" alt="1.432.700" style="height:1.581ex; vertical-align:0ex;" /> passageiros/ano e <img src="assets/eq/u3q_022.png" alt="14.327" style="height:1.581ex; vertical-align:0ex;" /> passageiros na hora-pico.
+b. <img src="assets/eq/u3q_023.png" alt="800.000" style="height:1.557ex; vertical-align:0ex;" /> passageiros/ano e <img src="assets/eq/u3q_024.png" alt="320" style="height:1.557ex; vertical-align:0ex;" /> passageiros na hora-pico, pois a demanda permanece estável.
+c. <img src="assets/eq/u3q_025.png" alt="4.800.000" style="height:1.581ex; vertical-align:0ex;" /> passageiros/ano e <img src="assets/eq/u3q_026.png" alt="1.920" style="height:1.557ex; vertical-align:0ex;" /> passageiros na hora-pico, somando 6% por ano linearmente.
+*d. <img src="assets/eq/u3q_027.png" alt="1.432.700" style="height:1.581ex; vertical-align:0ex;" /> passageiros/ano e <img src="assets/eq/u3q_028.png" alt="573" style="height:1.579ex; vertical-align:0ex;" /> passageiros na hora-pico.
+e. <img src="assets/eq/u3q_029.png" alt="1.432.700" style="height:1.581ex; vertical-align:0ex;" /> passageiros/ano, mas a hora-pico não pode ser estimada a partir do movimento anual.
 
 ### Questão 15 (Interpretação)
 
 **Estímulo:**
 
-> "Um Boeing 777 totalmente carregado pesa cerca de $350\,\mathrm{t}$ e toca a pista a mais de $250\,\mathrm{km/h}$. A carga não chega ao pavimento como um peso único: ela se distribui pelo trem de pouso, que pode ter múltiplas rodas em arranjos como dual, dual tandem ou dual tandem duplo."
+> "Um Boeing 777 totalmente carregado pesa cerca de <img src="assets/eq/u3q_030.png" alt="350\,\mathrm{t}" style="height:1.557ex; vertical-align:0ex;" /> e toca a pista a mais de <img src="assets/eq/u3q_031.png" alt="250\,\mathrm{km/h}" style="height:2.262ex; vertical-align:0ex;" />. A carga não chega ao pavimento como um peso único: ela se distribui pelo trem de pouso, que pode ter múltiplas rodas em arranjos como dual, dual tandem ou dual tandem duplo."
 
 Que conclusão é **mais bem suportada** pelo texto?
 
@@ -267,12 +267,12 @@ e. Over-design no embarque e sub-optimum no desembarque, alternando as faixas po
 
 **Estímulo:**
 
-> Uma pista de pouso e decolagem está alinhada segundo um azimute magnético de $093°$. A designação numérica de pista é obtida dividindo-se o azimute por 10 e arredondando; os dois sentidos de uma mesma pista sempre diferem de 18.
+> Uma pista de pouso e decolagem está alinhada segundo um azimute magnético de <img src="assets/eq/u3q_032.png" alt="093°" style="height:1.667ex; vertical-align:0ex;" />. A designação numérica de pista é obtida dividindo-se o azimute por 10 e arredondando; os dois sentidos de uma mesma pista sempre diferem de 18.
 
 Como deve ser designada essa pista em seus dois sentidos?
 
 a. Pistas 09 e 09, pois ambos os sentidos recebem o mesmo número.
-*b. Pistas 09 e 27, pois $093°/10 \approx 09$ e o sentido oposto $(093° - 180° = 273°)$ corresponde a 27.
+*b. Pistas 09 e 27, pois <img src="assets/eq/u3q_033.png" alt="093°/10 \approx 09" style="height:2.262ex; vertical-align:0ex;" /> e o sentido oposto <img src="assets/eq/u3q_034.png" alt="(093° - 180° = 273°)" style="height:2.262ex; vertical-align:0ex;" /> corresponde a 27.
 c. Pistas 93 e 27, usando o azimute completo de um lado e o reduzido do outro.
 d. Pistas 18 e 36, pois os sentidos sempre diferem de 18 a partir do norte.
 e. Pistas 09L e 09R, pois toda pista isolada recebe as letras left e right.
@@ -295,15 +295,15 @@ e. As categorias CAT I, II e III referem-se ao número de rodas do trem de pouso
 
 **Estímulo:**
 
-> Dimensione a área do saguão de embarque para uma hora-pico de 600 passageiros. Adote: tempo médio de permanência de 40 minutos; fator de acompanhantes de 1,3; e área por pessoa de $2{,}0\,\mathrm{m^2}$ (nível de serviço ótimo da IATA). A ocupação simultânea de passageiros é $N_{pax} = 600 \cdot (40/60)$.
+> Dimensione a área do saguão de embarque para uma hora-pico de 600 passageiros. Adote: tempo médio de permanência de 40 minutos; fator de acompanhantes de 1,3; e área por pessoa de <img src="assets/eq/u3q_035.png" alt="2{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> (nível de serviço ótimo da IATA). A ocupação simultânea de passageiros é <img src="assets/eq/u3q_036.png" alt="N_{pax} = 600 \cdot (40/60)" style="height:2.347ex; vertical-align:0ex;" />.
 
 Qual é, aproximadamente, a área útil necessária para o saguão?
 
-a. $1.200\,\mathrm{m^2}$, multiplicando os 600 passageiros diretamente pela área por pessoa.
-b. $800\,\mathrm{m^2}$, ignorando o tempo de permanência e os acompanhantes.
-c. $600\,\mathrm{m^2}$, considerando $1{,}0\,\mathrm{m^2}$ por passageiro da hora-pico.
-*d. $1.040\,\mathrm{m^2}$, pois $N_{pax} = 400$, com acompanhantes $400 \cdot 1{,}3 = 520$ pessoas, e $520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}$.
-e. $2.080\,\mathrm{m^2}$, dobrando a área por pessoa para garantir folga máxima.
+a. <img src="assets/eq/u3q_037.png" alt="1.200\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />, multiplicando os 600 passageiros diretamente pela área por pessoa.
+b. <img src="assets/eq/u3q_038.png" alt="800\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />, ignorando o tempo de permanência e os acompanhantes.
+c. <img src="assets/eq/u3q_039.png" alt="600\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />, considerando <img src="assets/eq/u3q_040.png" alt="1{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> por passageiro da hora-pico.
+*d. <img src="assets/eq/u3q_041.png" alt="1.040\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />, pois <img src="assets/eq/u3q_042.png" alt="N_{pax} = 400" style="height:2.195ex; vertical-align:0ex;" />, com acompanhantes <img src="assets/eq/u3q_043.png" alt="400 \cdot 1{,}3 = 520" style="height:1.971ex; vertical-align:0ex;" /> pessoas, e <img src="assets/eq/u3q_044.png" alt="520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />.
+e. <img src="assets/eq/u3q_045.png" alt="2.080\,\mathrm{m^2}" style="height:1.937ex; vertical-align:0ex;" />, dobrando a área por pessoa para garantir folga máxima.
 
 ### Questão 20 (Interpretação)
 
@@ -343,7 +343,7 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 - **a.** Incorreta. A Razão é falsa, pois inverte as definições de ACN e PCN.
 - **b.** Incorreta. A Razão é falsa.
-- **c.** *Correta!* A Asserção é verdadeira (opera-se livremente quando $\text{ACN} \le \text{PCN}$). A Razão é falsa: o ACN é propriedade da **aeronave** (efeito sobre o pavimento) e o PCN é propriedade do **pavimento** (capacidade de suporte) — a alternativa as troca.
+- **c.** *Correta!* A Asserção é verdadeira (opera-se livremente quando <img src="assets/eq/u3q_046.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" />). A Razão é falsa: o ACN é propriedade da **aeronave** (efeito sobre o pavimento) e o PCN é propriedade do **pavimento** (capacidade de suporte) — a alternativa as troca.
 - **d.** Incorreta. A Asserção é verdadeira.
 - **e.** Incorreta. A Asserção é verdadeira.
 
@@ -405,16 +405,16 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 ### Questão 11
 
-- **a.** *Correta!* O mínimo teórico vem de $\rho < 1 \Rightarrow c > \lambda/\mu = 600/90 \approx 6{,}7$, ou seja, $c = 7$ guichês. Como com $c = 7$ a utilização é $\rho = 600/(7 \cdot 90) \approx 0{,}95$ — alta demais, com fila longa e instável —, dimensiona-se com folga ($c = 8$ ou $9$, $\rho \approx 0{,}8$).
-- **b.** Incorreta. Não se divide $\lambda/\mu$ pela metade; o número de guichês precisa satisfazer $c > \lambda/\mu \approx 6{,}7$, logo $c = 7$ no mínimo.
-- **c.** Incorreta. Não é necessário um guichê por passageiro; basta $c$ que torne $\rho = \lambda/(c\,\mu) < 1$, ou seja, $c = 7$.
-- **d.** Incorreta. Utilização próxima de $1$ é **ruim**: à medida que $\rho \to 1$, a fila e o tempo de espera **explodem** de forma não linear, por isso $\rho \approx 0{,}95$ é alta demais.
-- **e.** Incorreta. Na fila M/M/c o tempo de espera depende fortemente de $\rho$: cresce de forma não linear quando $\rho$ se aproxima de $1$.
+- **a.** *Correta!* O mínimo teórico vem de <img src="assets/eq/u3q_047.png" alt="\rho &lt; 1 \Rightarrow c &gt; \lambda/\mu = 600/90 \approx 6{,}7" style="height:2.262ex; vertical-align:0ex;" />, ou seja, <img src="assets/eq/u3q_048.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" /> guichês. Como com <img src="assets/eq/u3q_049.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" /> a utilização é <img src="assets/eq/u3q_050.png" alt="\rho = 600/(7 \cdot 90) \approx 0{,}95" style="height:2.262ex; vertical-align:0ex;" /> — alta demais, com fila longa e instável —, dimensiona-se com folga (<img src="assets/eq/u3q_051.png" alt="c = 8" style="height:1.692ex; vertical-align:0ex;" /> ou <img src="assets/eq/u3q_052.png" alt="9" style="height:1.557ex; vertical-align:0ex;" />, <img src="assets/eq/u3q_053.png" alt="\rho \approx 0{,}8" style="height:1.995ex; vertical-align:0ex;" />).
+- **b.** Incorreta. Não se divide <img src="assets/eq/u3q_054.png" alt="\lambda/\mu" style="height:2.262ex; vertical-align:0ex;" /> pela metade; o número de guichês precisa satisfazer <img src="assets/eq/u3q_055.png" alt="c &gt; \lambda/\mu \approx 6{,}7" style="height:2.262ex; vertical-align:0ex;" />, logo <img src="assets/eq/u3q_056.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" /> no mínimo.
+- **c.** Incorreta. Não é necessário um guichê por passageiro; basta <img src="assets/eq/u3q_057.png" alt="c" style="height:1.025ex; vertical-align:0ex;" /> que torne <img src="assets/eq/u3q_058.png" alt="\rho = \lambda/(c\,\mu) &lt; 1" style="height:2.262ex; vertical-align:0ex;" />, ou seja, <img src="assets/eq/u3q_059.png" alt="c = 7" style="height:1.715ex; vertical-align:0ex;" />.
+- **d.** Incorreta. Utilização próxima de <img src="assets/eq/u3q_060.png" alt="1" style="height:1.507ex; vertical-align:0ex;" /> é **ruim**: à medida que <img src="assets/eq/u3q_061.png" alt="\rho \to 1" style="height:1.995ex; vertical-align:0ex;" />, a fila e o tempo de espera **explodem** de forma não linear, por isso <img src="assets/eq/u3q_062.png" alt="\rho \approx 0{,}95" style="height:1.995ex; vertical-align:0ex;" /> é alta demais.
+- **e.** Incorreta. Na fila M/M/c o tempo de espera depende fortemente de <img src="assets/eq/u3q_063.png" alt="\rho" style="height:1.489ex; vertical-align:0ex;" />: cresce de forma não linear quando <img src="assets/eq/u3q_064.png" alt="\rho" style="height:1.489ex; vertical-align:0ex;" /> se aproxima de <img src="assets/eq/u3q_065.png" alt="1" style="height:1.507ex; vertical-align:0ex;" />.
 
 ### Questão 12
 
-- **a.** Incorreta. A regra não é "ACN < 100", e sim $\text{ACN} \le \text{PCN}$ (= 60).
-- **b.** *Correta!* E195 (28) e 737-800 (47) têm $\text{ACN} \le 60$ e operam livremente; o 767-300 (68) excede o PCN 60, ficando em operação restrita.
+- **a.** Incorreta. A regra não é "ACN < 100", e sim <img src="assets/eq/u3q_066.png" alt="\text{ACN} \le \text{PCN}" style="height:1.932ex; vertical-align:0ex;" /> (= 60).
+- **b.** *Correta!* E195 (28) e 737-800 (47) têm <img src="assets/eq/u3q_067.png" alt="\text{ACN} \le 60" style="height:1.932ex; vertical-align:0ex;" /> e operam livremente; o 767-300 (68) excede o PCN 60, ficando em operação restrita.
 - **c.** Incorreta. Quanto **maior** o ACN, mais a aeronave agride o pavimento; ACN alto não significa operação mais segura.
 - **d.** Incorreta. PCN 60 admite todas as aeronaves com ACN até 60, não apenas ACN igual a zero.
 - **e.** Incorreta. As letras qualificam a comparação (tipo, subleito, pressão, método), mas a comparação numérica ACN × PCN continua válida e essencial.
@@ -429,17 +429,17 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 ### Questão 14
 
-- **a.** Incorreta. A demanda projetada está correta, mas a HPP de $0{,}04\%$ de $1.432.700$ é $\approx 573$, e não $14.327$.
+- **a.** Incorreta. A demanda projetada está correta, mas a HPP de <img src="assets/eq/u3q_068.png" alt="0{,}04\%" style="height:2.136ex; vertical-align:0ex;" /> de <img src="assets/eq/u3q_069.png" alt="1.432.700" style="height:1.581ex; vertical-align:0ex;" /> é <img src="assets/eq/u3q_070.png" alt="\approx 573" style="height:1.579ex; vertical-align:0ex;" />, e não <img src="assets/eq/u3q_071.png" alt="14.327" style="height:1.581ex; vertical-align:0ex;" />.
 - **b.** Incorreta. A demanda cresce; não permanece em 800.000.
-- **c.** Incorreta. O crescimento é geométrico (composto), não linear; o valor correto é $\approx 1.432.700$.
-- **d.** *Correta!* $P_{10} = 800.000 \cdot (1{,}06)^{10} \approx 1.432.700$ passageiros/ano, e a HPP $= 1.432.700 \cdot 0{,}0004 \approx 573$ passageiros na hora-pico.
-- **e.** Incorreta. A hora-pico é justamente estimada como uma fração ($0{,}04\%$) do movimento anual.
+- **c.** Incorreta. O crescimento é geométrico (composto), não linear; o valor correto é <img src="assets/eq/u3q_072.png" alt="\approx 1.432.700" style="height:1.581ex; vertical-align:0ex;" />.
+- **d.** *Correta!* <img src="assets/eq/u3q_073.png" alt="P_{10} = 800.000 \cdot (1{,}06)^{10} \approx 1.432.700" style="height:2.452ex; vertical-align:0ex;" /> passageiros/ano, e a HPP <img src="assets/eq/u3q_074.png" alt="= 1.432.700 \cdot 0{,}0004 \approx 573" style="height:1.971ex; vertical-align:0ex;" /> passageiros na hora-pico.
+- **e.** Incorreta. A hora-pico é justamente estimada como uma fração (<img src="assets/eq/u3q_075.png" alt="0{,}04\%" style="height:2.136ex; vertical-align:0ex;" />) do movimento anual.
 
 ### Questão 15
 
 - **a.** Incorreta. É o oposto: mais rodas **reduzem** a pressão por ponto.
 - **b.** Incorreta. O peso se distribui pelo trem de pouso, não em um único ponto.
-- **c.** Incorreta. A pressão dos pneus (que pode passar de $1{,}4\,\mathrm{MPa}$) afeta as camadas superficiais e é relevante ao dimensionamento.
+- **c.** Incorreta. A pressão dos pneus (que pode passar de <img src="assets/eq/u3q_076.png" alt="1{,}4\,\mathrm{MPa}" style="height:1.984ex; vertical-align:0ex;" />) afeta as camadas superficiais e é relevante ao dimensionamento.
 - **d.** Incorreta. Aeronaves de pesos e configurações diferentes solicitam o pavimento de formas distintas.
 - **e.** *Correta!* Quanto mais rodas no trem de pouso, mais distribuída a carga e menor a pressão por roda, atenuando o esforço pontual sobre o pavimento.
 
@@ -454,9 +454,9 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 ### Questão 17
 
 - **a.** Incorreta. Os dois sentidos de uma pista têm números diferentes, separados por 18.
-- **b.** *Correta!* $093°/10 \approx 09$; o sentido oposto $(093° - 180° = 273°)$ dá $\approx 27$. Logo, pistas 09 e 27.
+- **b.** *Correta!* <img src="assets/eq/u3q_077.png" alt="093°/10 \approx 09" style="height:2.262ex; vertical-align:0ex;" />; o sentido oposto <img src="assets/eq/u3q_078.png" alt="(093° - 180° = 273°)" style="height:2.262ex; vertical-align:0ex;" /> dá <img src="assets/eq/u3q_079.png" alt="\approx 27" style="height:1.579ex; vertical-align:0ex;" />. Logo, pistas 09 e 27.
 - **c.** Incorreta. A designação usa o azimute dividido por 10 (arredondado), não o azimute completo.
-- **d.** Incorreta. 09 e 27 já diferem de 18; 18 e 36 corresponderiam a outra orientação ($\approx 180°/360°$).
+- **d.** Incorreta. 09 e 27 já diferem de 18; 18 e 36 corresponderiam a outra orientação (<img src="assets/eq/u3q_080.png" alt="\approx 180°/360°" style="height:2.262ex; vertical-align:0ex;" />).
 - **e.** Incorreta. As letras L/R só são usadas quando há pistas **paralelas**, não em pista isolada.
 
 ### Questão 18
@@ -471,9 +471,9 @@ d. O PCI substitui o método ACN-PCN na avaliação da capacidade estrutural do 
 
 - **a.** Incorreta. Não se multiplica os 600 diretamente: deve-se usar a ocupação simultânea (tempo de permanência) e os acompanhantes.
 - **b.** Incorreta. Ignora o fator de acompanhantes (1,3) e usa a ocupação simultânea de forma incompleta.
-- **c.** Incorreta. A área por pessoa adotada (nível ótimo) é $2{,}0\,\mathrm{m^2}$, não $1{,}0\,\mathrm{m^2}$, e a ocupação não é de 600.
-- **d.** *Correta!* $N_{pax} = 600 \cdot (40/60) = 400$; com acompanhantes $400 \cdot 1{,}3 = 520$ pessoas; área $= 520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}$.
-- **e.** Incorreta. A área por pessoa adotada é $2{,}0\,\mathrm{m^2}$ (nível ótimo); dobrá-la não corresponde ao enunciado.
+- **c.** Incorreta. A área por pessoa adotada (nível ótimo) é <img src="assets/eq/u3q_081.png" alt="2{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />, não <img src="assets/eq/u3q_082.png" alt="1{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />, e a ocupação não é de 600.
+- **d.** *Correta!* <img src="assets/eq/u3q_083.png" alt="N_{pax} = 600 \cdot (40/60) = 400" style="height:2.347ex; vertical-align:0ex;" />; com acompanhantes <img src="assets/eq/u3q_084.png" alt="400 \cdot 1{,}3 = 520" style="height:1.971ex; vertical-align:0ex;" /> pessoas; área <img src="assets/eq/u3q_085.png" alt="= 520 \cdot 2{,}0 = 1.040\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" />.
+- **e.** Incorreta. A área por pessoa adotada é <img src="assets/eq/u3q_086.png" alt="2{,}0\,\mathrm{m^2}" style="height:2.326ex; vertical-align:0ex;" /> (nível ótimo); dobrá-la não corresponde ao enunciado.
 
 ### Questão 20
 
