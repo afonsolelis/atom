@@ -61,24 +61,45 @@ O estudante deverá pesquisar como outros profissionais ou empresas resolveram d
 
 ## 4. Entregável e distribuição da pontuação
 
-**Formato da entrega:** **Documento técnico** em PDF (entre 12 e 18 páginas) **+ diagrama de arquitetura** da plataforma + **apresentação executiva** em slides (entre 10 e 15 slides) para defesa perante banca simulada (diretoria fictícia da VemComprar).
+Sua entrega final da disciplina **Data Engineering and Pipelines** será composta por **3 entregáveis obrigatórios**. O objetivo é desenvolver uma **plataforma de dados de ponta a ponta** baseada nos conceitos da Modern Data Stack e das 4 unidades da disciplina, demonstrando capacidade para diagnosticar a maturidade de dados da organização, propor uma arquitetura e uma stack aderentes ao contexto industrial e construir um roadmap de implementação alinhado aos objetivos estratégicos do negócio.
 
-**Pontuação:**
+### 1. Parte Teórica — (25% da nota)
 
-- **20%** — **Diagnóstico do estado atual e dor prioritária:** mapeamento das 9 fontes, do fluxo manual e dos riscos (incl. LGPD), classificação da maturidade de dados e definição **fundamentada** do problema a atacar primeiro, com **impacto financeiro mensurável**.
-- **25%** — **Arquitetura de referência da plataforma:** diagrama ponta a ponta (ingestão → armazenamento → transformação → orquestração → BI), camadas (staging/raw → core → marts; ou bronze/silver/gold), escolha entre DW vs Lakehouse e **modelagem dimensional** (fatos e dimensões) das tabelas analíticas centrais.
-- **20%** — **Stack tecnológica justificada:** cada ferramenta escolhida com **trade-offs explícitos** (ETL vs ELT, batch vs streaming/CDC, custo, time-to-value, lock-in), incluindo ingestão, transformação, orquestração, qualidade e BI.
-- **15%** — **Qualidade, observabilidade e governança/LGPD:** dimensões e testes de dados, 5 pilares de observabilidade, contratos de dados, catálogo/linhagem, controle de acesso, mascaramento/anonimização de PII e bases legais LGPD.
-- **10%** — **Orçamento e cronograma de 9 meses:** fases, custos detalhados (CAPEX + OPEX) dentro do limite de **R\$ 900 mil**, e plano de implantação por fase com governança do projeto.
-- **10%** — **KPIs, riscos/mitigações e visão de futuro:** metas mensuráveis (antes/depois), análise crítica de riscos e evolução de 12–24 meses da plataforma.
+Desenvolva um **relatório técnico em PDF** contendo:
 
-**Critérios qualitativos transversais** (afetam todas as notas):
+- Diagnóstico do cenário atual da **VemComprar** (mapeamento das 9 fontes, fluxo manual de consolidação, volume de dados e divergências entre fontes).
+- Análise do **nível de maturidade de dados** da organização, posicionando-a entre OLTP e OLAP e evidenciando a ausência de uma fonte única da verdade governada.
+- Identificação dos principais gargalos **técnicos, organizacionais e de governança/LGPD**.
+- Definição da **principal dor operacional** que deverá ser priorizada, justificando a escolha com base em **impacto operacional, retorno financeiro e viabilidade técnica**.
+- Fundamentação teórica das tecnologias e estratégias propostas, utilizando os conceitos estudados nas 4 unidades e as referências pesquisadas.
 
-- **Clareza** e organização do texto e do diagrama de arquitetura.
-- **Profundidade técnica** (decisões justificadas, não jargão solto).
-- **Realismo** dos números (custos de nuvem, prazos, ROI).
-- **Coerência interna** (diagnóstico → arquitetura → stack → KPIs alinhados).
-- **Integração** dos conceitos das 4 unidades (não tratar uma unidade só).
+### 2. Parte Prática — (50% da nota)
+
+Desenvolva uma **proposta completa de plataforma de dados** para a VemComprar contemplando, no mínimo:
+
+- **Arquitetura de referência ponta a ponta** com **diagrama** (ingestão → armazenamento → transformação → orquestração → qualidade/observabilidade → governança → BI) e camadas (raw/bronze → core/silver → marts/gold).
+- Escolha justificada entre **DW vs Lakehouse** e **modelagem dimensional** (fatos, dimensões, grão, SCD) das tabelas analíticas centrais.
+- **Stack tecnológica justificada**, com **trade-offs explícitos** (ETL vs ELT, batch vs streaming/CDC, custo, time-to-value, lock-in), cobrindo ingestão, transformação, orquestração, qualidade e BI.
+- **Qualidade, observabilidade e governança/LGPD**: dimensões e testes de dados, 5 pilares de observabilidade, contratos de dados, catálogo/linhagem, RBAC e mascaramento/anonimização de PII.
+- **Orçamento e cronograma de 9 meses** dentro do teto de **R\$ 900 mil**, com fases, custos detalhados (CAPEX + OPEX), KPIs, gestão de riscos e estrutura de governança.
+- Avaliação dos **impactos esperados** (tempo de fechamento, conciliação do faturamento, frescor de ROAS, conformidade LGPD, redução de retrabalho) com projeções realistas de **ROI** e visão de evolução de 12–24 meses.
+
+A proposta poderá conter diagramas de arquitetura, modelos dimensionais, cronogramas, fluxogramas, dashboards conceituais, tabelas comparativas, estimativas financeiras e demais representações gráficas que auxiliem na comunicação da solução.
+
+### 3. Vídeo Pitch — (25% da nota)
+
+Grave um **vídeo de até 4 minutos**, simulando uma apresentação executiva para a diretoria fictícia da VemComprar, defendendo a proposta desenvolvida. O vídeo deverá apresentar:
+
+- Contextualização do problema e dos principais gargalos identificados (incl. divergência de 7% entre ERP e e-commerce e risco LGPD).
+- Justificativa das **prioridades** estabelecidas e das decisões de arquitetura e stack.
+- Explicação das principais tecnologias propostas e dos benefícios esperados para a operação.
+- Apresentação resumida da **arquitetura da solução** e do **plano de implementação em 9 meses**.
+- Demonstração dos ganhos esperados em tempo de fechamento, conciliação de faturamento, frescor de dados, conformidade e redução de custos.
+- Reflexão sobre governança de dados e a evolução da plataforma rumo a ML / Data Mesh.
+
+O vídeo deverá ser publicado no **YouTube (modo não listado)** ou em outra plataforma de hospedagem, e o **link deverá ser inserido ao final do PDF**. Antes da submissão, verifique se o link está correto e acessível para a correção.
+
+**Critérios qualitativos transversais** (afetam todas as notas): **clareza** e organização do texto e do diagrama de arquitetura; **profundidade técnica** (decisões justificadas, não jargão solto); **realismo** dos números (custos de nuvem, prazos, ROI); **coerência interna** (diagnóstico → arquitetura → stack → KPIs alinhados); e **integração** dos conceitos das 4 unidades (não tratar uma unidade só).
 
 ---
 
@@ -215,17 +236,13 @@ Estruture o **documento técnico (PDF, 12–18 páginas)** assim:
 7. **KPIs, riscos e visão de futuro** (1–2 páginas) — metas antes/depois, riscos com mitigação, evolução 12–24 meses.
 8. **Referências** (ABNT).
 
-Para a **apresentação executiva (10–15 slides)**:
+Para o **vídeo pitch (até 4 minutos)**:
 
-- 1 slide com **a recomendação central**.
-- 2 slides de diagnóstico (números atuais + dor prioritária e LGPD).
-- 2–3 slides de arquitetura (diagrama ponta a ponta + modelagem dimensional).
-- 2 slides de stack e trade-offs.
-- 1 slide de qualidade/observabilidade/governança.
-- 1–2 slides de orçamento e cronograma.
-- 1 slide de KPIs (antes → depois).
-- 1 slide de riscos e visão de futuro.
-- 1 slide de pedido de aprovação e próximos passos.
+- Abra com **a recomendação central** e o problema (divergência de 7%, risco LGPD, retrabalho de R\$ 86,4 mil/ano).
+- Mostre o diagnóstico e a **dor prioritária** com 2–3 números fortes.
+- Apresente a **arquitetura ponta a ponta** e a stack em alto nível (sem detalhar cada ferramenta).
+- Feche com **KPIs (antes → depois)**, orçamento dentro de R\$ 900 mil e o pedido de aprovação.
+- Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF** — confira se está acessível.
 
 **Dica final:** capriche na **defesa numérica e na coerência**. A diretoria não compra ferramenta bonita — compra uma plataforma que **resolve a divergência de 7%**, **acaba com o retrabalho de R\$ 86,4 mil/ano**, **coloca a empresa em conformidade com a LGPD** e cabe no orçamento. Cada decisão de arquitetura sua deve estar ancorada em um número do desafio ou em um conceito das 4 unidades.
 

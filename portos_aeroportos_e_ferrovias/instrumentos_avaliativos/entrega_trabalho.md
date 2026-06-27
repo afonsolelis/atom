@@ -60,23 +60,45 @@ O estudante deverá pesquisar como o setor planeja e executa corredores logísti
 
 ## 4. Entregável e distribuição da pontuação
 
-**Formato da entrega:** **Documento técnico** em PDF (entre 16 e 24 páginas) + **apresentação executiva** em slides (entre 12 e 18 slides) para defender perante banca simulada (conselho da PPP fictício) + **memorial de cálculo** (anexo) com os **cálculos feitos à mão** que sustentam numericamente as decisões do plano. A banca quer ver o número **calculado e demonstrado passo a passo**, não estimado "no olho".
+Sua entrega final da disciplina **Portos, Aeroportos e Ferrovias** será composta por **3 entregáveis obrigatórios**. O objetivo é elaborar um **plano integrado de infraestrutura multimodal** baseado nos fundamentos das 4 unidades (fundamentos de transportes + portos/hidrovias + aeroportos + ferrovias), demonstrando capacidade para diagnosticar a matriz e os gargalos logísticos, propor soluções técnicas dimensionadas por modal e construir um plano faseado, economicamente viável, alinhado aos objetivos do corredor — com os **números calculados e demonstrados à mão, passo a passo**, e não estimados "no olho".
 
-**Pontuação:**
+### 1. Parte Teórica — (25% da nota)
 
-- **15%** — **Diagnóstico da matriz e dos gargalos**: análise da situação atual com dados verificáveis (custo por t·km, sazonalidade, distâncias, capacidade do porto e do aeroporto), aplicando o conceito de matriz de transportes e a comparação rodo × ferro × hidro.
-- **15%** — **Estudo de demanda e priorização**: projeção de carga no horizonte de 8 anos (modelo de quatro etapas simplificado), definição do trecho/modal prioritário com justificativa por **impacto financeiro mensurável**.
-- **25%** — **Soluções técnicas por modal**: (a) **ferrovia** — bitola, via permanente, geometria (rampas, raios, superelevação), terraplenagem e drenagem; (b) **porto** — berço, dragagem/calado de projeto, obras de abrigo, equipamentos de granel; (c) **aeroporto** — adequação da pista (comprimento e ACN-PCN) e TECA de carga. Cada modal com dimensionamento numérico.
-- **15%** — **Intermodalidade e plano faseado em 8 anos**: pontos de transbordo, cronograma por fase com orçamento detalhado (dentro do teto de R\$ 6,5 bilhões), governança da PPP e KPIs.
-- **15%** — **Memorial de cálculo (cálculos à mão)**: um anexo com os **cálculos manuais** que sustentam numericamente as decisões do plano — cada cálculo com **fórmula, substituição dos dados do case e resultado**, demonstrado passo a passo. Avalia-se a correção dos cálculos, o uso dos dados do case e a interpretação dos resultados. Espera-se, no mínimo, o desenvolvimento de:
+Desenvolva um **relatório técnico em PDF** contendo:
+
+- Diagnóstico da **matriz de transporte regional** e dos gargalos com dados verificáveis (custo por t·km, sazonalidade, distâncias, capacidade do porto e do aeroporto), aplicando a comparação rodo × ferro × hidro.
+- **Estudo de demanda** no horizonte de 8 anos (modelo de quatro etapas simplificado) e definição do **trecho/modal prioritário**, justificada por **impacto financeiro mensurável** (custo evitável).
+- Identificação dos gargalos técnicos, ambientais e de intermodalidade.
+- Fundamentação teórica das soluções propostas, utilizando os conceitos das 4 unidades e as referências pesquisadas (PNL, DNIT, ANTT, ANTAQ, ANAC, normas técnicas).
+
+### 2. Parte Prática — (50% da nota)
+
+Desenvolva uma **proposta técnica completa** para o Corredor Logístico do Médio-Norte contemplando, no mínimo:
+
+- **Soluções técnicas por modal, com dimensionamento numérico**: (a) **ferrovia** — bitola, via permanente, geometria (rampas, raios, superelevação), terraplenagem e drenagem; (b) **porto** — berço, **calado de projeto**/dragagem, obras de abrigo e equipamentos de granel; (c) **aeroporto** — **comprimento de pista corrigido**, verificação **ACN-PCN** e TECA de carga.
+- **Intermodalidade e plano faseado em 8 anos**: pontos de transbordo, cronograma por fase com **orçamento detalhado dentro do teto de R\$ 6,5 bilhões**, governança da PPP e KPIs.
+- **Orçamento e viabilidade econômica**: CAPEX por modal, comparação de custo logístico antes/depois, payback/retorno e fontes de financiamento.
+- **Riscos, sustentabilidade e visão de futuro**: licenciamento ambiental, riscos técnicos e de demanda, redução de emissões e visão de 15–20 anos (expansão, descarbonização).
+- **Memorial de cálculo (cálculos à mão)** — **anexo obrigatório** com os cálculos manuais que **sustentam** numericamente as decisões do plano, cada um com **fórmula, substituição dos dados do case e resultado**, demonstrado passo a passo. No mínimo:
   - **(a) Custo logístico e custo evitável** — aplicar <img src="assets/eq/et_003.png" alt="C = c \times d \times m" style="height:1.781ex; vertical-align:0ex;" /> ao volume e à distância do case e quantificar a economia rodo × ferro que justifica o investimento.
   - **(b) Dimensionamento técnico por modal** — pelo menos um cálculo por modal: **calado de projeto** do porto (folga + squat + tolerância), **comprimento de pista** corrigido (altitude, temperatura e rampa) e/ou verificação **ACN-PCN** do aeroporto, e **geometria/capacidade ferroviária** (rampa, raio, superelevação ou capacidade do trem-tipo).
   - **(c) Projeção de demanda e capacidade** — projetar a carga no horizonte de 8 anos por juros compostos, <img src="assets/eq/et_004.png" alt="V_n = V_0\,(1+i)^n" style="height:2.262ex; vertical-align:0ex;" />, e verificar se a capacidade proposta atende ao pico de safra.
   - **(d) (opcional) Dimensionamento por teoria das filas** — modelar a fila de caminhões no acesso ao porto (ou de navios no fundeio) como sistema <img src="assets/eq/et_005.png" alt="M/M/c" style="height:2.262ex; vertical-align:0ex;" /> (Erlang C) e calcular **à mão** quantas posições de descarga/berços (<img src="assets/eq/et_006.png" alt="c" style="height:1.025ex; vertical-align:0ex;" />) derrubam a fila de pico de safra para a meta de **< 8 h**.
-- **10%** — **Orçamento e viabilidade econômica**: estimativa de CAPEX por modal, comparação de custo logístico antes/depois, payback/retorno e fontes de financiamento.
-- **5%** — **Riscos, sustentabilidade e visão de futuro**: licenciamento ambiental, riscos técnicos e de demanda, redução de emissões e visão de 15–20 anos (expansão, descarbonização).
 
-> **Soma das pontuações:** 15 + 15 + 25 + 15 + 15 + 10 + 5 = **100%**.
+A proposta poderá conter desenhos/esquemas, mapas do corredor, cronogramas, tabelas comparativas, estimativas financeiras e demais representações gráficas que auxiliem na comunicação da solução. **Rastreabilidade:** os resultados do memorial devem ser **citados e discutidos** no documento técnico — não basta anexar a conta solta.
+
+### 3. Vídeo Pitch — (25% da nota)
+
+Grave um **vídeo de até 4 minutos**, simulando uma apresentação executiva para o conselho da PPP fictícia, defendendo o plano desenvolvido. O vídeo deverá apresentar:
+
+- Contextualização do problema (matriz 96% rodoviária, custo evitável de ~R\$ 2,4 bilhões/ano).
+- Justificativa das **prioridades** (ferrovia troncal + ampliação do porto) e do faseamento.
+- Explicação das principais soluções por modal e dos **números calculados** (calado de projeto, comprimento de pista, capacidade ferroviária).
+- Apresentação resumida do **plano de 8 anos** e do orçamento dentro do teto de R\$ 6,5 bilhões.
+- Demonstração dos ganhos esperados (custo logístico, participação ferroviária, calado, fila no porto, emissões).
+- Reflexão sobre riscos, sustentabilidade e a visão de 15–20 anos.
+
+O vídeo deverá ser publicado no **YouTube (modo não listado)** ou em outra plataforma de hospedagem, e o **link deverá ser inserido ao final do PDF**. Antes da submissão, verifique se o link está correto e acessível para a correção.
 
 **Critérios qualitativos transversais:** **clareza** e organização do texto e dos desenhos/esquemas; **profundidade técnica** (não generalidades); **realismo** dos números (CAPEX, prazos, capacidade, payback); **coerência interna** (diagnóstico → demanda → soluções → orçamento → KPIs alinhados); **rastreabilidade** (os cálculos do memorial devem usar os números do case e ser citados no documento); e **integração** dos conceitos das 4 unidades (não tratar os modais de forma isolada).
 
@@ -197,20 +219,15 @@ Estruture o **documento técnico (PDF, 16-24 páginas)** assim:
 8. **Sustentabilidade e visão de futuro** (1 página) — emissões, descarbonização, expansão em 15-20 anos.
 9. **Referências** — fontes consultadas, ABNT.
 
-Além do PDF e dos slides, entregue o **memorial de cálculo** que sustenta os seus números. Reúna nele, no mínimo: (a) o **custo logístico e o custo evitável** (<img src="assets/eq/et_020.png" alt="C = c\times d\times m" style="height:1.781ex; vertical-align:0ex;" />), comparando rodo × ferro sobre 18 Mt e 1.100 km; (b) o **dimensionamento técnico por modal** — calado de projeto do porto, comprimento de pista corrigido e/ou verificação ACN-PCN do aeroporto, e geometria/capacidade da ferrovia; e (c) a **projeção de demanda** a 8 anos por juros compostos. Regras: cada cálculo com **fórmula, substituição dos dados do case e resultado**, feito **à mão** e organizado de forma legível; os resultados precisam aparecer e ser discutidos no documento técnico (não basta anexar a conta solta). Lembre: a matemática vai escrita de forma clara, **passo a passo**.
+Além do PDF e do vídeo pitch, entregue o **memorial de cálculo** que sustenta os seus números. Reúna nele, no mínimo: (a) o **custo logístico e o custo evitável** (<img src="assets/eq/et_020.png" alt="C = c\times d\times m" style="height:1.781ex; vertical-align:0ex;" />), comparando rodo × ferro sobre 18 Mt e 1.100 km; (b) o **dimensionamento técnico por modal** — calado de projeto do porto, comprimento de pista corrigido e/ou verificação ACN-PCN do aeroporto, e geometria/capacidade da ferrovia; e (c) a **projeção de demanda** a 8 anos por juros compostos. Regras: cada cálculo com **fórmula, substituição dos dados do case e resultado**, feito **à mão** e organizado de forma legível; os resultados precisam aparecer e ser discutidos no documento técnico (não basta anexar a conta solta). Lembre: a matemática vai escrita de forma clara, **passo a passo**.
 
-Para a **apresentação executiva (12-18 slides)**:
+Para o **vídeo pitch (até 4 minutos)**:
 
-- 1 slide com **a recomendação central**.
-- 2 slides de diagnóstico (matriz atual + gargalos).
-- 1 slide de demanda e priorização.
-- 3 slides de solução (um por modal, com esquema visual e dimensionamento).
-- 1 slide de intermodalidade (o corredor integrado).
-- 1 slide de plano, orçamento e KPIs.
-- 1 slide com os **principais cálculos do memorial** (tabela-resumo dos números calculados) e a leitura dos resultados.
-- 1 slide de riscos.
-- 1 slide de sustentabilidade e visão de futuro.
-- 1 slide de pedido de aprovação e próximos passos.
+- Abra com **a recomendação central** e o problema (matriz 96% rodoviária, custo evitável de ~R\$ 2,4 bilhões/ano).
+- Mostre o diagnóstico e a priorização (ferrovia troncal + ampliação do porto) com 2–3 números fortes.
+- Apresente as soluções por modal e os **principais cálculos do memorial** (calado de projeto, comprimento de pista, capacidade ferroviária) em alto nível.
+- Feche com o **plano de 8 anos**, orçamento dentro de R\$ 6,5 bilhões, KPIs e o pedido de aprovação.
+- Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF** — confira se está acessível.
 
 **Dica final:** capriche na **defesa numérica**. Um conselho de PPP não compra ideia bonita — compra plano com **números defensáveis**. Cada decisão (bitola, calado, comprimento de pista, CAPEX por fase, número de berços/posições de descarga) deve estar ancorada em cálculo ou referência de mercado, não em opinião — e o **memorial de cálculo** é a sua prova de que o número foi de fato calculado à mão, não chutado.
 
