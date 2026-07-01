@@ -24,9 +24,9 @@ hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
 </ul>
 <h2>Orientações</h2>
 <ul>
-<li><strong>20 questões</strong> padrão ENADE: <strong>10 asserção-razão</strong> + <strong>10 de interpretação</strong>.</li>
+<li><strong>40 questões</strong> padrão ENADE: <strong>20 asserção-razão</strong> + <strong>20 de interpretação</strong>.</li>
 <li>Cada questão tem <strong>5 alternativas (a–e)</strong>; a correta é prefixada por <code>*</code> (ex.: <code>*c. ...</code>).</li>
-<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (4 questões para cada letra).</li>
+<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e</strong> repetida ao longo das questões (<strong>8 questões para cada letra</strong>, totalizando 40).</li>
 </ul>
 <hr>
 <h2>Questões</h2>
@@ -260,6 +260,236 @@ b. O SCD Tipo 2 impede qualquer alteração no atributo, sendo indicado apenas p
 c. Com o SCD Tipo 2, vendas passadas passam a ser reatribuídas à cidade nova, reescrevendo a história do cliente.
 d. O SCD Tipo 2 guarda apenas a versão anterior e a atual em colunas distintas da mesma linha, sem criar novos registros.
 *e. O SCD Tipo 2 preserva o histórico completo criando uma nova linha a cada mudança, com datas de validade e um indicador de linha atual, de modo que cada venda permanece associada à cidade vigente na época.</p>
+<h3>Questão 21 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No ciclo de vida da engenharia de dados aplicado ao Olist, a <strong>orquestração</strong> (que faremos com o Airflow) é tratada como uma corrente transversal (undercurrent), e não como uma sexta etapa após a disponibilização.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> As correntes transversais — segurança, governança e qualidade, gestão de metadados, orquestração e engenharia de software — atravessam <strong>todas</strong> as etapas do ciclo (geração, ingestão, transformação, armazenamento e disponibilização), em vez de ocorrerem em um único momento sequencial.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 22 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No pipeline do Olist, o formato <strong>Avro</strong> é uma opção adequada para a ingestão de eventos em streaming, como o stream de pedidos simulado na Aula 7.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O modelo relacional foi proposto por Edgar F. Codd em 1970 e organiza os dados em tabelas conectadas por chaves primárias e estrangeiras.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 23 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A arquitetura Medallion adotada no pipeline do Olist organiza os dados em camadas <strong>bronze, silver e gold</strong>, em que a bronze guarda o dado cru ingerido dos CSVs em Parquet.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Guardar a camada bronze crua é desnecessário no Olist, pois, uma vez construída a estrela (gold), o dado bruto original pode ser descartado sem qualquer perda de capacidade de reprocessamento.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 24 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No modelo relacional do Olist, a coluna <strong>customer_id</strong> da tabela <code>orders</code> é uma <strong>chave primária</strong>, pois é ela que identifica unicamente cada linha de pedido.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Olist, o <strong>order_id</strong> é a coluna que costura <code>orders</code>, <code>order_items</code>, <code>order_payments</code> e <code>order_reviews</code>, funcionando como a espinha dorsal que liga o pedido às suas tabelas satélites.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 25 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No teorema CAP, "AP" significa que o sistema abre mão da <strong>tolerância a partição</strong> para garantir, simultaneamente, disponibilidade e consistência plenas durante uma falha de rede.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A propriedade <strong>Isolamento</strong> do ACID garante a <strong>durabilidade</strong> de uma transação confirmada, assegurando que ela sobreviva a uma queda de energia do servidor.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 26 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Ao ler os CSVs do Olist com <code>read_csv_auto</code>, o DuckDB opera em <strong>schema-on-read</strong>, inferindo os tipos das colunas no momento da leitura, sem exigir que o esquema tenha sido declarado antes.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No schema-on-read, o dado bruto é gravado sem um esquema imposto na escrita e só é interpretado na hora de ser lido, o que confere flexibilidade e é adequado a uma camada bronze de data lake.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 27 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Olist, a família NoSQL de <strong>documentos</strong> (como o MongoDB) casaria bem com o armazenamento das avaliações (<code>review</code>), que têm campos opcionais e um texto livre no <code>review_comment_message</code>.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Estima-se que cerca de <strong>80% dos dados gerados no mundo</strong> sejam não estruturados, como fotos, vídeos, áudios e documentos de texto livre.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 28 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No star schema do Olist, o <strong>grão</strong> (granularidade) escolhido para a fato <code>fct_order_items</code> é <strong>um item de pedido por linha</strong>, a granularidade mais fina de onde todas as agregações partem.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Definir o grão da fato no nível do <strong>pedido inteiro</strong> (um pedido por linha) permitiria, ainda assim, calcular corretamente o faturamento por item, pois cada pedido do Olist contém sempre exatamente um único item.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 29 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No pipeline do Olist, o cientista de dados é o responsável por escrever o script de ingestão que converte os 9 CSVs em Parquet e por materializar o schema <code>raw</code> no DuckDB.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Olist, a entrega típica do engenheiro de dados é a fato <code>fct_order_items</code> confiável e disponível, sobre a qual o cientista de dados constrói o modelo que prevê o atraso de entrega.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 30 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Olist, a tabela <code>olist_geolocation_dataset</code>, por conter cerca de 1 milhão de linhas de CEP, é classificada como um dado <strong>não estruturado</strong>, uma vez que ultrapassa 100 mil registros.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O grau de estrutura de um dado é determinado pela <strong>quantidade de linhas</strong> que ele possui: acima de um certo volume, qualquer tabela passa a ser considerada semiestruturada ou não estruturada.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 31 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Atravessando todas as etapas do ciclo de vida estão as <strong>correntes transversais</strong>: segurança, governança e qualidade de dados, gestão de metadados, orquestração e engenharia de software. Elas não são uma 'etapa' — são preocupações de <strong>todas</strong> as etapas. No nosso pipeline, a orquestração será o Airflow, a qualidade virá de dbt tests + Great Expectations, e a governança aparecerá quando discutirmos a LGPD."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p>*a. As correntes transversais são preocupações contínuas que permeiam da geração à disponibilização; por isso, no Olist, orquestração, qualidade e governança são endereçadas ao longo de todo o pipeline, e não em uma única fase isolada.
+b. As correntes transversais são uma sexta etapa do ciclo, executada somente após a disponibilização do dado ao consumidor final.
+c. Governança e qualidade só importam na etapa de geração, quando o dado nasce nos sistemas-fonte, e podem ser ignoradas nas demais etapas.
+d. A orquestração com Airflow substitui a necessidade de qualquer verificação de qualidade, tornando dbt tests e Great Expectations redundantes.
+e. As correntes transversais são exclusivas de projetos na nuvem e não se aplicam a um pipeline local como o do Olist.</p>
+<h3>Questão 32 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Regra prática dos formatos: <strong>CSV/JSON</strong> para troca e ingestão; <strong>Parquet</strong> para analytics; <strong>Avro</strong> para streaming. No pipeline do Olist, o dado entra como CSV, vira Parquet na camada bronze, e na Aula 7 um stream de pedidos é simulado como eventos JSON.</p>
+</blockquote>
+<p>Um estagiário propõe <strong>guardar a camada analítica gold do Olist em CSV</strong> para "facilitar a leitura no Excel". A avaliação técnica <strong>mais adequada</strong> dessa proposta é:</p>
+<p>a. A proposta é ideal, pois o CSV é colunar e comprimido, sendo o formato de melhor desempenho para consultas analíticas que agregam milhões de linhas.
+<em>b. A proposta é inadequada: a camada analítica deve usar </em><em>Parquet</em><em> (colunar e comprimido), que lê apenas as colunas necessárias e ocupa muito menos espaço; o CSV é texto sem tipos e sem compressão, adequado à troca e à ingestão, não ao analytics.
+c. Tanto faz o formato da gold, pois CSV e Parquet têm exatamente o mesmo desempenho de leitura em consultas analíticas.
+d. O correto seria guardar a gold em </em><em>Avro</em>*, pois é o formato colunar recomendado para consultas analíticas agregadas.
+e. A proposta é boa porque o CSV, por ser binário e tipado, dispensa qualquer inferência de esquema na leitura.</p>
+<h3>Questão 33 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Não existe 'NoSQL melhor que SQL'. Numa arquitetura real, os bancos convivem: o relacional para os pedidos, o documento para as reviews, o colunar para os eventos de clique, e o grafo para a recomendação cliente–vendedor. A pergunta-guia é sempre: qual o padrão de acesso?"</p>
+</blockquote>
+<p>No contexto do Olist, qual associação entre <strong>necessidade</strong> e <strong>família de banco</strong> está <strong>corretamente</strong> justificada pelo padrão de acesso?</p>
+<p>a. Guardar o carrinho de compras ativo do cliente em um banco de <strong>grafo</strong>, por ser o mais rápido para pares chave→valor.
+b. Registrar o pagamento de um pedido em um banco <strong>colunar (Cassandra)</strong>, por oferecer as garantias ACID mais fortes.
+<em>c. Ingerir o stream massivo de cliques/eventos do marketplace em um banco </em><em>colunar de escrita massiva (Cassandra)</em><em>, que escala horizontalmente para o padrão de escrita contínua e de alto volume.
+d. Mapear a rede "cliente → comprou de → vendedor" em um banco de </em><em>documentos (MongoDB)</em><em>, por ser o único capaz de armazenar JSON.
+e. Armazenar as avaliações com texto livre em um banco </em><em>chave-valor (Redis)</em>*, por ser o ideal para percorrer relacionamentos complexos entre entidades.</p>
+<h3>Questão 34 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No Olist, o vendedor <code>seller_123</code> <strong>mudou de São Paulo (SP) para Campinas (SP)</strong>. A equipe precisa decidir como registrar essa mudança na <code>dim_sellers</code> para que um relatório de "faturamento por cidade do vendedor" continue correto para as vendas antigas — feitas quando ele ainda estava em São Paulo.</p>
+</blockquote>
+<p>Considerando as estratégias de Slowly Changing Dimensions, a decisão <strong>mais adequada</strong> é:</p>
+<p>a. Usar <strong>SCD Tipo 0</strong>, mantendo a cidade fixa em São Paulo, já que atributos de vendedor nunca podem mudar.
+b. Usar <strong>SCD Tipo 1</strong>, sobrescrevendo "São Paulo" por "Campinas", pois assim o histórico completo de mudanças fica preservado.
+c. Não registrar a mudança, mantendo tudo como está, pois qualquer alteração corromperia irremediavelmente a tabela de fatos.
+<em>d. Usar </em><em>SCD Tipo 2</em><em>, fechando a linha antiga (com data de fim) e criando uma nova (com data de início) e um indicador de linha atual, de modo que vendas passadas sigam atribuídas a São Paulo e as novas, a Campinas.
+e. Usar </em><em>SCD Tipo 3</em>*, que cria uma nova linha a cada mudança, sendo a única técnica capaz de preservar o histórico completo do vendedor.</p>
+<h3>Questão 35 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Nosso pipeline Olist é <strong>ELT</strong>: vamos carregar os 9 CSVs crus primeiro (camada bronze e schema <code>raw</code>) e só então transformar com dbt. Guardar o cru dá <strong>flexibilidade total para reprocessar</strong>."</p>
+</blockquote>
+<p>Seis meses após o pipeline no ar, o time de negócio muda a regra de cálculo do "faturamento por categoria". Qual conclusão é <strong>mais bem suportada</strong> pela escolha do padrão ELT?</p>
+<p>a. Será preciso reextrair os 9 CSVs do Olist a partir do sistema-fonte, pois no ELT o dado cru é descartado logo após a transformação.
+b. A mudança é impossível sem trocar o padrão para ETL, já que no ELT a lógica de transformação fica congelada e não pode ser alterada.
+c. Como a transformação ocorreu antes da carga, a única saída é editar manualmente cada linha já materializada na estrela.
+d. A nova regra exige migrar todo o pipeline para a nuvem, pois o reprocessamento não é viável em uma stack local com DuckDB.
+<em>e. Como o dado cru foi preservado na bronze/<code>raw</code>, basta </em><em>reexecutar a etapa de transformação (dbt)</em>* com a nova regra sobre o mesmo dado bruto, sem reextrair a fonte — exatamente a flexibilidade que motiva o ELT.</p>
+<h3>Questão 36 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Arquitetura-alvo do pipeline: <strong>9 CSVs (Olist)</strong> → <strong>Python/DuckDB</strong> (ingestão) → <strong>DuckDB schema <code>raw</code> + Parquet bronze</strong> → <strong>dbt</strong> (staging → estrela → marts) → <strong>gold (Parquet)</strong> → <strong>BI (Metabase) / ML (scikit-learn)</strong> — tudo <strong>orquestrado pelo Airflow</strong>.</p>
+</blockquote>
+<p>A leitura mais coerente com a arquitetura é:</p>
+<p>*a. O dado percorre um fluxo em camadas — da geração nos CSVs à disponibilização para BI e ML —, com o Airflow orquestrando as etapas e cada ferramenta cumprindo um papel específico (DuckDB ingere e consulta, dbt transforma, Metabase/scikit-learn consomem).
+b. O Airflow é o motor que executa as consultas SQL e substitui o DuckDB na etapa de transformação da estrela.
+c. O dbt é a ferramenta usada para ingerir os CSVs crus do Olist e convertê-los diretamente em Parquet bronze.
+d. O modelo de machine learning em scikit-learn é treinado sobre os CSVs crus, sem passar pela camada gold da estrela.
+e. A arquitetura elimina a etapa de armazenamento, pois o dado vai direto da ingestão para o BI sem persistir em Parquet ou DuckDB.</p>
+<h3>Questão 37 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No sistema-fonte do Olist, registrar um <strong>pedido com seu pagamento</strong> é uma transação que precisa ser <strong>atômica</strong>: ou as duas coisas acontecem, ou nenhuma — não pode existir pedido pago sem registro de pagamento. É por isso que marketplaces rodam sobre bancos ACID na operação.</p>
+</blockquote>
+<p>Suponha que o servidor caia exatamente <strong>entre</strong> gravar o pedido e gravar o pagamento. A leitura <strong>mais correta</strong>, à luz da atomicidade, é:</p>
+<p>a. O pedido é mantido gravado e o pagamento é aplicado depois automaticamente, pois a atomicidade garante que a segunda operação sempre se complete sozinha.
+*b. A transação inteira é desfeita (rollback): nem o pedido nem o pagamento permanecem gravados, pois a atomicidade exige que a transação seja "tudo ou nada", evitando um pedido pago sem registro de pagamento.
+c. O pedido é gravado e o pagamento é descartado, mas o pedido permanece válido, pois a atomicidade só se aplica à primeira operação da transação.
+d. Ambos permanecem gravados de forma independente, pois cada operação é uma transação separada e a atomicidade não as vincula.
+e. A atomicidade não tem efeito nesse caso, pois só a durabilidade decide o que acontece após uma queda do servidor.</p>
+<h3>Questão 38 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>O dataset Olist tem cerca de <strong>99 mil pedidos</strong> distribuídos ao longo de aproximadamente 2 anos (2016–2018). Suponha, para efeito de estimativa, exatamente 730 dias no período.</p>
+</blockquote>
+<p>Qual é a <strong>média aproximada de pedidos por dia</strong> no período?</p>
+<p>a. Cerca de 50 pedidos/dia.
+b. Cerca de 990 pedidos/dia.
+*c. Cerca de 135 pedidos/dia.
+d. Cerca de 1.350 pedidos/dia.
+e. Cerca de 13 pedidos/dia.</p>
+<h3>Questão 39 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>A fato <code>fct_order_items</code> do Olist tem grão de item: são cerca de <strong>112.650 itens</strong>. Suponha que cada linha ocupe 80 bytes. Hoje, isso dá cerca de 9 MB — o dataset inteiro cabe folgado na memória do laptop. Mas projete o Olist na escala da Amazon, <strong>1.000 vezes maior</strong> em número de itens.</p>
+</blockquote>
+<p>Qual o tamanho aproximado da fato <strong>nessa escala projetada</strong>, mantido o mesmo tamanho de linha?</p>
+<p>a. Cerca de 90 MB.
+b. Cerca de 900 MB.
+c. Cerca de 90 GB.
+*d. Cerca de 9 GB.
+e. Cerca de 9 TB.</p>
+<h3>Questão 40 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"No OLAP queremos o oposto do OLTP: <strong>desnormalização</strong>. Juntar dados em poucas tabelas largas reduz os <em>joins</em> que uma consulta analítica precisa fazer. No Olist, em vez de juntar 4 tabelas a cada pergunta, vamos pré-juntar os itens com pedido, produto e vendedor numa única <strong>fato larga</strong>. Aceitamos a redundância em troca de velocidade."</p>
+</blockquote>
+<p>A leitura mais coerente com o texto é:</p>
+<p>a. A desnormalização visa eliminar toda a redundância do modelo, seguindo rigorosamente a 3ª Forma Normal em cada tabela da estrela.
+b. Pré-juntar os dados numa fato larga torna as consultas analíticas mais lentas, pois aumenta o número de joins necessários por pergunta.
+c. A desnormalização é indicada para o banco OLTP de produção do Olist, onde cada pedido é registrado individualmente.
+d. A redundância introduzida pela desnormalização inviabiliza qualquer consulta analítica, motivo pelo qual o Olist deve permanecer sempre normalizado.
+*e. A desnormalização troca conscientemente espaço (mais redundância) por velocidade de consulta: ao pré-juntar itens, pedido, produto e vendedor numa fato larga, cada análise passa a exigir menos joins, ganhando desempenho.</p>
 <hr>
 <h2>Feedbacks</h2>
 <h3>Questão 1</h3>
@@ -421,5 +651,165 @@ d. O SCD Tipo 2 guarda apenas a versão anterior e a atual em colunas distintas 
 <li><strong>c.</strong> Incorreta. O Tipo 2 <strong>não</strong> reescreve a história: vendas passadas seguem atribuídas à cidade vigente na época.</li>
 <li><strong>d.</strong> Incorreta. Guardar apenas valor anterior e atual em colunas é o SCD Tipo 3, não o Tipo 2.</li>
 <li><strong>e.</strong> <em>Correta!</em> É exatamente o SCD Tipo 2: preserva o histórico completo criando uma nova linha a cada mudança, com datas de validade e indicador de linha atual, mantendo cada venda associada à cidade da época.</li>
+</ul>
+<h3>Questão 21</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. A orquestração (Airflow) é, de fato, uma <strong>corrente transversal</strong>, não uma etapa; e a Razão explica <strong>por quê</strong>: as correntes transversais atravessam todas as etapas do ciclo (geração → ingestão → transformação → armazenamento → disponibilização), em vez de ocorrerem num único momento — exatamente a causa da afirmação da Asserção.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção (é o que define uma corrente transversal).</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 22</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção — tratam de temas independentes.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são individualmente verdadeiras: o Avro é, de fato, um formato por linha com esquema embutido, adequado a ingestão e streaming (o stream de pedidos da Aula 7); e o modelo relacional foi mesmo proposto por Codd em 1970, com tabelas ligadas por chaves. Mas a Razão (modelo relacional) <strong>não explica</strong> por que o Avro serve para streaming — são fatos sem relação de causa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 23</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: a arquitetura Medallion organiza os dados em bronze, silver e gold, e a bronze guarda o dado cru em Parquet. A Razão é <strong>falsa</strong>: guardar o cru <strong>não</strong> é desnecessário — preservar a bronze é justamente o que dá <strong>flexibilidade para reprocessar</strong> a estrela sob novas regras sem reextrair a fonte; descartá-lo destruiria essa capacidade.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 24</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é <strong>falsa</strong>: em <code>orders</code>, quem identifica unicamente cada linha é o <strong>order_id</strong> (chave primária); o <strong>customer_id</strong> é <strong>chave estrangeira</strong> para <code>customers</code>, não chave primária. A Razão é verdadeira: o <code>order_id</code> é a espinha dorsal que costura <code>orders ↔ order_items ↔ order_payments ↔ order_reviews</code>.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 25</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. A Asserção inverte o teorema: "AP" <strong>mantém</strong> a tolerância a partição (P é inevitável) e, durante a partição, prioriza <strong>disponibilidade (A)</strong> sacrificando a consistência — não abre mão de P nem garante C e A plenas ao mesmo tempo. A Razão troca as propriedades ACID: quem garante que a transação confirmada sobrevive a falhas é a <strong>Durabilidade</strong>, não o <strong>Isolamento</strong> (que trata da não interferência entre transações simultâneas).</li>
+</ul>
+<h3>Questão 26</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O DuckDB lendo os CSVs com <code>read_csv_auto</code> é mesmo um caso de schema-on-read (infere os tipos na leitura), e a Razão explica <strong>por quê</strong>: no schema-on-read o dado é gravado cru, sem esquema imposto na escrita, e interpretado só na leitura — exatamente o mecanismo que torna a afirmação da Asserção verdadeira e ideal para a bronze.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 27</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: a família documento (MongoDB) casa bem com as reviews do Olist (campos opcionais + texto livre); e é verdade que cerca de 80% dos dados do mundo são não estruturados. Porém, a Razão (percentual de dados não estruturados) <strong>não explica</strong> por que o documento é adequado às reviews — a adequação vem da estrutura flexível/aninhada, não do percentual global. São fatos independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 28</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: o grão da <code>fct_order_items</code> é <strong>um item de pedido por linha</strong>, a granularidade mais fina. A Razão é <strong>falsa</strong>: um pedido do Olist tem, em média, <strong>vários</strong> itens (não exatamente um) — cada pedido tem em torno de 1,13 item, e há pedidos com múltiplos itens; por isso, fixar o grão no pedido inteiro <strong>perderia</strong> o detalhe por item, e não permitiria o faturamento por item como afirmado.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 29</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é <strong>falsa</strong>: escrever o script de ingestão (CSV → Parquet) e materializar o schema <code>raw</code> é trabalho do <strong>engenheiro de dados</strong>, não do cientista. A Razão é verdadeira: a entrega típica do engenheiro no Olist é a <code>fct_order_items</code> confiável e disponível, base sobre a qual o cientista treina o modelo de previsão de atraso.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 30</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. A <code>olist_geolocation_dataset</code> é uma <strong>tabela</strong> (colunas e tipos bem definidos): é dado <strong>estruturado</strong>, por mais linhas que tenha. E a Razão é falsa: o grau de estrutura <strong>não</strong> depende da quantidade de linhas, mas de o dado ter (ou não) um esquema fixo em colunas — volume não converte uma tabela em dado não estruturado.</li>
+</ul>
+<h3>Questão 31</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> É exatamente a tese do texto: as correntes transversais permeiam todas as etapas do ciclo de vida, de modo que orquestração, qualidade e governança são endereçadas ao longo de todo o pipeline Olist, e não numa fase isolada.</li>
+<li><strong>b.</strong> Incorreta. O texto diz o oposto: elas <strong>não</strong> são uma etapa, e sim preocupações de todas as etapas.</li>
+<li><strong>c.</strong> Incorreta. Governança e qualidade atravessam todas as etapas, não só a geração.</li>
+<li><strong>d.</strong> Incorreta. A orquestração (Airflow) e a verificação de qualidade (dbt tests, Great Expectations) são correntes distintas e complementares; uma não anula a outra.</li>
+<li><strong>e.</strong> Incorreta. As correntes transversais valem para qualquer pipeline, inclusive o local do Olist.</li>
+</ul>
+<h3>Questão 32</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O CSV <strong>não</strong> é colunar nem comprimido; é texto puro, ruim para agregações analíticas.</li>
+<li><strong>b.</strong> <em>Correta!</em> A camada analítica (gold) deve ser <strong>Parquet</strong>: colunar, comprimido e capaz de ler só as colunas necessárias. O CSV é texto sem tipos e sem compressão, próprio para troca e ingestão, não para analytics — a proposta é inadequada.</li>
+<li><strong>c.</strong> Incorreta. CSV e Parquet têm desempenhos de leitura muito diferentes em cargas analíticas; o Parquet vence com folga.</li>
+<li><strong>d.</strong> Incorreta. O Avro é um formato <strong>por linha</strong>, ótimo para streaming, não é o colunar recomendado para analytics — esse papel é do Parquet.</li>
+<li><strong>e.</strong> Incorreta. O CSV é texto, não binário nem tipado; ao contrário, exige inferência de tipos na leitura (schema-on-read).</li>
+</ul>
+<h3>Questão 33</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O carrinho ativo (pares chave→valor) pede um banco <strong>chave-valor</strong> (Redis/DynamoDB), não grafo.</li>
+<li><strong>b.</strong> Incorreta. Bancos colunares como o Cassandra tendem a AP/consistência eventual; o pagamento pede <strong>relacional com ACID</strong> forte, não Cassandra.</li>
+<li><strong>c.</strong> <em>Correta!</em> O stream de cliques/eventos é escrita massiva e contínua; um banco <strong>colunar de escrita massiva</strong> (Cassandra), que escala horizontalmente, casa com esse padrão de acesso.</li>
+<li><strong>d.</strong> Incorreta. A rede "cliente → comprou de → vendedor" é caso de <strong>grafo</strong> (Neo4j); o MongoDB não é "o único" a armazenar JSON, e não é o ideal para percorrer relacionamentos.</li>
+<li><strong>e.</strong> Incorreta. Percorrer relacionamentos complexos é força do <strong>grafo</strong>, não do chave-valor; e as reviews com texto livre casam com a família <strong>documento</strong>.</li>
+</ul>
+<h3>Questão 34</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. SCD Tipo 0 fixa o atributo e ignora a mudança real; o vendedor de fato mudou de cidade.</li>
+<li><strong>b.</strong> Incorreta. O SCD Tipo 1 sobrescreve e <strong>perde</strong> a história — as vendas antigas passariam a mentir a cidade (Campinas em vez de São Paulo).</li>
+<li><strong>c.</strong> Incorreta. Registrar a mudança com SCD Tipo 2 <strong>não</strong> corrompe a fato; ao contrário, é o que mantém os relatórios corretos.</li>
+<li><strong>d.</strong> <em>Correta!</em> O SCD Tipo 2 fecha a linha antiga (data de fim) e cria uma nova (data de início) com indicador de linha atual, preservando o histórico: vendas passadas seguem atribuídas a São Paulo, as novas a Campinas.</li>
+<li><strong>e.</strong> Incorreta. Quem cria nova linha a cada mudança é o Tipo <strong>2</strong>, não o Tipo 3 — o Tipo 3 guarda só a versão anterior e a atual em colunas da mesma linha, sem histórico completo.</li>
+</ul>
+<h3>Questão 35</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. No ELT o dado cru é <strong>preservado</strong> (bronze/<code>raw</code>), justamente para não precisar reextrair a fonte.</li>
+<li><strong>b.</strong> Incorreta. A lógica de transformação do dbt é editável a qualquer momento; o ELT não a congela.</li>
+<li><strong>c.</strong> Incorreta. Não é preciso editar linha a linha: reexecuta-se a transformação sobre o cru preservado.</li>
+<li><strong>d.</strong> Incorreta. O reprocessamento é perfeitamente viável na stack local (DuckDB + dbt); não exige nuvem.</li>
+<li><strong>e.</strong> <em>Correta!</em> Como o dado cru foi preservado na bronze/<code>raw</code>, basta reexecutar a etapa de transformação (dbt) com a nova regra sobre o mesmo dado bruto, sem reextrair a fonte — a flexibilidade que motiva o ELT.</li>
+</ul>
+<h3>Questão 36</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> É a leitura correta da arquitetura: o dado flui em camadas, da geração (CSVs) à disponibilização (BI/ML), com o Airflow orquestrando e cada ferramenta em seu papel (DuckDB ingere/consulta, dbt transforma, Metabase e scikit-learn consomem).</li>
+<li><strong>b.</strong> Incorreta. O Airflow <strong>orquestra</strong> (agenda e coordena) as etapas; quem executa o SQL e resolve a transformação é o DuckDB/dbt.</li>
+<li><strong>c.</strong> Incorreta. Quem ingere os CSVs e gera o Parquet bronze é o <strong>Python/DuckDB</strong>; o dbt entra depois, transformando o <code>raw</code> em staging e estrela.</li>
+<li><strong>d.</strong> Incorreta. O modelo de ML consome a camada <strong>gold</strong> (estrela), não os CSVs crus.</li>
+<li><strong>e.</strong> Incorreta. A etapa de armazenamento existe e é central: o dado persiste em Parquet e no DuckDB antes de chegar ao BI.</li>
+</ul>
+<h3>Questão 37</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A atomicidade não "completa sozinha" a segunda operação; ela desfaz a transação incompleta.</li>
+<li><strong>b.</strong> <em>Correta!</em> Pela atomicidade, a transação é "tudo ou nada": se o servidor cai no meio, faz-se rollback e <strong>nem</strong> o pedido <strong>nem</strong> o pagamento permanecem — evitando um pedido pago sem registro de pagamento.</li>
+<li><strong>c.</strong> Incorreta. A atomicidade abrange a transação inteira, não apenas a primeira operação; manter só o pedido violaria a garantia.</li>
+<li><strong>d.</strong> Incorreta. Pedido + pagamento formam <strong>uma</strong> transação atômica; não são operações independentes.</li>
+<li><strong>e.</strong> Incorreta. A atomicidade é justamente o que decide o desfazer nesse caso; a durabilidade trata do que já foi <strong>confirmado</strong> persistir, não desta transação interrompida.</li>
+</ul>
+<h3>Questão 38</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. 50/dia subestima muito (usaria um denominador de dias muito maior que 730).</li>
+<li><strong>b.</strong> Incorreta. ~990/dia resultaria de dividir por ~100 dias, não pelos ~730 do período.</li>
+<li><strong>c.</strong> <em>Correta!</em> 99.000 ÷ 730 ≈ <strong>135 pedidos/dia</strong>, a média citada na unidade.</li>
+<li><strong>d.</strong> Incorreta. ~1.350/dia seria um erro de uma ordem de grandeza (10×) sobre a média correta.</li>
+<li><strong>e.</strong> Incorreta. ~13/dia subestima em cerca de 10× a média real.</li>
+</ul>
+<h3>Questão 39</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. 90 MB corresponderia a apenas 10× a escala, não 1.000×.</li>
+<li><strong>b.</strong> Incorreta. 900 MB corresponderia a 100×, não 1.000×.</li>
+<li><strong>c.</strong> Incorreta. 90 GB seria 10× além da escala pedida (erro de uma ordem de grandeza).</li>
+<li><strong>d.</strong> <em>Correta!</em> 9 MB × 1.000 = <strong>9 GB</strong> (equivalente a 112.650 × 1.000 × 80 bytes ≈ 9 × 10⁹ bytes).</li>
+<li><strong>e.</strong> Incorreta. 9 TB corresponderia a 1 milhão de vezes a escala, não mil.</li>
+</ul>
+<h3>Questão 40</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A desnormalização faz o <strong>oposto</strong> de perseguir a 3FN: ela aceita redundância nas tabelas largas da estrela.</li>
+<li><strong>b.</strong> Incorreta. Pré-juntar numa fato larga <strong>reduz</strong> os joins por consulta, tornando a análise mais rápida, não mais lenta.</li>
+<li><strong>c.</strong> Incorreta. A desnormalização é para o destino <strong>OLAP</strong> (estrela); o OLTP de produção do Olist permanece normalizado.</li>
+<li><strong>d.</strong> Incorreta. A redundância da desnormalização <strong>acelera</strong> as consultas analíticas; ela não as inviabiliza, e por isso a estrela não permanece normalizada.</li>
+<li><strong>e.</strong> <em>Correta!</em> É a leitura correta: a desnormalização troca conscientemente mais espaço/redundância por velocidade — ao pré-juntar itens, pedido, produto e vendedor numa fato larga, cada análise exige menos joins e ganha desempenho.</li>
 </ul>
 </body></html>

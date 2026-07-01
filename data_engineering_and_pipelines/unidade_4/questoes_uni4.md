@@ -5,9 +5,9 @@
 
 ## Orientações
 
-- **20 questões** padrão ENADE: **10 asserção-razão** + **10 de interpretação**.
+- **40 questões** padrão ENADE: **20 asserção-razão** + **20 de interpretação**.
 - Cada questão tem **5 alternativas (a–e)**; a correta é prefixada por `*` (ex.: `*c. ...`).
-- Distribuição da alternativa correta: rotação **a, b, c, d, e, a, b, c, d, e...** (4 questões para cada letra).
+- Distribuição da alternativa correta: rotação **a, b, c, d, e, a, b, c, d, e...** (8 questões para cada letra).
 
 ---
 
@@ -325,6 +325,323 @@ c. Um engenheiro júnior e um sênior entregam exatamente a mesma coisa, já que
 d. As etapas de qualidade, governança e DataOps pertencem à fase de **Ingestão** e não atravessam as demais etapas do pipeline.
 *e. As Unidades 1 a 3 constroem o fluxo (fontes → ingestão → lake/warehouse → transformação → servir → BI/ML) e a Unidade 4 o profissionaliza, garantindo que tudo seja **confiável, seguro e operável** — diferença entre fazer o dado chegar e fazê-lo chegar confiável, governado e com deploy seguro.
 
+### Questão 21 (Asserção-Razão)
+
+> **Asserção I:** No pipeline Olist, a **integridade referencial** entre `fct_order_items` e `dim_products` pode ser verificada de forma barata com um teste `relationships` declarado no `schema.yml` do dbt.
+>
+> **porque**
+>
+> **Razão II:** O teste `relationships` do dbt confere se **todo** valor de uma coluna (ex.: `product_id` no fato) existe na coluna correspondente da tabela referenciada (ex.: `product_id` em `dim_products`), acusando *órfãos* que quebrariam a junção fato→dimensão.
+
+A respeito dessas asserções, assinale a opção correta:
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 22 (Asserção-Razão)
+
+> **Asserção I:** No projeto Olist, o arquivo `olist.duckdb` e os Parquet do `gold/` **não** devem ser versionados no Git, entrando no `.gitignore`.
+>
+> **porque**
+>
+> **Razão II:** O DataOps trata **dado e código exatamente da mesma forma**, versionando ambos no mesmo repositório Git, já que arquivos de dados e arquivos de modelo têm o mesmo ciclo de vida e o mesmo mecanismo de versionamento.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 23 (Asserção-Razão)
+
+> **Asserção I:** No modelo de governança do Olist, o **data steward** é a pessoa que assina os contratos com a nuvem e paga a fatura de armazenamento do `gold/`.
+>
+> **porque**
+>
+> **Razão II:** Na governança de dados, o **data steward** é o papel que zela pelo **significado** de cada campo (por exemplo, a diferença entre `customer_id` e `customer_unique_id`), garantindo a definição e a consistência semântica do dado.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 24 (Asserção-Razão)
+
+> **Asserção I:** Na LGPD, a **minimização** exige coletar a maior quantidade possível de atributos de cada titular, pois "quanto mais dado guardado, mais seguro fica o pipeline".
+>
+> **porque**
+>
+> **Razão II:** A **retenção** é o princípio de definir por quanto tempo cada tabela com dado pessoal é mantida, apoiando-se na ideia de que **dado que não se guarda é dado que não vaza**.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 25 (Asserção-Razão)
+
+> **Asserção I:** No pipeline Olist, o controle de acesso por **RBAC** significa dar a cada colaborador, individualmente e pelo nome, uma permissão específica em cada tabela, sem qualquer noção de papel.
+>
+> **porque**
+>
+> **Razão II:** O princípio do **menor privilégio** determina conceder o **máximo** de acesso possível a todos os usuários por padrão, liberando o schema `raw` a qualquer analista para evitar burocracia.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+### Questão 26 (Asserção-Razão)
+
+> **Asserção I:** No CI do pipeline Olist, um único comando `dbt build` a cada *pull request* já cobre tanto a **construção** dos modelos quanto os **testes de qualidade** da Aula 13.
+>
+> **porque**
+>
+> **Razão II:** O comando `dbt build` executa `run` **e** `test` numa mesma tacada, de modo que, se um modelo quebrar ou um teste falhar, o *merge* é bloqueado e o erro morre no PR, não em produção.
+
+A respeito dessas asserções, assinale a opção correta:
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 27 (Asserção-Razão)
+
+> **Asserção I:** No dbt, promover o pipeline Olist de `dev` para `prod` não exige reescrever os modelos, bastando trocar o **target** no `profiles.yml`.
+>
+> **porque**
+>
+> **Razão II:** A **LGPD (Lei 13.709/2018)** é fiscalizada pela **ANPD** e assegura ao titular o direito de eliminação de seus dados pessoais.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 28 (Asserção-Razão)
+
+> **Asserção I:** No Olist, a dimensão de qualidade **acurácia** é o que permite flagrar um registro em que `order_delivered_customer_date` é **anterior** ao `order_purchase_timestamp` — uma entrega antes da compra, impossível na realidade.
+>
+> **porque**
+>
+> **Razão II:** A dimensão **acurácia** apenas verifica se cada `order_id` aparece uma única vez na tabela `stg_orders`, não tendo qualquer relação com a coerência entre datas de um mesmo pedido.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 29 (Asserção-Razão)
+
+> **Asserção I:** No projeto Olist, uma **feature store** gerenciada (como Feast ou Tecton) e uma *view* do dbt sobre `fct_orders` + dimensões são conceitos **totalmente distintos**, sem qualquer relação de propósito.
+>
+> **porque**
+>
+> **Razão II:** No projeto local do Olist, a "feature store" é justamente uma *view* do dbt que consolida as *features* (prazo estimado, frete, nº de itens, categoria, UF, parcelas) — o **conceito** é o mesmo de uma feature store gerenciada, que serve a mesma lógica de cálculo para treino e produção.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+### Questão 30 (Asserção-Razão)
+
+> **Asserção I:** No Olist, a dimensão de qualidade **completude** é indiferente ao fato de milhares de pedidos não possuírem `review`, pois campos ausentes nunca afetam a qualidade do dado.
+>
+> **porque**
+>
+> **Razão II:** A **consistência** entre tabelas — como o `payment_value` somado por `order_id` bater com o total esperado em `fct_orders` — é irrelevante, já que valores divergentes entre `stg_order_payments` e o fato jamais comprometem uma decisão de negócio.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+### Questão 31 (Interpretação)
+
+**Estímulo:**
+
+> "No Olist, se o volume diário de pedidos cair de ~135 para 12, nenhum `not_null` acusa — observabilidade sim. Testes verificam regras que você **antecipou**; a observabilidade detecta o que você **não previu**, monitorando frescor, volume, distribuição, esquema e linhagem ao longo do tempo."
+
+A leitura mais alinhada ao texto é:
+
+*a. Testes declarativos (como `not_null`) e observabilidade são **complementares**: os testes barram violações de regras conhecidas, enquanto a observabilidade monitora o comportamento histórico (volume, frescor, distribuição, esquema, linhagem) e captura o imprevisto, como uma queda anômala de volume.
+b. Como a observabilidade cobre o imprevisto, os testes `not_null`, `unique` e `accepted_values` do dbt tornam-se dispensáveis no pipeline Olist.
+c. A queda de volume de 135 para 12 pedidos é um problema de **unicidade**, resolvido por um teste `unique` no `order_id`.
+d. Observabilidade e testes fazem exatamente a mesma coisa, e ter ambos é redundância que só aumenta o custo do pipeline.
+e. Um teste `not_null` acusaria a queda de volume, pois volume e nulos são a mesma métrica sob nomes diferentes.
+
+### Questão 32 (Interpretação)
+
+**Estímulo:**
+
+> No staging do Olist, aplica-se o seguinte mascaramento de localização:
+>
+> ```sql
+> left(customer_zip_code_prefix::varchar, 3) || 'XX' as zip_masked
+> ```
+>
+> O `customer_zip_code_prefix` original tem 5 dígitos.
+
+A leitura mais adequada do efeito desse mascaramento é:
+
+a. O comando anonimiza plenamente o dado, retirando-o do escopo da LGPD, pois nenhum dígito do CEP permanece visível.
+*b. O mascaramento **reduz a granularidade** da localização (mantém 3 dígitos + `XX`), aplicando defesa em profundidade e menor privilégio para quem não precisa do prefixo cheio, sem por si só tornar o dado plenamente anônimo.
+c. O mascaramento aumenta a precisão geográfica, pois `XX` acrescenta dois dígitos ao CEP original.
+d. O comando viola a LGPD, já que expor qualquer parte do CEP é proibido em qualquer circunstância.
+e. O mascaramento substitui a necessidade de RBAC, tornando desnecessário qualquer controle de acesso por papel.
+
+### Questão 33 (Interpretação)
+
+**Estímulo:**
+
+> Rastreando um titular pelo lineage do dbt no Olist:
+>
+> $$\text{raw.customers} \rightarrow \text{stg\_customers} \rightarrow \text{dim\_customers} \rightarrow \text{fct\_orders} \rightarrow \text{mart\_payment\_analysis}$$
+>
+> Um titular exerce o **direito de eliminação** previsto na LGPD.
+
+A leitura mais coerente com o texto é:
+
+a. Basta apagar a linha em `raw.customers`; os modelos a jusante se corrigem sozinhos sem necessidade de conhecer a linhagem.
+b. O lineage serve apenas para deixar a documentação do projeto mais bonita, não tendo utilidade para atender a um pedido de exclusão.
+*c. O lineage funciona como a **planta baixa da exclusão**: mostra **todos** os modelos onde o dado do titular pousou (de `raw` ao `mart_payment_analysis`), permitindo remover o rastro em cada ponto e responder tanto a impacto (a jusante) quanto a causa-raiz (a montante).
+d. A LGPD não exige rastrear onde o dado pousou; a eliminação pode ignorar `dim_customers` e `fct_orders`.
+e. O direito de eliminação só se aplica a `raw.customers`, pois marts derivados deixam de ser dado pessoal automaticamente.
+
+### Questão 34 (Interpretação)
+
+**Estímulo:**
+
+> "Clicar no console da nuvem para criar o *bucket* do `gold/` do Olist é frágil e não reproduzível. Com **Terraform** você declara: 'quero um *bucket* para o gold com versionamento e retenção de 90 dias' — em arquivo versionado, revisável em PR, e o mesmo código recria a infra em minutos."
+
+A leitura mais adequada do texto é:
+
+a. IaC serve apenas para economizar cliques no console, sem qualquer ganho de reprodutibilidade ou revisão.
+b. Como o Terraform declara a infra, ele elimina a necessidade de qualquer teste de dados no pipeline Olist.
+c. IaC e governança são incompatíveis: políticas de acesso da Aula 14 jamais podem ser expressas como código.
+*d. A **infraestrutura como código** torna a criação da infra do Olist declarativa, versionada e revisável em PR, permitindo recriar ambientes idênticos em minutos e até codificar as políticas de acesso da governança.
+e. O versionamento e a retenção de 90 dias declarados no Terraform aplicam-se ao código dbt, não ao *bucket* de armazenamento.
+
+### Questão 35 (Interpretação)
+
+**Estímulo:**
+
+> No Olist, das entregas registradas, cerca de $8\%$ chegam **após** a data estimada. Um `RandomForestClassifier` treinado sobre o gold atinge precisão de $\approx 24\%$ no decil de maior risco. O *lift* sobre o acaso é:
+>
+> $$\text{lift} = \frac{0{,}24}{0{,}08} = 3{,}0$$
+
+A leitura mais adequada do resultado é:
+
+a. O modelo é inútil, pois 24% ainda é menor que 100% de precisão.
+b. O *lift* de 3,0 significa que o modelo acerta 3% dos atrasos, um resultado pior que o acaso.
+c. O *lift* mede a latência do pipeline em segundos, não a qualidade da predição.
+d. Como a taxa-base é 8%, prever atraso no chute já daria 24% de precisão, tornando o modelo redundante.
+*e. Mirando os 10% de pedidos que o modelo aponta como mais arriscados, a logística encontra atrasos **3× mais** do que escolhendo pedidos ao acaso — valor de negócio suficiente para acionar transportadora ou avisar o cliente proativamente.
+
+### Questão 36 (Interpretação)
+
+**Estímulo:**
+
+> "Custa **R\$ 1** prevenir o defeito (escrever o teste), **R\$ 10** corrigi-lo no pipeline e **R\$ 100** conviver com ele em produção. Um `accepted_values` de três linhas no `order_status` é o R\$ 1; descobrir que o `mart_delivery_performance` contou um status inexistente **depois** que a diretoria apresentou o número é o R\$ 100."
+
+A leitura mais alinhada ao texto é:
+
+*a. A regra **1-10-100** mostra que o custo de um defeito cresce por ordem de grandeza conforme ele avança no pipeline; por isso deve-se **automatizar a verificação onde o dado é produzido** (no `schema.yml`), e não onde é consumido (no mart/BI).
+b. A regra 1-10-100 recomenda conviver com o defeito, pois R\$ 100 é o menor dos três custos.
+c. O melhor lugar para validar o `order_status` é o dashboard da diretoria, o mais próximo do consumidor final.
+d. Escrever o `accepted_values` custa mais caro do que corrigir o defeito depois em produção.
+e. A regra 1-10-100 é uma métrica de latência (frescor) do pipeline, sem relação com o custo de defeitos.
+
+### Questão 37 (Interpretação)
+
+**Estímulo:**
+
+> "MLOps é o DataOps aplicado ao modelo: versionar dado, código **e** modelo; treino reproduzível; e monitorar *data/model drift*. Tudo o que você fez nesta unidade — qualidade, lineage, CI/CD — é **pré-requisito** de MLOps."
+
+A leitura mais coerente com o texto é:
+
+a. MLOps substitui e torna dispensáveis a qualidade, o lineage e o CI/CD construídos na Unidade 4.
+*b. MLOps **estende** o DataOps ao ciclo do modelo (versionando também o modelo e monitorando *drift*), apoiando-se na fundação de qualidade, lineage e CI/CD já construída — que é pré-requisito, não concorrente.
+c. MLOps trata apenas de versionar código, ignorando o versionamento de dado e de modelo.
+d. *Data/model drift* é um problema de infraestrutura resolvido apenas recriando o *bucket* com Terraform.
+e. MLOps dispensa treino reproduzível, pois basta reexecutar o notebook manualmente quando a acurácia cair.
+
+### Questão 38 (Interpretação)
+
+**Estímulo:**
+
+> Uma organização cresce e passa a ter **centenas de modelos** espalhados por vários times e ferramentas. Precisa centralizar metadados, dicionário de dados (o significado de cada campo) e a linhagem ponta a ponta entre times, além de classificar campos com PII como o `customer_unique_id`.
+
+A escolha mais adequada, segundo a Aula 14, é:
+
+a. Confiar apenas no lineage interno do dbt, que já cobre metadados e linhagem entre **todos** os times e ferramentas da empresa.
+b. Manter uma planilha manual de campos, atualizada por cada time à sua maneira, sem ferramenta dedicada.
+*c. Adotar um **catálogo de dados** dedicado (como **DataHub**, open source, ou **Atlan**, comercial), que centraliza metadados, dicionário de dados e linhagem ponta a ponta, onde um campo com PII como `customer_unique_id` fica catalogado, classificado e governado.
+d. Desligar a governança em escala, pois catálogos de dados só funcionam para uma única equipe.
+e. Substituir o catálogo por um teste `not_null` no `customer_unique_id`, suficiente para classificar PII entre times.
+
+### Questão 39 (Interpretação)
+
+**Estímulo:**
+
+> Considere o cálculo de impacto de um vazamento no Olist (faturamento de R\$ 80 milhões):
+>
+> - Multa LGPD (teto percentual): $0{,}02 \times 80\,000\,000 = \text{R\$}\,1\,600\,000$
+> - Notificação: $96\,096 \times 9 = \text{R\$}\,864\,864$
+> - *Churn* (1º ano): $0{,}03 \times 96\,096 \times 220 \approx \text{R\$}\,634\,234$
+> - Prevenção (mascaramento + RBAC + auditoria) $\approx \text{R\$}\,60\,000$
+
+A leitura mais adequada do caso é:
+
+a. A multa de R\$ 1,6 milhão é o único custo relevante; notificação e *churn* podem ser ignorados.
+b. Prevenir custaria mais do que o impacto total do vazamento, tornando a prevenção economicamente injustificável.
+c. Como o teto por infração é R\$ 50 milhões, a multa aplicada seria de R\$ 50 milhões independentemente do faturamento.
+*d. O impacto no 1º ano soma $\approx \text{R\$}\,3{,}1$ milhões (multa + notificação + *churn*), enquanto prevenir custaria $\approx \text{R\$}\,60$ mil; a **multa é a menor das parcelas** e prevenir na origem (como o Olist já faz ao pseudonimizar) é ordens de grandeza mais barato.
+e. O vazamento não gera consequência porque o Olist já é pseudonimizado, tornando o cálculo de impacto irrelevante em qualquer cenário.
+
+### Questão 40 (Interpretação)
+
+**Estímulo:**
+
+> "Pense no seu pipeline Olist hoje: modelos dbt na sua máquina, sem CI, deploy = você rodando `dbt run` no terminal. Se um colega abrisse um *pull request* alterando o `fct_order_items` às 17h de uma sexta, você daria *merge* sem medo? Esse **medo** é o sintoma exato que o DataOps cura."
+
+A leitura mais alinhada ao texto é:
+
+a. O medo do *merge* é uma questão de coragem individual, e a solução é escolher engenheiros mais destemidos.
+b. A solução para o medo é **proibir** merges às sextas-feiras, reduzindo a frequência de deploy do pipeline Olist.
+c. O medo é irrelevante, pois alterar o `fct_order_items` nunca poderia quebrar um mart a jusante como o `mart_seller_scorecard`.
+d. A cura para o medo é versionar o `olist.duckdb` no Git, garantindo *rollback* do dado a cada deploy.
+*e. O medo é um sintoma de **falta de processo**, curado por práticas de DataOps (CI rodando `dbt build`, ambiente de *staging*, `dbt test`, WAP): numa equipe madura, merge no `fct_order_items` na sexta às 17h é **rotina, não coragem**.
+
 ---
 
 ## Feedbacks
@@ -488,3 +805,163 @@ d. As etapas de qualidade, governança e DataOps pertencem à fase de **Ingestã
 - **c.** Incorreta. O texto distingue júnior (faz o dado chegar) de sênior (faz o dado chegar confiável, governado e com deploy seguro).
 - **d.** Incorreta. Qualidade, governança e DataOps são *undercurrents* que **atravessam todas** as etapas, não pertencem só à ingestão.
 - **e.** *Correta!* As Unidades 1 a 3 constroem o fluxo de referência e a Unidade 4 o profissionaliza — garantindo confiabilidade, segurança e operabilidade, a diferença entre fazer o dado chegar e fazê-lo chegar confiável e governado.
+
+### Questão 21
+
+- **a.** *Correta!* Ambas verdadeiras e a II justifica a I. O teste `relationships` é exatamente o mecanismo que confere a integridade referencial afirmada na Asserção: ele valida que todo `product_id` do fato existe em `dim_products`, acusando órfãos — a Razão explica **por que** essa verificação barata garante a junção fato→dimensão.
+- **b.** Incorreta. A Razão **justifica** diretamente a Asserção: é o funcionamento do `relationships` que viabiliza a verificação de integridade referencial descrita.
+- **c.** Incorreta. A Razão é verdadeira (descreve corretamente o que o `relationships` do dbt faz).
+- **d.** Incorreta. A Asserção é verdadeira (o `relationships` de fato cobre a integridade referencial de forma barata).
+- **e.** Incorreta. Ambas são verdadeiras.
+
+### Questão 22
+
+- **a.** Incorreta. A Razão não justifica a Asserção — na verdade ela a **contradiz**.
+- **b.** *Correta!* As duas proposições são verdadeiras: o `olist.duckdb` e os Parquet do `gold/` de fato ficam no `.gitignore` (são dado, não código). Porém a Razão é uma afirmação verdadeira e **independente** apenas em parte — o DataOps versiona dado e código, mas **não** da mesma forma nem no mesmo mecanismo (código no Git; dado com DVC/lakeFS/*time travel*). Assim, a Razão não é a justificativa correta da Asserção. *(Observação: a Asserção decorre justamente de dado e código terem versionamento distinto — o oposto do que a Razão sugere.)*
+- **c.** Incorreta. A Razão, tomada isoladamente, contém a afirmação verdadeira de que o DataOps versiona ambos, ainda que por mecanismos distintos.
+- **d.** Incorreta. A Asserção é verdadeira (dado não vai para o Git no projeto Olist).
+- **e.** Incorreta. A Asserção é verdadeira.
+
+### Questão 23
+
+- **a.** Incorreta. A Razão não justifica a Asserção, pois a Asserção é falsa.
+- **b.** Incorreta. A Asserção é falsa.
+- **c.** *Correta!* A Asserção é falsa: assinar contratos com a nuvem e pagar a fatura não é papel do **data steward**, mas da operação/custodian e da gestão. A Razão é verdadeira: o data steward zela pelo **significado** de cada campo (ex.: `customer_id` vs `customer_unique_id`), garantindo consistência semântica.
+- **d.** Incorreta. A Razão é verdadeira, mas a Asserção é falsa (inverte-se a análise).
+- **e.** Incorreta. A Razão é verdadeira.
+
+### Questão 24
+
+- **a.** Incorreta. A Asserção é falsa.
+- **b.** Incorreta. A Asserção é falsa.
+- **c.** Incorreta. A Razão é verdadeira.
+- **d.** *Correta!* A Asserção é falsa: a **minimização** da LGPD exige coletar **apenas o necessário**, não "o máximo possível" — mais dado guardado é mais superfície de risco, não mais segurança. A Razão é verdadeira: a **retenção** define por quanto tempo cada tabela com PII é mantida, apoiada na ideia de que dado que não se guarda é dado que não vaza.
+- **e.** Incorreta. A Razão é verdadeira.
+
+### Questão 25
+
+- **a.** Incorreta. Ambas são falsas.
+- **b.** Incorreta. Ambas são falsas.
+- **c.** Incorreta. A Razão também é falsa.
+- **d.** Incorreta. A Asserção também é falsa.
+- **e.** *Correta!* As duas proposições são falsas. O **RBAC** concede permissões **por papel** (analista de marketing, cientista, custodian), **não** individualmente por pessoa; e o **menor privilégio** determina conceder o **mínimo** de acesso necessário — o schema `raw` fica restrito ao engenheiro custodian, jamais liberado a qualquer analista.
+
+### Questão 26
+
+- **a.** *Correta!* Ambas verdadeiras e a II justifica a I. O `dbt build` executa `run` + `test` numa tacada (Razão), o que **é a causa** de um único comando no PR cobrir construção e testes de qualidade (Asserção) e bloquear o merge quando algo falha.
+- **b.** Incorreta. A Razão justifica diretamente a Asserção (é o `run` + `test` do build que produz a cobertura descrita).
+- **c.** Incorreta. A Razão é verdadeira (o `dbt build` realmente combina `run` e `test`).
+- **d.** Incorreta. A Asserção é verdadeira.
+- **e.** Incorreta. Ambas são verdadeiras.
+
+### Questão 27
+
+- **a.** Incorreta. A Razão não justifica a Asserção — troca de target no dbt e fiscalização da LGPD pela ANPD são temas independentes.
+- **b.** *Correta!* As duas proposições são individualmente verdadeiras: promover `dev → prod` no dbt é apenas trocar o **target** no `profiles.yml` (mesmos modelos, banco diferente), e a LGPD de fato é fiscalizada pela ANPD e garante o direito de eliminação. Mas a Razão (LGPD/ANPD) **não explica** a mecânica de targets do dbt — são fatos verdadeiros sem relação de causa.
+- **c.** Incorreta. A Razão é verdadeira.
+- **d.** Incorreta. A Asserção é verdadeira.
+- **e.** Incorreta. Ambas são verdadeiras.
+
+### Questão 28
+
+- **a.** Incorreta. A Razão é falsa.
+- **b.** Incorreta. A Razão é falsa.
+- **c.** *Correta!* A Asserção é verdadeira: a **acurácia** (o dado refletir a realidade) é a dimensão que flagra "entrega antes da compra". A Razão é falsa: verificar se `order_id` aparece uma única vez é **unicidade**, não acurácia — e a acurácia tem, sim, relação com a coerência entre datas de um pedido.
+- **d.** Incorreta. A Asserção é verdadeira.
+- **e.** Incorreta. A Asserção é verdadeira.
+
+### Questão 29
+
+- **a.** Incorreta. A Asserção é falsa.
+- **b.** Incorreta. A Asserção é falsa.
+- **c.** Incorreta. A Razão é verdadeira.
+- **d.** *Correta!* A Asserção é falsa: a *view* do dbt e a feature store gerenciada **não** são conceitos sem relação — no projeto local a *view* **é** a feature store, com o mesmo propósito. A Razão descreve corretamente que o conceito é o mesmo: servir a mesma lógica de *features* (prazo estimado, frete, itens, categoria, UF, parcelas) para treino e produção.
+- **e.** Incorreta. A Razão é verdadeira.
+
+### Questão 30
+
+- **a.** Incorreta. Ambas são falsas.
+- **b.** Incorreta. Ambas são falsas.
+- **c.** Incorreta. A Razão também é falsa.
+- **d.** Incorreta. A Asserção também é falsa.
+- **e.** *Correta!* As duas proposições são falsas. A **completude** importa, sim: pedidos sem `review` são lacunas mensuráveis que afetam análises de satisfação. E a **consistência** entre `stg_order_payments` e `fct_orders` é decisiva: um `payment_value` que não bate contamina KPIs de receita e compromete decisões de negócio.
+
+### Questão 31
+
+- **a.** *Correta!* Testes e observabilidade são **complementares**: os `not_null`/`unique`/`accepted_values` barram o previsto, e a observabilidade monitora volume, frescor, distribuição, esquema e linhagem ao longo do tempo, capturando o imprevisto (como a queda de 135 para 12 pedidos).
+- **b.** Incorreta. A observabilidade **não** dispensa os testes; eles cobrem o previsto de forma barata, na porta do dado.
+- **c.** Incorreta. Queda de **volume** não é unicidade; nenhum `unique` no `order_id` detecta poucos pedidos no dia.
+- **d.** Incorreta. Não fazem a mesma coisa nem são redundantes: um pega o previsto, o outro o imprevisto.
+- **e.** Incorreta. Um `not_null` verifica nulos em um campo, não o volume de linhas da tabela — são métricas distintas.
+
+### Questão 32
+
+- **a.** Incorreta. Manter 3 dígitos + `XX` **não** anonimiza plenamente; o dado segue no escopo da LGPD como pseudonimizado/generalizado.
+- **b.** *Correta!* O mascaramento **reduz a granularidade** (3 dígitos + `XX`), aplicando defesa em profundidade e menor privilégio a quem não precisa do prefixo cheio, sem, por si só, tornar o dado plenamente anônimo.
+- **c.** Incorreta. `XX` **oculta** dígitos (reduz precisão); não acrescenta informação geográfica.
+- **d.** Incorreta. Mascarar parte do CEP é justamente uma boa prática de governança, não uma violação.
+- **e.** Incorreta. Mascaramento e RBAC são camadas **complementares** de defesa em profundidade; um não substitui o outro.
+
+### Questão 33
+
+- **a.** Incorreta. Modelos a jusante **não** se corrigem sozinhos; é preciso conhecer a linhagem para remover o rastro em cada ponto.
+- **b.** Incorreta. O lineage é a base técnica do direito de eliminação, não mero enfeite de documentação.
+- **c.** *Correta!* O lineage é a **planta baixa da exclusão**: revela todos os modelos onde o dado do titular pousou (de `raw` ao `mart_payment_analysis`), permitindo apagar cada rastro e respondendo a impacto (a jusante) e causa-raiz (a montante).
+- **d.** Incorreta. A LGPD exige, sim, rastrear todos os lugares onde o dado pessoal está; ignorar `dim_customers`/`fct_orders` deixaria rastros.
+- **e.** Incorreta. Marts derivados de dado pessoal **não** deixam de ser dado pessoal automaticamente; a exclusão os alcança.
+
+### Questão 34
+
+- **a.** Incorreta. IaC vai muito além de economizar cliques: entrega reprodutibilidade, versionamento e revisão em PR.
+- **b.** Incorreta. IaC declara a infra; não substitui nem elimina os testes de dados do pipeline.
+- **c.** Incorreta. Governança e IaC são compatíveis — as políticas de acesso da Aula 14 podem ser expressas como código Terraform.
+- **d.** *Correta!* A **IaC** torna a criação da infra do Olist declarativa, versionada e revisável em PR, recria ambientes idênticos em minutos e permite codificar até as políticas de acesso da governança.
+- **e.** Incorreta. O versionamento e a retenção de 90 dias declarados no Terraform aplicam-se ao **bucket** de armazenamento, não ao código dbt.
+
+### Questão 35
+
+- **a.** Incorreta. O modelo **não** é inútil: 24% de precisão no decil de risco contra 8% de taxa-base é um ganho real (lift 3,0).
+- **b.** Incorreta. *Lift* de 3,0 significa **3× melhor** que o acaso, não "3% dos atrasos" nem pior que o acaso.
+- **c.** Incorreta. *Lift* mede ganho de predição sobre o acaso, não latência do pipeline.
+- **d.** Incorreta. No chute a precisão seria a própria taxa-base (8%), não 24%; o modelo triplica esse desempenho.
+- **e.** *Correta!* Mirando os 10% mais arriscados, a logística acha atrasos **3× mais** do que ao acaso — valor suficiente para acionar transportadora ou avisar o cliente proativamente.
+
+### Questão 36
+
+- **a.** *Correta!* A regra **1-10-100** mostra que o custo do defeito cresce por ordem de grandeza conforme avança no pipeline; por isso automatiza-se a verificação **onde o dado é produzido** (`schema.yml`), não onde é consumido (mart/BI).
+- **b.** Incorreta. Conviver com o defeito custa **R\$ 100** — o **maior** custo, não o menor.
+- **c.** Incorreta. Validar no dashboard da diretoria é o ponto **mais caro** (consumidor final); a validação deve ocorrer na produção do dado.
+- **d.** Incorreta. Escrever o `accepted_values` (R\$ 1) é muito **mais barato** que corrigir depois (R\$ 10) ou conviver (R\$ 100).
+- **e.** Incorreta. A regra 1-10-100 trata do **custo de defeitos** ao longo do pipeline, não de latência/frescor.
+
+### Questão 37
+
+- **a.** Incorreta. MLOps **não** substitui qualidade, lineage e CI/CD — apoia-se neles como fundação.
+- **b.** *Correta!* MLOps **estende** o DataOps ao ciclo do modelo (versiona também o modelo, monitora *data/model drift*), sobre a base de qualidade, lineage e CI/CD já construída, que é pré-requisito.
+- **c.** Incorreta. MLOps versiona dado, código **e** modelo — não apenas código.
+- **d.** Incorreta. *Drift* é mudança na distribuição dos dados/desempenho do modelo, não um problema de infraestrutura resolvido com Terraform.
+- **e.** Incorreta. MLOps exige treino **reproduzível**; reexecutar um notebook manualmente é o oposto de reprodutibilidade.
+
+### Questão 38
+
+- **a.** Incorreta. O lineage do dbt vive **dentro do projeto**; não cobre metadados e linhagem entre **todos** os times e ferramentas da organização.
+- **b.** Incorreta. Planilha manual heterogênea não escala nem padroniza a governança entre times.
+- **c.** *Correta!* A escala organizacional pede um **catálogo de dados** dedicado (DataHub, open source, ou Atlan, comercial), que centraliza metadados, dicionário de dados e linhagem ponta a ponta, catalogando e classificando PII como o `customer_unique_id`.
+- **d.** Incorreta. Catálogos existem justamente para governar **múltiplos** times; desligar a governança em escala é o contrário do necessário.
+- **e.** Incorreta. Um `not_null` verifica ausência de nulos; não classifica PII nem centraliza metadados entre times.
+
+### Questão 39
+
+- **a.** Incorreta. Multa **não** é o único custo relevante; notificação e *churn* somam mais que a própria multa.
+- **b.** Incorreta. Prevenir (~R\$ 60 mil) é **muito menor** que o impacto (~R\$ 3,1 mi), logo economicamente justificável.
+- **c.** Incorreta. O teto de R\$ 50 mi é o **limite máximo** por infração; aqui o teto percentual (2% de R\$ 80 mi) resulta em R\$ 1,6 milhão.
+- **d.** *Correta!* O impacto no 1º ano soma $\approx \text{R\$}\,3{,}1$ milhões e a prevenção $\approx \text{R\$}\,60$ mil; a **multa é a menor das parcelas** e prevenir na origem (como o Olist já faz ao pseudonimizar) é ordens de grandeza mais barato.
+- **e.** Incorreta. A pseudonimização reduz o risco, mas o cálculo de impacto ilustra o custo de **não** tê-la; ela não torna qualquer vazamento inconsequente.
+
+### Questão 40
+
+- **a.** Incorreta. O medo não é falta de coragem individual, e sim sintoma de falta de processo.
+- **b.** Incorreta. Proibir merges às sextas **reduz** a frequência de deploy — o oposto da meta DORA e da cura do DataOps.
+- **c.** Incorreta. Alterar o `fct_order_items` **pode**, sim, quebrar marts a jusante como o `mart_seller_scorecard`; por isso o medo existe.
+- **d.** Incorreta. Versionar o `olist.duckdb` no Git é justamente o que **não** se deve fazer (dado vai para o `.gitignore`); não é a cura do medo.
+- **e.** *Correta!* O medo é sintoma de **falta de processo**, curado por DataOps (CI com `dbt build`, *staging*, `dbt test`, WAP): numa equipe madura, merge no `fct_order_items` na sexta às 17h é **rotina, não coragem**.

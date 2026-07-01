@@ -494,7 +494,7 @@ A **Modern Data Stack** arquiteta a plataforma com **ferramentas modulares, gere
 4. **BI** (**Metabase**, Power BI, Looker) → dashboards do Olist ao usuário final.
 5. **Orquestração e observabilidade** (Airflow `olist_pipeline`; observabilidade vem na Unidade 4) → cola e monitora.
 
-![Pilha de ferramentas em nuvem conectadas: a Modern Data Stack compõe ingestão, armazenamento, transformação e BI em módulos plugáveis sobre o data warehouse](https://commons.wikimedia.org/wiki/Special:FilePath/CERN_Server_03.jpg)
+![Servidores e cabeamento de um data center: a infraestrutura em nuvem sobre a qual a Modern Data Stack conecta ingestão, armazenamento, transformação e BI em módulos plugáveis](https://commons.wikimedia.org/wiki/Special:FilePath/Datacenter-telecom.jpg)
 
 ### Ingestão gerenciada (Fivetran, Airbyte)
 

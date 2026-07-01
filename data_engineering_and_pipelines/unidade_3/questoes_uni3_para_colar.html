@@ -24,9 +24,9 @@ hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
 </ul>
 <h2>Orientações</h2>
 <ul>
-<li><strong>20 questões</strong> padrão ENADE: <strong>10 asserção-razão</strong> + <strong>10 de interpretação</strong>.</li>
+<li><strong>40 questões</strong> padrão ENADE: <strong>20 asserção-razão</strong> + <strong>20 de interpretação</strong>.</li>
 <li>Cada questão tem <strong>5 alternativas (a–e)</strong>; a correta é prefixada por <code>*</code> (ex.: <code>*c. ...</code>).</li>
-<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (4 questões para cada letra).</li>
+<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (8 questões para cada letra).</li>
 </ul>
 <hr>
 <h2>Questões</h2>
@@ -308,6 +308,256 @@ b. Adotar somente um Data Warehouse clássico com schema-on-write, descartando o
 c. Migrar para planilhas em object storage, eliminando a necessidade de banco de dados.
 d. Adotar somente um Data Lake sem governança, jogando todos os dados brutos sem catálogo nem camadas.
 *e. Adotar uma arquitetura Lakehouse sobre object storage com formato de tabela aberto (Delta ou Iceberg) e camadas Medallion (bronze/silver/gold), atendendo BI e ciência de dados com uma cópia única, confiável e flexível.</p>
+<h3>Questão 21 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Segundo a definição clássica de Bill Inmon, um Data Warehouse é orientado a assunto, integrado, não volátil e variante no tempo — no Olist, um pedido de 2017 permanece no DW e nada é sobrescrito.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A não volatilidade significa que os dados, uma vez carregados no DW, não são apagados nem alterados a cada nova carga, preservando o histórico que sustenta a análise ao longo do tempo (variância temporal).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 22 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No projeto Olist, a <code>fct_order_items</code> tem grão de <strong>um item de pedido</strong>, enquanto a <code>fct_orders</code> tem grão de <strong>um pedido</strong>, agregando pagamento e status.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O DuckDB é um banco colunar e vetorizado, o que o torna equivalente local ao Apache Spark para o processamento em lote das tabelas do Olist.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 23 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Snowflake, os <em>virtual warehouses</em> são clusters de computação lógicos que podem ser ligados e desligados de forma independente, e a cobrança padrão é por segundo de compute ativo.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Snowflake roda exclusivamente na infraestrutura da AWS, sendo essa a única nuvem em que seus <em>virtual warehouses</em> podem ser provisionados.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 24 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No schema-on-read do Data Lake, é obrigatório definir e validar o esquema completo dos dados <strong>antes</strong> de gravá-los no repositório, exatamente como no Data Warehouse clássico.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No schema-on-read, os dados são gravados em formato bruto e nativo, e a estrutura só é aplicada no momento da leitura — é justamente essa flexibilidade que permite ao lake acolher texto livre, JSON e outros formatos variados.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 25 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No esquema estrela do Olist, para consultar o faturamento por categoria basta juntar a <code>fct_order_items</code> diretamente às tabelas de staging (<code>stg_*</code>), pois a camada <code>core</code> de dimensões é dispensável quando já existe staging.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O comando <code>dbt snapshot</code> com <code>strategy='check'</code> sobrescreve os registros antigos da dimensão a cada execução, implementando assim uma Slowly Changing Dimension do Tipo 1.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 26 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O <code>dbt docs generate</code> seguido de <code>dbt docs serve</code> entrega um catálogo navegável e o grafo de lineage do pipeline do Olist, mostrando dependências como <code>stg_orders</code> → <code>fct_orders</code> → <code>mart_delivery_performance</code>.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O lineage do dbt é construído automaticamente a partir das referências <code>{{ ref(...) }}</code> entre os modelos, que encadeiam staging, core e marts em um grafo de dependências.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 27 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O ClickHouse é um banco colunar open-source conhecido pela velocidade em consultas analíticas, e seu motor <code>MergeTree</code> usa a cláusula <code>ORDER BY</code> para cumprir, de uma vez, o papel de partição e de clustering dos dados.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Airbyte é uma ferramenta de ingestão de código aberto (com oferta em nuvem) que oferece conectores customizáveis, atraindo quem busca controle e custo menor no "L" do ELT.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 28 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No princípio de "dados como produto" do data mesh, cada mart do Olist (por exemplo, <code>mart_delivery_performance</code>) vira um produto com dono, SLA, documentação e testes de qualidade.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O data mesh, sendo um paradigma organizacional, só pode ser adotado depois de a empresa substituir o dbt e o Airflow por ferramentas proprietárias específicas de mesh, pois nenhuma ferramenta open source suporta domínios.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 29 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No esquema estrela do Olist, a dimensão <code>dim_products</code> deve ser sempre totalmente normalizada em subtabelas separadas (categoria, subcategoria, tradução), pois o esquema estrela exige normalização em terceira forma normal nas dimensões.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No esquema floco de neve (snowflake), as dimensões são normalizadas em subtabelas relacionadas, ao passo que no esquema estrela as dimensões são desnormalizadas em uma única tabela por assunto, favorecendo consultas mais simples e rápidas.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 30 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Para migrar o pipeline do Olist do DuckDB local para o BigQuery na nuvem, é preciso reescrever integralmente os modelos <code>stg_orders</code>, <code>dim_customers</code> e <code>fct_order_items</code> na sintaxe SQL específica do BigQuery, pois o dbt não abstrai diferenças entre bancos.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <code>partition_by</code> e o <code>cluster_by</code> do BigQuery são configurados fora do projeto dbt, diretamente no console da nuvem, já que o <code>config()</code> do dbt não permite declarar particionamento nem clustering nos modelos.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 31 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"O OLTP — <em>Online Transaction Processing</em> registra muitas escritas pequenas, como cada pedido novo do marketplace Olist, enquanto o DW é OLAP — <em>Online Analytical Processing</em>: poucas consultas que varrem os ~112 mil itens para agregar."</p>
+</blockquote>
+<p>A leitura <strong>mais adequada</strong> do trecho é:</p>
+<p>*a. OLTP e OLAP têm propósitos distintos: o transacional é otimizado para muitas gravações pequenas e pontuais, e o analítico para poucas consultas que agregam grandes volumes — por isso o DW do Olist é separado do banco transacional do marketplace.
+b. OLTP e OLAP são sinônimos, e usar um ou outro é apenas questão de preferência do engenheiro.
+c. O OLAP é o melhor sistema para registrar cada pedido novo do marketplace em tempo real.
+d. O OLTP é o mais indicado para varrer os 112 mil itens e calcular faturamento por categoria.
+e. Como ambos usam SQL, tanto faz consultar o faturamento diretamente no banco transacional de produção.</p>
+<h3>Questão 32 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No dbt, a materialização de um modelo pode ser configurada como <code>view</code>, <code>table</code> ou <code>incremental</code>. No Olist, a camada <code>core</code> (dimensões e fatos) costuma ser materializada como <code>table</code>, enquanto modelos de <code>staging</code> finos e descartáveis podem ficar como <code>view</code>.</p>
+</blockquote>
+<p>A conclusão <strong>mais bem suportada</strong> pelo trecho é:</p>
+<p>a. O dbt obriga que todas as camadas (staging, core, marts) sejam materializadas como <code>view</code> para economizar disco.
+*b. A escolha da materialização é uma decisão por modelo: <code>view</code> para camadas finas e descartáveis (staging) e <code>table</code> para o core, que é lido com frequência e se beneficia de persistência física.
+c. A materialização <code>incremental</code> deve ser evitada, pois recalcula sempre a tabela inteira a cada execução.
+d. Materializar a <code>core</code> como <code>view</code> é obrigatório porque o dbt não permite persistir dimensões e fatos como tabela.
+e. A materialização não afeta desempenho nem custo, sendo apenas uma preferência estética.</p>
+<h3>Questão 33 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Para o Olist, o ganho concreto dos formatos de tabela abertos seria o <strong>time travel</strong>: poder consultar 'como estava a tabela de pedidos no fechamento de janeiro/2018' — auditável, sem manter cópias manuais. Nosso lake local em Parquet puro não tem isso nativamente."</p>
+</blockquote>
+<p>A interpretação <strong>mais correta</strong> é:</p>
+<p>a. O Parquet puro já oferece time travel nativo, tornando Delta e Iceberg desnecessários no Olist.
+b. Time travel significa apagar os dados antigos para liberar espaço no lake.
+*c. O time travel, provido por formatos como Delta e Iceberg, permite consultar versões passadas da tabela de forma auditável, sem cópias manuais — algo que o Parquet puro do lake local não faz sozinho.
+d. Para ter time travel no Olist, é obrigatório migrar todos os dados para um banco transacional OLTP por linha.
+e. Time travel é um recurso exclusivo de Data Warehouses on-premises e não existe em Lakehouses.</p>
+<h3>Questão 34 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Na Modern Data Stack, o <strong>Fivetran</strong> é um SaaS comercial com centenas de conectores prontos e sincronização incremental automática, cobrando por <strong>MAR (Monthly Active Rows)</strong>. O <strong>Airbyte</strong> é a alternativa open source (com cloud), com conectores customizáveis, que atrai quem quer controle e custo menor. No Olist local, esse papel é do script <code>load_raw.py</code>.</p>
+</blockquote>
+<p>A leitura <strong>mais adequada</strong> é:</p>
+<p>a. Fivetran e Airbyte são ferramentas de transformação (o "T" do ELT) que substituiriam o dbt no pipeline do Olist.
+b. O <code>load_raw.py</code> do Olist cumpre o papel de BI e dashboards, equivalente ao Metabase.
+c. A cobrança por MAR do Fivetran significa que ele cobra por consulta SQL executada no warehouse.
+*d. Fivetran e Airbyte cumprem o papel de ingestão (o "L" do ELT) com conectores prontos; substituiriam o <code>load_raw.py</code> se o Olist fosse uma fonte ao vivo — Fivetran cobra por MAR, Airbyte é open source e atrai quem busca controle e menor custo.
+e. Airbyte, por ser open source, não possui oferta gerenciada em nuvem, ao contrário do Fivetran.</p>
+<h3>Questão 35 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma equipe do Olist precisa contar os pedidos de um único mês em Parquet particionado por ano/mês. Compara duas abordagens: (A) ler <strong>todos</strong> os Parquets de <code>data/gold/orders</code> para um DataFrame e só então filtrar por janeiro/2018 em memória; (B) usar <code>read_parquet(..., hive_partitioning=true)</code> com <code>WHERE year = 2018 AND month = 1</code>.</p>
+</blockquote>
+<p>A conclusão <strong>mais bem suportada</strong> é:</p>
+<p>a. A abordagem (A) é melhor, pois ler tudo antes de filtrar garante partition pruning e menor scan.
+b. As duas abordagens leem exatamente a mesma quantidade de dados, pois o particionamento não influencia o scan.
+c. A abordagem (A) é mais barata porque evita a sobrecarga dos metadados de partição.
+d. A abordagem (B) só funciona em bancos transacionais OLTP por linha, não sobre Parquet.
+*e. A abordagem (B) faz partition pruning e lê apenas a pasta daquele mês (~1/25 dos dados), enquanto a (A) varre tudo antes de filtrar, anulando a vantagem do particionamento.</p>
+<h3>Questão 36 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No modelo <strong>on-demand</strong> do BigQuery, paga-se por byte lido (referência da ordem de US$ 6,25 por TB). A disciplina de FinOps recomenda particionar por padrão, exigir filtro na coluna de partição, evitar <code>SELECT *</code> e usar o <strong>dry run</strong> (estimativa de bytes antes de rodar a consulta).</p>
+</blockquote>
+<p>A leitura <strong>mais adequada</strong> do trecho é:</p>
+<p>*a. O dry run estima os bytes que a consulta vai varrer antes de executá-la, permitindo ao engenheiro prever o custo e ajustar a query (partição, colunas) — parte da disciplina de FinOps no DW em nuvem.
+b. O dry run executa a consulta de fato e cobra o valor total, servindo apenas para gerar a fatura.
+c. No on-demand do BigQuery cobra-se por hora de cluster provisionado, independentemente dos bytes lidos.
+d. Usar <code>SELECT *</code> reduz o custo no on-demand, pois lê todas as colunas de uma só vez com desconto.
+e. FinOps é irrelevante em DW na nuvem, pois o custo por consulta é fixo e não depende da modelagem.</p>
+<h3>Questão 37 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<p>A tabela resume a cobrança padrão de três DWs em nuvem:</p>
+<table>
+<thead>
+<tr>
+<th>DW</th>
+<th>Cobrança padrão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BigQuery</td>
+<td>Por TB varrido (on-demand) ou slots</td>
+</tr>
+<tr>
+<td>Snowflake</td>
+<td>Por segundo de compute ativo</td>
+</tr>
+<tr>
+<td>Redshift</td>
+<td>Por hora de cluster (ou por uso no serverless)</td>
+</tr>
+</tbody>
+</table>
+<p>Uma equipe quer <strong>integração nativa com o ecossistema AWS</strong> e aceita <strong>gerenciar clusters provisionados</strong>, pagando por hora de cluster. A opção <strong>mais alinhada</strong> é:</p>
+<p>a. BigQuery, por ser serverless puro e cobrar por TB varrido.
+*b. Redshift, pela integração nativa com o ecossistema AWS e o modelo de clusters provisionados cobrados por hora.
+c. Snowflake, por cobrar por segundo de compute e ser multi-cloud.
+d. Qualquer banco transacional OLTP por linha, que atende igualmente análise e AWS.
+e. Nenhum DW em nuvem oferece integração com a AWS.</p>
+<h3>Questão 38 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"A <strong>camada semântica</strong> define métricas e dimensões de forma centralizada — 'faturamento líquido' é definido uma vez (como um modelo/mart no dbt) e todo o BI consome a mesma definição. Sobre essa camada, o <strong>Metabase</strong> (open source) conecta-se ao DuckDB e monta o dashboard do Olist: vendas por categoria, performance de entrega por UF e distribuição das notas de review."</p>
+</blockquote>
+<p>A leitura <strong>mais coerente</strong> é:</p>
+<p>a. A camada semântica e o Metabase são a mesma coisa, ambos responsáveis por armazenar os dados brutos do Olist.
+b. O Metabase substitui a necessidade de um warehouse, pois processa e guarda os dados internamente.
+*c. A camada semântica centraliza a definição das métricas (fonte única da verdade), e o Metabase, como ferramenta de BI, consome essas definições para montar dashboards do Olist sobre o DuckDB.
+d. A camada semântica torna o BI dispensável, pois já entrega os gráficos finais ao usuário.
+e. O Metabase não consegue ler o DuckDB, exigindo migração prévia dos dados para um banco transacional.</p>
+<h3>Questão 39 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma startup roda todo o pipeline analítico do Olist localmente com DuckDB + dbt-core + Airflow + Metabase open source, com custo de ferramentas de praticamente R$ 0,00. A diretoria pergunta se deveria migrar imediatamente para uma Modern Data Stack na nuvem (Airbyte + BigQuery + dbt Cloud + Metabase), estimada em ~R$ 5.500,00/mês, sendo que o volume de dados atual é de ~120 MB.</p>
+</blockquote>
+<p>A recomendação <strong>mais bem fundamentada</strong> é:</p>
+<p>a. Migrar imediatamente para a nuvem, pois qualquer stack local é tecnicamente incapaz de rodar dbt e Airflow.
+b. Migrar imediatamente, pois R$ 5.500,00/mês é sempre mais barato do que manter uma stack local gratuita.
+c. Descartar tanto a stack local quanto a nuvem e voltar a analisar tudo em planilhas manuais.
+*d. Manter a stack local enquanto o volume (~120 MB) e a concorrência de usuários forem baixos — ela entrega o mesmo resultado de graça —, migrando para a MDS na nuvem só quando o volume e a demanda justificarem.
+e. Manter a stack local para sempre, pois nenhum crescimento de volume jamais justificaria a nuvem.</p>
+<h3>Questão 40 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>A mensagem central da Aula 11 é demonstrada assim: o <code>profiles.yml</code> local usa <code>type: duckdb</code> apontando para <code>olist.duckdb</code>; para a nuvem, instala-se o <code>dbt-bigquery</code> e troca-se para <code>type: bigquery</code> com <code>project</code> e <code>dataset</code> — e os modelos <code>stg_orders</code>, <code>dim_customers</code> e <code>fct_order_items</code> "não mudam uma linha".</p>
+</blockquote>
+<p>A interpretação <strong>mais correta</strong> é:</p>
+<p>a. Migrar o Olist para a nuvem exige reescrever toda a lógica SQL dos modelos, pois cada banco tem dialeto incompatível.
+b. O <code>profiles.yml</code> contém a lógica de transformação dos dados, e por isso os modelos precisam ser reescritos junto.
+c. Trocar o adapter do dbt apaga os dados do warehouse de destino a cada execução.
+d. O dbt-bigquery e o dbt-duckdb são projetos incompatíveis que não compartilham nenhum modelo entre si.
+*e. A portabilidade do dbt permite migrar do DuckDB local para o BigQuery trocando apenas o adapter e o <code>profiles.yml</code> (conexão), mantendo os modelos <code>stg_*</code>/<code>dim_*</code>/<code>fct_*</code> idênticos — a lógica de transformação é independente do banco.</p>
 <h2>Feedbacks</h2>
 <h3>Questão 1</h3>
 <ul>
@@ -468,5 +718,165 @@ d. Adotar somente um Data Lake sem governança, jogando todos os dados brutos se
 <li><strong>c.</strong> Incorreta. Planilhas não oferecem confiabilidade, escala nem governança para esse cenário.</li>
 <li><strong>d.</strong> Incorreta. Um Data Lake sem governança vira data swamp, sem confiabilidade para o BI.</li>
 <li><strong>e.</strong> <em>Correta!</em> O Lakehouse sobre object storage, com formato de tabela aberto (Delta/Iceberg) e camadas Medallion (bronze/silver/gold), atende tanto o BI (confiabilidade, esquema) quanto a ciência de dados (flexibilidade, histórico bruto) com uma cópia única.</li>
+</ul>
+<h3>Questão 21</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. A Asserção enuncia os quatro adjetivos de Inmon (orientado a assunto, integrado, não volátil, variante no tempo); a Razão explica corretamente <strong>o que é</strong> a não volatilidade — dados não são apagados nem alterados a cada carga —, justificando por que o pedido de 2017 permanece intacto no DW do Olist.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 22</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção — são fatos independentes.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: a <code>fct_order_items</code> tem grão de um item e a <code>fct_orders</code>, de um pedido; e o DuckDB é de fato colunar/vetorizado, equivalente local do Spark no curso. Mas a Razão (natureza do motor) <strong>não explica</strong> a definição de grão das fatos (modelagem dimensional) — são temas independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 23</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: os <em>virtual warehouses</em> do Snowflake são clusters de compute lógicos, liga/desliga independente, cobrados por segundo de compute ativo. A Razão é falsa: o Snowflake é <strong>multi-cloud</strong> (AWS, Azure e GCP), não exclusivo da AWS.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 24</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: definir o esquema <strong>antes</strong> de gravar é o schema-on-<strong>write</strong> do DW clássico, não o schema-on-read do lake. A Razão descreve corretamente o schema-on-read: grava-se bruto e a estrutura é aplicada só na leitura, o que dá a flexibilidade para acolher texto livre, JSON e formatos variados.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 25</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas proposições são falsas. A camada <code>core</code> de dimensões <strong>não</strong> é dispensável: ela é a fonte única da verdade que integra e conforma as fontes (o consumo direto do staging quebraria a estrela conformada). E o <code>dbt snapshot</code> com <code>strategy='check'</code> implementa <strong>SCD Tipo 2</strong> (cria novas versões com <code>dbt_valid_from</code>/<code>dbt_valid_to</code>, preservando histórico), <strong>não</strong> SCD Tipo 1 (que sobrescreve).</li>
+</ul>
+<h3>Questão 26</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O <code>dbt docs</code> entrega catálogo + lineage (<code>stg_orders</code> → <code>fct_orders</code> → <code>mart_delivery_performance</code>); a Razão explica <strong>por que</strong> isso é possível: o grafo é montado automaticamente a partir das referências <code>{{ ref(...) }}</code> entre os modelos.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 27</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção — trata de outra camada da stack (ingestão).</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: o ClickHouse é colunar open-source rápido, e seu <code>MergeTree</code> usa o <code>ORDER BY</code> como partição + clustering; e o Airbyte é ingestão open source com conectores customizáveis. Mas a Razão fala do <strong>"L" (ingestão)</strong> da stack, não justifica o desempenho colunar do ClickHouse (armazenamento/consulta) — são camadas distintas e independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 28</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: em "dados como produto", cada mart do Olist vira um produto com dono, SLA, documentação e testes. A Razão é falsa: o data mesh é <strong>mudança organizacional</strong>, não uma ferramenta — não exige substituir dbt/Airflow por software proprietário de "mesh"; a própria stack self-service (dbt + DuckDB) serve aos domínios.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 29</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: o esquema <strong>estrela</strong> usa dimensões <strong>desnormalizadas</strong> (uma tabela por assunto), não normalização em 3FN — normalizar as dimensões em subtabelas é característica do <strong>floco de neve</strong>. A Razão descreve corretamente essa distinção: floco de neve normaliza as dimensões, estrela as desnormaliza para consultas mais simples e rápidas.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 30</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas proposições são falsas. Os modelos <code>stg_*</code>/<code>dim_*</code>/<code>fct_*</code> <strong>não</strong> precisam ser reescritos: a portabilidade do dbt faz a migração DuckDB → BigQuery ser apenas troca de adapter e <code>profiles.yml</code>. E o <code>partition_by</code>/<code>cluster_by</code> são declarados <strong>dentro</strong> do projeto dbt, no <code>config()</code> do próprio modelo — não no console da nuvem.</li>
+</ul>
+<h3>Questão 31</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O trecho contrasta os dois propósitos: OLTP para muitas escritas pequenas (cada pedido) e OLAP para poucas consultas que agregam grande volume — por isso o DW analítico do Olist é separado do banco transacional do marketplace.</li>
+<li><strong>b.</strong> Incorreta. OLTP e OLAP não são sinônimos; têm propósitos e otimizações opostos.</li>
+<li><strong>c.</strong> Incorreta. Registrar cada pedido em tempo real é papel do OLTP, não do OLAP.</li>
+<li><strong>d.</strong> Incorreta. Varrer 112 mil itens para agregar é papel do OLAP, não do OLTP.</li>
+<li><strong>e.</strong> Incorreta. Consultas analíticas pesadas no banco de produção travariam o OLTP — por isso se usa um DW separado.</li>
+</ul>
+<h3>Questão 32</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O dbt <strong>não</strong> obriga tudo a ser <code>view</code>; a materialização é escolhida por modelo.</li>
+<li><strong>b.</strong> <em>Correta!</em> A materialização é decisão por modelo: <code>view</code> para staging fino e descartável, <code>table</code> para o core lido com frequência, que se beneficia de persistência física — exatamente o que o trecho descreve.</li>
+<li><strong>c.</strong> Incorreta. A materialização <code>incremental</code> justamente <strong>evita</strong> recalcular a tabela inteira, processando só os novos registros.</li>
+<li><strong>d.</strong> Incorreta. O dbt permite (e recomenda) materializar a <code>core</code> como <code>table</code>.</li>
+<li><strong>e.</strong> Incorreta. A materialização afeta diretamente desempenho e custo (leitura, disco, recomputação).</li>
+</ul>
+<h3>Questão 33</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O Parquet puro <strong>não</strong> oferece time travel nativo — o próprio trecho afirma isso.</li>
+<li><strong>b.</strong> Incorreta. Time travel é consultar versões passadas, não apagar dados antigos.</li>
+<li><strong>c.</strong> <em>Correta!</em> Formatos como Delta e Iceberg proveem time travel: consultar versões passadas da tabela de forma auditável, sem cópias manuais — recurso que o Parquet puro do lake local não tem sozinho.</li>
+<li><strong>d.</strong> Incorreta. Não é preciso migrar para OLTP; o time travel vem dos formatos de tabela abertos sobre o lake.</li>
+<li><strong>e.</strong> Incorreta. Time travel é justamente um recurso de Lakehouses (Delta/Iceberg), não exclusivo de DW on-premises.</li>
+</ul>
+<h3>Questão 34</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Fivetran e Airbyte são de ingestão (o "L"), não de transformação; o "T" é do dbt.</li>
+<li><strong>b.</strong> Incorreta. O <code>load_raw.py</code> faz ingestão dos CSVs, não BI/dashboards (papel do Metabase).</li>
+<li><strong>c.</strong> Incorreta. MAR (Monthly Active Rows) cobra por linhas ativas sincronizadas, não por consulta SQL no warehouse.</li>
+<li><strong>d.</strong> <em>Correta!</em> Ambos cumprem a ingestão (o "L" do ELT) com conectores prontos e substituiriam o <code>load_raw.py</code> se o Olist fosse fonte ao vivo; Fivetran cobra por MAR (SaaS comercial) e o Airbyte é open source, atraindo quem busca controle e menor custo.</li>
+<li><strong>e.</strong> Incorreta. O Airbyte <strong>tem</strong> oferta em nuvem (Airbyte Cloud), além da versão open source.</li>
+</ul>
+<h3>Questão 35</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ler tudo antes de filtrar (A) <strong>anula</strong> o partition pruning — é a abordagem que mais varre dados.</li>
+<li><strong>b.</strong> Incorreta. O particionamento influencia fortemente o scan: (B) lê ~1/25; (A) lê tudo.</li>
+<li><strong>c.</strong> Incorreta. Os metadados de partição são o que <strong>permite</strong> a poda; (A) não é mais barata.</li>
+<li><strong>d.</strong> Incorreta. <code>read_parquet</code> com hive partitioning roda sobre Parquet no DuckDB, não exige OLTP por linha.</li>
+<li><strong>e.</strong> <em>Correta!</em> A abordagem (B) faz partition pruning e lê só a pasta do mês (~1/25 dos dados), enquanto (A) varre tudo antes de filtrar, anulando a vantagem do particionamento.</li>
+</ul>
+<h3>Questão 36</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O dry run estima os bytes que a consulta varreria <strong>antes</strong> de executá-la, permitindo prever o custo e ajustar a query (partição, colunas) — pilar do FinOps no on-demand do BigQuery.</li>
+<li><strong>b.</strong> Incorreta. O dry run <strong>não</strong> executa a consulta nem cobra; apenas estima os bytes.</li>
+<li><strong>c.</strong> Incorreta. No on-demand cobra-se por <strong>byte lido</strong>, não por hora de cluster provisionado.</li>
+<li><strong>d.</strong> Incorreta. <code>SELECT *</code> lê todas as colunas e <strong>aumenta</strong> o custo por byte, não reduz.</li>
+<li><strong>e.</strong> Incorreta. O custo por consulta depende fortemente da modelagem (partição, colunas), por isso FinOps é essencial.</li>
+</ul>
+<h3>Questão 37</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. BigQuery é serverless e cobra por TB varrido — não atende o requisito de clusters provisionados na AWS.</li>
+<li><strong>b.</strong> <em>Correta!</em> O Redshift tem integração nativa com o ecossistema AWS e o modelo de clusters provisionados cobrados por hora — exatamente o requisito do enunciado.</li>
+<li><strong>c.</strong> Incorreta. Snowflake cobra por segundo de compute e é multi-cloud; não é o mais alinhado a "clusters provisionados por hora na AWS".</li>
+<li><strong>d.</strong> Incorreta. Banco OLTP por linha é inadequado para análise de grandes volumes.</li>
+<li><strong>e.</strong> Incorreta. O Redshift é justamente o DW em nuvem com integração nativa à AWS.</li>
+</ul>
+<h3>Questão 38</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Camada semântica e Metabase são coisas distintas: a primeira define métricas; o segundo é a ferramenta de BI que as consome.</li>
+<li><strong>b.</strong> Incorreta. O Metabase consulta os dados no warehouse (DuckDB); não substitui o warehouse nem guarda os dados.</li>
+<li><strong>c.</strong> <em>Correta!</em> A camada semântica centraliza a definição das métricas (fonte única da verdade) e o Metabase, como BI, consome essas definições para montar os dashboards do Olist sobre o DuckDB.</li>
+<li><strong>d.</strong> Incorreta. A camada semântica define métricas; o BI (Metabase) ainda é necessário para visualizar.</li>
+<li><strong>e.</strong> Incorreta. O Metabase lê o DuckDB via driver community; não exige migrar para um OLTP.</li>
+</ul>
+<h3>Questão 39</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A stack local (DuckDB + dbt-core + Airflow + Metabase) roda perfeitamente e é o que o curso usa.</li>
+<li><strong>b.</strong> Incorreta. R$ 5.500,00/mês não é "sempre mais barato" que uma stack local gratuita que já resolve o problema.</li>
+<li><strong>c.</strong> Incorreta. Planilhas manuais são um retrocesso, sem escala, governança nem reprodutibilidade.</li>
+<li><strong>d.</strong> <em>Correta!</em> Enquanto volume (~120 MB) e concorrência forem baixos, a stack local entrega o mesmo resultado de graça; a MDS na nuvem só passa a valer a pena quando o volume e a demanda de usuários crescem — comece local e barato, migre quando o problema justificar.</li>
+<li><strong>e.</strong> Incorreta. O crescimento para terabytes e alta concorrência <strong>justificaria</strong> a migração; "para sempre local" ignora esse gatilho.</li>
+</ul>
+<h3>Questão 40</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A portabilidade do dbt dispensa reescrever a lógica dos modelos na migração.</li>
+<li><strong>b.</strong> Incorreta. O <code>profiles.yml</code> guarda apenas a <strong>conexão</strong> (adapter/credenciais), não a lógica de transformação (que vive nos modelos).</li>
+<li><strong>c.</strong> Incorreta. Trocar o adapter não apaga dados; apenas direciona a execução para outro destino.</li>
+<li><strong>d.</strong> Incorreta. dbt-bigquery e dbt-duckdb são adapters do mesmo dbt e compartilham os mesmos modelos.</li>
+<li><strong>e.</strong> <em>Correta!</em> A portabilidade do dbt permite migrar DuckDB → BigQuery trocando apenas o adapter e o <code>profiles.yml</code>; os modelos <code>stg_*</code>/<code>dim_*</code>/<code>fct_*</code> ficam idênticos, pois a lógica de transformação é independente do banco.</li>
 </ul>
 </body></html>

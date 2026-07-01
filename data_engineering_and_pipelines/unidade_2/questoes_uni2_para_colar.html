@@ -24,9 +24,9 @@ hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
 </ul>
 <h2>Orientações</h2>
 <ul>
-<li><strong>20 questões</strong> padrão ENADE: <strong>10 asserção-razão</strong> + <strong>10 de interpretação</strong>.</li>
+<li><strong>40 questões</strong> padrão ENADE: <strong>20 asserção-razão</strong> + <strong>20 de interpretação</strong>.</li>
 <li>Cada questão tem <strong>5 alternativas (a–e)</strong>; a correta é prefixada por <code>*</code> (ex.: <code>*c. ...</code>).</li>
-<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (4 questões para cada letra).</li>
+<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (8 questões para cada letra).</li>
 </ul>
 <hr>
 <h2>Questões</h2>
@@ -260,6 +260,236 @@ b. O conceito de <em>data interval</em> (data lógica) é irrelevante para o rep
 c. O backfill duplica inevitavelmente os dados, sendo desaconselhado em qualquer pipeline.
 d. A idempotência é dispensável no backfill, pois o Airflow impede sozinho qualquer duplicação.
 <em>e. O backfill reexecuta janelas passadas de forma determinística graças à </em><em>data lógica</em><em> atrelada a cada execução, e é a </em><em>idempotência</em>* (<code>MERGE</code>/upsert ou sobrescrita de partição) que torna esse reprocessamento seguro contra duplicação.</p>
+<h3>Questão 21 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Declarar um CSV pequeno e estável do Olist — como as ~71 traduções de categoria de produto — como um <strong>seed</strong> do dbt é preferível a montar uma ingestão incremental para ele.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <strong>seed</strong> é um arquivo versionado junto do código, materializado por <code>dbt seed</code>, adequado a dados pequenos e raramente alterados, ao passo que a ingestão incremental existe para dados grandes que mudam com frequência.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 22 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A camada <strong>staging</strong> (<code>stg_*</code>) do <code>dbt_olist</code> faz uma transformação 1:1 sobre cada fonte — renomeia colunas, casta tipos e limpa nulos — sem ainda executar joins ou agregações.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <strong>DuckDB</strong> é um motor vetorizado <em>single-node</em> que resolve o join+agregação do Olist em segundos no laptop, sem exigir um cluster.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 23 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Spark, o <strong>RDD</strong> se reconstrói sozinho após a falha de um nó porque registra a sua <strong>linhagem</strong> (<em>lineage</em>) — a sequência de transformações que o gerou.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <strong>broadcast join</strong> só é vantajoso quando <strong>ambos</strong> os lados da junção são tabelas grandes, pois replica a maior das duas por todos os executors para eliminar o shuffle.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 24 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Spark, os <strong>executors</strong> são quem constrói o plano lógico do job e distribui as tarefas, enquanto o <strong>driver</strong> apenas armazena blocos de dados em disco.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O trabalho de um job Spark é fatiado em <strong>tasks</strong> (uma por partição), agrupadas em <strong>stages</strong> separados pelas fronteiras de shuffle, dentro de um mesmo <strong>job</strong>.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 25 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No streaming, o <strong>tempo de processamento</strong> (quando o evento chega ao consumidor) é sempre idêntico ao <strong>tempo do evento</strong> (<code>order_purchase_timestamp</code>), de modo que dados nunca chegam fora de ordem e os <em>watermarks</em> são desnecessários.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A janela <strong>tumbling</strong> e a janela <strong>sliding</strong> são a mesma coisa: ambas produzem blocos fixos e contíguos em que cada evento pertence a exatamente uma janela.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 26 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O <strong>Spark Structured Streaming</strong> consegue reaproveitar a mesma API de DataFrames do processamento em lote porque trata o fluxo como uma sequência de <strong>micro-batches</strong>.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Structured Streaming o stream é modelado como micro-lotes sucessivos, o que permite usar as mesmas transformações de DataFrame do batch, entregando latência da ordem de segundos (quase-tempo-real).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 27 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Na arquitetura <strong>Kappa</strong>, todo o histórico do Olist pode ser reconstruído reprocessando o log <code>olist.orders</code> desde o começo, dispensando um caminho de batch separado só para o histórico.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <strong>Apache Airflow</strong> popularizou a filosofia "pipelines como código", em que o fluxo é descrito em <strong>Python</strong> e, portanto, pode ser versionado, testado e revisado como qualquer software.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 28 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No <code>olist_pipeline</code>, colocar o <code>dbt_test</code> <strong>antes</strong> do <code>export_gold</code> garante que os marts só são publicados se o dado passar nos testes de qualidade.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Airflow, tarefas sem qualquer dependência de ordem entre si (ligadas por <code>&gt;&gt;</code>) são obrigatoriamente executadas de forma estritamente sequencial, uma após a outra, nunca em paralelo.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 29 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O <strong>Apache Flink</strong> é a escolha adequada quando a latência de milissegundos é inegociável, mas por ser <em>streaming-first</em> ele é incapaz de lidar com janelas por tempo de evento ou com eventos que chegam atrasados.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No modelo <strong>push</strong> a fonte empurra o dado para o pipeline (como um webhook), enquanto no modelo <strong>pull</strong> o pipeline busca o dado na fonte (como a leitura agendada dos CSVs do Olist).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 30 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O <strong>Hadoop</strong> original era mais rápido que o Spark em pipelines iterativos porque gravava todos os resultados intermediários em disco entre uma etapa e outra do MapReduce.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Airflow, o <strong>data interval</strong> (a data lógica de cada execução) é irrelevante para o reprocessamento, já que cada run sempre processa o dado do instante de relógio em que foi disparado, e não uma janela de dados fixa.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 31 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Pros CSVs pequenos e estáveis, tipo a tabela de tradução das categorias de produto, eu nem monto ingestão: viram <em>seed</em>, um arquivo versionado no repositório que o <code>dbt seed</code> materializa como tabela. É a fundação de tudo que vem nas próximas unidades."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p><em>a. Um dado </em><em>pequeno, estável e versionável</em><em> — como as ~71 traduções de categoria do Olist — é melhor tratado como </em><em>seed</em><em> (arquivo no repositório materializado por <code>dbt seed</code>) do que como uma ingestão incremental completa.
+b. O seed deve ser usado justamente para as tabelas </em><em>maiores e mais voláteis</em>* do Olist, pois é a forma mais escalável de ingestão.
+c. Um seed é carregado por um produtor Kafka em tempo real, evento a evento, no tópico <code>olist.orders</code>.
+d. Declarar a tradução de categorias como seed obriga a reprocessar os 99 mil pedidos a cada <code>dbt run</code>.
+e. O seed substitui a camada staging (<code>stg_*</code>), tornando desnecessário renomear colunas ou castar tipos.</p>
+<h3>Questão 32 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No Olist, um modelo <code>stg_orders</code> renomeia colunas, casta <code>order_purchase_timestamp</code> para <code>timestamp</code> e limpa nulos, <strong>sem</strong> fazer joins nem agregações. Só mais adiante, em outra camada, é que <code>stg_orders</code> será cruzado com <code>stg_order_items</code> e <code>stg_products</code> para calcular faturamento por categoria.</p>
+</blockquote>
+<p>A leitura <strong>mais coerente</strong> com o papel dessa camada é:</p>
+<p>a. A camada staging já deve conter todos os joins e agregações do faturamento, para poupar trabalho às camadas seguintes.
+<em>b. A </em><em>staging</em><em> é uma camada </em><em>1:1</em><em> de limpeza e padronização (renomear, castar, tratar nulos); joins e agregações pertencem às </em><em>camadas seguintes</em><em>, mantendo cada etapa com responsabilidade única.
+c. Como a staging não agrega, ela é dispensável e os CSVs crus poderiam ir direto para o mart.
+d. Castar tipos e limpar nulos é uma tarefa exclusiva de streaming, não faz sentido numa camada de batch como a staging.
+e. A staging deve materializar sempre uma </em><em>agregação</em>* por categoria, nunca uma cópia 1:1 da fonte.</p>
+<h3>Questão 33 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No Spark, o trabalho de um job é dividido em <strong>tasks</strong> (uma por partição), agrupadas em <strong>stages</strong>; as fronteiras entre stages coincidem com os <strong>shuffles</strong>. No job do Olist, tanto o <code>join</code> por <code>product_id</code> quanto o <code>groupBy</code> por categoria são operações <em>wide</em>.</p>
+</blockquote>
+<p>A conclusão <strong>mais bem suportada</strong> por esse trecho é:</p>
+<p>a. Todo o job do Olist roda num único stage, pois <code>join</code> e <code>groupBy</code> são operações <em>narrow</em> que não quebram o pipeline.
+b. Cada task processa o dataset inteiro do Olist, e o número de tasks independe do número de partições.
+<em>c. Como cada operação </em>wide<em> introduz um </em><em>shuffle</em><em>, e cada shuffle marca uma </em><em>fronteira de stage</em><em>, um job com dois shuffles (<code>join</code> + <code>groupBy</code>) tende a se dividir em </em><em>mais de um stage</em>* — e reduzir shuffles reduz stages.
+d. O número de stages é fixo em um por job, independentemente de quantos shuffles existam.
+e. As tasks de um mesmo stage precisam rodar sequencialmente, uma após a outra, nunca em paralelo.</p>
+<h3>Questão 34 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Você precisa de dois indicadores sobre o stream do Olist: (1) "pedidos por minuto", em blocos fixos e contíguos de 60 s em que cada pedido cai em exatamente uma janela; e (2) "faturamento da última 1 hora, recalculado a cada 5 minutos", em que um mesmo pedido pode ser contado em várias janelas.</p>
+</blockquote>
+<p>A associação <strong>correta</strong> entre indicador e tipo de janela é:</p>
+<p>a. (1) usa janela <strong>sliding</strong> e (2) usa janela <strong>tumbling</strong>.
+b. Ambos usam janela <strong>tumbling</strong>, pois toda janela de tempo é fixa e sem sobreposição.
+c. Ambos usam janela <strong>de sessão</strong>, definida por inatividade do cliente.
+<em>d. (1) usa janela </em><em>tumbling</em><em> (blocos fixos, sem sobreposição, um evento por janela) e (2) usa janela </em><em>sliding</em><em> (janela fixa que avança e pode conter o mesmo evento em várias posições).
+e. (1) usa janela </em><em>sliding</em><em> e (2) usa janela </em><em>de sessão</em>*, pois nenhuma janela fixa recalcula a cada 5 min.</p>
+<h3>Questão 35 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Janelas por tempo de evento e <em>watermarks</em> — que fecham a janela mesmo com um evento atrasado — vivem num motor dedicado: o <strong>Flink</strong>, streaming puro com latência de milissegundos, ou o <strong>Spark Structured Streaming</strong>, o mesmo Spark do lote rodando em micro-batches. No nosso projeto o Spark fica no lote e a gente simula o stream em Python."</p>
+</blockquote>
+<p>A leitura <strong>mais alinhada</strong> ao texto é:</p>
+<p>a. O produtor/consumidor Python do projeto é um motor de stream de produção, dispensando Flink ou Spark Structured Streaming em qualquer escala.
+b. O Flink e o Spark Structured Streaming são idênticos: ambos são <em>streaming-first</em> com a mesma latência e a mesma API.
+c. <em>Watermarks</em> servem para acelerar o batch do Olist, não têm relação com eventos atrasados no streaming.
+d. O Spark só pode ser usado em streaming, jamais em processamento em lote.
+<em>e. Em produção, </em><em>watermarks</em><em> e janelas por </em>event time<em> pedem um </em><em>motor dedicado</em><em> (Flink, </em>streaming-first* de latência baixíssima, ou Spark Structured Streaming em micro-batches); no projeto Olist, porém, o mock em Python só ilustra os conceitos e o Spark permanece no lote.</p>
+<h3>Questão 36 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Num job Spark, o <strong>cluster manager</strong> (YARN, Kubernetes ou standalone) negocia recursos, o <strong>driver</strong> hospeda o <code>SparkContext</code> e monta o plano, e os <strong>executors</strong> processam as tarefas e guardam dados em memória.</p>
+</blockquote>
+<p>A leitura <strong>correta</strong> dessa divisão de papéis é:</p>
+<p><em>a. São </em><em>três papéis distintos</em><em>: o </em><em>cluster manager</em><em> aloca recursos, o </em><em>driver</em><em> planeja e coordena o job, e os </em><em>executors</em>* executam as tasks e mantêm dados em memória.
+b. O driver executa as tasks e o executor monta o plano; os papéis são intercambiáveis.
+c. O cluster manager é quem processa os dados em memória, dispensando os executors.
+d. Sem cluster manager é impossível existir driver, pois eles são o mesmo processo.
+e. Os executors constroem o <code>SparkContext</code> e distribuem tarefas ao driver.</p>
+<h3>Questão 37 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No <code>olist_pipeline</code> configuramos <code>retries=2</code> com <code>retry_delay</code> (idealmente com <em>backoff exponencial</em>). A ideia é que uma falha <strong>transitória</strong> — o disco momentaneamente ocupado, uma leitura de CSV que oscilou — se resolva sozinha, sem acordar ninguém de plantão.</p>
+</blockquote>
+<p>A leitura <strong>mais adequada</strong> desse trecho é:</p>
+<p>a. Os retries servem para corrigir <strong>erros de lógica</strong> no código do pipeline, que se resolvem apenas repetindo a mesma execução.
+<em>b. Os </em><em>retries com backoff</em><em> existem para absorver falhas </em><em>transitórias</em><em>, reexecutando a task automaticamente após um intervalo crescente — o que só é seguro porque a task é </em><em>idempotente</em>* e não duplica dados ao rodar de novo.
+c. Configurar <code>retries</code> faz o Airflow ignorar permanentemente qualquer falha, mesmo as definitivas, publicando o mart mesmo assim.
+d. O <code>retry_delay</code> deve ser sempre zero, para que a task reexecute instantaneamente e sobrecarregue a fonte.
+e. Retries só fazem sentido em streaming; num DAG de batch como o <code>olist_pipeline</code> eles não têm efeito.</p>
+<h3>Questão 38 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Observabilidade é o que separa um pipeline que 'deveria estar funcionando' de um que você <em>sabe</em> que está." O Airflow oferece <em>grid view</em> colorido por status, logs por task, <code>email_on_failure</code>, <em>callbacks</em> para Slack e métricas para Prometheus/Grafana.</p>
+</blockquote>
+<p>A leitura <strong>mais coerente</strong> com o texto é:</p>
+<p>a. A observabilidade é um luxo dispensável: se o DAG tem retries, não é preciso monitorar nem alertar.
+b. Logs e alertas substituem a necessidade de definir a ordem correta das tasks no DAG.
+<em>c. </em><em>Monitoramento e alertas</em><em> (grid view, logs, <code>email_on_failure</code>, callbacks, métricas) dão </em><em>visibilidade proativa</em><em> do estado do pipeline, permitindo agir </em><em>antes</em><em> de alguém abrir um dashboard vazio.
+d. O <code>email_on_failure</code> só dispara quando o pipeline termina com </em><em>sucesso</em>*, servindo apenas como confirmação de entrega.
+e. Métricas para Prometheus/Grafana são incompatíveis com o Airflow, que só expõe status pela linha de comando.</p>
+<h3>Questão 39 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Na arquitetura <strong>Kappa</strong>: tudo é stream, e o histórico é só o log reprocessado. O mesmo <code>olist.orders</code> alimenta o painel ao vivo e, reprocessado, os marts. A <strong>Lambda</strong>, ao contrário, mantém <em>dois</em> caminhos — um batch lento e completo e um <em>speed layer</em> rápido e aproximado — e precisa reconciliá-los."</p>
+</blockquote>
+<p>A distinção <strong>correta</strong> entre Lambda e Kappa, segundo o texto, é:</p>
+<p>a. Na Kappa há dois caminhos (batch + speed layer) a reconciliar; na Lambda há um só, o stream.
+b. Lambda e Kappa são sinônimos: ambas mantêm um único caminho de stream sem qualquer reconciliação.
+c. A Kappa exige abandonar o log <code>olist.orders</code>, pois nela o histórico não pode ser reprocessado.
+<em>d. A </em><em>Lambda</em><em> mantém </em><em>dois caminhos</em><em> (batch completo + speed layer aproximado) que precisam ser </em><em>reconciliados</em><em>; a </em><em>Kappa</em><em> simplifica para </em><em>um único log</em>* reprocessável, do qual saem tanto a visão ao vivo quanto os marts.
+e. Na Kappa o histórico é impossível de reconstruir, enquanto na Lambda o stream nunca é usado.</p>
+<h3>Questão 40 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No Olist (<img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" /> pedidos, média de <img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" /> pedidos/dia), reprocessar <strong>um dia</strong> custa cerca de <img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" /> vezes menos que recarregar a base inteira. O mesmo job de "faturamento por categoria" pode ser escrito em PySpark (<code>join</code> + <code>groupBy</code> + <code>sum</code>) ou no DuckDB (<code>JOIN ... USING (product_id)</code> + <code>GROUP BY</code>), com <strong>a mesma lógica</strong>.</p>
+</blockquote>
+<p>A conclusão <strong>mais bem suportada</strong> por esses dados é:</p>
+<p>a. A carga full de um dia é ~736 vezes mais barata que a incremental, então full deve ser sempre preferida.
+b. PySpark e DuckDB produzem resultados diferentes para o faturamento por categoria, pois usam APIs distintas.
+c. O fator ~736 prova que o DuckDB é incapaz de rodar o job do Olist e exige obrigatoriamente um cluster Spark.
+d. Como o job é idêntico nas duas ferramentas, a diferença de custo entre carga full e incremental deixa de existir.
+<em>e. A carga </em><em>incremental</em><em> de um dia é ~</em><em>736× mais barata</em><em> que a full, e o </em><em>mesmo join+agregação</em>* roda tanto em PySpark quanto em DuckDB com a mesma lógica — o DuckDB resolve o Olist no laptop, e o Spark só se justifica quando o volume cresce ordens de grandeza.</p>
 <hr>
 <h2>Feedbacks</h2>
 <h3>Questão 1</h3>
@@ -421,5 +651,165 @@ d. A idempotência é dispensável no backfill, pois o Airflow impede sozinho qu
 <li><strong>c.</strong> Incorreta. O backfill não duplica <strong>quando</strong> a idempotência é respeitada — é recomendado, não desaconselhado.</li>
 <li><strong>d.</strong> Incorreta. O Airflow não impede duplicação sozinho; é a idempotência do pipeline que garante isso.</li>
 <li><strong>e.</strong> <em>Correta!</em> O backfill reexecuta janelas passadas de forma determinística por estarem atreladas à data lógica, e a idempotência (<code>MERGE</code>/upsert ou sobrescrita de partição) é o que torna esse reprocessamento seguro contra duplicação.</li>
+</ul>
+<h3>Questão 21</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. Usar seed para as ~71 traduções de categoria é de fato preferível (Asserção I), e a Razão II explica <strong>por quê</strong>: o seed é um arquivo versionado, materializado por <code>dbt seed</code>, ideal para dados pequenos e estáveis, enquanto a ingestão incremental atende a dados grandes e voláteis.</li>
+<li><strong>b.</strong> Incorreta. A Razão <strong>justifica</strong> a Asserção — ela dá o critério (pequeno e estável × grande e volátil) que motiva a escolha do seed.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 22</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. As duas são verdadeiras, mas a Razão não justifica a Asserção — tratam de assuntos distintos.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são individualmente verdadeiras: a staging é mesmo uma camada 1:1 de renomear/castar/limpar sem joins (Asserção I); e o DuckDB é de fato um motor vetorizado <em>single-node</em> que resolve o Olist em segundos (Razão II). Porém a Razão (sobre o motor de execução) <strong>não justifica</strong> o papel da camada staging — são temas independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 23</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção I é verdadeira: o RDD registra sua <strong>linhagem</strong> e se reconstrói após falha. A Razão II é falsa: o <strong>broadcast join</strong> é vantajoso justamente quando <strong>um</strong> dos lados é <strong>pequeno</strong> (a <code>dim_products</code> do Olist, ~33 mil linhas) — replica-se o <strong>lado pequeno</strong> por todos os executors para eliminar o shuffle, não os dois lados grandes.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção I é verdadeira.</li>
+</ul>
+<h3>Questão 24</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção I é falsa: ela <strong>inverte os papéis</strong> — é o <strong>driver</strong> que monta o plano e distribui tarefas, e os <strong>executors</strong> que processam e guardam dados em memória. A Razão II descreve corretamente a hierarquia de execução: tasks (uma por partição) → stages (separados por shuffle) → job.</li>
+<li><strong>e.</strong> Incorreta. A Razão II é verdadeira.</li>
+</ul>
+<h3>Questão 25</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão II também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. Tempo de processamento e tempo de evento <strong>não</strong> coincidem — eventos chegam <strong>fora de ordem</strong> (atraso de rede), e é justamente por isso que existem <em>watermarks</em>. E a Razão II confunde os conceitos: a <strong>tumbling</strong> é fixa e sem sobreposição (um evento por janela), enquanto a <strong>sliding</strong> desliza e pode conter o mesmo evento em várias janelas — não são a mesma coisa.</li>
+</ul>
+<h3>Questão 26</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O Structured Streaming reaproveita a API de DataFrames (Asserção I), e a Razão II explica <strong>por quê</strong>: ele modela o stream como <strong>micro-batches</strong> sucessivos, o que permite as mesmas transformações do batch, com latência de segundos.</li>
+<li><strong>b.</strong> Incorreta. A Razão <strong>justifica</strong> diretamente a Asserção — o micro-batch é a causa do reaproveitamento da API.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 27</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. As duas são verdadeiras, mas a Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: na Kappa o histórico do Olist é o log <code>olist.orders</code> reprocessado, sem batch separado (Asserção I); e o Airflow realmente popularizou "pipelines como código" em Python (Razão II). Porém a filosofia do Airflow <strong>não justifica</strong> a definição da arquitetura Kappa — são fatos independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 28</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção I é verdadeira: pôr <code>dbt_test</code> antes de <code>export_gold</code> garante que o mart só é publicado após passar nos testes. A Razão II é falsa: no Airflow, tarefas <strong>sem</strong> dependência entre si rodam <strong>em paralelo</strong> — a execução sequencial ocorre apenas quando há dependência explícita (<code>&gt;&gt;</code>).</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção I é verdadeira.</li>
+</ul>
+<h3>Questão 29</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção I é falsa: por ser <em>streaming-first</em>, o Flink é <strong>exímio</strong> em janelas por tempo de evento e no tratamento de eventos atrasados via <strong>watermarks</strong> — o contrário do afirmado. A Razão II define corretamente os modos <strong>push</strong> (fonte empurra, ex.: webhook) e <strong>pull</strong> (pipeline busca, ex.: leitura agendada dos CSVs do Olist).</li>
+<li><strong>e.</strong> Incorreta. A Razão II é verdadeira.</li>
+</ul>
+<h3>Questão 30</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão II também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. Gravar intermediários em disco tornava o Hadoop <strong>mais lento</strong>, não mais rápido — o Spark superou-o justamente por manter intermediários <strong>em memória</strong>. E a Razão II inverte o conceito de <strong>data interval</strong>: ele é <strong>central</strong> para o reprocessamento determinístico, pois cada run está atrelada a uma <strong>janela de dados</strong> (data lógica), não ao instante de relógio do disparo.</li>
+</ul>
+<h3>Questão 31</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O texto leva exatamente a isso: dados pequenos, estáveis e versionáveis (as ~71 traduções de categoria) viram <strong>seed</strong> — arquivo no repositório que o <code>dbt seed</code> materializa — em vez de uma ingestão incremental.</li>
+<li><strong>b.</strong> Incorreta. O seed é para dados <strong>pequenos e estáveis</strong>, não para os maiores e mais voláteis.</li>
+<li><strong>c.</strong> Incorreta. Seed é batch versionado no repositório, não um stream Kafka evento a evento.</li>
+<li><strong>d.</strong> Incorreta. Um seed é independente da carga dos pedidos; não força reprocessar os 99 mil a cada <code>dbt run</code>.</li>
+<li><strong>e.</strong> Incorreta. Seed e staging são coisas distintas; o seed não substitui a camada <code>stg_*</code> que renomeia e casta.</li>
+</ul>
+<h3>Questão 32</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Joins e agregações <strong>não</strong> pertencem à staging; ela é uma cópia 1:1 limpa.</li>
+<li><strong>b.</strong> <em>Correta!</em> A staging é a camada <strong>1:1</strong> de padronização (renomear, castar, limpar nulos); joins e agregações ficam nas <strong>camadas seguintes</strong>, mantendo responsabilidade única por etapa.</li>
+<li><strong>c.</strong> Incorreta. A staging não é dispensável — é ela que garante nomes, tipos e nulos consistentes para o restante do pipeline.</li>
+<li><strong>d.</strong> Incorreta. Castar tipos e limpar nulos é típico de batch; não é exclusivo de streaming.</li>
+<li><strong>e.</strong> Incorreta. A staging materializa uma <strong>cópia 1:1</strong> da fonte, não uma agregação por categoria.</li>
+</ul>
+<h3>Questão 33</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. <code>join</code> e <code>groupBy</code> são operações <em>wide</em>, não <em>narrow</em> — elas <strong>quebram</strong> o pipeline em stages.</li>
+<li><strong>b.</strong> Incorreta. Cada task processa <strong>uma partição</strong>, e o número de tasks acompanha o número de partições.</li>
+<li><strong>c.</strong> <em>Correta!</em> Cada operação <em>wide</em> gera um <strong>shuffle</strong>, que marca uma <strong>fronteira de stage</strong>; com dois shuffles (<code>join</code> + <code>groupBy</code>), o job tende a ter <strong>mais de um stage</strong> — logo reduzir shuffles reduz stages e custo.</li>
+<li><strong>d.</strong> Incorreta. O número de stages <strong>não</strong> é fixo em um; ele cresce com o número de shuffles.</li>
+<li><strong>e.</strong> Incorreta. As tasks de um mesmo stage rodam <strong>em paralelo</strong>, uma por partição.</li>
+</ul>
+<h3>Questão 34</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A associação está <strong>trocada</strong>: (1) é tumbling e (2) é sliding.</li>
+<li><strong>b.</strong> Incorreta. (2) tem sobreposição (recalcula a cada 5 min sobre 1 h), logo <strong>não</strong> é tumbling.</li>
+<li><strong>c.</strong> Incorreta. Nenhum dos dois é janela <strong>de sessão</strong> (definida por inatividade); são janelas de tempo fixas.</li>
+<li><strong>d.</strong> <em>Correta!</em> (1) "pedidos por minuto" em blocos fixos sem sobreposição é <strong>tumbling</strong> (um evento por janela); (2) "última 1 h recalculada a cada 5 min" é <strong>sliding</strong> (janela fixa que avança e pode conter o mesmo evento em várias posições).</li>
+<li><strong>e.</strong> Incorreta. (2) é sliding, não de sessão; e (1) é tumbling, não sliding.</li>
+</ul>
+<h3>Questão 35</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O mock em Python <strong>ilustra</strong> conceitos, mas não sustenta um fluxo de produção em escala.</li>
+<li><strong>b.</strong> Incorreta. Flink (<em>streaming-first</em>, milissegundos) e Spark Structured Streaming (micro-batches, segundos) <strong>não</strong> são idênticos.</li>
+<li><strong>c.</strong> Incorreta. <em>Watermarks</em> lidam com <strong>eventos atrasados no streaming</strong>, não aceleram o batch.</li>
+<li><strong>d.</strong> Incorreta. O Spark também faz <strong>batch</strong> (Aula 6); não é exclusivo de streaming.</li>
+<li><strong>e.</strong> <em>Correta!</em> Em produção, watermarks e janelas por <em>event time</em> pedem um <strong>motor dedicado</strong> (Flink ou Spark Structured Streaming); no projeto Olist, o mock em Python só ilustra e o Spark fica no lote.</li>
+</ul>
+<h3>Questão 36</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> São três papéis distintos: <strong>cluster manager</strong> aloca recursos, <strong>driver</strong> planeja/coordena, <strong>executors</strong> executam as tasks e guardam dados em memória.</li>
+<li><strong>b.</strong> Incorreta. Os papéis <strong>não</strong> são intercambiáveis: quem planeja é o driver, quem executa são os executors.</li>
+<li><strong>c.</strong> Incorreta. O cluster manager <strong>aloca</strong> recursos; quem processa em memória são os executors.</li>
+<li><strong>d.</strong> Incorreta. Driver e cluster manager são componentes <strong>distintos</strong>, não o mesmo processo.</li>
+<li><strong>e.</strong> Incorreta. O <code>SparkContext</code> vive no <strong>driver</strong>, não nos executors.</li>
+</ul>
+<h3>Questão 37</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Retries não corrigem <strong>erros de lógica</strong> — repetir a mesma execução falha de novo; eles servem a falhas <strong>transitórias</strong>.</li>
+<li><strong>b.</strong> <em>Correta!</em> Retries com <strong>backoff</strong> absorvem falhas transitórias reexecutando a task após intervalos crescentes — algo <strong>seguro</strong> só porque a task é <strong>idempotente</strong> e reprocessar não duplica dados.</li>
+<li><strong>c.</strong> Incorreta. Retries não ignoram falhas definitivas; após esgotá-los, a task falha e o mart <strong>não</strong> é publicado.</li>
+<li><strong>d.</strong> Incorreta. <code>retry_delay</code> zero sobrecarrega a fonte; o ideal é um <strong>backoff</strong> crescente.</li>
+<li><strong>e.</strong> Incorreta. Retries são plenamente úteis em batch — o <code>olist_pipeline</code> é justamente um DAG de batch.</li>
+</ul>
+<h3>Questão 38</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Observabilidade <strong>não</strong> é dispensável: retries não avisam quando algo dá errado de forma persistente.</li>
+<li><strong>b.</strong> Incorreta. Logs e alertas <strong>não</strong> substituem a definição da ordem (dependências) das tasks.</li>
+<li><strong>c.</strong> <em>Correta!</em> Monitoramento e alertas (grid view, logs, <code>email_on_failure</code>, callbacks, métricas) dão <strong>visibilidade proativa</strong>, permitindo agir <strong>antes</strong> de alguém abrir um dashboard vazio.</li>
+<li><strong>d.</strong> Incorreta. <code>email_on_failure</code> dispara em <strong>falha</strong>, não em sucesso.</li>
+<li><strong>e.</strong> Incorreta. O Airflow <strong>integra</strong> Prometheus/Grafana; não é incompatível nem limitado à linha de comando.</li>
+</ul>
+<h3>Questão 39</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Está <strong>invertido</strong>: são dois caminhos na <strong>Lambda</strong>, e um único log na <strong>Kappa</strong>.</li>
+<li><strong>b.</strong> Incorreta. Lambda e Kappa <strong>não</strong> são sinônimos — diferem justamente no número de caminhos e na reconciliação.</li>
+<li><strong>c.</strong> Incorreta. A Kappa <strong>mantém</strong> o log <code>olist.orders</code> reprocessável — é a base do seu histórico.</li>
+<li><strong>d.</strong> <em>Correta!</em> A <strong>Lambda</strong> tem <strong>dois caminhos</strong> (batch completo + speed layer aproximado) a <strong>reconciliar</strong>; a <strong>Kappa</strong> usa <strong>um único log</strong> reprocessável que alimenta tanto a visão ao vivo quanto os marts.</li>
+<li><strong>e.</strong> Incorreta. Na Kappa o histórico é reconstruível pelo log; e na Lambda o stream (speed layer) <strong>é</strong> usado.</li>
+</ul>
+<h3>Questão 40</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Está invertido: é a <strong>incremental</strong> (não a full) que é ~736× mais barata para um dia.</li>
+<li><strong>b.</strong> Incorreta. PySpark e DuckDB produzem o <strong>mesmo</strong> resultado — mesma lógica de join+agregação.</li>
+<li><strong>c.</strong> Incorreta. O DuckDB <strong>resolve</strong> o Olist no laptop; o fator ~736 nada tem a ver com exigir cluster.</li>
+<li><strong>d.</strong> Incorreta. A equivalência de ferramentas não anula a diferença de custo entre full e incremental — são dimensões distintas.</li>
+<li><strong>e.</strong> <em>Correta!</em> A carga <strong>incremental</strong> de um dia é ~<strong>736× mais barata</strong> que a full, e o mesmo join+agregação roda em PySpark ou DuckDB com a mesma lógica — o DuckDB basta para o Olist, e o Spark só se justifica ao crescer ordens de grandeza.</li>
 </ul>
 </body></html>

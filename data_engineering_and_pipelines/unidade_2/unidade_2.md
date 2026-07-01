@@ -18,7 +18,7 @@ Na Unidade 1 desenhamos a estrela do Olist no papel e despejamos os 9 CSVs no sc
 
 A ingestão pode ser **push** (a fonte empurra, como um webhook) ou **pull** (o pipeline busca, como nossa leitura agendada dos CSVs). Pode ser **batch** (lotes periódicos — é o caso do Olist) ou **streaming** (registro a registro — veremos na Aula 7). E carrega decisões de schema: validamos na entrada (*schema-on-write*) ou só na leitura (*schema-on-read*)?
 
-![Logo do Apache Airflow, ferramenta de orquestração frequentemente usada para coordenar tarefas de ingestão de dados](https://commons.wikimedia.org/wiki/Special:FilePath/AirflowLogo.png)
+![Diagrama de ETL convencional: bancos OLTP passam por detecção de mudanças/snapshot e são carregados em lote (batch) num processo ETL que alimenta os data marts de um data warehouse — o padrão que esta aula contrasta com o ELT](https://commons.wikimedia.org/wiki/Special:FilePath/Conventional%20ETL%20Diagram.jpg)
 
 ### ETL clássico
 
