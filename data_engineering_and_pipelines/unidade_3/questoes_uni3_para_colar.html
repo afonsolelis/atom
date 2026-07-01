@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>questoes_uni3</title><style>
+:root{--tinta:#1a1a1a;--linha:#c9c9c9;--azul:#0b3d5c}
+*{box-sizing:border-box}
+body{max-width:820px;margin:32px auto;padding:0 20px;color:var(--tinta);
+  font-family:'Georgia','Times New Roman',serif;font-size:17px;line-height:1.6}
+h1,h2,h3,h4{font-family:'Segoe UI',Arial,sans-serif;color:var(--azul);line-height:1.25}
+h1{font-size:1.9em;border-bottom:2px solid var(--azul);padding-bottom:.2em}
+h2{font-size:1.5em;margin-top:1.6em}h3{font-size:1.2em}h4{font-size:1.05em}
+img{max-width:100%;height:auto}
+table{border-collapse:collapse;margin:1em 0;width:100%}
+th,td{border:1px solid var(--linha);padding:6px 10px;text-align:left}
+th{background:#eef1f6}
+blockquote{border-left:4px solid var(--azul);margin:1em 0;padding:.2em 1em;background:#f6f8fb;color:#333}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:.9em}
+pre{background:#f6f8fb;padding:12px;overflow:auto;border-radius:4px}
+hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
+</style></head>
+<body>
+<h1>Questionário — Unidade 3</h1>
+<ul>
+<li><strong>Disciplina:</strong> Data Engineering and Pipelines</li>
+<li><strong>Professor-conteudista:</strong> Afonso Cesar Lelis Brandão</li>
+</ul>
+<h2>Orientações</h2>
+<ul>
+<li><strong>20 questões</strong> padrão ENADE: <strong>10 asserção-razão</strong> + <strong>10 de interpretação</strong>.</li>
+<li>Cada questão tem <strong>5 alternativas (a–e)</strong>; a correta é prefixada por <code>*</code> (ex.: <code>*c. ...</code>).</li>
+<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (4 questões para cada letra).</li>
+</ul>
+<hr>
+<h2>Questões</h2>
+<h3>Questão 1 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O Data Warehouse adota armazenamento colunar para acelerar consultas analíticas (OLAP), reduzindo drasticamente o volume de dados varridos e o custo de cada consulta.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Em uma consulta de agregação como <code>SELECT SUM(valor) FROM vendas</code>, o formato colunar lê apenas a coluna requerida e aproveita a semelhança dos valores de uma mesma coluna para aplicar alta compressão (run-length e dictionary encoding).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 2 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A arquitetura Lakehouse consegue rodar BI, SQL ad hoc e treino de modelos de machine learning sobre uma cópia única dos dados, sem manter um Data Lake e um Data Warehouse separados.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Apache Iceberg, formato de tabela aberto originado no Netflix, oferece evolução de esquema e de partição, além de snapshots, sendo neutro em relação à engine de processamento.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 3 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Na separação entre armazenamento e computação dos Data Warehouses em nuvem, múltiplos clusters podem ler os mesmos dados sem competir por recursos, e armazenamento e processamento são cobrados de forma independente.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No modelo de cobrança on-demand do BigQuery, paga-se por hora de cluster provisionado, independentemente da quantidade de bytes que a consulta efetivamente varre.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 4 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A arquitetura Inmon parte de data marts dimensionais independentes por área, construídos com esquema estrela, sem qualquer camada corporativa integrada e normalizada.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A arquitetura Inmon é top-down e propõe primeiro um Data Warehouse corporativo único e normalizado (3FN), que só depois alimenta os data marts — sendo a abordagem bottom-up por marts dimensionais característica de Kimball.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 5 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Um Data Lake garante automaticamente governança, catálogo e qualidade dos dados, de modo que jogar qualquer arquivo bruto no repositório nunca traz riscos de virar um data swamp.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O formato Apache Parquet, por si só, já implementa transações ACID, time travel e operações <code>MERGE</code>/<code>UPDATE</code>/<code>DELETE</code> sobre os arquivos, dispensando qualquer formato de tabela aberto como Delta, Iceberg ou Hudi.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 6 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Na arquitetura Medallion, o dado flui de bronze para gold ganhando qualidade e perdendo volume a cada etapa, até chegar a tabelas agregadas e modeladas prontas para BI e features de ML.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A camada bronze guarda os dados brutos como chegaram da fonte (histórico fiel e auditável), a silver entrega dados limpos, deduplicados e conformados, e a gold consolida dados curados para consumo direto do negócio.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 7 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O dbt (data build tool) traz práticas de engenharia de software para a transformação de dados, com modelos versionados em Git, lineage automático, testes declarativos e documentação gerada.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Fivetran é uma ferramenta SaaS de ingestão gerenciada que oferece centenas de conectores prontos e sincronização incremental, cobrando por MAR (Monthly Active Rows).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 8 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O particionamento por uma coluna de data, combinado com clustering pelas colunas de filtro frequente, ativa o partition pruning e o block pruning, reduzindo drasticamente os bytes varridos por uma consulta.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O comando <code>SELECT *</code> em um Data Warehouse colunar é a forma mais econômica de consulta, pois ler todas as colunas garante o melhor aproveitamento da compressão colunar e o menor custo por consulta.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 9 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O data mesh é apenas mais uma ferramenta de software que substitui o dbt e o Fivetran, instalada para centralizar todos os dados da empresa em um único time de dados.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O data mesh é um paradigma organizacional que descentraliza a responsabilidade pelos dados, apoiado nos princípios de propriedade orientada a domínio, dados como produto, plataforma self-service e governança federada computacional.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 10 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Em uma tabela fato de um esquema estrela devem ser guardados os atributos descritivos (nome do produto, cidade do cliente, nome da loja), enquanto as tabelas dimensão guardam exclusivamente as métricas numéricas como quantidade e valor.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O armazenamento por linha (row-oriented) é o mais indicado para consultas analíticas OLAP que agregam grandes volumes, ao passo que o armazenamento colunar é o mais indicado para o OLTP de muitas escritas pequenas em um único registro.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 11 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma tabela de eventos tem <strong>10 TB</strong>, particionada por dia, com 365 dias de dados (~27,4 GB/dia). Sem particionamento e com <code>SELECT *</code>, uma consulta varre os 10 TB e custa, a US$ 6,25 por TB, cerca de <strong>US$ 62,50</strong>. Com particionamento por dia e seleção de apenas 1 das 50 colunas, a mesma consulta varre uma fração mínima e custa cerca de <strong>US$ 0,0034</strong>.</p>
+</blockquote>
+<p>Considerando os conceitos da Unidade 3, qual leitura é <strong>mais adequada</strong>?</p>
+<p>*a. Modelagem física (particionamento, clustering) e disciplina de SQL (selecionar só as colunas necessárias, filtrar pela coluna de partição) podem alterar o custo da mesma consulta em ordens de grandeza, tornando otimização e FinOps parte do trabalho do engenheiro de dados.
+b. O custo da consulta depende apenas do preço por TB cobrado pela plataforma, sendo impossível ao engenheiro influenciá-lo por meio de modelagem ou SQL.
+c. A diferença de custo é desprezível e não justifica esforço de particionamento ou clustering.
+d. Para baratear a consulta, a melhor estratégia é sempre usar <code>SELECT *</code> em colunar, pois ler tudo evita reprocessamentos.
+e. O particionamento só funciona em bancos transacionais OLTP por linha, não em Data Warehouses colunares.</p>
+<h3>Questão 12 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Comparação de custo para guardar 100 TB de histórico por um ano: em Data Warehouse na nuvem com armazenamento gerenciado (~R$ 100,00 por TB/mês), o custo chega a R$ 120.000,00/ano. Em Lakehouse sobre object storage com tiering quente/frio (20% quente a ~R$ 120,00/TB-mês e 80% frio a ~R$ 6,00/TB-mês), o custo cai para cerca de R$ 34.560,00/ano.</p>
+</blockquote>
+<p>A conclusão <strong>mais bem suportada</strong> pelos dados é:</p>
+<p>a. Manter todo o histórico no armazenamento gerenciado do DW é sempre a opção mais barata.
+*b. Manter o histórico bruto em object storage barato, com tiering quente/frio, reduz drasticamente o custo de armazenamento (~70%) — esse é o argumento econômico central do Lakehouse.
+c. Object storage é tecnicamente inviável para guardar dados históricos em volume.
+d. O tiering quente/frio aumenta o custo, pois exige duas cópias completas dos dados.
+e. A economia obtida é irrelevante diante do custo de processamento das consultas.</p>
+<h3>Questão 13 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<p>A tabela compara três Data Warehouses em nuvem:</p>
+<table>
+<thead>
+<tr>
+<th>Atributo</th>
+<th>BigQuery (Google)</th>
+<th>Snowflake</th>
+<th>Redshift (AWS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Modelo</td>
+<td>Serverless puro</td>
+<td>Virtual warehouses</td>
+<td>Clusters provisionados + Serverless</td>
+</tr>
+<tr>
+<td>Nuvem</td>
+<td>Google Cloud</td>
+<td>Multi-cloud (AWS, Azure, GCP)</td>
+<td>AWS</td>
+</tr>
+</tbody>
+</table>
+<p>Uma empresa que <strong>quer um DW serverless puro, sem clusters a gerenciar e com escala automática</strong>, deve preferir:</p>
+<p>a. Redshift, pela integração nativa com o ecossistema AWS.
+b. Snowflake, pela disponibilidade multi-cloud.
+*c. BigQuery, por ser serverless puro, sem infraestrutura a administrar e com escala automática.
+d. Qualquer banco transacional OLTP por linha.
+e. Nenhum dos três, pois DW em nuvem não oferece modelo serverless.</p>
+<h3>Questão 14 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Logs de servidores, JSON de APIs, imagens, áudios, sensores de IoT: nada disso cabe bem em colunas e linhas pré-definidas. O Data Warehouse clássico sofre com esquema rígido (schema-on-write), custo de armazenamento alto e variedade limitada — justamente os dados 'difíceis' que mais interessam à ciência de dados e ao machine learning."</p>
+</blockquote>
+<p>A leitura <strong>mais correta</strong> do texto é:</p>
+<p>a. O Data Warehouse clássico acolhe igualmente bem dados estruturados e não estruturados, sem qualquer limitação.
+b. Dados não estruturados não têm valor e devem ser descartados.
+c. O schema-on-write torna o DW a melhor opção para dados que mudam de forma com frequência.
+*d. Os limites do DW clássico (schema-on-write, custo alto, baixa variedade) motivam o uso de repositórios como o Data Lake, com schema-on-read, para acolher dados brutos e variados que alimentam ciência de dados e ML.
+e. A solução para o problema é migrar todos os dados não estruturados para um banco transacional OLTP por linha.</p>
+<h3>Questão 15 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma rede de varejo precisa preservar o histórico de endereço dos clientes para análise temporal correta: quando um cliente muda de cidade, é preciso saber em que cidade ele estava em cada venda passada, sem perder o registro anterior.</p>
+</blockquote>
+<p>A estratégia de modelagem <strong>mais adequada</strong> para essa dimensão é:</p>
+<p>a. SCD Tipo 1 (sobrescrever o valor antigo), pois manter histórico é desnecessário em análise temporal.
+b. Eliminar a dimensão Cliente e guardar a cidade diretamente na tabela fato sem dimensão.
+c. Converter a tabela fato em um banco OLTP por linha para suportar a mudança.
+d. Usar exclusivamente esquema floco de neve, que dispensa o tratamento de mudanças de dimensão.
+*e. SCD Tipo 2 (criar um novo registro preservando o histórico), de modo que cada venda possa ser associada à cidade vigente no momento, mantendo a análise temporal correta.</p>
+<h3>Questão 16 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Dois relatórios mostram 'receita' com números diferentes porque cada analista calculou à sua maneira."</p>
+</blockquote>
+<p>Na Modern Data Stack, o recurso que <strong>melhor resolve</strong> esse problema é:</p>
+<p>*a. A camada semântica, que define métricas e dimensões de forma centralizada e única — "receita líquida" é definida uma vez e todas as ferramentas de BI consomem a mesma definição.
+b. Criar mais relatórios paralelos para "ter mais fontes de comparação".
+c. Migrar todos os dados para planilhas individuais por analista.
+d. Trocar o Data Warehouse por um banco transacional OLTP.
+e. Desativar a governança de dados, já que ela é a causa das divergências.</p>
+<h3>Questão 17 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"A Modern Data Stack é modular, SaaS, em nuvem e centrada no warehouse/lakehouse. O fio condutor é o ELT: primeiro carrega o dado bruto no DW barato e elástico, e só depois transforma lá dentro com SQL."</p>
+</blockquote>
+<p>A leitura <strong>mais coerente</strong> com o texto é:</p>
+<p>a. A MDS é uma plataforma monolítica única que dispensa qualquer integração entre ferramentas.
+*b. A MDS compõe a stack com a melhor ferramenta de cada categoria (ingestão, armazenamento, transformação, BI, observabilidade), seguindo o padrão ELT — carrega o bruto primeiro e transforma dentro do DW.
+c. A MDS segue o ETL clássico, transformando o dado antes de carregá-lo no DW.
+d. A MDS elimina a necessidade de armazenamento, pois processa tudo apenas em memória.
+e. A MDS é incompatível com Data Warehouses em nuvem e exige servidores on-premises.</p>
+<h3>Questão 18 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Formato</th>
+<th>Origem</th>
+<th>Destaque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delta Lake</td>
+<td>Databricks</td>
+<td>ACID, time travel, <code>MERGE</code>, forte no Spark</td>
+</tr>
+<tr>
+<td>Apache Iceberg</td>
+<td>Netflix</td>
+<td>Evolução de esquema/partição, neutro em engine</td>
+</tr>
+<tr>
+<td>Apache Hudi</td>
+<td>Uber</td>
+<td>Upserts eficientes, ingestão incremental, foco em CDC</td>
+</tr>
+</tbody>
+</table>
+<p>Uma equipe precisa de <strong>upserts eficientes e ingestão incremental para um pipeline de CDC (Change Data Capture)</strong>. O formato <strong>mais alinhado</strong> a esse requisito é:</p>
+<p>a. Delta Lake, por ser exclusivo de cargas batch sem suporte a atualização.
+b. Apache Iceberg, por não permitir evolução de esquema.
+*c. Apache Hudi, projetado para upserts eficientes e ingestão incremental, com foco em CDC.
+d. Apache Parquet puro, que já oferece transações ACID nativas para CDC.
+e. Nenhum formato de tabela aberto suporta CDC; é preciso usar um DW gerenciado.</p>
+<h3>Questão 19 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Estimativa de TCO mensal de uma Modern Data Stack de médio porte: ferramentas (Fivetran, BigQuery, dbt Cloud, Power BI, Monte Carlo) somam R$ 17.000,00/mês; somam-se 1 engenheiro de dados + 1 analytics engineer a ~R$ 18.000,00/mês de custo total cada.</p>
+</blockquote>
+<p>O TCO <strong>mensal</strong> aproximado da stack é:</p>
+<p>a. R$ 17.000,00.
+b. R$ 36.000,00.
+c. R$ 44.000,00.
+*d. R$ 53.000,00.
+e. R$ 636.000,00.</p>
+<blockquote>
+<p><strong>Cálculo:</strong> ferramentas R$ 17.000 + pessoas (2 × R$ 18.000 = R$ 36.000) = R$ 53.000/mês. O valor de R$ 636.000 corresponde ao TCO anual (R$ 53.000 × 12).</p>
+</blockquote>
+<h3>Questão 20 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma fintech tem todos os dados analíticos em um PostgreSQL transacional: relatórios pesados travam a produção, dados não estruturados (logs, eventos de clique, JSON de APIs de crédito) não cabem bem e o time de ciência de dados reclama da falta de histórico. Há dois consumidores: BI (exige confiabilidade e esquema) e ciência de dados (exige flexibilidade e histórico bruto).</p>
+</blockquote>
+<p>A arquitetura <strong>mais adequada</strong> para esse cenário é:</p>
+<p>a. Manter tudo no PostgreSQL transacional, apenas adicionando índices, pois ele atende igualmente BI e ciência de dados.
+b. Adotar somente um Data Warehouse clássico com schema-on-write, descartando os dados não estruturados.
+c. Migrar para planilhas em object storage, eliminando a necessidade de banco de dados.
+d. Adotar somente um Data Lake sem governança, jogando todos os dados brutos sem catálogo nem camadas.
+*e. Adotar uma arquitetura Lakehouse sobre object storage com formato de tabela aberto (Delta ou Iceberg) e camadas Medallion (bronze/silver/gold), atendendo BI e ciência de dados com uma cópia única, confiável e flexível.</p>
+<h2>Feedbacks</h2>
+<h3>Questão 1</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O DW de fato usa colunar para OLAP; a Razão explica diretamente <strong>por que</strong> o colunar acelera e barateia: lê só a coluna necessária e comprime muito (run-length, dictionary encoding).</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 2</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção — descreve um formato específico, não o motivo da cópia única.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: o Lakehouse roda BI, SQL e ML sobre uma cópia única; e o Iceberg, originado no Netflix, oferece evolução de esquema/partição, snapshots e neutralidade de engine. Mas a Razão descreve <strong>um</strong> formato de tabela aberto, não explica <strong>por que</strong> o Lakehouse dispensa cópias duplicadas — são informações independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 3</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: a separação storage/compute permite múltiplos clusters lendo os mesmos dados sem conflito e cobrança independente. A Razão é falsa: no modelo <strong>on-demand</strong> do BigQuery cobra-se por <strong>TB varrido</strong> (bytes lidos), não por hora de cluster provisionado — esse último é o modelo de slots/capacidade reservada.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 4</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: a descrição (data marts dimensionais independentes, bottom-up, esquema estrela) é de <strong>Kimball</strong>, não de Inmon. A Razão descreve corretamente Inmon: top-down, DW corporativo único e normalizado (3FN) que depois alimenta os marts.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 5</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas proposições são falsas. Um Data Lake <strong>não</strong> garante governança automaticamente: sem catálogo, qualidade e disciplina, vira <strong>data swamp</strong>. E o Parquet <strong>não</strong> implementa ACID/time travel/<code>MERGE</code> por si só — essas garantias vêm dos <strong>formatos de tabela abertos</strong> (Delta, Iceberg, Hudi) construídos por cima dos arquivos.</li>
+</ul>
+<h3>Questão 6</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O dado flui de bronze a gold ganhando qualidade; a Razão detalha exatamente <strong>o que</strong> cada camada faz (bronze bruto/auditável, silver limpo/conformado, gold curado), justificando por que o volume cai e a qualidade sobe.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 7</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção — trata de outra camada da stack.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: o dbt traz versionamento, lineage, testes e documentação à transformação; e o Fivetran é SaaS de ingestão com conectores prontos cobrando por MAR. Mas a Razão fala da <strong>ingestão</strong> (Fivetran), não justifica as práticas de engenharia de software do <strong>dbt</strong> (transformação) — são camadas distintas da MDS, independentes entre si.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 8</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: particionamento (partition pruning) + clustering (block pruning) reduzem muito os bytes varridos. A Razão é falsa: <code>SELECT *</code> em colunar é o <strong>oposto</strong> de econômico — cada coluna lida custa, e selecionar tudo maximiza os bytes varridos e a fatura.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 9</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: o data mesh <strong>não</strong> é uma ferramenta nem substitui dbt/Fivetran, e propõe <strong>descentralizar</strong> (não centralizar) a propriedade dos dados. A Razão descreve corretamente o data mesh como paradigma organizacional com seus quatro princípios (domínio, dado como produto, self-service, governança federada).</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 10</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas proposições são falsas. Na modelagem dimensional os papéis são <strong>invertidos</strong> no enunciado: a <strong>fato</strong> guarda as métricas + chaves estrangeiras, e as <strong>dimensões</strong> guardam os atributos descritivos. E a Razão inverte o uso dos formatos: o <strong>colunar</strong> é ideal para OLAP analítico (agregações em grande volume) e o <strong>por linha</strong> para OLTP de muitas escritas pequenas.</li>
+</ul>
+<h3>Questão 11</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O caso mostra a mesma consulta variando de US$ 62,50 para ~US$ 0,0034 conforme a modelagem física e o SQL — exatamente o ponto da Aula 11: otimização e FinOps são parte do trabalho do engenheiro de dados.</li>
+<li><strong>b.</strong> Incorreta. O engenheiro influencia o custo fortemente via particionamento, clustering e seleção de colunas.</li>
+<li><strong>c.</strong> Incorreta. A diferença chega a ordens de grandeza (~18.000×), longe de desprezível.</li>
+<li><strong>d.</strong> Incorreta. <code>SELECT *</code> em colunar <strong>aumenta</strong> o custo, não o reduz.</li>
+<li><strong>e.</strong> Incorreta. Particionamento é técnica central justamente em DWs colunares na nuvem.</li>
+</ul>
+<h3>Questão 12</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O armazenamento gerenciado do DW sai bem mais caro (R$ 120 mil vs R$ 34 mil/ano).</li>
+<li><strong>b.</strong> <em>Correta!</em> O object storage barato com tiering quente/frio reduz o custo de armazenamento em ~70% — é o argumento econômico central do Lakehouse, mantendo o histórico bruto no storage e reservando o DW/gold para o que precisa de desempenho.</li>
+<li><strong>c.</strong> Incorreta. Object storage (S3/GCS) é precisamente a base de Data Lakes e Lakehouses para grandes volumes.</li>
+<li><strong>d.</strong> Incorreta. O tiering reduz o custo ao mover dados frios para classe mais barata; não exige cópias duplicadas.</li>
+<li><strong>e.</strong> Incorreta. A economia de ~70% no armazenamento é significativa e é o cerne do argumento.</li>
+</ul>
+<h3>Questão 13</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Redshift se destaca pela integração com AWS, não por ser serverless puro.</li>
+<li><strong>b.</strong> Incorreta. Snowflake usa virtual warehouses e brilha pelo multi-cloud, não pelo serverless puro.</li>
+<li><strong>c.</strong> <em>Correta!</em> O BigQuery é serverless puro: sem clusters a gerenciar, escala automática e zero administração de infraestrutura — exatamente o requisito do enunciado.</li>
+<li><strong>d.</strong> Incorreta. Banco OLTP por linha é inadequado para consultas analíticas.</li>
+<li><strong>e.</strong> Incorreta. DWs em nuvem oferecem modelos serverless; o BigQuery é o exemplo.</li>
+</ul>
+<h3>Questão 14</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O DW clássico justamente <strong>não</strong> acolhe bem dados não estruturados.</li>
+<li><strong>b.</strong> Incorreta. Dados não estruturados são os mais valiosos para ciência de dados e ML.</li>
+<li><strong>c.</strong> Incorreta. O schema-on-write penaliza dados que mudam de forma; é uma limitação, não vantagem.</li>
+<li><strong>d.</strong> <em>Correta!</em> Os limites do DW (schema-on-write, custo alto, baixa variedade) motivam o Data Lake com schema-on-read, que acolhe dados brutos e variados para ciência de dados e ML.</li>
+<li><strong>e.</strong> Incorreta. Banco OLTP por linha não resolve o problema de variedade e volume desses dados.</li>
+</ul>
+<h3>Questão 15</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. SCD Tipo 1 sobrescreve e <strong>perde</strong> o histórico, inviabilizando a análise temporal correta.</li>
+<li><strong>b.</strong> Incorreta. Eliminar a dimensão e colocar a cidade na fato quebra a modelagem dimensional e não preserva contexto histórico.</li>
+<li><strong>c.</strong> Incorreta. Migrar para OLTP por linha não tem relação com o tratamento de mudança de dimensão.</li>
+<li><strong>d.</strong> Incorreta. O floco de neve é apenas uma normalização da dimensão; não dispensa o tratamento de SCD.</li>
+<li><strong>e.</strong> <em>Correta!</em> SCD Tipo 2 cria um novo registro preservando o histórico, permitindo associar cada venda à cidade vigente naquele momento — a escolha indicada para análise temporal correta.</li>
+</ul>
+<h3>Questão 16</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> A camada semântica define métricas e dimensões de forma centralizada e única, garantindo uma fonte única da verdade para os números e eliminando definições divergentes entre relatórios.</li>
+<li><strong>b.</strong> Incorreta. Mais relatórios paralelos <strong>agravam</strong> a divergência.</li>
+<li><strong>c.</strong> Incorreta. Planilhas individuais aumentam a inconsistência, não a resolvem.</li>
+<li><strong>d.</strong> Incorreta. O problema é de definição de métrica, não de tipo de banco; OLTP não resolve.</li>
+<li><strong>e.</strong> Incorreta. Governança é parte da solução; desativá-la pioraria o caos.</li>
+</ul>
+<h3>Questão 17</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A MDS é justamente modular, não monolítica, e depende de integração entre ferramentas.</li>
+<li><strong>b.</strong> <em>Correta!</em> A MDS compõe a melhor ferramenta por categoria (ingestão, armazenamento, transformação, BI, observabilidade) seguindo o ELT — carrega o bruto no DW e transforma depois lá dentro.</li>
+<li><strong>c.</strong> Incorreta. A MDS segue ELT (transforma depois), não o ETL clássico (transforma antes).</li>
+<li><strong>d.</strong> Incorreta. A MDS é centrada no DW/Lakehouse; não elimina o armazenamento.</li>
+<li><strong>e.</strong> Incorreta. A MDS é, por definição, em nuvem e centrada em DWs/Lakehouses na nuvem.</li>
+</ul>
+<h3>Questão 18</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O Delta Lake suporta <code>MERGE</code>/upserts; a afirmação de que é só batch sem atualização é falsa.</li>
+<li><strong>b.</strong> Incorreta. O Iceberg <strong>permite</strong> evolução de esquema; a justificativa está errada.</li>
+<li><strong>c.</strong> <em>Correta!</em> O Apache Hudi (origem Uber) é projetado para upserts eficientes e ingestão incremental, com foco em CDC — exatamente o requisito.</li>
+<li><strong>d.</strong> Incorreta. Parquet puro <strong>não</strong> oferece ACID nativo; isso vem dos formatos de tabela abertos.</li>
+<li><strong>e.</strong> Incorreta. Os formatos de tabela abertos (Delta, Iceberg, Hudi) suportam CDC; não é necessário um DW gerenciado.</li>
+</ul>
+<h3>Questão 19</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. R$ 17.000 é apenas o custo das ferramentas, sem as pessoas.</li>
+<li><strong>b.</strong> Incorreta. R$ 36.000 é apenas o custo das duas pessoas, sem as ferramentas.</li>
+<li><strong>c.</strong> Incorreta. Soma incorreta dos componentes.</li>
+<li><strong>d.</strong> <em>Correta!</em> TCO mensal = ferramentas (R$ 17.000) + pessoas (2 × R$ 18.000 = R$ 36.000) = R$ 53.000/mês.</li>
+<li><strong>e.</strong> Incorreta. R$ 636.000 é o TCO <strong>anual</strong> (R$ 53.000 × 12), não o mensal.</li>
+</ul>
+<h3>Questão 20</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O PostgreSQL transacional já trava com relatórios pesados e não acolhe dados não estruturados; índices não resolvem.</li>
+<li><strong>b.</strong> Incorreta. O DW clássico com schema-on-write descartaria os dados não estruturados valiosos para a ciência de dados.</li>
+<li><strong>c.</strong> Incorreta. Planilhas não oferecem confiabilidade, escala nem governança para esse cenário.</li>
+<li><strong>d.</strong> Incorreta. Um Data Lake sem governança vira data swamp, sem confiabilidade para o BI.</li>
+<li><strong>e.</strong> <em>Correta!</em> O Lakehouse sobre object storage, com formato de tabela aberto (Delta/Iceberg) e camadas Medallion (bronze/silver/gold), atende tanto o BI (confiabilidade, esquema) quanto a ciência de dados (flexibilidade, histórico bruto) com uma cópia única.</li>
+</ul>
+</body></html>

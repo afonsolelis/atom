@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>entrega_trabalho</title><style>
+:root{--tinta:#1a1a1a;--linha:#c9c9c9;--azul:#0b3d5c}
+*{box-sizing:border-box}
+body{max-width:820px;margin:32px auto;padding:0 20px;color:var(--tinta);
+  font-family:'Georgia','Times New Roman',serif;font-size:17px;line-height:1.6}
+h1,h2,h3,h4{font-family:'Segoe UI',Arial,sans-serif;color:var(--azul);line-height:1.25}
+h1{font-size:1.9em;border-bottom:2px solid var(--azul);padding-bottom:.2em}
+h2{font-size:1.5em;margin-top:1.6em}h3{font-size:1.2em}h4{font-size:1.05em}
+img{max-width:100%;height:auto}
+table{border-collapse:collapse;margin:1em 0;width:100%}
+th,td{border:1px solid var(--linha);padding:6px 10px;text-align:left}
+th{background:#eef1f6}
+blockquote{border-left:4px solid var(--azul);margin:1em 0;padding:.2em 1em;background:#f6f8fb;color:#333}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:.9em}
+pre{background:#f6f8fb;padding:12px;overflow:auto;border-radius:4px}
+hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
+</style></head>
+<body>
+<h1>Entrega de Trabalho (PBL) — Data Engineering and Pipelines</h1>
+<blockquote>
+<p>Roteiro para elaboração com <strong>Problem-Based Learning</strong>.</p>
+</blockquote>
+<ul>
+<li><strong>Disciplina:</strong> Data Engineering and Pipelines</li>
+<li><strong>Professor-conteudista:</strong> Afonso Cesar Lelis Brandão</li>
+</ul>
+<blockquote>
+<p>O <strong>CASE</strong> existe para que o estudante entenda a aplicabilidade do conteúdo estudado na realidade do mercado de trabalho.</p>
+</blockquote>
+<hr>
+<h2>1. Título</h2>
+<p><strong>Da Planilha ao Pipeline — Projeto de uma Plataforma de Dados Ponta a Ponta para o E-commerce VemComprar em 9 Meses</strong></p>
+<hr>
+<h2>2. Desafio</h2>
+<blockquote>
+<p><strong>O quê?</strong> Um e-commerce brasileiro em rápido crescimento precisa <strong>sair de um caos de planilhas e bancos transacionais isolados</strong> e construir uma <strong>plataforma de dados moderna e de ponta a ponta</strong> — da ingestão ao BI — com governança, qualidade e LGPD, dentro de um orçamento e prazo definidos.</p>
+<p><strong>Quem?</strong> A <strong>VemComprar Comércio Digital S.A.</strong>, marketplace e loja própria de moda, casa e eletrônicos, sediada em Barueri (SP), com 540 funcionários, faturamento (GMV) anual de <strong>R$ 480 milhões</strong>, <strong>2,3 milhões de pedidos/ano</strong> e <strong>3,8 milhões de clientes cadastrados</strong>. Cresceu 140% em 24 meses e a infraestrutura de dados não acompanhou.</p>
+<p><strong>Quando?</strong> Início imediato. Primeira entrega de valor (primeiros dashboards confiáveis sobre dados governados) em <strong>3 meses</strong>. Roadmap completo de <strong>9 meses</strong>.</p>
+<p><strong>Onde?</strong> Operação 100% digital, com dados espalhados por: o <strong>banco transacional do e-commerce</strong> (PostgreSQL, plataforma VTEX/loja própria), o <strong>ERP financeiro/fiscal</strong> (TOTVS), o <strong>CRM e ferramenta de e-mail marketing</strong> (RD Station), a <strong>plataforma de anúncios</strong> (Google Ads + Meta Ads via API), o <strong>gateway de pagamento</strong> (Stripe/Pagar.me), a <strong>transportadora/WMS</strong> (planilhas e API dos Correios/transportadoras) e <strong>dezenas de planilhas Google Sheets</strong> mantidas manualmente por cada área.</p>
+<p><strong>Por quê?</strong> A VemComprar <strong>não tem data warehouse nem data lake</strong>. Toda análise nasce de exportações manuais para Excel/Sheets, consolidadas a mão. <strong>Indicadores atuais</strong>:</p>
+<ul>
+<li><strong>Nº de fontes de dados</strong> relevantes e não integradas: <strong>9</strong> — bancos e ERP (PostgreSQL transacional + ERP TOTVS), APIs de terceiros (RD Station, Google Ads, Meta Ads, gateway de pagamento, transportadora/Correios), planilhas e WMS.</li>
+<li><strong>Volume de dados:</strong> ~<strong>1,8 TB</strong> acumulados; o transacional cresce <strong>~6 GB/dia</strong> (pedidos, eventos de navegação, logs).</li>
+<li><strong>Tempo para fechar o relatório gerencial mensal:</strong> <strong>5 dias úteis</strong> de trabalho manual de 2 analistas (consolidação de 30+ planilhas).</li>
+<li><strong>Divergência entre fontes:</strong> o faturamento do <strong>ERP</strong> e o do <strong>e-commerce</strong> divergem em <strong>até 7%</strong> todo mês — ninguém sabe qual está certo.</li>
+<li><strong>Custo de retrabalho/consolidação manual:</strong> 2 analistas × ~60 h/mês × R$ 60/h = <strong>R$ 7,2 mil/mês = R$ 86,4 mil/ano</strong>, sem contar decisões atrasadas.</li>
+<li><strong>Frescor dos dados de marketing:</strong> o ROAS por campanha só é conhecido <strong>com 4 dias de atraso</strong> — verba é queimada em campanha ruim antes de alguém perceber.</li>
+<li><strong>Incidentes de "número errado em reunião":</strong> <strong>~3 por mês</strong>, gerando refação de relatório e perda de confiança da diretoria nos dados.</li>
+<li><strong>LGPD:</strong> dados pessoais de 3,8 milhões de clientes (CPF, e-mail, endereço, histórico de compra) circulam <strong>em planilhas sem controle de acesso nem mascaramento</strong> — risco regulatório direto.</li>
+</ul>
+<p>A VemComprar <strong>não tem engenheiro de dados</strong> — dos 540 funcionários, o time de dados é minúsculo: <strong>apenas 2 analistas de BI e 1 DBA</strong>. <strong>Não tem orquestração, testes de dados, catálogo, linhagem nem observabilidade.</strong> A diretoria aprovou um <strong>investimento máximo de R$ 900 mil</strong> (CAPEX + 9 meses de OPEX de nuvem e ferramentas) para resolver o problema de uma vez.</p>
+<p><strong>Sua missão como engenheiro(a) de dados:</strong> projetar uma <strong>plataforma de dados completa e defensável</strong>, de ponta a ponta — <strong>ingestão → armazenamento (DW/Lakehouse) → transformação → orquestração → qualidade/observabilidade → governança/LGPD → BI</strong> —, integrando os conceitos das 4 unidades da disciplina, com <strong>arquitetura desenhada, stack justificada, orçamento realista (R$) e cronograma de 9 meses</strong>, e KPIs mensuráveis de sucesso.</p>
+</blockquote>
+<hr>
+<h2>3. Fontes de pesquisa</h2>
+<p>O estudante deverá pesquisar como outros profissionais ou empresas resolveram desafios similares:</p>
+<ol>
+<li><strong>Material da disciplina</strong> — todas as 16 aulas das 4 unidades (fundamentos; ingestão/processamento; armazenamento/arquitetura; qualidade/governança/DataOps).</li>
+<li><strong>Reis, J. &amp; Housley, M. — <em>Fundamentals of Data Engineering</em> (O'Reilly, 2022)</strong> — ciclo de vida da engenharia de dados e undercurrents (segurança, governança, orquestração).</li>
+<li><strong>Kimball, R. &amp; Ross, M. — <em>The Data Warehouse Toolkit</em> (3ª ed., Wiley)</strong> — modelagem dimensional, fato/dimensão, esquema estrela.</li>
+<li><strong>Lei Geral de Proteção de Dados — Lei nº 13.709/2018 (LGPD)</strong> e materiais da <strong>ANPD</strong> — https://www.gov.br/anpd/ (bases legais, minimização, direitos do titular, anonimização/pseudonimização).</li>
+<li><strong>Documentação oficial das ferramentas da Modern Data Stack</strong> — dbt (https://docs.getdbt.com/), Apache Airflow (https://airflow.apache.org/docs/), Great Expectations (https://docs.greatexpectations.io/), Airbyte (https://docs.airbyte.com/), BigQuery/Snowflake.</li>
+<li><strong>Moses, B. et al. — <em>Data Quality Fundamentals</em> / blog Monte Carlo</strong> — os 5 pilares de observabilidade e a fórmula de data downtime.</li>
+<li><strong>DAMA-DMBOK</strong> — dimensões de qualidade de dados e fundamentos de governança e catálogo.</li>
+<li><strong>Casos públicos brasileiros de plataforma de dados</strong> — engenharia de dados do <strong>Nubank, iFood, Magazine Luiza/Luizalabs, QuintoAndar</strong> (blogs de engenharia, palestras em conferências, vídeos no YouTube) — referências reais de Modern Data Stack em escala nacional.</li>
+</ol>
+<p><strong>Aulas relacionadas:</strong> todas as 16 aulas são insumo. Em ordem de relevância para o case: <strong>Aula 5</strong> (ETL vs ELT, CDC, idempotência), <strong>Aula 9/10</strong> (Data Warehouse e modelagem dimensional), <strong>Aula 8</strong> (orquestração com Airflow), <strong>Aula 6</strong> (Spark/processamento), <strong>Aula 7</strong> (Kafka/streaming), <strong>Aula 11/12</strong> (lakehouse, nuvem e formatos), <strong>Aula 13</strong> (qualidade e observabilidade), <strong>Aula 14–16</strong> (contratos de dados, governança, catálogo/linhagem e DataOps).</p>
+<hr>
+<h2>4. Entregável e distribuição da pontuação</h2>
+<p>Sua entrega final da disciplina <strong>Data Engineering and Pipelines</strong> será composta por <strong>3 entregáveis obrigatórios</strong>. O objetivo é desenvolver uma <strong>plataforma de dados de ponta a ponta</strong> baseada nos conceitos da Modern Data Stack e das 4 unidades da disciplina, demonstrando capacidade para diagnosticar a maturidade de dados da organização, propor uma arquitetura e uma stack aderentes ao contexto industrial e construir um roadmap de implementação alinhado aos objetivos estratégicos do negócio.</p>
+<h3>1. Parte Teórica — (25% da nota)</h3>
+<p>Desenvolva um <strong>relatório técnico em PDF</strong> contendo:</p>
+<ul>
+<li>Diagnóstico do cenário atual da <strong>VemComprar</strong> (mapeamento das 9 fontes, fluxo manual de consolidação, volume de dados e divergências entre fontes).</li>
+<li>Análise do <strong>nível de maturidade de dados</strong> da organização, posicionando-a entre OLTP e OLAP e evidenciando a ausência de uma fonte única da verdade governada.</li>
+<li>Identificação dos principais gargalos <strong>técnicos, organizacionais e de governança/LGPD</strong>.</li>
+<li>Definição da <strong>principal dor operacional</strong> que deverá ser priorizada, justificando a escolha com base em <strong>impacto operacional, retorno financeiro e viabilidade técnica</strong>.</li>
+<li>Fundamentação teórica das tecnologias e estratégias propostas, utilizando os conceitos estudados nas 4 unidades e as referências pesquisadas.</li>
+</ul>
+<h3>2. Parte Prática — (50% da nota)</h3>
+<p>Desenvolva uma <strong>proposta completa de plataforma de dados</strong> para a VemComprar contemplando, no mínimo:</p>
+<ul>
+<li><strong>Arquitetura de referência ponta a ponta</strong> com <strong>diagrama</strong> (ingestão → armazenamento → transformação → orquestração → qualidade/observabilidade → governança → BI) e camadas (raw/bronze → core/silver → marts/gold).</li>
+<li>Escolha justificada entre <strong>DW vs Lakehouse</strong> e <strong>modelagem dimensional</strong> (fatos, dimensões, grão, SCD) das tabelas analíticas centrais.</li>
+<li><strong>Stack tecnológica justificada</strong>, com <strong>trade-offs explícitos</strong> (ETL vs ELT, batch vs streaming/CDC, custo, time-to-value, lock-in), cobrindo ingestão, transformação, orquestração, qualidade e BI.</li>
+<li><strong>Qualidade, observabilidade e governança/LGPD</strong>: dimensões e testes de dados, 5 pilares de observabilidade, contratos de dados, catálogo/linhagem, RBAC e mascaramento/anonimização de PII.</li>
+<li><strong>Orçamento e cronograma de 9 meses</strong> dentro do teto de <strong>R$ 900 mil</strong>, com fases, custos detalhados (CAPEX + OPEX), KPIs, gestão de riscos e estrutura de governança.</li>
+<li>Avaliação dos <strong>impactos esperados</strong> (tempo de fechamento, conciliação do faturamento, frescor de ROAS, conformidade LGPD, redução de retrabalho) com projeções realistas de <strong>ROI</strong> e visão de evolução de 12–24 meses.</li>
+</ul>
+<p>A proposta poderá conter diagramas de arquitetura, modelos dimensionais, cronogramas, fluxogramas, dashboards conceituais, tabelas comparativas, estimativas financeiras e demais representações gráficas que auxiliem na comunicação da solução.</p>
+<h3>3. Vídeo Pitch — (25% da nota)</h3>
+<p>Grave um <strong>vídeo de até 4 minutos</strong>, simulando uma apresentação executiva para a diretoria fictícia da VemComprar, defendendo a proposta desenvolvida. O vídeo deverá apresentar:</p>
+<ul>
+<li>Contextualização do problema e dos principais gargalos identificados (incl. divergência de 7% entre ERP e e-commerce e risco LGPD).</li>
+<li>Justificativa das <strong>prioridades</strong> estabelecidas e das decisões de arquitetura e stack.</li>
+<li>Explicação das principais tecnologias propostas e dos benefícios esperados para a operação.</li>
+<li>Apresentação resumida da <strong>arquitetura da solução</strong> e do <strong>plano de implementação em 9 meses</strong>.</li>
+<li>Demonstração dos ganhos esperados em tempo de fechamento, conciliação de faturamento, frescor de dados, conformidade e redução de custos.</li>
+<li>Reflexão sobre governança de dados e a evolução da plataforma rumo a ML / Data Mesh.</li>
+</ul>
+<p>O vídeo deverá ser publicado no <strong>YouTube (modo não listado)</strong> ou em outra plataforma de hospedagem, e o <strong>link deverá ser inserido ao final do PDF</strong>. Antes da submissão, verifique se o link está correto e acessível para a correção.</p>
+<p><strong>Critérios qualitativos transversais</strong> (afetam todas as notas): <strong>clareza</strong> e organização do texto e do diagrama de arquitetura; <strong>profundidade técnica</strong> (decisões justificadas, não jargão solto); <strong>realismo</strong> dos números (custos de nuvem, prazos, ROI); <strong>coerência interna</strong> (diagnóstico → arquitetura → stack → KPIs alinhados); e <strong>integração</strong> dos conceitos das 4 unidades (não tratar uma unidade só).</p>
+<hr>
+<h2>5. Solução</h2>
+<blockquote>
+<p><strong>Atenção:</strong> este tópico será removido antes do case ser disponibilizado ao aluno — é apenas para o professor tutor que corrigirá.</p>
+</blockquote>
+<p><strong>Diagnóstico esperado:</strong> a VemComprar está em <strong>maturidade de dados baixa</strong> — estágio "planilha-cêntrico": dados existem em volume, mas sem integração, sem fonte única da verdade, sem governança e com risco LGPD ativo. Não há separação entre OLTP (transacional) e OLAP (analítico) — analistas exportam direto da produção, o que é frágil e lento. A <strong>dor prioritária</strong> esperada é a <strong>ausência de uma fonte única da verdade governada</strong>: a divergência de até 7% entre ERP e e-commerce é o sintoma mais caro (mina a confiança da diretoria) e tudo o mais decorre dela.</p>
+<p><strong>Impacto financeiro da dor (cálculo esperado):</strong> retrabalho manual R$ 86,4 mil/ano + verba de mídia mal alocada por ROAS atrasado (estimável em <strong>R$ 200–400 mil/ano</strong> sobre orçamento de mídia) + decisões atrasadas/erradas (custo de oportunidade) + <strong>risco LGPD</strong> (multa de até 2% do faturamento, limitada a R$ 50 mi por infração — exposição relevante). O "custo da não-plataforma" supera com folga o investimento de R$ 900 mil já no primeiro ano.</p>
+<p><strong>Arquitetura de referência esperada (Modern Data Stack, ponta a ponta):</strong></p>
+<ol>
+<li>
+<p><strong>Ingestão (U2 — Aula 5):</strong>
+   - <strong>EL gerenciado</strong> com <strong>Airbyte (open-source self-hosted)</strong> ou <strong>Fivetran</strong> para os SaaS/APIs (RD Station, Google Ads, Meta Ads, Stripe/Pagar.me, ERP TOTVS via conector/REST). Justificar EL gerenciado para conectores prontos e baixo custo de manutenção.
+   - <strong>CDC</strong> do <strong>PostgreSQL transacional</strong> via <strong>Debezium + Kafka</strong> (ou conector CDC do Airbyte) — captura <code>INSERT/UPDATE/DELETE</code> do binlog/WAL com baixo impacto na produção; coerente com a Aula 5 (CDC + incremental) e Aula 7 (Kafka/streaming) para dados de pedidos/navegação quase em tempo real.
+   - <strong>Planilhas:</strong> ingeridas via conector Google Sheets, com plano de <strong>descomissionamento progressivo</strong> (substituir planilha por modelo no DW).
+   - Cargas <strong>incrementais e idempotentes</strong> (MERGE/upsert por chave de negócio; partições sobrescritas por janela) — citar idempotência da Aula 5.</p>
+</li>
+<li>
+<p><strong>Armazenamento / arquitetura (U3 — Aulas 9–12):</strong>
+   - <strong>Cloud DW: BigQuery ou Snowflake</strong> (ELT, armazenamento colunar, separação storage/compute) <strong>OU Lakehouse</strong> (S3/GCS + <strong>Delta Lake ou Apache Iceberg</strong> + engine como Databricks/Spark). Ambos aceitáveis se <strong>justificados</strong>; para o porte da VemComprar, um <strong>cloud DW (ELT)</strong> tende a ser o caminho mais rápido e barato — o lakehouse se justifica se houver muito dado semiestruturado de navegação.
+   - <strong>Camadas:</strong> <strong>raw/staging (bronze) → core integrado (silver) → data marts dimensionais (gold)</strong> — exatamente o fluxo staging → core → marts da Aula 9.
+   - <strong>Modelagem dimensional (esquema estrela):</strong> <strong>fato_vendas</strong> (grão = item de pedido) com FKs para <strong>dim_cliente, dim_produto, dim_tempo, dim_loja/canal, dim_pagamento, dim_geografia/entrega</strong>; <strong>fato_marketing</strong> (gasto/ROAS por campanha/dia). Esperado citar fato/dimensão, grão, SCD (Slowly Changing Dimension type 2 para histórico de cliente/produto).</p>
+</li>
+<li>
+<p><strong>Transformação (U2/U3 — ELT):</strong>
+   - <strong>dbt</strong> como camada de transformação (SQL versionado, modular, com testes embutidos, documentação e <strong>linhagem</strong> automática). Modelos staging → intermediate → marts. Para volumes pesados de eventos de navegação, <strong>Apache Spark</strong> (PySpark) é a alternativa/complemento (Aula 6).</p>
+</li>
+<li>
+<p><strong>Orquestração (U2 — Aula 8):</strong>
+   - <strong>Apache Airflow</strong> (ou Dagster/Astronomer) coordenando DAGs: ingestão → dbt run → testes → publicação. Uso de <strong>retries</strong> (habilitados pela idempotência), SLAs, alertas de falha. Esperado conectar idempotência (Aula 5) com retries do Airflow (Aula 8).</p>
+</li>
+<li>
+<p><strong>Qualidade e observabilidade (U4 — Aula 13):</strong>
+   - <strong>Testes de dados:</strong> <strong>dbt tests</strong> (<code>not_null</code>, <code>unique</code>, <code>accepted_values</code>, <code>relationships</code>) + <strong>Great Expectations</strong> para suítes ricas e <em>data docs</em> de auditoria.
+   - <strong>Dimensões DAMA</strong> com thresholds (completude, acurácia, consistência ERP×e-commerce, unicidade de CPF, validade, pontualidade do batch).
+   - <strong>Observabilidade (5 pilares):</strong> frescor, volume, distribuição, esquema, linhagem — com <strong>Elementary/Soda</strong> ou Monte Carlo; alertas reduzem o <strong>TTD</strong> dos "3 incidentes/mês". Esperado citar a fórmula <code>Data downtime = nº incidentes × (TTD + TTR)</code>.</p>
+</li>
+<li>
+<p><strong>Governança e LGPD (U4 — Aulas 14–16):</strong>
+   - <strong>Contratos de dados</strong> entre produtores (times-fonte) e consumidores (BI/ML), versionados.
+   - <strong>Catálogo de dados + linhagem</strong> (DataHub, OpenMetadata ou Amundsen) — descoberta, donos, glossário de negócio.
+   - <strong>LGPD:</strong> classificação e <strong>mascaramento/pseudonimização de PII</strong> (CPF, e-mail), <strong>controle de acesso por papéis (RBAC)</strong> e por coluna/linha, base legal documentada, política de retenção, atendimento a direitos do titular (acesso/exclusão), trilha de auditoria. Tirar PII das planilhas é entrega de segurança imediata.</p>
+</li>
+<li>
+<p><strong>BI / disponibilização (U1/U3):</strong>
+   - <strong>Power BI, Looker Studio ou Metabase</strong> consumindo os marts gold. Dashboards de faturamento conciliado (uma só verdade), ROAS quase em tempo real, funil e LTV.</p>
+</li>
+</ol>
+<p><strong>Orçamento esperado (CAPEX + OPEX 9 meses, dentro de R$ 900 mil):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>9 meses</th>
+<th>Notas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engenheiro(a) de dados (contratação/alocação)</td>
+<td>R$ 270 mil</td>
+<td>1 sênior ~R$ 30 mil/mês (custo total)</td>
+</tr>
+<tr>
+<td>Consultoria de implantação (Modern Data Stack)</td>
+<td>R$ 180 mil</td>
+<td>setup, dbt, Airflow, governança</td>
+</tr>
+<tr>
+<td>Ingestão gerenciada (Airbyte Cloud/Fivetran)</td>
+<td>R$ 90 mil</td>
+<td>por volume de linhas sincronizadas</td>
+</tr>
+<tr>
+<td>Cloud DW + storage + compute (BigQuery/Snowflake)</td>
+<td>R$ 120 mil</td>
+<td>ELT; otimizar com particionamento/clustering</td>
+</tr>
+<tr>
+<td>Orquestração + observabilidade + catálogo</td>
+<td>R$ 70 mil</td>
+<td>Astronomer/Elementary/OpenMetadata</td>
+</tr>
+<tr>
+<td>BI (licenças Power BI/Looker)</td>
+<td>R$ 40 mil</td>
+<td>usuários gerenciais</td>
+</tr>
+<tr>
+<td>Capacitação dos 2 analistas + 1 DBA</td>
+<td>R$ 50 mil</td>
+<td>dbt, SQL analítico, governança</td>
+</tr>
+<tr>
+<td>Reserva de contingência</td>
+<td>R$ 80 mil</td>
+<td>imprevistos (~9%)</td>
+</tr>
+<tr>
+<td><strong>Total 9 meses</strong></td>
+<td><strong>R$ 900 mil</strong></td>
+<td><strong>No limite do orçamento</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cronograma esperado (9 meses, 4 fases):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Prazo</th>
+<th>Foco</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Fundação e fonte única da verdade</strong></td>
+<td>M1–M3</td>
+<td>DW provisionado; ingestão das fontes core (PostgreSQL via CDC, ERP, gateway); camadas raw→core; primeiros marts dimensionais; <strong>dashboard de faturamento conciliado</strong> (resolve a divergência de 7%)</td>
+</tr>
+<tr>
+<td><strong>2. Cobertura e orquestração</strong></td>
+<td>M3–M5</td>
+<td>Demais fontes (marketing, CRM, WMS); Airflow orquestrando ingestão + dbt; descomissionar planilhas críticas</td>
+</tr>
+<tr>
+<td><strong>3. Qualidade, observabilidade e LGPD</strong></td>
+<td>M5–M7</td>
+<td>dbt tests + Great Expectations; 5 pilares de observabilidade; mascaramento de PII, RBAC, catálogo + linhagem, contratos de dados</td>
+</tr>
+<tr>
+<td><strong>4. Otimização e self-service BI</strong></td>
+<td>M7–M9</td>
+<td>ROAS quase em tempo real; LTV/cohort; capacitação; FinOps de nuvem; handover para o time interno</td>
+</tr>
+</tbody>
+</table>
+<p><strong>KPIs-alvo esperados (antes → depois):</strong></p>
+<ol>
+<li><strong>Tempo de fechamento do relatório mensal:</strong> 5 dias → <strong>&lt; 1 dia</strong> (automático).</li>
+<li><strong>Divergência ERP × e-commerce:</strong> até 7% → <strong>&lt; 0,5%</strong> (conciliação no DW).</li>
+<li><strong>Frescor dos dados de marketing/ROAS:</strong> 4 dias → <strong>&lt; 6 h</strong> (ou near real-time).</li>
+<li><strong>Incidentes de "número errado em reunião":</strong> ~3/mês → <strong>≤ 1/trimestre</strong>; <strong>TTD</strong> de dias → <strong>minutos</strong>.</li>
+<li><strong>Custo de retrabalho manual:</strong> R$ 86,4 mil/ano → <strong>~R$ 10 mil/ano</strong> (-88%).</li>
+<li><strong>Cobertura de testes/contratos</strong> sobre tabelas críticas: 0% → <strong>≥ 90%</strong>.</li>
+<li><strong>PII fora de planilhas / mascarada:</strong> 0% → <strong>100%</strong> das tabelas com PII governadas (conformidade LGPD).</li>
+<li><strong>Fontes integradas no DW:</strong> de 0/9 → <strong>9/9</strong>.</li>
+</ol>
+<p><strong>Riscos esperados (com mitigações):</strong></p>
+<ol>
+<li><strong>Custo de nuvem fugir do controle</strong> → FinOps desde o início (particionamento, clustering, jobs incrementais idempotentes, monitor de custo).</li>
+<li><strong>Resistência das áreas a abandonar planilhas</strong> → migrar mostrando valor (dashboards melhores), com donos e contratos de dados.</li>
+<li><strong>Qualidade ruim na fonte contamina o DW</strong> → testes na ingestão (barrar o lixo na porta), contratos com os times-fonte.</li>
+<li><strong>CDC impactar o transacional</strong> → ler do WAL/binlog (não consultar tabela de produção), réplica de leitura se necessário.</li>
+<li><strong>LGPD subestimada</strong> → tratar PII na Fase 1 (não deixar para o fim), DPO/jurídico no comitê.</li>
+<li><strong>Dependência da consultoria</strong> → capacitar o time interno e documentar tudo (handover na Fase 4).</li>
+</ol>
+<p><strong>Visão de futuro (12–24 meses) esperada:</strong></p>
+<ul>
+<li><strong>Real-time/streaming</strong> ampliado (Kafka) para personalização e antifraude.</li>
+<li><strong>Feature store</strong> e suporte a <strong>ML</strong> (recomendação, previsão de demanda, churn) sobre o DW governado.</li>
+<li><strong>Data Mesh / dado como produto</strong> com contratos e catálogo maduros.</li>
+<li><strong>Cultura data-driven</strong> consolidada e <strong>FinOps</strong> otimizando o custo por consulta.</li>
+<li>Possível <strong>reverse ETL</strong> (devolver dado tratado ao CRM/ads para ativação).</li>
+</ul>
+<p><strong>Resposta de alta qualidade</strong> demonstra: arquitetura coerente ponta a ponta; trade-offs explícitos (ETL×ELT, batch×CDC, DW×lakehouse); modelagem dimensional correta (grão, fato/dimensão, SCD); LGPD tratada a sério; números de nuvem realistas; KPIs antes/depois; integração das 4 unidades.</p>
+<p><strong>Resposta de baixa qualidade</strong> comumente apresenta: "vamos usar tudo" sem justificar; ignorar governança/LGPD; confundir OLTP com OLAP (continuar puxando da produção); orçamento irreal ou estourado; nenhum KPI mensurável; tratar só uma unidade (ex.: só ferramentas, sem qualidade nem modelagem).</p>
+<hr>
+<h2>Roteiro do Estudante</h2>
+<h3>1. Leia o desafio</h3>
+<p>Sua primeira tarefa é entender o cenário da <strong>VemComprar com atenção</strong>:</p>
+<ul>
+<li><strong>Quem</strong> é a empresa (porte, GMV de R$ 480 mi, 2,3 mi de pedidos/ano, 3,8 mi de clientes, crescimento de 140%)?</li>
+<li><strong>Qual</strong> é a dor mais cara e mais clara? (Dica: por que ninguém confia no número do faturamento?)</li>
+<li><strong>Quais</strong> restrições foram dadas (orçamento de R$ 900 mil, prazo de 9 meses, 9 fontes, risco LGPD)?</li>
+<li><strong>Onde</strong> estão os dados hoje e por que o modelo de planilhas não escala?</li>
+</ul>
+<p>Tome <strong>notas estruturadas</strong> dos indicadores: 9 fontes, 1,8 TB / 6 GB/dia, 5 dias para fechar o mês, divergência de 7%, R$ 86,4 mil/ano de retrabalho, ROAS com 4 dias de atraso, 3 incidentes/mês, PII de 3,8 mi de clientes em planilhas. Esses números são sua <strong>base argumentativa</strong> — toda decisão sua deve se apoiar em um deles.</p>
+<h3>2. Fontes de Pesquisa</h3>
+<p>Antes de propor a solução, reúna referências e ancore seus números:</p>
+<ul>
+<li><strong>Releia</strong> as Unidades 1 a 4 — todas são insumo (fundamentos, ingestão/processamento, armazenamento/arquitetura, qualidade/governança/DataOps).</li>
+<li><strong>Estude</strong> a Modern Data Stack na documentação oficial: Airbyte/Fivetran, dbt, Airflow, BigQuery/Snowflake (ou Delta/Iceberg para lakehouse), Great Expectations.</li>
+<li><strong>Pesquise preços reais de nuvem:</strong> quanto custa armazenar e consultar no BigQuery/Snowflake? Quanto cobra o Airbyte/Fivetran por volume? Ancore seu orçamento.</li>
+<li><strong>Leia a LGPD (Lei 13.709/2018)</strong> e o material da ANPD: bases legais, minimização, anonimização/pseudonimização, direitos do titular.</li>
+<li><strong>Traga um exemplo concreto</strong> de empresa brasileira que construiu plataforma de dados (Nubank, iFood, Magazine Luiza, QuintoAndar) — blogs de engenharia e palestras no YouTube.</li>
+</ul>
+<h3>3. Entrega</h3>
+<p>Estruture o <strong>documento técnico (PDF, 12–18 páginas)</strong> assim:</p>
+<ol>
+<li><strong>Sumário executivo</strong> (1 página) — recomendação central em 5 linhas.</li>
+<li><strong>Diagnóstico e dor prioritária</strong> (1–2 páginas) — 9 fontes, fluxo manual, riscos LGPD, impacto financeiro.</li>
+<li><strong>Arquitetura de referência</strong> (3–4 páginas) — <strong>diagrama ponta a ponta</strong>, camadas (raw→core→marts), DW vs lakehouse justificado, <strong>modelagem dimensional</strong> (fatos e dimensões, grão, SCD).</li>
+<li><strong>Stack tecnológica justificada</strong> (2–3 páginas) — cada ferramenta com trade-offs (ETL×ELT, batch×CDC, custo, lock-in).</li>
+<li><strong>Qualidade, observabilidade e governança/LGPD</strong> (2 páginas) — testes, 5 pilares, contratos, catálogo/linhagem, mascaramento de PII, RBAC.</li>
+<li><strong>Orçamento e cronograma</strong> (1–2 páginas) — 4 fases, custos detalhados ≤ R$ 900 mil, governança do projeto.</li>
+<li><strong>KPIs, riscos e visão de futuro</strong> (1–2 páginas) — metas antes/depois, riscos com mitigação, evolução 12–24 meses.</li>
+<li><strong>Referências</strong> (ABNT).</li>
+</ol>
+<p>Para o <strong>vídeo pitch (até 4 minutos)</strong>:</p>
+<ul>
+<li>Abra com <strong>a recomendação central</strong> e o problema (divergência de 7%, risco LGPD, retrabalho de R$ 86,4 mil/ano).</li>
+<li>Mostre o diagnóstico e a <strong>dor prioritária</strong> com 2–3 números fortes.</li>
+<li>Apresente a <strong>arquitetura ponta a ponta</strong> e a stack em alto nível (sem detalhar cada ferramenta).</li>
+<li>Feche com <strong>KPIs (antes → depois)</strong>, orçamento dentro de R$ 900 mil e o pedido de aprovação.</li>
+<li>Publique no <strong>YouTube (modo não listado)</strong> e cole o <strong>link ao final do PDF</strong> — confira se está acessível.</li>
+</ul>
+<p><strong>Dica final:</strong> capriche na <strong>defesa numérica e na coerência</strong>. A diretoria não compra ferramenta bonita — compra uma plataforma que <strong>resolve a divergência de 7%</strong>, <strong>acaba com o retrabalho de R$ 86,4 mil/ano</strong>, <strong>coloca a empresa em conformidade com a LGPD</strong> e cabe no orçamento. Cada decisão de arquitetura sua deve estar ancorada em um número do desafio ou em um conceito das 4 unidades.</p>
+<p>Esse projeto é seu <strong>portfólio final</strong> de engenharia de dados — o tipo de proposta que você apresenta em entrevistas e para defender investimentos. <strong>Capricha</strong>.</p>
+<p>Boa entrega!</p>
+</body></html>

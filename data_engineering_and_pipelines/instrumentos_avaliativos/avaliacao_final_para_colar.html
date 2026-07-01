@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>avaliacao_final</title><style>
+:root{--tinta:#1a1a1a;--linha:#c9c9c9;--azul:#0b3d5c}
+*{box-sizing:border-box}
+body{max-width:820px;margin:32px auto;padding:0 20px;color:var(--tinta);
+  font-family:'Georgia','Times New Roman',serif;font-size:17px;line-height:1.6}
+h1,h2,h3,h4{font-family:'Segoe UI',Arial,sans-serif;color:var(--azul);line-height:1.25}
+h1{font-size:1.9em;border-bottom:2px solid var(--azul);padding-bottom:.2em}
+h2{font-size:1.5em;margin-top:1.6em}h3{font-size:1.2em}h4{font-size:1.05em}
+img{max-width:100%;height:auto}
+table{border-collapse:collapse;margin:1em 0;width:100%}
+th,td{border:1px solid var(--linha);padding:6px 10px;text-align:left}
+th{background:#eef1f6}
+blockquote{border-left:4px solid var(--azul);margin:1em 0;padding:.2em 1em;background:#f6f8fb;color:#333}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:.9em}
+pre{background:#f6f8fb;padding:12px;overflow:auto;border-radius:4px}
+hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
+</style></head>
+<body>
+<h1>Avaliação Final — Data Engineering and Pipelines</h1>
+<ul>
+<li><strong>Disciplina:</strong> Data Engineering and Pipelines</li>
+<li><strong>Professor-conteudista:</strong> Afonso Cesar Lelis Brandão</li>
+</ul>
+<h2>Orientações</h2>
+<ul>
+<li><strong>40 questões</strong> padrão ENADE no total:</li>
+<li><strong>15</strong> do tipo <strong>asserção-razão</strong> (Q1–Q15)</li>
+<li><strong>15</strong> do tipo <strong>interpretação</strong> (Q16–Q30)</li>
+<li><strong>10</strong> do tipo <strong>discursiva</strong> (Q31–Q40, posicionadas ao final)</li>
+<li>Cada questão objetiva tem <strong>5 alternativas (a–e)</strong>, com a correta prefixada por <code>*</code>.</li>
+<li>Rotação das alternativas corretas: <strong>a, b, c, d, e, a, b, c, d, e...</strong> (6 questões para cada letra nas objetivas).</li>
+<li>Para cada alternativa de questão objetiva, há <strong>feedback explicativo</strong>.</li>
+<li>Feedbacks das objetivas ao final, na ordem das questões.</li>
+</ul>
+<hr>
+<h2>Questões objetivas (1–30) e discursivas (31–40)</h2>
+<h3>Questão 1 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No padrão ELT, o dado bruto é carregado primeiro no destino e transformado depois, dentro do próprio data warehouse ou lakehouse.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A queda do custo de armazenamento na nuvem e o aumento do poder de processamento dos warehouses modernos tornaram economicamente viável guardar o dado cru e transformá-lo sob demanda, preservando a fonte da verdade.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 2 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O formato de arquivo Parquet é colunar e comprimido, sendo o padrão de mercado para cargas analíticas (OLAP).</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Apache Kafka, tornado open-source pelo LinkedIn em 2011, é um log distribuído e durável que desacopla produtores de consumidores no processamento de streaming.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 3 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> As propriedades ACID (atomicidade, consistência, isolamento e durabilidade) tornam os bancos relacionais confiáveis para transações financeiras, como uma transferência bancária.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A atomicidade garante que, em uma transferência, o débito de uma conta e o crédito de outra ocorram em metades independentes, de modo que, se o sistema cair, apenas o débito seja confirmado.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 4 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O teorema CAP afirma que, em um sistema distribuído, é sempre possível garantir simultaneamente Consistência, Disponibilidade e Tolerância a partição em plenitude, mesmo durante uma falha de rede.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Como partições de rede são inevitáveis em sistemas distribuídos, a escolha prática se dá entre priorizar Consistência (CP) ou Disponibilidade (AP) durante a partição.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 5 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Em um esquema estrela, a tabela de fatos guarda os atributos descritivos (nome do produto, cidade do cliente) e as tabelas de dimensão guardam as métricas numéricas (valor, quantidade).</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A modelagem dimensional sempre exige normalização total das tabelas de dimensão até a 3ª Forma Normal para acelerar consultas analíticas.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 6 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A idempotência de uma operação de ingestão é o que torna seguro habilitar retries e reprocessamentos (backfill) em um pipeline.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Uma operação idempotente produz o mesmo estado final ao ser executada uma ou várias vezes, evitando duplicação de dados quando uma carga é repetida — o que costuma ser obtido com <code>MERGE</code>/upsert por chave de negócio ou sobrescrita de partição.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 7 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Spark, o shuffle (redistribuição de dados pela rede em operações como <code>groupBy</code> e <code>join</code>) é a operação mais cara do motor.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> As transformações no Spark são lazy: nada é executado até que uma ação (como <code>count</code> ou <code>write</code>) seja chamada, momento em que o otimizador Catalyst monta o plano físico.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 8 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Kafka, a ordem das mensagens é garantida apenas dentro de uma partição, e o offset é o número sequencial que o consumidor usa para controlar até onde já leu.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Kafka garante ordenação total entre todas as partições de um tópico, independentemente da chave da mensagem, atribuindo um offset global e único a cada evento do cluster.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 9 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A garantia de entrega exactly-once deve ser sempre adotada em qualquer pipeline de streaming, pois é simples de implementar e não impõe nenhum custo de desempenho ao Kafka.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A combinação de at-least-once com consumo idempotente é, na prática, mais simples e robusta do que perseguir exactly-once a qualquer custo, já que o exactly-once exige produtores idempotentes e transações, com overhead.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 10 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Airflow, um pipeline é modelado como um grafo cíclico, em que é desejável que uma tarefa dependa, direta ou indiretamente, de si mesma para permitir reprocessamento contínuo.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A presença de ciclos em um DAG do Airflow garante que o pipeline sempre termine sua execução em tempo finito, sendo essa a razão de o agendamento usar expressões cron.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 11 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O armazenamento colunar reduz drasticamente o volume de dados varridos e o custo de uma consulta analítica que usa poucas colunas de uma tabela larga.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No armazenamento colunar, os valores de uma mesma coluna ficam juntos, permitindo ler apenas as colunas necessárias e obter alta taxa de compressão, já que valores semelhantes se comprimem melhor.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 12 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Formatos de tabela abertos como Delta Lake, Apache Iceberg e Apache Hudi trazem transações ACID e time travel a um data lake construído sobre object storage.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A arquitetura Medallion organiza o lakehouse em três camadas de qualidade crescente — bronze (bruto), silver (limpo) e gold (curado para o negócio).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 13 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A separação entre armazenamento e computação nos data warehouses em nuvem permite que múltiplos clusters leiam os mesmos dados sem competir por recursos e que se pague por cada camada separadamente.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Nos data warehouses tradicionais on-premises, armazenamento e processamento eram desacoplados, de modo que escalar um nunca exigia escalar o outro.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 14 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Na Modern Data Stack, a melhor prática é escrever e manter manualmente os conectores de extração de cada fonte (Salesforce, Stripe, Postgres), pois ferramentas gerenciadas não conseguem lidar com schema drift nem cargas incrementais.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Ferramentas de ingestão gerenciada, como Fivetran e Airbyte, oferecem conectores prontos que cuidam de schema drift, reprocessos e incrementos, dispensando o engenheiro de escrever código de extração.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 15 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> Na LGPD, dado pseudonimizado sai automaticamente do escopo da lei, pois a reidentificação do titular se torna impossível em qualquer circunstância.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Para atender ao direito de eliminação previsto na LGPD, é dispensável conhecer a linhagem do dado, já que apagar a tabela principal garante, por si só, a remoção de todos os rastros do titular em backups, data lake e features de modelos.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 16 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Há um ditado no mercado de dados: <em>garbage in, garbage out</em>. Por mais sofisticado que seja o modelo de IA ou o dashboard executivo, se o dado que entra é lixo, a saída também será lixo. Por isso costuma-se dizer que cerca de 80% do esforço de qualquer projeto de dados é, na verdade, engenharia de dados."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p>*a. O engenheiro de dados é a base de qualquer iniciativa analítica: sem dado confiável, organizado e disponível, não há ciência de dados, BI ou IA que funcionem.
+b. Como modelos modernos de IA corrigem automaticamente dados ruins, a etapa de engenharia de dados tornou-se dispensável.
+c. O ditado significa que a qualidade do modelo não depende em nada da qualidade dos dados de entrada.
+d. A engenharia de dados ocupa um esforço marginal nos projetos, sendo o trabalho do cientista de dados o que de fato importa.
+e. Dashboards e modelos preditivos produzem resultados confiáveis mesmo a partir de dados inconsistentes e incompletos.</p>
+<h3>Questão 17 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<p>A tabela compara quatro formatos de arquivo usados em engenharia de dados:</p>
+<table>
+<thead>
+<tr>
+<th>Formato</th>
+<th>Característica</th>
+<th>Melhor uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CSV</td>
+<td>Texto, sem tipos</td>
+<td>Troca simples</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Hierárquico, verboso</td>
+<td>APIs, semiestruturado</td>
+</tr>
+<tr>
+<td>Parquet</td>
+<td>Colunar, comprimido</td>
+<td>Analytics (OLAP)</td>
+</tr>
+<tr>
+<td>Avro</td>
+<td>Por linha, esquema embutido</td>
+<td>Ingestão e streaming</td>
+</tr>
+</tbody>
+</table>
+<p>Uma tabela de 100 milhões de linhas é consultada todos os dias em um dashboard que agrega poucas colunas. Qual formato é o mais indicado para o armazenamento analítico?</p>
+<p>a. CSV, por ser legível por humanos e universal.
+*b. Parquet, por ser colunar e comprimido, lendo apenas as colunas necessárias com alta compressão.
+c. JSON, por ser flexível e ideal para dados aninhados.
+d. Avro, por ser por linha e otimizado para escrever registros completos rapidamente.
+e. Tanto faz, pois o formato de arquivo não influencia o custo nem o desempenho da consulta.</p>
+<h3>Questão 18 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma tabela de pedidos cresce 2 milhões de linhas por dia e já acumula 730 milhões de registros após um ano. A taxa de leitura é de 50.000 linhas/s. A carga <strong>full</strong> lê a tabela inteira; a carga <strong>incremental</strong> lê apenas as linhas novas do dia.</p>
+</blockquote>
+<p>Comparando os tempos da carga full com a carga incremental, a aceleração obtida pela incremental é de aproximadamente:</p>
+<p>a. ~2 vezes mais rápida.
+b. ~30 vezes mais rápida.
+*c. ~365 vezes mais rápida.
+d. ~100 vezes mais rápida.
+e. ~1.000 vezes mais rápida.</p>
+<blockquote>
+<p><strong>Cálculo:</strong> full = 730.000.000 / 50.000 = 14.600 s (~4 h); incremental = 2.000.000 / 50.000 = 40 s. Razão ≈ 14.600 / 40 = 365.</p>
+</blockquote>
+<h3>Questão 19 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um banco precisa avaliar cada transação de cartão em <strong>menos de 200 ms</strong> para detectar fraude. Os eventos chegam continuamente, em altíssimo volume, e precisam ser processados no instante em que surgem. Perder ocasionalmente um evento é menos grave do que ficar fora do ar.</p>
+</blockquote>
+<p>A combinação de arquitetura mais adequada a esse cenário é:</p>
+<p>a. Processamento em batch diário com carga full, pois garante consolidação completa antes da decisão.
+b. Banco relacional OLTP com snapshot periódico, priorizando consistência forte (CP) acima de tudo.
+c. Data warehouse colunar consultado por relatórios noturnos, com modelagem dimensional em esquema estrela.
+*d. Streaming com Apache Kafka, processamento em janelas e garantia at-least-once com consumo idempotente, priorizando disponibilidade (AP).
+e. ETL clássico em servidor intermediário, com reprocessamento full mensal e exactly-once obrigatório em todas as etapas.</p>
+<h3>Questão 20 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"No Spark, distribuir um job de 1 TB de logs entre 40 executors reduziria o tempo ideal de mais de 5 horas para cerca de 8 minutos. Mas, se 15% do trabalho for serial (coleta de resultados, shuffle final), a Lei de Amdahl limita o ganho a cerca de 5,8x com 40 executors — e a no máximo ~6,7x mesmo com infinitos nós."</p>
+</blockquote>
+<p>A leitura mais correta do texto é:</p>
+<p>a. Adicionar executors gera sempre ganho linear, dobrando a velocidade a cada vez que se dobra o número de máquinas.
+b. A fração serial de um job é irrelevante para o tempo total quando há muitos executors.
+c. O shuffle é a parte mais barata do Spark e deve ser maximizado para acelerar o job.
+d. A Lei de Amdahl prova que o paralelismo nunca traz qualquer benefício em jobs distribuídos.
+*e. O paralelismo tem retorno decrescente: reduzir a fração serial (o shuffle) frequentemente rende mais que apenas somar máquinas ao cluster.</p>
+<h3>Questão 21 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um tópico de cliques no Kafka recebe 30.000 mensagens por segundo. Cada consumidor de um grupo processa, em média, 5.000 mensagens por segundo. Cada partição é lida por, no máximo, um consumidor do grupo.</p>
+</blockquote>
+<p>O número mínimo de partições para acompanhar o fluxo sem acumular atraso é:</p>
+<p>*a. 6 partições (e, portanto, 6 consumidores no grupo).
+b. 2 partições, pois 2 consumidores dão conta de qualquer vazão.
+c. 30.000 partições, uma por mensagem recebida por segundo.
+d. 1 partição, pois o Kafka paraleliza automaticamente entre brokers.
+e. 150 partições, multiplicando consumidores por mensagens.</p>
+<blockquote>
+<p><strong>Cálculo:</strong> N = 30.000 / 5.000 = 6 consumidores/partições.</p>
+</blockquote>
+<h3>Questão 22 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um pipeline diário precisa entregar o dashboard executivo até as 8h00. O caminho crítico normal é de 80 min; no pior caso, com todos os retries acionados, sobe para 110 min. Para entregar mesmo no pior caso, deseja-se uma margem de segurança.</p>
+</blockquote>
+<p>Considerando os tempos descritos, qual decisão de agendamento e SLA é a mais coerente?</p>
+<p>a. Agendar às 7h50, pois 10 minutos bastam para qualquer pipeline diário.
+*b. Agendar às 6h00 com SLA de 110 min, garantindo entrega até as 8h00 mesmo no pior caso e disparando alerta de violação de SLA se houver atraso.
+c. Agendar às 8h00 em ponto, pois o Airflow compensa retries automaticamente sem afetar o horário.
+d. Não definir SLA, pois o backfill já garante que o dado chegue a qualquer momento do dia.
+e. Agendar às 4h00 sem SLA, eliminando a necessidade de retries e de observabilidade.</p>
+<h3>Questão 23 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma tabela de eventos tem 10 TB, particionada por dia (365 dias). Um analista filtra <strong>um único dia</strong> e seleciona <strong>apenas 1 das 50 colunas</strong>. A cobrança é de US$ 6,25 por TB varrido. Sem particionamento e com <code>SELECT *</code>, a consulta lê os 10 TB inteiros.</p>
+</blockquote>
+<p>A leitura mais correta sobre o impacto de particionamento e seleção de colunas é:</p>
+<p>a. Particionar e selecionar colunas não altera o custo, pois o motor sempre varre a tabela inteira.
+b. <code>SELECT *</code> em armazenamento colunar é a forma mais barata de consultar, pois evita planejamento.
+*c. Particionamento por dia (partition pruning) somado à seleção de poucas colunas reduz os bytes varridos em ordens de grandeza, derrubando o custo da mesma consulta de dezenas de dólares para frações de centavo.
+d. Duplicar a tabela em três cópias é a forma mais eficaz de reduzir o custo por consulta.
+e. Migrar a tabela para um banco OLTP por linha tornaria a consulta analítica mais barata.</p>
+<h3>Questão 24 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"A Modern Data Stack é modular, em nuvem e centrada no warehouse/lakehouse, baseada em ELT. O dbt transforma dados dentro do DW usando apenas SQL, trazendo modelos versionados em Git, lineage automático, testes de dados e documentação gerada — práticas de engenharia de software aplicadas à análise."</p>
+</blockquote>
+<p>A função do dbt na Modern Data Stack é melhor descrita como:</p>
+<p>a. O "E" (Extract): ele extrai dados das fontes por meio de conectores prontos.
+b. O "L" (Load): ele carrega dados brutos das fontes diretamente no object storage.
+c. A camada de BI: ele entrega dashboards e self-service ao usuário final.
+*d. O "T" (Transform): ele materializa as camadas silver/gold (ou data marts) no warehouse via SQL, com testes, lineage e documentação versionados.
+e. O orquestrador: ele substitui o Airflow no agendamento e no tratamento de falhas de todas as tarefas.</p>
+<h3>Questão 25 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Não dá para governar o que não se enxerga. A linhagem (data lineage) mapeia de qual fonte o dado veio, por quais transformações passou e em quais dashboards e modelos termina. Ela responde a duas perguntas opostas: a jusante, 'se eu mudar esta coluna, o que quebra?'; a montante, 'este número estranho, de onde saiu?'."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p>a. Linhagem serve apenas para gerar documentação estética, sem utilidade operacional.
+b. A análise de impacto (jusante) e a de causa-raiz (montante) são a mesma pergunta com nomes diferentes.
+c. Linhagem é exigida apenas em sistemas de streaming, não em pipelines em batch.
+d. Conhecer a linhagem é irrelevante para atender pedidos de exclusão previstos na LGPD.
+*e. A linhagem habilita análise de impacto (jusante) e de causa-raiz (montante) e é pré-requisito para localizar todos os lugares onde um dado pessoal pousou, viabilizando a exclusão exigida pela LGPD.</p>
+<h3>Questão 26 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Testes verificam regras que você antecipou (<code>not_null</code>, valor entre 0 e 1) dentro do pipeline. A observabilidade detecta o que você não previu, monitorando ao longo do tempo cinco pilares: frescor, volume, distribuição, esquema e linhagem."</p>
+</blockquote>
+<p>A leitura mais correta é:</p>
+<p>*a. Testes e observabilidade são complementares: o teste barra o erro antecipado na porta, enquanto a observabilidade detecta anomalias imprevistas comparando o comportamento atual ao histórico.
+b. Testes e observabilidade são sinônimos e verificam exatamente as mesmas regras.
+c. A observabilidade só funciona em pipelines de streaming, e os testes só em batch.
+d. Testes de dados tornam a observabilidade desnecessária em pipelines maduros.
+e. Os cinco pilares da observabilidade dizem respeito apenas à segurança e ao controle de acesso, não à saúde do dado.</p>
+<h3>Questão 27 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma fintech rodou análise de risco sobre uma tabela cujo campo de renda passou a chegar multiplicado por 100, por uma mudança não comunicada no sistema-fonte. Sem monitoração, o erro passou despercebido por 9 dias (TTD = 9 dias), e a correção levou 1 dia (TTR = 1 dia). A regra 1-10-100 indica que custa R$ 1 prevenir, R$ 10 corrigir e R$ 100 conviver com o dado ruim.</p>
+</blockquote>
+<p>A leitura mais alinhada é:</p>
+<p>a. O data downtime depende apenas do TTR, sendo o TTD irrelevante para o custo do incidente.
+*b. A observabilidade ataca diretamente o TTD, reduzindo de dias para minutos o tempo de detecção, e a regra 1-10-100 mostra que prevenir é a opção mais barata.
+c. Conviver com o dado ruim em produção é a alternativa mais econômica segundo a regra 1-10-100.
+d. Um contrato de dados não teria nenhum efeito sobre mudanças de schema no sistema-fonte.
+e. Como o problema é de validade, ele jamais poderia ser detectado por um teste de dados.</p>
+<h3>Questão 28 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um e-commerce com faturamento anual de R$ 80 milhões sofre um vazamento por um bucket mal configurado. A sanção da LGPD é de até 2% do faturamento, limitada a R$ 50 milhões por infração. A revisão de permissões, mascaramento e auditoria custaria cerca de R$ 60 mil.</p>
+</blockquote>
+<p>Sobre o teto percentual da multa e a relação custo-benefício da prevenção, a leitura correta é:</p>
+<p>a. A multa máxima é fixa em R$ 1.000, independentemente do faturamento da empresa.
+b. Por ser pseudonimizado, o dado sai automaticamente do escopo da LGPD e não há sanção possível.
+*c. No teto percentual, a multa pode chegar a R$ 1,6 milhão (2% de R$ 80 milhões), cerca de 27 vezes o custo de prevenir — e reputação e churn costumam superar a própria multa.
+d. A multa percentual incide sobre o lucro líquido, e não sobre o faturamento da empresa.
+e. Prevenir custaria mais caro que pagar a multa, tornando a prevenção economicamente irracional.</p>
+<h3>Questão 29 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma equipe migra de processo manual para CI/CD. Antes: 2 deploys/mês, change failure rate de 30%, correções demoradas. Depois: 20 deploys/mês, change failure rate de 5%, rollback automático que reduz o impacto por incidente. A meta DORA é deploy frequente com baixa taxa de falha.</p>
+</blockquote>
+<p>A leitura mais correta é:</p>
+<p>a. O segredo do DataOps é fazer menos deploys para reduzir o risco de falha.
+b. Aumentar a frequência de deploy sempre aumenta proporcionalmente a taxa de falha de mudança.
+c. CI/CD não tem relação com a confiabilidade do pipeline, apenas com a velocidade.
+*d. CI/CD torna o deploy barato e seguro: mais deploys com taxa de falha menor, pois os testes barram o erro no pull request e o rollback reduz o MTTR.
+e. A change failure rate é a única métrica DORA relevante, sendo a frequência de deploy irrelevante.</p>
+<h3>Questão 30 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"A IA generativa não aposentou o engenheiro de dados — fez o oposto. Modelo só é tão bom quanto o pipeline que o alimenta. Tudo o que se aprende em qualidade, linhagem e CI/CD é pré-requisito de MLOps, que monitora data drift e model drift. Feature stores eliminam o training-serving skew servindo a mesma feature, com a mesma lógica, para treino e produção."</p>
+</blockquote>
+<p>A leitura mais alinhada com o encerramento da disciplina é:</p>
+<p>a. A IA generativa tornou obsoleto o trabalho de engenharia de dados.
+b. MLOps é independente de qualidade, linhagem e CI/CD, sendo uma disciplina sem relação com engenharia de dados.
+c. A feature store agrava o training-serving skew ao calcular features de formas diferentes em treino e produção.
+d. Modelos de IA produzem bons resultados independentemente da qualidade do pipeline que os alimenta.
+*e. A IA amplificou o papel do engenheiro de dados: dado confiável, governado e bem-modelado é pré-requisito de qualquer IA que funcione, e MLOps é o DataOps aplicado ao ciclo de vida do modelo.</p>
+<hr>
+<h2>Questões discursivas (31–40)</h2>
+<h3>Questão 31 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Uma startup de delivery roda hoje todo o sistema sobre um único PostgreSQL transacional (OLTP), que registra pedidos, pagamentos e entregas. O time de produto começou a pedir relatórios pesados ("faturamento por bairro no trimestre", "produtos mais pedidos por horário") e percebeu que essas consultas deixam o app lento, pois competem com a operação no mesmo banco. Além disso, querem coletar o stream de cliques do app (milhões de eventos/dia).</p>
+<p><strong>Enunciado:</strong> Estruture sua resposta em três partes: (a) <strong>Diagnóstico</strong> — por que rodar análises no banco OLTP de produção é uma má ideia, usando OLTP vs OLAP; (b) <strong>Arquitetura</strong> — descreva um pipeline que separe operação e análise, indicando origem, como o dado se move (ETL/ELT, batch/stream, CDC), onde é armazenado, formato e modelagem; (c) <strong>Tecnologia para o stream de cliques</strong> — que tecnologia recomendaria e por quê, justificando pelo padrão de acesso e pelo teorema CAP.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade diagnostica que o PostgreSQL é <strong>OLTP</strong> (escritas/leituras pequenas e rápidas, normalizado), enquanto relatórios são carga <strong>OLAP</strong> (agregam milhões de linhas com <code>GROUP BY</code>), que disputa CPU, memória e I/O com a operação e deixa o app lento — daí a necessidade de <strong>separar os dois mundos</strong>. Na arquitetura, espera-se: o dado sai do PostgreSQL via <strong>CDC (Change Data Capture)</strong> ou snapshot, é carregado em um <strong>data warehouse/lakehouse</strong> (BigQuery, Snowflake, Redshift ou lake sobre object storage) no padrão <strong>ELT</strong> (carrega o bruto e transforma no destino), em <strong>formato colunar Parquet</strong>, modelado de forma <strong>dimensional (esquema estrela, fatos e dimensões)</strong> — assim "faturamento por bairro" roda sem tocar a produção. Para o <strong>stream de cliques</strong>, reconhece o padrão de <strong>escrita massiva e contínua</strong>: recomenda <strong>streaming com Apache Kafka</strong> e armazenamento em NoSQL colunar (Cassandra) ou no data lake; pelo <strong>teorema CAP</strong>, prioriza <strong>disponibilidade (AP)</strong> com consistência eventual, pois perder consistência por instantes em uma contagem de cliques é aceitável, mas ficar fora do ar não é. A melhor resposta conecta cada decisão a um conceito (OLTP/OLAP, ELT, CDC, Parquet, modelagem dimensional, CAP) e justifica pelo padrão de acesso, sem "jogar tecnologia".</p>
+</blockquote>
+<h3>Questão 32 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Uma fintech precisa construir o pipeline de <strong>transações de cartão</strong> com dois requisitos conflitantes: (1) um sistema <strong>antifraude</strong> que avalia cada transação em menos de 300 ms; (2) um <strong>relatório regulatório diário</strong> entregue ao Banco Central até as 9h, sem duplicatas nem perda de transações.</p>
+<p><strong>Enunciado:</strong> Estruture a resposta em três partes: (a) <strong>Arquitetura de ingestão e processamento</strong> — para cada requisito, escolha batch ou streaming, justifique e nomeie as ferramentas (Kafka, Spark, Airflow) e o papel de cada uma; (b) <strong>Confiabilidade</strong> — qual garantia de entrega no fluxo antifraude e como garantir que o relatório não duplica nem perde transações (cite idempotência/CDC); (c) <strong>Operação</strong> — como orquestrar e monitorar o relatório diário (agendamento, retries, SLA, backfill) para cumprir as 9h mesmo com falhas transitórias.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade separa os dois caminhos. Para o <strong>antifraude</strong>, escolhe <strong>streaming com Apache Kafka</strong> (transações como eventos em tópico particionado pela chave do cartão, garantindo ordem por cartão), com processamento em <strong>janelas</strong> (ex.: sliding para detectar N transações em curto intervalo); justifica que batch é inviável pelo limite de 300 ms. Para o <strong>relatório regulatório</strong>, escolhe <strong>batch com Apache Spark</strong> (processamento distribuído do volume diário) <strong>orquestrado pelo Apache Airflow</strong>. Em <strong>confiabilidade</strong>, adota no antifraude <strong>at-least-once com consumo idempotente</strong> (perder transação é pior que checá-la duas vezes; exactly-once é caro e desnecessário se o consumo é idempotente); para o relatório, garante ausência de perda e duplicação via <strong>CDC/ingestão incremental</strong> com <strong>MERGE por chave de transação</strong> ou <strong>sobrescrita de partição por dia</strong> (idempotência ponta a ponta). Em <strong>operação</strong>, descreve um DAG diário com <code>schedule</code> cron calculado pelo <strong>caminho crítico</strong> mais os <strong>retries</strong> com backoff, define um <strong>SLA</strong> com margem para entregar antes das 9h, configura <strong>alertas</strong> (e-mail/Slack) em falha e violação de SLA, e usa <strong>backfill</strong> idempotente para reprocessar dias problemáticos. A melhor resposta demonstra pensamento sistêmico (streaming e batch coexistem, arquitetura tipo Lambda/Kappa) e evita "usar Spark para tudo" ou "exactly-once em tudo".</p>
+</blockquote>
+<h3>Questão 33 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Você precisa explicar a um time júnior, com exemplos numéricos, <strong>por que o formato colunar (Parquet) é o padrão de analytics</strong> e por que particionar e clusterizar reduzem custo em um data warehouse em nuvem que cobra por dados varridos.</p>
+<p><strong>Enunciado:</strong> Elabore uma explicação técnica que cubra: (a) a diferença entre armazenamento por linha e colunar e por que o colunar vence em OLAP; (b) o efeito da compressão colunar; (c) como <strong>particionamento</strong> (partition pruning) e <strong>clustering</strong> (block pruning) reduzem os bytes varridos; (d) um exemplo numérico ilustrando a economia.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta exemplar explica que o <strong>armazenamento por linha</strong> guarda todos os campos de um registro juntos (ótimo para OLTP, ler/escrever um pedido inteiro), enquanto o <strong>colunar</strong> guarda todos os valores de uma coluna juntos — assim uma consulta analítica como <code>SELECT SUM(valor)</code> lê <strong>apenas a coluna <code>valor</code></strong>, ignorando as demais. Sobre <strong>compressão</strong>, destaca que valores de uma mesma coluna são semelhantes, permitindo run-length e dictionary encoding com fatores altos (ex.: 4x a 5x), reduzindo ainda mais o dado lido. Sobre as alavancas de custo: <strong>particionamento</strong> divide a tabela por uma coluna (tipicamente data) e ativa o <strong>partition pruning</strong> (lê só a partição filtrada); <strong>clustering/ordenação</strong> organiza os dados dentro da partição por colunas de filtro frequente e ativa o <strong>block pruning</strong> (pula blocos sem os valores buscados). Espera-se um <strong>exemplo numérico</strong>: por exemplo, uma tabela de 2 TB com 50 colunas em que somar 1 coluna (2% do tamanho) com compressão 4x lê ~10 GB em vez de 2 TB, economizando ordens de grandeza; ou a consulta de 10 TB que cai de US$ 62,50 (sem partição, <code>SELECT *</code>) para frações de centavo (com partição por dia e 1 coluna). A melhor resposta conecta a economia ao modelo de cobrança por dado varrido e cita boas práticas (evitar <code>SELECT *</code>, filtrar pela coluna de partição, usar dry run).</p>
+</blockquote>
+<h3>Questão 34 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Uma fintech de médio porte mantém todos os dados analíticos em um PostgreSQL transacional que ficou lento: relatórios travam a produção, dados não estruturados (logs, eventos de clique, JSON de APIs de crédito) não cabem bem e o time de ciência de dados reclama da falta de histórico. Orçamento de até R$ 60 mil/mês (ferramentas + 2 pessoas).</p>
+<p><strong>Enunciado:</strong> Proponha uma <strong>nova arquitetura de dados na nuvem</strong> em três partes: (a) <strong>Arquitetura</strong> — DW, Data Lake ou Lakehouse? Justifique pela variedade de dados e pelos casos de uso (BI + ciência de dados) e indique as camadas; (b) <strong>Modern Data Stack</strong> — escolha ferramentas para ingestão, armazenamento/compute, transformação e BI, justificando; (c) <strong>FinOps</strong> — decisões de modelagem e governança para controlar a fatura, com um TCO estimado.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade recomenda <strong>arquitetura Lakehouse</strong> (ou, no mínimo, DW em nuvem + Data Lake), justamente porque há <strong>variedade</strong> (estruturados de crédito + não estruturados como logs/JSON/cliques) e <strong>dois consumidores</strong> (BI exige confiabilidade e esquema; ciência de dados exige flexibilidade e histórico bruto); o Lakehouse sobre object storage barato, com formato de tabela aberto (<strong>Delta ou Iceberg</strong>), atende ambos com <strong>uma cópia única</strong>, organizado pela <strong>arquitetura Medallion</strong> (bronze bruto, silver limpo/conformado, gold curado). Na <strong>Modern Data Stack</strong>: ingestão com <strong>Fivetran ou Airbyte</strong> (conectores prontos), armazenamento/compute com <strong>BigQuery, Snowflake ou Databricks</strong> (separação storage/compute), transformação com <strong>dbt</strong> (modelos versionados, testes, lineage, documentação, materializando silver/gold) e BI com <strong>Power BI, Looker ou Metabase</strong> sobre uma <strong>camada semântica</strong>. Em <strong>FinOps</strong>, cita <strong>formato colunar Parquet</strong>, <strong>particionamento por data</strong> e <strong>clustering</strong>, evitar <code>SELECT *</code>, <strong>dry run</strong>, tiering quente/frio no object storage e regras de governança (limites de custo por consulta, painéis por time). Um <strong>TCO</strong> plausível fica em torno de R$ 15–20 mil/mês de ferramentas + ~R$ 36 mil/mês de duas pessoas (~R$ 50–56 mil/mês), dentro do orçamento. A melhor resposta demonstra pensamento de trade-off (comprar vs construir; on-demand vs capacidade reservada) e prioriza entrega incremental, sem "implantar tudo de uma vez".</p>
+</blockquote>
+<h3>Questão 35 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Você assumiu como engenheiro(a) de dados de uma <em>healthtech</em> de telemedicina. O pipeline ingere <strong>dados sensíveis de saúde</strong>, alimenta dashboards executivos e um modelo de ML que prioriza atendimentos. Hoje <strong>não há testes</strong>, ninguém sabe <strong>de onde vem</strong> cada número, os deploys são <strong>manuais e arriscados</strong>, e a diretoria está preocupada com a <strong>LGPD</strong> após um quase-incidente.</p>
+<p><strong>Enunciado:</strong> Elabore um plano em três partes: (a) <strong>Qualidade e observabilidade</strong> — que dimensões e testes/pilares implementaria primeiro e como mediria o impacto (data downtime, regra 1-10-100); (b) <strong>Governança e LGPD</strong> — como classificaria e protegeria os dados de saúde e qual caminho técnico garantiria o <strong>direito de exclusão</strong> de um paciente; (c) <strong>DataOps</strong> — como tornaria os deploys seguros e frequentes (CI/CD, testes, IaC, write-audit-publish) e qual métrica usaria para provar a melhoria.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade integra as quatro aulas da Unidade 4 num plano priorizado. <strong>(1) Qualidade:</strong> começa pelas dimensões mais críticas para saúde — <strong>acurácia, completude e validade</strong> —, escrevendo testes (<code>not_null</code> em identificadores/diagnósticos, <code>accepted_values</code> em códigos clínicos, faixas válidas em sinais vitais) e ativando observabilidade nos 5 pilares (frescor e volume especialmente); quantifica estimando o <strong>TTD atual</strong> (dias sem monitoração), mostra que observabilidade reduz o TTD a minutos e invoca a <strong>regra 1-10-100</strong> para justificar prevenir. <strong>(2) Governança e LGPD:</strong> classifica os campos (dado de saúde é <strong>sensível</strong>, proteção reforçada), aplica <strong>mascaramento/criptografia</strong> por padrão e <strong>menor privilégio</strong> (RBAC + row/column-level), define <strong>base legal</strong>, e explica que o <strong>direito de exclusão</strong> exige <strong>linhagem completa</strong> para localizar todos os lugares onde o dado do paciente pousou (lake, warehouse, features, backups), com processo automatizado de eliminação/anonimização. <strong>(3) DataOps:</strong> propõe <strong>CI</strong> (linter + testes unitários + testes dbt bloqueando o merge), <strong>CD</strong> (dev → staging → prod), <strong>write-audit-publish</strong> para nunca expor dado clínico intermediário e <strong>IaC (Terraform)</strong> versionando inclusive políticas de acesso e retenção; prova a melhoria com métricas <strong>DORA</strong> (frequência de deploy, change failure rate, MTTR) e TTD/data downtime. A melhor resposta conecta os blocos (qualidade alimenta governança que habilita exclusão; DataOps automatiza e protege tudo) e reconhece que é jornada incremental, priorizando o sensível primeiro.</p>
+</blockquote>
+<h3>Questão 36 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Uma empresa quer modelar um <strong>data warehouse</strong> para sua área de vendas e tem dúvidas sobre como tratar atributos de dimensão que mudam ao longo do tempo (por exemplo, quando um cliente muda de cidade), sem corromper relatórios históricos.</p>
+<p><strong>Enunciado:</strong> Explique: (a) a diferença entre <strong>tabela de fatos</strong> e <strong>tabela de dimensão</strong> no esquema estrela; (b) por que se usa <strong>desnormalização</strong> no OLAP, ao contrário do OLTP; (c) o que são <strong>Slowly Changing Dimensions (SCD)</strong> e a diferença entre os Tipos 1 e 2; (d) qual tipo de SCD usaria para preservar a história da cidade do cliente e por quê.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta exemplar define a <strong>tabela de fatos</strong> como o registro dos eventos mensuráveis do negócio (uma linha por venda), com <strong>métricas numéricas</strong> (valor, quantidade) e <strong>chaves estrangeiras</strong> para as dimensões — longa e estreita; e a <strong>tabela de dimensão</strong> como o contexto descritivo (quem, o quê, quando, onde) — curta e larga. Explica que no <strong>OLTP</strong> a <strong>normalização</strong> (3FN) evita redundância e anomalias de atualização, mas no <strong>OLAP</strong> prefere-se a <strong>desnormalização</strong>: juntar dados em poucas tabelas largas reduz joins e acelera a leitura analítica, aceitando redundância em troca de velocidade. Sobre <strong>SCD</strong>, define que tratam mudanças em atributos de dimensão: o <strong>Tipo 1 sobrescreve</strong> o valor (perde a história, fica só o atual); o <strong>Tipo 2 cria uma nova linha</strong> com datas de validade e indicador de "linha atual", preservando a história completa. Para a cidade do cliente, escolhe o <strong>SCD Tipo 2</strong>, pois assim uma venda passada continua atribuída à cidade correta <strong>na época</strong> — sem isso, relatórios históricos por região ficariam errados. A melhor resposta dá um exemplo concreto da nova linha aberta/fechada por data.</p>
+</blockquote>
+<h3>Questão 37 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Um data lake da empresa virou um <strong>data swamp</strong>: arquivos sem documentação, sem dono e sem confiabilidade, onde ninguém sabe o que existe nem se pode confiar. A diretoria quer resgatar a confiabilidade sem perder a flexibilidade e o baixo custo do lake.</p>
+<p><strong>Enunciado:</strong> Apresente um plano que cubra: (a) por que um data lake sem disciplina vira data swamp; (b) como <strong>formatos de tabela abertos</strong> (Delta, Iceberg, Hudi) resgatam garantias antes exclusivas do warehouse; (c) o que é a <strong>arquitetura Lakehouse</strong> e a <strong>arquitetura Medallion</strong>; (d) duas medidas de governança para evitar o reaparecimento do swamp.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade explica que o data lake armazena dados brutos sobre object storage barato com <strong>schema-on-read</strong> (flexibilidade), mas sem <strong>governança, catálogo e qualidade</strong> vira <strong>data swamp</strong> — depósito de arquivos sem dono, documentação ou confiabilidade. Detalha que <strong>Delta Lake, Apache Iceberg e Apache Hudi</strong> adicionam uma <strong>camada de metadados transacional</strong> sobre os arquivos Parquet, trazendo <strong>transações ACID, time travel, evolução de esquema e MERGE/UPDATE/DELETE</strong> — recursos antes só do DW. Define a <strong>arquitetura Lakehouse</strong> como a união da flexibilidade/custo do lake com a confiabilidade/desempenho do DW, sobre <strong>uma cópia única</strong> (BI, SQL e ML rodam sobre os mesmos dados), e a <strong>arquitetura Medallion</strong> (bronze bruto/auditável → silver limpo/conformado → gold curado), em que o dado ganha qualidade e perde volume a cada camada. Como medidas de governança, cita pelo menos duas: <strong>catálogo de dados</strong> (DataHub, OpenMetadata, Amundsen) com dono e classificação, <strong>linhagem</strong>, <strong>contratos de dados</strong>, controle de acesso por menor privilégio e políticas de retenção/lifecycle. A melhor resposta amarra a Medallion como o equivalente lakehouse das camadas staging/core/marts.</p>
+</blockquote>
+<h3>Questão 38 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Um time precisa decidir, para cada um de vários cenários, entre <strong>banco relacional (ACID)</strong> e as famílias <strong>NoSQL</strong>, e ainda entre <strong>processamento batch</strong> e <strong>streaming</strong>, justificando pelo padrão de acesso.</p>
+<p><strong>Enunciado:</strong> Para os cenários a seguir, escolha o modelo de banco mais adequado e justifique: (1) folha de pagamento, onde nenhum centavo pode se perder; (2) cache de sessão de usuário; (3) catálogo de produtos com atributos variáveis; (4) plataforma de IoT com 50.000 sensores escrevendo 1 medição/s cada. Em seguida, explique quando você usaria <strong>batch</strong> e quando usaria <strong>streaming</strong>, conectando a decisão ao custo de esperar.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta de qualidade justifica cada escolha pelo <strong>padrão de acesso</strong>: (1) <strong>folha de pagamento</strong> → <strong>relacional com ACID</strong>, pois exige integridade rígida e atomicidade (transferência toda ou nada); (2) <strong>cache de sessão</strong> → <strong>chave-valor</strong> (Redis), por ser extremamente rápido e o dado ser temporário; (3) <strong>catálogo de produtos</strong> com atributos variáveis → <strong>documento</strong> (MongoDB), por esquema flexível e dados aninhados; (4) <strong>IoT com 50.000 sensores/s</strong> → <strong>NoSQL colunar/coluna larga</strong> (Cassandra), otimizado para escrita massiva com escalabilidade horizontal — espera-se a observação de que um relacional com ACID suportaria ~5–10 mil escritas/s por nó, exigindo vários nós, enquanto o Cassandra absorve a carga em poucos nós. Sobre <strong>batch vs streaming</strong>, explica que <strong>batch</strong> processa lotes finitos (relatórios diários, consolidações), é mais simples e barato, e serve quando o custo de esperar é baixo; <strong>streaming</strong> processa fluxo contínuo quase em tempo real (fraude, recomendação ao vivo, alerta de sensor), quando o custo de esperar é alto. A melhor resposta afirma que a decisão é de negócio ("qual o custo de esperar 1 hora por este dado?") e que relacional e NoSQL convivem em arquiteturas reais.</p>
+</blockquote>
+<h3>Questão 39 (Discursiva)</h3>
+<p><strong>Contexto:</strong> Uma equipe de dados faz deploys manuais e arriscados; ninguém ousaria mudar o pipeline de faturamento numa sexta-feira às 17h. A liderança quer transformar deploy assustador em rotina, com a maturidade de um time de desenvolvimento de software.</p>
+<p><strong>Enunciado:</strong> Elabore um plano de <strong>DataOps e CI/CD</strong> cobrindo: (a) os pilares do DataOps e a métrica-norte (DORA); (b) o que versionar (código e dado) e com quais ferramentas; (c) a pirâmide de testes com a camada de testes de dados e a estratégia <strong>write-audit-publish</strong>; (d) o papel da <strong>IaC</strong>; (e) três coisas que tornam um deploy assustador e a prática que neutraliza cada uma.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta exemplar define <strong>DataOps</strong> como DevOps aplicado ao dado, com pilares de <strong>automação ponta a ponta, testes de código E de dado, colaboração e iteração rápida</strong>, e métrica-norte <strong>DORA</strong> (alta frequência de deploy com baixa change failure rate). Sobre <strong>versionamento</strong>, separa <strong>código</strong> (Git: scripts, modelos dbt, DAGs, IaC, com branches/PRs) e <strong>dado</strong> (DVC, lakeFS, time travel de Delta/Iceberg/Hudi para reprodutibilidade e testes seguros). Descreve a <strong>pirâmide de testes</strong> acrescida da camada de <strong>testes de dados</strong> (unitário → integração → testes de dados → end-to-end), sempre validando em <strong>staging com dados sintéticos</strong>, nunca a primeira vez em produção, e detalha o <strong>write-audit-publish</strong> (escreve em tabela temporária → audita com testes → publica só se passar), protegendo o consumidor de dado quebrado. Explica a <strong>IaC</strong> (Terraform/Pulumi) como forma de declarar infraestrutura e governança (políticas de acesso, retenção) em arquivos versionáveis e reproduzíveis. Por fim, lista <strong>três fatores</strong> que tornam o deploy assustador e a cura de cada um: ausência de testes → testes automatizados no CI; ausência de staging → ambiente de staging com dados sintéticos; deploy manual sem rollback → CD com rollback automático. A melhor resposta conclui que a meta é "deploy na sexta às 17h é rotina, não coragem".</p>
+</blockquote>
+<h3>Questão 40 (Discursiva)</h3>
+<p><strong>Contexto:</strong> <strong>Projeto integrador.</strong> A direção pediu que você desenhe um <strong>pipeline de dados de ponta a ponta</strong> para um domínio à sua escolha (ex.: e-commerce, saúde, logística), integrando todas as quatro unidades da disciplina.</p>
+<p><strong>Enunciado:</strong> Estruture o projeto em cinco partes, seguindo o pipeline de referência <em>Fontes → Ingestão → Lake/Warehouse → Transformação → Servir → BI/ML</em>: (1) <strong>U1</strong> — fonte, caso de uso e decisão batch vs real-time (justifique pelo custo de esperar); (2) <strong>U2</strong> — ingestão (ETL/ELT, CDC, idempotência) e destino (lake/warehouse, formato Parquet/Delta, modelagem dimensional); (3) <strong>U3</strong> — armazenamento e arquitetura (DW, lakehouse, Medallion, Modern Data Stack, dbt/Airflow); (4) <strong>U4</strong> — qualidade (3 testes), governança/LGPD dos campos sensíveis, retenção e CI/CD; (5) síntese de uma página explicando como as peças se conectam.</p>
+<p><strong>Resposta esperada:</strong></p>
+<blockquote>
+<p>Resposta exemplar integra <strong>toda a disciplina</strong> num fluxo coerente. <strong>(1) U1:</strong> define a fonte (ex.: app de e-commerce), o caso de uso (ex.: "produtos mais vistos" + previsão de demanda) e a decisão <strong>batch vs real-time</strong> justificada pelo custo de esperar (relatórios diários em batch; recomendação ao vivo em streaming). <strong>(2) U2:</strong> descreve a ingestão no padrão <strong>ELT</strong> com <strong>CDC</strong> do banco OLTP e <strong>idempotência</strong> (MERGE por chave ou sobrescrita de partição), destino em <strong>lake/warehouse</strong> com <strong>Parquet/Delta</strong> e <strong>modelagem dimensional</strong> (fato de vendas + dimensões Tempo, Produto, Cliente, com SCD Tipo 2 onde necessário). <strong>(3) U3:</strong> posiciona a arquitetura como <strong>Lakehouse</strong> com <strong>Medallion</strong> (bronze/silver/gold), montada como <strong>Modern Data Stack</strong> (Fivetran/Airbyte → BigQuery/Snowflake/Databricks → <strong>dbt</strong> → BI), orquestrada por <strong>Airflow</strong> com SLA e backfill. <strong>(4) U4:</strong> define <strong>3 testes de qualidade</strong> (ex.: <code>not_null</code> em chave, <code>unique</code> em id de pedido, faixa válida em valor), classifica campos sensíveis na <strong>LGPD</strong> com mascaramento/menor privilégio e linhagem para exclusão, define <strong>política de retenção</strong> e o fluxo de <strong>CI/CD</strong> (CI bloqueando merge, CD dev→staging→prod, write-audit-publish, IaC). <strong>(5) Síntese:</strong> mostra como U1–U3 <strong>constroem</strong> o pipeline e U4 o <strong>profissionaliza</strong> (confiável, governado, com deploy seguro), com diagrama de uma página e justificativa. Avaliação: clareza, profundidade técnica, realismo, coerência entre as decisões e integração dos conceitos das 16 aulas, evitando "jogar tecnologia" sem justificar pelo padrão de acesso e pelo trade-off custo/benefício.</p>
+</blockquote>
+<hr>
+<h2>Feedbacks (questões objetivas 1–30)</h2>
+<h3>Questão 1</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O ELT carrega o bruto e transforma no destino; a queda do custo de armazenamento e o poder dos warehouses modernos são exatamente o que viabilizou esse padrão e a preservação da fonte da verdade.</li>
+<li><strong>b.</strong> Incorreta. A Razão <strong>justifica</strong> diretamente a Asserção (explica o porquê econômico do ELT).</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira: armazenamento barato e warehouses potentes são o motor do ELT.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira: o ELT de fato carrega o bruto e transforma depois, no destino.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 2</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: Parquet é colunar/comprimido (padrão OLAP) e o Kafka é um log distribuído e durável. Mas a Razão trata de <strong>streaming/Kafka</strong>, não justifica por que o Parquet é o padrão de analytics — são temas independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira: a descrição do Kafka está correta.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira: o Parquet é mesmo colunar e padrão de analytics.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 3</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira (ACID torna o banco confiável para finanças). A Razão é falsa: a <strong>atomicidade</strong> garante que débito e crédito ocorram <strong>juntos, tudo ou nada</strong> — se o sistema cair, <strong>nada</strong> é confirmado; não que apenas o débito persista.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 4</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: o CAP afirma justamente que <strong>não</strong> se pode garantir C, A e P plenamente sob partição. A Razão é verdadeira: como a partição (P) é inevitável, escolhe-se entre <strong>CP</strong> e <strong>AP</strong> durante a falha.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 5</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas são falsas. A Asserção <strong>inverte</strong> os papéis: a <strong>fato</strong> guarda métricas e chaves; as <strong>dimensões</strong> guardam os atributos descritivos. A Razão também é falsa: a modelagem dimensional usa <strong>desnormalização</strong> (esquema estrela), não normalização total à 3FN.</li>
+</ul>
+<h3>Questão 6</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. A idempotência torna retries e backfill seguros precisamente <strong>porque</strong> repetir a operação não altera o estado final nem duplica dados (via MERGE/upsert ou sobrescrita de partição).</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 7</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> Ambas verdadeiras: o shuffle é a operação mais cara do Spark e as transformações são lazy. Mas a Razão (avaliação lazy/Catalyst) <strong>não explica</strong> por que o shuffle é caro — o custo do shuffle vem de serialização, tráfego de rede e escrita em disco, não da preguiça das transformações. São fatos independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 8</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: o Kafka garante ordem <strong>apenas dentro de uma partição</strong> e o offset controla a leitura. A Razão é falsa: <strong>não</strong> há ordenação total entre partições nem offset global do cluster — o offset é sequencial <strong>dentro de cada partição</strong>.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 9</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: exactly-once <strong>não</strong> é simples nem isento de custo — exige produtores idempotentes e transações, com overhead, e não é necessário em todo pipeline. A Razão é verdadeira: <strong>at-least-once + consumo idempotente</strong> é, na prática, mais simples e robusto.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 10</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas são falsas. Um DAG é <strong>acíclico</strong> (Directed Acyclic Graph): nenhuma tarefa pode depender de si mesma. E é justamente a <strong>ausência de ciclos</strong> que garante que o pipeline termine — ciclos poderiam rodar para sempre. A Razão inverte esse princípio.</li>
+</ul>
+<h3>Questão 11</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O colunar reduz dado varrido e custo <strong>porque</strong> mantém os valores de uma coluna juntos, permitindo ler só as colunas necessárias e comprimir muito bem.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 12</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> Ambas verdadeiras: formatos abertos trazem ACID e time travel ao lake, e a Medallion organiza o lakehouse em bronze/silver/gold. Mas a Razão (camadas Medallion) <strong>não explica</strong> por que os formatos de tabela trazem ACID — são conceitos complementares, porém independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 13</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção é verdadeira: a separação storage/compute permite múltiplos clusters sobre os mesmos dados e cobrança independente. A Razão é falsa: no on-premises, armazenamento e processamento eram <strong>acoplados</strong> (escalar um exigia escalar o outro) — o desacoplamento é justamente a inovação da nuvem.</li>
+<li><strong>d.</strong> Incorreta. A Asserção é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção é verdadeira.</li>
+</ul>
+<h3>Questão 14</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção é falsa: a boa prática é <strong>não</strong> escrever conectores manuais; ferramentas gerenciadas lidam, sim, com schema drift e incrementos. A Razão é verdadeira: Fivetran e Airbyte oferecem conectores prontos que dispensam código de extração.</li>
+<li><strong>e.</strong> Incorreta. A Razão é verdadeira.</li>
+</ul>
+<h3>Questão 15</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> As duas são falsas. Dado <strong>pseudonimizado</strong> continua no escopo da LGPD (a reidentificação ainda é possível com a chave) — só o <strong>anonimizado</strong> sai. E o direito de eliminação <strong>depende de linhagem</strong>: apagar a tabela principal não remove rastros em backups, data lake e features de modelos.</li>
+</ul>
+<h3>Questão 16</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> É a leitura central: sem dado confiável e disponível não há ciência de dados, BI nem IA — o engenheiro de dados é a base ("garbage in, garbage out").</li>
+<li><strong>b.</strong> Incorreta. O texto afirma o oposto: dado ruim produz saída ruim, mesmo com IA moderna.</li>
+<li><strong>c.</strong> Incorreta. O ditado significa justamente que a saída <strong>depende</strong> da qualidade da entrada.</li>
+<li><strong>d.</strong> Incorreta. O texto diz que ~80% do esforço é engenharia de dados, não marginal.</li>
+<li><strong>e.</strong> Incorreta. Dados inconsistentes produzem resultados não confiáveis.</li>
+</ul>
+<h3>Questão 17</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. CSV não tem tipos, não comprime e é ineficiente para grandes volumes consultados diariamente.</li>
+<li><strong>b.</strong> <em>Correta!</em> Parquet é colunar e comprimido: lê só as colunas agregadas e comprime muito, ideal para analytics recorrente sobre grandes volumes.</li>
+<li><strong>c.</strong> Incorreta. JSON é verboso e lento de processar em escala; serve melhor a APIs e dados aninhados.</li>
+<li><strong>d.</strong> Incorreta. Avro é por linha, ótimo para ingestão/streaming, não para leitura analítica de poucas colunas.</li>
+<li><strong>e.</strong> Incorreta. O formato influencia diretamente custo e desempenho — é o ponto central da escolha.</li>
+</ul>
+<h3>Questão 18</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Subestima muito a aceleração.</li>
+<li><strong>b.</strong> Incorreta. Abaixo do valor real.</li>
+<li><strong>c.</strong> <em>Correta!</em> Full = 730.000.000/50.000 = 14.600 s; incremental = 2.000.000/50.000 = 40 s; razão ≈ 365 vezes — coerente com ler só o dia versus o ano inteiro.</li>
+<li><strong>d.</strong> Incorreta. Abaixo do valor real.</li>
+<li><strong>e.</strong> Incorreta. Acima do valor real.</li>
+</ul>
+<h3>Questão 19</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Batch diário é incompatível com decisão em menos de 200 ms.</li>
+<li><strong>b.</strong> Incorreta. OLTP com snapshot periódico não atende latência de tempo real para fraude.</li>
+<li><strong>c.</strong> Incorreta. Relatórios noturnos em DW são OLAP, não detecção em tempo real.</li>
+<li><strong>d.</strong> <em>Correta!</em> Streaming com Kafka, janelas e at-least-once com consumo idempotente, priorizando disponibilidade (AP), é a combinação adequada a alta vazão, baixa latência e tolerância a perda ocasional.</li>
+<li><strong>e.</strong> Incorreta. ETL clássico mensal e exactly-once obrigatório não casam com a latência de 200 ms.</li>
+</ul>
+<h3>Questão 20</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O ganho não é linear — a Lei de Amdahl limita o speedup.</li>
+<li><strong>b.</strong> Incorreta. A fração serial é decisiva: com 15% serial, o ganho fica em ~5,8x com 40 executors e não passa de ~6,7x nem com infinitos nós.</li>
+<li><strong>c.</strong> Incorreta. O shuffle é a operação <strong>mais cara</strong>; deve ser minimizado, não maximizado.</li>
+<li><strong>d.</strong> Incorreta. A Lei de Amdahl limita, mas não anula, os benefícios do paralelismo.</li>
+<li><strong>e.</strong> <em>Correta!</em> O paralelismo tem retorno decrescente; reduzir a fração serial (o shuffle) frequentemente rende mais que apenas adicionar executors.</li>
+</ul>
+<h3>Questão 21</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> N = 30.000/5.000 = 6 consumidores/partições — o mínimo para acompanhar o fluxo sem acumular lag.</li>
+<li><strong>b.</strong> Incorreta. 2 partições dariam 10.000 msg/s, abaixo das 30.000 necessárias.</li>
+<li><strong>c.</strong> Incorreta. Não se cria uma partição por mensagem; a unidade de paralelismo é por capacidade do consumidor.</li>
+<li><strong>d.</strong> Incorreta. O Kafka não paraleliza automaticamente sem partições suficientes; a partição é o teto do paralelismo de consumo.</li>
+<li><strong>e.</strong> Incorreta. O cálculo correto é divisão (30.000/5.000), não multiplicação.</li>
+</ul>
+<h3>Questão 22</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. 7h50 não cobre o pior caso de 110 min.</li>
+<li><strong>b.</strong> <em>Correta!</em> 8h00 − 110 min = 6h10; agenda-se às 6h00 com SLA de 110 min para ter margem e disparar alerta de violação se atrasar.</li>
+<li><strong>c.</strong> Incorreta. O Airflow não compensa retries automaticamente sem margem de horário; iniciar às 8h00 estouraria o prazo.</li>
+<li><strong>d.</strong> Incorreta. Backfill reprocessa períodos passados; não substitui um SLA de entrega no horário.</li>
+<li><strong>e.</strong> Incorreta. 4h00 sem SLA e sem retries não é coerente com observabilidade e resiliência.</li>
+</ul>
+<h3>Questão 23</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Particionar e selecionar colunas <strong>reduz</strong> os bytes varridos via pruning.</li>
+<li><strong>b.</strong> Incorreta. <code>SELECT *</code> em colunar é caro: lê todas as colunas, maximizando o custo.</li>
+<li><strong>c.</strong> <em>Correta!</em> Partition pruning (lê só o dia) + seleção de poucas colunas reduz os bytes varridos em ordens de grandeza, derrubando o custo de dezenas de dólares para frações de centavo.</li>
+<li><strong>d.</strong> Incorreta. Triplicar a tabela aumenta o custo de armazenamento sem reduzir o varrido por consulta.</li>
+<li><strong>e.</strong> Incorreta. OLTP por linha é ruim para consultas analíticas agregadas.</li>
+</ul>
+<h3>Questão 24</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O "E" (extração) é função de ferramentas como Fivetran/Airbyte, não do dbt.</li>
+<li><strong>b.</strong> Incorreta. O "L" (carga) também é da ingestão gerenciada, não do dbt.</li>
+<li><strong>c.</strong> Incorreta. O dbt não é ferramenta de BI; quem entrega dashboards é Looker, Power BI, Metabase.</li>
+<li><strong>d.</strong> <em>Correta!</em> O dbt é o "T" (transformação): materializa silver/gold (ou data marts) no warehouse via SQL, com testes, lineage e documentação versionados.</li>
+<li><strong>e.</strong> Incorreta. O dbt não substitui o Airflow; a orquestração permanece com Airflow/Dagster.</li>
+</ul>
+<h3>Questão 25</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A linhagem tem utilidade operacional central (impacto, causa-raiz, conformidade).</li>
+<li><strong>b.</strong> Incorreta. Impacto (jusante) e causa-raiz (montante) são perguntas <strong>opostas</strong>, não a mesma.</li>
+<li><strong>c.</strong> Incorreta. Linhagem é necessária em batch e em streaming.</li>
+<li><strong>d.</strong> Incorreta. A linhagem é justamente o que viabiliza a exclusão exigida pela LGPD.</li>
+<li><strong>e.</strong> <em>Correta!</em> A linhagem habilita análise de impacto e de causa-raiz e é pré-requisito para localizar todos os lugares onde um dado pessoal pousou, permitindo a exclusão exigida pela LGPD.</li>
+</ul>
+<h3>Questão 26</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Testes barram o erro antecipado na porta; observabilidade detecta o imprevisto monitorando frescor, volume, distribuição, esquema e linhagem ao longo do tempo — são complementares.</li>
+<li><strong>b.</strong> Incorreta. Não são sinônimos: um cobre o previsto; o outro, o imprevisto.</li>
+<li><strong>c.</strong> Incorreta. Ambos servem batch e streaming.</li>
+<li><strong>d.</strong> Incorreta. Testes não tornam a observabilidade desnecessária; as duas se complementam.</li>
+<li><strong>e.</strong> Incorreta. Os cinco pilares dizem respeito à <strong>saúde do dado</strong>, não ao controle de acesso.</li>
+</ul>
+<h3>Questão 27</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O data downtime depende de TTD <strong>e</strong> TTR (data downtime = nº de incidentes × (TTD + TTR)).</li>
+<li><strong>b.</strong> <em>Correta!</em> A observabilidade reduz o TTD (de dias para minutos), e a regra 1-10-100 mostra que prevenir é o mais barato.</li>
+<li><strong>c.</strong> Incorreta. Conviver com dado ruim é a opção mais cara (R$ 100), não a mais econômica.</li>
+<li><strong>d.</strong> Incorreta. Um contrato de dados disciplina e versiona mudanças de schema na origem, evitando quebras silenciosas.</li>
+<li><strong>e.</strong> Incorreta. Um teste de validade (faixa de renda) detectaria exatamente esse problema no primeiro dia.</li>
+</ul>
+<h3>Questão 28</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A multa não é fixa em R$ 1.000; é percentual sobre o faturamento.</li>
+<li><strong>b.</strong> Incorreta. Pseudonimização <strong>não</strong> retira o dado do escopo da LGPD (só a anonimização retira).</li>
+<li><strong>c.</strong> <em>Correta!</em> No teto percentual, 2% de R$ 80 milhões = R$ 1,6 milhão (limitado a R$ 50 mi/infração), ~27× o custo de prevenir; reputação e churn costumam superar a multa.</li>
+<li><strong>d.</strong> Incorreta. A sanção percentual da LGPD incide sobre o <strong>faturamento</strong>, não sobre o lucro líquido.</li>
+<li><strong>e.</strong> Incorreta. Prevenir (~R$ 60 mil) é muito mais barato que a multa e o estrago de reputação.</li>
+</ul>
+<h3>Questão 29</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O segredo é tornar o deploy <strong>barato e seguro</strong>, não fazer menos deploys.</li>
+<li><strong>b.</strong> Incorreta. Com testes e rollback, mais deploys vêm com <strong>menor</strong> taxa de falha, não maior.</li>
+<li><strong>c.</strong> Incorreta. CI/CD aumenta confiabilidade (barra erros, habilita rollback), não só velocidade.</li>
+<li><strong>d.</strong> <em>Correta!</em> CI/CD deixa o deploy barato e seguro: mais deploys com menor taxa de falha, pois o CI barra o erro no pull request e o rollback automático reduz o MTTR.</li>
+<li><strong>e.</strong> Incorreta. Frequência de deploy é métrica DORA central, junto com change failure rate e MTTR.</li>
+</ul>
+<h3>Questão 30</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A IA generativa amplificou (não tornou obsoleto) o papel do engenheiro de dados.</li>
+<li><strong>b.</strong> Incorreta. MLOps <strong>depende</strong> de qualidade, linhagem e CI/CD — é o DataOps aplicado ao modelo.</li>
+<li><strong>c.</strong> Incorreta. A feature store <strong>elimina</strong> o training-serving skew servindo a mesma feature/lógica em treino e produção.</li>
+<li><strong>d.</strong> Incorreta. Modelo é tão bom quanto o pipeline que o alimenta ("garbage in, garbage out").</li>
+<li><strong>e.</strong> <em>Correta!</em> A IA amplificou o papel do engenheiro de dados: dado confiável, governado e bem-modelado é pré-requisito de qualquer IA, e MLOps é o DataOps aplicado ao ciclo de vida do modelo (com monitoração de data/model drift).</li>
+</ul>
+</body></html>

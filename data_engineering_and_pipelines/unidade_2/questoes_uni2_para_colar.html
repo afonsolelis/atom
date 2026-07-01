@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>questoes_uni2</title><style>
+:root{--tinta:#1a1a1a;--linha:#c9c9c9;--azul:#0b3d5c}
+*{box-sizing:border-box}
+body{max-width:820px;margin:32px auto;padding:0 20px;color:var(--tinta);
+  font-family:'Georgia','Times New Roman',serif;font-size:17px;line-height:1.6}
+h1,h2,h3,h4{font-family:'Segoe UI',Arial,sans-serif;color:var(--azul);line-height:1.25}
+h1{font-size:1.9em;border-bottom:2px solid var(--azul);padding-bottom:.2em}
+h2{font-size:1.5em;margin-top:1.6em}h3{font-size:1.2em}h4{font-size:1.05em}
+img{max-width:100%;height:auto}
+table{border-collapse:collapse;margin:1em 0;width:100%}
+th,td{border:1px solid var(--linha);padding:6px 10px;text-align:left}
+th{background:#eef1f6}
+blockquote{border-left:4px solid var(--azul);margin:1em 0;padding:.2em 1em;background:#f6f8fb;color:#333}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:.9em}
+pre{background:#f6f8fb;padding:12px;overflow:auto;border-radius:4px}
+hr{border:0;border-top:1px solid var(--linha);margin:2em 0}
+</style></head>
+<body>
+<h1>Questionário — Unidade 2</h1>
+<ul>
+<li><strong>Disciplina:</strong> Data Engineering and Pipelines</li>
+<li><strong>Professor-conteudista:</strong> Afonso Cesar Lelis Brandão</li>
+</ul>
+<h2>Orientações</h2>
+<ul>
+<li><strong>20 questões</strong> padrão ENADE: <strong>10 asserção-razão</strong> + <strong>10 de interpretação</strong>.</li>
+<li>Cada questão tem <strong>5 alternativas (a–e)</strong>; a correta é prefixada por <code>*</code> (ex.: <code>*c. ...</code>).</li>
+<li>Distribuição da alternativa correta: rotação <strong>a, b, c, d, e, a, b, c, d, e...</strong> (4 questões para cada letra).</li>
+</ul>
+<hr>
+<h2>Questões</h2>
+<h3>Questão 1 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A carga incremental, que lê apenas os registros alterados desde a última execução usando uma coluna marcadora como <code>updated_at</code>, é muito mais rápida e impõe carga muito menor à fonte do que a carga full.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> A carga full relê a tabela inteira a cada execução, de modo que seu tempo cresce proporcionalmente ao volume total acumulado, enquanto a incremental processa apenas o delta diário.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 2 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No padrão ELT, o dado bruto é carregado primeiro no destino e transformado lá dentro, aproveitando o poder de processamento paralelo de data warehouses modernos como BigQuery e Snowflake.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Apache Kafka é um log distribuído e durável em que as mensagens não são apagadas no momento da leitura, permanecendo gravadas durante o período de retenção configurado.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 3 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Spark, transformações como <code>filter</code>, <code>select</code> e <code>groupBy</code> são lazy: elas apenas acrescentam um nó ao plano lógico e nada é executado até que uma ação como <code>count</code>, <code>collect</code> ou <code>show</code> seja chamada.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O <code>groupBy</code> é uma operação <em>narrow</em>, que mantém cada partição independente das demais e, portanto, nunca provoca shuffle ou tráfego de dados pela rede entre os executors.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 4 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Kafka, o produtor define o offset de cada mensagem para escolher manualmente em qual broker ela será fisicamente gravada.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O Kafka garante a ordem das mensagens apenas dentro de uma mesma partição, e mensagens que carregam a mesma chave são sempre direcionadas para a mesma partição.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 5 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A garantia de entrega <em>exactly-once</em> é a opção mais simples, barata e leve do Apache Kafka, devendo ser sempre escolhida por padrão por não acrescentar nenhum overhead em relação às demais.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No nível <em>at-least-once</em>, mensagens podem ser perdidas mas nunca duplicadas, o que torna desnecessário qualquer cuidado com idempotência no consumo.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 6 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O CDC (Change Data Capture) consegue capturar até mesmo registros deletados e atualizados quase em tempo real, sem martelar a tabela de produção com consultas repetidas.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O CDC lê diretamente o log de transações do banco de origem (como o binlog do MySQL ou o WAL do PostgreSQL), transformando cada <code>INSERT</code>, <code>UPDATE</code> e <code>DELETE</code> em evento sem precisar consultar a tabela a cada carga.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 7 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Spark, o DataFrame é a abstração recomendada para a maioria dos engenheiros de dados porque passa pelo otimizador Catalyst e pelo motor Tungsten, que geram um plano físico eficiente.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> O paradigma MapReduce, publicado pelo Google em 2004, propõe levar o código até onde os dados já estão, dividindo o trabalho nas fases de <em>map</em> (emite pares chave-valor) e <em>reduce</em> (agrupa por chave e combina).</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 8 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> No Apache Airflow, um pipeline é modelado como um DAG (grafo dirigido e acíclico), e a ausência de ciclos é justamente o que garante que a execução do pipeline termina.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> No Airflow, cada task é necessariamente uma instância do <code>PythonOperator</code>, sendo impossível executar comandos de shell, queries SQL ou jobs Spark a partir de uma task.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 9 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> A idempotência só é relevante em sistemas de streaming com Kafka, sendo um conceito irrelevante para cargas de ingestão em batch e para o backfill de pipelines no Airflow.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Uma operação idempotente produz exatamente o mesmo estado final quando executada uma ou várias vezes, o que é justamente o que torna seguros os retries e o reprocessamento de períodos passados.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 10 (Asserção-Razão)</h3>
+<blockquote>
+<p><strong>Asserção I:</strong> O shuffle é a operação mais barata do Apache Spark, pois não envolve serialização, tráfego de rede nem escrita em disco, de modo que aumentar o número de operações <em>wide</em> sempre torna o job mais rápido.</p>
+<p><strong>porque</strong></p>
+<p><strong>Razão II:</strong> Pela Lei de Amdahl, quanto maior a fração serial de um job, maior o ganho que se obtém simplesmente adicionando mais executors, sem qualquer limite teórico de aceleração.</p>
+</blockquote>
+<p>A respeito dessas asserções, assinale a opção correta:</p>
+<p>a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.</p>
+<h3>Questão 11 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"No ETL clássico você extrai, transforma num servidor no meio e só então carrega — limpa antes de tocar o destino. No ELT moderno você inverte: extrai, carrega o dado bruto na nuvem e transforma lá dentro, usando o poder do BigQuery, do Snowflake. O ELT ganhou porque armazenar ficou barato e os motores ficaram absurdamente paralelos — e você nunca perde a fonte da verdade."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p><em>a. O ELT carrega o dado bruto antes de transformá-lo no próprio destino, o que </em><em>preserva a fonte da verdade</em>* e permite re-transformar quantas vezes for preciso sem reextrair — vantagem que cresceu com o barateamento do armazenamento e o paralelismo dos motores na nuvem.
+b. No ELT a transformação ocorre obrigatoriamente em um servidor intermediário antes de o dado tocar o destino.
+c. ETL e ELT são idênticos, diferindo apenas na ordem das letras da sigla, sem qualquer consequência arquitetural.
+d. O ELT venceu porque o armazenamento ficou mais caro e os motores de consulta perderam capacidade de paralelismo.
+e. No ELT, como o dado refinado já chega pronto ao destino, não é possível re-transformar o dado posteriormente.</p>
+<h3>Questão 12 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Uma tabela de pedidos cresce 2 milhões de linhas por dia e já acumula 730 milhões de registros após um ano. A uma taxa de leitura de 50.000 linhas/s, a carga full leva cerca de 4 h 3 min, enquanto a carga incremental, lendo apenas os 2 milhões de registros do dia, leva 40 segundos.</p>
+</blockquote>
+<p>Considerando os conceitos da Unidade 2, qual leitura é <strong>mais adequada</strong>?</p>
+<p>a. A carga full deve ser sempre preferida, pois ler a tabela inteira é mais barato do que ler apenas o delta diário.
+<em>b. A carga incremental é cerca de </em><em>365 vezes mais rápida</em>* e impõe carga desprezível à fonte; combiná-la com um reprocessamento full periódico (ou com CDC) oferece o melhor dos dois mundos em desempenho e completude.
+c. As duas estratégias levam o mesmo tempo, pois ambas precisam varrer todos os 730 milhões de registros.
+d. A carga incremental é mais lenta que a full porque precisa comparar cada linha com toda a tabela histórica.
+e. A diferença de tempo entre full e incremental desaparece à medida que a tabela cresce, tornando-as equivalentes.</p>
+<h3>Questão 13 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um job processa 1 TB de logs. Em uma única máquina (50 MB/s) levaria cerca de 5 h 33 min. Distribuído em 40 executors, o tempo <em>ideal</em> cairia para 8 min 20 s. Porém, supondo 15% de trabalho serial, a Lei de Amdahl limita o ganho a um fator de aproximadamente 5,8 — resultando em cerca de 57 minutos reais.</p>
+</blockquote>
+<p>Que conclusão é <strong>mais bem suportada</strong> por esses dados?</p>
+<p>a. Dobrar o número de executors sempre dobra a velocidade do job, sem qualquer limite.
+b. A fração serial do job é irrelevante para o tempo total quando há muitos executors.
+<em>c. O paralelismo tem </em><em>retorno decrescente</em><em>: a fração serial (em grande parte o shuffle) limita o ganho, de modo que </em><em>reduzir essa fração</em>* costuma render mais do que simplesmente adicionar máquinas.
+d. Como o tempo ideal seria de 8 min, basta confiar nesse valor e ignorar a parcela serial do trabalho.
+e. A Lei de Amdahl prova que processamento distribuído nunca acelera um job em relação a uma máquina única.</p>
+<h3>Questão 14 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Dentro de uma partição, cada mensagem recebe um número sequencial imutável: o offset. O Kafka garante ordem apenas dentro de uma partição, não entre partições. O consumidor controla até qual offset já leu, o que permite reprocessar do começo, retomar de onde parou após uma falha ou avançar para o presente."</p>
+</blockquote>
+<p>A leitura correta desse trecho é:</p>
+<p>a. O Kafka garante ordem total entre todas as partições de um tópico, independentemente da chave.
+b. O offset é apagado quando a mensagem é lida, impedindo qualquer reprocessamento posterior.
+c. O produtor é quem controla até qual offset o consumidor já leu.
+<em>d. O offset é um índice sequencial </em><em>por partição</em><em> que dá ao consumidor flexibilidade para retomar após falha, reprocessar do início ou avançar — refletindo a garantia de ordem </em><em>dentro</em>* de cada partição.
+e. A ordem é garantida entre partições, mas não dentro de uma única partição.</p>
+<h3>Questão 15 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um tópico de cliques recebe 30.000 mensagens por segundo, e cada consumidor de um grupo processa, em média, 5.000 mensagens por segundo. Lembre-se de que cada partição é lida por, no máximo, um consumidor do grupo.</p>
+</blockquote>
+<p>Qual é o número mínimo de partições (e consumidores) necessário para acompanhar o fluxo <strong>sem acumular atraso</strong>?</p>
+<p>a. 3 partições.
+b. 4 partições.
+c. 5 partições.
+d. 12 partições.
+<em>e. 6 partições, pois <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAY4AAABCCAIAAADPO6ZQAAAnKklEQVR4nO1deVQUx9bvYYZhVRhkEVnCIiggRFwJKIiKSuIaTfJ8R41LVIxJMMZEjZq4RlzR6DFPX6LRJMbo07gnMWIAAeMCoiwKKMgqCAjD7EtPf+dY36lTp3q6p2fAqNi/v7qn79yqrrp9b9WtW7cEFEURPHjw4PF8w+pZV4AHDx48TINXVTx48HgBwKsqHjx4vADgVRUPHjxeAPCqigcPHi8AeFXFg6Ao6vHjx8+6Fjx4sIFXVTyIgwcP9uvX77vvvnvWFeHBgxG8qnrZoVAoDhw40NbWplAonnVdePBgBK+qXnbcunWroKCAIIjx48c/67rw4PF8qyqDwdA5iu5Ybv/ARgKKoo4ePUoQRHx8vKenZ4dUgyRJ4uXuNX4HyNNoeRFHOq1WW1tbW1xcfP/+/bq6OoPBIBKJBg4cOHToUCcnJ2tra8JMqFSq6urqa9eu1dXVyWSyrl279ujR47XXXvPx8bGAm1lQKBQVFRU3btxoaGiQy+XOzs6enp4xMTHe3t5CodBcblqttrGxMTs7u66u7vHjx3Z2dh4eHn379g0NDbW1tTWXm8FgkMlkOTk5FRUVjx49EggE7u7u/v7+Q4YMcXR0JDoaUqn0zJkzBEGMHTvWxsbGKM0ff/zx4MGDxMRET09PsVjMxEqv1ysUirKysuzs7Pfff7/DO1GlUtXU1ACBaWtr69q1q4eHR1RUlL+/vwVl6XS6lpaWrKysmpqa5uZmkUjk6ekZEhISGRlpb29vQfXa2tpu3LhRVlbW0NBAkqSbm5uPj09cXJyzs7MF3Dox9Hp9WVlZbm5uXV2dQqHw8/MLDAwMCgpispQQAi4WoLi4eNWqVX/99Rf9kaOjY1RU1Jw5c0aPHs29uhcuXNi9e/eVK1cwCywUCkeNGjVjxgyzuHEHSZKnT5/eu3fvtWvXsEdisTgxMXHWrFmxsbHcGRYVFW3evPnixYsqlQp7NGjQoLfffvvdd9/lrv5aW1u3bNly8uTJhw8fYo+8vLzefPPNhQsXuru7Ex2Ho0ePJiUlde3a9dq1a0Y5kyT50Ucf/fzzzyKRKD4+ftiwYWFhYf7+/o6OjkKhUCqVPn6C+vr6nJycq1ev3rt3j6KoW7du+fr6dmA909LSdu3alZWVhdlhKyurhISE6dOnv/7669y5PXjwICUl5ffff29ra8MehYeHT548ef78+UyKmw6FQrFz585jx45VVlZij9zc3MaPH79w4UI/Pz/u1eusIEny2LFjhw8fzsrKwh45Ozt/8AQsttCEqqIoauvWrTt37lQqlQKBwNfX18fHJzAwsLa29urVqzKZ7P+5CARz5sxZvXq1SYtEUVRqaurGjRuBkgoLC4uOjg4NDb1z505WVlZxcTHgtnLlyuTkZCurjpyfGgyGdevWff311+CVIyMjo6KigoODCwoKLl++XFZWBnRlSkrKnDlzuDA8c+bM4sWLm5ubCYLw9vaOi4vr379/VVVVbm7u5cuXAc1bb721bds2LgOi8vLyefPm5eXlEQRhb28/YsSIV199VSwW5+bm/vnnn0qlkiCI3r17Hzx4MCgoiOgI6HS6mTNn/vbbb5MmTdq7d69IZGSIrdfr582bd/LkSe5sp06dunv3boFA0CGVpCjq66+/3rBhg16vJwgiJCQkJiYmPDz8zp072dnZwMtGEMSyZcs++eQTLlbh8uXLH374YVVVFUEQrq6uw4cPHzBgQFNTU15eXlpaGpCNhISEPXv2dOvWzSS3+vr6BQsWZGRkQEMbERHh7Oycm5t78eLF1tZWIBv79+8fMGAA8RKjqqrq448/hsMdd3f38PDwHj16VFZWXrt2Ta1WEwQRFxd39OhRxjEyxYo9e/ZInmDFihWlpaVyuVyn01EUBeaDc+bMkSAYNWqUWq1m4UaS5MaNGwGxq6vr6tWrlUolSZLgkUKhWL16taurKyD47LPPwKMOgVar/eSTTwDnHj16bNu2DRat1+ulUumSJUvgi2zYsMFgMLAzPHHihLu7O6CfO3fuo0ePQMtQFKVWq3/44YeAgADwdNy4cXK5nJ1bWVnZq6++CuiHDh167do1jUYDHmk0mry8vNjYWPA0LCwsPz+/Q9qkurraw8NDIpGcPHmSiUan002fPl3CGcuXL9fr9R1SPYqiDAbD5s2bAedu3bqtWrVKLpcD/iRJKpXKdevWwV5ITk42KTDp6ek+Pj6AfvLkyZWVlVqtFjzSaDRnz54NCwsDT4cNG9bQ0MDOra6uLi4uDtBHRkZeunQJyr9Wq7179+4bb7wBnvr5+aWnp1MvKzIzM319fUFTDBo06OTJk48ePZLJZCRJajSaxsbGRYsWgac//PADExM2VZWent69e3eJRLJmzRr4HaKQy+UTJ05EJXXNmjUsDPfu3Qsp169fb5Rm3bp1kOann36iOgibNm2CbHfv3k0nMBgMixcvhjTnz59n4ZaZment7Q0op06dqlAo6DQnT56E3JYsWcKi+xoaGoYMGQIoe/fuDeZQGCoqKkJCQgBNTEyMVCql2o2dO3dKJJJevXqxcOOuqkJCQg4dOmRSxZuF7777DvL/8ssvjdKkpKQAAmdn5/3797Nwu3nzZlBQECAeNWpUS0sLnSY7OxvqvnfffRcqMjqkUumECRMApbe3982bN+k0jY2N0dHRsH3q6uqol1tPTZ48GWsEkiRTU1MDAwOhhWCy64yqSqFQvPXWW+D/bm5ua9euNSqFBw4cQOXVx8eHqT9qa2vhQCM6OlqpVBolk8vlUVFRgCwoKKiqqopqN+7du+fl5QV4JiYmMslfY2NjaGgoIOvbt29TU5NRMoVCAa2lt7f3/fv3jZIZDIZZs2YBsm7duv31119M1duwYQNswAMHDjCRHTp0CJKtWrWKah9UKlVCQoJEIlm8eDGLfuGiqjw9PZOTkysrK6kORX19fXBwMChi0KBBMpnMKJlCoYiJiQFkAQEBZWVlRsk0Gs3MmTNhd+Tl5TGV+9lnn8FXO3r0KBPZt99+C8lSUlKYyC5evAjJkpKSOlaVP//Iy8uDemrw4MG1tbUYQUlJiYuLC2yi7t27M313jM4gjUZz48YNcK3X61NTU3ft2kUnCw4ORm/lcvnVq1eNMty/f39LSwu4njRpkp2dnVEyBweHN954A1w3NTWtX7++nWvJBoNhz549wNcDnEdMk2FXV1fozq+srNyyZYtRsvT09JycHHA9YsQIJv+xQCCYMmUKrMPKlSthHVA0NDQcOnQIXEskkokTJzK9yPjx452cnMD1N998c+vWLaIduHfvHujfqVOncvEr2dvb9+nTB206Dw+PYcOGbdy48e+//968eXPH+tFBDH1jYyO4njhxIpO/z97eHkaEtbS0gMk7naygoACsdRIEMXjw4JCQEKZyp02bBq+//PJLKLQo2tra9u3bB66FQuG//vUvJm5RUVHQt/jLL78YXZvqrJBKpcnJydCj/fnnn/fo0QOjuXjxIuou12g0NTU1Rrkxqqrbt28DpyDE4cOHYakQwcHBmGM+MzOTHlnT0tLy66+/wluojIxi1KhR8PrcuXPAb20xmpubjx8/Dq5FIhH72uLIkSPh9enTp+VyOUagVqtBIBKkN+qNBoiOju7atSu4Li4uhqofxZkzZx49egSu4+Pju3TpwsTN0dFxyJAh6GIK0Q78/PPPBEGEhoayfLQo/P39jx49WlRUdPHixWPHjuXn5//9998//PDD/PnzfX19WRZuLENraysqMOwLfGif/v7771DBQeh0uiNHjkAVFh8fzxJHEhAQEBgYCK7r6+v/+OMPOk1mZiZYhwG93L17dyZuDg4Or732GtbsLwMoitqyZUthYSG4HTlyZHx8PJ0Mazpra2umqAVGVQUWXFA4ODjQl+RkMhlmk1tbW+mrikVFRRUVFeDaxcWFPYYiKCgISpJSqTx37hzRDuTk5MA1aT8/PxZdQBBE//794XV9fX16ejpG0NbWlpaWBm9DQ0NZuNnY2KAEUGNCqNVqtIjAwECWNSyhUNi7d294e+bMGa1WS1gEhUJx+vRpgiASExMdHBy4/IWiqC5duri6uvbr1w+MJZ2cnDj+1wKUl5eXlJSA6y5durAP2fz8/OB4U6PRgFdDoVQq0eFMr169WLiJxWK01+irn3q9/uLFi/A2MDCQPbArPDwcXl+4cIEeIdEpUVpaCgeeIHDP6Kc3duzYfv36gWtHR8c1a9YwheMwqqrIyEhM4Q0ZMoQumvTRWkBAAH2ggZqm7t27sy8qi0QidKAIVoItA0mSqGbx8PBgL1osFkskEnhLH65nZWWhe+XoA1oUQqHQw8MD3ubk5Oh0OpRAJpPBsAaCIExGwaEE1dXVpaWlhEXIzs6ura0VCASTJ08mnkvAyRp4a5ahK2hntGXovVZcXFxeXg5vvby82Lm5ubnB2+zsbGzmrlQqL126BG/d3d3Zo2pQIZHJZFeuXCE6O6gnrlU43LG3t0enSijEYvHZs2d37979+eefp6WlJSUlMfFkbGIXF5f//Oc/MNZ20KBBixcvppPV1dVhv9BNlkKhQNVNly5d2PWFlZUVNJIEQRQWFoKwCwsgl8tRVWWyaJFIhBZ9+/ZtVLmQJImaU3t7e/ZAQaFQiHpY7t+/j01mL126hM6pTUY2YwRMbkF2UBQF5lbR0dGvvPIK8fxBoVCgGtzR0ZFdF1hZWaEWu7i4GIvIPX/+PHrL3s5WVlZw2g4qU1RUhBLk5+ejFhoVGKPAijPqB+hkaGpq+uWXX+BteHg4S5vb2tr++9//XrJkCXvAIJsExMbG5ufnl5SUlJeXnzt3zmiXZGdno7eenp4jRozAaFQqFZyyEgRhZ2dnUl+gX3h5ebnF7qq6ujo08tvOzs6kfUaFvqCgAHVXabXa27dvw1t7e3v2F8G4EQTx999/o7cg4BOCfXJK/ypu3rxJmI/W1lbw6b7++utMixvPFjqdLj8/n3uvYQJTVVXV0NCAckPFj4tJwNoZUy7YrcleQ8fpQKjo3pVOhr/++gvNgMbu2eiYPYCoeaHj0aNHmF9gyZIlLi4uGBk69gZKlH3JSSAQoJ8QRVGlpaXsg3YmQAcZABfvL+pw1Wq1NTU1UNR0Ol11dTV8amNjY3LtDHPf3rt3D17r9fra2lr0qcnNHNhmgKqqKp1OZ+4OuPPnz8tkMrFYPGHCBKId0Ov1QqGwo6LSUTx48ABdxeOylRLTuSUlJXAvi1arRcf+IpHIZJ0xbmivgam3Wb2GcXvw4IFOp2NXvi80DAYDZoOhU0ir1SqVyrKystraWk9PTxBCxNHj2a72Onz4MOojHDNmzNSpU03qCy6fFtaR9fX1ltXwwYMH6K1J5SIQCLDqPXz4ELpFm5ub0fkal21iGDfU2mu1Wmyvn8lvElO1jY2NJEmapap0Oh2wLgkJCa6urlz+AhZJoFVsampKS0u7ffv2nTt3KIry8/MLDw8fNmxYQEAA0UGgGxhzew0VGJ1Oh4oBF8WHcQORPqAOOp0O6zWTYoARNDY2PsNUIv8AVCoVOigG7mmBQHDnzh2wYRaETAueICYmZvz48VOnTjWpsCxUVQaD4cSJE5s2bYK/xMfH79u3z6gcwMV4AGtra5OSh32T9O27HIGtW3MZBbAIPVYNLvYZexG0KfR6fVNTE1Y9c7mZm3Glvr4euITHjh3LMcIAmA2KolpaWlatWnXu3DnQqkCFwRaYOXPm5s2bO2SwgFkmkzzpAoNykEqlqMORiwzQTYLBYAC9o9PpsF4zWT1MolpaWtRq9dNbPH3mUCgUqJ8EeBsvXLgwb968tra20NDQiIgImUxWWFhYWVmZ9QSZmZlbtmxB16DoMEOwwIBCr9dXVVUdOHDgxx9/BMbBzs5uwYIFn376KZN5waKTgDZlLwv7aC1e38UyW5osVyAQYJKHBpdhYWVc5j4YN5lMZjAYgJMYRFqbpaowblKp1Fz7fOzYMZIkJRJJQkICx7+A12xra5syZQpYcxw5cmT//v179OghlUrT0tLAmsn333+fm5t79OhRdoHjAmzFjYvAYH53qVTKJDxWVlYmudF7jSRJ0DsURWHV47KpXigUokbl8ePHXPZCG4VCofgHBmWOjo4WT+1ramqwdbCKiorNmzcTBLFu3brZs2dbW1uD3X/79+9fu3YtQRBnz54tKyv78ccfYUSb5aqqurr6vffeMxgMDx8+RGf+o0ePXrZsWVhYGIttsUBfYDSWrQAaDAasaJNiSi9ao9EwqSouQo8RaLVakiSBcBsMBkyJmxR6jMDwBARnqFQq4FBPTEw0uW6FAaQiGDBgwKpVqyIiIuzs7MDQY968ebt27frqq68oiiooKBg3btz58+c5Ti2ZYG47swsMnZvJChjtNSahMmlg6NWjpwziCI1G89FHH4G+eKqYMGHC+++/b1lqE3p8/44dO8AefhjKKxKJbGxsFi1a5Ojo+NlnnwH34owZM86ePYutQpitqsrLy69fv250ZHvz5k0vLy8m6aSPHUwayQ5UVXT7zP4XOgEqVea+iFGhh8pFr9djMZwmhd5oCC53pVNWVgb8nRMnTuS4IoMOM8eOHbt9+3aso8ViMdgA+OOPPwIP9LJly/bu3dueFZ/2CwxqYOj2wNwxmkajgarKqDyzc+soeSaerGifOHHCgj+aO0QSCoXvvfeeBbkhsSEt/OWdd94xulFkxowZp06dAoEEd+7cWbt27bZt24yqSK6qKi4uLj8/v7q6urGxsampqaWl5d69e8ePH//jCTZv3pySkmI0OTdIiMGxFPgX7Be9Xg/nTWbxwYo2mUeQToC6OegSZu5QnHwCJtNqkhu9eug3aRJgL463t3dUVBTHvwgEAtDsrq6ua9euNWqQRCLRzJkzgaoiCOLEiRNTp06lx6xwBEjLg9XBZFY17BeSJKHAYE1kwbxGp9OhoyqMoQXDNItVlb+///nz59HFGYvB3g4DBw60TE8ZHVURBMGUY1IsFsfFxcGYp0OHDk2ZMiUmJqZdvirfJ0B/GTt27MKFC+VyeX19/axZsxYtWrRq1SrsX1ZWVphbEeyTZi8LE1Zra2sLxqL0orkAc1SjHlbMGQdXhbi/iEgkgi9Cd+2Z2ywcVyEB5HL577//DsKpuOc+trKymjx5sru7+6RJk1hSWQYHB/fu3fvu3bvgdv369a+99pplmX/p7kIu9oB7O4OcVuzcsE0FYrEYVsnKykosFqMDK5MrG3Tla7EWIAgC3VH4fILeX0FBQX369GGiRyM/KYo6duyYUVXVrjSb48aNW7lyJSwjNTX13XffpZOZ2zEggwr6i2WRikKhEFvKMakl2YvGvj0uOheTY1tbW2hb0GvI0CxuXOIPIa5fv37//n2CIGC+B45ISEhYu3ZtZGQkC421tTXqEL116xZMPmEBsO7m0msYASpy9F4zWQFMBmxtbaHis7KywuSZy1gYo7FMib8ooL9dZGQkyyeMDdUzMjLoaQI64MSaqVOnojJ65syZNWvWYDT0WpqrLyxe2TVXTOlFowMQC6qBcbOxsYHqSSgUmiv0dOPM0SVkMBhOnToFMkSzb7G2DEKhENsOCVKVdpSq6sBes8DAoPsrhEIhfXBtFjeTkdUvOuxo37u/vz+LoGJj/MrKSqMz3PaqKrFYjHkldu7ciR2ygMWvm9xVADK6sXDgDmwLBUhsZpZ7Cy0aqwaXqQTGzcnJCbXPmEfc5FQC4yaRSDjOi2UyGZj9JSYmPg2TLhQKsXe5c+eOxYkfzG1neq+hq0hYWADId2xur8EvTSQSYUJlUp4x35ZQKOzcx9jY0VSVj48PCz3dS4PtB+gYVWVjY4Nl16Mn5cHsLUjCyc4W8zt6e3tbVj1ziwbpIpmKxjb3cvkUsRdBtwdheRe4+MgxApM5KiAuXLgAjup66623CDOhVCpNLq7T48ULCwstVlVYr4Fk2Rb3mkQiQUevmBXk0mtoQg6hUIhlKTH5mhg3T0/P9m+Ie55Bz97F7qagqypsw5lpVQUkwKRaoacuuXTpEtp/2PY9k7JClzzLNgAaLdrksjf2WaLqydHREW10LjoXexG0reiqyqR9xurGUVVptVqwmSYmJsbcVAr79u1bsGDB9OnTd+zYwf5N0vfNWRy4i/UaF5XHIjBWVlboLZfVN4wGVZ1WVlZYr5mrqrgbmBcU/v7+ZrmnsVUUkKvaCBnT/+vq6rZu3Xr//n1PT885c+YMHDiQidLFxQVbC6upqWlra4PeMmxMpFar2Wc6JEli32RHqSpQNMukiSRJVLC6dOmCejqAmMKQQqVSye5dMhgMLC8iEokw+0NPsooBczeaTL8F0NTU9Oeff5q1mQbgq6++2rp1K7i+dOlSUVHRvn37mHQ9PS7E4lNLLRAYLIAO5QBMAlhSAFCpVExxhgBY5BQ2ysNsM0ZMB9at7VRVBoPhH0jM0J60rmKxOCAgAByUx8U8cNwcZlxVPXz4cMyYMTApz4kTJ37++WemSBn650pRVHNzM1RVEonE19cXhtia3BmABQT37NmT+zoXBn9//65du0LzrlAo9Ho9yydEkiSqDnr37o2tAAYFBcF99m1tbeZ+Qn379kVvMQ+3yWEIJvShoaFcooR+/fVXrVZrZ2dnNPCNCXK5HMu/eurUqZSUFKYdIZhSxrS8WXB0dAwMDITKxVyBeeWVV1BNZGtrGxQUhK5ISqVSlpyI9CDPV199lSmrJxcDgxEEBwdbrMRJklywYAGWquRpYOLEiR988IFl/7WxsenZsyeqqti1OT3wzaghMaKqQNgBmjxMr9dv2rQpKirKqPA1NzdjHwy2HuTg4DBw4ECoqh4/fmzyC0eT3fTv399iT3DXrl0HDBgAcza2tLSwF63X69HcWAMHDkSXe6ysrKKjo3/77TdwS1FUa2sry2YukiTRcLg+ffpgbg40lTtoSfbXwQi47ONTqVRA4yQkJKDJLS2w3nq9XiaTGX1f+saA3r17Wxw9ZG9vP3DgQKiqmpubTQoM2s79+/fHBHXo0KEHDx6Et42NjSwZ5UmSROOtXVxcwsLCUIKYmBh7e3v4vub2WlxcHGEpKioq2plTnyNUKtWMGTMsW6kUCoXDhg1D00Oxj6roHiGjkTFGVJVWq6V74EtLS7VarVFVhaoVgJCQEExMY2NjYWbxhw8fso9gVSoV2rssJ7ODvaMCgYBJl4EsE1BVgYO/WIrGJsl0qRoxYgQa5lpdXc2ywdJgMKDLroMGDcLG1V5eXsHBwTDvsFFvIlP1evbsyZ4uGeDBgwcgnx/3zTQAtra2gYGB8LADoH2YlB1FUVj+jJiYGJbiwHfOYoFiY2OPHDkCrhsaGtj9QRqNBi2dHkAYGxuLbhhmb2eDwYC2c1RUFFZPJyenyMhIGGDd0NDAvpUC3TMLbCdhKXr27Llx40YsSc7TwIQJE9oTUZGQkCASieBnbnRFj2kjTkREhNF0oCKm8Rt2UIerqyvThmR6hu+oqChsiDtmzBgHBwcwDtRoNNeuXRszZgxT1dEj7bt06cJEqVarv/766+vXr9vZ2cXGxs6ZM8fobGjy5MkpKSlAczc0NFRUVERERDAVjSY1dXd3j46Oxgh69uzZt29fmI4nJydn2LBhTNwePXoEA7gJgnjnnXcwAmtr68TERNiAN2/e1Gg0TAHoKpUKTfuZmJjIZR4B8sa6ubkNHz6cMAdisbhnz54wbig4OPj7779nmtMpFAo0/5xQKJw0aZJRSp1O9+2334I089HR0UlJSUbdIqNHj3ZycgJCTJLk1atXx44dy1TVK1euwBmig4MDnRIc+A4cdoDeaGI1AKVSieb5pB93JhAIxo0bB0UlLy9PpVIxtYxOp8vNzUXfq52ZV5OYs48/P3B3dx81ahTME3337l0WwcaiqJh2Uxg3BYMHD8Z+efvtt406jFQqFZaEFz3/DsLNzQ2VXTSLPru+mDJlitGJK0mS06ZNS0lJSUtLO3v27GdPYHTE5OXlhe6ThNM3ozzRFP0zZsygy59IJJo+fTq8zcnJYYkwQM8jGDx4sFEVOXv2bDgCzcvLw3IhoWhuboYq0sbGZubMmYQpyOVyYHJef/11C4wkdMps3br1zz//pEelQNTU1KBJgadMmYI5dCA+/PDDFStWnDt37sKFC6tXr16wYIHRITY4iZejwKC27c033zQ69Js1axa8vnr1Kov35OrVq9Dv5ufnZ9RSTpkyBU6Ey8vLUZ89BpVKhcrz/PnziZcA1tbWs2fPhrd5eXnYSX0oUMkBG7mM0xk9yLSurs7DwwMeYA1SfBhFfn5+t27d0LN2P/zwQ6OUZWVlfn5+8NhkpkOYq6qq4KnQ/v7+Rk9FpyiqqKgIO+OX5VzWmzdvwteJiIhgOve8uLgYHHwvkUhCQ0OZatjW1hYXFwfIXFxcLl++bJRMo9EMGzYMVu+3334zSkZR1PLly00ed05R1BdffAHJPv30Uy7n9GZlZQH6GzduUOajtbV10KBBILlVfX09E5larf7kk09g3V555ZWKigqjlI2NjbCFIYqKiowSl5eXw+O4AwMDq6urjZLV1dXB4919fHxKSkqMkimVSmD2AI4fP26UTK/Xv/3221wOu96xYwd6bDIT2TfffAPJZs2axXKyfCeDSqWaMGECfPeNGzcaJZNKpf3794dkX3zxBRNDxoPgd+7cCf4M9j2DGF8MNTU1ERERqNjFxsaCbKRGsW3bNkg5d+5cEIWMQq/Xz5kzB9Ls3LmTidXly5cxiZdIJHfv3mWiX7FiBSQD4y8MSqVy8uTJkObw4cNMrCiKysjIgAo6JiamubmZ/WXfe+89EMdoFE1NTX379gWU3bt3v379Op3m+vXr8CMPCwtraGigTIEkyeTkZFBDlk5hR2ZmpqurKzj22eiR9yBoCz3L+3//+x8TtytXrtB77ZdffmGi3717NySbPXs2vQ1Jkpw3bx4gcHZ23rx5M8u7FBYWQosVHh5eU1NDpzly5AgsMTExUalUMnGTy+XQYkkkknPnztFpQIp3QODn51deXk69TCguLvbx8QGv7+vrC/ZaodBqtfPnz4dtOG7cOBZVzqiqKIraunUrYOHi4rJw4cK0tLTq6mqZTKbRaFpbW0tLS4cPH47K3MiRI41+tCiWLFkC6ZOTk0EyWbCTRiqVfvTRR/DpkiVLWPg0NTVBWwrQt29fcFqqUaBKsFu3bitWrJDL5UD/ghS0s2fPhqw2bNjA/hYURR04cMDNzQ3Qjx8/vrKyErQyCArbs2cP1Czjx4+Xy+Xs3AoKCvr06QM1UVpamlqtBo/UanVGRkZ4eDh4GhoaeuvWLZPVA/mFe/XqJZFI1q9fT7UDq1evBkVHRkYePny4tra2paVFqVQ2NTUVFBQkJyejw+pt27axsJJKpdHR0Wiv+fn5MY1eAZYuXQqJP/jgg5aWFiAwer2+ra3t448/hk8XLVpk8l1Onz7t7e0N6IcPH37nzh0Q5GwwGNRq9U8//eTr6wueDh061KQ9qK6uHjx4MKAPDAz89ddf1Wo1GO2q1epbt27FxMSAp/7+/hkZGdTLh1OnTsEGj46OTk9PBwqkra0tJycHHXb16dOHXRJMZAI6ePDgzp070Sz63bp18/Lyam1tffjwIVxlFIvFSUlJy5cvN5mTxGAw7NixY/v27WANKDAwsFevXh4eHo8ePSopKQGuWXt7+8WLFy9atIh9g9upU6fef/994Fawt7c/ePAge44knU731Vdf7dmzB1S7V69ewcHBrq6uDQ0NBQUFYJHC2dl5+fLlc+fOJTjg5MmTK1euBOs7bm5u4JBXmUxWWVkJMtgJBIJp06Zt2LCBS9KV0tLS5ORkcLSfUCiMiYkBsYJ1dXVgVAuCJ1JTUznuNz5+/PjcuXMFAsGVK1dY3EwmQVHU999/v2bNGhD2FRkZKRKJQK7xgoIC6Nbp2rVramoqkzcdIjs7e8aMGSC2QCQSbd++fdq0aSz0BoNh165dW7ZsAQITEBDQu3dvDw+PxsbGkpISsEBpa2u7aNGixYsXc8nsfunSpU8//RQsojk5OQ0YMKBHjx4qlaq2thZ6KidOnJiSksJ0zC+KmpqapUuXQgdoTEyMp6ennZ1dbW3t9evXQURVcHBwamrq85+85SkhMzNz0aJFQIdYWVn17dsXnEGFugsTExO3b99uItW1Sb3Y3NycmpoaEhIiMQYvL6+kpCQmBwETioqK5s2bhzm5JBKJq6trUlJScXExRz75+flbtmzZtm1bYWEhF3qSJG/cuDFt2jT6i3h4eCQnJxud47CgpqZm1apV0BSjmDRpUkZGBhwccYFMJtu3b19kZCSdW2Rk5DfffCOTyTiy0mq1M2fOBGM6MHBoJwoKCkaPHm1UBnr27LlixQqTA2qIu3fv7tixY9OmTbm5uRz/UlxcvGDBAjiMRQVm7ty5hYWFXDx3EI2NjevXr4eOMBTDhw8/ffo0y7yPDrlcfuTIkSFDhtC5hYaGbt++vaWlhXq50dDQsHTpUrqbErgXv/32Wy7dZ2JUBdHS0lJZWVn1BPX19TqdTigUhoSEjB492sXFxYJzSpRKZUlJSUZGBohhMRgMXl5e8fHxQUFBT/scTblcXlRUlJWVBXbwUhTl6+s7fPjwgIAA7pnqsLMC09PTS0tLQZs6OzsPGTKkX79+3DPYoWhubk5LSyssLAQqxtbWNjw8fOTIkex7QTA0NDT069dPpVJt2rSJ4yDRJJRKZVVV1f379ysqKurr6/V6vUgkGjhw4IgRIyx7U7OgUCjKysoyMjLq6uoEAoHBYOjRo0d8fHxwcLAFAqPT6RoaGi5evFhaWgrirRwcHAYNGjRkyBDL3kUqlaanp+fl5anVaoFAIBQKw8LCRo4c6erqalmG8k4Gg8Fw7969tLS0yspKMDnz9/f38/MLCAjgmDeFq6rCSu3A1gef9zPpzg4vGp5r0iEwGAxc0rcbxX//+9+lS5fa2dnl5ubSd7p3SN2e1RfY4b3WnnZ+2tw6JUiLPhNLTm3rWBl9hv3a4UV37I55i9sZnkwzatQoszbTcMczHCl0eK917LvwY6in9JnwzdoJUVdXl5mZCeIhO3e+ER4vD3hV1QkBIpvc3Nzi4+OfdV148OgY8Kqqs0GhUIDNNOPHj/8HvN08ePwz4FVVZ0NZWRnYKsiyI5cHjxcOvKrqbAD5jCIiIlhSMvHg8cKBV1WdCnK5/MKFCyA38dMOT+PB458Er6o6FW7cuHH//n2hUGjuuaQ8eDzn4FVV5wFFUSA3cVxcnMXHkfHg8XyCV1WdBzKZDBwWO2nSJAu2OvHg8TzDko01PJ5bHD16tLy8fNmyZc+6Ijx4dDB4VcWDB48XAPwEkAcPHi8AeFXFgwePFwC8quLBg8cLAF5V8eDB4wUAr6p48OBBPP/4P1Y3rV3hTDDRAAAAAElFTkSuQmCC" style="height:1.15em;vertical-align:-0.28em" alt="formula" /> consumidores/partições; com menos partições o grupo não alcança a vazão de entrada e acumula </em>lag*.</p>
+<h3>Questão 16 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Pipeline cai — é uma certeza, não uma possibilidade. A pergunta correta não é 'e se cair?', mas 'o que acontece quando eu rodar de novo?'. Se a resposta for 'duplica metade dos dados', você tem um problema."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p><em>a. Projetar a ingestão para ser </em><em>idempotente</em>* — por exemplo com <code>MERGE</code>/upsert por chave de negócio ou sobrescrita de partição por janela — é o que permite ativar retries e reprocessar sem medo de duplicar dados.
+b. Como pipelines nunca falham na prática, não é necessário pensar em reexecução nem em idempotência.
+c. A melhor solução para falhas é desligar permanentemente qualquer mecanismo de retry do pipeline.
+d. Duplicar metade dos dados a cada falha é um comportamento aceitável e esperado em pipelines bem projetados.
+e. Idempotência significa garantir que o pipeline nunca seja executado mais de uma vez sob nenhuma circunstância.</p>
+<h3>Questão 17 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Você projeta um sistema <strong>antifraude</strong> de banco em que cada transação precisa ser avaliada em menos de 200 ms. Pergunte-se: perder uma transação de fraude é pior do que checá-la duas vezes?</p>
+</blockquote>
+<p>Qual decisão de garantia de entrega é <strong>mais adequada</strong> a esse cenário?</p>
+<p>a. Usar processamento em batch diário, pois a latência de horas é tolerável em antifraude.
+<em>b. Adotar </em><em>at-least-once com consumo idempotente</em>*, já que perder uma transação é pior do que processá-la em duplicidade — e a idempotência neutraliza eventuais duplicatas sem o custo de perseguir exactly-once.
+c. Usar at-most-once, aceitando que algumas fraudes simplesmente não sejam avaliadas.
+d. Eliminar qualquer garantia de entrega, pois em tempo real elas não se aplicam.
+e. Migrar todo o fluxo para CDC em batch noturno, abandonando o streaming.</p>
+<h3>Questão 18 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>No Apache Spark, operações <em>narrow</em> (como <code>filter</code> e <code>map</code>) mantêm cada partição independente, enquanto operações <em>wide</em> (como <code>groupBy</code>, <code>join</code> e <code>distinct</code>) exigem que dados com a mesma chave se encontrem na mesma partição, forçando um <strong>shuffle</strong>: redistribuição massiva de dados pela rede entre executors.</p>
+</blockquote>
+<p>A leitura mais coerente com o texto é:</p>
+<p>a. <code>filter</code> e <code>map</code> são as operações mais caras do Spark por sempre dispararem shuffle.
+b. <code>groupBy</code> e <code>join</code> nunca redistribuem dados, pois operam dentro de cada partição isolada.
+<em>c. O </em><em>shuffle</em><em>, provocado por operações </em>wide<em>, é a operação mais cara do Spark; otimizar Spark passa por </em><em>minimizá-lo</em><em> — filtrar antes de juntar, usar </em>broadcast join<em> quando um lado é pequeno e escolher bem as partições.
+d. Aumentar o número de operações </em>wide<em> é a forma garantida de acelerar qualquer job Spark.
+e. Operações </em>narrow<em> e </em>wide* têm exatamente o mesmo custo, pois ambas trafegam dados pela rede.</p>
+<h3>Questão 19 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>Um pipeline diário deve entregar o dashboard executivo até as 8h00. O caminho crítico normal soma 80 min (25 + 40 + 15); no pior caso, com todos os retries acionados, sobe para 110 min (35 + 50 + 25).</p>
+</blockquote>
+<p>Para garantir a entrega às 8h00 mesmo no pior caso, em que horário o DAG deve, no máximo, iniciar?</p>
+<p>a. 07h40.
+b. 06h40.
+c. 06h20.
+*d. 06h10, pois <img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" />; agenda-se às 6h00 com um SLA de 110 min para ter margem e alertar em caso de atraso.
+e. 05h30.</p>
+<h3>Questão 20 (Interpretação)</h3>
+<p><strong>Estímulo:</strong></p>
+<blockquote>
+<p>"Backfill reexecuta períodos passados — criou um DAG novo, quer popular o histórico? Backfill. E aqui a idempotência volta: reprocessar não pode duplicar. Como cada execução está atrelada a uma data lógica (data interval), o Airflow sabe exatamente qual janela de dados reprocessar."</p>
+</blockquote>
+<p>A leitura mais alinhada ao texto é:</p>
+<p>a. O backfill só funciona para datas futuras, nunca para períodos já passados.
+b. O conceito de <em>data interval</em> (data lógica) é irrelevante para o reprocessamento determinístico.
+c. O backfill duplica inevitavelmente os dados, sendo desaconselhado em qualquer pipeline.
+d. A idempotência é dispensável no backfill, pois o Airflow impede sozinho qualquer duplicação.
+<em>e. O backfill reexecuta janelas passadas de forma determinística graças à </em><em>data lógica</em><em> atrelada a cada execução, e é a </em><em>idempotência</em>* (<code>MERGE</code>/upsert ou sobrescrita de partição) que torna esse reprocessamento seguro contra duplicação.</p>
+<hr>
+<h2>Feedbacks</h2>
+<h3>Questão 1</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. A carga incremental é de fato mais rápida e leve (Asserção I), e a Razão II explica diretamente <strong>por quê</strong>: a full relê todo o histórico acumulado (730 mi de linhas), com tempo proporcional ao volume total, enquanto a incremental processa só o delta do dia.</li>
+<li><strong>b.</strong> Incorreta. A Razão <strong>justifica</strong> a Asserção — ela é a causa direta da diferença de desempenho.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 2</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. As duas são verdadeiras, mas a Razão não justifica a Asserção — tratam de assuntos distintos.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são individualmente verdadeiras: o ELT realmente carrega o bruto e transforma no destino paralelo (BigQuery, Snowflake); e o Kafka é, de fato, um log durável cujas mensagens persistem pela retenção. Porém a Razão II (sobre Kafka) <strong>não justifica</strong> a definição de ELT (ingestão) — são temas independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 3</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção I é verdadeira: transformações no Spark são lazy e só uma ação dispara o DAG. A Razão II é falsa: <code>groupBy</code> é uma operação <strong>wide</strong>, não <em>narrow</em> — ela exige que chaves iguais se encontrem na mesma partição, provocando <strong>shuffle</strong> (tráfego de rede entre executors).</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção I é verdadeira.</li>
+</ul>
+<h3>Questão 4</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção I é falsa: o offset <strong>não</strong> é definido pelo produtor para escolher o broker — ele é atribuído pelo broker como índice sequencial <strong>dentro</strong> da partição; a partição-destino é determinada pela chave da mensagem. A Razão II descreve corretamente a garantia de ordem por partição e o roteamento por chave.</li>
+<li><strong>e.</strong> Incorreta. A Razão II é verdadeira.</li>
+</ul>
+<h3>Questão 5</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão II também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. O <em>exactly-once</em> é o nível <strong>mais difícil e custoso</strong> (exige produtores idempotentes e transações, com overhead), não o mais simples e barato. E a Razão II inverte conceitos: é o <strong>at-most-once</strong> que pode perder e nunca duplica; o <strong>at-least-once</strong> nunca perde, mas pode duplicar — justamente por isso o <strong>consumo idempotente</strong> é essencial nele.</li>
+</ul>
+<h3>Questão 6</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> Ambas verdadeiras e a II justifica a I. O CDC realmente captura deletes/updates quase em tempo real sem onerar a produção (Asserção I), e a Razão II explica <strong>por quê</strong>: ele lê o log de transações (binlog/WAL) em vez de consultar a tabela a cada carga.</li>
+<li><strong>b.</strong> Incorreta. A Razão justifica diretamente a Asserção.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 7</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. As duas são verdadeiras, mas a Razão não justifica a Asserção.</li>
+<li><strong>b.</strong> <em>Correta!</em> As duas proposições são verdadeiras: o DataFrame é mesmo a abstração recomendada por passar pelo Catalyst/Tungsten (Asserção I); e o MapReduce de 2004 leva o código aos dados via <em>map</em> e <em>reduce</em> (Razão II). Porém a Razão (origem histórica do MapReduce) <strong>não justifica</strong> a recomendação do DataFrame — são fatos independentes.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. Ambas são verdadeiras.</li>
+</ul>
+<h3>Questão 8</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Razão II é falsa.</li>
+<li><strong>c.</strong> <em>Correta!</em> A Asserção I é verdadeira: o pipeline é um DAG e a aciclicidade garante que ele termina. A Razão II é falsa: uma task <strong>não</strong> precisa ser <code>PythonOperator</code> — o Airflow tem <code>BashOperator</code>, <code>SQLExecuteQueryOperator</code>, <code>SparkSubmitOperator</code>, sensors, entre outros.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I é verdadeira.</li>
+<li><strong>e.</strong> Incorreta. A Asserção I é verdadeira.</li>
+</ul>
+<h3>Questão 9</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>b.</strong> Incorreta. A Asserção I é falsa.</li>
+<li><strong>c.</strong> Incorreta. A Razão II é verdadeira.</li>
+<li><strong>d.</strong> <em>Correta!</em> A Asserção I é falsa: a idempotência é central também na ingestão em batch (<code>MERGE</code>/upsert, sobrescrita de partição) e no backfill do Airflow — não se restringe a streaming. A Razão II define corretamente idempotência e explica por que ela torna seguros retries e reprocessamento.</li>
+<li><strong>e.</strong> Incorreta. A Razão II é verdadeira.</li>
+</ul>
+<h3>Questão 10</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>b.</strong> Incorreta. Ambas são falsas.</li>
+<li><strong>c.</strong> Incorreta. A Razão II também é falsa.</li>
+<li><strong>d.</strong> Incorreta. A Asserção I também é falsa.</li>
+<li><strong>e.</strong> <em>Correta!</em> Ambas são falsas. O shuffle é a operação <strong>mais cara</strong> do Spark (serialização, rede e disco), e multiplicar operações <em>wide</em> tende a tornar o job mais lento. A Razão II inverte a Lei de Amdahl: <strong>quanto maior a fração serial, menor</strong> o ganho com mais executors — há um teto de aceleração (<img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" />), e o retorno é decrescente.</li>
+</ul>
+<h3>Questão 11</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O texto afirma exatamente isso: o ELT carrega o bruto e transforma no destino, preservando a fonte da verdade e permitindo re-transformar sem reextrair, vantagem amplificada pelo armazenamento barato e pelo paralelismo na nuvem.</li>
+<li><strong>b.</strong> Incorreta. Transformar em servidor intermediário <strong>antes</strong> de tocar o destino é o ETL, não o ELT.</li>
+<li><strong>c.</strong> Incorreta. A ordem das etapas muda a arquitetura inteira; não são idênticos.</li>
+<li><strong>d.</strong> Incorreta. O texto diz o oposto: o armazenamento ficou <strong>barato</strong> e os motores <strong>mais</strong> paralelos.</li>
+<li><strong>e.</strong> Incorreta. No ELT o bruto permanece no destino, permitindo re-transformar quantas vezes for preciso.</li>
+</ul>
+<h3>Questão 12</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. A full relê todo o histórico e é muito mais cara; a incremental lê só o delta.</li>
+<li><strong>b.</strong> <em>Correta!</em> A incremental é ~365× mais rápida (40 s contra ~4 h 3 min) e quase não onera a fonte; combiná-la com full periódico ou CDC captura também atualizações retroativas — o melhor dos dois mundos.</li>
+<li><strong>c.</strong> Incorreta. Só a full varre os 730 mi de registros; a incremental lê apenas 2 mi do dia.</li>
+<li><strong>d.</strong> Incorreta. A incremental não compara cada linha com todo o histórico; usa um marcador (<code>updated_at</code>/cursor).</li>
+<li><strong>e.</strong> Incorreta. Ao contrário: quanto mais a tabela cresce, <strong>maior</strong> a vantagem da incremental.</li>
+</ul>
+<h3>Questão 13</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O paralelismo tem retorno decrescente; dobrar executors não dobra a velocidade.</li>
+<li><strong>b.</strong> Incorreta. A fração serial é decisiva — 15% já limitam o ganho a ~5,8×.</li>
+<li><strong>c.</strong> <em>Correta!</em> É a lição central do exemplo: pela Lei de Amdahl, o retorno é decrescente e a parcela serial (sobretudo o shuffle) trava o ganho; reduzir essa fração costuma render mais do que comprar máquinas.</li>
+<li><strong>d.</strong> Incorreta. Ignorar a parcela serial leva a uma estimativa irreal (8 min vs ~57 min reais).</li>
+<li><strong>e.</strong> Incorreta. O distribuído ainda acelera (de 5 h 33 min para ~57 min); apenas não atinge o ideal.</li>
+</ul>
+<h3>Questão 14</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Não há ordem total entre partições — só dentro de cada uma.</li>
+<li><strong>b.</strong> Incorreta. O offset não é apagado na leitura; o consumidor pode reprocessar do início.</li>
+<li><strong>c.</strong> Incorreta. É o <strong>consumidor</strong> que controla o offset comprometido, não o produtor.</li>
+<li><strong>d.</strong> <em>Correta!</em> O offset é o índice sequencial por partição que permite ao consumidor retomar, reprocessar ou avançar — refletindo a garantia de ordem <strong>dentro</strong> da partição.</li>
+<li><strong>e.</strong> Incorreta. A ordem é garantida <strong>dentro</strong> de uma partição, não entre partições.</li>
+</ul>
+<h3>Questão 15</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. 3 partições dão 15.000 msg/s, abaixo das 30.000 de entrada.</li>
+<li><strong>b.</strong> Incorreta. 4 partições dão 20.000 msg/s e acumulariam 10.000 msg/s de <em>lag</em>.</li>
+<li><strong>c.</strong> Incorreta. 5 partições dão 25.000 msg/s, ainda insuficiente.</li>
+<li><strong>d.</strong> Incorreta. 12 partições atendem com folga, mas o <strong>mínimo</strong> pedido é 6.</li>
+<li><strong>e.</strong> <em>Correta!</em> <img src="data:image/png;base64,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" style="height:1.15em;vertical-align:-0.28em" alt="formula" /> consumidores/partições é o mínimo para igualar a vazão de entrada; com menos, o grupo não acompanha e acumula atraso.</li>
+</ul>
+<h3>Questão 16</h3>
+<ul>
+<li><strong>a.</strong> <em>Correta!</em> O texto leva exatamente a essa conclusão: projetar para idempotência (<code>MERGE</code>/upsert por chave ou sobrescrita de partição) é o que permite reexecutar e ativar retries sem duplicar dados.</li>
+<li><strong>b.</strong> Incorreta. O texto afirma que falhas são uma certeza — é preciso pensar em reexecução.</li>
+<li><strong>c.</strong> Incorreta. A solução não é desligar retries, mas torná-los seguros via idempotência.</li>
+<li><strong>d.</strong> Incorreta. Duplicar metade dos dados é justamente o pesadelo que se quer evitar.</li>
+<li><strong>e.</strong> Incorreta. Idempotência não impede reexecução; garante o <strong>mesmo estado final</strong> ao reexecutar.</li>
+</ul>
+<h3>Questão 17</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. Batch é inviável: a avaliação precisa ocorrer em menos de 200 ms.</li>
+<li><strong>b.</strong> <em>Correta!</em> Como perder uma transação é pior que checá-la duas vezes, escolhe-se at-least-once; o consumo idempotente absorve duplicatas, evitando o custo do exactly-once. É a recomendação prática da Aula 7.</li>
+<li><strong>c.</strong> Incorreta. At-most-once pode <strong>perder</strong> transações — inaceitável em antifraude.</li>
+<li><strong>d.</strong> Incorreta. Garantias de entrega são centrais em streaming, não dispensáveis.</li>
+<li><strong>e.</strong> Incorreta. CDC em batch noturno não atende ao requisito de tempo real (&lt;200 ms).</li>
+</ul>
+<h3>Questão 18</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. <code>filter</code> e <code>map</code> são <em>narrow</em> e <strong>baratas</strong>, não disparam shuffle.</li>
+<li><strong>b.</strong> Incorreta. <code>groupBy</code> e <code>join</code> são <em>wide</em> e <strong>provocam</strong> shuffle.</li>
+<li><strong>c.</strong> <em>Correta!</em> O shuffle, gerado por operações <em>wide</em>, é a operação mais cara; otimizar Spark é minimizá-lo — filtrar antes de juntar, <em>broadcast join</em> no lado pequeno e bom particionamento.</li>
+<li><strong>d.</strong> Incorreta. Mais operações <em>wide</em> significam mais shuffle e, em geral, mais lentidão.</li>
+<li><strong>e.</strong> Incorreta. <em>Narrow</em> e <em>wide</em> têm custos muito diferentes; só as <em>wide</em> trafegam dados pela rede.</li>
+</ul>
+<h3>Questão 19</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. 07h40 só cobriria 20 min, insuficiente para os 110 min do pior caso.</li>
+<li><strong>b.</strong> Incorreta. 06h40 dá apenas 80 min (caminho crítico normal), sem margem para retries.</li>
+<li><strong>c.</strong> Incorreta. 06h20 dá 100 min, ainda abaixo dos 110 min do pior caso.</li>
+<li><strong>d.</strong> <em>Correta!</em> $08{:}00 - 110\ \text{min} = 06{:}10$ é o início máximo; na prática agenda-se às 6h00 com SLA de 110 min para ter margem e alertar atrasos.</li>
+<li><strong>e.</strong> Incorreta. 05h30 funcionaria, mas não é o <strong>limite máximo</strong> de início pedido (06h10).</li>
+</ul>
+<h3>Questão 20</h3>
+<ul>
+<li><strong>a.</strong> Incorreta. O backfill serve justamente para <strong>períodos passados</strong>.</li>
+<li><strong>b.</strong> Incorreta. A <em>data lógica</em> (data interval) é o que torna o reprocessamento determinístico.</li>
+<li><strong>c.</strong> Incorreta. O backfill não duplica <strong>quando</strong> a idempotência é respeitada — é recomendado, não desaconselhado.</li>
+<li><strong>d.</strong> Incorreta. O Airflow não impede duplicação sozinho; é a idempotência do pipeline que garante isso.</li>
+<li><strong>e.</strong> <em>Correta!</em> O backfill reexecuta janelas passadas de forma determinística por estarem atreladas à data lógica, e a idempotência (<code>MERGE</code>/upsert ou sobrescrita de partição) é o que torna esse reprocessamento seguro contra duplicação.</li>
+</ul>
+</body></html>
