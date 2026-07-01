@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<title>Átomo 3.0 · Portal de Conteúdo · UniFECAF</title>
+<style>
+  :root {
+    --azul-fecaf:   #002057;
+    --azul-medio:   #1F44A8;
+    --azul-claro:   #2BBBE0;
+    --amarelo:      #F0CE29;
+    --verde:        #1F8A4E;
+    --cinza-bg:     #F2F4F8;
+    --cinza-card:   #FFFFFF;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --linha:        #E2E8F3;
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: var(--cinza-bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    position: relative;
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: #fff;
+    padding: 3rem 4vw 3.6rem;
+    overflow: hidden;
+  }
+  .site-header::before {
+    content: "";
+    position: absolute;
+    right: -140px; top: -140px;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,206,41,.14), transparent 70%);
+  }
+  .logo-wrap { display: flex; align-items: center; gap: 14px; margin-bottom: 2rem; }
+  .logo-svg { height: 44px; width: auto; flex-shrink: 0; }
+  .logo-divider { width: 1px; height: 36px; background: rgba(255,255,255,.3); }
+  .logo-texto { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,.85); letter-spacing: .02em; }
+
+  .eyebrow {
+    display: inline-block;
+    background: rgba(240,206,41,.16);
+    border: 1px solid rgba(240,206,41,.45);
+    color: var(--amarelo);
+    font-weight: 700; font-size: .73rem; letter-spacing: .16em;
+    text-transform: uppercase; padding: 6px 14px; border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+  .site-header h1 {
+    margin: 0; font-size: clamp(1.7rem, 3.5vw, 2.8rem);
+    font-weight: 800; letter-spacing: -.01em; line-height: 1.14;
+    max-width: 860px;
+  }
+  .site-header .sub {
+    margin: .7rem 0 0;
+    color: rgba(255,255,255,.75);
+    font-size: clamp(.95rem, 1.5vw, 1.1rem);
+  }
+  .stats {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2rem;
+  }
+  .stat {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.16);
+    padding: 9px 15px; border-radius: 10px;
+    font-size: .88rem; font-weight: 600;
+  }
+  .stat b { color: var(--amarelo); font-weight: 800; }
+
+  .tri-faixa {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 20px; display: block;
+  }
+  .tri-faixa svg { width: 100%; height: 100%; display: block; }
+
+  /* ── Main ── */
+  main { padding: 2.8rem 4vw 3rem; max-width: 1400px; margin: 0 auto; }
+
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    margin-bottom: 1.4rem;
+  }
+  .section-head h2 {
+    margin: 0; font-size: 1.25rem; font-weight: 800;
+    color: var(--azul-fecaf);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .badge {
+    font-size: .72rem; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 999px;
+  }
+  .badge-disc { background: #ddeeff; color: var(--azul-fecaf); }
+  .badge-live { background: #fff3cc; color: #7a5800; }
+
+  .section-divider {
+    border: none; border-top: 2px solid var(--azul-fecaf);
+    margin-bottom: 1.4rem;
+  }
+
+  .section { margin-bottom: 3.4rem; }
+
+  /* ── Discipline cards ── */
+  .disc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.4rem;
+  }
+
+  .disc-card {
+    background: var(--cinza-card);
+    border: 1px solid var(--linha);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0,32,87,.07);
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    position: relative;
+  }
+  .disc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(0,32,87,.15);
+    border-color: #cdd8ec;
+  }
+  .disc-card-accent {
+    height: 5px; width: 100%;
+    background: linear-gradient(90deg, var(--azul-fecaf), var(--azul-claro));
+    flex-shrink: 0;
+  }
+  .disc-card-body { padding: 1.5rem 1.5rem 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+  .disc-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .disc-icon {
+    width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    background: #eaf0fb;
+  }
+  .disc-meta { flex: 1; }
+  .disc-tag {
+    font-size: .7rem; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--azul-fecaf);
+    opacity: .7; margin-bottom: 4px;
+  }
+  .disc-card h3 {
+    margin: 0; font-size: 1.1rem; font-weight: 800;
+    color: var(--azul-fecaf); line-height: 1.25;
+  }
+
+  .disc-desc { font-size: .88rem; color: var(--cinza-mute); line-height: 1.55; }
+
+  .disc-info {
+    display: flex; flex-wrap: wrap; gap: 6px 16px;
+    font-size: .8rem; font-weight: 600; color: var(--cinza-mute);
+    margin-top: auto; padding-top: 8px; border-top: 1px solid var(--linha);
+  }
+  .disc-info span { display: flex; align-items: center; gap: 5px; }
+
+  .disc-card-footer {
+    padding: .9rem 1.5rem;
+    background: #f7f9fd;
+    border-top: 1px solid var(--linha);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; flex-wrap: wrap;
+  }
+  .unidades-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-size: .72rem; font-weight: 700;
+    padding: 4px 9px; border-radius: 6px;
+    background: #eaf0fb; color: var(--azul-fecaf);
+  }
+  .cta {
+    font-size: .8rem; font-weight: 800; color: var(--azul-fecaf);
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+  }
+  .cta svg { transition: transform .2s; }
+  .disc-card:hover .cta svg { transform: translateX(3px); }
+
+  /* ── Live cards ── */
+  .live-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.4rem;
+  }
+
+  .live-card {
+    background: var(--cinza-card);
+    border: 1px solid var(--linha);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0,32,87,.07);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  }
+  .live-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 44px rgba(0,32,87,.15);
+    border-color: #f0d060;
+  }
+  .live-card-accent {
+    height: 5px; width: 100%;
+    background: linear-gradient(90deg, #c47a00, var(--amarelo));
+    flex-shrink: 0;
+  }
+  .live-card-body { padding: 1.5rem 1.5rem 1.4rem; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+
+  .live-card-top { display: flex; align-items: flex-start; gap: 12px; }
+  .live-num {
+    width: 48px; height: 48px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; font-weight: 900;
+    background: #fff5d6; color: #8a6200;
+  }
+  .live-meta { flex: 1; }
+  .live-tag {
+    font-size: .7rem; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: #8a6200;
+    margin-bottom: 4px;
+  }
+  .live-card h3 {
+    margin: 0; font-size: 1.08rem; font-weight: 800;
+    color: var(--azul-fecaf); line-height: 1.25;
+  }
+
+  .live-desc { font-size: .88rem; color: var(--cinza-mute); line-height: 1.55; }
+
+  .live-aulas {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-top: auto; padding-top: 10px; border-top: 1px solid var(--linha);
+  }
+  .aula-chip {
+    font-size: .72rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 999px;
+    background: #fff5d6; color: #7a5000;
+    text-decoration: none;
+    transition: background .15s;
+  }
+  .aula-chip:hover { background: var(--amarelo); color: #5a3800; }
+
+  .live-card-footer {
+    padding: .9rem 1.5rem;
+    background: #fffbf0;
+    border-top: 1px solid #f5e8b8;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .live-schedule {
+    font-size: .8rem; font-weight: 600; color: var(--cinza-mute);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cta-live {
+    font-size: .8rem; font-weight: 800; color: #8a6200;
+    display: flex; align-items: center; gap: 5px;
+    text-decoration: none;
+    transition: color .15s;
+  }
+  .cta-live:hover { color: #5a3800; }
+  .cta-live svg { transition: transform .2s; }
+  .cta-live:hover svg { transform: translateX(3px); }
+
+  /* ── Footer ── */
+  .site-footer {
+    text-align: center;
+    padding: 2rem 4vw;
+    font-size: .82rem;
+    color: var(--cinza-mute);
+    border-top: 1px solid var(--linha);
+  }
+
+  @media (max-width: 600px) {
+    .disc-grid, .live-grid { grid-template-columns: 1fr; }
+    .stats { gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ HEADER ══════════════════════════════ -->
+<header class="site-header">
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 220 54" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- wordmark simplificado UniFECAF em branco -->
+      <text x="0" y="38" font-family="'Segoe UI',Arial,sans-serif" font-size="32" font-weight="900" fill="#ffffff" letter-spacing="-1">Uni<tspan fill="#F0CE29">FECAF</tspan></text>
+    </svg>
+    <div class="logo-divider"></div>
+    <span class="logo-texto">Átomo 3.0 · Portal de Conteúdo</span>
+  </div>
+
+  <div class="eyebrow">Material didático digital</div>
+  <h1>Disciplinas &amp; Lives<br>no novo padrão</h1>
+  <p class="sub">Prof. Afonso Cesar Lelis Brandão · Engenharia &amp; IA</p>
+
+  <div class="stats">
+    <div class="stat"><b>4</b> disciplinas Átomo 3.0</div>
+    <div class="stat"><b>68</b> slides HTML</div>
+    <div class="stat"><b>2</b> lives ativas</div>
+    <div class="stat"><b>8</b> aulas ao vivo</div>
+  </div>
+
+  <span class="tri-faixa" aria-hidden="true">
+    <svg viewBox="0 0 1440 20" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,20 1440,0 1440,20" fill="#F2F4F8"/>
+    </svg>
+  </span>
+</header>
+
+<!-- ══════════════════════════════ MAIN ══════════════════════════════ -->
+<main>
+
+  <!-- ─── Disciplinas ─── -->
+  <section class="section">
+    <div class="section-head">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        Disciplinas
+        <span class="badge badge-disc">Átomo 3.0</span>
+      </h2>
+    </div>
+    <hr class="section-divider" />
+
+    <div class="disc-grid">
+
+      <!-- Indústria 4.0 -->
+      <a class="disc-card" href="industria_4_0_e_digitalizacao_de_processos/index.html">
+        <div class="disc-card-accent"></div>
+        <div class="disc-card-body">
+          <div class="disc-card-top">
+            <div class="disc-icon">🏭</div>
+            <div class="disc-meta">
+              <div class="disc-tag">Engenharia de Produção</div>
+              <h3>Indústria 4.0 e Digitalização de Processos</h3>
+            </div>
+          </div>
+          <p class="disc-desc">Fundamentos, tecnologias habilitadoras (IIoT, Cloud, IA), digitalização de processos e implementação da 4ª Revolução Industrial na produção.</p>
+          <div class="disc-info">
+            <span>📽 16 videoaulas</span>
+            <span>📋 4 unidades</span>
+            <span>🃏 17 decks</span>
+          </div>
+        </div>
+        <div class="disc-card-footer">
+          <div class="unidades-chips">
+            <span class="chip">U1 Fundamentos</span>
+            <span class="chip">U2 Tecnologias</span>
+            <span class="chip">U3 Aplicações</span>
+            <span class="chip">U4 Implementação</span>
+          </div>
+          <span class="cta">
+            Ver slides
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Sistemas de Informação -->
+      <a class="disc-card" href="sistemas_de_informacao_automacao_e_ia_aplicada_a_producao/index.html">
+        <div class="disc-card-accent"></div>
+        <div class="disc-card-body">
+          <div class="disc-card-top">
+            <div class="disc-icon">🤖</div>
+            <div class="disc-meta">
+              <div class="disc-tag">Engenharia de Produção</div>
+              <h3>Sistemas de Informação, Automação e IA Aplicada à Produção</h3>
+            </div>
+          </div>
+          <p class="disc-desc">ERP, MES, SCADA/PIMS, automação industrial (CLPs, robótica), machine learning aplicado ao chão de fábrica e manutenção preditiva.</p>
+          <div class="disc-info">
+            <span>📽 16 videoaulas</span>
+            <span>📋 4 unidades</span>
+            <span>🃏 17 decks</span>
+          </div>
+        </div>
+        <div class="disc-card-footer">
+          <div class="unidades-chips">
+            <span class="chip">U1 Sistemas</span>
+            <span class="chip">U2 Automação</span>
+            <span class="chip">U3 IA & ML</span>
+            <span class="chip">U4 Integração</span>
+          </div>
+          <span class="cta">
+            Ver slides
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Data Engineering -->
+      <a class="disc-card" href="data_engineering_and_pipelines/index.html">
+        <div class="disc-card-accent"></div>
+        <div class="disc-card-body">
+          <div class="disc-card-top">
+            <div class="disc-icon">🔧</div>
+            <div class="disc-meta">
+              <div class="disc-tag">Tecnologia da Informação</div>
+              <h3>Data Engineering and Pipelines</h3>
+            </div>
+          </div>
+          <p class="disc-desc">Fundamentos de engenharia de dados, pipelines ETL/ELT, orquestração com Airflow, data lakes, data warehouses e qualidade de dados.</p>
+          <div class="disc-info">
+            <span>📽 16 videoaulas</span>
+            <span>📋 4 unidades</span>
+            <span>🃏 17 decks</span>
+          </div>
+        </div>
+        <div class="disc-card-footer">
+          <div class="unidades-chips">
+            <span class="chip">U1 Fundamentos</span>
+            <span class="chip">U2 Pipelines</span>
+            <span class="chip">U3 Arquitetura</span>
+            <span class="chip">U4 Qualidade</span>
+          </div>
+          <span class="cta">
+            Ver slides
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Portos, Aeroportos e Ferrovias -->
+      <a class="disc-card" href="portos_aeroportos_e_ferrovias/index.html">
+        <div class="disc-card-accent"></div>
+        <div class="disc-card-body">
+          <div class="disc-card-top">
+            <div class="disc-icon">🚢</div>
+            <div class="disc-meta">
+              <div class="disc-tag">Engenharia Civil / Infraestrutura</div>
+              <h3>Portos, Aeroportos e Ferrovias</h3>
+            </div>
+          </div>
+          <p class="disc-desc">Infraestrutura de transportes no Brasil: planejamento, projeto e operação de portos, terminais aeroportuários e sistemas ferroviários.</p>
+          <div class="disc-info">
+            <span>📽 16 videoaulas</span>
+            <span>📋 4 unidades</span>
+            <span>🃏 17 decks</span>
+          </div>
+        </div>
+        <div class="disc-card-footer">
+          <div class="unidades-chips">
+            <span class="chip">U1 Portos</span>
+            <span class="chip">U2 Aeroportos</span>
+            <span class="chip">U3 Ferrovias</span>
+            <span class="chip">U4 Logística</span>
+          </div>
+          <span class="cta">
+            Ver slides
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ─── Lives ─── -->
+  <section class="section">
+    <div class="section-head">
+      <h2>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        Aulas ao Vivo
+        <span class="badge badge-live">Lives</span>
+      </h2>
+    </div>
+    <hr class="section-divider" style="border-color: #c47a00; opacity:.4;" />
+
+    <div class="live-grid">
+
+      <!-- Live 01 -->
+      <div class="live-card">
+        <div class="live-card-accent"></div>
+        <div class="live-card-body">
+          <div class="live-card-top">
+            <div class="live-num">01</div>
+            <div class="live-meta">
+              <div class="live-tag">Programação · Terças</div>
+              <h3>Algorithmic Thinking &amp; Introduction to OOP</h3>
+            </div>
+          </div>
+          <p class="live-desc">Pensamento algorítmico, estruturas de controle, funções, introdução à orientação a objetos — classes, objetos, herança e polimorfismo.</p>
+          <div class="live-aulas">
+            <a class="aula-chip" href="lives/01_algorithmic_thinking_and_introduction_to_object_oriented_programming_tercas/aula1.html">Aula 1</a>
+            <a class="aula-chip" href="lives/01_algorithmic_thinking_and_introduction_to_object_oriented_programming_tercas/aula2.html">Aula 2</a>
+            <a class="aula-chip" href="lives/01_algorithmic_thinking_and_introduction_to_object_oriented_programming_tercas/aula3.html">Aula 3</a>
+            <a class="aula-chip" href="lives/01_algorithmic_thinking_and_introduction_to_object_oriented_programming_tercas/aula4.html">Aula 4</a>
+          </div>
+        </div>
+        <div class="live-card-footer">
+          <span class="live-schedule">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Terças-feiras · 4 encontros
+          </span>
+          <a class="cta-live" href="lives/01_algorithmic_thinking_and_introduction_to_object_oriented_programming_tercas/index.html">
+            Acessar
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Live 02 -->
+      <div class="live-card">
+        <div class="live-card-accent"></div>
+        <div class="live-card-body">
+          <div class="live-card-top">
+            <div class="live-num">02</div>
+            <div class="live-meta">
+              <div class="live-tag">DevOps · Quintas</div>
+              <h3>Containers e Kubernetes</h3>
+            </div>
+          </div>
+          <p class="live-desc">Docker, imagens e contêineres, Docker Compose, Kubernetes: pods, services, deployments, Helm e práticas de orquestração de contêineres em produção.</p>
+          <div class="live-aulas">
+            <a class="aula-chip" href="lives/02_containers_e_kubernetes_quintas/aula1.html">Aula 1</a>
+            <a class="aula-chip" href="lives/02_containers_e_kubernetes_quintas/aula2.html">Aula 2</a>
+            <a class="aula-chip" href="lives/02_containers_e_kubernetes_quintas/aula3.html">Aula 3</a>
+            <a class="aula-chip" href="lives/02_containers_e_kubernetes_quintas/aula4.html">Aula 4</a>
+          </div>
+        </div>
+        <div class="live-card-footer">
+          <span class="live-schedule">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            Quintas-feiras · 4 encontros
+          </span>
+          <a class="cta-live" href="lives/02_containers_e_kubernetes_quintas/index.html">
+            Acessar
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════ FOOTER ══════════════════════════════ -->
+<footer class="site-footer">
+  <strong style="color:var(--azul-fecaf)">UniFECAF</strong> · Átomo 3.0 ·
+  Prof. Afonso Cesar Lelis Brandão ·
+  <span style="opacity:.6">Conteúdo em pt-BR · Material didático para ensino superior</span>
+</footer>
+
+</body>
+</html>
