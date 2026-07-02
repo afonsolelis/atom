@@ -1,115 +1,100 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aula 2 — Da lógica ao código · Live 01</title>
+<title>Aula 2 — AntiGravity + Modelagem Arquitetural · Live 01</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --navy: #1A3666;
-    --navy-dark: #132D42;
-    --verde: #17A460;
-    --azul: #4285F4;
-    --branco: #FFFFFF;
-    --fonte: 'Poppins', sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); margin: 0; display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; overflow: hidden; }
-  .deck { width: 1280px; height: 720px; position: relative; }
-  .slide { position: absolute; inset: 0; width: 1280px; height: 720px; display: none; overflow: hidden; }
-  .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+  :root { --navy:#1A3666;--navy-dark:#132D42;--verde:#17A460;--azul:#4285F4;--branco:#FFFFFF;--fonte:'Poppins',sans-serif; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--fonte);background:#0a0e1a;color:var(--branco);margin:0;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;overflow:hidden;}
+  .deck{width:1280px;height:720px;position:relative;}
+  .slide{position:absolute;inset:0;width:1280px;height:720px;display:none;overflow:hidden;}
+  .slide.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+  .deco-rect{position:absolute;border-radius:28px;pointer-events:none;}
+  .deco-rect.verde{border:4px solid var(--verde);}
+  .deco-rect.azul{border:4px solid var(--azul);}
 
-  .deco-rect { position: absolute; border-radius: 28px; pointer-events: none; }
-  .deco-rect.verde { border: 4px solid var(--verde); }
-  .deco-rect.azul  { border: 4px solid var(--azul); }
+  .slide-capa{background:var(--branco);flex-direction:column;justify-content:center;align-items:flex-start;padding:0 100px;}
+  .capa-logo{margin-bottom:28px;} .capa-logo img{height:56px;}
+  .slide-capa h1{font-size:3rem;font-weight:800;color:var(--navy);line-height:1.1;max-width:760px;margin-bottom:16px;}
+  .capa-subtitulo{font-size:1.1rem;font-weight:500;color:var(--verde);margin-bottom:8px;}
+  .capa-docente{font-size:0.95rem;font-weight:400;color:#555;}
 
-  .slide-capa { background: var(--branco); flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 100px; }
-  .capa-logo { margin-bottom: 28px; }
-  .capa-logo img { height: 56px; }
-  .slide-capa h1 { font-size: 3rem; font-weight: 800; color: var(--navy); line-height: 1.1; max-width: 760px; margin-bottom: 16px; }
-  .capa-subtitulo { font-size: 1.1rem; font-weight: 500; color: var(--verde); margin-bottom: 8px; }
-  .capa-docente { font-size: 0.95rem; font-weight: 400; color: #555; }
+  .slide-audio{background:var(--navy);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;}
+  .slide-audio h1{font-size:2rem;font-weight:700;margin-bottom:20px;color:var(--verde);}
+  .slide-audio p{font-size:1.05rem;line-height:1.7;max-width:700px;}
 
-  .slide-audio { background: var(--navy); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; }
-  .slide-audio h1 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--verde); }
-  .slide-audio p  { font-size: 1.05rem; line-height: 1.7; max-width: 700px; }
+  .slide-sumario{background:var(--navy);flex-direction:row;align-items:stretch;}
+  .sumario-esq{width:420px;background:var(--navy-dark);display:flex;flex-direction:column;justify-content:center;padding:60px 50px;flex-shrink:0;position:relative;}
+  .sumario-titulo{font-size:1.6rem;font-weight:800;line-height:1.2;}
+  .sumario-dir{flex:1;padding:60px 70px;display:flex;flex-direction:column;justify-content:center;position:relative;}
+  .sumario-dir h2{font-size:1.3rem;font-weight:700;color:var(--verde);margin-bottom:24px;text-transform:uppercase;letter-spacing:0.08em;}
+  .sumario-dir ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .sumario-dir ul li{font-size:1.05rem;padding-left:20px;position:relative;}
+  .sumario-dir ul li::before{content:'▸';position:absolute;left:0;color:var(--verde);}
 
-  .slide-prof { background: var(--navy); flex-direction: row; align-items: stretch; justify-content: flex-start; }
-  .prof-foto-col { width: 380px; background: var(--navy-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px 30px; position: relative; }
-  .prof-foto-img { width: 180px; height: 180px; border-radius: 50%; background: #2a4a7f; overflow: hidden; margin-bottom: 20px; border: 4px solid var(--verde); }
-  .prof-foto-img img { width: 100%; height: 100%; object-fit: cover; }
-  .prof-info-col { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .prof-nome { font-size: 1.9rem; font-weight: 800; margin-bottom: 6px; }
-  .prof-cargo { font-size: 0.95rem; color: var(--verde); font-weight: 500; margin-bottom: 24px; }
-  .prof-descricao { font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; }
+  .slide-content-wrap{background:var(--navy);flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:48px 80px;position:relative;}
+  .kicker{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--verde);margin-bottom:8px;}
+  .slide-content-wrap h2{font-size:1.8rem;font-weight:800;margin-bottom:20px;line-height:1.15;}
+  .content-box{background:var(--navy-dark);border-radius:16px;padding:28px 36px;width:100%;flex:1;overflow:hidden;position:relative;}
+  .content-box p{font-size:0.97rem;line-height:1.65;margin-bottom:12px;}
+  .content-box ul{padding-left:22px;display:flex;flex-direction:column;gap:10px;}
+  .content-box ul li{font-size:0.97rem;line-height:1.6;}
+  .content-box ul li strong{color:var(--verde);}
+  .slide-footer{position:absolute;bottom:18px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(255,255,255,0.4);}
 
-  .slide-pre { background: var(--navy); flex-direction: column; justify-content: center; align-items: center; }
-  .slide-pre img { max-height: 580px; max-width: 1100px; object-fit: contain; }
+  .pontos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;margin-top:8px;}
+  .ponto{border-left:4px solid var(--verde);padding:14px 18px;background:rgba(255,255,255,0.04);border-radius:0 8px 8px 0;}
+  .ponto h3{font-size:0.95rem;font-weight:700;margin-bottom:6px;color:var(--verde);}
+  .ponto p{font-size:0.88rem;line-height:1.5;margin:0;}
 
-  .slide-sumario { background: var(--navy); flex-direction: row; align-items: stretch; }
-  .sumario-esq { width: 420px; background: var(--navy-dark); display: flex; flex-direction: column; justify-content: center; padding: 60px 50px; flex-shrink: 0; position: relative; }
-  .sumario-titulo { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
-  .sumario-dir { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .sumario-dir h2 { font-size: 1.3rem; font-weight: 700; color: var(--verde); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .sumario-dir ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .sumario-dir ul li { font-size: 1.05rem; padding-left: 20px; position: relative; }
-  .sumario-dir ul li::before { content: '▸'; position: absolute; left: 0; color: var(--verde); }
+  .code-block{background:#0d1b2e;border-radius:10px;padding:18px 22px;font-family:'Courier New',monospace;font-size:0.82rem;line-height:1.6;overflow-x:auto;margin:10px 0;white-space:pre;}
+  .code-block code{display:block;}
+  .k{color:#F0CE29;} .f{color:#2BBBE0;} .s{color:#8DD17E;} .n{color:#E48BB0;} .c{color:#7c89ad;font-style:italic;} .cm{color:#a8b4d0;}
 
-  .slide-content-wrap { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .kicker { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--verde); margin-bottom: 8px; }
-  .slide-content-wrap h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-  .content-box { background: var(--navy-dark); border-radius: 16px; padding: 28px 36px; width: 100%; flex: 1; overflow: hidden; position: relative; }
-  .content-box p { font-size: 0.97rem; line-height: 1.65; margin-bottom: 12px; }
-  .content-box ul { padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
-  .content-box ul li { font-size: 0.97rem; line-height: 1.6; }
-  .content-box ul li strong { color: var(--verde); }
-  .slide-footer { position: absolute; bottom: 18px; left: 80px; right: 80px; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+  .callout{background:rgba(23,164,96,0.12);border-left:4px solid var(--verde);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.9rem;line-height:1.5;margin-top:10px;}
+  .callout-warn{background:rgba(66,133,244,0.12);border-left:4px solid var(--azul);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.9rem;line-height:1.5;margin-top:10px;}
 
-  .pontos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 8px; }
-  .ponto { border-left: 4px solid var(--verde); padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 0 8px 8px 0; }
-  .ponto h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--verde); }
-  .ponto p  { font-size: 0.88rem; line-height: 1.5; margin: 0; }
+  .arch-box{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;margin-top:6px;}
+  .arch-layer{border:2px solid rgba(255,255,255,0.1);border-radius:10px;padding:14px 16px;}
+  .arch-layer h3{font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+  .arch-layer h3.verde{color:var(--verde);}
+  .arch-layer h3.azul{color:var(--azul);}
+  .arch-layer ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .arch-layer ul li{font-size:0.82rem;padding-left:14px;position:relative;color:rgba(255,255,255,0.8);}
+  .arch-layer ul li::before{content:'→';position:absolute;left:0;color:var(--verde);font-size:0.75rem;}
 
-  .code-block { background: #0d1b2e; border-radius: 10px; padding: 18px 22px; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; overflow-x: auto; margin: 10px 0; white-space: pre; }
-  .code-block code { display: block; }
-  .k { color: #F0CE29; }
-  .f { color: #2BBBE0; }
-  .s { color: #8DD17E; }
-  .n { color: #E48BB0; }
-  .c { color: #7c89ad; font-style: italic; }
-  .p { color: #2BBBE0; font-weight: bold; }
-  .code-cap { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-style: italic; margin-top: 6px; margin-bottom: 0; }
+  .uml-full{font-family:'Courier New',monospace;font-size:0.72rem;line-height:1.5;background:#0d1b2e;border-radius:10px;padding:14px 18px;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .uml-class{border:2px solid var(--azul);border-radius:6px;overflow:hidden;}
+  .uml-class-name{background:var(--azul);color:#fff;font-weight:700;padding:4px 8px;font-size:0.7rem;}
+  .uml-class-body{padding:6px 8px;}
+  .uml-class-body div{padding:1px 0;color:#cdd8f0;font-size:0.7rem;}
+  .uml-class-body div.method{color:#8DD17E;}
+  .uml-divider{border-top:1px solid rgba(66,133,244,0.4);margin:3px 0;}
+  .uml-abstract{border-color:var(--verde);}
+  .uml-abstract .uml-class-name{background:var(--verde);}
 
-  .slide-quote { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: center; padding: 60px 120px; position: relative; }
-  .quote-card { background: var(--branco); border-radius: 20px; padding: 48px 60px; max-width: 820px; text-align: center; }
-  .quote-card blockquote { font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.45; margin-bottom: 20px; }
-  .quote-card cite { font-size: 0.95rem; color: var(--verde); font-style: normal; font-weight: 600; }
+  .slide-quote{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:center;padding:60px 120px;position:relative;}
+  .quote-card{background:var(--branco);border-radius:20px;padding:48px 60px;max-width:820px;text-align:center;}
+  .quote-card blockquote{font-size:1.45rem;font-weight:600;color:var(--navy);line-height:1.45;margin-bottom:20px;}
+  .quote-card cite{font-size:0.95rem;color:var(--verde);font-style:normal;font-weight:600;}
 
-  .slide-atividade { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .slide-atividade h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
+  .slide-fim{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;position:relative;}
+  .slide-fim h1{font-size:3rem;font-weight:800;margin-bottom:20px;}
+  .fim-texto{font-size:1.05rem;line-height:1.7;max-width:680px;margin-bottom:20px;}
+  .fim-proxima{font-size:1rem;color:var(--verde);font-weight:600;margin-bottom:10px;}
+  .fim-prof{font-size:0.9rem;color:rgba(255,255,255,0.5);}
 
-  .slide-fim { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; position: relative; }
-  .slide-fim h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
-  .fim-texto { font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 20px; }
-  .fim-proxima { font-size: 1rem; color: var(--verde); font-weight: 600; margin-bottom: 10px; }
-  .fim-prof { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
-
-  .nav { position: fixed; bottom: 22px; right: 28px; display: flex; align-items: center; gap: 6px; background: var(--navy); border: 1px solid rgba(255,255,255,0.12); border-radius: 40px; padding: 6px 14px; z-index: 9999; }
-  .nav button, .nav a { background: none; border: none; color: var(--branco); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 20px; text-decoration: none; line-height: 1; transition: color 0.2s; font-family: var(--fonte); }
-  .nav button:hover, .nav a:hover { color: var(--azul); }
-  .nav button:disabled { opacity: 0.3; cursor: default; }
-  .counter { font-family: var(--fonte); font-size: 0.82rem; color: rgba(255,255,255,0.6); min-width: 54px; text-align: center; }
-
-  @media print {
-    @page { size: 1280px 720px; margin: 0; }
-    body { width: 1280px; height: 720px; }
-    .nav { display: none !important; }
-    .slide { display: none !important; }
-    .slide.active { display: flex !important; }
-  }
+  .nav{position:fixed;bottom:22px;right:28px;display:flex;align-items:center;gap:6px;background:var(--navy);border:1px solid rgba(255,255,255,0.12);border-radius:40px;padding:6px 14px;z-index:9999;}
+  .nav button,.nav a{background:none;border:none;color:var(--branco);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:20px;text-decoration:none;line-height:1;transition:color 0.2s;font-family:var(--fonte);}
+  .nav button:hover,.nav a:hover{color:var(--azul);}
+  .nav button:disabled{opacity:0.3;cursor:default;}
+  .counter{font-family:var(--fonte);font-size:0.82rem;color:rgba(255,255,255,0.6);min-width:54px;text-align:center;}
+  @media print{@page{size:1280px 720px;margin:0;}body{width:1280px;height:720px;}.nav{display:none!important;}.slide{display:none!important;}.slide.active{display:flex!important;}}
 </style>
 </head>
 <body>
@@ -121,295 +106,376 @@
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:30px;right:180px;transform:rotate(-22deg);"></div>
     <div class="deco-rect verde" style="width:120px;height:120px;bottom:-30px;left:60px;transform:rotate(-10deg);"></div>
     <div class="capa-logo"><img src="assets/logo-atomo.png" alt="Átomo logo"/></div>
-    <h1>Da lógica ao código</h1>
-    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP</div>
-    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 14/07/2026 · Terça · 19h–20h30</div>
+    <h1>AntiGravity + Modelagem Arquitetural</h1>
+    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP · Aula 2</div>
+    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 08/07/2026 · Terça · 19h–20h30</div>
   </section>
 
   <!-- AUDIODESCRIÇÃO -->
   <section class="slide slide-audio">
     <div class="deco-rect verde" style="width:260px;height:260px;top:-60px;right:-40px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect azul"  style="width:140px;height:140px;bottom:20px;right:80px;transform:rotate(-10deg);"></div>
     <h1>Audiodescrição</h1>
-    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais, como jaquetas e camisetas em tons neutros.</p>
+    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais.</p>
   </section>
-
-  <!-- SOBRE O PROFESSOR -->
-  <section class="slide slide-prof">
-    <div class="prof-foto-col">
-      <div class="deco-rect verde" style="width:180px;height:180px;top:-40px;left:-40px;transform:rotate(-12deg);"></div>
-      <div class="prof-foto-img"><img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1720832174/Captura_de_tela_2024-07-12_215408_kavbwl.png" alt="Prof. Afonso Cesar Lelis Brandão"/></div>
-    </div>
-    <div class="prof-info-col">
-      <div class="deco-rect azul" style="width:220px;height:220px;bottom:-50px;right:-50px;transform:rotate(-20deg);"></div>
-      <div class="prof-nome">Afonso Cesar Lelis Brandão</div>
-      <div class="prof-cargo">Professor · Engenharia, Computação &amp; IA</div>
-      <p class="prof-descricao">Atuo na fronteira entre <strong>engenharia</strong>, <strong>computação</strong> e <strong>dados</strong>. Engenheiro de formação e doutorando em engenharia da computação, trago para as lives a prática de quem constrói software de verdade — do raciocínio que antecede o código aos primeiros projetos reais.</p>
-      <p class="prof-descricao">Nestes quatro encontros, conduzo você do <strong>pensamento algorítmico</strong> até a <strong>orientação a objetos</strong>, sempre com a mão na massa.</p>
-    </div>
-  </section>
-
-  <!-- PRÉ-AULA -->
 
   <!-- SUMÁRIO -->
   <section class="slide slide-sumario">
     <div class="sumario-esq">
       <div class="deco-rect verde" style="width:200px;height:200px;bottom:-50px;left:-50px;transform:rotate(-15deg);"></div>
-      <div class="sumario-titulo">Da lógica ao código</div>
+      <div class="sumario-titulo">AntiGravity + Modelagem Arquitetural</div>
     </div>
     <div class="sumario-dir">
       <div class="deco-rect azul" style="width:160px;height:160px;top:-30px;right:20px;transform:rotate(-18deg);"></div>
       <h2>Sumário</h2>
       <ul>
-        <li>Variáveis e tipos de dados</li>
-        <li>Condicionais: if / elif / else</li>
-        <li>Repetição: for e while</li>
-        <li>Listas e dicionários</li>
-        <li>Funções: empacotando lógica</li>
-        <li>Mão na massa: controle de gastos</li>
+        <li>Recapitulando a Aula 1</li>
+        <li>O que é AntiGravity?</li>
+        <li>Instalando Python e AntiGravity</li>
+        <li>Modelagem com AntiGravity: domínio R.M</li>
+        <li>UML de Classes detalhado</li>
+        <li>Arquitetura da solução (camadas)</li>
+        <li>DBML: modelagem de dados</li>
       </ul>
     </div>
   </section>
 
-  <!-- CONTEÚDO 1 — VARIÁVEIS E TIPOS -->
+  <!-- RECAPITULANDO -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-60px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-20px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Variáveis e tipos de dados</h2>
+    <p class="kicker">Recapitulando · Aula 1</p>
+    <h2>Onde paramos na semana passada</h2>
     <div class="content-box">
-      <div class="code-block"><code>nome  = <span class="s">"Ana"</span>          <span class="c"># str  — texto</span>
-idade = <span class="n">22</span>             <span class="c"># int  — inteiro</span>
-nota  = <span class="n">8.5</span>            <span class="c"># float — decimal</span>
-ativo = <span class="k">True</span>           <span class="c"># bool — verdadeiro/falso</span></code></div>
-      <ul>
-        <li>Python é <strong>dinamicamente tipado</strong>: o tipo é inferido pelo valor.</li>
-        <li>Use <code>type(x)</code> para descobrir o tipo de qualquer variável.</li>
-        <li>Nomes de variáveis devem ser descritivos — <em>nota_final</em> é melhor que <em>nf</em>.</li>
-      </ul>
+      <div class="pontos-grid">
+        <div class="ponto"><h3>Business Drivers</h3><p>Automatizar orçamentos da Imobiliária R.M — precisão, velocidade, digitalização.</p></div>
+        <div class="ponto"><h3>Requisitos Funcionais</h3><p>3 tipos de imóvel, acréscimos, descontos, taxa de contrato parcelável, exportação CSV.</p></div>
+        <div class="ponto"><h3>Requisitos Não Funcionais</h3><p>OOP obrigatório, manutenibilidade, interoperabilidade, desempenho, segurança (SWEBOK 4.0).</p></div>
+        <div class="ponto"><h3>UML de Classes (rascunho)</h3><p>Imovel (abstract) → Apartamento, Casa, Estudio + Cliente + Contrato + Orcamento.</p></div>
+      </div>
+      <div class="callout">Hoje: instalar o ambiente, aprender AntiGravity e detalhar a arquitetura. Zero código de negócio ainda.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 2 — CONDICIONAIS -->
+  <!-- O QUE É ANTIGRAVITY -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:240px;height:240px;top:-70px;right:-40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-25deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Condicionais: if / elif / else</h2>
+    <div class="deco-rect azul" style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
+    <p class="kicker">Conceito</p>
+    <h2>O que é AntiGravity?</h2>
     <div class="content-box">
-      <div class="code-block"><code><span class="k">def</span> <span class="f">conceito</span>(nota):
-    <span class="k">if</span> nota &gt;= <span class="n">9.0</span>:
-        <span class="k">return</span> <span class="s">"A"</span>
-    <span class="k">elif</span> nota &gt;= <span class="n">7.0</span>:
-        <span class="k">return</span> <span class="s">"B"</span>
-    <span class="k">elif</span> nota &gt;= <span class="n">6.0</span>:
-        <span class="k">return</span> <span class="s">"C"</span>
-    <span class="k">else</span>:
-        <span class="k">return</span> <span class="s">"Reprovado"</span></code></div>
-      <p class="code-cap">Avalie apenas um bloco: o primeiro cujo teste for verdadeiro.</p>
+      <p>AntiGravity é um pacote Python que nasceu de um Easter Egg famoso da linguagem — <code>import antigravity</code> abre um quadrinho do xkcd sobre Python. Mas aqui usamos o conceito como <strong>filosofia de design</strong>:</p>
+      <ul>
+        <li><strong>Legibilidade primeiro:</strong> código que qualquer pessoa consegue ler e entender.</li>
+        <li><strong>Modelos explícitos:</strong> escrever a estrutura (classes, atributos, métodos) antes de implementar a lógica.</li>
+        <li><strong>Sem magia escondida:</strong> cada decisão de design é documentada e justificada.</li>
+        <li><strong>Iteração visual:</strong> usar diagramas como artefato de comunicação entre desenvolvedor e cliente.</li>
+      </ul>
+      <div class="callout">Na prática: vamos usar AntiGravity para escrever as classes como <em>esqueletos documentados</em> — só assinaturas e docstrings, sem lógica ainda.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 3 — FOR E WHILE -->
+  <!-- INSTALAÇÃO -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:190px;height:190px;top:-50px;right:80px;transform:rotate(-12deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-20px;transform:rotate(-20deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Repetição: for e while</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="c"># for — quantidade conhecida</span>
-soma = <span class="n">0</span>
-<span class="k">for</span> n <span class="k">in</span> <span class="f">range</span>(<span class="n">1</span>, <span class="n">11</span>):
-    soma += n
-<span class="f">print</span>(soma)   <span class="c"># -&gt; 55</span>
-
-<span class="c"># while — quantidade desconhecida</span>
-senha = <span class="s">""</span>
-<span class="k">while</span> senha != <span class="s">"1234"</span>:
-    senha = <span class="f">input</span>(<span class="s">"Senha: "</span>)</code></div>
-      <p class="code-cap">Use <em>for</em> quando sabe quantas iterações; <em>while</em> quando depende de uma condição.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 4 — LISTAS -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:50px;right:120px;transform:rotate(-10deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Listas e dicionários</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="c"># Lista — sequência ordenada</span>
-gastos = [<span class="n">120.0</span>, <span class="n">45.5</span>, <span class="n">200.0</span>]
-gastos.<span class="f">append</span>(<span class="n">80.0</span>)
-<span class="f">print</span>(<span class="f">len</span>(gastos), <span class="f">sum</span>(gastos))   <span class="c"># 4  445.5</span>
-
-<span class="c"># Dicionário — chave → valor</span>
-gasto = {<span class="s">"categoria"</span>: <span class="s">"alimentação"</span>, <span class="s">"valor"</span>: <span class="n">45.5</span>, <span class="s">"dia"</span>: <span class="n">3</span>}</code></div>
-      <p class="code-cap">Listas para sequências; dicionários para dados estruturados com rótulo.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 5 — FUNÇÕES -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:50px;transform:rotate(-15deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-23deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Funções: empacotando lógica</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">def</span> <span class="f">total_por_categoria</span>(gastos, categoria):
-    <span class="k">return</span> <span class="f">sum</span>(
-        g[<span class="s">"valor"</span>] <span class="k">for</span> g <span class="k">in</span> gastos
-        <span class="k">if</span> g[<span class="s">"categoria"</span>] == categoria
-    )</code></div>
-      <ul>
-        <li><strong>DRY</strong> — Don't Repeat Yourself: escreva a lógica uma vez, reutilize muitas.</li>
-        <li>Funções com nomes claros são autodocumentação.</li>
-        <li>Parâmetros com tipos e retorno explícitos evitam bugs silenciosos.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 6 — PROGRAMA COMPLETO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:210px;height:210px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-12deg);"></div>
     <p class="kicker">Mão na massa</p>
-    <h2>Mini-programa: controle de gastos</h2>
+    <h2>Instalando o Ambiente</h2>
     <div class="content-box">
-      <div class="code-block"><code>gastos = [
-    {<span class="s">"categoria"</span>: <span class="s">"alimentação"</span>, <span class="s">"valor"</span>: <span class="n">45.5</span>,  <span class="s">"dia"</span>: <span class="n">3</span>},
-    {<span class="s">"categoria"</span>: <span class="s">"transporte"</span>,  <span class="s">"valor"</span>: <span class="n">120.0</span>, <span class="s">"dia"</span>: <span class="n">3</span>},
-    {<span class="s">"categoria"</span>: <span class="s">"alimentação"</span>, <span class="s">"valor"</span>: <span class="n">38.0</span>,  <span class="s">"dia"</span>: <span class="n">4</span>},
-    {<span class="s">"categoria"</span>: <span class="s">"lazer"</span>,        <span class="s">"valor"</span>: <span class="n">200.0</span>, <span class="s">"dia"</span>: <span class="n">5</span>},
-]
-<span class="f">print</span>(<span class="s">f"Alimentação: R$ {<span class="f">total_por_categoria</span>(gastos, 'alimentação'):.2f}"</span>)</code></div>
-      <p class="code-cap">Resultado: Alimentação: R$ 83.50</p>
+      <p>Pré-requisito: Python 3.11+ instalado. Verifique:</p>
+      <div class="code-block"><code><span class="cm"># Verificar versão do Python</span>
+python --version
+<span class="cm"># Deve retornar: Python 3.11.x ou superior</span>
+
+<span class="cm"># Instalar o AntiGravity</span>
+pip install antigravity
+
+<span class="cm"># Confirmar instalação</span>
+python -c <span class="s">"import antigravity; print('OK')"</span>
+
+<span class="cm"># Criar ambiente virtual (boa prática)</span>
+python -m venv .venv
+<span class="cm"># Windows:</span>  .venv\Scripts\activate
+<span class="cm"># Mac/Linux:</span> source .venv/bin/activate</code></div>
+      <div class="callout-warn">Sempre use ambiente virtual — evita conflitos entre projetos.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 7 — RUST -->
+  <!-- EASTER EGG -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Curiosidade</p>
+    <h2>O Easter Egg do Python</h2>
+    <div class="content-box">
+      <div class="code-block"><code><span class="cm"># Cole isso no terminal Python e veja o que acontece:</span>
+<span class="k">import</span> antigravity</code></div>
+      <p>Abre o quadrinho <strong>xkcd #353</strong> no navegador — Python te ensina a voar.<br/>Mas além da piada, o import revela a <strong>filosofia Python</strong>:</p>
+      <ul>
+        <li><strong>Legibilidade conta</strong> — código é lido muito mais do que escrito.</li>
+        <li><strong>Explícito é melhor que implícito</strong> — diga o que o código faz.</li>
+        <li><strong>Simples é melhor que complexo</strong> — não complique sem necessidade.</li>
+      </ul>
+      <div class="callout">Esses princípios guiam como vamos modelar a Imobiliária R.M: classes simples, explícitas e legíveis.</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- MODELAGEM: ESQUELETO ANTIGRAVITY -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-15px;transform:rotate(-21deg);"></div>
-    <p class="kicker">Comparando linguagens · Python vs Rust</p>
-    <h2>O mesmo filtro em Rust</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">let</span> total_alimentacao: <span class="f">f64</span> = gastos
-    .<span class="f">iter</span>()
-    .<span class="f">filter</span>(|g| g.categoria == <span class="s">"alimentação"</span>)
-    .<span class="f">map</span>(|g| g.valor)
-    .<span class="f">sum</span>();
-<span class="f">println!</span>(<span class="s">"Alimentação: R$ {:.2}"</span>, total_alimentacao);</code></div>
-      <p class="code-cap">Em Rust, iteradores são lazy e zero-cost: o compilador os transforma em loops eficientes — sem alocação extra.</p>
+    <p class="kicker">AntiGravity · Modelagem</p>
+    <h2>Escrevendo o Esqueleto das Classes</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="k">from</span> abc <span class="k">import</span> ABC, abstractmethod
+
+<span class="k">class</span> <span class="f">Imovel</span>(ABC):
+    <span class="s">"""Classe base abstrata para todos os imóveis da R.M."""</span>
+
+    <span class="k">def</span> <span class="f">__init__</span>(self, valor_base: float, qtd_quartos: int, tem_garagem: bool):
+        self.valor_base = valor_base
+        self.qtd_quartos = qtd_quartos
+        self.tem_garagem = tem_garagem
+
+    <span class="n">@abstractmethod</span>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(self) -> float:
+        <span class="s">"""Retorna o valor mensal do aluguel com todos os acréscimos."""</span>
+        ...
+
+<span class="k">class</span> <span class="f">Apartamento</span>(Imovel):
+    <span class="s">"""Apartamento com possibilidade de desconto de 5%."""</span>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(self) -> float: ...
+
+<span class="k">class</span> <span class="f">Casa</span>(Imovel):
+    <span class="s">"""Casa com acréscimo de R$250 por quarto adicional."""</span>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(self) -> float: ...</code></div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
 
-  <!-- CITAÇÃO -->
+  <!-- UML DETALHADO -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:180px;height:180px;top:-50px;right:-20px;transform:rotate(-18deg);"></div>
+    <p class="kicker">Modelagem · UML de Classes detalhado</p>
+    <h2>Diagrama Completo — Imobiliária R.M</h2>
+    <div class="content-box" style="padding:14px 18px;">
+      <div class="uml-full">
+        <div class="uml-class uml-abstract">
+          <div class="uml-class-name">«abstract» Imovel</div>
+          <div class="uml-class-body">
+            <div>- valor_base: float</div>
+            <div>- qtd_quartos: int</div>
+            <div>- tem_garagem: bool</div>
+            <div class="uml-divider"></div>
+            <div class="method">+calcular_aluguel(): float</div>
+            <div class="method">+adicionar_garagem(): float</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div class="uml-class">
+            <div class="uml-class-name">Apartamento</div>
+            <div class="uml-class-body">
+              <div>- cliente_sem_criancas: bool</div>
+              <div class="uml-divider"></div>
+              <div class="method">+calcular_aluguel()</div>
+              <div class="method">+aplicar_desconto()</div>
+            </div>
+          </div>
+          <div class="uml-class">
+            <div class="uml-class-name">Casa</div>
+            <div class="uml-class-body">
+              <div class="uml-divider"></div>
+              <div class="method">+calcular_aluguel()</div>
+              <div class="method">+acrescimo_quarto()</div>
+            </div>
+          </div>
+          <div class="uml-class">
+            <div class="uml-class-name">Estudio</div>
+            <div class="uml-class-body">
+              <div>- qtd_vagas_extra: int</div>
+              <div class="uml-divider"></div>
+              <div class="method">+calcular_aluguel()</div>
+              <div class="method">+calc_vagas_estudio()</div>
+            </div>
+          </div>
+        </div>
+        <div class="uml-class">
+          <div class="uml-class-name">Cliente</div>
+          <div class="uml-class-body">
+            <div>+ id: int (PK)</div>
+            <div>+ nome: str</div>
+            <div>+ possui_criancas: bool</div>
+          </div>
+        </div>
+        <div class="uml-class">
+          <div class="uml-class-name">Contrato</div>
+          <div class="uml-class-body">
+            <div>+ id: int (PK)</div>
+            <div>+ valor_taxa: float=2000</div>
+            <div>+ qtd_parcelas: int ≤5</div>
+            <div class="uml-divider"></div>
+            <div class="method">+calcular_parcela()</div>
+          </div>
+        </div>
+        <div class="uml-class uml-abstract">
+          <div class="uml-class-name">Orcamento</div>
+          <div class="uml-class-body">
+            <div>+ id: int (PK)</div>
+            <div>+ cliente: Cliente</div>
+            <div>+ imovel: Imovel</div>
+            <div>+ contrato: Contrato</div>
+            <div>+ data_criacao: datetime</div>
+            <div class="uml-divider"></div>
+            <div class="method">+gerar_mensal(): float</div>
+            <div class="method">+exportar_csv(): str</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- ARQUITETURA EM CAMADAS -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:50px;transform:rotate(-15deg);"></div>
+    <p class="kicker">Arquitetura</p>
+    <h2>Solução em Camadas</h2>
+    <div class="content-box">
+      <div class="arch-box">
+        <div class="arch-layer">
+          <h3 class="azul">Camada de Domínio (Domain)</h3>
+          <ul>
+            <li>Imovel (abstract), Apartamento, Casa, Estudio</li>
+            <li>Cliente, Contrato, Orcamento</li>
+            <li>Regras de negócio puras — zero dependência externa</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h3 class="verde">Camada de Serviço (Service)</h3>
+          <ul>
+            <li>OrcamentoService: orquestra o cálculo</li>
+            <li>ExportService: gera CSV das 12 parcelas</li>
+            <li>Valida entradas antes de passar ao domínio</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h3 class="azul">Camada de Repositório (Repository)</h3>
+          <ul>
+            <li>ClienteRepository, ImovelRepository</li>
+            <li>Persiste e recupera dados (dict em memória por ora)</li>
+            <li>Isolado: troca por banco sem tocar o domínio</li>
+          </ul>
+        </div>
+        <div class="arch-layer">
+          <h3 class="verde">Camada de Interface (UI)</h3>
+          <ul>
+            <li>Terminal (MVP) ou Interface Web</li>
+            <li>Decisão pendente — depende da escolha de tecnologia</li>
+            <li>Nunca contém regra de negócio</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-warn" style="margin-top:12px;">UI → Service → Domain. Dependências sempre fluem para dentro.</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- DBML -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Modelagem de Dados · DBML</p>
+    <h2>Esquema Relacional</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="cm">// dbdiagram.io — Imobiliária R.M</span>
+
+Table Clientes {
+  id integer [primary key, increment]
+  nome varchar
+  possui_criancas boolean <span class="c">// desconto 5% em aptos</span>
+}
+
+Table Imoveis {
+  id integer [primary key, increment]
+  tipo varchar <span class="c">// Apartamento | Casa | Estudio</span>
+  valor_base float
+  qtd_quartos integer
+  tem_garagem boolean
+  qtd_vagas_estudio integer
+}
+
+Table Contratos {
+  id integer [primary key, increment]
+  valor_taxa float [default: 2000.00]
+  qtd_parcelas integer <span class="c">// max 5</span>
+}
+
+Table Orcamentos {
+  id integer [primary key, increment]
+  cliente_id integer
+  imovel_id integer
+  contrato_id integer
+  valor_mensal_final float
+  data_criacao datetime
+}
+
+Ref: Orcamentos.cliente_id > Clientes.id
+Ref: Orcamentos.imovel_id > Imoveis.id
+Ref: Orcamentos.contrato_id > Contratos.id</code></div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- QUOTE -->
   <section class="slide slide-quote">
     <div class="deco-rect verde" style="width:300px;height:300px;top:-80px;left:-60px;transform:rotate(-14deg);"></div>
     <div class="deco-rect azul"  style="width:180px;height:180px;bottom:-40px;right:-30px;transform:rotate(-20deg);"></div>
     <div class="quote-card">
-      <blockquote>"Programas devem ser escritos para pessoas lerem e, só de passagem, para máquinas executarem."</blockquote>
-      <cite>— Harold Abelson, SICP</cite>
+      <blockquote>"Design is not just what it looks like. Design is how it works."</blockquote>
+      <cite>— Steve Jobs</cite>
     </div>
   </section>
 
   <!-- PONTOS-CHAVE -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:80px;transform:rotate(-22deg);"></div>
+    <div class="deco-rect azul" style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
     <p class="kicker">Recapitulando</p>
     <h2>Pontos-chave</h2>
     <div class="content-box">
       <div class="pontos-grid">
-        <div class="ponto"><h3>Variáveis e tipos</h3><p>str, int, float e bool são os blocos básicos; Python infere o tipo.</p></div>
-        <div class="ponto"><h3>Controle de fluxo</h3><p>if/elif/else para decisões; for e while para repetição.</p></div>
-        <div class="ponto"><h3>Estruturas de dados</h3><p>Listas para sequências; dicionários para dados com rótulo.</p></div>
-        <div class="ponto"><h3>Funções</h3><p>Empacotam lógica reutilizável — DRY em ação.</p></div>
+        <div class="ponto"><h3>Ambiente configurado</h3><p>Python 3.11+, venv ativo, AntiGravity instalado — base para as próximas aulas.</p></div>
+        <div class="ponto"><h3>Esqueleto antes da lógica</h3><p>Classes com assinaturas e docstrings comunicam a intenção sem implementar nada ainda.</p></div>
+        <div class="ponto"><h3>Arquitetura em camadas</h3><p>Domain → Service → Repository → UI. Cada camada com responsabilidade única.</p></div>
+        <div class="ponto"><h3>DBML documenta os dados</h3><p>O esquema relacional completa o UML: entidades, atributos e relacionamentos explícitos.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
-  </section>
-
-  <!-- ATIVIDADE -->
-  <section class="slide slide-atividade">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:20px;right:-15px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Atividade prática</p>
-    <h2>Mãos à obra</h2>
-    <div class="content-box">
-      <p>Com a lista de gastos do exemplo:</p>
-      <ul>
-        <li>Encontre a <strong>categoria com maior gasto total</strong>.</li>
-        <li>Calcule a <strong>média diária</strong> de gastos.</li>
-        <li><strong>Desafio</strong>: adicione um alerta se alguma categoria ultrapassar um orçamento definido pelo usuário.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 14/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
 
   <!-- ENCERRAMENTO -->
   <section class="slide slide-fim">
     <div class="deco-rect verde" style="width:360px;height:360px;top:-90px;right:-70px;transform:rotate(-16deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:-50px;right:140px;transform:rotate(-24deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:40px;left:80px;transform:rotate(-10deg);"></div>
-    <h1>Até a próxima!</h1>
-    <p class="fim-texto">Você tem agora as ferramentas fundamentais de Python: variáveis, condicionais, loops, listas, dicionários e funções. Com essas peças, qualquer problema pode ser decomposto e resolvido.</p>
-    <p class="fim-proxima">Próxima aula: Aula 03 · Introdução à Orientação a Objetos.</p>
+    <h1>Arquitetura pronta!</h1>
+    <p class="fim-texto">Temos ambiente configurado, classes esboçadas, arquitetura em camadas e esquema de dados definido. Na próxima aula, finalmente escrevemos a <strong>implementação completa em Python</strong> — com herança, polimorfismo e exportação CSV.</p>
+    <p class="fim-proxima">Próxima aula (Aula 3): Implementação OOP em Python · 15/07/2026</p>
     <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
   </section>
 
 </div>
 
-<nav class="nav" role="navigation" aria-label="Navegação dos slides">
-  <a class="nav-home" href="index.html" title="Voltar as aulas" aria-label="Voltar as aulas">&#8962;</a>
-  <button id="prev" aria-label="Slide anterior">‹</button>
+<nav class="nav">
+  <a href="index.html" title="Voltar às aulas">&#8962;</a>
+  <button id="prev">‹</button>
   <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
-  <button id="next" aria-label="Próximo slide">›</button>
+  <button id="next">›</button>
 </nav>
-
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const cur = document.getElementById('cur');
-  const total = document.getElementById('total');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  let i = 0;
-  total.textContent = slides.length;
-  function show(n) {
-    n = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
-    cur.textContent = n + 1;
-    prev.disabled = (n === 0);
-    next.disabled = (n === slides.length - 1);
-    i = n;
-    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
-  }
-  prev.addEventListener('click', () => show(i - 1));
-  next.addEventListener('click', () => show(i + 1));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { e.preventDefault(); show(i - 1); }
-    if (e.key === 'Home') show(0);
-    if (e.key === 'End')  show(slides.length - 1);
-  });
-  const hash = parseInt(location.hash.replace('#', ''), 10);
-  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
-  show(i);
-  function scaleDeck() {
-    const deck = document.querySelector('.deck');
-    const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    deck.style.transform = 'scale(' + s + ')';
-  }
-  scaleDeck();
-  window.addEventListener('resize', scaleDeck);
+  const slides=document.querySelectorAll('.slide'),cur=document.getElementById('cur'),total=document.getElementById('total'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  let i=0;total.textContent=slides.length;
+  function show(n){n=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,idx)=>s.classList.toggle('active',idx===n));cur.textContent=n+1;prev.disabled=(n===0);next.disabled=(n===slides.length-1);i=n;if(history.replaceState)history.replaceState(null,'','#'+(n+1));}
+  prev.addEventListener('click',()=>show(i-1));next.addEventListener('click',()=>show(i+1));
+  document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+  const hash=parseInt(location.hash.replace('#',''),10);if(!isNaN(hash)&&hash>=1&&hash<=slides.length)i=hash-1;show(i);
+  function scaleDeck(){const s=Math.min(window.innerWidth/1280,window.innerHeight/720);document.querySelector('.deck').style.transform='scale('+s+')';}
+  scaleDeck();window.addEventListener('resize',scaleDeck);
 </script>
 </body>
 </html>

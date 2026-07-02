@@ -8,12 +8,12 @@
   :root{
     --azul-fecaf:#002057;--azul-claro:#143a73;--amarelo:#F0CE29;
     --cinza:#eef1f7;--linha:#e2e8f3;--texto:#1c2536;--texto-suave:#5f6b80;--branco:#fff;
+    --verde:#17A460;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--cinza);color:var(--texto);line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
 
-  /* HERO */
   header.hero{
     background:linear-gradient(135deg,#001a47 0%, var(--azul-fecaf) 50%, var(--azul-claro) 100%);
     color:var(--branco);padding:58px 0 54px;position:relative;overflow:hidden;
@@ -27,12 +27,18 @@
   .fact{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:11px 17px;border-radius:12px;font-weight:600;font-size:.92rem;}
   .fact b{color:var(--amarelo);font-weight:800;}
 
-  /* SECTION HEAD */
+  .notebook-banner{background:rgba(23,164,96,0.10);border:1px solid rgba(23,164,96,0.35);border-radius:14px;padding:16px 22px;margin:32px 0 0;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .notebook-icon{font-size:1.6rem;flex-shrink:0;}
+  .notebook-text{flex:1;}
+  .notebook-text strong{display:block;color:var(--verde);font-size:0.88rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
+  .notebook-text span{font-size:0.92rem;color:rgba(255,255,255,0.82);}
+  .notebook-link{display:inline-flex;align-items:center;gap:7px;background:var(--verde);color:#fff;font-weight:700;font-size:.85rem;padding:10px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:opacity .2s;}
+  .notebook-link:hover{opacity:.85;}
+
   .head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin:44px 0 22px;flex-wrap:wrap;}
   .head h2{font-size:1.25rem;color:var(--azul-fecaf);font-weight:800;}
   .head p{color:var(--texto-suave);font-size:.92rem;}
 
-  /* GRID */
   main{padding-bottom:64px;}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;align-items:stretch;}
   @media(max-width:780px){.grid{grid-template-columns:1fr;}}
@@ -73,12 +79,23 @@
     <div class="wrap">
       <span class="eyebrow">Lives Complementares · UniFECAF</span>
       <h1>Algorithmic Thinking &amp; <span>Introduction to Object-Oriented Programming</span></h1>
-      <p class="sub">Quatro encontros ao vivo, mão na massa, complementando a disciplina — do pensamento algorítmico aos primeiros projetos orientados a objetos.</p>
+      <p class="sub">Quatro encontros ao vivo, mão na massa — do pensamento algorítmico ao produto deployado. Projeto prático: sistema de orçamento de aluguel para a Imobiliária R.M.</p>
       <div class="facts">
         <div class="fact">📅 <b>Terças-feiras</b></div>
         <div class="fact">🕖 <b>19:00 – 20:30</b></div>
         <div class="fact">⏱️ <b>1h30</b> por aula</div>
         <div class="fact">💻 <b>4</b> encontros práticos</div>
+      </div>
+      <div class="notebook-banner">
+        <div class="notebook-icon">🎧</div>
+        <div class="notebook-text">
+          <strong>NotebookLM · Material de apoio</strong>
+          <span>Resumos, perguntas e respostas sobre o conteúdo das 4 aulas — disponível para estudo assíncrono.</span>
+        </div>
+        <a class="notebook-link" href="https://notebooklm.google.com/notebook/81d46e1a-db86-48f5-9e02-7064e7f7d461?authuser=1" target="_blank" rel="noopener">
+          Abrir NotebookLM
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
       </div>
     </div>
   </header>
@@ -87,61 +104,61 @@
     <div class="wrap">
       <div class="head">
         <h2>As 4 aulas</h2>
-        <p>Clique em um card para ver o roteiro completo.</p>
+        <p>Clique em um card para abrir os slides.</p>
       </div>
 
       <div class="grid">
 
         <a class="card" href="aula1.html">
-          <div class="card-head"><span class="tag">Aula 01</span><span class="date">07/07 · Ter</span></div>
-          <h3>Pensamento algorítmico na prática</h3>
+          <div class="card-head"><span class="tag">Aula 01</span><span class="date">02/07 · Ter</span></div>
+          <h3>Decomposição e Modelagem de Requisitos</h3>
           <div class="metaline"><span>🕖 19:00–20:30</span><span>⏱️ 1h30</span></div>
           <span class="mao">Mão na massa</span>
           <ul class="topics">
-            <li>Decompor problemas e reconhecer padrões</li>
-            <li>Lógica, fluxo de execução e pseudocódigo</li>
-            <li>Dos primeiros raciocínios ao código</li>
+            <li>Business Drivers e Requisitos Funcionais da Imobiliária R.M</li>
+            <li>Requisitos Não Funcionais (SWEBOK 4.0)</li>
+            <li>UML de Classes + escolha de tecnologia</li>
           </ul>
-          <span class="go">Ver aula <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="go">Ver slides <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="card" href="aula2.html">
-          <div class="card-head"><span class="tag">Aula 02</span><span class="date">14/07 · Ter</span></div>
-          <h3>Da lógica ao código</h3>
+          <div class="card-head"><span class="tag">Aula 02</span><span class="date">08/07 · Ter</span></div>
+          <h3>AntiGravity + Modelagem Arquitetural</h3>
           <div class="metaline"><span>🕖 19:00–20:30</span><span>⏱️ 1h30</span></div>
           <span class="mao">Mão na massa</span>
           <ul class="topics">
-            <li>Variáveis, condicionais e loops</li>
-            <li>Listas, dicionários e funções</li>
-            <li>Construindo um mini-programa completo</li>
+            <li>Instalar Python, venv e AntiGravity</li>
+            <li>Esqueleto das classes (assinaturas + docstrings)</li>
+            <li>Arquitetura em camadas + DBML</li>
           </ul>
-          <span class="go">Ver aula <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="go">Ver slides <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="card" href="aula3.html">
-          <div class="card-head"><span class="tag">Aula 03</span><span class="date">21/07 · Ter</span></div>
-          <h3>Introdução à Orientação a Objetos</h3>
+          <div class="card-head"><span class="tag">Aula 03</span><span class="date">15/07 · Ter</span></div>
+          <h3>Implementação OOP em Python</h3>
           <div class="metaline"><span>🕖 19:00–20:30</span><span>⏱️ 1h30</span></div>
           <span class="mao">Mão na massa</span>
           <ul class="topics">
-            <li>Classes, objetos, atributos e métodos</li>
-            <li>Encapsulamento e estado dos objetos</li>
-            <li>Modelando o mundo real em código</li>
+            <li>Herança: Apartamento, Casa e Estudio</li>
+            <li>Polimorfismo, composição e exportação CSV</li>
+            <li>Interface Streamlit conectada ao domínio</li>
           </ul>
-          <span class="go">Ver aula <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="go">Ver slides <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
 
         <a class="card" href="aula4.html">
-          <div class="card-head"><span class="tag">Aula 04</span><span class="date">28/07 · Ter</span></div>
-          <h3>POO na prática &amp; mini-projeto</h3>
+          <div class="card-head"><span class="tag">Aula 04</span><span class="date">22/07 · Ter</span></div>
+          <h3>Testando NFRs, Métricas e Deploy</h3>
           <div class="metaline"><span>🕖 19:00–20:30</span><span>⏱️ 1h30</span></div>
           <span class="mao">Mão na massa</span>
           <ul class="topics">
-            <li>Herança e reutilização de código</li>
-            <li>Polimorfismo na prática</li>
-            <li>Projeto final construído do zero ao vivo</li>
+            <li>Locust: 1.000 usuários simultâneos</li>
+            <li>Métricas NFR: latência, throughput, segurança</li>
+            <li>Deploy no Streamlit Community Cloud</li>
           </ul>
-          <span class="go">Ver aula <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="go">Ver slides <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
         </a>
 
       </div>

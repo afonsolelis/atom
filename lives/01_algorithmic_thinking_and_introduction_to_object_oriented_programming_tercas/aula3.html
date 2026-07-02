@@ -1,117 +1,71 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aula 3 — Introdução à Orientação a Objetos · Live 01</title>
+<title>Aula 3 — Implementação OOP em Python · Live 01</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --navy: #1A3666;
-    --navy-dark: #132D42;
-    --verde: #17A460;
-    --azul: #4285F4;
-    --branco: #FFFFFF;
-    --fonte: 'Poppins', sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); margin: 0; display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; overflow: hidden; }
-  .deck { width: 1280px; height: 720px; position: relative; }
-  .slide { position: absolute; inset: 0; width: 1280px; height: 720px; display: none; overflow: hidden; }
-  .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-  .deco-rect { position: absolute; border-radius: 28px; pointer-events: none; }
-  .deco-rect.verde { border: 4px solid var(--verde); }
-  .deco-rect.azul  { border: 4px solid var(--azul); }
-
-  .slide-capa { background: var(--branco); flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 100px; }
-  .capa-logo { margin-bottom: 28px; }
-  .capa-logo img { height: 56px; }
-  .slide-capa h1 { font-size: 3rem; font-weight: 800; color: var(--navy); line-height: 1.1; max-width: 760px; margin-bottom: 16px; }
-  .capa-subtitulo { font-size: 1.1rem; font-weight: 500; color: var(--verde); margin-bottom: 8px; }
-  .capa-docente { font-size: 0.95rem; font-weight: 400; color: #555; }
-
-  .slide-audio { background: var(--navy); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; }
-  .slide-audio h1 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--verde); }
-  .slide-audio p  { font-size: 1.05rem; line-height: 1.7; max-width: 700px; }
-
-  .slide-prof { background: var(--navy); flex-direction: row; align-items: stretch; justify-content: flex-start; }
-  .prof-foto-col { width: 380px; background: var(--navy-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px 30px; position: relative; }
-  .prof-foto-img { width: 180px; height: 180px; border-radius: 50%; background: #2a4a7f; overflow: hidden; margin-bottom: 20px; border: 4px solid var(--verde); }
-  .prof-foto-img img { width: 100%; height: 100%; object-fit: cover; }
-  .prof-info-col { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .prof-nome { font-size: 1.9rem; font-weight: 800; margin-bottom: 6px; }
-  .prof-cargo { font-size: 0.95rem; color: var(--verde); font-weight: 500; margin-bottom: 24px; }
-  .prof-descricao { font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; }
-
-  .slide-pre { background: var(--navy); flex-direction: column; justify-content: center; align-items: center; }
-  .slide-pre img { max-height: 580px; max-width: 1100px; object-fit: contain; }
-
-  .slide-sumario { background: var(--navy); flex-direction: row; align-items: stretch; }
-  .sumario-esq { width: 420px; background: var(--navy-dark); display: flex; flex-direction: column; justify-content: center; padding: 60px 50px; flex-shrink: 0; position: relative; }
-  .sumario-titulo { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
-  .sumario-dir { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .sumario-dir h2 { font-size: 1.3rem; font-weight: 700; color: var(--verde); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .sumario-dir ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .sumario-dir ul li { font-size: 1.05rem; padding-left: 20px; position: relative; }
-  .sumario-dir ul li::before { content: '▸'; position: absolute; left: 0; color: var(--verde); }
-
-  .slide-content-wrap { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .kicker { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--verde); margin-bottom: 8px; }
-  .slide-content-wrap h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-  .content-box { background: var(--navy-dark); border-radius: 16px; padding: 28px 36px; width: 100%; flex: 1; overflow: hidden; position: relative; }
-  .content-box p { font-size: 0.97rem; line-height: 1.65; margin-bottom: 12px; }
-  .content-box ul { padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
-  .content-box ul li { font-size: 0.97rem; line-height: 1.6; }
-  .content-box ul li strong { color: var(--verde); }
-  .slide-footer { position: absolute; bottom: 18px; left: 80px; right: 80px; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
-
-  .pontos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 8px; }
-  .ponto { border-left: 4px solid var(--verde); padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 0 8px 8px 0; }
-  .ponto h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--verde); }
-  .ponto p  { font-size: 0.88rem; line-height: 1.5; margin: 0; }
-
-  .code-block { background: #0d1b2e; border-radius: 10px; padding: 18px 22px; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; overflow-x: auto; margin: 10px 0; white-space: pre; }
-  .code-block code { display: block; }
-  .k { color: #F0CE29; }
-  .f { color: #2BBBE0; }
-  .s { color: #8DD17E; }
-  .n { color: #E48BB0; }
-  .c { color: #7c89ad; font-style: italic; }
-  .p { color: #2BBBE0; font-weight: bold; }
-  .code-cap { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-style: italic; margin-top: 6px; margin-bottom: 0; }
-
-  .callout-azul { background: rgba(66,133,244,0.12); border-left: 4px solid var(--azul); border-radius: 0 8px 8px 0; padding: 12px 18px; font-size: 0.9rem; line-height: 1.5; margin-top: 10px; }
-
-  .slide-quote { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: center; padding: 60px 120px; position: relative; }
-  .quote-card { background: var(--branco); border-radius: 20px; padding: 48px 60px; max-width: 820px; text-align: center; }
-  .quote-card blockquote { font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.45; margin-bottom: 20px; }
-  .quote-card cite { font-size: 0.95rem; color: var(--verde); font-style: normal; font-weight: 600; }
-
-  .slide-atividade { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .slide-atividade h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-
-  .slide-fim { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; position: relative; }
-  .slide-fim h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
-  .fim-texto { font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 20px; }
-  .fim-proxima { font-size: 1rem; color: var(--verde); font-weight: 600; margin-bottom: 10px; }
-  .fim-prof { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
-
-  .nav { position: fixed; bottom: 22px; right: 28px; display: flex; align-items: center; gap: 6px; background: var(--navy); border: 1px solid rgba(255,255,255,0.12); border-radius: 40px; padding: 6px 14px; z-index: 9999; }
-  .nav button, .nav a { background: none; border: none; color: var(--branco); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 20px; text-decoration: none; line-height: 1; transition: color 0.2s; font-family: var(--fonte); }
-  .nav button:hover, .nav a:hover { color: var(--azul); }
-  .nav button:disabled { opacity: 0.3; cursor: default; }
-  .counter { font-family: var(--fonte); font-size: 0.82rem; color: rgba(255,255,255,0.6); min-width: 54px; text-align: center; }
-
-  @media print {
-    @page { size: 1280px 720px; margin: 0; }
-    body { width: 1280px; height: 720px; }
-    .nav { display: none !important; }
-    .slide { display: none !important; }
-    .slide.active { display: flex !important; }
-  }
+  :root{--navy:#1A3666;--navy-dark:#132D42;--verde:#17A460;--azul:#4285F4;--branco:#FFFFFF;--fonte:'Poppins',sans-serif;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--fonte);background:#0a0e1a;color:var(--branco);margin:0;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;overflow:hidden;}
+  .deck{width:1280px;height:720px;position:relative;}
+  .slide{position:absolute;inset:0;width:1280px;height:720px;display:none;overflow:hidden;}
+  .slide.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+  .deco-rect{position:absolute;border-radius:28px;pointer-events:none;}
+  .deco-rect.verde{border:4px solid var(--verde);} .deco-rect.azul{border:4px solid var(--azul);}
+  .slide-capa{background:var(--branco);flex-direction:column;justify-content:center;align-items:flex-start;padding:0 100px;}
+  .capa-logo{margin-bottom:28px;} .capa-logo img{height:56px;}
+  .slide-capa h1{font-size:3rem;font-weight:800;color:var(--navy);line-height:1.1;max-width:760px;margin-bottom:16px;}
+  .capa-subtitulo{font-size:1.1rem;font-weight:500;color:var(--verde);margin-bottom:8px;}
+  .capa-docente{font-size:0.95rem;font-weight:400;color:#555;}
+  .slide-audio{background:var(--navy);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;}
+  .slide-audio h1{font-size:2rem;font-weight:700;margin-bottom:20px;color:var(--verde);}
+  .slide-audio p{font-size:1.05rem;line-height:1.7;max-width:700px;}
+  .slide-sumario{background:var(--navy);flex-direction:row;align-items:stretch;}
+  .sumario-esq{width:420px;background:var(--navy-dark);display:flex;flex-direction:column;justify-content:center;padding:60px 50px;flex-shrink:0;position:relative;}
+  .sumario-titulo{font-size:1.6rem;font-weight:800;line-height:1.2;}
+  .sumario-dir{flex:1;padding:60px 70px;display:flex;flex-direction:column;justify-content:center;}
+  .sumario-dir h2{font-size:1.3rem;font-weight:700;color:var(--verde);margin-bottom:24px;text-transform:uppercase;letter-spacing:0.08em;}
+  .sumario-dir ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .sumario-dir ul li{font-size:1.05rem;padding-left:20px;position:relative;}
+  .sumario-dir ul li::before{content:'▸';position:absolute;left:0;color:var(--verde);}
+  .slide-content-wrap{background:var(--navy);flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:48px 80px;position:relative;}
+  .kicker{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--verde);margin-bottom:8px;}
+  .slide-content-wrap h2{font-size:1.8rem;font-weight:800;margin-bottom:20px;line-height:1.15;}
+  .content-box{background:var(--navy-dark);border-radius:16px;padding:28px 36px;width:100%;flex:1;overflow:hidden;position:relative;}
+  .content-box p{font-size:0.97rem;line-height:1.65;margin-bottom:12px;}
+  .content-box ul{padding-left:22px;display:flex;flex-direction:column;gap:10px;}
+  .content-box ul li{font-size:0.97rem;line-height:1.6;}
+  .content-box ul li strong{color:var(--verde);}
+  .slide-footer{position:absolute;bottom:18px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(255,255,255,0.4);}
+  .pontos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;margin-top:8px;}
+  .ponto{border-left:4px solid var(--verde);padding:14px 18px;background:rgba(255,255,255,0.04);border-radius:0 8px 8px 0;}
+  .ponto h3{font-size:0.95rem;font-weight:700;margin-bottom:6px;color:var(--verde);}
+  .ponto p{font-size:0.88rem;line-height:1.5;margin:0;}
+  .code-block{background:#0d1b2e;border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.6;overflow-x:auto;margin:8px 0;white-space:pre;}
+  .code-block code{display:block;}
+  .k{color:#F0CE29;} .f{color:#2BBBE0;} .s{color:#8DD17E;} .n{color:#E48BB0;} .c{color:#7c89ad;font-style:italic;} .cm{color:#a8b4d0;}
+  .callout{background:rgba(23,164,96,0.12);border-left:4px solid var(--verde);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.88rem;line-height:1.5;margin-top:8px;}
+  .callout-warn{background:rgba(66,133,244,0.12);border-left:4px solid var(--azul);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.88rem;line-height:1.5;margin-top:8px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .slide-quote{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:center;padding:60px 120px;position:relative;}
+  .quote-card{background:var(--branco);border-radius:20px;padding:48px 60px;max-width:820px;text-align:center;}
+  .quote-card blockquote{font-size:1.45rem;font-weight:600;color:var(--navy);line-height:1.45;margin-bottom:20px;}
+  .quote-card cite{font-size:0.95rem;color:var(--verde);font-style:normal;font-weight:600;}
+  .slide-fim{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;position:relative;}
+  .slide-fim h1{font-size:3rem;font-weight:800;margin-bottom:20px;}
+  .fim-texto{font-size:1.05rem;line-height:1.7;max-width:680px;margin-bottom:20px;}
+  .fim-proxima{font-size:1rem;color:var(--verde);font-weight:600;margin-bottom:10px;}
+  .fim-prof{font-size:0.9rem;color:rgba(255,255,255,0.5);}
+  .nav{position:fixed;bottom:22px;right:28px;display:flex;align-items:center;gap:6px;background:var(--navy);border:1px solid rgba(255,255,255,0.12);border-radius:40px;padding:6px 14px;z-index:9999;}
+  .nav button,.nav a{background:none;border:none;color:var(--branco);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:20px;text-decoration:none;line-height:1;transition:color 0.2s;font-family:var(--fonte);}
+  .nav button:hover,.nav a:hover{color:var(--azul);}
+  .nav button:disabled{opacity:0.3;cursor:default;}
+  .counter{font-family:var(--fonte);font-size:0.82rem;color:rgba(255,255,255,0.6);min-width:54px;text-align:center;}
+  @media print{@page{size:1280px 720px;margin:0;}body{width:1280px;height:720px;}.nav{display:none!important;}.slide{display:none!important;}.slide.active{display:flex!important;}}
 </style>
 </head>
 <body>
@@ -121,324 +75,266 @@
   <section class="slide slide-capa active">
     <div class="deco-rect verde" style="width:340px;height:340px;top:-80px;right:-60px;transform:rotate(-15deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:30px;right:180px;transform:rotate(-22deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:-30px;left:60px;transform:rotate(-10deg);"></div>
     <div class="capa-logo"><img src="assets/logo-atomo.png" alt="Átomo logo"/></div>
-    <h1>Introdução à Orientação a Objetos</h1>
-    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP</div>
-    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 21/07/2026 · Terça · 19h–20h30</div>
+    <h1>Implementação OOP em Python</h1>
+    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP · Aula 3</div>
+    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 15/07/2026 · Terça · 19h–20h30</div>
   </section>
 
   <!-- AUDIODESCRIÇÃO -->
   <section class="slide slide-audio">
-    <div class="deco-rect verde" style="width:260px;height:260px;top:-60px;right:-40px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect azul"  style="width:140px;height:140px;bottom:20px;right:80px;transform:rotate(-10deg);"></div>
     <h1>Audiodescrição</h1>
-    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais, como jaquetas e camisetas em tons neutros.</p>
+    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais.</p>
   </section>
-
-  <!-- SOBRE O PROFESSOR -->
-  <section class="slide slide-prof">
-    <div class="prof-foto-col">
-      <div class="deco-rect verde" style="width:180px;height:180px;top:-40px;left:-40px;transform:rotate(-12deg);"></div>
-      <div class="prof-foto-img"><img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1720832174/Captura_de_tela_2024-07-12_215408_kavbwl.png" alt="Prof. Afonso Cesar Lelis Brandão"/></div>
-    </div>
-    <div class="prof-info-col">
-      <div class="deco-rect azul" style="width:220px;height:220px;bottom:-50px;right:-50px;transform:rotate(-20deg);"></div>
-      <div class="prof-nome">Afonso Cesar Lelis Brandão</div>
-      <div class="prof-cargo">Professor · Engenharia, Computação &amp; IA</div>
-      <p class="prof-descricao">Atuo na fronteira entre <strong>engenharia</strong>, <strong>computação</strong> e <strong>dados</strong>. Engenheiro de formação e doutorando em engenharia da computação, trago para as lives a prática de quem constrói software de verdade — do raciocínio que antecede o código aos primeiros projetos reais.</p>
-      <p class="prof-descricao">Nestes quatro encontros, conduzo você do <strong>pensamento algorítmico</strong> até a <strong>orientação a objetos</strong>, sempre com a mão na massa.</p>
-    </div>
-  </section>
-
-  <!-- PRÉ-AULA -->
 
   <!-- SUMÁRIO -->
   <section class="slide slide-sumario">
     <div class="sumario-esq">
       <div class="deco-rect verde" style="width:200px;height:200px;bottom:-50px;left:-50px;transform:rotate(-15deg);"></div>
-      <div class="sumario-titulo">Introdução à Orientação a Objetos</div>
+      <div class="sumario-titulo">Implementação OOP em Python</div>
     </div>
     <div class="sumario-dir">
-      <div class="deco-rect azul" style="width:160px;height:160px;top:-30px;right:20px;transform:rotate(-18deg);"></div>
       <h2>Sumário</h2>
       <ul>
-        <li>Do procedural ao orientado a objetos</li>
-        <li>Classe vs objeto</li>
-        <li>Atributos (estado) e métodos (comportamento)</li>
-        <li>__init__ e self</li>
-        <li>Encapsulamento</li>
-        <li>Mão na massa: classe ContaBancaria</li>
+        <li>Por que Streamlit? (a escolha emerge da arquitetura)</li>
+        <li>Implementando a classe abstrata Imovel</li>
+        <li>Herança: Apartamento, Casa e Estudio</li>
+        <li>Classes Cliente, Contrato e Orcamento</li>
+        <li>Exportação CSV: 12 parcelas anuais</li>
+        <li>Conectando tudo com Streamlit</li>
       </ul>
     </div>
   </section>
 
-  <!-- CONTEÚDO 1 — POR QUE OBJETOS -->
+  <!-- POR QUE STREAMLIT -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-60px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-20px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Por que objetos?</h2>
+    <p class="kicker">Decisão Técnica</p>
+    <h2>Por que Streamlit? (a arquitetura escolheu)</h2>
     <div class="content-box">
-      <p>Até agora, dados e funções viviam separados. Conforme o programa cresce, isso vira bagunça: dezenas de variáveis soltas e funções que recebem "tudo" como argumento.</p>
-      <ul>
-        <li><strong>Orientação a objetos</strong> junta, numa só unidade, os <em>dados</em> e o <em>comportamento</em> que age sobre eles.</li>
-        <li>Cada objeto representa uma "coisa" do problema: um aluno, uma conta, um produto.</li>
-        <li>Resultado: código mais <strong>organizado</strong>, próximo do mundo real e fácil de estender.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 2 — CLASSE VS OBJETO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:240px;height:240px;top:-70px;right:-40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-25deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Classe vs objeto</h2>
-    <div class="content-box">
+      <p>Na Aula 2 deixamos a UI "em aberto". Agora, olhando para os requisitos não funcionais:</p>
       <div class="pontos-grid">
-        <div class="ponto"><h3>Classe = molde</h3><p>A planta da casa: descreve quais atributos e comportamentos os objetos terão. Escrita uma vez.</p></div>
-        <div class="ponto"><h3>Objeto = instância</h3><p>A casa construída a partir da planta. Você cria quantos quiser, cada um com seus próprios valores.</p></div>
+        <div class="ponto"><h3>Usabilidade</h3><p>Corretores precisam de interface visual — terminal não serve.</p></div>
+        <div class="ponto"><h3>Python puro</h3><p>Já escolhemos Python. Streamlit é 100% Python — zero HTML/JS manual.</p></div>
+        <div class="ponto"><h3>Velocidade de entrega</h3><p>Interface completa em poucas linhas. Perfeito para validar o produto rapidamente.</p></div>
+        <div class="ponto"><h3>Separação de camadas</h3><p>Streamlit fica na camada UI. O domínio (Imovel, Orcamento) permanece intocado.</p></div>
       </div>
-      <p style="margin-top:0.8rem;">Da mesma planta saem várias casas; da mesma classe <em>Cachorro</em> saem o Rex e o Bidu — cada um com nome e raça próprios.</p>
+      <div class="callout">Streamlit não foi escolha do gosto — foi consequência da arquitetura que definimos juntos nas aulas 1 e 2.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 3 — PRIMEIRA CLASSE -->
+  <!-- CLASSE ABSTRATA IMOVEL -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">OOP · Herança e Abstração</p>
+    <h2>Classe Abstrata: Imovel</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block"><code><span class="k">from</span> abc <span class="k">import</span> ABC, abstractmethod
+<span class="k">from</span> dataclasses <span class="k">import</span> dataclass
+
+<span class="n">@dataclass</span>
+<span class="k">class</span> <span class="f">Imovel</span>(ABC):
+    valor_base: float
+    qtd_quartos: int = 1
+    tem_garagem: bool = False
+
+    <span class="k">def</span> <span class="f">adicionar_garagem</span>(self) -> float:
+        <span class="s">"""Acréscimo fixo de R$300 para casa e apartamento."""</span>
+        <span class="k">return</span> <span class="n">300.0</span> <span class="k">if</span> self.tem_garagem <span class="k">else</span> <span class="n">0.0</span>
+
+    <span class="n">@abstractmethod</span>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(self, cliente_sem_criancas: bool = False) -> float:
+        <span class="s">"""Cada subclasse implementa suas próprias regras."""</span>
+        ...</code></div>
+      <div class="callout-warn">@dataclass elimina boilerplate do __init__. @abstractmethod garante que toda subclasse implemente calcular_aluguel.</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+  </section>
+
+  <!-- APARTAMENTO E CASA -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:190px;height:190px;top:-50px;right:80px;transform:rotate(-12deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-20px;transform:rotate(-20deg);"></div>
-    <p class="kicker">Mão na massa</p>
-    <h2>A primeira classe em Python</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Cachorro</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, nome, raca):
-        self.nome = nome
-        self.raca = raca
+    <p class="kicker">OOP · Polimorfismo</p>
+    <h2>Herança: Apartamento e Casa</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="two-col">
+        <div class="code-block" style="margin:0;"><code><span class="n">@dataclass</span>
+<span class="k">class</span> <span class="f">Apartamento</span>(Imovel):
+    valor_base: float = <span class="n">700.0</span>
 
-    <span class="k">def</span> <span class="f">latir</span>(self):
-        <span class="k">return</span> <span class="s">f"{self.nome} diz: Au au!"</span>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(
+        self, sem_criancas: bool = <span class="k">False</span>
+    ) -> float:
+        total = self.valor_base
+        <span class="k">if</span> self.qtd_quartos == <span class="n">2</span>:
+            total += <span class="n">200.0</span>
+        total += self.<span class="f">adicionar_garagem</span>()
+        <span class="k">if</span> sem_criancas:
+            total *= <span class="n">0.95</span>  <span class="c"># -5%</span>
+        <span class="k">return</span> <span class="f">round</span>(total, <span class="n">2</span>)</code></div>
+        <div class="code-block" style="margin:0;"><code><span class="n">@dataclass</span>
+<span class="k">class</span> <span class="f">Casa</span>(Imovel):
+    valor_base: float = <span class="n">900.0</span>
 
-rex = <span class="f">Cachorro</span>(<span class="s">"Rex"</span>, <span class="s">"Labrador"</span>)
-<span class="f">print</span>(rex.<span class="f">latir</span>())     <span class="c"># -&gt; Rex diz: Au au!</span></code></div>
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(
+        self, sem_criancas: bool = <span class="k">False</span>
+    ) -> float:
+        total = self.valor_base
+        <span class="k">if</span> self.qtd_quartos == <span class="n">2</span>:
+            total += <span class="n">250.0</span>
+        total += self.<span class="f">adicionar_garagem</span>()
+        <span class="k">return</span> <span class="f">round</span>(total, <span class="n">2</span>)
+
+<span class="cm"># Casa 2 quartos + garagem:</span>
+<span class="cm"># 900 + 250 + 300 = R$ 1.450,00</span></code></div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 4 — SELF E __INIT__ -->
+  <!-- ESTUDIO -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:50px;right:120px;transform:rotate(-10deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>__init__ e self, sem mistério</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Cachorro</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, nome, raca):  <span class="c"># roda ao criar o objeto</span>
-        self.nome = nome              <span class="c"># self = o próprio objeto</span>
-        self.raca = raca              <span class="c"># guarda os dados nele</span></code></div>
-      <ul>
-        <li><strong>__init__</strong> é o <em>construtor</em>: executa automaticamente quando você faz <em>Cachorro(...)</em>.</li>
-        <li><strong>self</strong> é a referência ao objeto que está sendo criado — por isso aparece em todo método.</li>
-        <li><em>self.nome</em> guarda o valor <em>dentro</em> daquele objeto específico.</li>
-      </ul>
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">OOP · Regra especial</p>
+    <h2>Herança: Estudio (garagem diferenciada)</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block"><code><span class="n">@dataclass</span>
+<span class="k">class</span> <span class="f">Estudio</span>(Imovel):
+    valor_base: float = <span class="n">1200.0</span>
+    qtd_vagas_extra: int = <span class="n">0</span>  <span class="c"># vagas além das 2 primeiras</span>
+
+    <span class="k">def</span> <span class="f">calc_vagas_estudio</span>(self) -> float:
+        <span class="s">"""2 vagas = R$250; cada vaga extra = +R$60."""</span>
+        <span class="k">if not</span> self.tem_garagem:
+            <span class="k">return</span> <span class="n">0.0</span>
+        <span class="k">return</span> <span class="n">250.0</span> + (self.qtd_vagas_extra * <span class="n">60.0</span>)
+
+    <span class="k">def</span> <span class="f">calcular_aluguel</span>(self, sem_criancas: bool = <span class="k">False</span>) -> float:
+        <span class="k">return</span> <span class="f">round</span>(self.valor_base + self.<span class="f">calc_vagas_estudio</span>(), <span class="n">2</span>)
+
+<span class="cm"># Estudio c/ garagem 2 vagas + 1 extra: 1200 + 250 + 60 = R$ 1.510,00</span></code></div>
+      <div class="callout">Polimorfismo em ação: mesma chamada <code>calcular_aluguel()</code>, comportamentos distintos por tipo de imóvel.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 5 — ESTADO E COMPORTAMENTO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:50px;transform:rotate(-15deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-23deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Estado e comportamento</h2>
-    <div class="content-box">
-      <p>Os <strong>atributos</strong> guardam o <em>estado</em>; os <strong>métodos</strong> definem o <em>comportamento</em> que muda esse estado:</p>
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Contador</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self):
-        self.valor = <span class="n">0</span>          <span class="c"># estado</span>
-
-    <span class="k">def</span> <span class="f">incrementar</span>(self):      <span class="c"># comportamento</span>
-        self.valor += <span class="n">1</span>
-
-c = <span class="f">Contador</span>()
-c.<span class="f">incrementar</span>()
-c.<span class="f">incrementar</span>()
-<span class="f">print</span>(c.valor)   <span class="c"># -&gt; 2</span></code></div>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 6 — ENCAPSULAMENTO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:210px;height:210px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-12deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Encapsulamento: proteger o estado</h2>
-    <div class="content-box">
-      <p>O objeto controla o acesso aos próprios dados — ninguém mexe no saldo "na unha":</p>
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Conta</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, saldo=<span class="n">0</span>):
-        self._saldo = saldo            <span class="c"># _ = "não mexa direto"</span>
-
-    <span class="k">def</span> <span class="f">depositar</span>(self, valor):
-        <span class="k">if</span> valor &gt; <span class="n">0</span>:
-            self._saldo += valor
-
-    <span class="k">def</span> <span class="f">saldo</span>(self):
-        <span class="k">return</span> self._saldo</code></div>
-      <p class="code-cap">As regras (não depositar valor negativo) ficam <em>dentro</em> do objeto.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 7 — MODELAR O MUNDO REAL -->
+  <!-- ORCAMENTO + CSV -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-15px;transform:rotate(-21deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Modelando o mundo real em código</h2>
-    <div class="content-box">
-      <p>Um truque para descobrir as classes a partir de uma descrição do problema:</p>
-      <ul>
-        <li><strong>Substantivos</strong> (aluno, conta, pedido) → viram <em>classes</em>.</li>
-        <li><strong>Adjetivos / características</strong> (nome, saldo, status) → viram <em>atributos</em>.</li>
-        <li><strong>Verbos</strong> (depositar, aprovar, calcular) → viram <em>métodos</em>.</li>
-      </ul>
-      <div class="callout-azul">"Um <strong>pedido</strong> tem <strong>itens</strong> e um <strong>valor total</strong>, e pode ser <strong>finalizado</strong>" já descreve uma classe inteira.</div>
+    <p class="kicker">OOP · Composição</p>
+    <h2>Orcamento e Exportação CSV</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="k">import</span> csv, io
+<span class="k">from</span> dataclasses <span class="k">import</span> dataclass
+
+<span class="n">@dataclass</span>
+<span class="k">class</span> <span class="f">Orcamento</span>:
+    cliente_nome: str
+    cliente_sem_criancas: bool
+    imovel: Imovel
+    taxa_contrato: float = <span class="n">2000.0</span>
+    parcelas_contrato: int = <span class="n">1</span>
+
+    <span class="k">def</span> <span class="f">gerar_mensal</span>(self) -> float:
+        aluguel = self.imovel.<span class="f">calcular_aluguel</span>(self.cliente_sem_criancas)
+        parcela = self.taxa_contrato / self.parcelas_contrato
+        <span class="k">return</span> <span class="f">round</span>(aluguel + parcela, <span class="n">2</span>)
+
+    <span class="k">def</span> <span class="f">exportar_csv</span>(self) -> str:
+        output = io.<span class="f">StringIO</span>()
+        writer = csv.<span class="f">writer</span>(output)
+        writer.<span class="f">writerow</span>([<span class="s">"Mês"</span>, <span class="s">"Valor (R$)"</span>])
+        mensal = self.<span class="f">gerar_mensal</span>()
+        <span class="k">for</span> mes <span class="k">in</span> <span class="f">range</span>(<span class="n">1</span>, <span class="n">13</span>):
+            writer.<span class="f">writerow</span>([mes, <span class="s">f"{mensal:.2f}"</span>])
+        <span class="k">return</span> output.<span class="f">getvalue</span>()</code></div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 7b — RUST -->
+  <!-- STREAMLIT UI -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:200px;height:200px;top:-55px;right:40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Comparando linguagens · Python vs Rust</p>
-    <h2>Em Rust: struct + impl (sem herança, com precisão)</h2>
-    <div class="content-box">
-      <p>Rust não tem <em>classes</em>, mas <strong>struct + impl</strong> entregam estado + comportamento com garantias em tempo de compilação:</p>
-      <div class="code-block"><code><span class="k">struct</span> <span class="f">ContaBancaria</span> {
-    titular: <span class="f">String</span>,
-    saldo:   <span class="f">f64</span>,
-}
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Camada UI · Streamlit</p>
+    <h2>Conectando tudo com Streamlit</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="k">import</span> streamlit <span class="k">as</span> st
 
-<span class="k">impl</span> <span class="f">ContaBancaria</span> {
-    <span class="k">fn</span> <span class="f">nova</span>(titular: &amp;<span class="f">str</span>, saldo_inicial: <span class="f">f64</span>) -&gt; <span class="f">Self</span> {
-        <span class="f">Self</span> { titular: titular.<span class="f">to_string</span>(), saldo: saldo_inicial }
-    }
-    <span class="k">fn</span> <span class="f">depositar</span>(&amp;<span class="k">mut</span> <span class="k">self</span>, valor: <span class="f">f64</span>) { <span class="k">self</span>.saldo += valor; }
-    <span class="k">fn</span> <span class="f">sacar</span>(&amp;<span class="k">mut</span> <span class="k">self</span>, valor: <span class="f">f64</span>) -&gt; <span class="f">bool</span> {
-        <span class="k">if</span> valor &lt;= <span class="k">self</span>.saldo { <span class="k">self</span>.saldo -= valor; <span class="k">true</span> }
-        <span class="k">else</span> { <span class="k">false</span> }
-    }
-}</code></div>
-      <p class="code-cap"><em>struct</em> = atributos; <em>impl</em> = métodos. O compilador garante que ninguém acessa <code>saldo</code> diretamente — encapsulamento por design, não por convenção.</p>
+st.<span class="f">title</span>(<span class="s">"🏠 Imobiliária R.M — Orçamento de Aluguel"</span>)
+
+tipo = st.<span class="f">selectbox</span>(<span class="s">"Tipo de imóvel"</span>, [<span class="s">"Apartamento"</span>, <span class="s">"Casa"</span>, <span class="s">"Estudio"</span>])
+quartos = st.<span class="f">number_input</span>(<span class="s">"Quartos"</span>, min_value=<span class="n">1</span>, max_value=<span class="n">4</span>)
+garagem = st.<span class="f">checkbox</span>(<span class="s">"Incluir garagem?"</span>)
+sem_criancas = st.<span class="f">checkbox</span>(<span class="s">"Cliente sem crianças? (desconto apto)"</span>)
+parcelas = st.<span class="f">slider</span>(<span class="s">"Parcelas do contrato"</span>, <span class="n">1</span>, <span class="n">5</span>, <span class="n">1</span>)
+nome = st.<span class="f">text_input</span>(<span class="s">"Nome do cliente"</span>)
+
+imovel = {<span class="s">"Apartamento"</span>: Apartamento, <span class="s">"Casa"</span>: Casa, <span class="s">"Estudio"</span>: Estudio}[tipo](
+    qtd_quartos=quartos, tem_garagem=garagem
+)
+orc = Orcamento(nome, sem_criancas, imovel, parcelas_contrato=parcelas)
+
+<span class="k">if</span> st.<span class="f">button</span>(<span class="s">"Gerar Orçamento"</span>):
+    st.<span class="f">metric</span>(<span class="s">"Valor mensal"</span>, <span class="s">f"R$ {orc.gerar_mensal():.2f}"</span>)
+    st.<span class="f">download_button</span>(<span class="s">"⬇ Baixar CSV"</span>, orc.<span class="f">exportar_csv</span>(), <span class="s">"orcamento.csv"</span>)</code></div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
-  <!-- CITAÇÃO -->
+  <!-- QUOTE -->
   <section class="slide slide-quote">
     <div class="deco-rect verde" style="width:300px;height:300px;top:-80px;left:-60px;transform:rotate(-14deg);"></div>
     <div class="deco-rect azul"  style="width:180px;height:180px;bottom:-40px;right:-30px;transform:rotate(-20deg);"></div>
     <div class="quote-card">
-      <blockquote>"A função de um bom software é fazer o complexo parecer simples."</blockquote>
-      <cite>— Grady Booch</cite>
+      <blockquote>"Make it work, make it right, make it fast — nessa ordem."</blockquote>
+      <cite>— Kent Beck</cite>
     </div>
   </section>
 
   <!-- PONTOS-CHAVE -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:80px;transform:rotate(-22deg);"></div>
+    <div class="deco-rect azul" style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
     <p class="kicker">Recapitulando</p>
     <h2>Pontos-chave</h2>
     <div class="content-box">
       <div class="pontos-grid">
-        <div class="ponto"><h3>Classe e objeto</h3><p>Classe é o molde; objeto é a instância criada a partir dele.</p></div>
-        <div class="ponto"><h3>__init__ e self</h3><p>O construtor inicializa o objeto; self é a referência a ele próprio.</p></div>
-        <div class="ponto"><h3>Estado + comportamento</h3><p>Atributos guardam dados; métodos agem sobre esses dados.</p></div>
-        <div class="ponto"><h3>Encapsulamento</h3><p>O objeto protege seu estado e expõe só o que faz sentido usar.</p></div>
+        <div class="ponto"><h3>Herança</h3><p>Apartamento, Casa e Estudio herdam de Imovel — compartilham estrutura, divergem em comportamento.</p></div>
+        <div class="ponto"><h3>Polimorfismo</h3><p>Uma chamada <code>calcular_aluguel()</code> produz resultados diferentes dependendo do tipo real do objeto.</p></div>
+        <div class="ponto"><h3>Composição</h3><p>Orcamento agrega Imovel, Cliente e Contrato — sem herança. Tem-um, não é-um.</p></div>
+        <div class="ponto"><h3>UI separada do domínio</h3><p>Streamlit só lê inputs e exibe outputs — não conhece nenhuma regra de negócio.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
-  </section>
-
-  <!-- ATIVIDADE -->
-  <section class="slide slide-atividade">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:20px;right:-15px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Atividade prática</p>
-    <h2>Mãos à obra</h2>
-    <div class="content-box">
-      <p>Vamos construir ao vivo a classe <strong>ContaBancaria</strong>, completa:</p>
-      <ul>
-        <li>Atributos: <em>titular</em> e <em>_saldo</em> (começa em zero).</li>
-        <li>Métodos <strong>depositar</strong> e <strong>sacar</strong> — o saque só ocorre se houver saldo suficiente.</li>
-        <li>Método <strong>extrato</strong> que mostra o saldo atual formatado.</li>
-        <li><strong>Desafio</strong>: registre cada operação numa lista de <em>histórico</em>.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 21/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
   </section>
 
   <!-- ENCERRAMENTO -->
   <section class="slide slide-fim">
     <div class="deco-rect verde" style="width:360px;height:360px;top:-90px;right:-70px;transform:rotate(-16deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:-50px;right:140px;transform:rotate(-24deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:40px;left:80px;transform:rotate(-10deg);"></div>
-    <h1>Até a próxima!</h1>
-    <p class="fim-texto">Você criou suas primeiras classes e objetos, com estado, comportamento e encapsulamento. Na última aula, vamos usar <strong>herança</strong> e <strong>polimorfismo</strong> para construir um mini-projeto completo, do zero.</p>
-    <p class="fim-proxima">Próxima aula: Aula 04 · POO na prática &amp; mini-projeto.</p>
+    <h1>Aplicação funcionando!</h1>
+    <p class="fim-texto">Implementamos herança, polimorfismo, composição e exportação CSV — do domínio à interface Streamlit. Na última aula, testamos os <strong>requisitos não funcionais</strong>: desempenho com 1.000 usuários simultâneos, segurança e deploy.</p>
+    <p class="fim-proxima">Próxima aula (Aula 4): Testando NFRs, Métricas e Deploy · 22/07/2026</p>
     <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
   </section>
 
 </div>
 
-<nav class="nav" role="navigation" aria-label="Navegação dos slides">
-  <a class="nav-home" href="index.html" title="Voltar as aulas" aria-label="Voltar as aulas">&#8962;</a>
-  <button id="prev" aria-label="Slide anterior">‹</button>
+<nav class="nav">
+  <a href="index.html" title="Voltar às aulas">&#8962;</a>
+  <button id="prev">‹</button>
   <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
-  <button id="next" aria-label="Próximo slide">›</button>
+  <button id="next">›</button>
 </nav>
-
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const cur = document.getElementById('cur');
-  const total = document.getElementById('total');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  let i = 0;
-  total.textContent = slides.length;
-  function show(n) {
-    n = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
-    cur.textContent = n + 1;
-    prev.disabled = (n === 0);
-    next.disabled = (n === slides.length - 1);
-    i = n;
-    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
-  }
-  prev.addEventListener('click', () => show(i - 1));
-  next.addEventListener('click', () => show(i + 1));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { e.preventDefault(); show(i - 1); }
-    if (e.key === 'Home') show(0);
-    if (e.key === 'End')  show(slides.length - 1);
-  });
-  const hash = parseInt(location.hash.replace('#', ''), 10);
-  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
-  show(i);
-  function scaleDeck() {
-    const deck = document.querySelector('.deck');
-    const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    deck.style.transform = 'scale(' + s + ')';
-  }
-  scaleDeck();
-  window.addEventListener('resize', scaleDeck);
+  const slides=document.querySelectorAll('.slide'),cur=document.getElementById('cur'),total=document.getElementById('total'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  let i=0;total.textContent=slides.length;
+  function show(n){n=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,idx)=>s.classList.toggle('active',idx===n));cur.textContent=n+1;prev.disabled=(n===0);next.disabled=(n===slides.length-1);i=n;if(history.replaceState)history.replaceState(null,'','#'+(n+1));}
+  prev.addEventListener('click',()=>show(i-1));next.addEventListener('click',()=>show(i+1));
+  document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+  const hash=parseInt(location.hash.replace('#',''),10);if(!isNaN(hash)&&hash>=1&&hash<=slides.length)i=hash-1;show(i);
+  function scaleDeck(){const s=Math.min(window.innerWidth/1280,window.innerHeight/720);document.querySelector('.deck').style.transform='scale('+s+')';}
+  scaleDeck();window.addEventListener('resize',scaleDeck);
 </script>
 </body>
 </html>

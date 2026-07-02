@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aula 1 — Pensamento algorítmico na prática · Live 01</title>
+<title>Aula 1 — Decomposição e Modelagem de Requisitos · Live 01</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -22,12 +22,10 @@
   .slide { position: absolute; inset: 0; width: 1280px; height: 720px; display: none; overflow: hidden; }
   .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
-  /* DECO */
   .deco-rect { position: absolute; border-radius: 28px; pointer-events: none; }
   .deco-rect.verde { border: 4px solid var(--verde); }
   .deco-rect.azul  { border: 4px solid var(--azul); }
 
-  /* CAPA */
   .slide-capa { background: var(--branco); flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 100px; }
   .capa-logo { margin-bottom: 28px; }
   .capa-logo img { height: 56px; }
@@ -35,12 +33,10 @@
   .capa-subtitulo { font-size: 1.1rem; font-weight: 500; color: var(--verde); margin-bottom: 8px; }
   .capa-docente { font-size: 0.95rem; font-weight: 400; color: #555; }
 
-  /* AUDIO */
   .slide-audio { background: var(--navy); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; }
   .slide-audio h1 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--verde); }
   .slide-audio p  { font-size: 1.05rem; line-height: 1.7; max-width: 700px; }
 
-  /* PROF */
   .slide-prof { background: var(--navy); flex-direction: row; align-items: stretch; justify-content: flex-start; }
   .prof-foto-col { width: 380px; background: var(--navy-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px 30px; position: relative; }
   .prof-foto-img { width: 180px; height: 180px; border-radius: 50%; background: #2a4a7f; overflow: hidden; margin-bottom: 20px; border: 4px solid var(--verde); }
@@ -50,11 +46,6 @@
   .prof-cargo { font-size: 0.95rem; color: var(--verde); font-weight: 500; margin-bottom: 24px; }
   .prof-descricao { font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; }
 
-  /* PRÉ-AULA */
-  .slide-pre { background: var(--navy); flex-direction: column; justify-content: center; align-items: center; }
-  .slide-pre img { max-height: 580px; max-width: 1100px; object-fit: contain; }
-
-  /* SUMARIO */
   .slide-sumario { background: var(--navy); flex-direction: row; align-items: stretch; }
   .sumario-esq { width: 420px; background: var(--navy-dark); display: flex; flex-direction: column; justify-content: center; padding: 60px 50px; flex-shrink: 0; position: relative; }
   .sumario-titulo { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
@@ -64,7 +55,6 @@
   .sumario-dir ul li { font-size: 1.05rem; padding-left: 20px; position: relative; }
   .sumario-dir ul li::before { content: '▸'; position: absolute; left: 0; color: var(--verde); }
 
-  /* CONTENT */
   .slide-content-wrap { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
   .kicker { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--verde); margin-bottom: 8px; }
   .slide-content-wrap h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
@@ -75,44 +65,48 @@
   .content-box ul li strong { color: var(--verde); }
   .slide-footer { position: absolute; bottom: 18px; left: 80px; right: 80px; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
 
-  /* PONTOS */
   .pontos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 8px; }
   .ponto { border-left: 4px solid var(--verde); padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 0 8px 8px 0; }
   .ponto h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--verde); }
   .ponto p  { font-size: 0.88rem; line-height: 1.5; margin: 0; }
 
-  /* CODE */
-  .code-block { background: #0d1b2e; border-radius: 10px; padding: 18px 22px; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; overflow-x: auto; margin: 10px 0; white-space: pre; }
-  .code-block code { display: block; }
-  .k { color: #F0CE29; }
-  .f { color: #2BBBE0; }
-  .s { color: #8DD17E; }
-  .n { color: #E48BB0; }
-  .c { color: #7c89ad; font-style: italic; }
-  .p { color: #2BBBE0; font-weight: bold; }
-  .code-cap { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-style: italic; margin-top: 6px; margin-bottom: 0; }
+  .req-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 6px; }
+  .req-item { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; line-height: 1.5; }
+  .req-item strong { color: var(--verde); display: block; margin-bottom: 2px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; }
 
-  /* CALLOUT */
+  .cinco-passos { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .passo { display: flex; align-items: flex-start; gap: 14px; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 10px 16px; }
+  .passo-num { width: 28px; height: 28px; border-radius: 50%; background: var(--verde); color: #fff; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .passo-text { font-size: 0.88rem; line-height: 1.5; }
+  .passo-text strong { color: var(--verde); }
+
+  .uml-box { font-family: 'Courier New', monospace; font-size: 0.75rem; line-height: 1.55; background: #0d1b2e; border-radius: 10px; padding: 14px 18px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .uml-class { border: 2px solid var(--azul); border-radius: 6px; overflow: hidden; }
+  .uml-class-name { background: var(--azul); color: #fff; font-weight: 700; padding: 4px 10px; font-size: 0.74rem; }
+  .uml-class-body { padding: 6px 10px; }
+  .uml-class-body div { padding: 1px 0; color: #cdd8f0; }
+  .uml-class-body div.method { color: #8DD17E; }
+  .uml-divider { border-top: 1px solid rgba(66,133,244,0.4); margin: 4px 0; }
+
+  .tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; }
+  .tech-card { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 14px; text-align: center; }
+  .tech-card .icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .tech-card .name { font-size: 0.8rem; font-weight: 700; color: var(--verde); }
+  .tech-card .desc { font-size: 0.72rem; color: rgba(255,255,255,0.6); margin-top: 2px; line-height: 1.4; }
+
   .callout { background: rgba(23,164,96,0.12); border-left: 4px solid var(--verde); border-radius: 0 8px 8px 0; padding: 12px 18px; font-size: 0.9rem; line-height: 1.5; margin-top: 10px; }
 
-  /* QUOTE */
   .slide-quote { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: center; padding: 60px 120px; position: relative; }
   .quote-card { background: var(--branco); border-radius: 20px; padding: 48px 60px; max-width: 820px; text-align: center; }
   .quote-card blockquote { font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.45; margin-bottom: 20px; }
   .quote-card cite { font-size: 0.95rem; color: var(--verde); font-style: normal; font-weight: 600; }
 
-  /* ATIVIDADE */
-  .slide-atividade { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .slide-atividade h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-
-  /* FIM */
   .slide-fim { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; position: relative; }
   .slide-fim h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
   .fim-texto { font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 20px; }
   .fim-proxima { font-size: 1rem; color: var(--verde); font-weight: 600; margin-bottom: 10px; }
   .fim-prof { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
 
-  /* NAV */
   .nav { position: fixed; bottom: 22px; right: 28px; display: flex; align-items: center; gap: 6px; background: var(--navy); border: 1px solid rgba(255,255,255,0.12); border-radius: 40px; padding: 6px 14px; z-index: 9999; }
   .nav button, .nav a { background: none; border: none; color: var(--branco); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 20px; text-decoration: none; line-height: 1; transition: color 0.2s; font-family: var(--fonte); }
   .nav button:hover, .nav a:hover { color: var(--azul); }
@@ -137,9 +131,9 @@
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:30px;right:180px;transform:rotate(-22deg);"></div>
     <div class="deco-rect verde" style="width:120px;height:120px;bottom:-30px;left:60px;transform:rotate(-10deg);"></div>
     <div class="capa-logo"><img src="assets/logo-atomo.png" alt="Átomo logo"/></div>
-    <h1>Pensamento algorítmico na prática</h1>
-    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP</div>
-    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 07/07/2026 · Terça · 19h–20h30</div>
+    <h1>Decomposição e Modelagem de Requisitos</h1>
+    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP · Aula 1</div>
+    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 02/07/2026 · Terça · 19h–20h30</div>
   </section>
 
   <!-- AUDIODESCRIÇÃO -->
@@ -160,170 +154,242 @@
       <div class="deco-rect azul" style="width:220px;height:220px;bottom:-50px;right:-50px;transform:rotate(-20deg);"></div>
       <div class="prof-nome">Afonso Cesar Lelis Brandão</div>
       <div class="prof-cargo">Professor · Engenharia, Computação &amp; IA</div>
-      <p class="prof-descricao">Atuo na fronteira entre <strong>engenharia</strong>, <strong>computação</strong> e <strong>dados</strong>. Engenheiro de formação e doutorando em engenharia da computação, trago para as lives a prática de quem constrói software de verdade — do raciocínio que antecede o código aos primeiros projetos reais.</p>
-      <p class="prof-descricao">Nestes quatro encontros, conduzo você do <strong>pensamento algorítmico</strong> até a <strong>orientação a objetos</strong>, sempre com a mão na massa.</p>
+      <p class="prof-descricao">Engenheiro de formação e doutorando em engenharia da computação. Trago para as lives a prática de quem constrói software de verdade — do raciocínio que antecede o código à entrega de um produto funcional.</p>
+      <p class="prof-descricao">Nesta série de <strong>quatro encontros</strong>, vamos do problema ao produto: hoje decompõe, na aula 2 modela, na aula 3 implementa, na aula 4 testa e entrega.</p>
     </div>
   </section>
-
-  <!-- PRÉ-AULA -->
 
   <!-- SUMÁRIO -->
   <section class="slide slide-sumario">
     <div class="sumario-esq">
       <div class="deco-rect verde" style="width:200px;height:200px;bottom:-50px;left:-50px;transform:rotate(-15deg);"></div>
-      <div class="sumario-titulo">Pensamento algorítmico na prática</div>
+      <div class="sumario-titulo">Decomposição e Modelagem de Requisitos</div>
     </div>
     <div class="sumario-dir">
       <div class="deco-rect azul" style="width:160px;height:160px;top:-30px;right:20px;transform:rotate(-18deg);"></div>
       <h2>Sumário</h2>
       <ul>
-        <li>Por que pensar antes de programar</li>
-        <li>Os 4 pilares do pensamento computacional</li>
-        <li>Decomposição e reconhecimento de padrões</li>
-        <li>Abstração: separar o essencial do ruído</li>
-        <li>Do pseudocódigo ao código Python</li>
-        <li>Mão na massa: média e aprovação</li>
+        <li>O projeto: Imobiliária R.M</li>
+        <li>Os 5 passos da decomposição</li>
+        <li>Business Drivers</li>
+        <li>Requisitos Funcionais</li>
+        <li>Requisitos Não Funcionais (SWEBOK 4.0)</li>
+        <li>Diagrama UML de Classes</li>
+        <li>Opções de tecnologia</li>
       </ul>
     </div>
   </section>
 
-  <!-- CONTEÚDO 1 — POR QUE PENSAR -->
+  <!-- SLIDE: O PROJETO -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-60px;right:60px;transform:rotate(-14deg);"></div>
     <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-20px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Por que pensar antes de programar?</h2>
+    <p class="kicker">Contexto</p>
+    <h2>O Projeto: Imobiliária R.M</h2>
     <div class="content-box">
-      <p>Código mal pensado é caro: bugs escondidos, horas de depuração e retrabalho. O <strong>pensamento computacional</strong> é a habilidade de formular um problema de forma que um computador — ou um humano — possa resolvê-lo.</p>
+      <p>A <strong>Imobiliária R.M</strong> precisa automatizar a geração de orçamentos mensais de aluguel. Hoje, os corretores calculam tudo à mão — erros, retrabalho e tempo perdido.</p>
       <ul>
-        <li>Programar sem planejar é como construir sem planta.</li>
-        <li>O tempo gasto <em>pensando</em> reduz o tempo gasto <em>consertando</em>.</li>
-        <li>Pensamento computacional é uma habilidade geral — vale fora da programação também.</li>
+        <li><strong>Tipos de imóvel:</strong> Apartamento, Casa e Estúdio — cada um com valor base e regras próprias.</li>
+        <li><strong>Acréscimos:</strong> quartos adicionais, vagas de garagem, taxa de contrato parcelável.</li>
+        <li><strong>Desconto:</strong> 5% para apartamentos alugados por clientes sem crianças.</li>
+        <li><strong>Exportação:</strong> orçamento anual em arquivo <code>.csv</code> com as 12 parcelas.</li>
       </ul>
+      <div class="callout">Objetivo: construir uma aplicação Python orientada a objetos que resolva esse problema do início ao fim.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 2 — 4 PILARES -->
+  <!-- SLIDE: 5 PASSOS -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:240px;height:240px;top:-70px;right:-40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-25deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Os 4 pilares do pensamento computacional</h2>
+    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
+    <p class="kicker">Método</p>
+    <h2>Os 5 Passos da Decomposição</h2>
     <div class="content-box">
-      <div class="pontos-grid">
-        <div class="ponto"><h3>Decomposição</h3><p>Dividir o problema grande em partes menores e gerenciáveis.</p></div>
-        <div class="ponto"><h3>Reconhecimento de padrões</h3><p>Identificar semelhanças e repetições para reaproveitar soluções.</p></div>
-        <div class="ponto"><h3>Abstração</h3><p>Focar no que é essencial e ignorar detalhes irrelevantes.</p></div>
-        <div class="ponto"><h3>Algoritmo</h3><p>Definir uma sequência clara e finita de passos para resolver o problema.</p></div>
+      <div class="cinco-passos">
+        <div class="passo"><div class="passo-num">1</div><div class="passo-text"><strong>Business Drivers</strong> — Por que esse software existe? Qual dor ele resolve?</div></div>
+        <div class="passo"><div class="passo-num">2</div><div class="passo-text"><strong>Requisitos Funcionais</strong> — O que o sistema <em>faz</em>? Regras de negócio explícitas.</div></div>
+        <div class="passo"><div class="passo-num">3</div><div class="passo-text"><strong>Requisitos Não Funcionais</strong> — Como o sistema <em>se comporta</em>? Qualidade, segurança, desempenho.</div></div>
+        <div class="passo"><div class="passo-num">4</div><div class="passo-text"><strong>Arquitetura</strong> — Diagrama UML de classes: entidades, atributos, métodos, relacionamentos.</div></div>
+        <div class="passo"><div class="passo-num">5</div><div class="passo-text"><strong>Tecnologias</strong> — Escolher as ferramentas <em>depois</em> de entender o problema.</div></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 3 — DECOMPOSIÇÃO E PADRÕES -->
+  <!-- SLIDE: BUSINESS DRIVERS -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:190px;height:190px;top:-50px;right:80px;transform:rotate(-12deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-20px;transform:rotate(-20deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Decomposição e reconhecimento de padrões</h2>
+    <p class="kicker">Passo 1</p>
+    <h2>Business Drivers</h2>
     <div class="content-box">
-      <p><strong>Decomposição</strong>: problema "calcular aprovação de uma turma" → calcular nota de um aluno → calcular média → comparar com limiar.</p>
-      <p><strong>Padrões</strong>: se o cálculo de média funciona para um aluno, <em>funciona para todos</em> — basta virar uma função.</p>
-      <ul>
-        <li>Decompor revela dependências ocultas entre partes do problema.</li>
-        <li>Padrões poupam código: escreva uma vez, use muitas vezes.</li>
-        <li>Toda refatoração começa reconhecendo código duplicado como um padrão.</li>
-      </ul>
+      <p>Antes de qualquer linha de código, entendemos <strong>por que</strong> o software existe:</p>
+      <div class="pontos-grid">
+        <div class="ponto"><h3>Automação operacional</h3><p>Eliminar cálculos manuais que geram erros e consomem tempo dos corretores.</p></div>
+        <div class="ponto"><h3>Precisão financeira</h3><p>Garantir exatidão matemática nos orçamentos — erro aqui impacta receita diretamente.</p></div>
+        <div class="ponto"><h3>Digitalização comercial</h3><p>Modernizar o processo de locação com propostas geradas em segundos.</p></div>
+        <div class="ponto"><h3>Conformidade</h3><p>Aplicar consistentemente todas as regras de contrato, descontos e acréscimos.</p></div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 4 — ABSTRAÇÃO -->
+  <!-- SLIDE: REQUISITOS FUNCIONAIS -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:50px;right:120px;transform:rotate(-10deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Abstração: separar o essencial do ruído</h2>
+    <div class="deco-rect azul"  style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Passo 2</p>
+    <h2>Requisitos Funcionais</h2>
     <div class="content-box">
-      <p>Para calcular a média de notas, não importa o nome do aluno, a cor da caneta ou o ano. O que importa: a <strong>lista de notas</strong> e o <strong>limiar de aprovação</strong>.</p>
-      <ul>
-        <li><strong>Bons modelos</strong> abstraem o suficiente para resolver o problema sem informação desnecessária.</li>
-        <li>Abstrair demais torna o modelo inútil; de menos, o deixa inchado e frágil.</li>
-        <li>Em código: escolha bem os parâmetros de cada função — só o que ela realmente precisa.</li>
-      </ul>
-      <div class="callout">Exemplo: <code>media(notas)</code> recebe somente a lista — não precisa saber quem é o aluno.</div>
+      <div class="req-grid">
+        <div class="req-item"><strong>Valores base</strong>Apartamento R$ 700 · Casa R$ 900 · Estúdio R$ 1.200</div>
+        <div class="req-item"><strong>Acréscimo por quarto</strong>+R$ 200 (apto 2q) · +R$ 250 (casa 2q)</div>
+        <div class="req-item"><strong>Garagem — Casa e Apto</strong>+R$ 300 fixo por vaga</div>
+        <div class="req-item"><strong>Garagem — Estúdio</strong>+R$ 250 (2 vagas) · +R$ 60 por vaga extra</div>
+        <div class="req-item"><strong>Desconto</strong>5% para aptos alugados por clientes sem crianças</div>
+        <div class="req-item"><strong>Taxa de contrato</strong>R$ 2.000 fixo, parcelável em até 5x</div>
+        <div class="req-item"><strong>Valor final</strong>Aluguel + parcela do contrato (se houver)</div>
+        <div class="req-item"><strong>Exportação CSV</strong>12 parcelas do orçamento anual</div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 5 — PSEUDOCÓDIGO -->
+  <!-- SLIDE: NFR / SWEBOK -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:50px;transform:rotate(-15deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-23deg);"></div>
-    <p class="kicker">Mão na massa</p>
-    <h2>Do pseudocódigo ao código Python</h2>
+    <p class="kicker">Passo 3 · SWEBOK 4.0</p>
+    <h2>Requisitos Não Funcionais</h2>
     <div class="content-box">
-      <p>Pseudocódigo é o rascunho do algoritmo — linguagem humana com estrutura de código:</p>
-      <div class="code-block"><code>RECEBER lista de notas
-CALCULAR soma de todas as notas
-DIVIDIR soma pelo número de notas → média
-SE média &gt;= 6,0
-    EXIBIR "Aprovado com média X"
-SENÃO
-    EXIBIR "Reprovado com média X"</code></div>
-      <p class="code-cap">Sem preocupação com sintaxe — só com a lógica.</p>
+      <div class="pontos-grid">
+        <div class="ponto"><h3>Manutenibilidade</h3><p>Código estruturado com OOP obrigatório — herança, encapsulamento, polimorfismo.</p></div>
+        <div class="ponto"><h3>Interoperabilidade</h3><p>Exportar <code>.csv</code> padrão, legível por Excel, Google Sheets e sistemas externos.</p></div>
+        <div class="ponto"><h3>Usabilidade</h3><p>Interface intuitiva para corretores gerar orçamentos sem treinamento técnico.</p></div>
+        <div class="ponto"><h3>Confiabilidade</h3><p>Exatidão matemática garantida — zero erro de arredondamento em cálculos monetários.</p></div>
+        <div class="ponto"><h3>Desempenho</h3><p>Geração de orçamento em menos de 2 segundos; suportar múltiplos usuários.</p></div>
+        <div class="ponto"><h3>Segurança</h3><p>Dados de clientes protegidos; validação de entradas; sem injeção de código.</p></div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 6 — PYTHON -->
+  <!-- SLIDE: UML DE CLASSES -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:210px;height:210px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-12deg);"></div>
-    <p class="kicker">Mão na massa</p>
-    <h2>Implementando em Python</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">def</span> <span class="f">media</span>(notas):
-    <span class="k">return</span> <span class="f">sum</span>(notas) / <span class="f">len</span>(notas)
-
-notas = [<span class="n">7.5</span>, <span class="n">6.0</span>, <span class="n">8.5</span>, <span class="n">5.0</span>]
-m = <span class="f">media</span>(notas)
-<span class="k">if</span> m &gt;= <span class="n">6.0</span>:
-    <span class="f">print</span>(<span class="s">f"Aprovado com média {m:.1f}"</span>)
-<span class="k">else</span>:
-    <span class="f">print</span>(<span class="s">f"Reprovado com média {m:.1f}"</span>)</code></div>
-      <p class="code-cap">Notas [7.5, 6.0, 8.5, 5.0] → soma 27.0 → média 6.75 → Aprovado</p>
+    <div class="deco-rect azul"  style="width:180px;height:180px;top:-50px;right:-20px;transform:rotate(-18deg);"></div>
+    <p class="kicker">Passo 4</p>
+    <h2>Diagrama UML de Classes</h2>
+    <div class="content-box" style="padding: 18px 24px;">
+      <div class="uml-box">
+        <div>
+          <div class="uml-class">
+            <div class="uml-class-name">«abstract» Imovel</div>
+            <div class="uml-class-body">
+              <div>- valor_base: float</div>
+              <div>- qtd_quartos: int</div>
+              <div>- tem_garagem: bool</div>
+              <div class="uml-divider"></div>
+              <div class="method">+ calcular_aluguel(): float</div>
+              <div class="method">+ adicionar_garagem()</div>
+            </div>
+          </div>
+          <div style="text-align:center;color:var(--azul);font-size:1.2rem;margin:4px 0;">△ △ △</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+            <div class="uml-class">
+              <div class="uml-class-name">Apartamento</div>
+              <div class="uml-class-body">
+                <div>- desconto: bool</div>
+                <div class="uml-divider"></div>
+                <div class="method">+ aplicar_desc()</div>
+              </div>
+            </div>
+            <div class="uml-class">
+              <div class="uml-class-name">Casa</div>
+              <div class="uml-class-body">
+                <div>- qtd_quartos: int</div>
+                <div class="uml-divider"></div>
+                <div class="method">+ acrescimo()</div>
+              </div>
+            </div>
+            <div class="uml-class">
+              <div class="uml-class-name">Estudio</div>
+              <div class="uml-class-body">
+                <div>- vagas_extra: int</div>
+                <div class="uml-divider"></div>
+                <div class="method">+ calc_vagas()</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="uml-class">
+            <div class="uml-class-name">Cliente</div>
+            <div class="uml-class-body">
+              <div>- nome: str</div>
+              <div>- possui_criancas: bool</div>
+            </div>
+          </div>
+          <div class="uml-class">
+            <div class="uml-class-name">Contrato</div>
+            <div class="uml-class-body">
+              <div>- taxa: float = 2000</div>
+              <div>- qtd_parcelas: int</div>
+              <div class="uml-divider"></div>
+              <div class="method">+ calcular_parcela()</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="uml-class">
+            <div class="uml-class-name">Orcamento</div>
+            <div class="uml-class-body">
+              <div>- cliente: Cliente</div>
+              <div>- imovel: Imovel</div>
+              <div>- contrato: Contrato</div>
+              <div>- data_criacao: datetime</div>
+              <div class="uml-divider"></div>
+              <div class="method">+ gerar_mensal(): float</div>
+              <div class="method">+ exportar_csv()</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 7 — RUST -->
+  <!-- SLIDE: TECNOLOGIAS -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-15px;transform:rotate(-21deg);"></div>
-    <p class="kicker">Comparando linguagens · Python vs Rust</p>
-    <h2>O mesmo algoritmo em Rust</h2>
+    <p class="kicker">Passo 5</p>
+    <h2>Avaliando as Tecnologias</h2>
     <div class="content-box">
-      <div class="code-block"><code><span class="k">fn</span> <span class="f">media</span>(notas: &amp;[<span class="f">f64</span>]) -&gt; <span class="f">f64</span> {
-    notas.<span class="f">iter</span>().<span class="f">sum</span>::&lt;<span class="f">f64</span>&gt;() / notas.<span class="f">len</span>() <span class="k">as</span> <span class="f">f64</span>
-}
-
-<span class="k">fn</span> <span class="f">main</span>() {
-    <span class="k">let</span> notas = [<span class="n">7.5</span>, <span class="n">6.0</span>, <span class="n">8.5</span>, <span class="n">5.0</span>];
-    <span class="k">let</span> m = <span class="f">media</span>(&amp;notas);
-    <span class="k">if</span> m &gt;= <span class="n">6.0</span> {
-        <span class="f">println!</span>(<span class="s">"Aprovado com média {:.1}"</span>, m);
-    } <span class="k">else</span> {
-        <span class="f">println!</span>(<span class="s">"Reprovado com média {:.1}"</span>, m);
-    }
-}</code></div>
-      <p class="code-cap">Mesma lógica, tipagem estática, zero garbage collector. Troque uma nota para 3,0 e observe o resultado.</p>
+      <p>Com os requisitos claros, podemos agora escolher as ferramentas com critério:</p>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="icon">🐍</div>
+          <div class="name">Python</div>
+          <div class="desc">Linguagem principal. OOP nativa, bibliotecas ricas, sintaxe legível.</div>
+        </div>
+        <div class="tech-card">
+          <div class="icon">🗂️</div>
+          <div class="name">csv (stdlib)</div>
+          <div class="desc">Exportação do orçamento anual. Zero dependência externa.</div>
+        </div>
+        <div class="tech-card">
+          <div class="icon">🔲</div>
+          <div class="name">GitHub</div>
+          <div class="desc">Versionamento obrigatório. Entrega do código-fonte.</div>
+        </div>
+        <div class="tech-card">
+          <div class="icon">❓</div>
+          <div class="name">Interface?</div>
+          <div class="desc">Terminal, HTML/CSS ou framework? Decidimos depois da arquitetura.</div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px;">Tecnologia segue a arquitetura — nunca o contrário. A escolha final da interface vem na Aula 3.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
-  <!-- CITAÇÃO -->
+  <!-- QUOTE -->
   <section class="slide slide-quote">
     <div class="deco-rect verde" style="width:300px;height:300px;top:-80px;left:-60px;transform:rotate(-14deg);"></div>
     <div class="deco-rect azul"  style="width:180px;height:180px;bottom:-40px;right:-30px;transform:rotate(-20deg);"></div>
@@ -336,52 +402,33 @@ m = <span class="f">media</span>(notas)
   <!-- PONTOS-CHAVE -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:80px;transform:rotate(-22deg);"></div>
     <p class="kicker">Recapitulando</p>
     <h2>Pontos-chave</h2>
     <div class="content-box">
       <div class="pontos-grid">
-        <div class="ponto"><h3>O raciocínio vem antes</h3><p>Pensar o problema antes de abrir o editor economiza horas de depuração.</p></div>
-        <div class="ponto"><h3>4 pilares</h3><p>Decomposição, padrões, abstração e algoritmo formam o kit completo do pensamento computacional.</p></div>
-        <div class="ponto"><h3>Pseudocódigo é rascunho</h3><p>Escreva o algoritmo em linguagem humana antes de se preocupar com sintaxe.</p></div>
-        <div class="ponto"><h3>Padrão vira função</h3><p>Quando você repete um cálculo, extraia-o para uma função e reutilize.</p></div>
+        <div class="ponto"><h3>Decompor antes de codificar</h3><p>Os 5 passos garantem que você entende o problema antes de tocá-lo.</p></div>
+        <div class="ponto"><h3>Requisitos definem o software</h3><p>Funcionais = o que faz. Não-funcionais = como se comporta. Ambos são obrigatórios.</p></div>
+        <div class="ponto"><h3>UML clarifica a estrutura</h3><p>O diagrama de classes revela entidades, atributos, herança e relacionamentos antes do código.</p></div>
+        <div class="ponto"><h3>Tecnologia vem por último</h3><p>A escolha do stack é consequência da arquitetura, não a causa dela.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
-  </section>
-
-  <!-- ATIVIDADE -->
-  <section class="slide slide-atividade">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:20px;right:-15px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Atividade prática</p>
-    <h2>Mãos à obra</h2>
-    <div class="content-box">
-      <p>Dado uma lista de números, encontre o maior usando pseudocódigo e depois implemente em Python:</p>
-      <ul>
-        <li>Escreva o pseudocódigo passo a passo.</li>
-        <li>Implemente a função <code>maior(lista)</code> em Python sem usar <code>max()</code>.</li>
-        <li><strong>Desafio</strong>: retorne também a posição (índice) do maior número.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 07/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 01 · 02/07/2026</span></div>
   </section>
 
   <!-- ENCERRAMENTO -->
   <section class="slide slide-fim">
     <div class="deco-rect verde" style="width:360px;height:360px;top:-90px;right:-70px;transform:rotate(-16deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:-50px;right:140px;transform:rotate(-24deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:40px;left:80px;transform:rotate(-10deg);"></div>
-    <h1>Até a próxima!</h1>
-    <p class="fim-texto">Você dominou o primeiro passo: <strong>pensar</strong> antes de programar. Com os 4 pilares do pensamento computacional e o caminho pseudocódigo → Python na mão, estamos prontos para ir mais fundo.</p>
-    <p class="fim-proxima">Próxima aula: Aula 02 · Da lógica ao código.</p>
+    <h1>Até semana que vem!</h1>
+    <p class="fim-texto">Hoje decompusemos o problema, levantamos os requisitos e desenhamos a estrutura de classes. O problema está <strong>entendido</strong>. Na próxima aula, vamos modelar com <strong>AntiGravity</strong> e detalhar a arquitetura antes de escrever uma única linha de código.</p>
+    <p class="fim-proxima">Próxima aula (Aula 2): AntiGravity + Modelagem Arquitetural · 08/07/2026</p>
     <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
   </section>
 
 </div>
 
 <nav class="nav" role="navigation" aria-label="Navegação dos slides">
-  <a class="nav-home" href="index.html" title="Voltar as aulas" aria-label="Voltar as aulas">&#8962;</a>
+  <a href="index.html" title="Voltar às aulas">&#8962;</a>
   <button id="prev" aria-label="Slide anterior">‹</button>
   <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
   <button id="next" aria-label="Próximo slide">›</button>
@@ -416,9 +463,8 @@ m = <span class="f">media</span>(notas)
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
   function scaleDeck() {
-    const deck = document.querySelector('.deck');
     const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    deck.style.transform = 'scale(' + s + ')';
+    document.querySelector('.deck').style.transform = 'scale(' + s + ')';
   }
   scaleDeck();
   window.addEventListener('resize', scaleDeck);

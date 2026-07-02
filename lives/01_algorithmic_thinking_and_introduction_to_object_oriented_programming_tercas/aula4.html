@@ -1,115 +1,80 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Aula 4 — POO na prática &amp; mini-projeto · Live 01</title>
+<title>Aula 4 — Testando NFRs, Métricas e Deploy · Live 01</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-  :root {
-    --navy: #1A3666;
-    --navy-dark: #132D42;
-    --verde: #17A460;
-    --azul: #4285F4;
-    --branco: #FFFFFF;
-    --fonte: 'Poppins', sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); margin: 0; display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; overflow: hidden; }
-  .deck { width: 1280px; height: 720px; position: relative; }
-  .slide { position: absolute; inset: 0; width: 1280px; height: 720px; display: none; overflow: hidden; }
-  .slide.active { display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-  .deco-rect { position: absolute; border-radius: 28px; pointer-events: none; }
-  .deco-rect.verde { border: 4px solid var(--verde); }
-  .deco-rect.azul  { border: 4px solid var(--azul); }
-
-  .slide-capa { background: var(--branco); flex-direction: column; justify-content: center; align-items: flex-start; padding: 0 100px; }
-  .capa-logo { margin-bottom: 28px; }
-  .capa-logo img { height: 56px; }
-  .slide-capa h1 { font-size: 3rem; font-weight: 800; color: var(--navy); line-height: 1.1; max-width: 760px; margin-bottom: 16px; }
-  .capa-subtitulo { font-size: 1.1rem; font-weight: 500; color: var(--verde); margin-bottom: 8px; }
-  .capa-docente { font-size: 0.95rem; font-weight: 400; color: #555; }
-
-  .slide-audio { background: var(--navy); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; }
-  .slide-audio h1 { font-size: 2rem; font-weight: 700; margin-bottom: 20px; color: var(--verde); }
-  .slide-audio p  { font-size: 1.05rem; line-height: 1.7; max-width: 700px; }
-
-  .slide-prof { background: var(--navy); flex-direction: row; align-items: stretch; justify-content: flex-start; }
-  .prof-foto-col { width: 380px; background: var(--navy-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; padding: 40px 30px; position: relative; }
-  .prof-foto-img { width: 180px; height: 180px; border-radius: 50%; background: #2a4a7f; overflow: hidden; margin-bottom: 20px; border: 4px solid var(--verde); }
-  .prof-foto-img img { width: 100%; height: 100%; object-fit: cover; }
-  .prof-info-col { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .prof-nome { font-size: 1.9rem; font-weight: 800; margin-bottom: 6px; }
-  .prof-cargo { font-size: 0.95rem; color: var(--verde); font-weight: 500; margin-bottom: 24px; }
-  .prof-descricao { font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px; }
-
-  .slide-pre { background: var(--navy); flex-direction: column; justify-content: center; align-items: center; }
-  .slide-pre img { max-height: 580px; max-width: 1100px; object-fit: contain; }
-
-  .slide-sumario { background: var(--navy); flex-direction: row; align-items: stretch; }
-  .sumario-esq { width: 420px; background: var(--navy-dark); display: flex; flex-direction: column; justify-content: center; padding: 60px 50px; flex-shrink: 0; position: relative; }
-  .sumario-titulo { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
-  .sumario-dir { flex: 1; padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; position: relative; }
-  .sumario-dir h2 { font-size: 1.3rem; font-weight: 700; color: var(--verde); margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.08em; }
-  .sumario-dir ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .sumario-dir ul li { font-size: 1.05rem; padding-left: 20px; position: relative; }
-  .sumario-dir ul li::before { content: '▸'; position: absolute; left: 0; color: var(--verde); }
-
-  .slide-content-wrap { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .kicker { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--verde); margin-bottom: 8px; }
-  .slide-content-wrap h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-  .content-box { background: var(--navy-dark); border-radius: 16px; padding: 28px 36px; width: 100%; flex: 1; overflow: hidden; position: relative; }
-  .content-box p { font-size: 0.97rem; line-height: 1.65; margin-bottom: 12px; }
-  .content-box ul { padding-left: 22px; display: flex; flex-direction: column; gap: 10px; }
-  .content-box ul li { font-size: 0.97rem; line-height: 1.6; }
-  .content-box ul li strong { color: var(--verde); }
-  .slide-footer { position: absolute; bottom: 18px; left: 80px; right: 80px; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
-
-  .pontos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%; margin-top: 8px; }
-  .ponto { border-left: 4px solid var(--verde); padding: 14px 18px; background: rgba(255,255,255,0.04); border-radius: 0 8px 8px 0; }
-  .ponto h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; color: var(--verde); }
-  .ponto p  { font-size: 0.88rem; line-height: 1.5; margin: 0; }
-
-  .code-block { background: #0d1b2e; border-radius: 10px; padding: 18px 22px; font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.6; overflow-x: auto; margin: 10px 0; white-space: pre; }
-  .code-block code { display: block; }
-  .k { color: #F0CE29; }
-  .f { color: #2BBBE0; }
-  .s { color: #8DD17E; }
-  .n { color: #E48BB0; }
-  .c { color: #7c89ad; font-style: italic; }
-  .p { color: #2BBBE0; font-weight: bold; }
-  .code-cap { font-size: 0.82rem; color: rgba(255,255,255,0.55); font-style: italic; margin-top: 6px; margin-bottom: 0; }
-
-  .slide-quote { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: center; padding: 60px 120px; position: relative; }
-  .quote-card { background: var(--branco); border-radius: 20px; padding: 48px 60px; max-width: 820px; text-align: center; }
-  .quote-card blockquote { font-size: 1.45rem; font-weight: 600; color: var(--navy); line-height: 1.45; margin-bottom: 20px; }
-  .quote-card cite { font-size: 0.95rem; color: var(--verde); font-style: normal; font-weight: 600; }
-
-  .slide-atividade { background: var(--navy); flex-direction: column; align-items: flex-start; justify-content: flex-start; padding: 48px 80px; position: relative; }
-  .slide-atividade h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 20px; line-height: 1.15; }
-
-  .slide-fim { background: var(--navy-dark); flex-direction: column; justify-content: center; align-items: flex-start; padding: 60px 100px; position: relative; }
-  .slide-fim h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; }
-  .fim-texto { font-size: 1.05rem; line-height: 1.7; max-width: 680px; margin-bottom: 20px; }
-  .fim-proxima { font-size: 1rem; color: var(--verde); font-weight: 600; margin-bottom: 10px; }
-  .fim-prof { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
-
-  .nav { position: fixed; bottom: 22px; right: 28px; display: flex; align-items: center; gap: 6px; background: var(--navy); border: 1px solid rgba(255,255,255,0.12); border-radius: 40px; padding: 6px 14px; z-index: 9999; }
-  .nav button, .nav a { background: none; border: none; color: var(--branco); font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 20px; text-decoration: none; line-height: 1; transition: color 0.2s; font-family: var(--fonte); }
-  .nav button:hover, .nav a:hover { color: var(--azul); }
-  .nav button:disabled { opacity: 0.3; cursor: default; }
-  .counter { font-family: var(--fonte); font-size: 0.82rem; color: rgba(255,255,255,0.6); min-width: 54px; text-align: center; }
-
-  @media print {
-    @page { size: 1280px 720px; margin: 0; }
-    body { width: 1280px; height: 720px; }
-    .nav { display: none !important; }
-    .slide { display: none !important; }
-    .slide.active { display: flex !important; }
-  }
+  :root{--navy:#1A3666;--navy-dark:#132D42;--verde:#17A460;--azul:#4285F4;--vermelho:#E53935;--branco:#FFFFFF;--fonte:'Poppins',sans-serif;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--fonte);background:#0a0e1a;color:var(--branco);margin:0;display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;overflow:hidden;}
+  .deck{width:1280px;height:720px;position:relative;}
+  .slide{position:absolute;inset:0;width:1280px;height:720px;display:none;overflow:hidden;}
+  .slide.active{display:flex;flex-direction:column;justify-content:center;align-items:center;}
+  .deco-rect{position:absolute;border-radius:28px;pointer-events:none;}
+  .deco-rect.verde{border:4px solid var(--verde);} .deco-rect.azul{border:4px solid var(--azul);}
+  .slide-capa{background:var(--branco);flex-direction:column;justify-content:center;align-items:flex-start;padding:0 100px;}
+  .capa-logo{margin-bottom:28px;} .capa-logo img{height:56px;}
+  .slide-capa h1{font-size:3rem;font-weight:800;color:var(--navy);line-height:1.1;max-width:760px;margin-bottom:16px;}
+  .capa-subtitulo{font-size:1.1rem;font-weight:500;color:var(--verde);margin-bottom:8px;}
+  .capa-docente{font-size:0.95rem;font-weight:400;color:#555;}
+  .slide-audio{background:var(--navy);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;}
+  .slide-audio h1{font-size:2rem;font-weight:700;margin-bottom:20px;color:var(--verde);}
+  .slide-audio p{font-size:1.05rem;line-height:1.7;max-width:700px;}
+  .slide-sumario{background:var(--navy);flex-direction:row;align-items:stretch;}
+  .sumario-esq{width:420px;background:var(--navy-dark);display:flex;flex-direction:column;justify-content:center;padding:60px 50px;flex-shrink:0;position:relative;}
+  .sumario-titulo{font-size:1.6rem;font-weight:800;line-height:1.2;}
+  .sumario-dir{flex:1;padding:60px 70px;display:flex;flex-direction:column;justify-content:center;}
+  .sumario-dir h2{font-size:1.3rem;font-weight:700;color:var(--verde);margin-bottom:24px;text-transform:uppercase;letter-spacing:0.08em;}
+  .sumario-dir ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .sumario-dir ul li{font-size:1.05rem;padding-left:20px;position:relative;}
+  .sumario-dir ul li::before{content:'▸';position:absolute;left:0;color:var(--verde);}
+  .slide-content-wrap{background:var(--navy);flex-direction:column;align-items:flex-start;justify-content:flex-start;padding:48px 80px;position:relative;}
+  .kicker{font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:var(--verde);margin-bottom:8px;}
+  .slide-content-wrap h2{font-size:1.8rem;font-weight:800;margin-bottom:20px;line-height:1.15;}
+  .content-box{background:var(--navy-dark);border-radius:16px;padding:28px 36px;width:100%;flex:1;overflow:hidden;position:relative;}
+  .content-box p{font-size:0.97rem;line-height:1.65;margin-bottom:12px;}
+  .content-box ul{padding-left:22px;display:flex;flex-direction:column;gap:10px;}
+  .content-box ul li{font-size:0.97rem;line-height:1.6;}
+  .content-box ul li strong{color:var(--verde);}
+  .slide-footer{position:absolute;bottom:18px;left:80px;right:80px;display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(255,255,255,0.4);}
+  .pontos-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;margin-top:8px;}
+  .ponto{border-left:4px solid var(--verde);padding:14px 18px;background:rgba(255,255,255,0.04);border-radius:0 8px 8px 0;}
+  .ponto h3{font-size:0.95rem;font-weight:700;margin-bottom:6px;color:var(--verde);}
+  .ponto p{font-size:0.88rem;line-height:1.5;margin:0;}
+  .code-block{background:#0d1b2e;border-radius:10px;padding:16px 20px;font-family:'Courier New',monospace;font-size:0.8rem;line-height:1.6;overflow-x:auto;margin:8px 0;white-space:pre;}
+  .code-block code{display:block;}
+  .k{color:#F0CE29;} .f{color:#2BBBE0;} .s{color:#8DD17E;} .n{color:#E48BB0;} .c{color:#7c89ad;font-style:italic;} .cm{color:#a8b4d0;}
+  .callout{background:rgba(23,164,96,0.12);border-left:4px solid var(--verde);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.88rem;line-height:1.5;margin-top:10px;}
+  .callout-warn{background:rgba(66,133,244,0.12);border-left:4px solid var(--azul);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.88rem;line-height:1.5;margin-top:10px;}
+  .callout-alert{background:rgba(229,57,53,0.12);border-left:4px solid var(--vermelho);border-radius:0 8px 8px 0;padding:12px 18px;font-size:0.88rem;line-height:1.5;margin-top:10px;}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:10px;}
+  .metric{background:rgba(255,255,255,0.05);border-radius:10px;padding:14px;text-align:center;}
+  .metric .val{font-size:1.6rem;font-weight:800;color:var(--verde);}
+  .metric .label{font-size:0.72rem;color:rgba(255,255,255,0.6);margin-top:3px;}
+  .entrega-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px;}
+  .entrega-item{background:rgba(255,255,255,0.04);border-radius:8px;padding:12px 16px;display:flex;align-items:flex-start;gap:10px;}
+  .entrega-icon{font-size:1.3rem;flex-shrink:0;}
+  .entrega-text h4{font-size:0.85rem;font-weight:700;color:var(--verde);margin-bottom:3px;}
+  .entrega-text p{font-size:0.78rem;color:rgba(255,255,255,0.7);line-height:1.4;}
+  .slide-quote{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:center;padding:60px 120px;position:relative;}
+  .quote-card{background:var(--branco);border-radius:20px;padding:48px 60px;max-width:820px;text-align:center;}
+  .quote-card blockquote{font-size:1.45rem;font-weight:600;color:var(--navy);line-height:1.45;margin-bottom:20px;}
+  .quote-card cite{font-size:0.95rem;color:var(--verde);font-style:normal;font-weight:600;}
+  .slide-fim{background:var(--navy-dark);flex-direction:column;justify-content:center;align-items:flex-start;padding:60px 100px;position:relative;}
+  .slide-fim h1{font-size:3rem;font-weight:800;margin-bottom:20px;}
+  .fim-texto{font-size:1.05rem;line-height:1.7;max-width:680px;margin-bottom:20px;}
+  .fim-proxima{font-size:1rem;color:var(--verde);font-weight:600;margin-bottom:10px;}
+  .fim-prof{font-size:0.9rem;color:rgba(255,255,255,0.5);}
+  .nav{position:fixed;bottom:22px;right:28px;display:flex;align-items:center;gap:6px;background:var(--navy);border:1px solid rgba(255,255,255,0.12);border-radius:40px;padding:6px 14px;z-index:9999;}
+  .nav button,.nav a{background:none;border:none;color:var(--branco);font-size:1.1rem;cursor:pointer;padding:4px 8px;border-radius:20px;text-decoration:none;line-height:1;transition:color 0.2s;font-family:var(--fonte);}
+  .nav button:hover,.nav a:hover{color:var(--azul);}
+  .nav button:disabled{opacity:0.3;cursor:default;}
+  .counter{font-family:var(--fonte);font-size:0.82rem;color:rgba(255,255,255,0.6);min-width:54px;text-align:center;}
+  @media print{@page{size:1280px 720px;margin:0;}body{width:1280px;height:720px;}.nav{display:none!important;}.slide{display:none!important;}.slide.active{display:flex!important;}}
 </style>
 </head>
 <body>
@@ -119,338 +84,264 @@
   <section class="slide slide-capa active">
     <div class="deco-rect verde" style="width:340px;height:340px;top:-80px;right:-60px;transform:rotate(-15deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:30px;right:180px;transform:rotate(-22deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:-30px;left:60px;transform:rotate(-10deg);"></div>
     <div class="capa-logo"><img src="assets/logo-atomo.png" alt="Átomo logo"/></div>
-    <h1>POO na prática &amp; mini-projeto</h1>
-    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP</div>
-    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 28/07/2026 · Terça · 19h–20h30</div>
+    <h1>Testando NFRs, Métricas e Deploy</h1>
+    <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP · Aula 4</div>
+    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 22/07/2026 · Terça · 19h–20h30</div>
   </section>
 
   <!-- AUDIODESCRIÇÃO -->
   <section class="slide slide-audio">
-    <div class="deco-rect verde" style="width:260px;height:260px;top:-60px;right:-40px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect azul"  style="width:140px;height:140px;bottom:20px;right:80px;transform:rotate(-10deg);"></div>
     <h1>Audiodescrição</h1>
-    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais, como jaquetas e camisetas em tons neutros.</p>
+    <p>Sou um homem de pele clara, cabelos castanho-escuros curtos e barba cheia escura. Tenho olhos castanhos e, nas lives, costumo usar fones de ouvido e roupas casuais.</p>
   </section>
-
-  <!-- SOBRE O PROFESSOR -->
-  <section class="slide slide-prof">
-    <div class="prof-foto-col">
-      <div class="deco-rect verde" style="width:180px;height:180px;top:-40px;left:-40px;transform:rotate(-12deg);"></div>
-      <div class="prof-foto-img"><img src="https://res.cloudinary.com/dyhjjms8y/image/upload/v1720832174/Captura_de_tela_2024-07-12_215408_kavbwl.png" alt="Prof. Afonso Cesar Lelis Brandão"/></div>
-    </div>
-    <div class="prof-info-col">
-      <div class="deco-rect azul" style="width:220px;height:220px;bottom:-50px;right:-50px;transform:rotate(-20deg);"></div>
-      <div class="prof-nome">Afonso Cesar Lelis Brandão</div>
-      <div class="prof-cargo">Professor · Engenharia, Computação &amp; IA</div>
-      <p class="prof-descricao">Atuo na fronteira entre <strong>engenharia</strong>, <strong>computação</strong> e <strong>dados</strong>. Engenheiro de formação e doutorando em engenharia da computação, trago para as lives a prática de quem constrói software de verdade — do raciocínio que antecede o código aos primeiros projetos reais.</p>
-      <p class="prof-descricao">Nestes quatro encontros, conduzo você do <strong>pensamento algorítmico</strong> até a <strong>orientação a objetos</strong>, sempre com a mão na massa.</p>
-    </div>
-  </section>
-
-  <!-- PRÉ-AULA -->
 
   <!-- SUMÁRIO -->
   <section class="slide slide-sumario">
     <div class="sumario-esq">
       <div class="deco-rect verde" style="width:200px;height:200px;bottom:-50px;left:-50px;transform:rotate(-15deg);"></div>
-      <div class="sumario-titulo">POO na prática &amp; mini-projeto</div>
+      <div class="sumario-titulo">Testando NFRs, Métricas e Deploy</div>
     </div>
     <div class="sumario-dir">
-      <div class="deco-rect azul" style="width:160px;height:160px;top:-30px;right:20px;transform:rotate(-18deg);"></div>
       <h2>Sumário</h2>
       <ul>
-        <li>Os 4 pilares da POO (recap)</li>
-        <li>Herança: reaproveitar código</li>
-        <li>super() e especialização</li>
-        <li>Polimorfismo na prática</li>
-        <li>Composição vs herança</li>
-        <li>Mini-projeto: sistema de biblioteca</li>
+        <li>O que são testes de NFR?</li>
+        <li>Teste de desempenho: 1.000 usuários simultâneos</li>
+        <li>Métricas: latência, throughput, taxa de erro</li>
+        <li>Teste de segurança: validação de entradas</li>
+        <li>Deploy: Streamlit Community Cloud</li>
+        <li>Requisitos de entrega do projeto</li>
       </ul>
     </div>
   </section>
 
-  <!-- CONTEÚDO 1 — 4 PILARES -->
+  <!-- NFR: O QUE SÃO -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-60px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-20px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Recapitulando</p>
-    <h2>Os 4 pilares da POO</h2>
+    <p class="kicker">Conceito</p>
+    <h2>Testes de Requisitos Não Funcionais</h2>
     <div class="content-box">
+      <p>Na Aula 1 levantamos os NFRs. Agora <strong>verificamos</strong> se a aplicação os cumpre:</p>
       <div class="pontos-grid">
-        <div class="ponto"><h3>Abstração</h3><p>Modelar só o que importa do problema (Aula 03).</p></div>
-        <div class="ponto"><h3>Encapsulamento</h3><p>Proteger o estado dentro do objeto (Aula 03).</p></div>
-        <div class="ponto"><h3>Herança</h3><p>Uma classe reaproveita e estende outra. <strong>Hoje.</strong></p></div>
-        <div class="ponto"><h3>Polimorfismo</h3><p>O mesmo método se comporta diferente em cada classe. <strong>Hoje.</strong></p></div>
+        <div class="ponto"><h3>Teste de desempenho</h3><p>A aplicação aguenta 1.000 usuários simultâneos? Qual é a latência média? Há degradação?</p></div>
+        <div class="ponto"><h3>Teste de segurança</h3><p>O sistema rejeita entradas inválidas? Valores negativos, tipos errados, injeção de dados.</p></div>
+        <div class="ponto"><h3>Teste de confiabilidade</h3><p>Os cálculos matemáticos são exatos? Arredondamento correto em moeda?</p></div>
+        <div class="ponto"><h3>Teste de usabilidade</h3><p>Um corretor sem treino técnico consegue gerar um orçamento em menos de 2 minutos?</p></div>
       </div>
+      <div class="callout">NFRs não testados são suposições — e suposições não vão para produção.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 2 — HERANÇA -->
+  <!-- DESEMPENHO: LOCUST -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:240px;height:240px;top:-70px;right:-40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-25deg);"></div>
-    <p class="kicker">Mão na massa</p>
-    <h2>Herança: reaproveitar código</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Animal</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, nome):
-        self.nome = nome
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Desempenho · Locust</p>
+    <h2>Simulando 1.000 Usuários Simultâneos</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="cm"># pip install locust</span>
+<span class="cm"># locustfile.py</span>
 
-    <span class="k">def</span> <span class="f">falar</span>(self):
-        <span class="k">return</span> <span class="s">"..."</span>
+<span class="k">from</span> locust <span class="k">import</span> HttpUser, task, between
 
-<span class="k">class</span> <span class="f">Cachorro</span>(<span class="f">Animal</span>):     <span class="c"># herda de Animal</span>
-    <span class="k">def</span> <span class="f">falar</span>(self):
-        <span class="k">return</span> <span class="s">f"{self.nome}: Au au!"</span>
+<span class="k">class</span> <span class="f">ImovelUser</span>(HttpUser):
+    wait_time = <span class="f">between</span>(<span class="n">1</span>, <span class="n">3</span>)  <span class="c"># pausa realista entre requisições</span>
 
-<span class="k">class</span> <span class="f">Gato</span>(<span class="f">Animal</span>):
-    <span class="k">def</span> <span class="f">falar</span>(self):
-        <span class="k">return</span> <span class="s">f"{self.nome}: Miau!"</span></code></div>
-      <p class="code-cap">Cachorro e Gato ganham <em>__init__</em> e <em>nome</em> de graça, do pai Animal.</p>
+    <span class="n">@task</span>
+    <span class="k">def</span> <span class="f">gerar_orcamento</span>(self):
+        <span class="s">"""Simula um corretor gerando um orçamento."""</span>
+        self.client.<span class="f">post</span>(<span class="s">"/gerar"</span>, json={
+            <span class="s">"tipo"</span>: <span class="s">"Apartamento"</span>,
+            <span class="s">"quartos"</span>: <span class="n">2</span>,
+            <span class="s">"garagem"</span>: <span class="k">True</span>,
+            <span class="s">"sem_criancas"</span>: <span class="k">False</span>,
+            <span class="s">"parcelas"</span>: <span class="n">3</span>
+        })
+
+<span class="cm"># Rodar: locust -f locustfile.py --users 1000 --spawn-rate 50</span>
+<span class="cm"># Abre painel em http://localhost:8089</span></code></div>
+      <div class="callout-warn">spawn-rate 50 = 50 usuários/segundo até atingir 1.000. Observar quando latência começa a crescer.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 3 — SUPER -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect verde" style="width:190px;height:190px;top:-50px;right:80px;transform:rotate(-12deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-20px;transform:rotate(-20deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>super(): estender sem repetir</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Veiculo</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, marca):
-        self.marca = marca
-
-<span class="k">class</span> <span class="f">Carro</span>(<span class="f">Veiculo</span>):
-    <span class="k">def</span> <span class="f">__init__</span>(self, marca, portas):
-        <span class="f">super</span>().<span class="f">__init__</span>(marca)   <span class="c"># reaproveita o pai</span>
-        self.portas = portas</code></div>
-      <p class="code-cap"><em>super()</em> chama o construtor da classe-mãe: a especialização só adiciona o que é novo.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 4 — POLIMORFISMO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-18deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:50px;right:120px;transform:rotate(-10deg);"></div>
-    <p class="kicker">Mão na massa</p>
-    <h2>Polimorfismo na prática</h2>
-    <div class="content-box">
-      <p>O mesmo método <em>falar()</em>, chamado da mesma forma, faz coisas diferentes:</p>
-      <div class="code-block"><code>animais = [<span class="f">Cachorro</span>(<span class="s">"Rex"</span>), <span class="f">Gato</span>(<span class="s">"Mimi"</span>)]
-
-<span class="k">for</span> a <span class="k">in</span> animais:
-    <span class="f">print</span>(a.<span class="f">falar</span>())
-<span class="c"># -&gt; Rex: Au au!</span>
-<span class="c"># -&gt; Mimi: Miau!</span></code></div>
-      <p class="code-cap">O loop não sabe (nem precisa saber) o tipo exato — só confia que todo Animal <em>fala</em>.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 5 — COMPOSIÇÃO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:50px;transform:rotate(-15deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-23deg);"></div>
-    <p class="kicker">Conteúdo</p>
-    <h2>Composição: "tem-um" vs "é-um"</h2>
-    <div class="content-box">
-      <p>Nem tudo é herança. Um Carro <strong>não é</strong> um Motor — ele <strong>tem um</strong> Motor:</p>
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Motor</span>:
-    <span class="k">def</span> <span class="f">ligar</span>(self):
-        <span class="k">return</span> <span class="s">"Vrum!"</span>
-
-<span class="k">class</span> <span class="f">Carro</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self):
-        self.motor = <span class="f">Motor</span>()    <span class="c"># Carro TEM um Motor</span>
-
-    <span class="k">def</span> <span class="f">dar_partida</span>(self):
-        <span class="k">return</span> self.motor.<span class="f">ligar</span>()</code></div>
-      <p class="code-cap">Regra prática: prefira <strong>composição</strong> (tem-um) e use herança (é-um) só quando a relação for de verdade.</p>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 6 — MINI-PROJETO -->
-  <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:210px;height:210px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
-    <div class="deco-rect verde" style="width:110px;height:110px;bottom:40px;right:100px;transform:rotate(-12deg);"></div>
-    <p class="kicker">Mini-projeto</p>
-    <h2>Sistema de biblioteca</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">class</span> <span class="f">Livro</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self, titulo):
-        self.titulo = titulo
-        self.disponivel = <span class="k">True</span>
-
-<span class="k">class</span> <span class="f">Biblioteca</span>:
-    <span class="k">def</span> <span class="f">__init__</span>(self):
-        self.acervo = []
-
-    <span class="k">def</span> <span class="f">adicionar</span>(self, livro):
-        self.acervo.<span class="f">append</span>(livro)
-
-    <span class="k">def</span> <span class="f">emprestar</span>(self, titulo):
-        <span class="k">for</span> livro <span class="k">in</span> self.acervo:
-            <span class="k">if</span> livro.titulo == titulo <span class="k">and</span> livro.disponivel:
-                livro.disponivel = <span class="k">False</span>
-                <span class="k">return</span> <span class="s">f"Emprestado: {titulo}"</span>
-        <span class="k">return</span> <span class="s">"Indisponível"</span></code></div>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
-  </section>
-
-  <!-- CONTEÚDO 7 — RODANDO -->
+  <!-- MÉTRICAS -->
   <section class="slide slide-content-wrap">
     <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
-    <div class="deco-rect azul"  style="width:130px;height:130px;bottom:20px;right:-15px;transform:rotate(-21deg);"></div>
-    <p class="kicker">Mini-projeto</p>
-    <h2>Rodando o projeto</h2>
+    <p class="kicker">Métricas de Qualidade</p>
+    <h2>O que medir e por quê</h2>
     <div class="content-box">
-      <div class="code-block"><code>bib = <span class="f">Biblioteca</span>()
-bib.<span class="f">adicionar</span>(<span class="f">Livro</span>(<span class="s">"Python Fluente"</span>))
-
-<span class="f">print</span>(bib.<span class="f">emprestar</span>(<span class="s">"Python Fluente"</span>))  <span class="c"># -&gt; Emprestado: Python Fluente</span>
-<span class="f">print</span>(bib.<span class="f">emprestar</span>(<span class="s">"Python Fluente"</span>))  <span class="c"># -&gt; Indisponível</span></code></div>
-      <p class="code-cap">Objetos colaborando: a Biblioteca conversa com seus Livros. Isso é POO em ação.</p>
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="val">&lt; 2s</div>
+          <div class="label">Latência p95<br/>(meta: gerar orçamento)</div>
+        </div>
+        <div class="metric">
+          <div class="val">1.000</div>
+          <div class="label">Usuários simultâneos<br/>(meta de carga)</div>
+        </div>
+        <div class="metric">
+          <div class="val">&lt; 1%</div>
+          <div class="label">Taxa de erro<br/>(requests com falha)</div>
+        </div>
+        <div class="metric">
+          <div class="val">500 rps</div>
+          <div class="label">Throughput mínimo<br/>(requests por segundo)</div>
+        </div>
+      </div>
+      <div class="pontos-grid" style="margin-top:12px;">
+        <div class="ponto"><h3>Latência p95</h3><p>95% das requisições abaixo de 2s. O p99 pode ser mais alto — e tudo bem.</p></div>
+        <div class="ponto"><h3>Taxa de erro</h3><p>Erros HTTP 5xx indicam bugs sob carga — não é comportamento esperado.</p></div>
+      </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
   </section>
 
-  <!-- CONTEÚDO 7b — RUST TRAITS -->
+  <!-- SEGURANÇA -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:200px;height:200px;top:-55px;right:40px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:-10px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Comparando linguagens · Python vs Rust</p>
-    <h2>Polimorfismo em Rust: Traits</h2>
-    <div class="content-box">
-      <p>Rust troca herança por <strong>traits</strong> — contratos que qualquer tipo pode implementar, sem hierarquia de classes:</p>
-      <div class="code-block"><code><span class="k">trait</span> <span class="f">Descricao</span> {
-    <span class="k">fn</span> <span class="f">descricao</span>(&amp;<span class="k">self</span>) -&gt; <span class="f">String</span>;
-}
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Segurança · Validação de Entradas</p>
+    <h2>Testando Entradas Maliciosas</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div class="code-block" style="font-size:0.78rem;"><code><span class="k">import</span> pytest
+<span class="k">from</span> domain.imovel <span class="k">import</span> Apartamento
+<span class="k">from</span> domain.contrato <span class="k">import</span> Contrato
 
-<span class="k">struct</span> <span class="f">Livro</span>   { titulo: <span class="f">String</span>, autor: <span class="f">String</span> }
-<span class="k">struct</span> <span class="f">Revista</span> { nome: <span class="f">String</span>, edicao: <span class="f">u32</span> }
+<span class="k">class</span> <span class="f">TestSeguranca</span>:
 
-<span class="k">impl</span> <span class="f">Descricao</span> <span class="k">for</span> <span class="f">Livro</span> {
-    <span class="k">fn</span> <span class="f">descricao</span>(&amp;<span class="k">self</span>) -&gt; <span class="f">String</span> {
-        <span class="f">format!</span>(<span class="s">"📖 {} — {}"</span>, <span class="k">self</span>.titulo, <span class="k">self</span>.autor)
-    }
-}
-<span class="k">impl</span> <span class="f">Descricao</span> <span class="k">for</span> <span class="f">Revista</span> {
-    <span class="k">fn</span> <span class="f">descricao</span>(&amp;<span class="k">self</span>) -&gt; <span class="f">String</span> {
-        <span class="f">format!</span>(<span class="s">"📰 {} nº{}"</span>, <span class="k">self</span>.nome, <span class="k">self</span>.edicao)
-    }
-}</code></div>
-      <p class="code-cap">Python usa <em>herança + duck typing</em>; Rust usa <em>traits + composição</em>. Dois caminhos para o mesmo princípio: <strong>"o mesmo método, comportamentos diferentes"</strong>.</p>
+    <span class="k">def</span> <span class="f">test_valor_base_negativo</span>(self):
+        <span class="s">"""Sistema não pode aceitar aluguel negativo."""</span>
+        <span class="k">with</span> pytest.<span class="f">raises</span>(ValueError):
+            Apartamento(valor_base=<span class="n">-500</span>)
+
+    <span class="k">def</span> <span class="f">test_parcelas_acima_do_limite</span>(self):
+        <span class="s">"""Contrato parcelado em mais de 5x deve ser rejeitado."""</span>
+        <span class="k">with</span> pytest.<span class="f">raises</span>(ValueError):
+            Contrato(qtd_parcelas=<span class="n">10</span>)
+
+    <span class="k">def</span> <span class="f">test_nome_cliente_vazio</span>(self):
+        <span class="s">"""Nome em branco não pode gerar orçamento."""</span>
+        <span class="k">from</span> domain.orcamento <span class="k">import</span> Orcamento
+        <span class="k">with</span> pytest.<span class="f">raises</span>(ValueError, match=<span class="s">"nome"</span>):
+            Orcamento(cliente_nome=<span class="s">""</span>, cliente_sem_criancas=<span class="k">False</span>,
+                      imovel=Apartamento(), taxa_contrato=<span class="n">2000</span>, parcelas_contrato=<span class="n">1</span>)</code></div>
+      <div class="callout-alert">Validações pertencem ao <strong>domínio</strong>, não à UI — assim são testáveis sem depender do Streamlit.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
   </section>
 
-  <!-- CITAÇÃO -->
+  <!-- DEPLOY -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
+    <p class="kicker">Deploy</p>
+    <h2>Publicando no Streamlit Community Cloud</h2>
+    <div class="content-box">
+      <p>Zero configuração de servidor — deploy em 3 passos:</p>
+      <ul>
+        <li><strong>1. requirements.txt</strong> — liste as dependências: <code>streamlit</code>, qualquer lib usada.</li>
+        <li><strong>2. Push no GitHub</strong> — o repositório precisa ser público (ou privado com conta Pro).</li>
+        <li><strong>3. share.streamlit.io</strong> — "New app" → aponte para o repositório e o arquivo <code>app.py</code>.</li>
+      </ul>
+      <div class="code-block"><code><span class="cm"># requirements.txt</span>
+streamlit&gt;=1.36.0
+pytest&gt;=8.0
+
+<span class="cm"># Estrutura mínima do repositório</span>
+imobiliaria-rm/
+├── app.py           <span class="c"># entrada Streamlit (camada UI)</span>
+├── domain/
+│   ├── imovel.py    <span class="c"># Imovel, Apartamento, Casa, Estudio</span>
+│   ├── contrato.py
+│   └── orcamento.py
+├── tests/
+│   └── test_seguranca.py
+└── requirements.txt</code></div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
+  </section>
+
+  <!-- ENTREGA DO PROJETO -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Projeto Final</p>
+    <h2>Requisitos de Entrega</h2>
+    <div class="content-box">
+      <div class="entrega-grid">
+        <div class="entrega-item">
+          <div class="entrega-icon">📊</div>
+          <div class="entrega-text"><h4>Fluxograma Teórico (PDF)</h4><p>Diagrama da lógica principal — do input do corretor ao CSV gerado. Ferramenta: draw.io, Miro ou papel fotografado.</p></div>
+        </div>
+        <div class="entrega-item">
+          <div class="entrega-icon">🐍</div>
+          <div class="entrega-text"><h4>Código-fonte Python (GitHub)</h4><p>Repositório público com OOP implementado. Estrutura de camadas obrigatória. README com instruções de execução.</p></div>
+        </div>
+        <div class="entrega-item">
+          <div class="entrega-icon">🎥</div>
+          <div class="entrega-text"><h4>Vídeo Pitch (4 minutos)</h4><p>Apresente o problema, a solução e uma demo ao vivo. Mostre o CSV sendo gerado e explique uma regra de negócio.</p></div>
+        </div>
+        <div class="entrega-item">
+          <div class="entrega-icon">🔗</div>
+          <div class="entrega-text"><h4>App no ar (Streamlit Cloud)</h4><p>Link público acessível. O professor testa gerando um orçamento real durante a avaliação.</p></div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:12px;">Critério principal: a aplicação funciona e as regras de negócio estão corretas.</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
+  </section>
+
+  <!-- QUOTE -->
   <section class="slide slide-quote">
     <div class="deco-rect verde" style="width:300px;height:300px;top:-80px;left:-60px;transform:rotate(-14deg);"></div>
     <div class="deco-rect azul"  style="width:180px;height:180px;bottom:-40px;right:-30px;transform:rotate(-20deg);"></div>
     <div class="quote-card">
-      <blockquote>"Qualquer um escreve código que a máquina entende. Bons programadores escrevem código que humanos entendem."</blockquote>
-      <cite>— Martin Fowler</cite>
+      <blockquote>"Code without tests is broken by design."</blockquote>
+      <cite>— Jacob Kaplan-Moss</cite>
     </div>
   </section>
 
   <!-- PONTOS-CHAVE -->
   <section class="slide slide-content-wrap">
-    <div class="deco-rect azul"  style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
-    <div class="deco-rect verde" style="width:120px;height:120px;bottom:30px;right:80px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Recapitulando</p>
-    <h2>Pontos-chave</h2>
+    <div class="deco-rect azul" style="width:220px;height:220px;top:-60px;right:-30px;transform:rotate(-16deg);"></div>
+    <p class="kicker">Recapitulando a série completa</p>
+    <h2>Do problema ao produto em 4 aulas</h2>
     <div class="content-box">
       <div class="pontos-grid">
-        <div class="ponto"><h3>Herança</h3><p>A classe-filha reaproveita atributos e métodos da classe-mãe.</p></div>
-        <div class="ponto"><h3>super()</h3><p>Estende o comportamento do pai sem reescrevê-lo.</p></div>
-        <div class="ponto"><h3>Polimorfismo</h3><p>O mesmo método responde de forma diferente conforme o objeto.</p></div>
-        <div class="ponto"><h3>Composição</h3><p>"Tem-um" costuma ser mais flexível que "é-um".</p></div>
+        <div class="ponto"><h3>Aula 1 · Decompor</h3><p>Business drivers, requisitos funcionais, NFRs (SWEBOK), UML de classes, escolha de tecnologia.</p></div>
+        <div class="ponto"><h3>Aula 2 · Modelar</h3><p>AntiGravity, ambiente configurado, esqueleto das classes, arquitetura em camadas, DBML.</p></div>
+        <div class="ponto"><h3>Aula 3 · Implementar</h3><p>Herança, polimorfismo, composição, exportação CSV, interface Streamlit separada do domínio.</p></div>
+        <div class="ponto"><h3>Aula 4 · Testar e Entregar</h3><p>Locust (1.000 usuários), métricas NFR, testes de segurança com pytest, deploy no Streamlit Cloud.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
-  </section>
-
-  <!-- ATIVIDADE -->
-  <section class="slide slide-atividade">
-    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-14deg);"></div>
-    <div class="deco-rect azul"  style="width:120px;height:120px;bottom:20px;right:-15px;transform:rotate(-22deg);"></div>
-    <p class="kicker">Atividade prática</p>
-    <h2>Mãos à obra</h2>
-    <div class="content-box">
-      <p>Vamos expandir a <strong>biblioteca</strong> ao vivo:</p>
-      <ul>
-        <li>Crie a classe <strong>Membro</strong> e um método <em>devolver</em> que volta o livro ao acervo.</li>
-        <li>Crie uma superclasse <strong>ItemAcervo</strong> e faça <em>Livro</em> e <em>Revista</em> herdarem dela (polimorfismo na descrição de cada item).</li>
-        <li><strong>Desafio</strong>: registre data de empréstimo e calcule <em>multa por atraso</em>.</li>
-      </ul>
-    </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 28/07</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 04 · 22/07/2026</span></div>
   </section>
 
   <!-- ENCERRAMENTO -->
   <section class="slide slide-fim">
     <div class="deco-rect verde" style="width:360px;height:360px;top:-90px;right:-70px;transform:rotate(-16deg);"></div>
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:-50px;right:140px;transform:rotate(-24deg);"></div>
-    <div class="deco-rect verde" style="width:100px;height:100px;bottom:40px;left:80px;transform:rotate(-10deg);"></div>
-    <h1>Parabéns!</h1>
-    <p class="fim-texto">Em quatro encontros você saiu do <strong>pensamento algorítmico</strong> e chegou a um <strong>projeto orientado a objetos</strong> completo. Esse é o alicerce de tudo o que vem a seguir.</p>
-    <p class="fim-proxima">Próximos passos: estruturas de dados, tratamento de erros e seu primeiro projeto pessoal no GitHub.</p>
-    <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão · Obrigado por participar!</p>
+    <h1>Produto entregue!</h1>
+    <p class="fim-texto">Partimos de um problema real — a Imobiliária R.M — e chegamos a um produto testado, com OOP, interface web e deploy público. A jornada: <strong>decompor → modelar → implementar → testar</strong>. Esse é o processo de engenharia de software.</p>
+    <p class="fim-proxima">Entregue até: link do GitHub + link do app + vídeo de 4 minutos</p>
+    <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão · obrigado a todos!</p>
   </section>
 
 </div>
 
-<nav class="nav" role="navigation" aria-label="Navegação dos slides">
-  <a class="nav-home" href="index.html" title="Voltar as aulas" aria-label="Voltar as aulas">&#8962;</a>
-  <button id="prev" aria-label="Slide anterior">‹</button>
+<nav class="nav">
+  <a href="index.html" title="Voltar às aulas">&#8962;</a>
+  <button id="prev">‹</button>
   <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
-  <button id="next" aria-label="Próximo slide">›</button>
+  <button id="next">›</button>
 </nav>
-
 <script>
-  const slides = document.querySelectorAll('.slide');
-  const cur = document.getElementById('cur');
-  const total = document.getElementById('total');
-  const prev = document.getElementById('prev');
-  const next = document.getElementById('next');
-  let i = 0;
-  total.textContent = slides.length;
-  function show(n) {
-    n = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
-    cur.textContent = n + 1;
-    prev.disabled = (n === 0);
-    next.disabled = (n === slides.length - 1);
-    i = n;
-    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
-  }
-  prev.addEventListener('click', () => show(i - 1));
-  next.addEventListener('click', () => show(i + 1));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
-    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')                    { e.preventDefault(); show(i - 1); }
-    if (e.key === 'Home') show(0);
-    if (e.key === 'End')  show(slides.length - 1);
-  });
-  const hash = parseInt(location.hash.replace('#', ''), 10);
-  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
-  show(i);
-  function scaleDeck() {
-    const deck = document.querySelector('.deck');
-    const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
-    deck.style.transform = 'scale(' + s + ')';
-  }
-  scaleDeck();
-  window.addEventListener('resize', scaleDeck);
+  const slides=document.querySelectorAll('.slide'),cur=document.getElementById('cur'),total=document.getElementById('total'),prev=document.getElementById('prev'),next=document.getElementById('next');
+  let i=0;total.textContent=slides.length;
+  function show(n){n=Math.max(0,Math.min(slides.length-1,n));slides.forEach((s,idx)=>s.classList.toggle('active',idx===n));cur.textContent=n+1;prev.disabled=(n===0);next.disabled=(n===slides.length-1);i=n;if(history.replaceState)history.replaceState(null,'','#'+(n+1));}
+  prev.addEventListener('click',()=>show(i-1));next.addEventListener('click',()=>show(i+1));
+  document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();show(i+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(i-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+  const hash=parseInt(location.hash.replace('#',''),10);if(!isNaN(hash)&&hash>=1&&hash<=slides.length)i=hash-1;show(i);
+  function scaleDeck(){const s=Math.min(window.innerWidth/1280,window.innerHeight/720);document.querySelector('.deck').style.transform='scale('+s+')';}
+  scaleDeck();window.addEventListener('resize',scaleDeck);
 </script>
 </body>
 </html>
