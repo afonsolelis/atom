@@ -131,6 +131,10 @@
         <li>Recapitulando a Aula 1</li>
         <li>O que é AntiGravity?</li>
         <li>Instalando Python e AntiGravity</li>
+        <li>Engenharia de Prompt para modelagem técnica</li>
+        <li>Anatomia de um prompt profissional (RCTFC)</li>
+        <li>Prompt ruim vs. prompt profissional</li>
+        <li>Prompt template aplicado ao domínio R.M</li>
         <li>Modelagem com AntiGravity: domínio R.M</li>
         <li>UML de Classes detalhado</li>
         <li>Arquitetura da solução (camadas)</li>
@@ -215,6 +219,121 @@ python -m venv .venv
         <li><strong>Simples é melhor que complexo</strong> — não complique sem necessidade.</li>
       </ul>
       <div class="callout">Esses princípios guiam como vamos modelar a Imobiliária R.M: classes simples, explícitas e legíveis.</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- PROMPT ENG: POR QUE IMPORTA -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect verde" style="width:200px;height:200px;top:-55px;right:60px;transform:rotate(-13deg);"></div>
+    <p class="kicker">Engenharia de Prompt</p>
+    <h2>Por que prompt engineering muda tudo</h2>
+    <div class="content-box">
+      <p>Antes de pedir ao modelo (Claude, GPT, Gemini) que gere código ou UML, você precisa <strong>saber exatamente o que quer</strong> — e saber comunicar isso com precisão. Prompt ruim = output genérico. Prompt profissional = output aproveitável.</p>
+      <div class="pontos-grid">
+        <div class="ponto"><h3>Garbage in, garbage out</h3><p>O modelo não tem contexto do seu projeto. Se você não der, ele inventa — e inventa coisas plausíveis, mas erradas.</p></div>
+        <div class="ponto"><h3>Prompt é especificação</h3><p>Escrever um bom prompt exige o mesmo raciocínio de escrever um bom requisito de software.</p></div>
+        <div class="ponto"><h3>Iteração é parte do processo</h3><p>Nenhum prompt é perfeito na primeira vez. Refinar é normal — mas começar bem encurta o caminho.</p></div>
+        <div class="ponto"><h3>Contexto = qualidade</h3><p>Quanto mais contexto específico (domínio, restrições, exemplos, formato esperado), melhor o resultado.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- PROMPT ENG: ANATOMIA RCTFC -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Engenharia de Prompt · Framework</p>
+    <h2>Anatomia de um Prompt Profissional — RCTFC</h2>
+    <div class="content-box" style="padding:20px 28px;">
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px;">
+        <div style="background:rgba(23,164,96,0.13);border:2px solid var(--verde);border-radius:10px;padding:12px 10px;text-align:center;">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--verde);">R</div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--verde);margin-bottom:4px;">ROLE</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);line-height:1.4;">Quem o modelo deve ser nessa conversa?</div>
+        </div>
+        <div style="background:rgba(66,133,244,0.13);border:2px solid var(--azul);border-radius:10px;padding:12px 10px;text-align:center;">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--azul);">C</div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--azul);margin-bottom:4px;">CONTEXT</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);line-height:1.4;">Qual é o domínio, o projeto, as restrições?</div>
+        </div>
+        <div style="background:rgba(23,164,96,0.13);border:2px solid var(--verde);border-radius:10px;padding:12px 10px;text-align:center;">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--verde);">T</div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--verde);margin-bottom:4px;">TASK</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);line-height:1.4;">O que exatamente precisa ser feito?</div>
+        </div>
+        <div style="background:rgba(66,133,244,0.13);border:2px solid var(--azul);border-radius:10px;padding:12px 10px;text-align:center;">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--azul);">F</div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--azul);margin-bottom:4px;">FORMAT</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);line-height:1.4;">Como deve ser o output? (código, UML, lista…)</div>
+        </div>
+        <div style="background:rgba(23,164,96,0.13);border:2px solid var(--verde);border-radius:10px;padding:12px 10px;text-align:center;">
+          <div style="font-size:1.4rem;font-weight:800;color:var(--verde);">C</div>
+          <div style="font-size:0.7rem;font-weight:700;color:var(--verde);margin-bottom:4px;">CONSTRAINTS</div>
+          <div style="font-size:0.72rem;color:rgba(255,255,255,0.75);line-height:1.4;">O que NÃO deve aparecer no resultado?</div>
+        </div>
+      </div>
+      <div class="callout">RCTFC não é receita rígida — é checklist mental. Antes de enviar um prompt, pergunte: faltou algum dos 5 elementos?</div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- PROMPT ENG: RUIM VS PROFISSIONAL -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect verde" style="width:190px;height:190px;top:-50px;right:80px;transform:rotate(-12deg);"></div>
+    <p class="kicker">Engenharia de Prompt · Comparativo</p>
+    <h2>Prompt Ruim vs. Prompt Profissional</h2>
+    <div class="content-box" style="padding:18px 24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#ff6b6b;margin-bottom:8px;">❌ Prompt vago</div>
+          <div class="code-block" style="font-size:0.78rem;border-left:3px solid #E53935;margin:0;"><code style="white-space:pre-wrap;">"Crie classes Python para uma imobiliária."</code></div>
+          <div style="margin-top:8px;font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.5;">
+            Resultado: classes genéricas sem regras de negócio, nomes inventados, sem herança, sem docstrings. Tudo para jogar fora.
+          </div>
+        </div>
+        <div>
+          <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:var(--verde);margin-bottom:8px;">✅ Prompt profissional</div>
+          <div class="code-block" style="font-size:0.75rem;border-left:3px solid var(--verde);margin:0;"><code style="white-space:pre-wrap;">"Você é um engenheiro de software sênior Python.
+
+Contexto: sistema de orçamento de aluguel para a Imobiliária R.M. Regras: apartamento R$700 (1 quarto) ou R$900 (2 quartos), desconto de 5% para clientes sem crianças; garagem +R$300. Classe base Imovel deve ser abstrata (ABC).
+
+Tarefa: gere APENAS os esqueletos das classes (sem lógica), com type hints e docstrings explicando cada regra de negócio.
+
+Formato: Python 3.11, dataclasses + ABC. Sem implementação dos métodos."</code></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
+  </section>
+
+  <!-- PROMPT ENG: TEMPLATE APLICADO AO R.M -->
+  <section class="slide slide-content-wrap">
+    <div class="deco-rect azul" style="width:200px;height:200px;top:-55px;right:-30px;transform:rotate(-17deg);"></div>
+    <p class="kicker">Engenharia de Prompt · Template R.M</p>
+    <h2>Prompt Profissional Completo — Imobiliária R.M</h2>
+    <div class="content-box" style="padding:16px 22px;">
+      <div class="code-block" style="font-size:0.73rem;white-space:pre-wrap;"><code><span class="cm">## ROLE</span>
+Você é um arquiteto de software Python especialista em DDD (Domain-Driven Design) e OOP.
+
+<span class="cm">## CONTEXT</span>
+Projeto: sistema de orçamento de aluguel para a Imobiliária R.M (Python 3.11).
+Domínio: 3 tipos de imóvel — Apartamento (base R$700/R$900), Casa (base R$900/R$1150),
+Estudio (base R$1200). Garagem: +R$300 para Apt/Casa; +R$250 +R$60/vaga extra para Estudio.
+Desconto: 5% em apartamento para cliente sem crianças. Taxa de contrato R$2000 em até 5x.
+NFRs: OOP obrigatório, manutenibilidade (SWEBOK 4.0), exportação CSV.
+
+<span class="cm">## TASK</span>
+Gere os esqueletos das 6 classes do domínio: Imovel (abstract), Apartamento, Casa,
+Estudio, Contrato e Orcamento. Use ABC + @abstractmethod + @dataclass.
+
+<span class="cm">## FORMAT</span>
+Apenas assinaturas de métodos + docstrings (1 linha por regra de negócio).
+Sem corpo de implementação. Blocos separados por classe. Sem imports desnecessários.
+
+<span class="cm">## CONSTRAINTS</span>
+Não use frameworks externos. Não implemente lógica ainda. Não use @property.
+Não misture UI com domínio.</code></div>
     </div>
     <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
   </section>
@@ -441,9 +560,11 @@ Ref: Orcamentos.contrato_id > Contratos.id</code></div>
     <div class="content-box">
       <div class="pontos-grid">
         <div class="ponto"><h3>Ambiente configurado</h3><p>Python 3.11+, venv ativo, AntiGravity instalado — base para as próximas aulas.</p></div>
+        <div class="ponto"><h3>Prompt profissional (RCTFC)</h3><p>Role, Context, Task, Format, Constraints — o checklist que transforma saída genérica em código aproveitável.</p></div>
         <div class="ponto"><h3>Esqueleto antes da lógica</h3><p>Classes com assinaturas e docstrings comunicam a intenção sem implementar nada ainda.</p></div>
         <div class="ponto"><h3>Arquitetura em camadas</h3><p>Domain → Service → Repository → UI. Cada camada com responsabilidade única.</p></div>
         <div class="ponto"><h3>DBML documenta os dados</h3><p>O esquema relacional completa o UML: entidades, atributos e relacionamentos explícitos.</p></div>
+        <div class="ponto"><h3>Prompt = especificação</h3><p>Escrever um bom prompt exige o mesmo rigor de escrever um bom requisito de software.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 02 · 08/07/2026</span></div>
