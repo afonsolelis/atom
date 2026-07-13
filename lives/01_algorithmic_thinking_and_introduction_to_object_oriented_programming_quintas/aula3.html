@@ -78,7 +78,7 @@
     <div class="capa-logo"><img src="assets/logo-atomo.png" alt="Átomo logo"/></div>
     <h1>Implementação OOP em Python</h1>
     <div class="capa-subtitulo">Live 01 · Algorithmic Thinking &amp; Introduction to OOP · Aula 3</div>
-    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 15/07/2026 · Terça · 19h–20h30</div>
+    <div class="capa-docente">Prof. Afonso Cesar Lelis Brandão · 23/07/2026 · Quinta · 19h–20h30</div>
   </section>
 
   <!-- AUDIODESCRIÇÃO -->
@@ -121,7 +121,7 @@
       </div>
       <div class="callout">Streamlit não foi escolha do gosto — foi consequência da arquitetura que definimos juntos nas aulas 1 e 2.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- CLASSE ABSTRATA IMOVEL -->
@@ -149,7 +149,7 @@
         ...</code></div>
       <div class="callout-warn">@dataclass elimina boilerplate do __init__. @abstractmethod garante que toda subclasse implemente calcular_aluguel.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- APARTAMENTO E CASA -->
@@ -190,7 +190,7 @@
 <span class="cm"># 900 + 250 + 300 = R$ 1.450,00</span></code></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- ESTUDIO -->
@@ -216,7 +216,7 @@
 <span class="cm"># Estudio c/ garagem 2 vagas + 1 extra: 1200 + 250 + 60 = R$ 1.510,00</span></code></div>
       <div class="callout">Polimorfismo em ação: mesma chamada <code>calcular_aluguel()</code>, comportamentos distintos por tipo de imóvel.</div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- ORCAMENTO + CSV -->
@@ -250,7 +250,7 @@
             writer.<span class="f">writerow</span>([mes, <span class="s">f"{mensal:.2f}"</span>])
         <span class="k">return</span> output.<span class="f">getvalue</span>()</code></div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- STREAMLIT UI -->
@@ -279,7 +279,7 @@ orc = Orcamento(nome, sem_criancas, imovel, parcelas_contrato=parcelas)
     st.<span class="f">metric</span>(<span class="s">"Valor mensal"</span>, <span class="s">f"R$ {orc.gerar_mensal():.2f}"</span>)
     st.<span class="f">download_button</span>(<span class="s">"⬇ Baixar CSV"</span>, orc.<span class="f">exportar_csv</span>(), <span class="s">"orcamento.csv"</span>)</code></div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- QUOTE -->
@@ -305,7 +305,7 @@ orc = Orcamento(nome, sem_criancas, imovel, parcelas_contrato=parcelas)
         <div class="ponto"><h3>UI separada do domínio</h3><p>Streamlit só lê inputs e exibe outputs — não conhece nenhuma regra de negócio.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 15/07/2026</span></div>
+    <div class="slide-footer"><span>Live 01 · Algorithmic Thinking &amp; OOP</span><span>Aula 03 · 23/07/2026</span></div>
   </section>
 
   <!-- ENCERRAMENTO -->
@@ -314,7 +314,7 @@ orc = Orcamento(nome, sem_criancas, imovel, parcelas_contrato=parcelas)
     <div class="deco-rect azul"  style="width:200px;height:200px;bottom:-50px;right:140px;transform:rotate(-24deg);"></div>
     <h1>Aplicação funcionando!</h1>
     <p class="fim-texto">Implementamos herança, polimorfismo, composição e exportação CSV — do domínio à interface Streamlit. Na última aula, testamos os <strong>requisitos não funcionais</strong>: desempenho com 1.000 usuários simultâneos, segurança e deploy.</p>
-    <p class="fim-proxima">Próxima aula (Aula 4): Testando NFRs, Métricas e Deploy · 22/07/2026</p>
+    <p class="fim-proxima">Próxima aula (Aula 4): Testando NFRs, Métricas e Deploy · 30/07/2026</p>
     <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
   </section>
 

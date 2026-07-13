@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aula 02 · Docker na pratica · Live 02</title>
+  <title>Aula 01 · Fundamentos de Containers · Live 02</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -129,9 +129,9 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
     <div class="capa-logo">
       <img src="assets/logo-atomo.png" alt="Atomo">
     </div>
-    <h1>Docker na pratica</h1>
+    <h1>Fundamentos de Containers</h1>
     <p class="capa-subtitulo">Live 02 &middot; Containers e Kubernetes</p>
-    <p class="capa-docente">Prof. Afonso Cesar Lelis Brandao &middot; Aula 02 &middot; 17/07 &middot; 19h</p>
+    <p class="capa-docente">Prof. Afonso Cesar Lelis Brandao &middot; Aula 01 &middot; 07/07 &middot; 19h</p>
   </div>
 
   <!-- 3. SOBRE O PROFESSOR -->
@@ -145,7 +145,7 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
       <p class="prof-nome">Afonso Cesar Lelis Brandao</p>
       <p class="prof-cargo">Engenheiro &middot; Professor &middot; Pesquisador em IA Aplicada</p>
       <p class="prof-descricao">Engenheiro com experiencia em infraestrutura, dados e inteligencia artificial aplicada a engenharia e a educacao. Atua como professor e pesquisador, desenvolvendo disciplinas praticas que conectam teoria e mercado.</p>
-      <p class="prof-descricao">Hoje vamos a fundo no Docker: volumes, redes e orquestracao local com compose.</p>
+      <p class="prof-descricao">Nesta live, vamos desmistificar containers e Kubernetes com exemplos reais e mao na massa.</p>
     </div>
   </div>
 
@@ -155,216 +155,236 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
       <p class="sumario-titulo">O que vamos ver hoje</p>
     </div>
     <div class="sumario-dir">
-      <h2>Aula 02 &middot; Docker na pratica</h2>
+      <h2>Aula 01 &middot; Fundamentos de Containers</h2>
       <ul>
-        <li>Containers sao efemeros</li>
-        <li>Volumes: dados que sobrevivem</li>
-        <li>Bind mounts vs volumes</li>
-        <li>Redes entre containers</li>
-        <li>docker-compose: orquestracao local</li>
-        <li>Mao na massa: app + banco</li>
+        <li>O problema: "na minha maquina funciona"</li>
+        <li>O que e um container</li>
+        <li>Container vs maquina virtual</li>
+        <li>Imagem vs container</li>
+        <li>Primeiros comandos Docker</li>
+        <li>Escrevendo um Dockerfile</li>
+        <li>Mao na massa: empacotar um app</li>
       </ul>
     </div>
   </div>
 
-  <!-- 5. CONTAINERS SAO EFEMEROS -->
+  <!-- 5. NA MINHA MAQUINA FUNCIONA -->
   <div class="slide slide-content-wrap">
     <p class="kicker">Conteudo</p>
-    <h2>Containers sao efemeros</h2>
+    <h2>"Na minha maquina funciona"</h2>
     <div class="content-box">
       <ul>
-        <li>Por padrao, tudo o que um container escreve vive <strong>dentro</strong> dele. Removeu o container &rarr; os dados se foram.</li>
-        <li>Otimo para a aplicacao (descartavel, recriavel a qualquer momento).</li>
-        <li>Pessimo para o <strong>banco de dados</strong>, uploads e qualquer estado que precisa durar.</li>
-        <li>Precisamos separar o dado do ciclo de vida do container.</li>
-      </ul>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 6. VOLUMES: DADOS QUE SOBREVIVEM -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Mao na massa</p>
-    <h2>Volumes: dados que sobrevivem</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="p">$</span> <span class="k">docker</span> <span class="f">volume create</span> <span class="s">dados-app</span>
-
-<span class="p">$</span> <span class="k">docker</span> <span class="f">run</span> -d \
-    -v <span class="s">dados-app</span>:/var/lib/postgresql/data \
-    -e <span class="n">POSTGRES_PASSWORD</span>=<span class="s">senha</span> \
-    <span class="s">postgres:16</span></code></div>
-      <p class="code-cap">Pode remover e recriar o container quantas vezes quiser: o volume dados-app mantem o banco intacto.</p>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 7. BIND MOUNTS VS VOLUMES -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Conteudo</p>
-    <h2>Bind mounts vs volumes</h2>
-    <div class="content-box">
-      <div class="pontos-grid">
-        <div class="ponto">
-          <h3>Volume (gerenciado)</h3>
-          <p>O Docker controla onde fica. Ideal para <strong>dados de producao</strong>: bancos, arquivos persistentes.</p>
-        </div>
-        <div class="ponto">
-          <h3>Bind mount (pasta do host)</h3>
-          <p>Mapeia uma pasta sua para dentro do container. Ideal para <strong>desenvolvimento</strong>: editar o codigo e ver refletir na hora.</p>
-        </div>
-      </div>
-      <p style="margin-top: 20px; font-size: 0.97rem; line-height: 1.65;">Regra: <strong>volume</strong> para o que precisa durar; <strong>bind mount</strong> para o que voce esta editando.</p>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 8. REDES ENTRE CONTAINERS -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Mao na massa</p>
-    <h2>Redes entre containers</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="p">$</span> <span class="k">docker</span> <span class="f">network create</span> <span class="s">minha-rede</span>
-
-<span class="p">$</span> <span class="k">docker</span> <span class="f">run</span> -d --name <span class="s">db</span>  --network <span class="s">minha-rede</span> <span class="s">postgres:16</span>
-<span class="p">$</span> <span class="k">docker</span> <span class="f">run</span> -d --name <span class="s">api</span> --network <span class="s">minha-rede</span> <span class="s">meu-app</span>
-
-<span class="c"># dentro do container "api", o banco e alcancavel em  db:5432</span></code></div>
-      <p class="code-cap">O nome do servico vira o "endereco" — base de tudo que vem a seguir.</p>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 9. DOCKER-COMPOSE: TUDO NUM ARQUIVO -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Mao na massa</p>
-    <h2>docker-compose: tudo num arquivo</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="k">services</span>:
-  <span class="f">db</span>:
-    <span class="k">image</span>: <span class="s">postgres:16</span>
-    <span class="k">environment</span>:
-      <span class="n">POSTGRES_PASSWORD</span>: <span class="s">senha</span>
-    <span class="k">volumes</span>:
-      - <span class="s">dados</span>:/var/lib/postgresql/data
-  <span class="f">api</span>:
-    <span class="k">build</span>: .
-    <span class="k">ports</span>:
-      - <span class="s">"5000:5000"</span>
-    <span class="k">depends_on</span>:
-      - <span class="s">db</span>
-
-<span class="k">volumes</span>:
-  <span class="f">dados</span>:</code></div>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 10. SUBINDO TUDO COM UM COMANDO -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Mao na massa</p>
-    <h2>Subindo tudo com um comando</h2>
-    <div class="content-box">
-      <div class="code-block"><code><span class="p">$</span> <span class="k">docker</span> <span class="f">compose up</span> -d     <span class="c"># sobe db + api em segundo plano</span>
-<span class="p">$</span> <span class="k">docker</span> <span class="f">compose ps</span>        <span class="c"># status dos servicos</span>
-<span class="p">$</span> <span class="k">docker</span> <span class="f">compose logs</span> -f   <span class="c"># acompanha os logs</span>
-<span class="p">$</span> <span class="k">docker</span> <span class="f">compose down</span>      <span class="c"># derruba tudo (mantem o volume)</span></code></div>
-      <p class="code-cap">Um arquivo, um comando: qualquer pessoa sobe o ambiente identico ao seu.</p>
-    </div>
-    <div class="slide-footer">
-      <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
-    </div>
-    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
-  </div>
-
-  <!-- 11. BOAS PRATICAS COM COMPOSE -->
-  <div class="slide slide-content-wrap">
-    <p class="kicker">Conteudo</p>
-    <h2>Boas praticas com compose</h2>
-    <div class="content-box">
-      <ul>
-        <li><strong>.env</strong>: tire senhas e segredos do arquivo versionado.</li>
-        <li><strong>depends_on + healthcheck</strong>: a api so sobe quando o banco esta pronto.</li>
-        <li><strong>Named volumes</strong>: dados nomeados, faceis de inspecionar e fazer backup.</li>
-        <li>Nunca versione dados nem segredos no Git.</li>
+        <li>O codigo roda no seu notebook, mas quebra no servidor. Por que?</li>
+        <li>Versoes diferentes de linguagem, bibliotecas e sistema operacional.</li>
+        <li>Variaveis de ambiente e dependencias instaladas "na mao".</li>
+        <li>Cada maquina e um <strong>floco de neve</strong> — unica e dificil de reproduzir.</li>
       </ul>
       <div class="callout">
-        O compose.yaml e <strong>infraestrutura como codigo</strong>: seu ambiente vira texto, revisavel e reproduzivel.
+        Containers resolvem isso empacotando <strong>o app e todo o seu ambiente</strong> numa unidade que roda igual em qualquer lugar.
       </div>
     </div>
     <div class="slide-footer">
       <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
+      <span>Aula 01 &middot; 07/07</span>
     </div>
     <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
   </div>
 
-  <!-- 12. COMPARACAO: COMPOSE VS KUBECTL -->
+  <!-- 6. O QUE E UM CONTAINER -->
   <div class="slide slide-content-wrap">
-    <p class="kicker">Comparacao — compose vs K8s</p>
-    <h2>Docker Compose vs kubectl</h2>
+    <p class="kicker">Conteudo</p>
+    <h2>O que e um container</h2>
+    <div class="content-box">
+      <ul>
+        <li>Um container e um <strong>processo isolado</strong> que carrega consigo tudo o que precisa para rodar: codigo, runtime, bibliotecas e configuracoes.</li>
+        <li>Compartilha o <strong>kernel</strong> do sistema hospedeiro — por isso e leve e rapido.</li>
+        <li>Isolado por <strong>namespaces</strong> e <strong>cgroups</strong> do Linux: cada container "acha" que tem o SO so pra ele.</li>
+        <li><strong>Portavel</strong>: a mesma imagem roda no seu PC, no CI e na nuvem.</li>
+      </ul>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 7. CONTAINER VS MAQUINA VIRTUAL -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Conteudo</p>
+    <h2>Container vs Maquina Virtual</h2>
     <div class="content-box">
       <table class="tabela">
         <thead>
           <tr>
-            <th>Conceito</th>
-            <th>Docker Compose</th>
-            <th>Kubernetes</th>
+            <th></th>
+            <th>Maquina Virtual</th>
+            <th>Container</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Definicao do sistema</strong></td>
-            <td><code style="font-family:'Courier New',monospace;">docker-compose.yml</code></td>
-            <td>manifests YAML (<code style="font-family:'Courier New',monospace;">Deployment</code>, <code style="font-family:'Courier New',monospace;">Service</code>)</td>
+            <td><strong>Virtualiza</strong></td>
+            <td>Hardware + SO completo</td>
+            <td>So o processo — usa o kernel do host</td>
           </tr>
           <tr>
-            <td><strong>Subir tudo</strong></td>
-            <td><code style="font-family:'Courier New',monospace;">docker compose up -d</code></td>
-            <td><code style="font-family:'Courier New',monospace;">kubectl apply -f .</code></td>
+            <td><strong>Tamanho</strong></td>
+            <td>Gigabytes</td>
+            <td>Megabytes</td>
           </tr>
           <tr>
-            <td><strong>Ver status</strong></td>
-            <td><code style="font-family:'Courier New',monospace;">docker compose ps</code></td>
-            <td><code style="font-family:'Courier New',monospace;">kubectl get pods</code></td>
+            <td><strong>Inicializacao</strong></td>
+            <td>Minutos</td>
+            <td>Segundos</td>
           </tr>
           <tr>
-            <td><strong>Ver logs</strong></td>
-            <td><code style="font-family:'Courier New',monospace;">docker compose logs -f api</code></td>
-            <td><code style="font-family:'Courier New',monospace;">kubectl logs -f deploy/api</code></td>
-          </tr>
-          <tr>
-            <td><strong>Parar/remover</strong></td>
-            <td><code style="font-family:'Courier New',monospace;">docker compose down</code></td>
-            <td><code style="font-family:'Courier New',monospace;">kubectl delete -f .</code></td>
+            <td><strong>Densidade</strong></td>
+            <td>Poucas por host</td>
+            <td>Dezenas/centenas por host</td>
           </tr>
         </tbody>
       </table>
-      <p class="code-cap">Compose e para <strong>desenvolvimento local</strong>; kubectl e para <strong>producao em cluster</strong>.</p>
+      <p class="code-cap">Nao sao rivais: e comum rodar containers dentro de VMs na nuvem.</p>
     </div>
     <div class="slide-footer">
       <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 8. IMAGEM VS CONTAINER -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Conteudo</p>
+    <h2>Imagem vs Container</h2>
+    <div class="content-box">
+      <div class="pontos-grid">
+        <div class="ponto">
+          <h3>Imagem = molde</h3>
+          <p>Pacote imutavel com app + dependencias. E a "classe" — escrita uma vez, versionada e compartilhada.</p>
+        </div>
+        <div class="ponto">
+          <h3>Container = instancia</h3>
+          <p>Uma imagem em execucao. E o "objeto" — voce cria varios da mesma imagem, cada um isolado.</p>
+        </div>
+      </div>
+      <p style="margin-top: 20px; font-size: 0.97rem; line-height: 1.65;">Se voce fez a Live 01: e a mesma relacao entre <strong>classe</strong> e <strong>objeto</strong>.</p>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 9. PRIMEIROS COMANDOS DOCKER -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Mao na massa</p>
+    <h2>Primeiros comandos Docker</h2>
+    <div class="content-box">
+      <div class="code-block"><code><span class="p">$</span> <span class="k">docker</span> <span class="f">run</span> -d -p 8080:80 <span class="s">nginx</span>   <span class="c"># baixa e roda o nginx</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">ps</span>                        <span class="c"># containers em execucao</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">images</span>                    <span class="c"># imagens locais</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">logs</span> <span class="n">&lt;id&gt;</span>                 <span class="c"># ver a saida do container</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">stop</span> <span class="n">&lt;id&gt;</span>                 <span class="c"># para o container</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">rm</span> <span class="n">&lt;id&gt;</span>                   <span class="c"># remove o container</span></code></div>
+      <p class="code-cap">Abra http://localhost:8080 e veja o nginx respondendo de dentro do container.</p>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 10. ESCREVENDO UM DOCKERFILE -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Mao na massa</p>
+    <h2>Escrevendo um Dockerfile</h2>
+    <div class="content-box">
+      <div class="code-block"><code><span class="k">FROM</span> <span class="s">python:3.12-slim</span>
+<span class="k">WORKDIR</span> <span class="s">/app</span>
+<span class="k">COPY</span> requirements.txt .
+<span class="k">RUN</span> <span class="f">pip install</span> -r requirements.txt
+<span class="k">COPY</span> . .
+<span class="k">CMD</span> [<span class="s">"python"</span>, <span class="s">"app.py"</span>]</code></div>
+      <div class="code-block"><code><span class="p">$</span> <span class="k">docker</span> <span class="f">build</span> -t <span class="s">meu-app</span> .     <span class="c"># constroi a imagem</span>
+<span class="p">$</span> <span class="k">docker</span> <span class="f">run</span> -p 5000:5000 <span class="s">meu-app</span></code></div>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 11. O CICLO DE VIDA -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Conteudo</p>
+    <h2>O ciclo de vida</h2>
+    <div class="content-box">
+      <ul>
+        <li><strong>Dockerfile</strong> (receita) &rarr; <code style="background:#0d1b2e; padding: 2px 6px; border-radius:4px; font-family: 'Courier New', monospace;">docker build</code> &rarr;</li>
+        <li><strong>Imagem</strong> (molde imutavel, versionavel) &rarr; <code style="background:#0d1b2e; padding: 2px 6px; border-radius:4px; font-family: 'Courier New', monospace;">docker run</code> &rarr;</li>
+        <li><strong>Container</strong> (instancia em execucao) &rarr; <code style="background:#0d1b2e; padding: 2px 6px; border-radius:4px; font-family: 'Courier New', monospace;">stop</code> / <code style="background:#0d1b2e; padding: 2px 6px; border-radius:4px; font-family: 'Courier New', monospace;">rm</code>.</li>
+      </ul>
+      <div class="callout">
+        A imagem pode ser publicada num <strong>registry</strong> (Docker Hub) e baixada por qualquer pessoa ou servidor — e assim que o app "viaja".
+      </div>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
+    </div>
+    <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
+  </div>
+
+  <!-- 12. COMPARACAO: DOCKER NA PRATICA -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Comparacao — Docker na pratica</p>
+    <h2>Comandos Docker: o que cada um faz</h2>
+    <div class="content-box">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Comando Docker</th>
+            <th>O que faz</th>
+            <th>Analogo em outras ferramentas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code style="font-family:'Courier New',monospace;">docker build -t app .</code></td>
+            <td>Cria uma imagem a partir do Dockerfile</td>
+            <td><code style="font-family:'Courier New',monospace;">pip install</code> / <code style="font-family:'Courier New',monospace;">npm install</code> para dependencias</td>
+          </tr>
+          <tr>
+            <td><code style="font-family:'Courier New',monospace;">docker run -p 80:80 app</code></td>
+            <td>Cria e inicia um container da imagem</td>
+            <td>Executar <code style="font-family:'Courier New',monospace;">python app.py</code> isolado</td>
+          </tr>
+          <tr>
+            <td><code style="font-family:'Courier New',monospace;">docker ps</code></td>
+            <td>Lista containers em execucao</td>
+            <td><code style="font-family:'Courier New',monospace;">ps aux</code> no Linux</td>
+          </tr>
+          <tr>
+            <td><code style="font-family:'Courier New',monospace;">docker logs &lt;id&gt;</code></td>
+            <td>Exibe saida do container</td>
+            <td><code style="font-family:'Courier New',monospace;">tail -f log.txt</code></td>
+          </tr>
+          <tr>
+            <td><code style="font-family:'Courier New',monospace;">docker stop / rm</code></td>
+            <td>Para e remove o container</td>
+            <td><code style="font-family:'Courier New',monospace;">kill PID</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="slide-footer">
+      <span>Live 02 &middot; Containers e Kubernetes</span>
+      <span>Aula 01 &middot; 07/07</span>
     </div>
     <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
   </div>
@@ -372,8 +392,8 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
   <!-- 13. CITACAO -->
   <div class="slide slide-quote">
     <div class="quote-card">
-      <blockquote>"Trate servidores como gado, nao como bichos de estimacao."</blockquote>
-      <cite>— Maxima DevOps (cattle, not pets)</cite>
+      <blockquote>"Construa, distribua e execute qualquer aplicacao, em qualquer lugar."</blockquote>
+      <cite>— Filosofia do Docker</cite>
     </div>
   </div>
 
@@ -384,26 +404,26 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
     <div class="content-box">
       <div class="pontos-grid">
         <div class="ponto">
-          <h3>Persistencia</h3>
-          <p>Volumes separam os dados do ciclo de vida do container.</p>
+          <h3>O problema</h3>
+          <p>Containers acabam com o "na minha maquina funciona" empacotando o ambiente junto do app.</p>
         </div>
         <div class="ponto">
-          <h3>Volume vs bind</h3>
-          <p>Volume para producao/dados; bind mount para desenvolvimento.</p>
+          <h3>Leves e rapidos</h3>
+          <p>Compartilham o kernel do host: MBs e segundos, contra GBs e minutos de uma VM.</p>
         </div>
         <div class="ponto">
-          <h3>Rede por nome</h3>
-          <p>Containers na mesma rede se acham pelo nome do servico.</p>
+          <h3>Imagem &rarr; container</h3>
+          <p>Molde imutavel que vira instancia em execucao — como classe e objeto.</p>
         </div>
         <div class="ponto">
-          <h3>Compose</h3>
-          <p>Descreve todo o sistema em YAML e sobe com um comando.</p>
+          <h3>Dockerfile</h3>
+          <p>A receita declarativa que constroi a imagem de forma reproduzivel.</p>
         </div>
       </div>
     </div>
     <div class="slide-footer">
       <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
+      <span>Aula 01 &middot; 07/07</span>
     </div>
     <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
   </div>
@@ -411,19 +431,19 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
   <!-- 15. ATIVIDADE PRATICA -->
   <div class="slide slide-atividade">
     <p class="kicker">Atividade pratica</p>
-    <h2>Mao na massa: app + banco</h2>
+    <h2>Mao na massa: empacotar um app</h2>
     <div class="content-box">
-      <p>Vamos montar, ao vivo, um <strong>app + banco</strong> com docker-compose:</p>
+      <p>Vamos empacotar um app web simples (Flask ou Node) ao vivo:</p>
       <ul>
-        <li>Defina dois servicos: sua api e um postgres, na mesma rede.</li>
-        <li>Configure um <strong>volume nomeado</strong> para os dados do banco.</li>
-        <li>Suba com compose up, grave um registro, derrube e suba de novo.</li>
-        <li><strong>Desafio</strong>: comprove que o dado sobreviveu a recriacao dos containers.</li>
+        <li>Escreva um <strong>Dockerfile</strong> a partir de uma imagem base oficial.</li>
+        <li>Faca o <strong>build</strong> com uma tag e rode mapeando a porta com <code style="background:#1a3666; padding: 2px 6px; border-radius:4px; font-family:'Courier New',monospace;">-p</code>.</li>
+        <li>Acesse no navegador e veja seu app dentro do container.</li>
+        <li><strong>Desafio</strong>: reduza o tamanho da imagem usando uma base slim/alpine.</li>
       </ul>
     </div>
     <div class="slide-footer">
       <span>Live 02 &middot; Containers e Kubernetes</span>
-      <span>Aula 02 &middot; 17/07</span>
+      <span>Aula 01 &middot; 07/07</span>
     </div>
     <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
   </div>
@@ -431,8 +451,8 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
   <!-- 16. FIM -->
   <div class="slide slide-fim">
     <h1>Ate a proxima!</h1>
-    <p class="fim-texto">Voce ja sabe persistir dados, conectar containers em rede e orquestrar varios servicos localmente com o compose. Mas e quando sao <strong>dezenas de containers, em varias maquinas</strong>? E ai que entra o Kubernetes.</p>
-    <p class="fim-proxima">Proxima aula: Aula 03 &middot; Introducao ao Kubernetes &middot; 24/07</p>
+    <p class="fim-texto">Voce ja entende o que sao containers, a diferenca entre imagem e container e como empacotar um app com um Dockerfile. Na proxima aula, colocamos <strong>dados, redes e multiplos containers</strong> pra trabalhar juntos.</p>
+    <p class="fim-proxima">Proxima aula: Aula 02 &middot; Docker na pratica &middot; 14/07</p>
     <p class="fim-prof">Prof. Afonso Cesar Lelis Brandao</p>
     <img src="assets/logo-atomo.png" alt="Atomo" class="logo-atomo">
   </div>
