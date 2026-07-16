@@ -1,0 +1,42 @@
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: livraria-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: senha123
+      MONGO_INITDB_DATABASE: livraria
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - livraria-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  streamlit-app:
+    build: .
+    container_name: livraria-app
+    environment:
+      MONGO_URI: mongodb://admin:senha123@mongodb:27017/livraria?authSource=admin
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./app.py:/app/app.py
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - livraria-network
+    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+
+networks:
+  livraria-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
