@@ -3,14 +3,14 @@
 - **Disciplina:** Data Engineering and Pipelines
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 13 a 16
-- **Formato:** roteiro de gravação **hands-on em GitHub Codespaces** — fala em citação (>), código executado ao vivo. Duração-alvo: **15 a 20 minutos** por aula.
+- **Formato:** roteiro de gravação **hands-on em GitHub Codespaces** — fala em citação (>), código executado na demonstração. Duração-alvo: **15 a 20 minutos** por aula.
 
 > **Convenções:** **[TELA]** slide/Codespace · **[CÓDIGO]** digitar/colar · **[EXECUTAR]** rodar e mostrar saída · **[CHECKPOINT]** resultado esperado.
-> **Preparação da unidade:** Codespace com as Unidades 1–3 concluídas. Antes de gravar: `pip install great_expectations scikit-learn` (Aulas 13 e 16). Nota: a API do Great Expectations muda entre versões — valide o snippet da Aula 13 na versão instalada antes de gravar. **Nenhuma aula desta unidade exige conta, chave de API ou serviço externo** (o CI da Aula 15 roda no próprio GitHub do repositório).
+> **Preparação da unidade:** Codespace com as Unidades 1–3 concluídas. Antes de gravar, execute `pip install "great_expectations==1.8.0" "scikit-learn==1.7.1"`. As versões são fixadas porque a API do Great Expectations varia entre lançamentos. Nenhuma aula exige conta ou chave de API; o CI da Aula 15 é executado pelo GitHub Actions.
 
 ---
 
-## Roteiro da Videoaula 13 — "Qualidade e observabilidade: quebrando o pipeline de propósito"
+## Roteiro da Videoaula 13 — "Qualidade e observabilidade: validação do pipeline com dados inválidos"
 
 **Duração-alvo:** 18 a 20 minutos.
 
@@ -18,7 +18,7 @@
 
 **[TELA]** Slide de capa.
 
-> "Olá! Bem-vindo, bem-vinda à Unidade 4 — a última, e a que separa o amador do profissional. Nas três primeiras unidades, nós **construímos** o pipeline do Olist inteiro: os 9 CSVs ingeridos, a estrela modelada, o DAG orquestrado, o lakehouse organizado, o dashboard no ar. O dado **anda**. Mas deixa eu te fazer a pergunta que tira o sono de todo engenheiro de dados: **como você sabe, sem ninguém te avisar, que o `mart_sales_by_category` de hoje está certo?** Se a resposta é 'não sei'… bem-vindo ao tema da aula. Hoje colocamos a **primeira rede de proteção** no pipeline: testes do dbt e do Great Expectations. E o ponto alto: vamos **sabotar o Olist de propósito** — injetar um dado podre na fonte — e assistir aos testes barrarem o lixo na porta, ao vivo. Bora."
+> "Nas três primeiras unidades, construímos a ingestão dos arquivos CSV, a modelagem dimensional, o DAG, as camadas do lakehouse e o dashboard. Nesta aula, acrescentaremos verificações que permitam avaliar se os dados publicados em `mart_sales_by_category` atendem aos critérios definidos. Serão utilizados testes do dbt e do Great Expectations. Um registro inválido será inserido de forma controlada para demonstrar a detecção, a correção e uma nova validação."
 
 ### 2. As 6 dimensões DAMA no Olist (1:30 – 4:00)
 
@@ -28,11 +28,11 @@
 
 > "Cada dimensão vira **métrica numérica com limiar** acordado com o negócio. E uma verdade libertadora: **não existe 100% de qualidade — existe qualidade suficiente para a decisão**. O trabalho do engenheiro é saber qual é o suficiente, e medi-lo automaticamente."
 
-### 3. Mão na massa: dbt tests no schema.yml (4:00 – 7:00)
+### 3. Demonstração prática: dbt tests no schema.yml (4:00 – 7:00)
 
 **[TELA]** Editor.
 
-> "E a arma mais barata do arsenal mora **ao lado do modelo**: os testes do dbt, declarados em YAML. Quatro tipos genéricos que resolvem 80% dos casos:"
+> "E a alternativa inicial de menor custo mora **ao lado do modelo**: os testes do dbt, declarados em YAML. Quatro tipos genéricos que resolvem 80% dos casos:"
 
 **[CÓDIGO]** Criar `dbt_olist/models/marts/core/schema.yml`:
 
@@ -68,15 +68,15 @@ cd dbt_olist && dbt test
 
 **[CHECKPOINT]**
 
-> "Olha o log: seis testes, seis **PASS**. Lê comigo o que acabamos de garantir, de graça: `order_id` **nunca nulo** e **único** — unicidade; todo `product_id` do fato **existe** na `dim_products` — o `relationships`, a integridade referencial fato-dimensão; e `order_status` só assume os **oito valores conhecidos** — o `accepted_values`. Meia página de YAML, e o pipeline ganhou um porteiro. E lembra da Aula 8: o `dbt test` já tem **vaga reservada no DAG** — a task que passava vazia acabou de ganhar dentes: agora, se um teste falhar, o `olist_pipeline` **para antes de publicar o gold**."
+> "Observe o log: seis testes, seis **PASS**. A leitura mostra o que acabamos de garantir, sem custo adicional de licenciamento: `order_id` **nunca nulo** e **único** — unicidade; todo `product_id` do fato **existe** na `dim_products` — o `relationships`, a integridade referencial fato-dimensão; e `order_status` só assume os **oito valores conhecidos** — o `accepted_values`. Meia página de YAML, e o pipeline ganhou um porteiro. E lembra da Aula 8: o `dbt test` já tem **vaga reservada no DAG** — a task que passava vazia acabou de ganhar dentes: agora, se um teste falhar, o `olist_pipeline` **para antes de publicar o gold**."
 
-### 4. O momento sabotagem: quebrando o Olist ao vivo (7:00 – 11:00)
+### 4. Teste controlado com um registro inválido (7:00 – 11:00)
 
 **[TELA]** Terminal — o experimento central da aula.
 
 > "E agora, o experimento. Vou fazer o papel do **bug**: injetar na fonte um pedido com um status que não existe — simulando aquele deploy do sistema transacional que criou um status novo sem avisar o time de dados. Acontece **toda semana** no mundo real:"
 
-**[CÓDIGO]** Injetar o dado podre na fonte:
+**[CÓDIGO]** Inserir um registro inválido na fonte:
 
 ```bash
 python -c "
@@ -99,7 +99,7 @@ dbt test --select stg_orders
 
 **[CHECKPOINT]**
 
-> "Acompanha a sequência. O `dbt run` **aceitou** o pedido — a carga incremental viu um timestamp novo e o trouxe; ingestão não julga, ingere. Mas o `dbt test`… **FAIL!** Olha na tela: `accepted_values_stg_orders_order_status — Got 1 result` — o teste encontrou **exatamente 1 linha** com status fora da lista. O lixo entrou no staging, mas **não passa dali**: no DAG, essa falha bloqueia o `export_gold` — o dashboard das 8h **nunca vê** o dado podre. Isso é a rede de proteção funcionando: a falha foi **detectada em segundos, automaticamente**, no lugar certo. Sem esse teste? O status fantasma escorreria até o mart, o KPI da diretoria sairia errado, e alguém descobriria semanas depois — talvez o cliente. Agora vamos limpar a sabotagem:"
+> "Acompanhe a sequência. O `dbt run` **aceitou** o pedido — a carga incremental viu um timestamp novo e o trouxe; ingestão não julga, ingere. Mas o `dbt test`. **FAIL!** Observe na tela: `accepted_values_stg_orders_order_status — Got 1 result` — o teste encontrou **exatamente 1 linha** com status fora da lista. O lixo entrou no staging, mas **não passa dali**: no DAG, essa falha bloqueia o `export_gold` — o dashboard das 8h **nunca vê** o registro inválido. Isso é a rede de proteção funcionando: a falha foi **detectada em segundos, automaticamente**, no lugar certo. Sem esse teste? O status inválido escorreria até o mart, o KPI da diretoria sairia errado, e alguém descobriria semanas depois — talvez o cliente. Agora vamos remover o registro de teste:"
 
 **[CÓDIGO]** Reverter:
 
@@ -113,7 +113,7 @@ dbt run --select stg_orders --full-refresh
 dbt test --select stg_orders
 ```
 
-> "Deletei da fonte, `--full-refresh` no staging para reconstruir do zero, testes… **verdes de novo**. Ciclo completo: sabotagem, detecção automática, correção, verificação. Você acabou de operar um incidente de qualidade de dados — em ambiente seguro."
+> "Deletei da fonte, `--full-refresh` no staging para reconstruir do zero, testes. **verdes de novo**. Ciclo completo: teste controlado, detecção automática, correção, verificação. Você acabou de operar um incidente de qualidade de dados — em ambiente seguro."
 
 ### 5. Great Expectations: as regras de negócio (11:00 – 14:00)
 
@@ -161,7 +161,7 @@ cd .. && python quality/expectations_olist.py
 
 **[CHECKPOINT]**
 
-> "Olha os resultados sobre os nossos dados: review entre 1 e 5 — passa. Frete não-negativo — passa. E a comparação de datas… repara no `unexpected_count`: **18**! Dezoito registros com **entrega registrada antes da compra** — fisicamente impossível, o erro de acurácia clássico. E agora eu pago uma promessa antiga: lembra, lá na **Aula 1**, daquelas linhas misteriosas do `gerar_dados.py` marcadas com '18 defeitos plantados'? **Eram exatamente estes.** O gerador reproduziu, de propósito, o tipo de defeito que existe no dataset real do Olist e em toda fonte de dados do mundo — digitação, bug de sistema, fuso trocado — e o Great Expectations acabou de **caçá-los automaticamente** no meio de 99 mil pedidos. Quinze aulas de convivência com esses dados e você nunca os viu; três expectations, e eles apareceram. E a diferença conceitual para fechar: **teste pega o que você previu; observabilidade pega o que você não previu** — se o volume diário de pedidos despencar de 135 para 12, nenhum `not_null` acusa, mas um monitor de volume e frescor, sim. Testes mais observabilidade: as duas metades da confiança."
+> "observe os resultados sobre os nossos dados: review entre 1 e 5 — passa. Frete não-negativo — passa. E a comparação de datas. Observe no `unexpected_count`: **18**! Dezoito registros com **entrega registrada antes da compra** — fisicamente impossível, o erro de acurácia clássico. E agora eu pago uma promessa antiga: lembra, lá na **Aula 1**, daquelas linhas misteriosas do `gerar_dados.py` marcadas com '18 defeitos plantados'? **Eram exatamente estes.** O gerador reproduziu, de propósito, o tipo de defeito que existe no dataset real do Olist e em toda fonte de dados do mundo — digitação, bug de sistema, fuso trocado — e o Great Expectations acabou de **caçá-los automaticamente** no meio de 99 mil pedidos. Quinze aulas de convivência com esses dados e você nunca os viu; três expectations, e eles apareceram. E a diferença conceitual para fechar: **teste pega o que você previu; observabilidade pega o que você não previu** — se o volume diário de pedidos despencar de 135 para 12, nenhum `not_null` acusa, mas um monitor de volume e frescor, sim. Testes mais observabilidade: as duas metades da confiança."
 
 ### 6. A regra 1-10-100 (14:00 – 15:30)
 
@@ -169,7 +169,7 @@ cd .. && python quality/expectations_olist.py
 
 > "E quanto vale isso em dinheiro? A **regra 1-10-100**: custa **1 real prevenir** o defeito — escrever o teste; **10 corrigi-lo** no pipeline; **100 conviver** com ele em produção. Nos nossos 18 registros de 'entrega antes da compra': prevenir custou o teste que escrevemos — **18 reais**, na metáfora. Conviver — deixar os 18 vazarem para o `mart_delivery_performance` e contaminarem o KPI de prazo que a diretoria apresentou — custa **1.800**: cem vezes mais, em refação, retratação e confiança perdida. E o melhor: a expectation escrita **uma vez** barra o defeito em **todo run futuro** do DAG. Moral gravada: **automatize a verificação onde o dado é produzido, não onde é consumido.**"
 
-### 7. Commit + atividade + gancho (15:30 – 17:30)
+### 7. Commit + atividade e preparação para a próxima aula (15:30 – 17:30)
 
 **[CÓDIGO]**
 
@@ -179,9 +179,9 @@ git commit -m "feat(quality): dbt tests no schema.yml + expectations GE sobre o 
 git push
 ```
 
-> "Sua missão: escrever uma regra mensurável para **cada** dimensão DAMA sobre tabelas reais do Olist; implementar os três testes dbt e rodar a sabotagem no seu Codespace — quebrar de propósito ensina mais que dez leituras; rodar as duas expectations e anotar o `unexpected_count` das datas; e estimar o **TTD** — se o frete viesse negativo hoje, em quanto tempo alguém perceberia **sem** os testes?"
+> "A atividade proposta: escrever uma regra mensurável para **cada** dimensão DAMA sobre tabelas reais do Olist; implementar os três testes dbt e rodar a teste controlado no seu Codespace — quebrar de propósito ensina mais que dez leituras; rodar as duas expectations e anotar o `unexpected_count` das datas; e estimar o **TTD** — se o frete viesse negativo hoje, em quanto tempo alguém perceberia **sem** os testes?"
 
-> "E na próxima aula, subimos da qualidade para a **lei**: dado certo também precisa ser dado **governado**. E o Olist guarda um presente didático raro: ele **já vem pseudonimizado** — IDs em hash, localização por prefixo de CEP. É um caso real de **LGPD** aplicada, e vamos dissecá-lo: mascaramento, RBAC, e o lineage do dbt virando a planta baixa do direito de exclusão. Te espero na Aula 14. Um abraço!"
+> "E na próxima aula, subimos da qualidade para a **lei**: dado certo também precisa ser dado **governado**. E o Olist guarda um presente didático raro: ele **já vem pseudonimizado** — IDs em hash, localização por prefixo de CEP. É um caso real de **LGPD** aplicada, e vamos dissecá-lo: mascaramento, RBAC, e o lineage do dbt virando a planta baixa do direito de exclusão."
 
 ---
 
@@ -193,23 +193,23 @@ git push
 
 **[TELA]** Slide de capa.
 
-> "Olá! Bem-vindo, bem-vinda de volta. Na aula passada garantimos que o dado do Olist está **certo**. Hoje garantimos que ele está **sob controle**: quem pode vê-lo, de onde veio, quanto tempo fica — e como tratá-lo **dentro da lei**. E eu adianto o presente didático da aula: o Olist **já vem anonimizado**. Repara: você passou 13 aulas dentro desse dataset e nunca viu um nome, um CPF, um endereço. Os IDs são *hashes*; a geolocalização é por **prefixo de CEP**. Isso não é acaso — é um caso real, publicado, de **pseudonimização sob a LGPD**, a Lei 13.709 de 2018. Hoje a gente disseca essa engenharia de privacidade: classificação, mascaramento, RBAC — e o lineage do dbt virando instrumento jurídico. Bora."
+> "Na aula anterior, foram definidos controles de qualidade. Nesta aula, trataremos de governança: responsabilidade pelos dados, controle de acesso, origem, retenção e conformidade. O conjunto Olist não contém nomes ou CPF e emprega identificadores substitutos e prefixos de CEP. Essas características permitem discutir pseudonimização, generalização geográfica, mascaramento, controle de acesso baseado em papéis e linhagem de dados no contexto da LGPD."
 
-### 2. Governança: papéis e a distinção que vale ouro (1:15 – 4:15)
+### 2. Governança: papéis e distinções fundamentais (1:15 – 4:15)
 
 **[TELA]** Slide: owner/steward/custodian + anonimizado × pseudonimizado.
 
 > "**Governança de dados** é o conjunto de políticas, papéis e processos que responde: quem é **dono** de cada dado? Quem **acessa** o quê? O que é **sensível**? Quanto tempo **guardamos**? Como **provamos** conformidade a um auditor? E mesmo no Olist anonimizado, os três papéis clássicos existem: o **data owner** — o responsável de negócio por cada domínio: vendas, logística, reviews; o **data steward** — quem zela pelo **significado** dos campos: qual a diferença entre `customer_id` e `customer_unique_id`? — pergunta que o steward responde; e o **data custodian** — o time que opera o DuckDB, o dbt e o Airflow: nós. Sem dono, ninguém responde pelo dado — e dado sem dono apodrece."
 
-> "E agora a distinção jurídica que vale ouro em qualquer entrevista e em qualquer auditoria. **Dado anonimizado**: a reidentificação do titular é **impossível** — e ele **sai do escopo da LGPD**. **Dado pseudonimizado**: os identificadores foram trocados por códigos, mas a reidentificação **ainda é possível** com a chave de correspondência — e ele **continua dentro da lei**. E o Olist mistura os dois: o `customer_unique_id` é um hash que **liga as compras do mesmo comprador** ao longo do tempo — quem tivesse a tabela de-para original reidentificaria; isso é **pseudonimização**, não anonimização plena. Já o prefixo de CEP com 5 dígitos é uma **generalização** geográfica — reduz a granularidade sem eliminar a utilidade analítica. Classificar cada campo — público, interno, pessoal/pseudonimizado — é o primeiro entregável da governança."
+> "É necessário distinguir anonimização de pseudonimização. A LGPD define dado anonimizado em função do uso de meios técnicos razoáveis e disponíveis no momento do tratamento, e não como uma garantia abstrata de impossibilidade absoluta. Na pseudonimização, informações adicionais mantidas separadamente ainda permitem associar o dado a uma pessoa. No conjunto Olist, o `customer_unique_id` permite relacionar compras atribuídas ao mesmo identificador e, por isso, deve ser tratado com cautela; sem documentação do processo de publicação, não se deve afirmar que ele seja um hash irreversível. O prefixo de CEP constitui uma redução de granularidade geográfica. A classificação dos campos deve considerar a possibilidade de associação e reidentificação no contexto concreto."
 
-### 3. Mão na massa: mascaramento e RBAC (4:15 – 7:30)
+### 3. Demonstração prática: mascaramento e RBAC (4:15 – 7:30)
 
 **[TELA]** Editor + terminal.
 
 > "Mesmo sobre dado já pseudonimizado, aplicamos **defesa em profundidade** — camadas de proteção redundantes. Camada um: o **mascaramento**. Quando o analista não precisa do prefixo de CEP completo, entregamos menos:"
 
-**[CÓDIGO]** Rodar o mascaramento ao vivo:
+**[CÓDIGO]** Rodar o mascaramento na demonstração:
 
 ```bash
 python -c "
@@ -226,7 +226,7 @@ print(con.sql(\"\"\"
 
 **[CHECKPOINT]**
 
-> "Olha o antes e depois: `14409` virou `144XX`. O analista de marketing continua sabendo a **região** — que é o que ele precisa para o estudo — mas perdeu dois dígitos de granularidade de localização. Privacidade não é tudo-ou-nada: é **dosagem** — cada consumidor recebe a granularidade mínima suficiente. Em produção, esse mascaramento viraria um modelo dbt — a versão mascarada do staging — servida por padrão, com o valor cheio restrito."
+> "Compare os valores antes e depois: `14409` virou `144XX`. O analista de marketing continua sabendo a **região** — que é o que ele precisa para o estudo — mas perdeu dois dígitos de granularidade de localização. Privacidade não é tudo-ou-nada: é **dosagem** — cada consumidor recebe a granularidade mínima suficiente. Em produção, esse mascaramento viraria um modelo dbt — a versão mascarada do staging — servida por padrão, com o valor cheio restrito."
 
 > "Restrito a quem? Camada dois: o **RBAC** — *Role-Based Access Control*: permissões por **papel**, nunca por pessoa, sob o princípio do **menor privilégio**. No Olist: o papel *analista de marketing* enxerga só os marts agregados; o *cientista de dados* enxerga o gold, para treinar modelo; e **somente** o *custodian* — o engenheiro — toca o schema `raw`. Complementos: *column-level security* — a coluna sensível sumindo para quem não deve vê-la; *row-level* — o analista regional de SP vendo só linhas de SP; e **criptografia** em repouso e em trânsito, o pano de fundo de tudo."
 
@@ -234,7 +234,7 @@ print(con.sql(\"\"\"
 
 **[TELA]** Navegador — dbt docs, lineage do customer_unique_id.
 
-> "E agora a conexão mais bonita da unidade — onde uma ferramenta de engenharia vira instrumento jurídico. A LGPD, fiscalizada pela **ANPD**, garante ao titular o **direito de eliminação**: 'apaguem os meus dados'. Pergunta de engenheiro: para apagar **todos** os rastros de um `customer_unique_id`… você precisa saber **todos os lugares onde ele pousou**. E quem sabe disso, no nosso projeto? Abre comigo o `dbt docs` que geramos na Aula 12:"
+> "E agora uma relação importante da unidade — onde uma ferramenta de engenharia vira instrumento jurídico. A LGPD, fiscalizada pela **ANPD**, garante ao titular o **direito de eliminação**: 'apaguem os meus dados'. Pergunta de engenheiro: para apagar **todos** os rastros de um `customer_unique_id`. Você precisa saber **todos os lugares onde ele pousou**. E quem sabe disso, no nosso projeto? Abre comigo o `dbt docs` que geramos na Aula 12:"
 
 **[EXECUTAR]** (com o `dbt docs serve` no ar)
 
@@ -248,11 +248,11 @@ cd dbt_olist && dbt docs generate && dbt docs serve --port 8081
 
 **[TELA]** Slide: os 3 princípios + a conta do vazamento.
 
-> "Três princípios práticos da LGPD que o pipeline materializa. **Minimização**: só ingira o necessário — o Olist já removeu nomes na origem; dado que você não coleta é dado que não vaza. **Base legal**: todo tratamento precisa apoiar-se numa das dez bases da lei — execução de contrato, legítimo interesse, consentimento… 'porque é útil' **não** é base legal. E **retenção**: toda tabela com dado pessoal precisa de prazo de guarda — dado que você não guarda além do prazo é risco que expira sozinho. Repara na tese da aula: **quem materializa a lei é a engenharia** — classificar no catálogo, mascarar por padrão, registrar lineage, automatizar exclusão são tarefas do pipeline, não do departamento jurídico."
+> "Três princípios práticos da LGPD que o pipeline materializa. **Minimização**: só ingira o necessário — o Olist já removeu nomes na origem; dado que você não coleta é dado que não vaza. **Base legal**: todo tratamento precisa apoiar-se numa das dez bases da lei — execução de contrato, legítimo interesse, consentimento. 'porque é útil' **não** é base legal. E **retenção**: toda tabela com dado pessoal precisa de prazo de guarda — dado que você não guarda além do prazo é risco que expira sozinho. Observe na tese da aula: **quem materializa a lei é a engenharia** — classificar no catálogo, mascarar por padrão, registrar lineage, automatizar exclusão são tarefas do pipeline, não do departamento jurídico."
 
-> "E quanto custa errar? A conta, num marketplace como o Olist com faturamento de 80 milhões, **sem** a pseudonimização que o dataset já traz, sofrendo um vazamento: **multa LGPD** — até 2% do faturamento, teto de 50 milhões por infração: **1,6 milhão**. **Notificação e remediação** dos 96 mil clientes únicos, a 9 reais por titular: **865 mil**. **Churn** pós-vazamento — 3% de evasão a 220 reais por cliente-ano: **634 mil**. Total no primeiro ano: **cerca de 3,1 milhões de reais**. E a prevenção — mascaramento, RBAC, auditoria de lineage? Uns **60 mil**. A multa sozinha paga a prevenção **27 vezes**. E olha a sutileza final: a multa é a **menor** das parcelas — reputação e churn doem mais e duram anos. O Olist fez, na origem, a coisa mais barata e poderosa que existe: **pseudonimizou antes de publicar**. Privacidade por design não é slogan — é a engenharia que você está vendo."
+> "E quanto custa errar? A conta, num marketplace como o Olist com faturamento de 80 milhões, **sem** a pseudonimização que o dataset já traz, sofrendo um vazamento: **multa LGPD** — até 2% do faturamento, teto de 50 milhões por infração: **1,6 milhão**. **Notificação e remediação** dos 96 mil clientes únicos, a 9 reais por titular: **865 mil**. **Churn** pós-vazamento — 3% de evasão a 220 reais por cliente-ano: **634 mil**. Total no primeiro ano: **cerca de 3,1 milhões de reais**. E a prevenção — mascaramento, RBAC, auditoria de lineage? Uns **60 mil**. A multa sozinha paga a prevenção **27 vezes**. E observe a sutileza final: a multa é a **menor** das parcelas — reputação e churn doem mais e duram anos. O Olist fez, na origem, a coisa mais barata e poderosa que existe: **pseudonimizou antes de publicar**. Privacidade por design não é slogan — é a engenharia que você está vendo."
 
-### 6. Commit + atividade + gancho (13:30 – 16:00)
+### 6. Commit + atividade e preparação para a próxima aula (13:30 – 16:00)
 
 **[CÓDIGO]**
 
@@ -262,9 +262,9 @@ git commit -m "docs(lgpd): mascaramento de zip e analise de pseudonimizacao do O
 git push
 ```
 
-> "Sua missão: **classificar** os campos de `customers`, `orders` e `reviews` em público, interno, confidencial e pessoal/pseudonimizado; escrever o SQL de **mascaramento** do CEP e dizer qual papel RBAC veria o valor cheio; gerar o **lineage** e listar todos os modelos tocados pelo `customer_unique_id` — o caminho de exclusão; e escrever uma política de **retenção** de uma frase para duas tabelas."
+> "A atividade proposta: **classificar** os campos de `customers`, `orders` e `reviews` em público, interno, confidencial e pessoal/pseudonimizado; escrever o SQL de **mascaramento** do CEP e dizer qual papel RBAC veria o valor cheio; gerar o **lineage** e listar todos os modelos tocados pelo `customer_unique_id` — o caminho de exclusão; e escrever uma política de **retenção** de uma frase para duas tabelas."
 
-> "E na próxima aula, a pergunta que fecha o ciclo de maturidade: seu pipeline é confiável e governado… mas você consegue **mudá-lo sem medo**? Se um colega abrir um pull request mexendo no `fct_order_items` numa sexta às 17h, você faz merge tranquilo? Vamos curar esse medo com **DataOps**: o GitHub Actions rodando `dbt build` a cada PR — no mesmo GitHub onde o nosso projeto mora desde a Aula 1. CI/CD de dados, ao vivo. Te espero na Aula 15. Um abraço!"
+> "E na próxima aula, a pergunta que fecha o ciclo de maturidade: seu pipeline é confiável e governado. Mas você consegue **mudá-lo sem medo**? Se um colega abrir um pull request mexendo no `fct_order_items` numa sexta às 17h, você faz merge tranquilo? Vamos curar esse medo com **DataOps**: o GitHub Actions rodando `dbt build` a cada PR — no mesmo GitHub onde o nosso projeto mora desde a Aula 1. CI/CD de dados, na demonstração."
 
 ---
 
@@ -276,7 +276,7 @@ git push
 
 **[TELA]** Slide de capa.
 
-> "Olá! Bem-vindo, bem-vinda de volta. Seu pipeline Olist já é **confiável** — Aula 13 — e **governado** — Aula 14. Falta o último ingrediente da operação profissional: a capacidade de **mudar o pipeline com segurança e frequência**, sem rezar a cada deploy. E eu te faço a pergunta-teste, sem anestesia: se um colega abrisse um pull request alterando o `fct_order_items` às **cinco da tarde de uma sexta-feira**… você daria merge sem medo? Se a resposta é 'de jeito nenhum' — e ela é —, você tem um problema de **processo**, não de coragem. E esse medo tem cura, e a cura tem nome: **DataOps**. Hoje colocamos o **GitHub Actions** para rodar `dbt build` a cada pull request do nosso repositório — e vamos assistir o robô barrar um erro **antes** de ele chegar em produção. Bora."
+> "Seu pipeline Olist já é **confiável** — Aula 13 — e **governado** — Aula 14. Falta o último ingrediente da operação profissional: a capacidade de **mudar o pipeline com segurança e frequência**, com menor risco operacional. E eu te faço a pergunta-teste, de forma objetiva: se um colega abrisse um pull request alterando o `fct_order_items` às **cinco da tarde de uma sexta-feira**. Você daria merge sem medo? Se a resposta é 'de jeito nenhum' — e ela é —, você tem um problema de **processo**, não de coragem. E esse risco pode ser reduzido com: **DataOps**. Hoje colocamos o **GitHub Actions** para rodar `dbt build` a cada pull request do nosso repositório — e vamos assistir o robô barrar um erro **antes** de ele chegar em produção."
 
 ### 2. DataOps: os pilares no repo Olist (1:30 – 3:45)
 
@@ -286,11 +286,11 @@ git push
 
 > "E a fronteira do que se versiona, que já praticamos: **vão para o Git** os modelos, os `schema.yml` com testes, o DAG do Airflow, as expectations — o **código**. **Não vão**: o `olist.duckdb` e os Parquet do gold — isso é **dado**, e mora no `.gitignore` desde a Aula 1. Para versionar dado existem ferramentas próprias — DVC, lakeFS, o time travel do Delta —; no projeto, versionamos o código que **gera** o dado, que é o que importa: dado se regenera do cru; código perdido, não."
 
-### 3. Mão na massa: a fixture de CI e o workflow (3:45 – 8:00)
+### 3. Demonstração prática: a fixture de CI e o workflow (3:45 – 8:00)
 
 **[TELA]** Editor + terminal.
 
-> "Agora o coração da aula. O plano: a cada pull request, o GitHub Actions vai montar um ambiente **do zero**, carregar uma **amostra** dos dados, rodar `dbt build` — que é `run` mais `test` numa tacada — e **bloquear o merge se qualquer coisa falhar**. Primeiro problema a resolver: o runner do Actions não tem os 120 MB do Olist — os dados não estão no Git, como manda o figurino. A solução profissional: uma **fixture** — uma amostra pequena, committada, só para o CI exercitar a lógica:"
+> "Agora a parte central da aula. O plano: a cada pull request, o GitHub Actions vai montar um ambiente **do zero**, carregar uma **amostra** dos dados, rodar `dbt build` — que é `run` mais `test` em uma única execução — e **bloquear o merge se qualquer coisa falhar**. Primeiro problema a resolver: o runner do Actions não tem os 120 MB do Olist — os dados não estão no Git, conforme a prática adotada no projeto. A solução profissional: uma **fixture** — uma amostra pequena, committada, só para o CI exercitar a lógica:"
 
 **[CÓDIGO]** Criar `ingestion/make_sample.py`, gerar e versionar a amostra:
 
@@ -357,7 +357,7 @@ jobs:
 
 > "Lê o workflow comigo, porque ele é o contrato da qualidade: dispara **em todo pull request** contra a main; sobe um Ubuntu limpo; instala só o essencial; carrega a **fixture** num DuckDB **descartável** — que nasce e morre dentro do runner, nunca o de produção; e roda `dbt build` — modelos e testes, tudo. Se **um** modelo quebrar ou **um** teste falhar, o check fica vermelho e o **merge é bloqueado**. O erro morre no PR — não em produção, não no dashboard da diretoria."
 
-### 4. O teste de fogo: um PR ao vivo (8:00 – 12:00)
+### 4. Validação do workflow em um pull request (8:00 – 12:00)
 
 **[TELA]** Terminal → navegador (GitHub).
 
@@ -370,9 +370,9 @@ git commit -m "feat(dataops): CI com dbt build em PR + fixture de amostra"
 git push -u origin feat/ci-dataops
 ```
 
-> "Push feito — agora no GitHub: **Compare & pull request**, abro o PR… e olha a aba de **checks**: o `dbt CI (Olist)` está **rodando sozinho**, disparado pelo PR. Acompanha na aba Actions: checkout… Python… fixture carregada… `dbt build`… e **verde**: 12 modelos construídos, testes passando, na amostra, num banco descartável. **Este PR está matematicamente seguro para merge** — não porque eu confio em mim, mas porque o robô verificou. Merge sem medo — numa sexta, se for preciso."
+> "Push feito — agora no GitHub: **Compare & pull request**, abro o PR. E observe a aba de **checks**: o `dbt CI (Olist)` está **rodando sozinho**, disparado pelo PR. Acompanhe na aba Actions: checkout. Python. Fixture carregada. `dbt build`. E **verde**: 12 modelos construídos, testes passando, na amostra, num banco descartável. **Este PR está validado pelo conjunto de verificações automatizadas para merge** — não porque eu confio em mim, mas porque o robô verificou. Merge sem medo — numa sexta, se for preciso."
 
-> "E o cenário oposto, que fica de exercício sabotador para você: edita o `stg_orders` na branch, remove uma coluna que o `fct_order_items` usa, push — e assiste ao check ficar **vermelho** e o merge travar. A quebra que, sem CI, você descobriria em produção às 6 da manhã, morre no PR às 17h05 da sexta. **Isso** é a cura do medo."
+> "E o cenário oposto, que fica de exercício sabotador para você: edita o `stg_orders` na branch, remove uma coluna que o `fct_order_items` usa, push — e assiste ao check ficar **vermelho** e o merge travar. A quebra que, sem CI, você descobriria em produção às 6 da manhã, morre no PR às 17h05 da sexta. **Isso** é a redução do risco operacional."
 
 ### 5. WAP, dev→prod e IaC (12:00 – 14:15)
 
@@ -392,11 +392,11 @@ git push -u origin feat/ci-dataops
 git checkout main && git pull
 ```
 
-### 7. Atividade + gancho (16:00 – 17:30)
+### 7. Atividade e preparação para a próxima aula (16:00 – 17:30)
 
-> "Sua missão: montar o CI completo no seu repositório — fixture, workflow, PR aberto com check verde; fazer a **sabotagem inversa** — quebrar um modelo na branch e ver o merge travar; descrever os três passos do **write-audit-publish** para o `mart_sales_by_category`; e responder a pausa para reflexão: liste **três coisas** que tornavam o merge de sexta assustador no seu projeto — e a prática de DataOps que neutraliza cada uma."
+> "A atividade proposta: montar o CI completo no seu repositório — fixture, workflow, PR aberto com check verde; fazer a **teste controlado inversa** — quebrar um modelo na branch e ver o merge travar; descrever os três passos do **write-audit-publish** para o `mart_sales_by_category`; e responder a pausa para reflexão: liste **três coisas** que tornavam o merge de sexta assustador no seu projeto — e a prática de DataOps que neutraliza cada uma."
 
-> "E na próxima aula… a última da disciplina. A cereja do bolo: fechar o ciclo **do dado à IA**. Vamos treinar um modelo de **machine learning** — um RandomForest do scikit-learn — lendo o gold do nosso DuckDB para **prever quais pedidos do Olist vão atrasar**. O dado que entrou como CSV cru na Aula 1 vai sair como **predição** na Aula 16. E costuramos as quatro unidades no diagrama que vira o seu portfólio. Te espero no gran finale. Um abraço!"
+> "E na próxima aula. A última da disciplina. A etapa de integração: fechar o ciclo **do dado à IA**. Vamos treinar um modelo de **machine learning** — um RandomForest do scikit-learn — lendo o gold do nosso DuckDB para **prever quais pedidos do Olist vão atrasar**. O dado que entrou como CSV cru na Aula 1 vai sair como **predição** na Aula 16. E costuramos as quatro unidades no diagrama que vira o seu portfólio."
 
 ---
 
@@ -408,7 +408,7 @@ git checkout main && git pull
 
 **[TELA]** Slide de capa.
 
-> "Olá! Bem-vindo, bem-vinda à **última aula** de Data Engineering and Pipelines. Antes de qualquer código, olha para trás comigo: na Aula 1, você criou um repositório vazio e gerou 9 CSVs com um script. Hoje, esse repositório tem ingestão idempotente, uma estrela dimensional, um DAG no Airflow, um lakehouse Medallion, docs com lineage, um dashboard, testes de qualidade, conformidade com a LGPD e CI/CD rodando a cada pull request. **Você construiu um pipeline de dados completo.** Falta a cereja do bolo — e ela é doce: fechar o ciclo **do dado até a inteligência artificial**. Hoje treinamos um modelo de machine learning que lê o nosso gold e **prevê quais pedidos do Olist vão atrasar** — e costuramos as quatro unidades no diagrama que vira o seu projeto de portfólio. Bora fechar bonito."
+> "Esta é a última aula de Data Engineering and Pipelines. O repositório desenvolvido ao longo da disciplina contém ingestão idempotente, modelagem dimensional, orquestração com Airflow, camadas Medallion, documentação, linhagem, dashboard, testes de qualidade e integração contínua. Nesta aula, utilizaremos os dados da camada gold para treinar um modelo de classificação de atrasos e relacionaremos o resultado às etapas construídas nas quatro unidades."
 
 ### 2. O engenheiro de dados na era da IA (1:30 – 3:30)
 
@@ -422,7 +422,7 @@ git checkout main && git pull
 
 > "Antes do treino, um conceito de arquitetura de ML que todo engenheiro precisa ter: a **feature store**. O problema que ela resolve: o cientista calcula uma feature de um jeito no notebook, e a produção a recalcula de **outro** jeito — o *training-serving skew*: o modelo treina com uma realidade e opera em outra, e decai silenciosamente. A feature store — Feast, Tecton — serve **a mesma feature, com a mesma lógica**, para treino e produção. E as features naturais do nosso problema saem do gold: o **prazo estimado** — a diferença entre a data estimada de entrega e a compra; o **frete** — frete alto sugere distância e complexidade; o **número de parcelas**; o número de itens; a categoria; a UF. No nosso projeto local, a 'feature store' é honestamente uma view do dbt sobre o fato e as dimensões — e o conceito é **idêntico** ao da ferramenta gerenciada: definição única, consumo múltiplo."
 
-### 4. Mão na massa: treinando o modelo ao vivo (5:30 – 10:30)
+### 4. Demonstração prática: treinando o modelo na demonstração (5:30 – 10:30)
 
 **[TELA]** Editor + terminal.
 
@@ -478,9 +478,9 @@ python ml/train_delivery_delay.py
 
 **[CHECKPOINT]**
 
-> "Acompanha as saídas, porque cada linha conta uma história. Primeira: **~96 mil pedidos entregues, com taxa de atraso na casa de 8 a 10%** — a taxa base do problema. Segunda: a **AUC** — e aqui uma beleza do nosso setup: como os dados nascem de uma **seed fixa** e o split usa `random_state=42`, o seu número deve bater **exatamente** com o meu; anote o valor que aparecer — bem acima do 0,5 do puro acaso, para um modelo de três features escrito em vinte linhas. E a terceira é a que interessa ao negócio: no **decil de maior risco** — os 10% de pedidos que o modelo aponta como mais perigosos — a precisão sobe bem acima da taxa base: um **lift na casa de 2 a 3 vezes**."
+> "Acompanhe as saídas, porque cada linha conta uma história. Primeira: **~96 mil pedidos entregues, com taxa de atraso na casa de 8 a 10%** — a taxa base do problema. Segunda: a **AUC** — e aqui uma beleza do nosso setup: como os dados nascem de uma **seed fixa** e o split usa `random_state=42`, o seu número deve bater **exatamente** com o meu; anote o valor que aparecer — bem acima do 0,5 do puro acaso, para um modelo de três features escrito em vinte linhas. E a terceira é a que interessa ao negócio: no **decil de maior risco** — os 10% de pedidos que o modelo aponta como mais perigosos — a precisão sobe bem acima da taxa base: um **lift na casa de 2 a 3 vezes**."
 
-> "E agora para o momento e olha o que aconteceu conceitualmente: **o dado que entrou nesta disciplina como um CSV cru gerado na Aula 1 acabou de sair como uma predição** — uma probabilidade de atraso por pedido. O ciclo se fechou: geração, ingestão, transformação, armazenamento, disponibilização… e **uso**. E repara na honestidade do fluxo: o modelo leu o banco que **nós** garantimos — as datas que o GE validou, o gold que os testes protegem, o pipeline que o CI vigia. Sem as 15 aulas anteriores, essas 20 linhas de scikit-learn seriam lixo estatístico sobre dado sujo. **MLOps**, aliás, é exatamente isso: o DataOps da aula passada aplicado ao modelo — versionar dado, código e modelo; treino reproduzível; monitorar drift. Você já tem os pré-requisitos todos."
+> "E agora para o momento e observe o que aconteceu conceitualmente: **o dado que entrou nesta disciplina como um CSV cru gerado na Aula 1 acabou de sair como uma predição** — uma probabilidade de atraso por pedido. O ciclo se fechou: geração, ingestão, transformação, armazenamento, disponibilização. E **uso**. E observe na honestidade do fluxo: o modelo leu o banco que **nós** garantimos — as datas que o GE validou, o gold que os testes protegem, o pipeline que o CI vigia. Sem as 15 aulas anteriores, essas 20 linhas de scikit-learn seriam lixo estatístico sobre dado sujo. **MLOps**, aliás, é exatamente isso: o DataOps da aula passada aplicado ao modelo — versionar dado, código e modelo; treino reproduzível; monitorar drift. Você já tem os pré-requisitos todos."
 
 ### 5. O valor de negócio do lift (10:30 – 12:15)
 
@@ -504,7 +504,7 @@ git commit -m "feat(ml): modelo de previsao de atraso lendo o gold - fecha o pip
 git push
 ```
 
-> "E este commit fecha o repositório — olha o `git log` da disciplina: estrutura e devcontainer… gerador de dados… bronze… schema raw… estrela… dbt staging… stream… Airflow… DW em camadas… Medallion… nuvem… docs e dashboard… qualidade… LGPD… CI… e o modelo. **Dezesseis aulas, um pipeline.** E agora a tarefa final, a mais importante de todas: transformar isso em **portfólio**. Capricha no README: o diagrama de referência no topo, instruções de como rodar — que são triviais, porque há um devcontainer! —, um print do DAG do Airflow, um do dashboard, e os números do modelo. Esse repositório público responde, sozinho, a pergunta que toda entrevista de dados faz: 'você já construiu um pipeline de verdade?' — **Sim. Está aqui. Roda num Codespace em dois minutos.** Poucos candidatos têm isso na mão."
+> "E este commit fecha o repositório — observe o `git log` da disciplina: estrutura e devcontainer. Gerador de dados. Bronze. Schema raw. Estrela. Dbt staging. Stream. Airflow. DW em camadas. Medallion. Nuvem. Docs e dashboard. Qualidade. LGPD. CI. E o modelo. **Dezesseis aulas, um pipeline.** E agora a tarefa final, a mais importante de todas: transformar isso em **portfólio**. Capricha no README: o diagrama de referência no topo, instruções de como rodar — que são triviais, porque há um devcontainer! —, um print do DAG do Airflow, um do dashboard, e os números do modelo. Esse repositório público responde, sozinho, a pergunta que toda entrevista de dados faz: 'você já construiu um pipeline de verdade?' — **Sim. Está aqui. Roda num Codespace em dois minutos.** Poucos candidatos têm isso na mão."
 
 ### 8. Encerramento da disciplina (16:30 – 18:30)
 
@@ -514,4 +514,4 @@ git push
 
 > "Sobre a carreira, o roteiro pragmático que deixo: **SQL e Python inegociáveis**; modelagem dimensional e dbt; Airflow; uma nuvem a fundo com Terraform; e a consciência de qualidade e governança que esta unidade te deu. Certificações ajudam — mas o que **decide** é portfólio. E o seu está pronto."
 
-> "A indústria brasileira — e mundial — precisa de gente que faça o dado chegar **confiável** do outro lado. Você terminou esta disciplina exatamente desse lado, com um pipeline completo nas mãos para provar. Foi uma honra construir isso com você, aula a aula, commit a commit. Publica o repositório, escreve o README… e vai buscar a vaga. Boa carreira — e vai longe. Um grande abraço!"
+> "A indústria brasileira — e mundial — precisa de gente que faça o dado chegar **confiável** do outro lado. Você terminou esta disciplina exatamente desse lado, com um pipeline completo nas mãos para provar. Foi uma honra construir isso com você, aula a aula, commit a commit. Publica o repositório, escreve o README. E vai buscar a vaga. Boa carreira — e vai longe. Um grande abraço!"

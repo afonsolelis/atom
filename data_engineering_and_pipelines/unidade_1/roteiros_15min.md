@@ -3,7 +3,7 @@
 - **Disciplina:** Data Engineering and Pipelines
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 1 a 4
-- **Formato:** roteiro de gravação **hands-on em GitHub Codespaces** — o texto em citação (>) é a fala; os blocos de código são **executados ao vivo** na tela durante a gravação. Duração-alvo: **15 a 20 minutos** por aula, já contando o tempo de digitar/rodar os comandos.
+- **Formato:** roteiro de gravação **hands-on em GitHub Codespaces** — o texto em citação (>) é a fala; os blocos de código são **executados na demonstração** na tela durante a gravação. Duração-alvo: **15 a 20 minutos** por aula, já contando o tempo de digitar/rodar os comandos.
 
 > **Convenções deste roteiro:**
 > - **[TELA]** — o que deve estar visível (slide ou Codespace).
@@ -25,7 +25,7 @@
 
 > "Olá! Eu sou o professor Afonso Brandão, e seja muito bem-vindo, muito bem-vinda à Aula 1 — que é mais do que uma aula: é o pontapé de um **projeto que vai durar a disciplina inteira**. Nós vamos construir, do zero, um pipeline de dados completo sobre o **Olist** — um marketplace brasileiro com **99 mil pedidos** distribuídos em **9 arquivos CSV**: pedidos, itens, pagamentos, avaliações, produtos, clientes, vendedores, geolocalização e categorias. E nada de depender de cadastro em site nenhum: nós vamos **gerar esses dados com um script próprio**, no mesmo formato do famoso dataset público do Olist — o que significa que qualquer pessoa, em qualquer máquina, reproduz o curso inteiro sem criar uma única conta externa."
 
-> "E não vai ser no papel: vai ser **na tela, comigo, código por código**, dentro do **GitHub Codespaces** — um ambiente de desenvolvimento completo que roda no navegador, de graça. Ao final da disciplina, você terá um pipeline completo — ingestão, DuckDB, dbt, Airflow, testes e ML — **no seu GitHub**, pronto para mostrar em entrevista. Hoje a gente faz duas coisas: entende **o que é engenharia de dados** — papel, ciclo de vida, diferença para ciência de dados — e depois, **mão no teclado**: cria o repositório, sobe o Codespace, gera os dados e deixa o projeto respirando. Bora."
+> "As atividades serão realizadas no **GitHub Codespaces**, ambiente de desenvolvimento acessível pelo navegador. Ao final da disciplina, o repositório reunirá exemplos de ingestão, transformação com DuckDB e dbt, orquestração com Airflow, testes e aprendizado de máquina. Nesta aula, estudaremos o papel e o ciclo de vida da engenharia de dados e, em seguida, configuraremos o repositório, o Codespace e o conjunto de dados utilizado nas demais aulas."
 
 ### 2. O que é engenharia de dados + o ciclo de vida (1:30 – 4:30)
 
@@ -33,7 +33,7 @@
 
 > "A definição: **engenharia de dados** é a disciplina que projeta, constrói e mantém os sistemas que **coletam, armazenam, transportam e transformam dados** em escala, de forma confiável. E atenção ao produto final: não é um gráfico, não é um modelo — é o **dado disponível, íntegro e organizado** que outras pessoas vão consumir. Pensa no chef de cozinha: o cientista de dados é o chef que brilha no prato final; o engenheiro de dados é quem comprou, lavou, cortou e organizou os ingredientes na bancada. Sem essa base, ninguém cozinha."
 
-> "E o trabalho se organiza no **ciclo de vida da engenharia de dados**, do livro *Fundamentals of Data Engineering* — olha ele mapeado no nosso projeto: **geração** — a compra no marketplace virando os 9 CSVs; **ingestão** — Python e DuckDB lendo esses CSVs para a camada bronze e o schema `raw`; **transformação** — o dbt limpando e montando a modelagem em estrela; **armazenamento** — o banco `olist.duckdb` e os Parquet em bronze, silver e gold; e **disponibilização** — os marts servindo BI e machine learning. E atravessando todas as etapas, as **correntes transversais**: segurança, governança e qualidade, metadados, orquestração — que será o Airflow — e engenharia de software. Esse mapa é a disciplina inteira numa tabela; a gente vai preenchê-lo célula por célula."
+> "O trabalho será organizado segundo o **ciclo de vida da engenharia de dados** apresentado em *Fundamentals of Data Engineering*. No projeto, a geração corresponde às compras representadas nos nove arquivos CSV; a ingestão utiliza Python e DuckDB para carregar esses arquivos; a transformação emprega dbt para limpeza e modelagem dimensional; o armazenamento utiliza o banco `olist.duckdb` e arquivos Parquet; e a disponibilização ocorre por meio de marts destinados a BI e aprendizado de máquina. Segurança, governança, qualidade, metadados, orquestração e engenharia de software são aspectos transversais a todas essas etapas."
 
 > "E a confusão clássica que eu quero matar hoje: engenheiro, cientista e analista. O **engenheiro** move e prepara — a entrega dele no Olist é a `fct_order_items` confiável. O **cientista** cria modelos — 'esse pedido vai atrasar?'. O **analista** explica o que aconteceu — 'quanto vendemos por UF?'. E a relação é de dependência: **o engenheiro é a base**. Garbage in, garbage out: se o dado que entra é lixo, o modelo e o dashboard também serão."
 
@@ -41,15 +41,15 @@
 
 **[TELA]** Slide com a arquitetura-alvo + layout do repositório.
 
-> "Antes de codar, o mapa do tesouro — a **arquitetura-alvo** que vamos construir em 16 aulas. Guarda este desenho: **9 CSVs** → **Python/DuckDB** fazendo a ingestão → **schema `raw` no DuckDB** e **Parquet na camada bronze** → **dbt** transformando em staging, depois na estrela, depois nos marts → **camada gold** → **BI e ML** — tudo **orquestrado pelo Airflow**. E o layout do repositório espelha isso: `data/raw` com os 9 CSVs; `data/bronze`, `silver` e `gold` com os Parquet; `ingestion/` com os scripts; `dbt_olist/` com o projeto dbt; `airflow/dags/` com o DAG; e `ml/` com o modelo final."
+> "Antes de codar, o diagrama de referência — a **arquitetura-alvo** que vamos construir em 16 aulas. Guarda este desenho: **9 CSVs** → **Python/DuckDB** fazendo a ingestão → **schema `raw` no DuckDB** e **Parquet na camada bronze** → **dbt** transformando em staging, depois na estrela, depois nos marts → **camada gold** → **BI e ML** — tudo **orquestrado pelo Airflow**. E o layout do repositório espelha isso: `data/raw` com os 9 CSVs; `data/bronze`, `silver` e `gold` com os Parquet; `ingestion/` com os scripts; `dbt_olist/` com o projeto dbt; `airflow/dags/` com o DAG; e `ml/` com o modelo final."
 
 > "E uma decisão de arquitetura que eu já anuncio e justifico daqui a pouco com números: nosso pipeline é **ELT**, não ETL. No **ETL** clássico, transforma-se **antes** de carregar. No **ELT**, carrega-se o dado **cru** primeiro e transforma-se **depois, dentro do destino**. Vamos carregar os 9 CSVs brutos primeiro — e só então transformar com dbt. Por quê? Porque armazenamento ficou barato demais para não guardar o cru — e guardar o cru dá liberdade total de reprocessar. A conta vem no fim da aula."
 
-### 4. Mão na massa: criando o repositório e o Codespace (6:30 – 9:00)
+### 4. Demonstração prática: criando o repositório e o Codespace (6:30 – 9:00)
 
 **[TELA]** Navegador no GitHub → criar repositório → abrir Codespace.
 
-> "Chega de slide — bora para o GitHub. Primeiro passo: criar o repositório do projeto. No GitHub, **New repository**, nome **`pipeline-olist`**, público — porque isso aqui vai ser seu portfólio —, com README. Criou? Agora o pulo do gato desta disciplina: o botão verde **Code → aba Codespaces → Create codespace on main**. O GitHub sobe para a gente uma máquina virtual com VS Code no navegador — Linux, Python, git, tudo pronto. É o nosso laboratório: o mesmo para todo mundo, independente do seu computador."
+> "Chega de slide — Vamos para o GitHub. Primeiro passo: criar o repositório do projeto. No GitHub, **New repository**, nome **`pipeline-olist`**, público — porque isso aqui vai ser seu portfólio —, com README. Criou? Agora o recurso central desta disciplina: o botão verde **Code → aba Codespaces → Create codespace on main**. O GitHub sobe para nós uma máquina virtual com VS Code no navegador — Linux, Python, git, tudo pronto. É o nosso laboratório: o mesmo para todo mundo, independente do seu computador."
 
 **[CÓDIGO]** No terminal do Codespace, criar a estrutura de pastas:
 
@@ -59,7 +59,7 @@ touch ingestion/.gitkeep airflow/dags/.gitkeep
 ls -R --ignore=".git"
 ```
 
-> "Olha a estrutura nascendo: `data` com as quatro camadas, `ingestion`, `dbt_olist`, `airflow/dags` e `ml`. Agora vamos configurar o ambiente como gente grande: com um **devcontainer**, que é a receita da máquina — assim, qualquer pessoa que abrir esse repositório num Codespace ganha o ambiente idêntico ao meu."
+> "Observe a estrutura nascendo: `data` com as quatro camadas, `ingestion`, `dbt_olist`, `airflow/dags` e `ml`. Agora vamos configurar o ambiente de modo reproduzível: com um **devcontainer**, que é a receita da máquina — assim, qualquer pessoa que abrir esse repositório num Codespace ganha o ambiente idêntico ao meu."
 
 **[CÓDIGO]** Criar `.devcontainer/devcontainer.json`:
 
@@ -67,6 +67,9 @@ ls -R --ignore=".git"
 {
   "name": "pipeline-olist",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": { "version": "17" }
+  },
   "postCreateCommand": "pip install -r requirements.txt",
   "forwardPorts": [8080],
   "customizations": {
@@ -83,7 +86,7 @@ dbt-duckdb
 pandas
 ```
 
-> "Traduzindo o devcontainer: imagem oficial de Python 3.11; ao criar o container, instala o `requirements.txt`; e já deixo a **porta 8080 encaminhada** — ela vai servir a interface do Airflow lá na Aula 8. No requirements, o núcleo da nossa stack: **duckdb**, o motor analítico; **dbt-duckdb**, o dbt com adapter para o DuckDB; e **pandas**. O Airflow e as ferramentas de qualidade a gente instala nas aulas em que entram."
+> "O devcontainer utiliza Python 3.11 e Java 17, necessário para a atividade com PySpark. Durante a criação do ambiente, o `requirements.txt` é instalado e a porta 8080 é encaminhada para a interface do Airflow utilizada na Aula 8. As dependências adicionais serão instaladas nas aulas em que forem necessárias."
 
 **[CÓDIGO]** Instalar agora (sem esperar rebuild) e criar o `.gitignore`:
 
@@ -92,7 +95,7 @@ pip install -r requirements.txt
 printf "data/\n*.duckdb\n__pycache__/\nlogs/\n.env\n" > .gitignore
 ```
 
-> "E repara no `.gitignore`: a pasta `data` e o banco `.duckdb` **não vão para o git** — dado não se versiona em repositório de código; código sim, dado não. Essa é a primeira boa prática de engenharia de software aplicada a dados da disciplina."
+> "E observe no `.gitignore`: a pasta `data` e o banco `.duckdb` **não vão para o git** — dado não se versiona em repositório de código; código sim, dado não. Essa é a primeira boa prática de engenharia de software aplicada a dados da disciplina."
 
 ### 5. Gerando o dataset Olist — sem conta, sem API (9:00 – 12:00)
 
@@ -100,7 +103,7 @@ printf "data/\n*.duckdb\n__pycache__/\nlogs/\n.env\n" > .gitignore
 
 > "Agora, a matéria-prima — e aqui vem a decisão de design do curso. O dataset público do Olist mora no Kaggle, e baixá-lo exige conta e chave de API. Nós vamos por um caminho melhor para uma disciplina: **gerar os dados nós mesmos**, com um script Python que produz os **9 CSVs no mesmo formato e nas mesmas ordens de grandeza** do dataset real — 99.441 pedidos, 112.650 itens, 96.096 clientes únicos, 3.095 vendedores, 1 milhão de linhas de geolocalização. Com **seed fixa**: todo mundo que rodar gera **exatamente os mesmos números** que eu. E tem mais: o gerador planta, de propósito, as características que vamos explorar nas aulas — uma Black Friday em novembro de 2017, e até uns defeitos de dados escondidos que só vamos caçar na Unidade 4. Se um dia você quiser trocar pelo dataset real, é só baixar manualmente no navegador e substituir os arquivos — **o pipeline é idêntico**, porque o formato é o mesmo."
 
-> "O script está nos materiais da aula — são umas cem linhas; eu colo no editor e a gente lê as partes importantes juntos:"
+> "O script está disponível nos materiais da aula. Durante a demonstração, serão examinadas as partes responsáveis pela geração determinística das tabelas e pela inclusão dos casos de teste utilizados posteriormente."
 
 **[CÓDIGO]** Criar `ingestion/gerar_dados.py` (colar do material de apoio):
 
@@ -243,7 +246,7 @@ ls -lh data/raw
 
 **[CHECKPOINT]**
 
-> "Alguns segundos… e confere comigo na listagem: **9 arquivos CSV** — `olist_orders_dataset.csv`, `olist_order_items_dataset.csv`, pagamentos, reviews, produtos, clientes, vendedores, o gigante `olist_geolocation_dataset.csv` com 1 milhão de linhas, e a tradução de categorias. E repara nos detalhes de engenharia do gerador enquanto ele passou na tela: a **seed 42** — determinismo total, seus números serão idênticos aos meus; os pesos por UF — SP com a maior fatia, como no Brasil real; as categorias com pesos — beleza e saúde no topo; a **Black Friday de 24/11/2017** plantada com 1.300 pedidos concentrados; e umas linhas misteriosas marcando '18 defeitos' que eu não vou explicar hoje — guarda a curiosidade para a Unidade 4. O sistema-fonte está na sua máquina, e você é dono dele de ponta a ponta."
+> "Alguns segundos. E confere comigo na listagem: **9 arquivos CSV** — `olist_orders_dataset.csv`, `olist_order_items_dataset.csv`, pagamentos, reviews, produtos, clientes, vendedores, o gigante `olist_geolocation_dataset.csv` com 1 milhão de linhas, e a tradução de categorias. E observe nos detalhes de engenharia do gerador enquanto ele passou na tela: a **seed 42** — determinismo total, seus números serão idênticos aos meus; os pesos por UF — SP com a maior fatia, como no Brasil real; as categorias com pesos — beleza e saúde no topo; a **Black Friday de 24/11/2017** plantada com 1.300 pedidos concentrados; e umas linhas misteriosas marcando '18 defeitos' que eu não vou explicar hoje — guarda a curiosidade para a Unidade 4. O sistema-fonte está na sua máquina, e você é dono dele de ponta a ponta."
 
 ### 6. O primeiro código do pipeline (12:00 – 14:00)
 
@@ -270,13 +273,13 @@ python ingestion/hello_pipeline.py
 
 **[CHECKPOINT]**
 
-> "Duas saídas na tela: o status **'pipeline Olist no ar!'** — e olha a segunda: o DuckDB **leu o CSV de pedidos direto do disco** e contou… **99.441 pedidos**. Exatamente o número que o gerador prometeu — determinismo funcionando. Sem servidor, sem importação prévia: uma linha de SQL sobre um arquivo. Esse é o motor que vai sustentar a disciplina inteira: o DuckDB é um warehouse analítico que roda **dentro do processo Python**, no Codespace — e é absurdamente rápido, porque é colunar e vetorizado. Você acabou de rodar sua primeira consulta de engenharia de dados."
+> "Duas saídas na tela: o status **'pipeline Olist no ar!'** — e observe a segunda: o DuckDB **leu o CSV de pedidos direto do disco** e contou. **99.441 pedidos**. Exatamente o número que o gerador prometeu — determinismo funcionando. Sem servidor, sem importação prévia: uma linha de SQL sobre um arquivo. Esse é o motor que vai sustentar a disciplina inteira: o DuckDB é um warehouse analítico que roda **dentro do processo Python**, no Codespace — e é eficiente para consultas analíticas, porque é colunar e vetorizado. Você acabou de rodar sua primeira consulta de engenharia de dados."
 
 ### 7. Por que ELT: a conta do armazenamento (14:00 – 15:30)
 
 **[TELA]** Slide com a conta do custo de armazenamento.
 
-> "E agora eu pago a promessa da arquitetura: por que **ELT**? Com números. O nosso Olist tem 9 tabelas, 99 mil pedidos, 112 mil itens — cerca de **120 megabytes** em CSV. Quanto custa guardar isso cru num armazenamento de objetos na nuvem? O preço típico é 2,3 centavos de dólar por gigabyte ao mês. 120 megabytes são 0,117 gigabytes: 0,117 vezes 0,023… **0,27 centavos de dólar por mês**. Menos de um centavo. E no nosso Codespace, com DuckDB e Parquet, o custo é literalmente **zero**."
+> "E agora eu pago a promessa da arquitetura: por que **ELT**? Com números. O nosso Olist tem 9 tabelas, 99 mil pedidos, 112 mil itens — cerca de **120 megabytes** em CSV. Quanto custa guardar isso cru num armazenamento de objetos na nuvem? O preço típico é 2,3 centavos de dólar por gigabyte ao mês. 120 megabytes são 0,117 gigabytes: 0,117 vezes 0,023. **0,27 centavos de dólar por mês**. Menos de um centavo. E no nosso Codespace, com DuckDB e Parquet, o custo é literalmente **zero**."
 
 > "É esse custo irrisório que torna o ELT economicamente óbvio: **carregue tudo cru, transforme depois**. Guardar o bruto compra um seguro valioso: errou uma transformação? Reprocessa do cru, quantas vezes quiser. E no nosso caso, tem um seguro ainda melhor: perdeu tudo? `python ingestion/gerar_dados.py` e o mundo renasce idêntico. No mundo do ETL antigo, o dado que você não carregou está perdido para sempre. No ELT, o cru é o backup eterno da verdade."
 
@@ -290,19 +293,19 @@ git commit -m "chore: estrutura do projeto, devcontainer, gerador de dados e pri
 git push
 ```
 
-> "E fecha a aula com a disciplina de sempre: **commit e push**. Repara que o `gerar_dados.py` **vai** para o git — ele é código, e é a nossa 'fonte' reprodutível — enquanto a pasta `data/` fica de fora. A partir de agora, **toda aula termina com um commit**: ao final da disciplina, o histórico do seu repositório conta a história do pipeline sendo construído — e recrutador adora ler histórico de commit."
+> "E fecha a aula com a disciplina de sempre: **commit e push**. Observe que o `gerar_dados.py` **vai** para o git — ele é código, e é a nossa 'fonte' reprodutível — enquanto a pasta `data/` fica de fora. A partir de agora, **toda aula termina com um commit**: ao final da disciplina, o histórico do seu repositório conta a história do pipeline sendo construído — e recrutador adora ler histórico de commit."
 
-### 9. Atividade + encerramento e gancho (16:30 – 17:30)
+### 9. Atividade e encerramento (16:30 – 17:30)
 
 **[TELA]** Enunciado da atividade.
 
-> "Sua missão até a próxima aula: reproduzir **tudo** o que fiz hoje no seu próprio repositório — criar o `pipeline-olist`, subir o Codespace com devcontainer, rodar o `gerar_dados.py` e conferir os **99.441 pedidos** com o script de contagem. E mais: escreve, no README, **uma frase para cada etapa do ciclo de vida** mapeada no Olist. Quem termina a Aula 1 com o ambiente rodando não trava nunca mais na disciplina — o setup é a única barreira, e você acabou de vencê-la."
+> "A atividade proposta até a próxima aula: reproduzir **tudo** o que fiz hoje no seu próprio repositório — criar o `pipeline-olist`, subir o Codespace com devcontainer, rodar o `gerar_dados.py` e conferir os **99.441 pedidos** com o script de contagem. E mais: escreve, no README, **uma frase para cada etapa do ciclo de vida** mapeada no Olist. Quem termina a Aula 1 com o ambiente rodando não trava nunca mais na disciplina — o setup é a única barreira, e você acabou de vencê-la."
 
-> "Na próxima aula, a gente olha de perto a matéria-prima: os tipos e formatos de dado — e faz a **primeira ingestão de verdade**: converter os 9 CSVs em **Parquet**, criando a camada **bronze**, e medir a compressão real na tela. Te espero na Aula 2. Um abraço!"
+> "Na próxima aula, serão estudados os tipos e formatos de dados. A atividade prática converterá os nove arquivos CSV em Parquet, criará a camada bronze e medirá a taxa de compressão obtida."
 
 ---
 
-## Roteiro da Videoaula 2 — "Tipos, formatos e fontes de dados: nasce a camada bronze"
+## Roteiro da Videoaula 2 — "Tipos, formatos e fontes de dados: criação da camada bronze"
 
 **Duração-alvo:** 16 a 18 minutos.
 
@@ -310,7 +313,7 @@ git push
 
 **[TELA]** Slide de capa; Codespace aberto ao lado.
 
-> "Olá! Bem-vindo, bem-vinda de volta. Na Aula 1 montamos o laboratório: o Codespace está de pé, os 9 CSVs do Olist estão em `data/raw` — gerados pelo nosso script, sem depender de ninguém — e o DuckDB já contou 99.441 pedidos. Hoje a gente olha de perto essa matéria-prima — porque **dado não é tudo igual**: tem dado arrumadinho em tabela e tem texto livre; tem formato que custa caro para ler e formato que voa. E a aula termina com a **primeira ingestão real do pipeline**: os 9 CSVs convertidos em **Parquet** — a camada **bronze** nascendo na sua tela, com a compressão medida em números. Bora."
+> "Na Aula 1, configuramos o Codespace, geramos os nove arquivos CSV em `data/raw` e confirmamos a presença de 99.441 pedidos. Nesta aula, analisaremos dados estruturados, semiestruturados e não estruturados, assim como as características de CSV, JSON, Parquet e Avro. Ao final, converteremos os arquivos CSV em Parquet para formar a camada bronze e calcularemos a taxa de compressão."
 
 ### 2. Estruturado, semiestruturado, não estruturado (1:15 – 3:30)
 
@@ -318,7 +321,7 @@ git push
 
 > "Primeira classificação: o **grau de estrutura**. Dado **estruturado**: tabela com colunas e tipos — no Olist, quase tudo: `orders`, `order_items`, `payments`, `geolocation`. Dado **semiestruturado**: estrutura flexível e aninhada — JSON, XML, logs; no nosso projeto ele vai surgir na Aula 7, quando emitirmos os pedidos como **eventos JSON** para simular streaming. E dado **não estruturado**: sem esquema — texto livre, imagem, áudio. Estima-se que **80% do dado do mundo** seja não estruturado."
 
-> "E o Olist tem uma ilha não estruturada escondida — deixa eu mostrar ao vivo."
+> "E o Olist tem uma ilha não estruturada escondida — deixa eu mostrar na demonstração."
 
 **[CÓDIGO]** No terminal, espiar o campo de texto livre:
 
@@ -335,21 +338,21 @@ print(duckdb.sql(\"\"\"
 
 **[CHECKPOINT]**
 
-> "Olha na tela: o `review_comment_message` — o texto que o cliente escreveu ao avaliar: 'chegou antes do prazo', 'produto veio errado'… Isso é **texto livre, não estruturado**, morando dentro de um CSV estruturado. E saber classificar já orienta a engenharia: essas colunas numéricas ao lado se agregam com SQL; esse texto pediria **NLP**. Mesma tabela, dois mundos."
+> "Observe na tela: o `review_comment_message` — o texto que o cliente escreveu ao avaliar: 'chegou antes do prazo', 'produto veio errado'. Isso é **texto livre, não estruturado**, morando dentro de um CSV estruturado. E saber classificar já orienta a engenharia: essas colunas numéricas ao lado se agregam com SQL; esse texto pediria **NLP**. Mesma tabela, dois mundos."
 
 ### 3. Os quatro formatos: CSV, JSON, Parquet, Avro (3:30 – 6:00)
 
 **[TELA]** Slide comparando os 4 formatos + esquema linha × coluna.
 
-> "Segunda classificação: o **formato de arquivo** — e aqui mora dinheiro. **CSV**: texto puro separado por vírgula. Universal, legível… e **sem tipos** — tudo é texto — sem compressão, ineficiente em escala. É como a nossa fonte entrega. **JSON**: texto hierárquico de chave e valor, a língua das APIs — flexível, porém **verboso**; vamos usá-lo na Aula 7 para o stream. **Parquet**: formato **binário, colunar e comprimido** — o padrão absoluto de analytics; é para onde vamos converter o Olist agora. E **Avro**: binário **por linha**, com esquema embutido — excelente para ingestão e streaming."
+> "Segunda classificação: o **formato de arquivo** — e aqui mora dinheiro. **CSV**: texto puro separado por vírgula. Universal, legível. E **sem tipos** — tudo é texto — sem compressão, ineficiente em escala. É como a nossa fonte entrega. **JSON**: texto hierárquico de chave e valor, a língua das APIs — flexível, porém **verboso**; vamos usá-lo na Aula 7 para o stream. **Parquet**: formato **binário, colunar e comprimido** — o padrão absoluto de analytics; é para onde vamos converter o Olist agora. E **Avro**: binário **por linha**, com esquema embutido — excelente para ingestão e streaming."
 
 > "E a diferença conceitual que explica tudo: **orientação a linha versus orientação a coluna**. O CSV guarda linha por linha — para ler uma coluna, você atravessa todas as linhas inteiras. O Parquet guarda **coluna por coluna** — uma consulta que usa só `price` lê **só o bloco do `price`** e ignora o resto do arquivo. Para analytics, que vive de agregar poucas colunas sobre muitas linhas, é a arquitetura perfeita. A regra prática para a vida: **CSV e JSON para troca e ingestão; Parquet para analytics; Avro para streaming**. Nosso pipeline segue à risca: entra CSV, vira Parquet."
 
-### 4. Mão na massa: a primeira ingestão CSV → Parquet (6:00 – 9:30)
+### 4. Demonstração prática: a primeira ingestão CSV → Parquet (6:00 – 9:30)
 
 **[TELA]** Editor + terminal do Codespace.
 
-> "Chega de teoria — vamos construir a **camada bronze**. E olha que bonito: no DuckDB, converter um CSV em Parquet é **uma linha de SQL** — um `COPY` para fora. Mas nós somos engenheiros: em vez de repetir nove vezes, escrevemos o script que varre a pasta inteira."
+> "Após a exposição conceitual, vamos construir a **camada bronze**. E observe que bonito: no DuckDB, converter um CSV em Parquet é **uma linha de SQL** — um `COPY` para fora. Mas nós somos engenheiros: em vez de repetir nove vezes, escrevemos o script que varre a pasta inteira."
 
 **[CÓDIGO]** Criar `ingestion/to_bronze.py`:
 
@@ -382,9 +385,9 @@ ls -lh data/bronze
 
 **[CHECKPOINT]**
 
-> "Nove linhas de 'bronze ok' e — olha o `ls` — **nove arquivos Parquet** em `data/bronze`: `orders.parquet`, `order_items.parquet`, `customers.parquet`… Repara no que aconteceu conceitualmente: acabamos de executar o **E** e o **L** do nosso ELT — extraímos da fonte e carregamos **cru**, sem transformar nada, num formato analítico. Isso é a camada bronze de um lakehouse: o dado bruto, imutável, preservado. E repara no loop: o script normaliza os nomes — tira o `olist_` e o `_dataset` — porque nomes limpos agora poupam dor de cabeça depois."
+> "Nove linhas de 'bronze ok' e — observe o `ls` — **nove arquivos Parquet** em `data/bronze`: `orders.parquet`, `order_items.parquet`, `customers.parquet`. Observe no que aconteceu conceitualmente: acabamos de executar o **E** e o **L** do nosso ELT — extraímos da fonte e carregamos **cru**, sem transformar nada, num formato analítico. Isso é a camada bronze de um lakehouse: o dado bruto, imutável, preservado. E observe no loop: o script normaliza os nomes — tira o `olist_` e o `_dataset` — porque nomes limpos agora poupam dor de cabeça depois."
 
-### 5. Medindo a compressão ao vivo (9:30 – 12:00)
+### 5. Medindo a compressão na demonstração (9:30 – 12:00)
 
 **[TELA]** Terminal, comparação de tamanhos lado a lado.
 
@@ -397,15 +400,15 @@ ls -lh data/raw/olist_geolocation_dataset.csv data/bronze/geolocation.parquet
 
 **[CHECKPOINT]**
 
-> "Compara os pares na tela: o Parquet de itens ficou **várias vezes menor** que o CSV — anota o fator exato que apareceu aí na sua execução. E olha o caso da geolocalização, com 1 milhão de linhas: a diferença é ainda mais gritante, porque coluna com valores repetidos — UF, cidade — comprime maravilhosamente bem no formato colunar. No dataset real do Olist, o fator típico da tabela de itens chega perto de **4 vezes**; nos nossos dados sintéticos vai variar um pouco — os IDs aleatórios comprimem menos que dados reais — e essa variação é, ela mesma, uma lição: **compressão depende da natureza do dado**."
+> "Compara os pares na tela: o Parquet de itens ficou **várias vezes menor** que o CSV — anota o fator exato que apareceu aí na sua execução. E observe o caso da geolocalização, com 1 milhão de linhas: a diferença é ainda mais acentuada, porque coluna com valores repetidos — UF, cidade — comprime com eficiência no formato colunar. No dataset real do Olist, o fator típico da tabela de itens chega perto de **4 vezes**; nos nossos dados sintéticos vai variar um pouco — os IDs aleatórios comprimem menos que dados reais — e essa variação é, ela mesma, uma lição: **compressão depende da natureza do dado**."
 
-> "Mas o ganho de verdade é mais profundo que o tamanho — é a **leitura seletiva**. A tabela de itens tem 7 colunas. Uma consulta de faturamento usa só duas: `price` e `freight_value` — menos de um terço das colunas. Combinando compressão com leitura colunar, uma consulta analítica sobre o Parquet toca uma **fração pequena** dos bytes que o CSV obrigaria a varrer — no dataset real, a redução chega à casa de **13 vezes menos dados lidos**. Agora multiplica por 9 tabelas e por centenas de consultas diárias de um time de dados… e você entende por que **toda camada analítica do nosso pipeline será Parquet** — e por que o mundo inteiro de analytics padronizou nesse formato."
+> "Mas o ganho de verdade é mais profundo que o tamanho — é a **leitura seletiva**. A tabela de itens tem 7 colunas. Uma consulta de faturamento usa só duas: `price` e `freight_value` — menos de um terço das colunas. Combinando compressão com leitura colunar, uma consulta analítica sobre o Parquet toca uma **fração pequena** dos bytes que o CSV obrigaria a varrer — no dataset real, a redução chega à casa de **13 vezes menos dados lidos**. Agora multiplica por 9 tabelas e por centenas de consultas diárias de um time de dados. E você entende por que **toda camada analítica do nosso pipeline será Parquet** — e por que o mundo inteiro de analytics padronizou nesse formato."
 
-### 6. Schema-on-read ao vivo (12:00 – 14:00)
+### 6. Schema-on-read na demonstração (12:00 – 14:00)
 
 **[TELA]** Terminal.
 
-> "Último conceito da aula, demonstrado ao vivo: **schema-on-read versus schema-on-write**. No **schema-on-write** — o banco relacional clássico — você define o esquema **antes** de gravar, e o banco rejeita o que não couber: qualidade na entrada, rigidez como preço. No **schema-on-read**, você grava o cru **sem** esquema e interpreta na leitura: flexibilidade total, ideal para data lakes. E o DuckDB lendo nossos CSVs é schema-on-read puro — olha ele **inferindo** os tipos em tempo real:"
+> "Último conceito da aula, demonstrado na demonstração: **schema-on-read versus schema-on-write**. No **schema-on-write** — o banco relacional clássico — você define o esquema **antes** de gravar, e o banco rejeita o que não couber: qualidade na entrada, rigidez como preço. No **schema-on-read**, você grava o cru **sem** esquema e interpreta na leitura: flexibilidade total, ideal para data lakes. E o DuckDB lendo nossos CSVs é schema-on-read puro — observe ele **inferindo** os tipos em tempo real:"
 
 **[CÓDIGO]**
 
@@ -417,9 +420,9 @@ print(duckdb.sql(\"DESCRIBE SELECT * FROM read_csv_auto('data/raw/olist_orders_d
 
 **[CHECKPOINT]**
 
-> "Olha a mágica na tela: `order_id` virou **VARCHAR**, `order_purchase_timestamp` virou **TIMESTAMP** — ninguém declarou nada; o DuckDB **olhou os dados e deduziu**. Isso é o schema-on-read em ação: perfeito para a bronze, onde queremos flexibilidade. Lá na frente, quando o dbt materializar a estrela, aí sim vamos **impor** esquema e testes — cada abordagem no seu andar da arquitetura."
+> "observe o resultado na tela: `order_id` virou **VARCHAR**, `order_purchase_timestamp` virou **TIMESTAMP** — ninguém declarou nada; o DuckDB **olhou os dados e deduziu**. Isso é o schema-on-read em ação: perfeito para a bronze, onde queremos flexibilidade. Lá na frente, quando o dbt materializar a estrela, aí sim vamos **impor** esquema e testes — cada abordagem no seu andar da arquitetura."
 
-### 7. Commit + atividade + gancho (14:00 – 16:00)
+### 7. Commit + atividade e preparação para a próxima aula (14:00 – 16:00)
 
 **[CÓDIGO]**
 
@@ -429,9 +432,9 @@ git commit -m "feat(ingestion): camada bronze - 9 CSVs Olist convertidos a Parqu
 git push
 ```
 
-> "Commit da aula: a bronze está no ar e o script está versionado. Sua missão até a próxima aula: primeiro, rodar o `to_bronze.py` e montar uma **tabelinha CSV × Parquet × fator de compressão** para as 9 tabelas — os fatores variam, e o porquê é interessante: repetição comprime bem, aleatoriedade comprime mal. Segundo, classificar cada um dos 9 arquivos como estruturado, semi ou não estruturado — lembra do `review_comment_message`. E terceiro, rodar o `DESCRIBE` sobre outros CSVs e conferir os tipos inferidos."
+> "Commit da aula: a bronze está no ar e o script está versionado. A atividade proposta até a próxima aula: primeiro, rodar o `to_bronze.py` e montar uma **tabelinha CSV × Parquet × fator de compressão** para as 9 tabelas — os fatores variam, e o porquê é interessante: repetição comprime bem, aleatoriedade comprime mal. Segundo, classificar cada um dos 9 arquivos como estruturado, semi ou não estruturado — lembra do `review_comment_message`. E terceiro, rodar o `DESCRIBE` sobre outros CSVs e conferir os tipos inferidos."
 
-> "Na próxima aula, o Olist ganha um **banco relacional de verdade**: vamos criar o **schema `raw`** no DuckDB, carregar as 9 tabelas, entender o diagrama ER com suas chaves — e rodar **joins reais**: faturamento por categoria juntando três tabelas em frações de segundo. E de quebra: ACID, as famílias NoSQL e o teorema CAP, tudo com exemplos do Olist. Te espero na Aula 3. Um abraço!"
+> "Na próxima aula, o Olist ganha um **banco relacional de verdade**: vamos criar o **schema `raw`** no DuckDB, carregar as 9 tabelas, entender o diagrama ER com suas chaves — e rodar **joins reais**: faturamento por categoria juntando três tabelas em frações de segundo. E de quebra: ACID, as famílias NoSQL e o teorema CAP, tudo com exemplos do Olist."
 
 ---
 
@@ -443,7 +446,7 @@ git push
 
 **[TELA]** Slide de capa; Codespace ao lado.
 
-> "Olá! Bem-vindo, bem-vinda de volta. Na Aula 2, viramos os 9 CSVs em Parquet — a bronze existe. Mas para **juntar** essas tabelas e responder perguntas — qual produto vendeu mais? qual vendedor entrega mais rápido? — a gente precisa de um **banco de dados**. Hoje o Olist vai morar num banco relacional: vamos carregar o **schema `raw`** no DuckDB, entender como as 9 tabelas se conectam pelas chaves, rodar **joins reais** ao vivo — e por cima disso entender ACID, as quatro famílias NoSQL e o teorema CAP, sempre com o Olist como exemplo. Aula cheia de código. Bora."
+> "Na Aula 2, os nove arquivos CSV foram convertidos em Parquet. Nesta aula, carregaremos as tabelas no schema `raw` do DuckDB e examinaremos os relacionamentos definidos por suas chaves. As consultas práticas demonstrarão junções entre tabelas. Também serão apresentados as propriedades ACID, quatro famílias de bancos NoSQL e o teorema CAP."
 
 ### 2. O modelo relacional e o ER do Olist (1:15 – 4:00)
 
@@ -451,13 +454,13 @@ git push
 
 > "O **modelo relacional** — proposto por Edgar Codd em 1970, num artigo que está no material complementar — organiza dados em **tabelas** ligadas por **chaves**: a **chave primária** identifica unicamente cada linha; a **chave estrangeira** aponta para outra tabela. E a língua desse mundo é o **SQL** — provavelmente a habilidade mais duradoura e valiosa de toda a área de dados: modas passam, SQL fica."
 
-> "Olha o diagrama ER do Olist — decora essa espinha dorsal: **`orders` é o centro** — `order_id` é a chave primária, e `customer_id` aponta para `customers`. **`order_items`** referencia três tabelas: `orders` pelo `order_id`, `products` pelo `product_id` e `sellers` pelo `seller_id`. `order_payments` e `order_reviews` penduram em `orders` pelo `order_id`. `customers` e `sellers` ligam-se a `geolocation` pelo prefixo de CEP. E `products` liga na tradução de categorias. Resumindo numa frase: **`order_id` costura pedidos, itens, pagamentos e reviews; `customer_id`, `product_id` e `seller_id` ligam os itens às entidades**. Com esse mapa na cabeça, todo join da disciplina fica óbvio."
+> "observe o diagrama ER do Olist — identifique essa espinha dorsal: **`orders` é o centro** — `order_id` é a chave primária, e `customer_id` aponta para `customers`. **`order_items`** referencia três tabelas: `orders` pelo `order_id`, `products` pelo `product_id` e `sellers` pelo `seller_id`. `order_payments` e `order_reviews` penduram em `orders` pelo `order_id`. `customers` e `sellers` ligam-se a `geolocation` pelo prefixo de CEP. E `products` liga na tradução de categorias. Resumindo numa frase: **`order_id` costura pedidos, itens, pagamentos e reviews; `customer_id`, `product_id` e `seller_id` ligam os itens às entidades**. Com esse mapa na cabeça, todo join da disciplina fica óbvio."
 
-### 3. Mão na massa: carregando o schema raw (4:00 – 7:00)
+### 3. Demonstração prática: carregando o schema raw (4:00 – 7:00)
 
 **[TELA]** Editor + terminal.
 
-> "Bora materializar. Vamos criar um script que monta o schema `raw` e carrega **as 9 tabelas** de uma vez — aproveitando o mesmo loop da aula passada, porque engenheiro bom é preguiçoso do jeito certo."
+> " Vamos criar um script que monta o schema `raw` e carrega **as 9 tabelas** de uma vez — aproveitando o mesmo loop da aula passada, porque a automação reduz repetição e erros."
 
 **[CÓDIGO]** Criar `ingestion/load_raw.py`:
 
@@ -488,13 +491,13 @@ python ingestion/load_raw.py
 
 **[CHECKPOINT]**
 
-> "Olha o censo do Olist na tela: `raw.orders` com **99.441** linhas, `raw.order_items` com **112.650**, `raw.order_payments` com ~104 mil, `raw.customers` 99 mil, `raw.products` ~33 mil, `raw.sellers` só **3.095** — e o gigante `raw.geolocation` com **1 milhão** de linhas de CEP. Nove tabelas, um banco relacional local, carregado em segundos. E repara no `CREATE OR REPLACE`: rodou duas vezes, dá o mesmo resultado — isso se chama **idempotência**, e vai ser tema sério na Unidade 2."
+> "Observe a contagem do Olist na tela: `raw.orders` com **99.441** linhas, `raw.order_items` com **112.650**, `raw.order_payments` com ~104 mil, `raw.customers` 99 mil, `raw.products` ~33 mil, `raw.sellers` só **3.095** — e o gigante `raw.geolocation` com **1 milhão** de linhas de CEP. Nove tabelas, um banco relacional local, carregado em segundos. E observe no `CREATE OR REPLACE`: rodou duas vezes, dá o mesmo resultado — isso se chama **idempotência**, e vai ser tema sério na Unidade 2."
 
 ### 4. Os primeiros joins reais (7:00 – 10:00)
 
 **[TELA]** Terminal — as consultas e seus resultados.
 
-> "E agora o momento que justifica tudo: **juntar** as tabelas. Pergunta de negócio número um: **faturamento por categoria de produto** — exige juntar itens, pedidos e produtos. Três tabelas, um SQL:"
+> "E agora a aplicação analítica desta etapa: **juntar** as tabelas. Pergunta de negócio número um: **faturamento por categoria de produto** — exige juntar itens, pedidos e produtos. Três tabelas, um SQL:"
 
 **[CÓDIGO]** Criar `ingestion/consultas_aula3.sql` e rodar:
 
@@ -520,7 +523,7 @@ print(con.sql(open('ingestion/consultas_aula3.sql').read()))"
 
 **[CHECKPOINT]**
 
-> "Olha o ranking na tela: **beleza e saúde, relógios e presentes, cama, mesa e banho** brigando no topo do faturamento — a distribuição realista que semeamos no gerador, espelhando o Olist verdadeiro. E o mais importante: esse join sobre **112 mil itens** rodou em **frações de segundo**, no Codespace gratuito. Segunda pergunta, ao vivo: **pedidos por estado** — `orders` com `customers`:"
+> "Observe o resultado na tela: **beleza e saúde, relógios e presentes, cama, mesa e banho** brigando no topo do faturamento — a distribuição realista que semeamos no gerador, espelhando o Olist verdadeiro. E o mais importante: esse join sobre **112 mil itens** rodou em **frações de segundo**, no Codespace gratuito. Segunda pergunta, na demonstração: **pedidos por estado** — `orders` com `customers`:"
 
 **[CÓDIGO]**
 
@@ -568,11 +571,11 @@ git commit -m "feat(ingestion): schema raw com 9 tabelas + joins de faturamento 
 git push
 ```
 
-### 8. Atividade + encerramento e gancho (16:30 – 17:30)
+### 8. Atividade e encerramento (16:30 – 17:30)
 
-> "Sua missão: carregar o schema `raw` completo, rodar o join de faturamento e anotar as **3 categorias campeãs**; rodar o join de pedidos por UF e confirmar a liderança de SP; e, para cada família NoSQL, apontar **um uso no Olist** com justificativa de uma frase. Tudo no seu Codespace, tudo commitado."
+> "A atividade proposta: carregar o schema `raw` completo, rodar o join de faturamento e anotar as **3 categorias campeãs**; rodar o join de pedidos por UF e confirmar a liderança de SP; e, para cada família NoSQL, apontar **um uso no Olist** com justificativa de uma frase. Tudo no seu Codespace, tudo commitado."
 
-> "E na próxima aula, o último degrau dos fundamentos: **modelagem dimensional**. Rodar join de quatro tabelas a cada pergunta é lento e repetitivo — existe um jeito melhor: o **star schema**. Vamos desenhar e **construir ao vivo** a fato `fct_order_items` do Olist, entender OLTP versus OLAP, e ver o que acontece quando um vendedor muda de cidade — o famoso SCD Tipo 2. Te espero na Aula 4. Um abraço!"
+> "E na próxima aula, o último degrau dos fundamentos: **modelagem dimensional**. Rodar join de quatro tabelas a cada pergunta é lento e repetitivo — existe um jeito melhor: o **star schema**. Vamos desenhar e **construir na demonstração** a fato `fct_order_items` do Olist, entender OLTP versus OLAP, e ver o que acontece quando um vendedor muda de cidade — o famoso SCD Tipo 2."
 
 ---
 
@@ -584,7 +587,7 @@ git push
 
 **[TELA]** Slide de capa; Codespace ao lado.
 
-> "Olá! Bem-vindo, bem-vinda à última aula dos fundamentos. Na Aula 3, o Olist ganhou um banco relacional e rodamos joins de três tabelas. Funciona — mas pensa na rotina de um time de dados: **toda pergunta** exigindo juntar três, quatro tabelas, todo dia, toda hora? Lento, repetitivo e sujeito a erro. Existe um jeito melhor de organizar o dado **para análise**, inventado por Ralph Kimball e padrão de data warehouse até hoje: a **modelagem dimensional**. Hoje você entende OLTP versus OLAP e — claro, mão na massa — **constrói a estrela do Olist ao vivo**: a fato `fct_order_items` no centro, as dimensões em volta. E ainda resolve o enigma do vendedor que muda de cidade. Bora."
+> "Esta aula conclui os fundamentos da disciplina. Na Aula 3, carregamos um banco relacional e executamos consultas com junções entre três tabelas. Repetir essas junções em toda análise aumenta o custo e a possibilidade de erro. A modelagem dimensional organiza os dados para consultas analíticas por meio de fatos e dimensões. Construiremos a tabela fato `fct_order_items`, suas dimensões e examinaremos o tratamento histórico da mudança de cidade de um vendedor."
 
 ### 2. OLTP × OLAP (1:15 – 3:30)
 
@@ -602,7 +605,7 @@ git push
 
 > "E o desenho canônico é o **esquema estrela**: uma **tabela fato** central — os eventos mensuráveis do negócio — cercada de **dimensões** — os contextos pelos quais se analisa. Existe o primo **floco de neve**, com dimensões normalizadas em subtabelas — economiza uns bytes, custa joins; nós vamos de **estrela**, simplicidade acima de tudo. A estrela do Olist: no centro, a fato **`fct_order_items`** — **grão: um item de pedido**, a granularidade mais fina, de onde tudo se agrega — com as métricas **`price`** e **`freight_value`**. Em volta: **`dim_customers`** — cidade, UF; **`dim_products`** — categoria, peso; **`dim_sellers`** — cidade, UF; e **`dim_dates`** — o calendário derivado do timestamp da compra. Pergunta analítica típica: 'some o `price` da fato, agrupando por categoria da `dim_products` e mês da `dim_dates`'. Um join leve, em vez de quatro."
 
-### 4. Mão na massa: construindo a fato ao vivo (5:45 – 9:15)
+### 4. Demonstração prática: construindo a fato na demonstração (5:45 – 9:15)
 
 **[TELA]** Editor + terminal.
 
@@ -666,15 +669,15 @@ print(con.sql('''
 
 **[TELA]** Slide: tabela dos tipos de SCD + linha do tempo do seller_123.
 
-> "E agora o enigma clássico das dimensões: **atributos mudam**. Imagina que o vendedor `seller_123` do Olist **muda de São Paulo para Campinas**. Como registrar isso na `dim_sellers` sem corromper a história? As opções têm nome: **Slowly Changing Dimensions** — SCD. **Tipo 0**: nunca muda — para atributos imutáveis. **Tipo 1**: **sobrescreve** — simples, mas perigoso: todas as vendas antigas passam a 'mentir' que saíram de Campinas; o relatório histórico de vendas por cidade **reescreve o passado**. **Tipo 3**: guarda só o valor anterior numa coluna — história rasa, de um passo."
+> "E agora o problema clássico das dimensões: **atributos mudam**. Imagina que o vendedor `seller_123` do Olist **muda de São Paulo para Campinas**. Como registrar isso na `dim_sellers` sem corromper a história? As opções têm nome: **Slowly Changing Dimensions** — SCD. **Tipo 0**: nunca muda — para atributos imutáveis. **Tipo 1**: **sobrescreve** — simples, mas perigoso: todas as vendas antigas passam a 'mentir' que saíram de Campinas; o relatório histórico de vendas por cidade **reescreve o passado**. **Tipo 3**: guarda só o valor anterior numa coluna — história rasa, de um passo."
 
-> "E o **Tipo 2** — o que importa: em vez de sobrescrever, **cria-se uma nova linha**. A linha antiga é **fechada** com data de fim; a nova nasce com data de início e um marcador de 'linha atual'. Resultado: a venda feita em 2017, quando ele estava em São Paulo, **continua atribuída a São Paulo** — para sempre. A dimensão vira um **histórico versionado** do vendedor. Sem SCD Tipo 2, o relatório 'vendas por cidade do vendedor' fica retroativamente errado a cada mudança — e ninguém percebe, que é o pior tipo de erro. E o spoiler bom: não vamos implementar isso na mão — o **dbt tem o `snapshot`**, que faz SCD Tipo 2 automaticamente, e é exatamente o que faremos na Aula 9."
+> "E o **Tipo 2** — o que importa: em vez de sobrescrever, **cria-se uma nova linha**. A linha antiga é **fechada** com data de fim; a nova nasce com data de início e um marcador de 'linha atual'. Resultado: a venda feita em 2017, quando ele estava em São Paulo, **continua atribuída a São Paulo** — para sempre. A dimensão vira um **histórico versionado** do vendedor. Sem SCD Tipo 2, o relatório 'vendas por cidade do vendedor' fica retroativamente errado a cada mudança — e ninguém percebe, que é o pior tipo de erro. E a aplicação posterior: não vamos implementar isso na mão — o **dbt tem o `snapshot`**, que faz SCD Tipo 2 automaticamente, e é exatamente o que faremos na Aula 9."
 
 ### 6. O exemplo numérico: da fato de 9 MB à escala Amazon (12:15 – 14:15)
 
 **[TELA]** Slide com a conta de escala.
 
-> "E para calibrar a noção de escala: quanto pesa a nossa fato? 112.650 linhas vezes uns 80 bytes por linha… **cerca de 9 megabytes**. Nove! O Olist inteiro analítico cabe dentro da memória de qualquer laptop — por isso o DuckDB responde em milissegundos. Agora projeta: o Olist na escala da **Amazon**, mil vezes maior — 113 milhões de itens: **9 gigabytes** de fato. Ainda tratável. Um milhão de vezes — alguns anos de um marketplace global: **bilhões de linhas, terabytes** de fato. É exatamente esse crescimento que justifica tudo o que estudamos: o **formato colunar** da Aula 2, e os bancos **OLAP distribuídos** — BigQuery, Snowflake — que vamos conhecer na Unidade 3. A arquitetura é a mesma da nossa; só o motor muda de tamanho. Quem aprende a estrela no DuckDB está pronto para o warehouse de qualquer empresa."
+> "E para calibrar a noção de escala: quanto pesa a nossa fato? 112.650 linhas vezes uns 80 bytes por linha. **cerca de 9 megabytes**. Nove! O Olist inteiro analítico cabe dentro da memória de qualquer laptop — por isso o DuckDB responde em milissegundos. Agora projeta: o Olist na escala da **Amazon**, mil vezes maior — 113 milhões de itens: **9 gigabytes** de fato. Ainda tratável. Um milhão de vezes — alguns anos de um marketplace global: **bilhões de linhas, terabytes** de fato. É exatamente esse crescimento que justifica tudo o que estudamos: o **formato colunar** da Aula 2, e os bancos **OLAP distribuídos** — BigQuery, Snowflake — que vamos conhecer na Unidade 3. A arquitetura é a mesma da nossa; só o motor muda de tamanho. Quem aprende a estrela no DuckDB está pronto para o warehouse de qualquer empresa."
 
 ### 7. Commit + atividade (14:15 – 15:45)
 
@@ -686,12 +689,12 @@ git commit -m "feat(model): primeira versao da fct_order_items (grao = item de p
 git push
 ```
 
-> "Commit — e olha o seu repositório ao fim da Unidade 1: devcontainer, gerador de dados, ingestão bronze, schema raw e a primeira fato. Quatro aulas, quatro commits, um pipeline nascendo — e **tudo reprodutível do zero, sem uma única conta externa**. Sua missão: desenhar **no papel** a estrela do Olist com chaves e métricas — desenhar fixa; rodar o `build_star.py` e conferir os **112.650**; escrever a consulta do **ticket médio** e confirmar os ~120 reais; e explicar em duas frases por que o Tipo 2 preserva a história e o Tipo 1 a destrói."
+> "Commit — e observe o seu repositório ao fim da Unidade 1: devcontainer, gerador de dados, ingestão bronze, schema raw e a primeira fato. Quatro aulas, quatro commits, um pipeline nascendo — e **tudo reprodutível do zero, sem uma única conta externa**. A atividade proposta: desenhar **no papel** a estrela do Olist com chaves e métricas — desenhar fixa; rodar o `build_star.py` e conferir os **112.650**; escrever a consulta do **ticket médio** e confirmar os ~120 reais; e explicar em duas frases por que o Tipo 2 preserva a história e o Tipo 1 a destrói."
 
-### 8. Encerramento da unidade + gancho (15:45 – 17:00)
+### 8. Encerramento da unidade e preparação para a próxima aula (15:45 – 17:00)
 
 **[TELA]** Slide de fechamento + teaser da U2.
 
 > "E com isso fechamos a Unidade 1 — os fundamentos, todos com código rodando: o **papel** do engenheiro e o ciclo de vida; os **formatos** e a bronze em Parquet com compressão medida; o **relacional** com o schema raw e joins reais; e hoje a **modelagem dimensional** com a estrela materializada. Seu Codespace já é um mini data warehouse."
 
-> "E na Unidade 2, a coisa fica séria: entra o **dbt** — a ferramenta que transforma esses nossos scripts soltos em um projeto de transformação **versionado, testado e documentado**; entra o processamento **batch** e o **streaming** — vamos simular os pedidos do Olist como eventos JSON chegando em tempo real, e descobrir nos dados o minuto mais movimentado da história do marketplace; e entra a estrela da disciplina: o **Airflow**, que vai orquestrar o pipeline inteiro num DAG — direto no nosso Codespaces, com a interface web na porta 8080 que deixamos configurada lá na Aula 1. Nada foi por acaso. Te espero na Unidade 2. Um abraço!"
+> "E na Unidade 2, a coisa fica séria: entra o **dbt** — a ferramenta que transforma esses nossos scripts soltos em um projeto de transformação **versionado, testado e documentado**; entra o processamento **batch** e o **streaming** — vamos simular os pedidos do Olist como eventos JSON chegando em tempo real, e descobrir nos dados o minuto mais movimentado da história do marketplace; e entra a estrela da disciplina: o **Airflow**, que vai orquestrar o pipeline inteiro num DAG — direto no nosso Codespaces, com a interface web na porta 8080 que deixamos configurada lá na Aula 1. Nada foi por acaso."
