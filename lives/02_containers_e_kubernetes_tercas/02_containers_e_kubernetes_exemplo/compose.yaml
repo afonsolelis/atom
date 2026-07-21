@@ -1,0 +1,35 @@
+name: aula-pacientes
+
+services:
+  mongo:
+    image: docker.io/library/mongo:7.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-admin}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-clinica}
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://${MONGO_ROOT_USERNAME:-admin}:${MONGO_ROOT_PASSWORD:-admin}@mongo:27017/?authSource=admin
+      MONGO_DATABASE: ${MONGO_DATABASE:-clinica}
+    ports:
+      - "8501:8501"
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongo_data:

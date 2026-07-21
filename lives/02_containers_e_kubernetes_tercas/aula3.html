@@ -161,6 +161,7 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
         <li>Deployment: estado desejado</li>
         <li>Service: rede estável</li>
         <li>Mão na massa: primeiro deploy</li>
+        <li>Estudo de caso: pacientes + MongoDB</li>
       </ul>
     </div>
   </div>
@@ -380,7 +381,80 @@ body { font-family: var(--fonte); background: #0a0e1a; color: var(--branco); mar
     <img src="assets/logo-atomo.png" alt="Átomo" class="logo-atomo" />
   </div>
 
-  <!-- 16. FIM -->
+  <!-- 16. CASO PRÁTICO: MAPA -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Estudo de caso · CRUD de pacientes</p>
+    <h2>Como os manifests se conectam</h2>
+    <div class="content-box">
+      <div class="pontos-grid">
+        <div class="ponto">
+          <h3>Aplicação sem estado</h3>
+          <p>Deployment → ReplicaSet → Pod Streamlit. O Service encontra o Pod pela label <code>app=pacientes-app</code>.</p>
+        </div>
+        <div class="ponto">
+          <h3>Banco com estado</h3>
+          <p>StatefulSet → Pod <code>mongo-0</code> → PVC. O volume vive além do Pod.</p>
+        </div>
+        <div class="ponto">
+          <h3>Rede estável</h3>
+          <p>O app conecta em <code>mongo:27017</code>. O Service resolve esse nome e direciona ao banco.</p>
+        </div>
+        <div class="ponto">
+          <h3>Configuração</h3>
+          <p>O Secret injeta as credenciais nos dois containers sem gravá-las no código Python.</p>
+        </div>
+      </div>
+      <div class="callout">Navegador → Service app → Pod Streamlit → Service mongo → mongo-0 → PVC</div>
+    </div>
+    <div class="slide-footer"><span>Live 02 · Containers e Kubernetes</span><span>Aula 03 · Caso prático</span></div>
+    <img src="assets/logo-atomo.png" alt="Átomo" class="logo-atomo" />
+  </div>
+
+  <!-- 17. CASO PRÁTICO: SELF-HEALING -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Demonstração ao vivo</p>
+    <h2>Apague um Pod — o Deployment cria outro</h2>
+    <div class="content-box">
+      <div class="code-block"><code><span class="c"># Terminal 1: observar as mudanças</span>
+<span class="p">$</span> kubectl get pods -n aula-pacientes -w
+
+<span class="c"># Terminal 2: provocar a falha</span>
+<span class="p">$</span> kubectl delete pod -l app=pacientes-app \
+    -n aula-pacientes
+
+<span class="c"># Conferir a nova identidade</span>
+<span class="p">$</span> kubectl get pods -l app=pacientes-app \
+    -n aula-pacientes -o wide</code></div>
+      <div class="callout">Estado desejado: 1 réplica. Estado real após o delete: 0. O ReplicaSet reconcilia e cria um Pod novo.</div>
+      <p class="code-cap">O nome e o IP mudam; o Service continua encontrando o app pela mesma label.</p>
+    </div>
+    <div class="slide-footer"><span>Live 02 · Containers e Kubernetes</span><span>Aula 03 · Self-healing</span></div>
+    <img src="assets/logo-atomo.png" alt="Átomo" class="logo-atomo" />
+  </div>
+
+  <!-- 18. CASO PRÁTICO: PERSISTÊNCIA -->
+  <div class="slide slide-content-wrap">
+    <p class="kicker">Demonstração ao vivo</p>
+    <h2>O Pod muda; o dado permanece</h2>
+    <div class="content-box">
+      <div class="code-block"><code><span class="c"># 1. Cadastre um paciente fictício no Streamlit</span>
+<span class="p">$</span> kubectl get pvc -n aula-pacientes
+
+<span class="c"># 2. Substitua o Pod do banco</span>
+<span class="p">$</span> kubectl delete pod mongo-0 -n aula-pacientes
+<span class="p">$</span> kubectl wait --for=condition=ready pod/mongo-0 \
+    -n aula-pacientes --timeout=180s
+
+<span class="c"># 3. O mesmo PVC foi montado novamente</span>
+<span class="p">$</span> kubectl get pod,pvc -n aula-pacientes</code></div>
+      <div class="callout">StatefulSet recupera a identidade <strong>mongo-0</strong>; o PVC preserva os pacientes cadastrados.</div>
+      <p class="code-cap">Guia completo: 02_containers_e_kubernetes_exemplo/GUIA_DEMONSTRACAO_K8S.md</p>
+    </div>
+    <div class="slide-footer"><span>Live 02 · Containers e Kubernetes</span><span>Aula 03 · Persistência</span></div>
+    <img src="assets/logo-atomo.png" alt="Átomo" class="logo-atomo" />
+  </div>
+
+  <!-- 19. FIM -->
   <div class="slide slide-fim">
     <h1>Até a próxima!</h1>
     <p class="fim-texto">Você fez seu primeiro deploy no Kubernetes e entende Pods, Deployments e Services. Na última aula, fechamos com <strong>escala automática, configuração, segredos, Ingress</strong> e um deploy ponta a ponta.</p>

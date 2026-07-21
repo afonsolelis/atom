@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pacientes-app
+  namespace: aula-pacientes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pacientes-app
+  template:
+    metadata:
+      labels:
+        app: pacientes-app
+    spec:
+      containers:
+        - name: app
+          image: localhost/aula-pacientes:1.0
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8501
+          env:
+            - name: MONGO_DATABASE
+              value: clinica
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: username
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: password
+            - name: MONGO_URI
+              value: mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@mongo:27017/?authSource=admin
+          readinessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /_stcore/health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pacientes-app
+  namespace: aula-pacientes
+spec:
+  selector:
+    app: pacientes-app
+  ports:
+    - name: http
+      port: 8501
+      targetPort: http
+  type: ClusterIP
