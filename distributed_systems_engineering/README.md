@@ -7,7 +7,7 @@ Produção de conteúdo EAD do NEaD.
 - Acompanhamento da produção: Carolina Bastos
 - Contato sobre videoaulas: Maico Pereira Gomes
 - Valor informado para o pacote: R$ 6.000,00
-- Situação: conteúdo em Markdown concluído — 4 unidades (16 aulas), 160 questões, roteiros das 16 videoaulas, roteiro do vídeo introdutório, entrega de trabalho (PBL) e avaliação final dissertativa. Pendências: validação pela coordenação do NEaD, produção dos slides em PPTX pela equipe de edição a partir dos roteiros, e agendamento/gravação das videoaulas (ver `CRONOGRAMA.md`)
+- Situação: conteúdo concluído — 4 unidades (16 aulas), 160 questões, roteiros das 16 videoaulas, roteiro do vídeo introdutório, entrega de trabalho (PBL), avaliação final dissertativa, e os 17 decks de slides em HTML (padrão UniFECAF/Átomo 3.0, mesmo modelo de `data_engineering_and_pipelines/`). Pendências: validação pela coordenação do NEaD e agendamento/gravação das videoaulas (ver `CRONOGRAMA.md`)
 
 ## Escopo contratado
 
@@ -32,10 +32,13 @@ distributed_systems_engineering/
 ├── unidade_1/
 │   ├── unidade_1.md
 │   ├── questoes_uni1.md
-│   └── roteiros_20min.md
-├── unidade_2/
-├── unidade_3/
-└── unidade_4/
+│   ├── roteiros_20min.md
+│   └── slides/
+│       ├── aula0.html … aula4.html
+│       └── assets/foto-professor.jpg
+├── unidade_2/  (aula5.html–aula8.html)
+├── unidade_3/  (aula9.html–aula12.html)
+└── unidade_4/  (aula13.html–aula16.html)
 ```
 
 ## Fontes recebidas
@@ -53,6 +56,6 @@ O conteúdo em Markdown foi produzido a partir de `PLANO_APRENDIZAGEM_PROPOSTO.m
 1. confirmar com a coordenação (Carolina Bastos) se o plano de aprendizagem proposto é aceito como definitivo, ou se há um plano oficial divergente a ser incorporado;
 2. validar com a equipe a distribuição das 40 questões por unidade (20 asserção-razão + 20 interpretação), adotada provisoriamente conforme `ANALISE_MATERIAIS_RECEBIDOS.md`;
 3. definir a modalidade e agendar as gravações das 16 videoaulas e do vídeo introdutório;
-4. repassar os roteiros das videoaulas (`unidade_N/roteiros_20min.md`) à equipe de edição do NEaD para a produção dos slides em PPTX (esta disciplina não usa o padrão de deck HTML das demais disciplinas Átomo 3.0 — ver `CLAUDE.md`).
+4. exportar os decks HTML (`unidade_N/slides/aulaN.html`) para PDF (Chrome → Imprimir → Salvar como PDF, paisagem, sem margens, gráficos de fundo ativados) caso a entrega institucional exija PDF/PPTX em vez do HTML; os roteiros (`unidade_N/roteiros_20min.md`) continuam sendo a referência de fala e indicações de edição para quem gravar.
 
 Os documentos serão mantidos em Markdown durante a produção e convertidos para DOCX na etapa final.

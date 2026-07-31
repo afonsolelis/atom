@@ -8,9 +8,9 @@
 - [x] Unidade 2 — 40 questões (`unidade_2/questoes_uni2.md`)
 - [x] Instrumento avaliativo — trabalho (`instrumentos_avaliativos/entrega_trabalho.md`)
 - [x] Roteiro do vídeo introdutório (`roteiro_video_introdutorio.md`)
-- [ ] Slides do vídeo introdutório (PPTX — produção da equipe de edição do NEaD a partir do roteiro; fora do escopo de autoria em Markdown)
+- [x] Slides do vídeo introdutório e das videoaulas 1 a 4 (`unidade_1/slides/aula0.html`–`aula4.html`, padrão HTML UniFECAF/Átomo 3.0 — decisão tomada de usar o mesmo padrão de `data_engineering_and_pipelines/` em vez do PPTX originalmente sugerido pelos materiais recebidos)
 - [x] Roteiros das videoaulas 1 a 8 (`unidade_1/roteiros_20min.md`, `unidade_2/roteiros_20min.md`)
-- [ ] Slides das videoaulas 1 a 8 (PPTX — produção da equipe de edição do NEaD a partir dos roteiros)
+- [x] Slides das videoaulas 5 a 8 (`unidade_2/slides/aula5.html`–`aula8.html`)
 - [ ] Gravação do vídeo introdutório e das videoaulas 1 a 8 (depende de agendamento/modalidade — ver "Providências administrativas")
 
 ## Entrega de 25 de agosto de 2026
@@ -20,7 +20,7 @@
 - [x] Unidade 4 — template completo (`unidade_4/unidade_4.md`)
 - [x] Unidade 4 — 40 questões (`unidade_4/questoes_uni4.md`)
 - [x] Roteiros das videoaulas 9 a 16 (`unidade_3/roteiros_20min.md`, `unidade_4/roteiros_20min.md`)
-- [ ] Slides das videoaulas 9 a 16 (PPTX — produção da equipe de edição do NEaD a partir dos roteiros)
+- [x] Slides das videoaulas 9 a 16 (`unidade_3/slides/aula9.html`–`aula12.html`, `unidade_4/slides/aula13.html`–`aula16.html`)
 - [ ] Gravação das videoaulas 9 a 16 (depende de agendamento/modalidade — ver "Providências administrativas")
 - [x] Avaliação final — 10 questões dissertativas (`instrumentos_avaliativos/avaliacao_dissertativa.md`)
 
