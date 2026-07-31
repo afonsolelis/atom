@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Pensar distribuído: conceitos, propriedades e compromissos · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O que é um sistema distribuído?</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Componentes computacionais <strong>autônomos</strong> que se comunicam por rede e coordenam ações para um objetivo comum. Não existe memória global instantânea nem relógio perfeito compartilhado.</p>
         <ul>
           <li><strong>Pluralidade</strong>: mais de um processo, máquina ou nó participante.</li>
@@ -868,7 +869,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Por que distribuir?</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Distribuir não é um objetivo isolado — é resposta a requisitos que uma arquitetura centralizada não atende:</p>
         <ul>
           <li><strong>Escalabilidade</strong>: vertical (mais CPU/memória em uma máquina) vs <strong>horizontal</strong> (mais instâncias) — a horizontal exige coordenação e replicação.</li>
@@ -888,7 +889,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Propriedades que mudam o raciocínio</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Concorrência</strong>: componentes trabalham ao mesmo tempo — pode haver disputa por recursos compartilhados (dois pedidos "veem" o último item disponível).</li>
           <li><strong>Ausência de estado global instantâneo</strong>: cada componente só vê o que já chegou até ele; visões diferentes podem ser coerentes localmente.</li>
@@ -907,7 +908,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Métricas que não devem ser confundidas</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Latência</strong>: tempo para concluir uma operação. Percentis (p95) são mais informativos que médias.</li>
           <li><strong>Throughput</strong>: trabalho concluído por unidade de tempo (pedidos/segundo).</li>
@@ -926,7 +927,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Estilos arquiteturais iniciais</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Cliente-servidor</strong>: clientes solicitam, servidores fornecem. Limite: um servidor pode concentrar capacidade.</li>
           <li><strong>Em camadas</strong>: apresentação, aplicação, domínio, dados — não exige distribuição física por si só.</li>
@@ -1067,6 +1068,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 13 — Observabilidade e diagnóstico distribuído · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Doze segundos de silêncio</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Um cliente reclama: seu pedido demorou <strong>12 segundos</strong> para confirmar. CPU normal, memória normal, <strong>nenhum alerta disparou</strong>, nenhum serviço caiu.</p>
         <ul>
           <li>Os logs de pedidos, estoque, pagamento e expedição existem — mas <em>dispersos</em>, sem identificador comum.</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Monitoramento x observabilidade</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Monitoramento</strong>: observa indicadores já conhecidos e dispara alertas quando ultrapassam limites — responde a perguntas <em>antecipadas</em>.</li>
           <li><strong>Observabilidade</strong>: permite inferir o estado interno do sistema a partir de dados expostos, mesmo diante de perguntas <em>ninguém formulou antes</em> do incidente.</li>
@@ -885,7 +886,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Os três pilares: métricas, logs e traces</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Métricas</strong>: valores agregados no tempo (requisições/s, taxa de erro). Baratas, ótimas para tendências — mas não dizem <em>quais</em> requisições falharam.</li>
           <li><strong>Logs</strong>: registros discretos de eventos ("timeout ao chamar pagamento"). Ricos em contexto local, mas fragmentos isolados sem correlação.</li>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Correlação distribuída e OpenTelemetry</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li>Cada requisição recebe um <strong>trace ID</strong> no gateway, propagado em cada chamada seguinte — inclusive em eventos assíncronos.</li>
           <li>Propagação não é automática: é responsabilidade explícita da <em>instrumentação</em>. Um serviço que esquece de propagar rompe o trace ali.</li>
@@ -923,7 +924,7 @@
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
       <h2>SLI, SLO e orçamento de erro</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Um bom <strong>SLI</strong> reflete a experiência do cliente (ex.: % de checkouts concluídos em até 300 ms), não apenas a saúde da infraestrutura.</p>
         <ul>
           <li><strong>SLO</strong>: meta para o SLI num período — ex.: 99,9% de sucesso ao mês.</li>
@@ -1064,6 +1065,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

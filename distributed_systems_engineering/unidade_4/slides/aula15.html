@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 15 — Processamento distribuído, edge e serverless · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Detectar fraude antes da aprovação</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>A NexaOrder registra tentativas de fraude: múltiplos cartões, em sequência, do mesmo dispositivo. A primeira proposta é um <strong>job que roda a cada hora</strong> e sinaliza padrões no dia seguinte.</p>
         <ul>
           <li>O time de risco rejeita: uma hora é tempo suficiente para dezenas de fraudes serem aprovadas.</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Processamento em lote x em fluxo</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Lote (batch)</strong>: conjunto finito, coletado num período, processado de uma vez — relatórios, comissões, reprocessamento histórico.</li>
           <li><strong>Fluxo (streaming)</strong>: sequência potencialmente ilimitada, cada evento processado assim que disponível.</li>
@@ -886,7 +887,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>MapReduce e a generalização em DAGs</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Map</strong>: transforma cada registro independentemente, gerando pares chave-valor. <strong>Shuffle</strong>: redistribui por chave. <strong>Reduce</strong>: agrupa e combina.</li>
           <li>Frameworks modernos generalizam para <strong>DAGs</strong> (grafos acíclicos dirigidos), encadeando múltiplas etapas.</li>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
       <h2>Dimensionamento de partições</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Pipelines de fluxo particionam eventos por chave (ex.: dispositivo), garantindo ordem por partição.</p>
         <p>Pico de <strong>5.000 eventos/s</strong>, cada consumidor sustenta <strong>750 eventos/s</strong>:</p>
         <p style="text-align:center; font-size:1.3em;"><strong>P = ⌈5.000 ÷ 750⌉ = ⌈6,67⌉ = 7 partições</strong></p>
@@ -921,7 +922,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Tempo de evento, tempo de processamento e watermark</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Tempo de evento</strong>: quando o evento realmente ocorreu. <strong>Tempo de processamento</strong>: quando o pipeline o processa — pode ser segundos ou minutos depois.</li>
           <li>Janelas baseadas em tempo de evento são mais fiéis, mas exigem lidar com eventos atrasados.</li>
@@ -1080,6 +1081,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

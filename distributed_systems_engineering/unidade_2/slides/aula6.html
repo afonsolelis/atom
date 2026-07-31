@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 6 — Particionamento, CAP e escalabilidade de dados · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Particionamento horizontal (sharding)</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Dividir um conjunto de dados em partições menores, cada uma servida por um subconjunto de nós.</p>
         <ul>
           <li>Diferente de replicação: replicação copia o dado inteiro; particionamento distribui <strong>fatias diferentes</strong> do mesmo conjunto.</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Estratégias: faixa, hash e diretório</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Por faixa:</strong> intervalos contíguos de chave por partição. Eficiente para consultas por intervalo, mas sofre pontos quentes se a distribuição não for uniforme.</li>
           <li><strong>Por hash:</strong> função de espalhamento distribui chaves de forma uniforme, ao custo de perder eficiência em consultas por intervalo.</li>
@@ -885,7 +886,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Hashing consistente</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p><code>hash(chave) mod N</code> redistribui quase todas as chaves quando N muda. O <strong>hashing consistente</strong> organiza o espaço de hash como um anel: cada nó (com nós virtuais) ocupa posições no anel; uma chave pertence ao primeiro nó encontrado em sentido horário.</p>
         <div class="stat-grid">
           <div class="stat-card"><span class="numero-grande">9 → 10</span><span class="legenda">nós no anel: adicionar o 10º nó</span></div>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Pontos quentes, rebalanceamento e consultas dispersas</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Ponto quente:</strong> uma única chave popular concentra tráfego. Hashing distribui bem chaves diferentes, não divide a carga de uma chave só.</li>
           <li>Mitigação: sufixar a chave quente com número aleatório e agregar na leitura, cache ou partição dedicada.</li>
@@ -923,7 +924,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O teorema CAP</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Durante uma <strong>partição de rede</strong>, um sistema não oferece simultaneamente:</p>
         <ul>
           <li><strong>Consistência (C):</strong> toda leitura reflete a escrita mais recente confirmada.</li>
@@ -1065,6 +1066,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

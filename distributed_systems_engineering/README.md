@@ -23,8 +23,11 @@ Produção de conteúdo EAD do NEaD.
 ```text
 distributed_systems_engineering/
 ├── README.md
+├── index.html
 ├── CRONOGRAMA.md
 ├── DIRETRIZES_PRODUCAO.md
+├── RECURSOS_VISUAIS.md
+├── assets/fullscreen-button.js
 ├── roteiro_video_introdutorio.md
 ├── instrumentos_avaliativos/
 │   ├── entrega_trabalho.md
@@ -40,6 +43,8 @@ distributed_systems_engineering/
 ├── unidade_3/  (aula9.html–aula12.html)
 └── unidade_4/  (aula13.html–aula16.html)
 ```
+
+Abra `index.html` para acessar a apresentação introdutória e as 16 aulas. Os decks são autocontidos no projeto: a navegação inicial e o controle de tela cheia não dependem de arquivos externos ao repositório. A autoria, a licença e as descrições dos infográficos didáticos estão registradas em `RECURSOS_VISUAIS.md` e nos próprios HTMLs.
 
 ## Fontes recebidas
 

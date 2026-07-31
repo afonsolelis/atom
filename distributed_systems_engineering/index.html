@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distributed Systems Engineering — Aulas</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, Arial, sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: #001640; color: #fff; }
+    header { padding: 4rem max(5vw, 1.5rem) 2rem; background: linear-gradient(135deg, #002057, #1f44a8); }
+    header p { max-width: 70ch; color: #d9e8ff; }
+    main { padding: 2rem max(5vw, 1.5rem) 4rem; }
+    .intro, .unit { margin-bottom: 2rem; }
+    h1, h2 { margin-top: 0; }
+    h2 { color: #8dd17e; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(245px, 1fr)); gap: 1rem; }
+    a { display: block; min-height: 118px; padding: 1.25rem; border: 1px solid #2bbbe0; border-radius: 14px; color: #002057; background: #fff; text-decoration: none; }
+    a:hover, a:focus-visible { outline: 4px solid #f0ce29; outline-offset: 2px; transform: translateY(-2px); }
+    a strong { display: block; margin-bottom: .55rem; color: #1f44a8; }
+    a span { line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Distributed Systems Engineering</h1>
+    <p>Apresentação e 16 videoaulas em HTML. Use os cartões abaixo para abrir um deck; dentro dele, navegue com as setas do teclado, Page Up/Page Down ou os controles na tela.</p>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="intro-title">
+      <h2 id="intro-title">Introdução</h2>
+      <div class="grid"><a href="unidade_1/slides/aula0.html"><strong>Apresentação da disciplina</strong><span>Mercado, percurso formativo e fio condutor da NexaOrder.</span></a></div>
+    </section>
+    <section class="unit" aria-labelledby="u1"><h2 id="u1">Unidade 1 — Fundamentos, comunicação, tempo e falhas</h2><div class="grid">
+      <a href="unidade_1/slides/aula1.html"><strong>Aula 1</strong><span>Pensar distribuído: conceitos, propriedades e compromissos</span></a>
+      <a href="unidade_1/slides/aula2.html"><strong>Aula 2</strong><span>Comunicação entre processos: APIs, RPC e mensageria</span></a>
+      <a href="unidade_1/slides/aula3.html"><strong>Aula 3</strong><span>Concorrência, relógios e ordenação de eventos</span></a>
+      <a href="unidade_1/slides/aula4.html"><strong>Aula 4</strong><span>Modelos de falha e desenho para recuperação</span></a>
+    </div></section>
+    <section class="unit" aria-labelledby="u2"><h2 id="u2">Unidade 2 — Dados distribuídos, consistência e coordenação</h2><div class="grid">
+      <a href="unidade_2/slides/aula5.html"><strong>Aula 5</strong><span>Replicação e modelos de consistência</span></a>
+      <a href="unidade_2/slides/aula6.html"><strong>Aula 6</strong><span>Particionamento, CAP e escalabilidade de dados</span></a>
+      <a href="unidade_2/slides/aula7.html"><strong>Aula 7</strong><span>Consenso, eleição de líder e Raft</span></a>
+      <a href="unidade_2/slides/aula8.html"><strong>Aula 8</strong><span>Transações distribuídas, sagas e idempotência</span></a>
+    </div></section>
+    <section class="unit" aria-labelledby="u3"><h2 id="u3">Unidade 3 — Serviços, eventos e plataformas cloud-native</h2><div class="grid">
+      <a href="unidade_3/slides/aula9.html"><strong>Aula 9</strong><span>Decomposição em serviços e limites de domínio</span></a>
+      <a href="unidade_3/slides/aula10.html"><strong>Aula 10</strong><span>Arquitetura orientada a eventos</span></a>
+      <a href="unidade_3/slides/aula11.html"><strong>Aula 11</strong><span>Contêineres, Kubernetes e reconciliação</span></a>
+      <a href="unidade_3/slides/aula12.html"><strong>Aula 12</strong><span>Segurança e comunicação confiável entre serviços</span></a>
+    </div></section>
+    <section class="unit" aria-labelledby="u4"><h2 id="u4">Unidade 4 — Operação, validação e evolução</h2><div class="grid">
+      <a href="unidade_4/slides/aula13.html"><strong>Aula 13</strong><span>Observabilidade e diagnóstico distribuído</span></a>
+      <a href="unidade_4/slides/aula14.html"><strong>Aula 14</strong><span>Resiliência, testes distribuídos e engenharia do caos</span></a>
+      <a href="unidade_4/slides/aula15.html"><strong>Aula 15</strong><span>Processamento distribuído, edge e serverless</span></a>
+      <a href="unidade_4/slides/aula16.html"><strong>Aula 16</strong><span>Projeto integrado e avaliação arquitetural</span></a>
+    </div></section>
+  </main>
+</body>
+</html>

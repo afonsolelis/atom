@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 8 — Transações distribuídas, sagas e idempotência · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Atomicidade local e distribuída</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Dentro de um único banco, a atomicidade é responsabilidade do próprio sistema: tudo ou nada, mesmo em falha.</p>
         <ul>
           <li>Compra da NexaOrder toca <strong>4 serviços</strong>: pedidos, estoque, pagamento, expedição — cada um com seu próprio banco.</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Confirmação em duas fases (2PC)</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Fase 1 — preparação:</strong> coordenador pergunta a cada participante se está pronto; cada um bloqueia recursos e responde.</li>
           <li><strong>Fase 2 — confirmação:</strong> se todos disseram "pronto", confirma para todos; se algum abortou, desfaz para todos.</li>
@@ -886,7 +887,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Sagas coreografadas e orquestradas</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Uma <strong>saga</strong> troca uma transação distribuída por uma sequência de transações locais, encadeadas por eventos ou comandos.</p>
         <ul>
           <li><strong>Coreografada:</strong> cada serviço publica eventos e os demais reagem — simples, mas o fluxo fica implícito e disperso.</li>
@@ -905,7 +906,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Ações compensatórias na saga da NexaOrder</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Cada etapa que altera estado precisa de uma compensação correspondente:</p>
         <ul>
           <li><strong>Reservar estoque</strong> → compensação: liberar a reserva.</li>
@@ -925,7 +926,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Padrões outbox e inbox</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Escrita dupla (dual write problem):</strong> gravar no banco e publicar um evento separadamente — se falhar entre as duas, um pode acontecer sem o outro.</li>
           <li><strong>Outbox:</strong> grava o evento na mesma transação local da alteração de negócio; um processo separado publica de forma confiável.</li>
@@ -1065,6 +1066,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

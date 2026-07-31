@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 16 — Projeto integrado e avaliação arquitetural · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Defender a arquitetura diante do conselho</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>A diretoria convoca a equipe para uma revisão formal antes de aprovar o orçamento. A pergunta não é "o sistema funciona?" — é <strong>"por que confiamos que sustenta o crescimento, resiste às falhas prováveis e vale o investimento?"</strong></p>
         <ul>
           <li>A equipe precisa responder com requisitos, estimativas, decisões documentadas e evidências.</li>
@@ -866,7 +867,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Requisitos funcionais x atributos de qualidade</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Requisitos funcionais</strong>: o que o sistema deve fazer. <strong>Atributos de qualidade</strong>: como deve se comportar — desempenho, disponibilidade, segurança, custo.</li>
           <li>Os dois entram em tensão: latência mínima no catálogo (leitura eventualmente consistente) x consistência mais forte na reserva de estoque no checkout.</li>
@@ -884,7 +885,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Capacidade com evidência e ADRs</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>A fórmula de capacidade da Aula 1 continua válida — mas agora <em>C</em><sub>instância</sub> vem de testes de carga reais e <em>λ</em><sub>pico</sub> de métricas históricas coletadas pela instrumentação.</p>
         <ul>
           <li><strong>ADR</strong> (registro de decisão arquitetural): contexto, alternativas consideradas, decisão e consequências — não apenas um nome de tecnologia anotado.</li>
@@ -902,7 +903,7 @@
     <div class="slide-content">
       <p class="kicker">Conceito</p>
       <h2>Pontos únicos de falha e metas de recuperação</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>SPOF</strong>: réplicas em múltiplas zonas não eliminam pontos únicos de falha se todas dependerem de um componente não replicado (ex.: uma única instância de mensageria).</li>
           <li><strong>RPO</strong> (objetivo de ponto de recuperação): quanto dado o negócio aceita perder.</li>
@@ -921,7 +922,7 @@
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
       <h2>Redundância paralela x cadeia sequencial</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Uma instância com 99,5% de disponibilidade; 3 réplicas independentes atrás de um balanceador:</p>
         <p style="text-align:center; font-size:1.2em;"><strong>A = 1 − (1 − 0,995)³ = 1 − 0,005³ ≈ 99,9999875%</strong></p>
         <ul>
@@ -1063,6 +1064,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

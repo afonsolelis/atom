@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 10 — Arquitetura orientada a eventos · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Quando a cadeia síncrona quebra tudo</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Checkout da NexaOrder: pedidos chama estoque, que chama pagamento, que chama expedição — <strong>tudo síncrono</strong>.</p>
         <ul>
           <li>Se um serviço fica lento, <em>toda a cadeia</em> fica lenta.</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Comando, evento de domínio e notificação</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Comando</strong>: solicitação a um destinatário específico, que pode aceitar ou recusar (imperativo: "reservar item X").</li>
           <li><strong>Evento de domínio</strong>: fato já ocorrido, publicado sem destinatário (particípio passado: "pedido criado").</li>
@@ -886,7 +887,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Tópicos, partições e chave de particionamento</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Tópicos</strong>: canais nomeados; produtores publicam, consumidores leem sem remover a mensagem.</li>
           <li><strong>Partições</strong>: sequência ordenada e imutável, com <em>offset</em> crescente.</li>
@@ -905,7 +906,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Grupos de consumidores: exemplo de dimensionamento</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Grupo de consumidores: cada partição atribuída a exatamente uma instância — escala horizontal, limitada pelo nº de partições.</p>
         <p style="text-align:center; font-size:1.2em;"><strong>P = ⌈λ<sub>pico</sub> / C<sub>consumidor</sub>⌉ = ⌈1200 / 150⌉ = 8</strong></p>
         <ul>
@@ -924,7 +925,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Retenção, reprocessamento e evolução de esquema</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Retenção</strong>: mensagens ficam guardadas por período configurável, mesmo já lidas — permite <strong>reprocessamento</strong> desde o início.</li>
           <li>Decisão de custo × utilidade: reter 7 dias permite corrigir bug reprocessando a semana; reter pouco elimina essa opção.</li>
@@ -1064,6 +1065,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

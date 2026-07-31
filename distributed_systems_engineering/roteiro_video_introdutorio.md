@@ -12,11 +12,11 @@ Relacionar os conteúdos da disciplina às demandas do mercado de trabalho e apr
 
 ### Abertura
 
-Toda vez que você compra algo pela internet, acompanha uma corrida por aplicativo ou movimenta dinheiro por um banco digital, existe um sistema distribuído funcionando nos bastidores — dezenas de serviços, em máquinas diferentes, conversando por rede, sujeitos a atraso, concorrência e falha. *[Indicação de edição: abertura com montagem rápida de telas de e-commerce, aplicativo de transporte e app bancário.]*
+Toda vez que você compra pela internet, acompanha uma corrida por aplicativo ou movimenta dinheiro em um banco digital, existe um sistema distribuído nos bastidores — serviços em máquinas diferentes, conversando por rede, sujeitos a atraso, concorrência e falha. *[Indicação de edição: abertura com montagem rápida de telas de e-commerce, aplicativo de transporte e app bancário.]*
 
 ### Relação com o mercado
 
-Empresas de tecnologia, bancos, varejo, indústria e logística não contratam apenas quem sabe programar: contratam quem sabe explicar por que um sistema se comporta de um jeito quando cresce, replica dados ou perde a conexão com outro serviço por alguns segundos. Essa é a competência central da Engenharia de Sistemas Distribuídos, e é ela que você vai desenvolver aqui. *[Indicação de edição: inserir texto na tela com as palavras "escalabilidade", "disponibilidade", "consistência", "resiliência".]*
+Empresas de tecnologia, bancos, varejo, indústria e logística procuram profissionais que saibam explicar por que um sistema muda de comportamento quando cresce, replica dados ou perde a conexão com outro serviço. Essa é a competência central da Engenharia de Sistemas Distribuídos que você vai desenvolver aqui. *[Indicação de edição: inserir texto na tela com as palavras "escalabilidade", "disponibilidade", "consistência", "resiliência".]*
 
 ### O que será estudado
 

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 5 — Replicação e modelos de consistência · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Por que replicar dados</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Replicação é manter <strong>cópias do mesmo dado</strong> em nós diferentes. Quatro motivações principais:</p>
         <ul>
           <li><strong>Disponibilidade:</strong> se um nó falha, outra cópia continua respondendo.</li>
@@ -869,7 +870,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Líder-seguidor vs multi-líder</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Líder-seguidor (primário-réplica):</strong> um único nó recebe escritas e as propaga aos seguidores. Sem disputa sobre qual valor é correto, mas o líder é gargalo de escrita.</li>
           <li><strong>Multi-líder:</strong> mais de um nó aceita escritas — útil com centros de distribuição em regiões diferentes escrevendo localmente.</li>
@@ -887,7 +888,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Síncrona, assíncrona e atraso de réplica</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Síncrona:</strong> o líder confirma a escrita só depois que réplicas confirmarem — mais durável, mais lenta.</li>
           <li><strong>Assíncrona:</strong> o líder confirma na hora e propaga depois — mais rápida, com janela de risco de perda.</li>
@@ -906,7 +907,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Modelos de consistência</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Forte (linearizabilidade):</strong> toda leitura reflete a escrita mais recente confirmada, na ordem real do tempo. A garantia mais cara.</li>
           <li><strong>Sequencial:</strong> todas as réplicas concordam com a mesma ordem, que pode não coincidir com a ordem real de tempo.</li>
@@ -926,7 +927,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Garantias centradas no cliente</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Entre consistência forte e eventual pura, garantias mais baratas resolvem boa parte do problema percebido pelo usuário:</p>
         <ul>
           <li><strong>Leitura das próprias escritas:</strong> um cliente sempre vê as alterações que ele mesmo fez.</li>
@@ -1069,6 +1070,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

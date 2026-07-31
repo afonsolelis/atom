@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Concorrência, relógios e ordenação de eventos · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Ausência de um relógio global</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Em um único processo, comparar "antes" e "depois" é trivial. Em um sistema distribuído, cada processo tem seu próprio relógio local, e a rede introduz atraso variável.</p>
         <ul>
           <li>Perguntas como "o pagamento foi recusado antes ou depois da reserva de estoque?" não podem ser respondidas só comparando carimbos de hora locais.</li>
@@ -866,7 +867,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Relógios físicos, desvio e sincronização</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Relógios físicos sofrem <strong>desvio</strong> (<em>drift</em>). O desvio máximo acumulado: δ<sub>máx</sub> = 2 × ρ × T.</p>
         <ul>
           <li>Para ρ = 50 ppm (0,00005) e T = 3600 s (1h sem sincronizar): δ<sub>máx</sub> = 2 × 0,00005 × 3600 = <strong>0,36 s = 360 ms</strong>.</li>
@@ -884,7 +885,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>A relação happened-before</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Leslie Lamport propôs uma relação lógica de causalidade (→), sem depender de relógio físico. Três regras:</p>
         <ul>
           <li>Se a e b ocorrem no mesmo processo e a é antes de b, então a → b.</li>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Relógios lógicos de Lamport</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Cada processo mantém um contador: incrementa antes de evento local; anexa o valor ao enviar mensagem; ao receber, ajusta para max(local, recebido) + 1.</p>
         <ul>
           <li>Exemplo: Pedidos cria pedido (0→1), envia "reservar" a Estoque anexando 1 (1→2); Estoque recebe (0→2), confirma reserva (2→3); Pedidos recebe (2→3).</li>
@@ -922,7 +923,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Relógios vetoriais</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Cada processo mantém um <strong>vetor</strong> (uma posição por processo) — supera a limitação do relógio de Lamport, distinguindo causalidade real de coincidência.</p>
         <ul>
           <li>Vetores (Pedidos, Estoque, Pagamento): cancelamento de reserva = (2,3,0); aprovação de pagamento = (2,1,2).</li>
@@ -1061,6 +1062,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

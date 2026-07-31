@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 11 — Contêineres, Kubernetes e reconciliação · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>A instância que se recupera sozinha</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Madrugada, tráfego alto: uma instância do serviço de pagamento trava. Minutos depois, sem intervenção humana, uma nova instância assume — o incidente quase passa despercebido.</p>
         <ul>
           <li>Quem decidiu recriar a instância? Como o sistema sabia que ela deveria existir?</li>
@@ -867,7 +868,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Imagem, contêiner e imutabilidade</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Imagem de contêiner</strong>: pacote autocontido — código, dependências, instruções — em camadas imutáveis.</li>
           <li><strong>Contêiner</strong>: instância em execução da imagem, isolada, mas compartilhando o núcleo do SO do hospedeiro (diferente de uma VM).</li>
@@ -885,7 +886,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Cluster, nó, Pod, Deployment e Service</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Cluster</strong>: conjunto de nós gerenciados como uma unidade. <strong>Nó</strong>: máquina que executa contêineres.</li>
           <li><strong>Pod</strong>: menor unidade implantável — agrupa contêineres que compartilham rede e armazenamento local.</li>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Estado desejado x estado observado</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>O usuário declara "quero 4 réplicas saudáveis" — <strong>estado desejado</strong> — e delega ao Kubernetes alcançar e manter esse estado, comparando com o <strong>estado observado</strong>.</p>
         <pre style="background:#0d1117;color:#c9d1d9;padding:0.8em 1.1em;border-radius:8px;font-size:0.8em;line-height:1.4;overflow:auto;"><code>apiVersion: apps/v1
 kind: Deployment
@@ -929,7 +930,7 @@ spec:
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O laço de reconciliação e as sondas</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Controlador</strong>: observa, compara com o desejado e age para reduzir a diferença — ciclo contínuo, não execução única.</li>
           <li>Restaura <strong>quantidade e execução</strong> declaradas, não a <em>causa raiz</em> — daí o risco do reinício em loop.</li>
@@ -1085,6 +1086,6 @@ spec:
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

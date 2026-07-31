@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 4 — Modelos de falha e desenho para recuperação · Distributed Systems Engineering</title>
 <style>
@@ -848,7 +849,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Modelos de falha</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Nem toda falha tem a mesma forma. Distinguir os modelos ajuda a escolher a proteção correta:</p>
         <ul>
           <li><strong>Parada (crash)</strong>: para e permanece parado — a mais benigna e comum.</li>
@@ -868,7 +869,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Falha parcial, detectores e particionamento</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li>Um <strong>detector de falhas</strong> decide se trata outro componente como indisponível — nunca é perfeito: falsos positivos (lento ≠ caído) ou falsos negativos.</li>
           <li><strong>Particionamento de rede</strong>: dois subconjuntos perdem comunicação entre si, mas cada lado segue funcionando internamente.</li>
@@ -886,7 +887,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Redundância, isolamento e timeout como decisão</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Redundância</strong> só protege se as instâncias não compartilharem o mesmo ponto de falha.</li>
           <li><strong>Isolamento</strong>: impedir que a degradação de uma dependência se propague — no incidente da NexaOrder, pagamento lento esgotou conexões também usadas por consultas.</li>
@@ -904,7 +905,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Circuit breaker</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <p>Formaliza a decisão de deixar de tentar uma dependência que falha repetidamente. Três estados: <strong>fechado</strong> → <strong>aberto</strong> → <strong>semiaberto</strong>.</p>
         <ul>
           <li>Taxa de erro = chamadas com falha ÷ total na janela. Limite de abertura: 50%.</li>
@@ -923,7 +924,7 @@
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Bulkhead e degradação graciosa</h2>
-      <div class="slide-content-box">
+      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
           <li><strong>Bulkhead</strong> (anteparo): recursos (conexões, threads, filas) particionados por dependência, para que o esgotamento de um não afete os demais — como os compartimentos de um navio.</li>
           <li><strong>Degradação graciosa</strong>: oferecer versão reduzida do serviço quando uma dependência não essencial falha, em vez de falhar por completo (ex.: checkout sem recomendações).</li>
@@ -1062,6 +1063,6 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../../assets/fullscreen-button.js"></script>
+<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>
