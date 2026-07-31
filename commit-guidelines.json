@@ -103,6 +103,10 @@
         "description": "Changes related to Portos, Aeroportos e Ferrovias"
       },
       {
+        "value": "distributed_systems",
+        "description": "Changes related to Distributed Systems Engineering"
+      },
+      {
         "value": "lives",
         "description": "Changes related to the complementary live sessions (slide decks)"
       }

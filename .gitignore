@@ -3,6 +3,10 @@
 # as imagens de branding foram extraídas em `assets/originais_atomo_3_0/`.
 Originais - Átomo 3.0/
 
+# Templates institucionais recebidos para Distributed Systems Engineering (173MB) —
+# mesmo padrão acima: mantidos localmente, conteúdo já extraído para markdown.
+distributed_systems_engineering/materiais_recebidos/Originais - Átomo 3.0 TECH/
+
 # Build / cache
 __pycache__/
 *.pyc
