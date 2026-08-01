@@ -118,11 +118,46 @@ elif pagina == "Dashboard de Clientes":
     if filtro_estado:
         query["estado"] = {"$in": filtro_estado}
     
-    clientes = list(clientes_collection.find(query).sort("data_cadastro", -1))
-    
+    # Paginação — busca no Mongo apenas os 20 da página atual (skip/limit)
+    PAGE_SIZE = 20
+    total_filtrado = clientes_collection.count_documents(query)
+    total_paginas = max(1, -(-total_filtrado // PAGE_SIZE))
+
+    # Mudou o filtro? Volta para a página 1
+    assinatura_filtros = (tuple(sorted(filtro_categoria)), tuple(sorted(filtro_estado or [])))
+    if st.session_state.get("assinatura_filtros") != assinatura_filtros:
+        st.session_state["assinatura_filtros"] = assinatura_filtros
+        st.session_state["pagina_atual"] = 1
+    pagina_atual = min(max(st.session_state.get("pagina_atual", 1), 1), total_paginas)
+    st.session_state["pagina_atual"] = pagina_atual
+
+    clientes = list(
+        clientes_collection.find(query)
+        .sort("data_cadastro", -1)
+        .skip((pagina_atual - 1) * PAGE_SIZE)
+        .limit(PAGE_SIZE)
+    )
+
     if clientes:
-        st.subheader(f"Total encontrado: {len(clientes)} cliente(s)")
-        
+        st.subheader(f"Total encontrado: {total_filtrado} cliente(s)")
+
+        # Controles de paginação
+        col_ant, col_pag, col_prox = st.columns([1, 2, 1])
+        with col_ant:
+            if st.button("⬅️ Anterior", disabled=(pagina_atual == 1), use_container_width=True):
+                st.session_state["pagina_atual"] = pagina_atual - 1
+                st.rerun()
+        with col_pag:
+            st.markdown(
+                f"<p style='text-align:center'>Página <b>{pagina_atual}</b> de <b>{total_paginas}</b> · "
+                f"exibindo {len(clientes)} de {total_filtrado}</p>",
+                unsafe_allow_html=True,
+            )
+        with col_prox:
+            if st.button("Próxima ➡️", disabled=(pagina_atual == total_paginas), use_container_width=True):
+                st.session_state["pagina_atual"] = pagina_atual + 1
+                st.rerun()
+
         # Exibir clientes em cards
         for cliente in clientes:
             with st.container(border=True):
@@ -145,8 +180,8 @@ elif pagina == "Dashboard de Clientes":
         
         st.divider()
         
-        # Tabela de dados
-        st.subheader("📋 Tabela Completa")
+        # Tabela de dados (somente a página atual)
+        st.subheader("📋 Tabela (página atual)")
         df = pd.DataFrame([{
             "Nome": c["nome"],
             "Email": c["email"],
@@ -162,36 +197,53 @@ elif pagina == "Dashboard de Clientes":
         # Gráficos
         st.divider()
         st.subheader("📈 Análises")
-        
+        st.caption(f"Calculadas no banco sobre todos os {total_filtrado} clientes filtrados, não só a página atual.")
+
         col_graf1, col_graf2 = st.columns(2)
-        
+
         with col_graf1:
             st.write("**Clientes por Categoria**")
-            categoria_counts = {}
-            for c in clientes:
-                cat = c["categoria"]
-                categoria_counts[cat] = categoria_counts.get(cat, 0) + 1
-            
+            categoria_counts = {
+                doc["_id"]: doc["total"]
+                for doc in clientes_collection.aggregate([
+                    {"$match": query},
+                    {"$group": {"_id": "$categoria", "total": {"$sum": 1}}},
+                ])
+            }
             if categoria_counts:
                 st.bar_chart(categoria_counts)
-        
+
         with col_graf2:
             st.write("**Top 10 Estados**")
-            estado_counts = {}
-            for c in clientes:
-                est = c["estado"]
-                estado_counts[est] = estado_counts.get(est, 0) + 1
-            
-            top_estados = dict(sorted(estado_counts.items(), key=lambda x: x[1], reverse=True)[:10])
+            top_estados = {
+                doc["_id"]: doc["total"]
+                for doc in clientes_collection.aggregate([
+                    {"$match": query},
+                    {"$group": {"_id": "$estado", "total": {"$sum": 1}}},
+                    {"$sort": {"total": -1}},
+                    {"$limit": 10},
+                ])
+            }
             if top_estados:
                 st.bar_chart(top_estados)
     
     else:
         st.info("ℹ️ Nenhum cliente encontrado com os filtros selecionados.")
     
-    # Exportar dados
+    # Exportar dados — busca o conjunto filtrado completo só quando clicar
     st.divider()
     if st.button("📥 Exportar como CSV"):
-        if clientes:
-            df.to_csv("clientes.csv", index=False)
-            st.success("✅ Arquivo exportado como 'clientes.csv'")
+        todos = clientes_collection.find(query).sort("data_cadastro", -1)
+        df_export = pd.DataFrame([{
+            "Nome": c["nome"],
+            "Email": c["email"],
+            "Telefone": c["telefone"],
+            "Cidade": c["cidade"],
+            "Estado": c["estado"],
+            "Categoria": c["categoria"],
+            "Data Cadastro": c["data_cadastro"].strftime("%d/%m/%Y")
+        } for c in todos])
+        if df_export.empty:
+            st.info("ℹ️ Nada para exportar com os filtros atuais.")
+        else:
+            st.download_button("⬇️ Baixar clientes.csv", df_export.to_csv(index=False), "clientes.csv", "text/csv")

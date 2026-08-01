@@ -1,0 +1,10 @@
+# ConfigMap — configuração fora do código (12-factor)
+# Injetado no Pod do app como variáveis de ambiente (envFrom).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+data:
+  APP_ENV: "producao"
+  MONGO_USER: "admin"
+  MONGO_DB: "livraria"

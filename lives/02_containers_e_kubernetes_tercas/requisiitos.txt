@@ -1,0 +1,4 @@
+autoscaling horizontal com 70% de uso da cpu
+configMap
+variaveis seguras
+probe

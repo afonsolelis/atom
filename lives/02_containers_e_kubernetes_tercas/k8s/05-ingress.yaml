@@ -1,0 +1,19 @@
+# Ingress — porta de entrada HTTP única, roteia por host para o Service web.
+# Requer o addon: minikube addons enable ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: livraria.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80
