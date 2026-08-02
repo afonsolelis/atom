@@ -1,0 +1,38 @@
+# NexaOrder — Aula 4: primeiro docker-compose.yml do projeto.
+#
+# Sobe dois serviços que se comunicam de verdade pela rede do Compose:
+# pedidos chama estoque via HTTP, protegido por timeout, retry e disjuntor
+# (docs/adr/0004-resiliencia-timeout-retry-disjuntor.md).
+#
+# Uso:
+#   docker compose up --build
+#   curl -X POST http://localhost:8001/pedidos -d '...'
+#   curl -X POST http://localhost:8002/_debug/config -d '{"falhar_percentual": 100}'
+#   curl -X POST http://localhost:8001/pedidos/<id>/reservar-estoque
+
+services:
+  estoque:
+    build: ./services/estoque
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/saude')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pedidos:
+    build: ./services/pedidos
+    ports:
+      - "8001:8000"
+    environment:
+      - PEDIDOS_DB_PATH=/data/pedidos.db
+      - ESTOQUE_BASE_URL=http://estoque:8000
+    volumes:
+      - pedidos-data:/data
+    depends_on:
+      estoque:
+        condition: service_healthy
+
+volumes:
+  pedidos-data:

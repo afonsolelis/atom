@@ -1,0 +1,17 @@
+# Segredos — Unidade 3, Aula 12.
+#
+# Ilustrativo: um `kubectl create secret` real nunca colocaria o valor em
+# texto claro em um arquivo versionado como este. Em uso real, o valor
+# viria de um gestor de segredos externo (Vault, AWS Secrets Manager) via
+# um operador que sincroniza para dentro do cluster, ou seria criado
+# imperativamente no momento da implantação — nunca commitado.
+#
+# Este arquivo documenta a FORMA do objeto Secret e como os Deployments o
+# referenciam (via envFrom.secretRef), não um segredo real.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nexaorder-segredos
+type: Opaque
+stringData:
+  NEXAORDER_SEGREDO_ASSINATURA: "SUBSTITUA_ANTES_DE_APLICAR_EM_QUALQUER_LUGAR_REAL"

@@ -1,0 +1,101 @@
+# Pedidos — Unidade 3, Aula 11.
+#
+# replicas: 4 e o alvo de CPU de 60% reproduzem literalmente o exemplo
+# numérico do roteiro: com 4 réplicas atuais observando 85% de CPU contra
+# um alvo de 60%, o HPA calcularia
+#   N = ceil(4 * 85 / 60) = ceil(5.67) = 6 réplicas desejadas
+# (ver docs/kubernetes.md — o cálculo em si não roda sem um cluster real
+# com metrics-server, mas os números do manifesto são os do exemplo).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pedidos
+  labels:
+    app: pedidos
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: pedidos
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: pedidos
+    spec:
+      containers:
+        - name: pedidos
+          image: nexaorder/pedidos:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PEDIDOS_DB_PATH
+              value: /data/pedidos.db
+            - name: ESTOQUE_BASE_URL
+              value: http://estoque:8000
+            - name: PAGAMENTO_BASE_URL
+              value: http://pagamento:8000
+            - name: EXPEDICAO_BASE_URL
+              value: http://expedicao:8000
+          envFrom:
+            - secretRef:
+                name: nexaorder-segredos
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "128Mi"
+            limits:
+              cpu: "750m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /saude
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /pronto
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          volumeMounts:
+            - name: dados
+              mountPath: /data
+      volumes:
+        - name: dados
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pedidos
+spec:
+  selector:
+    app: pedidos
+  ports:
+    - port: 8000
+      targetPort: 8000
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: pedidos
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: pedidos
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 60

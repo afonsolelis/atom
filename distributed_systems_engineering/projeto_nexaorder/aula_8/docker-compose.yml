@@ -1,0 +1,65 @@
+# NexaOrder — Aula 8: os quatro serviços do fluxo de compra completo.
+#
+# pedidos orquestra a saga chamando estoque, pagamento e expedição, cada um
+# com seu próprio banco, protegidos por timeout, retry e disjuntor
+# independentes (docs/adr/0004) e coordenados por compensação, não por
+# transação distribuída (docs/saga.md).
+#
+# Uso:
+#   docker compose up --build
+#   curl -X POST http://localhost:8002/estoque/TECLADO-MEC-01/inicializar -d '{"quantidade": 100}'
+#   curl -X POST http://localhost:8001/pedidos -d '...'
+#   curl -X POST http://localhost:8001/pedidos/<id>/finalizar-compra
+
+services:
+  estoque:
+    build: ./services/estoque
+    ports:
+      - "8002:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/saude')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pagamento:
+    build: ./services/pagamento
+    ports:
+      - "8003:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/saude')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  expedicao:
+    build: ./services/expedicao
+    ports:
+      - "8004:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/saude')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  pedidos:
+    build: ./services/pedidos
+    ports:
+      - "8001:8000"
+    environment:
+      - PEDIDOS_DB_PATH=/data/pedidos.db
+      - ESTOQUE_BASE_URL=http://estoque:8000
+      - PAGAMENTO_BASE_URL=http://pagamento:8000
+      - EXPEDICAO_BASE_URL=http://expedicao:8000
+    volumes:
+      - pedidos-data:/data
+    depends_on:
+      estoque:
+        condition: service_healthy
+      pagamento:
+        condition: service_healthy
+      expedicao:
+        condition: service_healthy
+
+volumes:
+  pedidos-data:

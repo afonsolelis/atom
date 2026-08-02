@@ -1,0 +1,74 @@
+# Estoque — Unidade 3, Aula 11.
+#
+# Duas sondas com papéis diferentes (ver docs/kubernetes.md):
+# - livenessProbe em /saude: falhar aqui reinicia o contêiner.
+# - readinessProbe em /pronto: falhar aqui só tira o Pod do Service,
+#   sem reiniciar — usado quando o banco está temporariamente inacessível.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: estoque
+  labels:
+    app: estoque
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: estoque
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: estoque
+    spec:
+      containers:
+        - name: estoque
+          image: nexaorder/estoque:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ESTOQUE_DB_PATH
+              value: /data/estoque.db
+          envFrom:
+            - secretRef:
+                name: nexaorder-segredos
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            httpGet:
+              path: /saude
+              port: 8000
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /pronto
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          volumeMounts:
+            - name: dados
+              mountPath: /data
+      volumes:
+        - name: dados
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: estoque
+spec:
+  selector:
+    app: estoque
+  ports:
+    - port: 8000
+      targetPort: 8000
