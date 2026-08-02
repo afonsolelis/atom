@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 2 — Comunicação entre processos: APIs, RPC e mensageria · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,137 +672,137 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Aula 2 — Comunicação entre processos: APIs, RPC e mensageria</h1>
       <div class="subtitulo">Unidade 1 — Fundamentos, comunicação, tempo e falhas</div>
@@ -809,33 +810,45 @@
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um fluxo HTTP síncrono em que pedidos aguarda estoque e pagamento antes de responder ao cliente; um quadro comparativo entre fila ponto a ponto e publicação-assinatura; um painel numérico com a progressão do backoff exponencial de 200 ms a 3,2 s; um fluxo de retentativa protegida por chave de idempotência; e uma tabela comparando o fluxo síncrono encadeado com o fluxo orientado a eventos da NexaOrder.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Comunicação entre processos: APIs, RPC e mensageria</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Comunicação síncrona e assíncrona</li>
+          <li>Comunicação síncrona e assíncrona: quando esperar e quando seguir</li>
           <li>HTTP e APIs orientadas a recursos</li>
           <li>RPC e contratos de interface</li>
           <li>Serialização e evolução de esquema</li>
           <li>Filas, publicação-assinatura e eventos</li>
-          <li>Timeouts, retries, backoff, jitter e idempotência</li>
+          <li>Timeouts, retries, backoff e jitter</li>
+          <li>Idempotência e correlação de requisições</li>
+          <li>Dois fluxos de criação de pedido comparados</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,55 +856,130 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Decidir</strong> entre comunicação síncrona e assíncrona a partir do contrato entre serviços, não do hábito.</li>
+          <li><strong>Modelar</strong> APIs orientadas a recursos com semântica de verbos e códigos de status bem definidos.</li>
+          <li><strong>Evoluir</strong> esquemas de mensagem sem quebrar consumidores implantados em versões anteriores.</li>
+          <li><strong>Distinguir</strong> fila de publicação-assinatura, e evento de comando.</li>
+          <li><strong>Dimensionar</strong> timeouts e políticas de retentativa com backoff exponencial e jitter.</li>
+          <li><strong>Tornar</strong> operações repetíveis com segurança usando chave de idempotência e correlação.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Situação-problema</p>
+      <h2>Quando a chamada deixa de ser local</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Após decompor a NexaOrder em serviços, a equipe manteve o hábito do monólito: cada etapa chamava a seguinte e <strong>esperava a resposta</strong> antes de prosseguir. Com pouco tráfego, funcionava. Sob campanha de vendas, mudou de comportamento:</p>
+        <ul>
+          <li>Uma lentidão no provedor de pagamento <strong>prendeu conexões</strong> no serviço de estoque.</li>
+          <li>Pedidos esperava estoque; o cliente via a tela de carregamento por <strong>vários segundos</strong>.</li>
+          <li>Clientes cancelavam e tentavam de novo, gerando <strong>dois pedidos para o mesmo carrinho</strong>.</li>
+          <li>Respostas chegavam depois da expiração da interface: pedido <strong>“pendente” apesar de processado</strong>.</li>
+        </ul>
+        <div class="callout-azul"><p>Duas perguntas passaram a organizar o projeto: <strong>quando faz sentido esperar</strong> uma resposta antes de continuar, e <strong>quando basta registrar a intenção</strong> e seguir em frente? Não há resposta universal — depende do contrato, da tolerância a atraso e do tratamento de falhas.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Comunicação síncrona e assíncrona</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p><strong>Síncrona</strong>: quem solicita aguarda a resposta antes de continuar. Fácil de raciocinar, mas encadeamentos longos somam latência e multiplicam indisponibilidade.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Se pedidos → estoque → pagamento → expedição são todos síncronos, a latência total tende à soma e a disponibilidade ao produto de cada etapa.</li>
-          <li><strong>Assíncrona</strong>: quem solicita registra a intenção (ex.: publica uma mensagem) e segue em frente — reduz o acoplamento temporal.</li>
-          <li>Nenhum dos dois é superior em abstrato: depende de o cliente precisar de resposta imediata ou não.</li>
+          <li><strong>Síncrona</strong> — quem solicita aguarda a resposta antes de continuar. Uma chamada, um resultado, fluxo linear e fácil de raciocinar.</li>
+          <li><strong>Assíncrona</strong> — quem solicita registra a intenção e segue. O resultado chega por outro canal: notificação, evento posterior ou consulta de status.</li>
+          <li><strong>Custo da síncrona</strong> — em cadeias longas, a latência percebida se aproxima da <em>soma</em> das latências do caminho crítico.</li>
+          <li><strong>Ganho da assíncrona</strong> — reduz o acoplamento temporal: o pagamento pode estar indisponível sem impedir que o pedido seja aceito.</li>
         </ul>
+        <div class="callout-azul"><p>Nenhum modelo é superior em abstrato. Síncrono serve quando o cliente precisa da resposta <strong>para decidir o próximo passo</strong> — conferir se o item ainda existe antes da tela de pagamento. Assíncrono serve quando o resultado pode ser processado depois — emitir nota fiscal, avisar o centro de distribuição.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O que o encadeamento síncrono custa</h2>
+      <div class="slide-content-box">
+        <p>Em um modelo simplificado com etapas obrigatórias e falhas independentes, a latência do fluxo soma as etapas e a disponibilidade do fluxo é o <strong>produto</strong> das disponibilidades:</p>
+        <div class="callout-azul formula"><p>A<sub>fluxo</sub> = A<sub>pedidos</sub> × A<sub>estoque</sub> × A<sub>pagamento</sub> × A<sub>expedição</sub></p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">99,9%</span><span class="legenda">por etapa</span></div>
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">etapas encadeadas</span></div>
+          <div class="stat-card"><span class="numero-grande">99,6%</span><span class="legenda">disponibilidade do fluxo</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 2 h 53 min</span><span class="legenda">indisponível por mês</span></div>
+        </div>
+        <p>Quatro etapas com 99,9% cada não entregam 99,9% — entregam <strong>0,999⁴ ≈ 99,6%</strong>. O encadeamento multiplica as chances de falha, e dependências compartilhadas ou falhas correlacionadas exigem medição conjunta, não apenas a multiplicação teórica.</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>HTTP e APIs orientadas a recursos</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Cada entidade do domínio (pedido, reserva, cobrança) é um <strong>recurso</strong> identificado por URI; operações são verbos HTTP.</p>
-        <ul>
-          <li><code>GET</code> consulta, <code>POST</code> cria, <code>PUT</code>/<code>PATCH</code> atualiza, <code>DELETE</code> remove.</li>
-          <li>Códigos de status comunicam semântica: <strong>2xx</strong> sucesso, <strong>4xx</strong> erro do cliente, <strong>5xx</strong> erro do servidor.</li>
-          <li>Requisição autocontida: qualquer instância pode atender, o que facilita o balanceamento de carga.</li>
-        </ul>
+      <div class="slide-content-box">
+        <p>Cada entidade relevante do domínio — um pedido, uma reserva, uma cobrança — vira um <strong>recurso</strong> identificado por uma URI, e as operações se expressam por verbos.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Elemento</th><th>Semântica</th><th>Exemplo na NexaOrder</th></tr></thead>
+          <tbody>
+            <tr><td><code>POST</code></td><td>Cria um recurso e devolve um identificador</td><td><code>POST /pedidos</code></td></tr>
+            <tr><td><code>GET</code></td><td>Consulta o estado atual, sem efeito colateral</td><td><code>GET /pedidos/{id}</code></td></tr>
+            <tr><td><code>PUT</code> / <code>PATCH</code></td><td>Substitui ou atualiza parcialmente</td><td><code>PATCH /pedidos/{id}</code></td></tr>
+            <tr><td>Faixa 2xx</td><td>Sucesso</td><td><code>201 Created</code> na criação do pedido</td></tr>
+            <tr><td>Faixa 4xx</td><td>Erro do cliente: dado inválido ou recurso inexistente</td><td><code>404</code> em pedido que não existe</td></tr>
+            <tr><td>Faixa 5xx</td><td>Erro do servidor</td><td><code>503</code> quando o estoque não responde</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p><strong>Sem estado</strong> (<em>stateless</em>) é uma decisão arquitetural da API, não uma garantia do protocolo. Quando adotada, qualquer instância pode atender qualquer requisição — é o que torna o balanceamento simples.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>RPC e contratos de interface</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>RPC</strong> (Remote Procedure Call) parece uma chamada de função local: <code>estoque.reservarItem(pedidoId, itemId, qtd)</code>.</li>
-          <li>Aparência perigosa: uma chamada RPC pode falhar de formas que uma chamada local nunca falha (rede indisponível, mensagem perdida).</li>
-          <li>O valor está no <strong>contrato explícito</strong> (IDL): métodos, tipos de parâmetro/retorno e erros possíveis, gerando código de cliente/servidor compatível.</li>
+          <li><strong>O que é</strong> — invocar <code>estoque.reservarItem(pedidoId, itemId, qtd)</code> como se fosse função local; o mecanismo transforma isso em mensagem de rede.</li>
+          <li><strong>O risco</strong> — é exatamente a transparência que a Aula 1 apontou: conveniente para quem usa, perigosa para quem projeta.</li>
+          <li><strong>Falhas que a função local não tem</strong> — rede indisponível, mensagem perdida, resposta ausente mesmo com a operação concluída.</li>
+          <li><strong>O valor real</strong> — o contrato explícito: métodos, tipos de parâmetro e retorno, e erros possíveis, descritos em uma IDL.</li>
+          <li><strong>Geração de código</strong> — cliente e servidor compatíveis são gerados do mesmo contrato, reduzindo divergência manual.</li>
+          <li><strong>Síncrono não é o protocolo</strong> — HTTP e RPC sustentam interações assíncronas; síncrono/assíncrono descreve o <em>contrato de interação</em>.</li>
         </ul>
       </div>
     </div>
@@ -899,57 +987,21 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Serialização e evolução de esquema</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Serviços independentes são implantados em momentos diferentes — o desafio real não é o formato (JSON, binário), é a <strong>evolução do esquema</strong>.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Serializar é transformar dados em memória em bytes transmissíveis. O formato (JSON, binário) afeta tamanho e desempenho — mas o problema crítico é a <strong>evolução do esquema</strong>: serviços independentes são implantados em momentos diferentes.</p>
         <ul>
-          <li>Adicionar campos novos como <strong>opcionais</strong>, com valor padrão bem definido.</li>
-          <li>Evitar remover ou renomear campos que consumidores existentes usam.</li>
-          <li>Versionar o contrato quando a mudança for incompatível e testar compatibilidade produtor/consumidor antes de implantar.</li>
+          <li><strong>Campos novos são opcionais</strong>, com valor padrão bem definido quando ausentes.</li>
+          <li><strong>Não remova nem renomeie</strong> campos que consumidores existentes ainda utilizam.</li>
+          <li><strong>Versione explicitamente</strong> quando a mudança for de fato incompatível.</li>
+          <li><strong>Teste a compatibilidade</strong> entre versões de produtor e consumidor antes de implantar.</li>
         </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Filas, publicação-assinatura e eventos</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Fila (ponto a ponto)</strong>: cada mensagem vai a um único consumidor entre os que competem — útil para distribuir trabalho.</li>
-          <li><strong>Publicação-assinatura</strong>: cada mensagem publicada em um tópico chega a todos os assinantes, sem que o produtor os conheça.</li>
-          <li><strong>Evento</strong> (algo que já aconteceu, ex.: <code>PedidoCriado</code>) difere de <strong>comando</strong> (ação futura, ex.: <code>ReservarEstoque</code>).</li>
-          <li>Benefício: novos consumidores entram sem alterar o produtor. Custo: perda de resposta imediata.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Timeouts, retries, backoff e jitter</h2>
-      <div class="slide-content-box">
-        <p><em>Timeout</em> não prova que a operação falhou — indica só que a resposta não chegou a tempo. Retentar sem cuidado pode agravar sobrecarga (<em>thundering herd</em>).</p>
-        <ul>
-          <li>t<sub>n</sub> = min(t<sub>base</sub> × 2ⁿ, t<sub>máx</sub>) + jitter aleatório.</li>
-          <li>Com t<sub>base</sub> = 200 ms: n=0→200ms, n=1→400ms, n=2→800ms, n=3→1600ms, n=4→3200ms (até o teto).</li>
-          <li><strong>Idempotência</strong> (chave de idempotência) evita duplicar efeito ao retentar; <strong>correlação</strong> permite rastrear a operação entre serviços.</li>
-        </ul>
+        <div class="callout-azul"><p>Ignorar esses cuidados transforma uma alteração aparentemente local — um novo campo <code>canalVenda</code> — em uma <strong>interrupção distribuída</strong>, sentida por serviços que a equipe de pedidos talvez nem saiba que existem.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
@@ -957,19 +1009,171 @@
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Uma chamada remota nunca é uma chamada local disfarçada — e uma retentativa sem idempotência pode custar caro."</blockquote>
+      <blockquote>“Uma chamada RPC pode falhar de formas que uma chamada local nunca falha: a resposta pode não retornar mesmo que a operação remota tenha sido concluída.”</blockquote>
       <cite>— síntese da Aula 2</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Fila e publicação-assinatura</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A comunicação assíncrona costuma passar por um <em>broker</em>, que recebe, armazena temporariamente e entrega mensagens — desacoplando o tempo de vida do produtor do consumidor.</p>
+        <ul>
+          <li><strong>Fila (ponto a ponto)</strong> — cada mensagem vai a <em>um único</em> consumidor entre os que competem por ela.</li>
+          <li><strong>Uso típico da fila</strong> — distribuir trabalho: processar reservas em paralelo por várias instâncias do mesmo serviço.</li>
+          <li><strong>Publicação-assinatura</strong> — cada mensagem de um tópico é entregue a <em>todos</em> os assinantes interessados.</li>
+          <li><strong>Uso típico do pub-sub</strong> — notificar vários serviços sobre o mesmo acontecimento sem acoplar o produtor a essa lista.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Evento e comando: uma distinção que muda o acoplamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Evento</strong> — registro de algo que <em>já aconteceu</em>: <code>PedidoCriado</code>, <code>PagamentoAprovado</code>.</li>
+          <li><strong>Comando</strong> — solicitação de uma <em>ação futura</em>: <code>ReservarEstoque</code>.</li>
+          <li><strong>Quem publica evento não escolhe quem reage</strong> — estoque, antifraude e um futuro serviço de recomendação assinam o mesmo evento.</li>
+          <li><strong>Benefício</strong> — novos consumidores entram sem alterar o produtor.</li>
+          <li><strong>Custo</strong> — não há resposta imediata: quem publica não sabe, no mesmo instante, se e como os assinantes reagirão.</li>
+          <li><strong>Consequência de projeto</strong> — o estado do pedido deixa de ser binário e passa a ser uma <em>progressão</em> a ser rastreada.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Timeout, retry, backoff e jitter</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Toda chamada de rede precisa de um limite de espera. Sem ele, uma dependência lenta retém recursos indefinidamente e propaga lentidão — foi o que aconteceu na situação-problema.</p>
+        <ul>
+          <li><strong>Timeout</strong> — não prova que a operação falhou; indica que a resposta não chegou no prazo tolerado.</li>
+          <li><strong>Retry só para falha transitória</strong> — e apenas se ainda houver prazo no orçamento e a repetição for segura.</li>
+          <li><strong>Erro permanente não se retenta</strong> — validações 4xx, prazo esgotado ou sinais de sobrecarga pedem falha imediata ou controle de admissão.</li>
+          <li><strong>Thundering herd</strong> — retentar sem cuidado joga uma nova onda sobre um serviço já sobrecarregado, piorando a situação.</li>
+          <li><strong>Backoff exponencial</strong> — cada tentativa espera mais que a anterior, dando tempo de recuperação.</li>
+          <li><strong>Jitter</strong> — soma aleatória que evita que todos os clientes retentem no mesmo instante.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>A progressão do backoff exponencial</h2>
+      <div class="slide-content-box">
+        <div class="callout-azul formula"><p>t<sub>n</sub> = min( t<sub>base</sub> × 2<sup>n</sup> , t<sub>máx</sub> ) + U(0, t<sub>jitter</sub>)</p></div>
+        <p>Com <strong>t<sub>base</sub> = 200 ms</strong> e <strong>t<sub>máx</sub> = 5000 ms</strong>, o componente exponencial (sem jitter) evolui assim:</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">200 ms</span><span class="legenda">n = 0</span></div>
+          <div class="stat-card"><span class="numero-grande">400 ms</span><span class="legenda">n = 1</span></div>
+          <div class="stat-card"><span class="numero-grande">800 ms</span><span class="legenda">n = 2</span></div>
+          <div class="stat-card"><span class="numero-grande">1,6 s</span><span class="legenda">n = 3</span></div>
+          <div class="stat-card"><span class="numero-grande">3,2 s</span><span class="legenda">n = 4</span></div>
+        </div>
+        <div class="callout-azul"><p>Sem o teto, a espera de <strong>n = 5</strong> seria de <strong>6,4 s</strong> — impraticável para quem aguarda. O jitter soma alguns milissegundos aleatórios a cada valor, espalhando as tentativas mesmo quando muitos clientes falharam ao mesmo tempo.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Idempotência: tornar a retentativa segura</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma operação é <strong>idempotente</strong> quando executá-la mais de uma vez produz o mesmo efeito que executá-la uma vez. Consultar um pedido é idempotente por natureza; criar um pedido, sem cuidado adicional, <strong>não é</strong>.</p>
+        <ul>
+          <li><strong>1. O cliente gera a chave</strong> de idempotência <em>antes</em> do primeiro envio.</li>
+          <li><strong>2. A chave acompanha</strong> o pedido original e toda retentativa da mesma operação.</li>
+          <li><strong>3. O serviço registra</strong> as chaves já processadas junto com o resultado.</li>
+          <li><strong>4. Chave repetida</strong> devolve o resultado da primeira execução, sem criar um novo pedido.</li>
+        </ul>
+        <div class="callout-azul"><p>Backoff e jitter espalham as tentativas no tempo, mas <strong>não resolvem a duplicação</strong>: se a operação já produziu efeito no destino, repeti-la sem chave de idempotência gera cobrança duplicada.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Correlação: reconstruir o caminho de uma operação</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>O que é</strong> — um identificador que acompanha uma operação lógica por várias chamadas, mensagens e retentativas.</li>
+          <li><strong>Diferença da chave de idempotência</strong> — a chave evita <em>duplicar efeito</em>; a correlação permite <em>reconstruir o caminho</em>.</li>
+          <li><strong>Atravessa serviços</strong> — o mesmo identificador segue de pedidos a estoque, pagamento e expedição.</li>
+          <li><strong>Base da observabilidade</strong> — sem correlação, um incidente vira uma coleção de logs que ninguém consegue costurar.</li>
+          <li><strong>Decidido no contrato</strong> — precisa ser previsto no desenho da comunicação, não improvisado durante o incidente.</li>
+          <li><strong>Retomada na Unidade 4</strong> — traces e spans se apoiam exatamente nessa ideia.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Dois fluxos de criação de pedido, lado a lado</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Critério</th><th>Síncrono encadeado</th><th>Orientado a eventos</th></tr></thead>
+          <tbody>
+            <tr><td>Resposta ao cliente</td><td>Confirmação completa em uma única resposta</td><td>Status “processando”, imediato</td></tr>
+            <tr><td>Latência percebida</td><td>Soma das etapas do caminho crítico</td><td>Apenas o registro da intenção</td></tr>
+            <tr><td>Falha de uma etapa</td><td>Indisponibiliza o fluxo inteiro</td><td>Gera evento próprio e pode acionar compensação</td></tr>
+            <tr><td>Novos consumidores</td><td>Exigem alterar quem chama</td><td>Assinam o evento sem tocar no produtor</td></tr>
+            <tr><td>Custo introduzido</td><td>Acoplamento temporal forte</td><td>Rastrear etapa, tratar fora de ordem, comunicar progressão</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>No fluxo por eventos, a sequência <code>PedidoCriado</code> → <code>EstoqueReservado</code> → <code>PagamentoAprovado</code> → <code>PedidoEnviado</code> preserva as <strong>pré-condições de negócio</strong>. Consumidores sem pré-condição, como antifraude, reagem direto a <code>PedidoCriado</code>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 2 — Videoaula 2</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -977,10 +1181,12 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Síncrono vs assíncrono</h3><p>Síncrono soma latências e propaga indisponibilidade; assíncrono reduz acoplamento temporal ao custo de rastreamento.</p></div>
-          <div class="ponto"><h3>Contratos</h3><p>APIs HTTP e RPC são estilos síncronos com contratos diferentes; a evolução de esquema exige compatibilidade entre versões.</p></div>
-          <div class="ponto"><h3>Fila vs pub-sub</h3><p>Filas distribuem trabalho; publicação-assinatura notifica múltiplos assinantes independentes sobre um mesmo evento.</p></div>
-          <div class="ponto"><h3>Retry seguro</h3><p>Backoff exponencial + jitter reduzem sobrecarga; idempotência e correlação tornam retentativas seguras e rastreáveis.</p></div>
+          <div class="ponto"><h3>Síncrono soma</h3><p>Simplifica o raciocínio, mas soma latências e propaga indisponibilidade pela cadeia de chamadas.</p></div>
+          <div class="ponto"><h3>Assíncrono desacopla</h3><p>Reduz o acoplamento temporal ao custo de resposta não imediata e de maior complexidade de rastreamento.</p></div>
+          <div class="ponto"><h3>Contratos importam</h3><p>APIs de recursos e RPC têm ênfases diferentes; em ambos, o contrato explícito é o que sustenta a evolução.</p></div>
+          <div class="ponto"><h3>Esquema evolui</h3><p>Produtores e consumidores são implantados em momentos distintos: compatibilidade é requisito, não detalhe.</p></div>
+          <div class="ponto"><h3>Retry com critério</h3><p>Timeout limita a espera; retry com backoff e jitter só vale para falha transitória, dentro de um orçamento.</p></div>
+          <div class="ponto"><h3>Idempotência e correlação</h3><p>A chave evita duplicar efeito; o identificador de correlação torna a operação rastreável de ponta a ponta.</p></div>
         </div>
       </div>
     </div>
@@ -988,18 +1194,21 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Modele o contrato do evento <code>PedidoCriado</code> para a NexaOrder:</p>
+      <h2>Mãos à obra: o contrato do evento PedidoCriado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Modele o contrato do evento <code>PedidoCriado</code> e documente as decisões em meia página, como se fossem apresentadas à equipe de arquitetura.</p>
         <ul>
-          <li>Liste campos obrigatórios/opcionais, com chave de idempotência e identificador de correlação.</li>
-          <li>Descreva uma mudança futura de esquema (ex.: campo <code>canalVenda</code>) sem quebrar consumidores.</li>
-          <li>Para estoque, pagamento e expedição: chamada síncrona ou assinatura assíncrona? Justifique com base na tolerância a atraso.</li>
+          <li><strong>1.</strong> Liste campos obrigatórios e opcionais da mensagem, indicando o tipo de dado.</li>
+          <li><strong>2.</strong> Inclua chave de idempotência e identificador de correlação, justificando cada um.</li>
+          <li><strong>3.</strong> Descreva uma mudança futura de esquema e como introduzi-la sem quebrar consumidores.</li>
+          <li><strong>4.</strong> Separe reações independentes das que exigem pré-condição comprovada.</li>
+          <li><strong>5.</strong> Justifique por que a expedição não pode começar antes da aprovação do pagamento.</li>
+          <li><strong>6.</strong> Defina uma política limitada de retry com backoff, jitter e orçamento de tentativas.</li>
         </ul>
       </div>
     </div>
@@ -1008,18 +1217,18 @@
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já domina os mecanismos de comunicação entre processos. Na próxima aula, tratamos de concorrência, relógios e ordenação de eventos: como saber o que aconteceu primeiro, sem um relógio global.</p>
-      <p class="fim-proxima">Próxima aula: Aula 3.</p>
+      <p class="fim-texto">Você já sabe escolher entre esperar e seguir em frente, modelar contratos que sobrevivem à evolução e proteger chamadas de rede com timeout, retry e idempotência. Na próxima aula, enfrentamos a pergunta que a mensageria deixa em aberto: qual evento aconteceu primeiro?</p>
+      <p class="fim-proxima">Próxima aula: Aula 3 — Concorrência, relógios e ordenação de eventos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1033,6 +1242,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1054,6 +1264,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1064,6 +1276,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

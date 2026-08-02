@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="500" viewBox="0 0 1100 500" role="img">
+  <title>Linha do tempo de uma falha ambígua</title>
+  <desc>linha do tempo evidencia que o pagamento foi processado, mas a resposta se perdeu, levando o serviço solicitante a observar apenas o timeout.</desc>
+  <rect width="1100" height="500" fill="#FFFFFF"/>
+  <rect x="25.0" y="76.0" width="215.0" height="68.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#002156" stroke-width="2.2"/>
+  <text x="132.5" y="113.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#002156" text-anchor="middle">Serviço de Pedidos</text>
+  <line x1="250.0" y1="110.0" x2="1065.0" y2="110.0" stroke="#C7CEDB" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="25.0" y="276.0" width="215.0" height="68.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="132.5" y="313.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Provedor de pagamento</text>
+  <line x1="250.0" y1="310.0" x2="1065.0" y2="310.0" stroke="#C7CEDB" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="330.0" y1="118.0" x2="464.3" y2="294.6" stroke="#002156" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="470.0,302.0 455.5,294.1 466.2,285.9" fill="#002156"/>
+  <rect x="345.0" y="196.2" width="165.1" height="22.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="352.0" y="210.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#002156" text-anchor="start">1 — POST /cobranças</text>
+  <rect x="500.0" y="282.0" width="265.0" height="56.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#11A360" stroke-width="2.2"/>
+  <text x="632.5" y="304.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#11A360" text-anchor="middle">2 — cobrança processada</text>
+  <text x="632.5" y="326.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">o efeito já ocorreu</text>
+  <line x1="800.0" y1="302.0" x2="874.5" y2="199.6" stroke="#FF2B5F" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="8 7"/>
+  <polygon points="880.0,192.0 876.6,208.1 865.7,200.2" fill="#FF2B5F"/>
+  <line x1="866.0" y1="178.0" x2="894.0" y2="206.0" stroke="#FF2B5F" stroke-width="3.4" stroke-linecap="round"/>
+  <line x1="894.0" y1="178.0" x2="866.0" y2="206.0" stroke="#FF2B5F" stroke-width="3.4" stroke-linecap="round"/>
+  <rect x="903.0" y="246.2" width="181.0" height="22.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="910.0" y="260.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#C2185B" text-anchor="start">3 — resposta se perde</text>
+  <rect x="925.0" y="82.0" width="140.0" height="56.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#FF2B5F" stroke-width="2.2"/>
+  <text x="995.0" y="113.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#C2185B" text-anchor="middle">4 — timeout</text>
+  <line x1="250.0" y1="400.0" x2="1055.7" y2="400.0" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="1065.0,400.0 1049.9,406.7 1049.9,393.3" fill="#5A6175"/>
+  <text x="1058.0" y="428.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="end">tempo</text>
+  <rect x="25.0" y="438.0" width="1050.0" height="44.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="550.0" y="451.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">O silêncio observado pelo serviço de pedidos é compatível com cinco histórias diferentes — inclusive com a</text>
+  <text x="550.0" y="473.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">cobrança já efetivada.</text>
+</svg>

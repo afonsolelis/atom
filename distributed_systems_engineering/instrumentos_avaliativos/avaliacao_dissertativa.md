@@ -1,134 +1,150 @@
-# Avaliação final dissertativa
+# Avaliação final dissertativa — arquivo-mestre
 
-Disciplina: Distributed Systems Engineering  
-Professor-conteudista: Afonso Cesar Lelis Brandão  
-Prazo de produção: 25 de agosto de 2026
+Disciplina: *Distributed Systems Engineering*
+
+Professor-conteudista: Afonso Cesar Lelis Brandão
+
+Prazo de produção informado: 25 de agosto de 2026
+
+> **Controle de versão:** a Parte A é destinada ao estudante. A Parte B é exclusiva do professor tutor e contém respostas esperadas e critérios de correção. A versão mestra já foi gerada no modelo institucional; antes da distribuição, devem ser exportadas e aprovadas cópias separadas, com o arquivo do estudante terminando antes da Parte B.
+
+---
+
+# Parte A — Versão do estudante
 
 ## Orientações
 
 - Quantidade: 10 questões dissertativas.
-- Abrangência: as quatro unidades, com distribuição equilibrada (Unidade 1: questões 1-3; Unidade 2: questões 4-6; Unidade 3: questões 7-8; Unidade 4: questões 9-10).
-- Conteúdo: situações-problema inéditas envolvendo a NexaOrder ou cenários equivalentes, exigindo aplicação — não apenas definição — dos conceitos estudados.
-- Cada questão inclui resposta esperada e critérios de correção, com pontuação sugerida de 0 a 10 por questão.
-- Espera-se que a resposta relacione conceito, mecanismo e consequência prática — respostas puramente definicionais, sem análise do cenário, devem pontuar abaixo da média.
+- Abrangência: as quatro unidades, com a seguinte distribuição: Unidade 1, questões 1 a 3; Unidade 2, questões 4 a 6; Unidade 3, questões 7 e 8; Unidade 4, questões 9 e 10.
+- Conteúdo: situações-problema envolvendo a NexaOrder ou cenários equivalentes, com aplicação dos conceitos estudados.
+- Valor sugerido: 10 pontos por questão, totalizando 100 pontos.
+- Cada resposta deve relacionar conceito, mecanismo, hipóteses e consequência prática. Respostas puramente definicionais, sem análise do cenário, não atendem integralmente ao que foi solicitado.
 
 ## Questões
 
-### Questão 1 (Unidade 1 — Comunicação e falhas parciais)
+### Questão 1 — Unidade 1: comunicação e falhas parciais
 
-**Enunciado:** Durante um pico de vendas, o serviço de pedidos da NexaOrder chama o provedor de pagamento e, após 8 segundos sem resposta, a chamada expira (timeout). A equipe de operação precisa decidir automaticamente se reenvia a cobrança ou não. Explique por que o timeout, isoladamente, não permite saber se o pagamento foi efetivado, liste pelo menos três estados possíveis da operação naquele momento e proponha um mecanismo concreto que torne seguro decidir se a cobrança deve ser reenviada.
+Durante um pico de vendas, o serviço de pedidos da NexaOrder chama o provedor de pagamento e, após 8 segundos sem resposta, a chamada atinge seu limite de tempo (*timeout*). A equipe de operação precisa decidir automaticamente se reenvia a cobrança. Explique por que o *timeout*, isoladamente, não permite saber se o pagamento foi efetivado, liste pelo menos três estados possíveis da operação naquele momento e proponha um mecanismo concreto que torne seguro decidir se a cobrança deve ser reenviada.
 
-**Resposta esperada / critérios de correção:**
-- (0-2 pontos) Reconhece que falha parcial e rede assíncrona significam que a ausência de resposta não indica se a mensagem chegou nem se foi processada — o timeout é uma decisão operacional (quanto esperar), não uma prova de falha.
-- (0-3 pontos) Lista corretamente ao menos três estados possíveis: a requisição não chegou ao provedor; chegou mas ainda não foi processada; foi processada e a resposta se perdeu; continua em execução; falhou antes de produzir efeito.
-- (0-3 pontos) Propõe idempotência via identificador único de operação (chave de idempotência), permitindo reenviar a requisição com segurança — o provedor reconhece o identificador repetido e não cobra duas vezes — e/ou consulta de estado ao provedor antes de reenviar.
-- (0-2 pontos) Conecta a proposta a uma consequência de negócio concreta (evitar cobrança duplicada) e não apenas a um jargão técnico.
+### Questão 2 — Unidade 1: concorrência e ordenação de eventos
 
----
+Dois clientes tentam comprar simultaneamente a última unidade de um produto na NexaOrder a partir de instâncias diferentes do serviço de estoque, sem relógio global sincronizado. Explique por que não existe uma noção única de “quem chegou primeiro”, descreva a garantia causal fornecida pelos relógios lógicos de Lamport, explique como se pode construir uma ordem total determinística a partir deles e apresente pelo menos uma limitação dessa abordagem.
 
-### Questão 2 (Unidade 1 — Concorrência e ordenação de eventos)
+### Questão 3 — Unidade 1: modelos de falha e resiliência
 
-**Enunciado:** Dois clientes tentam comprar simultaneamente a última unidade de um produto na NexaOrder, a partir de instâncias diferentes do serviço de estoque, sem relógio global sincronizado entre elas. Explique por que não existe uma noção única de "quem chegou primeiro" nesse cenário, descreva como relógios lógicos de Lamport permitem estabelecer uma ordem consistente dos eventos e explique uma limitação dessa abordagem (o que ela não resolve sozinha).
+O provedor de pagamento da NexaOrder começou a responder com lentidão crescente. Sem proteção, os recursos do serviço de pedidos ficaram ocupados aguardando respostas, e o site inteiro parou de responder, mesmo sem falha no estoque ou na expedição. Explique por que uma dependência lenta pode ser mais perigosa que uma dependência totalmente fora do ar e descreva como *circuit breaker* e *bulkhead*, aplicados em conjunto, reduziriam a cascata.
 
-**Resposta esperada / critérios de correção:**
-- (0-2 pontos) Explica a ausência de relógio global: cada instância só observa seus próprios eventos e mensagens recebidas; comparar timestamps de relógios físicos não sincronizados não garante uma ordem causal correta.
-- (0-3 pontos) Descreve corretamente o mecanismo de Lamport: cada processo mantém um contador que avança a cada evento local e é atualizado para `max(local, recebido) + 1` ao receber uma mensagem, produzindo uma ordem que respeita a relação happened-before.
-- (0-3 pontos) Reconhece que relógios de Lamport dão uma ordem total consistente com causalidade, mas não distinguem eventos verdadeiramente concorrentes (não relacionados por happened-before) — dois eventos concorrentes podem receber timestamps diferentes sem que isso signifique que um realmente precedeu o outro; para captar concorrência real, seriam necessários relógios vetoriais.
-- (0-2 pontos) Conecta a discussão ao problema de negócio: a ordenação lógica ajuda a decidir determinística e reproduzivelmente qual reserva "vale", mas a decisão de conceder o item ainda exige um mecanismo de exclusão mútua ou coordenação (não decorre apenas de ordenar eventos).
+### Questão 4 — Unidade 2: replicação e consistência
 
----
+A NexaOrder replica o catálogo em três regiões e permite que múltiplos líderes aceitem escritas locais para melhorar a disponibilidade e reduzir a latência de escrita regional. A descrição de um mesmo produto é editada quase simultaneamente em duas regiões. Explique o que caracteriza um conflito de escrita, apresente uma estratégia de resolução e explique por que a mesma replicação otimista seria arriscada para a reserva da última unidade em estoque.
 
-### Questão 3 (Unidade 1 — Modelos de falha e resiliência)
+### Questão 5 — Unidade 2: CAP, pagamento e idempotência
 
-**Enunciado:** O provedor de pagamento da NexaOrder começou a responder com lentidão crescente (não caiu, apenas ficou lento). Sem qualquer proteção, as threads dos serviços de pedidos ficaram presas aguardando resposta, e o site inteiro parou de responder, mesmo estoque e expedição não tendo nenhum problema. Explique por que uma dependência lenta pode ser mais perigosa que uma dependência totalmente fora do ar, e descreva como um circuit breaker e um bulkhead, aplicados juntos, evitariam essa cascata.
+Durante uma partição de rede entre duas regiões, o catálogo e o registro interno de pagamentos da NexaOrder precisam decidir se continuam aceitando operações localmente ou se recusam operações até a comunicação ser restabelecida. Aplicando o teorema CAP, recomende uma política para cada domínio e justifique o compromisso entre disponibilidade e consistência. Em seguida, explique por que escolher consistência para o registro interno não basta, por si só, para impedir cobrança duplicada em um provedor externo.
 
-**Resposta esperada / critérios de correção:**
-- (0-3 pontos) Explica que uma falha "óbvia" (conexão recusada) falha rápido e libera recursos, enquanto uma dependência lenta consome recursos (threads, conexões) por mais tempo antes de eventualmente falhar, propagando a lentidão para os chamadores e daí para os chamadores dos chamadores — falha ambígua e sem sinalização clara.
-- (0-3 pontos) Descreve o circuit breaker: monitora a taxa de falhas/timeouts e, ao ultrapassar um limiar, "abre" e passa a falhar rapidamente (ou degradar) sem tentar novas chamadas por um período, permitindo que o provedor se recupere e liberando os chamadores para responder rápido.
-- (0-2 pontos) Descreve o bulkhead: isola pools de recursos (threads, conexões) por dependência, de modo que a saturação de recursos ao chamar o pagamento não consuma os recursos usados para chamar estoque ou expedição.
-- (0-2 pontos) Conclui corretamente que os dois mecanismos são complementares: o bulkhead limita o raio de impacto da lentidão enquanto ela ocorre; o circuit breaker reduz a duração e a frequência das tentativas contra uma dependência já degradada.
+### Questão 6 — Unidade 2: sagas e idempotência
 
----
+O fluxo pedido → reserva de estoque → cobrança → expedição passou a ser implementado como uma saga coreografada baseada em eventos. A cobrança falhou depois da reserva do estoque. Descreva como a saga deve reagir, incluindo as ações compensatórias, e explique por que o padrão *outbox* evita que o evento “estoque reservado” se perca se o serviço falhar logo após gravar a reserva.
 
-### Questão 4 (Unidade 2 — Replicação e consistência)
+### Questão 7 — Unidade 3: decomposição em serviços
 
-**Enunciado:** A NexaOrder decide replicar o catálogo de produtos em três regiões, com múltiplos líderes aceitando escritas simultaneamente (multi-líder), para reduzir a latência de leitura global. Um mesmo produto tem sua descrição editada quase ao mesmo tempo em duas regiões diferentes. Explique o que caracteriza um conflito de escrita nesse cenário, cite uma estratégia possível de resolução, e explique por que essa mesma escolha de replicação multi-líder seria arriscada se aplicada ao saldo de estoque do último item de um produto.
+Um analista propõe dividir a NexaOrder em 15 microsserviços, incluindo um serviço apenas para validar CEP e outro apenas para formatar o número do pedido. Ambos são consumidos exclusivamente pelo serviço de pedidos e sempre são alterados e implantados com ele. Avalie a proposta usando contexto delimitado, coesão, acoplamento e “monólito distribuído” e proponha uma alternativa para esses dois casos.
 
-**Resposta esperada / critérios de correção:**
-- (0-2 pontos) Explica que, em replicação multi-líder, duas escritas concorrentes em réplicas diferentes podem ser aceitas localmente antes que a réplica saiba da escrita da outra, gerando divergência que precisa ser reconciliada quando as réplicas sincronizam.
-- (0-3 pontos) Cita e descreve corretamente ao menos uma estratégia de resolução: last-writer-wins (com risco de perda silenciosa de uma escrita), merge determinístico dos campos, ou resolução manual/pela aplicação.
-- (0-3 pontos) Explica por que estoque do último item é diferente: descrição de produto tolera consistência eventual (leitura levemente desatualizada não causa dano grave), mas decrementar/reservar a última unidade de estoque em múltiplos líderes simultâneos pode levar ambas as réplicas a "aceitarem" a venda do mesmo item, causando overselling — um domínio que exige consistência mais forte ou coordenação (ex.: consenso/quórum) em vez de multi-líder otimista.
-- (0-2 pontos) Argumenta de forma coerente que a escolha do modelo de consistência deve ser por domínio de dado, não uma decisão única para todo o sistema.
+### Questão 8 — Unidade 3: Kubernetes e reconciliação
+
+O serviço de pagamento está implantado em Kubernetes por meio de um *Deployment* configurado para quatro réplicas. Durante um pico, um Pod trava e deixa de responder, enquanto a carga supera a capacidade dos três Pods saudáveis. Diferencie o papel das sondas de prontidão (*readiness*) e vivacidade (*liveness*), explique quando o contêiner ou o Pod é reiniciado ou substituído e indique o que precisa ser configurado para que o número desejado de réplicas também cresça com a carga.
+
+### Questão 9 — Unidade 4: observabilidade e SLOs
+
+Um cliente informa que sua compra demorou mais de 12 segundos. A equipe possui painéis agregados de CPU e latência média, mas não consegue identificar qual serviço causou a demora daquele pedido. Explique a diferença entre monitoramento e observabilidade, descreva como o rastreamento distribuído resolveria esse problema e proponha um SLI e um SLO coerentes. Se escolher percentil de latência, formule a meta em percentil; se escolher proporção de requisições abaixo de um limiar, formule a meta como proporção. Não misture as duas medidas.
+
+### Questão 10 — Unidade 4: engenharia do caos
+
+Antes da próxima Black Friday, a equipe quer validar de forma controlada se o site continua respondendo quando o provedor de pagamento fica indisponível. Proponha um experimento de engenharia do caos, definindo a hipótese de estado estável, o raio de impacto, as métricas observadas e o mecanismo de interrupção caso o dano supere o esperado.
 
 ---
 
-### Questão 5 (Unidade 2 — Teorema CAP)
+# Parte B — Versão exclusiva do professor tutor
 
-**Enunciado:** Durante uma partição de rede entre duas regiões da NexaOrder, os serviços de catálogo e de pagamento precisam decidir, cada um, se continuam aceitando operações localmente ou se recusam operações até a partição ser resolvida. Aplicando o teorema CAP, explique a decisão que você recomendaria para cada um dos dois serviços durante a partição, justificando com o compromisso entre disponibilidade e consistência em cada caso.
+> **NÃO DISTRIBUIR AOS ESTUDANTES.** Esta parte deve ser removida do DOCX do estudante. Ela deve permanecer apenas na versão do tutor, posicionada ao final do documento conforme o requisito registrado para as devolutivas.
 
-**Resposta esperada / critérios de correção:**
-- (0-2 pontos) Enuncia corretamente o teorema CAP: durante uma partição de rede (P), um sistema replicado precisa escolher entre permanecer disponível (A), aceitando operações possivelmente inconsistentes entre os lados da partição, ou permanecer consistente (C), recusando operações no lado que não pode garantir o estado mais recente.
-- (0-3 pontos) Para o catálogo: recomenda priorizar disponibilidade (AP) — mostrar um produto com descrição ou preço levemente desatualizado durante uma partição curta é um dano tolerável frente a impedir toda navegação e compra no site.
-- (0-3 pontos) Para o pagamento (ou reserva de estoque do último item): recomenda priorizar consistência (CP) — aceitar uma cobrança ou reserva sem garantia de que a outra região não fez o mesmo aumenta o risco de cobrança duplicada ou overselling, um dano mais caro de reverter do que recusar temporariamente a operação.
-- (0-2 pontos) Reconhece explicitamente que a escolha CAP não é única para o sistema inteiro, mas pode (e deve) variar por serviço/domínio, e opcionalmente menciona PACELC (o compromisso entre latência e consistência também existe na ausência de partição).
+## Respostas esperadas e critérios de correção
 
----
+### Questão 1
 
-### Questão 6 (Unidade 2 — Sagas e idempotência)
+- **0 a 2 pontos:** reconhece que a ausência de resposta não informa se a mensagem chegou ou se o efeito ocorreu; o *timeout* é uma decisão operacional, não prova de falha.
+- **0 a 3 pontos:** lista pelo menos três estados plausíveis: requisição não recebida, recebida e pendente, processada com resposta perdida, ainda em execução ou falha antes do efeito.
+- **0 a 3 pontos:** propõe chave de idempotência reutilizada na nova tentativa e/ou consulta e reconciliação do estado no provedor.
+- **0 a 2 pontos:** relaciona o mecanismo à prevenção de cobrança duplicada.
 
-**Enunciado:** O fluxo de compra da NexaOrder (pedido → reserva de estoque → cobrança → expedição) deixou de usar uma transação distribuída única e passou a ser implementado como uma saga coreografada baseada em eventos. Em um caso real, a cobrança falhou depois que o estoque já havia sido reservado. Descreva como a saga deve reagir a essa falha (incluindo o papel das ações compensatórias), e explique por que o padrão outbox é importante para garantir que o evento de "estoque reservado" não se perca mesmo se o serviço de estoque falhar logo após gravar a reserva no seu banco de dados.
+### Questão 2
 
-**Resposta esperada / critérios de correção:**
-- (0-3 pontos) Explica que, sem transação distribuída global, cada passo da saga é uma transação local que publica um evento de sucesso ou falha; quando a cobrança falha após a reserva de estoque, o serviço de estoque deve reagir ao evento de falha de pagamento executando uma **ação compensatória** — liberar a unidade reservada de volta ao estoque disponível — e não simplesmente ignorar a falha.
-- (0-2 pontos) Reconhece que, em uma saga coreografada, cada serviço reage a eventos publicados pelos demais, sem um orquestrador central; a compensação é, portanto, responsabilidade de cada serviço que participou de um passo anterior bem-sucedido.
-- (0-3 pontos) Explica o padrão outbox: a escrita da reserva de estoque e o registro do evento a ser publicado ocorrem na mesma transação local (mesmo banco de dados), e um processo separado (relay) lê essa tabela de outbox e publica o evento de forma confiável — evitando o cenário em que o estado é gravado, mas o serviço cai antes de publicar o evento, deixando o restante do sistema sem saber que a reserva ocorreu.
-- (0-2 pontos) Menciona idempotência no consumo dos eventos (o consumidor pode receber o mesmo evento mais de uma vez e deve tratar reprocessamento sem duplicar efeitos).
+- **0 a 2 pontos:** explica que processos observam eventos locais e mensagens e que relógios físicos não sincronizados não determinam uma ordem causal global.
+- **0 a 3 pontos:** descreve o contador de Lamport e a atualização $L \leftarrow \max(L_{\text{local}}, L_{\text{recebido}})+1$; reconhece a garantia $a \rightarrow b \Rightarrow L(a)<L(b)$.
+- **0 a 3 pontos:** explica que timestamps escalares podem empatar e que uma ordem total determinística pode usar o par `(timestamp, identificador_do_processo)` como desempate. Reconhece que $L(a)<L(b)$ não implica $a \rightarrow b$ e que essa ordem artificial não detecta concorrência; relógios vetoriais podem representar melhor essa relação.
+- **0 a 2 pontos:** conclui que ordenar eventos não concede exclusão mútua nem resolve sozinho a venda da última unidade; ainda é necessário coordenar a decisão.
 
----
+### Questão 3
 
-### Questão 7 (Unidade 3 — Decomposição em serviços)
+- **0 a 3 pontos:** explica que uma dependência lenta retém conexões, filas ou unidades de execução e propaga espera, enquanto uma falha rápida libera recursos mais cedo.
+- **0 a 3 pontos:** descreve o *circuit breaker*: mede falhas ou *timeouts*, abre após um limiar, falha rapidamente durante um período e testa recuperação de forma controlada.
+- **0 a 2 pontos:** descreve o *bulkhead*: separa limites e conjuntos de recursos por dependência.
+- **0 a 2 pontos:** explica que os mecanismos são complementares: um limita o raio de impacto e o outro reduz tentativas contra a dependência degradada.
 
-**Enunciado:** Um analista propõe dividir a NexaOrder em 15 microsserviços, entre eles um serviço isolado apenas para "validar CEP" e outro apenas para "formatar número de pedido", ambos consumidos exclusivamente pelo serviço de pedidos e sempre implantados e alterados junto com ele. Avalie criticamente essa proposta usando os conceitos de contexto delimitado, coesão/acoplamento e "monólito distribuído", e proponha uma alternativa mais adequada para esses dois casos específicos.
+### Questão 4
 
-**Resposta esperada / critérios de correção:**
-- (0-3 pontos) Explica que um contexto delimitado (bounded context) deve corresponder a uma capacidade de negócio com fronteiras de dados e evolução próprias; "validar CEP" e "formatar número de pedido" não são capacidades de negócio autônomas, mas detalhes de implementação internos ao domínio de pedidos.
-- (0-3 pontos) Identifica que separar essas funções em serviços de rede, quando sempre são alteradas e implantadas junto com o serviço de pedidos e não têm autonomia real, cria um "monólito distribuído": mais chamadas de rede, mais latência e mais pontos de falha, sem ganho real de autonomia organizacional ou de escala independente.
-- (0-2 pontos) Relaciona corretamente com baixa coesão distribuída/alto acoplamento: dividir por essas linhas aumenta o acoplamento operacional (implantação conjunta) sem reduzir o acoplamento de código de forma que compense o custo de rede.
-- (0-2 pontos) Propõe alternativa coerente: manter essas duas funções como módulos internos (bibliotecas/funções) dentro do serviço de pedidos, reservando a separação em serviço próprio para quando houver uma razão real de autonomia, escala ou propriedade de dados distinta.
+- **0 a 2 pontos:** identifica escritas concorrentes aceitas por líderes diferentes antes da replicação mútua.
+- **0 a 3 pontos:** apresenta estratégia coerente, como mesclagem determinística por campo, resolução pela aplicação ou *last-writer-wins*, indicando os riscos de perda silenciosa desta última.
+- **0 a 3 pontos:** explica que reservas concorrentes da última unidade podem ser aceitas nas duas regiões e causar venda acima do estoque.
+- **0 a 2 pontos:** defende políticas de consistência diferentes por domínio, com coordenação mais forte para estoque.
 
----
+### Questão 5
 
-### Questão 8 (Unidade 3 — Kubernetes e reconciliação)
+- **0 a 2 pontos:** enuncia CAP no contexto correto: diante de uma partição, um sistema replicado não consegue oferecer simultaneamente disponibilidade irrestrita e uma visão linearizável única.
+- **0 a 2 pontos:** para dados descritivos do catálogo, aceita priorizar disponibilidade e reconciliar divergências, desde que discuta quais campos de negócio realmente toleram desatualização.
+- **0 a 3 pontos:** para o registro interno de pagamentos, justifica recusar ou limitar operações no lado que não consegue garantir o estado autorizado, priorizando consistência.
+- **0 a 3 pontos:** reconhece que CAP trata o estado replicado interno, não a atomicidade de um efeito em um provedor externo; cobrança duplicada ainda exige chave de idempotência, consulta/reconciliação e tratamento de estados incertos.
 
-**Enunciado:** O serviço de pagamento da NexaOrder está implantado em Kubernetes com um Deployment configurado para 4 réplicas. Durante um pico de tráfego, uma réplica trava e para de responder, e simultaneamente o volume de requisições cresce muito além da capacidade das 3 réplicas restantes. Explique o que o Kubernetes faz automaticamente diante da réplica travada (relacionando com o conceito de estado desejado versus estado observado) e o que precisaria estar configurado adicionalmente para que o sistema também reagisse ao aumento de carga, e não apenas à réplica perdida.
+### Questão 6
 
-**Resposta esperada / critérios de correção:**
-- (0-3 pontos) Explica que o Deployment declara o estado desejado (4 réplicas saudáveis); o laço de reconciliação do Kubernetes observa continuamente o estado real do cluster e, ao perceber que apenas 3 réplicas estão saudáveis (via probes de saúde), cria automaticamente uma nova réplica para restaurar o estado desejado — sem intervenção manual.
-- (0-3 pontos) Reconhece que essa reconciliação por si só **não** responde ao aumento de carga: o Kubernetes só sabe manter o número de réplicas **declarado**, e 4 réplicas continuam sendo o teto mesmo que a demanda exija mais.
-- (0-2 pontos) Indica corretamente a necessidade de um Horizontal Pod Autoscaler (HPA) configurado com métricas de utilização (CPU, latência ou fila) e limites mínimo/máximo de réplicas, para que o próprio número de réplicas desejadas seja ajustado dinamicamente conforme a carga observada.
-- (0-2 pontos) Menciona a importância de configurar corretamente os probes de saúde (liveness/readiness) para que a réplica travada seja de fato detectada como não saudável e retirada de circulação, e não continue recebendo tráfego.
+- **0 a 3 pontos:** explica que cada passo da saga é uma transação local e que a falha da cobrança deve desencadear a compensação da reserva.
+- **0 a 2 pontos:** reconhece que, na coreografia, cada serviço reage a eventos sem um orquestrador central e deve implementar suas compensações.
+- **0 a 3 pontos:** explica que a reserva e o registro do evento na tabela *outbox* ocorrem na mesma transação local; um publicador separado envia o evento posteriormente.
+- **0 a 2 pontos:** menciona consumo idempotente, pois a publicação pode ocorrer mais de uma vez.
 
----
+### Questão 7
 
-### Questão 9 (Unidade 4 — Observabilidade e SLOs)
+- **0 a 3 pontos:** explica que contexto delimitado corresponde a uma capacidade de negócio com fronteiras e evolução próprias; validar CEP e formatar número são detalhes internos no cenário dado.
+- **0 a 3 pontos:** identifica o risco de “monólito distribuído”: chamadas de rede e pontos de falha sem autonomia real.
+- **0 a 2 pontos:** relaciona a proposta a baixa coesão e alto acoplamento operacional.
+- **0 a 2 pontos:** recomenda manter as funções como módulos internos, salvo evidência futura de escala, propriedade de dados ou evolução independente.
 
-**Enunciado:** Um cliente reclama que sua compra na NexaOrder demorou mais de 12 segundos para confirmar. A equipe tem métricas agregadas (dashboards de CPU e latência média) mas não consegue identificar, sem investigação manual longa, qual dos quatro serviços (pedidos, estoque, pagamento, expedição) causou a lentidão nesse pedido específico. Explique a diferença entre monitoramento e observabilidade nesse contexto, descreva como o tracing distribuído resolveria esse problema específico, e defina o que seria um SLI e um SLO razoáveis para o fluxo de checkout da NexaOrder.
+### Questão 8
 
-**Resposta esperada / critérios de correção:**
-- (0-2 pontos) Explica que monitoramento tradicional (dashboards agregados) responde a perguntas previstas de antemão ("qual é a latência média?"), enquanto observabilidade permite investigar perguntas não previstas a partir dos dados já coletados ("por que este pedido específico demorou?") sem precisar adicionar instrumentação nova para cada nova pergunta.
-- (0-3 pontos) Descreve o tracing distribuído: um identificador de correlação (trace ID) acompanha a requisição por todos os serviços envolvidos, e cada span registra o tempo gasto em cada etapa; isso permite reconstruir, para aquele pedido específico, exatamente quanto tempo cada serviço consumiu e identificar o gargalo sem investigação manual de logs.
-- (0-3 pontos) Define corretamente SLI (indicador mensurável, ex.: percentual de checkouts concluídos em menos de 3 segundos, medido no p95) e SLO (meta sobre esse indicador, ex.: 99% dos checkouts em menos de 3 segundos em uma janela de 30 dias), coerentes com o cenário.
-- (0-2 pontos) Menciona o conceito de orçamento de erro (quanto o SLO permite "gastar" antes de violar a meta) como ferramenta de decisão operacional.
+- **0 a 3 pontos:** explica que falha de prontidão remove o Pod dos pontos de acesso do serviço, mas não reduz necessariamente a contagem desejada nem cria um quinto Pod.
+- **0 a 3 pontos:** explica que falha de vivacidade faz o `kubelet` reiniciar o contêiner no mesmo Pod; o controlador cria substituto quando um Pod termina, é removido ou deixa de contar para o conjunto de réplicas, inclusive após os mecanismos aplicáveis a falha de nó.
+- **0 a 2 pontos:** reconhece que o *Deployment* continua declarando quatro réplicas e que reconciliação de falha não equivale a escalonamento por carga.
+- **0 a 2 pontos:** indica HPA com métrica adequada, limites mínimo/máximo e capacidade disponível no *cluster*.
 
----
+### Questão 9
 
-### Questão 10 (Unidade 4 — Engenharia do caos)
+- **0 a 2 pontos:** diferencia monitoramento de indicadores previstos e observabilidade como capacidade de investigar estados internos por sinais produzidos pelo sistema.
+- **0 a 3 pontos:** descreve a propagação de um identificador de rastreamento e os segmentos temporais de cada serviço, permitindo localizar a etapa lenta daquele pedido.
+- **0 a 3 pontos:** formula um par coerente. Exemplo de proporção: SLI = fração de finalizações bem-sucedidas em até 3 segundos; SLO = pelo menos 99% em 30 dias. Exemplo de percentil: SLI = p95 da latência; SLO = p95 inferior a 3 segundos em cada janela de 30 dias.
+- **0 a 2 pontos:** explica o orçamento de erro e não mistura p95 com “99% abaixo do limiar” como se fossem a mesma medida.
 
-**Enunciado:** Antes da próxima Black Friday, a equipe da NexaOrder quer validar, de forma controlada, se o site continua respondendo quando o provedor de pagamento fica indisponível — sem esperar que isso aconteça de surpresa durante o evento real. Proponha um experimento de engenharia do caos para essa validação, definindo a hipótese de estado estável, o raio de impacto do experimento e o mecanismo de interrupção (como parar o experimento se ele causar dano maior que o esperado).
+### Questão 10
 
-**Resposta esperada / critérios de correção:**
-- (0-3 pontos) Formula uma hipótese de estado estável coerente com o cenário, por exemplo: "quando o provedor de pagamento fica indisponível, o restante do site (navegação, carrinho, consulta de pedidos) continua respondendo dentro do SLO, e os pedidos em andamento falham de forma controlada (com mensagem clara ao cliente), sem indisponibilidade em cascata".
-- (0-3 pontos) Define um raio de impacto limitado e crescente: primeiro em ambiente de teste/staging, depois, se aprovado, em produção restrita a uma pequena fração de tráfego ou a uma região, nunca 100% do tráfego de produção de imediato.
-- (0-2 pontos) Injeta a falha de forma realista e mensurável — por exemplo, simulando indisponibilidade ou lentidão nas chamadas ao provedor de pagamento por um intervalo definido — e coleta as mesmas métricas de observabilidade da Aula 13 (latência, taxa de erro, disponibilidade dos demais serviços) durante o experimento.
-- (0-2 pontos) Define um mecanismo de interrupção claro: critérios objetivos (ex.: taxa de erro acima de X% no restante do site, ou violação do orçamento de erro) que acionam o cancelamento automático ou manual imediato do experimento, restaurando o estado normal.
+- **0 a 3 pontos:** formula hipótese mensurável de estado estável para as funções que devem continuar disponíveis e para a degradação controlada do pagamento.
+- **0 a 2 pontos:** limita e amplia gradualmente o raio de impacto, começando em ambiente de teste e evitando 100% do tráfego de produção.
+- **0 a 3 pontos:** injeta indisponibilidade ou latência de forma controlada e mede latência, erro, saturação e disponibilidade dos demais serviços.
+- **0 a 2 pontos:** define critérios objetivos e mecanismo automático ou manual de interrupção e restauração.
 
+## Conferência antes da exportação
+
+- [ ] Gerar um DOCX do estudante contendo somente a Parte A.
+- [ ] Gerar um DOCX do tutor contendo as Partes A e B.
+- [ ] Posicionar respostas e devolutivas ao final no formato exigido pelo modelo.
+- [ ] Confirmar que cada rubrica soma 10 pontos e que o total é 100.
+- [ ] Remover exemplos e instruções internas do modelo institucional.
+- [ ] Validar plano de aprendizagem, linguagem, formatação e similaridade.

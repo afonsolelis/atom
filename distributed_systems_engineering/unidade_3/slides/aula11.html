@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 11 — Contêineres, Kubernetes e reconciliação · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Contêineres, Kubernetes e reconciliação</h1>
+      <h1>Aula 11 — Contêineres, Kubernetes e reconciliação</h1>
       <div class="subtitulo">Unidade 3 — Serviços, eventos e plataformas cloud-native</div>
-      <div class="docente">Prof. Afonso Cesar Lelis Brandão · Distributed Systems Engineering</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um manifesto YAML de Deployment com quatro réplicas do serviço de pagamento; um ciclo com as três etapas do laço de reconciliação — observar, comparar e agir; uma tabela das sondas de vivacidade, prontidão e inicialização; um painel numérico com o cálculo do escalonamento automático de quatro para seis réplicas; e uma sequência de atualização gradual mantendo a capacidade saudável.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Contêineres, Kubernetes e reconciliação</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
           <li>Imagem, contêiner e imutabilidade</li>
           <li>Cluster, nó, Pod, Deployment e Service</li>
-          <li>Estado desejado x estado observado (manifesto YAML)</li>
-          <li>O laço de reconciliação e as sondas</li>
-          <li>Escalonamento automático e atualizações graduais</li>
-          <li>Pausa para reflexão: reinício em loop</li>
+          <li>Estado desejado e estado observado</li>
+          <li>Controladores e o laço de reconciliação</li>
+          <li>Sondas: vivacidade, prontidão e inicialização</li>
+          <li>Descoberta, balanceamento e configuração</li>
+          <li>Escalonamento automático horizontal</li>
+          <li>Atualizações graduais sem perder capacidade</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,155 +856,281 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Explicar</strong> o que a imutabilidade de imagens garante — e o que ela não garante.</li>
+          <li><strong>Distinguir</strong> os papéis de Pod, Deployment e Service em uma mesma aplicação.</li>
+          <li><strong>Descrever</strong> o laço de reconciliação entre estado desejado e estado observado.</li>
+          <li><strong>Diferenciar</strong> sonda de vivacidade de sonda de prontidão pelo efeito de cada falha.</li>
+          <li><strong>Calcular</strong> o número de réplicas resultante de um escalonamento automático horizontal.</li>
+          <li><strong>Reconhecer</strong> quando a recuperação automática está mascarando um defeito determinístico.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
-      <h2>A instância que se recupera sozinha</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Madrugada, tráfego alto: uma instância do serviço de pagamento trava. Minutos depois, sem intervenção humana, uma nova instância assume — o incidente quase passa despercebido.</p>
+      <h2>A instância que se recupera sozinha (e a que não deveria)</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Em uma madrugada de alta demanda, uma instância do serviço de pagamento trava e para de responder. Minutos depois, <strong>sem intervenção humana</strong>, uma nova instância aparece, assume o tráfego e o incidente quase passa despercebido.</p>
         <ul>
-          <li>Quem decidiu recriar a instância? Como o sistema sabia que ela deveria existir?</li>
-          <li>E se a causa do travamento for um defeito que volta a acontecer a cada reinício?</li>
-          <li>Resposta: contêineres imutáveis sobre um orquestrador que mantém um <strong>laço de reconciliação</strong>.</li>
+          <li><strong>Quem decidiu</strong> recriar a instância?</li>
+          <li><strong>Como o sistema sabia</strong> que ela deveria existir?</li>
+          <li>E se a causa do travamento for um defeito que <strong>volta a acontecer a cada reinício</strong>?</li>
+          <li>A recuperação não é mágica: é um <strong>laço de reconciliação</strong> rodando continuamente.</li>
         </ul>
+        <div class="callout-azul"><p>Compreender esse laço é o que permite diferenciar uma <strong>recuperação saudável</strong> de um <strong>sintoma que está sendo mascarado</strong>.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Imagem, contêiner e imutabilidade</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Imagem de contêiner</strong>: pacote autocontido — código, dependências, instruções — em camadas imutáveis.</li>
-          <li><strong>Contêiner</strong>: instância em execução da imagem, isolada, mas compartilhando o núcleo do SO do hospedeiro (diferente de uma VM).</li>
-          <li><strong>Imutabilidade</strong>: em vez de corrigir uma instância, publica-se nova imagem e substituem-se os contêineres — elimina o "funciona na minha máquina".</li>
+          <li><strong>Imagem</strong> — pacote autocontido com código, dependências e instruções de execução, construído em camadas imutáveis.</li>
+          <li><strong>Contêiner</strong> — instância em execução dessa imagem, isolada em processos, sistema de arquivos e, em geral, rede.</li>
+          <li><strong>Diferença para VM</strong> — o contêiner compartilha o núcleo do sistema operacional do hospedeiro.</li>
+          <li><strong>Imutabilidade</strong> — em vez de corrigir uma instância em execução, publica-se nova imagem e substituem-se os contêineres.</li>
         </ul>
+        <div class="callout-azul"><p>A imutabilidade reduz a divergência do <strong>artefato de aplicação</strong> entre ambientes. Ela <strong>não elimina</strong> diferenças de configuração, infraestrutura, dados, arquitetura do host ou serviços externos — essas variáveis continuam exigindo controle e teste.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Cluster, nó, Pod, Deployment e Service</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Cluster</strong>: conjunto de nós gerenciados como uma unidade. <strong>Nó</strong>: máquina que executa contêineres.</li>
-          <li><strong>Pod</strong>: menor unidade implantável — agrupa contêineres que compartilham rede e armazenamento local.</li>
-          <li><strong>Deployment</strong>: declara quantas réplicas de um Pod devem existir e como atualizações são aplicadas.</li>
-          <li><strong>Service</strong>: expõe Pods sob endereço estável, mesmo quando Pods são substituídos.</li>
-        </ul>
+      <h2>Os objetos centrais do Kubernetes</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Objeto</th><th>O que é</th><th>Na NexaOrder</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cluster</strong></td><td>Conjunto de máquinas gerenciadas como uma unidade</td><td>O ambiente inteiro da plataforma</td></tr>
+            <tr><td><strong>Nó</strong></td><td>Máquina física ou virtual que executa contêineres</td><td>Cada servidor do cluster</td></tr>
+            <tr><td><strong>Pod</strong></td><td>Menor unidade implantável; contêineres que compartilham rede e armazenamento local</td><td>Uma instância do serviço de pagamento</td></tr>
+            <tr><td><strong>Deployment</strong></td><td>Declara quantas réplicas devem existir e como atualizar</td><td>Quatro réplicas de pagamento</td></tr>
+            <tr><td><strong>Service</strong></td><td>Expõe um conjunto de Pods sob endereço de rede estável</td><td>O endereço que estoque usa para alcançar pagamento</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Estado desejado x estado observado</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>O usuário declara "quero 4 réplicas saudáveis" — <strong>estado desejado</strong> — e delega ao Kubernetes alcançar e manter esse estado, comparando com o <strong>estado observado</strong>.</p>
-        <pre style="background:#0d1117;color:#c9d1d9;padding:0.8em 1.1em;border-radius:8px;font-size:0.8em;line-height:1.4;overflow:auto;"><code>apiVersion: apps/v1
+      <h2>Estado desejado e estado observado</h2>
+      <div class="slide-content-box">
+        <p>O usuário <strong>não instrui passo a passo</strong>: declara o resultado e delega ao sistema alcançá-lo e mantê-lo.</p>
+        <figure class="bloco-codigo"><figcaption>Estado desejado declarado em manifesto</figcaption><pre><code>apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pagamento
 spec:
   replicas: 4
+  selector:
+    matchLabels: { app: pagamento }
   template:
+    metadata:
+      labels: { app: pagamento }
     spec:
       containers:
         - name: pagamento
-          image: nexaorder/pagamento:1.7.0</code></pre>
+          image: nexaorder/pagamento:1.7.0</code></pre></figure>
+        <div class="callout-azul"><p>Restando <strong>três dos quatro</strong> Pods, há divergência entre o desejado e o observado — e é ela que aciona a reconciliação.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>O laço de reconciliação e as sondas</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Controladores e o laço de reconciliação</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="cycle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um <strong>controlador</strong> observa o estado atual, compara com o desejado e age para reduzir a diferença. O laço <strong>não roda uma vez</strong>: roda indefinidamente, em ciclos curtos.</p>
         <ul>
-          <li><strong>Controlador</strong>: observa, compara com o desejado e age para reduzir a diferença — ciclo contínuo, não execução única.</li>
-          <li>Restaura <strong>quantidade e execução</strong> declaradas, não a <em>causa raiz</em> — daí o risco do reinício em loop.</li>
-          <li><strong>Sonda de vivacidade</strong> (liveness): o processo ainda responde? <strong>Sonda de prontidão</strong> (readiness): já pode receber tráfego?</li>
+          <li><strong>1. Observar</strong> — qual é a condição real do cluster neste momento?</li>
+          <li><strong>2. Comparar</strong> — em que ela diverge do que foi declarado?</li>
+          <li><strong>3. Agir</strong> — executar o que reduz essa diferença, e voltar ao início.</li>
         </ul>
+        <div class="callout-azul"><p><strong>Pod removido</strong> → o controlador vê três dos quatro e cria outro. <strong>Processo travado em Pod vivo</strong>, com sonda de vivacidade falhando → o kubelet reinicia o contêiner no mesmo Pod. Os dois produzem recuperação automática, mas atuam em <strong>níveis diferentes</strong>.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Limite da automação</p>
+      <h2>Reconciliação restaura quantidade, não causa raiz</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>O que o laço restaura</strong> — a quantidade e o estado de execução declarados.</li>
+          <li><strong>O que ele não resolve</strong> — a causa raiz de uma falha recorrente.</li>
+          <li><strong>Reinício em loop</strong> — se o Pod trava por defeito de código sob certa carga, o Kubernetes o recria indefinidamente.</li>
+          <li><strong>O risco real</strong> — o problema fica mascarado justamente porque a disponibilidade parece preservada.</li>
+        </ul>
+        <div class="callout-azul"><p>Reconciliação automática é um <strong>mecanismo de disponibilidade, não uma prova de correção</strong> — exatamente o mesmo raciocínio já aplicado a timeouts na Aula 4.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Escalonamento automático e atualizações graduais</h2>
+      <h2>Como o cluster percebe que algo não vai bem</h2>
       <div class="slide-content-box">
-        <p style="text-align:center; font-size:1.15em;"><strong>N<sub>desejado</sub> = ⌈N<sub>atual</sub> × U<sub>atual</sub>/U<sub>alvo</sub>⌉ = ⌈4 × 85/60⌉ = 6</strong></p>
-        <ul>
-          <li><strong>Atualização gradual</strong>: com 6 réplicas e limite de 1 indisponível / 1 excedente, o Kubernetes cria 1 Pod novo (chega a 7), espera a sonda de prontidão, remove 1 antigo — repete até substituir todos.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Sonda</th><th>O que verifica</th><th>Efeito quando falha</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Vivacidade</strong> (liveness)</td><td>Se o contêiner ainda consegue progredir</td><td>O kubelet reinicia o contêiner, conforme a política do Pod</td></tr>
+            <tr><td><strong>Prontidão</strong> (readiness)</td><td>Se o Pod está apto a receber tráfego</td><td>O Pod segue executando, mas sai dos destinos prontos do Service</td></tr>
+            <tr><td><strong>Inicialização</strong> (startup)</td><td>Se a aplicação lenta ainda está subindo</td><td>Protege a partida sem disparar reinícios prematuros</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Sondas devem verificar <strong>sinais úteis</strong> sem transformar uma dependência externa instável em <strong>reinícios em cascata</strong> por todo o cluster.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Pausa para reflexão</p>
-      <h2>O reinício em loop: robustez ou disfarce?</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li>Que sinais, além de "o serviço está no ar", revelam um Pod sendo recriado repetidamente?</li>
-          <li>Um Pod que trava sob carga e é recriado está, de fato, "resolvido" do ponto de vista de negócio?</li>
-          <li>Qual a diferença entre tolerar falhas transitórias e esconder um defeito determinístico de código?</li>
-          <li>Reconciliação automática é mecanismo de <strong>disponibilidade</strong>, não prova de <strong>correção</strong>.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Recuperação automática é sinal de disponibilidade. Não é prova de correção."</blockquote>
-      <cite>— Prof. Afonso Cesar Lelis Brandão</cite>
+      <blockquote>“Reconciliação automática é um mecanismo de disponibilidade, não uma prova de correção.”</blockquote>
+      <cite>— síntese da Aula 11</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Descoberta, balanceamento, configuração e dados</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Pods são voláteis</strong> — recebem endereços internos que mudam a cada substituição.</li>
+          <li><strong>Service</strong> — associa nome estável e endereço fixo a Pods selecionados por rótulos, distribuindo tráfego entre os saudáveis.</li>
+          <li><strong>ConfigMaps</strong> — configuração não sensível, injetada em tempo de execução.</li>
+          <li><strong>Secrets</strong> — dados sensíveis; variáveis de ambiente não mudam no processo já iniciado e exigem reinício controlado.</li>
+          <li><strong>Volumes projetados</strong> — recebem atualização eventual, mas a aplicação precisa reler o arquivo.</li>
+          <li><strong>Armazenamento persistente</strong> — vincula um volume ao ciclo de vida da aplicação, e não ao Pod, cujo disco local é efêmero.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Escalonamento automático horizontal</h2>
+      <div class="slide-content-box">
+        <div class="callout-azul formula"><p>N<sub>desejado</sub> = ⌈ N<sub>atual</sub> × ( U<sub>atual</sub> ÷ U<sub>alvo</sub> ) ⌉</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">réplicas atuais</span></div>
+          <div class="stat-card"><span class="numero-grande">85%</span><span class="legenda">CPU observada</span></div>
+          <div class="stat-card"><span class="numero-grande">60%</span><span class="legenda">CPU alvo</span></div>
+          <div class="stat-card"><span class="numero-grande">6</span><span class="legenda">réplicas desejadas</span></div>
+        </div>
+        <div class="callout-azul"><p>⌈4 × 85/60⌉ = ⌈5,67⌉ = <strong>6</strong>. O autoescalonador ajusta o Deployment, e o <strong>laço de reconciliação</strong> se encarrega de criar os dois novos Pods — os dois mecanismos operam em conjunto, cada um no seu nível.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Atualização gradual sem perder capacidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um Deployment de <strong>6 réplicas</strong> configurado para no máximo <strong>1 indisponível</strong> e <strong>1 excedente</strong> durante a transição:</p>
+        <ul>
+          <li><strong>1.</strong> Cria 1 Pod com a versão nova — total de 7 Pods (6 antigos + 1 novo).</li>
+          <li><strong>2.</strong> Aguarda o Pod novo passar na sonda de prontidão.</li>
+          <li><strong>3.</strong> Remove 1 Pod antigo, voltando a 6 no total.</li>
+          <li><strong>4.</strong> Repete até que todas as réplicas estejam na versão nova.</li>
+        </ul>
+        <div class="callout-azul"><p>A capacidade saudável <strong>nunca cai abaixo de 5 nem ultrapassa 7</strong>. Se o Pod novo falhar repetidamente na prontidão, o avanço trava. E atenção: o Deployment <strong>não faz rollback automático por padrão</strong> — a equipe ou uma automação externa precisa observar a condição de progresso e decidir pausar ou reverter.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>Robustez ou mascaramento?</h2>
+      <div class="slide-content-box">
+        <p>O reinício em loop de um Pod é, ao mesmo tempo, prova da robustez do laço de reconciliação e risco de esconder defeitos.</p>
+        <ul>
+          <li>Além de “o serviço está no ar”, que <strong>sinais</strong> revelariam que um Pod está sendo recriado repetidamente?</li>
+          <li>Um Pod que trava sob alta carga e é recriado com sucesso está, <strong>do ponto de vista de negócio</strong>, resolvido?</li>
+          <li>Qual a diferença entre <strong>tolerar falhas transitórias</strong> e, sem perceber, <strong>esconder um defeito determinístico</strong>?</li>
+          <li>Como alertas de reinício, <code>progressDeadlineSeconds</code> e automação externa interromperiam uma implantação defeituosa?</li>
+        </ul>
+        <div class="callout-azul"><p>Note que um Deployment <strong>não oferece um número máximo de reinícios</strong>, como Jobs oferecem com <code>backoffLimit</code> — a interrupção depende de política operacional declarada pela equipe.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -999,48 +1138,52 @@ spec:
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Imutabilidade</h3><p>Publicar nova imagem e substituir contêineres elimina divergência silenciosa entre ambientes.</p></div>
-          <div class="ponto"><h3>Laço de reconciliação</h3><p>Observa, compara e age continuamente para aproximar o estado observado do estado desejado.</p></div>
-          <div class="ponto"><h3>Sondas</h3><p>Liveness detecta processo travado; readiness detecta Pod ainda não pronto para tráfego.</p></div>
-          <div class="ponto"><h3>Limite da automação</h3><p>Restaura quantidade e execução, não a causa raiz de um defeito recorrente.</p></div>
+          <div class="ponto"><h3>Imutável, mas não igual</h3><p>A imagem reduz divergência do artefato; configuração, dados e dependências externas ainda variam.</p></div>
+          <div class="ponto"><h3>Cinco objetos bastam</h3><p>Cluster, nó, Pod, Deployment e Service organizam praticamente toda a execução.</p></div>
+          <div class="ponto"><h3>Declare o resultado</h3><p>O laço de reconciliação compara desejado e observado e age continuamente para aproximá-los.</p></div>
+          <div class="ponto"><h3>Disponibilidade ≠ correção</h3><p>A recuperação automática restaura quantidade e execução, nunca a causa raiz do defeito.</p></div>
+          <div class="ponto"><h3>Sondas decidem o destino</h3><p>Vivacidade reinicia o contêiner; prontidão apenas retira o Pod do tráfego.</p></div>
+          <div class="ponto"><h3>Capacidade preservada</h3><p>Escalonamento e atualização gradual ajustam réplicas e versão sem derrubar o serviço.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Interprete manifestos e reconciliação</h2>
-      <div class="slide-content-box">
+      <h2>Mãos à obra: interpretar manifestos e recuperação</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>A partir do manifesto desta aula, descreva o que o Kubernetes faria com 2 de 4 réplicas indisponíveis.</li>
-          <li>Calcule o HPA para <em>N<sub>atual</sub></em>=6, <em>U<sub>atual</sub></em>=92%, <em>U<sub>alvo</sub></em>=65%.</li>
-          <li>Descreva um cenário plausível de reinício em loop para o serviço de estoque e um sinal de observabilidade que o revelaria.</li>
-          <li>Explique a diferença entre o papel de um Deployment e o de um Service.</li>
+          <li><strong>1.</strong> A partir do manifesto da aula, descreva o que ocorre se <em>dois Pods terminarem</em>.</li>
+          <li><strong>2.</strong> Descreva, separadamente, o que ocorre se dois Pods apenas <em>falharem na prontidão</em>, mantendo-se em execução.</li>
+          <li><strong>3.</strong> Calcule o número de réplicas de um HPA para N = 6, U<sub>atual</sub> = 92% e U<sub>alvo</sub> = 65%.</li>
+          <li><strong>4.</strong> Descreva um cenário plausível de reinício em loop para o serviço de estoque.</li>
+          <li><strong>5.</strong> Proponha um sinal de observabilidade que revelaria o problema antes de afetar clientes.</li>
+          <li><strong>6.</strong> Explique, em poucas frases, a diferença entre o papel do Deployment e o do Service nesse cenário.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 11 — Videoaula 11</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já entende o laço de reconciliação, os objetos centrais do Kubernetes e o limite da recuperação automática. Se disponibilidade não é confiabilidade de comunicação, resta uma pergunta: a NexaOrder confia mesmo em quem está do outro lado de cada chamada entre serviços?</p>
+      <p class="fim-texto">Você já sabe como o cluster mantém suas instâncias de pé — e quando essa automação está escondendo um defeito. Na última aula da unidade, tratamos do que ainda falta: garantir que apenas quem deve falar com um serviço consiga falar com ele.</p>
       <p class="fim-proxima">Próxima aula: Aula 12 — Segurança e comunicação confiável entre serviços.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1055,6 +1198,7 @@ spec:
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1076,6 +1220,8 @@ spec:
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1086,6 +1232,5 @@ spec:
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

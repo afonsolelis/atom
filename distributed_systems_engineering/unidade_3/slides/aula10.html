@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 10 — Arquitetura orientada a eventos · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Arquitetura orientada a eventos</h1>
+      <h1>Aula 10 — Arquitetura orientada a eventos</h1>
       <div class="subtitulo">Unidade 3 — Serviços, eventos e plataformas cloud-native</div>
-      <div class="docente">Prof. Afonso Cesar Lelis Brandão · Distributed Systems Engineering</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro distinguindo comando, evento de domínio e notificação; um diagrama de um tópico com oito partições distribuídas entre um grupo de consumidores; um painel numérico com o cálculo do número mínimo de partições para 1200 eventos por segundo; três linhas do tempo comparando as semânticas at-most-once, at-least-once e exactly-once; e uma sequência do fluxo de eventos do pedido na NexaOrder.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Arquitetura orientada a eventos</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
           <li>Comando, evento de domínio e notificação</li>
-          <li>Tópicos, partições e a chave de particionamento</li>
-          <li>Grupos de consumidores e rebalanceamento</li>
-          <li>Exemplo numérico: dimensionamento de partições</li>
-          <li>Retenção, reprocessamento e evolução de esquema</li>
-          <li>Semânticas de entrega: at-most, at-least e exactly-once</li>
+          <li>Produtores, consumidores, tópicos e partições</li>
+          <li>Ordenação garantida dentro da partição</li>
+          <li>Grupos de consumidores e paralelismo</li>
+          <li>Retenção e reprocessamento</li>
+          <li>At-most-once, at-least-once e exactly-once</li>
+          <li>Evolução de esquemas e compatibilidade</li>
+          <li>O ciclo do pedido reorganizado por eventos</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,133 +856,252 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Distinguir</strong> comando, evento de domínio e notificação pelo acoplamento que cada um cria.</li>
+          <li><strong>Escolher</strong> a chave de particionamento que preserva a ordem necessária ao negócio.</li>
+          <li><strong>Dimensionar</strong> o número mínimo de partições a partir da taxa de pico e da capacidade do consumidor.</li>
+          <li><strong>Explicar</strong> o que acontece com a carga quando um grupo de consumidores rebalanceia.</li>
+          <li><strong>Comparar</strong> as três semânticas de entrega quanto a perda e duplicação.</li>
+          <li><strong>Evoluir</strong> esquemas de evento preservando compatibilidade retroativa e prospectiva.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
-      <h2>Quando a cadeia síncrona quebra tudo</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Checkout da NexaOrder: pedidos chama estoque, que chama pagamento, que chama expedição — <strong>tudo síncrono</strong>.</p>
+      <h2>Quando a cadeia de chamadas síncronas quebra tudo</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Com fronteiras mais claras, um problema persiste: o checkout chama pedidos, que chama <em>de forma síncrona</em> estoque, que chama pagamento, que chama expedição.</p>
         <ul>
-          <li>Se um serviço fica lento, <em>toda a cadeia</em> fica lenta.</li>
-          <li>Se expedição fica indisponível, o pedido falha inteiro — mesmo sendo uma etapa não urgente.</li>
-          <li>Solução: tratar etapas como reações a <strong>fatos que já aconteceram</strong>, não como chamadas bloqueantes.</li>
+          <li>Se qualquer serviço estiver lento, <strong>a cadeia inteira fica lenta</strong>.</li>
+          <li>Se qualquer um estiver indisponível, <strong>o pedido falha por completo</strong>.</li>
+          <li>Isso vale mesmo quando a etapa afetada <strong>não é urgente</strong>, como a notificação de expedição.</li>
+          <li>A saída: reorganizar a comunicação em torno de <strong>fatos que já aconteceram</strong>.</li>
         </ul>
+        <div class="callout-azul"><p>Eventos permitem que outros serviços observem e reajam <strong>no próprio ritmo</strong>, sem bloquear quem os publicou.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Comando, evento de domínio e notificação</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Comando</strong>: solicitação a um destinatário específico, que pode aceitar ou recusar (imperativo: "reservar item X").</li>
-          <li><strong>Evento de domínio</strong>: fato já ocorrido, publicado sem destinatário (particípio passado: "pedido criado").</li>
-          <li><strong>Notificação</strong>: aviso leve, sem dados completos.</li>
-          <li>Comando cria acoplamento direto; evento de domínio favorece <em>baixo acoplamento</em> — quem publica não sabe quem consome.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Tópicos, partições e chave de particionamento</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Tópicos</strong>: canais nomeados; produtores publicam, consumidores leem sem remover a mensagem.</li>
-          <li><strong>Partições</strong>: sequência ordenada e imutável, com <em>offset</em> crescente.</li>
-          <li>A <strong>chave</strong> (ex.: id do pedido) direciona eventos do mesmo agregado para a mesma partição.</li>
-          <li>Ordem é garantida <strong>dentro</strong> da partição, não entre partições diferentes.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Grupos de consumidores: exemplo de dimensionamento</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Grupo de consumidores: cada partição atribuída a exatamente uma instância — escala horizontal, limitada pelo nº de partições.</p>
-        <p style="text-align:center; font-size:1.2em;"><strong>P = ⌈λ<sub>pico</sub> / C<sub>consumidor</sub>⌉ = ⌈1200 / 150⌉ = 8</strong></p>
-        <ul>
-          <li>Um 9º consumidor ficaria <em>ocioso</em> — não há 9ª partição para atribuir.</li>
-          <li><strong>Rebalanceamento</strong>: se uma instância falha, suas partições são redistribuídas entre as remanescentes.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Retenção, reprocessamento e evolução de esquema</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Retenção</strong>: mensagens ficam guardadas por período configurável, mesmo já lidas — permite <strong>reprocessamento</strong> desde o início.</li>
-          <li>Decisão de custo × utilidade: reter 7 dias permite corrigir bug reprocessando a semana; reter pouco elimina essa opção.</li>
-          <li><strong>Evolução de esquema</strong>: mudanças aditivas (campo opcional novo) são seguras; renomear/remover campo quebra consumidores antigos.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Semânticas de entrega</h2>
       <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Tipo</th><th>O que expressa</th><th>Destinatário</th><th>Acoplamento</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Comando</strong></td><td>Uma solicitação para que algo aconteça</td><td>Específico; pode aceitar ou recusar</td><td>Direto: quem envia sabe quem recebe e espera aceitação</td></tr>
+            <tr><td><strong>Evento de domínio</strong></td><td>O registro de um fato que já ocorreu</td><td>Nenhum em particular</td><td>Baixo: quem publica não sabe, nem precisa saber, quem consome</td></tr>
+            <tr><td><strong>Notificação</strong></td><td>Aviso leve de que algo aconteceu</td><td>Interessados</td><td>Baixo; sem dados completos, convida a buscar mais informação</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>A NexaOrder passa a tratar <code>pedido criado</code>, <code>estoque reservado</code>, <code>pagamento aprovado</code> e <code>pedido expedido</code> como <strong>eventos de domínio</strong> publicados por seus respectivos serviços.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Tópicos, partições e deslocamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>At-most-once</strong>: zero ou uma entrega — nunca duplica, pode perder.</li>
-          <li><strong>At-least-once</strong>: uma ou mais entregas — nunca perde, pode duplicar.</li>
-          <li><strong>Exactly-once</strong>: efeito único mesmo com reentrega — normalmente at-least-once + deduplicação/idempotência.</li>
-          <li>A NexaOrder verifica o id do evento "pagamento aprovado" antes de disparar a expedição, absorvendo duplicação sem efeito duplicado.</li>
+          <li><strong>Tópico</strong> — canal nomeado por tipo de evento ou por agregado de negócio.</li>
+          <li><strong>Produtores</strong> publicam eventos em um tópico; <strong>consumidores</strong> leem sem remover a mensagem para os demais.</li>
+          <li><strong>Vários serviços</strong> processam o mesmo evento de forma independente — diferente de uma fila tradicional.</li>
+          <li><strong>Partição</strong> — sequência ordenada e imutável de eventos, identificada por um deslocamento (<em>offset</em>) crescente.</li>
+          <li><strong>Chave</strong> — determina a partição de destino; normalmente o identificador do agregado, como o número do pedido.</li>
+          <li><strong>Efeito da chave</strong> — todos os eventos daquele pedido caem na mesma partição.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Ordenação: uma garantia por partição</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A plataforma garante ordem <strong>dentro</strong> de uma partição, <strong>não entre</strong> partições diferentes.</p>
+        <ul>
+          <li><strong>Com chave estável</strong> — os eventos do pedido 4021 chegam na mesma partição e são lidos na ordem publicada: criado → reservado → aprovado → expedido.</li>
+          <li><strong>Entre pedidos diferentes</strong> — a ordem relativa pode variar, e isso geralmente não é problema: são agregados distintos.</li>
+          <li><strong>Chave errada quebra tudo</strong> — particionar por <em>tipo de evento</em> espalha eventos do mesmo pedido entre partições.</li>
+          <li><strong>Consequência</strong> — o consumidor observaria “pagamento aprovado” antes de “pedido criado”.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Grupos de consumidores</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um <strong>grupo de consumidores</strong> é um conjunto de instâncias que divide entre si as partições de um tópico — cada partição atribuída a <em>exatamente uma</em> instância do grupo por vez.</p>
+        <ul>
+          <li><strong>Escala horizontal</strong> — tópico com 6 partições e grupo de 3 consumidores: cada instância processa ~2 partições.</li>
+          <li><strong>Grupos são independentes</strong> — o painel operacional e o disparo de e-mails leem o mesmo tópico, cada um no seu ritmo.</li>
+          <li><strong>Rebalanceamento</strong> — se uma instância falha, suas partições são redistribuídas entre as remanescentes.</li>
+          <li><strong>O custo do rebalanceamento</strong> — 3 instâncias para 8 partições viram 2 instâncias para 8: a carga por instância sobe e a capacidade total pode cair até uma nova réplica entrar.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quantas partições sustentam o pico?</h2>
+      <div class="slide-content-box">
+        <div class="callout-azul formula"><p>P = ⌈ λ<sub>pico</sub> ÷ C<sub>consumidor</sub> ⌉</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">1200</span><span class="legenda">eventos/s no pico (λ)</span></div>
+          <div class="stat-card"><span class="numero-grande">150</span><span class="legenda">eventos/s por consumidor (C)</span></div>
+          <div class="stat-card"><span class="numero-grande">8</span><span class="legenda">partições mínimas</span></div>
+          <div class="stat-card"><span class="numero-grande">8</span><span class="legenda">teto de paralelismo útil</span></div>
+        </div>
+        <div class="callout-azul"><p>Adicionar um <strong>nono consumidor</strong> ao grupo não aumentaria o throughput: não haveria uma nona partição para atribuir a ele, e a instância ficaria ociosa. O número de partições é um <strong>limite estrutural de paralelismo</strong> e deve ser definido com folga em relação à carga de pico esperada.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Eventos de domínio são descritos no particípio passado, porque descrevem algo que já aconteceu; comandos são descritos no imperativo, porque pedem que algo aconteça."</blockquote>
-      <cite>— Prof. Afonso Cesar Lelis Brandão</cite>
+      <blockquote>“Quem publica um evento não sabe, e não precisa saber, quem o consome.”</blockquote>
+      <cite>— síntese da Aula 10</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Retenção e reprocessamento</h2>
+      <div class="slide-content-box">
+        <p>Diferente de uma fila, em que a mensagem some após o consumo, a plataforma de eventos <strong>retém</strong> mensagens por um período configurável, independentemente de terem sido lidas. Isso viabiliza o reprocessamento.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Retenção</th><th>O que permite</th><th>O que custa</th></tr></thead>
+          <tbody>
+            <tr><td>Poucas horas</td><td>Recuperação de falhas imediatas</td><td>Praticamente elimina a correção retroativa</td></tr>
+            <tr><td>Sete dias</td><td>Corrigir na segunda-feira um defeito reprocessando a semana anterior</td><td>Armazenamento moderado</td></tr>
+            <tr><td>Indefinida</td><td>Registro histórico completo, útil para auditoria</td><td>Custo de armazenamento crescente no tempo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O log de eventos só pode ser tratado como <strong>fonte de verdade</strong> quando foi deliberadamente projetado para isso: retenção suficiente, eventos completos e imutáveis, versionamento e garantias de durabilidade. Retenção não é “quanto mais, melhor”.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Três semânticas de entrega</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Semântica</th><th>Comportamento</th><th>Quando ocorre</th></tr></thead>
+          <tbody>
+            <tr><td><strong>At-most-once</strong></td><td>Zero ou uma entrega: nunca duplica, mas pode perder</td><td>O consumidor confirma o recebimento antes de concluir o processamento</td></tr>
+            <tr><td><strong>At-least-once</strong></td><td>Uma ou mais entregas: duplicação é possível e esperada</td><td>Publicação durável, retenção vigente e retries disponíveis</td></tr>
+            <tr><td><strong>Exactly-once</strong></td><td>Um efeito observável por evento, dentro de uma fronteira declarada</td><td>Combina at-least-once com deduplicação ou idempotência no consumidor</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O “exactly-once” <strong>não elimina duplicações na transmissão</strong> e não se estende automaticamente a efeitos fora da fronteira transacional. Ao chamar um provedor de pagamento, é preciso idempotência ponta a ponta ou reconciliação explícita do resultado.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Evolução de esquemas e compatibilidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Eventos publicados hoje podem ser lidos por serviços implantados semanas depois — e um consumidor antigo pode continuar em produção enquanto o produtor já publica um formato novo.</p>
+        <ul>
+          <li><strong>Retroativa (backward)</strong> — o consumidor <em>novo</em> lê eventos publicados no esquema antigo.</li>
+          <li><strong>Prospectiva (forward)</strong> — o consumidor <em>antigo</em> lê eventos do esquema novo, ignorando campos desconhecidos.</li>
+          <li><strong>Mudança segura</strong> — aditiva: adicionar <code>canal_venda</code> como campo opcional não quebra ninguém.</li>
+          <li><strong>Mudança perigosa</strong> — renomear <code>valor_total</code> para <code>valor_liquido</code> sem transição quebra a compatibilidade.</li>
+        </ul>
+        <div class="callout-azul"><p>Remover, renomear ou mudar o tipo de um campo exige <strong>estratégia explícita de migração</strong> — por exemplo, publicar temporariamente nos dois formatos.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>O ciclo do pedido reorganizado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Reunindo os elementos da aula, nenhum serviço chama o seguinte de forma síncrona e bloqueante — cada um <strong>reage a fatos publicados</strong> no seu próprio ritmo:</p>
+        <ul>
+          <li><strong>Pedidos</strong> recebe um comando síncrono do cliente, valida e publica <code>pedido criado</code>.</li>
+          <li><strong>Estoque</strong> consome, tenta reservar e publica <code>estoque reservado</code> ou <code>estoque indisponível</code>.</li>
+          <li><strong>Pagamento</strong> consome <code>estoque reservado</code> e publica <code>pagamento aprovado</code> ou <code>recusado</code>.</li>
+          <li><strong>Expedição</strong> consome <code>pagamento aprovado</code> e publica <code>pedido expedido</code>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -977,49 +1109,53 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Comando vs evento</h3><p>Comando acopla diretamente; evento de domínio favorece baixo acoplamento entre publicador e consumidores.</p></div>
-          <div class="ponto"><h3>Partições</h3><p>Ordem garantida só dentro da partição; a chave decide o que fica ordenado junto.</p></div>
-          <div class="ponto"><h3>Paralelismo limitado</h3><p>Grupos de consumidores escalam até o número de partições do tópico.</p></div>
-          <div class="ponto"><h3>Entrega</h3><p>At-most, at-least e exactly-once descrevem compromissos diferentes entre perda e duplicação.</p></div>
+          <div class="ponto"><h3>Três tipos de mensagem</h3><p>Comando acopla ao destinatário; evento de domínio registra um fato sem destinatário; notificação apenas avisa.</p></div>
+          <div class="ponto"><h3>A ordem é por partição</h3><p>Só existe garantia de ordem dentro de uma partição — a chave decide o que permanece ordenado.</p></div>
+          <div class="ponto"><h3>Partições limitam a escala</h3><p>O paralelismo útil de um grupo de consumidores nunca ultrapassa o número de partições do tópico.</p></div>
+          <div class="ponto"><h3>Retenção habilita correção</h3><p>Reter eventos permite reprocessar e reconstruir estado — com custo de armazenamento proporcional.</p></div>
+          <div class="ponto"><h3>Duplicata é o normal</h3><p>At-least-once é a configuração comum; o efeito único é responsabilidade do desenho do consumidor.</p></div>
+          <div class="ponto"><h3>Esquema evolui aditivamente</h3><p>Campos opcionais preservam compatibilidade; remover ou renomear exige migração explícita.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Desenhe os tópicos do ciclo do pedido</h2>
-      <div class="slide-content-box">
+      <h2>Mãos à obra: tópicos, chaves e grupos</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Desenhe os tópicos, chaves e grupos de consumidores para o ciclo de vida do pedido.</p>
         <ul>
-          <li>Liste os eventos de domínio do ciclo do pedido (mínimo quatro), com tópico e chave.</li>
-          <li>Justifique a chave em termos de ordenação necessária.</li>
-          <li>Defina dois grupos de consumidores distintos lendo o mesmo tópico.</li>
-          <li>Calcule o número mínimo de partições para uma taxa de pico hipotética.</li>
-          <li>Descreva a semântica de entrega adequada para cada consumidor.</li>
+          <li><strong>1.</strong> Liste no mínimo quatro eventos de domínio do ciclo do pedido.</li>
+          <li><strong>2.</strong> Defina, para cada um, o tópico e a chave de particionamento.</li>
+          <li><strong>3.</strong> Justifique a escolha da chave em termos da ordenação necessária.</li>
+          <li><strong>4.</strong> Defina dois grupos de consumidores distintos lendo o mesmo tópico com finalidades diferentes.</li>
+          <li><strong>5.</strong> Calcule o número mínimo de partições para uma taxa de pico hipotética.</li>
+          <li><strong>6.</strong> Indique a semântica de entrega que cada consumidor deveria adotar, e por quê.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe projetar comunicação assíncrona por eventos de domínio, com tópicos, partições, grupos de consumidores e semânticas de entrega. Na próxima aula, saímos do desenho lógico e entramos na camada de execução: contêineres, Kubernetes e o laço de reconciliação.</p>
+      <p class="fim-texto">Você já sabe desacoplar o ciclo do pedido com eventos, chaves e grupos de consumidores — e dimensionar o paralelismo que isso permite. Na próxima aula, descemos para a camada de execução: quem garante que essas instâncias continuem existindo?</p>
       <p class="fim-proxima">Próxima aula: Aula 11 — Contêineres, Kubernetes e reconciliação.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1034,6 +1170,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1055,6 +1192,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1065,6 +1204,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

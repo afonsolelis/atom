@@ -43,7 +43,7 @@ Nenhum desses benefícios é gratuito. Toda cópia adicional introduz a pergunta
 
 No modelo primário-réplica, também chamado *líder-seguidor*, um nó — o líder — recebe todas as escritas e as propaga para um ou mais seguidores. Leituras podem ser atendidas pelo líder ou pelos seguidores, dependendo da garantia desejada.
 
-Esse modelo tem uma vantagem estrutural: como existe um único ponto de escrita, não há disputa entre líderes sobre qual valor é o correto. A desvantagem é que o líder se torna, ao mesmo tempo, um possível gargalo de escrita e um ponto que exige mecanismo de recuperação quando falha — tema retomado na Aula 7, ao tratarmos de eleição de líder.
+Esse modelo tem uma vantagem estrutural durante a operação normal com um único líder: as escritas são ordenadas em um ponto, sem disputa entre líderes sobre qual valor é o correto. A desvantagem é que o líder se torna, ao mesmo tempo, um possível gargalo de escrita e um ponto que exige mecanismo de recuperação quando falha; uma promoção mal coordenada pode criar *split-brain*. Eleição e recuperação de líder serão retomadas na Aula 7.
 
 ### Replicação multi-líder
 
@@ -59,7 +59,7 @@ O custo aparece quando dois líderes aceitam escritas concorrentes sobre o mesmo
 Um segundo eixo de decisão é quando a escrita é considerada concluída.
 
 - **Replicação síncrona:** o líder só confirma a escrita ao cliente depois que uma ou mais réplicas confirmaram tê-la recebido. Aumenta a durabilidade e reduz o risco de perda, mas eleva a latência da escrita e torna o líder dependente da disponibilidade das réplicas envolvidas.
-- **Replicação assíncrona:** o líder confirma a escrita imediatamente e propaga a mudança em segundo plano. A latência de escrita é menor, mas existe uma janela em que uma falha do líder pode perder dados ainda não replicados.
+- **Replicação assíncrona:** o líder responde ao cliente sem esperar confirmações das réplicas; a propagação pode já ter sido iniciada e continua em segundo plano. A latência percebida tende a ser menor, mas existe uma janela em que uma falha do líder pode perder uma escrita que nenhuma outra réplica durável recebeu.
 
 Um esquema intermediário, a **replicação semissíncrona**, exige confirmação de apenas parte das réplicas, equilibrando durabilidade e latência — ideia que retomaremos como quórum de escrita.
 
@@ -75,43 +75,43 @@ O atraso de réplica não é, isoladamente, um defeito. Ele se torna um problema
 
 Os modelos de consistência descrevem quais garantias um sistema replicado oferece sobre a ordem e a visibilidade das atualizações.
 
-- **Consistência forte (linearizabilidade):** o sistema se comporta como se existisse uma única cópia dos dados; toda leitura reflete a escrita mais recente já confirmada, na ordem real do tempo. É a garantia mais cara em latência e disponibilidade.
+- **Consistência forte (linearizabilidade):** o sistema se comporta como se existisse uma única cópia dos dados; toda leitura posterior reflete a escrita já concluída mais recente, segundo uma ordem única compatível com o tempo real. Em sistemas distribuídos, essa garantia normalmente exige mais coordenação, o que pode elevar latência ou reduzir disponibilidade sob certas falhas.
 - **Consistência sequencial:** todas as réplicas concordam com a mesma ordem de operações, mas essa ordem não precisa coincidir exatamente com a ordem real de tempo entre operações de clientes diferentes.
 - **Consistência causal:** operações que têm relação de causa e efeito são vistas na mesma ordem por todos os nós; operações verdadeiramente concorrentes podem ser vistas em ordens diferentes. É uma retomada direta da relação *happened-before*, estudada na Aula 3.
-- **Consistência eventual:** garante apenas que, se não houver novas escritas, todas as réplicas convergirão para o mesmo valor eventualmente — sem prazo definido nem garantia sobre a ordem observada nesse meio-tempo.
+- **Consistência eventual:** garante que, se novas escritas cessarem e a comunicação/replicação continuar ou se recuperar, todas as réplicas convergirão para o mesmo valor — sem prazo definido nem garantia sobre a ordem observada nesse meio-tempo.
 
-Consistência forte não é “melhor” em termos absolutos; é mais cara. Consistência eventual não é “pior”; é mais barata e mais disponível. A escolha depende do que o dado representa.
+Consistência forte não é “melhor” em termos absolutos; ela costuma exigir mais coordenação. Consistência eventual não é “pior” e pode permitir menos coordenação, mas não garante automaticamente menor custo ou maior disponibilidade — isso depende do protocolo e das falhas consideradas. A escolha depende do que o dado representa.
 
 ### Garantias centradas no cliente
 
-Entre a consistência forte e a eventual pura existem garantias mais baratas que resolvem boa parte dos problemas percebidos pelo usuário:
+Garantias centradas no cliente podem resolver boa parte dos problemas percebidos pelo usuário sem exigir linearizabilidade global:
 
 - **Leitura das próprias escritas (*read-your-writes*):** um cliente sempre vê as alterações que ele mesmo realizou, mesmo que outras réplicas ainda estejam atrasadas.
 - **Leituras monotônicas:** uma vez que um cliente observou um valor, ele nunca observará, em leituras seguintes, um valor mais antigo.
 - **Escritas monotônicas:** as escritas de um mesmo cliente são aplicadas na ordem em que foram emitidas.
 - **Leitura de prefixo consistente:** se uma escrita B depende causalmente de uma escrita A, nenhum cliente observa B sem antes observar A.
 
-Essas garantias evitam boa parte dos comportamentos estranhos que um usuário perceberia como “bug”, sem exigir o custo de uma consistência forte global.
+Essas garantias evitam boa parte dos comportamentos estranhos que um usuário perceberia como “bug” sem exigir, necessariamente, linearizabilidade global. Elas são garantias de sessão/cliente e não degraus universais de uma escala; o custo real depende do protocolo e da arquitetura.
 
-> **Recurso visual 2 — Espectro de consistência:** régua horizontal com “consistência eventual” à esquerda e “consistência forte” à direita, marcando pontos intermediários para causal, sequencial e garantias centradas no cliente, com indicação de custo de latência crescente da esquerda para a direita.  
-> **Texto alternativo:** régua ilustra o espectro de modelos de consistência, do mais barato e disponível ao mais caro e rigoroso, com o custo de latência crescendo da esquerda para a direita.
+> **Recurso visual 2 — Mapa comparativo de garantias:** matriz com linhas para linearizabilidade, consistência sequencial, causal, eventual e garantias de sessão; colunas indicam escopo, propriedade de ordenação/visibilidade, hipóteses de convergência e compromissos típicos, sem impor uma ordem universal de custo ou latência.
+> **Texto alternativo:** matriz compara modelos globais e garantias centradas no cliente por suas propriedades e hipóteses; uma nota informa que custo, latência e disponibilidade dependem do protocolo e não formam uma régua única.
 
 ### Quóruns de leitura e escrita
 
-Quando um dado é replicado em $N$ nós, um mecanismo comum para equilibrar consistência e disponibilidade é o uso de quóruns: uma escrita é considerada concluída quando confirmada por $W$ réplicas, e uma leitura consulta $R$ réplicas, combinando as respostas.
+Quando um dado é replicado em $N$ nós, um mecanismo comum para equilibrar consistência e disponibilidade é o uso de quóruns: uma escrita é considerada concluída quando confirmada por $W$ réplicas, e uma leitura consulta $R$ réplicas e reconcilia as respostas usando metadados de versão.
 
-A garantia de que toda leitura enxergará a escrita mais recente depende da sobreposição entre os conjuntos de réplicas lidas e escritas, expressa por:
+A condição clássica para que todo quórum de leitura tenha **interseção** com o quórum que confirmou a escrita anterior é:
 
 $$
 W + R > N
 $$
 
-Para $N = 5$, uma configuração de $W = 3$ e $R = 3$ satisfaz $3 + 3 = 6 > 5$: qualquer conjunto de três réplicas escolhido para leitura compartilha ao menos uma réplica com qualquer conjunto de três réplicas usado na escrita anterior, garantindo que a leitura enxergue o valor mais recente confirmado.
+Para $N = 5$, uma configuração de $W = 3$ e $R = 3$ satisfaz $3 + 3 = 6 > 5$: qualquer conjunto de três réplicas escolhido para leitura compartilha ao menos uma réplica com o conjunto de três usado na escrita anterior. Essa interseção garante que ao menos uma resposta **possa conter** a versão confirmada, desde que os quóruns sejam fixos, não “flexíveis” ou *sloppy*, e que o sistema compare versões corretamente. A desigualdade, isoladamente, não garante linearizabilidade nem resolve escritas concorrentes. Para que dois quóruns de escrita também se intersectem, usa-se $W > N/2$; conflitos ainda exigem versionamento e uma regra de reconciliação.
 
 Outras combinações mudam o compromisso:
 
-- $W = 1$, $R = N$: escrita rápida, leitura cara e mais lenta, pois depende de todas as réplicas.
-- $W = N$, $R = 1$: leitura rápida, escrita cara, pois depende da confirmação de todos os nós.
+- $W = 1$, $R = N$: escrita rápida, leitura cara e menos disponível, pois depende de todas as réplicas e precisa selecionar a versão mais recente.
+- $W = N$, $R = 1$: leitura rápida, escrita cara e menos disponível, pois depende da confirmação de todos os nós.
 - $W + R \leq N$: nenhuma garantia de sobreposição; o sistema prioriza disponibilidade e aceita leituras potencialmente obsoletas.
 
 O número mínimo de réplicas necessário para tolerar $f$ falhas simultâneas, mantendo quórum de maioria, é dado por $N \geq 2f + 1$. Esse mesmo princípio de maioria será retomado na Aula 7, ao tratarmos de consenso.
@@ -121,13 +121,13 @@ O número mínimo de réplicas necessário para tolerar $f$ falhas simultâneas,
 Três dados da NexaOrder ilustram como escolhas diferentes convivem no mesmo sistema:
 
 - **Catálogo de produtos:** tolera consistência eventual. Um preço ou descrição levemente desatualizado por alguns segundos não compromete o negócio, e a prioridade é disponibilidade e baixa latência de leitura.
-- **Estoque:** exige, no mínimo, garantias centradas no cliente e, em pontos críticos de reserva, quórum com sobreposição — a alternativa de vender a mesma unidade duas vezes é mais cara do que a latência adicional de uma escrita com $W \geq 2$.
+- **Estoque:** exige, no mínimo, garantias centradas no cliente e, em pontos críticos de reserva, quóruns de leitura e escrita com sobreposição e controle explícito de concorrência — por exemplo, $N=3$, $W=2$ e $R=2$, com versões ou operação condicional. Dizer apenas $W \geq 2$, sem definir $N$, $R$ e a reconciliação, não basta para evitar vender a mesma unidade duas vezes.
 - **Pagamento:** exige a maior rigidez, aproximando-se de consistência forte no registro da transação, ainda que o restante do fluxo — como notificações — possa permanecer eventual.
 
 Esse raciocínio de decompor o sistema por dado, e não por serviço inteiro, é uma das habilidades centrais desta unidade.
 
 > **Recurso visual 3 — Quórum de leitura e escrita:** diagrama com cinco nós circulares; três deles destacados como conjunto de escrita ($W=3$) e três destacados, com sobreposição parcial, como conjunto de leitura ($R=3$), evidenciando o nó em comum.  
-> **Texto alternativo:** diagrama de cinco réplicas mostra um conjunto de três nós usado na escrita e outro conjunto de três nós usado na leitura, com um nó em comum garantindo a visibilidade do valor mais recente.
+> **Texto alternativo:** diagrama de cinco réplicas mostra um conjunto de três nós usado na escrita e outro conjunto de três nós usado na leitura, com um nó em comum que leva uma candidata à versão mais recente; o leitor ainda compara metadados de versão para escolher o resultado.
 
 ### Atividade prática
 
@@ -143,16 +143,16 @@ Entregue o resultado em uma tabela de três linhas, uma por dado, permitindo com
 ### Síntese da aula
 
 - Replicação melhora disponibilidade, latência de leitura e durabilidade, mas introduz o problema de manter cópias coerentes.
-- Replicação líder-seguidor evita conflitos de escrita; replicação multi-líder reduz latência regional, mas exige resolução de conflitos.
-- Replicação síncrona aumenta durabilidade às custas de latência; a assíncrona faz o inverso.
+- Replicação líder-seguidor centraliza a ordenação das escritas durante a operação normal com um único líder; promoções mal coordenadas ainda podem gerar *split-brain*. Replicação multi-líder reduz latência regional, mas exige resolução explícita de conflitos.
+- Replicação síncrona tende a reduzir a janela de perda com mais coordenação e latência; a assíncrona responde sem aguardar réplicas e aceita uma janela maior de risco.
 - O atraso de réplica explica leituras obsoletas sem que nenhuma réplica esteja “errada”.
-- Consistência forte, sequencial, causal e eventual formam um espectro de custo e garantia, não uma escala de qualidade absoluta.
-- Garantias centradas no cliente resolvem boa parte da percepção de inconsistência a um custo menor que a consistência forte global.
-- Quóruns de leitura e escrita, com $W + R > N$, equilibram consistência e disponibilidade de forma configurável.
+- Consistência forte, sequencial, causal e eventual oferecem propriedades diferentes; não formam uma escala universal de custo, latência ou qualidade.
+- Garantias centradas no cliente são ortogonais a essa comparação e podem reduzir a inconsistência percebida sem exigir linearizabilidade global; o custo depende da implementação.
+- $W + R > N$ garante interseção entre quóruns de leitura e escrita; devolver a versão correta ainda exige metadados e reconciliação, e escritas concorrentes podem exigir $W>N/2$ e controle adicional.
 
 ### Roteiro da Videoaula 5 — “Três cópias, três respostas: qual está certa?”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, retomando o caso do catálogo e do estoque da NexaOrder como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, retomando o caso do catálogo e do estoque da NexaOrder como demonstração central.
 
 ### Referências da aula
 
@@ -182,7 +182,7 @@ A vantagem é que consultas por intervalo — “todos os pedidos de fevereiro�
 
 ### Estratégia por hash
 
-O particionamento por hash aplica uma função de espalhamento à chave e usa o resultado para determinar a partição, distribuindo as chaves de forma aproximadamente uniforme, independentemente de seu valor original. Isso resolve o problema de pontos quentes causados por concentração alfabética ou temporal, mas sacrifica a eficiência de consultas por intervalo, já que chaves originalmente próximas passam a ficar espalhadas entre partições distintas.
+O particionamento por hash aplica uma função de espalhamento à chave e usa o resultado para determinar a partição. Com uma função de bom espalhamento, quantidade suficiente de chaves distintas e partições equilibradas, a distribuição tende a ser aproximadamente uniforme e deixa de seguir diretamente a ordem alfabética ou temporal. Isso reduz pontos quentes causados por concentração em faixas, mas não resolve uma única chave muito popular e sacrifica a eficiência de consultas por intervalo, já que chaves originalmente próximas passam a ficar espalhadas entre partições distintas.
 
 ### Estratégia por diretório
 
@@ -209,9 +209,9 @@ O uso de nós virtuais reforça esse benefício. Se cada nó físico ocupasse um
 
 ### Rebalanceamento e pontos quentes
 
-Mesmo com hashing consistente, um ponto quente pode surgir quando uma única chave concentra volume desproporcional de tráfego — por exemplo, um produto em promoção relâmpago concentrando a maior parte das leituras de estoque da NexaOrder em uma única partição. Hashing distribui bem chaves diferentes, mas não divide a carga de uma única chave muito popular.
+Mesmo com hashing consistente, um ponto quente pode surgir quando uma única chave concentra volume desproporcional de tráfego — por exemplo, um produto em promoção relâmpago concentrando a maior parte das leituras de estoque da NexaOrder em uma única partição. *Hashing* distribui bem chaves diferentes, mas não divide a carga de uma única chave muito popular.
 
-Estratégias de mitigação incluem particionar artificialmente a chave quente (por exemplo, sufixando-a com um número aleatório e agregando os resultados na leitura), aplicar cache na frente da partição afetada, ou isolar deliberadamente esse produto em uma partição dedicada durante o pico de demanda.
+Para um ponto quente de **leitura**, as primeiras alternativas são cache, réplicas de leitura e uma visão materializada, acompanhadas de invalidação ou versão que deixem explícita a defasagem tolerada. Particionar artificialmente uma chave com sufixos aleatórios é mais útil para distribuir **escritas** agregáveis, como contadores; se toda leitura precisar consultar todas as subchaves, o *fan-out* pode piorar o gargalo. No estoque autoritativo, a reserva de uma unidade também não deve ser dividida ingenuamente entre subchaves: é necessário manter uma regra única de concorrência, usar cotas por partição ou serializar a decisão por produto. Isolar temporariamente o item e aplicar controle de admissão são outras opções durante o pico.
 
 Rebalancear não é apenas mover dados: é também mover carga de processamento. Enquanto uma migração de partição está em andamento, a partição de origem e a partição de destino processam, simultaneamente, requisições normais e a transferência dos dados migrados — o que pode degradar temporariamente a latência de ambas. Por isso, sistemas maduros de particionamento costumam limitar a taxa de migração (*throttling*) e programar rebalanceamentos para janelas de menor tráfego, sempre que o negócio permitir esse tipo de planejamento.
 
@@ -219,7 +219,7 @@ Rebalancear não é apenas mover dados: é também mover carga de processamento.
 
 Particionamento e replicação resolvem problemas diferentes, mas raramente aparecem isolados em produção. Uma arquitetura típica particiona os dados em $P$ partições e replica cada partição em $R$ nós, de modo que o cluster total possua $P \times R$ réplicas distribuídas. Cada partição, isoladamente, aplica os conceitos de replicação estudados na Aula 5 — líder-seguidor ou multi-líder, quóruns de leitura e escrita — enquanto o conjunto de partições aplica os conceitos de particionamento desta aula.
 
-Isso significa que a falha de um único nó físico normalmente afeta apenas uma fração pequena dos dados — as partições cujas réplicas ele hospedava —, e não o sistema inteiro. Para a NexaOrder, isso implica que a perda de um nó do cluster de estoque compromete a disponibilidade de escrita apenas dos produtos cujas chaves de partição foram mapeadas para aquele nó, desde que as demais réplicas dessas partições continuem operando normalmente.
+Isso significa que a falha de um único nó físico normalmente afeta apenas uma fração dos dados — as partições cujas réplicas ele hospedava —, e não o sistema inteiro. Para a NexaOrder, a perda de um nó do cluster de estoque só compromete a escrita das partições afetadas **se** as réplicas restantes não conseguirem formar o quórum exigido; havendo quórum, essas partições continuam disponíveis, possivelmente com menor margem para novas falhas.
 
 ### Consultas entre partições
 
@@ -227,7 +227,7 @@ Uma consulta que precisa combinar dados de várias partições — por exemplo, 
 
 Por isso, a escolha da chave de partição deve favorecer os padrões de consulta mais frequentes do sistema, mesmo sabendo que nenhuma escolha atenderá igualmente bem a todos os tipos de consulta.
 
-Um exemplo numérico simples ilustra o custo do *scatter-gather*. Suponha que uma consulta entre partições atinja oito partições, cada uma respondendo, em média, em 20 milissegundos, mas com uma cauda de latência em que 5% das respostas individuais levam 200 milissegundos. Se o tempo total da consulta é determinado pela partição mais lenta a responder, a probabilidade de que pelo menos uma das oito partições caia nessa cauda cresce rapidamente:
+Um exemplo numérico simples ilustra o custo do *scatter-gather*. Suponha que uma consulta entre partições atinja oito partições, cada uma respondendo, em média, em 20 milissegundos, mas com uma cauda de latência em que 5% das respostas individuais levam 200 milissegundos. **Assumindo, apenas para este cálculo, que as ocorrências de cauda nas partições sejam independentes**, a probabilidade de que pelo menos uma das oito caia nessa cauda cresce rapidamente:
 
 $$
 P(\text{pelo menos uma partição lenta}) = 1 - (1 - 0{,}05)^{8} \approx 1 - 0{,}66 = 0{,}34
@@ -258,7 +258,7 @@ Essa extensão é relevante porque partições de rede são eventos relativament
 
 ### Aplicando à NexaOrder
 
-Para o catálogo de produtos, a NexaOrder tende a favorecer AP/EL: disponibilidade e baixa latência quase sempre, com convergência eventual. Para a confirmação de pagamento, tende a favorecer CP/EC: preferir recusar ou atrasar uma resposta a confirmar uma cobrança com base em informação potencialmente desatualizada. Para o estoque, a resposta é mista: a leitura do saldo pode tolerar AP em situações de baixo risco, mas a reserva efetiva de uma unidade, no momento da compra, deve se aproximar de CP, evitar vender o mesmo item duas vezes.
+Para o catálogo de produtos, a NexaOrder tende a favorecer **PA/EL** na notação PACELC: sob partição, disponibilidade; fora dela, latência, com convergência eventual. Para a confirmação de pagamento, tende a favorecer **PC/EC**: sob partição e em operação normal, prioriza consistência, mesmo que precise recusar ou atrasar uma resposta. Para o estoque, a resposta é mista: a leitura informativa do saldo pode tolerar disponibilidade maior em situações de baixo risco, mas a reserva efetiva de uma unidade deve se aproximar de PC para evitar vender o mesmo item duas vezes.
 
 Essa análise combina diretamente com a escolha de chave de partição discutida ao longo da aula: não basta decidir *como* particionar um dado; é preciso decidir também *o que* o sistema deve fazer com aquela partição específica quando uma parte do cluster ficar inacessível. Uma decisão registrada apenas como "usamos hash consistente" está incompleta sem a decisão complementar de "e, sob partição de rede, esse dado prioriza consistência ou disponibilidade".
 
@@ -278,7 +278,7 @@ Escolha as chaves de partição para dois dados da NexaOrder: pedidos e estoque.
 
 - Particionamento horizontal distribui fatias de um conjunto de dados entre nós, complementando — e não substituindo — a replicação.
 - Particionamento por faixa favorece consultas por intervalo, mas é vulnerável a pontos quentes.
-- Particionamento por hash distribui chaves de forma uniforme, ao custo de consultas por intervalo eficientes.
+- Com bom espalhamento, diversidade de chaves e partições equilibradas, o particionamento por hash tende a distribuir chaves de forma aproximadamente uniforme, ao custo de tornar consultas por intervalo menos eficientes.
 - Hashing consistente reduz drasticamente o volume de dados redistribuído quando nós são adicionados ou removidos.
 - Pontos quentes podem surgir mesmo com boa estratégia de particionamento, quando uma única chave concentra tráfego desproporcional.
 - O teorema CAP descreve a escolha entre consistência e disponibilidade durante uma partição de rede.
@@ -286,7 +286,7 @@ Escolha as chaves de partição para dois dados da NexaOrder: pedidos e estoque.
 
 ### Roteiro da Videoaula 6 — “Dividir para crescer: como fatiar dados sem quebrar o sistema”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, retomando o incidente do ponto quente no catálogo da NexaOrder como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, retomando o incidente do ponto quente no catálogo da NexaOrder como demonstração central.
 
 ### Referências da aula
 
@@ -320,20 +320,20 @@ $$
 
 Para $N = 5$, $f = \lfloor 4/2 \rfloor = 2$: o cluster tolera a falha de até dois nós e ainda forma maioria com os três restantes. Esse é o motivo pelo qual clusters de consenso costumam ter número ímpar de nós — cinco é um tamanho comum, equilibrando tolerância a falhas e custo de coordenação.
 
-Vale comparar tamanhos alternativos de cluster para entender esse equilíbrio. Um cluster de três nós tolera apenas uma falha ($f = \lfloor 2/2 \rfloor = 1$) com um custo de coordenação menor. Um cluster de sete nós tolera três falhas ($f = \lfloor 6/2 \rfloor = 3$), mas exige que cada operação seja confirmada por quatro nós antes de ser considerada segura, aumentando a latência típica de escrita. Note também que adicionar um nó par — passar de cinco para seis, por exemplo — não aumenta a tolerância a falhas: $f = \lfloor 5/2 \rfloor$ continua igual a 2, apenas com um nó a mais para coordenar. É por isso que números pares raramente fazem sentido em clusters de consenso.
+Vale comparar tamanhos alternativos de cluster para entender esse equilíbrio. Um cluster de três nós tolera apenas uma falha ($f = \lfloor 2/2 \rfloor = 1$) com menor *fan-out*. Um cluster de sete nós tolera três falhas ($f = \lfloor 6/2 \rfloor = 3$), mas exige maioria de quatro, aumenta tráfego, armazenamento e custo operacional. Como as mensagens são enviadas em paralelo, a latência não cresce linearmente com o número de nós: ela depende da resposta necessária para completar o quórum e da carga introduzida. Note também que adicionar um nó par — passar de cinco para seis, por exemplo — não aumenta a tolerância a falhas: $f = \lfloor 5/2 \rfloor$ continua igual a 2, apenas com um nó a mais para coordenar. É por isso que números pares raramente fazem sentido em clusters de consenso.
 
 > **Recurso visual 7 — Tamanho do cluster versus tolerância a falhas:** tabela com três linhas (clusters de 3, 5 e 7 nós), mostrando o valor de $f$, o número de nós exigido para maioria e um comentário sobre o custo de coordenação de cada configuração.  
 > **Texto alternativo:** tabela compara clusters de três, cinco e sete nós, relacionando cada tamanho ao número de falhas toleradas e ao número de nós necessário para formar maioria.
 
 ### Máquina de estados replicada
 
-A abstração central usada pelo Raft é a *máquina de estados replicada*: cada nó mantém uma cópia idêntica de uma máquina de estados, e todos os nós aplicam exatamente a mesma sequência de operações, na mesma ordem. Se todos os nós partem do mesmo estado inicial e aplicam a mesma sequência de operações determinísticas, todos chegam ao mesmo estado final.
+A abstração central usada pelo Raft é a *máquina de estados replicada*: cada nó mantém uma réplica que pode estar temporariamente em um índice diferente do log. Quando duas réplicas partem do mesmo estado e aplicam, na mesma ordem, o mesmo prefixo de operações determinísticas confirmadas, chegam ao mesmo estado; seguidores atrasados convergem à medida que recebem e aplicam esse prefixo.
 
-O problema de manter réplicas consistentes se transforma, então, em um problema mais restrito: garantir que todos os nós concordem sobre a mesma sequência ordenada de operações — um log replicado.
+O problema de manter réplicas consistentes se transforma, então, em um problema mais restrito: garantir acordo sobre o prefixo confirmado de uma sequência ordenada de operações — um log replicado.
 
 ### Eleição de líder
 
-O Raft opera com um único líder por vez, responsável por receber novas operações e replicá-las para os demais nós (seguidores). Se o líder para de responder, os seguidores — cada um com um temporizador de eleição aleatório, para reduzir a chance de disputas simultâneas — tornam-se candidatos e solicitam votos aos demais nós. Um candidato que recebe votos da maioria do cluster se torna o novo líder.
+O Raft elege no máximo um líder em cada termo. Esse líder recebe novas operações e as replica para os seguidores. Durante uma partição, um líder antigo e isolado pode ainda acreditar temporariamente que ocupa o papel, mas não consegue confirmar novas entradas sem maioria e recua ao observar um termo maior. Se os seguidores deixam de receber sinais válidos do líder, seus temporizadores de eleição aleatórios expiram em momentos diferentes; eles podem se tornar candidatos e solicitar votos. Um candidato que recebe votos da maioria do cluster se torna líder do novo termo.
 
 O uso de temporizadores aleatórios, e não fixos, é deliberado: se todos os seguidores disparassem uma eleição exatamente no mesmo instante, poderiam empatar repetidamente, atrasando a formação de um novo líder.
 
@@ -344,7 +344,7 @@ O uso de temporizadores aleatórios, e não fixos, é deliberado: se todos os se
 
 O tempo, no Raft, é dividido em *termos* (*terms*), numerados sequencialmente. Cada termo tem, no máximo, um líder. Toda mensagem trocada entre os nós carrega o número do termo, permitindo que um nó identifique e rejeite informações de um termo já superado — por exemplo, ordens vindas de um líder antigo que ainda não percebeu ter sido substituído.
 
-Quando o líder recebe uma nova operação, ele a adiciona ao seu log e a replica aos seguidores por meio de mensagens de *append entries*. Uma entrada é considerada **confirmada** (*committed*) quando replicada pela maioria dos nós — o mesmo princípio de quórum de escrita. Somente depois de confirmada, a entrada é aplicada à máquina de estados e o resultado é retornado ao cliente. Esse mecanismo garante que uma entrada confirmada sobreviva à eventual falha do líder, pois estará presente em pelo menos um nó de qualquer maioria futura.
+Quando o líder recebe uma nova operação, ele a adiciona ao log no **termo corrente** e a replica aos seguidores por mensagens de *append entries*. O líder pode avançar o índice de confirmação ao armazenar essa entrada do termo corrente em uma maioria; somente então ela é aplicada à máquina de estados e o resultado pode ser retornado ao cliente. Uma entrada de termo anterior não é confirmada diretamente apenas porque passou a aparecer em uma maioria: ela se torna confirmada indiretamente quando uma entrada posterior do termo corrente é confirmada. Essa regra, combinada às restrições de eleição e consistência do log, garante que entradas confirmadas sobrevivam a futuras trocas de líder.
 
 > **Recurso visual 9 — Ciclo de replicação do Raft:** diagrama sequencial mostrando o líder recebendo uma operação, enviando *append entries* a dois seguidores, recebendo confirmação da maioria e aplicando a entrada à máquina de estados.  
 > **Texto alternativo:** diagrama de sequência mostra o líder recebendo uma operação do cliente, replicando-a a dois seguidores, aguardando confirmação da maioria e só então aplicando a operação e respondendo ao cliente.
@@ -353,14 +353,14 @@ Quando o líder recebe uma nova operação, ele a adiciona ao seu log e a replic
 
 O Raft é projetado para satisfazer duas propriedades:
 
-- **Segurança (*safety*):** em qualquer termo, existe no máximo um líder; uma entrada confirmada nunca é perdida ou substituída por outra em uma posição já confirmada do log. Essas garantias são o que teria evitado o *split-brain* do incidente da NexaOrder, caso o cluster de estoque estivesse sob consenso automatizado em vez de promoção manual.
-- **Disponibilidade (*liveness*):** enquanto uma maioria dos nós estiver ativa e capaz de se comunicar, o cluster eventualmente elege um líder e continua processando operações.
+- **Segurança (*safety*):** em qualquer termo, existe no máximo um líder eleito; apenas um líder apoiado por maioria consegue confirmar entradas, e uma entrada confirmada nunca é perdida ou substituída por outra em uma posição já confirmada do log. Essas garantias teriam evitado que líderes isolados confirmassem históricos divergentes no incidente da NexaOrder.
+- **Progresso (*liveness*):** se, por um intervalo suficiente, uma maioria estiver ativa e trocar mensagens com atrasos compatíveis com os *timeouts* de eleição, o cluster eventualmente elege um líder e continua processando operações. Essa hipótese de estabilidade temporária é necessária; uma maioria apenas “conectada”, mas submetida indefinidamente a atrasos ou perdas incompatíveis com os temporizadores, não garante progresso.
 
 Note a assimetria: a segurança do Raft vale mesmo durante uma partição de rede ou atraso arbitrário de mensagens; a disponibilidade depende de haver, em algum momento, comunicação suficiente entre a maioria dos nós. Se um cluster de cinco nós se divide em um grupo de dois e outro de três por uma partição de rede, apenas o grupo com três nós — a maioria — pode eleger um líder e continuar aceitando escritas; o grupo de dois permanece sem líder até a partição ser resolvida. Esse comportamento é uma aplicação direta do teorema CAP estudado na Aula 6: o Raft escolhe consistência (CP) em detrimento da disponibilidade do lado minoritário.
 
 ### Limites e custos do consenso
 
-Consenso não é gratuito. Cada operação confirmada exige, no mínimo, uma rodada de comunicação entre o líder e a maioria dos seguidores, o que adiciona latência proporcional ao tempo de ida e volta (*round-trip time*) até os nós mais distantes envolvidos no quórum. O throughput do sistema é limitado pela capacidade de um único líder processar e replicar operações — algoritmos de consenso não paralelizam escritas entre múltiplos líderes, ao contrário da replicação multi-líder discutida na Aula 5.
+Consenso não é gratuito. Cada operação confirmada exige, no mínimo, uma rodada de comunicação entre o líder e seguidores suficientes para formar maioria. Como os envios ocorrem em paralelo, a latência é determinada aproximadamente pela resposta do seguidor que completa o quórum — não pela soma das latências nem pelo nó mais lento fora dele. O *throughput* do grupo é limitado pela capacidade do líder de processar e replicar operações; a escala de escrita costuma vir do particionamento em vários grupos de consenso, e não de múltiplos líderes concorrentes no mesmo log.
 
 Um exemplo numérico ajuda a dimensionar esse custo. Se o cluster de consenso da NexaOrder está distribuído em três zonas de disponibilidade com tempo de ida e volta médio de 4 milissegundos entre o líder e cada seguidor, e a confirmação de uma escrita exige resposta de pelo menos dois seguidores (para formar maioria de três em um cluster de cinco), a latência mínima esperada para confirmar uma operação é de aproximadamente 4 milissegundos — o tempo de uma única rodada de ida e volta até os seguidores mais lentos necessários para completar o quórum. Se o cluster estivesse espalhado entre continentes diferentes, com tempo de ida e volta de 120 milissegundos, essa mesma operação levaria, no mínimo, 120 milissegundos só pela rodada de confirmação — antes de qualquer processamento. Esse é o motivo pelo qual clusters de consenso costumam ser posicionados com nós relativamente próximos entre si, ainda que o sistema como um todo sirva usuários espalhados globalmente por outras camadas de replicação e cache.
 
@@ -385,7 +385,7 @@ Simule, em papel ou em uma ferramenta de sua escolha, um cluster Raft de cinco n
 
 1. Desenhe o cluster e identifique o líder inicial no termo 1.
 2. Simule a falha do líder: descreva a sequência de eventos até a eleição de um novo líder, indicando o novo número de termo.
-3. Simule o envio de três novas operações pelo novo líder e a réplica dessas operações para os seguidores, indicando em que ponto cada uma é considerada confirmada.
+3. Simule o envio de três novas operações pelo novo líder e a replicação dessas operações para os seguidores, indicando o termo e o ponto em que cada uma é considerada confirmada.
 4. Simule a recuperação do nó que havia falhado: descreva como seu log deve ser reconciliado com o log do cluster atual.
 
 Entregue um diagrama e uma descrição textual curta de cada etapa.
@@ -396,13 +396,13 @@ Entregue um diagrama e uma descrição textual curta de cada etapa.
 - Algoritmos de consenso se apoiam no princípio de maioria; um cluster de $N$ nós tolera $\lfloor (N-1)/2 \rfloor$ falhas.
 - A máquina de estados replicada transforma o problema de consistência em um problema de ordenação de um log replicado.
 - O Raft elege um único líder por termo, usando temporizadores aleatórios para reduzir disputas simultâneas.
-- Uma entrada de log é confirmada quando replicada pela maioria dos nós, garantindo que sobreviva a falhas futuras do líder.
-- A segurança do Raft impede múltiplos líderes no mesmo termo e perda de entradas confirmadas; a disponibilidade depende de uma maioria ativa e comunicável.
+- Uma entrada do termo corrente pode ser confirmada pelo líder quando replicada em maioria; entradas de termos anteriores tornam-se confirmadas indiretamente com uma entrada posterior do termo corrente.
+- A segurança do Raft impede múltiplos líderes eleitos no mesmo termo e a perda de entradas confirmadas; o progresso depende de maioria ativa, comunicação e um intervalo de temporização suficientemente estável.
 - Consenso tem custo de latência e limite de throughput, e não protege, por padrão, contra falhas bizantinas.
 
 ### Roteiro da Videoaula 7 — “Cinco nós, um líder: como o Raft evita o split-brain”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, retomando o incidente de promoção manual conflitante do estoque da NexaOrder como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, retomando o incidente de promoção manual conflitante do estoque da NexaOrder como demonstração central.
 
 ### Referências da aula
 
@@ -435,7 +435,7 @@ O 2PC garante atomicidade distribuída, mas ao custo de manter recursos bloquead
 
 O custo do 2PC cresce com o número de participantes e com a duração da transação: quanto mais serviços envolvidos, maior a chance de que ao menos um esteja lento ou indisponível, e quanto mais tempo os recursos permanecem bloqueados, maior o impacto sobre outras operações concorrentes que dependam dos mesmos dados. Por essa razão, o 2PC é pouco utilizado para coordenar operações de negócio de longa duração — como uma compra que pode levar minutos entre reserva de estoque e confirmação de pagamento — sendo mais comum em transações curtas dentro de um mesmo domínio de infraestrutura.
 
-Um exemplo simples ilustra o efeito multiplicativo desse risco. Se cada um dos quatro serviços da NexaOrder tem, isoladamente, uma probabilidade de 1% de estar lento ou indisponível em um dado instante, a probabilidade de que **pelo menos um** dos quatro participantes cause atraso ou bloqueio em uma transação 2PC que os envolva simultaneamente é:
+Um exemplo simples ilustra o efeito multiplicativo desse risco. Se cada um dos quatro serviços da NexaOrder tem, isoladamente, uma probabilidade de 1% de estar lento ou indisponível em um dado instante e, para simplificar, tratarmos esses eventos como **independentes**, a probabilidade de que **pelo menos um** dos quatro participantes cause atraso ou bloqueio em uma transação 2PC que os envolva simultaneamente é:
 
 $$
 P(\text{pelo menos um lento}) = 1 - (1 - 0{,}01)^{4} \approx 1 - 0{,}961 = 3{,}9\%
@@ -473,25 +473,25 @@ Um risco recorrente ao publicar eventos de uma saga é o **problema da escrita d
 
 O padrão ***outbox*** resolve esse problema gravando o evento a ser publicado na mesma transação local que grava a alteração de negócio, em uma tabela auxiliar dentro do mesmo banco de dados. Um processo separado lê essa tabela e publica os eventos de forma confiável, garantindo que evento e alteração de estado sejam consistentes entre si, sem depender de uma transação distribuída entre o banco de dados e o sistema de mensageria.
 
-O padrão ***inbox*** complementa essa abordagem do lado do consumidor: antes de processar uma mensagem recebida, o serviço registra seu identificador em uma tabela de mensagens já tratadas; se a mesma mensagem chegar novamente — por *retry*, duplicação de rede ou reentrega do sistema de mensageria —, o serviço reconhece que ela já foi processada e a descarta sem repetir seus efeitos.
+O padrão ***inbox*** complementa essa abordagem do lado do consumidor. Em uma **única transação local**, o serviço tenta inserir o identificador da mensagem — protegido por restrição de unicidade — e aplica a alteração de negócio. Se o identificador já existe, a mensagem é uma duplicata e seu efeito não é repetido; se ocorrer falha antes do *commit*, tanto o registro do ID quanto a alteração de negócio são revertidos e a reentrega poderá tentar novamente. Registrar o ID e executar o efeito em transações separadas é inseguro: uma falha entre as duas etapas pode fazer o sistema descartar uma mensagem cujo efeito nunca ocorreu. Para efeitos externos ao banco local, é necessário combinar o inbox com *outbox*, estados intermediários ou idempotência no destino.
 
 > **Recurso visual 11 — Padrão outbox de ponta a ponta:** diagrama mostrando um serviço gravando, em uma única transação local, a alteração de negócio e o evento correspondente em uma tabela outbox; ao lado, um processo separado lendo essa tabela e publicando os eventos no sistema de mensageria.  
 > **Texto alternativo:** diagrama mostra a gravação simultânea da alteração de negócio e do evento na mesma transação local, seguida da publicação assíncrona e confiável do evento por um processo separado que lê a tabela outbox.
 
 ### Deduplicação e processamento efetivamente único
 
-Sistemas de mensageria distribuída, em geral, oferecem entrega **pelo menos uma vez** (*at-least-once*): preferem reentregar uma mensagem em caso de dúvida a arriscar perdê-la, o que implica que duplicatas são esperadas, não excepcionais. Alcançar efeito **exatamente uma vez** (*exactly-once*) do ponto de vista do negócio não depende de a rede nunca duplicar mensagens — o que nenhum sistema garante de forma absoluta —, mas de tornar o processamento **idempotente**: aplicar a mesma operação duas ou mais vezes produz exatamente o mesmo resultado que aplicá-la uma única vez.
+Sistemas de mensageria distribuída frequentemente oferecem entrega **pelo menos uma vez** (*at-least-once*): reentregam uma mensagem em caso de dúvida, o que torna duplicatas esperadas. Alguns produtos oferecem garantias chamadas *exactly-once* dentro de limites específicos, mas o efeito de negócio ponta a ponta ainda depende das fronteiras transacionais envolvidas. Para obter um efeito **efetivamente único**, o consumidor combina deduplicação, alteração de estado atômica e operações idempotentes: aplicar novamente a mesma operação lógica não produz um novo efeito.
 
-O padrão *inbox* é uma forma de idempotência; outra forma comum é associar a cada operação uma **chave de idempotência** — um identificador único gerado pelo cliente ou pela primeira tentativa da operação — e verificar, antes de processá-la, se aquela chave já foi registrada como concluída. No incidente de pagamento duplicado da situação-problema, uma chave de idempotência por tentativa de compra, verificada pelo serviço de pagamento antes de autorizar uma nova cobrança, teria permitido reconhecer a segunda tentativa como repetição da primeira, e não como uma nova compra.
+O padrão *inbox* é uma forma de deduplicação; outra técnica é associar a cada **operação lógica** uma chave de idempotência, criada antes do primeiro envio e reutilizada em todas as suas retentativas. A verificação ou inserção da chave, a alteração de negócio e o armazenamento do resultado devem formar uma fronteira atômica sempre que estiverem no mesmo serviço. No incidente de pagamento duplicado, as duas tentativas do cliente carregariam a mesma chave da compra; o serviço retornaria o resultado já registrado sem autorizar nova cobrança. Uma compra genuinamente nova deve receber outra chave.
 
-> **Recurso visual 12 — Fluxo de idempotência no pagamento:** diagrama de decisão mostrando uma requisição de pagamento chegando com uma chave de idempotência; se a chave já existe na tabela de operações concluídas, o serviço retorna o resultado anterior; caso contrário, processa a cobrança e registra a chave.  
-> **Texto alternativo:** fluxograma mostra o serviço de pagamento verificando se a chave de idempotência da requisição já foi processada antes de decidir entre retornar o resultado anterior ou processar uma nova cobrança.
+> **Recurso visual 12 — Fluxo de idempotência no pagamento:** diagrama mostrando a mesma chave em todas as retentativas; se houver resultado concluído, o serviço o retorna; caso contrário, reserva a chave, registra a cobrança e armazena o resultado de forma atômica, ou usa idempotência equivalente no provedor externo.
+> **Texto alternativo:** fluxograma mostra uma chave criada antes do primeiro envio e reutilizada; o serviço retorna um resultado existente ou executa a operação sob uma fronteira que impede cobranças concorrentes com a mesma chave.
 
 ### Modelando a saga da NexaOrder
 
-Aplicando os conceitos da aula ao caso central da disciplina, uma saga orquestrada para a compra da NexaOrder poderia seguir a sequência: reservar estoque → autorizar pagamento → confirmar pedido → solicitar expedição. Se a autorização de pagamento falhar, a compensação libera a reserva de estoque. Se a solicitação de expedição falhar após o pagamento já autorizado, a compensação estorna o pagamento e libera a reserva. Cada etapa publica seu evento via padrão *outbox*, e cada serviço consumidor aplica o padrão *inbox* e chaves de idempotência para tratar reentregas sem duplicar efeitos.
+Aplicando os conceitos da aula ao caso central da disciplina, uma saga orquestrada para a compra da NexaOrder poderia seguir a sequência: reservar estoque → autorizar pagamento → confirmar pedido → solicitar expedição. Se a autorização de pagamento falhar, a compensação libera a reserva de estoque. Se a solicitação de expedição falhar após o pagamento já autorizado, a compensação estorna o pagamento e libera a reserva. Cada etapa publica seu evento via *outbox*; cada consumidor grava o inbox e o efeito de negócio na mesma transação local; e a chave de idempotência da operação é reutilizada nas retentativas.
 
-### O que vem na próxima unidade
+### Transição para a Unidade 3
 
 Esta unidade tratou de como os dados da NexaOrder são replicados, particionados, coordenados por consenso e mantidos coerentes através de sagas. A Unidade 3 parte desse alicerce para tratar da organização dos próprios serviços: como decompor a NexaOrder em limites de domínio bem definidos, como arquiteturas orientadas a eventos organizam produtores, consumidores e tópicos, como contêineres e Kubernetes automatizam a implantação e a recuperação desses serviços, e como garantir comunicação segura entre eles. Os padrões *outbox* e as sagas estudados aqui reaparecerão como parte central da arquitetura orientada a eventos da próxima unidade.
 
@@ -502,7 +502,8 @@ Modele a saga completa pedido–estoque–pagamento–expedição da NexaOrder.
 1. Liste as etapas na ordem em que devem ocorrer e indique, para cada uma, a ação compensatória correspondente.
 2. Escolha entre coreografia e orquestração, justificando a escolha para esse fluxo específico.
 3. Indique em quais etapas o padrão *outbox* deveria ser aplicado, e por quê.
-4. Defina onde uma chave de idempotência deveria ser verificada para evitar o cenário de pagamento duplicado descrito na situação-problema desta aula.
+4. Defina onde a chave de idempotência da operação lógica deve ser criada, reutilizada e verificada para evitar pagamento duplicado.
+5. Mostre a fronteira transacional na qual o consumidor registra o inbox e aplica o efeito de negócio, explicando o que ocorre se houver falha antes do *commit*.
 
 Represente o resultado em um diagrama de fluxo com as etapas normais e as etapas de compensação claramente distinguidas.
 
@@ -512,12 +513,12 @@ Represente o resultado em um diagrama de fluxo com as etapas normais e as etapas
 - A confirmação em duas fases garante atomicidade distribuída, mas bloqueia recursos e é vulnerável à falha do coordenador.
 - Sagas substituem uma transação única por uma sequência de transações locais com ações compensatórias.
 - Sagas coreografadas dispensam um coordenador central; sagas orquestradas concentram o fluxo em um componente explícito e rastreável.
-- O padrão *outbox* evita o problema da escrita dupla entre banco de dados e mensageria; o padrão *inbox* evita o reprocessamento de mensagens duplicadas.
+- O padrão *outbox* evita a escrita dupla entre banco de dados e mensageria; o *inbox* só evita efeitos duplicados quando o registro do ID e a alteração de negócio pertencem à mesma transação local.
 - Como sistemas de mensageria tipicamente entregam mensagens pelo menos uma vez, o efeito de exatamente uma vez depende de tornar as operações idempotentes.
 
 ### Roteiro da Videoaula 8 — “Sem transação global: como uma compra sobrevive a quatro falhas possíveis”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, retomando o incidente do pagamento duplicado da NexaOrder como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, retomando o incidente do pagamento duplicado da NexaOrder como demonstração central.
 
 ### Referências da aula
 
@@ -537,7 +538,7 @@ c. A configuração garante consistência forte, pois ambos os valores são mín
 *d. A leitura pode retornar o preço antigo, pois não há garantia de sobreposição entre os nós de escrita e de leitura quando $W + R \leq N$.
 e. A leitura falhará com erro, pois $W = 1$ e $R = 1$ são valores inválidos para um sistema com cinco nós.
 
-*Feedback:* a alternativa correta é d. A regra de sobreposição de quórum exige $W + R > N$ para garantir que toda leitura consulte pelo menos um nó que participou da escrita mais recente. Com $W = 1$, $R = 1$ e $N = 5$, temos $1 + 1 = 2$, muito abaixo de $N$; a leitura pode perfeitamente atingir um nó que ainda não recebeu a atualização, retornando um valor obsoleto. Essa configuração prioriza latência mínima em ambas as operações, à custa de qualquer garantia de atualidade — coerente com a decisão de tratar o catálogo como um dado tolerante a consistência eventual.
+*Feedback:* a alternativa correta é d. A regra $W + R > N$ garante interseção entre o quórum de leitura e o que confirmou a escrita anterior. Com $W = 1$, $R = 1$ e $N = 5$, temos $1 + 1 = 2$, abaixo de $N$; a leitura pode atingir um nó que ainda não recebeu a atualização e retornar valor obsoleto. Mesmo quando há interseção, a implementação ainda precisa comparar versões para escolher o resultado. Esta configuração prioriza latência mínima sem garantia de atualidade, coerente com um catálogo tolerante a consistência eventual.
 
 **Questão 2.** Em um cluster Raft de sete nós, três nós ficam temporariamente isolados por uma falha de rede, enquanto os outros quatro permanecem capazes de se comunicar entre si. O que se espera que aconteça com a capacidade de aceitar novas escritas nesse cluster?
 
@@ -552,20 +553,54 @@ e. Os dois grupos alternam a capacidade de escrita a cada poucos segundos, até 
 ### Síntese da unidade
 
 - Replicar dados melhora disponibilidade e latência de leitura, mas obriga a escolher, para cada dado, entre consistência forte, causal, centrada no cliente ou eventual.
-- Quóruns de leitura e escrita, com $W + R > N$, oferecem uma forma configurável de equilibrar consistência e disponibilidade sem depender de um único extremo.
+- Quóruns configuram o compromisso entre consistência e disponibilidade; $W + R > N$ garante interseção, mas linearizabilidade também depende de versão, reconciliação e controle de concorrência.
 - Particionar dados horizontalmente permite escalar volume e carga além da capacidade de um único nó, mas exige escolher uma chave de partição alinhada aos padrões de consulta mais frequentes.
 - O hashing consistente reduz drasticamente o custo de rebalanceamento quando nós são adicionados ou removidos, mas não elimina pontos quentes causados por chaves com popularidade desproporcional.
 - O teorema CAP descreve a escolha entre consistência e disponibilidade durante uma partição de rede; o PACELC estende essa análise ao compromisso cotidiano entre latência e consistência.
-- Algoritmos de consenso como o Raft resolvem, de forma automática e auditável, o problema de eleger um líder único e manter um log replicado, evitando situações de múltiplos líderes concorrentes.
+- Algoritmos de consenso como o Raft elegem no máximo um líder por termo e impedem que um nó isolado confirme entradas sem maioria, preservando um log replicado seguro.
 - Transações que atravessam múltiplos serviços podem ser mantidas coerentes por sagas com ações compensatórias, em vez de um coordenador bloqueante como o 2PC.
-- Os padrões *outbox*, *inbox* e chaves de idempotência protegem operações distribuídas contra os efeitos de mensagens duplicadas, tornando o processamento efetivamente único do ponto de vista do negócio.
+- *Outbox*, *inbox* atômico e chaves reutilizadas por operação lógica protegem contra reentregas; o efeito efetivamente único depende das fronteiras transacionais e da idempotência dos destinos externos.
 
 ### Material complementar
 
-**Direto da Fonte:** KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O'Reilly Media, 2017. Capítulo 5 ("Replication") e Capítulo 9 ("Consistency and Consensus") aprofundam, com exemplos de sistemas reais, os modelos de replicação, os níveis de consistência e os algoritmos de consenso discutidos nesta unidade — leitura recomendada para quem deseja relacionar os conceitos apresentados a implementações concretas de bancos de dados distribuídos amplamente usados na indústria.
+#### Direto da Fonte
 
-**Para Mergulhar:** o blog técnico *Jepsen* (disponível em jepsen.io), mantido por Kyle Kingsbury, publica análises independentes e detalhadas de como bancos de dados distribuídos reais se comportam sob partições de rede, falhas de nó e condições de concorrência extremas — um contraponto empírico valioso às garantias teóricas de consistência e consenso estudadas nesta unidade, mostrando como implementações reais às vezes falham em cumprir as promessas de seus próprios manuais.
+**Texto provocativo:** Esta unidade mostrou que replicar dados é fácil e que decidir o que fazer quando as cópias divergem é difícil. Os dois capítulos indicados percorrem exatamente esse caminho, ligando os modelos de replicação e os níveis de consistência a implementações concretas de bancos de dados distribuídos usados na indústria — inclusive aos casos em que a implementação não entrega o que o nome do modelo sugere.
 
-**Podcast:** ONGARO, Diego. *Raft: In Search of an Understandable Consensus Algorithm*. Tech talk em vídeo, YouTube, 2014. Disponível em: <https://www.youtube.com/watch?v=LAqyTyNUYSY>. Acesso em: 30 jul. 2026. Diego Ongaro, coautor do algoritmo, apresenta a motivação de projeto do Raft e compara suas escolhas com as do Paxos, aprofundando o conteúdo da Aula 7.
+**Referência:** KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O'Reilly Media, 2017. Capítulo 5 — "Replication" e Capítulo 9 — "Consistency and Consensus".
 
-**Artigo científico:** GILBERT, Seth; LYNCH, Nancy. Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services. *ACM SIGACT News*, v. 33, n. 2, p. 51-59, jun. 2002. DOI: 10.1145/564585.564601. O artigo apresenta a prova formal do que ficou conhecido como teorema CAP, discutido na Aula 6, e é leitura de referência obrigatória para quem deseja compreender os limites formais — e não apenas a versão popularizada — do compromisso entre consistência, disponibilidade e tolerância a partição.
+**Link de acesso:** disponível na Biblioteca Virtual da instituição.
+
+**Aula indicada:** Aula 5, após a comparação entre replicação síncrona e assíncrona.
+
+#### Para Mergulhar no Assunto
+
+**Texto provocativo:** Classificar um banco de dados como "CP" ou "AP" parece resolver a discussão sobre CAP, mas o próprio autor de *Designing Data-Intensive Applications* argumenta que essa rotulagem esconde mais do que revela. O texto desmonta a leitura popularizada do teorema e devolve a pergunta ao lugar certo: qual garantia este dado específico precisa, sob qual falha específica?
+
+**Referência:** KLEPPMANN, Martin. Please stop calling databases CP or AP. *martin.kleppmann.com*, 11 maio 2015.
+
+**Link de acesso:** <https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html>. Acesso em: 30 jul. 2026.
+
+**Aula indicada:** Aula 6, após a discussão do teorema CAP.
+
+#### Podcast
+
+**Texto provocativo:** O Raft foi projetado com um objetivo declarado incomum: ser compreensível. Nesta apresentação, o próprio coautor do algoritmo explica quais decisões de projeto foram tomadas em nome dessa compreensibilidade e o que elas custaram em relação ao Paxos. É a melhor forma de consolidar a eleição de líder e a replicação de log estudadas na Aula 7.
+
+**Referência:** ONGARO, Diego. *Raft: In Search of an Understandable Consensus Algorithm*. [S. l.: s. n.], 2014. 1 vídeo (54 min 44 s). Publicado no YouTube.
+
+**Link de acesso:** <https://www.youtube.com/watch?v=LAqyTyNUYSY>. Acesso em: 30 jul. 2026.
+
+**Trecho obrigatório:** 00:00–45:00 (45 minutos), dentro do limite institucional de curadoria.
+
+**Aula indicada:** Aula 7, após a apresentação dos termos e da eleição de líder.
+
+#### Artigo científico
+
+**Texto provocativo:** A versão popularizada do teorema CAP — "escolha dois entre três" — é imprecisa. Este é o artigo que formalizou a conjectura de Brewer e provou seus limites reais. Lê-lo permite distinguir o que o teorema efetivamente proíbe daquilo que a repetição informal acrescentou, e é o que separa uma decisão de arquitetura fundamentada de um slogan.
+
+**Referência:** GILBERT, Seth; LYNCH, Nancy. Brewer's conjecture and the feasibility of consistent, available, partition-tolerant web services. *ACM SIGACT News*, v. 33, n. 2, p. 51-59, jun. 2002. DOI: 10.1145/564585.564601.
+
+**Link de acesso:** <https://doi.org/10.1145/564585.564601>. Acesso em: 30 jul. 2026.
+
+**Aula indicada:** Aula 6, após a formulação do teorema CAP.

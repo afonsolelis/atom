@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 13 — Observabilidade e diagnóstico distribuído · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Observabilidade e diagnóstico distribuído</h1>
+      <h1>Aula 13 — Observabilidade e diagnóstico distribuído</h1>
       <div class="subtitulo">Unidade 4 — Operação, validação e evolução</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro com os três pilares — métricas, logs e traces — convergindo para uma investigação única; um fluxo de propagação do identificador de correlação entre gateway, pedidos, estoque e pagamento; um painel numérico com o orçamento de erro mensal de doze mil requisições; um gráfico de consumo acelerado desse orçamento nos primeiros dez dias; e um diagrama de cascata do pedido de doze segundos, com a espera em fila dentro do span de pagamento.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Observabilidade e diagnóstico distribuído</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Monitoramento x observabilidade</li>
-          <li>Os três pilares: métricas, logs e traces</li>
-          <li>Correlação distribuída e instrumentação com OpenTelemetry</li>
-          <li>Indicadores e objetivos de nível de serviço (SLI/SLO)</li>
-          <li>Orçamento de erro e ritmo de mudança</li>
-          <li>Diagnóstico de latência com traces em cascata</li>
+          <li>Monitoramento e observabilidade não são sinônimos</li>
+          <li>Métricas, logs e traces: três pilares complementares</li>
+          <li>Contexto e correlação distribuída</li>
+          <li>Instrumentação com OpenTelemetry</li>
+          <li>Indicadores de nível de serviço (SLI)</li>
+          <li>Objetivos (SLO) e orçamento de erro</li>
+          <li>Taxa de consumo e decisão operacional</li>
+          <li>Diagnóstico de latência em cascata</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,133 +856,257 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Distinguir</strong> monitoramento de observabilidade pelo tipo de pergunta que cada um responde.</li>
+          <li><strong>Combinar</strong> métricas, logs e traces reconhecendo o que cada pilar não consegue responder sozinho.</li>
+          <li><strong>Projetar</strong> a propagação de um identificador de correlação, inclusive em comunicação assíncrona.</li>
+          <li><strong>Escolher</strong> SLIs que reflitam a experiência do usuário, e não a saúde da infraestrutura.</li>
+          <li><strong>Calcular</strong> o orçamento de erro de um SLO e interpretar sua taxa de consumo.</li>
+          <li><strong>Ler</strong> um trace em cascata para localizar onde a latência foi realmente gasta.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
-      <h2>Doze segundos de silêncio</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Um cliente reclama: seu pedido demorou <strong>12 segundos</strong> para confirmar. CPU normal, memória normal, <strong>nenhum alerta disparou</strong>, nenhum serviço caiu.</p>
+      <h2>Um pedido que sumiu por doze segundos</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um cliente relata que a compra levou <strong>doze segundos</strong> entre o clique e a confirmação — sem erro visível. A equipe abre o painel de infraestrutura:</p>
         <ul>
-          <li>Os logs de pedidos, estoque, pagamento e expedição existem — mas <em>dispersos</em>, sem identificador comum.</li>
-          <li>Ninguém consegue reconstruir a jornada completa daquele pedido específico.</li>
-          <li>"Tudo verde" no painel não significa saber o que está acontecendo dentro do sistema.</li>
+          <li>CPU, memória e rede dos quatro serviços <strong>dentro da faixa normal</strong>.</li>
+          <li><strong>Nenhum alerta</strong> disparou; <strong>nenhum serviço</strong> reiniciou.</li>
+          <li>Cada log, lido isoladamente, registra <strong>tempo aceitável</strong> para a própria parte.</li>
+          <li>Ninguém consegue <strong>reconstruir a jornada completa</strong> daquele pedido pelos quatro serviços.</li>
         </ul>
+        <div class="callout-azul"><p>Os logs existem, mas <strong>sem um identificador comum</strong> que permita juntá-los na ordem certa. A equipe sabe que “alguma coisa” demorou doze segundos, mas não sabe onde — porque nunca projetou o sistema para responder a essa pergunta.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Monitoramento x observabilidade</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Monitoramento</strong>: observa indicadores já conhecidos e dispara alertas quando ultrapassam limites — responde a perguntas <em>antecipadas</em>.</li>
-          <li><strong>Observabilidade</strong>: permite inferir o estado interno do sistema a partir de dados expostos, mesmo diante de perguntas <em>ninguém formulou antes</em> do incidente.</li>
-          <li>O incidente dos 12 segundos não seria resolvido com mais painéis de CPU — exigia responder "o que aconteceu com este pedido específico?".</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Os três pilares: métricas, logs e traces</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Métricas</strong>: valores agregados no tempo (requisições/s, taxa de erro). Baratas, ótimas para tendências — mas não dizem <em>quais</em> requisições falharam.</li>
-          <li><strong>Logs</strong>: registros discretos de eventos ("timeout ao chamar pagamento"). Ricos em contexto local, mas fragmentos isolados sem correlação.</li>
-          <li><strong>Traces</strong>: a jornada de uma requisição em <em>spans</em>, cada um com início, fim e duração.</li>
-          <li>Nenhum dos três substitui o outro: métrica diz <em>que</em> algo mudou; trace mostra <em>onde</em>; log detalha <em>o quê</em>.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Correlação distribuída e OpenTelemetry</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li>Cada requisição recebe um <strong>trace ID</strong> no gateway, propagado em cada chamada seguinte — inclusive em eventos assíncronos.</li>
-          <li>Propagação não é automática: é responsabilidade explícita da <em>instrumentação</em>. Um serviço que esquece de propagar rompe o trace ali.</li>
-          <li><strong>OpenTelemetry</strong>: padrão aberto e neutro em relação a fornecedor, unificando coleta de métricas, logs e traces.</li>
-          <li>Trocar de ferramenta de análise no futuro não exige reescrever a instrumentação — só o destino dos dados muda.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>SLI, SLO e orçamento de erro</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Um bom <strong>SLI</strong> reflete a experiência do cliente (ex.: % de checkouts concluídos em até 300 ms), não apenas a saúde da infraestrutura.</p>
-        <ul>
-          <li><strong>SLO</strong>: meta para o SLI num período — ex.: 99,9% de sucesso ao mês.</li>
-          <li><strong>Orçamento de erro</strong> = (1 − SLO) × Volume. Para 12.000.000 requisições/mês: E = 0,001 × 12.000.000 = <strong>12.000</strong> falhas toleradas.</li>
-          <li>Se 9.000 falhas já ocorreram em 10 dias (75% do orçamento em 1/3 do mês): reduzir mudanças arriscadas e investigar.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Demonstração</p>
-      <h2>Diagnóstico de latência: trace em cascata</h2>
+      <p class="kicker">Conteúdo</p>
+      <h2>Monitoramento e observabilidade</h2>
       <div class="slide-content-box">
-        <p>Trace reconstruído do pedido: gateway 15 ms, pedidos 40 ms, estoque 35 ms, <strong>pagamento 310 ms</strong>, expedição 20 ms — ≈ 420 ms de tempo de serviço somado.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th></th><th>Monitoramento</th><th>Observabilidade</th></tr></thead>
+          <tbody>
+            <tr><td>O que faz</td><td>Observa indicadores previamente definidos e alerta ao ultrapassar limites</td><td>Permite inferir o estado interno a partir dos dados expostos</td></tr>
+            <tr><td>Que perguntas responde</td><td>As que já foram antecipadas: “a CPU está alta?”</td><td>As que ninguém formulou antes do incidente</td></tr>
+            <tr><td>Exige prever falhas?</td><td>Sim — um painel por modo de falha esperado</td><td>Não — expõe dados ricos e correlacionáveis</td></tr>
+            <tr><td>No incidente dos 12 s</td><td>Mais painéis de CPU não resolveriam</td><td>Permite perguntar “o que houve com este pedido?” e obter resposta</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>A diferença é <strong>prática, não terminológica</strong>: observabilidade é a capacidade de fazer uma pergunta nova e obtê-la respondida a partir de dados <em>já coletados</em>, sem reproduzir o problema manualmente.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Os três pilares</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Pilar</th><th>O que é</th><th>Força</th><th>Limitação</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Métricas</strong></td><td>Valores numéricos agregados ao longo do tempo</td><td>Compactas, baratas de reter, boas para tendência e alerta</td><td>A agregação esconde <em>quais</em> requisições falharam e por quê</td></tr>
+            <tr><td><strong>Logs</strong></td><td>Registros discretos de eventos, em texto estruturado</td><td>Ricos em contexto local</td><td>Sem correlação, permanecem fragmentos isolados</td></tr>
+            <tr><td><strong>Traces</strong></td><td>O caminho de uma requisição, decomposto em spans</td><td>Mostram onde o tempo foi gasto e em que ordem</td><td>Custo maior de instrumentação e armazenamento</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Nenhum substitui os outros. <strong>Métricas</strong> indicam que algo mudou; <strong>traces</strong> mostram onde, dentro de uma requisição específica, isso aconteceu; <strong>logs</strong> detalham o que exatamente ocorreu naquele ponto.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Contexto e correlação distribuída</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O que transforma logs e traces dispersos em uma narrativa coerente é a <strong>correlação</strong>. Cada requisição recebe um identificador único no primeiro componente que a toca — normalmente o gateway.</p>
         <ul>
-          <li>O serviço de pagamento responde por <strong>mais de 70%</strong> do tempo de serviço — primeiro suspeito.</li>
-          <li>Causa raiz: chamada ao provedor externo <em>sem timeout adequado</em>.</li>
-          <li>Sem trace: horas cruzando logs manualmente. Com trace: minutos.</li>
+          <li><strong>1. O gateway gera</strong> o identificador de correlação (<em>trace ID</em>) na entrada.</li>
+          <li><strong>2. Chamadas síncronas</strong> propagam o identificador em um cabeçalho da requisição.</li>
+          <li><strong>3. Eventos assíncronos</strong> propagam o identificador nos metadados da mensagem.</li>
+          <li><strong>4. Cada serviço extrai e reinjeta</strong> — a propagação é responsabilidade explícita da instrumentação.</li>
+        </ul>
+        <div class="callout-azul"><p>Se <strong>um único serviço</strong> no meio do caminho falhar em propagar o contexto, o trace se rompe ali — e a jornada completa deixa de poder ser reconstruída, mesmo que cada serviço tenha registrado corretamente seus próprios dados.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Erro comum</p>
+      <h2>Identificador de requisição não é dimensão de métrica</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>O impulso</strong> — “se o trace ID resolve os logs, vamos colocá-lo também nas métricas”.</li>
+          <li><strong>O problema</strong> — identificadores por requisição criam <strong>cardinalidade praticamente ilimitada</strong>.</li>
+          <li><strong>A consequência</strong> — o custo de armazenamento e consulta das métricas explode.</li>
+          <li><strong>O certo</strong> — métricas usam <em>dimensões agregáveis</em>: rota, código de status, região, versão.</li>
+          <li><strong>A ponte correta</strong> — <em>exemplars</em> ligam um ponto da métrica a um trace específico.</li>
+          <li><strong>A regra</strong> — métricas agregam; traces individualizam. Não troque os papéis.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Instrumentação com OpenTelemetry</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Historicamente, cada fornecedor definia seu próprio formato de instrumentação — trocar de ferramenta significava reescrever código. O <strong>OpenTelemetry</strong> é um padrão aberto e neutro que unifica métricas, logs e traces sob uma mesma API.</p>
+        <ul>
+          <li><strong>Captura automática</strong> — chamadas HTTP recebidas e enviadas, consultas a banco, publicação e consumo de mensagens.</li>
+          <li><strong>Spans personalizados</strong> — o código adiciona operações de negócio como “reservar item” ou “autorizar pagamento”.</li>
+          <li><strong>Coletor</strong> — recebe a telemetria, processa e encaminha ao backend de armazenamento e visualização.</li>
+          <li><strong>Ganho real</strong> — trocar o sistema de análise costuma preservar a instrumentação, exigindo ajustar apenas o <em>exporter</em> ou o destino.</li>
+        </ul>
+        <div class="callout-azul"><p>O desacoplamento não é total: <strong>convenções semânticas, recursos proprietários e capacidades diferentes</strong> entre ferramentas ainda podem exigir adaptações.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Observabilidade não é sobre ter painéis. É sobre poder responder perguntas que você ainda não fez."</blockquote>
-      <cite>— Síntese da Videoaula 13, Distributed Systems Engineering</cite>
+      <blockquote>“Monitoramento responde a perguntas antecipadas; observabilidade permite investigar perguntas que ninguém formulou antes do incidente.”</blockquote>
+      <cite>— síntese da Aula 13</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>SLI: escolher o que medir</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um <strong>indicador de nível de serviço</strong> é uma medida quantitativa do comportamento observado, calculada a partir de dados reais de produção. Bons SLIs refletem a experiência de quem usa o sistema:</p>
+        <ul>
+          <li>Proporção de requisições de checkout <strong>concluídas com sucesso</strong> sobre o total de tentativas.</li>
+          <li>Proporção de requisições concluídas <strong>dentro de um limite de latência</strong>, por exemplo 300 ms.</li>
+          <li>Proporção de confirmações de pagamento processadas <strong>corretamente na primeira tentativa</strong>.</li>
+        </ul>
+        <div class="callout-azul"><p>O erro comum é escolher o indicador <strong>fácil de coletar</strong> — utilização média de CPU — em vez do relevante. A CPU pode ficar confortável enquanto uma fração significativa de pedidos falha por esgotamento de conexões. Um bom SLI é aquele que, <strong>quando ruim, corresponde a uma experiência ruim</strong>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Do SLO ao orçamento de erro</h2>
+      <div class="slide-content-box">
+        <p>Um <strong>SLO</strong> é a meta definida para um SLI ao longo de um período: “99,9% dos checkouts concluídos com sucesso, medido mensalmente”. A diferença entre 100% e o SLO é o <strong>orçamento de erro</strong>:</p>
+        <div class="callout-azul formula"><p>E = ( 1 − SLO ) × V</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">12.000.000</span><span class="legenda">requisições/mês (V)</span></div>
+          <div class="stat-card"><span class="numero-grande">99,9%</span><span class="legenda">objetivo (SLO)</span></div>
+          <div class="stat-card"><span class="numero-grande">12.000</span><span class="legenda">falhas toleradas (E)</span></div>
+          <div class="stat-card"><span class="numero-grande">9.000</span><span class="legenda">consumidas em 10 dias</span></div>
+        </div>
+        <div class="callout-azul"><p><strong>75% do orçamento em um terço do período</strong>: a taxa de consumo está muito acima do que o restante do mês suporta. Esse número orienta uma decisão concreta — reduzir mudanças arriscadas, priorizar estabilidade e investigar a causa antes que o orçamento se esgote.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>O orçamento de erro legitima o risco calculado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Enquanto há orçamento</strong> — a equipe tem margem para implantar, experimentar e evoluir o sistema.</li>
+          <li><strong>Quando ele se esgota</strong> — uma política previamente acordada desloca a prioridade para a estabilidade.</li>
+          <li><strong>O ganho</strong> — o critério passa a ser <em>observável</em>, e não uma discussão subjetiva sobre o que é “seguro o suficiente”.</li>
+          <li><strong>O efeito cultural</strong> — confiabilidade deixa de ser oposta à entrega e passa a ser o que a torna sustentável.</li>
+        </ul>
+        <div class="callout-azul"><p>Sem orçamento declarado, toda discussão sobre ritmo de mudança vira <strong>opinião</strong>. Com ele, vira <strong>leitura de um número</strong> combinado antecipadamente.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O trace em cascata do pedido de doze segundos</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Span</th><th>Duração</th><th>O que revela</th></tr></thead>
+          <tbody>
+            <tr><td>Gateway (raiz)</td><td>12.000 ms</td><td>O intervalo completo percebido pelo cliente</td></tr>
+            <tr><td>Pedidos</td><td>11.950 ms</td><td>Quase todo o tempo está dentro deste span</td></tr>
+            <tr><td>Estoque</td><td>35 ms</td><td>Descartado como suspeito</td></tr>
+            <tr><td>Pagamento</td><td>11.780 ms</td><td>Concentra o caminho crítico</td></tr>
+            <tr><td>↳ espera em fila</td><td>11.450 ms</td><td><strong>A causa</strong> — não é o provedor externo</td></tr>
+            <tr><td>↳ chamada ao provedor</td><td>310 ms</td><td>Comportamento normal</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Spans aninhados <strong>não se somam</strong> como se fossem sequenciais: a cascata e as relações pai-filho é que revelam a causa. A expedição, assíncrona, começa após a resposta e <strong>não pertence ao caminho crítico</strong> do cliente.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -977,49 +1114,53 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Monitoramento x observabilidade</h3><p>Monitoramento responde a perguntas antecipadas; observabilidade investiga o que não foi previsto.</p></div>
-          <div class="ponto"><h3>Três pilares complementares</h3><p>Métricas, logs e traces não se substituem — juntos formam a narrativa de um incidente.</p></div>
-          <div class="ponto"><h3>Correlação e OpenTelemetry</h3><p>Um trace ID propagado explicitamente conecta serviços; OpenTelemetry padroniza a instrumentação.</p></div>
-          <div class="ponto"><h3>SLI, SLO e orçamento de erro</h3><p>O orçamento de erro converte a meta em decisão operacional concreta sobre ritmo de mudança.</p></div>
+          <div class="ponto"><h3>Duas capacidades distintas</h3><p>Monitoramento cobre o previsto; observabilidade permite investigar o que ninguém antecipou.</p></div>
+          <div class="ponto"><h3>Três pilares, um incidente</h3><p>Métricas apontam a mudança, traces localizam o ponto, logs explicam o que houve ali.</p></div>
+          <div class="ponto"><h3>Correlação é explícita</h3><p>O identificador só atravessa o sistema se cada serviço o extrair e reinjetar — inclusive em eventos.</p></div>
+          <div class="ponto"><h3>Padrão neutro</h3><p>OpenTelemetry desacopla a instrumentação da ferramenta de análise, sem eliminar toda adaptação.</p></div>
+          <div class="ponto"><h3>SLI olha o usuário</h3><p>Um bom indicador é ruim exatamente quando a experiência de quem usa o serviço é ruim.</p></div>
+          <div class="ponto"><h3>Orçamento decide o ritmo</h3><p>A taxa de consumo do orçamento de erro converte confiabilidade em critério operacional observável.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Reconstrua o trace de um pedido da NexaOrder atravessando gateway, pedidos, estoque, pagamento e expedição:</p>
+      <h2>Mãos à obra: reconstruir um trace</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Reconstrua, em tabela ou diagrama, o trace de um pedido que atravessa gateway, pedidos, estoque, pagamento e expedição.</p>
         <ul>
-          <li>Atribua tempos hipotéticos a cada serviço e identifique o que concentra a maior parte do tempo.</li>
-          <li>Proponha um identificador de correlação e descreva sua propagação, inclusive num evento assíncrono.</li>
-          <li>Defina um SLI e um SLO para o checkout e calcule o orçamento de erro mensal.</li>
-          <li>Liste dois logs e duas métricas que ajudariam a confirmar a causa raiz da lentidão.</li>
+          <li><strong>1.</strong> Atribua a cada serviço um tempo de execução hipotético, em milissegundos.</li>
+          <li><strong>2.</strong> Identifique qual serviço concentra a maior parte do tempo total.</li>
+          <li><strong>3.</strong> Proponha um identificador de correlação e descreva sua propagação, incluindo o evento assíncrono da expedição.</li>
+          <li><strong>4.</strong> Defina um SLI e um SLO para o fluxo completo de checkout.</li>
+          <li><strong>5.</strong> Calcule o orçamento de erro mensal para um volume hipotético.</li>
+          <li><strong>6.</strong> Liste dois logs e duas métricas que, somados ao trace, confirmariam a causa raiz.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 13 — Videoaula 13</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe diferenciar monitoramento de observabilidade e usar métricas, logs e traces para diagnosticar um sistema distribuído. Na próxima aula, vamos além do diagnóstico: testar, deliberadamente, se os mecanismos de resiliência do sistema realmente funcionam sob falha.</p>
+      <p class="fim-texto">Você já sabe instrumentar um sistema para responder a perguntas que ninguém previu, e converter confiabilidade em um número operável. Na próxima aula, deixamos de presumir que os mecanismos de resiliência funcionam e passamos a prová-lo deliberadamente.</p>
       <p class="fim-proxima">Próxima aula: Aula 14 — Resiliência, testes distribuídos e engenharia do caos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1034,6 +1175,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1055,6 +1197,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1065,6 +1209,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

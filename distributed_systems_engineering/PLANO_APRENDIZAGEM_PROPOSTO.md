@@ -1,17 +1,22 @@
 # Plano de Aprendizagem Proposto
 
+> **Documento provisório, sem aprovação institucional registrada.** Esta proposta foi elaborada pelo professor-conteudista a partir do título da disciplina e de uma organização pedagógica autoral. Ela não reproduz um plano oficial do NEaD. Se o plano oficial for disponibilizado ou se a coordenação solicitar alterações, ele prevalecerá e as unidades, questões, videoaulas e avaliações deverão ser revalidadas.
+
 ## Identificação
 
 - **Disciplina:** *Distributed Systems Engineering*
 - **Professor-conteudista:** Afonso Cesar Lelis Brandão
 - **Natureza:** teórico-prática
 - **Organização:** 4 unidades, 16 aulas e 16 videoaulas
-- **Duração-base das videoaulas:** 20 minutos
-- **Situação:** proposta provisória elaborada a partir do título da disciplina; deverá ser confrontada com o plano oficial quando ele for disponibilizado
+- **Duração das videoaulas:** 20 minutos, conforme determinação do responsável pelo projeto; os 16 roteiros estão dimensionados para essa duração e sincronizados slide a slide com os decks, mas o tempo real ainda deve ser confirmado em ensaio cronometrado antes da gravação (o conflito com o guia recuperado, que indica de 5 a 10 minutos, está registrado em `ANALISE_MATERIAIS_RECEBIDOS.md`)
+- **Base documental auditada:** 34 originais institucionais preservados em `documentos/` — 14 DOCX, 16 PPTX e 4 PDF — com hashes registrados e reconferidos
+- **Saídas atuais:** 14 cópias DOCX preenchidas em `entrega_final/`, ainda em pré-validação e sem substituir a aprovação do plano pela coordenação
+- **Slides atuais:** 17 protótipos HTML corrigidos e testados; os 16 PPTX oficiais foram somente auditados e preservados, sem geração de novos PPTX
+- **Situação:** proposta provisória elaborada a partir do título da disciplina; depende de aprovação formal ou confronto com o plano oficial
 
-## Ementa
+## Ementa proposta
 
-Fundamentos, modelos e desafios de sistemas distribuídos. Arquiteturas cliente-servidor, em camadas, orientadas a serviços e orientadas a eventos. Comunicação entre processos por HTTP, APIs, RPC, mensageria e transmissão de eventos. Concorrência, tempo físico e lógico, ordenação de eventos e causalidade. Modelos de falha, tolerância a falhas, disponibilidade e particionamentos de rede. Replicação, particionamento de dados, modelos de consistência e teorema CAP. Coordenação distribuída, eleição de líder, consenso, Raft e máquinas de estado replicadas. Transações distribuídas, confirmação em duas fases, sagas, idempotência e consistência eventual. Microsserviços, descoberta de serviços, balanceamento, gateways e comunicação assíncrona. Plataformas de eventos, particionamento, grupos de consumidores e semânticas de entrega. Contêineres, orquestração, Kubernetes e reconciliação de estado. Observabilidade, segurança, resiliência, engenharia do caos e testes de sistemas distribuídos. Processamento distribuído de dados, computação em borda e funções como serviço. Projeto, avaliação e evolução de arquiteturas distribuídas considerando desempenho, escalabilidade, segurança, custo e confiabilidade.
+Fundamentos, modelos e desafios de sistemas distribuídos. Arquiteturas cliente-servidor, em camadas, orientadas a serviços e a eventos. Comunicação entre processos por HTTP, APIs, RPC, mensageria e transmissão de eventos. Concorrência, tempo físico e lógico, ordenação de eventos e causalidade. Modelos de falha, tolerância a falhas, disponibilidade e particionamentos de rede. Replicação, particionamento de dados, modelos de consistência e teorema CAP. Coordenação distribuída, eleição de líder, consenso, Raft e máquinas de estado replicadas. Transações distribuídas, confirmação em duas fases, sagas, idempotência e consistência eventual. Microsserviços, descoberta de serviços, balanceamento, *gateways* e comunicação assíncrona. Plataformas de eventos, particionamento, grupos de consumidores e semânticas de entrega. Contêineres, orquestração, Kubernetes e reconciliação de estado. Observabilidade, segurança, resiliência, engenharia do caos e testes de sistemas distribuídos. Processamento distribuído de dados, computação em borda e funções como serviço. Projeto, avaliação e evolução de arquiteturas distribuídas considerando desempenho, escalabilidade, segurança, custo e confiabilidade.
 
 ## Justificativa
 
@@ -21,7 +26,7 @@ O diferencial profissional está na capacidade de relacionar decisões arquitetu
 
 ## Objetivo geral
 
-Projetar, analisar, implementar e avaliar sistemas distribuídos escaláveis, observáveis, seguros e tolerantes a falhas, justificando decisões arquiteturais com base em modelos, algoritmos, requisitos de negócio e evidências operacionais.
+Projetar, analisar e avaliar sistemas distribuídos escaláveis, observáveis, seguros e tolerantes a falhas, justificando decisões arquiteturais com base em modelos, algoritmos, requisitos de negócio e evidências operacionais.
 
 ## Objetivos específicos
 
@@ -112,8 +117,8 @@ Analisar os elementos fundamentais de um sistema distribuído, modelar sua comun
 - distribuição como decisão arquitetural;
 - transparência, heterogeneidade, concorrência e autonomia;
 - escalabilidade horizontal e vertical;
-- latência, throughput, disponibilidade e confiabilidade;
-- arquiteturas cliente-servidor, em camadas e peer-to-peer;
+- latência, vazão, disponibilidade e confiabilidade;
+- arquiteturas cliente-servidor, em camadas e ponto a ponto;
 - apresentação da NexaOrder e de seus requisitos iniciais.
 
 **Prática da videoaula:** decompor uma aplicação centralizada e identificar quais problemas são criados pela distribuição.
@@ -127,7 +132,7 @@ Analisar os elementos fundamentais de um sistema distribuído, modelar sua comun
 - RPC e contratos de interface;
 - serialização e evolução de esquema;
 - filas, publicação-assinatura e eventos;
-- timeouts, retries, backoff e jitter;
+- limites de tempo (*timeouts*), novas tentativas, espera progressiva (*backoff*) e variação aleatória (*jitter*);
 - idempotência e correlação de requisições.
 
 **Prática da videoaula:** comparar um fluxo de criação de pedido por API síncrona e por mensageria.
@@ -154,7 +159,7 @@ Analisar os elementos fundamentais de um sistema distribuído, modelar sua comun
 - falha parcial e detector de falhas;
 - particionamento de rede;
 - redundância e isolamento;
-- timeout como decisão, não como prova de falha;
+- limite de tempo (*timeout*) como decisão, não como prova de falha;
 - padrões *circuit breaker*, *bulkhead* e degradação graciosa;
 - introdução a objetivos de confiabilidade.
 
@@ -171,7 +176,7 @@ Projetar estratégias de distribuição e coordenação de estado, avaliando os 
 **Tópicos:**
 
 - objetivos da replicação;
-- replicação primário-réplica e multi-líder;
+- replicação primário-réplica e com múltiplos líderes;
 - replicação síncrona e assíncrona;
 - leituras obsoletas e atraso de réplica;
 - consistência forte, sequencial, causal e eventual;
@@ -186,7 +191,7 @@ Projetar estratégias de distribuição e coordenação de estado, avaliando os 
 
 - particionamento horizontal;
 - estratégias por faixa, hash e diretório;
-- hashing consistente;
+- *hashing* consistente;
 - rebalanceamento e pontos quentes;
 - consultas entre partições;
 - teorema CAP e comportamento durante partições;
@@ -222,7 +227,7 @@ Projetar estratégias de distribuição e coordenação de estado, avaliando os 
 
 **Prática da videoaula:** modelar a saga pedido–estoque–pagamento–expedição.
 
-## Unidade 3 — Serviços, eventos e plataformas cloud-native
+## Unidade 3 — Serviços, eventos e plataformas nativas de nuvem
 
 ### Resultado de aprendizagem da unidade
 
@@ -236,7 +241,7 @@ Construir arquiteturas de serviços e eventos com contratos explícitos, mecanis
 - coesão, acoplamento e autonomia;
 - contexto delimitado e capacidade de negócio;
 - dados por serviço;
-- API Gateway e composição;
+- *API gateway* e composição;
 - comunicação entre serviços;
 - riscos do monólito distribuído.
 
@@ -278,7 +283,7 @@ Construir arquiteturas de serviços e eventos com contratos explícitos, mecanis
 - autenticação, autorização e menor privilégio;
 - TLS e proteção em trânsito;
 - gestão de segredos;
-- gateway, proxy lateral e *service mesh*;
+- *gateway*, *proxy* lateral e malha de serviços (*service mesh*);
 - limitação de taxa e proteção contra sobrecarga;
 - ameaças específicas de sistemas distribuídos.
 
@@ -295,7 +300,7 @@ Validar e operar sistemas distribuídos por meio de telemetria, testes, experime
 **Tópicos:**
 
 - diferença entre monitoramento e observabilidade;
-- métricas, logs e traces;
+- métricas, registros e rastros distribuídos;
 - contexto e correlação distribuída;
 - instrumentação e OpenTelemetry;
 - indicadores de nível de serviço;
@@ -318,7 +323,7 @@ Validar e operar sistemas distribuídos por meio de telemetria, testes, experime
 
 **Prática da videoaula:** planejar um experimento controlado de indisponibilidade do serviço de pagamento.
 
-### Aula 15 — Processamento distribuído, edge e serverless
+### Aula 15 — Processamento distribuído, borda e funções como serviço
 
 **Tópicos:**
 
@@ -369,7 +374,7 @@ A disciplina combinará:
 - dois itens de quiz não avaliativo por unidade;
 - desafios e pausas para reflexão;
 - exercícios práticos nas videoaulas;
-- atividade verificadora individual prevista no template da Unidade 1.
+- atividade verificadora individual prevista no modelo da Unidade 1.
 
 ### Questionários
 
@@ -378,7 +383,7 @@ A disciplina combinará:
 - padrão ENADE;
 - distribuição provisória de 20 questões de asserção–razão e 20 de interpretação;
 - cinco alternativas;
-- feedback por alternativa.
+- devolutiva por alternativa.
 
 ### Trabalho PBL
 
@@ -404,11 +409,11 @@ Projeto arquitetural da NexaOrder ou de sistema equivalente, contendo:
 
 ## Critérios internos de produção
 
-Os templates não determinam limite de palavras ou caracteres. Para assegurar robustez e previsibilidade, serão utilizados os seguintes alvos internos:
+Os modelos analisados não determinam limite de palavras ou caracteres. Para assegurar robustez e previsibilidade, serão utilizados os seguintes alvos internos:
 
 - relação com a atuação profissional: 300 a 500 palavras;
 - texto-base de cada aula: 2.000 a 3.000 palavras;
-- roteiro de videoaula: conteúdo planejado para 20 minutos, com cerca de 2.200 a 2.700 palavras faladas, ajustado pela presença de demonstrações;
+- roteiro de videoaula: conteúdo planejado para 20 minutos, com cerca de 2.200 a 2.700 palavras faladas, conforme o ritmo, as pausas e a presença de demonstrações, e com a narração mapeada slide a slide ao deck da aula;
 - roteiro introdutório: até 2 minutos, aproximadamente 220 a 280 palavras;
 - 3 a 5 recursos visuais por aula;
 - 2 questões de quiz por unidade;
@@ -427,13 +432,15 @@ Esses números são metas de produção, não limites institucionais. Se o plano
 
 - BURNS, Brendan. *Designing Distributed Systems*. 2. ed. Sebastopol: O’Reilly Media, 2024.
 - NEWMAN, Sam. *Building Microservices*. 2. ed. Sebastopol: O’Reilly Media, 2021.
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016.
-- ONGARO, Diego; OUSTERHOUT, John. In search of an understandable consensus algorithm. In: USENIX ANNUAL TECHNICAL CONFERENCE, 2014, Philadelphia. *Proceedings [...]*. Berkeley: USENIX Association, 2014.
+- BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (ed.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016.
+- ONGARO, Diego; OUSTERHOUT, John. In search of an understandable consensus algorithm. In: USENIX ANNUAL TECHNICAL CONFERENCE, 2014, Philadelphia. *Proceedings [...]*. Berkeley: USENIX Association, 2014. p. 305-319.
 - RICHARDSON, Chris. *Microservices Patterns*. Shelter Island: Manning, 2018.
 
 ## Fontes técnicas de referência
 
-- Apache Kafka Documentation: <https://kafka.apache.org/documentation/>
-- Kubernetes Documentation: <https://kubernetes.io/docs/>
-- OpenTelemetry Documentation: <https://opentelemetry.io/docs/>
-- Raft Consensus Algorithm: <https://raft.github.io/>
+- APACHE SOFTWARE FOUNDATION. *Apache Kafka documentation*. [S. l.], [s. d.]. Disponível em: <https://kafka.apache.org/documentation/>. Acesso em: 1 ago. 2026.
+- KUBERNETES AUTHORS. *Kubernetes documentation*. [S. l.], [s. d.]. Disponível em: <https://kubernetes.io/docs/>. Acesso em: 1 ago. 2026.
+- OPENTELEMETRY AUTHORS. *OpenTelemetry documentation*. [S. l.], [s. d.]. Disponível em: <https://opentelemetry.io/docs/>. Acesso em: 1 ago. 2026.
+- RAFT CONSENSUS ALGORITHM. *Raft consensus algorithm*. [S. l.], [s. d.]. Disponível em: <https://raft.github.io/>. Acesso em: 1 ago. 2026.
+
+> **Validação pendente:** antes da entrega, a coordenação deve confirmar a bibliografia e a disponibilidade dos livros indicados na Biblioteca Virtual. As referências também deverão ser conferidas no DOCX final, conforme a ABNT NBR 6023:2018.

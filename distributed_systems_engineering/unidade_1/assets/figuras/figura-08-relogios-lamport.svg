@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="640" viewBox="0 0 1150 640" role="img">
+  <title>Linha do tempo dos relógios lógicos de Lamport</title>
+  <desc>diagrama de raias mostra os relógios lógicos de Pedidos, Estoque e Pagamento evoluindo por eventos locais e mensagens trocadas, evidenciando como o recebimento de mensagem ajusta o contador local.</desc>
+  <rect width="1150" height="640" fill="#FFFFFF"/>
+  <rect x="25.0" y="90.0" width="195.0" height="60.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="122.5" y="123.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Pedidos (Pd)</text>
+  <line x1="230.0" y1="120.0" x2="1090.0" y2="120.0" stroke="#C7CEDB" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="25.0" y="240.0" width="195.0" height="60.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="122.5" y="273.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Estoque (Es)</text>
+  <line x1="230.0" y1="270.0" x2="1090.0" y2="270.0" stroke="#C7CEDB" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="25.0" y="390.0" width="195.0" height="60.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="122.5" y="423.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Pagamento (Pg)</text>
+  <line x1="230.0" y1="420.0" x2="1090.0" y2="420.0" stroke="#C7CEDB" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="300.0" cy="120.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="300.0" y="127.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">1</text>
+  <text x="300.0" y="166.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <circle cx="410.0" cy="120.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="410.0" y="127.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">2</text>
+  <text x="410.0" y="166.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">envio</text>
+  <circle cx="770.0" cy="120.0" r="17.0" fill="#F2CB0A" stroke="#002156" stroke-width="2.6"/>
+  <text x="770.0" y="127.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">5</text>
+  <text x="770.0" y="88.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">recebimento</text>
+  <circle cx="560.0" cy="270.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="560.0" y="277.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">3</text>
+  <text x="560.0" y="316.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">recebimento</text>
+  <circle cx="660.0" cy="270.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="660.0" y="277.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">4</text>
+  <text x="660.0" y="316.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">envio</text>
+  <circle cx="300.0" cy="420.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="300.0" y="427.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">1</text>
+  <text x="300.0" y="466.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <circle cx="380.0" cy="420.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="380.0" y="427.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">2</text>
+  <text x="380.0" y="466.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <circle cx="460.0" cy="420.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="460.0" y="427.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">3</text>
+  <text x="460.0" y="466.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <circle cx="540.0" cy="420.0" r="17.0" fill="#FFFFFF" stroke="#002156" stroke-width="2.6"/>
+  <text x="540.0" y="427.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">4</text>
+  <text x="540.0" y="466.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <circle cx="620.0" cy="420.0" r="17.0" fill="#F2CB0A" stroke="#002156" stroke-width="2.6"/>
+  <text x="620.0" y="427.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#002156" text-anchor="middle">5</text>
+  <text x="620.0" y="466.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">local</text>
+  <line x1="424.0" y1="133.0" x2="539.4" y2="249.4" stroke="#00B1D2" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="546.0,256.0 530.6,250.0 540.2,240.6" fill="#00B1D2"/>
+  <rect x="393.0" y="192.1" width="206.9" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="400.0" y="205.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#254AB9" text-anchor="start">“reservar item”, carimbo 2</text>
+  <line x1="674.0" y1="257.0" x2="750.8" y2="142.8" stroke="#00B1D2" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="756.0,135.0 753.2,151.3 742.0,143.8" fill="#00B1D2"/>
+  <rect x="683.0" y="192.1" width="244.0" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="690.0" y="205.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#254AB9" text-anchor="start">“reserva confirmada”, carimbo 4</text>
+  <rect x="700.0" y="348.0" width="420.0" height="92.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="#FF2B5F" stroke-width="2" stroke-dasharray="7 6"/>
+  <text x="910.0" y="376.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#C2185B" text-anchor="middle">Mesmo carimbo 5 nas duas raias,</text>
+  <text x="910.0" y="400.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#C2185B" text-anchor="middle">sem mensagem entre elas: coincidência</text>
+  <text x="910.0" y="424.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#C2185B" text-anchor="middle">de contagem, não causalidade.</text>
+  <rect x="230.0" y="500.0" width="470.0" height="56.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#002156" stroke-width="2"/>
+  <text x="252.0" y="534.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#002156" text-anchor="start">Recebimento:</text>
+  <text x="382.0" y="534.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#1A1A1A" text-anchor="start"><tspan font-size="16.0" dy="-0.0">C ← max(C</tspan><tspan font-size="11.2" dy="3.8">local</tspan><tspan font-size="16.0" dy="-3.8">, C</tspan><tspan font-size="11.2" dy="3.8">msg</tspan><tspan font-size="16.0" dy="-3.8">) + 1</tspan></text>
+  <line x1="230.0" y1="590.0" x2="1080.7" y2="590.0" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="1090.0,590.0 1074.9,596.7 1074.9,583.3" fill="#5A6175"/>
+  <text x="1082.0" y="614.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="end">tempo</text>
+</svg>

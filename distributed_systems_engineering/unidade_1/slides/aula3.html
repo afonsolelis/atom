@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 3 — Concorrência, relógios e ordenação de eventos · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,137 +672,137 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Aula 3 — Concorrência, relógios e ordenação de eventos</h1>
       <div class="subtitulo">Unidade 1 — Fundamentos, comunicação, tempo e falhas</div>
@@ -809,33 +810,45 @@
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um painel numérico com o desvio máximo de relógio acumulado em uma hora; uma sequência com as três regras da relação happened-before; uma tabela com a evolução dos relógios lógicos de Lamport entre Pedidos, Estoque e Pagamento; uma comparação posição a posição dos vetores (2,3,0) e (2,1,2), em que nenhum domina o outro; e um quadro contrastando ordem parcial e ordem total.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Concorrência, relógios e ordenação de eventos</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Ausência de um relógio global</li>
+          <li>A ausência de um relógio global</li>
           <li>Relógios físicos, desvio e sincronização</li>
           <li>A relação happened-before</li>
           <li>Relógios lógicos de Lamport</li>
-          <li>Relógios vetoriais</li>
-          <li>Ordem parcial, ordem total e conflitos concorrentes</li>
+          <li>Relógios vetoriais e detecção de concorrência</li>
+          <li>Ordem total, ordem parcial e causalidade</li>
+          <li>Conflitos concorrentes em estoque e pagamento</li>
+          <li>Política de resolução definida a priori</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,17 +856,20 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Ausência de um relógio global</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Em um único processo, comparar "antes" e "depois" é trivial. Em um sistema distribuído, cada processo tem seu próprio relógio local, e a rede introduz atraso variável.</p>
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Perguntas como "o pagamento foi recusado antes ou depois da reserva de estoque?" não podem ser respondidas só comparando carimbos de hora locais.</li>
-          <li>Um carimbo físico reflete o relógio de quem o gerou — e relógios locais divergem.</li>
+          <li><strong>Explicar</strong> por que carimbos de hora físicos não ordenam com segurança eventos de processos diferentes.</li>
+          <li><strong>Estimar</strong> o desvio máximo entre relógios a partir da taxa de drift e do intervalo de sincronização.</li>
+          <li><strong>Aplicar</strong> a relação happened-before para identificar pares causalmente relacionados.</li>
+          <li><strong>Calcular</strong> relógios lógicos de Lamport ao longo de uma sequência de eventos e mensagens.</li>
+          <li><strong>Comparar</strong> relógios vetoriais para afirmar, com certeza, que dois eventos são concorrentes.</li>
+          <li><strong>Definir</strong> uma política de resolução de conflito antes que o conflito ocorra em produção.</li>
         </ul>
       </div>
     </div>
@@ -861,17 +877,19 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Relógios físicos, desvio e sincronização</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Relógios físicos sofrem <strong>desvio</strong> (<em>drift</em>). O desvio máximo acumulado: δ<sub>máx</sub> = 2 × ρ × T.</p>
+      <p class="kicker">Situação-problema</p>
+      <h2>Qual evento aconteceu primeiro?</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O painel de operações da NexaOrder ordena eventos pelo carimbo de hora físico do servidor de origem. Em um incidente, <code>ReservaCancelada</code> apareceu <strong>antes</strong> de <code>PagamentoAprovado</code>. A equipe concluiu que o cancelamento veio primeiro e <strong>estornou o pagamento automaticamente</strong>.</p>
         <ul>
-          <li>Para ρ = 50 ppm (0,00005) e T = 3600 s (1h sem sincronizar): δ<sub>máx</sub> = 2 × 0,00005 × 3600 = <strong>0,36 s = 360 ms</strong>.</li>
-          <li>360 ms bastam para inverter, em um painel ordenado por relógio físico, a ordem real de dois eventos próximos — exatamente o problema do incidente da NexaOrder.</li>
+          <li>Depois se descobriu: o relógio do servidor de pagamento estava <strong>atrasado</strong>.</li>
+          <li>A ordem exibida refletia a ordem dos <strong>carimbos</strong>, não a dos acontecimentos.</li>
+          <li>O problema não é configuração: é <strong>estrutural</strong>.</li>
+          <li>Não existe relógio único capaz de ordenar eventos de processos diferentes com precisão absoluta.</li>
         </ul>
       </div>
     </div>
@@ -879,76 +897,106 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>A ausência de um relógio global</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Dentro de um processo</strong>, instruções ocorrem em sequência total: comparar “antes” e “depois” é trivial.</li>
+          <li><strong>Entre processos</strong>, cada um tem seu relógio local e não há sinal instantâneo que os sincronize perfeitamente.</li>
+          <li><strong>A rede introduz atraso variável</strong> entre envio e chegada, e essa variação não pode ser eliminada.</li>
+          <li><strong>Consequência</strong> — “o pagamento foi recusado antes ou depois da reserva?” não se responde comparando carimbos independentes.</li>
+        </ul>
+        <div class="callout-azul"><p>Um carimbo de hora físico reflete apenas o relógio local de quem o gerou — e <strong>relógios locais divergem</strong>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quanto dois relógios podem divergir em uma hora</h2>
+      <div class="slide-content-box">
+        <p>Relógios de computadores comuns sofrem <strong>desvio</strong> (<em>drift</em>) causado por variações no oscilador. A sincronização por rede reduz a divergência periodicamente, mas não a elimina entre sincronizações sucessivas:</p>
+        <div class="callout-azul formula"><p>δ<sub>máx</sub> ≤ ε + 2 ρ T</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">50 ppm</span><span class="legenda">taxa de drift (ρ)</span></div>
+          <div class="stat-card"><span class="numero-grande">3600 s</span><span class="legenda">sem sincronizar (T)</span></div>
+          <div class="stat-card"><span class="numero-grande">360 ms</span><span class="legenda">desvio acumulado</span></div>
+          <div class="stat-card"><span class="numero-grande">2×</span><span class="legenda">um adianta, o outro atrasa</span></div>
+        </div>
+        <div class="callout-azul"><p>Com ε = 0, ρ = 0,00005 e T = 3600 s: <strong>δ ≤ 2 × 0,00005 × 3600 = 0,36 s</strong>. Suficiente para <strong>inverter</strong>, em um painel ordenado por carimbo físico, dois eventos separados por menos de 360 ms. Sincronizar com mais frequência reduz a parcela de drift, mas não elimina a inversão para eventos suficientemente próximos.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>A relação happened-before</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Leslie Lamport propôs uma relação lógica de causalidade (→), sem depender de relógio físico. Três regras:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Diante da impossibilidade de confiar em relógios físicos, Leslie Lamport propôs uma relação lógica (→) que ordena eventos por <strong>causalidade observável</strong>, não por tempo de relógio:</p>
         <ul>
-          <li>Se a e b ocorrem no mesmo processo e a é antes de b, então a → b.</li>
-          <li>Se a é o envio de uma mensagem e b é o recebimento, então a → b.</li>
-          <li>Transitividade: se a → b e b → c, então a → c.</li>
-          <li>Eventos sem relação por nenhuma regra são <strong>concorrentes</strong> — nenhum causou o outro.</li>
+          <li><strong>1. Mesmo processo</strong> — se <em>a</em> e <em>b</em> ocorrem no mesmo processo e <em>a</em> executa antes, então a → b.</li>
+          <li><strong>2. Mensagem</strong> — se <em>a</em> é o envio de uma mensagem e <em>b</em> é o recebimento dela, então a → b.</li>
+          <li><strong>3. Transitividade</strong> — se a → b e b → c, então a → c.</li>
         </ul>
+        <div class="callout-azul"><p>Dois eventos sem nenhuma dessas relações, direta ou transitiva, são <strong>concorrentes</strong>: nenhum pode ter causado o outro. Essa noção não depende de proximidade no tempo físico — depende exclusivamente de existir ou não um caminho causal.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Relógios lógicos de Lamport</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Cada processo mantém um contador: incrementa antes de evento local; anexa o valor ao enviar mensagem; ao receber, ajusta para max(local, recebido) + 1.</p>
+      <h2>Relógios lógicos de Lamport: as três regras</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Exemplo: Pedidos cria pedido (0→1), envia "reservar" a Estoque anexando 1 (1→2); Estoque recebe (0→2), confirma reserva (2→3); Pedidos recebe (2→3).</li>
-          <li>Garante que a → b implica contador(a) &lt; contador(b) — mas <strong>não</strong> distingue causalidade de coincidência numérica.</li>
+          <li><strong>Evento local ou envio</strong> — incremente o contador em 1 e use o novo valor como carimbo do evento.</li>
+          <li><strong>Ao enviar</strong> — inclua na mensagem o carimbo atribuído ao evento de envio.</li>
+          <li><strong>Ao receber</strong> — ajuste o contador para <strong>máx(C<sub>local</sub>, C<sub>msg</sub>) + 1</strong>.</li>
+          <li><strong>Garantia</strong> — se a → b, então C(a) &lt; C(b): causalidade implica ordem numérica crescente.</li>
         </ul>
+        <div class="callout-azul formula"><p>C<sub>recebimento</sub> = máx( C<sub>local</sub> , C<sub>msg</sub> ) + 1</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Relógios vetoriais</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Cada processo mantém um <strong>vetor</strong> (uma posição por processo) — supera a limitação do relógio de Lamport, distinguindo causalidade real de coincidência.</p>
-        <ul>
-          <li>Vetores (Pedidos, Estoque, Pagamento): cancelamento de reserva = (2,3,0); aprovação de pagamento = (2,1,2).</li>
-          <li>Nenhum vetor domina o outro (2ª posição maior no cancelamento, 3ª maior na aprovação) → eventos <strong>genuinamente concorrentes</strong>.</li>
-          <li>O sistema precisa de uma regra de negócio explícita para decidir qual prevalece.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Ordem parcial, ordem total e conflitos concorrentes</h2>
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Lamport aplicado a um trecho da NexaOrder</h2>
       <div class="slide-content-box">
-        <p><em>Happened-before</em> define uma <strong>ordem parcial</strong>: alguns pares são comparáveis, outros são concorrentes e incomparáveis.</p>
-        <ul>
-          <li><strong>Ordem total</strong> compara todo par — pode ser imposta artificialmente (ex.: desempate por ID de processo), mas não recupera causalidade perdida.</li>
-          <li>Cancelamento de reserva e aprovação de pagamento na NexaOrder são eventos concorrentes: nenhum causou o outro, e nenhuma sincronização de relógio resolve isso.</li>
-          <li>Exige uma <strong>política de resolução de conflito</strong> definida a priori — não descoberta em produção.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>#</th><th>Processo</th><th>Ação</th><th>Antes</th><th>Depois</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Pedidos</td><td>Cria o pedido (evento local)</td><td>0</td><td>1</td></tr>
+            <tr><td>2</td><td>Pedidos</td><td>Envia “reservar item” ao Estoque, anexando 2</td><td>1</td><td>2</td></tr>
+            <tr><td>3</td><td>Estoque</td><td>Recebe a mensagem (C<sub>msg</sub> = 2)</td><td>0</td><td>máx(0,2)+1 = 3</td></tr>
+            <tr><td>4</td><td>Estoque</td><td>Envia “reserva confirmada”, anexando 4</td><td>3</td><td>4</td></tr>
+            <tr><td>5</td><td>Pedidos</td><td>Recebe a confirmação (C<sub>msg</sub> = 4)</td><td>2</td><td>máx(2,4)+1 = 5</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O evento 5 recebeu carimbo 5, maior que o 2 que iniciou a troca e que o 4 do envio anterior — <strong>a → b ⇒ C(a) &lt; C(b)</strong> foi respeitado ao longo de toda a cadeia.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
@@ -956,19 +1004,145 @@
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Nenhuma sincronização de relógio elimina eventos genuinamente concorrentes — apenas uma política de negócio explícita resolve o conflito."</blockquote>
+      <blockquote>“O relógio de Lamport ordena, mas não distingue causalidade de coincidência: dois eventos concorrentes também recebem carimbos diferentes.”</blockquote>
       <cite>— síntese da Aula 3</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>O limite de Lamport: ordem não é causalidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>A garantia vale em um sentido só</strong> — a → b implica C(a) &lt; C(b), mas a recíproca não é verdadeira.</li>
+          <li><strong>Coincidência numérica</strong> — se Pagamento chegasse ao carimbo 5 só por eventos internos, o empate não indicaria relação causal alguma.</li>
+          <li><strong>Concorrência não é detectável</strong> — o contador único não guarda de <em>quem</em> veio cada avanço.</li>
+          <li><strong>Consequência prática</strong> — comparar carimbos de Lamport não autoriza afirmar que um evento causou o outro.</li>
+        </ul>
+        <div class="callout-azul"><p>É exatamente essa limitação que motiva o relógio vetorial: guardar uma posição <strong>por processo</strong>, e não um número só.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Relógios vetoriais</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Em vez de um contador, cada processo mantém um <strong>vetor</strong> com uma posição por processo do sistema:</p>
+        <ul>
+          <li><strong>Evento local</strong> — incrementa apenas a própria posição no vetor.</li>
+          <li><strong>Ao enviar</strong> — anexa o vetor completo à mensagem.</li>
+          <li><strong>Ao receber</strong> — atualiza cada posição para o maior valor entre o próprio e o recebido, e então incrementa a própria.</li>
+          <li><strong>Comparação</strong> — a → b se todas as posições de V(a) forem ≤ às de V(b), com ao menos uma estritamente menor.</li>
+        </ul>
+        <div class="callout-azul"><p>Se <strong>nenhum vetor domina o outro</strong>, os eventos são genuinamente concorrentes — e o relógio vetorial permite afirmar isso <em>com certeza</em>, ao contrário do relógio de Lamport.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Dois eventos concorrentes, posição a posição</h2>
+      <div class="slide-content-box">
+        <p>Vetores na ordem <strong>(Pedidos, Estoque, Pagamento)</strong>. O cancelamento da reserva ocorre no Estoque, por timeout do cliente; a aprovação ocorre no provedor de pagamento:</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Posição</th><th>ReservaCancelada (2,3,0)</th><th>PagamentoAprovado (2,1,2)</th><th>Comparação</th></tr></thead>
+          <tbody>
+            <tr><td>Pedidos</td><td>2</td><td>2</td><td>Empate</td></tr>
+            <tr><td>Estoque</td><td>3</td><td>1</td><td>Maior no cancelamento</td></tr>
+            <tr><td>Pagamento</td><td>0</td><td>2</td><td>Maior na aprovação</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Nenhum vetor domina o outro: os eventos são <strong>concorrentes</strong>. Nenhum causou o outro — e o sistema precisa de uma <strong>regra de negócio explícita</strong> para decidir qual prevalece, porque a ordem causal, sozinha, não resolve o conflito.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Ordem total, ordem parcial e causalidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Ordem parcial</strong> — é o que happened-before define: alguns pares são comparáveis, outros são concorrentes e incomparáveis.</li>
+          <li><strong>Ordem total</strong> — compara todo par de eventos; surge naturalmente dentro de um processo ou por imposição externa.</li>
+          <li><strong>Como se impõe</strong> — por um sequenciador central ou por desempate determinístico usando o identificador do processo.</li>
+          <li><strong>O que ela não faz</strong> — impor ordem total sobre eventos concorrentes <em>não recupera</em> a causalidade que nunca existiu.</li>
+          <li><strong>Quando é útil</strong> — quando o sistema precisa de uma decisão única e consistente sobre qual atualização “vence”.</li>
+          <li><strong>O erro conceitual</strong> — confundir a posição escolhida arbitrariamente com a afirmação de que um evento causou o outro.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Conflitos concorrentes em estoque e pagamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O incidente da abertura pode agora ser reformulado com precisão: cancelamento e aprovação eram <strong>concorrentes</strong>. Nenhuma sincronização de relógio físico eliminaria isso, porque a concorrência é estrutural — os eventos ocorreram em processos diferentes, sem troca de mensagem entre si antes de acontecerem.</p>
+        <ul>
+          <li><strong>Priorizar o cancelamento</strong> — conservador: evita cobrar por item indisponível, mas pode gerar estorno desnecessário.</li>
+          <li><strong>Priorizar a aprovação</strong> — otimista: pode gerar cobrança para item que não será enviado.</li>
+          <li><strong>Tratar como exceção</strong> — suspender o pedido para revisão manual ou automatizada.</li>
+          <li><strong>Qualquer uma é legítima</strong> — o erro é não escolher e deixar a ordem de chegada acidental decidir.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>O que os dados realmente autorizam concluir</h2>
+      <div class="slide-content-box">
+        <p>No incidente, <code>ReservaCancelada</code> aparece <strong>três segundos antes</strong> de <code>PagamentoAprovado</code>, e o relógio do servidor de pagamento estava atrasado.</p>
+        <ul>
+          <li>A conclusão “o cancelamento ocorreu primeiro” está <strong>logicamente garantida</strong> pelos dados disponíveis?</li>
+          <li>Que informação, se registrada nos eventos, permitiria decidir se há relação causal ou apenas concorrência?</li>
+          <li>Com relógios vetoriais, o sistema saberia <strong>qual deve prevalecer</strong> — ou apenas que ambos são concorrentes?</li>
+          <li>Que política de negócio a NexaOrder deveria adotar diante desse par concorrente?</li>
+        </ul>
+        <div class="callout-azul"><p>Não existe uma única resposta correta para a última pergunta. Existe, porém, uma resposta <strong>ausente</strong> que caracteriza um sistema mal projetado: não ter pensado no cenário antes de ele acontecer em produção.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -976,10 +1150,12 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Sem relógio global</h3><p>Relógios físicos de máquinas diferentes divergem por desvio acumulado — carimbos físicos não bastam para ordenar eventos.</p></div>
-          <div class="ponto"><h3>Happened-before</h3><p>Ordena por causalidade observável (execução local ou troca de mensagens), não por tempo de relógio.</p></div>
-          <div class="ponto"><h3>Lamport vs vetorial</h3><p>Lamport garante ordem crescente para causalidade, mas não detecta concorrência; relógios vetoriais detectam com certeza.</p></div>
-          <div class="ponto"><h3>Conflito exige política</h3><p>Eventos concorrentes que afetam o mesmo dado exigem resolução de conflito definida antecipadamente.</p></div>
+          <div class="ponto"><h3>Sem relógio global</h3><p>Relógios físicos de máquinas diferentes divergem por desvio acumulado; carimbos não ordenam com segurança.</p></div>
+          <div class="ponto"><h3>Causalidade observável</h3><p>Happened-before ordena por execução local e troca de mensagens, não por tempo de relógio.</p></div>
+          <div class="ponto"><h3>Lamport ordena</h3><p>Causalidade implica ordem numérica crescente — mas a recíproca não vale.</p></div>
+          <div class="ponto"><h3>Vetores detectam</h3><p>Comparados posição a posição, permitem afirmar com certeza que dois eventos são concorrentes.</p></div>
+          <div class="ponto"><h3>Ordem total é escolha</h3><p>Pode ser imposta artificialmente, sem recuperar relações causais que nunca existiram.</p></div>
+          <div class="ponto"><h3>Política a priori</h3><p>Eventos concorrentes sobre o mesmo dado exigem regra de resolução definida antes do incidente.</p></div>
         </div>
       </div>
     </div>
@@ -987,18 +1163,21 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
+      <h2>Mãos à obra: construir carimbos de Lamport</h2>
       <div class="slide-content-box">
-        <p>Construa carimbos de hora lógicos (Lamport) para uma sequência de 8 eventos entre Pedidos, Estoque e Expedição, todos partindo do contador zero:</p>
+        <p>Construa os carimbos lógicos para a sequência abaixo, com Pedidos (Pd), Estoque (Es) e Expedição (Ex) iniciando em zero. Para cada evento, calcule o contador resultante e indique qual regra foi aplicada.</p>
         <ul>
-          <li>Para cada evento, calcule o contador resultante e indique a regra aplicada (local, envio ou recebimento).</li>
-          <li>Ao final, identifique dois eventos concorrentes entre si, justificando com base em <em>happened-before</em>.</li>
+          <li><strong>1–2.</strong> Pd cria o pedido (local) e envia ao Es a solicitação de reserva.</li>
+          <li><strong>3–4.</strong> Es recebe a solicitação e registra a baixa no estoque físico (local).</li>
+          <li><strong>5–6.</strong> Es envia a confirmação a Pd, que a recebe e ajusta seu contador.</li>
+          <li><strong>7–8.</strong> Pd envia a Ex a solicitação de expedição; Ex recebe e ajusta.</li>
         </ul>
+        <div class="callout-azul"><p>Ao final, identifique <strong>dois eventos concorrentes</strong> da sequência — caso existam — justificando com base na definição de happened-before, e não na proximidade dos carimbos.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 3 — Videoaula 3</span></div>
@@ -1006,18 +1185,18 @@
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe raciocinar sobre tempo e causalidade sem depender cegamente de relógios físicos. Na próxima aula, tratamos de modelos de falha e desenho para recuperação: como conter um colapso em cascata.</p>
-      <p class="fim-proxima">Próxima aula: Aula 4.</p>
+      <p class="fim-texto">Você já sabe raciocinar sobre tempo e ordem sem depender cegamente de relógios físicos, e reconhece quando dois eventos são genuinamente concorrentes. Na próxima aula, tratamos do que acontece quando um componente não responde: modelos de falha e desenho para recuperação.</p>
+      <p class="fim-proxima">Próxima aula: Aula 4 — Modelos de falha e desenho para recuperação.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1031,6 +1210,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1052,6 +1232,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1062,6 +1244,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

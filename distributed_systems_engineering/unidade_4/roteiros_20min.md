@@ -1,322 +1,938 @@
-# Roteiros das videoaulas 13 a 16
+# Roteiros das videoaulas 13 a 16 — Unidade 4 (20 minutos)
 
-Duração-base de 20 minutos por videoaula (aproximadamente 2.200 a 2.700 palavras faladas por roteiro, ajustado pela presença de demonstrações). Os roteiros abaixo são textos de narração para gravação, não notas de aula. Marcações de edição, indicações de recurso visual e sugestões de tela aparecem *em itálico, entre colchetes*.
+Disciplina: Distributed Systems Engineering
+Professor-conteudista: Afonso Cesar Lelis Brandão
+Unidade 4: Operação, validação e evolução
+Duração-alvo de cada videoaula: 20 minutos.
+Narração prevista: aproximadamente 2.200 a 2.700 palavras faladas por videoaula, sem contar títulos, marcações de tempo, indicações de edição e fontes.
+Ritmo de referência: 115 a 130 palavras por minuto, já considerando pausas, respiração e construção progressiva dos recursos visuais.
 
-## Videoaula 13 — “Doze segundos de silêncio: seguindo um pedido pelo sistema”
+Cada roteiro acompanha, slide a slide, o deck HTML da aula correspondente em `unidade_4/slides/`. As marcações entre colchetes duplos indicam o intervalo de tempo e o slide que deve estar na tela naquele momento. O avanço de slide é o principal marcador de edição: quando a marcação muda, o slide muda.
+
+Plano de tempo de referência, adaptável ao ritmo de cada aula:
+
+- 00:00–01:45 — capa, audiodescrição e sumário;
+- 01:45–04:00 — objetivos de aprendizagem e situação-problema;
+- 04:00–13:00 — desenvolvimento conceitual;
+- 13:00–16:00 — demonstração, exemplos numéricos e estudo de caso;
+- 16:00–18:00 — aplicação profissional e pausa para reflexão;
+- 18:00–20:00 — pontos-chave, atividade prática e fechamento.
+
+Os quatro roteiros a seguir correspondem às Aulas 13 a 16 da Unidade 4, encerrando a trajetória da NexaOrder. Cada roteiro é um texto de narração pronto para gravação, e não notas de aula. O registro é o de exposição didática contínua, próximo ao de um livro-texto lido em voz alta: frases completas, encadeamento explícito entre as ideias e ausência de recursos de oralidade informal.
+
+---
+
+## Roteiro da Videoaula 13 — “Um pedido que sumiu por doze segundos”
 
 **Vínculo com o plano de aprendizagem:** Unidade 4, Aula 13 — Observabilidade e diagnóstico distribuído.
 
-**Objetivo da videoaula:** capacitar o estudante a diferenciar monitoramento de observabilidade, a reconhecer o papel complementar de métricas, logs e traces, e a interpretar um trace distribuído para localizar a origem de uma latência inesperada.
+**Deck de apoio:** `unidade_4/slides/aula13.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de distinguir monitoramento de observabilidade, combinar métricas, logs e traces reconhecendo os limites de cada pilar, projetar a propagação de um identificador de correlação, escolher SLIs que reflitam a experiência do usuário, calcular o orçamento de erro de um SLO e ler um trace em cascata.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:50 monitoramento e observabilidade · 05:30 os três pilares · 07:20 contexto e correlação · 09:00 erro comum de cardinalidade · 10:20 OpenTelemetry · 12:00 citação · 12:20 escolher o SLI · 13:50 exemplo numérico do orçamento de erro · 15:40 orçamento legitima risco · 17:00 trace em cascata · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Imagine que você recebe uma mensagem de um cliente da NexaOrder: “meu pedido demorou doze segundos para confirmar, e eu quase desisti da compra”. Você abre o painel de infraestrutura. CPU normal. Memória normal. Nenhum alerta disparado. Nenhum serviço caiu. E, mesmo assim, doze segundos aconteceram, para uma pessoa real, em um momento real. *[indicação de edição: abrir com tela de painel de métricas “tudo verde”, seguida de uma notificação de reclamação de cliente sobreposta]*
+**[00:00–00:25 · Slide 0 — Capa]**
 
-Essa é uma cena comum na vida de quem opera sistemas distribuídos, e é o ponto de partida da nossa videoaula de hoje. Vamos entender por que “estar tudo verde” nos painéis não significa que sabemos o que está acontecendo dentro do sistema — e o que muda quando um sistema passa a ser, de fato, observável.
+Esta é a Aula 13, primeira da Unidade 4, e a pergunta central da disciplina se desloca pela última vez. Até aqui, tratamos de como construir. A partir desta unidade, a questão é outra: como verificar que aquilo que foi construído está efetivamente funcionando?
+
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
+
+A audiodescrição desta aula: os slides usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. São cinco recursos visuais: o quadro comparativo entre monitoramento e observabilidade, a tabela dos três pilares, o diagrama da propagação do identificador de correlação, a fórmula do orçamento de erro e o trace em cascata com spans aninhados. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo demonstrando por que monitoramento e observabilidade não são sinônimos. Apresento depois os três pilares — métricas, logs e traces — e o que cada um não consegue responder isoladamente. Trato em seguida de contexto e correlação distribuída, e da instrumentação com OpenTelemetry. Passo então aos indicadores de nível de serviço, os SLIs, aos objetivos, os SLOs, e ao orçamento de erro que deles decorre. Fecho lendo um trace em cascata para descobrir onde foram parar os doze segundos.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir distinguir monitoramento de observabilidade pelo tipo de pergunta que cada um responde. Deve combinar métricas, logs e traces reconhecendo o que cada pilar não consegue responder sozinho. Deve projetar a propagação de um identificador de correlação, inclusive em comunicação assíncrona. Deve escolher SLIs que reflitam a experiência do usuário, e não a saúde da infraestrutura. Deve calcular o orçamento de erro de um SLO e interpretar sua taxa de consumo. E deve ler um trace em cascata para localizar onde a latência foi realmente gasta.
+
+**[02:20–03:50 · Slide 4 — Situação-problema]**
+
+O incidente que abre a aula é particularmente difícil justamente porque todos os indicadores aparentavam normalidade.
+
+Um cliente relata que a compra levou doze segundos entre o clique e a confirmação. Não houve erro visível e a compra foi concluída; apenas demorou muito além do razoável.
+
+A equipe consulta o painel de infraestrutura. CPU, memória e rede dos quatro serviços permanecem dentro da faixa normal. Nenhum alerta foi disparado e nenhum serviço reiniciou. Examinados os logs, cada registro, lido isoladamente, indica um tempo perfeitamente aceitável para a etapa correspondente.
+
+O problema real é este: ninguém consegue reconstruir a jornada completa daquele pedido pelos quatro serviços. Os logs existem, mas sem um identificador comum que permita ordená-los e relacioná-los.
+
+A equipe sabe que alguma etapa consumiu doze segundos, mas não sabe qual — e não sabe porque o sistema jamais foi projetado para responder a esse tipo de pergunta.
 
 ### Desenvolvimento conceitual
 
-Vamos começar separando dois termos que, no dia a dia das equipes, costumam ser usados como sinônimos, mas não são: monitoramento e observabilidade.
+**[03:50–05:30 · Slide 5 — Monitoramento e observabilidade]**
 
-Monitoramento é observar indicadores que você já decidiu, de antemão, que são importantes. CPU, memória, taxa de erro agregada, tempo de resposta médio. Você define um limite, configura um alerta, e é avisado quando esse limite é ultrapassado. Isso é extremamente útil — mas só funciona para perguntas que você já sabia fazer antes do problema acontecer.
+Convém separar dois termos frequentemente usados como sinônimos, embora não o sejam.
 
-Observabilidade é diferente. É a capacidade de investigar uma pergunta que ninguém formulou antes, usando os dados que o sistema já está expondo. “O que aconteceu com o pedido número 48213, especificamente, entre 14h32 e 14h32min12s?” — essa não é uma pergunta que cabe em um painel de CPU. Ela exige dados granulares, contextualizados, e conectados entre si. *[indicação de edição: inserir quadro comparativo simples: “Monitoramento: perguntas conhecidas” à esquerda, “Observabilidade: perguntas não antecipadas” à direita]*
+*[indicação de edição: inserir Recurso visual 49 da Aula 13 — quadro comparativo entre monitoramento e observabilidade, revelado linha a linha]*
 
-E é aqui que entram os três pilares que sustentam a observabilidade moderna: métricas, logs e traces.
+Monitoramento observa indicadores previamente definidos e alerta quando ultrapassam limites. Responde a perguntas antecipadas: a CPU está alta? A taxa de erro superou 1%? Por isso, exige que as falhas sejam previstas — cada modo de falha esperado demanda seu próprio painel.
 
-Métricas são números agregados ao longo do tempo. Requisições por segundo, taxa de erro, percentual de utilização. Elas são baratas de guardar por muito tempo e ótimas para detectar tendências — mas, sozinhas, não contam uma história completa. Uma taxa de erro de meio por cento não te diz quais requisições falharam, nem por quê.
+Observabilidade permite inferir o estado interno do sistema a partir dos dados que ele expõe. Responde a perguntas não formuladas antes do incidente e não exige previsão de falhas; exige a exposição de dados ricos e correlacionáveis.
 
-Logs são registros de eventos específicos: “pedido recebido”, “estoque reservado”, “timeout ao chamar o provedor de pagamento”. Eles têm riqueza de detalhe, mas, se cada serviço guarda seus próprios logs isoladamente, sem nenhuma forma de juntar os pedaços, você tem fragmentos de uma história, não a história inteira.
+Aplicado ao incidente em questão: painéis adicionais de CPU não contribuiriam em nada, pois a CPU estava normal. A observabilidade permite perguntar o que ocorreu com aquele pedido específico e obter resposta.
 
-Vale um parêntese sobre custo, porque isso influencia decisões reais de engenharia. Métricas são baratas justamente porque são agregadas — guardar “número de erros por minuto” pelos próximos dois anos ocupa muito pouco espaço. Traces e logs detalhados, por outro lado, geram um volume de dados imenso quando você multiplica milhares de requisições por segundo pelo número de spans de cada uma. Por isso, é comum aplicar amostragem: guardar o trace completo de, digamos, 5% das requisições bem-sucedidas, mas guardar 100% das requisições que resultaram em erro ou que ultrapassaram um limite de latência. Você não perde justamente os casos que mais importa investigar, e ainda economiza espaço de armazenamento.
+A diferença é prática, não terminológica. Observabilidade é a capacidade de formular uma pergunta nova e respondê-la a partir de dados já coletados, sem reproduzir o problema manualmente. Se a investigação exige acrescentar um log e aguardar a repetição do problema, o que existe é monitoramento, não observabilidade.
 
-E traces. Um trace representa a jornada completa de uma única requisição através de vários serviços. Ele quebra essa jornada em pedaços menores, chamados spans — cada span representa uma operação específica, com início, fim, e duração. Se você reconstrói o trace de um pedido específico, você vê, em uma única visualização, exatamente por onde ele passou e quanto tempo levou em cada etapa. *[indicação de edição: animação simples mostrando quatro blocos — gateway, pedidos, estoque, pagamento, expedição — conectados por setas, com uma barra de tempo crescendo sob cada bloco]*
+**[05:30–07:20 · Slide 6 — Os três pilares]**
 
-Nenhum dos três substitui o outro. Métrica te diz que algo mudou. Trace te mostra onde, dentro de uma requisição específica, esse algo aconteceu. Log te conta, em detalhe, o que exatamente ocorreu naquele ponto.
+São três pilares, e o essencial é entender o que cada um não faz.
 
-Mas para que um trace funcione, é preciso um ingrediente adicional: correlação. Cada requisição que entra na NexaOrder recebe um identificador único — geralmente chamado de trace ID — logo na entrada, no gateway. Esse identificador precisa viajar junto com a requisição em cada chamada seguinte. Quando o serviço de pedidos chama o serviço de estoque, o identificador vai junto, dentro de um cabeçalho da requisição. Quando um evento é publicado para o serviço de expedição, o identificador precisa ir junto nos metadados desse evento também.
+*[indicação de edição: inserir Recurso visual 50 da Aula 13 — tabela dos três pilares, com força e limitação de cada um]*
 
-E atenção: essa propagação não acontece sozinha, por mágica da rede. Ela é responsabilidade explícita de instrumentação. Se um único serviço, no meio do caminho, esquecer de propagar esse identificador, o trace se rompe ali. E é exatamente por isso que existe um padrão aberto chamado OpenTelemetry: ele define, de forma neutra em relação a qualquer fornecedor de ferramenta, como instrumentar aplicações para capturar métricas, logs e traces de forma consistente, incluindo essa propagação de contexto entre serviços. *[indicação de edição: logotipo ou tela de documentação do OpenTelemetry, de forma ilustrativa]*
+Métricas são valores numéricos agregados ao longo do tempo. Sua força está em serem compactas, baratas de reter e adequadas a tendências e alertas. Sua limitação é que a agregação oculta quais requisições falharam e por quê: sabe-se que 2% falharam, mas não quais.
 
-Na prática, o fluxo funciona assim: cada serviço da NexaOrder roda um pequeno agente de instrumentação, capaz de capturar automaticamente operações comuns — uma chamada HTTP recebida, uma consulta ao banco de dados, a publicação de um evento. Esses dados são enviados para um coletor, que os processa e os encaminha para o backend de armazenamento e visualização escolhido pela equipe. E aqui está o ponto importante: se, daqui a dois anos, a NexaOrder decidir trocar de ferramenta de análise de traces, o código de instrumentação de cada serviço não precisa mudar — só o destino dos dados muda, lá no coletor. Isso evita que a equipe fique presa a um único fornecedor, e evita também que cada squad instrumente do seu próprio jeito, criando um quebra-cabeça impossível de juntar depois.
+Logs são registros discretos de eventos, em texto estruturado. Sua força é a riqueza de contexto local, pois mostram exatamente o que aquele serviço estava executando. Sua limitação é que, sem correlação, permanecem fragmentos isolados — foi precisamente isso que inviabilizou a investigação da NexaOrder.
+
+Traces são o caminho de uma requisição, decomposto em spans. Sua força é mostrar onde o tempo foi consumido e em que ordem. Sua limitação é o custo mais elevado de instrumentação e de armazenamento.
+
+A regra fundamental é que nenhum deles substitui os demais. Métricas indicam que algo mudou. Traces localizam onde, dentro de uma requisição específica, a mudança ocorreu. Logs detalham o que exatamente aconteceu naquele ponto. Trata-se de uma investigação em três etapas, e a omissão de qualquer uma delas cria um ponto cego.
+
+**[07:20–09:00 · Slide 7 — Contexto e correlação distribuída]**
+
+O que transforma logs e traces dispersos em uma narrativa coerente é a correlação.
+
+*[indicação de edição: inserir Recurso visual 51 da Aula 13 — propagação do identificador de correlação pelos quatro serviços, incluindo o salto assíncrono]*
+
+O mecanismo tem quatro passos. Primeiro: o gateway gera o identificador de correlação — o trace ID — na entrada, no primeiro componente que toca a requisição. Segundo: chamadas síncronas propagam o identificador em um cabeçalho da requisição. Terceiro: eventos assíncronos propagam o identificador nos metadados da mensagem. Quarto: cada serviço extrai e reinjeta o identificador — a propagação é responsabilidade explícita da instrumentação.
+
+O terceiro passo merece atenção especial, por ser o mais frequentemente omitido. Muitas equipes instrumentam adequadamente as chamadas HTTP e perdem por completo o rastro quando o fluxo atravessa uma fila ou um tópico. Em uma arquitetura orientada a eventos como a construída na Unidade 3, isso significa perder metade da jornada.
+
+O alerta mais importante é este: se um único serviço no percurso deixar de propagar o contexto, o trace se rompe naquele ponto. A jornada completa torna-se irreconstituível, ainda que todos os demais serviços estejam perfeitamente instrumentados. A propagação funciona como uma corrente, e vale pelo elo mais fraco.
+
+**[09:00–10:20 · Slide 8 — Erro comum: identificador de requisição não é dimensão de métrica]**
+
+Cabe antecipar um erro custoso, que costuma surgir justamente quando a equipe adota a correlação com entusiasmo.
+
+O impulso é compreensível: se o identificador de trace resolveu o problema dos logs, a tentação é incluí-lo também nas métricas.
+
+O problema é que identificadores por requisição criam cardinalidade praticamente ilimitada. Cada requisição gera um valor novo de dimensão, e o sistema de métricas passa a armazenar uma série temporal por requisição. O custo de armazenamento e de consulta das métricas cresce de forma explosiva e, em muitos casos, compromete o próprio sistema de observabilidade.
+
+A prática correta é outra: métricas empregam dimensões agregáveis — rota, código de status, região, versão —, ou seja, atributos com poucos valores possíveis.
+
+Existe uma ponte adequada entre os dois mundos, denominada exemplar: ela vincula um ponto específico da métrica a um trace individual. Observado o pico de latência no gráfico, é possível abrir um exemplo concreto daquele pico.
+
+A regra sintetiza os dois papéis: métricas agregam, traces individualizam.
+
+**[10:20–12:00 · Slide 9 — Instrumentação com OpenTelemetry]**
+
+Resta a questão de como instrumentar tudo isso sem criar dependência de um fornecedor.
+
+Historicamente, cada fornecedor definia seu próprio formato de instrumentação. Trocar de ferramenta implicava reescrever código de instrumentação em todos os serviços, o que, na prática, inviabilizava a troca.
+
+O OpenTelemetry é um padrão aberto e neutro que unifica métricas, logs e traces sob uma mesma API.
+
+Ele oferece captura automática de elementos comuns: chamadas HTTP recebidas e enviadas, consultas a banco de dados, publicação e consumo de mensagens. Disso resulta uma base de instrumentação obtida com escrita mínima de código.
+
+Sobre essa base, acrescentam-se spans personalizados com as operações de negócio relevantes — reservar item, autorizar pagamento. É nesse momento que a telemetria deixa de ser estritamente técnica e passa a expressar a linguagem do domínio.
+
+Há ainda o coletor: componente que recebe a telemetria, processa e encaminha ao backend de armazenamento e visualização.
+
+O ganho efetivo é que trocar o sistema de análise costuma preservar a instrumentação, exigindo apenas o ajuste do exportador ou do destino.
+
+Cabe, porém, uma qualificação: o desacoplamento não é total. Convenções semânticas, recursos proprietários e capacidades distintas entre ferramentas ainda podem exigir adaptações. O padrão reduz substancialmente o custo de troca, sem eliminá-lo.
+
+**[12:00–12:20 · Slide 10 — Citação]**
+
+Esta frase sintetiza a primeira metade da aula: monitoramento responde a perguntas antecipadas; observabilidade permite investigar perguntas que ninguém formulou antes do incidente.
 
 ### Demonstração, exemplo ou estudo de caso
 
-Vamos voltar ao nosso caso: os doze segundos.
+**[12:20–13:50 · Slide 11 — SLI: escolher o que medir]**
 
-Com o trace reconstruído — porque, neste cenário, a NexaOrder já tinha instrumentação OpenTelemetry implantada — a equipe consegue ver a árvore completa de spans daquela requisição específica. E os números aparecem assim: gateway, 15 milissegundos; serviço de pedidos, 40 milissegundos; serviço de estoque, 35 milissegundos; serviço de pagamento, 310 milissegundos; serviço de expedição, 20 milissegundos.
+A discussão passa agora de como coletar para o que medir.
 
-Somando o tempo de serviço, chegamos a cerca de 420 milissegundos — e ainda existe um atraso adicional de rede e de fila que, nesse caso específico, ampliou o tempo total percebido para os doze segundos relatados pelo cliente. Mas repare: mesmo sem chegar ao valor exato de doze segundos só com essa soma, a distribuição já aponta exatamente para onde olhar. O serviço de pagamento sozinho responde por mais de 70% do tempo de serviço somado. *[indicação de edição: exibir diagrama de cascata, com a barra do serviço de pagamento visivelmente mais longa que as demais, destacada em cor diferente]*
+Um indicador de nível de serviço, o SLI, é uma medida quantitativa do comportamento observado, calculada a partir de dados reais de produção. Bons SLIs refletem a experiência de quem usa o sistema.
 
-Esse é o primeiro suspeito. E, ao investigar esse span específico, a equipe encontra o problema: uma chamada ao provedor externo de pagamento sem um timeout configurado adequadamente, que em determinadas condições de rede simplesmente aguardava, silenciosamente, muito além do razoável.
+Três exemplos para a NexaOrder. A proporção de requisições de checkout concluídas com sucesso sobre o total de tentativas. A proporção de requisições concluídas dentro de um limite de latência — 300 milissegundos, por exemplo. E a proporção de confirmações de pagamento processadas corretamente na primeira tentativa.
 
-Sem o trace, essa investigação levaria horas — cruzando logs manualmente, em quatro sistemas diferentes, tentando adivinhar qual entrada, em qual arquivo, correspondia ao pedido reclamado pelo cliente. Com o trace, levou minutos.
+Os três indicadores tratam de resultado para o cliente, e não de consumo de recurso de máquina.
 
-Vale narrar o passo a passo real dessa investigação, porque é exatamente isso que você vai fazer no seu dia a dia. A pessoa de plantão recebe o número do pedido, cola esse número em um campo de busca na ferramenta de observabilidade, e o trace correspondente aparece na tela em segundos. Ela expande o span do serviço de pagamento — o mais longo de todos — e vê, ali dentro, um span filho representando a chamada ao provedor externo, com uma tag indicando “timeout após 300 segundos”. Ela então busca, pelo mesmo identificador de correlação, os logs daquele span específico, e encontra a mensagem exata de erro registrada pelo serviço no momento da falha. Três telas, um identificador comum, menos de cinco minutos. *[indicação de edição: gravação de tela simulada, mostrando a navegação da busca pelo identificador até o log específico]*
+O erro comum consiste em escolher o indicador de coleta mais simples — utilização média de CPU — em lugar do indicador relevante. A CPU pode permanecer em 40% enquanto uma fração significativa de pedidos falha por esgotamento de conexões, cenário exatamente equivalente ao do incidente da Aula 4.
 
-E aqui entra outro conceito importante: como saber, de forma contínua, se esse tipo de problema está piorando ou melhorando? É aqui que entram os indicadores de nível de serviço, os SLIs. Para o checkout da NexaOrder, um bom SLI não é “CPU está normal”. Um bom SLI é, por exemplo, “proporção de requisições de checkout concluídas dentro de 300 milissegundos”. Esse número reflete diretamente a experiência de quem está comprando — não apenas a saúde interna dos servidores.
+O teste para um bom SLI é o seguinte: quando ele se degrada, a experiência de quem usa o serviço também se degrada. Sem essa correspondência, o indicador escolhido é inadequado, e a equipe passará plantões inteiros diante de gráficos que não explicam a reclamação do cliente.
 
-E quando você define uma meta para esse indicador — digamos, 99,9% das requisições dentro desse limite, ao longo de um mês —, você tem um objetivo de nível de serviço, um SLO. A diferença entre 100% e essa meta é o que chamamos de orçamento de erro. *[indicação de edição: inserir cálculo na tela]* Se a NexaOrder processa 12 milhões de requisições de checkout por mês, e o SLO é 99,9%, o orçamento de erro mensal é de 12 mil requisições malsucedidas toleradas. Se, em dez dias, a equipe já consumiu 9 mil dessas 12 mil — 75% do orçamento, em um terço do mês —, isso é um sinal claro: reduzir o ritmo de mudanças arriscadas, e investigar com prioridade, antes que o orçamento se esgote de vez.
+**[13:50–15:40 · Slide 12 — Exemplo numérico: do SLO ao orçamento de erro]**
 
-Vale diferenciar rapidamente SLO de um termo parecido, que você provavelmente já ouviu: SLA, o acordo de nível de serviço. O SLO é uma meta interna, usada pela equipe para orientar decisões técnicas do dia a dia. O SLA costuma ser um compromisso contratual, assumido perante clientes ou parceiros, com consequências formais — financeiras, inclusive — caso não seja cumprido. É comum, e recomendado, que o SLO interno seja mais rigoroso do que o SLA externo: isso dá à equipe uma margem de segurança, permitindo agir antes que a meta contratual, mais visível e mais cara de violar, seja de fato ameaçada.
+Do indicador, passamos ao objetivo.
+
+Um SLO é a meta definida para um SLI ao longo de um período — por exemplo, 99,9% dos checkouts concluídos com sucesso, medido mensalmente.
+
+Daí decorre o conceito mais relevante desta aula. A diferença entre 100% e o SLO constitui o orçamento de erro.
+
+*[indicação de edição: inserir Recurso visual 52 da Aula 13 — fórmula do orçamento de erro, seguida da barra de consumo preenchendo 75%]*
+
+A fórmula é: o orçamento é igual a 1 menos o SLO, multiplicado pelo volume.
+
+Os números do exemplo são estes. Volume de 12 milhões de requisições por mês e SLO de 99,9%. O cálculo: 1 menos 0,999 resulta em 0,001; multiplicado por 12 milhões, resulta em 12 mil falhas toleradas no mês.
+
+O dado seguinte altera a análise: a equipe consumiu 9 mil dessas falhas nos primeiros 10 dias.
+
+A leitura é direta. Nove mil de doze mil correspondem a 75% do orçamento, consumidos em um terço do período. A taxa de consumo excede em muito o que o restante do mês comporta: mantido esse ritmo, o orçamento se esgota por volta do dia 14.
+
+Esse número orienta decisões concretas, e não uma discussão subjetiva: reduzir mudanças arriscadas, priorizar correções de confiabilidade e adiar o lançamento previsto para o dia 20.
+
+**[15:40–17:00 · Slide 13 — O orçamento de erro legitima o risco calculado]**
+
+A consequência organizacional desse conceito supera a consequência técnica.
+
+Enquanto há orçamento disponível, a equipe dispõe de margem para implantar, experimentar e evoluir o sistema. O orçamento não constitui penalidade; constitui autorização para assumir risco calculado.
+
+Esgotado o orçamento, uma política previamente acordada desloca a prioridade para a estabilidade. O termo previamente é essencial: a regra é estabelecida antes, quando não há pressão sobre a equipe.
+
+O ganho é que o critério se torna observável, em lugar de uma discussão subjetiva sobre o que seria suficientemente seguro. Sem orçamento declarado, toda conversa sobre ritmo de mudança se converte em opinião — a área de produto avalia que é possível acelerar, a de infraestrutura avalia que não, e prevalece quem tem mais influência. Com orçamento declarado, a decisão passa a ser a leitura de um número acordado com antecedência.
+
+O efeito mais profundo é de outra ordem: confiabilidade deixa de opor-se à entrega e passa a ser aquilo que a torna sustentável. A questão não é qualidade contra velocidade, e sim qual velocidade cabe na qualidade prometida.
 
 ### Aplicação profissional
 
-No dia a dia de um engenheiro de confiabilidade, de um engenheiro de plataforma, ou mesmo de qualquer desenvolvedor responsável por um serviço em produção, essa é uma das competências mais valorizadas: a capacidade de instrumentar corretamente um serviço desde o início, e de usar essa instrumentação para investigar incidentes com rapidez, em vez de depender de tentativa e erro. Empresas de médio e grande porte frequentemente perguntam, em entrevistas técnicas, sobre exatamente esse tipo de cenário: “como você investigaria uma requisição lenta em um sistema distribuído?”. A resposta que você acabou de ver — trace, correlação, SLI, SLO, orçamento de erro — é, literalmente, a resposta que se espera de um profissional maduro nessa área.
+**[17:00–19:00 · Slide 14 — O trace em cascata do pedido de doze segundos]**
 
-Pense também em quem está de plantão, no meio da madrugada, recebendo um alerta sozinho. Sem observabilidade, essa pessoa depende de sorte e de memória: “será que já vi esse erro antes? Em qual serviço?”. Com observabilidade, essa mesma pessoa abre um painel, busca pelo identificador de correlação do pedido reclamado, e em poucos cliques está olhando exatamente para o span que concentra o problema. A diferença entre essas duas realidades não é sutil — é a diferença entre um incidente resolvido em quinze minutos e um incidente que vira notícia, ou que vira uma madrugada inteira perdida.
+Resta resolver o incidente que abriu a aula.
+
+*[indicação de edição: inserir Recurso visual 53 da Aula 13 — trace em cascata com spans aninhados, revelando uma linha por vez e destacando o span de espera em fila]*
+
+Com a instrumentação implantada, a equipe abre o trace daquele pedido específico. Os dados são os seguintes.
+
+O span raiz, no gateway, registra 12 mil milissegundos — o intervalo completo percebido pelo cliente, coerente com a reclamação.
+
+O span de pedidos registra 11.950 milissegundos. Quase todo o tempo está contido nele, o que exclui o gateway como origem do problema.
+
+O span de estoque registra 35 milissegundos, e é imediatamente descartado como suspeito. Sem o trace, essa eliminação consumiria horas de investigação.
+
+O span de pagamento registra 11.780 milissegundos, o que identifica o caminho crítico.
+
+A descoberta está no detalhamento. Dentro do span de pagamento existem dois filhos: espera em fila, com 11.450 milissegundos, e chamada ao provedor externo, com 310 milissegundos.
+
+Esse resultado merece atenção. A hipótese intuitiva seria atribuir a demora ao provedor externo de pagamento, suspeito habitual por estar fora do controle da equipe. O provedor, contudo, respondeu em 310 milissegundos, comportamento inteiramente normal. O tempo foi consumido na espera em fila interna, provavelmente por esgotamento do pool de conexões.
+
+Sem o trace, a equipe teria aberto um chamado junto ao provedor. Com o trace, ela identifica que a causa é interna.
+
+Dois cuidados de leitura evitam interpretações equivocadas. Primeiro: spans aninhados não se somam como se fossem sequenciais — 11.450 mais 310 não corresponde ao total, porque um está contido no outro. São a cascata e a relação pai-filho que revelam a causa. Segundo: a expedição, por ser assíncrona, inicia após a resposta ao cliente e não integra o caminho crítico, podendo levar minutos sem afetar a percepção de ninguém.
 
 ### Fechamento
 
-Voltando à nossa cena inicial: painel verde, cliente reclamando, doze segundos sem explicação. A diferença entre resolver esse problema em minutos ou em horas não está na sorte da equipe — está em ter, ou não, instrumentado o sistema para responder perguntas que ainda não foram feitas.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Recapitulando os pontos centrais de hoje: monitoramento observa o que já se sabe importante, observabilidade permite investigar o que ainda não se sabia perguntar. Métricas, logs e traces são complementares, e a correlação entre eles depende de um identificador propagado explicitamente, com o apoio de uma instrumentação consistente, como a que o OpenTelemetry padroniza. SLIs bem escolhidos refletem a experiência de quem usa o sistema, e o orçamento de erro transforma um SLO em uma decisão operacional concreta sobre quando desacelerar.
+Recapitulando. Duas capacidades distintas: monitoramento cobre o previsto, observabilidade permite investigar o que ninguém antecipou. Três pilares, um incidente: métricas apontam a mudança, traces localizam o ponto, logs explicam o que houve ali. Correlação é explícita: o identificador só atravessa o sistema se cada serviço o extrair e reinjetar, inclusive em eventos. Padrão neutro: o OpenTelemetry desacopla a instrumentação da ferramenta de análise, sem eliminar toda adaptação. SLI olha o usuário: um bom indicador é ruim exatamente quando a experiência de quem usa o serviço é ruim. E o orçamento decide o ritmo: a taxa de consumo converte confiabilidade em critério operacional observável.
 
-Na próxima aula, vamos além do diagnóstico: vamos aprender a testar, deliberadamente, se os mecanismos de resiliência do sistema realmente funcionam sob falha — porque, como veremos, às vezes a resposta é “não, e ninguém sabia”. *[indicação de edição: encerrar com a frase-chave em tela: “Observabilidade não é sobre ter painéis. É sobre poder responder perguntas que você ainda não fez.”]*
+Na atividade prática, você vai reconstruir o trace de um pedido atravessando gateway, pedidos, estoque, pagamento e expedição: atribuir tempos hipotéticos a cada serviço, identificar qual concentra a maior parte do tempo, propor um identificador de correlação e descrever sua propagação incluindo o evento assíncrono da expedição, definir um SLI e um SLO para o checkout, calcular o orçamento de erro mensal para um volume hipotético e listar dois logs e duas métricas que, somados ao trace, confirmariam a causa raiz.
+
+**[19:40–20:00 · Slide 17 — Encerramento]**
+
+Esta aula forma a capacidade de instrumentar um sistema para responder a perguntas não previstas e de converter confiabilidade em um número operável. A próxima aula passa da observação à intervenção: como validar deliberadamente que a resiliência desenhada na Unidade 1 funciona de fato.
 
 ### Indicações de edição e recursos visuais
 
-- Abertura: painel de métricas “tudo verde” sobreposto por notificação de reclamação de cliente.
-- Quadro comparativo monitoramento versus observabilidade.
-- Animação da jornada de uma requisição pelos quatro serviços da NexaOrder.
-- Diagrama de cascata (waterfall) do trace, com o span do serviço de pagamento destacado.
-- Cálculo do orçamento de erro exibido em tela, com os números do exemplo.
-- Encerramento com frase-chave em tela.
+- Slide 0 — capa da Aula 13 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com o painel “tudo verde” contrastando com a reclamação do cliente (02:20–03:50).
+- Recurso visual 49 — quadro comparativo entre monitoramento e observabilidade (aproximadamente 04:00).
+- Recurso visual 50 — tabela dos três pilares, com força e limitação de cada um (aproximadamente 05:40).
+- Recurso visual 51 — propagação do identificador de correlação, incluindo o salto assíncrono (aproximadamente 07:30).
+- Slide 10 — citação em tela cheia, com 3 segundos de silêncio antes da leitura (12:00).
+- Recurso visual 52 — fórmula do orçamento de erro e barra de consumo em 75% (aproximadamente 14:00).
+- Recurso visual 53 — trace em cascata, revelado linha a linha, com o span de espera em fila destacado (17:00–19:00).
+- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
 
 ### Fontes e links de mídia
 
-- Documentação oficial do OpenTelemetry, seção de conceitos de traces e spans: <https://opentelemetry.io/docs/concepts/signals/traces/> — usar como referência visual da estrutura de spans, sem reprodução de trecho específico além de capturas de tela ilustrativas da própria documentação pública.
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016 — capítulo sobre monitoramento de sistemas distribuídos, como referência conceitual para SLI, SLO e orçamento de erro.
+- BEYER, Betsy et al. (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016 — referência conceitual, sem reprodução de trecho externo.
+- SIGELMAN, Benjamin H. et al. *Dapper, a large-scale distributed systems tracing infrastructure*. Mountain View: Google, 2010 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; quadros, tabelas, fórmulas e o trace em cascata devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 13 (`unidade_4.md`) e do deck `unidade_4/slides/aula13.html`.
 
-## Videoaula 14 — “O circuito que não segurou: planejando um experimento de caos”
+---
+
+## Roteiro da Videoaula 14 — “O teste que nunca foi feito”
 
 **Vínculo com o plano de aprendizagem:** Unidade 4, Aula 14 — Resiliência, testes distribuídos e engenharia do caos.
 
-**Objetivo da videoaula:** capacitar o estudante a distinguir tipos de teste em sistemas distribuídos, a compreender os princípios da engenharia do caos e a planejar um experimento controlado de indisponibilidade com hipótese de estado estável, raio de impacto limitado e mecanismo de interrupção.
+**Deck de apoio:** `unidade_4/slides/aula14.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de dimensionar a pirâmide de testes reconhecendo o custo do topo, aplicar testes de contrato, distinguir testes de carga, estresse e duração, formular uma hipótese de estado estável mensurável, delimitar raio de impacto e critério de interrupção, e calcular a disponibilidade combinada de uma cadeia de serviços.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:50 pirâmide de testes · 05:30 testes de contrato · 07:20 carga, estresse e duração · 09:00 engenharia do caos · 10:40 hipótese de estado estável · 12:20 citação · 12:40 raio de impacto e interrupção · 14:40 exemplo numérico da cadeia · 16:10 postmortem · 17:40 pausa para reflexão · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Black Friday. O provedor de pagamento usado pela NexaOrder trava por alguns minutos — uma instabilidade pequena, do tipo que acontece com qualquer provedor externo, de vez em quando. O problema é o que acontece depois. O serviço de pedidos, esperando a resposta do pagamento, começa a acumular conexões penduradas. Em poucos minutos, o serviço de pedidos também fica lento. E, como o serviço de estoque depende do serviço de pedidos para confirmar reservas, ele também começa a travar. *[indicação de edição: animação de efeito cascata — um bloco pisca em vermelho, e o vermelho se espalha para os blocos vizinhos, um a um]*
+**[00:00–00:25 · Slide 0 — Capa]**
 
-A equipe tinha implementado um circuito de proteção exatamente para esse cenário. Só que ninguém nunca tinha testado, de verdade, se ele funcionava. E funcionou? Vamos descobrir juntos por que a resposta, nesse caso, foi não — e o que fazer para nunca mais precisar descobrir isso durante um incidente real.
+Esta é a Aula 14, dedicada a resiliência, testes distribuídos e engenharia do caos. A aula anterior tratou de enxergar o sistema por dentro; esta emprega essa visibilidade para confirmar ou refutar aquilo que até então era apenas suposição.
+
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
+
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: a pirâmide de testes, o diagrama do teste de contrato no pipeline, o quadro dos três tipos de teste de desempenho, o cartão do experimento de caos e a fórmula da disponibilidade combinada em cadeia. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo revisitando a pirâmide de testes aplicada a um sistema distribuído, contexto em que o topo é consideravelmente mais caro. Apresento depois os testes de contrato, que verificam acordos sem exigir a execução de todo o sistema. Separo em seguida testes de carga, estresse e duração. Trato então de engenharia do caos: as razões para injetar falha deliberadamente, a formulação de uma hipótese de estado estável e a delimitação do raio de impacto e do mecanismo de interrupção. Fecho demonstrando por que a resiliência de cada serviço isolado não basta, e como conduzir um postmortem sem culpabilização.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir dimensionar a pirâmide de testes reconhecendo o custo do topo em sistemas distribuídos. Deve aplicar testes de contrato para detectar incompatibilidade antes da implantação. Deve distinguir teste de carga, de estresse e de duração pela pergunta que cada um responde. Deve formular uma hipótese de estado estável mensurável para um experimento de caos. Deve delimitar raio de impacto e critério de interrupção antes de executar em produção. E deve calcular a disponibilidade combinada de uma cadeia de serviços e interpretar o resultado.
+
+**[02:20–03:50 · Slide 4 — Situação-problema]**
+
+O incidente é o seguinte. Durante uma promoção de fim de ano, o provedor de pagamento apresentou instabilidade de poucos minutos — ocorrência rotineira em provedores externos.
+
+O circuito de proteção desenhado na Unidade 1 deveria isolar essa falha, mas não foi o que ocorreu.
+
+O serviço de pedidos aguardava a resposta de forma síncrona, em um trecho de código jamais testado sob condição de falha. As conexões pendentes se acumularam até esgotar o limite de capacidade, e o estoque, que dependia de pedidos para confirmar reservas, também se tornou lento.
+
+O diagnóstico merece atenção. A equipe sabia, em tese, que os mecanismos de proteção existiam: alguém os implementou, alguém revisou o código, alguém registrou a tarefa como concluída.
+
+Faltava a prática de validá-los deliberadamente. Sem essa validação, o primeiro teste dos mecanismos foi realizado por um evento real, sob a pior condição possível, que é o tráfego de pico.
+
+Um mecanismo de resiliência nunca exercitado é uma hipótese, não uma proteção.
 
 ### Desenvolvimento conceitual
 
-Vamos começar pela pirâmide de testes. Você provavelmente já ouviu falar dela: testes unitários na base, rápidos e baratos; testes de integração no meio, verificando a interação com uma dependência específica; e testes de ponta a ponta no topo, verificando um fluxo de negócio completo, atravessando vários serviços reais. *[indicação de edição: desenhar a pirâmide na tela, camada por camada, conforme cada tipo é mencionado]*
+**[03:50–05:30 · Slide 5 — A pirâmide de testes em um sistema distribuído]**
 
-Em um sistema distribuído, o topo dessa pirâmide é caro. Um teste de ponta a ponta do fluxo de compra da NexaOrder exige que pedidos, estoque, pagamento e expedição estejam todos rodando, configurados de forma coerente. É lento. É frágil — qualquer mudança não relacionada pode quebrar o teste. E, quando falha, é difícil saber exatamente onde está o problema.
+Convém partir do que já é conhecido antes de introduzir a complicação.
 
-Por isso, existe um tipo de teste intermediário, muito subestimado: o teste de contrato. A ideia é simples e poderosa. Em vez de rodar dois serviços juntos para verificar se eles se entendem, você verifica separadamente se cada um cumpre um contrato acordado. O serviço de estoque, que consome eventos publicados pelo serviço de pedidos, declara: “eu espero receber um evento com estes campos, deste jeito”. Essa expectativa vai para um repositório compartilhado. E, no pipeline do serviço de pedidos, antes de qualquer implantação, o contrato é verificado automaticamente. Se alguém mudar o nome de um campo sem querer, o pipeline quebra ali — não em produção, semanas depois, quando ninguém mais lembra da mudança.
+*[indicação de edição: inserir Recurso visual 54 da Aula 14 — pirâmide de testes com as três camadas proporcionalmente dimensionadas]*
 
-Esse padrão costuma ser chamado de teste de contrato orientado pelo consumidor, porque é o serviço consumidor — no nosso caso, o estoque — quem define o que espera receber, não o serviço produtor. Isso é importante: em uma organização com dezenas de equipes trabalhando de forma independente, ninguém no time de pedidos precisa saber, de cor, todos os detalhes internos do time de estoque. O contrato formaliza esse conhecimento, tornando-o verificável automaticamente, todas as vezes, sem depender de reunião, de mensagem no chat, ou de alguém lembrar de avisar.
+Testes unitários verificam uma função ou classe isoladamente, executando em milissegundos. Formam a base ampla da pirâmide.
 
-Agora, além de testes de contrato, existem três tipos de teste que avaliam comportamento sob demanda, e é fácil confundi-los. Teste de carga verifica se o sistema aguenta o tráfego esperado — o volume normal de um dia, ou o pico projetado de uma campanha — sem violar suas metas de latência e erro. Teste de estresse aumenta a carga além do esperado, de propósito, até o sistema quebrar, para você saber exatamente onde está o limite. E teste de duração — também chamado de soak test — mantém uma carga por um período longo, horas, às vezes dias, para revelar problemas que só aparecem com o tempo: vazamento de memória, esgotamento gradual de conexões. *[indicação de edição: três gráficos pequenos lado a lado, mostrando o perfil de carga de cada tipo de teste ao longo do tempo]*
+Testes de integração verificam a interação entre um componente e suas dependências diretas — banco de dados, fila, cache.
 
-Mas nenhum desses testes — nem mesmo o de estresse — responde à pergunta que realmente importa depois de um incidente como o nosso: “o que acontece, de fato, quando uma dependência externa fica indisponível?”. Um teste de estresse, por exemplo, aumenta a carga sobre o próprio sistema, mas normalmente presume que as dependências externas continuam saudáveis. O nosso incidente não foi causado por excesso de carga — foi causado por uma dependência externa, fora do controle da NexaOrder, ficando temporariamente indisponível. É um tipo de falha diferente, que exige um tipo diferente de teste. Para responder isso, entra a engenharia do caos.
+Testes de ponta a ponta verificam um fluxo completo atravessando múltiplos serviços reais. Formam o topo estreito.
 
-A engenharia do caos é a prática de injetar falhas deliberadas — latência extra, erros simulados, indisponibilidade total de um componente — em um sistema, e observar o que realmente acontece, em vez de presumir. E o ponto de partida de todo experimento sério é a hipótese de estado estável: uma expectativa mensurável, específica, sobre o comportamento normal do sistema, formulada antes de qualquer falha ser injetada.
+Nada disso é novo. O que muda em sistemas distribuídos é o custo particularmente elevado do topo. Um teste de ponta a ponta do checkout da NexaOrder exige pedidos, estoque, pagamento e expedição simultaneamente disponíveis e coerentes. Ele é lento, frágil diante de mudanças não relacionadas — a alteração de um campo pela equipe de expedição compromete o teste de checkout — e de difícil diagnóstico quando falha.
 
-Não é “o sistema deve continuar funcionando” — isso é vago demais para significar alguma coisa. É algo como: “em condições normais, a taxa de conclusão de pedidos fica acima de 98%, e a latência do checkout fica abaixo de 400 milissegundos no percentil 95. Durante a indisponibilidade simulada do provedor de pagamento, o circuito de proteção deve ser acionado, o sistema deve degradar de forma graciosa, informando o cliente, e a taxa de conclusão de pedidos não deve cair abaixo de 90%”. *[indicação de edição: exibir a hipótese completa, escrita, em tela]*
+A recomendação prática é manter a base ampla de testes unitários e de contrato, com um conjunto reduzido e criteriosamente escolhido de testes de integração e de ponta a ponta, concentrado nos fluxos mais críticos. A tentativa de cobrir tudo no topo produz uma suíte lenta e pouco confiável.
 
-E note: para formular e verificar essa hipótese, você precisa das métricas que vimos na aula anterior. Observabilidade e engenharia do caos andam juntas — sem uma, a outra fica cega.
+**[05:30–07:20 · Slide 6 — Testes de contrato]**
 
-Dois princípios protegem esse experimento de virar um novo incidente: raio de impacto limitado e mecanismo de interrupção imediata. Raio de impacto significa começar pequeno — 1% do tráfego real, um pequeno subconjunto de instâncias — e só ampliar gradualmente, conforme a confiança aumenta. Mecanismo de interrupção significa ter um botão, literalmente, capaz de parar a injeção de falha instantaneamente, caso os indicadores de negócio piorem além de um limite predefinido. *[indicação de edição: animação de escopo crescendo em círculos concêntricos — do menor para o maior, com pausa entre cada expansão]*
+A interação entre serviços pode ser coberta sem o custo do teste de ponta a ponta por meio dos testes de contrato.
 
-Na prática, essa progressão costuma seguir etapas parecidas com estas: primeiro, o experimento roda em um ambiente de testes que reproduz as características de produção o mais fielmente possível. Depois, com resultados satisfatórios, ele passa a afetar 1% do tráfego real, monitorado de perto. Se os indicadores de negócio se mantêm dentro do esperado, o raio de impacto sobe para 10%, depois talvez 50%, sempre com o mecanismo de interrupção pronto para agir a qualquer sinal de degradação real. Cada etapa só avança depois que a anterior confirma a hipótese — nunca antes.
+Um teste de contrato verifica se consumidor e provedor concordam sobre o formato e o significado das mensagens, sem exigir que ambos estejam em execução simultânea. É essa última característica que o torna econômico.
+
+*[indicação de edição: inserir Recurso visual 55 da Aula 14 — fluxo do teste de contrato, do consumidor ao pipeline do produtor]*
+
+O mecanismo tem quatro passos. Primeiro, o consumidor declara: o estoque define expectativas explícitas sobre os campos que espera receber. Segundo, publicação: essas expectativas vão para um repositório compartilhado. Terceiro, verificação no pipeline: a integração contínua do produtor valida o contrato antes de qualquer implantação. Quarto, falha antecipada: se um campo esperado sumir ou mudar de nome, o pipeline falha antes de chegar à produção.
+
+O valor prático é considerável. Esse mecanismo detectaria exatamente a alteração silenciosa no nome de um campo, problema discutido na Aula 10 a propósito da evolução de esquema. Trata-se de ocorrência recorrente em arquiteturas orientadas a eventos, responsável por falhas sutis que se manifestam muito depois da implantação, quando a mudança já não é lembrada.
+
+Há também uma inversão de responsabilidade: o consumidor declara o que necessita, e o produtor fica obrigado a honrá-lo. Isso explicita um acordo que, sem o teste, existiria apenas na memória de quem escreveu o código.
+
+**[07:20–09:00 · Slide 7 — Carga, estresse e duração]**
+
+Três tipos de teste de desempenho, com três perguntas diferentes.
+
+*[indicação de edição: inserir Recurso visual 56 da Aula 14 — quadro dos três testes, com a curva característica de cada um]*
+
+Teste de carga aplica o tráfego esperado — o dia típico ou o pico projetado. A pergunta que ele responde é: o sistema atende ao que foi prometido, sem violar as metas de latência e de erro?
+
+Teste de estresse aplica carga crescente, além da esperada, até que o sistema falhe. A pergunta é dupla: onde ele falha e como se degrada ao falhar? A segunda parte é decisiva — um sistema que rejeita o excesso de forma controlada é preferível a um que se torna inteiramente indisponível.
+
+Teste de duração, ou soak, aplica carga sustentada por horas ou dias. A pergunta é: como ele se degrada exposto ao tempo, e não ao volume instantâneo?
+
+É esse terceiro tipo que revela o que os demais não alcançam: vazamentos de memória, esgotamento gradual de conexões e acúmulo de dados temporários não liberados. São problemas invisíveis em trinta minutos de teste, mas capazes de indisponibilizar o sistema no quarto dia de operação contínua.
+
+**[09:00–10:40 · Slide 8 — Engenharia do caos]**
+
+Chegamos ao tema que dá nome à aula.
+
+Engenharia do caos é conduzir experimentos controlados que injetam falhas deliberadas — latência adicional, erros simulados, indisponibilidade de um componente — para observar o comportamento real do sistema, em vez de presumi-lo.
+
+A justificativa para essa prática é a seguinte: sistemas distribuídos enfrentam combinações de falha raras demais para que uma revisão de código as antecipe. A leitura do código dificilmente suscita a pergunta sobre o que ocorreria se o pagamento se tornasse lento exatamente enquanto o estoque estivesse rebalanceando partições.
+
+Essas combinações, contudo, são suficientemente frequentes: na escala de milhares de componentes, ocorrem periodicamente. O que é raro individualmente torna-se comum de forma agregada — mesmo raciocínio do cálculo de cauda de latência da Aula 6.
+
+A diferença em relação a um teste unitário está no método: o experimento de caos parte de uma hipótese explícita e procura refutá-la sob perturbação controlada. Trata-se de método científico aplicado à produção, não de perturbação arbitrária.
+
+Um cuidado importante: resultados inesperados são valiosos e constituem, de fato, o objetivo do experimento. Isso não dispensa, porém, critérios definidos antes da execução. Executar sem critérios não configura experimento, e sim um incidente provocado.
+
+**[10:40–12:20 · Slide 9 — Hipótese de estado estável]**
+
+Todo experimento bem projetado começa por uma expectativa mensurável e específica sobre o comportamento normal, formulada antes de qualquer falha ser injetada.
+
+O contraste esclarece o ponto. Uma hipótese vaga seria afirmar que o sistema deve continuar funcionando — formulação impossível de verificar, pois não define o que significa funcionar: responder de alguma forma, responder rapidamente ou não perder pedidos?
+
+A versão utilizável, para a NexaOrder, é outra. Em condições normais: taxa de conclusão acima de 98% e p95 do checkout abaixo de 400 milissegundos. Durante a indisponibilidade simulada: o circuito de proteção deve ser acionado e o sistema deve degradar de forma controlada. Critério de sucesso: a taxa de conclusão de pedidos não deve cair abaixo de 90%.
+
+Formulada dessa maneira, a hipótese pode ser confirmada ou refutada por um número.
+
+Há um pré-requisito implícito, que conecta esta aula à anterior: a equipe precisa já ser capaz de medir taxa de conclusão e p95 continuamente. Sem as métricas da Aula 13, nada pode ser confirmado ou refutado durante o experimento — injeta-se a falha sem qualquer instrumento de leitura.
+
+Observabilidade não é pré-requisito burocrático do caos: é o instrumento de medida do experimento.
+
+**[12:20–12:40 · Slide 10 — Citação]**
+
+Esta frase delimita a fronteira ética e profissional da prática: raio de impacto limitado e capacidade de interrupção imediata separam um experimento de caos responsável de simplesmente causar uma falha em produção.
 
 ### Demonstração, exemplo ou estudo de caso
 
-Vamos entender numericamente por que esse cuidado é tão necessário, olhando de novo para a nossa cadeia de serviços.
+**[12:40–14:40 · Slide 11 — Raio de impacto e mecanismo de interrupção]**
 
-Suponha que pedidos, estoque, pagamento e expedição tenham, cada um, individualmente, 99,9% de disponibilidade. Parece um número ótimo, certo? Mas se esses quatro serviços dependem uns dos outros de forma estritamente sequencial e síncrona — sem nenhum mecanismo de tolerância a falha parcial —, a disponibilidade combinada do fluxo completo é o produto das disponibilidades individuais. *[indicação de edição: exibir o cálculo na tela, passo a passo]*
+Essas duas salvaguardas merecem detalhamento.
 
-Zero vírgula nove nove nove, elevado à quarta potência, é aproximadamente zero vírgula nove nove seis. Ou seja: 99,9% de disponibilidade em cada serviço isolado se transforma em apenas 99,6% de disponibilidade no fluxo completo. Um valor pior que qualquer componente individual. E é exatamente esse efeito que explica por que o incidente da Black Friday aconteceu: o circuito de proteção existia no papel, mas nunca tinha sido testado sob a condição real que deveria proteger.
+Quanto ao raio de impacto, a orientação é começar pequeno: um por cento do tráfego real, um ambiente controlado ou um subconjunto reduzido de instâncias. A ampliação deve ser gradual, acompanhando a confiança adquirida sobre o comportamento observado.
 
-Depois de um incidente — ou de um experimento de caos que revela algo inesperado — vem a etapa final: o postmortem sem culpabilização. A ideia central é simples: incidentes complexos raramente têm uma única causa atribuível a uma pessoa. Eles emergem de combinações de decisões, lacunas de teste, condições operacionais que, isoladamente, pareciam razoáveis. Um bom postmortem não termina em “o serviço de pedidos esgotou conexões”. Ele pergunta: por que o circuito de proteção não impediu isso? Por que nenhum teste, nenhum experimento, revelou essa lacuna antes? E quais mudanças sistêmicas, não apenas correções pontuais, reduzem a chance de isso se repetir?
+Quanto à interrupção, são necessários um kill switch — comando ou automação capaz de encerrar a injeção de falha instantaneamente — e um gatilho declarado, acionado quando os indicadores de negócio ultrapassam um limite de degradação predefinido.
 
-Um bom postmortem, na prática, costuma seguir uma estrutura parecida com esta: uma linha do tempo minuto a minuto do que foi observado e do que a equipe fez; uma seção de impacto, quantificando quantos pedidos foram afetados e por quanto tempo; uma seção de causas contribuintes, no plural, porque raramente existe uma causa única; e uma lista de ações de melhoria, cada uma com um responsável nomeado e um prazo — não “melhorar o monitoramento”, de forma vaga, mas “instrumentar timeout explícito na chamada ao provedor de pagamento, responsável fulano, prazo de duas semanas”. *[indicação de edição: exibir um modelo simplificado de postmortem em tela, com as quatro seções nomeadas]*
+*[indicação de edição: inserir Recurso visual 57 da Aula 14 — cartão do experimento com os cinco campos, preenchidos um a um]*
+
+Todos esses elementos se documentam em um cartão de experimento. Para a NexaOrder, ele se apresenta assim.
+
+Hipótese de estado estável: conclusão de pedidos maior ou igual a 90% durante a perturbação. Perturbação: indisponibilidade simulada do provedor de pagamento. Métricas de controle: taxa de conclusão, p95 do checkout e estado do circuito de proteção. Raio de impacto: 1% do tráfego, em uma única região. Critério de interrupção: conclusão abaixo de 85% por mais de 60 segundos.
+
+São cinco campos, e preenchê-los é o que converte uma ideia arriscada em um experimento defensável perante a gestão. A impossibilidade de preencher os cinco indica que o experimento ainda não está pronto para execução.
+
+**[14:40–16:10 · Slide 12 — Exemplo numérico: por que a resiliência de cada serviço não basta]**
+
+Uma conta já apresentada na Aula 2 retorna aqui com outro propósito.
+
+Quatro serviços, cada um com 99,9% de disponibilidade individual, em cadeia estritamente sequencial e sem tolerância a falha parcial.
+
+A disponibilidade do fluxo é 0,999 elevado a 4, que dá aproximadamente 0,996 — ou seja, 99,6%.
+
+Traduzido em impacto: contrataram-se quatro componentes de 99,9% e obteve-se um fluxo de 99,6%, o que corresponde a aproximadamente quatro vezes mais indisponibilidade do que a de qualquer componente isolado.
+
+A leitura relevante é que a composição entrega resultado pior do que cada componente individualmente. Isso não é detalhe, e sim propriedade estrutural de cadeias sequenciais.
+
+Por essa razão, circuitos de proteção, degradação graciosa e processamento assíncrono não são refinamentos opcionais a serem acrescentados quando houver tempo disponível. São eles que impedem que a composição degrade a disponibilidade agregada.
+
+O argumento da aula se completa aqui: apenas testes deliberados — não a leitura do código, não a revisão em pull request, não a confiança na biblioteca — revelam se esses mecanismos efetivamente atenuam esse efeito na prática. Foi precisamente essa lacuna que produziu o incidente da abertura.
+
+**[16:10–17:40 · Slide 13 — Postmortem sem culpabilização]**
+
+Depois de um incidente real, ou de um experimento que revela comportamento inesperado, segue-se a etapa final: a aprendizagem estruturada.
+
+O relatório de postmortem reconstrói a linha do tempo do incidente, os fatores contribuintes e as ações de melhoria, com responsáveis e prazos.
+
+O princípio que o organiza é o seguinte: incidentes em sistemas complexos raramente têm causa única atribuível a uma pessoa. Eles emergem de combinações de decisões de projeto, lacunas de teste e condições operacionais que, isoladamente, pareciam razoáveis.
+
+Isso não constitui indulgência, e sim precisão. A conclusão de que alguém deixou de configurar um timeout produz pouco aprendizado e leva à repetição do incidente sob outra forma.
+
+Duas orientações práticas se impõem. Primeira: não interromper a análise na causa imediata. O esgotamento de conexões é o sintoma, não a explicação. Segunda: perguntar por que sucessivamente. Por que o circuito não impediu o esgotamento? Por que nenhum teste revelou a lacuna antes? Por que aquele trecho de código nunca foi exercitado sob falha?
+
+O objetivo final é identificar mudanças sistêmicas, e não apenas correções pontuais de código. A correção pontual resolve o incidente em questão; a mudança sistêmica resolve a categoria inteira.
 
 ### Aplicação profissional
 
-Se você trabalha, ou pretende trabalhar, com confiabilidade de sistemas — seja como SRE, como engenheiro de plataforma, ou mesmo como desenvolvedor responsável por um serviço crítico —, a capacidade de planejar um experimento de caos responsável, com hipótese clara, raio de impacto limitado e mecanismo de interrupção, é uma habilidade concreta e demandada. Empresas que operam plataformas de médio e grande porte tratam engenharia do caos não como luxo, mas como parte do ciclo normal de validação de resiliência — no mesmo nível de importância que testes automatizados de código.
+**[17:40–19:00 · Slide 14 — Pausa para reflexão]**
 
-Isso vale para setores muito diferentes entre si. Uma instituição financeira testa deliberadamente a indisponibilidade de um serviço de autorização de crédito, para garantir que transações fiquem em fila com segurança, em vez de simplesmente falharem. Uma plataforma de streaming testa a perda de uma região inteira de data center, para confirmar que o tráfego é redirecionado sem que o usuário perceba. E uma plataforma de comércio eletrônico, como a nossa NexaOrder, testa exatamente o cenário que vimos hoje: a indisponibilidade de um provedor de pagamento externo, fora do seu próprio controle direto. Em todos os casos, o raciocínio é o mesmo: não presumir resiliência, comprová-la.
+A aula se encerra com uma objeção comum na prática profissional, que exigirá resposta em algum momento da carreira.
 
-E não é preciso esperar por uma equipe grande e madura para começar. Mesmo um time pequeno pode conduzir seu primeiro experimento de caos com escopo mínimo: uma única instância, em um ambiente que já reproduz boa parte das condições de produção, com uma hipótese simples e uma métrica clara para observar. O importante não é a sofisticação da ferramenta usada para injetar a falha — é a disciplina de formular a hipótese antes, limitar o escopo, e aprender com o resultado, seja ele o esperado, seja ele uma surpresa desconfortável como a que vimos na abertura desta aula.
+A equipe decide não realizar nenhum experimento de caos em produção, argumentando que os testes de integração em homologação são suficientes.
+
+*[indicação de edição: pausar a narração por 10 segundos com o texto “Homologação garante confiança suficiente?” na tela]*
+
+Quatro perguntas orientam a análise: que diferenças entre homologação e produção podem invalidar essa suposição? Por que testes de integração, ainda que bem escritos, podem não revelar o comportamento sob falhas parciais e concorrência real? Que argumento demonstraria à liderança que um experimento de raio limitado é mais seguro do que aguardar um incidente real? E que evidências de observabilidade, nos termos da Aula 13, seriam necessárias antes de autorizar o primeiro experimento em produção?
+
+Um elemento auxilia a resposta. Ambientes de homologação raramente reproduzem volume de tráfego, diversidade de dados e condições de rede reais: operam com fração do tráfego, dados sintéticos e uma rede sem congestionamento.
+
+O argumento que costuma prevalecer junto à liderança é este: o caos controlado reduz o risco de que essas lacunas sejam descobertas pela primeira vez durante um incidente sem controle. A questão não é testar ou não testar em produção, e sim descobrir a falha em um experimento restrito a 1% do tráfego, em horário de baixa demanda, ou descobri-la em 100% do tráfego durante o pico anual de vendas.
 
 ### Fechamento
 
-O circuito de proteção da NexaOrder não falhou porque foi mal projetado no papel. Falhou porque nunca tinha sido testado sob a condição exata que deveria proteger.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Recapitulando: a pirâmide de testes recomenda base ampla de testes rápidos e uso seletivo de testes de ponta a ponta; testes de contrato evitam quebras silenciosas entre serviços; testes de carga, estresse e duração respondem a perguntas diferentes sobre comportamento sob demanda; e engenharia do caos, com hipótese de estado estável, raio de impacto limitado e mecanismo de interrupção, transforma suposições de resiliência em evidência real, seguida de aprendizagem sistemática por meio de postmortems sem culpabilização.
+Recapitulando. Base ampla, topo estreito: unitários e contratos sustentam a cobertura, e ponta a ponta fica reservado aos fluxos mais críticos. Contrato detecta antes: a incompatibilidade entre consumidor e provedor aparece no pipeline, não em produção. Três testes, três perguntas: carga confirma o prometido, estresse revela o limite, duração revela a degradação no tempo. Hipótese antes da falha: sem uma expectativa mensurável definida previamente, o experimento não confirma nem refuta nada. Pequeno e interrompível: raio de impacto limitado e kill switch são o que tornam o experimento aceitável em produção. E a cadeia degrada: compor serviços reduz a disponibilidade agregada, e só mecanismos testados revertem esse efeito.
 
-Na próxima aula, vamos mudar de escala: em vez de olhar para uma falha isolada, vamos olhar para como processar volumes enormes de dados, em lote e em tempo quase real — inclusive para detectar, entre outras coisas, fraude, antes que ela aconteça. *[indicação de edição: encerrar com a frase-chave em tela: “Resiliência que nunca foi testada é apenas uma suposição.”]*
+Na atividade prática, você vai planejar um experimento controlado de indisponibilidade do serviço de pagamento: formular a hipótese de estado estável com os indicadores observados, definir e justificar o raio de impacto inicial, descrever o mecanismo de interrupção imediata e o critério que o aciona, listar as métricas, logs e traces necessários para avaliar o resultado, descrever em três frases a estrutura do postmortem caso surja uma falha inesperada e indicar qual mudança sistêmica você proporia se a hipótese for refutada.
+
+**[19:40–20:00 · Slide 17 — Encerramento]**
+
+Esta aula forma a capacidade de transformar suposições sobre resiliência em evidências obtidas por testes estruturados e experimentos controlados. A próxima aula trata de outro tema: como processar volume em lote, em fluxo, em funções e na borda.
 
 ### Indicações de edição e recursos visuais
 
-- Abertura: animação de efeito cascata entre os quatro serviços.
-- Pirâmide de testes desenhada camada por camada.
-- Três gráficos de perfil de carga: teste de carga, estresse e duração.
-- Hipótese de estado estável exibida por completo em tela.
-- Animação de raio de impacto em círculos concêntricos crescentes.
-- Cálculo de disponibilidade combinada exibido passo a passo.
-- Encerramento com frase-chave em tela.
+- Slide 0 — capa da Aula 14 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com a cascata de esgotamento de conexões (02:20–03:50).
+- Recurso visual 54 — pirâmide de testes, com o topo destacado como caro (aproximadamente 04:00).
+- Recurso visual 55 — fluxo do teste de contrato, do consumidor ao pipeline do produtor (aproximadamente 05:40).
+- Recurso visual 56 — quadro dos três testes de desempenho, com a curva de cada um (aproximadamente 07:30).
+- Slide 10 — citação em tela cheia, com 3 segundos de silêncio antes da leitura (12:20).
+- Recurso visual 57 — cartão do experimento de caos, preenchido campo a campo (aproximadamente 13:40).
+- Slide 12 — cálculo da disponibilidade em cadeia, com a queda de 99,9% para 99,6% destacada (aproximadamente 14:50).
+- Slide 14 — pausa de reflexão de 10 segundos (aproximadamente 18:00).
+- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
 
 ### Fontes e links de mídia
 
-- BASIRI, Ali et al. Chaos engineering. *IEEE Software*, v. 33, n. 3, p. 35-41, 2016. DOI: 10.1109/MS.2016.60 — referência conceitual para a definição de hipótese de estado estável e raio de impacto.
-- Palestra “Chaos Engineering: The History, Principles, and Practice”, canal oficial do YouTube da USENIX (série SREcon): <https://www.youtube.com/@usenix> — usar como referência de linguagem visual para a animação de raio de impacto, sem reprodução de trecho específico.
+- BASIRI, Ali et al. Chaos engineering. *IEEE Software*, v. 33, n. 3, p. 35-41, 2016. DOI: 10.1109/MS.2016.60 — referência conceitual, sem reprodução de trecho externo.
+- ROSENTHAL, Casey; JONES, Nora. *Chaos Engineering: System Resiliency in Practice*. Sebastopol: O’Reilly Media, 2020 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; pirâmides, quadros, cartões e fórmulas devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 14 (`unidade_4.md`) e do deck `unidade_4/slides/aula14.html`.
 
-## Videoaula 15 — “Segundos, não horas: detectando fraude em tempo quase real”
+---
+
+## Roteiro da Videoaula 15 — “Detectar fraude antes que o pagamento seja aprovado”
 
 **Vínculo com o plano de aprendizagem:** Unidade 4, Aula 15 — Processamento distribuído, edge e serverless.
 
-**Objetivo da videoaula:** capacitar o estudante a diferenciar processamento em lote e em fluxo, a compreender o modelo MapReduce e sua generalização em DAGs, e a avaliar compromissos entre funções como serviço, computação de borda e processamento centralizado para um requisito de decisão em tempo quase real.
+**Deck de apoio:** `unidade_4/slides/aula15.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de decidir entre lote e fluxo a partir de até quando a informação pode esperar, descrever map, shuffle e reduce e sua generalização em DAGs, dimensionar partições de um pipeline de fluxo, distinguir tempo de evento de tempo de processamento, avaliar o custo de inicialização a frio e ponderar ganho de latência contra complexidade na computação de borda.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:40 lote e fluxo · 05:30 MapReduce e DAGs · 07:20 exemplo numérico das partições · 09:00 mais partições, mais coordenação · 10:20 citação · 10:40 tempo de evento e de processamento · 12:30 marcas d’água · 14:00 funções como serviço · 15:40 computação de borda · 17:20 pausa para reflexão · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-O time de risco da NexaOrder identifica um padrão preocupante: alguém testando vários cartões de crédito diferentes, em sequência rápida, a partir do mesmo dispositivo. A primeira proposta técnica é simples: um job que roda a cada hora, lê o histórico de tentativas, e sinaliza padrões suspeitos para revisão manual no dia seguinte. *[indicação de edição: relógio acelerado passando de 1 hora, com um selo “tarde demais” aparecendo por cima]*
+**[00:00–00:25 · Slide 0 — Capa]**
 
-O time de risco rejeita a proposta na hora: uma hora é tempo suficiente para dezenas de fraudes serem aprovadas. A decisão precisa acontecer em segundos, não em horas. Essa exigência muda completamente o tipo de arquitetura necessária — e é exatamente isso que vamos explorar hoje.
+Esta é a Aula 15, dedicada a processamento distribuído, computação de borda e funções como serviço. Toda a aula se organiza em torno de uma única pergunta de negócio, cuja resposta altera integralmente a arquitetura adotada.
+
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
+
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: o quadro comparativo entre lote e fluxo, o diagrama das fases de map, shuffle e reduce, a fórmula do dimensionamento de partições, a linha do tempo comparando tempo de evento e de processamento, e a tabela de borda, regional e centralizado. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo separando processamento em lote e em fluxo. Apresento depois MapReduce e sua generalização em grafos acíclicos dirigidos. Trato em seguida de particionamento e tolerância a falhas em fluxo, e da distinção entre tempo de evento e tempo de processamento, com janelas e marcas d’água. Examino então funções como serviço e o custo de inicialização a frio, bem como a computação de borda, ponderando latência e complexidade. Fecho com o critério que articula todo o conteúdo: a escolha a partir do requisito de negócio.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir decidir entre lote e fluxo a partir de até quando a informação pode esperar. Deve descrever as fases de map, shuffle e reduce e sua generalização em DAGs. Deve dimensionar partições de um pipeline de fluxo a partir da taxa de eventos. Deve distinguir tempo de evento de tempo de processamento e escolher a base da janela. Deve avaliar o custo de inicialização a frio em caminhos sensíveis à latência. E deve ponderar ganho de latência contra complexidade operacional na computação de borda.
+
+**[02:20–03:40 · Slide 4 — Situação-problema]**
+
+A NexaOrder passou a registrar tentativas de fraude com um padrão característico: múltiplos cartões em sequência rápida, a partir do mesmo dispositivo, testando quais dados seriam aceitos.
+
+A primeira proposta técnica da equipe foi razoável e barata: um job a cada hora, lendo o histórico e sinalizando padrões para revisão no dia seguinte.
+
+A área de risco rejeita a proposta com um argumento simples e decisivo: uma hora é suficiente para que dezenas de tentativas fraudulentas sejam aprovadas. Quando o relatório for emitido, a perda financeira já terá ocorrido.
+
+A decisão precisa ocorrer em segundos, no momento da tentativa.
+
+Essa exigência, originada do negócio e não da engenharia, altera integralmente o tipo de arquitetura de processamento necessária. É esse deslocamento que a aula percorre.
 
 ### Desenvolvimento conceitual
 
-Existem, essencialmente, duas formas de processar grandes volumes de dados distribuídos: em lote e em fluxo.
+**[03:40–05:30 · Slide 5 — Lote e fluxo]**
 
-Processamento em lote opera sobre um conjunto de dados finito, coletado ao longo de um período, processado de uma vez só. É perfeito para coisas que podem esperar: relatório diário de vendas, cálculo mensal de comissão, reprocessamento de dados históricos depois de uma correção. A vantagem é a simplicidade: você sabe exatamente qual é o conjunto de dados no momento de processar.
+Os dois paradigmas merecem comparação cuidadosa.
 
-Processamento em fluxo — streaming — opera sobre uma sequência de eventos que, em princípio, nunca acaba. Cada evento é processado assim que chega, sem esperar formar um lote completo. Para a nossa detecção de fraude, essa é claramente a escolha certa: cada tentativa de pagamento precisa ser avaliada no instante em que acontece. *[indicação de edição: comparação visual lado a lado — de um lado, uma caixa fechada representando “lote”; do outro, uma esteira contínua representando “fluxo”]*
+*[indicação de edição: inserir Recurso visual 58 da Aula 15 — quadro comparativo entre lote e fluxo, revelado linha a linha]*
 
-Agora, como esse processamento em larga escala realmente funciona por baixo dos panos? O modelo clássico que originou boa parte dessas ideias é o MapReduce, descrito por Dean e Ghemawat, do Google, em um artigo de 2008. A ideia central: você divide o trabalho em duas fases. A fase de mapeamento, que transforma cada registro de entrada de forma independente, gerando pares de chave e valor. E a fase de redução, que agrupa e combina esses pares por chave, produzindo o resultado final. Entre as duas fases, existe uma etapa crucial chamada embaralhamento — o shuffle —, que redistribui os pares intermediários entre os nós responsáveis pela redução, agrupando tudo pela chave certa. *[indicação de edição: diagrama animado — dados de entrada se dividindo em tarefas de mapeamento, convergindo em um funil de embaralhamento, e saindo como resultado agregado]*
+Sobre o que cada um opera: o processamento em lote opera sobre um conjunto finito e delimitado, coletado ao longo de um período. O processamento em fluxo opera sobre uma sequência potencialmente ilimitada de eventos — que nunca termina.
 
-Frameworks modernos generalizaram essa ideia usando grafos acíclicos dirigidos — DAGs —, permitindo encadear várias etapas de transformação, não só um par map-reduce. Mas o princípio de tolerância a falhas permanece o mesmo: se um nó falha no meio de uma tarefa, o framework simplesmente reatribui essa tarefa a outro nó disponível e reexecuta a partir dos dados intermediários já salvos. Não é preciso reiniciar o job inteiro, nem alguém precisa intervir manualmente para uma falha pontual.
+Quando processa: o lote processa de uma só vez, depois de o conjunto estar formado. O fluxo processa cada evento, ou pequenos grupos, assim que ele fica disponível.
 
-Pense em um grafo acíclico dirigido como uma receita de várias etapas, em que cada etapa depende do resultado da etapa anterior, mas etapas independentes entre si podem rodar em paralelo. Para o histórico de pedidos da NexaOrder, um DAG poderia, por exemplo, primeiro filtrar pedidos de um determinado período, depois agrupar por região, depois calcular o ticket médio por região, e finalmente gerar um relatório consolidado — cada etapa alimentando a próxima, com o framework decidindo automaticamente quais partes podem ser paralelizadas e quais precisam esperar dados de uma etapa anterior.
+A vantagem de cada um: o lote oferece simplicidade, pois o conjunto é conhecido e finito, permitindo ordenar, contar e reprocessar livremente. O fluxo oferece decisão no instante em que o fato ocorre.
 
-Pipelines de fluxo também particionam o trabalho — geralmente por uma chave, como o identificador do dispositivo, garantindo que todos os eventos daquele dispositivo específico sejam processados, em ordem, pela mesma partição. E aqui vale um cálculo rápido, no mesmo espírito da fórmula de capacidade que usamos lá na Aula 1 desta disciplina. *[indicação de edição: exibir o cálculo em tela]* Se o pipeline de fraude precisa processar um pico de 5 mil eventos por segundo, e cada consumidor de partição sustenta, comprovadamente, 750 eventos por segundo, o número mínimo de partições é 5 mil dividido por 750, arredondado para cima: aproximadamente 6,67, ou seja, 7 partições.
+Casos típicos: o lote atende relatórios diários, cálculo de comissões mensais e reprocessamento histórico. O fluxo atende detecção de fraude, alertas operacionais e contadores em tempo real.
 
-Tem mais um detalhe sutil, mas importante: a diferença entre tempo de evento e tempo de processamento. Tempo de evento é quando a tentativa de pagamento realmente aconteceu. Tempo de processamento é quando o pipeline efetivamente processa esse evento — que pode ser alguns segundos depois, ou, em caso de instabilidade de rede, minutos depois. Se você calcula, por exemplo, “quantas tentativas com o mesmo dispositivo em um minuto”, e um evento chega atrasado, ele pode acabar caindo na janela errada. A solução usada na prática se chama marca d’água — watermark —, combinada com uma tolerância configurável a atraso, que mantém a janela aberta um pouco mais antes de fechá-la de vez.
+A conclusão a destacar é que a escolha não é apenas técnica. Trata-se de decisão de negócio sobre até quando uma informação pode esperar antes de perder valor. No caso da fraude, a informação perde praticamente todo o valor em minutos. Em um relatório de comissões, ela pode aguardar o fechamento do mês sem qualquer perda.
 
-E já que estamos falando de janelas, vale diferenciar os tipos mais comuns. Uma janela “tumbling”, ou fixa, divide o tempo em blocos que não se sobrepõem — por exemplo, um bloco novo a cada minuto exato. Uma janela “sliding”, ou deslizante, se sobrepõe: você pode calcular “tentativas nos últimos cinco minutos”, recalculado a cada segundo, não só a cada cinco minutos. E uma janela de sessão agrupa eventos por proximidade temporal entre eles, encerrando a janela quando há um intervalo sem atividade — útil, por exemplo, para agrupar todas as tentativas de um mesmo dispositivo em uma única “sessão suspeita”, mesmo que ela dure trinta segundos ou cinco minutos, dependendo do comportamento observado. *[indicação de edição: três pequenos diagramas ilustrando janela fixa, deslizante e de sessão]*
+**[05:30–07:20 · Slide 6 — MapReduce e a generalização em DAGs]**
 
-Além do lote e do fluxo centralizados, temos duas outras opções relevantes. Funções como serviço — FaaS — permitem rodar um trecho de código em resposta a um evento, sem manter um servidor ligado o tempo todo. A plataforma aloca o ambiente na hora da chamada e cobra pelo tempo de execução, não pela capacidade ociosa. É ótimo para cargas esporádicas, como enviar um e-mail de confirmação de pedido. O custo está na inicialização a frio — o cold start —, quando não existe uma instância já “aquecida” e a plataforma precisa preparar um ambiente novo antes de processar, o que adiciona latência.
+Convém entender como o processamento em lote distribui trabalho, pois o princípio reaparece no processamento em fluxo.
 
-E computação de borda: processar dados próximo de onde eles são gerados, em vez de mandar tudo para uma região central de nuvem. Para a nossa detecção de fraude, isso poderia significar avaliar sinais simples — velocidade de digitação, padrões básicos do dispositivo — direto num ponto próximo ao cliente, ganhando latência ali. Mas isso tem custo: manter lógica em vários pontos de borda é operacionalmente mais complexo, e nem sempre mais barato — especialmente quando a decisão precisa de contexto histórico amplo, que só está disponível de forma centralizada. *[indicação de edição: mapa estilizado com pontos de borda distribuídos, cada um conectado de volta a uma região central]*
+*[indicação de edição: inserir Recurso visual 59 da Aula 15 — diagrama das três fases, com os dados fluindo entre elas]*
 
-Repare que FaaS e computação de borda respondem a perguntas diferentes, mesmo que às vezes apareçam juntas na mesma conversa. FaaS é sobre como você executa código — sob demanda, sem servidor dedicado —, e pode rodar tanto em uma região central quanto em um ponto de borda. Computação de borda é sobre onde você executa esse código — fisicamente mais perto do usuário. Uma plataforma pode, inclusive, combinar as duas ideias: funções pequenas, sob demanda, rodando em pontos de borda geograficamente distribuídos, cada uma reagindo a eventos locais sem exigir um servidor dedicado naquele local.
+O modelo clássico é o MapReduce, com três fases.
+
+Map: transforma cada registro de entrada independentemente, produzindo pares de chave e valor intermediários. Como cada registro é tratado sozinho, essa fase paraleliza perfeitamente.
+
+Shuffle: redistribui os pares intermediários entre os nós, agrupando-os pela chave correspondente. É a fase mais custosa, por envolver tráfego de rede em larga escala, e costuma dominar o tempo total de execução.
+
+Reduce: agrupa e combina os pares por chave, produzindo o resultado final.
+
+Os frameworks modernos generalizaram essa ideia em DAGs — grafos acíclicos dirigidos — encadeando várias etapas além do par map-reduce, e otimizando o plano de execução como um todo.
+
+A tolerância a falhas segue um princípio que merece registro: se um nó falha durante uma tarefa, o framework a reatribui a outro nó, reexecutando-a a partir dos dados intermediários já persistidos, sem reiniciar o job inteiro e sem exigir intervenção manual para a falha isolada. Trata-se de reconciliação, no mesmo espírito da Aula 11, aplicada agora a tarefas de processamento.
+
+**[07:20–09:00 · Slide 7 — Exemplo numérico: dimensionando as partições do pipeline]**
+
+Pipelines de fluxo também particionam o trabalho, distribuindo eventos por uma chave. No caso em análise, a chave natural é o identificador do dispositivo, o que garante que todos os eventos de um mesmo dispositivo sejam processados em ordem, pela mesma partição.
+
+É exatamente a mesma lógica de chave apresentada na Aula 10, e ela é essencial aqui: detectar cinco cartões testados em trinta segundos no mesmo dispositivo exige que esses cinco eventos cheguem ao mesmo destino, na ordem correta.
+
+A fórmula é a familiar: o número de partições é o teto da divisão entre a taxa de eventos e a capacidade por partição.
+
+Os números da NexaOrder são estes: pico de 5 mil tentativas por segundo e capacidade de 750 por segundo por partição. O cálculo: 5000 dividido por 750 resulta em 6,67, arredondado para cima em 7 partições no mínimo.
+
+Sete partições atendem ao pico com alguma margem. Uma ressalva, contudo, é importante: a conta não substitui um teste de carga real do pipeline completo. Ela ignora o custo de embaralhamento entre etapas e o custo de acessar o contexto necessário à avaliação, como o histórico recente daquele dispositivo. Em um pipeline de detecção, buscar o estado anterior costuma ser mais caro que processar o evento em si.
+
+**[09:00–10:20 · Slide 8 — Mais partições, mais coordenação]**
+
+Cabe perguntar por que não se define um número muito maior de partições, resolvendo o problema em definitivo.
+
+A razão é que mais partições significam mais paralelismo disponível, mas também mais complexidade de coordenação e de tolerância a falhas.
+
+Cada partição precisa registrar seu avanço de forma persistente — o progresso duradouro. Isso garante que, em caso de falha do consumidor, o processamento recomece do ponto certo, sem perder nem duplicar eventos, além do que a semântica de entrega escolhida permitir.
+
+Trata-se exatamente da mesma discussão sobre at-least-once e efeito efetivamente único conduzida na Unidade 3, agora em outro contexto. Os conceitos da disciplina não constituem compartimentos isolados: reaparecem sempre que o mesmo problema estrutural se manifesta.
+
+**[10:20–10:40 · Slide 9 — Citação]**
+
+Esta frase enuncia o critério central da aula: a escolha entre lote e fluxo é uma decisão de negócio sobre até quando uma informação pode esperar antes de perder valor.
 
 ### Demonstração, exemplo ou estudo de caso
 
-Vamos comparar três alternativas reais para o nosso problema de fraude.
+**[10:40–12:30 · Slide 10 — Tempo de evento e tempo de processamento]**
 
-Alternativa um: pipeline em lote, rodando a cada hora. Latência de decisão: até uma hora. Já rejeitamos essa opção — tempo demais.
+Há uma distinção essencial em processamento de fluxo cuja omissão produz resultados gravemente incorretos.
 
-Alternativa dois: pipeline em fluxo, centralizado, particionado por dispositivo, como descrevemos. Latência de decisão: segundos. E, como o processamento é centralizado, o pipeline tem acesso fácil ao histórico completo do dispositivo, essencial para detectar padrões de múltiplas tentativas. Lembrando o cálculo de partições que fizemos: para um pico de 5 mil eventos por segundo, com consumidores de 750 eventos por segundo cada, são necessárias 7 partições — um número que a equipe pode validar com um teste de carga real do pipeline, no mesmo espírito dos testes que discutimos na aula anterior.
+*[indicação de edição: inserir Recurso visual 60 da Aula 15 — linha do tempo dupla, com o mesmo evento posicionado em dois instantes diferentes]*
 
-Alternativa três: uma combinação — triagem inicial rápida na borda, capturando sinais simples e óbvios, com avaliação mais profunda enviada para o pipeline de fluxo centralizado, que tem o contexto histórico completo.
+Tempo de evento é o instante em que o fato ocorreu no domínio de negócio — o momento exato da tentativa de pagamento, no relógio do cliente.
 
-A alternativa três tende a ser a mais equilibrada: ganha velocidade nos casos óbvios, sem abrir mão de contexto nos casos que exigem análise mais completa. Mas ela também é a mais complexa operacionalmente — duas lógicas de decisão, sincronizadas, precisam ser mantidas.
+Tempo de processamento é o instante em que o pipeline efetivamente processa aquele evento, segundos ou minutos depois.
 
-E vale trazer o custo para essa comparação, porque decisão de arquitetura raramente é só sobre desempenho técnico. O pipeline em lote é o mais barato de operar, mas já eliminamos por não atender ao requisito de negócio. O pipeline em fluxo centralizado tem um custo de operação contínuo — ele processa eventos o tempo todo, mesmo em horários de baixo movimento, ao contrário de um job em lote que só consome recursos quando roda. E a combinação com borda adiciona ainda mais custo de manutenção, porque a lógica simples da borda precisa ser atualizada e sincronizada em vários pontos distribuídos, sempre que o modelo de fraude evolui. Não existe alternativa gratuita aqui — existe a alternativa cujo custo, técnico e financeiro, melhor se justifica pelo valor que a decisão em segundos representa para o negócio.
+A escolha entre eles determina o resultado. Uma janela baseada em tempo de evento produz resultados mais fiéis à realidade do negócio, mas exige tratar atraso e desordem, pois eventos podem chegar fora de sequência e eventos antigos podem chegar depois de eventos recentes. Uma janela baseada em tempo de processamento é simples de implementar, porém pode distorcer a análise.
+
+Considere a pergunta de detecção de fraude: quantas tentativas com o mesmo dispositivo ocorreram no último minuto? A resposta varia conforme a base de tempo escolhida.
+
+Se um dispositivo realizou dez tentativas em dez segundos, mas a rede atrasou cinco delas em dois minutos, a janela por tempo de processamento identifica dois grupos de cinco e não dispara o alerta. A janela por tempo de evento identifica as dez em conjunto e dispara. A fraude é a mesma; a detecção depende inteiramente dessa escolha.
+
+**[12:30–14:00 · Slide 11 — Marcas d’água e tolerância a atraso]**
+
+Resta a questão de como fechar uma janela por tempo de evento, dada a impossibilidade de saber se ainda chegará um evento atrasado.
+
+É essa a função das marcas d’água. Uma marca d’água é uma estimativa de até que ponto, no tempo de evento, o pipeline já recebeu a maior parte dos dados — uma indicação de que, provavelmente, todos os eventos até aquele instante já foram processados.
+
+Complementarmente, existe a tolerância a atraso: período adicional configurável que mantém a janela aberta antes do fechamento definitivo.
+
+Em conjunto, esses mecanismos permitem admitir eventos atrasados sem abandonar o conceito de janela e sem esperar indefinidamente.
+
+O compromisso é evidente e exige escolha explícita: janelas que fecham cedo perdem eventos tardios e, portanto, subestimam. Janelas que demoram atrasam a decisão — e, no caso da fraude, decisão atrasada equivale a decisão inútil.
+
+Trata-se da mesma família de problema do timeout da Aula 4: quanto tempo esperar antes de concluir que a resposta não virá? Não existe valor universalmente correto; existe decisão consciente.
+
+**[14:00–15:40 · Slide 12 — Funções como serviço e inicialização a frio]**
+
+Passemos a um modelo de execução distinto: funções como serviço, o FaaS.
+
+O FaaS executa um trecho de código em resposta a um evento — uma requisição HTTP, uma mensagem em fila, um arquivo criado — sem provisionamento contínuo de servidor. A cobrança incide sobre a execução, não sobre o tempo ocioso.
+
+O modelo é vantajoso em cargas esporádicas e de volume variável. O envio do e-mail de confirmação de pedido é exemplo característico: ocorre em rajadas, é rápido e não justifica manter uma instância permanentemente em espera.
+
+O custo está na inicialização a frio. Sem uma instância previamente ativa, a plataforma precisa inicializar um novo ambiente de execução antes de processar o evento, o que acrescenta latência.
+
+O essencial é identificar quando esse custo é relevante. Em uma notificação assíncrona, a latência adicional não é percebida por ninguém, pois o e-mail chega uma fração de segundo depois.
+
+Já em um caminho síncrono sensível à latência, como parte do fluxo de checkout, essa mesma latência incide diretamente sobre o p95 comprometido no SLO da Aula 13. Nesse caso, o modelo aparentemente econômico produz custo elevado em experiência do usuário.
+
+**[15:40–17:20 · Slide 13 — Computação de borda: latência contra complexidade]**
+
+Por fim, a computação de borda. A borda aproxima o processamento dos dispositivos, executando lógica em pontos geograficamente distribuídos, em vez de centralizá-la em uma região de nuvem.
+
+*[indicação de edição: inserir Recurso visual 61 da Aula 15 — tabela comparando borda, regional e centralizado nos quatro critérios]*
+
+Três localizações merecem comparação.
+
+Na borda: latência mais baixa; contexto disponível limitado a sinais simples e locais do dispositivo; complexidade operacional alta, pela necessidade de manter versões de regras sincronizadas em muitos pontos.
+
+Regional: latência intermediária; contexto parcial agregado; complexidade média.
+
+Centralizada: latência mais alta; contexto de histórico amplo e completo; e complexidade operacional baixa, porque existe um único lugar para atualizar.
+
+O padrão é claro: latência e contexto operam em sentidos opostos. Quanto mais próximo do usuário, menor o contexto disponível sobre ele.
+
+A conclusão prática é que o ganho de latência tem preço. Manter lógica em múltiplos pontos aumenta a complexidade e nem sempre reduz custo. A orientação geral é reservar ao centro os modelos que dependem de histórico amplo, e destinar à borda os sinais simples e locais.
 
 ### Aplicação profissional
 
-Engenheiros de dados, engenheiros de machine learning e arquitetos de plataforma lidam, rotineiramente, com exatamente esse tipo de decisão: lote ou fluxo? Centralizado, borda, ou os dois? A resposta certa nunca é genérica — depende de até quando, especificamente, uma informação pode esperar antes de perder valor para o negócio. Saber fazer essa pergunta, e traduzir a resposta em arquitetura, é uma competência central para quem trabalha com dados em escala.
+**[17:20–19:00 · Slide 14 — Pausa para reflexão: “vamos processar tudo na borda”]**
 
-Esse mesmo raciocínio aparece em contextos muito diferentes da NexaOrder. Uma rede de sensores industriais processa leituras de temperatura na borda, para reagir a uma condição perigosa em milissegundos, mas envia os dados agregados para uma região central, onde um modelo mais sofisticado analisa tendências ao longo de meses. Um aplicativo de recomendação processa cliques em fluxo, para atualizar sugestões quase imediatamente, mas recalcula, em lote, o modelo completo de recomendação uma vez por dia, usando todo o histórico disponível. Em todos os casos, é a mesma pergunta orientando decisões de arquitetura completamente diferentes.
+Esses critérios podem ser aplicados a uma proposta concreta, do tipo que costuma surgir na prática profissional.
+
+A área de risco propõe processar toda a análise de fraude exclusivamente na borda, eliminando a dependência de uma região central, sob o argumento de que isso reduziria a latência a zero e eliminaria custos de rede.
+
+*[indicação de edição: pausar a narração por 10 segundos com o texto “Tudo na borda: o que essa proposta ignora?” na tela]*
+
+Quatro perguntas orientam a análise: que sinais de fraude dependem de contexto histórico dificilmente disponível apenas na borda? Que riscos operacionais decorrem de manter lógica duplicada em muitos pontos, sobretudo na atualização de um modelo? Em que medida a afirmação de latência reduzida a zero é tecnicamente imprecisa? E que combinação de borda e centro atenderia à decisão em segundos sem abrir mão do histórico?
+
+As respostas são as seguintes. Quanto ao contexto: a constatação de que determinado dispositivo tentou quarenta cartões nas últimas 24 horas, em cinco cidades diferentes, constitui sinal de alto poder discriminante, e exige histórico agregado que nenhum ponto de borda isolado possui.
+
+Quanto ao risco operacional: atualizar um modelo de fraude em duzentos pontos de presença, com versões possivelmente divergentes, é um problema de coordenação distribuída — exatamente a classe de problema tratada ao longo de toda a disciplina.
+
+Quanto à latência zero: ela é fisicamente impossível. Processar próximo ao usuário reduz a latência de rede, mas não a elimina, tampouco elimina o tempo de processamento.
+
+A resposta madura raramente consiste em concentrar tudo em um único lugar. Consiste em triagem local para sinais simples — bloqueio imediato de padrões evidentes na borda — combinada com avaliação aprofundada centralizada para o que exige contexto. Latência baixa onde ela é determinante; contexto completo onde ele é determinante.
 
 ### Fechamento
 
-Da proposta de rodar a cada hora até a arquitetura combinada de borda e fluxo centralizado, o que mudou não foi a tecnologia disponível — foi a pergunta certa sobre o que o negócio realmente precisa.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Recapitulando: lote atende análises que toleram espera, fluxo atende decisões em tempo quase real; MapReduce e seus sucessores em DAG organizam processamento distribuído com tolerância a falhas por reexecução de tarefas isoladas; tempo de evento e tempo de processamento podem divergir, e marcas d’água tratam eventos atrasados sem descartar o conceito de janela; e funções como serviço, junto com computação de borda, ampliam onde e como processar dados, cada uma com seus próprios compromissos de custo, latência e complexidade.
+Recapitulando. Lote espera, fluxo não: lote atende análises que toleram espera, e fluxo atende decisões que precisam sair em segundos. Map, shuffle, reduce: o modelo se generalizou em DAGs, e a tolerância a falhas vem da reexecução de tarefas isoladas. Partição dimensiona: o número mínimo relaciona a taxa de eventos à capacidade comprovada por consumidor. Dois tempos diferentes: tempo de evento e de processamento divergem, e marcas d’água admitem atraso sem descartar a janela. FaaS troca ocioso por frio: reduz custo em carga esporádica ao preço de latência adicional na inicialização. E borda não é grátis: reduz latência de sinais simples, mas aumenta complexidade e nem sempre reduz custo.
 
-Na nossa última videoaula, vamos reunir tudo o que vimos nas quatro unidades desta disciplina para defender, de ponta a ponta, uma arquitetura completa da NexaOrder. *[indicação de edição: encerrar com a frase-chave em tela: “A pergunta não é qual tecnologia usar. É até quando a informação pode esperar.”]*
+Na atividade prática, você vai comparar três arquiteturas para a detecção de fraude quase em tempo real — lote horário, fluxo centralizado particionado por dispositivo, e triagem na borda combinada com fluxo centralizado. Você vai estimar a latência típica entre a tentativa e a decisão em cada uma, calcular as partições necessárias para 8 mil eventos por segundo com consumidor de mil por segundo, avaliar a capacidade de considerar o histórico do dispositivo, apontar o principal risco operacional de cada alternativa, recomendar uma delas justificando por latência, custo e complexidade, e indicar qual evidência coletaria para validar a recomendação em produção.
+
+**[19:40–20:00 · Slide 17 — Encerramento]**
+
+Esta aula forma a capacidade de escolher entre lote, fluxo, funções e borda a partir do requisito de negócio, e de dimensionar o pipeline resultante. A última aula da disciplina integra todo o percurso: como defender uma arquitetura completa com requisitos, riscos, custo e evidências.
 
 ### Indicações de edição e recursos visuais
 
-- Abertura: relógio acelerado com selo “tarde demais”.
-- Comparação visual lote versus fluxo.
-- Diagrama animado das fases do MapReduce.
-- Cálculo de dimensionamento de partições exibido em tela.
-- Mapa estilizado de pontos de borda conectados a uma região central.
-- Encerramento com frase-chave em tela.
+- Slide 0 — capa da Aula 15 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com a sequência de cartões testados em um mesmo dispositivo (02:20–03:40).
+- Recurso visual 58 — quadro comparativo entre lote e fluxo (aproximadamente 03:50).
+- Recurso visual 59 — diagrama das fases de map, shuffle e reduce (aproximadamente 05:40).
+- Slide 7 — cálculo do número de partições, com os quatro números em sequência (aproximadamente 07:30).
+- Slide 9 — citação em tela cheia (10:20).
+- Recurso visual 60 — linha do tempo dupla de tempo de evento e tempo de processamento (aproximadamente 10:50).
+- Recurso visual 61 — tabela de borda, regional e centralizado (aproximadamente 15:50).
+- Slide 14 — pausa de reflexão de 10 segundos (aproximadamente 17:40).
+- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
 
 ### Fontes e links de mídia
 
-- DEAN, Jeffrey; GHEMAWAT, Sanjay. MapReduce: simplified data processing on large clusters. *Communications of the ACM*, v. 51, n. 1, p. 107-113, 2008. DOI: 10.1145/1327452.1327492 — referência primária do modelo MapReduce.
-- Documentação pública de conceitos de processamento em fluxo (tempo de evento, janelas e marcas d’água) de um framework de streaming amplamente adotado, a ser referenciada de forma genérica em tela, sem reprodução de trecho específico.
+- DEAN, Jeffrey; GHEMAWAT, Sanjay. MapReduce: simplified data processing on large clusters. *Communications of the ACM*, v. 51, n. 1, p. 107-113, 2008. DOI: 10.1145/1327452.1327492 — referência conceitual, sem reprodução de trecho externo.
+- AKIDAU, Tyler; CHERNYAK, Slava; LAX, Reuven. *Streaming Systems*. Sebastopol: O’Reilly Media, 2018 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; quadros, diagramas, fórmulas e linhas do tempo devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 15 (`unidade_4.md`) e do deck `unidade_4/slides/aula15.html`.
 
-## Videoaula 16 — “Da aplicação em um servidor à plataforma distribuída: encerrando a jornada da NexaOrder”
+---
 
-**Vínculo com o plano de aprendizagem:** Unidade 4, Aula 16 — Projeto integrado e avaliação arquitetural. Encerramento da disciplina.
+## Roteiro da Videoaula 16 — “Defender a arquitetura diante do conselho”
 
-**Objetivo da videoaula:** capacitar o estudante a integrar requisitos, decisões, riscos e evidências em uma avaliação arquitetural completa, e a reconhecer a trajetória de aprendizagem construída ao longo das quatro unidades da disciplina.
+**Vínculo com o plano de aprendizagem:** Unidade 4, Aula 16 — Projeto integrado e avaliação arquitetural.
+
+**Deck de apoio:** `unidade_4/slides/aula16.html` — 19 slides (capa, audiodescrição, sumário, 15 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de explicitar tensões entre requisitos funcionais e atributos de qualidade e resolvê-las por dado, estimar capacidade a partir de evidências operacionais, escrever um ADR completo, conduzir uma análise de pontos únicos de falha, definir RPO e RTO a partir de requisitos de negócio e defender uma arquitetura completa com requisitos, riscos, custo e evidências.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:40 requisitos e atributos de qualidade · 05:20 exemplo numérico revisitado · 07:00 registros de decisão arquitetural · 08:40 as decisões acumuladas · 10:10 citação · 10:30 pontos únicos de falha · 12:20 RPO e RTO · 13:50 seguro e observável por padrão · 15:10 exemplo numérico da redundância paralela · 16:50 custo e evolução · 18:00 a trajetória completa · 19:00 pontos-chave e atividade · 19:30 encerramento da disciplina.
 
 ### Abertura contextualizada
 
-A diretoria da NexaOrder convoca a equipe de engenharia para uma reunião. Não é uma reunião de status. É uma revisão formal, antes da aprovação do orçamento do próximo ciclo. A pergunta na mesa não é “o sistema funciona?” — isso todo mundo já sabe que sim. A pergunta é: “por que devemos confiar que essa arquitetura aguenta o crescimento que vocês estão prevendo, resiste às falhas mais prováveis, e vale o que custa?”. *[indicação de edição: sala de reunião estilizada, com a equipe técnica de um lado e a diretoria do outro, um projetor ao centro]*
+**[00:00–00:25 · Slide 0 — Capa]**
 
-Essa é a cena com que fechamos a disciplina inteira. E, hoje, vamos construir, juntos, a resposta.
+Esta é a última aula da disciplina, dedicada ao projeto integrado e à avaliação arquitetural. O exercício proposto difere de todos os anteriores: em vez de apresentar um mecanismo novo, ele consiste em sustentar tecnicamente tudo o que foi estudado.
+
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
+
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: a tabela comparando insumos estimados e insumos medidos, a estrutura de um registro de decisão arquitetural, a retrospectiva das decisões por unidade, a fórmula da redundância paralela e o quadro final da trajetória da NexaOrder. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo separando requisitos funcionais de atributos de qualidade e demonstrando como resolver a tensão entre eles. Revisito depois a estimativa de carga e capacidade da Aula 1, agora com insumos distintos. Apresento em seguida os registros de decisão arquitetural, conduzo uma análise de pontos únicos de falha e defino RPO e RTO. Trato de segurança e observabilidade desde o projeto, de custo, sustentabilidade e evolução, e fecho revendo a trajetória completa da NexaOrder pelas quatro unidades.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir explicitar tensões entre requisitos funcionais e atributos de qualidade, e resolvê-las por dado. Deve estimar capacidade a partir de evidências operacionais, e não de suposições. Deve escrever um ADR completo, com contexto, alternativas, decisão e consequências aceitas. Deve conduzir uma análise de pontos únicos de falha atenta a dependências ocultas. Deve definir RPO e RTO a partir de requisitos de negócio, e não de conveniência técnica. E deve defender uma arquitetura completa com requisitos, riscos, custo e evidências.
+
+**[02:20–03:40 · Slide 4 — Situação-problema]**
+
+A situação desta aula não é um incidente, e sim uma reunião.
+
+A diretoria convoca a engenharia para uma revisão formal, antes de aprovar o orçamento do próximo ciclo. A questão não é se o sistema funciona — isso já está demonstrado, pois o sistema está em operação e os pedidos estão sendo processados.
+
+As perguntas são outras três. Por que essa arquitetura sustenta o crescimento previsto? Por que ela resiste às falhas mais prováveis? E por que justifica o investimento contínuo que exige?
+
+Nenhuma dessas perguntas se responde com um diagrama elegante ou com o nome de uma tecnologia. A resposta exige requisitos, estimativas, decisões documentadas e evidências.
+
+É precisamente isso que a disciplina inteira preparou para produzir. Esta aula estrutura essa defesa.
 
 ### Desenvolvimento conceitual
 
-Toda avaliação arquitetural séria começa separando dois tipos de requisito. Requisitos funcionais dizem o que o sistema precisa fazer: “o cliente consegue finalizar uma compra”, “o estoque é reservado antes da confirmação do pagamento”. Atributos de qualidade dizem como o sistema precisa se comportar: desempenho, disponibilidade, segurança, capacidade de manutenção, custo.
+**[03:40–05:20 · Slide 5 — Requisitos funcionais e atributos de qualidade]**
 
-Esses dois tipos entram em tensão o tempo todo, e uma avaliação madura não escolhe um lado de forma absoluta — ela resolve a tensão de forma explícita, por contexto. No catálogo da NexaOrder, uma leitura levemente desatualizada é aceitável, então vale priorizar latência mínima. Na hora da reserva de estoque, durante o checkout, uma divergência tem custo direto — cobrar duas pessoas pelo último item —, então vale priorizar consistência mais forte, mesmo que isso custe alguns milissegundos a mais.
+O ponto de partida é o vocabulário da avaliação.
 
-E os atributos de qualidade não param em desempenho e disponibilidade. Segurança e observabilidade, os temas centrais desta unidade e da unidade anterior, também são atributos de qualidade — e o momento certo de tratá-los não é depois que o sistema já está em produção. Um novo serviço que nasce sem identidade própria, sem comunicação autenticada, ou sem instrumentação de telemetria, carrega uma dívida técnica que só fica mais cara de pagar com o tempo. A pergunta que uma banca de revisão arquitetural deveria sempre fazer não é apenas “o sistema funciona?”, mas “quando um novo componente for adicionado daqui a seis meses, ele já nasce seguro e observável, ou isso vai depender de alguém lembrar de adicionar depois?”.
+Requisitos funcionais definem o que o sistema deve fazer: o cliente deve conseguir finalizar uma compra. Atributos de qualidade definem como ele deve se comportar: desempenho, disponibilidade, segurança, manutenibilidade, escalabilidade, custo.
 
-Vamos revisitar uma fórmula que você viu lá na primeira aula desta disciplina — a estimativa de número de instâncias necessárias para um pico de tráfego. *[indicação de edição: reexibir a fórmula da Aula 1, em tela, ao lado da versão “atualizada” com dados reais]* Na época, ela dependia de estimativas. Agora, depois de tudo o que vimos nesta unidade — testes de carga reais, métricas históricas reais coletadas por instrumentação —, os insumos dessa mesma fórmula deixaram de ser suposições. Isso é o que significa amadurecer uma arquitetura: não trocar a fórmula, mas alimentá-la com evidência real, em vez de palpite.
+A primeira afirmação é contraintuitiva para muitos: não há hierarquia entre os dois na avaliação arquitetural. Atributos de qualidade não constituem requisitos não funcionais de segunda ordem. Um sistema que finaliza compras em quarenta segundos cumpre o requisito funcional e, ainda assim, falha por completo.
 
-Toda decisão significativa, ao longo do caminho, merece um registro — um ADR, um registro de decisão arquitetural. Não basta anotar “decidimos usar Kubernetes”. Um ADR completo explica o contexto que motivou a decisão, as alternativas que foram consideradas, e as consequências que a equipe aceitou conscientemente. Reunidos, os ADRs da NexaOrder contam a história de cada escolha: instâncias sem estado atrás de um balanceador, na Unidade 1; o modelo de consistência escolhido para estoque e catálogo, na Unidade 2; a decomposição em serviços e a arquitetura orientada a eventos, na Unidade 3; a estratégia de observabilidade e a política de testes de resiliência, nesta Unidade 4.
+O ponto central é que ambos entram em tensão, e resolver essa tensão explicitamente é parte essencial do trabalho de projeto.
 
-Um bom ADR não precisa ser longo. Ele pode caber em uma página: um título curto, uma seção de contexto explicando qual problema motivou a decisão, uma seção listando as alternativas avaliadas — mesmo as que foram descartadas —, a decisão em si, e as consequências esperadas, positivas e negativas. O valor de um ADR não está no tamanho, está em existir e em ser lido meses depois, quando alguém questiona “por que fizemos assim?” e a resposta não depende da memória de ninguém.
+O caso da NexaOrder ilustra isso. A área de produto demanda latência mínima no catálogo, com abertura imediata da página. A área de confiabilidade demanda garantias mais fortes no saldo de estoque, para que não se venda o que não existe.
 
-Junto aos ADRs, vem a análise de pontos únicos de falha. E aqui mora uma armadilha comum: réplicas distribuídas em várias zonas não eliminam, sozinhas, todos os pontos únicos de falha, se todas dependerem de um componente não replicado — por exemplo, uma única instância do sistema de mensageria, sem réplica, usada por todas as réplicas do serviço de pagamento. *[indicação de edição: diagrama mostrando três réplicas “saudáveis” do serviço de pagamento, todas conectadas a um único ícone de mensageria sem redundância, destacado em vermelho]*
+Uma avaliação imatura escolheria um dos lados, priorizando desempenho ou consistência em bloco. Uma avaliação madura não faz essa escolha em termos absolutos: aceita leitura eventualmente consistente no catálogo e exige consistência mais forte no instante da reserva.
 
-Para recuperação, dois números orientam tudo: RPO, o objetivo de ponto de recuperação — quanto dado o negócio aceita perder — e RTO, o objetivo de tempo de recuperação — quanto tempo o negócio aceita ficar fora do ar. Se a NexaOrder replica o banco de pedidos a cada cinco minutos para uma região secundária, e consegue promover essa região e restabelecer o serviço em até quinze minutos, o RPO é de cerca de cinco minutos, e o RTO, de cerca de quinze minutos. Esses números não são escolhidos por conveniência técnica — eles vêm de uma conversa com o negócio sobre o que é tolerável.
+O raciocínio é exatamente o da Aula 5: a decisão é por dado, não por sistema inteiro.
 
-E, por fim, custo e evolução. Uma arquitetura não fica ótima para sempre. Um exemplo prático: capacidade dimensionada para o pico de tráfego, mas mantida constante mesmo de madrugada, quando quase ninguém está comprando, custa dinheiro sem entregar benefício nenhum naquele horário. A resposta não é eliminar a redundância necessária para o pico — é fazer essa capacidade se ajustar automaticamente à demanda observada.
+**[05:20–07:00 · Slide 6 — Exemplo numérico: a mesma fórmula, insumos diferentes]**
 
-Isso conecta diretamente com o que vimos na Aula 15: capacidade e custo não são decisões estáticas, tomadas uma vez e esquecidas. Elas evoluem junto com o negócio, e a mesma disciplina de observar dados reais, formular hipóteses e validar com evidência — que usamos para diagnosticar latência, para testar resiliência, e para dimensionar pipelines de processamento — se aplica também à revisão contínua de custo. Uma arquitetura madura não é a que acerta tudo de primeira; é a que tem os mecanismos certos para perceber quando algo deixou de fazer sentido, e para corrigir o rumo sem drama.
+O ponto seguinte encerra um arco aberto na primeira aula.
 
-E, para fechar o raciocínio sobre redundância, vale um último número. *[indicação de edição: exibir o cálculo em tela]* Se uma única instância de um serviço crítico tem 99,5% de disponibilidade, e você coloca três réplicas independentes atrás de um balanceador — réplicas que só falham juntas se todas falharem ao mesmo tempo —, a disponibilidade combinada é 1 menos 0,005 elevado ao cubo. Isso dá, aproximadamente, 99,9999875% — muito próximo de sete “noves”. Compare isso com o que vimos na aula passada, sobre uma cadeia sequencial de quatro serviços de 99,9% cada, que resultava em apenas 99,6% combinados. A diferença não está no número de componentes — está em como eles dependem uns dos outros: em série, o risco se acumula; em paralelo e independente, ele se dilui.
+*[indicação de edição: inserir Recurso visual 62 da Aula 16 — tabela comparando os insumos da Aula 1 e os da Aula 16, lado a lado]*
 
-Essa conta também explica por que o dimensionamento de capacidade não pode ser separado da análise de resiliência. Não adianta ter réplicas suficientes para o pico de tráfego se elas compartilham uma única dependência de rede, um único banco de dados sem réplica, ou um único provedor externo sem plano de contingência. A avaliação arquitetural madura olha para capacidade e para resiliência como duas faces da mesma pergunta: quantas réplicas independentes, de fato independentes, sustentam o nível de disponibilidade que o negócio exige?
+A fórmula da Aula 1 estabelecia que o número de instâncias é o teto da divisão entre a taxa de pico e o produto da capacidade da instância pela utilização-alvo.
 
-### Demonstração, estudo de caso e aplicação profissional
+Três unidades depois, a fórmula permanece idêntica. O que mudou foram os insumos, que deixaram de ser suposições.
 
-Voltando à sala de reunião com a diretoria: a equipe da NexaOrder não chega com uma afirmação vaga de que “o sistema é robusto”. Chega com requisitos explícitos, com um ADR pronto para qualquer decisão questionada, com uma análise de pontos únicos de falha que já identificou e corrigiu a dependência não replicada da mensageria, com RPO e RTO definidos a partir de conversa real com o negócio, e com um plano de custo que ajusta capacidade à demanda observada, sem desperdício.
+A capacidade por instância, na Aula 1, era uma estimativa isolada, pouco mais que uma aproximação informada. Nesta aula, ela provém de testes de carga reais, conduzidos com o rigor apresentado na Aula 14.
 
-Essa é, literalmente, a competência que separa um profissional júnior de um profissional sênior em arquitetura de sistemas distribuídos: não é saber mais tecnologias — é saber justificar cada decisão com requisito, compromisso e evidência, diante de qualquer audiência, técnica ou não.
+A taxa de pico, na Aula 1, era projeção de negócio. Agora é refinada por métricas históricas, coletadas pela instrumentação da Aula 13.
 
-E essa habilidade se transfere para além da NexaOrder. Se você participar, no futuro, de uma auditoria de segurança, de uma diligência técnica antes de um investimento, ou simplesmente de uma reunião de arquitetura com colegas mais experientes, o roteiro é o mesmo: requisito, decisão registrada, risco identificado, e evidência de que a decisão funciona na prática, não apenas na teoria. Quem consegue apresentar essa sequência, de forma clara e honesta sobre as limitações do sistema, ganha credibilidade técnica muito mais rápido do que quem apenas lista tecnologias no currículo.
+A utilização-alvo, que na Aula 1 era convenção adotada por hábito, agora é calibrada pelo orçamento de erro e pelo SLO acordado com o negócio.
 
-### Fechamento — encerrando a disciplina
+A lição é que a avaliação arquitetural madura não estima capacidade a partir de suposições, e sim de evidências operacionais acumuladas ao longo do ciclo de vida do sistema. A fórmula é a mesma; a qualidade da resposta é substancialmente distinta.
 
-E aqui chegamos ao final. Não só desta aula, mas da disciplina inteira. Vale parar um segundo para olhar para trás. *[indicação de edição: montagem rápida recapitulando, em poucos segundos cada, os principais diagramas usados nas Unidades 1, 2, 3 e 4]*
+**[07:00–08:40 · Slide 7 — Registros de decisão arquitetural]**
 
-A NexaOrder começou, na Aula 1, como uma aplicação simples, instalada em um único servidor, onde duas pessoas conseguiam comprar o último item disponível ao mesmo tempo, sem que ninguém soubesse explicar exatamente por quê. Dezesseis aulas depois, ela virou uma plataforma distribuída de verdade: serviços com limites claros, comunicação assíncrona e orientada a eventos, replicação e consenso sustentando os dados, orquestração automatizada mantendo tudo no ar, segurança de ponta a ponta entre cada chamada, observabilidade contínua permitindo enxergar o que está acontecendo, e testes de resiliência deliberados garantindo que os mecanismos de proteção realmente funcionam quando precisam funcionar.
+O instrumento de documentação que sustenta a defesa é o ADR, registro de decisão arquitetural.
 
-Pense em cada unidade como uma camada adicionada sobre a anterior, nunca substituindo o que veio antes. Os fundamentos da Unidade 1 — comunicação, tempo, falhas parciais — continuam presentes em todo o resto: são eles que explicam por que a replicação da Unidade 2 precisa de modelos de consistência explícitos, por que a decomposição em serviços da Unidade 3 precisa de contratos e comunicação segura, e por que a observabilidade e os testes desta Unidade 4 são indispensáveis, não opcionais. Nenhuma camada torna a anterior desnecessária — cada uma depende do que foi construído antes dela.
+Um ADR documenta uma escolha significativa: o contexto que a motivou, as alternativas consideradas, a decisão tomada e as consequências esperadas.
 
-Isso não é uma trajetória especial, exclusiva de um caso fictício de sala de aula. É, com variações, a trajetória real de praticamente qualquer sistema que cresce de verdade. E o que sustenta essa trajetória não é nenhuma tecnologia específica — é uma forma de pensar: tratar cada decisão arquitetural como uma hipótese que pode, e deve, ser verificada, medida, e ajustada, em vez de um dogma definido uma vez e nunca mais questionado.
+A diferença entre um registro inadequado e um registro completo é reveladora.
 
-Se você chegou até aqui, você não aprendeu apenas conceitos isolados de sistemas distribuídos. Você aprendeu a fazer, sistematicamente, a pergunta que sustenta toda essa disciplina: “o que acontece se isso falhar?” — e a construir, a partir dessa pergunta, sistemas mais honestos sobre suas próprias limitações, e por isso mesmo, mais confiáveis. Essa competência não expira com a próxima tecnologia da moda. Ela é o que forma, de fato, um engenheiro ou engenheira de sistemas distribuídos.
+Não constitui um ADR a mera declaração de que se decidiu adotar determinada tecnologia. Um nome de produto não é registro útil: dois anos depois, ninguém consegue avaliar se a decisão permanece válida.
 
-Foi uma jornada longa, ao lado da NexaOrder. Obrigado por tê-la percorrido até aqui. E boa sorte — com seus próprios sistemas, e com as falhas que, mais cedo ou mais tarde, eles também vão enfrentar. *[indicação de edição: encerrar com a frase-chave em tela, permanecendo por mais tempo que nas aulas anteriores: “Todo sistema falha. A engenharia está em decidir, com evidência, como.” Seguido dos créditos finais da disciplina.]*
+Constitui um ADR o registro de por que a orquestração automatizada era necessária e qual problema operacional resolvia; de quais alternativas foram avaliadas — implantação manual, serviço gerenciado mais simples; e de quais consequências foram aceitas — a curva de aprendizado da equipe, o custo de operação do cluster.
+
+O ADR registra, portanto, o motivo e o preço, e não apenas a escolha.
+
+O valor de reunir esses registros é permitir que qualquer pessoa recém-integrada à equipe compreenda não apenas o estado atual do sistema, mas o raciocínio que conduziu a ele. Sem esse registro, cada nova geração de engenheiros examina decisões antigas sem acesso ao contexto, atribui incompetência a quem as tomou e reescreve o sistema, repetindo os mesmos erros.
+
+**[08:40–10:10 · Slide 8 — As decisões que a NexaOrder acumulou]**
+
+A defesa começa a tomar forma na retrospectiva das decisões acumuladas.
+
+*[indicação de edição: inserir Recurso visual 63 da Aula 16 — retrospectiva das decisões centrais por unidade, revelada linha a linha]*
+
+Da Unidade 1, a decisão central foi manter múltiplas instâncias sem estado atrás de um balanceador. O compromisso aceito: sessões locais deixam de ser confiáveis, e o banco pode virar gargalo.
+
+Da Unidade 2, consistência eventual no catálogo e forte na reserva de estoque. O compromisso: duas políticas convivendo no mesmo sistema, com regras distintas — o que exige que a equipe saiba explicar qual vale onde.
+
+Da Unidade 3, decomposição por contexto delimitado e arquitetura orientada a eventos. O compromisso: composição explícita no lugar de JOIN, e a necessidade de rastrear a progressão de cada pedido.
+
+Da Unidade 4, observabilidade instrumentada e política de testes de resiliência. O compromisso: custo contínuo de telemetria e de experimentos controlados.
+
+A coluna da direita concentra o essencial: toda decisão tem um preço declarado. Uma arquitetura defensável não é aquela isenta de custos, e sim aquela cujos custos foram escolhidos conscientemente e estão registrados.
+
+**[10:10–10:30 · Slide 9 — Citação]**
+
+Esta é a frase que encerra a disciplina: cada decisão arquitetural deve ser tratada como hipótese verificável, e não como dogma.
+
+### Demonstração, exemplo ou estudo de caso
+
+**[10:30–12:20 · Slide 10 — Análise de pontos únicos de falha]**
+
+Passemos à parte da defesa que trata de risco.
+
+A análise de SPOF — single point of failure — identifica componentes cuja indisponibilidade isolada comprometeria todo o fluxo, mesmo com o restante do sistema em operação normal. Ela exige atenção especial às dependências ocultas.
+
+A NexaOrder pode ser percorrida sob essa lente.
+
+O gateway: sua indisponibilidade compromete a entrada de todos os fluxos externos? Em caso afirmativo, trata-se de um SPOF, por mais confiável que seja o componente.
+
+O banco de dados de pedidos: há réplica promovível e o failover foi ensaiado? O termo ensaiado é decisivo — um failover nunca testado permanece hipótese, conforme discutido na Aula 14.
+
+O sistema de mensageria: uma instância isolada utilizada por todas as réplicas de pagamento constitui SPOF dissimulado. O diagrama exibe quatro réplicas de pagamento e aparenta redundância, mas as quatro dependem da mesma fila.
+
+O provedor de identidade: sem ele, o mTLS e a autorização deixam de funcionar, e o sistema inteiro perde a capacidade de comunicação interna.
+
+O coletor de observabilidade: sua indisponibilidade priva a equipe de visibilidade justamente durante o incidente. É o SPOF habitualmente omitido das listas, por não estar no caminho da requisição — embora esteja no caminho do diagnóstico.
+
+A armadilha central é que réplicas em várias zonas não eliminam o SPOF se todas dependerem de um único componente não replicado. É a mesma lição da Aula 1 sobre redundância que compartilha ponto de falha, aplicada agora ao sistema como um todo.
+
+**[12:20–13:50 · Slide 11 — Plano de recuperação: RPO e RTO]**
+
+Identificados os riscos, segue-se o plano de recuperação, expresso em dois números.
+
+RPO, recovery point objective, mede quanto de dado o negócio aceita perder. Na NexaOrder, aproximadamente 5 minutos — que é o intervalo da replicação assíncrona para a região secundária. Se a região primária for perdida, os últimos 5 minutos de escrita podem não estar lá.
+
+RTO, recovery time objective, mede em quanto tempo o serviço precisa voltar. Na NexaOrder, aproximadamente 15 minutos — o tempo de promover a região secundária e restabelecer o serviço.
+
+O aspecto decisivo na discussão com a diretoria é que esses dois números se definem a partir de requisitos de negócio, e não de conveniência técnica.
+
+A pergunta pertinente não é quanto a engenharia consegue entregar, e sim quantos minutos de pedidos a empresa aceita perder e por quantos minutos aceita permanecer indisponível. A resposta a essas perguntas orienta diretamente decisões de replicação, frequência de backup e automação de failover.
+
+A ordem inversa não produz plano algum. Definir RPO e RTO a partir do que a infraestrutura atual já alcança equivale a descrever o estado vigente sob outra denominação.
+
+**[13:50–15:10 · Slide 12 — Seguro e observável por padrão]**
+
+Há um princípio de processo que sustenta todo o conteúdo das Unidades 3 e 4.
+
+Segurança e observabilidade tratadas como camadas acrescentadas ao final tendem a permanecer incompletas e a exigir correções custosas. O princípio é amplamente reconhecido em tese e, ainda assim, frequentemente violado na prática, porque no início do projeto essas dimensões aparentam ser adiáveis.
+
+A prática recomendada as incorpora ao desenho inicial de cada componente, e o meio de garantir isso é converter princípios em perguntas de aceite.
+
+Todo novo serviço nasce com identidade própria e comunicação autenticada? Todo novo fluxo crítico nasce instrumentado, com métricas, logs e traces correlacionáveis? Ou a instrumentação é acrescentada somente após o primeiro incidente que a tornou indispensável?
+
+O passo decisivo é organizacional, e não técnico: essas perguntas devem se tornar critérios de aceite de um novo serviço, e não sugestões em um documento de boas práticas. Um serviço sem identidade e sem instrumentação não entra em produção, do mesmo modo que não entra um serviço sem testes.
+
+**[15:10–16:50 · Slide 13 — Exemplo numérico: cadeia sequencial e redundância paralela]**
+
+Um último cálculo encerra o arco aberto na Aula 2 e retomado na Aula 14.
+
+*[indicação de edição: inserir Recurso visual 64 da Aula 16 — fórmula da redundância paralela contrastada com a da cadeia sequencial]*
+
+Considere uma instância com 99,5% de disponibilidade, valor modesto. Acrescentem-se três réplicas independentes, sem dependência compartilhada, atrás de um balanceador que direciona o tráfego para qualquer réplica saudável.
+
+A disponibilidade combinada é 1 menos a probabilidade de todas falharem: 1 menos 0,005 elevado a 3, que dá aproximadamente 0,999999875. Isso é cerca de sete noves.
+
+A comparação com a cadeia sequencial da Aula 14, que reduzia quatro serviços de 99,9% para 99,6%, evidencia o contraste.
+
+A diferença é expressiva e estrutural. Em série, as disponibilidades se multiplicam e o resultado piora. Em paralelo, as indisponibilidades se multiplicam e o resultado melhora de forma acentuada.
+
+Duas ressalvas se impõem, dado o efeito persuasivo desse número de sete noves. Primeira: o cálculo pressupõe independência de falha. Três réplicas no mesmo rack, ou dependentes do mesmo banco, não são independentes, e o valor real fica muito abaixo do calculado. Segunda: o arranjo triplica o custo de manutenção.
+
+A conclusão é dupla. O que sustenta disponibilidade elevada é redundância paralela com independência de falha, e não a simples multiplicação de instâncias. E o ganho só se justifica pelo valor de negócio que a disponibilidade adicional efetivamente entrega: sete noves em um serviço interno representam investimento sem retorno.
+
+**[16:50–18:00 · Slide 14 — Custo, sustentabilidade e evolução]**
+
+O último tema da defesa é a razão de o investimento ser contínuo.
+
+Nenhuma arquitetura permanece ótima. Padrões de tráfego mudam, requisitos novos surgem, decisões envelhecem. O que era adequado há dois anos pode ser inadequado hoje, sem que tenha havido erro à época.
+
+O desperdício típico é a capacidade provisionada para o pico e mantida constante em horários de demanda mínima, o que significa pagar pelo volume de pico durante períodos de tráfego reduzido.
+
+A resposta inadequada a esse desperdício é eliminar a redundância necessária aos picos — economia que produz o incidente seguinte.
+
+A resposta madura é o escalonamento automático, que ajusta a capacidade à demanda observada, conforme o mecanismo da Aula 11, preservando as metas de disponibilidade definidas sem manter recursos ociosos custeados por padrão.
+
+O princípio a registrar é que a evolução contínua integra o projeto, e não indica que ele tenha sido mal executado. Um sistema que nunca muda não é maduro; está abandonado.
+
+### Aplicação profissional
+
+**[18:00–19:00 · Slide 15 — A trajetória completa da NexaOrder]**
+
+Cabe encerrar examinando o percurso completo.
+
+*[indicação de edição: inserir Recurso visual 65 da Aula 16 — quadro da trajetória completa, revelando uma unidade por vez]*
+
+A Unidade 1 estabeleceu os fundamentos: o que caracteriza um sistema distribuído, como processos se comunicam, por que tempo e ordenação deixam de ser triviais e como falhas parciais exigem contenção deliberada.
+
+A Unidade 2 tratou dos dados: replicação, particionamento, CAP e PACELC, consenso via Raft, transações distribuídas com sagas e idempotência.
+
+A Unidade 3 tratou dos serviços: limites de domínio explícitos, arquitetura orientada a eventos, orquestração em contêineres e comunicação segura.
+
+A Unidade 4 tratou da operação: observabilidade para diagnosticar, testes e caos para validar, processamento em escala e avaliação arquitetural integrada.
+
+O ponto final da disciplina é este: nenhuma unidade entrega, isoladamente, uma arquitetura completa. É possível reunir fundamentos sólidos e operar sem visibilidade alguma; dispor de observabilidade impecável sobre um monólito distribuído; ou manter serviços bem delimitados sobre dados inconsistentes.
+
+É a combinação — fundamentos sólidos, dados bem distribuídos, serviços bem delimitados e operação validada — que sustenta um sistema em produção, sob carga real, ao longo do tempo.
+
+### Fechamento
+
+**[19:00–19:30 · Slides 16 e 17 — Pontos-chave e atividade prática]**
+
+Recapitulando. Tensão é normal: requisitos funcionais e atributos de qualidade colidem, e a avaliação resolve isso por dado, não em bloco. Estimar com evidência: depois de quatro unidades, capacidade se calcula com testes de carga e métricas históricas reais. ADR guarda o porquê: um registro útil traz contexto, alternativas e consequências aceitas, não um nome de tecnologia. SPOF se esconde: réplicas em várias zonas não bastam se todas dependerem de um mesmo componente não replicado. RPO e RTO vêm do negócio, e orientam replicação, backup e failover — não o contrário. E paralelo, não sequencial: redundância independente eleva a disponibilidade, enquanto encadear serviços a reduz.
+
+A atividade prática desta aula é a defesa arquitetural completa da NexaOrder para uma banca de revisão: três requisitos funcionais e três atributos de qualidade, com uma tensão explícita e como foi resolvida; um ADR completo para uma decisão de qualquer unidade da disciplina; uma análise de pontos únicos de falha com ao menos dois riscos não triviais; RPO e RTO para o fluxo de pedidos com justificativa de negócio; a descrição de como segurança e observabilidade entram no desenho de um novo serviço; e um cenário de pico e um de falha, explicando a resposta da arquitetura com evidências das aulas anteriores.
+
+**[19:30–20:00 · Slide 18 — Encerramento da disciplina]**
+
+Chegamos ao encerramento da disciplina.
+
+A NexaOrder começou como uma aplicação em um único servidor, na qual duas pessoas adquiriam o mesmo último item sem que houvesse explicação disponível para o fenômeno. Essa explicação agora existe: é possível nomear a concorrência que o permitiu, o mecanismo que a controla, o custo que esse mecanismo introduz e a evidência que comprovaria seu funcionamento.
+
+Essa é a diferença que a disciplina se propôs a produzir: não a memorização de padrões, mas a compreensão de por que cada um existe, o que cobra em troca e como verificar se cumpre o que promete.
+
+Fica a formulação apresentada no slide de citação: cada decisão arquitetural deve ser tratada como hipótese verificável, e não como dogma. As tecnologias mudarão; esse raciocínio permanece.
+
+Encerro aqui o percurso, com votos de bons estudos e de boa prática profissional — especialmente nos momentos em que algum sistema falhar.
 
 ### Indicações de edição e recursos visuais
 
-- Abertura: sala de reunião estilizada, equipe técnica e diretoria.
-- Reexibição da fórmula de capacidade da Aula 1 ao lado da versão alimentada por dados reais.
-- Diagrama de ponto único de falha oculto na mensageria não replicada.
-- Cálculo de disponibilidade combinada com três réplicas independentes.
-- Montagem de recapitulação das quatro unidades.
-- Encerramento estendido com frase-chave e créditos finais da disciplina.
+- Slide 0 — capa da Aula 16 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com as três perguntas da diretoria destacadas uma a uma (02:20–03:40).
+- Recurso visual 62 — tabela comparando insumos da Aula 1 e da Aula 16 (aproximadamente 05:30).
+- Slide 7 — estrutura de um ADR, contrastando o registro inútil e o registro completo (aproximadamente 07:10).
+- Recurso visual 63 — retrospectiva das decisões centrais por unidade (aproximadamente 08:50).
+- Slide 9 — citação em tela cheia, com 5 segundos de silêncio antes da leitura (10:10).
+- Slide 10 — análise de SPOF, com cada componente sendo marcado conforme a narração (aproximadamente 10:40).
+- Recurso visual 64 — fórmula da redundância paralela contrastada com a da cadeia sequencial (aproximadamente 15:20).
+- Recurso visual 65 — quadro da trajetória completa da NexaOrder, revelando uma unidade por vez (18:00–19:00).
+- Slide 18 — encerramento da disciplina, com vinheta final estendida (últimos 30 segundos).
 
 ### Fontes e links de mídia
 
-- LAMPSON, Butler W. Hints for computer system design. In: ACM SYMPOSIUM ON OPERATING SYSTEMS PRINCIPLES, 9., 1983, Bretton Woods. *Proceedings [...]*. New York: ACM, 1983. DOI: 10.1145/800217.806614 — referência conceitual para a discussão de decisões e registros arquiteturais.
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016 — referência conceitual para RPO, RTO e custo de operação.
+- BASS, Len; CLEMENTS, Paul; KAZMAN, Rick. *Software Architecture in Practice*. 4. ed. Boston: Addison-Wesley, 2021 — referência conceitual, sem reprodução de trecho externo.
+- NYGARD, Michael T. Documenting architecture decisions. *Cognitect Blog*, 2011 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; tabelas, quadros retrospectivos e fórmulas devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 16 (`unidade_4.md`) e do deck `unidade_4/slides/aula16.html`.

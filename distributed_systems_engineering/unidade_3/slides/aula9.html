@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 9 — Decomposição em serviços e limites de domínio · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Decomposição em serviços e limites de domínio</h1>
+      <h1>Aula 9 — Decomposição em serviços e limites de domínio</h1>
       <div class="subtitulo">Unidade 3 — Serviços, eventos e plataformas cloud-native</div>
-      <div class="docente">Prof. Afonso Cesar Lelis Brandão · Distributed Systems Engineering</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um mapa de contextos delimitados da NexaOrder mostrando que “item” muda de significado entre catálogo e estoque; um painel numérico com o cálculo da instabilidade do serviço de estoque; um quadro comparando banco de dados compartilhado e dados por serviço; um fluxo de composição via API Gateway; e um checklist com seis sintomas de monólito distribuído.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Decomposição em serviços e limites de domínio</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
           <li>Monólito, monólito modular e microsserviços</li>
           <li>Coesão, acoplamento e a métrica de instabilidade</li>
           <li>Contexto delimitado e capacidade de negócio</li>
-          <li>Dados por serviço e API Gateway</li>
-          <li>Sinais de um monólito distribuído</li>
-          <li>Requisito, decisão, compromisso e evidência aplicados à fronteira</li>
+          <li>O princípio de dados por serviço</li>
+          <li>API Gateway e composição de respostas</li>
+          <li>Comunicação conversacional como sintoma</li>
+          <li>Os seis sinais do monólito distribuído</li>
+          <li>Do diagnóstico à decisão de fronteira</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,138 +856,251 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Comparar</strong> monólito, monólito modular e microsserviços sem tratá-los como escala de qualidade.</li>
+          <li><strong>Aplicar</strong> coesão e acoplamento como critérios explícitos de desenho de fronteira.</li>
+          <li><strong>Calcular</strong> a instabilidade de um serviço a partir de suas dependências aferentes e eferentes.</li>
+          <li><strong>Identificar</strong> contextos delimitados a partir de termos que mudam de significado.</li>
+          <li><strong>Diagnosticar</strong> um monólito distribuído pelos seus sintomas operacionais.</li>
+          <li><strong>Registrar</strong> uma decisão de fronteira com requisito, decisão, compromisso e evidência.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Dividir não é o mesmo que desacoplar</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>A NexaOrder já tem quatro serviços — pedidos, estoque, pagamento, expedição —, mas os sintomas persistem:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A NexaOrder já opera com quatro serviços aparentemente independentes. Ainda assim, a equipe convive com sintomas incômodos:</p>
         <ul>
-          <li>Mudar o formato do pedido exige alterar o estoque, porque os dois <strong>compartilham a mesma tabela</strong>.</li>
-          <li>Implantações de pagamento e pedidos precisam ser <strong>coordenadas no mesmo horário</strong>.</li>
-          <li>Qualquer incidente exige praticamente <em>todo o time</em> disponível.</li>
-          <li>Resultado: um <strong>monólito distribuído</strong> — paga o custo da rede sem ganhar autonomia de evolução.</li>
+          <li>Alterar o formato do pedido <strong>exige mudar o estoque junto</strong> — os dois compartilham a mesma tabela de itens.</li>
+          <li>Liberar pagamento sem atualizar pedidos <strong>no mesmo dia quebra o checkout</strong>.</li>
+          <li>Qualquer incidente exige <strong>praticamente todo o time</strong> disponível.</li>
+          <li>A separação foi feita por conveniência técnica, <strong>não por limites de negócio</strong>.</li>
         </ul>
+        <div class="callout-azul"><p>O resultado é um <strong>monólito distribuído</strong>: paga-se o custo operacional da distribuição — rede, serialização, falhas parciais — sem colher o benefício principal, que é a autonomia de evolução e implantação.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Monólito, monólito modular e microsserviços</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Monólito</strong>: uma única unidade implantável; deploy, processo e banco geralmente compartilhados.</li>
-          <li><strong>Monólito modular</strong>: uma unidade de implantação só, mas com fronteiras internas rígidas e interfaces explícitas — arquitetura legítima, não etapa de transição.</li>
-          <li><strong>Microsserviços</strong>: cada serviço é implantável, escalável e substituível de forma independente, com armazenamento próprio.</li>
-          <li>Não é um espectro de "pior a melhor" — a escolha depende de requisitos, autonomia organizacional e maturidade operacional.</li>
-        </ul>
+      <h2>Três formas de organizar um sistema</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Forma</th><th>Unidade de implantação</th><th>Dados</th><th>Quando faz sentido</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Monólito</strong></td><td>Uma única unidade executável</td><td>Banco geralmente compartilhado</td><td>Times pequenos, domínio ainda em descoberta</td></tr>
+            <tr><td><strong>Monólito modular</strong></td><td>Uma única unidade, com fronteiras internas rígidas</td><td>Esquemas segregados dentro do mesmo banco</td><td>Arquitetura legítima, não apenas etapa de transição</td></tr>
+            <tr><td><strong>Microsserviços</strong></td><td>Cada serviço implanta e escala de forma independente</td><td>Armazenamento próprio por serviço</td><td>Escala e autonomia organizacional justificam o custo operacional</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Nenhuma é universalmente superior. Um monólito modular bem projetado pode ser <strong>mais barato de operar</strong> do que dezenas de microsserviços mal delimitados — o mesmo raciocínio de custo, benefício e evidência da Aula 1.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Coesão, acoplamento e a métrica de instabilidade</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p><strong>Coesão</strong>: elementos internos relacionados, que mudam juntos. <strong>Acoplamento</strong>: dependência de detalhes internos de outro componente.</p>
-        <p>Métrica de Robert C. Martin — <em>C<sub>a</sub></em> = acoplamento aferente (quem depende dele), <em>C<sub>e</sub></em> = acoplamento eferente (de quem ele depende):</p>
-        <p style="text-align:center; font-size:1.3em;"><strong>I = C<sub>e</sub> / (C<sub>a</sub> + C<sub>e</sub>)</strong></p>
+      <h2>Coesão, acoplamento e autonomia</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Estoque da NexaOrder: consultado por 3 serviços (<em>C<sub>a</sub></em>=3), depende de 1 (<em>C<sub>e</sub></em>=1) → <strong>I = 1/(3+1) = 0,25</strong>.</li>
-          <li>I baixo → serviço estável, concentra regra central. I alto → tolera mudança frequente.</li>
+          <li><strong>Coesão</strong> — o grau em que os elementos internos de um componente se relacionam e <em>mudam juntos</em>.</li>
+          <li><strong>Acoplamento</strong> — o grau em que um componente depende de <em>detalhes internos</em> de outro.</li>
+          <li><strong>O bom limite</strong> — maximiza coesão interna e minimiza acoplamento externo.</li>
+          <li><strong>Autonomia é a consequência</strong> — se a fronteira estiver certa, o time implanta sem coordenar com os outros.</li>
         </ul>
+        <div class="callout-azul"><p>Fronteira não é uma questão de gosto: ela se manifesta em <strong>quantas implantações precisam ser coordenadas</strong> e em quantas pessoas precisam estar presentes num incidente.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Instabilidade: transformando acoplamento em número</h2>
+      <div class="slide-content-box">
+        <p>Um heurístico de Robert C. Martin, adaptável com cautela ao nível de serviços. Sejam <strong>C<sub>a</sub></strong> o acoplamento aferente (quantos dependem deste) e <strong>C<sub>e</sub></strong> o eferente (de quantos este depende):</p>
+        <div class="callout-azul formula"><p>I = C<sub>e</sub> ÷ ( C<sub>a</sub> + C<sub>e</sub> )</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">3</span><span class="legenda">consumidores do estoque (Cₐ)</span></div>
+          <div class="stat-card"><span class="numero-grande">1</span><span class="legenda">dependência do estoque (Cₑ)</span></div>
+          <div class="stat-card"><span class="numero-grande">0,25</span><span class="legenda">instabilidade resultante</span></div>
+          <div class="stat-card"><span class="numero-grande">0 → 1</span><span class="legenda">estável → instável</span></div>
+        </div>
+        <div class="callout-azul"><p>Valor baixo indica serviço <strong>estável</strong>: muito pressionado por consumidores e pouco dependente de outros. Instabilidade alta indica menos pressão externa, porém maior sujeição a mudanças nas dependências. A métrica <strong>não substitui julgamento de negócio nem mede criticidade</strong> — apenas torna parte do acoplamento discutível.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Contexto delimitado e capacidade de negócio</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O <em>Domain-Driven Design</em> oferece dois conceitos para desenhar fronteiras:</p>
         <ul>
-          <li><strong>Contexto delimitado</strong> (DDD): fronteira onde um modelo de domínio tem significado consistente.</li>
-          <li><strong>Capacidade de negócio</strong>: algo que a organização faz para gerar valor — "gerenciar estoque", "processar pagamento".</li>
-          <li>Na NexaOrder, "item" significa coisas diferentes: para o catálogo é descrição comercial; para o estoque é quantidade física com localização.</li>
-          <li>Tratar as duas visões como o mesmo modelo é fonte comum de <em>acoplamento acidental</em>.</li>
+          <li><strong>Contexto delimitado</strong> — a fronteira dentro da qual um modelo de domínio e sua linguagem têm significado consistente.</li>
+          <li><strong>Capacidade de negócio</strong> — algo que a organização faz para gerar valor, como “gerenciar estoque”, independentemente de como é implementado.</li>
+          <li><strong>Para o catálogo</strong>, “item” é uma descrição comercial: preço, imagens, categorias.</li>
+          <li><strong>Para o estoque</strong>, o mesmo “item” é quantidade física em um depósito, com número de série e localização.</li>
         </ul>
+        <div class="callout-azul"><p>Tratar essas duas visões como o <strong>mesmo modelo de dados compartilhado</strong> é uma fonte comum de acoplamento acidental: uma mudança no significado de “item” para o catálogo pode quebrar silenciosamente o controle de estoque.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Dados por serviço e API Gateway</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Dados por serviço</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Consequência direta de contextos bem definidos: <strong>cada serviço possui e controla seu próprio armazenamento</strong>, e nenhum outro serviço o acessa diretamente — nem por leitura.</p>
         <ul>
-          <li><strong>Dados por serviço</strong>: cada serviço possui seu armazenamento; nenhum outro acessa diretamente, nem por leitura — toda interação é um contrato explícito.</li>
-          <li>Elimina o <code>JOIN</code> conveniente entre tabelas, de propósito: evita que uma mudança de esquema quebre outros serviços silenciosamente.</li>
-          <li><strong>API Gateway</strong>: ponto de entrada externo — roteia, agrega respostas (<em>composição</em>), autentica, limita taxa.</li>
-          <li>Risco: se acumular regras de negócio, o gateway vira um <em>monólito escondido</em> atrás da fachada de microsserviços.</li>
+          <li><strong>Toda interação passa por contrato explícito</strong> — uma API, uma mensagem ou um evento publicado.</li>
+          <li><strong>O custo aparente</strong> — perde-se a conveniência de um <code>JOIN</code> entre tabelas de serviços diferentes.</li>
+          <li><strong>O custo é deliberado</strong> — sem ele, qualquer alteração de esquema quebra quem lê a tabela diretamente.</li>
+          <li><strong>Sem ele, a fronteira não existe</strong> — mesmo que exista um repositório de código separado.</li>
         </ul>
+        <div class="callout-azul"><p>Foi exatamente esse o erro da NexaOrder: permitir que <strong>pedidos e pagamento lessem a mesma tabela de itens do estoque</strong>.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Sinais de um monólito distribuído</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li>Implantações de serviços diferentes precisam ser coordenadas no mesmo horário.</li>
-          <li>Mudança de esquema em um serviço quebra outros serviços.</li>
-          <li>Um incidente exige presença de praticamente todo o time.</li>
-          <li>Serviços compartilham tabelas, filas ou segredos sem contrato explícito.</li>
-          <li>Comunicação <strong>excessivamente conversacional</strong> (<em>chatty</em>) para um único caso de uso.</li>
-          <li>Times não conseguem testar ou implantar sem depender de outros times no mesmo instante.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"A arquitetura de um sistema tende a espelhar a estrutura de comunicação da organização que o constrói."</blockquote>
-      <cite>— Lei de Conway</cite>
+      <blockquote>“A divisão física em repositórios ou processos não produz, por si só, autonomia real.”</blockquote>
+      <cite>— síntese da Aula 9</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>API Gateway e composição</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Expor todos os serviços diretamente acopla a topologia interna aos consumidores externos e multiplica autenticação e limitação de taxa em cada serviço. O gateway concentra o ponto de entrada:</p>
+        <ul>
+          <li><strong>Rotear</strong> a requisição para o serviço correto.</li>
+          <li><strong>Compor</strong> respostas de múltiplos serviços em uma única resposta.</li>
+          <li><strong>Aplicar</strong> autenticação e limitação de taxa em um só lugar.</li>
+          <li><strong>Ocultar</strong> a decomposição interna dos consumidores externos.</li>
+        </ul>
+        <div class="callout-azul"><p>A tela de detalhes do pedido precisa de dados de pedidos, estoque e expedição: o gateway consulta os três e devolve uma resposta única. Mas ele <strong>não deve acumular regras de negócio</strong> — quando isso acontece, vira um novo monólito escondido atrás de uma fachada de microsserviços.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Comunicação entre serviços e o sintoma conversacional</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Síncrona (HTTP, RPC)</strong> — simplicidade e resposta imediata, mas propaga indisponibilidade pela cadeia.</li>
+          <li><strong>Assíncrona (eventos)</strong> — reduz o acoplamento temporal, ao custo de raciocínio mais complexo sobre consistência.</li>
+          <li><strong>Comunicação conversacional</strong> — um único caso de uso dispara dezenas de chamadas remotas entre serviços.</li>
+          <li><strong>O que ela revela</strong> — a fronteira foi traçada no lugar errado: responsabilidades fortemente relacionadas foram separadas sem necessidade.</li>
+        </ul>
+        <div class="callout-azul"><p>Contar <strong>quantas chamadas remotas</strong> um caso de uso exige é um dos diagnósticos mais baratos e mais reveladores de fronteira mal desenhada.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Diagnóstico</p>
+      <h2>Seis sinais de monólito distribuído</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>1.</strong> Implantações de serviços diferentes precisam ser coordenadas no mesmo horário.</li>
+          <li><strong>2.</strong> Qualquer mudança de esquema em um serviço quebra outros serviços.</li>
+          <li><strong>3.</strong> Um incidente em um serviço exige presença de praticamente todo o time.</li>
+          <li><strong>4.</strong> Serviços compartilham tabelas, filas ou segredos sem contrato explícito.</li>
+          <li><strong>5.</strong> A topologia de chamadas de um único caso de uso é profunda e conversacional.</li>
+          <li><strong>6.</strong> Times não conseguem testar ou implantar sem depender de outros no mesmo instante.</li>
+        </ul>
+        <div class="callout-azul"><p>Nenhum sintoma isolado é definitivo. <strong>Vários ao mesmo tempo</strong> indicam que a divisão física não produziu autonomia — use a lista como roteiro de autodiagnóstico em uma retrospectiva de arquitetura.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Do diagnóstico à decisão de fronteira</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="cycle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Como na Aula 1, a decisão precisa explicitar quatro elementos. Para a NexaOrder:</p>
+        <ul>
+          <li><strong>Requisito</strong> — eliminar a necessidade de coordenar implantações entre pedidos e estoque.</li>
+          <li><strong>Decisão</strong> — separar “item de catálogo” de “unidade em estoque”, com armazenamento próprio e comunicação por eventos de reserva e liberação.</li>
+          <li><strong>Compromisso</strong> — consultas que hoje usam <code>JOIN</code> local passam a exigir composição ou réplicas de leitura assíncronas, com atraso de propagação.</li>
+          <li><strong>Evidência</strong> — número de implantações que exigiram coordenação simultânea, antes e depois, medido ao longo de um trimestre.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -982,49 +1108,53 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Três opções válidas</h3><p>Monólito, monólito modular e microsserviços — a escolha depende de requisito, não de tendência.</p></div>
-          <div class="ponto"><h3>Instabilidade</h3><p>I = Ce / (Ca + Ce) transforma "esse serviço está enredado" em número discutível pela equipe.</p></div>
-          <div class="ponto"><h3>Contexto delimitado</h3><p>O mesmo termo — como "item" — muda de significado entre catálogo e estoque.</p></div>
-          <div class="ponto"><h3>Dados por serviço</h3><p>Cada serviço com seu armazenamento; gateway compõe, mas não acumula regra de negócio.</p></div>
+          <div class="ponto"><h3>Três opções válidas</h3><p>Monólito, monólito modular e microsserviços são escolhas arquiteturais; a decisão depende de requisitos, não de tendência.</p></div>
+          <div class="ponto"><h3>Coesão dentro, acoplamento fora</h3><p>Um bom limite agrupa o que muda junto e isola o que não deveria mudar junto.</p></div>
+          <div class="ponto"><h3>Termos revelam fronteiras</h3><p>Onde um mesmo termo muda de significado, provavelmente há dois contextos delimitados diferentes.</p></div>
+          <div class="ponto"><h3>Dados por serviço</h3><p>Acesso direto ao armazenamento alheio anula a fronteira, mesmo com repositórios separados.</p></div>
+          <div class="ponto"><h3>Gateway sem negócio</h3><p>Ele concentra composição e políticas transversais — regras de domínio ali criam um monólito escondido.</p></div>
+          <div class="ponto"><h3>Sintomas se somam</h3><p>Implantações coordenadas e chamadas conversacionais são evidências práticas de fronteira mal traçada.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Desenhe os limites de serviço da NexaOrder</h2>
-      <div class="slide-content-box">
+      <h2>Mãos à obra: definir os limites de serviço</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Entregue um diagrama e uma tabela de justificativas que permita a outra pessoa compreender a fronteira proposta <strong>sem explicação verbal adicional</strong>.</p>
         <ul>
-          <li>Liste as capacidades de negócio (catálogo, estoque, pedidos, pagamento, expedição...).</li>
-          <li>Para cada uma, identifique o contexto delimitado e onde um termo comum muda de significado.</li>
-          <li>Proponha a divisão de serviços, indicando qual serviço possui qual dado.</li>
-          <li>Calcule a instabilidade aproximada (<em>I = C<sub>e</sub>/(C<sub>a</sub>+C<sub>e</sub>)</em>) de dois serviços da sua proposta.</li>
-          <li>Liste três sintomas de monólito distribuído eliminados e um novo risco introduzido.</li>
+          <li><strong>1.</strong> Liste as capacidades de negócio da NexaOrder, incluindo as que julgar necessárias.</li>
+          <li><strong>2.</strong> Identifique o contexto delimitado de cada capacidade.</li>
+          <li><strong>3.</strong> Registre onde o significado de um termo comum muda entre contextos.</li>
+          <li><strong>4.</strong> Proponha a divisão resultante, indicando qual serviço possui qual armazenamento.</li>
+          <li><strong>5.</strong> Calcule a instabilidade aproximada de dois serviços da sua proposta.</li>
+          <li><strong>6.</strong> Liste três sintomas que a nova divisão elimina e <em>um novo risco</em> que ela introduz.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe distinguir monólito, monólito modular e microsserviços, e usar coesão, acoplamento, contexto delimitado e capacidade de negócio para desenhar fronteiras de serviço. Na próxima aula, a comunicação síncrona dá lugar a uma arquitetura orientada a eventos: tópicos, partições, grupos de consumidores e semânticas de entrega.</p>
+      <p class="fim-texto">Você já sabe desenhar fronteiras que desacoplam times, dados e ciclos de implantação — e diagnosticar quando isso não aconteceu. Na próxima aula, substituímos a cadeia de chamadas síncronas por uma arquitetura orientada a eventos.</p>
       <p class="fim-proxima">Próxima aula: Aula 10 — Arquitetura orientada a eventos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1039,6 +1169,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1060,6 +1191,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1070,6 +1203,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

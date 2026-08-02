@@ -1,332 +1,889 @@
-# Roteiros das videoaulas 9 a 12
+# Roteiros das videoaulas 9 a 12 — Unidade 3 (20 minutos)
 
-Duração-base de 20 minutos por videoaula, aproximadamente 2.200 a 2.700 palavras faladas cada, ajustadas pela presença de demonstrações. Os roteiros abaixo são texto de narração para gravação — fala corrida, não notas de aula —, com indicações de edição em itálico entre colchetes.
+Disciplina: Distributed Systems Engineering
+Professor-conteudista: Afonso Cesar Lelis Brandão
+Unidade 3: Serviços, eventos e plataformas cloud-native
+Duração-alvo de cada videoaula: 20 minutos.
+Narração prevista: aproximadamente 2.200 a 2.700 palavras faladas por videoaula, sem contar títulos, marcações de tempo, indicações de edição e fontes.
+Ritmo de referência: 115 a 130 palavras por minuto, já considerando pausas, respiração e construção progressiva dos recursos visuais.
+
+Cada roteiro acompanha, slide a slide, o deck HTML da aula correspondente em `unidade_3/slides/`. As marcações entre colchetes duplos indicam o intervalo de tempo e o slide que deve estar na tela naquele momento. O avanço de slide é o principal marcador de edição: quando a marcação muda, o slide muda.
+
+Plano de tempo de referência, adaptável ao ritmo de cada aula:
+
+- 00:00–01:45 — capa, audiodescrição e sumário;
+- 01:45–04:00 — objetivos de aprendizagem e situação-problema;
+- 04:00–13:00 — desenvolvimento conceitual;
+- 13:00–16:00 — demonstração, exemplos numéricos e estudo de caso;
+- 16:00–18:00 — aplicação profissional e pausa para reflexão;
+- 18:00–20:00 — pontos-chave, atividade prática e fechamento.
+
+Os quatro roteiros a seguir correspondem às Aulas 9 a 12 da Unidade 3, mantendo a NexaOrder como fio condutor prático. Cada roteiro é um texto de narração pronto para gravação, e não notas de aula. O registro é o de exposição didática contínua, próximo ao de um livro-texto lido em voz alta: frases completas, encadeamento explícito entre as ideias e ausência de recursos de oralidade informal.
 
 ---
 
-## Roteiro da Videoaula 9 — “Serviços separados, mas ainda amarrados: como desenhar fronteiras de verdade”
+## Roteiro da Videoaula 9 — “Dividir não é o mesmo que desacoplar”
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 9 — Decomposição em serviços e limites de domínio.
 
-**Objetivo da videoaula:** capacitar o estudante a distinguir monólito, monólito modular e microsserviços, e a usar coesão, acoplamento, contexto delimitado e capacidade de negócio para desenhar fronteiras de serviço que reduzam acoplamento sem multiplicar coordenação entre times.
+**Deck de apoio:** `unidade_3/slides/aula9.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de comparar monólito, monólito modular e microsserviços sem tratá-los como escala de qualidade, aplicar coesão e acoplamento como critérios de fronteira, calcular a instabilidade de um serviço, identificar contextos delimitados, diagnosticar um monólito distribuído pelos sintomas operacionais e registrar uma decisão de fronteira.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:50 três formas de organizar · 05:40 coesão e acoplamento · 07:10 exemplo numérico da instabilidade · 09:00 contexto delimitado · 10:50 dados por serviço · 12:30 citação · 12:50 API Gateway · 14:20 comunicação conversacional · 15:50 seis sinais · 17:30 decisão de fronteira · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Oi! Seja bem-vindo à Unidade 3 da nossa disciplina de Distributed Systems Engineering. Nas duas primeiras unidades, a gente conversou sobre comunicação, tempo, falhas, replicação e consenso. Agora a NexaOrder já tem quatro serviços — pedidos, estoque, pagamento e expedição — e, à primeira vista, parece que o trabalho de "distribuir o sistema" já está feito. Só que tem um problema: dividir em processos separados não é a mesma coisa que desacoplar de verdade.
+**[00:00–00:25 · Slide 0 — Capa]**
 
-*[indicação de edição: inserir tela com o logotipo da NexaOrder e um esquema simples dos quatro serviços já mencionados nas unidades anteriores]*
+Esta é a Aula 9, primeira da Unidade 3, e o foco da disciplina se desloca novamente. A Unidade 1 tratou de processos; a Unidade 2, de dados. Esta unidade trata dos serviços em si, e do lugar onde se traçam as linhas que separam um serviço do outro.
 
-Imagina a seguinte cena. É segunda-feira de manhã, a equipe de pedidos quer lançar uma pequena mudança no formato do pedido, algo que parece trivial. Só que essa mudança quebra o serviço de estoque, porque os dois compartilham a mesma tabela no banco de dados. E pior: para lançar essa correção, as duas equipes precisam coordenar um horário de implantação conjunta, porque não dá para atualizar um sem o outro. Isso é sintoma de um problema que tem nome: monólito distribuído. A gente paga o preço da rede, da serialização, das falhas parciais — tudo que já vimos nas unidades anteriores — sem ganhar o principal benefício, que é a autonomia de cada serviço evoluir e ser implantado sozinho.
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
 
-Nesta aula, a gente vai entender por que isso acontece e, principalmente, como desenhar fronteiras de serviço que realmente funcionem.
+A audiodescrição desta aula: os slides usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. São cinco recursos visuais: o quadro comparativo entre as três formas de organizar um sistema, a fórmula da instabilidade, o diagrama de dois contextos delimitados sobre o mesmo termo, o diagrama do API Gateway compondo respostas e a lista dos seis sinais de monólito distribuído. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo comparando monólito, monólito modular e microsserviços. Trato depois de coesão e acoplamento como critérios explícitos de desenho, incluindo uma métrica numérica de instabilidade. Apresento em seguida contexto delimitado e capacidade de negócio, oriundos do Domain-Driven Design, e o princípio de dados por serviço. Examino o API Gateway e da composição de respostas, discuto a comunicação conversacional como sintoma e fecho com os seis sinais do monólito distribuído e com a decisão de fronteira registrada.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir comparar monólito, monólito modular e microsserviços sem tratá-los como uma escala de qualidade. Deve aplicar coesão e acoplamento como critérios explícitos de desenho de fronteira. Deve calcular a instabilidade de um serviço a partir de suas dependências. Deve identificar contextos delimitados a partir de termos que mudam de significado. Deve diagnosticar um monólito distribuído pelos seus sintomas operacionais. E deve registrar uma decisão de fronteira com requisito, decisão, compromisso e evidência.
+
+**[02:20–03:50 · Slide 4 — Situação-problema]**
+
+A NexaOrder já opera com quatro serviços aparentemente independentes. Cada um tem seu repositório, seu pipeline e seu time responsável. No diagrama, a arquitetura parece correta. A equipe, porém, convive com sintomas persistentes.
+
+Alterar o formato do pedido exige mudar o estoque junto, porque os dois compartilham a mesma tabela de itens. Liberar o pagamento sem atualizar pedidos no mesmo dia quebra o checkout. E qualquer incidente exige praticamente todo o time disponível, porque ninguém consegue diagnosticar sua parte isoladamente.
+
+O diagnóstico é este: a separação foi feita por conveniência técnica, e não por limites de negócio.
+
+O resultado tem nome, já mencionado em aulas anteriores: monólito distribuído. Paga-se todo o custo operacional da distribuição — rede, serialização, falhas parciais, complexidade de depuração — sem colher o benefício principal, que é a autonomia de evolução dos times.
+
+Trata-se do pior arranjo possível, e também de um dos mais frequentes.
 
 ### Desenvolvimento conceitual
 
-Primeiro, vamos separar três formas de organizar um sistema, porque elas costumam ser tratadas, erradamente, como uma escada onde "microsserviços" é sempre o degrau mais alto.
+**[03:50–05:40 · Slide 5 — Três formas de organizar um sistema]**
 
-Um monólito é aquele sistema implantado como uma unidade só. Pode até ter módulos internos bem organizados no código, mas o deploy, o processo, geralmente o banco de dados, tudo é compartilhado.
+Convém examinar as três opções com rigor.
 
-Um monólito modular é diferente: continua sendo uma unidade de implantação só, mas com fronteiras internas rígidas entre os módulos — interfaces explícitas, e, se possível, até esquemas de dados separados dentro do mesmo banco. Repara que eu não estou descrevendo isso como "estágio intermediário para chegar a microsserviços". Um monólito modular bem feito é uma arquitetura legítima, ponto final. Times pequenos, com pouca maturidade operacional, costumam sofrer menos com um monólito modular bem desenhado do que com quinze microsserviços mal delimitados.
+*[indicação de edição: inserir Recurso visual 33 da Aula 9 — quadro comparativo das três formas, revelado linha a linha]*
 
-E aí chegamos nos microsserviços de verdade: cada serviço implantável, escalável e substituível de forma independente, com seu próprio armazenamento de dados, se comunicando com os outros por contratos explícitos.
+O monólito: uma única unidade executável, com banco geralmente compartilhado. Adequa-se a times pequenos e a domínios ainda em descoberta — enquanto não se sabe onde as fronteiras deveriam estar, não há razão para fixá-las.
 
-*[indicação de edição: gráfico comparando os três modelos lado a lado, sem indicar hierarquia de "melhor para pior"]*
+O monólito modular: também uma única unidade de implantação, mas com fronteiras internas rígidas e esquemas segregados dentro do mesmo banco. Cabe uma ênfase: trata-se de arquitetura legítima, e não apenas de etapa de transição rumo a microsserviços. Para muitas equipes, é o ponto de chegada adequado.
 
-Agora, como a gente decide onde cortar? Dois conceitos guiam essa decisão. Coesão: o quanto os elementos internos de um componente estão relacionados e mudam juntos. E acoplamento: o quanto um componente depende de detalhes internos de outro. A regra de ouro é: alta coesão dentro, baixo acoplamento fora.
+Os microsserviços: cada serviço implanta e escala de forma independente, com armazenamento próprio. Adequam-se quando escala e autonomia organizacional justificam o custo operacional, que é real e elevado.
 
-Tem um jeito de colocar número nisso, emprestado da engenharia de componentes de software, proposto pelo Robert Martin. A instabilidade de um componente é I igual a Ce dividido pela soma de Ca mais Ce, onde Ca é o acoplamento aferente — quantos outros dependem dele — e Ce é o acoplamento eferente — de quantos outros ele depende. Se o estoque da NexaOrder é consultado por pedidos, pagamento e um painel administrativo, então Ca é 3. E se o estoque só depende do catálogo para validar categoria de item, Ce é 1. Fazendo a conta: I igual a 1 dividido por 3 mais 1, que dá 0,25. Um valor baixo assim sugere um serviço relativamente estável — bom para concentrar regra central de domínio, porque mudanças nele afetam bastante gente. Isso não substitui julgamento de negócio, mas transforma um "acho que esse serviço está muito enredado" em algo que o time pode discutir com dados.
+A conclusão que atravessa a aula é que nenhuma dessas formas é universalmente superior. Um monólito modular bem projetado pode ser mais barato de operar do que dezenas de microsserviços mal delimitados. É exatamente o mesmo raciocínio de custo, benefício e evidência que estabelecemos na Aula 1.
 
-*[indicação de edição: quadro mostrando o cálculo passo a passo de I = Ce / (Ca + Ce) com os números do estoque]*
+**[05:40–07:10 · Slide 6 — Coesão, acoplamento e autonomia]**
 
-Além de coesão e acoplamento, o Domain-Driven Design nos dá dois conceitos valiosos. Contexto delimitado: a fronteira dentro da qual um modelo de domínio tem um significado consistente. E capacidade de negócio: algo que a organização faz para gerar valor, tipo "gerenciar estoque" ou "processar pagamento", independentemente de como isso é implementado.
+Se a forma não é o critério, qual é? São dois conceitos antigos da engenharia de software, que ganham significado novo aqui.
 
-Aqui vai um exemplo bem concreto da NexaOrder. A palavra "item" significa coisas diferentes dependendo de quem fala. Para o catálogo, item é uma descrição comercial, com preço, fotos, categoria. Para o estoque, item é uma quantidade física, com número de série, localização física em um depósito. Se a gente trata isso como se fosse o mesmo modelo de dados compartilhado, qualquer mudança no significado de "item" para o catálogo pode quebrar silenciosamente o controle de estoque. Reconhecer que são contextos delimitados diferentes autoriza — e recomenda — que cada serviço mantenha seu próprio modelo.
+Coesão é o grau em que os elementos internos de um componente se relacionam e mudam juntos. A expressão “mudam juntos” é operacional, não estética: se dois elementos sempre se alteram na mesma tarefa, provavelmente pertencem ao mesmo lugar.
 
-E capacidade de negócio ajuda a calibrar o tamanho certo de um serviço — nem grande demais, nem pequeno demais. Pensa em "processar pagamento" como uma capacidade de negócio única e coesa: autorizar, capturar, estornar, tudo faz parte da mesma responsabilidade, e provavelmente deveria viver no mesmo serviço. Já "gerenciar estoque" e "calcular frete de expedição" são capacidades diferentes, mesmo que estejam próximas no fluxo do pedido — uma trata de quantidade disponível, a outra de logística de entrega. Se a NexaOrder colocasse as duas dentro do mesmo serviço só porque "andam juntas no fluxo", a coesão interna cairia: mudanças em regra de frete passariam a exigir revisão de código que também mexe com controle de estoque, sem necessidade real. O teste prático que eu sugiro: pergunte "se essa capacidade mudasse de fornecedor, de regra de negócio ou de equipe responsável amanhã, o resto do serviço precisaria mudar junto?" Se a resposta for não, provavelmente você já tem uma capacidade de negócio separável, candidata a virar sua própria fronteira de serviço.
+Acoplamento é o grau em que um componente depende de detalhes internos de outro. A expressão “detalhes internos” é decisiva: depender de um contrato público é uma coisa; depender da estrutura interna de uma tabela alheia é outra inteiramente distinta.
 
-### Demonstração, exemplo e estudo de caso
+O bom limite, portanto, é aquele que maximiza a coesão interna e minimiza o acoplamento externo. A autonomia é consequência: com a fronteira correta, o time implanta sem coordenação com os demais.
 
-Vamos aplicar isso na prática, olhando para dentro da NexaOrder.
+O teste prático é objetivo. Fronteira não é questão de preferência; ela se manifesta em duas medidas — quantas implantações precisam ser coordenadas e quantas pessoas precisam estar presentes em um incidente. Se esses dois números são altos, a fronteira está incorreta, independentemente da elegância do diagrama.
 
-*[indicação de edição: tela dividida mostrando, de um lado, a arquitetura atual com banco compartilhado, e do outro, a proposta de dados por serviço]*
+**[07:10–09:00 · Slide 7 — Exemplo numérico: instabilidade]**
 
-O princípio de dados por serviço diz: cada serviço tem seu próprio armazenamento, ponto. Nenhum outro serviço acessa esse armazenamento diretamente, nem para leitura. Toda interação passa por um contrato explícito — API, mensagem ou evento, que a gente vai ver com detalhe na próxima aula. Sim, isso elimina a conveniência de um JOIN direto entre tabelas de serviços diferentes. Mas esse custo é deliberado: sem essa separação, uma mudança de esquema em um serviço quebra silenciosamente outros serviços, e a "fronteira do serviço" deixa de existir na prática, mesmo que exista repositório de código separado — que foi exatamente o erro que a NexaOrder cometeu.
+Parte disso pode ser expressa numericamente. Existe uma heurística de Robert C. Martin, originalmente proposta para pacotes, adaptável com cautela ao nível de serviços.
 
-Agora, quando um cliente externo — o app do cliente, por exemplo — precisa de dados que vêm de vários serviços ao mesmo tempo, a gente não quer que ele converse diretamente com cada um. Isso cria acoplamento entre a topologia interna e o mundo externo. Para isso existe o API Gateway: um ponto de entrada que roteia, agrega respostas de múltiplos serviços numa resposta só — o que a gente chama de composição —, aplica autenticação e limite de taxa. Uma tela de detalhes de pedido, por exemplo, pode precisar de dados de pedidos, estoque e expedição; o gateway consulta os três e devolve uma resposta única, sem que o app precise saber que existem três serviços por trás daquela tela.
+*[indicação de edição: inserir a fórmula da instabilidade, com os dois termos do denominador destacados]*
 
-Só um cuidado importante: o gateway não pode virar depósito de regra de negócio. Quando isso acontece, ele vira um novo monólito escondido atrás de uma fachada de microsserviços.
+Sejam C-a o acoplamento aferente — quantos componentes dependem deste — e C-e o acoplamento eferente — de quantos este depende. A instabilidade é: I igual a C-e dividido pela soma de C-a mais C-e.
 
-Um sinal claro de que a fronteira está no lugar errado é o que chamamos de comunicação excessivamente conversacional: um único caso de uso do cliente dispara dezenas de chamadas remotas entre serviços para ser concluído. Se isso está acontecendo, provavelmente duas responsabilidades fortemente relacionadas foram separadas sem necessidade.
+Tomemos o caso do estoque da NexaOrder. Três serviços consomem o estoque, então C-a é igual a 3. O estoque depende de um único serviço, então C-e é igual a 1. A conta: 1 dividido por 3 mais 1, ou seja, 1 dividido por 4, que dá 0,25.
 
-*[indicação de edição: animação mostrando uma requisição do cliente disparando uma cascata excessiva de chamadas entre serviços internos]*
+A interpretação é a seguinte. A escala vai de 0 a 1, de estável a instável. Um valor baixo, como esse 0,25, indica um serviço estável: muito pressionado por consumidores e pouco dependente de outros. Isso significa que ele precisa de contratos muito bem cuidados, porque mudanças nele se propagam para três lugares. Uma instabilidade alta indica o oposto: menos pressão externa, porém maior sujeição a mudanças alheias.
 
-Um jeito adicional de perceber se a fronteira de serviço está alinhada com a organização é olhar para a estrutura dos próprios times. Há uma observação antiga, conhecida como Lei de Conway, que diz que a arquitetura de um sistema tende a espelhar a estrutura de comunicação da organização que o constrói. Se a NexaOrder tem um time só cuidando de pedidos e estoque juntos, mas a arquitetura já separa os dois em serviços distintos, é bem provável que, na prática, as duas partes continuem evoluindo em conjunto — porque é a mesma equipe decidindo as duas coisas ao mesmo tempo, revisando o mesmo código nas mesmas reuniões. Isso não invalida a separação técnica, mas é um sinal de que, se a intenção é ganhar autonomia real, a estrutura de times também pode precisar acompanhar a fronteira de serviços — e não só o inverso.
+Cabe uma ressalva metodológica importante: essa métrica não substitui julgamento de negócio nem mede criticidade. Um serviço com instabilidade 0,9 pode ser o mais crítico do sistema. O que ela oferece é tornar parte do acoplamento discutível, convertendo uma percepção difusa em um número que a equipe pode debater.
+
+**[09:00–10:50 · Slide 8 — Contexto delimitado e capacidade de negócio]**
+
+Chegamos ao instrumento mais poderoso desta aula, proveniente do Domain-Driven Design.
+
+São dois conceitos. Contexto delimitado é a fronteira dentro da qual um modelo de domínio e sua linguagem têm significado consistente. Capacidade de negócio é algo que a organização faz para gerar valor — “gerenciar estoque”, “processar pagamentos” — independentemente de como isso é implementado.
+
+*[indicação de edição: inserir Recurso visual 34 da Aula 9 — o mesmo termo “item” representado de duas formas diferentes, no catálogo e no estoque]*
+
+Um exemplo esclarece o conceito de modo duradouro. Considere a palavra “item” dentro da NexaOrder.
+
+Para o catálogo, um “item” é uma descrição comercial: preço, imagens, categorias, texto de marketing. Para o estoque, o mesmo “item” é quantidade física em um depósito, com número de série e localização na prateleira.
+
+São duas entidades distintas designadas pela mesma palavra. O erro clássico consiste em tratar essas duas visões como um mesmo modelo de dados compartilhado, o que constitui fonte comum de acoplamento acidental — uma mudança no significado de “item” para o catálogo pode comprometer silenciosamente o controle de estoque.
+
+Daí decorre uma heurística de trabalho: onde um mesmo termo muda de significado conforme quem fala, provavelmente existem dois contextos delimitados diferentes. O vocabulário empregado nas reuniões revela fronteiras com mais precisão do que qualquer diagrama.
+
+**[10:50–12:30 · Slide 9 — Dados por serviço]**
+
+Consequência direta de contextos bem definidos: cada serviço possui e controla seu próprio armazenamento, e nenhum outro serviço o acessa diretamente. Nem por leitura.
+
+A restrição merece ênfase, por ser o ponto em que as equipes costumam abrir exceções: nem por leitura. A consulta aparentemente inofensiva ao banco alheio é a origem de boa parte do acoplamento acidental observado em produção.
+
+Toda interação passa por contrato explícito: uma API, uma mensagem ou um evento publicado.
+
+O custo aparente é a perda da conveniência de um JOIN entre tabelas de serviços diferentes. Consultas antes triviais passam a exigir composição de chamadas ou réplicas de leitura.
+
+Esse custo, contudo, é deliberado. Sem ele, qualquer alteração de esquema compromete quem lê a tabela diretamente, e nem sempre se sabe quem são esses consumidores. Sem ele, a fronteira não existe de fato, ainda que existam repositório de código, pipeline e time separados.
+
+Foi exatamente esse o erro da NexaOrder: permitir que pedidos e pagamento lessem a mesma tabela de itens do estoque. Três serviços no diagrama, um único banco na prática.
+
+**[12:30–12:50 · Slide 10 — Citação]**
+
+Esta frase enuncia a tese da aula: a divisão física em repositórios ou processos não produz, por si só, autonomia real.
+
+### Demonstração, exemplo ou estudo de caso
+
+**[12:50–14:20 · Slide 11 — API Gateway e composição]**
+
+Se cada serviço tem seu contrato, como o mundo externo fala com o sistema?
+
+Expor todos os serviços diretamente traz dois problemas. Primeiro, acopla a topologia interna aos consumidores externos — dividir um serviço em dois passa a comprometer o aplicativo do cliente. Segundo, multiplica autenticação e limitação de taxa em cada serviço.
+
+*[indicação de edição: inserir Recurso visual 35 da Aula 9 — API Gateway compondo uma resposta a partir de três serviços]*
+
+O API Gateway resolve isso com quatro funções. Rotear a requisição para o serviço correto. Compor respostas de múltiplos serviços em uma única resposta. Aplicar autenticação e limitação de taxa em um só lugar. E ocultar a decomposição interna dos consumidores externos.
+
+Um exemplo concreto: a tela de detalhes do pedido precisa de dados de pedidos, estoque e expedição. O gateway consulta os três e devolve uma resposta única, sem que o aplicativo tenha conhecimento dos três serviços subjacentes.
+
+Um alerta importante acompanha esse padrão: o gateway não deve acumular regras de negócio. Quando isso ocorre, ele se converte em um novo monólito oculto atrás de uma fachada de microsserviços. Toda mudança de regra passa a exigir alteração no gateway, o que recria o gargalo que se pretendia eliminar, agora em posição mais crítica.
+
+**[14:20–15:50 · Slide 12 — Comunicação entre serviços e o sintoma conversacional]**
+
+O vocabulário sobre como os serviços se comunicam foi estabelecido na Aula 2. Comunicação síncrona, com HTTP ou RPC, oferece simplicidade e resposta imediata, mas propaga indisponibilidade pela cadeia. Comunicação assíncrona, com eventos, reduz o acoplamento temporal ao custo de um raciocínio mais complexo sobre consistência.
+
+O que cabe acrescentar aqui é um sintoma de diagnóstico: a comunicação conversacional, situação em que um único caso de uso dispara dezenas de chamadas remotas entre serviços — busca o pedido, busca o item, busca o preço, busca o estoque, busca a promoção, e assim sucessivamente.
+
+Esse sintoma revela que a fronteira foi traçada no lugar errado. Responsabilidades fortemente relacionadas — que mudam juntas e são consultadas juntas — foram separadas sem necessidade.
+
+Uma prática simples é particularmente útil em revisões de arquitetura: contar quantas chamadas remotas um caso de uso exige está entre os diagnósticos mais baratos e mais reveladores de fronteira mal desenhada. Não é necessária ferramenta alguma — basta tomar o caso de uso mais frequente do sistema e contar os saltos de rede.
+
+**[15:50–17:30 · Slide 13 — Seis sinais de monólito distribuído]**
+
+O diagnóstico se consolida em uma lista utilizável como roteiro de autoavaliação.
+
+*[indicação de edição: inserir Recurso visual 36 da Aula 9 — lista dos seis sinais, revelada item a item, com marcadores de verificação]*
+
+Sinal um: implantações de serviços diferentes precisam ser coordenadas no mesmo horário.
+
+Sinal dois: qualquer mudança de esquema em um serviço quebra outros serviços.
+
+Sinal três: um incidente em um serviço exige a presença de praticamente todo o time.
+
+Sinal quatro: serviços compartilham tabelas, filas ou segredos sem contrato explícito.
+
+Sinal cinco: a topologia de chamadas de um único caso de uso é profunda e conversacional.
+
+Sinal seis: times não conseguem testar ou implantar sem depender de outros no mesmo instante.
+
+Uma ressalva sobre o uso dessa lista: nenhum sintoma isolado é definitivo. Uma implantação coordenada pontual ocorre em qualquer arquitetura. Vários sinais simultâneos, porém, indicam que a divisão física não produziu autonomia. A lista serve como roteiro de autodiagnóstico em uma retrospectiva de arquitetura, e sua utilidade depende de respostas honestas — o custo de ignorar os sinais é elevado.
 
 ### Aplicação profissional
 
-No dia a dia, esse raciocínio aparece toda vez que você participa de uma discussão sobre "vamos quebrar esse serviço em dois" ou "vamos juntar esses dois serviços". Alguns sinais para você levar para uma retrospectiva de arquitetura: implantações que precisam ser coordenadas no mesmo horário; qualquer mudança de esquema em um serviço quebrando outro; um incidente exigindo presença de praticamente todo o time; serviços compartilhando tabelas, filas ou segredos sem contrato explícito; topologia de chamadas profunda e conversacional para um único caso de uso; e times que não conseguem testar ou implantar sem depender de outro time no mesmo instante.
+**[17:30–19:00 · Slide 14 — Do diagnóstico à decisão de fronteira]**
 
-Nenhum desses sinais isolado é prova definitiva. Mas se você encontrar vários ao mesmo tempo na sua arquitetura, provavelmente a divisão física em repositórios ou processos não produziu autonomia real — só produziu mais rede para atravessar.
+Diagnosticar é a parte simples; a decisão exige mais. Como na Aula 1, ela precisa explicitar quatro elementos.
 
-Deixa eu te dar um exemplo de como esse raciocínio aparece numa reunião de verdade. Imagina que alguém no time propõe: "vamos juntar catálogo e estoque num serviço só, porque eles sempre mudam próximos um do outro". Antes de concordar ou discordar de cabeça, vale aplicar o que vimos: qual é o Ca e o Ce de cada um hoje? Se o catálogo é consultado por cinco outros serviços — pedidos, busca, recomendação, painel administrativo e o próprio estoque — e depende só de um serviço de precificação, o Ca dele é alto e o Ce é baixo, o que dá uma instabilidade baixa: um serviço central, que muitos dependem, e que deveria mudar com cautela. Já o estoque, consultado por pedidos e pagamento, mas dependente do catálogo e de um serviço externo de logística, tem instabilidade mais alta. Juntar os dois significa colocar, no mesmo processo e no mesmo ciclo de implantação, um componente que quer ser estável e outro que muda com mais frequência — na prática, isso tende a forçar o catálogo a acompanhar o ritmo de mudança do estoque, prejudicando justamente os cinco consumidores que dependem da sua estabilidade. Esse tipo de conta simples, feita em cinco minutos numa reunião, evita decisões tomadas só por impressão.
+Para a NexaOrder, o registro ficaria assim.
 
-E, como em toda decisão arquitetural desta disciplina, uma boa decisão de fronteira explicita requisito, decisão, compromisso e evidência. Requisito: eliminar coordenação de implantação entre pedidos e estoque. Decisão: separar o modelo de item de catálogo do modelo de unidade em estoque, cada um com seu armazenamento. Compromisso: consultas que hoje usam JOIN local vão precisar de composição ou réplicas assíncronas, com atraso de propagação. Evidência: medir quantas implantações precisaram de coordenação simultânea antes e depois da mudança.
+Requisito: eliminar a necessidade de coordenar implantações entre pedidos e estoque. O requisito é operacional e mensurável, não estético.
+
+Decisão: separar “item de catálogo” de “unidade em estoque”, cada um com armazenamento próprio, com comunicação por eventos de reserva e liberação.
+
+Compromisso, elemento que confere honestidade à decisão: consultas que hoje usam um JOIN local passam a exigir composição no gateway ou réplicas de leitura assíncronas, com atraso de propagação. Paga-se em latência e em consistência aquilo que se ganha em autonomia, e esse custo precisa estar registrado por escrito.
+
+Evidência: o número de implantações que exigiram coordenação simultânea, antes e depois, medido ao longo de um trimestre. Se esse número não diminuir, a mudança não entregou o que prometia, e isso também precisa ser declarado.
+
+O padrão é o mesmo: requisito, decisão, compromisso e evidência — a estrutura da Aula 1, aplicada agora a fronteiras de serviço. Ela se aplica a qualquer decisão arquitetural.
 
 ### Fechamento
 
-Recapitulando: monólito, monólito modular e microsserviços são opções válidas, e a escolha depende de requisito, não de moda. Coesão alta dentro, acoplamento baixo fora. Contexto delimitado e capacidade de negócio revelam onde um mesmo termo muda de significado. Dados por serviço evita acoplamento escondido atrás de um banco compartilhado. E toda fronteira boa nasce de um raciocínio explícito sobre requisito, decisão, compromisso e evidência — não de uma regra genérica sobre microsserviços.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Na próxima videoaula, a gente vai resolver um problema que aparece justamente quando os serviços ficam bem delimitados: como eles conversam entre si sem ficar em fila, esperando resposta uns dos outros. Vamos entrar em arquitetura orientada a eventos. Até lá!
+Recapitulando. Três opções válidas: monólito, monólito modular e microsserviços são escolhas arquiteturais, e a decisão depende de requisitos, não de tendência. Coesão dentro, acoplamento fora: um bom limite agrupa o que muda junto e isola o que não deveria mudar junto. Termos revelam fronteiras: onde um mesmo termo muda de significado, provavelmente há dois contextos delimitados. Dados por serviço: acesso direto ao armazenamento alheio anula a fronteira, mesmo com repositórios separados. Gateway sem negócio: ele concentra composição e políticas transversais, e regras de domínio ali criam um monólito escondido. E os sintomas se somam: implantações coordenadas e chamadas conversacionais são evidências práticas de fronteira mal traçada.
 
-*[indicação de edição: encerrar com card de transição "Próxima aula: arquitetura orientada a eventos"]*
+Na atividade prática, você vai definir os limites de serviço da NexaOrder, entregando diagrama e tabela de justificativas: listar as capacidades de negócio, identificar o contexto delimitado de cada uma, registrar onde o significado de um termo comum muda entre contextos, propor a divisão indicando qual serviço possui qual armazenamento, calcular a instabilidade aproximada de dois serviços e listar três sintomas que a nova divisão elimina mais um novo risco que ela introduz.
 
-**Fontes e links de mídia:**
+**[19:40–20:00 · Slide 17 — Encerramento]**
 
-- DRAGONI, N. et al. Microservices: yesterday, today, and tomorrow. In: *Present and Ulterior Software Engineering*. Cham: Springer, 2017. DOI: 10.1007/978-3-319-67425-4_12. Trecho sugerido: seção introdutória sobre a evolução histórica de monólitos a microsserviços.
-- LEWIS, James; FOWLER, Martin. Microservices. *martinfowler.com*, 2014. Disponível em: <https://martinfowler.com/articles/microservices.html>. Trecho sugerido: seção "Componentization via Services".
-- NEWMAN, Sam. *Building Microservices*. 2. ed. Sebastopol: O'Reilly Media, 2021.
+Esta aula forma a capacidade de desenhar fronteiras que desacoplam times, dados e ciclos de implantação, e de diagnosticar quando isso não ocorreu. A próxima aula substitui a cadeia de chamadas síncronas por uma arquitetura orientada a eventos.
+
+### Indicações de edição e recursos visuais
+
+- Slide 0 — capa da Aula 9 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com os três sintomas destacados um a um (02:20–03:50).
+- Recurso visual 33 — quadro comparativo das três formas de organizar um sistema (aproximadamente 04:00).
+- Slide 7 — fórmula da instabilidade, com o cálculo aparecendo passo a passo (aproximadamente 07:20).
+- Recurso visual 34 — o termo “item” em dois contextos delimitados distintos (aproximadamente 09:20).
+- Slide 10 — citação em tela cheia, com 3 segundos de silêncio antes da leitura (12:30).
+- Recurso visual 35 — API Gateway compondo resposta de três serviços (aproximadamente 13:00).
+- Recurso visual 36 — lista dos seis sinais de monólito distribuído, revelada item a item (15:50–17:30).
+- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
+
+### Fontes e links de mídia
+
+- EVANS, Eric. *Domain-Driven Design: Tackling Complexity in the Heart of Software*. Boston: Addison-Wesley, 2003 — referência conceitual, sem reprodução de trecho externo.
+- NEWMAN, Sam. *Building Microservices*. 2. ed. Sebastopol: O’Reilly Media, 2021 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; diagramas, quadros e fórmulas devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 9 (`unidade_3.md`) e do deck `unidade_3/slides/aula9.html`.
 
 ---
 
-## Roteiro da Videoaula 10 — “Parar de esperar: como eventos desacoplam o ciclo do pedido”
+## Roteiro da Videoaula 10 — “Reagir a fatos, em vez de esperar respostas”
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 10 — Arquitetura orientada a eventos.
 
-**Objetivo da videoaula:** capacitar o estudante a projetar fluxos de comunicação assíncrona usando eventos de domínio, tópicos, partições, grupos de consumidores e semânticas de entrega apropriadas a cada consumidor.
+**Deck de apoio:** `unidade_3/slides/aula10.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de distinguir comando, evento de domínio e notificação, escolher a chave de particionamento que preserva a ordem necessária, dimensionar o número mínimo de partições, explicar o efeito de um rebalanceamento, comparar as três semânticas de entrega e evoluir esquemas de evento preservando compatibilidade.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:40 comando, evento e notificação · 05:30 tópicos e partições · 07:10 ordenação por partição · 08:40 grupos de consumidores · 10:20 exemplo numérico das partições · 11:50 citação · 12:10 retenção e reprocessamento · 13:50 três semânticas de entrega · 15:40 evolução de esquemas · 17:20 o ciclo do pedido reorganizado · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Bem-vindo de volta! Na aula passada, a gente organizou a NexaOrder em serviços com fronteiras mais claras: pedidos, estoque, pagamento e expedição, cada um com seu próprio banco de dados. Só que ainda tem um problema escondido na forma como eles se falam.
+**[00:00–00:25 · Slide 0 — Capa]**
 
-*[indicação de edição: diagrama do fluxo atual, com setas síncronas em cadeia entre os quatro serviços]*
+Esta é a Aula 10, dedicada à arquitetura orientada a eventos. A aula anterior tratou das fronteiras entre os serviços; esta trata do modo como eles se comunicam, mudança cujas consequências são profundas.
 
-Hoje, o fluxo de checkout funciona assim: pedidos chama estoque de forma síncrona e espera resposta; estoque chama pagamento de forma síncrona e espera resposta; pagamento chama expedição de forma síncrona e espera resposta. Parece razoável, até você perceber a consequência: se qualquer um desses serviços estiver lento, a cadeia inteira fica lenta. E se qualquer um estiver indisponível — mesmo que seja só o serviço de expedição, que nem precisa responder imediatamente — o pedido inteiro falha.
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
 
-Repara na ironia: o serviço de expedição normalmente só precisa agir minutos ou horas depois da aprovação do pagamento, já que preparar uma embalagem física não é instantâneo. Mesmo assim, na cadeia síncrona atual, uma instabilidade passageira nesse serviço consegue derrubar a confirmação de um pedido cujo pagamento já foi aprovado com sucesso. Isso é acoplamento temporal desnecessário: etapas que não precisam de resposta imediata estão, mesmo assim, bloqueando etapas anteriores que já deveriam poder seguir em frente.
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: o quadro dos três tipos de mensagem, o diagrama de tópico com partições e deslocamentos, o diagrama de grupos de consumidores compartilhando partições, a tabela de políticas de retenção e o fluxo do ciclo do pedido reorganizado por eventos. Descrevo cada um conforme aparecem.
 
-Essa aula é sobre uma alternativa: tratar essas etapas como reações a fatos que já aconteceram, e não como uma corrente de chamadas bloqueantes.
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo separando comando, evento de domínio e notificação. Apresento depois a infraestrutura: produtores, consumidores, tópicos e partições. Trato em seguida da ordenação, garantida dentro da partição e não entre partições, e dos grupos de consumidores e do paralelismo que permitem. Examino retenção e reprocessamento, comparo as três semânticas de entrega — at-most-once, at-least-once e exactly-once — e discuto evolução de esquemas. Fecho reorganizando o ciclo completo do pedido em torno de eventos.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir distinguir comando, evento de domínio e notificação pelo acoplamento que cada um cria. Deve escolher a chave de particionamento que preserva a ordem necessária ao negócio. Deve dimensionar o número mínimo de partições a partir da taxa de pico e da capacidade do consumidor. Deve explicar o que acontece com a carga quando um grupo de consumidores rebalanceia. Deve comparar as três semânticas de entrega quanto a perda e duplicação. E deve evoluir esquemas de evento preservando compatibilidade retroativa e prospectiva.
+
+**[02:20–03:40 · Slide 4 — Situação-problema]**
+
+Com fronteiras mais claras, um problema persiste na NexaOrder. O checkout chama pedidos, que chama de forma síncrona o estoque, que chama pagamento, que chama expedição.
+
+As consequências são previsíveis a partir do que a Unidade 1 estabeleceu. Se qualquer serviço estiver lento, a cadeia inteira fica lenta. Se qualquer um estiver indisponível, o pedido falha por completo.
+
+O aspecto mais problemático desse desenho é que isso vale mesmo quando a etapa afetada não é urgente. A notificação de expedição pode falhar e comprometer uma compra já paga, resultado desproporcional à natureza da etapa.
+
+A saída é reorganizar a comunicação em torno de fatos já ocorridos. Em vez de solicitar uma ação e aguardar resposta, o serviço registra que algo aconteceu, e os interessados reagem. Eventos permitem que outros serviços observem e reajam no próprio ritmo, sem bloquear quem os publicou.
 
 ### Desenvolvimento conceitual
 
-Primeiro, vamos separar três tipos de mensagem que costumam ser confundidos. Comando: uma solicitação para que algo aconteça, endereçada a um destinatário específico, que pode aceitar ou recusar — por exemplo, "reserve uma unidade do item X". Evento de domínio: o registro de um fato que já ocorreu, publicado sem destinatário específico — "pedido 4021 criado", "pagamento 4021 aprovado". E notificação: um aviso leve, sem os dados completos, convidando quem estiver interessado a buscar mais informação.
+**[03:40–05:30 · Slide 5 — Comando, evento de domínio e notificação]**
 
-Por que essa distinção importa? Comando cria acoplamento direto — quem envia sabe quem deve receber e espera confirmação. Evento de domínio favorece baixo acoplamento — quem publica não sabe, e não precisa saber, quem vai consumir. A NexaOrder vai tratar "pedido criado", "estoque reservado", "pagamento aprovado" e "pedido expedido" como eventos de domínio.
+Antes da infraestrutura, o vocabulário. São três tipos de mensagem, e a diferença entre eles é o acoplamento que cada um cria.
 
-Um erro comum de quem está começando com eventos é confundir os dois conceitos e nomear um comando disfarçado de evento, tipo "reservar-estoque", como se fosse um fato consumado. Isso quebra a expectativa de quem consome o "evento": um serviço que lê "reservar-estoque" pode se sentir no direito de recusar a reserva, mas o nome sugere que a reserva já deveria ter acontecido. Um jeito simples de testar se você nomeou corretamente: eventos de domínio quase sempre são descritos no particípio passado — "criado", "reservado", "aprovado", "expedido" — porque descrevem algo que já ocorreu; comandos são descritos no imperativo — "criar", "reservar", "aprovar" — porque pedem que algo aconteça.
+*[indicação de edição: inserir Recurso visual 37 da Aula 10 — quadro dos três tipos de mensagem, revelado linha a linha]*
 
-*[indicação de edição: tabela comparativa comando / evento de domínio / notificação, com um exemplo da NexaOrder para cada]*
+Comando: expressa uma solicitação para que algo aconteça. Tem destinatário específico, que pode aceitar ou recusar. O acoplamento é direto — quem envia sabe quem recebe e espera uma aceitação.
 
-Agora, como esses eventos circulam? Uma plataforma de transmissão de eventos organiza tudo em tópicos — canais nomeados por tipo de evento. Produtores publicam eventos num tópico. Consumidores leem esses eventos, e, olha que interessante: sem remover a mensagem para os outros, o que permite que múltiplos serviços processem o mesmo evento de forma independente.
+Evento de domínio: é o registro de um fato que já ocorreu. Não tem destinatário em particular. O acoplamento é baixo — quem publica não sabe, nem precisa saber, quem consome.
 
-Para escalar, um tópico é dividido em partições. Cada partição mantém uma sequência ordenada e imutável de eventos, com um deslocamento crescente. Um evento é direcionado a uma partição com base numa chave — por exemplo, o identificador do pedido — garantindo que todos os eventos daquele pedido caiam na mesma partição.
+Notificação: é um aviso leve de que algo aconteceu. Vai para os interessados, tem acoplamento baixo, e normalmente não carrega dados completos — ela convida o interessado a buscar mais informação.
 
-E aqui vai um ponto que costuma confundir: a plataforma garante ordem dentro de uma partição, não entre partições diferentes. Se todos os eventos do pedido 4021 usam a chave "4021", eles chegam na mesma partição, na ordem certa: criado, estoque reservado, pagamento aprovado, expedido. Eventos de pedidos diferentes podem ficar fora de ordem relativa entre si, e geralmente tudo bem, porque são agregados de negócio distintos. Mas se a NexaOrder tivesse escolhido particionar por região geográfica em vez de por identificador de pedido, dois eventos do mesmo pedido processados em regiões diferentes poderiam cair em partições distintas — e aí, sim, chegariam fora de ordem.
+O tempo verbal é a pista mais confiável para distingui-los. O comando está no imperativo: “reserve o estoque”. O evento está no passado: “estoque reservado”. Essa diferença gramatical carrega uma diferença arquitetural considerável.
 
-*[indicação de edição: animação mostrando eventos do pedido 4021 caindo sempre na mesma partição por causa da chave, e eventos de outros pedidos se espalhando por partições diferentes]*
+Na NexaOrder, passamos a tratar pedido criado, estoque reservado, pagamento aprovado e pedido expedido como eventos de domínio, publicados por seus respectivos serviços.
 
-Um grupo de consumidores é um conjunto de instâncias que dividem entre si as partições de um tópico, de modo que cada partição fique atribuída a exatamente uma instância por vez. Isso permite escalar horizontalmente: com um tópico de seis partições e um grupo de três consumidores, cada instância processa, em média, duas partições. E grupos diferentes são independentes: o grupo que atualiza o painel operacional e o grupo que dispara e-mail de confirmação podem consumir o mesmo tópico, cada um no seu ritmo, sem interferir um no outro.
+**[05:30–07:10 · Slide 6 — Tópicos, partições e deslocamento]**
 
-E o que acontece quando uma instância de um grupo de consumidores falha? A plataforma redistribui as partições que estavam com ela entre as instâncias remanescentes do mesmo grupo — um processo chamado de rebalanceamento. Se o grupo de três instâncias que processa o tópico de seis partições perde uma instância, as duas restantes passam a dividir as seis partições entre si, cada uma assumindo três. Isso significa que o serviço continua funcionando, mas com throughput reduzido por instância até que uma nova réplica seja adicionada — o mesmo raciocínio de redundância sem ponto único de falha que vimos lá na Aula 1, agora aplicado à camada de consumo de eventos.
+Passemos à infraestrutura, com quatro termos de uso permanente.
 
-### Demonstração, exemplo e estudo de caso
+*[indicação de edição: inserir Recurso visual 38 da Aula 10 — tópico dividido em partições, com os deslocamentos crescentes visíveis]*
 
-Vamos fazer uma conta de dimensionamento juntos. Suponha que o tópico de eventos de pedido da NexaOrder precisa sustentar uma taxa de pico de 1200 eventos por segundo, e cada consumidor processa, de forma sustentável, 150 eventos por segundo. O número mínimo de partições necessário é P igual ao teto de lambda de pico dividido por C de consumidor: 1200 dividido por 150, que dá exatamente 8.
+Tópico é um canal nomeado, organizado por tipo de evento ou por agregado de negócio. Produtores publicam eventos em um tópico e consumidores os leem. A diferença crucial em relação a uma fila tradicional está aqui: ler não remove a mensagem para os demais, de modo que vários serviços processam o mesmo evento de forma independente.
 
-*[indicação de edição: cálculo aparecendo na tela, com destaque para o resultado P = 8]*
+Partição é uma sequência ordenada e imutável de eventos, identificada por um deslocamento, o offset, que apenas cresce. A imagem adequada é a de um registro em que só se escreve na última linha, e cada linha recebe um número.
 
-Repara numa coisa importante: se a equipe resolver adicionar um nono consumidor ao grupo achando que vai acelerar ainda mais o processamento, isso não vai adiantar nada, porque não existe uma nona partição para atribuir a ele. A instância fica ociosa. O número de partições é um limite estrutural de paralelismo, e por isso deve ser definido com folga em relação à carga de pico esperada — não só para o dia de hoje, mas pensando no crescimento.
+Chave é o que determina a partição de destino. Normalmente é o identificador do agregado — o número do pedido, por exemplo.
 
-Agora, uma propriedade que diferencia essa arquitetura de uma fila tradicional: retenção. Numa fila comum, a mensagem some depois de consumida. Numa plataforma de eventos, as mensagens ficam retidas por um período configurável, independentemente de já terem sido lidas. Isso permite reprocessamento: um consumidor novo pode começar do início da retenção e reconstruir um estado inteiro a partir do histórico. Se a NexaOrder encontrar um bug no serviço que alimenta o painel de vendas, ela pode simplesmente reconstruir esse painel do zero, reprocessando os eventos já publicados — sem precisar de um mecanismo de exportação separado.
+O efeito da chave é o ponto central: todos os eventos daquele pedido caem na mesma partição. A seção seguinte depende inteiramente dessa escolha.
 
-Vale pensar em retenção como uma decisão de custo e utilidade, não como "quanto mais, melhor" de forma automática. Reter eventos por sete dias, por exemplo, permite que a equipe da NexaOrder corrija um bug percebido numa segunda-feira e reprocesse tudo desde a semana anterior. Reter por apenas algumas horas praticamente elimina essa possibilidade, mas custa menos armazenamento. Reter indefinidamente transforma o próprio tópico em uma espécie de registro histórico completo do negócio — o que tem valor para auditoria, mas também tem custo de armazenamento crescente ao longo do tempo. A escolha do período de retenção, então, é uma decisão arquitetural como qualquer outra: qual o requisito de auditoria e recuperação, qual o custo de manter os dados retidos, e qual o compromisso aceitável entre os dois.
+**[07:10–08:40 · Slide 7 — Ordenação: uma garantia por partição]**
 
-E, claro, entrega de mensagem está sujeita às mesmas falhas parciais que vimos na Aula 4. Três semânticas descrevem o resultado. At-most-once: cada evento é entregue zero ou uma vez, nunca duplicado, mas pode se perder — acontece quando o consumidor confirma antes de terminar de processar. At-least-once: cada evento é entregue uma ou mais vezes, nunca se perde, mas pode duplicar — acontece quando o consumidor só confirma depois de processar, e uma falha entre processar e confirmar gera reentrega. E exactly-once: cada evento produz exatamente um efeito observável, mesmo com reentregas — normalmente combinando at-least-once com deduplicação, o mesmo princípio de idempotência que vimos na Aula 8.
+Esta é a regra que mais gera confusão em produção, e por isso merece enunciado explícito.
 
-*[indicação de edição: três linhas do tempo lado a lado ilustrando perda, duplicação e efeito único]*
+A plataforma garante ordem dentro de uma partição. Ela não garante ordem entre partições diferentes.
 
-Na prática, a maioria das plataformas amplamente usadas entrega garantia forte de at-least-once por padrão, e cabe ao consumidor alcançar um comportamento efetivamente único. Por isso, o consumidor de "pagamento aprovado" da NexaOrder verifica se aquele identificador de evento já foi processado antes de disparar a expedição — absorvendo duplicação sem duplicar efeito.
+Com chave estável, o comportamento é o desejado: os eventos do pedido 4021 caem todos na mesma partição e são lidos exatamente na ordem publicada — criado, reservado, aprovado, expedido.
 
-Por fim, um cuidado de longo prazo: evolução de esquema. Eventos publicados hoje podem ser lidos por serviços implantados semanas depois. Mudanças aditivas — campo novo opcional — costumam ser seguras, preservando compatibilidade retroativa e prospectiva. Remover ou renomear um campo existente costuma quebrar consumidores antigos, exigindo uma estratégia explícita de transição. Um exemplo simples: se a NexaOrder decide adicionar um campo `canal_venda` ao evento "pedido criado" — para diferenciar vendas feitas pelo aplicativo, pelo site e por um parceiro comercial —, consumidores antigos que ainda não conhecem esse campo simplesmente o ignoram e continuam funcionando normalmente. Mas se a decisão fosse renomear `valor_total` para `valor_liquido`, sem qualquer transição, qualquer consumidor que ainda espera o nome antigo passaria a interpretar o pedido como se não tivesse valor algum — um erro silencioso, que só aparece quando alguém percebe que o painel financeiro está zerado.
+Entre pedidos diferentes, a ordem relativa pode variar. O pedido 4022 pode ser processado antes do 4021, o que em geral não representa problema, por se tratar de agregados distintos, sem relação causal entre si.
+
+A chave inadequada, porém, compromete essa garantia. Particionando-se por tipo de evento — todos os “pedido criado” em uma partição, todos os “pagamento aprovado” em outra —, os eventos do mesmo pedido se espalham entre partições, e o consumidor pode observar “pagamento aprovado” antes de “pedido criado”.
+
+Considere a situação do ponto de vista de quem consome: chega a aprovação de um pagamento referente a um pedido que, para ele, ainda não existe. É preciso decidir entre descartar, armazenar ou aguardar. Uma escolha de chave inadequada criou um problema de tratamento complexo.
+
+**[08:40–10:20 · Slide 8 — Grupos de consumidores]**
+
+Resta examinar como escalar o consumo.
+
+*[indicação de edição: inserir Recurso visual 39 da Aula 10 — dois grupos de consumidores lendo o mesmo tópico, com as partições atribuídas em cores distintas]*
+
+Um grupo de consumidores é um conjunto de instâncias que divide entre si as partições de um tópico, segundo uma regra simples: cada partição é atribuída a exatamente uma instância do grupo por vez.
+
+Disso resulta escala horizontal. Em um tópico com 6 partições e um grupo de 3 consumidores, cada instância processa aproximadamente 2 partições.
+
+Os grupos são independentes entre si. O painel operacional e o disparo de e-mails leem o mesmo tópico, cada um em seu próprio ritmo e com seu próprio deslocamento, de modo que o atraso de um não afeta o outro.
+
+Quando uma instância falha, ocorre o rebalanceamento: suas partições são redistribuídas entre as remanescentes, e o sistema se recupera sem intervenção.
+
+O custo do rebalanceamento, contudo, costuma passar despercebido no planejamento de capacidade. Passando-se de 3 instâncias para 2, com as mesmas 8 partições, a carga por instância aumenta, e a capacidade total pode inclusive cair até que uma nova réplica entre e o grupo rebalanceie novamente. A falha de um consumidor não degrada apenas a parte que lhe cabia: ela pressiona os remanescentes.
+
+**[10:20–11:50 · Slide 9 — Exemplo numérico: quantas partições sustentam o pico?]**
+
+O dimensionamento segue uma fórmula muito próxima à da Aula 1, o que não é coincidência.
+
+O número mínimo de partições é o teto da divisão entre a taxa de eventos no pico e a capacidade de um consumidor.
+
+Números da NexaOrder: 1200 eventos por segundo no pico; 150 eventos por segundo por consumidor. A conta: 1200 dividido por 150 dá exatamente 8. Portanto, 8 partições no mínimo.
+
+Há uma consequência frequentemente negligenciada: esse número 8 é também o teto de paralelismo útil. Acrescentar um nono consumidor ao grupo não aumentaria o throughput, pois não haveria uma nona partição a lhe atribuir, e a instância permaneceria ociosa, consumindo recursos sem produzir trabalho.
+
+O número de partições constitui, portanto, um limite estrutural de paralelismo. E, como aumentar partições posteriormente é operação delicada — pode alterar o mapeamento de chaves e a ordenação —, esse número deve ser definido com folga em relação à carga de pico esperada. Trata-se de um parâmetro barato de acertar no início e caro de corrigir depois.
+
+**[11:50–12:10 · Slide 10 — Citação]**
+
+Esta frase resume a mudança de perspectiva proposta pela aula: quem publica um evento não sabe, e não precisa saber, quem o consome.
+
+### Demonstração, exemplo ou estudo de caso
+
+**[12:10–13:50 · Slide 11 — Retenção e reprocessamento]**
+
+Há uma diferença fundamental em relação a uma fila tradicional. Em uma fila, a mensagem desaparece após o consumo. Em uma plataforma de eventos, a mensagem é retida por um período configurável, independentemente de ter sido lida.
+
+Isso viabiliza um recurso de grande valor: o reprocessamento.
+
+*[indicação de edição: inserir Recurso visual 40 da Aula 10 — tabela de políticas de retenção, revelada linha a linha]*
+
+Três políticas merecem comparação. Retenção de poucas horas: permite recuperação de falhas imediatas, mas praticamente elimina a possibilidade de correção retroativa. Retenção de sete dias: permite corrigir na segunda-feira um defeito reprocessando a semana anterior, a custo moderado de armazenamento. Retenção indefinida: oferece registro histórico completo, útil para auditoria, ao custo de armazenamento crescente no tempo.
+
+O valor prático do caso de sete dias é evidente. Descobre-se na segunda-feira que o cálculo de frete estava incorreto desde quarta. Com retenção, corrige-se o código e reprocessam-se os eventos daquele período. Sem retenção, a reconstrução dos dados é manual.
+
+Um ponto conceitual importante acompanha essa discussão. O log de eventos só pode ser tratado como fonte de verdade quando deliberadamente projetado para esse fim: com retenção suficiente, eventos completos e imutáveis, versionamento e garantias de durabilidade. Retenção longa, isoladamente, não transforma um tópico em banco de dados. É uma decisão de projeto, não um efeito colateral de configuração.
+
+**[13:50–15:40 · Slide 12 — Três semânticas de entrega]**
+
+O tema a seguir reaparece com nome novo, embora já tenha sido tratado na Unidade 2.
+
+At-most-once: zero ou uma entrega. Nunca duplica, mas pode perder. Ocorre quando o consumidor confirma o recebimento antes de concluir o processamento — interrompido no meio, a mensagem consta como confirmada e o trabalho não foi realizado.
+
+At-least-once: uma ou mais entregas. A duplicação é possível e esperada. Ocorre com publicação durável, retenção vigente e retentativas disponíveis. É a configuração comum na prática.
+
+Exactly-once: um efeito observável por evento, dentro de uma fronteira declarada. O modo como se obtém esse resultado é decisivo: pela combinação de at-least-once com deduplicação ou idempotência no consumidor. Não se trata de propriedade automática da infraestrutura.
+
+Segue a ressalva mais importante da aula, por ser fonte de erros custosos. O exactly-once não elimina duplicações na transmissão e não se estende automaticamente a efeitos fora da fronteira transacional. Ao chamar um provedor de pagamento externo, é necessária idempotência ponta a ponta, exatamente o que foi construído na Aula 8. Nenhuma configuração de plataforma impede que um provedor externo cobre duas vezes.
+
+**[15:40–17:20 · Slide 13 — Evolução de esquemas e compatibilidade]**
+
+Eventos publicados hoje podem ser lidos por serviços implantados semanas depois. Simultaneamente, um consumidor antigo pode continuar em produção enquanto o produtor já foi atualizado. As duas direções precisam funcionar.
+
+Daí os dois tipos de compatibilidade. Compatibilidade retroativa, ou backward: o consumidor novo lê eventos publicados no esquema antigo. Compatibilidade prospectiva, ou forward: o consumidor antigo lê eventos do esquema novo, ignorando campos que não conhece.
+
+A mudança segura é aditiva. Adicionar canal de venda como campo opcional não quebra ninguém: consumidores novos usam, consumidores antigos ignoram.
+
+A mudança perigosa é renomear. Trocar valor total por valor líquido, sem transição, quebra a compatibilidade — o consumidor antigo procura um campo que não existe mais e recebe nulo, ou zero, ou uma exceção.
+
+A regra prática é a seguinte: remover, renomear ou mudar o tipo de um campo exige estratégia explícita de migração. A mais comum consiste em publicar temporariamente nos dois formatos, migrar os consumidores um a um e só então remover o campo antigo. O procedimento é trabalhoso, e esse é o preço de manter consumidores que não estão sob o controle de quem publica.
 
 ### Aplicação profissional
 
-No trabalho, você vai usar exatamente esse raciocínio ao desenhar um novo fluxo assíncrono: qual é o evento de domínio certo para publicar? Qual chave garante a ordenação que eu preciso? Quantas partições eu preciso para o pico esperado? Quantos grupos de consumidores diferentes vão ler esse tópico, e cada um precisa de qual semântica de entrega?
+**[17:20–19:00 · Slide 14 — O ciclo do pedido reorganizado]**
 
-Essa última pergunta merece atenção especial, porque nem todo consumidor precisa do mesmo nível de garantia. O consumidor que dispara e-mail de confirmação pode tolerar, ocasionalmente, um e-mail que não chega a ser enviado — o cliente vê a confirmação na tela mesmo assim, então uma semântica mais simples, próxima de at-most-once, é aceitável. Já o consumidor que debita o estoque não pode tolerar duplicação, porque duas reservas do mesmo pedido consumiriam duas unidades em vez de uma; esse consumidor precisa de deduplicação explícita para alcançar, na prática, um efeito exactly-once. Perceba que a decisão não é "qual semântica a plataforma oferece", e sim "qual comportamento cada consumidor específico precisa garantir, dado o que ele faz com o evento".
+Os elementos da aula se reúnem no desenho completo do ciclo.
 
-Reunindo tudo na NexaOrder: pedidos recebe um comando síncrono do cliente, "criar pedido", e publica o evento "pedido criado". Estoque consome esse evento e publica "estoque reservado" ou "estoque indisponível". Pagamento consome "estoque reservado" e publica "pagamento aprovado" ou "pagamento recusado". Expedição consome "pagamento aprovado" e publica "pedido expedido". Nenhum desses serviços chama o seguinte de forma síncrona e bloqueante — cada um reage a fatos publicados, no seu próprio ritmo.
+*[indicação de edição: inserir Recurso visual 41 da Aula 10 — fluxo do ciclo do pedido reorganizado por eventos, com os tópicos e as reações destacados]*
 
-Isso conecta diretamente com algo que vimos lá na Unidade 2, quando falamos de sagas coreografadas: uma sequência de passos de negócio coordenada sem um orquestrador central, cada serviço reagindo ao evento publicado pelo anterior e publicando seu próprio evento de conclusão. O fluxo de pedidos que acabamos de desenhar é, na prática, uma saga coreografada: se o pagamento for recusado, o serviço de pagamento publica "pagamento recusado", e cabe ao serviço de estoque — ou a um consumidor dedicado a compensações — reagir a esse evento liberando a reserva feita anteriormente. A arquitetura orientada a eventos não é só uma técnica de comunicação; ela é o mecanismo que viabiliza, na prática, o padrão de sagas que discutimos antes de conhecer tópicos, partições e grupos de consumidores.
+Nenhum serviço chama o seguinte de forma síncrona e bloqueante. Cada um reage a fatos publicados, no seu próprio ritmo.
+
+Pedidos recebe um comando síncrono do cliente — e aqui a comunicação síncrona se justifica, pois o cliente precisa saber se o pedido foi aceito —, valida e publica o evento pedido criado.
+
+Estoque consome esse evento, tenta reservar e publica estoque reservado ou estoque indisponível.
+
+Pagamento consome estoque reservado e publica pagamento aprovado ou pagamento recusado.
+
+Expedição consome pagamento aprovado e publica pedido expedido.
+
+A comparação com a cadeia síncrona da abertura é elucidativa. Com a expedição indisponível por dez minutos, o pedido é criado, o estoque é reservado e o pagamento é aprovado; a expedição processa quando retornar. O cliente não perde a compra em razão de um serviço que sequer participa da decisão de vender.
+
+Quanto às chaves, adota-se o identificador do pedido, de modo que todos os eventos de um mesmo pedido mantenham a ordem. E as pré-condições de negócio permanecem válidas, conforme discutido na Aula 2: desacoplamento não autoriza expedir antes de cobrar.
 
 ### Fechamento
 
-Recapitulando: comandos, eventos de domínio e notificações têm propósitos e acoplamentos diferentes. Tópicos e partições organizam eventos, com ordem garantida só dentro da partição. A chave de particionamento decide o que fica ordenado junto. Grupos de consumidores escalam o processamento, limitados pelo número de partições. Retenção permite reprocessamento. E at-most-once, at-least-once e exactly-once descrevem compromissos diferentes entre perda e duplicação.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Na próxima aula, a gente sai do desenho lógico e entra na camada de execução: como esses serviços rodam de verdade, em contêineres, orquestrados pelo Kubernetes. Até lá!
+Recapitulando. Três tipos de mensagem: comando acopla ao destinatário, evento de domínio registra um fato sem destinatário e notificação apenas avisa. A ordem é por partição: só existe garantia dentro de uma partição, e a chave decide o que permanece ordenado. Partições limitam a escala: o paralelismo útil de um grupo nunca ultrapassa o número de partições do tópico. Retenção habilita correção: reter eventos permite reprocessar e reconstruir estado, com custo de armazenamento proporcional. Duplicata é o normal: at-least-once é a configuração comum, e o efeito único é responsabilidade do desenho do consumidor. E esquema evolui aditivamente: campos opcionais preservam compatibilidade, enquanto remover ou renomear exige migração explícita.
 
-*[indicação de edição: card de transição "Próxima aula: contêineres, Kubernetes e reconciliação"]*
+Na atividade prática, você vai desenhar tópicos, chaves e grupos de consumidores para o ciclo de vida do pedido: listar no mínimo quatro eventos de domínio, definir tópico e chave de particionamento de cada um, justificar a chave em termos da ordenação necessária, definir dois grupos de consumidores distintos lendo o mesmo tópico com finalidades diferentes, calcular o número mínimo de partições para uma taxa de pico hipotética e indicar a semântica de entrega que cada consumidor deveria adotar.
 
-**Fontes e links de mídia:**
+**[19:40–20:00 · Slide 17 — Encerramento]**
 
-- KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O'Reilly Media, 2017. Trecho sugerido: capítulo sobre processamento de fluxos (*stream processing*) e semânticas de entrega.
-- Apache Kafka Documentation. Disponível em: <https://kafka.apache.org/documentation/>. Trecho sugerido: seção sobre design de tópicos e partições.
+Esta aula forma a capacidade de desacoplar o ciclo do pedido com eventos, chaves e grupos de consumidores, e de dimensionar o paralelismo daí decorrente. A próxima aula desce uma camada: como esses serviços são executados, escalados e recuperados automaticamente.
+
+### Indicações de edição e recursos visuais
+
+- Slide 0 — capa da Aula 10 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com a cadeia síncrona quebrando em um elo (02:20–03:40).
+- Recurso visual 37 — quadro dos três tipos de mensagem (aproximadamente 03:50).
+- Recurso visual 38 — tópico dividido em partições, com deslocamentos crescentes (aproximadamente 05:40).
+- Slide 7 — comparação entre chave por pedido e chave por tipo de evento (aproximadamente 07:20).
+- Recurso visual 39 — dois grupos de consumidores lendo o mesmo tópico (aproximadamente 08:50).
+- Slide 9 — cálculo do número mínimo de partições, com o consumidor ocioso destacado (aproximadamente 10:30).
+- Slide 10 — citação em tela cheia (11:50).
+- Recurso visual 40 — tabela de políticas de retenção (aproximadamente 12:20).
+- Recurso visual 41 — ciclo do pedido reorganizado por eventos (aproximadamente 17:30).
+- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
+
+### Fontes e links de mídia
+
+- KREPS, Jay. *I heart logs: event data, stream processing, and data integration*. Sebastopol: O’Reilly Media, 2014 — referência conceitual, sem reprodução de trecho externo.
+- HOHPE, Gregor; WOOLF, Bobby. *Enterprise Integration Patterns*. Boston: Addison-Wesley, 2003 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; diagramas, tabelas e fluxos devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 10 (`unidade_3.md`) e do deck `unidade_3/slides/aula10.html`.
 
 ---
 
-## Roteiro da Videoaula 11 — “Quem recriou essa instância? Dentro do laço de reconciliação do Kubernetes”
+## Roteiro da Videoaula 11 — “A instância que se recupera sozinha (e a que não deveria)”
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 11 — Contêineres, Kubernetes e reconciliação.
 
-**Objetivo da videoaula:** capacitar o estudante a interpretar os objetos centrais do Kubernetes, compreender o laço de reconciliação e reconhecer seus limites diante de defeitos recorrentes.
+**Deck de apoio:** `unidade_3/slides/aula11.html` — 19 slides (capa, audiodescrição, sumário, 15 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de explicar o que a imutabilidade de imagens garante e o que não garante, distinguir os papéis de Pod, Deployment e Service, descrever o laço de reconciliação, diferenciar sonda de vivacidade de sonda de prontidão, calcular o número de réplicas de um escalonamento automático e reconhecer quando a recuperação automática está mascarando um defeito determinístico.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:40 imagem e contêiner · 05:10 objetos do Kubernetes · 06:50 estado desejado e observado · 08:20 laço de reconciliação · 09:50 limite da automação · 11:10 sondas · 12:40 citação · 13:00 descoberta e configuração · 14:20 exemplo numérico do autoescalonamento · 15:40 atualização gradual · 17:20 pausa para reflexão · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Oi, de novo! Vamos contar uma história rápida. É madrugada, tráfego alto na NexaOrder, e uma instância do serviço de pagamento trava e para de responder. Minutos depois, sem qualquer intervenção humana, uma nova instância aparece no lugar, assume o tráfego, e o incidente quase passa despercebido pelos usuários.
+**[00:00–00:25 · Slide 0 — Capa]**
 
-*[indicação de edição: simulação em tela de um painel de monitoramento mostrando uma instância ficando vermelha e, logo depois, uma nova instância verde aparecendo no lugar]*
+Esta é a Aula 11, dedicada a contêineres, Kubernetes e reconciliação. A aula se abre com um episódio aparentemente favorável que, examinado de perto, revela um problema relevante.
 
-A equipe de plantão fica intrigada: quem decidiu recriar essa instância? Como o sistema sabia que ela deveria existir? E, pergunta mais importante ainda: e se a causa do travamento for um defeito que volta a acontecer a cada reinício? Essa aula é sobre entender esse mecanismo de recuperação automática — o que ele resolve e o que ele não resolve.
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
+
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: o diagrama de imagem e contêineres em execução, a tabela dos objetos centrais do Kubernetes, o manifesto declarativo em bloco de código, o diagrama do laço de reconciliação em três passos e a linha do tempo da atualização gradual. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo por imagem, contêiner e imutabilidade. Apresento depois os objetos centrais do Kubernetes — cluster, nó, Pod, Deployment e Service. Chego então ao núcleo da aula: estado desejado e estado observado, e o laço de reconciliação que os aproxima. Trato das sondas de vivacidade, prontidão e inicialização, de descoberta, balanceamento e configuração, e fecho com escalonamento automático horizontal e atualizações graduais sem perder capacidade.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir explicar o que a imutabilidade de imagens garante — e, igualmente importante, o que ela não garante. Deve distinguir os papéis de Pod, Deployment e Service em uma mesma aplicação. Deve descrever o laço de reconciliação entre estado desejado e observado. Deve diferenciar sonda de vivacidade de sonda de prontidão pelo efeito de cada falha. Deve calcular o número de réplicas resultante de um escalonamento automático horizontal. E deve reconhecer quando a recuperação automática está mascarando um defeito determinístico.
+
+**[02:20–03:40 · Slide 4 — Situação-problema]**
+
+O episódio é o seguinte. Em uma madrugada de alta demanda, uma instância do serviço de pagamento trava e deixa de responder. Minutos depois, sem qualquer intervenção humana, uma nova instância surge, assume o tráfego, e o incidente quase passa despercebido.
+
+O resultado parece inteiramente positivo, e em parte é. Três perguntas, porém, se impõem.
+
+Primeira: quem decidiu recriar a instância? Segunda: como o sistema sabia que ela deveria existir? Terceira, e a mais relevante: e se a causa do travamento for um defeito que se repete a cada reinício?
+
+A recuperação não é automática por natureza. Ela resulta de um laço de reconciliação em execução contínua. Compreender esse laço é o que permite diferenciar uma recuperação saudável de um sintoma mascarado.
 
 ### Desenvolvimento conceitual
 
-Vamos começar pelos blocos básicos. Uma imagem de contêiner é um pacote autocontido com o código da aplicação, suas dependências, e instruções de execução, construído em camadas imutáveis. Um contêiner é uma instância em execução dessa imagem, isolada em termos de processo, sistema de arquivos e, em geral, rede — mas compartilhando o núcleo do sistema operacional do hospedeiro, diferente de uma máquina virtual completa.
+**[03:40–05:10 · Slide 5 — Imagem, contêiner e imutabilidade]**
 
-E aqui entra um princípio central: imutabilidade. Em vez de corrigir uma instância em execução, a prática recomendada é publicar uma nova imagem e substituir os contêineres antigos por novos criados a partir dela. Isso elimina aquele clássico "funciona na minha máquina", porque a imagem publicada é exatamente o que roda em produção, sem gambiarra manual depois.
+Comecemos pelos fundamentos.
 
-Pensa no contraste com a forma antiga de operar servidores: alguém entra numa máquina em produção, aplica uma correção manual, reinicia um processo, e torce para lembrar de aplicar a mesma correção no próximo servidor. Depois de algumas semanas, ninguém mais sabe ao certo o que cada máquina tem instalado, porque cada uma acumulou pequenos ajustes manuais diferentes — um fenômeno às vezes chamado de "servidor de estimação", tratado como único e insubstituível. Contêineres imutáveis tratam cada instância como descartável: se algo está errado, você não conserta o Pod que já existe, você publica uma imagem corrigida e deixa o laço de reconciliação substituir todas as instâncias antigas por novas, geradas exatamente da mesma receita.
+Imagem é um pacote autocontido, com código, dependências e instruções de execução, construído em camadas imutáveis. Contêiner é uma instância em execução dessa imagem, isolada em processos, sistema de arquivos e, em geral, rede.
 
-*[indicação de edição: diagrama simples mostrando camadas de uma imagem de contêiner sendo empacotadas]*
+A diferença em relação a uma máquina virtual está em que o contêiner compartilha o núcleo do sistema operacional do hospedeiro. Ele não carrega um sistema operacional inteiro, e por isso é mais leve e inicia em segundos.
 
-O Kubernetes organiza a execução em torno de alguns objetos. Cluster é o conjunto de máquinas gerenciadas como uma unidade. Nó é uma máquina, física ou virtual, que executa contêineres. Pod é a menor unidade implantável — agrupa um ou mais contêineres que compartilham rede e armazenamento local. Deployment declara quantas réplicas de um Pod devem existir e como atualizações são aplicadas ao longo do tempo. E Service expõe um conjunto de Pods sob um endereço estável, mesmo quando Pods individuais são substituídos.
+A imutabilidade tem consequência operacional direta: em vez de corrigir uma instância em execução, publica-se uma nova imagem e substituem-se os contêineres. Não se acessa a máquina para consertá-la; substitui-se a máquina.
 
-Na NexaOrder, o serviço de pagamento é um Deployment com, digamos, quatro réplicas de um Pod, e um Service estável que os outros serviços usam para chamá-lo, sem precisar conhecer o endereço volátil de cada Pod individual.
+Cabe, porém, uma qualificação frequentemente omitida no material de divulgação. A imutabilidade reduz a divergência do artefato de aplicação entre ambientes — o binário que executa em produção é o mesmo que executou em teste. Ela não elimina diferenças de configuração, de infraestrutura, de dados, de arquitetura do host ou de serviços externos. Essas variáveis permanecem e continuam exigindo controle e teste.
 
-Agora, o conceito mais importante da aula: a separação entre estado desejado e estado observado. O usuário não instrui o Kubernetes passo a passo sobre como criar uma instância. Ele declara "eu quero quatro réplicas saudáveis desse Pod" — isso é o estado desejado — e delega ao sistema a responsabilidade de alcançar e manter esse estado, comparando continuamente com o estado observado, que é a condição real do cluster naquele momento.
+A discrepância entre ambientes torna-se menos provável, portanto, mas não desaparece.
 
-*[indicação de edição: mostrar na tela um manifesto YAML simplificado com "replicas: 4" e o nome da imagem "nexaorder/pagamento:1.7.0"]*
+**[05:10–06:50 · Slide 6 — Os objetos centrais do Kubernetes]**
 
-Um controlador é o processo que observa continuamente esse estado atual, compara com o estado desejado, e age para reduzir a diferença entre os dois. Isso é o laço de reconciliação. Não é uma execução única — é um ciclo que roda indefinidamente, reagindo tanto a mudanças declaradas por humanos quanto a mudanças observadas no ambiente, como a falha de um Pod.
+Cinco objetos respondem por praticamente toda a execução, e cada um será apresentado com o exemplo correspondente na NexaOrder.
 
-E como o Kubernetes sabe que um Pod não está mais saudável? Não é por mágica: ele depende de sondas configuradas pelo próprio time responsável pelo serviço. Uma sonda de vivacidade, a *liveness probe*, verifica periodicamente se o processo dentro do contêiner ainda responde; se parar de responder, o Kubernetes entende que o Pod não está mais no estado desejado e o substitui. Uma sonda de prontidão, a *readiness probe*, verifica se o Pod já está pronto para receber tráfego — útil logo após a inicialização, quando o processo já está de pé, mas talvez ainda esteja carregando configuração ou aquecendo uma conexão com o banco. Um Pod que falha na sonda de prontidão continua existindo, mas é temporariamente removido da lista de destinos válidos de um Service, sem ser recriado. Essas sondas são o elo entre "o que está acontecendo de fato dentro do contêiner" e "o que o laço de reconciliação consegue observar" — sem elas configuradas corretamente, o Kubernetes só percebe uma falha grave o suficiente para derrubar o processo inteiro, e não seria capaz de perceber um serviço que está de pé, mas incapaz de processar qualquer requisição.
+*[indicação de edição: inserir Recurso visual 42 da Aula 11 — tabela dos objetos centrais, revelada linha a linha]*
 
-### Demonstração, exemplo e estudo de caso
+Cluster: o conjunto de máquinas gerenciadas como uma unidade. Na NexaOrder, é o ambiente inteiro da plataforma.
 
-Voltando à nossa história do início: quando a instância de pagamento trava, o controlador de Deployment observa que só três dos quatro Pods desejados estão saudáveis, e cria um novo Pod para restaurar o número declarado. É exatamente esse comportamento que produz a recuperação automática que a equipe de plantão percebeu, sem ninguém digitar um comando manual.
+Nó: a máquina física ou virtual que executa contêineres. Cada servidor do cluster.
 
-*[indicação de edição: diagrama circular do laço de reconciliação — observar, comparar, agir — voltando ao início]*
+Pod: a menor unidade implantável — um ou mais contêineres que compartilham rede e armazenamento local. Na NexaOrder, um Pod é uma instância do serviço de pagamento.
 
-Só que aqui vem o ponto crítico da aula: esse laço restaura a quantidade e o estado de execução declarados. Ele não restaura a causa raiz de uma falha recorrente. Se aquele Pod trava repetidamente por um defeito de código sob determinada condição de carga, o Kubernetes vai continuar recriando ele indefinidamente — um padrão conhecido como reinício em loop —, e isso pode acabar mascarando um problema que precisa de diagnóstico humano. Recuperação automática é sinal de disponibilidade. Não é prova de correção. Isso é o mesmo raciocínio que a gente já viu lá na Aula 4, quando falamos de timeout como decisão, e não como prova de falha.
+Deployment: declara quantas réplicas devem existir e como atualizá-las. Na NexaOrder, quatro réplicas de pagamento.
 
-Vamos ver como o resto da infraestrutura sustenta essa recuperação. Como Pods são substituídos com frequência e ganham endereços internos voláteis, os serviços não podem apontar diretamente para um Pod específico. O Service resolve isso associando um nome estável a um conjunto de Pods selecionados por rótulo, distribuindo o tráfego entre os Pods saudáveis disponíveis — descoberta de serviço e balanceamento de carga, juntos. Quando o estoque da NexaOrder precisa falar com pagamento, ele conversa com o nome estável do Service, e o Kubernetes decide para qual réplica saudável rotear, mesmo que os Pods por trás tenham sido recriados dezenas de vezes naquele dia.
+Service: expõe um conjunto de Pods sob um endereço de rede estável. É o endereço que o estoque usa para alcançar o pagamento — e que não muda quando os Pods são substituídos.
 
-E contêineres imutáveis não devem embutir configuração ou credenciais na própria imagem. O Kubernetes separa isso em ConfigMaps, para configuração não sensível, e Secrets, para dados sensíveis, injetados no Pod em tempo de execução. Para dados que precisam sobreviver à substituição de um Pod — já que o armazenamento local de um Pod é efêmero por padrão —, existe armazenamento persistente, vinculado ao ciclo de vida da aplicação, não a um Pod específico.
+Essa última distinção é fonte frequente de confusão e merece registro: o Deployment cuida de quantos e de qual versão; o Service cuida de como ser encontrado.
 
-Outro detalhe que costuma passar despercebido em quem está começando: cada contêiner pode declarar solicitações e limites de recursos — quanto de CPU e memória ele espera usar normalmente, e qual o teto que não pode ultrapassar. Isso não é burocracia; é o que permite ao Kubernetes decidir, com informação, em qual nó colocar cada novo Pod durante a reconciliação, evitando que um nó fique sobrecarregado com contêineres famintos por recursos enquanto outro fica ocioso. Se o serviço de pagamento da NexaOrder declara uma solicitação de meio núcleo de CPU e um limite de um núcleo inteiro, o Kubernetes reserva, no mínimo, aquele meio núcleo para ele em algum nó com capacidade disponível — e, se o Pod tentar ultrapassar o limite superior de forma persistente, pode ser contido ou até reiniciado, dependendo do tipo de recurso.
+**[06:50–08:20 · Slide 7 — Estado desejado e estado observado]**
 
-*[indicação de edição: diagrama de um Service distribuindo tráfego entre Pods saudáveis, com um Pod recém-recriado ao fundo]*
+Chegamos ao conceito que reorganiza a forma de pensar a operação.
 
-Agora, uma conta de escalonamento. O Horizontal Pod Autoscaler ajusta o número de réplicas com base em métrica observada, geralmente utilização de CPU. A fórmula, de forma simplificada, é: N desejado igual ao teto de N atual vezes U atual dividido por U alvo. Se o Deployment de pagamento tem 4 réplicas atuais, utilização observada de 85%, e o alvo configurado é 60%, fazemos: 4 vezes 85 dividido por 60, que dá 5,67, arredondado para cima, 6. O autoescalonador ajustaria para seis réplicas, e o laço de reconciliação criaria os dois Pods que faltam.
+O usuário não instrui passo a passo. Ele declara o resultado desejado e delega ao sistema a tarefa de alcançá-lo e mantê-lo. Esse é o modelo declarativo, oposto ao modelo imperativo, em que se determina criar uma máquina, instalar componentes e iniciar processos em sequência.
 
-*[indicação de edição: cálculo aparecendo na tela passo a passo, com destaque para o resultado final, 6 réplicas]*
+*[indicação de edição: exibir o manifesto do Deployment em bloco de código, destacando a linha “replicas: 4” conforme a narração]*
 
-E, quando uma nova versão é publicada, uma atualização gradual substitui réplicas antigas por novas de forma incremental, respeitando limites configuráveis de quantas réplicas podem ficar indisponíveis ou excedentes durante a transição — para que a atualização não derrube a capacidade total do serviço.
+O manifesto exibido na tela declara: tipo Deployment, nome pagamento, réplicas quatro, imagem nexaorder barra pagamento, versão 1.7.0. Trata-se de uma declaração de intenção, e não de uma sequência de comandos.
 
-Vamos fixar isso com um exemplo numérico rápido. Se o Deployment de pagamento tem 6 réplicas e a atualização é configurada para permitir, no máximo, 1 réplica indisponível e 1 réplica excedente durante a transição, o Kubernetes primeiro cria 1 Pod novo com a versão nova — chegando a 7 Pods no total, 6 antigos e 1 novo —, espera esse Pod passar na sonda de prontidão, depois remove 1 Pod antigo — voltando a 6 no total, agora 5 antigos e 1 novo — e repete esse ciclo até que todos os 6 Pods estejam na versão nova. Em nenhum momento a capacidade saudável cai abaixo de 5 réplicas nem sobe além de 7, dentro dos limites configurados. Se algo der errado no meio do processo — por exemplo, o Pod novo falhar repetidamente na sonda de prontidão —, a atualização gradual pode ser interrompida automaticamente antes de substituir todas as réplicas, evitando que um defeito na versão nova derrube o serviço inteiro de uma vez.
+O ponto central é o seguinte. Se, por qualquer motivo, restarem três dos quatro Pods, há divergência entre o estado desejado — quatro — e o estado observado — três. É essa divergência que aciona a reconciliação.
+
+Não é necessário que alguém perceba a diferença e atue. A discrepância entre o declarado e o real é, por si só, o gatilho.
+
+**[08:20–09:50 · Slide 8 — Controladores e o laço de reconciliação]**
+
+Esse trabalho cabe ao controlador. Um controlador observa o estado atual, compara-o com o desejado e age para reduzir a diferença.
+
+O detalhe fundamental é que o laço não executa uma única vez: ele executa indefinidamente, em ciclos curtos.
+
+*[indicação de edição: inserir Recurso visual 43 da Aula 11 — diagrama circular do laço de reconciliação, com os três passos animados em sequência]*
+
+São três passos, em círculo. Primeiro, observar: qual é a condição real do cluster neste momento? Segundo, comparar: em que ela diverge do que foi declarado? Terceiro, agir: executar o que reduz essa diferença. E o ciclo recomeça, continuamente.
+
+A situação-problema comporta dois casos concretos. Se um Pod é removido, o controlador observa três dos quatro e cria outro. Se o processo travou dentro de um Pod que permanece ativo, e a sonda de vivacidade está falhando, o kubelet reinicia o contêiner dentro do mesmo Pod.
+
+Ambos produzem recuperação automática, mas atuam em níveis diferentes: um recria o Pod, o outro reinicia o contêiner. Identificar qual dos dois ocorreu é essencial para diagnosticar um incidente.
+
+**[09:50–11:10 · Slide 9 — O limite da automação]**
+
+Chegamos à parte crítica da aula.
+
+O que o laço restaura é a quantidade e o estado de execução declarados. Ele garante que existam quatro Pods em execução.
+
+O que ele não resolve é a causa raiz de uma falha recorrente. O laço não identifica por que o Pod travou, e essa informação não integra seu escopo.
+
+Considere o cenário do reinício em ciclo. Se o Pod trava por um defeito de código que se manifesta sob determinada carga, o Kubernetes o recriará indefinidamente: trava, recria, trava, recria.
+
+O risco principal não é a indisponibilidade, e sim o mascaramento. O problema permanece oculto precisamente porque a disponibilidade aparenta estar preservada. Os indicadores permanecem normais, nenhum alerta é acionado, e o defeito segue em produção por meses.
+
+A conclusão a fixar é esta: reconciliação automática é um mecanismo de disponibilidade, não uma prova de correção. Vale aqui o mesmo raciocínio aplicado aos timeouts na Aula 4 — um mecanismo que responde ao sintoma não é um mecanismo que diagnostica a causa.
+
+**[11:10–12:40 · Slide 10 — Como o cluster percebe que algo não vai bem]**
+
+As sondas são o meio pelo qual o cluster avalia a saúde de um Pod. São três, e confundi-las provoca incidentes concretos.
+
+Sonda de vivacidade, ou liveness: verifica se o contêiner ainda consegue progredir. Quando ela falha, o kubelet reinicia o contêiner, conforme a política do Pod. É uma ação drástica.
+
+Sonda de prontidão, ou readiness: verifica se o Pod está apto a receber tráfego. Quando ela falha, o Pod segue executando normalmente, mas sai dos destinos prontos do Service. Ele para de receber requisições, mas não é reiniciado. É uma ação suave.
+
+Sonda de inicialização, ou startup: verifica se uma aplicação lenta ainda está subindo. Ela protege a partida, evitando que a sonda de vivacidade dispare reinícios prematuros em uma aplicação que só demora a inicializar.
+
+Um alerta de projeto merece destaque: as sondas devem verificar sinais úteis, sem converter uma dependência externa instável em reinícios em cascata por todo o cluster. Uma sonda de vivacidade que consulta o banco de dados faz com que uma lentidão no banco reinicie todos os Pods simultaneamente, transformando uma degradação em colapso. É o mesmo raciocínio de isolamento da Aula 4.
+
+**[12:40–13:00 · Slide 11 — Citação]**
+
+Esta frase constitui o eixo da aula: reconciliação automática é um mecanismo de disponibilidade, não uma prova de correção.
+
+### Demonstração, exemplo ou estudo de caso
+
+**[13:00–14:20 · Slide 12 — Descoberta, balanceamento, configuração e dados]**
+
+Alguns elementos complementares resolvem problemas práticos recorrentes.
+
+Pods são voláteis: recebem endereços internos que mudam a cada substituição. Por isso o endereço de um Pod nunca deve ser armazenado.
+
+O Service resolve isso: ele associa um nome estável e um endereço fixo aos Pods selecionados por rótulos, distribuindo tráfego entre os saudáveis. É a camada de indireção que torna a volatilidade dos Pods invisível para quem chama.
+
+Para configuração, existem os ConfigMaps: configuração não sensível, injetada em tempo de execução. E os Secrets, para dados sensíveis.
+
+Um detalhe operacional costuma passar despercebido: variáveis de ambiente não se alteram em um processo já iniciado. Alterado um Secret exposto como variável de ambiente, o Pod permanece com o valor antigo até ser reiniciado de forma controlada. Volumes projetados, por sua vez, recebem atualização eventual, mas a aplicação precisa reler o arquivo para percebê-la. Alterar o valor, portanto, não significa que a aplicação passou a utilizá-lo.
+
+E, para dados, o armazenamento persistente vincula um volume ao ciclo de vida da aplicação, e não ao do Pod — cujo disco local é efêmero e desaparece com ele.
+
+**[14:20–15:40 · Slide 13 — Exemplo numérico: escalonamento automático horizontal]**
+
+Passemos à primeira conta.
+
+O escalonador automático horizontal calcula o número desejado de réplicas assim: o teto do produto entre o número atual de réplicas e a razão da utilização observada pela utilização-alvo.
+
+Números da NexaOrder: 4 réplicas atuais, CPU observada em 85%, CPU alvo de 60%.
+
+A conta: 4 vezes 85 dividido por 60, que dá 5,67. Arredondando para cima: 6 réplicas desejadas.
+
+Vale observar como os mecanismos se articulam. O autoescalonador não cria Pods; apenas ajusta o campo de réplicas no Deployment, de 4 para 6. A partir daí, o laço de reconciliação identifica a divergência — desejado 6, observado 4 — e se encarrega de criar os dois novos Pods.
+
+São dois mecanismos independentes, cada um operando em seu nível, que compõem um comportamento aparentemente único. Nisso reside a elegância do modelo declarativo.
+
+**[15:40–17:20 · Slide 14 — Atualização gradual sem perder capacidade]**
+
+A segunda conta trata de implantação.
+
+*[indicação de edição: inserir Recurso visual 44 da Aula 11 — linha do tempo da atualização gradual, com a contagem de Pods variando entre 5 e 7]*
+
+Considere um Deployment de 6 réplicas, configurado para no máximo 1 indisponível e 1 excedente durante a transição.
+
+O processo é o seguinte. Primeiro, cria-se 1 Pod com a versão nova, totalizando 7 Pods, sendo 6 antigos e 1 novo. Segundo, aguarda-se que o Pod novo seja aprovado na sonda de prontidão. Terceiro, remove-se 1 Pod antigo, retornando a 6 no total. Quarto, repete-se o ciclo até que todas as réplicas estejam na versão nova.
+
+O efeito é que a capacidade saudável nunca cai abaixo de 5 nem ultrapassa 7. A versão inteira do serviço é substituída sem impacto perceptível para o cliente.
+
+Se o Pod novo falhar repetidamente na sonda de prontidão, o avanço é interrompido: a atualização cessa, preservando os Pods antigos em funcionamento, o que constitui comportamento desejável.
+
+Um detalhe, contudo, é frequentemente presumido de forma incorreta: o Deployment não realiza rollback automático por padrão. A implantação fica interrompida, mas não retorna à versão anterior por conta própria. A equipe, ou uma automação externa, precisa observar a condição de progresso e decidir entre pausar e reverter. Sem esse acompanhamento, a implantação permanece parcialmente concluída por tempo indeterminado.
 
 ### Aplicação profissional
 
-No dia a dia de quem opera esse tipo de plataforma, essa distinção entre "o Kubernetes recuperou sozinho" e "o problema foi resolvido de verdade" é essencial. Se você é responsável por um serviço e percebe reinícios repetidos, isso não é motivo para relaxar — é motivo para investigar. Pergunte: o que, além de "o serviço está no ar", eu deveria monitorar para perceber esse padrão? Um Pod que trava sob carga alta e volta sozinho está, de fato, resolvido do ponto de vista do negócio? E: como eu configuro um limite de tentativas de reinício que force intervenção humana, em vez de tentativas indefinidas?
+**[17:20–19:00 · Slide 15 — Pausa para reflexão: robustez ou mascaramento?]**
 
-Vale também comentar um erro comum de quem está começando a operar Kubernetes: confundir "o painel mostra tudo verde" com "o sistema está saudável". O painel geralmente reflete o que as sondas reportam, e sondas mal configuradas — por exemplo, uma sonda de vivacidade que só verifica se a porta de rede está aberta, sem checar se o processo realmente consegue atender a uma requisição de negócio — podem mostrar verde para um Pod que já não processa pagamento nenhum. Configurar sondas que reflitam a saúde real do serviço, e não apenas a existência do processo, é parte do trabalho de quem projeta o Deployment, tanto quanto escolher o número de réplicas.
+A aula se encerra com uma reflexão. Pause o vídeo antes de prosseguir.
+
+O reinício em ciclo de um Pod é, simultaneamente, evidência da robustez do laço de reconciliação e risco de ocultar defeitos. As duas leituras são verdadeiras.
+
+*[indicação de edição: pausar a narração por 10 segundos com o texto “Robustez ou mascaramento?” na tela]*
+
+Quatro perguntas orientam a análise: além da constatação de que o serviço está no ar, que sinais revelariam que um Pod está sendo recriado repetidamente? Um Pod que trava sob alta carga e é recriado com sucesso está, do ponto de vista de negócio, resolvido? Qual é a diferença entre tolerar falhas transitórias e, sem percebê-lo, ocultar um defeito determinístico? E como alertas de reinício, o parâmetro de prazo de progresso e automação externa interromperiam uma implantação defeituosa?
+
+Um dado técnico fundamenta a resposta: um Deployment não oferece número máximo de reinícios, como os Jobs oferecem por meio do limite de tentativas. A interrupção depende de política operacional declarada pela equipe. Sem a configuração do alerta correspondente, nenhuma notificação será emitida.
+
+A prática profissional a reter é a seguinte: a contagem de reinícios deve ser monitorada como sinal de primeira classe, no mesmo nível de latência e taxa de erro. Um serviço que reinicia trinta vezes por dia e mantém 99,9% de disponibilidade não está saudável; está sendo sustentado pela plataforma.
 
 ### Fechamento
 
-Recapitulando: imagens imutáveis eliminam divergência entre ambientes. Cluster, nó, Pod, Deployment e Service organizam a execução. O laço de reconciliação compara estado desejado e observado continuamente. Recuperação automática restaura quantidade e execução, não causa raiz. Services garantem descoberta e balanceamento estáveis. ConfigMaps, Secrets e armazenamento persistente separam configuração e dados do ciclo de vida da imagem. E escalonamento automático mais atualização gradual ajustam capacidade e versão sem interromper o serviço.
+**[19:00–19:40 · Slides 16 e 17 — Pontos-chave e atividade prática]**
 
-E fica um convite para reflexão antes da próxima aula: se a recuperação automática do Kubernetes resolve tão bem a disponibilidade, o que ainda falta para que a NexaOrder confie de verdade em quem está do outro lado de cada chamada entre serviços? Disponibilidade não é a mesma coisa que confiabilidade de comunicação — e é exatamente esse assunto que fecha a nossa unidade.
+Recapitulando. Imutável, mas não igual: a imagem reduz a divergência do artefato, enquanto configuração, dados e dependências externas ainda variam. Cinco objetos bastam: cluster, nó, Pod, Deployment e Service organizam praticamente toda a execução. Declare o resultado: o laço de reconciliação compara desejado e observado e age continuamente para aproximá-los. Disponibilidade não é correção: a recuperação automática restaura quantidade e execução, nunca a causa raiz. Sondas decidem o destino: vivacidade reinicia o contêiner, prontidão apenas retira o Pod do tráfego. E capacidade preservada: escalonamento e atualização gradual ajustam réplicas e versão sem derrubar o serviço.
 
-Na próxima e última aula desta unidade, a gente vai proteger essa comunicação toda: identidade de serviço, autenticação, TLS mútuo e confiança zero. Até lá!
+Na atividade prática, você vai interpretar manifestos e cenários de recuperação: descrever o que ocorre se dois Pods terminarem, descrever separadamente o que ocorre se dois Pods apenas falharem na prontidão, calcular réplicas de um autoescalonador para seis réplicas com 92% observados e 65% de alvo, descrever um cenário plausível de reinício em loop para o estoque, propor um sinal de observabilidade que revelaria o problema antes de afetar clientes e explicar a diferença entre o papel do Deployment e o do Service.
 
-*[indicação de edição: card de transição "Próxima aula: segurança e comunicação confiável entre serviços"]*
+**[19:40–20:00 · Slide 18 — Encerramento]**
 
-**Fontes e links de mídia:**
+Esta aula estabelece como o cluster mantém suas instâncias em funcionamento e quando essa automação está ocultando um defeito. A última aula da unidade trata do tráfego entre esses serviços: identidade, criptografia e autorização.
 
-- BURNS, B. et al. Borg, Omega, and Kubernetes. *Communications of the ACM*, 2016. DOI: 10.1145/2890784. Trecho sugerido: seção sobre lições operacionais do Borg e do Omega que moldaram o Kubernetes.
-- Kubernetes Documentation. Disponível em: <https://kubernetes.io/docs/>. Trecho sugerido: conceitos de Pods, Deployments e o laço de controle (*controllers*).
+### Indicações de edição e recursos visuais
+
+- Slide 0 — capa da Aula 11 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com a instância travando e sendo substituída (02:20–03:40).
+- Recurso visual 42 — tabela dos objetos centrais do Kubernetes (aproximadamente 05:20).
+- Slide 7 — manifesto declarativo em bloco de código, com “replicas: 4” em destaque (aproximadamente 07:00).
+- Recurso visual 43 — diagrama circular do laço de reconciliação, com os três passos animados (aproximadamente 08:30).
+- Slide 11 — citação em tela cheia, com 3 segundos de silêncio antes da leitura (12:40).
+- Slide 13 — cálculo do escalonamento automático, com os quatro números em sequência (aproximadamente 14:30).
+- Recurso visual 44 — linha do tempo da atualização gradual, mostrando a contagem entre 5 e 7 Pods (aproximadamente 15:50).
+- Slide 15 — pausa de reflexão de 10 segundos (aproximadamente 17:40).
+- Slide 18 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
+
+### Fontes e links de mídia
+
+- BURNS, Brendan; BEDA, Joe; HIGHTOWER, Kelsey. *Kubernetes: Up and Running*. 3. ed. Sebastopol: O’Reilly Media, 2022 — referência conceitual, sem reprodução de trecho externo.
+- BEYER, Betsy et al. (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; diagramas, manifestos e linhas do tempo devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 11 (`unidade_3.md`) e do deck `unidade_3/slides/aula11.html`.
 
 ---
 
-## Roteiro da Videoaula 12 — “Confiar em quê? Autenticação, TLS mútuo e menor privilégio entre serviços”
+## Roteiro da Videoaula 12 — “Qualquer serviço pode falar com qualquer serviço?”
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 12 — Segurança e comunicação confiável entre serviços.
 
-**Objetivo da videoaula:** capacitar o estudante a projetar comunicação autenticada, autorizada e protegida entre serviços, aplicando confiança zero, menor privilégio, TLS mútuo, gestão de segredos e limitação de taxa.
+**Deck de apoio:** `unidade_3/slides/aula12.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de contrapor segurança de perímetro e confiança zero, separar autenticação de autorização aplicando menor privilégio, explicar o que o TLS mútuo garante e o que não garante, justificar a gestão externa de segredos pelo tempo de resposta a incidente, dimensionar um limitador por balde de fichas e reconhecer ameaças que exploram propriedades já estudadas.
+
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:50 perímetro e confiança zero · 05:30 autenticação e autorização · 07:00 TLS e TLS mútuo · 08:40 gestão de segredos · 10:20 citação · 10:40 gateway, proxy lateral e mesh · 12:30 exemplo numérico do balde de fichas · 14:20 quatro ameaças · 16:20 fluxo autenticado · 17:40 transição para a Unidade 4 · 19:00 pontos-chave e atividade · 19:40 encerramento.
 
 ### Abertura contextualizada
 
-Chegamos à última aula da Unidade 3! E ela começa com uma pergunta desconfortável, feita numa revisão de segurança da NexaOrder: nada, hoje, impede que o serviço de expedição chame diretamente o serviço de pagamento e peça um reembolso — mesmo essa não sendo uma operação prevista para ele. A comunicação interna acontece em texto claro dentro do cluster, sem verificação de identidade além do endereço de rede. E, para piorar, a credencial do provedor de pagamento está num arquivo de configuração acessível a qualquer pessoa com acesso ao repositório de código.
+**[00:00–00:25 · Slide 0 — Capa]**
 
-*[indicação de edição: ilustração de um "alarme" visual destacando a chamada indevida de expedição para pagamento]*
+Esta é a última aula da Unidade 3, dedicada à segurança e à comunicação confiável entre serviços. A pergunta que dá título à aula é aparentemente elementar, mas revela um problema estrutural presente em muitas arquiteturas reais.
 
-Nesta aula, a gente vai tratar de confiabilidade num sentido mais amplo do que só "o serviço está no ar". Confiar que uma mensagem vem de quem diz que vem, que ela não foi alterada no caminho, que cada serviço só pode fazer o que é explicitamente permitido, e que segredo não vaza por conveniência operacional.
+**[00:25–00:55 · Slide 1 — Audiodescrição]**
 
-Essa é, propositalmente, a última aula da unidade, e não por acaso. Depois de desenhar fronteiras de serviço, comunicação por eventos e execução orquestrada, faltava fechar o círculo com a pergunta que atravessa tudo isso: será que essa arquitetura, tecnicamente elegante, resistiria a alguém tentando explorá-la de forma maliciosa? Serviços, eventos e Kubernetes resolvem problemas de organização, desempenho e disponibilidade — mas nenhum deles, sozinho, resolve o problema de confiança entre as partes.
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: o contraste entre perímetro e confiança zero, o diagrama do TLS mútuo com dois certificados, a tabela de tempo de contenção de segredos, o diagrama do proxy lateral interceptando tráfego e o quadro das quatro ameaças com suas mitigações. Descrevo cada um conforme aparecem.
+
+**[00:55–01:40 · Slide 2 — Sumário]**
+
+Este é o percurso da aula. Começo contrapondo segurança de perímetro e confiança zero. Separo depois autenticação de autorização e apresento o princípio do menor privilégio. Trato em seguida de TLS e TLS mútuo na comunicação interna, e da gestão e rotação de segredos. Examino gateway, proxy lateral e service mesh, dimensiono um limitador de taxa por balde de fichas, apresento quatro ameaças específicas de sistemas distribuídos e fecho montando um fluxo autenticado de ponta a ponta.
+
+**[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
+
+Ao final da aula, você deve conseguir contrapor segurança de perímetro e confiança zero em uma arquitetura de serviços. Deve separar autenticação de autorização e aplicar o princípio do menor privilégio. Deve explicar o que o TLS mútuo garante e o que ele deliberadamente não garante. Deve justificar a gestão externa de segredos pelo tempo de resposta a um incidente. Deve dimensionar um limitador de taxa por balde de fichas, distinguindo pico de regime permanente. E deve reconhecer ameaças que exploram propriedades já estudadas de comunicação e de falha.
+
+**[02:20–03:50 · Slide 4 — Situação-problema]**
+
+Uma revisão de segurança na NexaOrder revela um risco que estava à vista o tempo todo.
+
+Nada impede que a expedição chame o serviço de pagamento e solicite um reembolso, operação jamais prevista para ela. Não se trata de permissão excessivamente ampla: não existe verificação alguma. Conhecido o endereço, a chamada se realiza.
+
+A comunicação interna ocorre em texto claro dentro do cluster. Não há verificação de identidade além do endereço de rede, e endereço de rede não é identidade, e sim localização. As credenciais do provedor de pagamento, por sua vez, estão em um arquivo de configuração versionado, ou seja, no histórico do repositório, acessível a qualquer pessoa com acesso ao código.
+
+Confiabilidade, neste contexto, é noção mais ampla do que disponibilidade. É confiar que a mensagem vem de quem diz vir, que ela não foi alterada no caminho, que cada serviço só faz o que lhe é explicitamente permitido e que segredos não ficam expostos por conveniência operacional.
 
 ### Desenvolvimento conceitual
 
-Vamos começar pelo modelo mental. Em arquiteturas tradicionais, a segurança de rede costuma se apoiar em perímetro: tudo dentro da rede interna é considerado relativamente confiável, e o esforço se concentra na borda. Esse modelo fica frágil quando você tem dezenas de serviços, vários times, múltiplos ambientes de nuvem — porque um único componente comprometido dentro do perímetro ganha acesso amplo demais.
+**[03:50–05:30 · Slide 5 — Perímetro e confiança zero]**
 
-O modelo de confiança zero parte do oposto: nenhuma requisição é confiável só por vir de dentro da rede interna. Cada serviço tem uma identidade verificável — normalmente um certificado ou token criptográfico associado a ele, não só ao endereço de rede — e toda comunicação, mesmo entre serviços do mesmo cluster, é autenticada e autorizada explicitamente, como se estivesse cruzando uma fronteira não confiável. Esse é o modelo formalizado pela publicação especial do NIST sobre arquitetura de confiança zero, que é uma das nossas referências desta aula.
+O primeiro deslocamento conceitual da aula é o seguinte.
 
-*[indicação de edição: diagrama comparando o modelo de perímetro — "castelo com muralha" — e o modelo de confiança zero — verificação em cada porta interna]*
+O modelo de perímetro parte da premissa de que tudo dentro da rede interna é relativamente confiável, e concentra a proteção na borda. É o modelo da fortificação: quem ultrapassou o portão está dentro.
 
-Duas perguntas diferentes, que costumam ser confundidas: autenticação responde "quem está fazendo essa requisição?"; autorização responde "o que essa identidade pode fazer?". Uma não substitui a outra — um serviço pode estar corretamente autenticado e, mesmo assim, não ter autorização para uma operação específica.
+Esse modelo falha em uma arquitetura de serviços porque, com dezenas de serviços e múltiplos times, um único componente comprometido obtém acesso amplo. Basta uma vulnerabilidade em um serviço periférico — o de recomendações, por exemplo — para que o atacante alcance o de pagamento.
 
-E o princípio do menor privilégio: cada identidade recebe só as permissões estritamente necessárias para sua função, nada além. Aplicando à NexaOrder: o serviço de expedição deveria ser autenticado como "expedição" e autorizado só a consultar status de pedido e confirmar envio — sem qualquer permissão sobre reembolso do serviço de pagamento, mesmo que a rede, tecnicamente, deixasse a chamada passar.
+A alternativa é a confiança zero. O princípio é: nenhuma requisição é confiável apenas por vir de dentro da rede.
 
-Vale reforçar por que isso importa tanto especificamente em sistemas distribuídos, e não só em segurança de aplicação de um jeito genérico. Num sistema centralizado, um "excesso de permissão" costuma ficar contido dentro de um processo só. Num sistema distribuído com dezenas de serviços, uma identidade com privilégio além do necessário se torna um caminho de propagação: se o serviço de expedição for comprometido — por uma dependência desatualizada, por exemplo — e ele tiver permissão de reembolso que nunca deveria ter, o dano do incidente deixa de estar contido em "expedição parou de funcionar" e passa a ser "dinheiro saindo indevidamente da conta de pagamento". Cada permissão concedida além do necessário multiplica o raio de impacto possível de qualquer comprometimento futuro, mesmo que hoje pareça inofensiva.
+Isso se concretiza em duas exigências. Primeira: identidade verificável — cada serviço tem certificado ou token criptográfico associado a ele, e não ao seu endereço de rede. A identidade viaja com o serviço, não com o IP. Segunda: toda comunicação é autenticada, mesmo entre serviços do mesmo cluster, como se cada chamada cruzasse uma fronteira não confiável.
 
-### Demonstração, exemplo e estudo de caso
+A referência formal do tema é a publicação especial do NIST sobre arquitetura de confiança zero, leitura recomendada para quem for implementá-la profissionalmente.
 
-Vamos ver como isso vira mecanismo concreto. TLS protege dados em trânsito contra leitura e alteração por terceiros, usando criptografia entre as duas pontas. Em comunicação interna entre serviços, é cada vez mais comum usar TLS mútuo — mTLS — onde as duas partes, não só o servidor como numa conexão web comum, apresentam certificado e verificam a identidade uma da outra antes de trocar dados. Numa arquitetura com mTLS bem configurado, o serviço de pagamento só aceita conexão de um chamador cujo certificado comprove identidade autorizada. Isso torna inviável que um serviço não autenticado — ou um invasor que conseguiu acesso à rede interna — simplesmente inicie uma conexão válida por estar na mesma rede.
+**[05:30–07:00 · Slide 6 — Autenticação, autorização e menor privilégio]**
 
-*[indicação de edição: diagrama comparando chamada em texto claro sem verificação e chamada com TLS mútuo, certificado em ambas as pontas]*
+Duas perguntas são frequentemente confundidas, e nenhuma delas substitui a outra.
 
-E credencial, chave de API, certificado — chamamos isso de segredo — não deveria estar embutido em imagem de contêiner, em arquivo de configuração versionado, ou em variável de ambiente definida à mão. A prática recomendada é usar um sistema dedicado de gestão de segredos, que controla acesso, registra auditoria e permite rotação — a substituição programada de uma credencial antiga por uma nova, reduzindo a janela de exposição se um segredo tiver sido comprometido sem que ninguém tenha percebido. Na NexaOrder, a credencial do provedor de pagamento deveria ser injetada no Pod em tempo de execução, nunca lida de um arquivo versionado no repositório — retomando o objeto Secret do Kubernetes que vimos na aula passada.
+Autenticação responde: quem está fazendo esta requisição? Autorização responde: o que essa identidade tem permissão para fazer?
 
-Pensa na diferença prática entre os dois cenários. Se a credencial estiver embutida na imagem e for comprometida, a única forma de trocá-la é publicar uma nova versão da imagem, testá-la e implantá-la em todos os Pods — um processo que pode levar horas, durante as quais a credencial exposta continua válida. Se a credencial estiver num sistema de gestão de segredos com rotação automatizada, trocá-la pode ser uma operação de segundos, sem precisar publicar nada, porque o Pod já busca o valor atual do segredo no momento em que precisa dele. A diferença entre essas duas velocidades de resposta é, muitas vezes, a diferença entre um incidente de segurança controlado e um incidente que se arrasta por dias.
+São perguntas independentes, articuladas pelo princípio do menor privilégio: cada identidade recebe apenas as permissões estritamente necessárias.
 
-Implementar tudo isso — autenticação, criptografia, limite de taxa, política de autorização — dentro do código de cada serviço, repetidamente, é caro e sujeito a inconsistência. Por isso existe o padrão de proxy lateral, ou sidecar: um processo auxiliar implantado junto a cada instância de serviço, no mesmo Pod no caso do Kubernetes, que intercepta todo o tráfego de entrada e saída e aplica essas políticas de forma uniforme, sem que o código da aplicação precise implementar nada disso diretamente. Quando esses proxies laterais são coordenados por um plano de controle central que distribui configuração, certificado e política para todos eles, chamamos isso de service mesh.
+Na NexaOrder, a expedição autentica-se como “expedição” e é autorizada apenas a consultar status e confirmar envio.
 
-*[indicação de edição: diagrama de service mesh com os quatro serviços da NexaOrder, cada um com seu proxy lateral, e um plano de controle central]*
+O ponto que resolve a situação-problema é este: um serviço pode estar corretamente autenticado e ainda assim não ter autorização para uma operação específica. O reembolso continua fora do alcance da expedição, mesmo que a rede permita a chamada, mesmo que o certificado seja válido, mesmo que ela esteja dentro do cluster.
 
-Um service mesh permite aplicar mTLS entre todos os serviços da NexaOrder de forma centralizada, sem tocar no código de pedidos, estoque, pagamento e expedição individualmente — e ainda coleta métricas uniformes de comunicação, tema que a gente retoma na próxima unidade, quando falar de observabilidade.
+Autenticação sem autorização equivale a conferir a identidade de quem entra no prédio e, em seguida, permitir o acesso irrestrito a todos os andares.
 
-Agora, vamos falar de sobrecarga. Além de autenticar e autorizar, um serviço precisa se proteger de volume excessivo de requisição, seja tráfego legítimo em pico, seja uso indevido. Um mecanismo comum é o balde de fichas: um balde de capacidade C fichas é reabastecido a uma taxa constante r fichas por segundo; cada requisição consome uma ficha; requisição sem ficha disponível é recusada ou colocada em espera.
+**[07:00–08:40 · Slide 7 — TLS e TLS mútuo]**
 
-Vamos fazer a conta. O serviço de pagamento define um balde com capacidade de 50 fichas e taxa de reposição de 20 fichas por segundo. Isso tolera picos curtos de até 50 requisições simultâneas — o estouro, ou burst — e, em regime permanente, sustenta no máximo 20 requisições por segundo, que é a própria taxa de reposição. Se chegar uma rajada de 90 requisições num único segundo, o balde absorve as primeiras 50 na hora, e recusa ou atrasa as 40 restantes até repor novas fichas — protegendo o serviço de uma sobrecarga que comprometeria a disponibilidade para todo mundo, não só para quem gerou a rajada.
+Passemos à criptografia em trânsito.
 
-*[indicação de edição: animação do balde de fichas enchendo a taxa constante e sendo consumido por requisições, com destaque para a recusa do excedente durante a rajada]*
+*[indicação de edição: inserir Recurso visual 45 da Aula 12 — comparação entre TLS tradicional, com um certificado, e TLS mútuo, com dois]*
+
+TLS protege dados em trânsito contra leitura e alteração por terceiros, com criptografia entre as duas pontas. É o mecanismo já empregado em qualquer acesso a um site com conexão segura.
+
+No TLS tradicional da web, apenas o servidor apresenta certificado. O navegador verifica a identidade do banco; o banco não verifica a identidade do usuário por certificado.
+
+No TLS mútuo, o mTLS, ambas as partes apresentam certificados e verificam a identidade uma da outra. É essa reciprocidade que se aplica adequadamente à comunicação entre serviços.
+
+O que o mTLS resolve: o serviço de pagamento passa a autenticar criptograficamente a identidade de quem o chamou. A verificação deixa de basear-se na origem de rede e passa a fundar-se no certificado apresentado.
+
+O que ele não resolve — e esta é a distinção mais importante da aula — é a permissão: uma política de autorização separada decide se aquela identidade pode executar a operação. O certificado prova quem é; não determina o que pode.
+
+A conclusão é dupla: estar na mesma rede não basta, e possuir certificado válido tampouco concede, por si só, permissão de reembolso.
+
+**[08:40–10:20 · Slide 8 — Gestão de segredos: por que o cofre importa]**
+
+Credenciais, chaves de API e certificados não devem permanecer em imagens, arquivos versionados ou variáveis definidas manualmente. O consenso quanto a esse princípio é amplo em tese; o argumento decisivo, porém, aparece no momento do incidente.
+
+*[indicação de edição: inserir Recurso visual 46 da Aula 12 — tabela comparando o tempo até a contenção nos dois cenários]*
+
+Cenário um: o segredo está embutido na imagem e constata-se seu vazamento. Para substituí-lo, é preciso publicar uma nova imagem, testar e reimplantar todos os Pods afetados. Tempo até a contenção: horas. Durante esse período, a credencial exposta permanece válida e utilizável pelo atacante.
+
+Cenário dois: o segredo está em um gestor de segredos com rotação. Para substituí-lo, basta rotacionar o valor, e o Pod consulta o segredo atual quando necessário. Tempo até a contenção: segundos, sem qualquer nova publicação de imagem.
+
+Além da velocidade, um gestor de segredos controla acesso, registra auditoria de uso e permite rotação periódica preventiva.
+
+É essa diferença de velocidade de resposta que costuma determinar se um incidente fica contido ou se prolonga por dias. A pergunta pertinente a uma equipe não é se os segredos estão seguros, e sim em quanto tempo é possível invalidar uma credencial comprometida.
+
+**[10:20–10:40 · Slide 9 — Citação]**
+
+Esta frase separa identidade de permissão: estar na mesma rede não basta; possuir um certificado válido também não concede, por si só, permissão para reembolsar ou cobrar.
+
+### Demonstração, exemplo ou estudo de caso
+
+**[10:40–12:30 · Slide 10 — Gateway, proxy lateral e service mesh]**
+
+Há um problema prático a resolver: implementar autenticação, criptografia, limitação de taxa e autorização dentro do código de cada serviço é custoso e propenso a inconsistências. Cada time adota uma abordagem própria, e uma correção de segurança passa a exigir alterações em dezenas de repositórios.
+
+*[indicação de edição: inserir Recurso visual 47 da Aula 12 — Pod com aplicação e proxy lateral, com todo o tráfego passando pelo proxy]*
+
+A solução estrutural é o proxy lateral, o sidecar: um processo auxiliar que roda junto a cada instância, no mesmo Pod, e intercepta todo o tráfego de entrada e de saída.
+
+O ganho é direto: as políticas se aplicam de forma uniforme, sem que a aplicação precise implementá-las. O código do serviço de pagamento não contém referência alguma a certificados.
+
+O service mesh constitui o passo seguinte: proxies laterais coordenados por um plano de controle que distribui configuração, certificados e políticas a todos eles.
+
+Os papéis se complementam. O gateway protege a borda voltada a clientes externos; o proxy lateral protege a comunicação interna. Não são concorrentes, e atuam em posições distintas.
+
+O resultado prático para a NexaOrder é que aplicar mTLS entre todos os serviços não exige alterar o código de pedidos, estoque, pagamento e expedição. Adicionalmente, o mesh produz métricas uniformes de comunicação entre todos os serviços, tema retomado na primeira aula da Unidade 4.
+
+**[12:30–14:20 · Slide 11 — Exemplo numérico: balde de fichas]**
+
+A conta desta aula trata da proteção contra sobrecarga.
+
+O algoritmo do balde de fichas funciona assim: um balde de capacidade C é reabastecido a uma taxa r de fichas por segundo. Cada requisição consome uma ficha, e requisições que chegam sem ficha disponível são recusadas ou colocadas em espera.
+
+A leitura do modelo é direta: a taxa sustentável de longo prazo é r, e o pico instantâneo absorvido é C. Um parâmetro controla o regime permanente; o outro controla a rajada.
+
+Os números do exemplo são estes. Capacidade do balde: 50 fichas. Taxa de reposição: 20 fichas por segundo. Chegam 90 requisições em 1 segundo.
+
+O balde absorve as primeiras 50 imediatamente, por estarem acumuladas. As 40 restantes são recusadas ou atrasadas até que novas fichas sejam repostas, o que ocorre à taxa de 20 por segundo.
+
+O objetivo do mecanismo não é penalizar o cliente responsável pela rajada, e sim proteger o serviço de uma sobrecarga que comprometeria a disponibilidade para todos os chamadores, e não apenas para a origem da rajada. Sem limitação, uma única origem descontrolada indisponibiliza o serviço para todos — efeito, aliás, que um atacante busca deliberadamente.
+
+**[14:20–16:20 · Slide 12 — Quatro ameaças que exploram a distribuição]**
+
+Quatro ameaças são específicas de sistemas distribuídos, e todas retomam conceitos já estudados.
+
+*[indicação de edição: inserir Recurso visual 48 da Aula 12 — quadro das quatro ameaças com suas mitigações, revelado linha a linha]*
+
+Repetição, ou replay: uma mensagem legítima é capturada e reenviada para produzir efeito indevido. Uma cobrança válida, reenviada dez vezes. A mitigação combina identificador único persistido, janela de validade, verificação de integridade e rejeição atômica de identificadores já consumidos.
+
+Movimento lateral: um serviço de baixo privilégio é comprometido e usado para alcançar serviços sensíveis. É exatamente a falha do modelo de perímetro. A mitigação é autenticação mútua e menor privilégio entre todos os serviços, e não só na borda.
+
+Amplificação por retry: repetição agressiva transforma uma indisponibilidade parcial em sobrecarga generalizada. A mitigação é backoff, jitter e orçamento de tentativas, conforme apresentado na Aula 2.
+
+Exposição de segredos: segredos em imagens, logs ou repositórios tornam-se acessíveis muito além do escopo pretendido. A mitigação é o gestor de segredos com rotação e auditoria.
+
+Um padrão atravessa as quatro ameaças: todas reinterpretam, sob ótica adversarial, conceitos já estudados. O replay explora a mesma ausência de identificação de operação que motivou a idempotência. A amplificação reproduz, com intenção maliciosa, o mesmo efeito manada tratado antes como problema acidental. Segurança, neste contexto, não constitui assunto à parte: é a mesma engenharia, com um adversário incluído no modelo.
 
 ### Aplicação profissional
 
-Algumas ameaças específicas de sistemas distribuídos merecem atenção especial no seu trabalho: ataque de repetição, quando uma mensagem legítima capturada é reenviada depois para produzir efeito indevido — mitigado por identificador único de operação e janela de validade, retomando idempotência da Aula 8. Movimento lateral, quando um invasor que compromete um serviço de baixo privilégio tenta usar essa posição para alcançar serviços mais sensíveis — mitigado por autenticação mútua e menor privilégio entre todos os serviços, não só na borda. Amplificação por retry, quando política agressiva de repetição transforma indisponibilidade parcial em sobrecarga generalizada, se todo mundo retentar ao mesmo tempo sem backoff. E exposição de segredo por configuração, quando credencial embutida em imagem, log ou repositório fica acessível muito além do escopo pretendido.
+**[16:20–17:40 · Slide 13 — Um fluxo autenticado: pedidos para pagamento]**
 
-Note como essas quatro ameaças conversam com temas que já vimos em unidades anteriores, só que agora sob a ótica de segurança. O ataque de repetição explora exatamente a mesma ausência de identificação de operação que discutimos ao falar de idempotência, só que agora com intenção maliciosa em vez de falha de rede acidental. A amplificação por retry é o mesmo padrão de política de repetição sem *backoff* que vimos na Aula 2, só que agora o gatilho é uma indisponibilidade real de um serviço, e o resultado é uma sobrecarga que se autoalimenta — cada tentativa fracassada gera novas tentativas, que geram mais carga, que geram mais falhas. Isso reforça algo importante: segurança de sistemas distribuídos não é uma disciplina isolada das outras que vimos na disciplina; ela reaproveita e reinterpreta, sob a lente de um adversário ativo, praticamente todos os conceitos de comunicação, falha e resiliência já estudados.
+Os elementos da aula se reúnem no desenho de um fluxo completo.
 
-Juntando tudo, uma chamada de pedidos para pagamento na NexaOrder deveria ter, no mínimo: conexão por TLS mútuo com certificado válido dos dois lados; autorização verificando que "pedidos" pode solicitar autorização de pagamento, mas não reembolso; limite de taxa aplicado pelo proxy lateral de pagamento; e um identificador único de operação, permitindo rejeitar repetição indevida.
+Uma chamada do serviço de pedidos ao de pagamento deveria atravessar, no mínimo, quatro verificações.
 
-Repara que nenhum desses quatro elementos, sozinho, resolve o problema todo. TLS mútuo garante identidade e confidencialidade, mas não impede que uma identidade autenticada peça algo fora do seu escopo — para isso existe autorização. Autorização por si só não impede que um chamador legítimo seja usado de forma abusiva por volume — para isso existe limite de taxa. E limite de taxa não impede que uma mensagem legítima capturada seja reaproveitada mais tarde — para isso existe o identificador único de operação. Segurança de comunicação entre serviços distribuídos não é um interruptor único que se liga; é a composição deliberada de várias camadas independentes, cada uma cobrindo um tipo de risco que as outras não cobrem. Essa mentalidade de camadas complementares, e não de uma solução única que resolve tudo, é talvez o aprendizado mais transferível desta aula para o seu dia a dia profissional.
+Primeira, TLS mútuo: ambos os lados apresentam certificados válidos, emitidos por uma autoridade confiável do cluster. Essa camada responde à questão da identidade.
+
+Segunda, autorização: a identidade “pedidos” pode solicitar autorizações de pagamento, mas não reembolsos. Essa camada responde à questão da permissão.
+
+Terceira, limitação de taxa: aplicada pelo proxy lateral do serviço de pagamento, protegendo-o de sobrecarga, inclusive da sobrecarga acidental provocada por um defeito no próprio serviço de pedidos.
+
+Quarta, identificador único: anexado à requisição, permite rejeitar repetições indevidas. É a idempotência da Aula 2, cumprindo agora também um papel de segurança.
+
+As quatro camadas são independentes e cumulativas. A falha em qualquer uma delas deixa uma via de acesso desprotegida, e nenhuma compensa a ausência das demais.
+
+**[17:40–19:00 · Slide 14 — Transição para a Unidade 4]**
+
+Cabe articular a unidade e o conjunto da disciplina.
+
+Com serviços delimitados, comunicação orientada a eventos, execução orquestrada e comunicação segura, a arquitetura da NexaOrder está estruturalmente completa.
+
+A Unidade 4 desloca a pergunta de como construir para como verificar que o sistema funciona.
+
+Como enxergar o sistema por dentro, com logs, métricas e rastreamento distribuído? Como provar que a resiliência que desenhamos na Unidade 1 realmente funciona, com testes e engenharia do caos? Como processar grandes volumes em lote e em fluxo? E como avaliar e evoluir a arquitetura a partir de requisitos e indicadores?
+
+Há aqui uma mudança de posição: até este ponto, o papel exercido foi o de quem constrói. Na Unidade 4, soma-se a ele o papel de quem opera, mede e questiona o que foi construído.
 
 ### Fechamento
 
-Recapitulando: confiança zero trata toda comunicação, mesmo interna, como potencialmente não confiável até prova de identidade. Autenticação e autorização respondem perguntas diferentes. TLS mútuo protege dados em trânsito e verifica identidade dos dois lados. Segredos vivem em sistemas dedicados de gestão, com rotação. Proxy lateral e service mesh centralizam política de segurança. E limitação de taxa protege contra sobrecarga legítima ou indevida.
+**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
 
-Com isso, fechamos a Unidade 3. A NexaOrder agora tem serviços bem delimitados, comunicação orientada a eventos, execução orquestrada e comunicação segura — estruturalmente, a arquitetura está completa. Na Unidade 4, a gente muda o foco de "como construir" para "como saber que está funcionando": observabilidade, resiliência, engenharia do caos, processamento distribuído, borda, serverless, e o projeto integrado final da NexaOrder. Até lá!
+Recapitulando. Perímetro não basta: confiança zero trata cada requisição interna como se cruzasse uma fronteira não confiável. Duas perguntas distintas: autenticação identifica quem chama, autorização decide o que essa identidade pode fazer. mTLS autentica, não autoriza: certificado válido prova identidade, e a permissão vem de uma política separada. Segredo fora do artefato: rotação em segundos versus horas é o que separa um incidente contido de um incidente prolongado. Política sem tocar no código: o service mesh aplica mTLS, autorização e limitação de taxa de forma uniforme via proxies laterais. E ameaças reciclam conceitos: replay, movimento lateral e amplificação exploram, com intenção maliciosa, propriedades que já estudamos.
 
-*[indicação de edição: card de encerramento de unidade "Unidade 3 concluída — próxima: Unidade 4, Operação, validação e evolução"]*
+Na atividade prática, você vai elaborar o fluxo de segurança entre pedidos e pagamento: descrever as identidades e o mecanismo de autenticação mútua, definir as permissões da identidade “pedidos” aplicando menor privilégio, indicar explicitamente quais operações ela não pode executar, especificar onde os segredos ficam e com que política de rotação, dimensionar um balde de fichas justificando capacidade e taxa, e explicar como o desenho impede um ataque de repetição da requisição de cobrança.
 
-**Fontes e links de mídia:**
+**[19:40–20:00 · Slide 17 — Encerramento]**
 
-- ROSE, S. et al. *Zero trust architecture*. Gaithersburg: NIST, 2020. (NIST Special Publication 800-207). DOI: 10.6028/NIST.SP.800-207. Trecho sugerido: seção 2, sobre os princípios básicos da arquitetura de confiança zero.
-- GOTO Conferences. *When To Use Microservices (And When Not!) • Sam Newman & Martin Fowler*. YouTube, 2020. Disponível em: <https://www.youtube.com/watch?v=GBTdnfD6s5Q>.
+A Unidade 3 se encerra com uma arquitetura estruturalmente completa: serviços delimitados, comunicação por eventos, execução orquestrada e tráfego autenticado. A Unidade 4 examina essa arquitetura por dentro e trata de medir, testar e evoluir o que foi construído. Bons estudos.
+
+### Indicações de edição e recursos visuais
+
+- Slide 0 — capa da Aula 12 (00:00–00:25).
+- Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
+- Slide 4 — situação-problema, com os quatro riscos destacados um a um (02:20–03:50).
+- Slide 5 — contraste visual entre modelo de perímetro e confiança zero (aproximadamente 04:00).
+- Recurso visual 45 — comparação entre TLS tradicional e TLS mútuo (aproximadamente 07:10).
+- Recurso visual 46 — tabela de tempo até a contenção de um segredo comprometido (aproximadamente 08:50).
+- Slide 9 — citação em tela cheia, com 3 segundos de silêncio antes da leitura (10:20).
+- Recurso visual 47 — Pod com proxy lateral interceptando todo o tráfego (aproximadamente 10:50).
+- Slide 11 — cálculo do balde de fichas, com as 50 absorvidas e as 40 recusadas em destaque (aproximadamente 12:40).
+- Recurso visual 48 — quadro das quatro ameaças e suas mitigações (14:20–16:20).
+- Slide 17 — vinheta de encerramento e transição para a Unidade 4 (últimos 15 segundos).
+
+### Fontes e links de mídia
+
+- ROSE, Scott et al. *Zero trust architecture*. Gaithersburg: NIST, 2020. (NIST Special Publication 800-207). DOI: 10.6028/NIST.SP.800-207 — referência conceitual, sem reprodução de trecho externo.
+- RESCORLA, Eric. *The Transport Layer Security (TLS) Protocol Version 1.3*. [S. l.]: IETF, 2018. (RFC 8446). DOI: 10.17487/RFC8446 — referência conceitual, sem reprodução de trecho externo.
+- Nenhuma mídia de terceiros é incorporada; diagramas, tabelas e quadros devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 12 (`unidade_3.md`) e do deck `unidade_3/slides/aula12.html`.

@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Apresentação — Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,137 +672,137 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Distributed Systems Engineering</h1>
       <div class="subtitulo">Da aplicação em um servidor único à plataforma distribuída</div>
@@ -814,10 +815,10 @@
     <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
     <div class="slide-content">
       <div class="audio-logo">
-        <svg width="180" height="44" viewBox="0 0 271 67" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Audiodescrição</h1>
-      <p class="audio-texto">Esta apresentação segue a identidade visual da UniFECAF: fundo em azul-marinho, títulos em verde-claro e cartões brancos com o conteúdo de cada slide. As bordas trazem mosaicos de triângulos coloridos — verde, azul, amarelo e magenta — remetendo aos nós e conexões de um sistema distribuído. O conteúdo é conduzido pelo Prof. Afonso Cesar Lelis Brandão ao longo da videoaula.</p>
+      <p class="audio-texto">O professor Afonso Cesar Lelis Brandão é um homem adulto de pele clara, cabelos curtos e escuros, olhos castanhos e barba cheia escura. Na fotografia, aparece de frente, usa um <em>headset</em> preto e um agasalho cinza de gola alta, diante de um fundo desfocado. Os slides usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros.</p>
     </div>
   </section>
 
@@ -825,10 +826,10 @@
     <div class="prof-grid">
       <div class="prof-lado-claro">
         <div class="prof-logo-claro">
-          <svg width="200" height="49" viewBox="0 0 271 67" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+          <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
-        <div class="prof-foto" role="img" aria-label="Foto do professor Afonso Cesar Lelis Brandão">
-          <img src="assets/foto-professor.jpg" alt="Retrato do professor Afonso Cesar Lelis Brandão, responsável pela disciplina" role="figure" data-source="Acervo pessoal de Afonso Cesar Lelis Brandão" data-license="Uso autorizado neste material didático" />
+        <div class="prof-foto" role="figure" aria-label="Retrato do professor Afonso Cesar Lelis Brandão" data-source="Acervo pessoal de Afonso Cesar Lelis Brandão" data-license="Uso autorizado neste material didático">
+          <img src="assets/foto-professor.jpg" alt="Professor Afonso Cesar Lelis Brandão, responsável pela disciplina" />
         </div>
       </div>
       <div class="prof-lado-escuro">
@@ -839,7 +840,7 @@
         <div class="prof-canto-rodape" aria-hidden="true"><svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg></div>
         <h2 class="prof-nome">Afonso Cesar Lelis Brandão</h2>
         <p class="prof-cargo">Professor e conteudista · UniFECAF</p>
-        <p class="prof-descricao">Professor e conteudista da UniFECAF, com atuação em <strong>arquitetura de sistemas distribuídos e engenharia de software</strong>. Conduz a disciplina com foco no <em>porquê</em> de cada decisão arquitetural — não só no "como" — e aborda os fundamentos sem assumir conhecimento prévio, sempre conectados à <strong>prática de mercado</strong>.</p>
+        <p class="prof-descricao">Professor e conteudista da UniFECAF, com atuação em <strong>arquitetura de sistemas distribuídos e engenharia de software</strong>. Conduz a disciplina com foco no <em>porquê</em> de cada decisão arquitetural — não apenas no “como” — e aborda os fundamentos sem assumir conhecimento prévio, sempre conectados à <strong>prática de mercado</strong>.</p>
       </div>
     </div>
   </section>
@@ -848,28 +849,28 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
-        <h1 class="sumario-titulo">Apresentação da disciplina e do professor</h1>
+        <h1 class="sumario-titulo">Apresentação da disciplina</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Sobre a disciplina</li>
-          <li>Sobre o professor</li>
-          <li>O que você vai aprender</li>
+          <li>Por que engenharia de sistemas distribuídos</li>
+          <li>O que você será capaz de fazer ao final</li>
+          <li>A NexaOrder: o caso que atravessa a disciplina</li>
+          <li>As quatro unidades e as 16 videoaulas</li>
           <li>Como a disciplina funciona</li>
-          <li>Avaliação</li>
+          <li>Como você será avaliado</li>
+          <li>Bibliografia essencial</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -877,94 +878,285 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Sobre a disciplina</p>
-      <h2>Distributed Systems Engineering</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Toda vez que você compra algo pela internet, pede uma corrida ou movimenta dinheiro por um banco digital, existe um <strong>sistema distribuído</strong> funcionando nos bastidores — serviços em máquinas diferentes, conversando por rede, sujeitos a atraso, concorrência e falha.</p>
+      <h2>Por que engenharia de sistemas distribuídos</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Toda vez que você compra algo pela internet, pede uma corrida ou movimenta dinheiro por um banco digital, há um <strong>sistema distribuído</strong> funcionando nos bastidores: serviços em máquinas diferentes, conversando por rede, sujeitos a atraso, concorrência e falha.</p>
         <ul>
-          <li>Empresas não contratam só quem sabe programar: contratam quem sabe explicar <em>por que</em> um sistema se comporta de certo jeito quando cresce, replica dados ou perde a conexão com outro serviço.</li>
-          <li>Essa é a competência central da <strong>Engenharia de Sistemas Distribuídos</strong> — escalabilidade, disponibilidade, consistência e resiliência.</li>
-          <li>Ao final, você saberá <em>projetar</em>, <em>avaliar compromissos</em> e <em>defender</em> cada decisão arquitetural distribuída.</li>
+          <li><strong>O mercado não contrata só quem programa</strong> — contrata quem sabe explicar por que um sistema se comporta de certo jeito quando cresce.</li>
+          <li><strong>As perguntas mudam</strong> — o que acontece se uma resposta demorar? Repetir a requisição é seguro? Qual evento aconteceu primeiro?</li>
+          <li><strong>Os erros custam caro</strong> — perda de dados, cobrança duplicada, indisponibilidade em cascata, arquitetura cara que não entrega o benefício esperado.</li>
+          <li><strong>A competência central</strong> — escalabilidade, disponibilidade, consistência e resiliência tratadas como decisões explícitas.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Apresentação</span><span>Boas-vindas</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Sobre o professor</p>
-      <h2>Prof. Afonso Cesar Lelis Brandão</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p><strong>Afonso Cesar Lelis Brandão</strong> é professor e conteudista da UniFECAF, com atuação em <strong>arquitetura de sistemas distribuídos e engenharia de software</strong>.</p>
+      <p class="kicker">Resultado de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Conduz a disciplina com foco no <em>porquê</em> de cada decisão arquitetural — não só no "como".</li>
-          <li>Aborda os fundamentos sem assumir conhecimento prévio, sempre conectados à <strong>prática de mercado</strong>.</li>
+          <li><strong>Analisar</strong> os elementos fundamentais de um sistema distribuído e modelar sua comunicação.</li>
+          <li><strong>Projetar</strong> estratégias de distribuição e coordenação de estado, avaliando compromissos.</li>
+          <li><strong>Integrar</strong> serviços, eventos e plataformas cloud-native com segurança e identidade.</li>
+          <li><strong>Validar e operar</strong> sistemas por telemetria, testes e experimentos de falha.</li>
+          <li><strong>Avaliar</strong> arquiteturas considerando desempenho, escalabilidade, segurança, custo e confiabilidade.</li>
+          <li><strong>Defender</strong> cada decisão arquitetural com requisito, mecanismo, compromisso e evidência.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Apresentação</span><span>Boas-vindas</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Fio condutor</p>
+      <h2>A NexaOrder atravessa as quatro unidades</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Em vez de exemplos soltos, a disciplina acompanha uma <strong>plataforma fictícia de pedidos, pagamentos e expedição</strong>. Ela começa simples, em um único servidor, e precisa crescer sem perder confiabilidade.</p>
+        <ul>
+          <li><strong>Pedidos</strong> registra a intenção do cliente e coordena o fluxo.</li>
+          <li><strong>Estoque</strong> reserva a unidade e responde se a reserva foi possível.</li>
+          <li><strong>Pagamento</strong> solicita autorização a um provedor externo.</li>
+          <li><strong>Expedição</strong> prepara o envio quando as etapas anteriores convergem.</li>
+        </ul>
+        <div class="callout-azul"><p>Cada unidade acrescenta decisões, mecanismos e evidências à mesma arquitetura. Toda escolha será observada <strong>pelo benefício que oferece e pelos problemas que introduz</strong> — nunca só pelo benefício.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Estrutura</p>
-      <h2>O que você vai aprender — 4 unidades, 16 videoaulas</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Unidade 1 — Fundamentos, comunicação, tempo e falhas</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p><strong>Resultado</strong>: analisar os elementos fundamentais de um sistema distribuído, modelar sua comunicação e reconhecer como concorrência, tempo e falhas parciais afetam o comportamento observado.</p>
         <ul>
-          <li>Unidade 1 — Fundamentos, comunicação, tempo e falhas</li>
-          <li>Unidade 2 — Dados distribuídos, consistência e coordenação</li>
-          <li>Unidade 3 — Serviços, eventos e plataformas cloud-native</li>
-          <li>Unidade 4 — Operação, validação e evolução</li>
+          <li><strong>Aula 1</strong> — Pensar distribuído: conceitos, propriedades e compromissos.</li>
+          <li><strong>Aula 2</strong> — Comunicação entre processos: APIs, RPC e mensageria.</li>
+          <li><strong>Aula 3</strong> — Concorrência, relógios e ordenação de eventos.</li>
+          <li><strong>Aula 4</strong> — Modelos de falha e desenho para recuperação.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Apresentação</span><span>Boas-vindas</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Como funciona</p>
-      <h2>Trilha de aprendizagem</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Estrutura</p>
+      <h2>Unidade 2 — Dados distribuídos, consistência e coordenação</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p><strong>Resultado</strong>: projetar estratégias de distribuição e coordenação de estado, avaliando os compromissos entre consistência, disponibilidade, desempenho e tolerância a falhas.</p>
         <ul>
-          <li><strong>16 videoaulas</strong> (4 por unidade) com texto-base e roteiro para acompanhar.</li>
-          <li>Fio condutor único: a <strong>NexaOrder</strong>, plataforma fictícia de pedidos, pagamentos e expedição que cresce e enfrenta decisões reais de arquitetura.</li>
-          <li><strong>Dois quizzes não avaliativos por unidade</strong>, com feedback conceitual, além de questionários de apoio à aprendizagem.</li>
-          <li><strong>Avaliação final</strong> com 10 questões dissertativas e um <strong>trabalho PBL</strong> de arquitetura distribuída ponta a ponta.</li>
+          <li><strong>Aula 5</strong> — Replicação e modelos de consistência.</li>
+          <li><strong>Aula 6</strong> — Particionamento, CAP e escalabilidade de dados.</li>
+          <li><strong>Aula 7</strong> — Consenso, eleição de líder e Raft.</li>
+          <li><strong>Aula 8</strong> — Transações distribuídas, sagas e idempotência.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Apresentação</span><span>Boas-vindas</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Estrutura</p>
+      <h2>Unidade 3 — Serviços, eventos e plataformas cloud-native</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p><strong>Resultado</strong>: integrar serviços e eventos em plataformas de nuvem, definindo limites, comunicação, orquestração e segurança de forma coerente.</p>
+        <ul>
+          <li><strong>Aula 9</strong> — Limites de domínio, serviços e descoberta.</li>
+          <li><strong>Aula 10</strong> — Arquitetura orientada a eventos e plataformas de streaming.</li>
+          <li><strong>Aula 11</strong> — Contêineres, Kubernetes e reconciliação de estado.</li>
+          <li><strong>Aula 12</strong> — Identidade, comunicação segura e confiança zero.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Estrutura</p>
+      <h2>Unidade 4 — Operação, validação e evolução</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p><strong>Resultado</strong>: validar e operar sistemas distribuídos por meio de telemetria, testes, experimentos de falha e avaliação arquitetural baseada em requisitos e indicadores.</p>
+        <ul>
+          <li><strong>Aula 13</strong> — Observabilidade: logs, métricas e rastreamento distribuído.</li>
+          <li><strong>Aula 14</strong> — Testes de resiliência e engenharia do caos.</li>
+          <li><strong>Aula 15</strong> — Processamento distribuído em lote e em fluxo.</li>
+          <li><strong>Aula 16</strong> — Projeto integrado e avaliação arquitetural.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide slide-quote">
+    <div class="quote-logo">
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+    </div>
+    <div class="quote-shapes" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
+    </div>
+    <div class="quote-card">
+      <blockquote>“Toda decisão arquitetural precisa explicitar quatro coisas: qual requisito ela atende, qual mecanismo adota, qual custo introduz e como o resultado será medido.”</blockquote>
+      <cite>— princípio que orienta a disciplina</cite>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Percurso</p>
+      <h2>Como a disciplina funciona</h2>
+      <div class="slide-content-box">
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">unidades</span></div>
+          <div class="stat-card"><span class="numero-grande">16</span><span class="legenda">videoaulas</span></div>
+          <div class="stat-card"><span class="numero-grande">1</span><span class="legenda">caso contínuo</span></div>
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">atividades práticas por unidade</span></div>
+        </div>
+        <ul>
+          <li><strong>Texto-base por aula</strong> — o conceito desenvolvido com exemplos numéricos e situação-problema.</li>
+          <li><strong>Videoaula</strong> — a demonstração do raciocínio sobre a NexaOrder, não a leitura do texto.</li>
+          <li><strong>Atividade prática</strong> — você produz um artefato de engenharia: registro de decisão, contrato, análise de falhas.</li>
+          <li><strong>Material complementar</strong> — leitura da fonte, aprofundamento, podcast e artigo científico por unidade.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Avaliação</p>
+      <h2>Como você será avaliado</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Instrumento</th><th>Formato</th><th>O que ele verifica</th></tr></thead>
+          <tbody>
+            <tr><td>Quiz não avaliativo</td><td>2 questões por unidade</td><td>Autoverificação imediata após o estudo</td></tr>
+            <tr><td>Questionário da unidade</td><td>40 questões (asserção-razão e interpretação)</td><td>Domínio conceitual e leitura de cenários</td></tr>
+            <tr><td>AAI — Unidade 1</td><td>1 questão dissertativa</td><td>Aplicação dos fundamentos à NexaOrder</td></tr>
+            <tr><td>Trabalho PBL</td><td>Caso com entregável definido</td><td>Projeto arquitetural completo e justificado</td></tr>
+            <tr><td>Avaliação final</td><td>10 questões dissertativas</td><td>Integração das quatro unidades</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>As questões não cobram memorização de definição: elas apresentam um <strong>cenário</strong> e pedem que você identifique o compromisso correto. Estudar “decorando” não funciona aqui.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Orientação de estudo</p>
+      <h2>O que se espera de você</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Pergunte “e se falhar?”</strong> — para cada mecanismo estudado, imagine o que acontece quando ele não responde.</li>
+          <li><strong>Refaça as contas</strong> — os exemplos numéricos são pequenos de propósito; refazê-los fixa o raciocínio.</li>
+          <li><strong>Não aceite “é mais escalável”</strong> — exija de si mesmo o requisito, o mecanismo, o custo e a evidência.</li>
+          <li><strong>Traga seu contexto</strong> — se você já trabalha com sistemas, compare cada decisão com o que vê no dia a dia.</li>
+          <li><strong>Reconheça quando não distribuir</strong> — engenharia madura também sabe recomendar a solução simples.</li>
+          <li><strong>Use o caso</strong> — a NexaOrder existe para você testar hipóteses sem risco de produção.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Fundamentação</p>
+      <h2>Bibliografia essencial</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>KLEPPMANN, Martin.</strong> <em>Designing data-intensive applications</em>. Sebastopol: O’Reilly, 2017.</li>
+          <li><strong>TANENBAUM, A. S.; VAN STEEN, M.</strong> <em>Distributed systems</em>. 4. ed. [S. l.]: distributed-systems.net, 2023.</li>
+          <li><strong>COULOURIS, George et al.</strong> <em>Distributed systems: concepts and design</em>. 5. ed. Boston: Addison-Wesley, 2011.</li>
+          <li><strong>NEWMAN, Sam.</strong> <em>Building microservices</em>. 2. ed. Sebastopol: O’Reilly, 2021.</li>
+          <li><strong>BEYER, Betsy et al.</strong> <em>Site reliability engineering</em>. Sebastopol: O’Reilly, 2016.</li>
+          <li><strong>NYGARD, Michael T.</strong> <em>Release it!</em> 2. ed. Raleigh: Pragmatic Bookshelf, 2018.</li>
+        </ul>
+        <div class="callout-azul"><p>Cada aula traz ainda suas referências específicas, e cada unidade indica leitura da fonte, material de aprofundamento, podcast e artigo científico. Organização bibliográfica orientada pela <strong>ABNT NBR 6023:2018</strong>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Recapitulando</p>
+      <h2>Pontos-chave</h2>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto"><h3>Decisão, não moda</h3><p>Distribuir é resposta a um requisito concreto — e toda decisão carrega um custo que precisa ser declarado.</p></div>
+          <div class="ponto"><h3>Um caso contínuo</h3><p>A NexaOrder acompanha as quatro unidades, acumulando decisões, mecanismos e evidências.</p></div>
+          <div class="ponto"><h3>Compromissos explícitos</h3><p>Consistência, disponibilidade, latência e custo se equilibram; a disciplina treina esse equilíbrio.</p></div>
+          <div class="ponto"><h3>Prática de engenharia</h3><p>Cada aula termina em um artefato: registro de decisão, contrato de evento, análise de falhas, plano de testes.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering</span><span>Apresentação da disciplina</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Seja muito bem-vindo(a)! Prepare-se para deixar de tratar um conjunto de máquinas como se fosse um computador só. Vamos começar pela Unidade 1.</p>
-      <p class="fim-proxima">Próxima: Aula 1.</p>
+      <p class="fim-texto">Nas próximas 16 videoaulas, você vai acompanhar uma aplicação simples se transformar em uma plataforma distribuída — e vai aprender a justificar cada passo dessa transformação. Comece pela Aula 1, em que definimos o que caracteriza um sistema distribuído e por que distribuir muda o raciocínio de projeto.</p>
+      <p class="fim-proxima">Primeira aula: Aula 1 — Pensar distribuído.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -978,6 +1170,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -999,6 +1192,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1009,6 +1204,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

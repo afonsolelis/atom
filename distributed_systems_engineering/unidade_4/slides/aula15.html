@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 15 — Processamento distribuído, edge e serverless · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Processamento distribuído, edge e serverless</h1>
+      <h1>Aula 15 — Processamento distribuído, edge e serverless</h1>
       <div class="subtitulo">Unidade 4 — Operação, validação e evolução</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um fluxo com as fases de mapeamento, embaralhamento e redução aplicadas ao histórico de pedidos; um painel numérico com o dimensionamento de sete partições para cinco mil eventos por segundo; uma linha do tempo distinguindo tempo de evento de tempo de processamento, com a marca d’água admitindo eventos atrasados; um quadro sobre inicialização a frio em funções como serviço; e um gráfico comparando processamento centralizado, regional e de borda por latência e custo.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Processamento distribuído, edge e serverless</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Processamento em lote x em fluxo</li>
+          <li>Processamento em lote e em fluxo</li>
           <li>MapReduce e a generalização em DAGs</li>
-          <li>Particionamento e dimensionamento de partições</li>
-          <li>Tempo de evento, tempo de processamento e watermark</li>
-          <li>Funções como serviço (FaaS) e cold start</li>
-          <li>Computação de borda: custo x latência</li>
+          <li>Particionamento e tolerância a falhas em fluxo</li>
+          <li>Tempo de evento e tempo de processamento</li>
+          <li>Janelas e marcas d’água</li>
+          <li>Funções como serviço e inicialização a frio</li>
+          <li>Computação de borda: latência contra complexidade</li>
+          <li>Escolher a partir do requisito de negócio</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,149 +856,251 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Decidir</strong> entre lote e fluxo a partir de até quando a informação pode esperar.</li>
+          <li><strong>Descrever</strong> as fases de map, shuffle e reduce e sua generalização em DAGs.</li>
+          <li><strong>Dimensionar</strong> partições de um pipeline de fluxo a partir da taxa de eventos.</li>
+          <li><strong>Distinguir</strong> tempo de evento de tempo de processamento e escolher a base da janela.</li>
+          <li><strong>Avaliar</strong> o custo de inicialização a frio em caminhos sensíveis à latência.</li>
+          <li><strong>Ponderar</strong> ganho de latência contra complexidade operacional na computação de borda.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
-      <h2>Detectar fraude antes da aprovação</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>A NexaOrder registra tentativas de fraude: múltiplos cartões, em sequência, do mesmo dispositivo. A primeira proposta é um <strong>job que roda a cada hora</strong> e sinaliza padrões no dia seguinte.</p>
+      <h2>Detectar fraude antes que o pagamento seja aprovado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A NexaOrder passou a registrar tentativas de fraude: <strong>múltiplos cartões em sequência rápida</strong>, a partir do mesmo dispositivo, testando quais dados seriam aceitos.</p>
         <ul>
-          <li>O time de risco rejeita: uma hora é tempo suficiente para dezenas de fraudes serem aprovadas.</li>
+          <li>A primeira proposta técnica: um <em>job</em> a cada hora, lendo o histórico e sinalizando padrões para revisão no dia seguinte.</li>
+          <li>O time de risco <strong>rejeita</strong>: uma hora basta para dezenas de tentativas fraudulentas serem aprovadas.</li>
           <li>A decisão precisa ocorrer <strong>em segundos</strong>, no momento da tentativa.</li>
-          <li>Essa exigência muda completamente o tipo de arquitetura de processamento necessária.</li>
+          <li>Essa exigência muda completamente <strong>o tipo de arquitetura de processamento</strong> necessária.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Processamento em lote x em fluxo</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Lote (batch)</strong>: conjunto finito, coletado num período, processado de uma vez — relatórios, comissões, reprocessamento histórico.</li>
-          <li><strong>Fluxo (streaming)</strong>: sequência potencialmente ilimitada, cada evento processado assim que disponível.</li>
-          <li>Para a detecção de fraude, o fluxo é a escolha certa: bloqueio antes da aprovação.</li>
-          <li>A escolha entre lote e fluxo é uma decisão de <em>negócio</em>: até quando a informação pode esperar antes de perder valor.</li>
-        </ul>
+      <p class="kicker">Conteúdo</p>
+      <h2>Lote e fluxo</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th></th><th>Processamento em lote</th><th>Processamento em fluxo</th></tr></thead>
+          <tbody>
+            <tr><td>Sobre o que opera</td><td>Conjunto finito e delimitado, coletado ao longo de um período</td><td>Sequência potencialmente ilimitada de eventos</td></tr>
+            <tr><td>Quando processa</td><td>De uma só vez, depois de formado o lote</td><td>Cada evento, ou pequenos grupos, assim que disponível</td></tr>
+            <tr><td>Vantagem</td><td>Simplicidade: o conjunto é conhecido e finito</td><td>Decisão no instante em que o fato ocorre</td></tr>
+            <tr><td>Casos típicos</td><td>Relatórios diários, comissões mensais, reprocessamento histórico</td><td>Detecção de fraude, alertas operacionais, contadores ao vivo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>A escolha <strong>não é apenas técnica</strong>: é uma decisão de negócio sobre até quando uma informação pode esperar antes de <strong>perder valor</strong>.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
+      <p class="kicker">Conteúdo</p>
       <h2>MapReduce e a generalização em DAGs</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Map</strong>: transforma cada registro independentemente, gerando pares chave-valor. <strong>Shuffle</strong>: redistribui por chave. <strong>Reduce</strong>: agrupa e combina.</li>
-          <li>Frameworks modernos generalizam para <strong>DAGs</strong> (grafos acíclicos dirigidos), encadeando múltiplas etapas.</li>
-          <li>Tolerância a falhas: se um nó falha, a tarefa é reatribuída e reexecutada a partir dos dados intermediários já persistidos — sem reiniciar o job inteiro.</li>
+          <li><strong>Map</strong> — transforma cada registro de entrada independentemente, produzindo pares de chave e valor intermediários.</li>
+          <li><strong>Shuffle</strong> — redistribui os pares intermediários entre os nós, agrupando-os pela chave correspondente.</li>
+          <li><strong>Reduce</strong> — agrupa e combina os pares por chave, produzindo o resultado final.</li>
+          <li><strong>DAGs</strong> — frameworks modernos generalizam a ideia em grafos acíclicos dirigidos, encadeando várias etapas além do par map-reduce.</li>
         </ul>
+        <div class="callout-azul"><p>A tolerância a falhas segue um princípio comum: se um nó falha durante uma tarefa, o framework <strong>reatribui essa tarefa</strong> a outro nó, reexecutando-a a partir dos dados intermediários já persistidos — sem reiniciar o job inteiro nem exigir intervenção manual para a falha isolada de um único nó.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>Dimensionamento de partições</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Pipelines de fluxo particionam eventos por chave (ex.: dispositivo), garantindo ordem por partição.</p>
-        <p>Pico de <strong>5.000 eventos/s</strong>, cada consumidor sustenta <strong>750 eventos/s</strong>:</p>
-        <p style="text-align:center; font-size:1.3em;"><strong>P = ⌈5.000 ÷ 750⌉ = ⌈6,67⌉ = 7 partições</strong></p>
-        <p>Sete partições atendem o pico com margem — mas não substituem um teste de carga real.</p>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Tempo de evento, tempo de processamento e watermark</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Tempo de evento</strong>: quando o evento realmente ocorreu. <strong>Tempo de processamento</strong>: quando o pipeline o processa — pode ser segundos ou minutos depois.</li>
-          <li>Janelas baseadas em tempo de evento são mais fiéis, mas exigem lidar com eventos atrasados.</li>
-          <li><strong>Marca d'água (watermark)</strong>: estima até que ponto os dados já chegaram, combinada com tolerância a atraso antes de fechar a janela.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>FaaS e computação de borda</h2>
+      <h2>Dimensionando as partições do pipeline</h2>
       <div class="slide-content-box">
-        <ul>
-          <li><strong>Funções como serviço (FaaS)</strong>: executa código sob demanda, sem servidor dedicado. Custo: <em>cold start</em> quando não há instância "aquecida".</li>
-          <li><strong>Computação de borda</strong>: processa dados próximo ao usuário — ganha latência para sinais simples.</li>
-          <li>Contrapartida: mais complexidade operacional e nem sempre menor custo, sobretudo quando exige contexto histórico amplo.</li>
-        </ul>
+        <p>Pipelines de fluxo também particionam o trabalho, distribuindo eventos por uma chave — aqui, o <strong>identificador do dispositivo</strong>, garantindo que todos os eventos de um mesmo dispositivo sejam processados em ordem, pela mesma partição.</p>
+        <div class="callout-azul formula"><p>P = ⌈ λ<sub>eventos</sub> ÷ C<sub>partição</sub> ⌉</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">5.000/s</span><span class="legenda">pico de tentativas (λ)</span></div>
+          <div class="stat-card"><span class="numero-grande">750/s</span><span class="legenda">capacidade por partição (C)</span></div>
+          <div class="stat-card"><span class="numero-grande">6,67</span><span class="legenda">resultado da divisão</span></div>
+          <div class="stat-card"><span class="numero-grande">7</span><span class="legenda">partições mínimas</span></div>
+        </div>
+        <div class="callout-azul"><p>Sete partições atendem ao pico com margem — mas a conta <strong>não substitui um teste de carga real</strong> do pipeline completo, incluindo o custo de embaralhamento e o acesso ao contexto necessário à avaliação, como o histórico recente do dispositivo.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Pausa para reflexão</p>
-      <h2>"Tudo na borda, latência zero"?</h2>
-      <div class="slide-content-box">
-        <p>O time de risco propõe processar toda a análise de fraude exclusivamente na borda, argumentando que isso reduz a latência a zero. Reflita:</p>
+      <p class="kicker">Conteúdo</p>
+      <h2>Mais partições, mais coordenação</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Que sinais de fraude dependem de contexto histórico difícil de manter apenas na borda?</li>
-          <li>Que riscos operacionais surgem de duplicar lógica de decisão em múltiplos pontos de borda?</li>
-          <li>Em que medida "latência zero" é tecnicamente impreciso?</li>
-          <li>Que combinação de borda e processamento centralizado atenderia à decisão em segundos sem abrir mão do histórico?</li>
+          <li><strong>Mais partições</strong> — mais paralelismo disponível para o pipeline.</li>
+          <li><strong>Também mais complexidade</strong> — de coordenação e de tolerância a falhas.</li>
+          <li><strong>Progresso duradouro</strong> — cada partição precisa registrar seu avanço de forma persistente.</li>
+          <li><strong>Retomada correta</strong> — em caso de falha do consumidor, o processamento recomeça do ponto certo.</li>
+          <li><strong>Sem perder nem duplicar</strong> — além do que a semântica de entrega escolhida permitir.</li>
+          <li><strong>Tema já visto</strong> — é a mesma discussão de at-least-once e efeito único da Unidade 3.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"A pergunta não é qual tecnologia usar. É até quando a informação pode esperar."</blockquote>
-      <cite>— Síntese da Videoaula 15, Distributed Systems Engineering</cite>
+      <blockquote>“A escolha entre lote e fluxo é uma decisão de negócio sobre até quando uma informação pode esperar antes de perder valor.”</blockquote>
+      <cite>— síntese da Aula 15</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Tempo de evento e tempo de processamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Distinção essencial em processamento de fluxo:</p>
+        <ul>
+          <li><strong>Tempo de evento</strong> — o instante em que o fato ocorreu no domínio de negócio: o momento exato da tentativa de pagamento.</li>
+          <li><strong>Tempo de processamento</strong> — o instante em que o pipeline efetivamente processa o evento, segundos ou minutos depois.</li>
+          <li><strong>Janela por tempo de evento</strong> — resultados mais fiéis à realidade do negócio, mas exige lidar com atraso e desordem.</li>
+          <li><strong>Janela por tempo de processamento</strong> — simples de implementar, porém pode distorcer a análise.</li>
+        </ul>
+        <div class="callout-azul"><p>“Quantas tentativas com o mesmo dispositivo ocorreram no último minuto?” — a resposta <strong>muda</strong> conforme a base de tempo escolhida para a janela.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Marcas d’água e tolerância a atraso</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Marca d’água</strong> — estimativa de até que ponto, no tempo de evento, o pipeline já recebeu a maior parte dos dados.</li>
+          <li><strong>Tolerância a atraso</strong> — período adicional configurável que mantém a janela aberta antes de fechá-la em definitivo.</li>
+          <li><strong>O que resolvem juntas</strong> — admitir eventos que chegaram atrasados sem descartar o conceito de janela.</li>
+          <li><strong>O compromisso</strong> — janelas que fecham cedo perdem eventos tardios; janelas que demoram atrasam a decisão.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Funções como serviço e inicialização a frio</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p><strong>FaaS</strong> executa um trecho de código em resposta a um evento — requisição HTTP, mensagem em fila, arquivo criado — sem provisionar servidor continuamente. A cobrança é, tipicamente, pelo tempo de execução efetivo.</p>
+        <ul>
+          <li><strong>Onde brilha</strong> — cargas esporádicas e de volume variável, como enviar e-mail de confirmação de pedido.</li>
+          <li><strong>Inicialização a frio</strong> — sem instância “aquecida”, a plataforma precisa inicializar um novo ambiente antes de processar.</li>
+          <li><strong>Quando é irrelevante</strong> — em uma notificação assíncrona, a latência extra não é percebida.</li>
+          <li><strong>Quando é problemática</strong> — em um caminho síncrono sensível à latência, como parte do fluxo de checkout.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Computação de borda: latência contra complexidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A borda aproxima o processamento dos dispositivos, executando lógica em pontos geograficamente distribuídos em vez de centralizá-la em uma região de nuvem.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Localização</th><th>Latência típica</th><th>Contexto disponível</th><th>Complexidade operacional</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Borda</strong></td><td>Mais baixa</td><td>Sinais simples e locais do dispositivo</td><td>Alta: versões de regras sincronizadas em muitos locais</td></tr>
+            <tr><td><strong>Regional</strong></td><td>Intermediária</td><td>Contexto parcial agregado</td><td>Média</td></tr>
+            <tr><td><strong>Centralizada</strong></td><td>Mais alta</td><td>Histórico amplo e completo</td><td>Baixa: um único lugar para atualizar</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O ganho de latência <strong>não vem de graça</strong>: manter lógica em múltiplos pontos aumenta a complexidade e <strong>nem sempre reduz custo</strong>. Reserve modelos que dependem de histórico amplo para o centro, e sinais simples e locais para a borda.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>“Vamos processar tudo na borda”</h2>
+      <div class="slide-content-box">
+        <p>O time de risco propõe processar toda a análise de fraude <em>exclusivamente</em> na borda, eliminando dependência de uma região central e argumentando que isso reduzirá a latência a zero e eliminará custos de rede.</p>
+        <ul>
+          <li>Que <strong>sinais de fraude dependem de contexto histórico</strong> que dificilmente estaria disponível só na borda?</li>
+          <li>Que <strong>riscos operacionais</strong> surgem de manter lógica duplicada em muitos pontos, sobretudo ao atualizar um modelo?</li>
+          <li>Em que medida a afirmação de latência <strong>“reduzida a zero”</strong> é tecnicamente imprecisa?</li>
+          <li>Que <strong>combinação</strong> de borda e centro atenderia à decisão em segundos sem abrir mão do histórico?</li>
+        </ul>
+        <div class="callout-azul"><p>A resposta madura raramente é “tudo em um lugar só”. É uma <strong>triagem local</strong> para sinais simples, com avaliação profunda centralizada para o que exige contexto.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -993,50 +1108,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Lote x fluxo</h3><p>Lote tolera espera; fluxo atende decisões em segundos.</p></div>
-          <div class="ponto"><h3>MapReduce e DAGs</h3><p>Map, shuffle, reduce; tolerância a falhas por reexecução de tarefas isoladas.</p></div>
-          <div class="ponto"><h3>Partições e watermark</h3><p>Dimensionamento por taxa de eventos; watermark trata eventos atrasados.</p></div>
-          <div class="ponto"><h3>FaaS e borda</h3><p>Reduzem custo ocioso e latência, ao custo de cold start e complexidade operacional.</p></div>
+          <div class="ponto"><h3>Lote espera, fluxo não</h3><p>Lote atende análises que toleram espera; fluxo atende decisões que precisam sair em segundos.</p></div>
+          <div class="ponto"><h3>Map, shuffle, reduce</h3><p>O modelo se generalizou em DAGs; a tolerância a falhas vem da reexecução de tarefas isoladas.</p></div>
+          <div class="ponto"><h3>Partição dimensiona</h3><p>O número mínimo relaciona a taxa de eventos à capacidade comprovada por consumidor.</p></div>
+          <div class="ponto"><h3>Dois tempos diferentes</h3><p>Tempo de evento e de processamento divergem; marcas d’água admitem atraso sem descartar a janela.</p></div>
+          <div class="ponto"><h3>FaaS troca ocioso por frio</h3><p>Reduz custo em carga esporádica ao preço de latência adicional na inicialização.</p></div>
+          <div class="ponto"><h3>Borda não é grátis</h3><p>Reduz latência de sinais simples, mas aumenta complexidade e nem sempre reduz custo.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Compare três alternativas para a detecção de fraude quase em tempo real: (a) lote horário; (b) fluxo centralizado, particionado por dispositivo; (c) triagem na borda + fluxo centralizado.</p>
+      <h2>Mãos à obra: comparar três arquiteturas</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Compare, para a detecção de fraude quase em tempo real, três alternativas: <strong>(a)</strong> lote horário; <strong>(b)</strong> fluxo centralizado particionado por dispositivo; <strong>(c)</strong> triagem na borda combinada com fluxo centralizado.</p>
         <ul>
-          <li>Estime a latência típica de decisão para cada alternativa.</li>
-          <li>Para a alternativa (b), calcule as partições necessárias para um pico de 8.000 eventos/s, com consumidor de 1.000 eventos/s.</li>
-          <li>Avalie a capacidade de cada alternativa de considerar o histórico do dispositivo.</li>
-          <li>Recomende uma alternativa, justificando por latência, custo e complexidade.</li>
+          <li><strong>1.</strong> Estime a latência típica entre a tentativa e a decisão em cada alternativa.</li>
+          <li><strong>2.</strong> Para a alternativa (b), calcule as partições necessárias para 8.000 eventos/s com consumidor de 1.000/s.</li>
+          <li><strong>3.</strong> Avalie cada alternativa quanto à capacidade de considerar o <em>histórico</em> do dispositivo.</li>
+          <li><strong>4.</strong> Aponte o principal risco operacional de cada uma.</li>
+          <li><strong>5.</strong> Recomende uma alternativa, justificando por latência, custo e complexidade.</li>
+          <li><strong>6.</strong> Indique qual evidência você coletaria para validar a recomendação em produção.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Da proposta de rodar a cada hora até a arquitetura combinada de borda e fluxo centralizado, o que mudou não foi a tecnologia disponível — foi a pergunta certa sobre o que o negócio precisa. Na nossa última videoaula, vamos reunir tudo o que vimos nas quatro unidades para defender, de ponta a ponta, uma arquitetura completa da NexaOrder.</p>
-      <p class="fim-proxima">Próxima aula: Aula 16 — Projeto integrado e avaliação arquitetural (encerramento da disciplina).</p>
+      <p class="fim-texto">Você já sabe escolher entre lote, fluxo, funções e borda a partir do requisito de negócio — e dimensionar o pipeline resultante. Na última aula da disciplina, integramos tudo: como defender uma arquitetura inteira diante de requisitos, riscos e custo.</p>
+      <p class="fim-proxima">Próxima aula: Aula 16 — Projeto integrado e avaliação arquitetural.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1050,6 +1169,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1071,6 +1191,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1081,6 +1203,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

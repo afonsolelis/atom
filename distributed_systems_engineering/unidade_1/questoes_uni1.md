@@ -8,7 +8,7 @@ Distribuição da letra correta: 8 questões para cada uma das letras a, b, c, d
 
 ### Asserção-razão
 
-1. I. Um sistema distribuído é caracterizado pela pluralidade de componentes autônomos que se comunicam por rede e coordenam ações para um objetivo comum.
+**1.** I. Um sistema distribuído é caracterizado pela pluralidade de componentes autônomos que se comunicam por rede e coordenam ações para um objetivo comum.
 
 PORQUE
 
@@ -20,7 +20,7 @@ b. As asserções I e II são proposições verdadeiras, mas a II não é uma ju
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-2. I. A escala horizontal amplia a capacidade de atendimento da NexaOrder por meio do paralelismo entre múltiplas instâncias.
+**2.** I. A escala horizontal amplia a capacidade de atendimento da NexaOrder por meio do paralelismo entre múltiplas instâncias.
 
 PORQUE
 
@@ -32,7 +32,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-3. I. Duas instâncias de um serviço hospedadas no mesmo servidor físico garantem tolerância a falhas, pois qualquer uma pode assumir o tráfego da outra.
+**3.** I. Duas instâncias de um serviço hospedadas no mesmo servidor físico garantem tolerância a falhas, pois qualquer uma pode assumir o tráfego da outra.
 
 PORQUE
 
@@ -44,19 +44,19 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-4. I. Uma chamada remota entre o serviço de pedidos e o serviço de estoque da NexaOrder deve ser tratada de forma diferente de uma chamada de função local.
+**4.** I. Uma chamada remota entre o serviço de pedidos e o serviço de estoque da NexaOrder deve ser tratada de forma diferente de uma chamada de função local.
 
 PORQUE
 
-II. Protocolos HTTP utilizam o formato JSON para representar recursos em APIs orientadas a recursos.
+II. O protocolo HTTP exige o formato JSON para representar recursos em qualquer API orientada a recursos.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-5. I. A falha parcial não representa um desafio relevante para sistemas distribuídos, pois qualquer indisponibilidade é imediatamente percebida por todos os componentes.
+**5.** I. A falha parcial não representa um desafio relevante para sistemas distribuídos, pois qualquer indisponibilidade é imediatamente percebida por todos os componentes.
 
 PORQUE
 
@@ -68,7 +68,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-6. I. A comunicação assíncrona reduz o acoplamento temporal entre o serviço de pedidos e o serviço de pagamento da NexaOrder.
+**6.** I. A comunicação assíncrona reduz o acoplamento temporal entre o serviço de pedidos e o serviço de pagamento da NexaOrder.
 
 PORQUE
 
@@ -80,7 +80,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-7. I. Retentar uma chamada de rede sem qualquer proteção adicional é sempre seguro, pois o serviço de destino nunca processa uma mesma operação mais de uma vez.
+**7.** I. Retentar uma chamada de rede sem qualquer proteção adicional é sempre seguro, pois o serviço de destino nunca processa uma mesma operação mais de uma vez.
 
 PORQUE
 
@@ -92,7 +92,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-8. I. A adição de um novo campo opcional à mensagem de criação de pedido, com valor padrão bem definido, tende a preservar a compatibilidade com consumidores que ainda não foram atualizados.
+**8.** I. A adição de um novo campo opcional à mensagem de criação de pedido, com valor padrão bem definido, tende a preservar a compatibilidade com consumidores que ainda não foram atualizados.
 
 PORQUE
 
@@ -104,19 +104,19 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-9. I. Um identificador de correlação permite reconstruir o caminho de uma operação lógica através de múltiplos serviços e retentativas.
+**9.** I. Um identificador de correlação permite reconstruir o caminho de uma operação lógica através de múltiplos serviços e retentativas.
 
 PORQUE
 
-II. O identificador de correlação, por si só, impede que uma operação de criação de pedido seja executada mais de uma vez.
+II. Uma chave de idempotência criada antes do primeiro envio e reutilizada nas retentativas da mesma operação permite ao servidor evitar a repetição do efeito.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-10. I. Em um padrão de publicação-assinatura, o produtor de um evento precisa conhecer previamente cada um dos serviços que irão consumi-lo.
+**10.** I. Em um padrão de publicação-assinatura, o produtor de um evento precisa conhecer previamente cada um dos serviços que irão consumi-lo.
 
 PORQUE
 
@@ -128,11 +128,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-11. I. O relógio de Lamport garante que, se um evento A aconteceu antes de um evento B pela relação happened-before, então o carimbo lógico de A é menor que o carimbo lógico de B.
+**11.** I. O relógio de Lamport garante que, se um evento A aconteceu antes de um evento B pela relação happened-before, então o carimbo lógico de A é menor que o carimbo lógico de B.
 
 PORQUE
 
-II. O relógio de Lamport é incrementado a cada evento local e ajustado para o maior valor entre o contador local e o contador recebido, somado de um, ao processar uma mensagem.
+II. O relógio de Lamport é incrementado antes de cada evento interno ou de envio e, no recebimento, ajustado para o maior valor entre o contador local e o recebido, somado de um.
 
 *a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -140,7 +140,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-12. I. O relógio de Lamport permite distinguir, com certeza, quando dois eventos são concorrentes.
+**12.** I. O relógio de Lamport permite distinguir, com certeza, quando dois eventos são concorrentes.
 
 PORQUE
 
@@ -152,7 +152,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-13. I. Não existe relógio global instantâneo compartilhado entre os serviços da NexaOrder.
+**13.** I. Não existe relógio global instantâneo compartilhado entre os serviços da NexaOrder.
 
 PORQUE
 
@@ -164,7 +164,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-14. I. Dois eventos concorrentes são sempre aqueles que ocorrem exatamente no mesmo instante de tempo físico em processos diferentes.
+**14.** I. Dois eventos concorrentes são sempre aqueles que ocorrem exatamente no mesmo instante de tempo físico em processos diferentes.
 
 PORQUE
 
@@ -176,7 +176,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-15. I. Um desvio de relógio de algumas centenas de milissegundos entre dois servidores pode inverter, em um painel ordenado por timestamp físico, a ordem real de dois eventos próximos no tempo.
+**15.** I. Um desvio de relógio de algumas centenas de milissegundos entre dois servidores pode inverter, em um painel ordenado por timestamp físico, a ordem real de dois eventos próximos no tempo.
 
 PORQUE
 
@@ -188,7 +188,7 @@ b. As asserções I e II são proposições verdadeiras, mas a II não é uma ju
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-16. I. Um timeout comprova, de forma definitiva, que o componente remoto falhou por parada.
+**16.** I. Um timeout comprova, de forma definitiva, que o componente remoto falhou por parada.
 
 PORQUE
 
@@ -200,7 +200,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-17. I. O padrão circuit breaker evita que um serviço continue investindo recursos em chamadas a uma dependência com alta taxa de falha.
+**17.** I. O padrão circuit breaker evita que um serviço continue investindo recursos em chamadas a uma dependência com alta taxa de falha.
 
 PORQUE
 
@@ -212,7 +212,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-18. I. A degradação graciosa permite que a NexaOrder continue oferecendo uma versão reduzida do checkout quando o serviço de recomendação de produtos está indisponível.
+**18.** I. A degradação graciosa permite que a NexaOrder continue oferecendo uma versão reduzida do checkout quando o serviço de recomendação de produtos está indisponível.
 
 PORQUE
 
@@ -224,7 +224,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-19. I. Um particionamento de rede entre duas zonas de disponibilidade da NexaOrder significa que ambas as réplicas do serviço de estoque pararam de funcionar.
+**19.** I. Um particionamento de rede entre duas zonas de disponibilidade da NexaOrder significa que ambas as réplicas do serviço de estoque pararam de funcionar.
 
 PORQUE
 
@@ -236,11 +236,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-20. I. Redundância entre instâncias de um serviço só protege contra falha se as instâncias não compartilharem o mesmo ponto de falha.
+**20.** I. Para proteger o serviço contra a falha de um host físico ou de uma zona, as instâncias redundantes precisam estar distribuídas fora desse mesmo domínio de falha.
 
 PORQUE
 
-II. Qualquer conjunto de instâncias redundantes, independentemente de como os recursos de rede e computação são compartilhados entre elas, garante isolamento total de falhas.
+II. Duas instâncias executadas no mesmo host físico garantem continuidade do serviço mesmo quando esse host inteiro falha.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -250,7 +250,7 @@ e. As asserções I e II são proposições falsas.
 
 ### Interpretação
 
-21. Durante uma campanha promocional, a NexaOrder estima um pico de 1.200 requisições por segundo. Cada instância do serviço de pedidos sustenta, de forma medida, 150 requisições por segundo. A equipe deseja operar com uma utilização-alvo de 80% da capacidade de cada instância. Considerando arredondamento para cima, qual é o número mínimo de instâncias necessárias?
+**21.** Durante uma campanha promocional, a NexaOrder estima um pico de 1.200 requisições por segundo. Cada instância do serviço de pedidos sustenta, de forma medida, 150 requisições por segundo. A equipe deseja operar com uma utilização-alvo de 80% da capacidade de cada instância. Considerando arredondamento para cima, qual é o número mínimo de instâncias necessárias?
 
 a. 8 instâncias.
 b. 9 instâncias.
@@ -258,7 +258,7 @@ c. 12 instâncias.
 *d. 10 instâncias.
 e. 15 instâncias.
 
-22. A equipe de operações da NexaOrder define que o serviço de pagamento deve operar com disponibilidade de 99,95% em um período de 30 dias. Qual alternativa apresenta, aproximadamente, o orçamento de indisponibilidade tolerável nesse período?
+**22.** A equipe de operações da NexaOrder define que o serviço de pagamento deve operar com disponibilidade de 99,95% em um período de 30 dias. Qual alternativa apresenta, aproximadamente, o orçamento de indisponibilidade tolerável nesse período?
 
 a. Cerca de 4 minutos.
 b. Cerca de 43 minutos.
@@ -266,7 +266,7 @@ c. Cerca de 8 horas.
 d. Cerca de 1 hora.
 *e. Cerca de 22 minutos.
 
-23. Dois clientes da NexaOrder tentam comprar, ao mesmo tempo, a última unidade disponível de um produto. Ambos os processos de compra leem o mesmo valor de estoque disponível — uma unidade — antes que qualquer reserva seja confirmada. Qual conceito discutido na Unidade 1 explica diretamente o risco de os dois clientes conseguirem finalizar a compra do mesmo item?
+**23.** Dois clientes da NexaOrder tentam comprar, ao mesmo tempo, a última unidade disponível de um produto. Ambos os processos de compra leem o mesmo valor de estoque disponível — uma unidade — antes que qualquer reserva seja confirmada. Qual conceito discutido na Unidade 1 explica diretamente o risco de os dois clientes conseguirem finalizar a compra do mesmo item?
 
 a. Transparência de localização.
 *b. Concorrência sobre um recurso compartilhado sem controle de acesso coordenado.
@@ -274,7 +274,7 @@ c. Evolução de esquema incompatível.
 d. Desvio de relógio físico entre servidores.
 e. Ausência de circuit breaker no serviço de estoque.
 
-24. Uma equipe divide um sistema em doze serviços, mas qualquer alteração de negócio exige que todos os doze sejam implantados simultaneamente, pois os contratos entre eles mudam a cada nova funcionalidade. Essa situação caracteriza melhor qual risco discutido na Aula 1?
+**24.** Uma equipe divide um sistema em doze serviços, mas qualquer alteração de negócio exige que todos os doze sejam implantados simultaneamente, pois os contratos entre eles mudam a cada nova funcionalidade. Essa situação caracteriza melhor qual risco discutido na Aula 1?
 
 *a. Monólito distribuído, no qual a distribuição técnica não trouxe autonomia organizacional real.
 b. Escalabilidade vertical insuficiente.
@@ -282,7 +282,7 @@ c. Ausência de transparência de acesso.
 d. Falha de comportamento arbitrário.
 e. Ausência de particionamento de rede.
 
-25. O time de performance da NexaOrder mede que o percentil 95 de latência do endpoint de checkout é de 300 milissegundos. Qual é a interpretação correta dessa métrica?
+**25.** O time de performance da NexaOrder mede que o percentil 95 de latência do endpoint de checkout é de 300 milissegundos. Qual é a interpretação correta dessa métrica?
 
 a. Todas as requisições foram concluídas em exatamente 300 milissegundos.
 b. A latência média é necessariamente igual a 300 milissegundos.
@@ -290,7 +290,7 @@ b. A latência média é necessariamente igual a 300 milissegundos.
 d. O sistema está indisponível para 5% dos usuários.
 e. O throughput do sistema é de 300 requisições por segundo.
 
-26. Um cliente da NexaOrder falha ao chamar o serviço de pagamento e aplica uma política de backoff exponencial com intervalo base de 300 milissegundos e teto de 4.000 milissegundos, sem considerar o jitter. Qual seria o intervalo de espera, sem jitter, antes da quarta tentativa (n = 3, contando a primeira tentativa como n = 0)?
+**26.** Um cliente da NexaOrder falha ao chamar o serviço de pagamento e aplica a política de *backoff* $t_n = \min(300 \times 2^n, 4.000)$ milissegundos, sem considerar o *jitter*. Qual é o intervalo para $n=3$, isto é, a quarta espera da sequência iniciada em $n=0$?
 
 a. 300 ms.
 b. 600 ms.
@@ -298,7 +298,7 @@ c. 1.200 ms.
 d. 4.000 ms.
 *e. 2.400 ms.
 
-27. O serviço de pedidos da NexaOrder recebe duas requisições POST /pedidos idênticas, enviadas pelo mesmo cliente após um timeout, ambas contendo a mesma chave de idempotência. Qual deve ser o comportamento correto do serviço de pedidos?
+**27.** O serviço de pedidos da NexaOrder recebe duas requisições POST /pedidos idênticas, enviadas pelo mesmo cliente após um timeout, ambas contendo a mesma chave de idempotência. Qual deve ser o comportamento correto do serviço de pedidos?
 
 a. Criar dois pedidos distintos, pois cada requisição HTTP é independente.
 b. Rejeitar ambas as requisições, pois chaves repetidas indicam erro do cliente.
@@ -306,7 +306,7 @@ c. Processar a segunda requisição normalmente, ignorando a chave de idempotên
 *d. Reconhecer a chave já processada e devolver o resultado da primeira execução, sem criar um novo pedido.
 e. Aguardar indefinidamente até que o cliente confirme qual requisição deve prevalecer.
 
-28. A NexaOrder avalia migrar a etapa de expedição do fluxo de criação de pedido de uma chamada síncrona para uma reação assíncrona a um evento PedidoCriado. Qual é a justificativa mais consistente com os conceitos desta unidade para essa mudança?
+**28.** A NexaOrder avalia migrar a etapa de expedição do fluxo de criação de pedido de uma chamada síncrona para uma reação assíncrona ao evento `PagamentoAprovado`, emitido somente depois da reserva de estoque. Qual é a justificativa mais consistente com os conceitos desta unidade para essa mudança?
 
 a. A expedição deixará de poder falhar, pois eventos não falham.
 b. O cliente deixará de precisar de qualquer confirmação sobre o pedido.
@@ -314,7 +314,7 @@ b. O cliente deixará de precisar de qualquer confirmação sobre o pedido.
 d. A mudança elimina a necessidade de contrato entre pedidos e expedição.
 e. A mudança garante ordenação total de todos os eventos do sistema.
 
-29. Uma nova versão do serviço de pedidos passa a exigir um campo obrigatório "canalVenda" em toda mensagem de criação de pedido. Consumidores antigos, que não enviam esse campo, começam a ter suas mensagens rejeitadas. Qual foi o erro de evolução de esquema cometido pela equipe?
+**29.** Uma nova versão do serviço de pedidos passa a exigir um campo obrigatório "canalVenda" em toda mensagem de criação de pedido. Consumidores antigos, que não enviam esse campo, começam a ter suas mensagens rejeitadas. Qual foi o erro de evolução de esquema cometido pela equipe?
 
 a. O campo deveria ter sido enviado em formato binário.
 *b. Um campo novo foi introduzido como obrigatório, em vez de opcional com valor padrão, quebrando a compatibilidade com consumidores ainda não atualizados.
@@ -322,7 +322,7 @@ c. O campo deveria ter sido removido, não adicionado.
 d. O erro foi usar um broker de mensagens em vez de uma API HTTP.
 e. O erro foi não definir um identificador de correlação para o campo.
 
-30. A NexaOrder precisa notificar três serviços diferentes — estoque, análise de fraude e um futuro serviço de recomendação — sempre que um pedido for criado, sem que o serviço de pedidos precise conhecer cada um deles individualmente. Qual mecanismo de comunicação é mais adequado a esse requisito?
+**30.** A NexaOrder precisa notificar três serviços diferentes — estoque, análise de fraude e um futuro serviço de recomendação — sempre que um pedido for criado, sem que o serviço de pedidos precise conhecer cada um deles individualmente. Qual mecanismo de comunicação é mais adequado a esse requisito?
 
 *a. Publicação-assinatura em um tópico de eventos, permitindo que cada serviço assine de forma independente.
 b. Uma fila ponto a ponto, garantindo que apenas um dos três serviços processe cada evento.
@@ -330,7 +330,7 @@ c. Uma chamada RPC síncrona para cada um dos três serviços, encadeada.
 d. Uma única chamada HTTP com todos os três serviços como destinatários no cabeçalho.
 e. A replicação do banco de dados do serviço de pedidos para os três serviços.
 
-31. No serviço de estoque da NexaOrder, o contador de Lamport está em 4. Ele recebe uma mensagem do serviço de pedidos com contador anexado igual a 6. Qual será o valor do contador do serviço de estoque após processar o recebimento dessa mensagem, segundo a regra do relógio de Lamport?
+**31.** No serviço de estoque da NexaOrder, o contador de Lamport está em 4. Ele recebe uma mensagem do serviço de pedidos com contador anexado igual a 6. Qual será o valor do contador do serviço de estoque após processar o recebimento dessa mensagem, segundo a regra do relógio de Lamport?
 
 a. 4.
 b. 5.
@@ -338,7 +338,7 @@ c. 6.
 d. 10.
 *e. 7.
 
-32. Dois eventos da NexaOrder apresentam os seguintes relógios vetoriais, na ordem (Pedidos, Estoque, Pagamento): evento X = (3, 2, 1) e evento Y = (3, 1, 4). Qual é a relação correta entre os dois eventos?
+**32.** Dois eventos da NexaOrder apresentam os seguintes relógios vetoriais, na ordem (Pedidos, Estoque, Pagamento): evento X = (3, 2, 1) e evento Y = (3, 1, 4). Qual é a relação correta entre os dois eventos?
 
 a. X aconteceu antes de Y.
 *b. X e Y são eventos concorrentes, pois nenhum vetor domina o outro em todas as posições.
@@ -346,7 +346,7 @@ c. Y aconteceu antes de X.
 d. X e Y são idênticos.
 e. A comparação é impossível sem relógio físico.
 
-33. Dois servidores da NexaOrder não se sincronizam há 2 horas (7.200 segundos). Cada relógio pode desviar até 30 partes por milhão em relação ao tempo real. Qual é, aproximadamente, o desvio máximo possível entre os dois relógios nesse intervalo?
+**33.** Dois servidores da NexaOrder não se sincronizam há 2 horas (7.200 segundos). Cada relógio pode desviar até 30 partes por milhão em relação ao tempo real. Qual é, aproximadamente, o desvio máximo possível entre os dois relógios nesse intervalo?
 
 a. 30 ms.
 b. 72 ms.
@@ -354,7 +354,7 @@ c. 216 ms.
 *d. 432 ms.
 e. 720 ms.
 
-34. A NexaOrder identifica que, em certos pedidos, o evento de cancelamento de reserva de estoque e o evento de aprovação de pagamento são concorrentes, segundo o relógio vetorial. Qual é a conduta tecnicamente correta diante desse achado?
+**34.** A NexaOrder identifica que, em certos pedidos, o evento de cancelamento de reserva de estoque e o evento de aprovação de pagamento são concorrentes, segundo o relógio vetorial. Qual é a conduta tecnicamente correta diante desse achado?
 
 a. Ignorar o achado, pois relógios vetoriais não têm aplicação prática em produção.
 b. Sincronizar os relógios físicos dos dois serviços com maior frequência, o que elimina a concorrência entre os eventos.
@@ -362,7 +362,7 @@ b. Sincronizar os relógios físicos dos dois serviços com maior frequência, o
 d. Tratar sempre o evento com carimbo de hora físico mais antigo como o evento correto.
 e. Impedir que os serviços de estoque e pagamento operem de forma independente.
 
-35. O serviço de pedidos envia uma mensagem ao serviço de estoque; o serviço de estoque, ao processá-la, envia uma nova mensagem ao serviço de expedição. Com base na relação happened-before, qual afirmação é correta sobre o evento de envio original em pedidos e o evento de recebimento em expedição?
+**35.** O serviço de pedidos envia uma mensagem ao serviço de estoque; o serviço de estoque, ao processá-la, envia uma nova mensagem ao serviço de expedição. Com base na relação happened-before, qual afirmação é correta sobre o evento de envio original em pedidos e o evento de recebimento em expedição?
 
 *a. O evento de envio em pedidos aconteceu antes do evento de recebimento em expedição, por transitividade da relação happened-before.
 b. Os dois eventos são necessariamente concorrentes.
@@ -370,7 +370,7 @@ c. Não é possível estabelecer nenhuma relação causal entre os dois eventos.
 d. A relação só pode ser estabelecida comparando os relógios físicos dos três serviços.
 e. O evento de recebimento em expedição aconteceu antes do evento de envio em pedidos.
 
-36. O serviço de pedidos monitora uma janela das últimas 25 chamadas ao provedor de pagamento e observa 9 falhas nessa janela. O limite de abertura do disjuntor é de 30%. Com base na taxa de erro observada, qual deve ser o comportamento do disjuntor?
+**36.** O serviço de pedidos monitora uma janela das últimas 25 chamadas ao provedor de pagamento e observa 9 falhas nessa janela. O limite de abertura do disjuntor é de 30%. Com base na taxa de erro observada, qual deve ser o comportamento do disjuntor?
 
 a. Permanecer fechado, pois 9 falhas é um número baixo em termos absolutos.
 *b. Abrir, pois a taxa de erro observada, 36%, ultrapassa o limite de 30% definido.
@@ -378,7 +378,7 @@ c. Entrar em estado semiaberto imediatamente, sem qualquer intervalo de espera.
 d. Permanecer fechado, pois o disjuntor só considera falhas de comportamento arbitrário.
 e. Abrir apenas se todas as 25 chamadas tiverem falhado.
 
-37. O serviço de expedição da NexaOrder para de responder a qualquer requisição e permanece assim até ser reiniciado manualmente pela equipe de operações. Qual modelo de falha essa situação exemplifica?
+**37.** O serviço de expedição da NexaOrder para de responder a qualquer requisição e permanece assim até ser reiniciado manualmente pela equipe de operações. Qual modelo de falha essa situação exemplifica?
 
 a. Falha de omissão.
 b. Falha de comportamento arbitrário.
@@ -386,7 +386,7 @@ b. Falha de comportamento arbitrário.
 d. Falha de temporização.
 e. Particionamento de rede.
 
-38. Duas réplicas do serviço de estoque, em zonas diferentes, perdem a comunicação entre si durante um particionamento de rede, mas cada uma continua aceitando reservas de forma independente para os mesmos itens. Qual é a consequência mais provável dessa situação, segundo os conceitos desta aula?
+**38.** Duas réplicas do serviço de estoque, em zonas diferentes, perdem a comunicação entre si durante um particionamento de rede, mas cada uma continua aceitando reservas de forma independente para os mesmos itens. Qual é a consequência mais provável dessa situação, segundo os conceitos desta aula?
 
 a. Nenhuma consequência, pois o particionamento não afeta réplicas que continuam operando internamente.
 b. A indisponibilidade total do serviço de estoque em ambas as zonas.
@@ -394,7 +394,7 @@ c. A eliminação automática da concorrência entre as duas réplicas.
 d. A conversão automática da comunicação síncrona em assíncrona.
 *e. Divergência de estado entre as réplicas, exigindo reconciliação posterior das reservas registradas de forma independente.
 
-39. Após a NexaOrder aplicar o padrão bulkhead, reservando um conjunto de conexões exclusivo para chamadas ao provedor de pagamento, separado do conjunto usado para consultas de pedidos, o provedor de pagamento volta a apresentar lentidão. Qual é o efeito esperado sobre as consultas de pedidos não relacionadas ao pagamento?
+**39.** Após a NexaOrder aplicar o padrão bulkhead, reservando um conjunto de conexões exclusivo para chamadas ao provedor de pagamento, separado do conjunto usado para consultas de pedidos, o provedor de pagamento volta a apresentar lentidão. Qual é o efeito esperado sobre as consultas de pedidos não relacionadas ao pagamento?
 
 *a. As consultas continuam sendo atendidas normalmente, pois seus recursos estão isolados do compartimento afetado pela lentidão do pagamento.
 b. As consultas também ficarão indisponíveis, pois todo o serviço de pedidos compartilha os mesmos recursos.
@@ -402,7 +402,7 @@ c. As consultas passarão a usar automaticamente o provedor de pagamento como in
 d. O padrão bulkhead elimina a necessidade de qualquer timeout nas chamadas de pagamento.
 e. O padrão bulkhead transforma a chamada de pagamento em uma chamada idempotente.
 
-40. A NexaOrder define um objetivo de disponibilidade de 99,9% para o fluxo de criação de pedidos, em um período de 30 dias. Qual é, aproximadamente, o orçamento de indisponibilidade tolerável nesse período, e qual a implicação prática desse número para a equipe?
+**40.** A NexaOrder define um objetivo de disponibilidade de 99,9% para o fluxo de criação de pedidos, em um período de 30 dias. Qual é, aproximadamente, o orçamento de indisponibilidade tolerável nesse período, e qual a implicação prática desse número para a equipe?
 
 a. Cerca de 4 minutos, e qualquer indisponibilidade acima disso deve ser tratada como falha de comportamento arbitrário.
 b. Cerca de 8 horas, o que torna o objetivo de 99,9% pouco exigente.
@@ -433,12 +433,12 @@ e. Cerca de 43 minutos por semana, não por mês.
 - d. Incorreta: a asserção II também é falsa — a disponibilidade depende, sim, do compartilhamento (ou não) de pontos de falha entre réplicas.
 - e. Correta: a I é falsa, pois redundância no mesmo servidor não protege contra a falha desse servidor; a II é falsa, pois a disponibilidade depende diretamente do isolamento entre pontos de falha.
 
-**Questão 4** (correta: b)
-- a. Incorreta: a II é verdadeira como fato isolado, mas não justifica a I nesta questão.
-- b. Correta: ambas as asserções são verdadeiras isoladamente, mas o formato de dados usado em APIs HTTP não é a razão pela qual uma chamada remota deve ser tratada de forma diferente de uma chamada local — a razão está nos modos de falha da rede.
-- c. Incorreta: a asserção II também é verdadeira, não falsa.
-- d. Incorreta: a asserção I também é verdadeira, não falsa.
-- e. Incorreta: as duas asserções são verdadeiras, não falsas.
+**Questão 4** (correta: c)
+- a. Incorreta: a asserção II é falsa; HTTP não obriga o uso de JSON.
+- b. Incorreta: as duas asserções não são verdadeiras, pois JSON é apenas um dos formatos que uma API HTTP pode negociar.
+- c. Correta: a I é verdadeira porque chamadas remotas têm latência e modos de falha de rede ausentes em chamadas locais; a II é falsa porque HTTP é agnóstico ao formato da representação e não exige JSON.
+- d. Incorreta: a I é verdadeira e a II é falsa, não o inverso.
+- e. Incorreta: a I é verdadeira, embora a II seja falsa.
 
 **Questão 5** (correta: d)
 - a. Incorreta: a asserção I é falsa, não verdadeira.
@@ -468,12 +468,12 @@ e. Cerca de 43 minutos por semana, não por mês.
 - d. Incorreta: a asserção I também é verdadeira, não falsa.
 - e. Incorreta: as duas asserções são verdadeiras, não falsas.
 
-**Questão 9** (correta: c)
-- a. Incorreta: a asserção II é falsa, não verdadeira.
-- b. Incorreta: a asserção II é falsa, não verdadeira.
-- c. Correta: a I é verdadeira — o identificador de correlação serve para rastrear uma operação através de múltiplos serviços; a II é falsa, pois quem previne duplicação de efeito é a chave de idempotência, não o identificador de correlação.
-- d. Incorreta: a asserção I é verdadeira, não falsa.
-- e. Incorreta: a asserção I é verdadeira, não falsa.
+**Questão 9** (correta: b)
+- a. Incorreta: embora as duas asserções sejam verdadeiras, a II não explica a capacidade de rastreamento afirmada na I; trata-se de outro mecanismo.
+- b. Correta: o identificador de correlação permite rastrear o fluxo, enquanto a chave de idempotência reutilizada evita repetir o efeito; ambas são verdadeiras, mas a II não justifica a I.
+- c. Incorreta: a II também é verdadeira quando a mesma chave identifica todas as retentativas da operação lógica.
+- d. Incorreta: a I é verdadeira, não falsa.
+- e. Incorreta: as duas asserções são verdadeiras, não falsas.
 
 **Questão 10** (correta: d)
 - a. Incorreta: a asserção I é falsa, não verdadeira.
@@ -548,7 +548,7 @@ e. Cerca de 43 minutos por semana, não por mês.
 **Questão 20** (correta: c)
 - a. Incorreta: a asserção II é falsa, não verdadeira.
 - b. Incorreta: a asserção II é falsa, não verdadeira.
-- c. Correta: a I é verdadeira — redundância só protege se não houver ponto de falha compartilhado; a II é falsa, pois compartilhar recursos de rede ou computação entre réplicas pode, sim, comprometer o isolamento de falhas.
+- c. Correta: a I é verdadeira para o domínio explicitado — tolerar a falha de um host ou de uma zona exige sair desse domínio. A II é falsa: instâncias no mesmo host podem proteger contra a falha isolada de um processo, mas não contra a queda do host compartilhado.
 - d. Incorreta: a asserção I é verdadeira, não falsa.
 - e. Incorreta: a asserção I é verdadeira, não falsa.
 
@@ -588,9 +588,9 @@ e. Cerca de 43 minutos por semana, não por mês.
 - e. Incorreta: o percentil de latência não mede diretamente o throughput do sistema.
 
 **Questão 26** (correta: e)
-- a. Incorreta: 300 ms corresponde à primeira tentativa (n = 0), não à quarta.
-- b. Incorreta: 600 ms não corresponde a nenhuma potência de 2 multiplicada pela base neste cálculo.
-- c. Incorreta: 1.200 ms corresponde à terceira tentativa (n = 2), não à quarta.
+- a. Incorreta: 300 ms corresponde à primeira espera da sequência (n = 0), não a n = 3.
+- b. Incorreta: 600 ms corresponde a 300 × 2¹, isto é, à espera de índice n = 1.
+- c. Incorreta: 1.200 ms corresponde à espera de índice n = 2, não a n = 3.
 - d. Incorreta: 4.000 ms é o teto definido, mas o valor calculado (2.400 ms) ainda está abaixo dele.
 - e. Correta: 300 × 2³ = 2.400 ms, valor que ainda está abaixo do teto de 4.000 ms.
 
@@ -604,7 +604,7 @@ e. Cerca de 43 minutos por semana, não por mês.
 **Questão 28** (correta: c)
 - a. Incorreta: eventos também podem falhar ao ser processados; a mensageria não elimina falhas.
 - b. Incorreta: o cliente ainda precisa de alguma forma de acompanhar o resultado, mesmo que não imediata.
-- c. Correta: a principal vantagem de tornar a expedição assíncrona é permitir que seu resultado seja comunicado depois, sem bloquear a resposta inicial ao cliente.
+- c. Correta: a expedição pode ocorrer depois e sem bloquear a resposta inicial, mas reage a `PagamentoAprovado` para preservar as pré-condições de estoque e pagamento.
 - d. Incorreta: contratos entre produtor e consumidor continuam necessários em comunicação assíncrona.
 - e. Incorreta: comunicação assíncrona não garante, por si só, ordenação total dos eventos.
 

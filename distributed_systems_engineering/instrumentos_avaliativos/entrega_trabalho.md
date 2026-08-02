@@ -1,18 +1,20 @@
 # Entrega de Trabalho (PBL) — Distributed Systems Engineering
 
-> Roteiro para elaboração com **Problem-Based Learning**.
+> **Arquivo-mestre de produção.** A Parte A é a versão do estudante. A Parte B, ao final, é exclusiva do professor tutor e não pode ser incluída no arquivo distribuído aos estudantes. A versão mestra já foi gerada no modelo institucional; antes da distribuição, devem ser exportadas e aprovadas cópias separadas, com a versão estudantil encerrada antes da Parte B.
 
 - **Disciplina:** Distributed Systems Engineering
 - **Professor-conteudista:** Afonso Cesar Lelis Brandão
 - **Prazo de produção:** 16 de agosto de 2026
 
-> O **CASE** existe para que o estudante entenda a aplicabilidade do conteúdo estudado na realidade do mercado de trabalho.
+> O **caso** existe para que o estudante entenda a aplicabilidade do conteúdo estudado na realidade do mercado de trabalho.
 
 ---
 
+# Parte A — Versão do estudante
+
 ## 1. Título
 
-**Operação Black Friday — Plano de Evolução Arquitetural da NexaOrder para Suportar 10× o Tráfego sem Perder Pedidos**
+**Operação Black Friday: evolução arquitetural da NexaOrder**
 
 ---
 
@@ -20,7 +22,7 @@
 
 > **O quê?** A **NexaOrder**, plataforma fictícia de pedidos, pagamentos e expedição utilizada como fio condutor da disciplina, precisa **evoluir sua arquitetura** para suportar a Black Friday sem indisponibilidade, sem cobrança duplicada e sem perda de pedidos, aplicando os fundamentos de comunicação, tempo/falhas, replicação/consistência, consenso, sagas, arquitetura orientada a eventos, contêineres/Kubernetes, segurança e observabilidade estudados nas 4 unidades.
 >
-> **Quem?** A equipe de engenharia da NexaOrder, uma operação de e-commerce de médio porte que hoje roda como um **monólito modular em uma única região**, com um único banco relacional e sem mensageria. Você foi contratado(a) como **engenheiro(a) de sistemas distribuídos** para liderar o plano de evolução antes do próximo evento.
+> **Quem?** A equipe de engenharia da NexaOrder, uma operação de comércio eletrônico de médio porte que hoje roda como um **monólito modular em uma única região**, com um único banco relacional e sem mensageria. Você foi contratado(a) como **engenheiro(a) de sistemas distribuídos** para liderar o plano de evolução antes do próximo evento.
 >
 > **Quando?** Restam **90 dias** até a Black Friday. O plano de evolução deve estar implantável dentro desse prazo, em fases.
 >
@@ -28,15 +30,15 @@
 >
 > **Por quê?** A Black Friday do ano anterior expôs os limites dessa arquitetura. **Indicadores do incidente anterior (diagnóstico)**:
 >
-> - **Tráfego de pico observado:** picos de **6.000 requisições por segundo** durante 40 minutos, contra uma capacidade sustentada atual de **600 requisições por segundo** (3 instâncias × 200 req/s) — um fator de **10×**.
-> - **Disponibilidade atual:** 99,5% mês a mês, equivalente a **≈ 3h36min de indisponibilidade por mês**; meta contratual para o próximo evento: **99,95%** (≈ 21,9 minutos por mês).
+> - **Tráfego de pico observado:** picos de **6.000 requisições por segundo** durante 40 minutos, contra uma capacidade sustentada atual de **600 requisições por segundo** (3 instâncias × 200 requisições/s) — um fator de **10×**.
+> - **Disponibilidade atual:** 99,5% mês a mês, equivalente a **3h36min de indisponibilidade em uma janela de 30 dias**; meta contratual para o próximo evento: **99,95%**, equivalente a **21min36s na mesma janela**.
 > - **Cobrança duplicada:** em picos anteriores, **2% das chamadas ao provedor de pagamento sofreram timeout**; sem idempotência, isso gerou cobrança duplicada em **cerca de 0,3% dos pedidos** do dia — o equivalente a centenas de estornos manuais.
 > - **Ponto único de falha de dados:** o banco relacional único não tem réplica; uma falha nele derruba pedidos, estoque, pagamento e expedição simultaneamente.
 > - **Sem isolamento de falhas:** quando o provedor de pagamento ficou lento por 8 minutos, as chamadas síncronas represaram threads em todos os serviços a jusante, e o site inteiro ficou inacessível — não apenas o pagamento.
-> - **Sem observabilidade distribuída:** não há tracing entre serviços; o diagnóstico do incidente levou mais de 3 horas porque a equipe precisou correlacionar logs manualmente.
-> - **Orçamento de infraestrutura aprovado para o evento:** até **4× o custo mensal atual de infraestrutura**, não mais que isso.
+> - **Sem observabilidade distribuída:** não há rastreamento entre serviços; o diagnóstico do incidente levou mais de 3 horas porque a equipe precisou correlacionar registros manualmente.
+> - **Orçamento de infraestrutura aprovado para o evento:** até **4× o custo mensal atual de infraestrutura**, não mais que isso. Como o caso não fornece preços unitários nem a composição integral da fatura, o estudante deverá declarar as premissas de custo e apresentar cenários ou limites, sem alegar um valor exato que os dados não permitam calcular.
 >
-> **Sua missão como engenheiro(a) de sistemas distribuídos:** propor e justificar tecnicamente um **plano de evolução arquitetural completo e defensável** para a NexaOrder suportar a Black Friday, integrando os fundamentos das 4 unidades da disciplina (comunicação/tempo/falhas, dados distribuídos/consenso, serviços/eventos/cloud-native, operação/observabilidade/resiliência), com diagnóstico, arquitetura-alvo dimensionada numericamente, plano de migração faseado e evidências de que a arquitetura proposta atende às metas.
+> **Sua missão como engenheiro(a) de sistemas distribuídos:** propor e justificar tecnicamente um **plano de evolução arquitetural completo e defensável** para a NexaOrder suportar a Black Friday, integrando os fundamentos das 4 unidades da disciplina (comunicação/tempo/falhas, dados distribuídos/consenso, serviços/eventos/plataformas nativas de nuvem, operação/observabilidade/resiliência), com diagnóstico, arquitetura-alvo dimensionada numericamente, plano de migração faseado e evidências de que a arquitetura proposta atende às metas.
 
 ---
 
@@ -45,56 +47,65 @@
 O estudante deverá pesquisar como a indústria projeta e opera sistemas distribuídos de alta escala:
 
 1. **Material da disciplina** — as 16 aulas, com ênfase na Unidade 1 (comunicação, tempo, modelos de falha), Unidade 2 (replicação, particionamento, CAP, consenso, sagas), Unidade 3 (decomposição em serviços, eventos, Kubernetes, segurança) e Unidade 4 (observabilidade, testes de resiliência, engenharia do caos).
-2. **KLEPPMANN, M. Designing Data-Intensive Applications.** Sebastopol: O'Reilly Media, 2017 — replicação, particionamento e consistência.
-3. **Apache Kafka Documentation** — <https://kafka.apache.org/documentation/> — tópicos, partições, grupos de consumidores e semânticas de entrega.
-4. **Kubernetes Documentation** — <https://kubernetes.io/docs/> — Deployments, HPA (Horizontal Pod Autoscaler), reconciliação e escalonamento.
-5. **Raft Consensus Algorithm** — <https://raft.github.io/> — eleição de líder e replicação de log para o componente de coordenação.
-6. **Google SRE Book** — <https://sre.google/sre-book/table-of-contents/> — SLI, SLO, orçamento de erro e prática de observabilidade.
-7. **OpenTelemetry Documentation** — <https://opentelemetry.io/docs/> — instrumentação e tracing distribuído.
-8. **Casos reais de picos sazonais** — relatos públicos de engenharia de grandes varejistas e marketplaces sobre preparação para eventos de pico (ex.: postmortems e blogs de engenharia de empresas de e-commerce), usados como referência de ordens de grandeza e práticas de mercado.
+2. KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O’Reilly Media, 2017 — fonte bibliográfica secundária para replicação, particionamento e consistência.
+3. APACHE SOFTWARE FOUNDATION. *Apache Kafka documentation*. [S. l.], [s. d.]. Disponível em: <https://kafka.apache.org/documentation/>. Acesso em: 1 ago. 2026 — fonte técnica primária.
+4. KUBERNETES AUTHORS. *Kubernetes documentation*. [S. l.], [s. d.]. Disponível em: <https://kubernetes.io/docs/>. Acesso em: 1 ago. 2026 — fonte técnica primária.
+5. ONGARO, Diego; OUSTERHOUT, John. In search of an understandable consensus algorithm. In: USENIX ANNUAL TECHNICAL CONFERENCE, 2014, Philadelphia. *Proceedings [...]*. Berkeley: USENIX Association, 2014. p. 305-319. Disponível em: <https://raft.github.io/raft.pdf>. Acesso em: 1 ago. 2026 — artigo primário sobre Raft.
+6. BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (ed.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016. Disponível em: <https://sre.google/sre-book/table-of-contents/>. Acesso em: 1 ago. 2026.
+7. OPENTELEMETRY AUTHORS. *OpenTelemetry documentation*. [S. l.], [s. d.]. Disponível em: <https://opentelemetry.io/docs/>. Acesso em: 1 ago. 2026 — fonte técnica primária.
+8. **Caso real selecionado pelo estudante** — relato público, identificável e referenciado conforme a ABNT, produzido por uma equipe de engenharia sobre preparação para pico sazonal. Não basta citar genericamente “blogs de empresas”.
 
-**Aulas relacionadas:** todas as 16 servem de insumo. Em ordem de relevância: Aula 1 (escalabilidade horizontal, disponibilidade, dimensionamento), Aula 2 (comunicação síncrona/assíncrona, timeouts, idempotência), Aula 4 (circuit breaker, bulkhead), Aulas 5–8 (replicação, CAP, consenso, sagas), Aulas 9–11 (decomposição de serviços, eventos, Kubernetes), Aula 12 (segurança entre serviços), Aulas 13–14 (observabilidade, testes de resiliência e caos).
+As fontes 3, 4, 5 e 7 constituem o conjunto mínimo de quatro fontes técnicas primárias. O estudante pode substituí-las por fontes primárias equivalentes, desde que justifique a escolha e apresente a referência completa.
+
+**Aulas relacionadas:** todas as 16 servem de insumo. Em ordem de relevância: Aula 1 (escalabilidade horizontal, disponibilidade, dimensionamento), Aula 2 (comunicação síncrona/assíncrona, *timeouts*, idempotência), Aula 4 (*circuit breaker*, *bulkhead*), Aulas 5–8 (replicação, CAP, consenso, sagas), Aulas 9–11 (decomposição de serviços, eventos, Kubernetes), Aula 12 (segurança entre serviços), Aulas 13–14 (observabilidade, testes de resiliência e caos).
 
 ---
 
-## 4. Entregável e distribuição da pontuação
+## 4. Componentes avaliativos, submissão e pontuação
 
-Sua entrega final da disciplina **Distributed Systems Engineering** será composta por **3 entregáveis obrigatórios**. O objetivo é elaborar um **plano de evolução arquitetural** baseado nos fundamentos das 4 unidades, demonstrando capacidade de diagnosticar os limites da arquitetura atual, propor mecanismos técnicos dimensionados numericamente e construir um plano de migração faseado, dentro do orçamento — com os **números calculados e demonstrados passo a passo**, e não estimados "no olho".
+A avaliação possui **três componentes obrigatórios**: parte teórica (25%), parte prática com memorial de cálculo (50%) e vídeo de apresentação (25%). Para a submissão, o estudante enviará **um PDF único**, contendo as partes teórica e prática e o memorial como anexo, e **um link para o vídeo** ao final desse PDF.
+
+O objetivo é elaborar um **plano de evolução arquitetural** baseado nos fundamentos das 4 unidades, demonstrando capacidade de diagnosticar os limites da arquitetura atual, propor mecanismos técnicos dimensionados numericamente e construir um plano de migração faseado, dentro do orçamento. Os números devem ser calculados e demonstrados passo a passo, e não estimados sem fundamentação.
 
 ### 1. Parte Teórica — (25% da nota)
 
 Desenvolva um **relatório técnico em PDF** contendo:
 
-- Diagnóstico da **arquitetura atual da NexaOrder** e dos seus pontos de falha (capacidade sustentada, ponto único de falha de dados, ausência de isolamento entre serviços, ausência de observabilidade), com dados verificáveis do case.
+- Diagnóstico da **arquitetura atual da NexaOrder** e dos seus pontos de falha (capacidade sustentada, ponto único de falha de dados, ausência de isolamento entre serviços, ausência de observabilidade), com dados verificáveis do caso.
 - **Modelo de falha** esperado para o evento: quais componentes podem falhar, de que forma (parada, omissão, temporização) e qual o impacto em cascata caso não haja isolamento.
-- Fundamentação teórica das soluções propostas, utilizando os conceitos das 4 unidades e as referências pesquisadas (Kleppmann, documentação de Kafka/Kubernetes, Raft, SRE Book).
+- Fundamentação teórica das soluções propostas, utilizando os conceitos das 4 unidades e as referências pesquisadas.
 
 ### 2. Parte Prática — (50% da nota)
 
 Desenvolva uma **proposta técnica completa** para a evolução da NexaOrder contemplando, no mínimo:
 
-- **Dimensionamento de capacidade, com cálculo numérico**: número mínimo de instâncias sem estado necessárias para o pico de 6.000 req/s com margem operacional.
+- **Dimensionamento de capacidade, com cálculo numérico**: número mínimo de instâncias sem estado necessárias para o pico de 6.000 requisições/s com margem operacional.
 - **Estratégia de dados**: replicação (fator de replicação, quóruns de leitura/escrita) e particionamento do catálogo/estoque, com justificativa de consistência (forte, causal ou eventual) por domínio de dado.
 - **Coordenação**: onde e por que aplicar consenso (ex.: reserva de estoque, eleição de líder de um serviço crítico), com estimativa de quóruns e tolerância a falhas de nós.
-- **Comunicação assíncrona e sagas**: migração do fluxo pedido→estoque→pagamento→expedição de chamadas síncronas para uma saga orientada a eventos, com padrão outbox, idempotência e ações compensatórias; dimensionamento do número de partições de tópicos com base na taxa de eventos esperada.
-- **Isolamento de falhas e Kubernetes**: aplicação de circuit breaker/bulkhead nas chamadas ao provedor de pagamento; estratégia de autoscaling (HPA) em Kubernetes para absorver o pico dentro do orçamento aprovado.
-- **Observabilidade e SLOs**: definição de SLIs/SLOs para o fluxo de checkout, cálculo do orçamento de erro compatível com a meta de 99,95%, e plano de tracing distribuído.
+- **Comunicação assíncrona e sagas**: migração do fluxo pedido→estoque→pagamento→expedição de chamadas síncronas para uma saga orientada a eventos, com padrão *outbox*, idempotência e ações compensatórias; dimensionamento do número de partições de tópicos com base na taxa de eventos esperada.
+- **Isolamento de falhas e Kubernetes**: aplicação de *circuit breaker* e *bulkhead* nas chamadas ao provedor de pagamento; estratégia de escalonamento automático (HPA) em Kubernetes para absorver o pico dentro do orçamento aprovado.
+- **Observabilidade e SLOs**: definição de SLIs/SLOs para o fluxo de finalização da compra, cálculo do orçamento de erro compatível com a meta de 99,95% e plano de rastreamento distribuído.
 - **Plano de teste de resiliência**: um experimento de engenharia do caos (hipótese de estado estável, raio de impacto, mecanismo de interrupção) simulando a indisponibilidade do provedor de pagamento antes do evento real.
-- **Memorial de cálculo** — **anexo obrigatório** com os cálculos que **sustentam** numericamente as decisões do plano, cada um com **fórmula, substituição dos dados do case e resultado**, demonstrado passo a passo. No mínimo:
+- **Memorial de cálculo** — **anexo obrigatório do PDF** com os cálculos que sustentam numericamente as decisões do plano, cada um com **fórmula, substituição dos dados do caso, premissas e resultado**, demonstrado passo a passo. No mínimo:
   - **(a) Dimensionamento de instâncias** — aplicar
     $$
     N = \left\lceil \frac{\lambda_{\text{pico}}}{C_{\text{instância}} \times U_{\text{alvo}}} \right\rceil
     $$
-    aos 6.000 req/s de pico do case, com a capacidade de 200 req/s por instância e a utilização-alvo escolhida (justificar a escolha entre 60% e 80%).
-  - **(b) Disponibilidade e orçamento de erro** — calcular quantos minutos de indisponibilidade a meta de 99,95% permite por mês e comparar com os ≈ 3h36min observados na arquitetura atual (99,5%).
-  - **(c) Dimensionamento de partições de tópico** — estimar o número mínimo de partições do tópico de eventos de pedido a partir da taxa de eventos de pico e de uma vazão-alvo por partição (definida e justificada pelo estudante), com margem de crescimento.
-  - **(d) (opcional) Quórum de replicação** — para um fator de replicação escolhido (ex.: 3 réplicas), definir W e R que garantam leitura consistente ($W + R > N$) e justificar o compromisso de latência versus consistência resultante.
+    aos 6.000 requisições/s de pico do caso, com a capacidade de 200 requisições/s por instância e a utilização-alvo escolhida (justificar a escolha entre 60% e 80%).
+  - **(b) Disponibilidade e orçamento de erro** — usar uma janela de 30 dias para calcular quantos minutos de indisponibilidade as metas de 99,5% e 99,95% permitem; comparar, respectivamente, 216 minutos e 21,6 minutos.
+  - **(c) Dimensionamento de partições de tópico** — primeiro estimar a taxa de eventos por meio de
+    $$
+    \lambda_{\text{eventos}} = \lambda_{\text{HTTP}} \times p_{\text{pedidos}} \times e_{\text{eventos por pedido}},
+    $$
+    declarando e justificando a proporção de requisições que representa pedidos e o número médio de eventos por pedido. Depois, dividir pela vazão-alvo por partição e acrescentar margem de crescimento. **Não se deve equiparar automaticamente 6.000 requisições HTTP/s a 6.000 eventos/s.**
+  - **(d) Cenário de custo** — expressar o custo mensal como soma do custo de base com o custo adicional ponderado pelas horas de pico. Como faltam preços unitários, apresentar as premissas e uma análise de sensibilidade que demonstre em quais condições o teto relativo de 4× é respeitado.
+  - **(e) (opcional) Quórum de replicação** — para um fator de replicação escolhido (por exemplo, 3 réplicas), definir W e R que satisfaçam $W + R > N$ no modelo simplificado adotado e justificar as hipóteses, a latência e os limites dessa garantia.
 
 A proposta poderá conter diagramas de arquitetura, fluxogramas da saga, tabelas comparativas antes/depois e demais representações gráficas que auxiliem na comunicação da solução. **Rastreabilidade:** os resultados do memorial devem ser **citados e discutidos** no documento técnico — não basta anexar a conta solta.
 
-### 3. Vídeo Pitch — (25% da nota)
+### 3. Vídeo de apresentação — (25% da nota)
 
-Grave um **vídeo de até 5 minutos**, simulando uma apresentação técnica para a diretoria da NexaOrder, defendendo o plano desenvolvido. O vídeo deverá apresentar:
+Grave um **vídeo de até 5 minutos**, simulando uma apresentação técnica para a diretoria da NexaOrder e defendendo o plano desenvolvido. O vídeo deverá apresentar:
 
 - Contextualização do problema (incidente do ano anterior: indisponibilidade, cobrança duplicada, ponto único de falha).
 - Justificativa das **prioridades** do plano (o que muda primeiro e por quê) e do faseamento em 90 dias.
@@ -104,47 +115,11 @@ Grave um **vídeo de até 5 minutos**, simulando uma apresentação técnica par
 
 O vídeo deverá ser publicado no **YouTube (modo não listado)** ou em outra plataforma de hospedagem, e o **link deverá ser inserido ao final do PDF**. Antes da submissão, verifique se o link está correto e acessível para a correção.
 
-**Critérios qualitativos transversais:** **clareza** e organização do texto e dos diagramas; **profundidade técnica** (não generalidades sobre "usar microsserviços"); **realismo** dos números (capacidade, orçamento de infraestrutura, disponibilidade); **coerência interna** (diagnóstico → arquitetura-alvo → migração → evidências alinhados); **rastreabilidade** (os cálculos do memorial devem usar os números do case e ser citados no documento); e **integração** dos conceitos das 4 unidades (não tratar replicação, eventos, Kubernetes e observabilidade como tópicos isolados).
+**Critérios qualitativos transversais:** **clareza** e organização do texto e dos diagramas; **profundidade técnica** (não generalidades sobre “usar microsserviços”); **realismo** dos números (capacidade, orçamento de infraestrutura, disponibilidade); **coerência interna** (diagnóstico → arquitetura-alvo → migração → evidências alinhados); **rastreabilidade** (os cálculos do memorial devem usar os dados e as premissas declaradas e ser citados no documento); e **integração** dos conceitos das 4 unidades.
 
 ---
 
-## 5. Solução
-
-> **Atenção:** este tópico será removido antes do case ser disponibilizado ao aluno — é apenas para o professor tutor que corrigirá.
-
-**Diagnóstico esperado:** arquitetura atual subdimensionada para o pico (600 req/s de capacidade contra 6.000 req/s de pico — fator 10×), com ponto único de falha no banco de dados, acoplamento síncrono sem isolamento (a lentidão do pagamento derruba todo o site) e ausência de observabilidade distribuída, exatamente os problemas discutidos nas Unidades 1, 2 e 4.
-
-**Dimensionamento de capacidade esperado:** aplicando
-$$
-N = \left\lceil \frac{\lambda_{\text{pico}}}{C_{\text{instância}} \times U_{\text{alvo}}} \right\rceil
-$$
-com $\lambda_{\text{pico}} = 6.000$, $C_{\text{instância}} = 200$ e $U_{\text{alvo}} = 0{,}70$:
-$$
-N = \left\lceil \frac{6.000}{200 \times 0{,}70} \right\rceil = \left\lceil 42{,}86 \right\rceil = 43 \text{ instâncias}
-$$
-— cerca de **14× a capacidade atual** de 3 instâncias, o que é compatível com um autoscaling agressivo em Kubernetes durante a janela de pico e retorno ao patamar normal depois. O plano deve deixar claro que 43 é o **pico simultâneo**, não o custo médio do mês — o orçamento de 4× o custo atual deve ser calculado sobre o custo médio ponderado pelas horas de pico, não pelo pico constante.
-
-**Disponibilidade e orçamento de erro esperados:** 99,5% permite ≈ 3h36min de indisponibilidade por mês, exatamente o que a NexaOrder vinha tolerando; 99,95% reduz essa margem para ≈ 21,9 minutos por mês. Isso exige eliminar o ponto único de falha do banco (via replicação com failover automático) e isolar falhas do provedor de pagamento (circuit breaker), pois qualquer indisponibilidade não planejada consome rapidamente o orçamento de erro do mês.
-
-**Estratégia de dados esperada (U2):** réplicas do banco (ex.: fator de replicação 3, uma réplica em outra zona de disponibilidade), com leitura majoritária para o catálogo (tolerante a consistência eventual) e escrita/leitura com quórum mais forte para estoque e pagamento (onde a leitura obsoleta causa overselling). Para $N=3$, um quórum como $W=2, R=2$ garante $W+R>N$ e leitura consistente com tolerância a 1 réplica fora do ar.
-
-**Coordenação esperada (U2):** uso de consenso (ex.: um serviço de reserva de estoque baseado em máquina de estados replicada) para evitar duas vendas simultâneas do último item — a NexaOrder já viu esse problema na Aula 1 da Unidade 1. Eleição de líder garante que apenas um nó decide reservas em um dado momento.
-
-**Sagas e eventos esperados (U2 + U3):** o fluxo pedido→estoque→pagamento→expedição migra de chamadas HTTP síncronas em cadeia para uma **saga orquestrada ou coreografada** publicando eventos em tópicos particionados por `pedido_id` (garantindo ordenação por pedido); padrão **outbox** no serviço de pedidos evita perda de eventos; **idempotência** por identificador de operação elimina a cobrança duplicada observada (2% de timeouts não devem mais gerar 0,3% de cobranças duplicadas, pois reenvios passam a ser deduplicados). Dimensionamento de partições: para 6.000 eventos/s de pico e uma vazão-alvo de, por exemplo, 1.000 eventos/s por partição, o mínimo é 6 partições; com margem de crescimento, 8 a 12 partições é uma escolha defensável.
-
-**Isolamento e Kubernetes esperados (U3):** circuit breaker nas chamadas ao provedor de pagamento evita que a lentidão dele derrube os demais serviços; bulkhead separa os pools de conexão por dependência; HPA em Kubernetes escala os serviços sem estado a partir de métricas de fila/latência, respeitando o teto orçamentário de 4× o custo mensal médio.
-
-**Observabilidade e teste de resiliência esperados (U4):** SLI de latência (p95 do checkout) e de taxa de erro, com SLO alinhado a 99,95% e orçamento de erro correspondente; tracing distribuído (OpenTelemetry) correlacionando pedido→estoque→pagamento→expedição, reduzindo o tempo de diagnóstico de 3 horas para minutos; um experimento de caos controlado — injetar indisponibilidade simulada no provedor de pagamento em ambiente de teste, com hipótese de estado estável ("o restante do site continua respondendo") e raio de impacto limitado — deve ser executado **antes** do evento real, não durante.
-
-**Plano de migração esperado (90 dias):** faseamento típico — Fase 1 (semanas 1–3): observabilidade e SLOs, para medir o ponto de partida; Fase 2 (semanas 3–7): réplicas de dados e quórum, saga com outbox e idempotência; Fase 3 (semanas 6–10): circuit breaker/bulkhead, HPA e ajuste de capacidade; Fase 4 (semanas 10–13): teste de carga e experimento de caos controlado antes do evento.
-
-**Resposta de alta qualidade** demonstra: números realistas e calculados (instâncias, orçamento de erro, partições); coerência entre diagnóstico, arquitetura-alvo, migração e evidências; integração efetiva das 4 unidades (a saga depende da replicação, que depende da observabilidade para ser validada); tratamento sério de riscos residuais; e plano de migração compatível com o prazo e o orçamento do case.
-
-**Resposta de baixa qualidade** comumente apresenta: "trocar tudo para microsserviços" sem dimensionamento numérico; ignorar o orçamento de infraestrutura de 4×; propor consistência forte em tudo sem discutir o custo de latência; esquecer idempotência (não resolvendo o problema real de cobrança duplicada do case); e não conectar observabilidade/testes de caos ao restante do plano.
-
----
-
-## Roteiro do Estudante
+## Roteiro do estudante
 
 ### 1. Leia o desafio
 
@@ -153,45 +128,116 @@ Sua primeira tarefa é entender o desafio proposto. Leia o cenário da **Operaç
 - **Quem** é a NexaOrder e qual é a arquitetura atual (monólito modular, 3 instâncias, banco único, comunicação síncrona)?
 - **Qual** é a dor mais clara do incidente anterior (fator 10× de tráfego, cobrança duplicada, indisponibilidade em cascata)?
 - **Quais** restrições foram colocadas (90 dias, orçamento de até 4× o custo mensal, meta de 99,95% de disponibilidade)?
-- **Onde** estão os gargalos hoje (capacidade de 600 req/s, ponto único de falha no banco, ausência de isolamento e de observabilidade)?
+- **Onde** estão os gargalos hoje (capacidade de 600 requisições/s, ponto único de falha no banco, ausência de isolamento e de observabilidade)?
 
-Tome **notas estruturadas** dos indicadores atuais (600 req/s vs. 6.000 req/s de pico, 99,5% vs. 99,95% de disponibilidade, 2% de timeouts de pagamento, 0,3% de cobrança duplicada). Esses números são sua **base argumentativa**.
+Tome **notas estruturadas** dos indicadores atuais (600 requisições/s contra 6.000 requisições/s de pico, 99,5% contra 99,95% de disponibilidade, 2% de *timeouts* de pagamento e 0,3% de cobrança duplicada). Esses números são sua **base argumentativa**. Separe dados fornecidos pelo caso de premissas que você precisar adotar.
 
-### 2. Fontes de Pesquisa
+### 2. Fontes de pesquisa
 
 Antes de propor a solução, reúna referências e ancore seus números:
 
 - **Releia** as Unidades 1 a 4 — todas são insumo direto (comunicação e falhas, replicação e consenso, serviços e eventos, observabilidade e resiliência).
-- **Aprofunde** os conceitos que vai aplicar: fórmula de dimensionamento de instâncias, cálculo de disponibilidade e orçamento de erro, quóruns de replicação ($W + R > N$), dimensionamento de partições de tópico, padrão saga com outbox e idempotência, circuit breaker/bulkhead, SLI/SLO e engenharia do caos — todos demonstrados **passo a passo** no memorial de cálculo.
+- **Aprofunde** os conceitos que vai aplicar: fórmula de dimensionamento de instâncias, cálculo de disponibilidade e orçamento de erro, quóruns de replicação ($W + R > N$), dimensionamento de partições de tópico, padrão saga com *outbox* e idempotência, *circuit breaker*, *bulkhead*, SLI/SLO e engenharia do caos — todos demonstrados **passo a passo** no memorial de cálculo.
 - **Consulte** a documentação oficial de Kafka e Kubernetes, o algoritmo Raft e o Google SRE Book para embasar as escolhas técnicas.
-- **Pesquise** ordens de grandeza de mercado para eventos de pico sazonal (relatos públicos de engenharia de e-commerce) e ancore seu orçamento de infraestrutura.
+- **Pesquise** ordens de grandeza de mercado para eventos de pico sazonal em relatos públicos de equipes de engenharia de comércio eletrônico e fundamente suas premissas de infraestrutura.
 
 Não esqueça de trazer um **exemplo concreto** de como outra empresa se preparou para um pico de tráfego sazonal semelhante.
 
 ### 3. Entrega
 
-Estruture o **documento técnico (PDF, 14-20 páginas)** assim:
+Como orientação editorial desta atividade, estruture o **documento técnico em PDF, com 14 a 20 páginas antes dos anexos**, assim:
 
 1. **Capa e sumário executivo** (1 página) — 5 linhas com a recomendação central.
-2. **Diagnóstico da arquitetura atual e do incidente anterior** (2-3 páginas) — números do case, pontos de falha, causa-raiz da cobrança duplicada.
-3. **Arquitetura-alvo** (4-6 páginas) — replicação e consenso, saga orientada a eventos, isolamento de falhas (circuit breaker/bulkhead), Kubernetes/autoscaling, observabilidade e SLOs, com dimensionamento numérico.
+2. **Diagnóstico da arquitetura atual e do incidente anterior** (2 a 3 páginas) — números do caso, pontos de falha, causa-raiz da cobrança duplicada.
+3. **Arquitetura-alvo** (4 a 6 páginas) — replicação e consenso, saga orientada a eventos, isolamento de falhas (*circuit breaker* e *bulkhead*), Kubernetes, escalonamento automático, observabilidade e SLOs, com dimensionamento numérico.
 4. **Plano de migração em 90 dias** (2 páginas) — fases, dependências entre fases, marcos de validação.
-5. **Plano de teste de resiliência** (1-2 páginas) — experimento de engenharia do caos antes do evento.
-6. **Riscos residuais e monitoramento durante o evento** (1-2 páginas).
+5. **Plano de teste de resiliência** (1 a 2 páginas) — experimento de engenharia do caos antes do evento.
+6. **Riscos residuais e monitoramento durante o evento** (1 a 2 páginas).
 7. **Referências** — fontes consultadas, ABNT.
 
-Além do PDF e do vídeo pitch, entregue o **memorial de cálculo** que sustenta os seus números. Reúna nele, no mínimo: (a) o **dimensionamento de instâncias** para o pico de 6.000 req/s; (b) o **cálculo de disponibilidade e orçamento de erro** para a meta de 99,95%; e (c) o **dimensionamento de partições** do tópico de eventos de pedido. Regras: cada cálculo com **fórmula, substituição dos dados do case e resultado**, organizado de forma legível; os resultados precisam aparecer e ser discutidos no documento técnico (não basta anexar a conta solta). Lembre: a matemática vai escrita de forma clara, **passo a passo**.
+Inclua no mesmo PDF, como anexo, o **memorial de cálculo** que sustenta os seus números. Reúna nele, no mínimo: (a) o dimensionamento de instâncias para o pico de 6.000 requisições/s; (b) o cálculo de disponibilidade e orçamento de erro; (c) o dimensionamento de partições a partir de uma taxa de eventos derivada e justificada; e (d) o cenário de custo. Cada cálculo deve apresentar fórmula, dados, premissas, substituição e resultado. Os resultados precisam aparecer e ser discutidos no corpo do documento.
 
-Para o **vídeo pitch (até 5 minutos)**:
+Para o **vídeo de apresentação (até 5 minutos)**:
 
 - Abra com **a recomendação central** e o problema (fator 10× de tráfego, cobrança duplicada, indisponibilidade em cascata).
 - Mostre o diagnóstico e as prioridades do plano com 2–3 números fortes.
 - Apresente as soluções e os **principais cálculos do memorial** (instâncias, orçamento de erro, partições) em alto nível.
-- Feche com o **plano de 90 dias**, o orçamento respeitado e os riscos residuais.
+- Feche com o **plano de 90 dias**, a viabilidade orçamentária sob as premissas declaradas e os riscos residuais.
 - Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF** — confira se está acessível.
 
 **Dica final:** capriche na **defesa numérica**. Uma diretoria não aprova ideia bonita — aprova plano com **números defensáveis**. Cada decisão (número de instâncias, fator de replicação, quórum, número de partições) deve estar ancorada em cálculo ou referência técnica, não em opinião — e o **memorial de cálculo** é a sua prova de que o número foi de fato calculado, não chutado.
 
-Esse projeto é seu **portfólio final** — o tipo de plano que se apresenta a lideranças técnicas para defender decisões de arquitetura de sistemas distribuídos. **Capricha**.
+Esse projeto é seu **portfólio final** — o tipo de plano que se apresenta a lideranças técnicas para defender decisões de arquitetura de sistemas distribuídos. **Capriche**.
 
 Boa entrega!
+
+---
+
+# Parte B — Versão exclusiva do professor tutor
+
+> **NÃO DISTRIBUIR AOS ESTUDANTES.** Esta parte contém a solução esperada e a orientação de correção. Ao gerar a versão do estudante, encerrar o documento em “Boa entrega!”. Ao gerar a versão do tutor, incluir as Partes A e B e aplicar o modelo institucional.
+
+## Solução esperada e critérios de correção
+
+**Diagnóstico esperado:** a arquitetura atual sustenta 600 requisições/s e enfrenta pico de 6.000 requisições/s, portanto está subdimensionada por um fator de 10 antes mesmo da margem operacional. Também apresenta ponto único de falha no banco, acoplamento síncrono sem isolamento e ausência de observabilidade distribuída.
+
+**Dimensionamento de capacidade esperado:** aplicando
+
+$$
+N = \left\lceil \frac{\lambda_{\text{pico}}}{C_{\text{instância}} \times U_{\text{alvo}}} \right\rceil
+$$
+
+com $\lambda_{\text{pico}} = 6.000$, $C_{\text{instância}} = 200$ e $U_{\text{alvo}} = 0{,}70$:
+
+$$
+N = \left\lceil \frac{6.000}{200 \times 0{,}70} \right\rceil
+  = \left\lceil 42{,}86 \right\rceil
+  = 43 \text{ instâncias}.
+$$
+
+O resultado corresponde ao pico simultâneo sob as premissas simplificadas de capacidade homogênea e distribuição uniforme da carga. Ele não comprova, sozinho, que o teto de custo de 4× será atendido. A resposta deve separar capacidade de pico de custo mensal e explicitar limitações como composição do tráfego, gargalos de banco e dependências externas.
+
+**Disponibilidade e orçamento de erro esperados:** em uma janela de 30 dias, há 43.200 minutos. Assim:
+
+- 99,5% permite $43.200 \times 0{,}005 = 216$ minutos, ou 3h36min;
+- 99,95% permite $43.200 \times 0{,}0005 = 21{,}6$ minutos, ou 21min36s.
+
+A resposta deve usar a mesma janela para as duas metas e relacionar a redução do orçamento de erro à remoção de pontos únicos de falha, à recuperação automática e ao isolamento de dependências.
+
+**Estratégia de dados esperada:** uma proposta defensável pode adotar fator de replicação 3 distribuído entre zonas, comutação automática testada e políticas diferentes por domínio. Catálogo descritivo pode tolerar consistência eventual; estoque e registro interno de pagamentos exigem garantias mais fortes. No modelo simplificado de quórum, $N=3$, $W=2$ e $R=2$ satisfazem $W+R>N$. O estudante deve declarar que essa desigualdade pressupõe conjuntos de réplicas sobrepostos e não substitui a análise do protocolo real.
+
+**Coordenação, pagamento e idempotência:** consenso pode ser justificado para uma máquina de estados replicada ou para eleição de líder em uma função crítica. Consistência do estado interno não impede, por si só, cobrança duplicada em um provedor externo. A solução deve combinar chave de idempotência, consulta/reconciliação do estado do pagamento e consumo idempotente de eventos.
+
+**Sagas e eventos:** o fluxo pedido→estoque→pagamento→expedição pode migrar para uma saga orquestrada ou coreografada. O padrão *outbox* evita a gravação do estado sem o registro transacional do evento; uma chave como `pedido_id` preserva a ordenação por pedido dentro de uma partição.
+
+A taxa de eventos deve ser derivada, e não copiada da taxa HTTP. Exemplo meramente ilustrativo: se 20% das 6.000 requisições/s iniciarem pedidos e cada pedido produzir, em média, quatro eventos principais, então
+
+$$
+\lambda_{\text{eventos}} = 6.000 \times 0{,}20 \times 4 = 4.800 \text{ eventos/s}.
+$$
+
+Com vazão-alvo de 1.000 eventos/s por partição, o mínimo matemático seria 5 partições; 8 poderia ser escolhido como margem operacional. Outros resultados são aceitáveis quando as premissas e a fonte da vazão forem justificadas.
+
+**Custo esperado:** como o caso não fornece preços, a resposta deve trabalhar com cenários. Uma forma aceitável é modelar
+
+$$
+C_{\text{mês}}
+= C_{\text{fixo}}
++ \sum_j N_j \times h_j \times c_{\text{instância-hora}}
++ C_{\text{dados}}
++ C_{\text{mensageria}},
+$$
+
+variar os custos desconhecidos e demonstrar em quais cenários $C_{\text{mês}} \leq 4 \times C_{\text{atual}}$. Não se deve conceder pontuação integral a uma afirmação de compatibilidade orçamentária sem premissas.
+
+**Isolamento e Kubernetes:** *circuit breaker* reduz tentativas contra uma dependência degradada; *bulkhead* isola os recursos usados para cada dependência; HPA ajusta o número desejado de réplicas com métricas e limites. A resposta deve considerar também a capacidade do *cluster*, o banco, a mensageria e os limites orçamentários, pois HPA não cria capacidade física ilimitada.
+
+**Observabilidade:** são aceitas formulações distintas, desde que SLI e SLO sejam mensuráveis e coerentes. Exemplos: (a) SLI de proporção de finalizações bem-sucedidas em até 3 segundos, com SLO de 99% em 30 dias; ou (b) SLI de latência p95, com SLO de p95 inferior a 3 segundos. Não misturar percentil e proporção na mesma definição. O rastreamento distribuído deve correlacionar o pedido entre serviços.
+
+**Teste de resiliência:** o experimento deve começar em ambiente controlado, definir hipótese de estado estável, raio de impacto, métricas e mecanismo de interrupção. Uma boa proposta injeta indisponibilidade ou latência no pagamento e verifica se navegação, carrinho e consulta de pedidos permanecem dentro de seus SLOs.
+
+**Plano de migração esperado:** um faseamento defensável pode iniciar por instrumentação e SLOs; seguir para replicação, idempotência e *outbox*; depois introduzir isolamento e escalonamento; e terminar com testes de carga, recuperação e caos antes do evento. Fases podem se sobrepor se dependências e critérios de saída forem claros.
+
+**Resposta de alta qualidade:** apresenta premissas rastreáveis, cálculos reproduzíveis, coerência entre diagnóstico, arquitetura, migração e evidências, além de riscos residuais e limites das soluções.
+
+**Resposta de baixa qualidade:** recomenda “migrar tudo para microsserviços” sem dimensionamento; confunde tráfego HTTP com taxa de eventos; declara que o orçamento será respeitado sem premissas; propõe consistência forte em tudo sem discutir latência; ou trata consenso como substituto da idempotência de pagamentos.

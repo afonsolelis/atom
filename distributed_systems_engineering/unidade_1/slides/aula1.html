@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 1 — Pensar distribuído: conceitos, propriedades e compromissos · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,137 +672,137 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Aula 1 — Pensar distribuído: conceitos, propriedades e compromissos</h1>
       <div class="subtitulo">Unidade 1 — Fundamentos, comunicação, tempo e falhas</div>
@@ -809,33 +810,45 @@
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano. O conteúdo aparece em cartões claros. Há cinco recursos visuais: um mapa conceitual dos quatro elementos que definem um sistema distribuído; um fluxo da compra na NexaOrder passando por pedidos, estoque, pagamento e expedição; um quadro comparativo entre escala vertical e horizontal; um painel numérico com o dimensionamento de instâncias e o custo de cada nove de disponibilidade; e uma linha do tempo de uma cobrança cuja resposta se perde na rede.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Pensar distribuído: conceitos, propriedades e compromissos</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>O que é um sistema distribuído?</li>
+          <li>O que caracteriza um sistema distribuído</li>
           <li>Por que distribuir: escalabilidade, disponibilidade e geografia</li>
-          <li>Propriedades que mudam o raciocínio: concorrência e falhas parciais</li>
-          <li>Métricas: latência, throughput, disponibilidade, confiabilidade</li>
-          <li>Estilos arquiteturais: cliente-servidor, camadas, peer-to-peer, serviços</li>
-          <li>Exemplo numérico: quantas instâncias para o pico de tráfego</li>
+          <li>Dimensionamento: da intuição à hipótese verificável</li>
+          <li>Propriedades que mudam o raciocínio de projeto</li>
+          <li>Transparência e o risco de esconder a rede</li>
+          <li>Métricas que não devem ser confundidas</li>
+          <li>Estilos arquiteturais iniciais</li>
+          <li>Decisão arquitetural: requisito, mecanismo, compromisso e evidência</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,19 +856,81 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Caracterizar</strong> um sistema distribuído a partir de pluralidade, autonomia, comunicação e coordenação.</li>
+          <li><strong>Justificar</strong> uma decisão de distribuição a partir de um requisito concreto, e não de tendência tecnológica.</li>
+          <li><strong>Estimar</strong> capacidade e disponibilidade com fórmulas simples, transformando intuição em hipótese verificável.</li>
+          <li><strong>Distinguir</strong> latência, throughput, disponibilidade e confiabilidade como dimensões diferentes.</li>
+          <li><strong>Reconhecer</strong> concorrência, ausência de estado global e falhas parciais como propriedades inerentes, não defeitos.</li>
+          <li><strong>Registrar</strong> decisões arquiteturais explicitando benefício, custo e evidência.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Situação-problema</p>
+      <h2>Quando crescer deixa de ser apenas adicionar servidores</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A NexaOrder nasceu em um único servidor: interface, regras de negócio e banco compartilhavam o mesmo ambiente. Com o crescimento das vendas, a equipe criou novas instâncias e separou catálogo, estoque, pagamento e expedição. A capacidade subiu — e apareceram comportamentos que ninguém programou:</p>
+        <ul>
+          <li>Dois clientes compraram <strong>o último item</strong> do estoque.</li>
+          <li>Uma cobrança foi processada <strong>mesmo após a interface informar erro</strong>.</li>
+          <li>O painel de operações exibiu <strong>estados diferentes</strong> para o mesmo pedido.</li>
+          <li>Nenhum desses incidentes veio de programação descuidada: são <strong>propriedades da distribuição</strong>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O que é um sistema distribuído?</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Componentes computacionais <strong>autônomos</strong> que se comunicam por rede e coordenam ações para um objetivo comum. Não existe memória global instantânea nem relógio perfeito compartilhado.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Componentes computacionais <strong>autônomos</strong> que se comunicam por rede e coordenam ações para um objetivo comum. Por definição, não há memória global instantânea nem relógio perfeito acessível a todos.</p>
         <ul>
-          <li><strong>Pluralidade</strong>: mais de um processo, máquina ou nó participante.</li>
-          <li><strong>Autonomia</strong>: cada participante executa e pode falhar independentemente.</li>
-          <li><strong>Comunicação</strong> por mensagens + <strong>coordenação</strong> das ações.</li>
-          <li>Exemplo: na NexaOrder, "comprar" é uma operação para o cliente, mas uma sequência de mensagens entre pedidos, estoque, pagamento e expedição.</li>
+          <li><strong>Pluralidade</strong> — há mais de um processo, contêiner, máquina ou nó participante.</li>
+          <li><strong>Autonomia</strong> — cada participante executa e pode falhar de forma independente.</li>
+          <li><strong>Comunicação</strong> — a cooperação acontece por mensagens transmitidas pela rede.</li>
+          <li><strong>Coordenação</strong> — o resultado depende da combinação das ações dos participantes.</li>
+        </ul>
+        <div class="callout-azul"><p>O determinante não é a distância física, e sim a <strong>separação entre participantes</strong> com comunicação não instantânea. Um sistema é distribuído mesmo dentro de um único datacenter — e várias funções no mesmo processo não formam, por si só, um sistema distribuído.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Uma operação para o cliente, quatro serviços para a arquitetura</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Para quem compra, existe um único botão: <strong>comprar</strong>. Para a arquitetura, existe uma sequência de mensagens, estados intermediários e pontos de falha independentes.</p>
+        <ul>
+          <li><strong>Pedidos</strong> registra a intenção do cliente e coordena o restante do fluxo.</li>
+          <li><strong>Estoque</strong> reserva a unidade e responde se a reserva foi possível.</li>
+          <li><strong>Pagamento</strong> solicita autorização a um provedor externo à NexaOrder.</li>
+          <li><strong>Expedição</strong> prepara o envio depois que os passos anteriores convergem.</li>
         </ul>
       </div>
     </div>
@@ -863,19 +938,21 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Por que distribuir?</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Distribuir não é um objetivo isolado — é resposta a requisitos que uma arquitetura centralizada não atende:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Distribuir não é um objetivo isolado — é resposta a requisitos que uma arquitetura centralizada não atende de forma satisfatória.</p>
         <ul>
-          <li><strong>Escalabilidade</strong>: vertical (mais CPU/memória em uma máquina) vs <strong>horizontal</strong> (mais instâncias) — a horizontal exige coordenação e replicação.</li>
-          <li><strong>Disponibilidade</strong>: redundância só protege se as instâncias não compartilharem o mesmo ponto de falha.</li>
-          <li><strong>Distribuição geográfica</strong>: reduz latência, mas exige decidir quando uma atualização se torna visível.</li>
-          <li><strong>Autonomia organizacional</strong>: equipes evoluem partes do produto de forma independente, se os limites forem bem definidos.</li>
+          <li><strong>Escalabilidade</strong> — sustentar crescimento de carga sem degradação incompatível com os objetivos do serviço.</li>
+          <li><strong>Disponibilidade</strong> — manter o serviço acessível quando um componente falha.</li>
+          <li><strong>Proximidade geográfica</strong> — reduzir latência e atender exigências de residência de dados.</li>
+          <li><strong>Autonomia organizacional</strong> — permitir que equipes evoluam partes do produto em ritmos diferentes.</li>
+          <li><strong>Integração entre organizações</strong> — cooperar com sistemas que não estão sob seu controle.</li>
+          <li><strong>Uso eficiente de recursos</strong> — dimensionar cada capacidade conforme a demanda que ela realmente recebe.</li>
         </ul>
       </div>
     </div>
@@ -883,18 +960,20 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Propriedades que mudam o raciocínio</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Escala vertical e escala horizontal</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Concorrência</strong>: componentes trabalham ao mesmo tempo — pode haver disputa por recursos compartilhados (dois pedidos "veem" o último item disponível).</li>
-          <li><strong>Ausência de estado global instantâneo</strong>: cada componente só vê o que já chegou até ele; visões diferentes podem ser coerentes localmente.</li>
-          <li><strong>Falhas parciais</strong>: um componente pode falhar enquanto outro funciona — silêncio pode significar várias coisas diferentes.</li>
-          <li><strong>Heterogeneidade</strong>: linguagens, bancos e versões diferentes convivem; contratos de interface tornam-se parte do sistema.</li>
+          <li><strong>Vertical</strong>: aumentar CPU, memória ou armazenamento de <em>uma</em> máquina. Operacionalmente simples.</li>
+          <li><strong>Horizontal</strong>: aumentar o número de instâncias que dividem o trabalho. Amplia capacidade por paralelismo.</li>
+          <li>Limite da vertical: barreiras <strong>físicas e econômicas</strong> — sempre existe uma máquina maior, até não existir mais.</li>
+          <li>Preço da horizontal: distribuição de requisições, <strong>concorrência, replicação e coordenação</strong>.</li>
+          <li>A relação <strong>raramente é linear</strong>: o banco pode virar gargalo e o balanceamento tem custo próprio.</li>
+          <li>Parte da carga <strong>não paraleliza</strong> — trechos que exigem coordenação limitam o ganho total.</li>
         </ul>
       </div>
     </div>
@@ -902,56 +981,66 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Métricas que não devem ser confundidas</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Latência</strong>: tempo para concluir uma operação. Percentis (p95) são mais informativos que médias.</li>
-          <li><strong>Throughput</strong>: trabalho concluído por unidade de tempo (pedidos/segundo).</li>
-          <li><strong>Disponibilidade</strong>: o serviço consegue atender? (pode responder e ainda estar funcionalmente indisponível).</li>
-          <li><strong>Confiabilidade</strong>: produzir resultados corretos de forma sustentada — desempenho e correção precisam ser avaliados juntos.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Estilos arquiteturais iniciais</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Cliente-servidor</strong>: clientes solicitam, servidores fornecem. Limite: um servidor pode concentrar capacidade.</li>
-          <li><strong>Em camadas</strong>: apresentação, aplicação, domínio, dados — não exige distribuição física por si só.</li>
-          <li><strong>Peer-to-peer</strong>: participantes atuam como cliente e servidor ao mesmo tempo; reduz dependência de um ponto central.</li>
-          <li><strong>Serviços</strong>: capacidades de negócio expostas por contratos — sem coesão e baixo acoplamento, vira "monólito distribuído".</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Exemplo numérico: quantas instâncias para o pico?</h2>
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quantas instâncias sustentam o pico?</h2>
       <div class="slide-content-box">
-        <p>Uma instância da NexaOrder processa <strong>200 req/s</strong>; o pico exige <strong>800 req/s</strong>, com utilização-alvo de <strong>70%</strong>:</p>
+        <p>Estimar antes de escalar transforma uma decisão intuitiva em <strong>hipótese verificável</strong>. O número mínimo de instâncias parte da taxa de chegada no pico, da capacidade medida de uma instância e da utilização-alvo:</p>
+        <div class="callout-azul formula"><p>N = ⌈ λ<sub>pico</sub> ÷ ( C<sub>instância</sub> × U<sub>alvo</sub> ) ⌉</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">800</span><span class="legenda">requisições/s no pico (λ)</span></div>
+          <div class="stat-card"><span class="numero-grande">200</span><span class="legenda">req/s por instância (C)</span></div>
+          <div class="stat-card"><span class="numero-grande">70%</span><span class="legenda">utilização-alvo (U)</span></div>
+          <div class="stat-card"><span class="numero-grande">6</span><span class="legenda">instâncias (⌈5,71⌉)</span></div>
+        </div>
+        <p>A ingenuidade seria dividir 800 por 200 e provisionar 4 instâncias. A utilização-alvo de 70% existe justamente para <strong>não operar continuamente no limite</strong>. E a conta não substitui teste de carga: ela indica onde começar a medir.</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Disponibilidade: o preço de cada nove</h2>
+      <div class="slide-content-box">
+        <p>Disponibilidade é a proporção de tempo em que o serviço cumpre sua função: <strong>A = tempo operacional ÷ tempo total observado</strong>. Cada nove adicional custa redundância, automação, observabilidade e recuperação.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Disponibilidade</th><th>Indisponibilidade em 30 dias</th><th>O que ela exige na prática</th></tr></thead>
+          <tbody>
+            <tr><td>99%</td><td>≈ 7 h 12 min</td><td>Redundância básica e recuperação manual</td></tr>
+            <tr><td>99,9%</td><td>≈ 43 min</td><td>Múltiplas instâncias e desvio automático de tráfego</td></tr>
+            <tr><td>99,99%</td><td>≈ 4 min 19 s</td><td>Zonas independentes, automação e ensaio de falhas</td></tr>
+            <tr><td>99,999%</td><td>≈ 26 s</td><td>Investimento raramente justificável fora de domínios críticos</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Redundância só protege se as instâncias <strong>não compartilharem o mesmo ponto de falha</strong>. Duas instâncias no mesmo host não protegem contra a queda desse host.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Geografia e autonomia organizacional</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>N = ⌈ λ<sub>pico</sub> ÷ (C<sub>instância</sub> × U<sub>alvo</sub>) ⌉</li>
-          <li>N = ⌈ 800 ÷ (200 × 0,70) ⌉ = ⌈ 5,71 ⌉ = <strong>6 instâncias</strong>.</li>
-          <li>A margem evita operar continuamente no limite — mas a conta não substitui teste de carga: o banco pode virar gargalo.</li>
+          <li><strong>Proximidade reduz latência</strong> — posicionar recursos perto do usuário encurta o caminho da rede.</li>
+          <li><strong>Residência de dados</strong> — algumas informações precisam permanecer em uma jurisdição específica.</li>
+          <li><strong>Preço da cópia</strong> — é preciso decidir quando uma atualização se torna visível nas demais regiões.</li>
+          <li><strong>Conflitos e partições</strong> — o projeto define o que acontece durante uma interrupção entre regiões.</li>
+          <li><strong>Autonomia de equipes</strong> — serviços separados permitem implantar e evoluir partes independentemente.</li>
+          <li><strong>Monólito distribuído</strong> — se toda mudança exige coordenação simultânea, há distribuição técnica sem autonomia real.</li>
         </ul>
       </div>
     </div>
@@ -960,19 +1049,167 @@
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Distribuir não é um objetivo isolado. É uma resposta a requisitos que uma arquitetura centralizada não atende de forma satisfatória."</blockquote>
+      <blockquote>“Distribuir não é um objetivo isolado. É uma resposta a requisitos que uma arquitetura centralizada não atende de forma satisfatória.”</blockquote>
       <cite>— síntese da Aula 1</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Propriedades que mudam o raciocínio</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Concorrência</strong> — componentes trabalham ao mesmo tempo e disputam recursos. Não basta a operação estar correta isolada: é preciso analisar quais ordens de execução preservam as invariantes.</li>
+          <li><strong>Sem estado global instantâneo</strong> — cada componente só vê o que já chegou até ele. Duas visões diferentes podem ser coerentes com as observações locais de cada um.</li>
+          <li><strong>Falhas parciais</strong> — um componente pode falhar enquanto outro funciona. Mensagem atrasada e serviço parado produzem o mesmo sintoma: silêncio.</li>
+          <li><strong>Heterogeneidade</strong> — linguagens, bancos, protocolos e versões convivem. Contratos e compatibilidade passam a fazer parte do sistema.</li>
+        </ul>
+        <div class="callout-azul"><p>Divergência não é sinônimo de erro. O projeto define <strong>quais estados podem divergir, por quanto tempo e com qual mecanismo de convergência</strong>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>O silêncio ambíguo: cinco leituras de um mesmo timeout</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Após um timeout na autorização de pagamento, a NexaOrder <strong>não sabe</strong> o que aconteceu do outro lado. Todas as hipóteses abaixo produzem exatamente o mesmo sintoma:</p>
+        <ul>
+          <li>A requisição <strong>não chegou</strong> ao provedor.</li>
+          <li>Chegou, mas <strong>ainda não foi processada</strong>.</li>
+          <li>Foi processada e a <strong>resposta se perdeu</strong>.</li>
+          <li><strong>Continua em execução</strong> neste momento.</li>
+          <li><strong>Falhou</strong> antes de produzir qualquer efeito.</li>
+        </ul>
+        <div class="callout-azul"><p>Repetir sem proteção pode gerar <strong>cobrança duplicada</strong>; desistir de imediato pode <strong>abandonar uma compra válida</strong>. A saída passa por idempotência, identificação de operações, consulta de estado e reconciliação — temas das próximas aulas.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Transparência: útil para o usuário, perigosa para o projeto</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Esconder localização, replicação e migração melhora a experiência externa. Esconder a rede do <strong>raciocínio interno</strong> do engenheiro produz projetos frágeis: uma chamada remota não é uma chamada local.</p>
+        <ul>
+          <li>Tem latência <strong>maior e variável</strong>.</li>
+          <li>Pode <strong>falhar sem que o destino tenha falhado</strong>.</li>
+          <li>Pode <strong>produzir efeito sem retornar confirmação</strong>.</li>
+          <li>Depende de <strong>serialização</strong> dos dados trafegados.</li>
+          <li>Atravessa <strong>limites de segurança</strong> e de organização.</li>
+          <li>Pode ser <strong>repetida</strong> e exige compatibilidade de contrato.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Quatro métricas que não devem ser confundidas</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Latência</strong> — tempo para concluir uma operação. Médias escondem casos ruins; p95 de 300 ms significa que 5% das observações demoraram mais que isso.</li>
+          <li><strong>Throughput</strong> — trabalho concluído por unidade de tempo, como pedidos por segundo.</li>
+          <li><strong>Disponibilidade</strong> — o serviço consegue atender? Um endpoint pode responder e ainda estar funcionalmente indisponível.</li>
+          <li><strong>Confiabilidade</strong> — produzir resultados corretos de forma sustentada. Responder rápido e duplicar cobranças não é confiabilidade.</li>
+        </ul>
+        <div class="callout-azul"><p>Aumentar concorrência eleva o throughput <strong>até que algum recurso sature</strong>. Depois do joelho da curva, as filas crescem e a latência sobe de forma abrupta — desempenho e correção precisam ser avaliados em conjunto.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Estilos arquiteturais iniciais</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Estilo</th><th>Como organiza o fluxo</th><th>Onde aparece o limite</th></tr></thead>
+          <tbody>
+            <tr><td>Cliente-servidor</td><td>Clientes solicitam; servidores fornecem recursos</td><td>Um servidor concentra capacidade e disponibilidade</td></tr>
+            <tr><td>Em camadas</td><td>Apresentação, aplicação, domínio e dados</td><td>Separar cada camada por rede acrescenta latência e falhas</td></tr>
+            <tr><td>Peer-to-peer</td><td>Participantes atuam como cliente e servidor</td><td>Descoberta, confiança e consistência ficam mais difíceis</td></tr>
+            <tr><td>Serviços</td><td>Capacidades de negócio expostas por contratos</td><td>Sem coesão e baixo acoplamento, vira monólito distribuído</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Camadas ajudam a separar interesses, mas <strong>não exigem distribuição física</strong>. Distribuir uma camada precisa ser decisão justificada, não consequência do desenho.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Decisão arquitetural: benefício, custo e evidência</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="cycle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma decisão madura não afirma apenas que “microsserviços escalam” ou que “a nuvem garante disponibilidade”. Ela encadeia quatro elementos:</p>
+        <ul>
+          <li><strong>Requisito</strong> — processar 800 pedidos por segundo no pico.</li>
+          <li><strong>Decisão</strong> — manter múltiplas instâncias sem estado atrás de um balanceador.</li>
+          <li><strong>Compromisso</strong> — sessões locais deixam de ser confiáveis e o banco pode virar gargalo.</li>
+          <li><strong>Evidência</strong> — teste de carga com p95 abaixo do objetivo e falha controlada de uma instância.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>Quando a resposta madura é não distribuir</h2>
+      <div class="slide-content-box">
+        <p>Um sistema interno é usado por <strong>30 funcionários</strong>, processa poucas solicitações, opera em horário comercial e tolera alguns minutos de indisponibilidade. A equipe propõe dividi-lo em 20 microsserviços, com mensageria, múltiplos bancos e Kubernetes.</p>
+        <ul>
+          <li>Quais <strong>requisitos</strong> justificariam essa distribuição?</li>
+          <li>Quais <strong>custos operacionais</strong> seriam introduzidos?</li>
+          <li>Que <strong>alternativa intermediária</strong> preservaria modularidade sem multiplicar falhas de rede?</li>
+          <li>Quais <strong>métricas</strong> deveriam ser coletadas antes de decidir?</li>
+        </ul>
+        <div class="callout-azul"><p>Uma resposta tecnicamente madura pode recomendar um <strong>monólito modular</strong>. Engenharia distribuída também consiste em reconhecer quando não distribuir.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -980,10 +1217,12 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Definição</h3><p>Sistemas distribuídos combinam componentes autônomos que coordenam ações por mensagens, sem memória global instantânea.</p></div>
-          <div class="ponto"><h3>Requisito, não moda</h3><p>Escalabilidade horizontal, disponibilidade e autonomia trazem benefícios, mas introduzem coordenação e novos modos de falha.</p></div>
-          <div class="ponto"><h3>Propriedades novas</h3><p>Concorrência, ausência de estado global instantâneo e falhas parciais mudam o raciocínio de projeto.</p></div>
-          <div class="ponto"><h3>Decisão explícita</h3><p>Toda decisão arquitetural deve explicitar requisito, mecanismo, compromisso e evidência.</p></div>
+          <div class="ponto"><h3>Definição</h3><p>Componentes autônomos que coordenam ações por mensagens, sem memória global instantânea nem relógio perfeito.</p></div>
+          <div class="ponto"><h3>Requisito, não moda</h3><p>Escalabilidade, disponibilidade e autonomia trazem benefícios e introduzem coordenação e novos modos de falha.</p></div>
+          <div class="ponto"><h3>Propriedades novas</h3><p>Concorrência, ausência de estado global e falhas parciais mudam o raciocínio de projeto, não apenas o código.</p></div>
+          <div class="ponto"><h3>Métricas distintas</h3><p>Latência, throughput, disponibilidade e confiabilidade medem dimensões diferentes e não se substituem.</p></div>
+          <div class="ponto"><h3>A rede não some</h3><p>Transparência simplifica a experiência do usuário; para o engenheiro, chamada remota nunca é chamada local.</p></div>
+          <div class="ponto"><h3>Decisão explícita</h3><p>Toda decisão arquitetural registra requisito, mecanismo, compromisso e evidência de validação.</p></div>
         </div>
       </div>
     </div>
@@ -991,20 +1230,23 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
+      <h2>Mãos à obra: registro de decisão arquitetural</h2>
       <div class="slide-content-box">
-        <p>Elabore um <strong>registro de decisão arquitetural</strong> para a NexaOrder:</p>
+        <p>Elabore um <strong>registro de decisão arquitetural</strong> de uma página para a NexaOrder. O texto precisa permitir que outra pessoa entenda por que a decisão foi tomada.</p>
         <ul>
-          <li>Selecione um requisito: capacidade, disponibilidade ou expansão geográfica.</li>
-          <li>Descreva o estado atual e proponha uma decisão de distribuição.</li>
-          <li>Liste ao menos <strong>3 benefícios</strong> e <strong>3 custos/riscos</strong> introduzidos.</li>
-          <li>Defina duas métricas e um experimento de validação; represente a solução em um diagrama simples.</li>
+          <li><strong>1.</strong> Selecione um requisito: capacidade, disponibilidade ou expansão geográfica.</li>
+          <li><strong>2.</strong> Descreva o estado atual da aplicação.</li>
+          <li><strong>3.</strong> Proponha uma decisão de distribuição.</li>
+          <li><strong>4.</strong> Liste pelo menos três benefícios esperados.</li>
+          <li><strong>5.</strong> Liste pelo menos três custos ou riscos introduzidos.</li>
+          <li><strong>6.</strong> Defina duas métricas e um experimento de validação.</li>
         </ul>
+        <div class="callout-azul"><p><strong>7.</strong> Represente a solução em um diagrama simples, indicando os componentes envolvidos e por onde passa a comunicação.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 1 — Videoaula 1</span></div>
@@ -1012,18 +1254,18 @@
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já entende o que caracteriza um sistema distribuído e os compromissos da distribuição. Na próxima aula, tratamos de como esses componentes se comunicam: APIs, RPC e mensageria.</p>
-      <p class="fim-proxima">Próxima aula: Aula 2.</p>
+      <p class="fim-texto">Você já reconhece o que caracteriza um sistema distribuído, sabe justificar a distribuição a partir de um requisito e identifica os compromissos que ela introduz. Na próxima aula, o foco passa a ser como esses componentes conversam: APIs, RPC e mensageria.</p>
+      <p class="fim-proxima">Próxima aula: Aula 2 — Comunicação entre processos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1037,6 +1279,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1058,6 +1301,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1068,6 +1313,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

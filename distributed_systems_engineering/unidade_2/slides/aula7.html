@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 7 — Consenso, eleição de líder e Raft · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Consenso, eleição de líder e Raft</h1>
+      <h1>Aula 7 — Consenso, eleição de líder e Raft</h1>
       <div class="subtitulo">Unidade 2 — Dados distribuídos, consistência e coordenação</div>
-      <div class="docente">Distributed Systems Engineering · Prof. Afonso Cesar Lelis Brandão</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um painel numérico com a tolerância a falhas de um cluster de cinco nós; uma tabela comparando clusters de três, cinco e sete nós; uma linha do tempo de eleição mostrando temporizadores aleatórios expirando em instantes diferentes; um ciclo de replicação do Raft, do recebimento da operação à aplicação na máquina de estados; e um painel com a latência mínima de confirmação em cenários regional e intercontinental.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Consenso, eleição de líder e Raft</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema do consenso</li>
-          <li>Maioria e quórum (f = ⌊(N−1)/2⌋)</li>
-          <li>Máquina de estados replicada e eleição de líder</li>
+          <li>O problema do consenso: válido, uniforme e irrevogável</li>
+          <li>Maioria e quórum: quantas falhas um cluster tolera</li>
+          <li>Máquina de estados replicada</li>
+          <li>Eleição de líder e temporizadores aleatórios</li>
           <li>Termos, log replicado e confirmação</li>
-          <li>Segurança e disponibilidade no Raft</li>
-          <li>Pausa para reflexão: cluster em três zonas</li>
+          <li>Segurança e progresso no Raft</li>
+          <li>Consenso e CAP: o lado minoritário</li>
+          <li>Limites e custos do consenso</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,137 +856,310 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Enunciar</strong> o problema do consenso pelas três propriedades que a decisão precisa satisfazer.</li>
+          <li><strong>Calcular</strong> quantas falhas um cluster de N nós tolera mantendo maioria.</li>
+          <li><strong>Explicar</strong> por que clusters de consenso usam número ímpar de nós.</li>
+          <li><strong>Descrever</strong> a eleição de líder do Raft e o papel dos temporizadores aleatórios.</li>
+          <li><strong>Distinguir</strong> segurança de progresso, e reconhecer que só o progresso depende de maioria ativa.</li>
+          <li><strong>Dimensionar</strong> o custo de latência de uma confirmação por consenso.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Situação-problema</p>
+      <h2>Quem manda quando o líder some</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O nó líder do estoque na região sul ficou inacessível por falha de rede. A equipe de plantão precisou promover um seguidor manualmente — e <strong>dois operadores, sem se comunicar, promoveram dois nós diferentes</strong> quase ao mesmo tempo.</p>
+        <ul>
+          <li>Por alguns minutos, o sistema teve <strong>dois líderes aceitando escritas</strong>.</li>
+          <li>Parte das reservas feitas nesse intervalo <strong>divergiu entre os dois</strong>.</li>
+          <li>O problema real não era a indisponibilidade do líder.</li>
+          <li>Era: <strong>como um conjunto de nós concorda sozinho</strong> sobre quem é o líder legítimo, mesmo com falhas?</li>
+        </ul>
+        <div class="callout-azul"><p>Resolver consenso manualmente é exatamente o que produz <strong>split-brain</strong>: decisões concorrentes tomadas sem coordenação.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O problema do consenso</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Consenso é fazer um conjunto de nós concordar sobre um único valor, mesmo com falhas, de forma:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Consenso é fazer um conjunto de nós concordar sobre <strong>um único valor</strong>, mesmo na presença de falhas, de modo que a decisão seja:</p>
         <ul>
-          <li><strong>Válida:</strong> o valor decidido foi de fato proposto por algum nó.</li>
-          <li><strong>Uniforme:</strong> todos os nós corretos decidem o mesmo valor.</li>
-          <li><strong>Irrevogável:</strong> uma vez decidido, o valor não muda.</li>
-          <li>Caso NexaOrder: dois operadores promoveram líderes diferentes ao mesmo tempo — <em>split-brain</em>, resolvido manualmente sem coordenação.</li>
+          <li><strong>Válida</strong> — o valor decidido foi de fato proposto por algum nó.</li>
+          <li><strong>Uniforme</strong> — todos os nós corretos decidem o mesmo valor.</li>
+          <li><strong>Irrevogável</strong> — uma vez decidido, o valor não muda.</li>
         </ul>
+        <div class="callout-azul"><p>O problema aparece sempre que o sistema precisa de uma <strong>única fonte de verdade</strong>: qual nó é o líder, qual foi a próxima operação aplicada ao log, qual transação foi confirmada.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Maioria e quórum</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Consenso se apoia no princípio de maioria. Para N nós, falhas toleradas: f = ⌊(N−1)/2⌋.</p>
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Maioria: quantas falhas um cluster tolera</h2>
+      <div class="slide-content-box">
+        <p>Algoritmos como o Raft se apoiam no princípio de maioria: uma decisão só vale quando aceita por <strong>mais da metade</strong> dos nós. É o mesmo quórum da Aula 5, aplicado agora à escolha do líder e às entradas confirmadas do log.</p>
+        <div class="callout-azul formula"><p>f = ⌊ ( N − 1 ) ÷ 2 ⌋</p></div>
         <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">3 nós</span><span class="legenda">f = 1 falha, coordenação mais rápida</span></div>
-          <div class="stat-card"><span class="numero-grande">5 nós</span><span class="legenda">f = 2 falhas, tamanho comum</span></div>
-          <div class="stat-card"><span class="numero-grande">7 nós</span><span class="legenda">f = 3 falhas, mais latência de escrita</span></div>
+          <div class="stat-card"><span class="numero-grande">N = 5</span><span class="legenda">nós no cluster</span></div>
+          <div class="stat-card"><span class="numero-grande">f = 2</span><span class="legenda">falhas toleradas</span></div>
+          <div class="stat-card"><span class="numero-grande">3</span><span class="legenda">nós formam maioria</span></div>
+          <div class="stat-card"><span class="numero-grande">ímpar</span><span class="legenda">tamanho preferido</span></div>
         </div>
-        <p>Número par não ajuda: 6 nós ainda tolera só 2 falhas — por isso clusters de consenso usam número ímpar.</p>
+        <div class="callout-azul"><p>Adicionar um nó <strong>par</strong> não aumenta a tolerância: de 5 para 6, f = ⌊5/2⌋ continua igual a 2 — apenas um nó a mais para coordenar. É por isso que números pares raramente fazem sentido em clusters de consenso.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Máquina de estados replicada e eleição de líder</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Máquina de estados replicada:</strong> todos os nós aplicam a mesma sequência de operações, na mesma ordem — um log replicado.</li>
-          <li>O Raft opera com <strong>um único líder por vez</strong>. Se ele some, seguidores viram candidatos e pedem votos.</li>
-          <li>Cada seguidor tem um <strong>temporizador aleatório</strong> (não fixo) — evita que todos disputem eleição no mesmo instante.</li>
-          <li>Candidato com voto da <strong>maioria</strong> se torna o novo líder.</li>
-        </ul>
+      <h2>Escolhendo o tamanho do cluster</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Nós (N)</th><th>Falhas toleradas (f)</th><th>Maioria exigida</th><th>Compromisso</th></tr></thead>
+          <tbody>
+            <tr><td>3</td><td>1</td><td>2</td><td>Menor fan-out e menor custo; tolera apenas uma falha</td></tr>
+            <tr><td>5</td><td>2</td><td>3</td><td>Equilíbrio comum entre tolerância a falhas e custo de coordenação</td></tr>
+            <tr><td>7</td><td>3</td><td>4</td><td>Mais tolerância; aumenta tráfego, armazenamento e custo operacional</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Como as mensagens são enviadas <strong>em paralelo</strong>, a latência não cresce linearmente com N: ela depende da resposta necessária para <strong>completar o quórum</strong> e da carga adicional introduzida.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Máquina de estados replicada</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>A abstração</strong> — cada nó mantém uma réplica que pode estar temporariamente em um índice diferente do log.</li>
+          <li><strong>A garantia</strong> — réplicas que partem do mesmo estado e aplicam o mesmo prefixo de operações determinísticas na mesma ordem chegam ao mesmo estado.</li>
+          <li><strong>Seguidores atrasados convergem</strong> à medida que recebem e aplicam esse prefixo.</li>
+          <li><strong>A transformação</strong> — o problema de manter réplicas consistentes vira um problema mais restrito: acordo sobre o <strong>prefixo confirmado de um log ordenado</strong>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Eleição de líder</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O Raft elege <strong>no máximo um líder por termo</strong>. Esse líder recebe novas operações e as replica para os seguidores.</p>
+        <ul>
+          <li><strong>1. Silêncio</strong> — os seguidores deixam de receber sinais válidos do líder.</li>
+          <li><strong>2. Temporizadores expiram</strong> — cada seguidor tem um temporizador <em>aleatório</em>, que vence em instante diferente.</li>
+          <li><strong>3. Candidatura</strong> — o primeiro a expirar torna-se candidato e solicita votos.</li>
+          <li><strong>4. Maioria elege</strong> — quem recebe votos da maioria vira líder do novo termo.</li>
+        </ul>
+        <div class="callout-azul"><p>O uso de temporizadores <strong>aleatórios, e não fixos</strong>, é deliberado: se todos disparassem no mesmo instante, poderiam empatar repetidamente e atrasar a formação de um novo líder. Um líder antigo e isolado pode ainda se julgar líder, mas não confirma nada sem maioria e recua ao observar um termo maior.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide slide-quote">
+    <div class="quote-logo">
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+    </div>
+    <div class="quote-shapes" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
+    </div>
+    <div class="quote-card">
+      <blockquote>“A segurança do Raft vale mesmo durante uma partição de rede; a disponibilidade depende de haver, em algum momento, comunicação suficiente entre a maioria dos nós.”</blockquote>
+      <cite>— síntese da Aula 7</cite>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Termos, log replicado e confirmação</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="cycle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O tempo, no Raft, é dividido em <strong>termos</strong> numerados sequencialmente. Cada termo tem no máximo um líder, e toda mensagem carrega o número do termo — permitindo rejeitar ordens de um líder antigo que ainda não percebeu ter sido substituído.</p>
         <ul>
-          <li>O tempo é dividido em <strong>termos</strong> numerados; cada termo tem no máximo um líder.</li>
-          <li>O líder replica operações por mensagens de <em>append entries</em>. Uma entrada é <strong>confirmada</strong> quando replicada pela maioria dos nós.</li>
-          <li>Só depois de confirmada ela é aplicada à máquina de estados e respondida ao cliente.</li>
-          <li>Exemplo: RTT de 4 ms entre zonas → latência mínima ≈ 4 ms para confirmar. Entre continentes (120 ms de RTT), a mesma operação levaria ao menos 120 ms.</li>
+          <li><strong>1. O líder anexa</strong> a nova operação ao log, no termo corrente.</li>
+          <li><strong>2. Replica</strong> aos seguidores por mensagens de <em>append entries</em>.</li>
+          <li><strong>3. Confirma</strong> ao armazenar essa entrada do termo corrente em uma maioria.</li>
+          <li><strong>4. Aplica</strong> à máquina de estados e só então devolve o resultado ao cliente.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Detalhe crítico</p>
+      <h2>Por que uma entrada antiga não se confirma sozinha</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma entrada de <strong>termo anterior</strong> não é confirmada diretamente só porque passou a aparecer em uma maioria.</p>
+        <ul>
+          <li><strong>Ela se torna confirmada indiretamente</strong> quando uma entrada posterior do termo corrente é confirmada.</li>
+          <li><strong>Por quê</strong> — sem essa regra, uma entrada replicada em maioria poderia ainda ser sobrescrita por um líder futuro.</li>
+          <li><strong>Combinada</strong> às restrições de eleição e de consistência do log, ela garante que entradas confirmadas <strong>sobrevivam a trocas de líder</strong>.</li>
+          <li><strong>Consequência prática</strong> — “está na maioria” não é sinônimo de “está confirmado”.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Segurança e disponibilidade no Raft</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Segurança (safety):</strong> no máximo um líder por termo; entrada confirmada nunca se perde. Vale mesmo sob partição de rede.</li>
-          <li><strong>Disponibilidade (liveness):</strong> só se sustenta enquanto a maioria consegue se comunicar.</li>
-          <li>Cluster de 5 dividido em 2 + 3 por partição: só o grupo de <strong>3 (maioria)</strong> elege líder e aceita escritas.</li>
-          <li>Aplicação direta do CAP (Aula 6): o Raft escolhe <strong>consistência (CP)</strong> em vez de disponibilidade do lado minoritário.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Pausa para reflexão</h2>
+      <h2>Segurança e progresso</h2>
       <div class="slide-content-box">
-        <p>Cluster de 5 nós de consenso em 3 zonas — A (2), B (2), C (1). Uma falha isola C totalmente e degrada parcialmente a comunicação entre A e B.</p>
-        <ul>
-          <li>Considerando apenas maioria, quais combinações de nós ainda elegem líder?</li>
-          <li>Que diferença faz distribuir em três zonas em vez de duas?</li>
-          <li>Com apenas 3 nós, qual seria o novo limite de tolerância e o efeito de uma manutenção programada?</li>
-          <li>Que evidência operacional revelaria, em produção, um cluster sem maioria disponível?</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Propriedade</th><th>O que o Raft garante</th><th>De que depende</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Segurança</strong> (safety)</td><td>No máximo um líder por termo; só um líder com maioria confirma entradas; entrada confirmada nunca é perdida ou substituída</td><td>Vale mesmo sob partição de rede ou atraso arbitrário de mensagens</td></tr>
+            <tr><td><strong>Progresso</strong> (liveness)</td><td>O cluster eventualmente elege um líder e continua processando operações</td><td>Exige maioria ativa trocando mensagens com atrasos compatíveis com os timeouts de eleição</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Note a assimetria. Uma maioria apenas “conectada”, mas submetida indefinidamente a atrasos incompatíveis com os temporizadores, <strong>não garante progresso</strong> — as garantias de segurança, porém, permanecem intactas.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
-  </section>
-
-  <section class="slide slide-quote">
-    <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
-    </div>
-    <div class="quote-shapes">
-      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
-    </div>
-    <div class="quote-card">
-      <blockquote>"Consenso não evita falhas — evita que falhas virem decisões conflitantes."</blockquote>
-      <cite>— Unidade 2, Distributed Systems Engineering</cite>
-    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Consenso e CAP: o lado minoritário</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Se um cluster de cinco nós se divide em um grupo de <strong>três</strong> e outro de <strong>dois</strong> por uma partição de rede:</p>
+        <ul>
+          <li><strong>Grupo de três</strong> — é maioria: elege líder e continua aceitando escritas.</li>
+          <li><strong>Grupo de dois</strong> — permanece sem líder até a partição ser resolvida.</li>
+          <li><strong>Nenhum dos dois está “caído”</strong> — ambos operam, apenas isolados.</li>
+          <li><strong>Aplicação direta do CAP</strong> — o Raft escolhe <strong>consistência (CP)</strong> em detrimento da disponibilidade do lado minoritário.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O custo de latência do consenso</h2>
+      <div class="slide-content-box">
+        <p>Cada operação confirmada exige, no mínimo, uma rodada de comunicação entre o líder e seguidores suficientes para formar maioria. Como os envios são paralelos, a latência é determinada pela resposta que <strong>completa o quórum</strong>:</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">4 ms</span><span class="legenda">RTT entre 3 zonas próximas</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 4 ms</span><span class="legenda">confirmação mínima</span></div>
+          <div class="stat-card"><span class="numero-grande">120 ms</span><span class="legenda">RTT intercontinental</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 120 ms</span><span class="legenda">confirmação mínima</span></div>
+        </div>
+        <div class="callout-azul"><p>São <strong>30 vezes</strong> a latência mínima, antes de qualquer processamento. É por isso que clusters de consenso ficam com nós relativamente próximos entre si, ainda que o sistema sirva usuários globais por outras camadas de replicação e cache.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Limites e custos do consenso</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Throughput limitado pelo líder</strong> — é a capacidade dele de processar e replicar que define o teto do grupo.</li>
+          <li><strong>Escala de escrita vem do particionamento</strong> — em vários grupos de consenso, não de múltiplos líderes no mesmo log.</li>
+          <li><strong>Pressupõe falhas de parada ou de rede</strong> — nós que param ou ficam inacessíveis.</li>
+          <li><strong>Não trata falhas bizantinas</strong> — nós que enviam informações deliberadamente incorretas.</li>
+          <li><strong>Consenso bizantino existe</strong> — está fora do escopo desta disciplina, mas é relevante em redes de blockchain público.</li>
+          <li><strong>Consenso não é grátis</strong> — usá-lo onde uma garantia mais fraca bastaria é desperdício de latência.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>Maioria, topologia e disponibilidade real</h2>
+      <div class="slide-content-box">
+        <p>Um cluster de cinco nós está distribuído em três zonas: <strong>duas em A, duas em B, uma em C</strong>. Uma falha isola completamente a zona C e degrada parcialmente a comunicação entre A e B, sem isolá-las por completo.</p>
+        <ul>
+          <li>Considerando apenas o critério de maioria, quais <strong>combinações de nós</strong> ainda elegeriam um líder?</li>
+          <li>Que diferença faz distribuir cinco nós em <strong>três zonas</strong> em vez de concentrá-los em duas?</li>
+          <li>Operando com apenas <strong>três nós</strong>, o que uma manutenção programada que retira um nó significaria?</li>
+          <li>Que <strong>evidência operacional</strong> — métrica, log ou alerta — revelaria que o cluster está sem maioria?</li>
+        </ul>
+        <div class="callout-azul"><p>O objetivo é praticar o raciocínio sobre maioria, topologia física e disponibilidade, retomando o conceito de <strong>zonas independentes de falha</strong> da Unidade 1.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -981,50 +1167,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Consenso</h3><p>Nós concordam sobre um único valor, de forma válida, uniforme e irrevogável, mesmo com falhas.</p></div>
-          <div class="ponto"><h3>Maioria</h3><p>Cluster de N nós tolera f = ⌊(N−1)/2⌋ falhas — por isso o número de nós costuma ser ímpar.</p></div>
-          <div class="ponto"><h3>Raft</h3><p>Elege um líder por termo com temporizadores aleatórios; log confirmado por maioria.</p></div>
-          <div class="ponto"><h3>Safety vs liveness</h3><p>Segurança vale sempre; disponibilidade depende de haver maioria comunicável.</p></div>
+          <div class="ponto"><h3>Três propriedades</h3><p>A decisão de consenso precisa ser válida, uniforme e irrevogável, mesmo com falhas.</p></div>
+          <div class="ponto"><h3>Maioria define tudo</h3><p>Um cluster de N nós tolera ⌊(N−1)/2⌋ falhas; números pares não aumentam a tolerância.</p></div>
+          <div class="ponto"><h3>Log em vez de estado</h3><p>A máquina de estados replicada troca o problema de consistência pelo acordo sobre um log ordenado.</p></div>
+          <div class="ponto"><h3>Um líder por termo</h3><p>Temporizadores aleatórios reduzem empates e aceleram a formação de um novo líder.</p></div>
+          <div class="ponto"><h3>Confirmação tem regra</h3><p>Entradas de termos anteriores só se confirmam indiretamente, junto com uma entrada do termo corrente.</p></div>
+          <div class="ponto"><h3>CP por construção</h3><p>Sob partição, apenas o lado majoritário progride; o minoritário fica sem líder até a rede voltar.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Simule um cluster Raft de cinco nós:</p>
+      <h2>Mãos à obra: simular um cluster Raft</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Simule, em papel ou na ferramenta de sua escolha, um cluster Raft de <strong>cinco nós</strong>. Entregue um diagrama e uma descrição textual curta de cada etapa.</p>
         <ul>
-          <li>Desenhe o cluster e identifique o <strong>líder inicial</strong> no termo 1.</li>
-          <li>Simule a <strong>falha do líder</strong>: descreva a eleição do novo líder e o novo número de termo.</li>
-          <li>Simule <strong>três novas operações</strong> pelo novo líder e o ponto em que cada uma é confirmada.</li>
-          <li>Simule a <strong>recuperação</strong> do nó que falhou e a reconciliação do seu log.</li>
+          <li><strong>1.</strong> Desenhe o cluster e identifique o líder inicial no termo 1.</li>
+          <li><strong>2.</strong> Simule a falha do líder e descreva a sequência até a eleição do novo líder.</li>
+          <li><strong>3.</strong> Indique o novo número de termo resultante dessa eleição.</li>
+          <li><strong>4.</strong> Simule três novas operações e sua replicação aos seguidores.</li>
+          <li><strong>5.</strong> Indique o termo e o ponto exato em que cada operação é considerada confirmada.</li>
+          <li><strong>6.</strong> Simule a volta do nó que falhou e descreva como seu log é reconciliado.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já entende como o Raft resolve consenso, elege líder por maioria e mantém um log replicado seguro. Na próxima aula, fechamos a unidade: transações que atravessam múltiplos serviços sem uma transação global — 2PC, sagas e idempotência.</p>
-      <p class="fim-proxima">Próxima aula: Aula 8.</p>
+      <p class="fim-texto">Você já sabe como um conjunto de nós elege um líder e mantém um log replicado sem intervenção manual — e a que custo. Na última aula da unidade, o problema atravessa os serviços: como manter uma compra coerente quando ela toca quatro bancos de dados independentes?</p>
+      <p class="fim-proxima">Próxima aula: Aula 8 — Transações distribuídas, sagas e idempotência.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1038,6 +1228,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1059,6 +1250,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1069,6 +1262,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

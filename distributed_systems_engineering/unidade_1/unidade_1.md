@@ -43,8 +43,9 @@ Um sistema pode ser distribuído mesmo quando seus componentes estão no mesmo d
 
 Considere uma compra na NexaOrder. O serviço de pedidos registra a intenção do cliente; o serviço de estoque reserva o item; o serviço de pagamento solicita autorização; e o serviço de expedição prepara o envio. Para o cliente, há uma única operação: “comprar”. Para a arquitetura, há uma sequência de mensagens, estados intermediários e possíveis falhas.
 
-> **Recurso visual 1 — Diagrama da NexaOrder:** representar cliente, gateway, pedidos, estoque, pagamento e expedição, com setas de comunicação.  
-> **Texto alternativo:** diagrama mostra um cliente enviando uma compra a um gateway, que se comunica com quatro serviços independentes conectados por rede.
+![diagrama mostra um cliente enviando uma compra a um gateway, que se comunica com quatro serviços independentes conectados por rede](assets/figuras/figura-01-arquitetura-nexaorder.png)
+
+> **Figura 1 — Arquitetura distribuída da NexaOrder.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama mostra um cliente enviando uma compra a um gateway, que se comunica com quatro serviços independentes conectados por rede.
 
 ### Por que distribuir?
 
@@ -137,8 +138,9 @@ Repetir a solicitação sem proteção pode criar cobrança duplicada. Desistir 
 
 Sistemas distribuídos frequentemente combinam linguagens, sistemas operacionais, bancos de dados, protocolos e versões diferentes. Contratos de interface, formatos de serialização e compatibilidade tornam-se parte do sistema. Uma alteração considerada local pode interromper consumidores ainda não atualizados.
 
-> **Recurso visual 2 — Linha do tempo de uma falha ambígua:** mostrar envio da cobrança, processamento no provedor, perda da resposta e timeout no serviço de pedidos.  
-> **Texto alternativo:** linha do tempo evidencia que o pagamento foi processado, mas a resposta se perdeu, levando o serviço solicitante a observar apenas o timeout.
+![linha do tempo evidencia que o pagamento foi processado, mas a resposta se perdeu, levando o serviço solicitante a observar apenas o timeout](assets/figuras/figura-02-falha-ambigua.png)
+
+> **Figura 2 — Linha do tempo de uma falha ambígua.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Linha do tempo evidencia que o pagamento foi processado, mas a resposta se perdeu, levando o serviço solicitante a observar apenas o timeout.
 
 ### Transparência: útil para o usuário, perigosa para o projeto
 
@@ -174,8 +176,9 @@ Disponibilidade indica se o serviço consegue atender. Um endpoint pode responde
 
 Confiabilidade envolve produzir resultados corretos de maneira sustentada. Um sistema que responde rapidamente, mas duplica cobranças, não é confiável. Desempenho e correção precisam ser avaliados em conjunto.
 
-> **Recurso visual 3 — Curva carga versus latência:** mostrar latência relativamente estável antes da saturação e crescimento acentuado após o limite de capacidade.  
-> **Texto alternativo:** gráfico relaciona carga e latência; a latência cresce lentamente até o ponto de saturação e depois aumenta de forma abrupta.
+![gráfico relaciona carga e latência; a latência cresce lentamente até o ponto de saturação e depois aumenta de forma abrupta](assets/figuras/figura-03-carga-latencia.png)
+
+> **Figura 3 — Carga versus latência.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Gráfico relaciona carga e latência; a latência cresce lentamente até o ponto de saturação e depois aumenta de forma abrupta.
 
 ### Estilos arquiteturais iniciais
 
@@ -195,8 +198,9 @@ Participantes podem atuar simultaneamente como clientes e servidores. O estilo r
 
 Capacidades de negócio são expostas por contratos. Serviços podem evoluir e escalar separadamente, desde que possuam coesão e baixo acoplamento. Dividir um sistema sem observar esses limites cria um “monólito distribuído”: muitas chamadas de rede, mas pouca autonomia.
 
-> **Recurso visual 4 — Comparação de estilos:** quadro com cliente-servidor, camadas, peer-to-peer e serviços, destacando fluxo e ponto principal de coordenação.  
-> **Texto alternativo:** quatro pequenos diagramas comparam a organização e o fluxo de comunicação dos estilos arquiteturais apresentados.
+![quatro pequenos diagramas comparam a organização e o fluxo de comunicação dos estilos arquiteturais apresentados](assets/figuras/figura-04-estilos-arquiteturais.png)
+
+> **Figura 4 — Estilos arquiteturais iniciais.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Quatro pequenos diagramas comparam a organização e o fluxo de comunicação dos estilos arquiteturais apresentados.
 
 ### Decisão arquitetural: benefício, custo e evidência
 
@@ -255,7 +259,7 @@ O resultado deve caber em uma página e permitir que outra pessoa compreenda por
 
 ### Roteiro da Videoaula 1 — “Seu sistema cresceu; por que ele ficou menos previsível?”
 
-O roteiro falado e as indicações de edição serão desenvolvidos no arquivo `roteiros_20min.md`, usando a decomposição da NexaOrder como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, usando a decomposição da NexaOrder como demonstração central.
 
 ### Referências da aula
 
@@ -275,7 +279,7 @@ A equipe passou a discutir duas perguntas centrais: quando faz sentido esperar u
 
 ### Comunicação síncrona e assíncrona
 
-Na comunicação **síncrona**, quem solicita uma operação aguarda a resposta antes de continuar. O modelo é fácil de raciocinar: uma chamada, um resultado, controle de fluxo linear. O custo aparece quando o encadeamento é longo: se pedidos chama estoque, que chama pagamento, que chama expedição, a latência percebida pelo cliente tende a se aproximar da soma das latências individuais, e a disponibilidade do fluxo completo se aproxima do produto das disponibilidades de cada etapa. Um serviço lento penaliza todos os que dependem dele de forma síncrona.
+Na comunicação **síncrona**, quem solicita uma operação aguarda a resposta antes de continuar. O modelo é fácil de raciocinar: uma chamada, um resultado, controle de fluxo linear. O custo aparece quando o encadeamento é longo: se pedidos chama estoque, que chama pagamento, que chama expedição, a latência percebida pelo cliente tende a se aproximar da soma das latências do caminho crítico. Em um modelo simplificado no qual todas as etapas são obrigatórias e suas falhas são independentes, a disponibilidade do fluxo é o produto das disponibilidades individuais; dependências compartilhadas e falhas correlacionadas exigem medição conjunta. Um serviço lento penaliza todos os que dependem dele de forma síncrona.
 
 Na comunicação **assíncrona**, quem solicita a operação não aguarda o resultado final. Ele registra a intenção — por exemplo, publicando uma mensagem — e segue em frente. O resultado, quando existir, chega por outro canal: uma notificação, um evento subsequente, uma consulta posterior de status. Esse modelo reduz o acoplamento temporal entre os participantes: o serviço de pagamento pode estar temporariamente indisponível sem impedir que o pedido seja aceito para processamento posterior.
 
@@ -287,14 +291,15 @@ Grande parte da comunicação síncrona entre serviços da NexaOrder ocorre por 
 
 Uma requisição `POST /pedidos` cria um novo pedido e devolve um identificador; uma requisição subsequente `GET /pedidos/{id}` permite consultar o estado atual sem repetir a criação. Os códigos de status HTTP comunicam a semântica do resultado: a faixa 2xx indica sucesso, a 4xx indica erro do cliente (dado inválido, recurso inexistente), e a 5xx indica erro do servidor. Essa convenção evita que cada equipe invente seu próprio vocabulário de erro.
 
-Cada requisição HTTP é, por padrão, autocontida: o servidor não depende de memória de requisições anteriores para interpretá-la. Essa característica facilita balanceamento entre múltiplas instâncias, pois qualquer instância pode atender qualquer requisição. O contrato de uma API orientada a recursos também precisa definir formato de dados, versionamento e comportamento esperado diante de campos desconhecidos — decisões que se tornam mais visíveis na próxima seção.
+Em uma API projetada segundo a restrição **sem estado** (*stateless*) do estilo REST, cada requisição contém as informações necessárias para ser interpretada; o servidor não depende de contexto de sessão mantido entre requisições. Essa é uma decisão arquitetural da API, não uma garantia automática do protocolo HTTP, que também pode transportar interações com estado de sessão. Quando adotada, a restrição facilita o balanceamento entre múltiplas instâncias, pois qualquer instância pode atender qualquer requisição. O contrato da API também precisa definir formato de dados — JSON é comum, mas não obrigatório —, versionamento e comportamento esperado diante de campos desconhecidos.
 
-> **Recurso visual 1 — Fluxo HTTP síncrono do pedido:** representar `POST /pedidos` do cliente ao gateway, chegando ao serviço de pedidos, que aguarda respostas HTTP de estoque e pagamento antes de devolver o status final ao cliente.  
-> **Texto alternativo:** diagrama de sequência mostra chamadas HTTP encadeadas e bloqueantes entre cliente, pedidos, estoque e pagamento até a resposta final.
+![diagrama de sequência mostra chamadas HTTP encadeadas e bloqueantes entre cliente, pedidos, estoque e pagamento até a resposta final](assets/figuras/figura-05-fluxo-http-sincrono.png)
+
+> **Figura 5 — Fluxo HTTP síncrono do pedido.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama de sequência mostra chamadas HTTP encadeadas e bloqueantes entre cliente, pedidos, estoque e pagamento até a resposta final.
 
 ### RPC e contratos de interface
 
-*Remote Procedure Call* (RPC) é outro estilo de comunicação síncrona, mais próximo de uma chamada de função do que de uma manipulação de recursos. Em vez de pensar em URIs e verbos, o desenvolvedor invoca algo como `estoque.reservarItem(pedidoId, itemId, quantidade)`, e um mecanismo de geração de código transforma essa chamada em uma mensagem de rede, envia ao serviço de estoque, aguarda a resposta e a devolve como se fosse um valor de retorno local.
+*Remote Procedure Call* (RPC) é outro estilo de comunicação, mais próximo de uma chamada de função do que de uma manipulação de recursos. Neste exemplo, ele é usado no modo síncrono de requisição e resposta: o desenvolvedor invoca algo como `estoque.reservarItem(pedidoId, itemId, quantidade)`, e um mecanismo de geração de código transforma essa chamada em uma mensagem de rede, envia ao serviço de estoque, aguarda a resposta e a devolve como se fosse um valor de retorno local. Tanto HTTP quanto tecnologias de RPC também podem sustentar interações assíncronas; síncrono e assíncrono descrevem o contrato de interação, não uma propriedade exclusiva do protocolo.
 
 Essa aparência de chamada local é conveniente, mas perigosa se levada ao pé da letra — é exatamente a transparência que a Aula 1 identificou como útil para quem usa o sistema e arriscada para quem o projeta. Uma chamada RPC pode falhar de formas que uma chamada local nunca falha: a rede pode estar indisponível, a mensagem pode se perder, a resposta pode não retornar mesmo que a operação remota tenha sido concluída. Tratar `estoque.reservarItem(...)` como equivalente a uma chamada de função ordinária esconde justamente as decisões que esta unidade discute.
 
@@ -326,14 +331,15 @@ Essa segunda categoria se conecta ao conceito de **evento**: um registro de algo
 
 Essa independência é o principal benefício da mensageria orientada a eventos: novos consumidores podem ser adicionados sem alterar o produtor. O custo é a perda de uma resposta imediata e síncrona — quem publica um evento não sabe, no mesmo instante, se e como os assinantes reagirão.
 
-> **Recurso visual 2 — Fila versus publicação-assinatura:** dois diagramas lado a lado; à esquerda, uma fila com múltiplos consumidores competindo pelas mensagens; à direita, um tópico entregando a mesma mensagem a três assinantes independentes.  
-> **Texto alternativo:** comparação visual entre o padrão de fila, em que cada mensagem vai a um único consumidor, e o padrão de publicação-assinatura, em que cada mensagem é entregue a todos os assinantes do tópico.
+![comparação visual entre o padrão de fila, em que cada mensagem vai a um único consumidor, e o padrão de publicação-assinatura, em que cada mensagem é entregue a todos os assinantes do tópico](assets/figuras/figura-06-fila-pub-sub.png)
+
+> **Figura 6 — Fila versus publicação-assinatura.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Comparação visual entre o padrão de fila, em que cada mensagem vai a um único consumidor, e o padrão de publicação-assinatura, em que cada mensagem é entregue a todos os assinantes do tópico.
 
 ### Timeouts, retries, backoff e jitter
 
 Toda chamada de rede precisa de um limite de espera — um ***timeout***. Sem ele, uma dependência lenta pode reter recursos indefinidamente e propagar lentidão por todo o fluxo, como ocorreu no incidente descrito na situação-problema. Como discutido na Aula 1, um *timeout* não prova que a operação falhou; apenas indica que a resposta não chegou dentro do prazo tolerado.
 
-Diante de um *timeout*, uma estratégia comum é a retentativa (*retry*). Retentar sem cuidado, porém, pode agravar uma sobrecarga: se um serviço já está lento por excesso de carga, receber uma nova onda de tentativas repetidas de todos os clientes ao mesmo tempo tende a piorar a situação — um efeito conhecido como *thundering herd*.
+Diante de um *timeout* ou de outra falha **transitória e retentável**, uma estratégia possível é a retentativa (*retry*). Ela só deve ser aplicada quando ainda houver prazo no orçamento da operação e quando repetir a chamada for seguro — por ser naturalmente idempotente ou por usar uma chave de idempotência. Erros permanentes, como validações 4xx, prazo já esgotado ou sinais de sobrecarga podem exigir falha imediata ou controle de admissão, e não uma nova tentativa. Retentar sem cuidado pode agravar uma sobrecarga: se um serviço já está lento por excesso de carga, receber uma nova onda de tentativas de todos os clientes ao mesmo tempo tende a piorar a situação — um efeito conhecido como *thundering herd*.
 
 Duas técnicas mitigam esse risco:
 
@@ -358,7 +364,7 @@ n = 3 \Rightarrow 1600\,\mathrm{ms}; \quad
 n = 4 \Rightarrow 3200\,\mathrm{ms}
 $$
 
-Sem o teto $t_{\text{máx}}$, a quinta tentativa ultrapassaria $6\,\mathrm{s}$; com ele, o crescimento é limitado a partir de determinado ponto, evitando esperas impraticáveis para quem aguarda uma resposta. O *jitter* soma alguns milissegundos ou segundos aleatórios a cada um desses valores, espalhando as tentativas no tempo mesmo quando muitos clientes falharam simultaneamente.
+Sem o teto $t_{\text{máx}}$, a espera de índice $n=5$ — a sexta da sequência iniciada em $n=0$ — seria de $6{,}4\,\mathrm{s}$; com ele, o crescimento é limitado a partir de determinado ponto, evitando esperas impraticáveis para quem aguarda uma resposta. O *jitter* soma alguns milissegundos ou segundos aleatórios a cada um desses valores, espalhando as tentativas no tempo mesmo quando muitos clientes falharam simultaneamente.
 
 Nenhuma dessas técnicas resolve, por si só, o problema da retentativa: se a operação já produziu efeito no destino, repeti-la pode causar duplicação. Essa é a função da idempotência.
 
@@ -376,12 +382,13 @@ Considere as duas alternativas que a equipe da NexaOrder avalia para a criação
 
 No **fluxo síncrono encadeado**, o serviço de pedidos chama o de estoque, aguarda a reserva; chama o de pagamento, aguarda a autorização; chama o de expedição, aguarda a confirmação; e só então devolve uma resposta final ao cliente. A vantagem é que o cliente recebe, em uma única resposta, a confirmação completa. A desvantagem é que a latência percebida soma as latências de todas as etapas, e a indisponibilidade de qualquer uma delas indisponibiliza o fluxo inteiro.
 
-No **fluxo orientado a eventos**, o serviço de pedidos apenas registra a intenção de compra, publica o evento `PedidoCriado` e devolve imediatamente ao cliente um status de “processando”. Os serviços de estoque, pagamento e expedição assinam esse evento e reagem de forma independente, publicando seus próprios eventos de conclusão (`EstoqueReservado`, `PagamentoAprovado`, `PedidoEnviado`). O serviço de pedidos agrega essas notificações para atualizar o estado do pedido, que o cliente pode consultar posteriormente ou receber por notificação.
+No **fluxo orientado a eventos**, o serviço de pedidos registra a intenção de compra, publica `PedidoCriado` e devolve imediatamente ao cliente o status “processando”. O estoque consome esse evento e, se a reserva for bem-sucedida, publica `EstoqueReservado`; somente então o pagamento tenta a autorização e publica `PagamentoAprovado`; a expedição reage apenas a essa aprovação e, ao concluir, publica `PedidoEnviado`. Falhas geram eventos próprios e podem acionar compensações. Consumidores independentes, como análise de fraude ou recomendação, podem reagir diretamente a `PedidoCriado`, mas efeitos com pré-condições de negócio preservam a sequência causal. O serviço de pedidos consome os eventos de progresso para atualizar o estado consultado pelo cliente.
 
 O segundo fluxo reduz o acoplamento temporal e melhora a resiliência a lentidão pontual de uma dependência, mas introduz complexidade: é preciso rastrear em que etapa o pedido está, tratar eventos fora de ordem (tema da próxima aula) e comunicar ao cliente um estado que não é mais binário — sucesso ou falha imediatos — mas uma progressão. Não existe resposta universalmente correta; a escolha depende de quanto a experiência do cliente tolera uma confirmação não imediata e de quanto a equipe está disposta a investir em rastreamento assíncrono.
 
-> **Recurso visual 3 — Dois fluxos de criação de pedido:** comparar, lado a lado, o encadeamento síncrono bloqueante e o fluxo orientado a eventos com publicação de `PedidoCriado` e reações independentes de estoque, pagamento e expedição.  
-> **Texto alternativo:** diagrama comparativo mostra, à esquerda, uma cadeia de chamadas síncronas bloqueantes e, à direita, um evento publicado que dispara reações paralelas e independentes dos três serviços.
+![diagrama comparativo mostra, à esquerda, uma cadeia de chamadas síncronas bloqueantes e, à direita, uma cadeia assíncrona que respeita as pré-condições de estoque, pagamento e expedição, sem bloquear a resposta inicial ao cliente](assets/figuras/figura-07-dois-fluxos-pedido.png)
+
+> **Figura 7 — Dois fluxos de criação de pedido.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama comparativo mostra, à esquerda, uma cadeia de chamadas síncronas bloqueantes e, à direita, uma cadeia assíncrona que respeita as pré-condições de estoque, pagamento e expedição, sem bloquear a resposta inicial ao cliente.
 
 ### Atividade prática
 
@@ -390,8 +397,8 @@ Modele o contrato do evento `PedidoCriado` para a NexaOrder.
 1. Liste os campos obrigatórios e opcionais da mensagem, indicando tipo de dado.
 2. Inclua um campo de chave de idempotência e um campo de identificador de correlação, justificando cada um.
 3. Descreva uma mudança futura de esquema (por exemplo, adicionar um campo `canalVenda`) e explique como ela pode ser introduzida sem quebrar consumidores existentes.
-4. Escolha, para cada uma das três reações (estoque, pagamento, expedição), se ela deveria ocorrer por chamada síncrona ou por assinatura assíncrona do evento, justificando com base na tolerância a atraso de cada etapa.
-5. Descreva a política de *retry* com *backoff* e *jitter* que o serviço de pedidos deve usar ao publicar o evento, caso o *broker* esteja temporariamente indisponível.
+4. Escolha quais reações podem ser independentes e quais devem aguardar um evento que comprove sua pré-condição; justifique, em especial, por que a expedição não deve começar antes da aprovação do pagamento.
+5. Descreva uma política limitada de *retry* com *backoff* e *jitter* para falhas transitórias ao publicar o evento, incluindo orçamento máximo de tentativas e a garantia de idempotência necessária.
 
 Documente as decisões em meia página, como se fossem apresentadas à equipe de arquitetura.
 
@@ -399,15 +406,15 @@ Documente as decisões em meia página, como se fossem apresentadas à equipe de
 
 - Comunicação síncrona simplifica o raciocínio, mas soma latências e propaga indisponibilidade ao longo da cadeia de chamadas.
 - Comunicação assíncrona reduz o acoplamento temporal, ao custo de uma resposta não imediata e de maior complexidade de rastreamento.
-- APIs HTTP orientadas a recursos e RPC são dois estilos de comunicação síncrona com contratos e ênfases diferentes.
+- APIs HTTP orientadas a recursos e RPC são estilos de comunicação com contratos e ênfases diferentes; neste curso, os exemplos usam requisição e resposta síncronas, mas os protocolos não impõem esse único modelo.
 - A evolução de esquema exige compatibilidade entre versões de produtores e consumidores implantados em momentos distintos.
 - Filas distribuem trabalho entre consumidores concorrentes; publicação-assinatura notifica múltiplos assinantes independentes sobre um mesmo evento.
-- *Timeout*, *retry* com *backoff* exponencial e *jitter* reduzem, mas não eliminam, o risco de sobrecarga e duplicação.
-- Idempotência e identificadores de correlação são pré-condições para que retentativas sejam seguras e rastreáveis.
+- *Timeout* limita a espera; *retry* com *backoff* e *jitter* deve ser reservado a falhas transitórias, dentro de um orçamento e com operações seguras ou idempotentes.
+- Idempotência torna retentativas com efeitos colaterais seguras; identificadores de correlação tornam a operação rastreável através das tentativas e dos serviços.
 
 ### Roteiro da Videoaula 2 — “Esperar ou seguir em frente? O dilema da comunicação distribuída”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, comparando o fluxo síncrono encadeado e o fluxo orientado a eventos da NexaOrder.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, comparando o fluxo síncrono encadeado e o fluxo orientado a eventos da NexaOrder.
 
 ### Referências da aula
 
@@ -435,21 +442,21 @@ Isso significa que perguntas aparentemente simples — “o pagamento foi recusa
 
 Relógios físicos de computadores comuns não marcam o tempo com precisão perfeita: cada um sofre um **desvio** (*drift*) em relação ao tempo real, causado por variações no oscilador de *hardware*. Protocolos de sincronização de tempo por rede reduzem essa divergência periodicamente, mas não a eliminam entre sincronizações sucessivas.
 
-O desvio acumulado entre duas sincronizações pode ser estimado por:
+Se a última sincronização deixa uma diferença residual entre os relógios limitada por $ε$, o desvio máximo após um intervalo $T$ pode ser estimado por:
 
 $$
-\delta_{\text{máx}} = 2 \rho T
+\delta_{\text{máx}} \leq ε + 2 \rho T
 $$
 
-em que $\rho$ é a taxa máxima de desvio de cada relógio em relação ao tempo real, e $T$ é o intervalo decorrido desde a última sincronização. O fator $2$ aparece porque, no pior caso, um relógio adianta enquanto o outro atrasa.
+em que $\rho$ é a taxa máxima de desvio de cada relógio em relação ao tempo real. O fator $2$ aparece porque, no pior caso, um relógio adianta enquanto o outro atrasa. A parcela $ε$ representa a incerteza ou diferença residual logo após a sincronização.
 
-Para $\rho = 50$ partes por milhão ($0{,}00005$) e $T = 3600\,\mathrm{s}$ (uma hora sem nova sincronização):
+Para isolar apenas o crescimento por *drift*, suponha $ε=0$, $\rho = 50$ partes por milhão ($0{,}00005$) e $T = 3600\,\mathrm{s}$ (uma hora sem nova sincronização):
 
 $$
-\delta_{\text{máx}} = 2 \times 0{,}00005 \times 3600 = 0{,}36\,\mathrm{s} = 360\,\mathrm{ms}
+\delta_{\text{máx}} \leq 0 + 2 \times 0{,}00005 \times 3600 = 0{,}36\,\mathrm{s} = 360\,\mathrm{ms}
 $$
 
-Um desvio de $360\,\mathrm{ms}$ entre dois servidores é suficiente para inverter, em um painel que ordena eventos por carimbo de hora físico, a ordem real de dois acontecimentos separados por menos tempo do que isso — exatamente o problema observado no incidente da NexaOrder. Reduzir o intervalo entre sincronizações diminui $\delta_{\text{máx}}$, mas não elimina a possibilidade de inversão para eventos suficientemente próximos.
+Nesse cenário idealizado, o crescimento pode chegar a $360\,\mathrm{ms}$ entre dois servidores, suficiente para inverter, em um painel que ordena eventos por carimbo físico, dois acontecimentos separados por menos tempo. Na prática, some-se o limite residual $ε$. Reduzir o intervalo entre sincronizações diminui a parcela de *drift*, mas não elimina a possibilidade de inversão para eventos suficientemente próximos.
 
 ### A relação *happened-before*
 
@@ -465,8 +472,8 @@ Dois eventos que não estão relacionados por nenhuma dessas regras, direta ou t
 
 Para tornar a relação *happened-before* operacional, Lamport propôs um mecanismo simples: cada processo mantém um contador inteiro, chamado **relógio lógico**, incrementado segundo três regras:
 
-1. Antes de cada evento local, o processo incrementa seu contador em 1.
-2. Ao enviar uma mensagem, o processo inclui o valor atual do contador.
+1. Antes de cada evento interno ou de envio, o processo incrementa seu contador em 1 e usa o novo valor como carimbo do evento.
+2. Ao enviar uma mensagem, o processo inclui o carimbo atribuído ao evento de envio.
 3. Ao receber uma mensagem com contador $C_{\text{msg}}$, o processo ajusta seu contador para $\max(C_{\text{local}}, C_{\text{msg}}) + 1$.
 
 Esse esquema garante que, se $a \rightarrow b$, então o carimbo lógico de $a$ é menor que o de $b$. A recíproca não é garantida: dois eventos concorrentes podem receber carimbos lógicos diferentes, mesmo sem relação causal entre eles — o relógio de Lamport ordena, mas não distingue causalidade de coincidência.
@@ -476,15 +483,16 @@ Considere uma sequência simplificada envolvendo os serviços de Pedidos (Pd), E
 | Evento | Processo | Ação | Contador antes | Contador depois |
 |---|---|---|---|---|
 | 1 | Pd | cria o pedido (evento local) | 0 | 1 |
-| 2 | Pd | envia “reservar item” a Es, anexando 1 | 1 | 2 |
-| 3 | Es | recebe a mensagem ($C_{\text{msg}}=1$) | 0 | $\max(0,1)+1=2$ |
-| 4 | Es | envia “reserva confirmada” a Pd, anexando 2 | 2 | 3 |
-| 5 | Pd | recebe a confirmação ($C_{\text{msg}}=2$) | 2 | $\max(2,2)+1=3$ |
+| 2 | Pd | incrementa e envia “reservar item” a Es, anexando 2 | 1 | 2 |
+| 3 | Es | recebe a mensagem ($C_{\text{msg}}=2$) | 0 | $\max(0,2)+1=3$ |
+| 4 | Es | incrementa e envia “reserva confirmada” a Pd, anexando 4 | 3 | 4 |
+| 5 | Pd | recebe a confirmação ($C_{\text{msg}}=4$) | 2 | $\max(2,4)+1=5$ |
 
-O evento 5 recebeu carimbo $3$, maior que o carimbo $2$ do evento 2 que o originou, respeitando $a \rightarrow b \Rightarrow C(a) < C(b)$. Se, paralelamente, o serviço de Pagamento tivesse registrado um evento local com contador $3$ sem trocar mensagem alguma com Pedidos ou Estoque até esse ponto, o empate numérico não indicaria relação causal nenhuma entre os dois eventos — apenas uma coincidência de contagem, ilustrando por que o relógio de Lamport sozinho não basta para detectar concorrência.
+O evento 5 recebeu carimbo $5$, maior que o carimbo $2$ do evento 2 que iniciou essa troca e que o carimbo $4$ do envio imediatamente anterior, respeitando $a \rightarrow b \Rightarrow C(a) < C(b)$. Se, paralelamente, o serviço de Pagamento tivesse alcançado o carimbo $5$ apenas por eventos internos, sem trocar mensagem alguma com Pedidos ou Estoque, o empate numérico não indicaria relação causal entre os eventos — seria apenas coincidência de contagem. Por isso, o relógio de Lamport sozinho não basta para detectar concorrência.
 
-> **Recurso visual 1 — Linha do tempo dos relógios lógicos:** representar os três processos em raias horizontais paralelas, com eventos numerados e setas de mensagem entre Pedidos e Estoque, anotando o valor do relógio lógico junto a cada evento.  
-> **Texto alternativo:** diagrama de raias mostra os relógios lógicos de Pedidos, Estoque e Pagamento evoluindo por eventos locais e mensagens trocadas, evidenciando como o recebimento de mensagem ajusta o contador local.
+![diagrama de raias mostra os relógios lógicos de Pedidos, Estoque e Pagamento evoluindo por eventos locais e mensagens trocadas, evidenciando como o recebimento de mensagem ajusta o contador local](assets/figuras/figura-08-relogios-lamport.png)
+
+> **Figura 8 — Linha do tempo dos relógios lógicos de Lamport.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama de raias mostra os relógios lógicos de Pedidos, Estoque e Pagamento evoluindo por eventos locais e mensagens trocadas, evidenciando como o recebimento de mensagem ajusta o contador local.
 
 ### Relógios vetoriais
 
@@ -494,8 +502,9 @@ Dois eventos $a$ e $b$, com vetores $V(a)$ e $V(b)$, estão relacionados por *ha
 
 Suponha vetores na ordem (Pedidos, Estoque, Pagamento). Um evento de cancelamento de reserva no Estoque, motivado por *timeout* do cliente, ocorre com vetor $(2, 3, 0)$. Um evento de aprovação de pagamento, motivado pelo provedor, ocorre com vetor $(2, 1, 2)$. Comparando posição a posição: a primeira posição empata, a segunda é maior no cancelamento, a terceira é maior na aprovação. Nenhum vetor domina o outro — os dois eventos são concorrentes, ou seja, nenhum causou o outro, e o sistema precisa de uma regra de negócio explícita para decidir qual prevalece, já que a ordem causal, por si só, não resolve o conflito.
 
-> **Recurso visual 2 — Comparação de vetores concorrentes:** tabela ou diagrama mostrando os vetores $(2,3,0)$ e $(2,1,2)$ lado a lado, destacando que nenhum domina o outro em todas as posições.  
-> **Texto alternativo:** comparação posição a posição de dois relógios vetoriais evidencia que nenhum dos dois eventos precede causalmente o outro, caracterizando concorrência.
+![comparação posição a posição de dois relógios vetoriais evidencia que nenhum dos dois eventos precede causalmente o outro, caracterizando concorrência](assets/figuras/figura-09-vetores-concorrentes.png)
+
+> **Figura 9 — Comparação de dois relógios vetoriais concorrentes.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Comparação posição a posição de dois relógios vetoriais evidencia que nenhum dos dois eventos precede causalmente o outro, caracterizando concorrência.
 
 ### Ordem total, ordem parcial e causalidade
 
@@ -503,8 +512,9 @@ A relação *happened-before* define uma **ordem parcial**: alguns pares de even
 
 Impor uma ordem total sobre eventos genuinamente concorrentes não recupera a causalidade perdida: apenas escolhe, de forma arbitrária mas determinística, uma posição relativa para eventos que, do ponto de vista causal, poderiam ter ocorrido em qualquer ordem. Essa escolha é útil quando o sistema precisa de uma decisão única e consistente — por exemplo, definir qual de duas atualizações concorrentes “vence” — mas não deve ser confundida com a afirmação de que um evento realmente causou o outro.
 
-> **Recurso visual 3 — Ordem parcial versus ordem total:** representar um conjunto de eventos como um grafo, com setas indicando pares comparáveis por *happened-before* e pares concorrentes sem seta entre si; ao lado, a mesma coleção de eventos alinhada em uma única linha, ilustrando uma ordem total imposta artificialmente.  
-> **Texto alternativo:** comparação entre um grafo de ordem parcial, com eventos concorrentes sem relação direta, e uma linha única de ordem total, evidenciando que a ordem total não recupera relações causais inexistentes.
+![comparação entre um grafo de ordem parcial, com eventos concorrentes sem relação direta, e uma linha única de ordem total, evidenciando que a ordem total não recupera relações causais inexistentes](assets/figuras/figura-10-ordem-parcial-total.png)
+
+> **Figura 10 — Ordem parcial versus ordem total.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Comparação entre um grafo de ordem parcial, com eventos concorrentes sem relação direta, e uma linha única de ordem total, evidenciando que a ordem total não recupera relações causais inexistentes.
 
 ### Conflitos concorrentes em estoque e pagamento
 
@@ -527,7 +537,7 @@ Não existe uma única resposta correta para a quarta pergunta; existe, porém, 
 
 ### Atividade prática
 
-Construa carimbos de hora lógicos (Lamport) para a seguinte sequência de eventos da NexaOrder, envolvendo os serviços de Pedidos (Pd), Estoque (Es) e Expedição (Ex), todos iniciando com contador zero:
+Construa carimbos de hora lógicos (Lamport) para a seguinte sequência de eventos da NexaOrder, envolvendo os serviços de Pedidos (Pd), Estoque (Es) e Expedição (Ex), todos iniciando com contador zero. Antes de cada evento interno ou de envio, incremente o contador e use o novo valor como carimbo; no recebimento, aplique $\max(C_{\text{local}}, C_{\text{msg}})+1$.
 
 1. Pd registra a criação do pedido (evento local).
 2. Pd envia ao Es a solicitação de reserva, anexando seu contador.
@@ -551,7 +561,7 @@ Para cada evento, calcule o contador resultante, indique qual regra do relógio 
 
 ### Roteiro da Videoaula 3 — “Qual evento aconteceu primeiro? A pergunta que o relógio não responde sozinho”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, construindo, ao vivo, os relógios lógicos de um trecho do fluxo da NexaOrder.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, construindo, ao vivo, os relógios lógicos de um trecho do fluxo da NexaOrder.
 
 ### Referências da aula
 
@@ -563,7 +573,7 @@ O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `
 
 ### Situação-problema: quando lentidão vira colapso
 
-Depois de ordenar corretamente os eventos concorrentes da Aula 3, a equipe da NexaOrder enfrentou um novo tipo de incidente durante uma campanha de vendas: o provedor externo de pagamento não ficou indisponível — apenas passou a responder devagar. Como o serviço de pedidos chamava o pagamento de forma síncrona, sem limite de recursos dedicados a essa chamada, as conexões disponíveis para o pagamento se esgotaram rapidamente. O problema não parou por aí: o mesmo conjunto de conexões era usado para atender consultas de pedidos já existentes, sem relação alguma com o pagamento. Em poucos minutos, clientes que apenas queriam consultar o status de uma compra antiga também deixaram de receber resposta.
+Depois de analisar a causalidade entre eventos e definir políticas para os casos realmente concorrentes na Aula 3, a equipe da NexaOrder enfrentou um novo tipo de incidente durante uma campanha de vendas: o provedor externo de pagamento não ficou indisponível — apenas passou a responder devagar. Como o serviço de pedidos chamava o pagamento de forma síncrona, sem limite de recursos dedicados a essa chamada, as conexões disponíveis para o pagamento se esgotaram rapidamente. O problema não parou por aí: o mesmo conjunto de conexões era usado para atender consultas de pedidos já existentes, sem relação alguma com o pagamento. Em poucos minutos, clientes que apenas queriam consultar o status de uma compra antiga também deixaram de receber resposta.
 
 Nenhuma linha de código do serviço de pedidos continha erro. A degradação de uma única dependência externa, sem qualquer mecanismo de contenção, se espalhou por partes do sistema que não tinham relação direta com o problema original. A equipe passou a se perguntar: como conter o raio de impacto de uma falha antes que ela vire um colapso mais amplo?
 
@@ -594,8 +604,9 @@ Um **particionamento de rede** ocorre quando um subconjunto de componentes perde
 
 Esse cenário é particularmente perigoso quando ambos os lados continuam aceitando escrita de forma independente — por exemplo, se réplicas do serviço de estoque em duas zonas de disponibilidade perderem a comunicação entre si e cada uma continuar aceitando reservas para os mesmos itens, acreditando ser a única responsável. O resultado — conhecido informalmente como *split-brain* — é uma divergência de estado que precisa ser reconciliada depois, muitas vezes com perda ou conflito de dados. Estratégias de tolerância a partição, replicação e consenso serão aprofundadas na Unidade 2; nesta aula, o essencial é reconhecer que particionamento não é uma falha completa de um lado, mas uma ruptura na comunicação entre lados que continuam vivos.
 
-> **Recurso visual 1 — Particionamento de rede entre zonas:** representar duas zonas de disponibilidade com réplicas do serviço de estoque, uma conexão rompida entre elas, e cada zona continuando a aceitar requisições localmente.  
-> **Texto alternativo:** diagrama mostra duas zonas isoladas por um rompimento de rede, cada uma seguindo operante e aceitando requisições sem saber do estado da outra.
+![diagrama mostra duas zonas isoladas por um rompimento de rede, cada uma seguindo operante e aceitando requisições sem saber do estado da outra](assets/figuras/figura-11-particionamento-rede.png)
+
+> **Figura 11 — Particionamento de rede entre zonas.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama mostra duas zonas isoladas por um rompimento de rede, cada uma seguindo operante e aceitando requisições sem saber do estado da outra.
 
 ### Redundância e isolamento
 
@@ -631,8 +642,9 @@ $$
 
 Como $60\%$ excede o limite de $50\%$, o disjuntor abre, e as chamadas seguintes ao provedor de pagamento são rejeitadas imediatamente pelo próprio serviço de pedidos — sem esperar o *timeout* de rede — liberando recursos para atender outras operações, como consultas de pedidos existentes, exatamente o isolamento que faltou no incidente original.
 
-> **Recurso visual 2 — Estados do circuit breaker:** diagrama de estados com três nós (fechado, aberto, semiaberto) e as transições entre eles, anotando a condição de taxa de erro que dispara a abertura e o intervalo antes da transição para semiaberto.  
-> **Texto alternativo:** diagrama de máquina de estados mostra o disjuntor alternando entre fechado, aberto e semiaberto, com as condições de transição indicadas em cada seta.
+![diagrama de máquina de estados mostra o disjuntor alternando entre fechado, aberto e semiaberto, com as condições de transição indicadas em cada seta](assets/figuras/figura-12-circuit-breaker.png)
+
+> **Figura 12 — Estados do circuit breaker.** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama de máquina de estados mostra o disjuntor alternando entre fechado, aberto e semiaberto, com as condições de transição indicadas em cada seta.
 
 ### *Bulkhead* e degradação graciosa
 
@@ -640,8 +652,9 @@ O padrão ***bulkhead*** (anteparo) aplica, de forma estrutural, o princípio de
 
 **Degradação graciosa** é a decisão de continuar oferecendo uma versão reduzida do serviço quando uma dependência não essencial falha, em vez de falhar por completo. Se o serviço de recomendação de produtos estiver indisponível, a página de checkout da NexaOrder pode simplesmente omitir as recomendações e prosseguir com a compra, em vez de bloquear o cliente. A degradação graciosa exige que a equipe classifique, de antemão, quais dependências são essenciais para a operação principal e quais são acessórias — uma decisão de produto tanto quanto de engenharia.
 
-> **Recurso visual 3 — Anteparos de recursos por dependência:** representar o serviço de pedidos com dois compartimentos separados de conexões — um dedicado ao provedor de pagamento, outro dedicado a consultas de pedidos — evidenciando que o esgotamento de um compartimento não afeta o outro.  
-> **Texto alternativo:** diagrama mostra o serviço de pedidos dividido em dois compartimentos de recursos isolados, um para chamadas de pagamento e outro para consultas, ilustrando o padrão bulkhead.
+![diagrama mostra o serviço de pedidos dividido em dois compartimentos de recursos isolados, um para chamadas de pagamento e outro para consultas, ilustrando o padrão bulkhead](assets/figuras/figura-13-bulkhead.png)
+
+> **Figura 13 — Anteparos de recursos por dependência (bulkhead).** Fonte: elaboração própria — Afonso Cesar Lelis Brandão, *Distributed Systems Engineering*, 2026 (CC BY 4.0). **Texto alternativo:** Diagrama mostra o serviço de pedidos dividido em dois compartimentos de recursos isolados, um para chamadas de pagamento e outro para consultas, ilustrando o padrão bulkhead.
 
 ### Objetivos de confiabilidade
 
@@ -676,7 +689,7 @@ A Unidade 2 desloca essa mesma pergunta para os dados. Se o estoque e o pagament
 
 ### Roteiro da Videoaula 4 — “Um serviço lento não é um serviço fora do ar: contendo o colapso em cascata”
 
-O roteiro falado e as indicações de edição estão desenvolvidos no arquivo `roteiros_20min.md`, encerrando a Unidade 1 e conectando-a à Unidade 2.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, encerrando a Unidade 1 e conectando-a à Unidade 2.
 
 ### Referências da aula
 
@@ -723,11 +736,11 @@ Uma resposta completa deve, no mínimo, conter os elementos abaixo, admitindo fo
 
 (a) Riscos do fluxo síncrono atual: (i) a latência percebida pelo cliente soma as latências de pedidos, estoque, pagamento e expedição, tornando o sistema tão lento quanto sua etapa mais lenta; (ii) a indisponibilidade ou lentidão de qualquer etapa — por exemplo, o provedor de pagamento — propaga-se para as etapas anteriores, podendo indisponibilizar todo o fluxo, inclusive operações não relacionadas à etapa afetada, caso não haja isolamento de recursos.
 
-(b) Fluxo orientado a eventos: o serviço de pedidos publica o evento `PedidoCriado` e devolve imediatamente um status de processamento ao cliente; estoque, pagamento e expedição assinam o evento e reagem de forma assíncrona, publicando eventos de conclusão (`EstoqueReservado`, `PagamentoAprovado`, `PedidoEnviado`) que o serviço de pedidos agrega para atualizar o estado exposto ao cliente. Uma etapa pode permanecer síncrona se o cliente precisar de confirmação imediata para decidir o próximo passo — por exemplo, verificar disponibilidade de estoque antes de exibir a tela de pagamento —, mas etapas cujo resultado pode ser comunicado posteriormente, como a confirmação de expedição, são boas candidatas à assincronia.
+(b) Fluxo orientado a eventos: o serviço de pedidos publica `PedidoCriado` e devolve imediatamente um status de processamento ao cliente. O estoque reage e publica `EstoqueReservado`; o pagamento só é acionado depois dessa reserva e publica `PagamentoAprovado`; a expedição só começa após a aprovação e publica `PedidoEnviado`. Eventos de falha devem interromper a sequência ou acionar compensações. Reações sem dependência entre si, como auditoria ou recomendação, podem ocorrer em paralelo. Uma etapa pode permanecer síncrona se o cliente precisar de confirmação imediata para decidir o próximo passo, mas etapas cujo resultado pode ser comunicado posteriormente são candidatas à assincronia sem eliminar suas pré-condições de negócio.
 
 (c) Eventos concorrentes fora de ordem: como não existe relógio global, a resposta deve reconhecer que dois eventos relacionados ao mesmo pedido (por exemplo, um cancelamento de reserva e uma aprovação de pagamento) podem ser concorrentes, isto é, nenhum causou o outro. A equipe não deve confiar em carimbos de hora físicos para decidir a ordem; deve usar relógios lógicos ou vetoriais para identificar causalidade quando existir, e definir explicitamente uma política de negócio para resolver os casos em que os eventos são de fato concorrentes (por exemplo, priorizar sempre o cancelamento, ou suspender o pedido para revisão).
 
-(d) Proteções de resiliência: a resposta deve descrever ao menos duas entre: *timeout* definido deliberadamente para cada chamada, evitando reter recursos indefinidamente; *retry* com *backoff* exponencial e *jitter* para lidar com falhas transitórias sem agravar sobrecarga; idempotência (por exemplo, chave de idempotência na criação do pedido) para tornar retentativas seguras; *circuit breaker* para deixar de chamar um provedor com alta taxa de falha; *bulkhead* para isolar recursos dedicados a cada dependência; e degradação graciosa para dependências não essenciais. A justificativa deve relacionar cada proteção ao risco correspondente identificado no item (a).
+(d) Proteções de resiliência: a resposta deve descrever ao menos duas entre: *timeout* definido deliberadamente para cada espera remota, evitando reter recursos indefinidamente; *retry* limitado por orçamento, com *backoff* exponencial e *jitter*, apenas para falhas transitórias e operações seguras ou idempotentes; idempotência (por exemplo, uma chave criada antes da primeira tentativa e reutilizada nas retentativas do mesmo pedido); *circuit breaker* para deixar de chamar um provedor com alta taxa de falha; *bulkhead* para isolar recursos dedicados a cada dependência; e degradação graciosa para dependências não essenciais. A justificativa deve relacionar cada proteção ao risco correspondente identificado no item (a).
 
 Respostas que apenas descrevam os conceitos sem aplicá-los ao cenário da NexaOrder, ou que proponham eliminar toda comunicação síncrona sem justificativa, devem ser consideradas incompletas.
 
@@ -737,17 +750,51 @@ Respostas que apenas descrevam os conceitos sem aplicá-los ao cenário da NexaO
 - Toda decisão de distribuição deve conectar requisito, mecanismo, compromisso e evidência, evitando adotar tecnologia por tendência.
 - Comunicação síncrona soma latências e propaga indisponibilidade; comunicação assíncrona reduz esse acoplamento ao custo de maior complexidade de rastreamento.
 - Contratos de interface, formatos de serialização e evolução de esquema precisam suportar produtores e consumidores implantados em momentos diferentes.
-- Retentativas só são seguras quando combinadas a *timeouts* bem escolhidos, *backoff* com *jitter* e idempotência.
+- Retentativas são adequadas apenas a falhas transitórias, dentro de um orçamento; operações com efeitos colaterais também exigem idempotência, e *backoff* com *jitter* reduz a sincronização das novas tentativas.
 - Não existe relógio global: relógios lógicos e vetoriais permitem raciocinar sobre causalidade e identificar eventos genuinamente concorrentes.
 - Falhas parciais, particionamento de rede e detectores imperfeitos exigem padrões de contenção como *circuit breaker*, *bulkhead* e degradação graciosa.
 - Toda estratégia de resiliência deve estar ligada a um objetivo de confiabilidade explícito, não a uma aspiração indefinida de disponibilidade total.
 
 ### Material complementar
 
-**Direto da Fonte:** KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O’Reilly Media, 2017. Capítulo 8 — “The Trouble with Distributed Systems” (disponível na Biblioteca Virtual). O capítulo trata exatamente dos temas de comunicação em rede não confiável, relógios não sincronizados e processos com pausas imprevisíveis estudados nesta unidade, aprofundando os riscos discutidos nas Aulas 2, 3 e 4.
+#### Direto da Fonte
 
-**Para Mergulhar:** blog *Jepsen*, mantido por Kyle Kingsbury, disponível em <https://jepsen.io/>. O projeto publica análises técnicas reais de bancos de dados e sistemas distribuídos submetidos a partições de rede, desvio de relógio e falhas de processo, mostrando na prática como sistemas amplamente usados reagem — corretamente ou não — aos cenários discutidos nesta unidade.
+**Texto provocativo:** Você já sabe que uma chamada remota pode falhar sem que o destino tenha falhado. Mas o que acontece quando a rede atrasa, o relógio da máquina anda para trás e o processo é suspenso pelo coletor de lixo — tudo ao mesmo tempo? Este capítulo reúne exatamente os três fenômenos estudados nesta unidade e mostra, com casos reais de produção, por que eles não podem ser tratados como exceções raras.
 
-**Podcast:** BERGLUND, Tim. *Distributed Systems in One Lesson*. [S. l.: s. n.], 2017. 1 vídeo (55 min). Publicado pelo canal GOTO Conferences. Disponível em: <https://www.youtube.com/watch?v=Y6Ev8GIlbxc>. Acesso em: 30 jul. 2026. A palestra apresenta, de forma acessível, os problemas de armazenamento, tempo, comunicação e consenso que motivam esta unidade, usando uma cafeteria fictícia como fio condutor didático, de maneira semelhante ao uso da NexaOrder nesta disciplina.
+**Referência:** KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O'Reilly Media, 2017. Capítulo 8 — "The Trouble with Distributed Systems".
 
-**Artigo científico:** LAMPORT, Leslie. Time, clocks, and the ordering of events in a distributed system. **Communications of the ACM**, v. 21, n. 7, p. 558-565, jul. 1978. DOI: 10.1145/359545.359563.
+**Link de acesso:** disponível na Biblioteca Virtual da instituição.
+
+**Aula indicada:** Aula 2, após "Timeouts, retries, backoff e jitter".
+
+#### Para Mergulhar no Assunto
+
+**Texto provocativo:** As garantias de consistência e disponibilidade prometidas nos manuais dos bancos de dados resistem a uma partição de rede real? O projeto Jepsen submete sistemas amplamente usados a partições, desvio de relógio e falhas de processo, e publica os resultados. É o contraponto empírico às garantias teóricas — e uma leitura desconfortável para quem confia apenas na documentação do fornecedor.
+
+**Referência:** KINGSBURY, Kyle. *Jepsen*: distributed systems safety research. [S. l.], 2013-. Blog técnico.
+
+**Link de acesso:** <https://jepsen.io/>. Acesso em: 30 jul. 2026.
+
+**Aula indicada:** Aula 4, após "Particionamento de rede".
+
+#### Podcast
+
+**Texto provocativo:** Antes de abrir qualquer diagrama de arquitetura, vale entender por que os quatro problemas centrais de um sistema distribuído — armazenamento, computação, tempo e comunicação — aparecem juntos. Esta palestra usa uma cafeteria fictícia como fio condutor, do mesmo modo que esta disciplina usa a NexaOrder, e é a melhor porta de entrada para o vocabulário da unidade.
+
+**Referência:** BERGLUND, Tim. *Distributed Systems in One Lesson*. [S. l.: s. n.], 2017. 1 vídeo (49 min). Publicado pelo canal GOTO Conferences.
+
+**Link de acesso:** <https://www.youtube.com/watch?v=Y6Ev8GIlbxc>. Acesso em: 30 jul. 2026.
+
+**Trecho obrigatório:** 00:00–45:00 (45 minutos), dentro do limite institucional de curadoria.
+
+**Aula indicada:** Aula 1, após "Por que distribuir?".
+
+#### Artigo científico
+
+**Texto provocativo:** Este é o artigo que fundou o raciocínio sobre tempo em sistemas distribuídos. Em poucas páginas, Lamport mostra que a pergunta "qual evento aconteceu primeiro?" não tem resposta absoluta, e propõe a solução — a relação *happened-before* e os relógios lógicos — que você aplicou na Aula 3. Ler o original mostra o quanto de um problema prático de 1978 continua determinando decisões de projeto hoje.
+
+**Referência:** LAMPORT, Leslie. Time, clocks, and the ordering of events in a distributed system. *Communications of the ACM*, v. 21, n. 7, p. 558-565, jul. 1978. DOI: 10.1145/359545.359563.
+
+**Link de acesso:** <https://doi.org/10.1145/359545.359563>. Acesso em: 30 jul. 2026.
+
+**Aula indicada:** Aula 3, após "Relógios lógicos de Lamport".

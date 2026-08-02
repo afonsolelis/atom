@@ -57,7 +57,7 @@ O elemento que transforma logs e traces dispersos em uma narrativa coerente é a
 
 Essa propagação não é automática por natureza da rede — é responsabilidade explícita da instrumentação de cada serviço extrair o identificador da requisição recebida e incluí-lo em qualquer chamada ou mensagem que produzir. Se um único serviço no meio do caminho falhar em propagar o contexto, o trace se rompe naquele ponto, e a jornada completa da requisição deixa de poder ser reconstruída, mesmo que cada serviço individualmente tenha registrado seus próprios dados.
 
-Com o identificador de correlação presente em logs, métricas etiquetadas e spans de trace, a equipe pode formular a pergunta “o que aconteceu com o pedido 48213?” e obter, em resposta, uma linha do tempo unificada — em vez de precisar caçar manualmente entradas semelhantes em quatro sistemas de log diferentes.
+Com o identificador de correlação presente em logs e spans, a equipe pode formular a pergunta “o que aconteceu com o pedido 48213?” e obter uma linha do tempo unificada. Identificadores por requisição não devem virar labels comuns de métricas, pois criam cardinalidade praticamente ilimitada; métricas usam dimensões agregáveis e podem se ligar a um trace específico por *exemplars*.
 
 ### Instrumentação com OpenTelemetry
 
@@ -65,7 +65,7 @@ A prática de expor métricas, logs e traces de forma consistente é chamada de 
 
 Na prática, um serviço instrumentado com OpenTelemetry usa um *SDK* (kit de desenvolvimento de software) que pode capturar automaticamente operações comuns — chamadas HTTP recebidas e enviadas, consultas a banco de dados, publicação e consumo de mensagens — e permite que o próprio código adicione spans e atributos personalizados para operações de negócio relevantes, como “reservar item de estoque” ou “autorizar pagamento”. Os dados coletados são enviados a um coletor, que os processa e os encaminha para o sistema de armazenamento e visualização escolhido pela equipe.
 
-Para a NexaOrder, adotar OpenTelemetry significa que a instrumentação do serviço de pedidos não fica presa a uma ferramenta específica: se a equipe decidir trocar o sistema de análise de traces no futuro, o código de instrumentação permanece o mesmo, apenas o destino dos dados muda.
+Para a NexaOrder, adotar OpenTelemetry reduz o acoplamento da instrumentação do serviço de pedidos a uma ferramenta específica. Em muitos casos, trocar o sistema de análise de traces preserva a instrumentação principal e exige apenas ajustar o *exporter*, o coletor ou o destino. Convenções semânticas, recursos proprietários e capacidades diferentes entre ferramentas ainda podem exigir adaptações.
 
 > **Recurso visual 2 — Fluxo de instrumentação com OpenTelemetry:** diagrama mostrando um serviço gerando spans e métricas via SDK, enviando-os a um coletor, que os encaminha a um backend de armazenamento e visualização.  
 > **Texto alternativo:** diagrama ilustra a geração de telemetria por um serviço instrumentado, seu envio a um coletor OpenTelemetry e o encaminhamento para uma ferramenta de análise.
@@ -100,7 +100,7 @@ $$
 
 A equipe pode, portanto, acumular até 12.000 requisições malsucedidas ao longo do mês sem violar o objetivo. Se, nos primeiros dez dias do mês, o sistema já acumulou 9.000 falhas — 75% do orçamento total, em apenas um terço do período —, a *taxa de consumo* (ou *burn rate*) do orçamento está muito acima do que o restante do mês suporta. Esse número orienta uma decisão operacional concreta: reduzir a frequência de mudanças arriscadas, priorizar estabilidade e investigar a causa do consumo acelerado antes que o orçamento se esgote por completo.
 
-O orçamento de erro tem um efeito adicional importante: ele legitima riscos calculados. Enquanto o orçamento não estiver esgotado, a equipe tem margem para implantar mudanças, experimentar e evoluir o sistema. Quando o orçamento se aproxima do limite, a prioridade se desloca automaticamente para a estabilidade — sem depender de opinião ou de discussão subjetiva sobre o que é “seguro o suficiente”.
+O orçamento de erro tem um efeito adicional importante: ele legitima riscos calculados. Enquanto o orçamento não estiver esgotado, a equipe tem margem para implantar mudanças, experimentar e evoluir o sistema. Quando o orçamento se aproxima do limite, uma política previamente acordada deve deslocar a prioridade para a estabilidade, tornando o critério observável e menos dependente de uma discussão subjetiva sobre o que é “seguro o suficiente”.
 
 > **Recurso visual 3 — Consumo do orçamento de erro ao longo do mês:** gráfico de linha mostrando o consumo acumulado de orçamento de erro em relação ao tempo decorrido do mês, com uma linha de referência representando o consumo esperado uniforme.  
 > **Texto alternativo:** gráfico compara o consumo real do orçamento de erro do checkout com um ritmo de consumo uniforme esperado, evidenciando um consumo acelerado nos primeiros dez dias do mês.
@@ -109,12 +109,12 @@ O orçamento de erro tem um efeito adicional importante: ele legitima riscos cal
 
 Um trace distribuído representa a jornada de uma requisição como uma árvore de spans, cada um com um início, uma duração e, frequentemente, uma relação de dependência com o span que o originou. Ao visualizar essa árvore — normalmente como um diagrama de cascata (*waterfall*) —, é possível identificar rapidamente qual componente concentra a maior parte da latência observada.
 
-Retomando o incidente da situação-problema: suponha que o trace do pedido reconstruído mostre os seguintes tempos de execução: *gateway*, 15 ms; serviço de pedidos, 40 ms; serviço de estoque, 35 ms; serviço de pagamento, 310 ms; serviço de expedição, 20 ms — totalizando aproximadamente 420 ms de tempo de serviço somado, mas com um atraso adicional de rede e enfileiramento que, no caso relatado, ampliou o tempo total percebido pelo cliente para doze segundos. Mesmo sem chegar ao valor exato de doze segundos, a distribuição já indica onde concentrar a investigação: o serviço de pagamento responde por mais de 70% do tempo de serviço somado, tornando-se o primeiro candidato à análise — possivelmente indicando uma chamada ao provedor externo sem *timeout* adequado, ou uma fila interna congestionada.
+Retomando o incidente, o trace apresenta uma árvore coerente: o span raiz do *gateway* dura 12.000 ms; dentro dele, o serviço de pedidos dura 11.950 ms; o estoque consome 35 ms; e o pagamento ocupa 11.780 ms no caminho crítico. Ao expandir pagamento, a equipe encontra 11.450 ms de espera em fila, 310 ms na chamada ao provedor e cerca de 20 ms de processamento local. A expedição, assíncrona, começa após a resposta e não pertence ao caminho crítico do cliente. Spans aninhados não devem ser somados como se fossem sequenciais; a cascata e as relações pai-filho revelam que a espera em pagamento explica quase todo o intervalo de doze segundos.
 
 Esse tipo de análise também revela dependências ocultas: um serviço aparentemente rápido pode, internamente, aguardar uma resposta de outro serviço que não aparece nos painéis de infraestrutura, mas aparece claramente como um span filho no trace. A observabilidade transforma a pergunta “por que essa requisição foi lenta?” de uma investigação artesanal em uma leitura direta de dados já coletados.
 
-> **Recurso visual 4 — Trace em cascata de um pedido:** diagrama de cascata mostrando os spans do gateway, pedidos, estoque, pagamento e expedição, com o span de pagamento visivelmente mais longo que os demais.  
-> **Texto alternativo:** diagrama de cascata evidencia que o span do serviço de pagamento concentra a maior parte do tempo de execução da requisição analisada.
+> **Recurso visual 4 — Trace em cascata de um pedido:** diagrama temporal com spans aninhados do gateway, pedidos, estoque e pagamento; o pagamento contém uma espera em fila de 11.450 ms e uma chamada externa de 310 ms. A expedição aparece após a resposta, fora do caminho crítico.
+> **Texto alternativo:** diagrama de cascata de uma requisição de doze segundos mostra a longa espera em fila dentro do span de pagamento e distingue a expedição assíncrona do caminho crítico do cliente.
 
 ### Atividade prática
 
@@ -139,12 +139,12 @@ Reconstrua, em formato de tabela ou diagrama, o trace de um pedido da NexaOrder 
 
 ### Roteiro da Videoaula 13 — “Doze segundos de silêncio: seguindo um pedido pelo sistema”
 
-O roteiro falado e as indicações de edição serão desenvolvidos no arquivo `roteiros_20min.md`, retomando o incidente da situação-problema como fio condutor da demonstração.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, retomando o incidente da situação-problema como fio condutor da demonstração.
 
 ### Referências da aula
 
 - KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O’Reilly Media, 2017.
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016.
+- BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016.
 - COULOURIS, George et al. *Distributed Systems: Concepts and Design*. 5. ed. Boston: Addison-Wesley, 2011.
 
 ## Aula 14 — Resiliência, testes distribuídos e engenharia do caos
@@ -184,7 +184,7 @@ Os três testes respondem a perguntas diferentes: o teste de carga confirma que 
 
 A *engenharia do caos* é a prática de conduzir experimentos controlados que injetam falhas deliberadas — latência adicional, erros simulados, indisponibilidade de um componente — em um sistema, com o objetivo de observar seu comportamento real diante de condições adversas, em vez de presumi-lo. A prática nasceu da constatação de que sistemas distribuídos em produção enfrentam combinações de falha raras demais para serem previstas por completo em revisão de código, mas frequentes o suficiente, na escala de milhares de componentes, para acontecerem de tempos em tempos.
 
-Diferente de um teste tradicional, que verifica se um comportamento esperado ocorre, um experimento de caos parte de uma pergunta aberta: “o que realmente acontece quando isso falha?” — e aceita que a resposta pode contrariar as suposições da equipe, como de fato ocorreu no incidente da situação-problema desta aula.
+Diferente de um teste determinístico de unidade, um experimento de caos começa com uma hipótese explícita e mensurável sobre o estado estável e tenta refutá-la sob uma perturbação controlada. A pergunta “o que acontece quando isso falha?” é transformada em uma expectativa verificável; resultados inesperados continuam valiosos, mas não dispensam critérios definidos antes da execução.
 
 ### Hipótese de estado estável
 
@@ -201,9 +201,12 @@ Esses dois elementos — raio de impacto limitado e capacidade de interrupção 
 > **Recurso visual 6 — Progressão do raio de impacto:** diagrama mostrando a ampliação gradual do escopo de um experimento de caos, de um ambiente de testes para 1% do tráfego real e, por fim, para um escopo maior, após validação em cada etapa.  
 > **Texto alternativo:** diagrama ilustra a expansão progressiva e controlada do raio de impacto de experimentos de caos ao longo do tempo, conforme a confiança da equipe aumenta.
 
+> **Recurso visual 7 — Cartão do experimento de caos:** quadro com hipótese de estado estável, perturbação, métricas de controle, raio de impacto, critério de interrupção e evidência esperada.
+> **Texto alternativo:** cartão de planejamento relaciona hipótese, falha injetada, indicadores observados, limite de impacto e condição de abortar o experimento.
+
 ### Um exemplo numérico: por que a resiliência de cada serviço não é suficiente
 
-Suponha que os serviços de pedidos, estoque, pagamento e expedição da NexaOrder apresentem, individualmente, disponibilidade de 99,9% cada um. Se o fluxo de compra depender de uma cadeia estritamente sequencial de chamadas síncronas entre os quatro — sem qualquer mecanismo de tolerância a falha parcial —, a disponibilidade combinada do fluxo completo é o produto das disponibilidades individuais:
+Suponha que os serviços de pedidos, estoque, pagamento e expedição da NexaOrder apresentem, individualmente, disponibilidade de 99,9% cada um. Em um modelo simplificado que assume falhas independentes e mede os quatro componentes no mesmo intervalo, se o fluxo depender de uma cadeia estritamente sequencial — sem tolerância a falha parcial —, a disponibilidade combinada é o produto das disponibilidades individuais. Na prática, dependências compartilhadas e falhas correlacionadas exigem medição conjunta e podem produzir resultado pior:
 
 $$
 A_{\text{fluxo}} = A_{\text{pedidos}} \times A_{\text{estoque}} \times A_{\text{pagamento}} \times A_{\text{expedição}}
@@ -257,11 +260,11 @@ Planeje um experimento controlado de indisponibilidade do serviço de pagamento 
 
 ### Roteiro da Videoaula 14 — “O circuito que não segurou: planejando um experimento de caos”
 
-O roteiro falado e as indicações de edição serão desenvolvidos no arquivo `roteiros_20min.md`, utilizando o incidente do provedor de pagamento como demonstração central.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, utilizando o incidente do provedor de pagamento como demonstração central.
 
 ### Referências da aula
 
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016.
+- BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016.
 - BASIRI, Ali et al. Chaos engineering. *IEEE Software*, v. 33, n. 3, p. 35-41, 2016. DOI: 10.1109/MS.2016.60.
 - KLEPPMANN, Martin. *Designing Data-Intensive Applications*. Sebastopol: O’Reilly Media, 2017.
 
@@ -287,7 +290,7 @@ O modelo *MapReduce*, descrito por Dean e Ghemawat, popularizou uma forma de pro
 
 Frameworks modernos de processamento distribuído generalizaram essa ideia para *grafos acíclicos dirigidos* (DAGs, do inglês *directed acyclic graphs*), permitindo encadear múltiplas etapas de transformação, filtragem e agregação, não apenas o par map-reduce original. Em ambos os casos, a tolerância a falhas segue um princípio comum: se um nó falha durante uma tarefa, o framework reatribui essa tarefa a outro nó disponível, reexecutando-a a partir dos dados intermediários já persistidos, sem exigir que todo o job seja reiniciado do zero nem intervenção manual para uma falha isolada de um único nó.
 
-> **Recurso visual 7 — Fases de um job MapReduce sobre o histórico da NexaOrder:** diagrama mostrando dados de entrada divididos entre tarefas de mapeamento, seguidos por embaralhamento por chave e tarefas de redução produzindo o resultado agregado.  
+> **Recurso visual 8 — Fases de um job MapReduce sobre o histórico da NexaOrder:** diagrama mostrando dados de entrada divididos entre tarefas de mapeamento, seguidos por embaralhamento por chave e tarefas de redução produzindo o resultado agregado.
 > **Texto alternativo:** diagrama ilustra as fases de mapeamento, embaralhamento e redução aplicadas ao histórico de pedidos da NexaOrder.
 
 ### Particionamento, embaralhamento e tolerância a falhas em fluxo
@@ -308,6 +311,9 @@ Em processamento de fluxo, é essencial distinguir *tempo de evento* — o insta
 
 Análises que dependem de janelas de tempo — por exemplo, “quantas tentativas de pagamento com o mesmo dispositivo ocorreram no último minuto?” — precisam decidir se a janela é calculada com base no tempo de evento ou no tempo de processamento. Janelas baseadas em tempo de evento produzem resultados mais fiéis à realidade do negócio, mas exigem lidar com eventos que chegam atrasados ou fora de ordem. O mecanismo típico para isso é a *marca d’água* (*watermark*): uma estimativa de até que ponto no tempo de evento o pipeline já recebeu a maior parte dos dados, combinada com uma tolerância configurável a atraso (*allowed lateness*), que mantém uma janela aberta por um período adicional antes de considerá-la definitivamente fechada.
 
+> **Recurso visual 9 — Janela por tempo de evento e marca d’água:** linha do tempo com eventos pontuais, chegada atrasada, limite da marca d’água e janela ainda aberta pela tolerância configurada.
+> **Texto alternativo:** linha do tempo diferencia o instante real dos eventos do instante de processamento e mostra como uma marca d’água admite eventos atrasados antes de fechar a janela.
+
 ### Funções como serviço e o custo da inicialização a frio
 
 *Funções como serviço* (FaaS, do inglês *functions as a service*) permitem executar um trecho de código em resposta a um evento — uma requisição HTTP, uma mensagem em uma fila, um arquivo criado em um armazenamento —, sem que a equipe precise provisionar ou manter um servidor continuamente em execução. A plataforma aloca automaticamente o ambiente necessário no momento da invocação e cobra, tipicamente, pelo tempo de execução efetivo, não por capacidade ociosa.
@@ -320,7 +326,7 @@ A *computação de borda* (*edge computing*) aproxima o processamento dos dispos
 
 Esse ganho de latência tem contrapartida: manter lógica distribuída em múltiplos pontos de borda aumenta a complexidade operacional, exige sincronizar versões de modelos ou regras em muitos locais, e nem sempre reduz custo — o processamento de borda pode ser mais caro por unidade, especialmente quando exige contexto histórico amplo que só está disponível de forma centralizada. A decisão apropriada pondera a redução de latência obtida contra a complexidade e o custo introduzidos, reservando modelos mais complexos, que dependam de contexto histórico amplo, para o processamento centralizado, e sinais simples e locais para a borda.
 
-> **Recurso visual 8 — Compromisso entre custo e latência no processamento de borda:** gráfico posicionando processamento centralizado, próximo e de borda por eixos de latência e custo operacional, evidenciando a ausência de uma opção universalmente superior.  
+> **Recurso visual 10 — Compromisso entre custo e latência no processamento de borda:** gráfico posicionando processamento centralizado, próximo e de borda por eixos de latência e custo operacional, evidenciando a ausência de uma opção universalmente superior.
 > **Texto alternativo:** gráfico compara processamento centralizado, regional e de borda em termos de latência típica e custo operacional relativo.
 
 ### Pausa para reflexão
@@ -355,7 +361,7 @@ Compare, para o cenário de detecção de fraude quase em tempo real da NexaOrde
 
 ### Roteiro da Videoaula 15 — “Segundos, não horas: detectando fraude em tempo quase real”
 
-O roteiro falado e as indicações de edição serão desenvolvidos no arquivo `roteiros_20min.md`, comparando as três alternativas de processamento apresentadas na atividade prática.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, comparando as três alternativas de processamento apresentadas na atividade prática.
 
 ### Referências da aula
 
@@ -393,7 +399,7 @@ Um *registro de decisão arquitetural* (ADR, do inglês *architecture decision r
 
 Ao longo das quatro unidades, a NexaOrder acumulou dezenas de decisões que mereceriam registros formais: adoção de múltiplas instâncias sem estado (Unidade 1), escolha de modelo de consistência para estoque e catálogo (Unidade 2), decomposição em serviços e arquitetura orientada a eventos (Unidade 3), estratégia de observabilidade e política de testes de resiliência (Unidade 4). Reunir esses registros permite que qualquer pessoa nova na equipe compreenda não apenas o estado atual do sistema, mas o raciocínio que levou a ele.
 
-> **Recurso visual 9 — Linha do tempo de decisões arquiteturais da NexaOrder:** linha do tempo com marcos das quatro unidades, cada um associado a uma decisão arquitetural registrada em um ADR.  
+> **Recurso visual 11 — Linha do tempo de decisões arquiteturais da NexaOrder:** linha do tempo com marcos das quatro unidades, cada um associado a uma decisão arquitetural registrada em um ADR.
 > **Texto alternativo:** linha do tempo relaciona cada unidade da disciplina a uma decisão arquitetural central adotada pela NexaOrder, do modelo de instâncias sem estado à estratégia de observabilidade.
 
 ### Análise de pontos únicos de falha
@@ -407,6 +413,9 @@ Revisar a NexaOrder sob essa lente, ao final da disciplina, significa percorrer 
 O plano de recuperação de um sistema distribuído normalmente se expressa por dois indicadores complementares: o *objetivo de ponto de recuperação* (RPO, do inglês *recovery point objective*), que mede a quantidade máxima de dados que o negócio aceita perder em uma falha — tipicamente expresso como um intervalo de tempo desde o último backup ou replicação bem-sucedida —, e o *objetivo de tempo de recuperação* (RTO, do inglês *recovery time objective*), que mede o tempo máximo aceitável para restabelecer o serviço após uma interrupção.
 
 Se a NexaOrder replica de forma assíncrona o banco de dados de pedidos para uma região secundária a cada cinco minutos, e o plano prevê que a equipe consiga promover essa região e restabelecer o serviço em até quinze minutos após um desastre na região primária, o RPO aproximado do plano é de cinco minutos — a possível perda de dados entre a última replicação bem-sucedida e o desastre — e o RTO aproximado é de quinze minutos — o tempo necessário para restabelecer o serviço. Esses dois números, definidos a partir de requisitos de negócio e não de conveniência técnica, orientam diretamente decisões de replicação, frequência de backup e automação de failover.
+
+> **Recurso visual 12 — Árvore de atributos de qualidade:** árvore que parte dos objetivos de negócio e ramifica em disponibilidade, desempenho, segurança, recuperabilidade e custo, ligando cada atributo a um cenário mensurável e a uma evidência.
+> **Texto alternativo:** árvore relaciona objetivos de negócio da NexaOrder a cinco atributos de qualidade, respectivos cenários de teste e evidências operacionais.
 
 ### Segurança e observabilidade desde o projeto
 
@@ -430,7 +439,7 @@ $$
 
 Três réplicas independentes elevam a disponibilidade de 99,5% para algo próximo de sete “noves” — um resultado muito superior ao obtido pela composição sequencial de serviços vista na Aula 14, evidenciando que redundância paralela e independência de falha, não apenas a multiplicação de instâncias, é o que sustenta disponibilidade combinada elevada. Esse ganho tem custo: manter três réplicas custa aproximadamente três vezes mais que manter uma, e a decisão de investir nesse ganho depende do valor de negócio que a disponibilidade adicional realmente entrega.
 
-> **Recurso visual 10 — Disponibilidade combinada: cadeia sequencial versus redundância paralela:** dois diagramas lado a lado comparando a disponibilidade resultante de uma cadeia sequencial de serviços e de réplicas paralelas independentes de um mesmo serviço.  
+> **Recurso visual 13 — Disponibilidade combinada: cadeia sequencial versus redundância paralela:** dois diagramas lado a lado comparando a disponibilidade resultante de uma cadeia sequencial de serviços e de réplicas paralelas independentes de um mesmo serviço.
 > **Texto alternativo:** diagramas comparam como a disponibilidade combinada se degrada em uma cadeia sequencial de serviços e melhora com réplicas paralelas independentes.
 
 ### Revisão integral da NexaOrder
@@ -471,13 +480,13 @@ Ao profissional que conclui esta disciplina, fica um convite: continue tratando 
 
 ### Roteiro da Videoaula 16 — “Da aplicação em um servidor à plataforma distribuída: encerrando a jornada da NexaOrder”
 
-O roteiro falado e as indicações de edição serão desenvolvidos no arquivo `roteiros_20min.md`, encerrando a disciplina com uma retrospectiva da trajetória da NexaOrder pelas quatro unidades.
+O roteiro falado completo, com narração pronta para gravação, marcações de edição e fontes, está no arquivo `roteiros_20min.md` desta unidade, encerrando a disciplina com uma retrospectiva da trajetória da NexaOrder pelas quatro unidades.
 
 ### Referências da aula
 
 - LAMPSON, Butler W. Hints for computer system design. In: ACM SYMPOSIUM ON OPERATING SYSTEMS PRINCIPLES, 9., 1983, Bretton Woods. *Proceedings [...]*. New York: ACM, 1983. p. 33-48. DOI: 10.1145/800217.806614.
 - COULOURIS, George et al. *Distributed Systems: Concepts and Design*. 5. ed. Boston: Addison-Wesley, 2011.
-- O’REILLY, Tim et al. *Site Reliability Engineering*. Sebastopol: O’Reilly Media, 2016.
+- BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016.
 
 ## Atividades, síntese e material complementar
 
@@ -516,10 +525,44 @@ e. Incorreta, pois experimentos de caos não podem, em nenhuma hipótese, ser ap
 
 ### Material complementar
 
-**Direto da Fonte.** O’REILLY, Tim et al. *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O’Reilly Media, 2016. Disponível na Biblioteca Virtual. Recomenda-se a leitura dos capítulos dedicados a monitoramento distribuído e a testes de sistemas para confiabilidade, que aprofundam os conceitos de SLI, SLO, orçamento de erro e engenharia do caos apresentados nesta unidade, com exemplos extraídos da operação de sistemas em larga escala.
+#### Direto da Fonte
 
-**Para Mergulhar.** O livro *The Site Reliability Workbook: Practical Ways to Implement SRE* (Google/O’Reilly), disponível como leitura complementar de acesso público em parte de seu conteúdo pelo site da Google SRE, apresenta estudos de caso práticos de definição de SLO, condução de postmortems e implementação de engenharia do caos em organizações reais, complementando a discussão conceitual desta unidade com relatos de aplicação prática.
+**Texto provocativo:** Esta unidade defendeu que confiabilidade se mede, não se declara. Este livro é o registro de como uma organização de grande escala transformou essa ideia em prática cotidiana: os capítulos indicados tratam de monitoramento distribuído e de testes de confiabilidade, ligando SLIs, SLOs e orçamento de erro a decisões concretas sobre ritmo de mudança.
 
-**Podcast.** ROSENTHAL, Casey. *Principles of Chaos Engineering*. Palestra em vídeo, SREcon17 Americas (USENIX), YouTube, 2017. Disponível em: <https://www.youtube.com/watch?v=6ilMZqKdMMU>. Acesso em: 30 jul. 2026. O ex-engenheiro de tráfego e caos da Netflix discute a origem da engenharia do caos, a formulação de hipóteses de estado estável e a condução responsável de experimentos em produção, com exemplos diretamente relacionados aos temas da Aula 14.
+**Referência:** BEYER, Betsy; JONES, Chris; PETOFF, Jennifer; MURPHY, Niall Richard (org.). *Site Reliability Engineering: How Google Runs Production Systems*. Sebastopol: O'Reilly Media, 2016. Capítulos sobre monitoramento distribuído e testes de confiabilidade.
 
-**Artigo científico.** BASIRI, Ali et al. Chaos engineering. *IEEE Software*, v. 33, n. 3, p. 35-41, maio/jun. 2016. DOI: 10.1109/MS.2016.60. O artigo, de autoria de engenheiros da Netflix, descreve os princípios fundadores da engenharia do caos e sua aplicação em um dos maiores sistemas distribuídos do mundo, servindo como referência primária para os conceitos de hipótese de estado estável e raio de impacto discutidos na Aula 14.
+**Link de acesso:** disponível na Biblioteca Virtual da instituição.
+
+**Aula indicada:** Aula 13, após "Do indicador ao objetivo: SLO e orçamento de erro".
+
+#### Para Mergulhar no Assunto
+
+**Texto provocativo:** Se o volume anterior explica os princípios, este mostra como implantá-los em uma equipe que já tem sistema em produção e prazo apertado. Os capítulos de implementação trazem modelos prontos de definição de SLO, de política de orçamento de erro e de revisão de incidentes — insumos diretos para o plano de evidências que você monta na Aula 16.
+
+**Referência:** BEYER, Betsy et al. *The Site Reliability Workbook: Practical Ways to Implement SRE*. Sebastopol: O'Reilly Media, 2018.
+
+**Link de acesso:** <https://sre.google/workbook/table-of-contents/>. Acesso em: 1 ago. 2026.
+
+**Aula indicada:** Aula 16, durante a construção do plano de evidências arquiteturais.
+
+#### Podcast
+
+**Texto provocativo:** A Aula 14 insistiu que engenharia do caos não é derrubar componentes e observar o resultado. Nesta apresentação, um dos formuladores da prática detalha a diferença entre experimento e acidente: hipótese de estado estável, raio de impacto e critério de interrupção. É a referência a citar quando alguém propuser "testar em produção" sem esses três elementos.
+
+**Referência:** ROSENTHAL, Casey. *Principles of Chaos Engineering*. SREcon17 Americas. Berkeley: USENIX Association, 2017. 1 vídeo.
+
+**Link de acesso:** <https://www.usenix.org/conference/srecon17americas/program/presentation/rosenthal>. Acesso em: 1 ago. 2026.
+
+**Trecho obrigatório:** 00:00–35:00 (35 minutos), cobrindo definição, hipótese e condução do experimento.
+
+**Aula indicada:** Aula 14, após "Hipótese de estado estável".
+
+#### Artigo científico
+
+**Texto provocativo:** Este é o texto que consolidou a engenharia do caos como disciplina, e não como folclore de engenharia. Escrito por quem operou a prática em escala de streaming global, ele apresenta os princípios fundadores e, sobretudo, os limites: o que um experimento pode demonstrar e o que ele nunca vai demonstrar sobre a resiliência de um sistema.
+
+**Referência:** BASIRI, Ali et al. Chaos engineering. *IEEE Software*, v. 33, n. 3, p. 35-41, maio/jun. 2016. DOI: 10.1109/MS.2016.60.
+
+**Link de acesso:** <https://doi.org/10.1109/MS.2016.60>. Acesso em: 1 ago. 2026.
+
+**Aula indicada:** Aula 14, antes da atividade prática de planejamento do experimento.

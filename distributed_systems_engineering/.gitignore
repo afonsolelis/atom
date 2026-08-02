@@ -1,0 +1,14 @@
+# Originais institucionais recebidos: contêm modelos binários e dados sensíveis.
+/documentos/
+
+# Cópias institucionais preenchidas: preservam o bloco de acesso autorizado.
+# O pacote espelha as pastas de `documentos/`; tudo é regerado por
+# `scripts/montar_entrega.py`, então só o README e o manifesto são versionados.
+/entrega_final/Unidade */
+/entrega_final/Instrumentos Avaliativos/
+/entrega_final/assets/
+/entrega_final/index.html
+/entrega_final/validacao_docx.json
+
+# Artefatos temporários de renderização e inspeção.
+/.qa-render/

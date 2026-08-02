@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 12 — Segurança e comunicação confiável entre serviços · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Segurança e comunicação confiável entre serviços</h1>
+      <h1>Aula 12 — Segurança e comunicação confiável entre serviços</h1>
       <div class="subtitulo">Unidade 3 — Serviços, eventos e plataformas cloud-native</div>
-      <div class="docente">Prof. Afonso Cesar Lelis Brandão · Distributed Systems Engineering</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro comparando comunicação interna em texto claro e comunicação protegida por TLS mútuo; um diagrama de service mesh com proxies laterais junto a cada serviço e um plano de controle central; um painel numérico do algoritmo de balde de fichas com capacidade 50 e reposição de 20 fichas por segundo; um quadro com quatro ameaças específicas de sistemas distribuídos; e uma sequência das quatro verificações de segurança em uma chamada de pedidos para pagamento.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Segurança e comunicação confiável entre serviços</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
           <li>Identidade de serviço e confiança zero</li>
           <li>Autenticação, autorização e menor privilégio</li>
-          <li>TLS mútuo e gestão de segredos</li>
-          <li>Proxy lateral e service mesh</li>
-          <li>Limitação de taxa: o balde de fichas</li>
+          <li>TLS e TLS mútuo na comunicação interna</li>
+          <li>Gestão e rotação de segredos</li>
+          <li>Gateway, proxy lateral e service mesh</li>
+          <li>Limitação de taxa e proteção contra sobrecarga</li>
           <li>Ameaças específicas de sistemas distribuídos</li>
+          <li>Um fluxo autenticado de ponta a ponta</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,129 +856,253 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Contrapor</strong> segurança de perímetro e confiança zero em uma arquitetura de serviços.</li>
+          <li><strong>Separar</strong> autenticação de autorização e aplicar o princípio do menor privilégio.</li>
+          <li><strong>Explicar</strong> o que o TLS mútuo garante — e o que ele deliberadamente não garante.</li>
+          <li><strong>Justificar</strong> a gestão externa de segredos pelo tempo de resposta a um incidente.</li>
+          <li><strong>Dimensionar</strong> um limitador de taxa por balde de fichas, distinguindo pico de regime permanente.</li>
+          <li><strong>Reconhecer</strong> ameaças que exploram propriedades já estudadas de comunicação e falha.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Qualquer serviço pode falar com qualquer serviço?</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Numa revisão de segurança da NexaOrder: nada impede que <strong>expedição</strong> chame diretamente <strong>pagamento</strong> e peça um reembolso.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma revisão de segurança na NexaOrder revela um risco que estava à vista o tempo todo:</p>
         <ul>
-          <li>Comunicação interna em texto claro, sem verificação de identidade além do endereço de rede.</li>
-          <li>Credencial do provedor de pagamento num arquivo de configuração acessível a qualquer pessoa com acesso ao repositório.</li>
-          <li>Confiabilidade aqui significa: origem verdadeira, mensagem íntegra, permissão explícita, segredo protegido.</li>
+          <li>Nada impede que <strong>expedição chame pagamento e solicite um reembolso</strong>, operação nunca prevista para ela.</li>
+          <li>A comunicação interna acontece <strong>em texto claro</strong> dentro do cluster.</li>
+          <li>Não há verificação de identidade <strong>além do endereço de rede</strong>.</li>
+          <li>As credenciais do provedor de pagamento estão <strong>em arquivo de configuração versionado</strong>.</li>
         </ul>
+        <div class="callout-azul"><p>Confiabilidade aqui é mais ampla que disponibilidade: é confiar que a mensagem <strong>vem de quem diz vir</strong>, que <strong>não foi alterada</strong>, que cada serviço só faz <strong>o que lhe é explicitamente permitido</strong> e que segredos não ficam expostos por conveniência operacional.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Identidade de serviço e confiança zero</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Perímetro e confiança zero</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Segurança de perímetro fica frágil com dezenas de serviços: um componente comprometido dentro da rede ganha acesso amplo.</li>
-          <li><strong>Confiança zero</strong>: nenhuma requisição é confiável só por vir de dentro da rede interna.</li>
-          <li>Cada serviço tem <strong>identidade verificável</strong> (certificado ou token), e toda comunicação é autenticada e autorizada explicitamente — mesmo entre serviços do mesmo cluster.</li>
+          <li><strong>Modelo de perímetro</strong> — tudo dentro da rede interna é relativamente confiável; a proteção se concentra na borda.</li>
+          <li><strong>Por que ele falha</strong> — com dezenas de serviços e múltiplos times, um único componente comprometido ganha acesso amplo.</li>
+          <li><strong>Confiança zero</strong> — nenhuma requisição é confiável apenas por vir de dentro da rede.</li>
+          <li><strong>Identidade verificável</strong> — cada serviço tem certificado ou token criptográfico associado <em>a ele</em>, não ao seu endereço de rede.</li>
+          <li><strong>Toda comunicação é autenticada</strong> — mesmo entre serviços do mesmo cluster, como se cruzasse fronteira não confiável.</li>
+          <li><strong>Referência formal</strong> — a publicação especial do NIST sobre arquitetura de confiança zero.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Autenticação, autorização e menor privilégio</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Duas perguntas complementares — e nenhuma delas substitui a outra:</p>
         <ul>
-          <li><strong>Autenticação</strong>: "quem está fazendo esta requisição?" <strong>Autorização</strong>: "o que essa identidade pode fazer?" — uma não substitui a outra.</li>
-          <li><strong>Menor privilégio</strong>: cada identidade recebe só as permissões estritamente necessárias.</li>
-          <li>Expedição deveria ser autenticada como "expedição" e autorizada só a consultar status e confirmar envio — <em>sem</em> permissão de reembolso.</li>
+          <li><strong>Autenticação</strong> — “quem está fazendo esta requisição?”</li>
+          <li><strong>Autorização</strong> — “o que essa identidade tem permissão para fazer?”</li>
+          <li><strong>Menor privilégio</strong> — cada identidade recebe apenas as permissões estritamente necessárias, nada além.</li>
+          <li><strong>Na NexaOrder</strong> — expedição autentica-se como “expedição” e é autorizada apenas a consultar status e confirmar envio.</li>
         </ul>
+        <div class="callout-azul"><p>Um serviço pode estar <strong>corretamente autenticado</strong> e ainda assim não ter autorização para uma operação específica — o reembolso continua fora do alcance da expedição, mesmo que a rede permita a chamada.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>TLS mútuo e gestão de segredos</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>TLS e TLS mútuo</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>TLS mútuo (mTLS)</strong>: as duas partes apresentam certificado e verificam identidade antes de trocar dados.</li>
-          <li><strong>Segredos</strong> (credenciais, chaves, certificados) nunca embutidos em imagem ou repositório — sistema dedicado, com <strong>rotação</strong>.</li>
-          <li>Credencial embutida em imagem: trocar leva <em>horas</em> (nova versão + reimplantação). Com rotação automatizada: <em>segundos</em>.</li>
+          <li><strong>TLS</strong> — protege dados em trânsito contra leitura e alteração por terceiros, com criptografia entre as duas pontas.</li>
+          <li><strong>TLS tradicional na web</strong> — apenas o servidor apresenta certificado.</li>
+          <li><strong>TLS mútuo (mTLS)</strong> — <em>ambas</em> as partes apresentam certificados e verificam a identidade uma da outra.</li>
+          <li><strong>O que o mTLS resolve</strong> — o serviço de pagamento passa a autenticar a identidade de quem o chamou.</li>
+          <li><strong>O que ele não resolve</strong> — uma política de autorização <em>separada</em> decide se aquela identidade pode executar a operação.</li>
+          <li><strong>A conclusão</strong> — estar na mesma rede não basta; ter certificado válido também não concede, por si só, permissão de reembolso.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Proxy lateral e service mesh</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Proxy lateral</strong> (sidecar): processo auxiliar junto a cada instância que intercepta tráfego e aplica políticas uniformes.</li>
-          <li><strong>Service mesh</strong>: proxies laterais coordenados por um plano de controle central — mTLS entre todos os serviços sem tocar no código de cada um.</li>
-          <li>Gateway (Aula 9) protege a borda externa; proxy lateral protege a comunicação interna — papéis complementares.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Limitação de taxa e ameaças específicas</h2>
+      <h2>Gestão de segredos: por que o cofre importa</h2>
       <div class="slide-content-box">
-        <p><strong>Balde de fichas</strong>: capacidade <em>C</em>=50, reposição <em>r</em>=20/s → sustenta 20 req/s, absorve rajada de até 50; excedente é recusado ou espera.</p>
-        <ul>
-          <li><strong>Repetição (replay)</strong>: mitigada por id único de operação. <strong>Movimento lateral</strong>: mitigado por autenticação mútua e menor privilégio.</li>
-          <li><strong>Amplificação por retry</strong>: repetição sem <em>backoff</em> vira sobrecarga generalizada. <strong>Exposição de segredo</strong> por configuração versionada.</li>
-        </ul>
+        <p>Credenciais, chaves de API e certificados não devem ficar em imagens, arquivos versionados ou variáveis definidas manualmente. A diferença aparece <strong>no momento do incidente</strong>:</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Onde está o segredo</th><th>Como trocar após comprometimento</th><th>Tempo até a contenção</th></tr></thead>
+          <tbody>
+            <tr><td>Embutido na imagem</td><td>Publicar nova imagem, testar e reimplantar todos os Pods afetados</td><td>Horas — a credencial exposta segue válida nesse intervalo</td></tr>
+            <tr><td>Gestor de segredos com rotação</td><td>Rotacionar o valor; o Pod consulta o segredo atual quando precisa</td><td>Segundos — sem nova publicação de imagem</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Um gestor de segredos controla acesso, <strong>registra auditoria de uso</strong> e permite <strong>rotação</strong> periódica. Essa diferença de velocidade de resposta costuma determinar se um incidente fica contido ou se prolonga por dias.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Segurança de comunicação entre serviços distribuídos não é um interruptor único que se liga; é a composição deliberada de várias camadas independentes, cada uma cobrindo um tipo de risco que as outras não cobrem."</blockquote>
-      <cite>— Prof. Afonso Cesar Lelis Brandão</cite>
+      <blockquote>“Estar na mesma rede não basta; possuir um certificado válido também não concede, por si só, permissão para reembolsar ou cobrar.”</blockquote>
+      <cite>— síntese da Aula 12</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Gateway, proxy lateral e service mesh</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Implementar autenticação, criptografia, limitação de taxa e autorização <em>dentro do código de cada serviço</em> é custoso e propenso a inconsistência.</p>
+        <ul>
+          <li><strong>Proxy lateral (sidecar)</strong> — processo auxiliar junto a cada instância, no mesmo Pod, que intercepta todo o tráfego de entrada e saída.</li>
+          <li><strong>O ganho</strong> — as políticas se aplicam de forma uniforme, sem que a aplicação as implemente.</li>
+          <li><strong>Service mesh</strong> — proxies laterais coordenados por um plano de controle que distribui configuração, certificados e políticas.</li>
+          <li><strong>Papéis complementares</strong> — o gateway protege a borda voltada a clientes externos; o proxy lateral protege a comunicação interna.</li>
+        </ul>
+        <div class="callout-azul"><p>Com service mesh, aplicar <strong>mTLS entre todos os serviços</strong> da NexaOrder não exige alterar o código de pedidos, estoque, pagamento e expedição — e ainda produz métricas uniformes de comunicação, tema retomado na Unidade 4.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Balde de fichas: absorvendo picos sem cair</h2>
+      <div class="slide-content-box">
+        <p>Um balde de capacidade <strong>C</strong> é reabastecido a <strong>r</strong> fichas por segundo; cada requisição consome uma ficha, e requisições sem ficha são recusadas ou colocadas em espera.</p>
+        <div class="callout-azul formula"><p>λ<sub>sustentável</sub> = r &nbsp;&nbsp;|&nbsp;&nbsp; pico absorvido = C</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">50</span><span class="legenda">capacidade do balde (C)</span></div>
+          <div class="stat-card"><span class="numero-grande">20/s</span><span class="legenda">taxa de reposição (r)</span></div>
+          <div class="stat-card"><span class="numero-grande">90</span><span class="legenda">requisições em 1 segundo</span></div>
+          <div class="stat-card"><span class="numero-grande">40</span><span class="legenda">recusadas ou atrasadas</span></div>
+        </div>
+        <div class="callout-azul"><p>O balde absorve as primeiras <strong>50</strong> imediatamente e recusa ou atrasa as <strong>40</strong> restantes até que novas fichas sejam repostas — protegendo o serviço de uma sobrecarga que comprometeria a disponibilidade <strong>para todos os chamadores</strong>, não apenas para a origem da rajada.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Quatro ameaças que exploram a distribuição</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Ameaça</th><th>Como funciona</th><th>Mitigação</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Repetição (replay)</strong></td><td>Mensagem legítima capturada e reenviada para produzir efeito indevido</td><td>Identificador único persistido, janela de validade, verificação de integridade e rejeição atômica de IDs já consumidos</td></tr>
+            <tr><td><strong>Movimento lateral</strong></td><td>Serviço de baixo privilégio comprometido é usado para alcançar serviços sensíveis</td><td>Autenticação mútua e menor privilégio entre todos os serviços, não só na borda</td></tr>
+            <tr><td><strong>Amplificação por retry</strong></td><td>Repetição agressiva transforma indisponibilidade parcial em sobrecarga generalizada</td><td>Backoff, jitter e orçamento de tentativas, como na Aula 2</td></tr>
+            <tr><td><strong>Exposição de segredos</strong></td><td>Segredos em imagens, logs ou repositórios ficam acessíveis muito além do escopo pretendido</td><td>Gestor de segredos com rotação e auditoria</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>As quatro <strong>reinterpretam, sob ótica adversarial</strong>, conceitos já estudados: replay explora a mesma ausência de identificação de operação discutida em idempotência; amplificação reproduz o padrão de retry sem backoff da Aula 2.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Um fluxo autenticado: pedidos → pagamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Reunindo os elementos da aula, uma chamada do serviço de pedidos ao de pagamento deveria atravessar, no mínimo, quatro verificações:</p>
+        <ul>
+          <li><strong>1. TLS mútuo</strong> — ambos os lados apresentam certificados válidos, emitidos por autoridade confiável do cluster.</li>
+          <li><strong>2. Autorização</strong> — a identidade “pedidos” pode solicitar autorizações de pagamento, mas <em>não</em> reembolsos.</li>
+          <li><strong>3. Limitação de taxa</strong> — aplicada pelo proxy lateral do serviço de pagamento, protegendo-o de sobrecarga.</li>
+          <li><strong>4. Identificador único</strong> — anexado à requisição, permitindo rejeitar repetições indevidas.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Transição</p>
+      <h2>O que a Unidade 4 vai perguntar</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Com serviços delimitados, comunicação orientada a eventos, execução orquestrada e comunicação segura, a arquitetura da NexaOrder está <strong>estruturalmente completa</strong>. A Unidade 4 muda o foco de “como construir” para “como saber que está funcionando”:</p>
+        <ul>
+          <li>Como enxergar o sistema por dentro com <strong>logs, métricas e rastreamento distribuído</strong>?</li>
+          <li>Como provar que a resiliência funciona, com <strong>testes e engenharia do caos</strong>?</li>
+          <li>Como processar grandes volumes em <strong>lote e em fluxo</strong>?</li>
+          <li>Como <strong>avaliar e evoluir</strong> a arquitetura a partir de requisitos e indicadores?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -973,49 +1110,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Confiança zero</h3><p>Toda comunicação, mesmo interna, é tratada como não confiável até prova de identidade.</p></div>
-          <div class="ponto"><h3>AuthN ≠ AuthZ</h3><p>Autenticação e autorização respondem perguntas diferentes; menor privilégio limita o dano de um comprometimento.</p></div>
-          <div class="ponto"><h3>mTLS + segredos</h3><p>Certificado nos dois lados e rotação de credenciais reduzem a janela de exposição.</p></div>
-          <div class="ponto"><h3>Camadas complementares</h3><p>Service mesh, balde de fichas e mitigação de ameaças cobrem riscos que nenhum mecanismo isolado resolve.</p></div>
+          <div class="ponto"><h3>Perímetro não basta</h3><p>Confiança zero trata cada requisição interna como se cruzasse uma fronteira não confiável.</p></div>
+          <div class="ponto"><h3>Duas perguntas distintas</h3><p>Autenticação identifica quem chama; autorização decide o que essa identidade pode fazer.</p></div>
+          <div class="ponto"><h3>mTLS autentica, não autoriza</h3><p>Certificado válido prova identidade; a permissão vem de uma política separada.</p></div>
+          <div class="ponto"><h3>Segredo fora do artefato</h3><p>Rotação em segundos versus horas é o que separa um incidente contido de um incidente prolongado.</p></div>
+          <div class="ponto"><h3>Política sem tocar no código</h3><p>O service mesh aplica mTLS, autorização e limitação de taxa de forma uniforme via proxies laterais.</p></div>
+          <div class="ponto"><h3>Ameaças reciclam conceitos</h3><p>Replay, movimento lateral e amplificação exploram, com intenção maliciosa, propriedades já estudadas.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Fluxo autenticado pedidos → pagamento</h2>
-      <div class="slide-content-box">
+      <h2>Mãos à obra: um fluxo autenticado e autorizado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Elabore o fluxo de segurança entre os serviços de pedido e pagamento da NexaOrder.</p>
         <ul>
-          <li>Descreva as identidades envolvidas e o mecanismo de autenticação mútua.</li>
-          <li>Defina uma política de menor privilégio para "pedidos" em relação a "pagamento".</li>
-          <li>Configure um balde de fichas para o endpoint de autorização de pagamento, justificando capacidade e taxa.</li>
-          <li>Identifique uma ameaça (repetição, movimento lateral ou amplificação por retry) que o fluxo deve resistir.</li>
+          <li><strong>1.</strong> Descreva as identidades envolvidas e o mecanismo de autenticação mútua entre elas.</li>
+          <li><strong>2.</strong> Defina as permissões da identidade “pedidos”, aplicando menor privilégio.</li>
+          <li><strong>3.</strong> Indique explicitamente quais operações ela <em>não</em> pode executar.</li>
+          <li><strong>4.</strong> Especifique onde os segredos são armazenados e com que política de rotação.</li>
+          <li><strong>5.</strong> Dimensione um balde de fichas para o serviço de pagamento, justificando C e r.</li>
+          <li><strong>6.</strong> Explique como o desenho impede um ataque de repetição da requisição de cobrança.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 12 — Videoaula 12</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
-      <h1>Encerramento da Unidade 3</h1>
-      <p class="fim-texto">Com serviços delimitados, comunicação orientada a eventos, execução orquestrada e comunicação segura, a arquitetura da NexaOrder está estruturalmente completa. A Unidade 4 muda o foco de "como construir" para "como saber que está funcionando": observabilidade, resiliência e engenharia do caos, processamento distribuído, computação de borda, funções como serviço — e o projeto integrado final da NexaOrder.</p>
-      <p class="fim-proxima">Próxima: Unidade 4 — Operação, validação e evolução.</p>
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você fecha a Unidade 3 com uma arquitetura estruturalmente completa: serviços delimitados, comunicação por eventos, execução orquestrada e tráfego autenticado. A Unidade 4 responde à pergunta que sobra: como saber que tudo isso está mesmo funcionando?</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 4 — Operação, validação e evolução.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1029,6 +1171,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1050,6 +1193,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1060,6 +1205,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

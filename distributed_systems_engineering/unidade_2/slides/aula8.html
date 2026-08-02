@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 8 — Transações distribuídas, sagas e idempotência · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Transações distribuídas, sagas e idempotência</h1>
+      <h1>Aula 8 — Transações distribuídas, sagas e idempotência</h1>
       <div class="subtitulo">Unidade 2 — Dados distribuídos, consistência e coordenação</div>
-      <div class="docente">Distributed Systems Engineering · Prof. Afonso Cesar Lelis Brandão</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um fluxo das duas fases da confirmação em duas fases; um painel numérico com o risco multiplicativo de quatro participantes; um quadro comparando saga coreografada e orquestrada; um fluxo do padrão outbox gravando alteração e evento na mesma transação local; e uma sequência da saga da NexaOrder com as etapas normais e as compensações.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Transações distribuídas, sagas e idempotência</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Atomicidade local vs distribuída</li>
-          <li>Confirmação em duas fases (2PC)</li>
+          <li>Atomicidade local e atomicidade distribuída</li>
+          <li>Confirmação em duas fases e o problema do bloqueio</li>
           <li>Sagas coreografadas e orquestradas</li>
-          <li>Ações compensatórias</li>
-          <li>Padrões outbox e inbox</li>
-          <li>Idempotência e deduplicação</li>
+          <li>Ações compensatórias e o que elas não desfazem</li>
+          <li>O problema da escrita dupla e o padrão outbox</li>
+          <li>Deduplicação atômica com o padrão inbox</li>
+          <li>At-least-once e efeito efetivamente único</li>
+          <li>A saga completa da NexaOrder</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,134 +856,314 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Explicar</strong> por que a atomicidade de um banco não se estende a operações entre serviços.</li>
+          <li><strong>Descrever</strong> as duas fases do 2PC e identificar o cenário de bloqueio do coordenador.</li>
+          <li><strong>Modelar</strong> uma saga com transações locais e ações compensatórias correspondentes.</li>
+          <li><strong>Escolher</strong> entre coreografia e orquestração a partir do número de passos e da necessidade de rastreio.</li>
+          <li><strong>Aplicar</strong> os padrões outbox e inbox para eliminar escrita dupla e efeito duplicado.</li>
+          <li><strong>Projetar</strong> operações idempotentes que sobrevivam a reentregas at-least-once.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Situação-problema</p>
+      <h2>Uma compra, quatro serviços, nenhuma transação única</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Com replicação, particionamento e consenso resolvidos <em>dentro</em> de cada serviço, restou o problema que atravessa todos eles: uma compra toca pedidos, estoque, pagamento e expedição — cada um com seu próprio banco.</p>
+        <ul>
+          <li>Não existe mais uma <strong>transação única</strong> capaz de garantir que os quatro passos aconteçam todos ou nenhum.</li>
+          <li>Em teste de carga: o pagamento <strong>foi autorizado</strong>.</li>
+          <li>Uma falha de rede impediu a confirmação de chegar a tempo ao serviço de pedidos.</li>
+          <li>O cliente viu a interface travada, tentou de novo — e <strong>dois pagamentos</strong> foram processados para a mesma compra.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Atomicidade local e distribuída</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Dentro de um único banco, a atomicidade é responsabilidade do próprio sistema: tudo ou nada, mesmo em falha.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Compra da NexaOrder toca <strong>4 serviços</strong>: pedidos, estoque, pagamento, expedição — cada um com seu próprio banco.</li>
-          <li>Situação-problema: pagamento autorizado, confirmação não chegou ao serviço de pedidos por falha de rede, cliente tentou de novo → <strong>pagamento duplicado</strong>.</li>
-          <li>Não existe mais uma transação única — é preciso um mecanismo explícito de coordenação.</li>
+          <li><strong>Dentro de um banco</strong> — a atomicidade é responsabilidade do próprio sistema: aplica todas as operações ou nenhuma, mesmo em caso de falha.</li>
+          <li><strong>Entre bancos independentes</strong> — nenhuma transação única garante essa propriedade automaticamente.</li>
+          <li><strong>O que resta</strong> — um mecanismo <em>explícito</em> de coordenação entre os serviços.</li>
+          <li><strong>A escolha desta aula</strong> — coordenar bloqueando (2PC) ou coordenar compensando (sagas).</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Confirmação em duas fases (2PC)</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um coordenador conduz a transação distribuída em duas etapas:</p>
         <ul>
-          <li><strong>Fase 1 — preparação:</strong> coordenador pergunta a cada participante se está pronto; cada um bloqueia recursos e responde.</li>
-          <li><strong>Fase 2 — confirmação:</strong> se todos disseram "pronto", confirma para todos; se algum abortou, desfaz para todos.</li>
-          <li>Custo: recursos ficam <strong>bloqueados</strong> durante a espera; falha do coordenador entre as fases trava os participantes.</li>
-          <li>Exemplo: 4 serviços com 1% de chance de lentidão cada → P(pelo menos um lento) = 1 − 0,99⁴ ≈ 3,9%.</li>
+          <li><strong>1. Preparação</strong> — o coordenador pergunta a cada participante se está pronto para confirmar sua parte.</li>
+          <li><strong>2. Resposta</strong> — cada participante executa provisoriamente, <em>bloqueia os recursos</em> e responde “pronto” ou “abortar”.</li>
+          <li><strong>3. Confirmação</strong> — se todos responderam “pronto”, o coordenador ordena a confirmação definitiva.</li>
+          <li><strong>4. Aborto</strong> — se algum respondeu “abortar” ou não respondeu a tempo, o coordenador ordena desfazer em todos.</li>
         </ul>
+        <div class="callout-azul"><p>O 2PC <strong>garante</strong> atomicidade distribuída — ao custo de manter recursos bloqueados durante toda a espera pela decisão.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Sagas coreografadas e orquestradas</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Uma <strong>saga</strong> troca uma transação distribuída por uma sequência de transações locais, encadeadas por eventos ou comandos.</p>
+      <h2>O bloqueio do 2PC</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Coreografada:</strong> cada serviço publica eventos e os demais reagem — simples, mas o fluxo fica implícito e disperso.</li>
-          <li><strong>Orquestrada:</strong> um orquestrador central envia comandos e aguarda confirmação — fluxo explícito e rastreável, sem bloquear recursos como o 2PC.</li>
-          <li>NexaOrder (4 passos, várias compensações): orquestração compensa o custo do componente central pela observabilidade.</li>
+          <li><strong>O cenário crítico</strong> — o coordenador falha depois da preparação e antes de comunicar a decisão final.</li>
+          <li><strong>O efeito</strong> — os participantes ficam bloqueados, incapazes de decidir sozinhos se confirmam ou desfazem.</li>
+          <li><strong>A recuperação</strong> — exige registrar a decisão de forma durável antes da falha.</li>
+          <li><strong>E ainda</strong> — em geral, um processo que consulte o registro do coordenador assim que ele voltar.</li>
+          <li><strong>O custo cresce</strong> com o número de participantes e com a duração da transação.</li>
+          <li><strong>Por isso</strong> — o 2PC é pouco usado em operações de negócio longas, sendo mais comum em transações curtas dentro do mesmo domínio de infraestrutura.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Ações compensatórias na saga da NexaOrder</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Cada etapa que altera estado precisa de uma compensação correspondente:</p>
-        <ul>
-          <li><strong>Reservar estoque</strong> → compensação: liberar a reserva.</li>
-          <li><strong>Autorizar pagamento</strong> → compensação: estornar o valor autorizado.</li>
-          <li><strong>Gerar etiqueta de expedição</strong> → compensação: cancelar a etiqueta antes do despacho.</li>
-          <li>Compensação nem sempre é o inverso perfeito — estornar pode envolver taxas e prazos diferentes de "não ter cobrado".</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Padrões outbox e inbox</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Escrita dupla (dual write problem):</strong> gravar no banco e publicar um evento separadamente — se falhar entre as duas, um pode acontecer sem o outro.</li>
-          <li><strong>Outbox:</strong> grava o evento na mesma transação local da alteração de negócio; um processo separado publica de forma confiável.</li>
-          <li><strong>Inbox:</strong> antes de processar uma mensagem, registra seu identificador; mensagens repetidas são reconhecidas e descartadas.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Idempotência e deduplicação</h2>
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Por que mais participantes pioram o risco</h2>
       <div class="slide-content-box">
-        <p>Mensageria distribuída entrega <strong>pelo menos uma vez</strong> — duplicatas são esperadas, não exceção.</p>
-        <ul>
-          <li><strong>Idempotente:</strong> aplicar a operação duas vezes produz o mesmo resultado que aplicar uma vez.</li>
-          <li><strong>Chave de idempotência:</strong> identificador único por tentativa; se já processada, retorna o resultado anterior sem cobrar de novo.</li>
-          <li>No incidente da situação-problema, essa chave teria reconhecido a segunda tentativa como repetição, evitando o pagamento duplicado.</li>
-        </ul>
+        <p>Se cada um dos quatro serviços tem, isoladamente, <strong>1%</strong> de chance de estar lento ou indisponível em um dado instante — tratando os eventos como independentes apenas para este cálculo — a chance de <strong>pelo menos um</strong> atrasar a transação é:</p>
+        <div class="callout-azul formula"><p>P(ao menos um lento) = 1 − (1 − 0,01)<sup>4</sup> ≈ 3,9%</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">1%</span><span class="legenda">risco por serviço</span></div>
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">participantes no 2PC</span></div>
+          <div class="stat-card"><span class="numero-grande">3,9%</span><span class="legenda">risco da transação</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 4×</span><span class="legenda">o risco isolado</span></div>
+        </div>
+        <div class="callout-azul"><p>Quanto mais participantes um coordenador precisa reunir, maior a chance de a transação inteira ficar <strong>refém do elo mais lento</strong>. Somado ao risco de bloqueio na falha do coordenador, é o argumento decisivo contra o 2PC em fluxos com muitos serviços independentes.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"A rede vai duplicar mensagens. A pergunta é: seu sistema aguenta isso?"</blockquote>
-      <cite>— Unidade 2, Distributed Systems Engineering</cite>
+      <blockquote>“Uma compensação nem sempre é o inverso perfeito da operação original: estornar um pagamento já processado pode envolver taxas e prazos diferentes de simplesmente não ter cobrado.”</blockquote>
+      <cite>— síntese da Aula 8</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Sagas: transações locais encadeadas</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma <strong>saga</strong> substitui a transação distribuída única por uma sequência de transações locais, cada uma confinada a um serviço e encadeada por eventos ou comandos.</p>
+        <ul>
+          <li><strong>Sem desfazer instantâneo</strong> — quando uma etapa falha, a saga não reverte tudo como o 2PC.</li>
+          <li><strong>Compensação</strong> — executa ações que revertem <em>logicamente</em> o efeito das etapas já concluídas.</li>
+          <li><strong>Sem bloqueio global</strong> — cada transação local confirma e libera seus recursos imediatamente.</li>
+          <li><strong>O preço</strong> — existe um intervalo em que o sistema está parcialmente aplicado, e isso precisa ser visível.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Coreografada ou orquestrada</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Critério</th><th>Saga coreografada</th><th>Saga orquestrada</th></tr></thead>
+          <tbody>
+            <tr><td>Coordenação</td><td>Cada serviço publica eventos; os demais reagem</td><td>Um orquestrador central envia comandos explícitos</td></tr>
+            <tr><td>Onde está o fluxo</td><td>Implícito, disperso entre os serviços</td><td>Explícito, concentrado em um componente</td></tr>
+            <tr><td>Rastreabilidade</td><td>Difícil saber em que etapa uma saga está</td><td>Fácil de acompanhar e auditar</td></tr>
+            <tr><td>Melhor para</td><td>Poucos passos e acoplamento mínimo</td><td>Fluxos longos com muitas compensações</td></tr>
+            <tr><td>Cuidado</td><td>O processo de negócio não existe em lugar nenhum</td><td>O orquestrador concentra conhecimento — mas, ao contrário do 2PC, não bloqueia recursos</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Ações compensatórias</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Como não há transação global para desfazer, cada etapa que altera estado precisa de uma compensação capaz de revertê-la de forma <strong>consistente com o negócio</strong>:</p>
+        <ul>
+          <li><strong>Reservar estoque</strong> → compensação: liberar a reserva.</li>
+          <li><strong>Autorizar pagamento</strong> → compensação: estornar o valor autorizado.</li>
+          <li><strong>Gerar etiqueta de expedição</strong> → compensação: cancelar a etiqueta antes do despacho.</li>
+        </ul>
+        <div class="callout-azul"><p>A compensação <strong>nem sempre é o inverso perfeito</strong>. Estornar um pagamento pode envolver taxas, prazos ou políticas comerciais diferentes de nunca ter cobrado — por isso, projetar a compensação é uma <strong>decisão de negócio</strong> tanto quanto técnica.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Escrita dupla e o padrão outbox</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O <strong>problema da escrita dupla</strong>: o serviço grava no banco e depois publica o evento. Se falhar entre as duas operações, o evento nunca é publicado — ou é publicado sem que a alteração tenha sido confirmada.</p>
+        <ul>
+          <li><strong>1. Uma única transação local</strong> grava a alteração de negócio <em>e</em> o evento em uma tabela auxiliar.</li>
+          <li><strong>2. Mesmo banco</strong> — a tabela <em>outbox</em> vive dentro do banco do próprio serviço.</li>
+          <li><strong>3. Processo separado</strong> lê essa tabela e publica os eventos de forma confiável.</li>
+          <li><strong>4. Resultado</strong> — evento e estado ficam consistentes, sem transação distribuída entre banco e mensageria.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Inbox: deduplicação que só funciona atômica</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O <em>inbox</em> complementa o outbox do lado do consumidor — e o detalhe que o torna correto é a <strong>fronteira transacional</strong>:</p>
+        <ul>
+          <li><strong>Em uma única transação local</strong> — insere o identificador da mensagem (com restrição de unicidade) <em>e</em> aplica a alteração de negócio.</li>
+          <li><strong>Identificador já existe</strong> — a mensagem é duplicata e seu efeito não se repete.</li>
+          <li><strong>Falha antes do commit</strong> — tanto o registro do ID quanto a alteração são revertidos; a reentrega tentará de novo.</li>
+          <li><strong>Em transações separadas é inseguro</strong> — uma falha entre as etapas descarta uma mensagem cujo efeito nunca ocorreu.</li>
+        </ul>
+        <div class="callout-azul"><p>Para efeitos <strong>externos</strong> ao banco local, o inbox precisa ser combinado com outbox, estados intermediários ou idempotência no próprio destino.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>At-least-once e efeito efetivamente único</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Entrega pelo menos uma vez</strong> — a mensageria reentrega em caso de dúvida: duplicatas são <em>esperadas</em>, não excepcionais.</li>
+          <li><strong>“Exactly-once” dos produtos</strong> — existe dentro de limites específicos; o efeito de negócio ponta a ponta ainda depende das fronteiras transacionais.</li>
+          <li><strong>Efetivamente único</strong> — combina deduplicação, alteração de estado atômica e operações idempotentes.</li>
+          <li><strong>Chave por operação lógica</strong> — criada antes do primeiro envio, reutilizada em todas as retentativas daquela operação.</li>
+          <li><strong>Fronteira atômica</strong> — verificar/inserir a chave, aplicar a mudança e armazenar o resultado, tudo junto.</li>
+          <li><strong>No incidente do pagamento</strong> — as duas tentativas carregariam a mesma chave; o serviço devolveria o resultado registrado sem cobrar de novo.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>A saga completa da NexaOrder</h2>
+      <div class="slide-content-box">
+        <p>Uma saga <strong>orquestrada</strong> para a compra, com as compensações explícitas:</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Etapa</th><th>Transação local</th><th>Compensação se falhar adiante</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Reservar estoque</td><td>Liberar a reserva</td></tr>
+            <tr><td>2</td><td>Autorizar pagamento</td><td>Estornar o valor autorizado</td></tr>
+            <tr><td>3</td><td>Confirmar pedido</td><td>Marcar o pedido como cancelado</td></tr>
+            <tr><td>4</td><td>Solicitar expedição</td><td>Cancelar a etiqueta antes do despacho</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Cada etapa publica seu evento via <strong>outbox</strong>; cada consumidor grava o <strong>inbox</strong> e o efeito de negócio na mesma transação local; e a <strong>chave de idempotência</strong> da operação é reutilizada nas retentativas. Se a autorização falhar, a compensação libera a reserva; se a expedição falhar depois do pagamento, estorna e libera.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Transição</p>
+      <h2>O que a Unidade 3 vai perguntar</h2>
+      <div class="slide-content-box">
+        <p>Esta unidade tratou de como os dados da NexaOrder são replicados, particionados, coordenados por consenso e mantidos coerentes por sagas. A Unidade 3 parte desse alicerce para tratar da organização dos <strong>próprios serviços</strong>:</p>
+        <ul>
+          <li>Como decompor a NexaOrder em <strong>limites de domínio</strong> bem definidos?</li>
+          <li>Como uma arquitetura <strong>orientada a eventos</strong> organiza produtores, consumidores e tópicos?</li>
+          <li>Como <strong>contêineres e Kubernetes</strong> automatizam implantação e recuperação desses serviços?</li>
+          <li>Como garantir <strong>comunicação segura</strong> e identidade entre eles?</li>
+        </ul>
+        <div class="callout-azul"><p>Os padrões <strong>outbox</strong> e as <strong>sagas</strong> estudados aqui reaparecem como parte central da arquitetura orientada a eventos da próxima unidade.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -978,49 +1171,53 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>2PC</h3><p>Garante atomicidade distribuída, mas bloqueia recursos e é vulnerável à falha do coordenador.</p></div>
-          <div class="ponto"><h3>Sagas</h3><p>Sequência de transações locais com ações compensatórias, coreografadas ou orquestradas.</p></div>
-          <div class="ponto"><h3>Outbox / inbox</h3><p>Evitam a escrita dupla e o reprocessamento de mensagens duplicadas.</p></div>
-          <div class="ponto"><h3>Idempotência</h3><p>Torna "exatamente uma vez" possível mesmo com entrega "pelo menos uma vez".</p></div>
+          <div class="ponto"><h3>Atomicidade não se estende</h3><p>A garantia de um único banco não cobre operações que atravessam múltiplos serviços.</p></div>
+          <div class="ponto"><h3>2PC bloqueia</h3><p>Garante atomicidade distribuída, mas prende recursos e fica vulnerável à falha do coordenador.</p></div>
+          <div class="ponto"><h3>Saga compensa</h3><p>Substitui a transação única por transações locais encadeadas com ações compensatórias.</p></div>
+          <div class="ponto"><h3>Coreografia ou orquestração</h3><p>A primeira dispensa coordenador; a segunda torna o fluxo explícito e rastreável.</p></div>
+          <div class="ponto"><h3>Outbox e inbox</h3><p>Outbox elimina a escrita dupla; inbox só evita efeito duplicado se ID e alteração estiverem na mesma transação.</p></div>
+          <div class="ponto"><h3>Idempotência fecha a conta</h3><p>Como a entrega é at-least-once, o efeito único depende de a operação ser idempotente.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Modele a saga completa pedido–estoque–pagamento–expedição da NexaOrder:</p>
+      <h2>Mãos à obra: modelar a saga completa</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Modele a saga pedido–estoque–pagamento–expedição e represente o resultado em um diagrama de fluxo com as etapas normais e as de compensação <strong>claramente distinguidas</strong>.</p>
         <ul>
-          <li>Liste as <strong>etapas</strong> na ordem e a ação compensatória de cada uma.</li>
-          <li>Escolha entre <strong>coreografia e orquestração</strong>, justificando para esse fluxo.</li>
-          <li>Indique em quais etapas aplicar o padrão <strong>outbox</strong>, e por quê.</li>
-          <li>Defina onde verificar uma <strong>chave de idempotência</strong> para evitar o pagamento duplicado.</li>
+          <li><strong>1.</strong> Liste as etapas na ordem correta e a ação compensatória de cada uma.</li>
+          <li><strong>2.</strong> Escolha entre coreografia e orquestração, justificando para este fluxo.</li>
+          <li><strong>3.</strong> Indique em quais etapas o padrão outbox deve ser aplicado, e por quê.</li>
+          <li><strong>4.</strong> Defina onde a chave de idempotência é criada, reutilizada e verificada.</li>
+          <li><strong>5.</strong> Mostre a fronteira transacional em que o consumidor grava o inbox e aplica o efeito.</li>
+          <li><strong>6.</strong> Explique o que ocorre se houver falha antes do commit dessa transação.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Fechamos a Unidade 2: replicação, particionamento, consenso e sagas formam a base de dados de qualquer sistema distribuído maduro. A Unidade 3 parte desse alicerce para decompor a NexaOrder em serviços com limites de domínio bem definidos e construir uma arquitetura orientada a eventos de verdade.</p>
+      <p class="fim-texto">Você fecha a Unidade 2 sabendo manter uma operação coerente entre quatro bancos independentes, sem coordenador bloqueante e sem duplicar efeitos. A Unidade 3 muda o foco dos dados para os serviços: limites de domínio, eventos, Kubernetes e comunicação segura.</p>
       <p class="fim-proxima">Próxima unidade: Unidade 3 — Serviços, eventos e plataformas cloud-native.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1035,6 +1232,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1056,6 +1254,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1066,6 +1266,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

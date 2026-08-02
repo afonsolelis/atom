@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 14 — Resiliência, testes distribuídos e engenharia do caos · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Resiliência, testes distribuídos e engenharia do caos</h1>
+      <h1>Aula 14 — Resiliência, testes distribuídos e engenharia do caos</h1>
       <div class="subtitulo">Unidade 4 — Operação, validação e evolução</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: uma pirâmide de testes com base ampla de unitários e topo estreito de ponta a ponta; três gráficos comparando os perfis de carga dos testes de carga, estresse e duração; um diagrama da ampliação progressiva do raio de impacto de um experimento de caos; um cartão de planejamento de experimento com hipótese, perturbação e critério de interrupção; e um painel numérico com a disponibilidade combinada de quatro serviços de 99,9%.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Resiliência, testes distribuídos e engenharia do caos</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>A pirâmide de testes em sistemas distribuídos</li>
-          <li>Testes de contrato, carga, estresse e duração</li>
-          <li>Engenharia do caos e hipótese de estado estável</li>
+          <li>A pirâmide de testes em um sistema distribuído</li>
+          <li>Testes de contrato: verificar acordos sem executar tudo</li>
+          <li>Testes de carga, estresse e duração</li>
+          <li>Engenharia do caos: injetar falha para aprender</li>
+          <li>Hipótese de estado estável</li>
           <li>Raio de impacto e mecanismo de interrupção</li>
-          <li>Disponibilidade combinada de uma cadeia de serviços</li>
+          <li>Por que a resiliência de cada serviço não basta</li>
           <li>Postmortem sem culpabilização</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,151 +856,259 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Dimensionar</strong> a pirâmide de testes reconhecendo o custo do topo em sistemas distribuídos.</li>
+          <li><strong>Aplicar</strong> testes de contrato para detectar incompatibilidade antes da implantação.</li>
+          <li><strong>Distinguir</strong> teste de carga, de estresse e de duração pela pergunta que cada um responde.</li>
+          <li><strong>Formular</strong> uma hipótese de estado estável mensurável para um experimento de caos.</li>
+          <li><strong>Delimitar</strong> raio de impacto e critério de interrupção antes de executar em produção.</li>
+          <li><strong>Calcular</strong> a disponibilidade combinada de uma cadeia de serviços e interpretar o resultado.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>O teste que nunca foi feito</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Durante uma promoção, o provedor de pagamento da NexaOrder fica instável por minutos. O circuito de proteção deveria isolar a falha — mas <strong>ninguém nunca o tinha testado sob falha</strong>.</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Durante uma promoção de fim de ano, o provedor de pagamento apresentou instabilidade de poucos minutos. O circuito de proteção da Unidade 1 <strong>deveria</strong> isolar a falha. Não foi o que aconteceu:</p>
         <ul>
-          <li>O serviço de pedidos aguardava o pagamento de forma síncrona e acumulou conexões até esgotar sua capacidade.</li>
-          <li>O efeito se propagou: o serviço de estoque, que dependia de pedidos, também ficou lento.</li>
-          <li>Suposições sobre resiliência precisam virar evidência obtida por testes estruturados.</li>
+          <li>O serviço de pedidos aguardava a resposta de forma síncrona <strong>em um ponto do código que ninguém havia testado sob falha</strong>.</li>
+          <li>Conexões pendentes se acumularam até <strong>esgotar o limite de capacidade</strong>.</li>
+          <li>O estoque, que dependia de pedidos para confirmar reservas, <strong>também ficou lento</strong>.</li>
+          <li>A equipe sabia, <em>em tese</em>, que os mecanismos existiam.</li>
         </ul>
+        <div class="callout-azul"><p>O que faltava era a prática de <strong>validá-los deliberadamente</strong> — antes que um evento real os testasse pela primeira vez, sob a pior condição possível: tráfego de pico.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>A pirâmide de testes e o teste de contrato</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Conteúdo</p>
+      <h2>A pirâmide de testes em um sistema distribuído</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="pyramid" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Unitários</strong> (base, rápidos) → <strong>integração</strong> (componente + dependência) → <strong>ponta a ponta</strong> (topo, caro e frágil em sistemas distribuídos).</li>
-          <li><strong>Teste de contrato</strong>: consumidor declara o que espera receber; o pipeline do produtor verifica automaticamente antes de implantar.</li>
-          <li>Detecta, sem exigir os dois serviços em execução simultânea, mudanças silenciosas em campos de eventos.</li>
+          <li><strong>Unitários</strong> — verificam uma função ou classe isoladamente, executando em milissegundos. Base ampla.</li>
+          <li><strong>Integração</strong> — verificam a interação entre um componente e suas dependências diretas, como banco ou fila.</li>
+          <li><strong>Ponta a ponta</strong> — verificam um fluxo completo atravessando múltiplos serviços reais. Topo estreito.</li>
         </ul>
+        <div class="callout-azul"><p>Em sistemas distribuídos, o <strong>topo é particularmente caro</strong>: um teste de ponta a ponta do checkout exige pedidos, estoque, pagamento e expedição disponíveis e coerentes — lento, frágil a mudanças não relacionadas e difícil de depurar. A recomendação: base ampla de unitários e de contrato, com um número <strong>reduzido e bem escolhido</strong> de integração e ponta a ponta, nos fluxos mais críticos.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Testes de carga, estresse e duração</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Conteúdo</p>
+      <h2>Testes de contrato</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="flow" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um teste de contrato verifica se consumidor e provedor <strong>concordam sobre o formato e o significado</strong> das mensagens — sem exigir que ambos estejam em execução simultânea.</p>
         <ul>
-          <li><strong>Carga</strong>: o sistema sustenta o tráfego esperado sem violar latência/erro?</li>
-          <li><strong>Estresse</strong>: aumenta a carga até o sistema quebrar — revela capacidade máxima e modo de degradação.</li>
-          <li><strong>Duração</strong> (<em>soak test</em>): carga sustentada por horas/dias — revela vazamentos de memória e esgotamento gradual de conexões.</li>
-          <li>Nenhum dos três, porém, testa o que acontece quando uma <em>dependência externa</em> fica indisponível.</li>
+          <li><strong>1. O consumidor declara</strong> — o estoque define expectativas explícitas sobre os campos que espera receber.</li>
+          <li><strong>2. Publicação</strong> — essas expectativas vão para um repositório compartilhado.</li>
+          <li><strong>3. Verificação no pipeline</strong> — o CI do produtor valida o contrato antes de qualquer implantação.</li>
+          <li><strong>4. Falha antecipada</strong> — se um campo esperado sumir ou mudar de nome, o pipeline falha antes da produção.</li>
         </ul>
+        <div class="callout-azul"><p>Esse mecanismo detectaria a <strong>alteração silenciosa no nome de um campo</strong> — problema recorrente em arquiteturas orientadas a eventos e responsável por falhas sutis que só aparecem muito depois da implantação.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Engenharia do caos e hipótese de estado estável</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p><strong>Engenharia do caos</strong>: injetar falhas deliberadas (latência, erro, indisponibilidade) e observar o comportamento real, em vez de presumi-lo.</p>
-        <ul>
-          <li>Todo experimento começa por uma <strong>hipótese de estado estável</strong> mensurável — não "o sistema deve continuar funcionando".</li>
-          <li>Ex.: "taxa de conclusão &gt; 98%, latência p95 &lt; 400 ms; durante a falha do pagamento, o circuito deve acionar e a conclusão não cair abaixo de 90%".</li>
-          <li>Exige as métricas de observabilidade da Aula 13 — sem elas, não há como confirmar a hipótese.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Raio de impacto e mecanismo de interrupção</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Raio de impacto</strong> (<em>blast radius</em>): começar pequeno — 1% do tráfego real — e ampliar gradualmente conforme a confiança aumenta.</li>
-          <li><strong>Mecanismo de interrupção</strong> (<em>kill switch</em>): comando capaz de encerrar a injeção de falha imediatamente se indicadores de negócio degradarem.</li>
-          <li>Esses dois elementos diferenciam um experimento responsável de "causar uma falha e esperar o melhor".</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Disponibilidade combinada e postmortem</h2>
+      <p class="kicker">Conteúdo</p>
+      <h2>Carga, estresse e duração</h2>
       <div class="slide-content-box">
-        <p>4 serviços com 99,9% de disponibilidade individual, encadeados de forma síncrona e sequencial: A = 0,999⁴ ≈ <strong>99,6%</strong> — pior que qualquer serviço isolado.</p>
-        <ul>
-          <li>Explica por que circuitos de proteção não são refinamento opcional.</li>
-          <li><strong>Postmortem sem culpabilização</strong>: reconstrói a linha do tempo, busca causas sistêmicas (não uma pessoa) e define ações com responsável e prazo.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Teste</th><th>O que aplica</th><th>A pergunta que responde</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Carga</strong></td><td>O tráfego esperado: dia típico ou pico projetado</td><td>O sistema atende ao que foi prometido, sem violar latência e erro?</td></tr>
+            <tr><td><strong>Estresse</strong></td><td>Carga crescente além do esperado, até falhar</td><td>Onde ele quebra — e como se degrada ao quebrar?</td></tr>
+            <tr><td><strong>Duração</strong> (soak)</td><td>Carga sustentada por horas ou dias</td><td>Como ele se degrada exposto ao tempo, não ao volume instantâneo?</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O teste de duração revela o que os outros dois escondem: <strong>vazamentos de memória, esgotamento gradual de conexões e acúmulo de dados temporários</strong> não liberados.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Pausa para reflexão</p>
-      <h2>"Homologação já garante confiança suficiente"?</h2>
-      <div class="slide-content-box">
-        <p>A equipe decide não fazer experimentos de caos em produção, argumentando que os testes de integração em homologação já bastam. Reflita:</p>
+      <p class="kicker">Conteúdo</p>
+      <h2>Engenharia do caos: injetar falha para aprender</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Conduzir <strong>experimentos controlados</strong> que injetam falhas deliberadas — latência adicional, erros simulados, indisponibilidade de um componente — para <em>observar</em> o comportamento real, em vez de presumi-lo.</p>
         <ul>
-          <li>Que diferenças entre homologação e produção podem invalidar essa suposição?</li>
-          <li>Por que testes de integração podem não revelar falhas parciais sob concorrência real?</li>
-          <li>Um experimento com raio de impacto limitado é mais seguro do que esperar por um incidente real?</li>
-          <li>Quais evidências de observabilidade (Aula 13) seriam necessárias antes de autorizar o primeiro experimento?</li>
+          <li><strong>Por que existe</strong> — sistemas distribuídos enfrentam combinações de falha raras demais para revisão de código prever.</li>
+          <li><strong>Mas frequentes o bastante</strong> — na escala de milhares de componentes, elas acontecem de tempos em tempos.</li>
+          <li><strong>Diferente de um teste unitário</strong> — parte de uma hipótese explícita e tenta <em>refutá-la</em> sob perturbação controlada.</li>
+          <li><strong>Resultados inesperados são valiosos</strong> — mas não dispensam critérios definidos <em>antes</em> da execução.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Hipótese de estado estável</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Todo experimento bem projetado começa por uma expectativa <strong>mensurável e específica</strong> sobre o comportamento normal, formulada antes de qualquer falha ser injetada.</p>
+        <ul>
+          <li><strong>Vago demais</strong> — “o sistema deve continuar funcionando”. Impossível de verificar.</li>
+          <li><strong>Em condições normais</strong> — taxa de conclusão acima de <strong>98%</strong> e p95 do checkout abaixo de <strong>400 ms</strong>.</li>
+          <li><strong>Durante a indisponibilidade simulada</strong> — o circuito de proteção deve ser acionado e o sistema degradar graciosamente.</li>
+          <li><strong>Critério de sucesso</strong> — a taxa de conclusão de pedidos não deve cair abaixo de <strong>90%</strong>.</li>
+        </ul>
+        <div class="callout-azul"><p>A hipótese exige um pré-requisito: a equipe já precisa <strong>saber medir</strong> taxa de conclusão e p95 continuamente. Sem as métricas da Aula 13, não há como confirmar nem refutar nada durante o experimento.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Resiliência que nunca foi testada é apenas uma suposição."</blockquote>
-      <cite>— Síntese da Videoaula 14, Distributed Systems Engineering</cite>
+      <blockquote>“Raio de impacto limitado e capacidade de interrupção imediata separam um experimento de caos responsável de simplesmente causar uma falha em produção e esperar o melhor.”</blockquote>
+      <cite>— síntese da Aula 14</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Raio de impacto e mecanismo de interrupção</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Comece pequeno</strong> — 1% do tráfego real, um ambiente controlado ou um pequeno subconjunto de instâncias.</li>
+          <li><strong>Amplie gradualmente</strong> — só à medida que a equipe ganha confiança sobre o comportamento observado.</li>
+          <li><strong>Kill switch</strong> — comando ou automação capaz de encerrar a injeção de falha instantaneamente.</li>
+          <li><strong>Gatilho declarado</strong> — os indicadores de negócio ultrapassarem um limite de degradação predefinido.</li>
+        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Elemento do cartão do experimento</th><th>Exemplo para a NexaOrder</th></tr></thead>
+          <tbody>
+            <tr><td>Hipótese de estado estável</td><td>Conclusão de pedidos ≥ 90% durante a perturbação</td></tr>
+            <tr><td>Perturbação</td><td>Indisponibilidade simulada do provedor de pagamento</td></tr>
+            <tr><td>Métricas de controle</td><td>Taxa de conclusão, p95 do checkout, estado do circuito</td></tr>
+            <tr><td>Raio de impacto</td><td>1% do tráfego, em uma única região</td></tr>
+            <tr><td>Critério de interrupção</td><td>Conclusão abaixo de 85% por mais de 60 segundos</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Por que a resiliência de cada serviço não basta</h2>
+      <div class="slide-content-box">
+        <p>Quatro serviços com <strong>99,9%</strong> de disponibilidade individual, em cadeia estritamente sequencial e sem tolerância a falha parcial:</p>
+        <div class="callout-azul formula"><p>A<sub>fluxo</sub> = 0,999<sup>4</sup> ≈ 0,996</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">99,9%</span><span class="legenda">por serviço</span></div>
+          <div class="stat-card"><span class="numero-grande">4</span><span class="legenda">serviços em cadeia</span></div>
+          <div class="stat-card"><span class="numero-grande">99,6%</span><span class="legenda">disponibilidade combinada</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 4×</span><span class="legenda">mais indisponibilidade</span></div>
+        </div>
+        <div class="callout-azul"><p>A composição entrega <strong>pior</strong> que cada componente isolado. É por isso que circuitos de proteção, degradação graciosa e processamento assíncrono <strong>não são refinamentos opcionais</strong> — e apenas testes deliberados, não a leitura do código, revelam se eles realmente atenuam esse efeito na prática.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Postmortem sem culpabilização</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Depois de um incidente real ou de um experimento que revela comportamento inesperado, a etapa final é a <strong>aprendizagem estruturada</strong>.</p>
+        <ul>
+          <li><strong>O que o relatório reconstrói</strong> — a linha do tempo do incidente, os fatores contribuintes e as ações de melhoria, com responsáveis e prazos.</li>
+          <li><strong>O princípio</strong> — incidentes em sistemas complexos raramente têm uma única causa atribuível a uma pessoa.</li>
+          <li><strong>De onde eles emergem</strong> — combinações de decisões de projeto, lacunas de teste e condições operacionais que, isoladas, pareciam razoáveis.</li>
+          <li><strong>Não pare na causa imediata</strong> — o esgotamento de conexões é o sintoma, não a explicação.</li>
+          <li><strong>Pergunte por quê</strong> — por que o circuito não impediu o esgotamento? Por que nenhum teste revelou a lacuna antes?</li>
+          <li><strong>Busque mudanças sistêmicas</strong> — e não apenas correções pontuais de código.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>“Homologação já garante confiança suficiente”?</h2>
+      <div class="slide-content-box">
+        <p>A equipe decide não realizar nenhum experimento de caos em produção, argumentando que os testes de integração em homologação bastam.</p>
+        <ul>
+          <li>Que <strong>diferenças entre homologação e produção</strong> podem invalidar essa suposição?</li>
+          <li>Por que testes de integração, mesmo bem escritos, podem não revelar o comportamento sob <strong>falhas parciais e concorrência real</strong>?</li>
+          <li>Que argumento convenceria a liderança de que um experimento com raio limitado é <strong>mais seguro</strong> que esperar um incidente real?</li>
+          <li>Que <strong>evidências de observabilidade</strong> da Aula 13 seriam necessárias antes de autorizar o primeiro experimento em produção?</li>
+        </ul>
+        <div class="callout-azul"><p>Ambientes de homologação raramente reproduzem volume de tráfego, diversidade de dados e condições de rede reais. O caos controlado <strong>reduz</strong> o risco de descobrir essas lacunas pela primeira vez durante um incidente sem controle.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -995,49 +1116,53 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Pirâmide de testes</h3><p>Base ampla de testes unitários e de contrato; uso seletivo de integração e ponta a ponta.</p></div>
-          <div class="ponto"><h3>Carga, estresse, duração</h3><p>Três perguntas distintas sobre o comportamento do sistema sob demanda.</p></div>
-          <div class="ponto"><h3>Engenharia do caos</h3><p>Hipótese de estado estável + raio de impacto limitado + mecanismo de interrupção.</p></div>
-          <div class="ponto"><h3>Disponibilidade em cadeia</h3><p>Serviços encadeados sem resiliência tendem a uma disponibilidade combinada inferior à de cada um.</p></div>
+          <div class="ponto"><h3>Base ampla, topo estreito</h3><p>Unitários e contratos sustentam a cobertura; ponta a ponta fica reservado aos fluxos mais críticos.</p></div>
+          <div class="ponto"><h3>Contrato detecta antes</h3><p>A incompatibilidade entre consumidor e provedor aparece no pipeline, não em produção.</p></div>
+          <div class="ponto"><h3>Três testes, três perguntas</h3><p>Carga confirma o prometido, estresse revela o limite, duração revela a degradação no tempo.</p></div>
+          <div class="ponto"><h3>Hipótese antes da falha</h3><p>Sem uma expectativa mensurável definida previamente, o experimento não confirma nem refuta nada.</p></div>
+          <div class="ponto"><h3>Pequeno e interrompível</h3><p>Raio de impacto limitado e kill switch são o que tornam o experimento aceitável em produção.</p></div>
+          <div class="ponto"><h3>A cadeia degrada</h3><p>Compor serviços reduz a disponibilidade agregada; só mecanismos testados revertem esse efeito.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Planeje um experimento controlado de indisponibilidade do serviço de pagamento da NexaOrder:</p>
+      <h2>Mãos à obra: planejar um experimento de caos</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Planeje um experimento controlado de indisponibilidade do serviço de pagamento.</p>
         <ul>
-          <li>Formule uma hipótese de estado estável mensurável, com os indicadores observados.</li>
-          <li>Defina o raio de impacto inicial e justifique a escolha.</li>
-          <li>Descreva o mecanismo de interrupção imediata e seu critério de acionamento.</li>
-          <li>Liste os dados de observabilidade necessários para avaliar o resultado.</li>
+          <li><strong>1.</strong> Formule a hipótese de estado estável, incluindo os indicadores observados.</li>
+          <li><strong>2.</strong> Defina o raio de impacto inicial e justifique a escolha.</li>
+          <li><strong>3.</strong> Descreva o mecanismo de interrupção imediata e o critério que o aciona.</li>
+          <li><strong>4.</strong> Liste as métricas, logs e traces necessários para avaliar o resultado.</li>
+          <li><strong>5.</strong> Descreva, em três frases, a estrutura do postmortem caso surja uma falha inesperada.</li>
+          <li><strong>6.</strong> Indique qual mudança sistêmica você proporia se a hipótese for refutada.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 14 — Videoaula 14</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">O circuito de proteção da NexaOrder não falhou por mau projeto — falhou por nunca ter sido testado sob a condição exata que deveria proteger. Na próxima aula, mudamos de escala: como processar volumes enormes de dados, em lote e em tempo quase real.</p>
+      <p class="fim-texto">Você já sabe transformar suposições sobre resiliência em evidências obtidas por testes estruturados e experimentos controlados. Na próxima aula, mudamos de assunto: como processar grandes volumes de dados quando a decisão precisa sair em segundos, não em horas.</p>
       <p class="fim-proxima">Próxima aula: Aula 15 — Processamento distribuído, edge e serverless.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -1052,6 +1177,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1073,6 +1199,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1083,6 +1211,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

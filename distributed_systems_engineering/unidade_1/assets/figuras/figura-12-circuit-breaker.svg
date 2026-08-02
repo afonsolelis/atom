@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="620" viewBox="0 0 1100 620" role="img">
+  <title>Estados do circuit breaker</title>
+  <desc>diagrama de máquina de estados mostra o disjuntor alternando entre fechado, aberto e semiaberto, com as condições de transição indicadas em cada seta.</desc>
+  <rect width="1100" height="620" fill="#FFFFFF"/>
+  <rect x="150.0" y="230.0" width="230.0" height="96.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#11A360" stroke-width="2.2"/>
+  <text x="265.0" y="272.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#11A360" text-anchor="middle">Fechado</text>
+  <text x="265.0" y="294.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">chamadas fluem</text>
+  <rect x="720.0" y="230.0" width="230.0" height="96.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#FF2B5F" stroke-width="2.2"/>
+  <text x="835.0" y="272.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#C2185B" text-anchor="middle">Aberto</text>
+  <text x="835.0" y="294.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">rejeita de imediato</text>
+  <rect x="435.0" y="450.0" width="230.0" height="96.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#F2CB0A" stroke-width="2.2"/>
+  <text x="550.0" y="492.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#002156" text-anchor="middle">Semiaberto</text>
+  <text x="550.0" y="514.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">chamadas de teste</text>
+  <line x1="384.0" y1="262.0" x2="706.6" y2="262.0" stroke="#FF2B5F" stroke-width="2.6" stroke-linecap="round"/>
+  <polygon points="716.0,262.0 700.9,268.7 700.9,255.3" fill="#FF2B5F"/>
+  <rect x="384.0" y="200.2" width="332.0" height="22.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="550.0" y="214.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#C2185B" text-anchor="middle">taxa de erro 12/20 = 60% &gt; limite de 50%</text>
+  <line x1="762.0" y1="330.0" x2="642.9" y2="437.7" stroke="#5A6175" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="636.0,444.0 642.7,428.9 651.7,438.9" fill="#5A6175"/>
+  <rect x="435.5" y="373.1" width="199.5" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="628.0" y="386.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#5A6175" text-anchor="end">após o intervalo definido</text>
+  <line x1="452.0" y1="452.0" x2="307.3" y2="335.9" stroke="#11A360" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="300.0,330.0 316.0,334.2 307.5,344.7" fill="#11A360"/>
+  <rect x="166.6" y="383.1" width="162.4" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="322.0" y="396.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#11A360" text-anchor="end">testes bem-sucedidos</text>
+  <line x1="690.0" y1="522.0" x2="883.2" y2="338.4" stroke="#FF2B5F" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="8 6"/>
+  <polygon points="890.0,332.0 883.7,347.3 874.4,337.5" fill="#FF2B5F"/>
+  <rect x="899.0" y="423.1" width="103.0" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="906.0" y="436.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#C2185B" text-anchor="start">teste falhou</text>
+  <rect x="60.0" y="70.0" width="980.0" height="84.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="550.0" y="103.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">No estado aberto, o próprio serviço de pedidos rejeita a chamada sem esperar o timeout de rede —</text>
+  <text x="550.0" y="125.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">liberando conexões para operações que não dependem da dependência degradada.</text>
+</svg>

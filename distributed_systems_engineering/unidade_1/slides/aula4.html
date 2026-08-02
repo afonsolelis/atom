@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 4 — Modelos de falha e desenho para recuperação · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,137 +672,137 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Aula 4 — Modelos de falha e desenho para recuperação</h1>
       <div class="subtitulo">Unidade 1 — Fundamentos, comunicação, tempo e falhas</div>
@@ -809,33 +810,45 @@
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro com os quatro modelos de falha — parada, omissão, temporização e comportamento arbitrário; um diagrama de duas zonas de disponibilidade isoladas por um rompimento de rede; um ciclo de estados do circuit breaker entre fechado, aberto e semiaberto; um painel numérico com a taxa de erro de 12 falhas em 20 chamadas; e um diagrama do serviço de pedidos dividido em dois compartimentos de conexões isolados.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Modelos de falha e desenho para recuperação</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Modelos de falha: parada, omissão, temporização, arbitrária</li>
-          <li>Falha parcial, detectores de falha e particionamento de rede</li>
-          <li>Redundância, isolamento e timeout como decisão</li>
-          <li>Circuit breaker</li>
+          <li>Modelos de falha: parada, omissão, temporização e bizantina</li>
+          <li>Falha parcial e detectores de falha imperfeitos</li>
+          <li>Particionamento de rede e split-brain</li>
+          <li>Redundância não basta: isolamento</li>
+          <li>Timeout como decisão, não como prova</li>
+          <li>Circuit breaker: fechado, aberto e semiaberto</li>
           <li>Bulkhead e degradação graciosa</li>
-          <li>Objetivos de confiabilidade</li>
+          <li>Objetivos de confiabilidade explícitos</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,19 +856,20 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Modelos de falha</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Nem toda falha tem a mesma forma. Distinguir os modelos ajuda a escolher a proteção correta:</p>
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Parada (crash)</strong>: para e permanece parado — a mais benigna e comum.</li>
-          <li><strong>Omissão</strong>: deixa de enviar/receber algumas mensagens, mas segue funcionando para as demais.</li>
-          <li><strong>Temporização</strong>: responde corretamente, mas fora do prazo — o caso do provedor de pagamento lento.</li>
-          <li><strong>Comportamento arbitrário (bizantina)</strong>: respostas incorretas ou maliciosas — rara, relevante entre organizações.</li>
+          <li><strong>Classificar</strong> falhas em parada, omissão, temporização e comportamento arbitrário.</li>
+          <li><strong>Reconhecer</strong> detectores de falha como estimativas sujeitas a falso positivo e falso negativo.</li>
+          <li><strong>Identificar</strong> o risco de divergência de estado (split-brain) em um particionamento de rede.</li>
+          <li><strong>Aplicar</strong> circuit breaker, bulkhead e degradação graciosa como padrões complementares de contenção.</li>
+          <li><strong>Calcular</strong> a taxa de erro que dispara a abertura de um disjuntor sobre uma janela de chamadas.</li>
+          <li><strong>Ligar</strong> cada investimento em resiliência a um objetivo de confiabilidade declarado.</li>
         </ul>
       </div>
     </div>
@@ -863,91 +877,105 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Falha parcial, detectores e particionamento</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Situação-problema</p>
+      <h2>Quando lentidão vira colapso</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Durante uma campanha de vendas, o provedor externo de pagamento <strong>não ficou indisponível</strong> — apenas passou a responder devagar. O serviço de pedidos o chamava de forma síncrona, sem limite de recursos dedicados:</p>
         <ul>
-          <li>Um <strong>detector de falhas</strong> decide se trata outro componente como indisponível — nunca é perfeito: falsos positivos (lento ≠ caído) ou falsos negativos.</li>
-          <li><strong>Particionamento de rede</strong>: dois subconjuntos perdem comunicação entre si, mas cada lado segue funcionando internamente.</li>
-          <li>Se ambos os lados aceitam escrita de forma independente, o resultado é <em>split-brain</em> — divergência de estado a ser reconciliada depois.</li>
+          <li>As conexões disponíveis para pagamento <strong>se esgotaram rapidamente</strong>.</li>
+          <li>O mesmo conjunto de conexões atendia <strong>consultas de pedidos antigos</strong>.</li>
+          <li>Em minutos, quem só queria consultar o status de uma compra <strong>também deixou de receber resposta</strong>.</li>
+          <li><strong>Nenhuma linha de código continha erro</strong>: faltou contenção.</li>
         </ul>
+        <div class="callout-azul"><p>A pergunta que organiza a aula: <strong>como conter o raio de impacto de uma falha</strong> antes que ela vire um colapso mais amplo?</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Redundância, isolamento e timeout como decisão</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Redundância</strong> só protege se as instâncias não compartilharem o mesmo ponto de falha.</li>
-          <li><strong>Isolamento</strong>: impedir que a degradação de uma dependência se propague — no incidente da NexaOrder, pagamento lento esgotou conexões também usadas por consultas.</li>
-          <li><em>Timeout</em> não prova falha; é uma <strong>decisão</strong> de que a espera deixou de valer a pena — muito curto desperdiça trabalho válido, muito longo prende recursos.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Circuit breaker</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Formaliza a decisão de deixar de tentar uma dependência que falha repetidamente. Três estados: <strong>fechado</strong> → <strong>aberto</strong> → <strong>semiaberto</strong>.</p>
-        <ul>
-          <li>Taxa de erro = chamadas com falha ÷ total na janela. Limite de abertura: 50%.</li>
-          <li>Exemplo: 12 falhas em 20 chamadas ao provedor de pagamento → taxa = 12/20 = <strong>60%</strong> &gt; 50% → disjuntor abre.</li>
-          <li>Chamadas seguintes são rejeitadas de imediato, sem esperar timeout de rede — liberando recursos para outras operações.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Bulkhead e degradação graciosa</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Bulkhead</strong> (anteparo): recursos (conexões, threads, filas) particionados por dependência, para que o esgotamento de um não afete os demais — como os compartimentos de um navio.</li>
-          <li><strong>Degradação graciosa</strong>: oferecer versão reduzida do serviço quando uma dependência não essencial falha, em vez de falhar por completo (ex.: checkout sem recomendações).</li>
-          <li>Exige classificar, de antemão, quais dependências são essenciais e quais são acessórias.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Objetivos de confiabilidade</h2>
+      <h2>Quatro modelos de falha</h2>
       <div class="slide-content-box">
-        <p>Detectores, isolamento, disjuntores, anteparos e degradação graciosa servem a um objetivo mensurável — não a uma aspiração vaga.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Modelo</th><th>Comportamento</th><th>Onde aparece</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Parada</strong> (crash)</td><td>Para de funcionar e permanece parado; não emite respostas incorretas</td><td>O mais benigno e o mais comum em infraestrutura bem operada</td></tr>
+            <tr><td><strong>Omissão</strong></td><td>Deixa de enviar ou receber algumas mensagens, e continua para as demais</td><td>Perda de pacotes, fila cheia, descarte seletivo sob sobrecarga</td></tr>
+            <tr><td><strong>Temporização</strong></td><td>Responde corretamente, mas fora do prazo esperado</td><td>O provedor de pagamento lento da situação-problema</td></tr>
+            <tr><td><strong>Arbitrária</strong> (bizantina)</td><td>Produz respostas incorretas, inconsistentes ou maliciosas</td><td>Sistemas que atravessam fronteiras de confiança</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Presumir que <strong>qualquer dependência externa pode falhar por parada, omissão ou temporização</strong> — e desenhar para isso — cobre a maioria dos incidentes reais sem pagar o custo de proteção contra comportamento arbitrário.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Falha parcial e detectores de falha</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um <strong>detector de falhas</strong> é o mecanismo — implícito ou explícito — que um componente usa para decidir se trata outro como indisponível. Detectores reais nunca são perfeitos:</p>
         <ul>
-          <li>Definir um alvo explícito (ex.: 99,9% de disponibilidade no fluxo de criação de pedidos) estabelece um <strong>orçamento de indisponibilidade</strong> tolerável.</li>
-          <li>Isso orienta quando investir mais em resiliência e quando o nível já alcançado é suficiente.</li>
-          <li>Tema retomado com profundidade na Unidade 4, ao tratar de indicadores e objetivos de nível de serviço.</li>
+          <li><strong>Falso positivo</strong> — declara indisponível um componente que apenas está lento.</li>
+          <li><strong>Falso negativo</strong> — demora a perceber uma indisponibilidade real.</li>
+          <li><strong>Detectar rápido</strong> aumenta o risco de falso positivo.</li>
+          <li><strong>Esperar mais</strong> reduz falsos positivos, mas atrasa a reação a falhas reais.</li>
+        </ul>
+        <div class="callout-azul"><p>Na NexaOrder, o detector pode ser tão simples quanto contar falhas consecutivas, ou combinar taxa de erro, latência e health checks. O essencial: <strong>qualquer detector é uma estimativa, não uma certeza</strong> — e o resto do desenho deve considerar essa incerteza.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Particionamento de rede e split-brain</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>O que é</strong> — um subconjunto de componentes perde comunicação com outro, embora cada lado continue funcionando internamente.</li>
+          <li><strong>Simetria da ilusão</strong> — de cada lado, o outro parece indisponível; tecnicamente, nenhum dos dois está caído.</li>
+          <li><strong>O perigo</strong> — ambos os lados continuarem aceitando escrita de forma independente.</li>
+          <li><strong>Split-brain</strong> — réplicas do estoque em duas zonas aceitam reservas para os mesmos itens, cada uma se julgando a única responsável.</li>
+          <li><strong>Consequência</strong> — divergência de estado que precisará ser reconciliada depois, muitas vezes com perda ou conflito de dados.</li>
+          <li><strong>Retomada na Unidade 2</strong> — replicação, tolerância a partição e consenso aprofundam o tema.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Redundância não basta: o princípio do isolamento</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Redundância só protege se as instâncias <strong>não compartilharem o mesmo ponto de falha</strong> e houver desvio de tráfego. Esta aula acrescenta um segundo princípio: impedir que a degradação de uma dependência se propague para partes que não dependem dela.</p>
+        <ul>
+          <li><strong>O que houve</strong> — pedidos usava o mesmo conjunto de conexões para chamar o pagamento e para atender consultas.</li>
+          <li><strong>O efeito</strong> — todas as conexões ficaram ocupadas esperando o pagamento.</li>
+          <li><strong>O dano</strong> — não sobrou capacidade para consultas, que nada tinham a ver com pagamento.</li>
+          <li><strong>A lição</strong> — a ausência de isolamento transformou uma degradação pontual em indisponibilidade ampla.</li>
         </ul>
       </div>
     </div>
@@ -956,19 +984,165 @@
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Um serviço lento não é um serviço fora do ar — mas, sem isolamento, a lentidão se propaga como se fosse."</blockquote>
+      <blockquote>“Um timeout não é prova de que a operação falhou; é a decisão de que a espera deixou de valer a pena.”</blockquote>
       <cite>— síntese da Aula 4</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Timeout como decisão deliberada</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Curto demais</strong> — trata operações lentas, mas ainda válidas, como se tivessem falhado.</li>
+          <li><strong>Efeito colateral</strong> — desperdiça trabalho em andamento e, com retentativa, pode duplicar efeito.</li>
+          <li><strong>Longo demais</strong> — mantém recursos presos, amplia o risco de esgotamento de conexões.</li>
+          <li><strong>Efeito colateral</strong> — propaga lentidão exatamente como na situação-problema desta aula.</li>
+        </ul>
+        <div class="callout-azul"><p>Não existe valor universalmente correto. O valor apropriado depende da <strong>latência típica observada</strong> na operação, da criticidade da resposta imediata e do custo de manter o recurso ocupado enquanto se espera.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Circuit breaker: três estados</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="cycle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O disjuntor formaliza a decisão de <strong>parar de tentar</strong> uma dependência que falha repetidamente, em vez de desperdiçar recursos em chamadas com alta probabilidade de falhar.</p>
+        <ul>
+          <li><strong>Fechado</strong> — chamadas fluem normalmente; o disjuntor monitora a taxa de falhas.</li>
+          <li><strong>Aberto</strong> — ultrapassado o limite, rejeita chamadas de imediato, sem sequer tentar a dependência.</li>
+          <li><strong>Semiaberto</strong> — decorrido o intervalo, permite um número limitado de chamadas de teste.</li>
+          <li><strong>Volta ao fechado</strong> se os testes passarem; <strong>retorna ao aberto</strong> se falharem.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quando o disjuntor abre</h2>
+      <div class="slide-content-box">
+        <div class="callout-azul formula"><p>taxa de erro = chamadas com falha ÷ total de chamadas na janela</p></div>
+        <p>A NexaOrder define limite de <strong>50%</strong> de falhas em uma janela das últimas <strong>20 chamadas</strong> ao provedor de pagamento, e observa <strong>12 falhas</strong>:</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">12</span><span class="legenda">chamadas com falha</span></div>
+          <div class="stat-card"><span class="numero-grande">20</span><span class="legenda">chamadas na janela</span></div>
+          <div class="stat-card"><span class="numero-grande">60%</span><span class="legenda">taxa de erro</span></div>
+          <div class="stat-card"><span class="numero-grande">50%</span><span class="legenda">limite configurado</span></div>
+        </div>
+        <div class="callout-azul"><p>Como 60% excede o limite, o disjuntor <strong>abre</strong>: as chamadas seguintes são rejeitadas pelo próprio serviço de pedidos, <strong>sem esperar o timeout de rede</strong>. Isso libera recursos para consultas de pedidos existentes — exatamente o isolamento que faltou no incidente original.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Bulkhead: compartimentar os recursos</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O anteparo aplica o isolamento de forma estrutural: conexões, threads e filas são particionadas <strong>por dependência ou por criticidade</strong>.</p>
+        <ul>
+          <li><strong>Compartimento do pagamento</strong> — conjunto de conexões exclusivo para chamadas ao provedor.</li>
+          <li><strong>Compartimento das consultas</strong> — conjunto separado, imune ao esgotamento do primeiro.</li>
+          <li><strong>Efeito</strong> — a lentidão do pagamento esgota apenas o próprio compartimento.</li>
+          <li><strong>A metáfora</strong> — anteparos de um navio: ele continua flutuando mesmo com um compartimento alagado.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Degradação graciosa</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>O que é</strong> — continuar oferecendo uma versão reduzida do serviço quando uma dependência não essencial falha.</li>
+          <li><strong>Exemplo</strong> — o checkout omite as recomendações de produto e prossegue com a compra.</li>
+          <li><strong>A alternativa ruim</strong> — bloquear o cliente porque um componente acessório está fora.</li>
+          <li><strong>Pré-requisito</strong> — classificar de antemão quais dependências são essenciais e quais são acessórias.</li>
+          <li><strong>Não é só engenharia</strong> — essa classificação é uma decisão de produto tanto quanto técnica.</li>
+          <li><strong>Complementaridade</strong> — disjuntor detecta e corta; anteparo contém; degradação graciosa mantém o serviço de pé.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Objetivos de confiabilidade</h2>
+      <div class="slide-content-box">
+        <p>Detectores, isolamento, disjuntores, anteparos e degradação graciosa servem a um objetivo <strong>mensurável</strong>, não a uma aspiração vaga de “o sistema não pode cair”.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Objetivo declarado</th><th>Orçamento mensal de indisponibilidade</th><th>Leitura prática</th></tr></thead>
+          <tbody>
+            <tr><td>99% no fluxo de pedidos</td><td>≈ 7 h 12 min</td><td>Aceitável para operações internas de baixo impacto</td></tr>
+            <tr><td>99,9% no fluxo de pedidos</td><td>≈ 43 min</td><td>Alvo típico de um fluxo de receita direta</td></tr>
+            <tr><td>99,99% no fluxo de pedidos</td><td>≈ 4 min 19 s</td><td>Exige zonas independentes e ensaio recorrente de falhas</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Um objetivo explícito estabelece um <strong>orçamento de indisponibilidade tolerável</strong> e permite decidir quando investir mais e quando o nível já é suficiente. Resiliência sem objetivo declarado vira investimento sem critério de parada.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Transição</p>
+      <h2>O que a Unidade 2 vai perguntar</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Esta unidade tratou de comunicação, ordenação e falhas em processos individuais. Um fio comum atravessa as quatro aulas: componentes autônomos, conectados por rede imperfeita, <strong>discordam temporariamente</strong> sobre o estado — e o projeto precisa prever isso em vez de negá-lo. A Unidade 2 desloca a mesma pergunta para os dados:</p>
+        <ul>
+          <li>Como manter <strong>réplicas</strong> de um mesmo dado consistentes entre si?</li>
+          <li>Como o sistema deve se comportar durante uma <strong>partição de rede</strong>, sem violar suas garantias mais importantes?</li>
+          <li>Que mecanismos garantem <strong>acordo</strong> quando múltiplos nós precisam concordar sobre um único fato?</li>
+          <li>Como sustentar <strong>transações</strong> que atravessam serviços, com sagas e idempotência?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 1</span><span>Aula 4 — Videoaula 4</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -976,10 +1150,12 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Quatro modelos</h3><p>Parada, omissão, temporização e comportamento arbitrário — a maioria dos incidentes cotidianos pertence às três primeiras categorias.</p></div>
-          <div class="ponto"><h3>Detectores são estimativas</h3><p>Sujeitos a falsos positivos e falsos negativos, não certezas.</p></div>
-          <div class="ponto"><h3>Isolamento importa</h3><p>Redundância sem isolamento não impede que a degradação de uma dependência se propague pelo sistema.</p></div>
-          <div class="ponto"><h3>Padrões complementares</h3><p>Circuit breaker, bulkhead e degradação graciosa contêm a propagação de falha.</p></div>
+          <div class="ponto"><h3>Quatro modelos</h3><p>Parada, omissão, temporização e comportamento arbitrário; a maioria dos incidentes cotidianos é das três primeiras.</p></div>
+          <div class="ponto"><h3>Detector estima</h3><p>Falsos positivos e falsos negativos são inevitáveis: o desenho deve conviver com a incerteza, não presumir certeza.</p></div>
+          <div class="ponto"><h3>Partição não é queda</h3><p>Os dois lados continuam vivos e isolados; aceitar escrita em ambos gera split-brain e divergência de estado.</p></div>
+          <div class="ponto"><h3>Isolar, não só duplicar</h3><p>Redundância sem isolamento não impede que a degradação de uma dependência atinja partes não relacionadas.</p></div>
+          <div class="ponto"><h3>Padrões complementares</h3><p>Circuit breaker corta o desperdício, bulkhead compartimenta recursos e degradação graciosa preserva o essencial.</p></div>
+          <div class="ponto"><h3>Objetivo declarado</h3><p>Resiliência se mede contra um alvo explícito de disponibilidade, com orçamento de indisponibilidade conhecido.</p></div>
         </div>
       </div>
     </div>
@@ -987,18 +1163,21 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Realize uma análise de modos de falha do fluxo pedidos → estoque → pagamento → expedição:</p>
+      <h2>Mãos à obra: análise de modos de falha</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Analise o fluxo de criação de pedidos (pedidos → estoque → pagamento → expedição) e apresente o resultado em uma tabela: etapa, modo de falha, efeito sem proteção, proteção proposta.</p>
         <ul>
-          <li>Para cada etapa, liste um modo de falha plausível e o efeito observável sem proteção.</li>
-          <li>Proponha uma proteção: timeout ajustado, circuit breaker, bulkhead ou degradação graciosa.</li>
-          <li>Identifique qual etapa deveria degradar graciosamente e qual deveria interromper o fluxo por completo.</li>
+          <li><strong>1.</strong> Para cada uma das quatro etapas, liste ao menos um modo de falha plausível.</li>
+          <li><strong>2.</strong> Descreva o efeito observável pelas etapas vizinhas se nenhuma proteção for aplicada.</li>
+          <li><strong>3.</strong> Proponha ao menos uma proteção: timeout ajustado, circuit breaker, bulkhead ou degradação graciosa.</li>
+          <li><strong>4.</strong> Identifique qual etapa deveria acionar degradação graciosa e qual deveria interromper o fluxo.</li>
+          <li><strong>5.</strong> Justifique a diferença com base na criticidade de negócio, não na facilidade técnica.</li>
+          <li><strong>6.</strong> Estime, para uma das etapas, um objetivo de disponibilidade e o orçamento correspondente em minutos por mês.</li>
         </ul>
       </div>
     </div>
@@ -1007,18 +1186,18 @@
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">A Unidade 1 tratou da comunicação, da ordenação de eventos e das falhas que afetam processos individuais. A Unidade 2 desloca essa mesma pergunta para os dados: como manter réplicas consistentes, como o sistema deve se comportar diante de uma partição, e que mecanismos garantem acordo entre nós apesar de falhas.</p>
-      <p class="fim-proxima">Próxima: Unidade 2 — Dados distribuídos, consistência e coordenação.</p>
+      <p class="fim-texto">Você fecha a Unidade 1 com vocabulário para nomear modos de falha e padrões para conter a propagação de uma degradação. A Unidade 2 leva essas mesmas perguntas para os dados: replicação, consistência, particionamento, CAP, consenso e transações distribuídas.</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 2 — Replicação, consistência, consenso e transações.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1032,6 +1211,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1053,6 +1233,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1063,6 +1245,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

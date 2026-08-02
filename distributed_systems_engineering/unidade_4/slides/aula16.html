@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 16 — Projeto integrado e avaliação arquitetural · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Projeto integrado e avaliação arquitetural</h1>
+      <h1>Aula 16 — Projeto integrado e avaliação arquitetural</h1>
       <div class="subtitulo">Unidade 4 — Operação, validação e evolução</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: uma linha do tempo das decisões arquiteturais da NexaOrder ao longo das quatro unidades; um mapa de análise de pontos únicos de falha percorrendo gateway, banco, mensageria e coletor; uma árvore de atributos de qualidade ligando objetivos de negócio a cenários mensuráveis; um painel numérico comparando cadeia sequencial e redundância paralela; e um quadro-resumo da trajetória completa da disciplina.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Projeto integrado e avaliação arquitetural</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Requisitos funcionais x atributos de qualidade</li>
-          <li>Estimativa de capacidade revisitada e ADRs</li>
-          <li>Análise de pontos únicos de falha (SPOF)</li>
-          <li>RPO e RTO: metas de recuperação</li>
-          <li>Redundância paralela x cadeia sequencial</li>
-          <li>Revisão integral da NexaOrder</li>
+          <li>Requisitos funcionais e atributos de qualidade</li>
+          <li>Estimativa de carga e capacidade, revisitada</li>
+          <li>Registros de decisão arquitetural (ADR)</li>
+          <li>Análise de pontos únicos de falha</li>
+          <li>Plano de recuperação: RPO e RTO</li>
+          <li>Segurança e observabilidade desde o projeto</li>
+          <li>Custo, sustentabilidade e evolução</li>
+          <li>A trajetória completa da NexaOrder</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,132 +856,277 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Explicitar</strong> tensões entre requisitos funcionais e atributos de qualidade, e resolvê-las por dado.</li>
+          <li><strong>Estimar</strong> capacidade a partir de evidências operacionais, não de suposições.</li>
+          <li><strong>Escrever</strong> um ADR completo: contexto, alternativas, decisão e consequências aceitas.</li>
+          <li><strong>Conduzir</strong> uma análise de pontos únicos de falha atenta a dependências ocultas.</li>
+          <li><strong>Definir</strong> RPO e RTO a partir de requisitos de negócio, não de conveniência técnica.</li>
+          <li><strong>Defender</strong> uma arquitetura completa com requisitos, riscos, custo e evidências.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Situação-problema</p>
       <h2>Defender a arquitetura diante do conselho</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>A diretoria convoca a equipe para uma revisão formal antes de aprovar o orçamento. A pergunta não é "o sistema funciona?" — é <strong>"por que confiamos que sustenta o crescimento, resiste às falhas prováveis e vale o investimento?"</strong></p>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A diretoria convoca a engenharia para uma revisão formal antes de aprovar o orçamento do próximo ciclo. A pergunta <strong>não</strong> é “o sistema funciona?” — isso já foi demonstrado. A pergunta é:</p>
         <ul>
-          <li>A equipe precisa responder com requisitos, estimativas, decisões documentadas e evidências.</li>
-          <li>Esta última aula integra tudo o que foi estudado nas quatro unidades.</li>
+          <li>Por que confiamos que esta arquitetura <strong>sustenta o crescimento previsto</strong>?</li>
+          <li>Por que acreditamos que ela <strong>resiste às falhas mais prováveis</strong>?</li>
+          <li>Por que ela <strong>vale o investimento contínuo</strong> que exige?</li>
+          <li>A resposta precisa vir com <strong>requisitos, estimativas, decisões documentadas e evidências</strong> — não com afirmações genéricas.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Requisitos funcionais x atributos de qualidade</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Conteúdo</p>
+      <h2>Requisitos funcionais e atributos de qualidade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Requisitos funcionais</strong>: o que o sistema deve fazer. <strong>Atributos de qualidade</strong>: como deve se comportar — desempenho, disponibilidade, segurança, custo.</li>
-          <li>Os dois entram em tensão: latência mínima no catálogo (leitura eventualmente consistente) x consistência mais forte na reserva de estoque no checkout.</li>
-          <li>Uma avaliação madura resolve essa tensão <em>explicitamente</em>, não de forma absoluta.</li>
+          <li><strong>Requisitos funcionais</strong> — o que o sistema deve fazer: “o cliente deve conseguir finalizar uma compra”.</li>
+          <li><strong>Atributos de qualidade</strong> — como ele deve se comportar: desempenho, disponibilidade, segurança, manutenibilidade, escalabilidade, custo.</li>
+          <li><strong>Não há hierarquia</strong> entre os dois na avaliação arquitetural.</li>
+          <li><strong>Eles entram em tensão</strong> — e resolver essa tensão explicitamente é parte central do trabalho de projeto.</li>
         </ul>
+        <div class="callout-azul"><p>Produto quer <strong>latência mínima no catálogo</strong>; confiabilidade quer <strong>garantias mais fortes no saldo de estoque</strong>. Uma avaliação madura não escolhe um lado de forma absoluta: aceita leitura eventualmente consistente no catálogo e exige consistência mais forte <strong>no instante da reserva</strong>.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Capacidade com evidência e ADRs</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>A fórmula de capacidade da Aula 1 continua válida — mas agora <em>C</em><sub>instância</sub> vem de testes de carga reais e <em>λ</em><sub>pico</sub> de métricas históricas coletadas pela instrumentação.</p>
-        <ul>
-          <li><strong>ADR</strong> (registro de decisão arquitetural): contexto, alternativas consideradas, decisão e consequências — não apenas um nome de tecnologia anotado.</li>
-          <li>A NexaOrder acumulou decisões em cada unidade: instâncias sem estado, modelo de consistência, decomposição em serviços, estratégia de observabilidade.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
-      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
-    </div>
-    <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>Pontos únicos de falha e metas de recuperação</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>SPOF</strong>: réplicas em múltiplas zonas não eliminam pontos únicos de falha se todas dependerem de um componente não replicado (ex.: uma única instância de mensageria).</li>
-          <li><strong>RPO</strong> (objetivo de ponto de recuperação): quanto dado o negócio aceita perder.</li>
-          <li><strong>RTO</strong> (objetivo de tempo de recuperação): quanto tempo aceita ficar fora do ar.</li>
-          <li>Ex.: replicação a cada 5 min + failover em 15 min → RPO ≈ 5 min, RTO ≈ 15 min.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
-  </section>
-
-  <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>Redundância paralela x cadeia sequencial</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Uma instância com 99,5% de disponibilidade; 3 réplicas independentes atrás de um balanceador:</p>
-        <p style="text-align:center; font-size:1.2em;"><strong>A = 1 − (1 − 0,995)³ = 1 − 0,005³ ≈ 99,9999875%</strong></p>
-        <ul>
-          <li>Quase sete "noves" — muito superior à composição sequencial de serviços (99,6%, vista na Aula 14).</li>
-          <li>Redundância <em>paralela e independente</em>, não apenas multiplicação de instâncias, sustenta disponibilidade elevada.</li>
-        </ul>
+      <h2>A mesma fórmula, insumos diferentes</h2>
+      <div class="slide-content-box">
+        <p>A Aula 1 apresentou esta fórmula com números estimados. Três unidades depois, ela continua válida — mas os insumos <strong>deixaram de ser suposições</strong>:</p>
+        <div class="callout-azul formula"><p>N = ⌈ λ<sub>pico</sub> ÷ ( C<sub>instância</sub> × U<sub>alvo</sub> ) ⌉</p></div>
+        <table class="tabela-industrial">
+          <thead><tr><th>Insumo</th><th>Na Aula 1</th><th>Na Aula 16</th></tr></thead>
+          <tbody>
+            <tr><td>C<sub>instância</sub></td><td>Estimativa isolada</td><td>Obtido de testes de carga reais, com o rigor da Aula 14</td></tr>
+            <tr><td>λ<sub>pico</sub></td><td>Projeção de negócio</td><td>Refinado por métricas históricas da instrumentação da Aula 13</td></tr>
+            <tr><td>U<sub>alvo</sub></td><td>Convenção</td><td>Calibrado pelo orçamento de erro e pelo SLO acordado</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>A avaliação arquitetural madura <strong>não estima capacidade a partir de suposições</strong> — ela estima a partir de evidências operacionais acumuladas ao longo do ciclo de vida.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Revisão integral</p>
-      <h2>A trajetória da NexaOrder</h2>
-      <div class="slide-content-box">
+      <p class="kicker">Conteúdo</p>
+      <h2>Registros de decisão arquitetural</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um <strong>ADR</strong> documenta uma escolha significativa: o contexto que a motivou, as alternativas consideradas, a decisão tomada e as consequências esperadas.</p>
         <ul>
-          <li><strong>U1</strong>: fundamentos — comunicação, tempo, ordenação, falhas parciais.</li>
-          <li><strong>U2</strong>: distribuição de dados — replicação, particionamento, CAP, Raft, sagas.</li>
-          <li><strong>U3</strong>: decomposição em serviços, eventos, orquestração, comunicação segura.</li>
-          <li><strong>U4</strong>: observabilidade, testes e engenharia do caos, processamento distribuído, avaliação arquitetural.</li>
-          <li>Nenhuma unidade, isoladamente, entrega uma arquitetura completa — é a combinação que sustenta o sistema em produção.</li>
+          <li><strong>Não é um ADR</strong> — “decidimos usar Kubernetes”. Um nome de tecnologia não é um registro útil.</li>
+          <li><strong>É um ADR</strong> — por que a orquestração automatizada era necessária.</li>
+          <li><strong>Alternativas avaliadas</strong> — implantação manual, um serviço gerenciado mais simples.</li>
+          <li><strong>Consequências aceitas</strong> — curva de aprendizado da equipe, custo de operação do cluster.</li>
         </ul>
+        <div class="callout-azul"><p>Reunir esses registros permite que <strong>qualquer pessoa nova na equipe</strong> compreenda não apenas o estado atual do sistema, mas o raciocínio que levou até ele.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Retrospectiva</p>
+      <h2>As decisões que a NexaOrder acumulou</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="timeline" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <table class="tabela-industrial">
+          <thead><tr><th>Unidade</th><th>Decisão central registrada</th><th>Compromisso aceito</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Múltiplas instâncias sem estado atrás de um balanceador</td><td>Sessões locais deixam de ser confiáveis; o banco pode virar gargalo</td></tr>
+            <tr><td><strong>2</strong></td><td>Consistência eventual no catálogo, forte na reserva de estoque</td><td>Duas políticas convivendo no mesmo sistema, com regras distintas</td></tr>
+            <tr><td><strong>3</strong></td><td>Decomposição por contexto delimitado e arquitetura orientada a eventos</td><td>Composição explícita no lugar de <code>JOIN</code>; rastreio de progressão</td></tr>
+            <tr><td><strong>4</strong></td><td>Observabilidade instrumentada e política de testes de resiliência</td><td>Custo contínuo de telemetria e de experimentos controlados</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide slide-quote">
     <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="quote-shapes">
+    <div class="quote-shapes" aria-hidden="true">
       <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
     </div>
     <div class="quote-card">
-      <blockquote>"Todo sistema falha. A engenharia está em decidir, com evidência, como."</blockquote>
-      <cite>— Encerramento da disciplina, Distributed Systems Engineering</cite>
+      <blockquote>“Continue tratando cada decisão arquitetural como uma hipótese verificável, não como um dogma.”</blockquote>
+      <cite>— encerramento da disciplina</cite>
     </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Análise de pontos únicos de falha</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>A análise de <strong>SPOF</strong> identifica componentes cuja indisponibilidade isolada comprometeria todo o fluxo, mesmo com o restante do sistema saudável. Ela exige atenção a <strong>dependências ocultas</strong>:</p>
+        <ul>
+          <li><strong>Gateway</strong> — sua queda derruba a entrada de todos os fluxos externos?</li>
+          <li><strong>Banco de dados de pedidos</strong> — há réplica promovível e failover ensaiado?</li>
+          <li><strong>Sistema de mensageria</strong> — uma instância isolada usada por <em>todas</em> as réplicas de pagamento é um SPOF disfarçado.</li>
+          <li><strong>Provedor de identidade</strong> — sem ele, o mTLS e a autorização param de funcionar.</li>
+          <li><strong>Coletor de observabilidade</strong> — sua queda cega a equipe justamente durante o incidente.</li>
+          <li><strong>A armadilha</strong> — réplicas em várias zonas não eliminam o SPOF se todas dependerem de um único componente não replicado.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Plano de recuperação: RPO e RTO</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Indicador</th><th>O que mede</th><th>Exemplo da NexaOrder</th></tr></thead>
+          <tbody>
+            <tr><td><strong>RPO</strong> (recovery point objective)</td><td>Quanto de dado o negócio aceita perder</td><td>≈ 5 min — o intervalo da replicação assíncrona para a região secundária</td></tr>
+            <tr><td><strong>RTO</strong> (recovery time objective)</td><td>Em quanto tempo o serviço precisa voltar</td><td>≈ 15 min — promover a região secundária e restabelecer o serviço</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Definidos a partir de <strong>requisitos de negócio, não de conveniência técnica</strong>, esses dois números orientam diretamente decisões de replicação, frequência de backup e automação de failover — e não o contrário.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Seguro e observável por padrão</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Segurança e observabilidade tratadas como camadas adicionadas ao final tendem a ficar <strong>incompletas e caras de corrigir</strong>. A prática recomendada as incorpora ao desenho inicial de cada componente.</p>
+        <ul>
+          <li>Todo novo serviço nasce com <strong>identidade própria</strong> e comunicação autenticada?</li>
+          <li>Todo novo fluxo crítico nasce <strong>instrumentado</strong> com métricas, logs e traces correlacionáveis?</li>
+          <li>Ou a instrumentação é acrescentada <strong>apenas depois do primeiro incidente</strong> que a exigiu?</li>
+          <li>Essas perguntas viram <strong>critérios de aceite</strong> de um novo serviço, não sugestões.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Cadeia sequencial e redundância paralela</h2>
+      <div class="slide-content-box">
+        <p>Uma instância com <strong>99,5%</strong> de disponibilidade; três réplicas independentes — sem dependência compartilhada — atrás de um balanceador que desvia para qualquer réplica saudável:</p>
+        <div class="callout-azul formula"><p>A<sub>réplicas</sub> = 1 − ( 1 − A )<sup>n</sup> = 1 − 0,005<sup>3</sup> ≈ 0,999999875</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">99,5%</span><span class="legenda">uma instância</span></div>
+          <div class="stat-card"><span class="numero-grande">3</span><span class="legenda">réplicas independentes</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 7 noves</span><span class="legenda">disponibilidade combinada</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 3×</span><span class="legenda">o custo de manter</span></div>
+        </div>
+        <div class="callout-azul"><p>Compare com a <strong>cadeia sequencial</strong> da Aula 14, que degradava 99,9% para 99,6%. O que sustenta disponibilidade alta é <strong>redundância paralela com independência de falha</strong> — não a simples multiplicação de instâncias. E o ganho depende do valor de negócio que a disponibilidade adicional realmente entrega.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Custo, sustentabilidade e evolução</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Nenhuma arquitetura permanece ótima</strong> — padrões de tráfego mudam, requisitos surgem, decisões envelhecem.</li>
+          <li><strong>O desperdício típico</strong> — capacidade provisionada para o pico e mantida constante em horários de baixíssima demanda.</li>
+          <li><strong>A resposta errada</strong> — eliminar a redundância necessária para os picos.</li>
+          <li><strong>A resposta madura</strong> — escalonamento automático que ajusta a capacidade à demanda observada.</li>
+          <li><strong>A restrição</strong> — preservando as metas de disponibilidade definidas, sem recursos ociosos pagos por padrão.</li>
+          <li><strong>O princípio</strong> — evolução contínua é parte do projeto, não sinal de que ele foi mal feito.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Retrospectiva</p>
+      <h2>A trajetória completa da NexaOrder</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Unidade</th><th>O que estabeleceu</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1 — Fundamentos</strong></td><td>O que caracteriza um sistema distribuído, como processos se comunicam, por que tempo e ordenação deixam de ser triviais e como falhas parciais exigem desenho explícito</td></tr>
+            <tr><td><strong>2 — Dados</strong></td><td>Replicação, particionamento, CAP e PACELC, consenso via Raft, transações distribuídas com sagas e idempotência</td></tr>
+            <tr><td><strong>3 — Serviços</strong></td><td>Limites de domínio explícitos, arquitetura orientada a eventos, orquestração em contêineres e comunicação segura</td></tr>
+            <tr><td><strong>4 — Operação</strong></td><td>Observabilidade para diagnosticar, testes e caos para validar, processamento em escala e avaliação arquitetural integrada</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Nenhuma unidade entrega, isoladamente, uma arquitetura completa. É a <strong>combinação</strong> — fundamentos sólidos, dados bem distribuídos, serviços bem delimitados e operação validada — que sustenta um sistema em produção, sob carga real, por anos.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -976,50 +1134,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Requisitos em tensão</h3><p>Funcionais e atributos de qualidade entram em tensão; a avaliação madura resolve isso por contexto.</p></div>
-          <div class="ponto"><h3>ADRs</h3><p>Documentam contexto, alternativas, decisão e consequências para decisões futuras.</p></div>
-          <div class="ponto"><h3>SPOF, RPO e RTO</h3><p>Dependências ocultas comprometem redundância aparente; RPO/RTO traduzem tolerância de negócio em metas técnicas.</p></div>
-          <div class="ponto"><h3>Redundância paralela</h3><p>Réplicas independentes elevam a disponibilidade muito mais do que a composição sequencial.</p></div>
+          <div class="ponto"><h3>Tensão é normal</h3><p>Requisitos funcionais e atributos de qualidade colidem; a avaliação resolve isso por dado, não em bloco.</p></div>
+          <div class="ponto"><h3>Estimar com evidência</h3><p>Depois de quatro unidades, capacidade se calcula com testes de carga e métricas históricas reais.</p></div>
+          <div class="ponto"><h3>ADR guarda o porquê</h3><p>Um registro útil traz contexto, alternativas e consequências aceitas — não um nome de tecnologia.</p></div>
+          <div class="ponto"><h3>SPOF se esconde</h3><p>Réplicas em várias zonas não bastam se todas dependerem de um mesmo componente não replicado.</p></div>
+          <div class="ponto"><h3>RPO e RTO vêm do negócio</h3><p>Os dois números orientam replicação, backup e failover — e não o contrário.</p></div>
+          <div class="ponto"><h3>Paralelo, não sequencial</h3><p>Redundância independente eleva a disponibilidade; encadear serviços a reduz.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Prepare uma defesa arquitetural completa da NexaOrder para uma banca de revisão:</p>
+      <h2>Mãos à obra: a defesa arquitetural completa</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Prepare a defesa arquitetural da NexaOrder para uma banca de revisão.</p>
         <ul>
-          <li>Liste requisitos funcionais e atributos de qualidade, com ao menos uma tensão resolvida.</li>
-          <li>Escreva um ADR completo para uma decisão de qualquer unidade da disciplina.</li>
-          <li>Realize uma análise de pontos únicos de falha, com ao menos dois riscos não triviais.</li>
-          <li>Defina RPO e RTO para o fluxo de pedidos, com justificativa de negócio.</li>
+          <li><strong>1.</strong> Liste três requisitos funcionais e três atributos de qualidade, com uma tensão explícita entre eles e como foi resolvida.</li>
+          <li><strong>2.</strong> Escreva um ADR completo para uma decisão de qualquer unidade da disciplina.</li>
+          <li><strong>3.</strong> Realize uma análise de pontos únicos de falha com ao menos dois riscos não triviais.</li>
+          <li><strong>4.</strong> Defina RPO e RTO para o fluxo de pedidos, com justificativa de negócio.</li>
+          <li><strong>5.</strong> Descreva como segurança e observabilidade entram no desenho de um novo serviço.</li>
+          <li><strong>6.</strong> Apresente um cenário de pico e um de falha, explicando a resposta da arquitetura com evidências das aulas anteriores.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 4</span><span>Aula 16 — Videoaula 16</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Esta é a última aula de Distributed Systems Engineering. A NexaOrder começou como uma aplicação simples, em um único servidor, onde duas pessoas podiam comprar o último item sem que ninguém soubesse explicar por quê. Dezesseis aulas depois, tornou-se uma plataforma distribuída: serviços delimitados, comunicação assíncrona orientada a eventos, replicação e consenso, orquestração automatizada, segurança de ponta a ponta, observabilidade contínua e testes de resiliência deliberados — cada decisão registrada, cada garantia sustentada por evidência, não por esperança. Continue tratando cada decisão arquitetural como uma hipótese verificável: pergunte "o que acontece se isso falhar?", meça a resposta e ajuste o projeto.</p>
-      <p class="fim-proxima">Encerramento da disciplina.</p>
+      <p class="fim-texto">A NexaOrder começou como uma aplicação em um único servidor, onde duas pessoas compravam o mesmo último item sem que ninguém soubesse explicar por quê. Dezesseis aulas depois, é uma plataforma distribuída, observável, testada e defensável — com cada decisão registrada e cada garantia sustentada por evidência, não por esperança. Continue perguntando “o que acontece se isso falhar?”, meça a resposta e ajuste o projeto com base nela.</p>
+      <p class="fim-proxima">Fim da disciplina. Boa jornada — e bons sistemas, especialmente quando algo neles falhar.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1033,6 +1195,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1054,6 +1217,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1064,6 +1229,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

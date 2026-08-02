@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1150" height="760" viewBox="0 0 1150 760" role="img">
+  <title>Dois fluxos de criação de pedido</title>
+  <desc>diagrama comparativo mostra, à esquerda, uma cadeia de chamadas síncronas bloqueantes e, à direita, uma cadeia assíncrona que respeita as pré-condições de estoque, pagamento e expedição, sem bloquear a resposta inicial ao cliente.</desc>
+  <rect width="1150" height="760" fill="#FFFFFF"/>
+  <rect x="30.0" y="30.0" width="530.0" height="640.0" rx="14" ry="14" fill="#FFFFFF" fill-opacity="1.0" stroke="#C7CEDB" stroke-width="2"/>
+  <rect x="590.0" y="30.0" width="530.0" height="640.0" rx="14" ry="14" fill="#FFFFFF" fill-opacity="1.0" stroke="#C7CEDB" stroke-width="2"/>
+  <text x="60.0" y="74.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#002156" text-anchor="start">Síncrono encadeado</text>
+  <rect x="200.0" y="110.0" width="230.0" height="58.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="315.0" y="142.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Pedidos</text>
+  <line x1="315.0" y1="168.0" x2="315.0" y2="192.7" stroke="#002156" stroke-width="2.3" stroke-linecap="round"/>
+  <polygon points="315.0,202.0 308.3,186.9 321.7,186.9" fill="#002156"/>
+  <rect x="318.0" y="180.0" width="62.2" height="19.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="325.0" y="192.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="start">aguarda</text>
+  <rect x="200.0" y="206.0" width="230.0" height="58.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="315.0" y="238.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Estoque</text>
+  <line x1="315.0" y1="264.0" x2="315.0" y2="288.6" stroke="#002156" stroke-width="2.3" stroke-linecap="round"/>
+  <polygon points="315.0,298.0 308.3,282.9 321.7,282.9" fill="#002156"/>
+  <rect x="318.0" y="276.0" width="62.2" height="19.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="325.0" y="288.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="start">aguarda</text>
+  <rect x="200.0" y="302.0" width="230.0" height="58.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="315.0" y="334.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Pagamento</text>
+  <line x1="315.0" y1="360.0" x2="315.0" y2="384.6" stroke="#002156" stroke-width="2.3" stroke-linecap="round"/>
+  <polygon points="315.0,394.0 308.3,378.9 321.7,378.9" fill="#002156"/>
+  <rect x="318.0" y="372.0" width="62.2" height="19.5" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="325.0" y="384.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="start">aguarda</text>
+  <rect x="200.0" y="398.0" width="230.0" height="58.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="315.0" y="430.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Expedição</text>
+  <rect x="60.0" y="110.0" width="110.0" height="58.0" rx="12" ry="12" fill="#002156" fill-opacity="1.0" stroke="#002156" stroke-width="2.2"/>
+  <text x="115.0" y="142.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#FFFFFF" text-anchor="middle">Cliente</text>
+  <line x1="172.0" y1="139.0" x2="186.7" y2="139.0" stroke="#002156" stroke-width="2.3" stroke-linecap="round"/>
+  <polygon points="196.0,139.0 180.9,145.7 180.9,132.3" fill="#002156"/>
+  <path d="M 434 427 L 496 427 L 496 502 L 115 502" fill="none" stroke="#FF2B5F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="8 6"/>
+  <line x1="115.0" y1="502.0" x2="115.0" y2="183.3" stroke="#FF2B5F" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="115.0,174.0 121.7,189.1 108.3,189.1" fill="#FF2B5F"/>
+  <rect x="166.9" y="477.1" width="266.3" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="300.0" y="490.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#C2185B" text-anchor="middle">resposta única, após toda a cadeia</text>
+  <rect x="60.0" y="594.0" width="470.0" height="66.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="295.0" y="619.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#002156" text-anchor="middle">Latência ≈ soma das etapas. A indisponibilidade de</text>
+  <text x="295.0" y="639.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#002156" text-anchor="middle">qualquer uma delas indisponibiliza o fluxo inteiro.</text>
+  <text x="620.0" y="74.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#002156" text-anchor="start">Orientado a eventos</text>
+  <rect x="750.0" y="104.0" width="200.0" height="50.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="850.0" y="132.4" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#254AB9" text-anchor="middle">Pedidos</text>
+  <line x1="746.0" y1="129.0" x2="709.4" y2="129.0" stroke="#11A360" stroke-width="2.3" stroke-linecap="round"/>
+  <polygon points="700.0,129.0 715.1,122.3 715.1,135.7" fill="#11A360"/>
+  <rect x="575.7" y="97.1" width="125.3" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="694.0" y="110.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#11A360" text-anchor="end">202 processando</text>
+  <rect x="750.0" y="168.0" width="200.0" height="44.0" rx="22" ry="22" fill="#F2CB0A" fill-opacity="1.0" stroke="#F2CB0A" stroke-width="2"/>
+  <text x="850.0" y="197.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#002156" text-anchor="middle">PedidoCriado</text>
+  <line x1="850.0" y1="212.0" x2="850.0" y2="222.1" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,228.0 845.7,218.4 854.3,218.4" fill="#5A6175"/>
+  <rect x="750.0" y="230.0" width="200.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="850.0" y="255.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Estoque</text>
+  <line x1="850.0" y1="274.0" x2="850.0" y2="284.1" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,290.0 845.7,280.4 854.3,280.4" fill="#5A6175"/>
+  <rect x="750.0" y="292.0" width="200.0" height="44.0" rx="22" ry="22" fill="#F2CB0A" fill-opacity="1.0" stroke="#F2CB0A" stroke-width="2"/>
+  <text x="850.0" y="321.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#002156" text-anchor="middle">EstoqueReservado</text>
+  <line x1="850.0" y1="336.0" x2="850.0" y2="346.1" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,352.0 845.7,342.4 854.3,342.4" fill="#5A6175"/>
+  <rect x="750.0" y="354.0" width="200.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="850.0" y="379.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Pagamento</text>
+  <line x1="850.0" y1="398.0" x2="850.0" y2="408.1" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,414.0 845.7,404.4 854.3,404.4" fill="#5A6175"/>
+  <rect x="750.0" y="416.0" width="200.0" height="44.0" rx="22" ry="22" fill="#F2CB0A" fill-opacity="1.0" stroke="#F2CB0A" stroke-width="2"/>
+  <text x="850.0" y="445.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#002156" text-anchor="middle">PagamentoAprovado</text>
+  <line x1="850.0" y1="460.0" x2="850.0" y2="470.1" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,476.0 845.7,466.4 854.3,466.4" fill="#5A6175"/>
+  <rect x="750.0" y="478.0" width="200.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="850.0" y="503.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="16" font-weight="700" fill="#254AB9" text-anchor="middle">Expedição</text>
+  <line x1="850.0" y1="522.0" x2="850.0" y2="532.0" stroke="#5A6175" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="850.0,538.0 845.7,528.4 854.3,528.4" fill="#5A6175"/>
+  <rect x="750.0" y="540.0" width="200.0" height="44.0" rx="22" ry="22" fill="#F2CB0A" fill-opacity="1.0" stroke="#F2CB0A" stroke-width="2"/>
+  <text x="850.0" y="569.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#002156" text-anchor="middle">PedidoEnviado</text>
+  <line x1="950.0" y1="182.0" x2="983.1" y2="171.0" stroke="#11A360" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="992.0,168.0 979.8,179.1 975.6,166.4" fill="#11A360"/>
+  <rect x="996.0" y="146.0" width="104.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#11A360" stroke-width="2.2"/>
+  <text x="1048.0" y="170.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#11A360" text-anchor="middle">Fraude</text>
+  <line x1="950.0" y1="196.0" x2="984.2" y2="218.8" stroke="#11A360" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="992.0,224.0 975.7,221.2 983.2,210.0" fill="#11A360"/>
+  <rect x="996.0" y="202.0" width="104.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="#11A360" stroke-width="2.2"/>
+  <text x="1048.0" y="226.2" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="700" fill="#11A360" text-anchor="middle">Recomendação</text>
+  <text x="1048.0" y="268.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">consumidores</text>
+  <text x="1048.0" y="286.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="13" font-weight="400" fill="#5A6175" text-anchor="middle">independentes</text>
+  <rect x="620.0" y="594.0" width="470.0" height="66.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="855.0" y="619.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#002156" text-anchor="middle">Resposta imediata ao cliente; a sequência causal é</text>
+  <text x="855.0" y="639.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#002156" text-anchor="middle">preservada pelos eventos de pré-condição.</text>
+  <rect x="30.0" y="690.0" width="1090.0" height="44.0" rx="10" ry="10" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="575.0" y="714.5" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="#5A6175" text-anchor="middle">Não há resposta universalmente correta: a escolha depende de quanto a experiência do cliente tolera confirmação não imediata.</text>
+</svg>

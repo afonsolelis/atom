@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 5 — Replicação e modelos de consistência · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Replicação e modelos de consistência</h1>
+      <h1>Aula 5 — Replicação e modelos de consistência</h1>
       <div class="subtitulo">Unidade 2 — Dados distribuídos, consistência e coordenação</div>
-      <div class="docente">Distributed Systems Engineering · Prof. Afonso Cesar Lelis Brandão</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro comparando replicação de líder único e multi-líder; uma linha do tempo do atraso de réplica de 150 milissegundos entre a confirmação no líder e a aplicação na réplica; uma matriz dos modelos de consistência forte, sequencial, causal e eventual; um painel numérico com a condição de quórum W mais R maior que N para cinco réplicas; e uma tabela relacionando catálogo, estoque e pagamento às garantias escolhidas para cada um.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Replicação e modelos de consistência</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
           <li>Por que replicar dados</li>
-          <li>Líder-seguidor vs multi-líder</li>
-          <li>Replicação síncrona, assíncrona e atraso de réplica</li>
-          <li>Modelos de consistência: forte, causal, eventual</li>
+          <li>Líder-seguidor e replicação multi-líder</li>
+          <li>Replicação síncrona, assíncrona e semissíncrona</li>
+          <li>Atraso de réplica e leituras obsoletas</li>
+          <li>Consistência forte, sequencial, causal e eventual</li>
           <li>Garantias centradas no cliente</li>
-          <li>Quóruns de leitura e escrita (W + R &gt; N)</li>
+          <li>Quóruns de leitura e escrita</li>
+          <li>Uma garantia diferente para cada dado da NexaOrder</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,138 +856,282 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <ul>
+          <li><strong>Justificar</strong> a replicação a partir de disponibilidade, latência, escala de leitura ou durabilidade.</li>
+          <li><strong>Comparar</strong> líder-seguidor e multi-líder quanto à ordenação de escritas e ao risco de conflito.</li>
+          <li><strong>Explicar</strong> leituras obsoletas pelo atraso de réplica, sem tratá-las como defeito automático.</li>
+          <li><strong>Distinguir</strong> consistência forte, sequencial, causal e eventual pelas propriedades que cada uma garante.</li>
+          <li><strong>Dimensionar</strong> quóruns de leitura e escrita usando a condição W + R &gt; N.</li>
+          <li><strong>Escolher</strong> a garantia adequada por dado — e não por serviço inteiro.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Situação-problema</p>
+      <h2>Três cópias, três respostas diferentes</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Um banco por serviço ainda era ponto único de falha e gargalo de leitura. Manter cópias em vários nós resolveu a disponibilidade — e criou um problema novo:</p>
+        <ul>
+          <li>Durante uma promoção, um cliente consultou o catálogo três vezes e recebeu <strong>três preços diferentes</strong>, todos “atuais”.</li>
+          <li>Uma reserva confirmada em uma réplica <strong>não havia chegado a outra</strong>.</li>
+          <li>Um segundo cliente conseguiu reservar <strong>a mesma unidade do mesmo produto</strong>.</li>
+          <li><strong>Nenhuma réplica mentiu</strong>: cada uma respondeu com exatidão ao que já havia recebido.</li>
+        </ul>
+        <div class="callout-azul"><p>O problema não foi a replicação. Foi <strong>não ter definido, para cada tipo de dado</strong>, qual garantia de consistência era necessária e qual mecanismo a sustentaria.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Por que replicar dados</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Replicação é manter <strong>cópias do mesmo dado</strong> em nós diferentes. Quatro motivações principais:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Replicação é a manutenção de cópias do mesmo dado em nós diferentes. Quatro motivações aparecem com mais frequência:</p>
         <ul>
-          <li><strong>Disponibilidade:</strong> se um nó falha, outra cópia continua respondendo.</li>
-          <li><strong>Redução de latência:</strong> servir leituras a partir do nó mais próximo do cliente.</li>
-          <li><strong>Escalabilidade de leitura:</strong> distribuir consultas entre várias réplicas.</li>
-          <li><strong>Durabilidade:</strong> reduzir o risco de perda definitiva após falha de um nó.</li>
+          <li><strong>Disponibilidade</strong> — se um nó falhar, outra cópia continua respondendo.</li>
+          <li><strong>Redução de latência</strong> — servir leituras a partir do nó geograficamente mais próximo.</li>
+          <li><strong>Escalabilidade de leitura</strong> — distribuir um grande volume de consultas entre várias réplicas.</li>
+          <li><strong>Durabilidade</strong> — reduzir a chance de perda definitiva após a falha de um único nó.</li>
         </ul>
-        <p>Nenhum benefício é gratuito: toda cópia adicional exige manter réplicas coerentes o suficiente para o uso pretendido.</p>
+        <div class="callout-azul"><p>Nenhum benefício é gratuito. Toda cópia adicional traz a pergunta central da aula: como manter réplicas <strong>coerentes o suficiente para o uso pretendido</strong>, sem sacrificar o benefício que motivou a replicação.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Líder-seguidor vs multi-líder</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Líder-seguidor (primário-réplica):</strong> um único nó recebe escritas e as propaga aos seguidores. Sem disputa sobre qual valor é correto, mas o líder é gargalo de escrita.</li>
-          <li><strong>Multi-líder:</strong> mais de um nó aceita escritas — útil com centros de distribuição em regiões diferentes escrevendo localmente.</li>
-          <li>Custo do multi-líder: escritas concorrentes sobre o mesmo dado exigem <strong>regra de resolução de conflito</strong> (ex.: último timestamp, mesclagem, intervenção manual).</li>
-        </ul>
+      <h2>Líder-seguidor e multi-líder</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Critério</th><th>Primário-réplica (líder-seguidor)</th><th>Multi-líder</th></tr></thead>
+          <tbody>
+            <tr><td>Quem aceita escrita</td><td>Apenas o líder</td><td>Mais de um nó, em regiões diferentes</td></tr>
+            <tr><td>Ordenação das escritas</td><td>Centralizada em um ponto, sem disputa</td><td>Concorrente entre líderes</td></tr>
+            <tr><td>Vantagem principal</td><td>Sem conflito de escrita na operação normal</td><td>Escrita local reduz a latência regional</td></tr>
+            <tr><td>Custo principal</td><td>Líder é gargalo e exige recuperação</td><td>Exige regra explícita de resolução de conflito</td></tr>
+            <tr><td>Risco típico</td><td>Promoção mal coordenada gera split-brain</td><td>Escritas concorrentes sobre o mesmo dado colidem</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Se um centro de distribuição registra a saída de uma unidade enquanto outro registra uma correção de inventário do mesmo item, é preciso decidir de antemão: <strong>prevalência do último carimbo, mesclagem de campos ou intervenção manual</strong>. Sem regra explícita, o comportamento em conflito é imprevisível.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Síncrona, assíncrona e atraso de réplica</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Quando a escrita é considerada concluída</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li><strong>Síncrona:</strong> o líder confirma a escrita só depois que réplicas confirmarem — mais durável, mais lenta.</li>
-          <li><strong>Assíncrona:</strong> o líder confirma na hora e propaga depois — mais rápida, com janela de risco de perda.</li>
-          <li><strong>Atraso de réplica (replication lag):</strong> intervalo entre a escrita no líder (t₀) e sua aplicação na réplica (t₀ + Δ).</li>
-          <li>Exemplo: Δ = 150 ms. Uma leitura na réplica nesse intervalo retorna o valor antigo — explica o caso do catálogo com preços divergentes.</li>
+          <li><strong>Síncrona</strong> — o líder só confirma ao cliente depois que uma ou mais réplicas confirmaram ter recebido.</li>
+          <li><strong>Efeito da síncrona</strong> — mais durabilidade e menor risco de perda; em troca, mais latência e dependência da disponibilidade das réplicas.</li>
+          <li><strong>Assíncrona</strong> — o líder responde sem esperar; a propagação continua em segundo plano.</li>
+          <li><strong>Efeito da assíncrona</strong> — menor latência percebida, mas há uma janela em que a falha do líder perde uma escrita que nenhuma réplica durável recebeu.</li>
+          <li><strong>Semissíncrona</strong> — exige confirmação de apenas parte das réplicas.</li>
+          <li><strong>Por que importa</strong> — é exatamente a ideia que reaparece adiante como <em>quórum de escrita</em>.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Atraso de réplica e leituras obsoletas</h2>
+      <div class="slide-content-box">
+        <p>O intervalo entre a confirmação no líder e a aplicação na réplica é o <strong>atraso de réplica</strong>. Enquanto ele existe, uma leitura na réplica devolve um valor mais antigo que o já confirmado no líder:</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">t₀</span><span class="legenda">líder confirma a escrita</span></div>
+          <div class="stat-card"><span class="numero-grande">150 ms</span><span class="legenda">atraso da réplica (Δ)</span></div>
+          <div class="stat-card"><span class="numero-grande">t₀ + Δ</span><span class="legenda">réplica aplica a escrita</span></div>
+          <div class="stat-card"><span class="numero-grande">150 ms</span><span class="legenda">janela de leitura obsoleta</span></div>
+        </div>
+        <div class="callout-azul"><p>Isso explica o caso do catálogo: cada consulta pode ter sido atendida por uma réplica diferente, <strong>cada uma em um ponto distinto da própria janela de atraso</strong>. O atraso de réplica não é, isoladamente, um defeito — ele vira problema quando o processo de negócio pressupõe, implicitamente, uma consistência que o sistema não oferece.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide slide-quote">
+    <div class="quote-logo">
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+    </div>
+    <div class="quote-shapes" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
+    </div>
+    <div class="quote-card">
+      <blockquote>“Nenhuma réplica mentiu: cada uma respondeu com exatidão ao que já havia recebido.”</blockquote>
+      <cite>— síntese da Aula 5</cite>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Modelos de consistência</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <ul>
-          <li><strong>Forte (linearizabilidade):</strong> toda leitura reflete a escrita mais recente confirmada, na ordem real do tempo. A garantia mais cara.</li>
-          <li><strong>Sequencial:</strong> todas as réplicas concordam com a mesma ordem, que pode não coincidir com a ordem real de tempo.</li>
-          <li><strong>Causal:</strong> operações com relação de causa e efeito são vistas na mesma ordem por todos os nós.</li>
-          <li><strong>Eventual:</strong> sem novas escritas, todas as réplicas convergem — sem prazo nem ordem garantidos.</li>
-        </ul>
-        <p>Consistência forte não é "melhor" — é mais cara. Eventual não é "pior" — é mais barata e disponível.</p>
+      <h2>Quatro modelos de consistência</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Modelo</th><th>O que garante</th><th>Custo típico</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Forte</strong> (linearizabilidade)</td><td>Comporta-se como se houvesse uma única cópia; toda leitura reflete a escrita concluída mais recente</td><td>Mais coordenação: pode elevar latência ou reduzir disponibilidade sob falha</td></tr>
+            <tr><td><strong>Sequencial</strong></td><td>Todas as réplicas concordam com a mesma ordem de operações</td><td>A ordem não precisa coincidir com o tempo real entre clientes distintos</td></tr>
+            <tr><td><strong>Causal</strong></td><td>Operações com relação de causa e efeito são vistas na mesma ordem por todos</td><td>Operações concorrentes podem ser vistas em ordens diferentes</td></tr>
+            <tr><td><strong>Eventual</strong></td><td>Cessadas as escritas, as réplicas convergem para o mesmo valor</td><td>Sem prazo definido nem garantia sobre a ordem observada no meio-tempo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>A consistência causal é retomada direta da relação <strong>happened-before</strong> da Aula 3 — o mesmo raciocínio, agora aplicado a réplicas de dados.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Erro comum</p>
+      <h2>“Forte é melhor, eventual é pior”</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Essa leitura é uma das confusões mais caras da área. Os modelos não formam uma escala universal de qualidade:</p>
+        <ul>
+          <li><strong>Forte não é “melhor” em absoluto</strong> — ela costuma exigir mais coordenação, e coordenação tem preço.</li>
+          <li><strong>Eventual não é “pior”</strong> — pode permitir menos coordenação, sem garantir automaticamente menor custo.</li>
+          <li><strong>Nem sempre é mais disponível</strong> — o resultado depende do protocolo e das falhas consideradas.</li>
+          <li><strong>A escolha depende do dado</strong> — do que ele representa e do risco que carrega para o negócio.</li>
+        </ul>
+        <div class="callout-azul"><p>A pergunta certa não é “qual modelo é o melhor?”, e sim <strong>“o que este dado específico não pode tolerar?”</strong>.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>Garantias centradas no cliente</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Entre consistência forte e eventual pura, garantias mais baratas resolvem boa parte do problema percebido pelo usuário:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Boa parte do que o usuário percebe como “bug” pode ser resolvida sem exigir linearizabilidade global, com garantias de sessão:</p>
         <ul>
-          <li><strong>Leitura das próprias escritas:</strong> um cliente sempre vê as alterações que ele mesmo fez.</li>
-          <li><strong>Leituras monotônicas:</strong> nunca se observa, depois, um valor mais antigo que um já visto.</li>
-          <li><strong>Escritas monotônicas:</strong> as escritas de um cliente são aplicadas na ordem em que foram emitidas.</li>
-          <li><strong>Leitura de prefixo consistente:</strong> se B depende causalmente de A, ninguém observa B sem antes observar A.</li>
+          <li><strong>Leitura das próprias escritas</strong> — o cliente sempre vê as alterações que ele mesmo fez.</li>
+          <li><strong>Leituras monotônicas</strong> — observado um valor, ele nunca verá um valor mais antigo depois.</li>
+          <li><strong>Escritas monotônicas</strong> — as escritas de um mesmo cliente são aplicadas na ordem emitida.</li>
+          <li><strong>Prefixo consistente</strong> — se B depende causalmente de A, ninguém observa B sem antes observar A.</li>
         </ul>
+        <div class="callout-azul"><p>São garantias <strong>de sessão</strong>, não degraus de uma escala universal. Elas reduzem a inconsistência percebida; o custo real depende do protocolo e da arquitetura.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quóruns de leitura e escrita</h2>
+      <div class="slide-content-box">
+        <p>Com o dado replicado em <strong>N</strong> nós, a escrita conclui quando confirmada por <strong>W</strong> réplicas e a leitura consulta <strong>R</strong> réplicas, reconciliando as respostas por metadados de versão. A condição clássica de interseção é:</p>
+        <div class="callout-azul formula"><p>W + R &gt; N</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">N = 5</span><span class="legenda">réplicas do dado</span></div>
+          <div class="stat-card"><span class="numero-grande">W = 3</span><span class="legenda">confirmam a escrita</span></div>
+          <div class="stat-card"><span class="numero-grande">R = 3</span><span class="legenda">consultadas na leitura</span></div>
+          <div class="stat-card"><span class="numero-grande">6 &gt; 5</span><span class="legenda">há interseção garantida</span></div>
+        </div>
+        <div class="callout-azul"><p>A interseção garante que ao menos uma resposta <strong>possa conter</strong> a versão confirmada — desde que os quóruns sejam fixos (não <em>sloppy</em>) e o sistema compare versões corretamente. A desigualdade sozinha <strong>não</strong> garante linearizabilidade nem resolve escritas concorrentes: para isso, W &gt; N/2 mais versionamento e reconciliação.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Quóruns de leitura e escrita</h2>
+      <h2>Combinações de quórum e seus compromissos</h2>
       <div class="slide-content-box">
-        <p>Com N réplicas, uma escrita é concluída quando confirmada por W réplicas, e uma leitura consulta R réplicas. A regra de sobreposição: <strong>W + R &gt; N</strong>.</p>
-        <ul>
-          <li>Exemplo: N = 5, W = 3, R = 3 → 3 + 3 = 6 &gt; 5. Toda leitura toca ao menos uma réplica que participou da última escrita.</li>
-          <li>W = 1, R = N: escrita rápida, leitura cara e lenta.</li>
-          <li>W = N, R = 1: leitura rápida, escrita cara.</li>
-          <li>W + R ≤ N: sem garantia de sobreposição — prioriza disponibilidade.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Configuração</th><th>Efeito na escrita</th><th>Efeito na leitura</th></tr></thead>
+          <tbody>
+            <tr><td>W = 1, R = N</td><td>Rápida</td><td>Cara e menos disponível: depende de todas as réplicas</td></tr>
+            <tr><td>W = N, R = 1</td><td>Cara e menos disponível: depende de todos os nós</td><td>Rápida</td></tr>
+            <tr><td>W + R &gt; N</td><td>Equilibrada</td><td>Interseção garantida com o quórum de escrita</td></tr>
+            <tr><td>W + R ≤ N</td><td>Prioriza disponibilidade</td><td>Sem garantia de sobreposição: aceita leituras obsoletas</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul formula"><p>N ≥ 2f + 1  &nbsp;→&nbsp;  réplicas mínimas para tolerar f falhas com maioria</p></div>
+        <p>Esse mesmo princípio de maioria reaparece na <strong>Aula 7</strong>, quando o assunto for consenso.</p>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
-  </section>
-
-  <section class="slide slide-quote">
-    <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
-    </div>
-    <div class="quote-shapes">
-      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
-    </div>
-    <div class="quote-card">
-      <blockquote>"A pergunta profissional certa não é 'esse sistema é consistente?'. É: 'para este dado específico, que garantia de consistência o negócio realmente exige, e qual o custo de entregar essa garantia?'"</blockquote>
-      <cite>— Unidade 2, Distributed Systems Engineering</cite>
-    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Uma garantia diferente para cada dado</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Dado</th><th>Garantia adequada</th><th>Justificativa de negócio</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Catálogo</strong></td><td>Consistência eventual</td><td>Preço levemente desatualizado por segundos não compromete o negócio; prioriza disponibilidade e latência</td></tr>
+            <tr><td><strong>Estoque</strong></td><td>Garantias de cliente + quórum com sobreposição (N=3, W=2, R=2)</td><td>Reserva exige controle explícito de concorrência para não vender a mesma unidade duas vezes</td></tr>
+            <tr><td><strong>Pagamento</strong></td><td>Próximo de consistência forte no registro da transação</td><td>Maior rigidez; notificações associadas podem permanecer eventuais</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Dizer apenas “W ≥ 2”, sem definir N, R e a regra de reconciliação, <strong>não basta</strong>. Decompor o sistema <strong>por dado</strong>, e não por serviço inteiro, é uma das habilidades centrais desta unidade.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -982,50 +1139,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Replicação</h3><p>Melhora disponibilidade, latência de leitura e durabilidade, mas obriga a manter cópias coerentes.</p></div>
-          <div class="ponto"><h3>Espectro de consistência</h3><p>Forte, sequencial, causal e eventual: um espectro de custo e garantia, não uma escala de qualidade.</p></div>
-          <div class="ponto"><h3>Garantias do cliente</h3><p>Read-your-writes e leituras monotônicas resolvem boa parte da inconsistência percebida a baixo custo.</p></div>
-          <div class="ponto"><h3>Quórum</h3><p>W + R &gt; N equilibra consistência e disponibilidade de forma configurável.</p></div>
+          <div class="ponto"><h3>Replicar tem preço</h3><p>Melhora disponibilidade, latência e durabilidade — e introduz o problema de manter cópias coerentes.</p></div>
+          <div class="ponto"><h3>Líder ordena</h3><p>Líder-seguidor centraliza a ordenação na operação normal; multi-líder reduz latência regional e exige regra de conflito.</p></div>
+          <div class="ponto"><h3>Quando confirmar</h3><p>Síncrona reduz a janela de perda com mais coordenação; assíncrona responde antes e aceita risco maior.</p></div>
+          <div class="ponto"><h3>Obsoleto não é errado</h3><p>O atraso de réplica explica leituras antigas sem que nenhuma réplica esteja incorreta.</p></div>
+          <div class="ponto"><h3>Não há escala única</h3><p>Forte, sequencial, causal e eventual têm propriedades diferentes, não posições em uma régua de qualidade.</p></div>
+          <div class="ponto"><h3>Quórum não basta sozinho</h3><p>W + R > N garante interseção; devolver a versão certa ainda exige metadados de versão e reconciliação.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Para catálogo, estoque e pagamento da NexaOrder, defina, em uma tabela de três linhas:</p>
+      <h2>Mãos à obra: uma garantia por dado</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Para catálogo, estoque e pagamento, entregue uma <strong>tabela de três linhas</strong> que permita comparação direta entre as escolhas.</p>
         <ul>
-          <li>O <strong>modelo de consistência</strong> mais adequado (forte, causal, centrada no cliente ou eventual), com justificativa de negócio.</li>
-          <li>O <strong>modelo de replicação</strong> (líder único ou multi-líder).</li>
-          <li>Se a replicação será <strong>síncrona, assíncrona ou por quórum</strong>, com valores plausíveis de N, W e R.</li>
-          <li>Um cenário de <em>leitura obsoleta</em> aceitável e um inaceitável para esse dado.</li>
+          <li><strong>1.</strong> O modelo de consistência mais adequado, com justificativa de negócio.</li>
+          <li><strong>2.</strong> O modelo de replicação: líder único ou multi-líder.</li>
+          <li><strong>3.</strong> Se a replicação será síncrona, assíncrona ou por quórum.</li>
+          <li><strong>4.</strong> Valores plausíveis de N, W e R para o caso escolhido.</li>
+          <li><strong>5.</strong> Um cenário de leitura obsoleta que seria <em>aceitável</em> para esse dado.</li>
+          <li><strong>6.</strong> Um cenário de leitura obsoleta que <em>não</em> seria aceitável, e por quê.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já entende por que dados são replicados, os modelos de consistência e como quóruns equilibram esses compromissos. Na próxima aula, o volume de dados cresce além da capacidade de um único nó: particionamento, hashing consistente e o teorema CAP.</p>
-      <p class="fim-proxima">Próxima aula: Aula 6.</p>
+      <p class="fim-texto">Você já sabe escolher a garantia de consistência adequada a cada dado e dimensionar quóruns de leitura e escrita. Na próxima aula, o problema muda de natureza: não basta copiar o dado — é preciso dividi-lo, porque uma cópia inteira já não cabe em um nó.</p>
+      <p class="fim-proxima">Próxima aula: Aula 6 — Particionamento, CAP e escalabilidade de dados.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1039,6 +1200,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1060,6 +1222,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1070,6 +1234,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

@@ -4,22 +4,22 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="visual-resources" content="Infográficos autorais; Afonso Cesar Lelis Brandão; CC BY 4.0; inventário em ../../RECURSOS_VISUAIS.md">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002156%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
 <title>Aula 6 — Particionamento, CAP e escalabilidade de dados · Distributed Systems Engineering</title>
 <style>
   /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
   :root {
     /* Identidade UniFECAF */
-    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
-    --azul-claro:   #2BBBE0;
-    --azul-medio:   #1F44A8;
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
 
     /* Acentos (apoio em pontos-chave e detalhes) */
-    --amarelo:      #F0CE29;
-    --magenta:      #E91E63;
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
     --magenta-texto: #C2185B;
-    --verde-claro:  #8DD17E;
-    --verde-escuro: #1F8A4E;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
 
     /* Neutros */
     --cinza-bg:     #F2F4F8;
@@ -27,7 +27,8 @@
     --cinza-mute:   #5A6175;
     --branco:       #FFFFFF;
 
-    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
@@ -78,7 +79,7 @@
     margin: 0 auto;
   }
   .slide h1, .slide h2, .slide h3 {
-    font-family: var(--fonte);
+    font-family: var(--fonte-titulo);
     color: var(--branco);
     margin: 0 0 0.5em;
     letter-spacing: -0.02em;
@@ -115,7 +116,7 @@
   }
   .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
   .slide strong { color: var(--amarelo); }
-  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
 
   .slide-content-box {
     background: var(--branco);
@@ -143,7 +144,7 @@
 
   /* ---------- Slide: capa ---------- */
   .slide-capa {
-    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
     color: var(--branco);
   }
   .slide-capa .logo-marca { margin-bottom: 2.5rem; }
@@ -655,9 +656,9 @@
   </symbol>
   <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
   <symbol id="trio-canto" viewBox="0 0 200 200">
-    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
-    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
-    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+    <polygon points="200,0 100,0 200,100" fill="#002156" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F2CB0A" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#00B1D2" opacity="0.45"/>
   </symbol>
   <!-- Padrão novo (PowerPoint) -->
   <symbol id="canto-se" viewBox="0 0 80 80">
@@ -671,171 +672,183 @@
   </symbol>
   <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
   <symbol id="prof-cluster" viewBox="0 0 200 400">
-    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
-    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
-    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
-    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
-    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
-    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
-    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
-    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+    <polygon points="40,20 110,20 75,90" fill="#FF2B5F"/>
+    <polygon points="80,60 150,60 115,130" fill="#254AB9"/>
+    <polygon points="20,100 100,100 60,180" fill="#11A360"/>
+    <polygon points="100,140 170,140 135,210" fill="#F2CB0A"/>
+    <polygon points="40,180 110,180 75,250" fill="#00B1D2"/>
+    <polygon points="90,230 160,230 125,300" fill="#FF2B5F"/>
+    <polygon points="30,270 100,270 65,340" fill="#11A360"/>
+    <polygon points="100,310 170,310 135,380" fill="#F2CB0A"/>
   </symbol>
   <!-- Triângulo amarelo do canto superior direito do slide-prof -->
   <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
-    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+    <polygon points="0,0 100,0 100,100" fill="#F2CB0A"/>
   </symbol>
   <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
   <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
-    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
-    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
-    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+    <polygon points="10,30 50,30 30,70" fill="#FF2B5F"/>
+    <polygon points="40,10 80,10 60,50" fill="#11A360"/>
+    <polygon points="70,40 110,40 90,80" fill="#F2CB0A"/>
   </symbol>
   <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
   <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
-    <rect width="1280" height="720" fill="#001640"/>
+    <rect width="1280" height="720" fill="#001530"/>
     <!-- topo -->
-    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
-    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
-    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
-    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
-    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
-    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
-    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <polygon points="0,0 230,0 0,165" fill="#11A360"/>
+    <polygon points="130,0 390,0 260,140" fill="#254AB9"/>
+    <polygon points="320,0 530,0 425,115" fill="#00B1D2"/>
+    <polygon points="500,0 700,0 600,105" fill="#FF2B5F"/>
+    <polygon points="680,0 880,0 780,100" fill="#95DE68"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F2CB0A"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#11A360"/>
     <!-- direita -->
-    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
-    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
-    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <polygon points="1280,150 1280,370 1135,260" fill="#00B1D2"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#FF2B5F"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#95DE68"/>
     <!-- base -->
-    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
-    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
-    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
-    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
-    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
-    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <polygon points="975,720 1175,720 1075,605" fill="#254AB9"/>
+    <polygon points="755,720 995,720 875,595" fill="#11A360"/>
+    <polygon points="540,720 775,720 655,615" fill="#00B1D2"/>
+    <polygon points="325,720 560,720 440,595" fill="#F2CB0A"/>
+    <polygon points="120,720 360,720 240,615" fill="#254AB9"/>
+    <polygon points="0,720 165,720 0,555" fill="#FF2B5F"/>
     <!-- esquerda -->
-    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
-    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+    <polygon points="0,415 0,640 145,525" fill="#11A360"/>
+    <polygon points="0,200 0,430 135,315" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
   <symbol id="capa-canto-1" viewBox="0 0 300 300">
-    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
-    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
-    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
-    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+    <polygon points="0,0 260,0 0,260" fill="#00B1D2"/>
+    <polygon points="0,0 120,0 0,120" fill="#351B65"/>
+    <polygon points="0,150 95,245 0,300" fill="#F2CB0A"/>
+    <polygon points="0,250 55,300 0,300" fill="#254AB9"/>
   </symbol>
   <symbol id="capa-canto-2" viewBox="0 0 300 300">
-    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
-    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
-    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
-    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+    <polygon points="140,0 300,0 300,100" fill="#FF2B5F"/>
+    <polygon points="30,0 175,0 102,72" fill="#00B1D2"/>
+    <polygon points="300,100 225,100 300,175" fill="#351B65"/>
+    <polygon points="300,150 215,235 300,235" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-3" viewBox="0 0 300 300">
-    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
-    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
-    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
-    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+    <polygon points="0,140 110,300 0,300" fill="#F2CB0A"/>
+    <polygon points="0,70 75,135 0,200" fill="#FF2B5F"/>
+    <polygon points="60,200 160,300 60,300" fill="#254AB9"/>
+    <polygon points="130,300 235,235 235,300" fill="#95DE68"/>
   </symbol>
   <symbol id="capa-canto-4" viewBox="0 0 300 300">
-    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
-    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
-    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
-    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+    <polygon points="300,60 300,300 60,300" fill="#95DE68"/>
+    <polygon points="300,170 300,300 170,300" fill="#11A360"/>
+    <polygon points="135,255 225,255 180,195" fill="#F2CB0A"/>
+    <polygon points="300,30 235,95 300,130" fill="#00B1D2"/>
   </symbol>
   <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
   <symbol id="audio-canto-tl" viewBox="0 0 150 130">
-    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
-    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+    <polygon points="8,0 72,0 40,62" fill="#11A360"/>
+    <polygon points="52,18 116,18 84,80" fill="#95DE68"/>
   </symbol>
   <symbol id="audio-canto-br" viewBox="0 0 360 250">
-    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
-    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
-    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+    <polygon points="40,250 190,95 340,250" fill="#11A360"/>
+    <polygon points="190,250 270,165 350,250" fill="#F2CB0A"/>
+    <polygon points="240,0 360,120 360,0" fill="#95DE68"/>
   </symbol>
   <!-- Faixa de formas coloridas do slide de citação -->
   <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
-    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
-    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
-    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
-    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
-    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
-    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
-    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
-    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
-    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
-    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+    <polygon points="0,90 0,10 80,90" fill="#11A360"/>
+    <polygon points="95,10 175,10 175,90" fill="#95DE68"/>
+    <polygon points="205,90 285,10 285,90" fill="#00B1D2"/>
+    <polygon points="320,10 400,90 320,90" fill="#254AB9"/>
+    <polygon points="450,10 530,10 450,90" fill="#F2CB0A"/>
+    <polygon points="575,90 655,10 655,90" fill="#254AB9"/>
+    <polygon points="700,10 780,90 700,90" fill="#11A360"/>
+    <polygon points="840,10 840,90 920,90" fill="#00B1D2"/>
+    <polygon points="965,10 1045,10 965,90" fill="#95DE68"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#11A360"/>
   </symbol>
   <!-- Cluster de triângulos do encerramento -->
   <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
-    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
-    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
-    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
-    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
-    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
-    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
-    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+    <polygon points="20,200 120,95 220,200" fill="#11A360"/>
+    <polygon points="170,200 250,115 330,200" fill="#254AB9"/>
+    <polygon points="225,200 305,95 385,200" fill="#FF2B5F" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#00B1D2"/>
+    <polygon points="430,200 510,110 590,200" fill="#95DE68"/>
+    <polygon points="90,75 160,140 30,140" fill="#95DE68"/>
+    <polygon points="470,40 540,105 410,105" fill="#F2CB0A"/>
   </symbol>
   <!-- Faixa de triângulos para rodapé da capa -->
   <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
-    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="0,80 50,30 100,80" fill="#F2CB0A"/>
     <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="170,80 220,40 270,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="350,80 400,30 450,80" fill="#F2CB0A"/>
     <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
-    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="530,80 580,20 630,80" fill="#F2CB0A" opacity="0.85"/>
     <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
-    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="710,80 760,40 810,80" fill="#F2CB0A"/>
     <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
-    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="890,80 940,30 990,80" fill="#F2CB0A" opacity="0.7"/>
     <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
-    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F2CB0A"/>
   </symbol>
 </svg>
 
 <div class="deck" id="deck">
 
   <section class="slide slide-capa active">
-    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
-    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
-    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
-    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca">
-        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        <svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
-      <h1>Particionamento, CAP e escalabilidade de dados</h1>
+      <h1>Aula 6 — Particionamento, CAP e escalabilidade de dados</h1>
       <div class="subtitulo">Unidade 2 — Dados distribuídos, consistência e coordenação</div>
-      <div class="docente">Distributed Systems Engineering · Prof. Afonso Cesar Lelis Brandão</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-    <section class="slide slide-sumario">
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro comparando particionamento por faixa, por hash e por diretório; um painel numérico com a fração de chaves redistribuída pelo hashing consistente ao adicionar o décimo nó; um cálculo da probabilidade de cauda de latência em uma consulta que atinge oito partições; um diagrama de dois grupos de nós separados por rede rompida, contrastando o comportamento CP e o AP; e uma matriz de decisão PACELC para catálogo, estoque e pagamento.</p>
+    </div>
+  </section>
+
+  <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo">
-          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+          <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
         </div>
         <h1 class="sumario-titulo">Particionamento, CAP e escalabilidade de dados</h1>
       </div>
       <div class="sumario-lado-escuro">
-        <div class="prof-canto-topo">
+        <div class="prof-canto-topo" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
-        <div class="prof-triangulos-boundary">
-          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet">
-            <use href="#prof-cluster"/>
-          </svg>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
         </div>
         <h2>Sumário</h2>
         <ul>
-          <li>Particionamento horizontal (sharding)</li>
-          <li>Estratégias: faixa, hash e diretório</li>
-          <li>Hashing consistente</li>
-          <li>Pontos quentes, rebalanceamento e consultas dispersas</li>
-          <li>O teorema CAP</li>
-          <li>PACELC e aplicação à NexaOrder</li>
+          <li>Particionamento horizontal e sua diferença para replicação</li>
+          <li>Estratégias por faixa, por hash e por diretório</li>
+          <li>Hashing consistente e nós virtuais</li>
+          <li>Rebalanceamento e pontos quentes</li>
+          <li>Particionamento e replicação combinados</li>
+          <li>Consultas entre partições e cauda de latência</li>
+          <li>O teorema CAP durante uma partição de rede</li>
+          <li>PACELC: o compromisso que existe todos os dias</li>
         </ul>
-        <div class="sumario-canto-rodape">
+        <div class="sumario-canto-rodape" aria-hidden="true">
           <svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg>
         </div>
       </div>
@@ -843,134 +856,275 @@
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Particionamento horizontal (sharding)</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Dividir um conjunto de dados em partições menores, cada uma servida por um subconjunto de nós.</p>
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>O que você será capaz de fazer</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
         <ul>
-          <li>Diferente de replicação: replicação copia o dado inteiro; particionamento distribui <strong>fatias diferentes</strong> do mesmo conjunto.</li>
-          <li>Na prática, as duas técnicas se combinam: P partições, cada uma replicada em R nós → P × R réplicas no cluster.</li>
-          <li>Objetivo: crescer volume e carga distribuindo trabalho entre nós, não exigindo que um único nó absorva tudo.</li>
+          <li><strong>Diferenciar</strong> particionamento de replicação e reconhecer por que produção combina os dois.</li>
+          <li><strong>Escolher</strong> a estratégia de partição adequada aos padrões de consulta mais frequentes.</li>
+          <li><strong>Calcular</strong> a fração de chaves redistribuída ao adicionar um nó com hashing consistente.</li>
+          <li><strong>Diagnosticar</strong> pontos quentes e propor mitigações distintas para leitura e escrita.</li>
+          <li><strong>Aplicar</strong> o teorema CAP ao comportamento do sistema durante uma partição de rede.</li>
+          <li><strong>Usar</strong> o PACELC para explicar o custo de consistência fora de cenários de falha.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
-      <p class="kicker">Conteúdo</p>
-      <h2>Estratégias: faixa, hash e diretório</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <p class="kicker">Situação-problema</p>
+      <h2>Quando uma cópia inteira já não cabe em um nó</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Resolvida a coerência entre réplicas, a NexaOrder encontrou um segundo limite: o catálogo chegou a milhões de produtos e o histórico de pedidos, a bilhões de registros. Replicar a base inteira em cada nó ficou inviável.</p>
         <ul>
-          <li><strong>Por faixa:</strong> intervalos contíguos de chave por partição. Eficiente para consultas por intervalo, mas sofre pontos quentes se a distribuição não for uniforme.</li>
-          <li><strong>Por hash:</strong> função de espalhamento distribui chaves de forma uniforme, ao custo de perder eficiência em consultas por intervalo.</li>
-          <li><strong>Por diretório:</strong> tabela explícita de mapeamento chave → partição. Flexível, mas o diretório vira um novo componente a manter disponível.</li>
+          <li>Era preciso <strong>dividir os dados</strong>, não apenas copiá-los.</li>
+          <li>A primeira tentativa: produtos de <strong>“A” a “M”</strong> em um nó, de <strong>“N” a “Z”</strong> em outro.</li>
+          <li>Uma campanha concentrada em produtos com <strong>“S”</strong> sobrecarregou um único nó.</li>
+          <li>O outro nó permaneceu ocioso: <strong>dividir exige estratégia</strong>, não um corte arbitrário.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Hashing consistente</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p><code>hash(chave) mod N</code> redistribui quase todas as chaves quando N muda. O <strong>hashing consistente</strong> organiza o espaço de hash como um anel: cada nó (com nós virtuais) ocupa posições no anel; uma chave pertence ao primeiro nó encontrado em sentido horário.</p>
+      <h2>Particionamento horizontal</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Particionamento horizontal (<em>sharding</em>) divide um conjunto de dados em partições menores, cada uma servida por um subconjunto de nós.</p>
+        <ul>
+          <li><strong>Replicação copia</strong> — mantém cópias completas do mesmo dado em nós diferentes.</li>
+          <li><strong>Particionamento divide</strong> — distribui fatias diferentes de um mesmo conjunto.</li>
+          <li><strong>Produção combina os dois</strong> — cada partição é, por sua vez, replicada para garantir disponibilidade.</li>
+          <li><strong>O objetivo</strong> — deixar volume de dados e volume de operações crescerem distribuindo trabalho, em vez de exigir tudo de um nó.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Três estratégias de particionamento</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Estratégia</th><th>Como decide a partição</th><th>Vantagem</th><th>Limitação</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Faixa</strong></td><td>Intervalos contíguos da chave (jan/fev, A–M/N–Z)</td><td>Consultas por intervalo atingem partições contíguas</td><td>Pontos quentes quando a distribuição real não é uniforme</td></tr>
+            <tr><td><strong>Hash</strong></td><td>Função de espalhamento aplicada à chave</td><td>Distribuição aproximadamente uniforme entre partições</td><td>Consulta por intervalo perde eficiência; chave popular continua concentrando</td></tr>
+            <tr><td><strong>Diretório</strong></td><td>Tabela explícita de mapeamento chave → partição</td><td>Flexibilidade máxima para rebalancear</td><td>Componente adicional que pode virar ponto único de falha</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O hash reduz pontos quentes causados por <strong>concentração em faixas</strong>, mas não resolve uma <strong>única chave muito popular</strong> — e espalha chaves originalmente próximas entre partições distintas.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Hashing consistente: o custo de crescer</h2>
+      <div class="slide-content-box">
+        <p>O hash simples <code>hash(chave) mod N</code> redistribui quase todas as chaves quando N muda. O hashing consistente organiza o espaço como um <strong>anel</strong>: a chave vai ao primeiro nó encontrado em sentido horário, e só as chaves entre o novo nó e seu vizinho anterior se movem.</p>
+        <div class="callout-azul formula"><p>fração redistribuída ≈ 1 ÷ ( N + 1 )</p></div>
         <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">9 → 10</span><span class="legenda">nós no anel: adicionar o 10º nó</span></div>
-          <div class="stat-card"><span class="numero-grande">~10%</span><span class="legenda">das chaves redistribuídas: 1 / (N+1)</span></div>
-          <div class="stat-card"><span class="numero-grande">quase 100%</span><span class="legenda">redistribuído com hash simples por módulo</span></div>
+          <div class="stat-card"><span class="numero-grande">9</span><span class="legenda">nós existentes</span></div>
+          <div class="stat-card"><span class="numero-grande">+1</span><span class="legenda">nó adicionado</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 10%</span><span class="legenda">das chaves se movem</span></div>
+          <div class="stat-card"><span class="numero-grande">~100%</span><span class="legenda">com hash simples e módulo</span></div>
         </div>
+        <div class="callout-azul"><p>Cada nó físico costuma receber <strong>100 ou 200 posições virtuais</strong> espalhadas pelo anel. Com uma posição só, a carga dependeria do acaso de onde o nó caiu; com nós virtuais, a soma dos segmentos se aproxima da média esperada e <strong>reduz a variância de carga</strong> sem mudar a lógica de atribuição.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>Pontos quentes, rebalanceamento e consultas dispersas</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+      <h2>Rebalanceamento e pontos quentes</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Mesmo com hashing consistente, uma <strong>única chave</strong> pode concentrar tráfego desproporcional — um produto em promoção relâmpago puxando quase todas as leituras de estoque.</p>
         <ul>
-          <li><strong>Ponto quente:</strong> uma única chave popular concentra tráfego. Hashing distribui bem chaves diferentes, não divide a carga de uma chave só.</li>
-          <li>Mitigação: sufixar a chave quente com número aleatório e agregar na leitura, cache ou partição dedicada.</li>
-          <li>Rebalancear move dados <em>e</em> carga de processamento — origem e destino degradam temporariamente; times limitam a taxa de migração.</li>
-          <li><strong>Scatter-gather:</strong> consulta que atinge 8 partições, cada uma lenta 5% das vezes → P(pelo menos uma lenta) = 1 − 0,95⁸ ≈ 34%.</li>
+          <li><strong>Ponto quente de leitura</strong> — cache, réplicas de leitura e visão materializada, com invalidação ou versão que explicite a defasagem tolerada.</li>
+          <li><strong>Ponto quente de escrita</strong> — sufixos aleatórios funcionam para escritas agregáveis, como contadores.</li>
+          <li><strong>Cuidado com o fan-out</strong> — se toda leitura precisar consultar todas as subchaves, o gargalo piora em vez de melhorar.</li>
+          <li><strong>Estoque autoritativo</strong> — a reserva não pode ser dividida ingenuamente: mantenha regra única de concorrência, cotas por partição ou decisão serializada por produto.</li>
+          <li><strong>Durante o pico</strong> — isolar temporariamente o item e aplicar controle de admissão.</li>
+          <li><strong>Rebalancear move carga, não só dados</strong> — origem e destino processam tráfego normal e transferência ao mesmo tempo; daí o <em>throttling</em> e as janelas de menor tráfego.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide slide-quote">
+    <div class="quote-logo">
+      <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+    </div>
+    <div class="quote-shapes" aria-hidden="true">
+      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
+    </div>
+    <div class="quote-card">
+      <blockquote>“Uma decisão registrada apenas como ‘usamos hash consistente’ está incompleta sem a decisão complementar: sob partição de rede, esse dado prioriza consistência ou disponibilidade?”</blockquote>
+      <cite>— síntese da Aula 6</cite>
+    </div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Particionamento e replicação combinados</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Uma arquitetura típica particiona os dados em <strong>P</strong> partições e replica cada partição em <strong>R</strong> nós — um cluster com <strong>P × R</strong> réplicas distribuídas.</p>
+        <ul>
+          <li><strong>Dentro de cada partição</strong> — valem os conceitos da Aula 5: líder-seguidor ou multi-líder, quóruns de leitura e escrita.</li>
+          <li><strong>Entre as partições</strong> — valem os conceitos desta aula: chave, estratégia e rebalanceamento.</li>
+          <li><strong>Falha de um nó físico</strong> — afeta apenas as partições cujas réplicas ele hospedava, não o sistema inteiro.</li>
+          <li><strong>Condição</strong> — a escrita só é comprometida <em>se</em> as réplicas restantes não formarem o quórum exigido; havendo quórum, a partição segue disponível com menor margem para novas falhas.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Scatter-gather e a cauda de latência</h2>
+      <div class="slide-content-box">
+        <p>Uma consulta que combina dados de várias partições exige <strong>dispersão e coleta</strong>: vai a todas as partições relevantes e agrega os resultados parciais. O tempo total é determinado pela <strong>partição mais lenta a responder</strong>.</p>
+        <div class="callout-azul formula"><p>P(ao menos uma lenta) = 1 − (1 − 0,05)<sup>8</sup> ≈ 0,34</p></div>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">8</span><span class="legenda">partições atingidas</span></div>
+          <div class="stat-card"><span class="numero-grande">20 ms</span><span class="legenda">resposta média</span></div>
+          <div class="stat-card"><span class="numero-grande">5%</span><span class="legenda">chance de cauda por partição</span></div>
+          <div class="stat-card"><span class="numero-grande">34%</span><span class="legenda">das consultas sofrem a cauda</span></div>
+        </div>
+        <div class="callout-azul"><p>Mais de <strong>um terço</strong> das consultas que tocam oito partições tende a sofrer a cauda de pelo menos uma — mesmo com cada partição lenta apenas 5% das vezes. É um argumento numérico direto para <strong>projetar chaves que evitem consultas dispersas</strong> (assumindo ocorrências independentes, apenas para este cálculo).</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
       <h2>O teorema CAP</h2>
-      <div class="slide-content-box" role="figure" aria-label="Infográfico conceitual autoral que organiza definições, relações, exemplos e decisões da aula" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
-        <p>Durante uma <strong>partição de rede</strong>, um sistema não oferece simultaneamente:</p>
+      <div class="slide-content-box visual-diagram" data-visual-type="triangle" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Durante uma <strong>partição de rede</strong> — quando nós deixam de se comunicar entre si — um sistema replicado não pode oferecer simultaneamente:</p>
         <ul>
-          <li><strong>Consistência (C):</strong> toda leitura reflete a escrita mais recente confirmada.</li>
-          <li><strong>Disponibilidade (A):</strong> toda requisição a um nó ativo recebe resposta.</li>
-          <li><strong>Tolerância a partição (P):</strong> o sistema opera apesar da perda de comunicação entre nós.</li>
+          <li><strong>Consistência (C)</strong> — toda leitura reflete a escrita mais recente confirmada.</li>
+          <li><strong>Disponibilidade (A)</strong> — toda requisição a um nó ativo recebe resposta, mesmo sem garantia de ser a mais recente.</li>
+          <li><strong>Tolerância a partição (P)</strong> — o sistema continua operando apesar da perda de comunicação entre alguns nós.</li>
         </ul>
-        <p>P não é opcional na prática — a escolha real é entre <strong>CP</strong> (recusa/atrasa respostas no lado incerto) e <strong>AP</strong> (responde nos dois lados, aceita divergência a reconciliar depois).</p>
+        <div class="callout-azul"><p>Como partições são <strong>inevitáveis</strong> em sistemas reais, P não é opcional na prática. A escolha relevante ocorre entre <strong>C e A durante o período em que a partição persiste</strong> — fora dela, um sistema pode oferecer alta consistência e alta disponibilidade ao mesmo tempo.</p></div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Conteúdo</p>
-      <h2>PACELC e aplicação à NexaOrder</h2>
+      <h2>CP e AP: dois comportamentos sob partição</h2>
       <div class="slide-content-box">
-        <p><strong>PACELC:</strong> se há Partição, escolha entre Availability e Consistency; Else (sem partição), escolha entre Latency e Consistency — compromisso do dia a dia, não só sob falha.</p>
-        <ul>
-          <li><strong>Catálogo:</strong> AP/EL — disponibilidade e baixa latência, convergência eventual.</li>
-          <li><strong>Pagamento:</strong> CP/EC — recusar/atrasar resposta em vez de confirmar cobrança desatualizada.</li>
-          <li><strong>Estoque:</strong> misto — leitura de saldo tolera AP; reserva no momento da compra se aproxima de CP.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th></th><th>Sistema CP</th><th>Sistema AP</th></tr></thead>
+          <tbody>
+            <tr><td>Durante a partição</td><td>Rejeita ou atrasa respostas no lado que não garante a versão mais recente</td><td>Continua respondendo em ambos os lados</td></tr>
+            <tr><td>O que preserva</td><td>Consistência</td><td>Disponibilidade</td></tr>
+            <tr><td>O que arrisca</td><td>Indisponibilidade parcial enquanto a partição durar</td><td>Valores divergentes entre os lados</td></tr>
+            <tr><td>Depois da partição</td><td>Nada a reconciliar</td><td>Reconciliação necessária ao restabelecer a comunicação</td></tr>
+            <tr><td>Uso típico na NexaOrder</td><td>Reserva de estoque e confirmação de pagamento</td><td>Leitura do catálogo de produtos</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
-  </section>
-
-  <section class="slide slide-quote">
-    <div class="quote-logo">
-      <svg width="200" height="49" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
-    </div>
-    <div class="quote-shapes">
-      <svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg>
-    </div>
-    <div class="quote-card">
-      <blockquote>"A chave de partição deve seguir o padrão de consulta, não o alfabeto."</blockquote>
-      <cite>— Unidade 2, Distributed Systems Engineering</cite>
-    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>PACELC: o compromisso de todos os dias</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>O CAP descreve apenas o comportamento sob partição. O <strong>PACELC</strong> estende a análise: <strong>se há partição (P)</strong>, escolhe-se entre disponibilidade (A) e consistência (C); <strong>caso contrário (E, else)</strong>, escolhe-se entre latência (L) e consistência (C).</p>
+        <ul>
+          <li><strong>Partições são raras</strong> — o compromisso latência × consistência ocorre a <em>cada operação</em>.</li>
+          <li><strong>Custo constante</strong> — exigir confirmação de todas as réplicas antes de responder paga latência sempre, não só na falha.</li>
+          <li><strong>Comunicação com o negócio</strong> — o PACELC deixa claro que consistência tem impacto no dia a dia, não apenas em cenários excepcionais.</li>
+          <li><strong>Decisão completa</strong> — “como particionar” e “o que fazer sob partição” são duas decisões, não uma.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Matriz de decisão da NexaOrder</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Dado</th><th>Notação PACELC</th><th>Comportamento esperado</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Catálogo</strong></td><td>PA / EL</td><td>Sob partição, disponibilidade; fora dela, latência, com convergência eventual</td></tr>
+            <tr><td><strong>Pagamento</strong></td><td>PC / EC</td><td>Prioriza consistência sempre, mesmo recusando ou atrasando uma resposta</td></tr>
+            <tr><td><strong>Estoque — leitura informativa</strong></td><td>PA / EL</td><td>Saldo aproximado tolera disponibilidade maior em situações de baixo risco</td></tr>
+            <tr><td><strong>Estoque — reserva efetiva</strong></td><td>PC</td><td>Aproxima-se de CP para evitar vender o mesmo item duas vezes</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>O mesmo serviço aparece em <strong>duas linhas diferentes</strong>: a decisão é por <strong>operação sobre o dado</strong>, não por serviço inteiro.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
@@ -978,50 +1132,54 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Sharding</h3><p>Particionamento distribui fatias de um conjunto de dados entre nós, complementando a replicação.</p></div>
-          <div class="ponto"><h3>Hashing consistente</h3><p>Reduz drasticamente o volume redistribuído quando nós são adicionados ou removidos.</p></div>
-          <div class="ponto"><h3>Pontos quentes</h3><p>Podem surgir mesmo com boa estratégia, quando uma única chave concentra tráfego desproporcional.</p></div>
-          <div class="ponto"><h3>CAP + PACELC</h3><p>CAP descreve a escolha C vs A sob partição; PACELC estende ao compromisso latência vs consistência do dia a dia.</p></div>
+          <div class="ponto"><h3>Dividir, não só copiar</h3><p>Particionamento distribui fatias de um conjunto; complementa a replicação em vez de substituí-la.</p></div>
+          <div class="ponto"><h3>Faixa favorece intervalo</h3><p>Consultas por período ficam eficientes, mas a distribuição real das chaves pode criar pontos quentes.</p></div>
+          <div class="ponto"><h3>Hash espalha chaves</h3><p>Distribui bem chaves distintas ao custo da consulta por intervalo — e não resolve uma chave popular.</p></div>
+          <div class="ponto"><h3>Anel reduz migração</h3><p>Hashing consistente move ≈1/(N+1) das chaves ao adicionar um nó, em vez de quase todas.</p></div>
+          <div class="ponto"><h3>CAP vale na partição</h3><p>A escolha entre consistência e disponibilidade só se impõe enquanto a comunicação estiver rompida.</p></div>
+          <div class="ponto"><h3>PACELC vale sempre</h3><p>Fora da partição, o compromisso é entre latência e consistência — e ele ocorre a cada operação.</p></div>
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide">
-    <div class="mosaico-bg">
+    <div class="mosaico-bg" aria-hidden="true">
       <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
     </div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Mãos à obra</h2>
-      <div class="slide-content-box">
-        <p>Escolha as chaves de partição para dois dados da NexaOrder: pedidos e estoque.</p>
+      <h2>Mãos à obra: escolher chaves de partição</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="map" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Escolha as chaves de partição para <strong>pedidos</strong> e <strong>estoque</strong> da NexaOrder e documente as decisões.</p>
         <ul>
-          <li>Defina a <strong>chave de partição</strong> e a estratégia (faixa, hash ou diretório), justificando pelos padrões de consulta.</li>
-          <li>Simule um <strong>ponto quente</strong>: um produto vira fenômeno de vendas numa campanha. Descreva o efeito na partição.</li>
-          <li>Proponha uma <strong>mitigação</strong> concreta.</li>
-          <li>Classifique cada dado, sob partição de rede, como <strong>CP ou AP</strong>, e avalie se a escolha se sustenta também fora da partição (PACELC).</li>
+          <li><strong>1.</strong> Defina a chave e a estratégia (faixa, hash ou diretório) de cada dado.</li>
+          <li><strong>2.</strong> Justifique a escolha pelos padrões de consulta mais comuns do sistema.</li>
+          <li><strong>3.</strong> Simule um produto virando ponto quente durante uma campanha.</li>
+          <li><strong>4.</strong> Descreva o efeito esperado sobre a partição correspondente.</li>
+          <li><strong>5.</strong> Proponha uma mitigação concreta, distinguindo leitura de escrita.</li>
+          <li><strong>6.</strong> Classifique cada dado como CP ou AP e verifique se a escolha se sustenta na lógica do PACELC.</li>
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Distributed Systems · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
   </section>
 
   <section class="slide slide-fim">
     <div class="fim-logo">
-      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      <svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
     </div>
-    <div class="fim-cluster-topo">
+    <div class="fim-cluster-topo" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
     </div>
-    <div class="fim-cluster-base">
+    <div class="fim-cluster-base" aria-hidden="true">
       <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já entende como particionar dados, usar hashing consistente e navegar os compromissos do CAP e do PACELC. Na próxima aula, tratamos de como um conjunto de nós concorda automaticamente sobre quem é o líder: consenso e o algoritmo Raft.</p>
-      <p class="fim-proxima">Próxima aula: Aula 7.</p>
+      <p class="fim-texto">Você já sabe dividir dados sem criar pontos quentes e explicar, com CAP e PACELC, o que o sistema faz quando a rede se rompe. Na próxima aula, atacamos a pergunta que ficou em aberto na Aula 5: como um conjunto de nós concorda, sozinho, sobre quem é o líder legítimo?</p>
+      <p class="fim-proxima">Próxima aula: Aula 7 — Consenso, eleição de líder e Raft.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -1035,6 +1193,7 @@
   <button id="next" aria-label="Próximo slide">›</button>
 </nav>
 
+<script src="../../assets/fullscreen-button.js"></script>
 <script>
   const slides = document.querySelectorAll('.slide');
   const cur = document.getElementById('cur');
@@ -1056,6 +1215,8 @@
   prev.addEventListener('click', () => show(i - 1));
   next.addEventListener('click', () => show(i + 1));
   document.addEventListener('keydown', (e) => {
+    const origin = e.target instanceof Element ? e.target : null;
+    if (e.defaultPrevented || origin?.closest('button, a, input, textarea, select, [contenteditable="true"]')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
     if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
     if (e.key === 'Home') show(0);
@@ -1066,6 +1227,5 @@
   if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
   show(i);
 </script>
-<script src="../../assets/fullscreen-button.js"></script>
 </body>
 </html>

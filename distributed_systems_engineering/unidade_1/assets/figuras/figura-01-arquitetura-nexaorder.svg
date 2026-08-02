@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1050" height="615" viewBox="0 0 1050 615" role="img">
+  <title>Arquitetura distribuída da NexaOrder</title>
+  <desc>diagrama mostra um cliente enviando uma compra a um gateway, que se comunica com quatro serviços independentes conectados por rede.</desc>
+  <rect width="1050" height="615" fill="#FFFFFF"/>
+  <rect x="440.0" y="62.0" width="585.0" height="452.0" rx="16" ry="16" fill="#F2F4F8" fill-opacity="1.0" stroke="#C7CEDB" stroke-width="2" stroke-dasharray="9 7"/>
+  <text x="732.0" y="92.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">Serviços autônomos — estado, execução e falha próprios</text>
+  <rect x="30.0" y="255.0" width="150.0" height="84.0" rx="12" ry="12" fill="#002156" fill-opacity="1.0" stroke="#002156" stroke-width="2.2"/>
+  <text x="105.0" y="300.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#FFFFFF" text-anchor="middle">Cliente</text>
+  <rect x="250.0" y="255.0" width="175.0" height="84.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#002156" stroke-width="2.2"/>
+  <text x="337.5" y="281.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#002156" text-anchor="middle">API Gateway</text>
+  <text x="337.5" y="303.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">ponto único de</text>
+  <text x="337.5" y="323.3" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">entrada</text>
+  <rect x="465.0" y="255.0" width="195.0" height="84.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="562.5" y="291.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#254AB9" text-anchor="middle">Pedidos</text>
+  <text x="562.5" y="313.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">registra a intenção</text>
+  <rect x="795.0" y="112.0" width="205.0" height="78.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="897.5" y="145.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#254AB9" text-anchor="middle">Estoque</text>
+  <text x="897.5" y="167.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">reserva o item</text>
+  <rect x="795.0" y="254.0" width="205.0" height="78.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="897.5" y="287.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#254AB9" text-anchor="middle">Pagamento</text>
+  <text x="897.5" y="309.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">autoriza a cobrança</text>
+  <rect x="795.0" y="396.0" width="205.0" height="78.0" rx="12" ry="12" fill="#FFFFFF" fill-opacity="1.0" stroke="#254AB9" stroke-width="2.2"/>
+  <text x="897.5" y="429.1" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#254AB9" text-anchor="middle">Expedição</text>
+  <text x="897.5" y="451.6" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="15" font-weight="400" fill="#5A6175" text-anchor="middle">prepara o envio</text>
+  <line x1="182.0" y1="297.0" x2="236.7" y2="297.0" stroke="#002156" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="246.0,297.0 230.9,303.7 230.9,290.3" fill="#002156"/>
+  <rect x="181.0" y="259.1" width="65.9" height="21.0" rx="5" ry="5" fill="#FFFFFF" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="214.0" y="272.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#5A6175" text-anchor="middle">comprar</text>
+  <line x1="425.0" y1="297.0" x2="452.6" y2="297.0" stroke="#002156" stroke-width="2.4" stroke-linecap="round"/>
+  <polygon points="462.0,297.0 446.9,303.7 446.9,290.3" fill="#002156"/>
+  <line x1="660.0" y1="285.0" x2="785.2" y2="166.4" stroke="#00B1D2" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="7 6"/>
+  <polygon points="792.0,160.0 785.7,175.2 776.4,165.5" fill="#00B1D2"/>
+  <line x1="660.0" y1="297.0" x2="782.7" y2="293.3" stroke="#00B1D2" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="7 6"/>
+  <polygon points="792.0,293.0 777.1,300.2 776.7,286.7" fill="#00B1D2"/>
+  <line x1="660.0" y1="309.0" x2="785.0" y2="418.8" stroke="#00B1D2" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="7 6"/>
+  <polygon points="792.0,425.0 776.2,420.1 785.1,410.0" fill="#00B1D2"/>
+  <rect x="664.5" y="359.1" width="155.0" height="21.0" rx="5" ry="5" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="0"/>
+  <text x="742.0" y="372.0" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="14" font-weight="400" fill="#5A6175" text-anchor="middle">mensagens pela rede</text>
+  <rect x="30.0" y="540.0" width="995.0" height="52.0" rx="10" ry="10" fill="#F2F4F8" fill-opacity="1.0" stroke="none" stroke-width="2"/>
+  <text x="527.5" y="557.8" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">Para o cliente, uma única operação: “comprar”. Para a arquitetura, uma sequência de mensagens, estados</text>
+  <text x="527.5" y="579.9" font-family="Liberation Sans, Arial, Helvetica, sans-serif" font-size="17" font-weight="600" fill="#002156" text-anchor="middle">intermediários e falhas possíveis.</text>
+</svg>
