@@ -818,7 +818,7 @@
         <svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
       </div>
       <h1>Audiodescrição</h1>
-      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há cinco recursos visuais: um quadro distinguindo comando, evento de domínio e notificação; um diagrama de um tópico com oito partições distribuídas entre um grupo de consumidores; um painel numérico com o cálculo do número mínimo de partições para 1200 eventos por segundo; três linhas do tempo comparando as semânticas at-most-once, at-least-once e exactly-once; e uma sequência do fluxo de eventos do pedido na NexaOrder.</p>
+      <p class="audio-texto">Os slides desta aula usam fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo aparece em cartões claros. Há seis recursos visuais: um quadro distinguindo comando, evento de domínio e notificação; um diagrama de um tópico com oito partições distribuídas entre um grupo de consumidores; um painel numérico com o cálculo do número mínimo de partições para 1200 eventos por segundo; um quadro comparando, linha a linha, o armazenamento de estado e o event sourcing; três linhas do tempo comparando as semânticas at-most-once, at-least-once e exactly-once; e uma sequência do fluxo de eventos do pedido na NexaOrder.</p>
     </div>
   </section>
 
@@ -844,6 +844,7 @@
           <li>Ordenação garantida dentro da partição</li>
           <li>Grupos de consumidores e paralelismo</li>
           <li>Retenção e reprocessamento</li>
+          <li>Event sourcing: o log como fonte de verdade</li>
           <li>At-most-once, at-least-once e exactly-once</li>
           <li>Evolução de esquemas e compatibilidade</li>
           <li>O ciclo do pedido reorganizado por eventos</li>
@@ -868,6 +869,7 @@
           <li><strong>Escolher</strong> a chave de particionamento que preserva a ordem necessária ao negócio.</li>
           <li><strong>Dimensionar</strong> o número mínimo de partições a partir da taxa de pico e da capacidade do consumidor.</li>
           <li><strong>Explicar</strong> o que acontece com a carga quando um grupo de consumidores rebalanceia.</li>
+          <li><strong>Reconhecer</strong> quando o log deixa de ser transporte e passa a ser fonte de verdade — o <em>event sourcing</em> — e o que isso cobra em troca.</li>
           <li><strong>Comparar</strong> as três semânticas de entrega quanto a perda e duplicação.</li>
           <li><strong>Evoluir</strong> esquemas de evento preservando compatibilidade retroativa e prospectiva.</li>
         </ul>
@@ -1032,6 +1034,30 @@
           </tbody>
         </table>
         <div class="callout-azul"><p>O log de eventos só pode ser tratado como <strong>fonte de verdade</strong> quando foi deliberadamente projetado para isso: retenção suficiente, eventos completos e imutáveis, versionamento e garantias de durabilidade. Retenção não é “quanto mais, melhor”.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true">
+      <svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg>
+    </div>
+    <div class="slide-content">
+      <p class="kicker">Conteúdo</p>
+      <h2>Event sourcing: o log como fonte de verdade</h2>
+      <div class="slide-content-box visual-diagram" data-visual-type="compare" data-source="Elaboração própria: Afonso Cesar Lelis Brandão, 2026" data-license="CC BY 4.0">
+        <p>Projetar o log para ser a fonte de verdade tem um nome: <strong>event sourcing</strong>. O estado deixa de ser guardado e passa a ser <strong>derivado</strong> — armazena-se a sequência de fatos, e o estado atual é o resultado de reproduzi-la.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Pedido 4021</th><th>Estado como fonte de verdade</th><th>Event sourcing</th></tr></thead>
+          <tbody>
+            <tr><td><strong>O que se grava</strong></td><td>Uma linha, sobrescrita a cada mudança</td><td>Os fatos: <code>criado</code>, <code>reservado</code>, <code>aprovado</code>, <code>expedido</code></td></tr>
+            <tr><td><strong>Estado atual</strong></td><td>É o próprio dado</td><td>É uma <strong>projeção</strong>: reproduz-se o log até o fim</td></tr>
+            <tr><td><strong>Histórico</strong></td><td>Perdido no <code>UPDATE</code>, salvo auditoria à parte</td><td>É o próprio armazenamento</td></tr>
+            <tr><td><strong>Corrigir um erro</strong></td><td><code>UPDATE</code> apaga o rastro</td><td>Evento compensatório; o erro segue visível</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p><strong>O que cobra em troca:</strong> reproduzir o log inteiro a cada leitura é inviável, daí os <em>snapshots</em> — com 40.000 eventos e um snapshot a cada 1.000, reconstruir o estado exige reproduzir no máximo 1.000. E, como consultar passa a exigir projeções mantidas à parte do log de escrita, o event sourcing quase sempre vem acompanhado de <strong>CQRS</strong>: um modelo para escrever, outro para ler.</p></div>
       </div>
     </div>
     <div class="slide-footer"><span>Distributed Systems Engineering · Unidade 3</span><span>Aula 10 — Videoaula 10</span></div>

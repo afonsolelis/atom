@@ -239,11 +239,11 @@ Esta aula forma a capacidade de desenhar fronteiras que desacoplam times, dados 
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 10 — Arquitetura orientada a eventos.
 
-**Deck de apoio:** `unidade_3/slides/aula10.html` — 18 slides (capa, audiodescrição, sumário, 14 de conteúdo e encerramento).
+**Deck de apoio:** `unidade_3/slides/aula10.html` — 19 slides (capa, audiodescrição, sumário, 15 de conteúdo e encerramento).
 
-**Objetivo da videoaula:** ao final, o estudante deve ser capaz de distinguir comando, evento de domínio e notificação, escolher a chave de particionamento que preserva a ordem necessária, dimensionar o número mínimo de partições, explicar o efeito de um rebalanceamento, comparar as três semânticas de entrega e evoluir esquemas de evento preservando compatibilidade.
+**Objetivo da videoaula:** ao final, o estudante deve ser capaz de distinguir comando, evento de domínio e notificação, escolher a chave de particionamento que preserva a ordem necessária, dimensionar o número mínimo de partições, explicar o efeito de um rebalanceamento, reconhecer quando o log deixa de ser transporte e passa a ser fonte de verdade — o *event sourcing* — e o que isso cobra em troca, comparar as três semânticas de entrega e evoluir esquemas de evento preservando compatibilidade.
 
-**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:40 comando, evento e notificação · 05:30 tópicos e partições · 07:10 ordenação por partição · 08:40 grupos de consumidores · 10:20 exemplo numérico das partições · 11:50 citação · 12:10 retenção e reprocessamento · 13:50 três semânticas de entrega · 15:40 evolução de esquemas · 17:20 o ciclo do pedido reorganizado · 19:00 pontos-chave e atividade · 19:40 encerramento.
+**Mapa de tempo e slides:** 00:00 capa · 00:25 audiodescrição · 00:55 sumário · 01:40 objetivos · 02:20 situação-problema · 03:35 comando, evento e notificação · 05:20 tópicos e partições · 06:55 ordenação por partição · 08:20 grupos de consumidores · 09:55 exemplo numérico das partições · 11:20 citação · 11:40 retenção e reprocessamento · 13:00 event sourcing · 14:30 três semânticas de entrega · 16:10 evolução de esquemas · 17:40 o ciclo do pedido reorganizado · 19:10 pontos-chave e atividade · 19:45 encerramento.
 
 ### Abertura contextualizada
 
@@ -253,17 +253,17 @@ Esta é a Aula 10, dedicada à arquitetura orientada a eventos. A aula anterior 
 
 **[00:25–00:55 · Slide 1 — Audiodescrição]**
 
-A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São cinco recursos visuais: o quadro dos três tipos de mensagem, o diagrama de tópico com partições e deslocamentos, o diagrama de grupos de consumidores compartilhando partições, a tabela de políticas de retenção e o fluxo do ciclo do pedido reorganizado por eventos. Descrevo cada um conforme aparecem.
+A audiodescrição desta aula: mantemos o fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. São seis recursos visuais: o quadro dos três tipos de mensagem, o diagrama de tópico com partições e deslocamentos, o diagrama de grupos de consumidores compartilhando partições, a tabela de políticas de retenção, o quadro comparando o armazenamento de estado e o event sourcing, e o fluxo do ciclo do pedido reorganizado por eventos. Descrevo cada um conforme aparecem.
 
 **[00:55–01:40 · Slide 2 — Sumário]**
 
-Este é o percurso da aula. Começo separando comando, evento de domínio e notificação. Apresento depois a infraestrutura: produtores, consumidores, tópicos e partições. Trato em seguida da ordenação, garantida dentro da partição e não entre partições, e dos grupos de consumidores e do paralelismo que permitem. Examino retenção e reprocessamento, comparo as três semânticas de entrega — at-most-once, at-least-once e exactly-once — e discuto evolução de esquemas. Fecho reorganizando o ciclo completo do pedido em torno de eventos.
+Este é o percurso da aula. Começo separando comando, evento de domínio e notificação. Apresento depois a infraestrutura: produtores, consumidores, tópicos e partições. Trato em seguida da ordenação, garantida dentro da partição e não entre partições, e dos grupos de consumidores e do paralelismo que permitem. Examino retenção e reprocessamento e, a partir daí, o event sourcing: o que muda quando o log deixa de ser transporte e passa a ser fonte de verdade. Comparo então as três semânticas de entrega — at-most-once, at-least-once e exactly-once — e discuto evolução de esquemas. Fecho reorganizando o ciclo completo do pedido em torno de eventos.
 
 **[01:40–02:20 · Slide 3 — Objetivos de aprendizagem]**
 
-Ao final da aula, você deve conseguir distinguir comando, evento de domínio e notificação pelo acoplamento que cada um cria. Deve escolher a chave de particionamento que preserva a ordem necessária ao negócio. Deve dimensionar o número mínimo de partições a partir da taxa de pico e da capacidade do consumidor. Deve explicar o que acontece com a carga quando um grupo de consumidores rebalanceia. Deve comparar as três semânticas de entrega quanto a perda e duplicação. E deve evoluir esquemas de evento preservando compatibilidade retroativa e prospectiva.
+Ao final da aula, você deve conseguir distinguir comando, evento de domínio e notificação pelo acoplamento que cada um cria. Deve escolher a chave de particionamento que preserva a ordem necessária ao negócio. Deve dimensionar o número mínimo de partições a partir da taxa de pico e da capacidade do consumidor. Deve explicar o que acontece com a carga quando um grupo de consumidores rebalanceia. Deve reconhecer quando o log deixa de ser transporte e passa a ser fonte de verdade — o event sourcing — e o que essa escolha cobra em troca. Deve comparar as três semânticas de entrega quanto a perda e duplicação. E deve evoluir esquemas de evento preservando compatibilidade retroativa e prospectiva.
 
-**[02:20–03:40 · Slide 4 — Situação-problema]**
+**[02:20–03:35 · Slide 4 — Situação-problema]**
 
 Com fronteiras mais claras, um problema persiste na NexaOrder. O checkout chama pedidos, que chama de forma síncrona o estoque, que chama pagamento, que chama expedição.
 
@@ -275,7 +275,7 @@ A saída é reorganizar a comunicação em torno de fatos já ocorridos. Em vez 
 
 ### Desenvolvimento conceitual
 
-**[03:40–05:30 · Slide 5 — Comando, evento de domínio e notificação]**
+**[03:35–05:20 · Slide 5 — Comando, evento de domínio e notificação]**
 
 Antes da infraestrutura, o vocabulário. São três tipos de mensagem, e a diferença entre eles é o acoplamento que cada um cria.
 
@@ -291,7 +291,7 @@ O tempo verbal é a pista mais confiável para distingui-los. O comando está no
 
 Na NexaOrder, passamos a tratar pedido criado, estoque reservado, pagamento aprovado e pedido expedido como eventos de domínio, publicados por seus respectivos serviços.
 
-**[05:30–07:10 · Slide 6 — Tópicos, partições e deslocamento]**
+**[05:20–06:55 · Slide 6 — Tópicos, partições e deslocamento]**
 
 Passemos à infraestrutura, com quatro termos de uso permanente.
 
@@ -305,7 +305,7 @@ Chave é o que determina a partição de destino. Normalmente é o identificador
 
 O efeito da chave é o ponto central: todos os eventos daquele pedido caem na mesma partição. A seção seguinte depende inteiramente dessa escolha.
 
-**[07:10–08:40 · Slide 7 — Ordenação: uma garantia por partição]**
+**[06:55–08:20 · Slide 7 — Ordenação: uma garantia por partição]**
 
 Esta é a regra que mais gera confusão em produção, e por isso merece enunciado explícito.
 
@@ -319,7 +319,7 @@ A chave inadequada, porém, compromete essa garantia. Particionando-se por tipo 
 
 Considere a situação do ponto de vista de quem consome: chega a aprovação de um pagamento referente a um pedido que, para ele, ainda não existe. É preciso decidir entre descartar, armazenar ou aguardar. Uma escolha de chave inadequada criou um problema de tratamento complexo.
 
-**[08:40–10:20 · Slide 8 — Grupos de consumidores]**
+**[08:20–09:55 · Slide 8 — Grupos de consumidores]**
 
 Resta examinar como escalar o consumo.
 
@@ -335,7 +335,7 @@ Quando uma instância falha, ocorre o rebalanceamento: suas partições são red
 
 O custo do rebalanceamento, contudo, costuma passar despercebido no planejamento de capacidade. Passando-se de 3 instâncias para 2, com as mesmas 8 partições, a carga por instância aumenta, e a capacidade total pode inclusive cair até que uma nova réplica entre e o grupo rebalanceie novamente. A falha de um consumidor não degrada apenas a parte que lhe cabia: ela pressiona os remanescentes.
 
-**[10:20–11:50 · Slide 9 — Exemplo numérico: quantas partições sustentam o pico?]**
+**[09:55–11:20 · Slide 9 — Exemplo numérico: quantas partições sustentam o pico?]**
 
 O dimensionamento segue uma fórmula muito próxima à da Aula 1, o que não é coincidência.
 
@@ -347,13 +347,13 @@ Há uma consequência frequentemente negligenciada: esse número 8 é também o 
 
 O número de partições constitui, portanto, um limite estrutural de paralelismo. E, como aumentar partições posteriormente é operação delicada — pode alterar o mapeamento de chaves e a ordenação —, esse número deve ser definido com folga em relação à carga de pico esperada. Trata-se de um parâmetro barato de acertar no início e caro de corrigir depois.
 
-**[11:50–12:10 · Slide 10 — Citação]**
+**[11:20–11:40 · Slide 10 — Citação]**
 
 Esta frase resume a mudança de perspectiva proposta pela aula: quem publica um evento não sabe, e não precisa saber, quem o consome.
 
 ### Demonstração, exemplo ou estudo de caso
 
-**[12:10–13:50 · Slide 11 — Retenção e reprocessamento]**
+**[11:40–13:00 · Slide 11 — Retenção e reprocessamento]**
 
 Há uma diferença fundamental em relação a uma fila tradicional. Em uma fila, a mensagem desaparece após o consumo. Em uma plataforma de eventos, a mensagem é retida por um período configurável, independentemente de ter sido lida.
 
@@ -365,9 +365,23 @@ Três políticas merecem comparação. Retenção de poucas horas: permite recup
 
 O valor prático do caso de sete dias é evidente. Descobre-se na segunda-feira que o cálculo de frete estava incorreto desde quarta. Com retenção, corrige-se o código e reprocessam-se os eventos daquele período. Sem retenção, a reconstrução dos dados é manual.
 
-Um ponto conceitual importante acompanha essa discussão. O log de eventos só pode ser tratado como fonte de verdade quando deliberadamente projetado para esse fim: com retenção suficiente, eventos completos e imutáveis, versionamento e garantias de durabilidade. Retenção longa, isoladamente, não transforma um tópico em banco de dados. É uma decisão de projeto, não um efeito colateral de configuração.
+Um ponto conceitual acompanha essa discussão, e ele abre a seção seguinte: retenção longa, isoladamente, não transforma um tópico em banco de dados.
 
-**[13:50–15:40 · Slide 12 — Três semânticas de entrega]**
+**[13:00–14:30 · Slide 12 — Event sourcing: o log como fonte de verdade]**
+
+O log de eventos só pode ser tratado como fonte de verdade quando deliberadamente projetado para esse fim: com retenção suficiente, eventos completos e imutáveis, versionamento e garantias de durabilidade. É uma decisão de projeto, não um efeito colateral de configuração — e essa decisão tem nome: event sourcing.
+
+*[indicação de edição: revelar o quadro comparativo linha a linha, com a coluna do event sourcing entrando por último]*
+
+A inversão é esta. No modelo habitual grava-se o estado: o pedido 4021 tem uma linha, sobrescrita a cada mudança. No event sourcing gravam-se os fatos — criado, reservado, aprovado, expedido — e o estado atual passa a ser derivado, uma projeção obtida reproduzindo o log até o fim.
+
+Duas consequências merecem destaque. O histórico deixa de exigir auditoria à parte, porque ele é o próprio armazenamento. E corrigir um erro deixa de ser um update que apaga o rastro: passa a ser um evento compensatório, o mesmo mecanismo da saga estudada na Aula 8.
+
+O preço aparece na leitura. Reproduzir o log inteiro a cada consulta é inviável, e por isso existem os snapshots: com 40.000 eventos em um agregado e um snapshot a cada mil, reconstruir o estado exige reproduzir no máximo mil eventos. E, como consultar passa a exigir projeções mantidas à parte do log de escrita, o event sourcing quase sempre vem acompanhado de CQRS — um modelo para escrever, outro para ler.
+
+A advertência que fecha a seção: isso exige versionamento de esquema desde o primeiro dia, porque eventos gravados há dois anos precisam continuar legíveis. O event sourcing se justifica onde auditoria e reconstrução têm valor de negócio — pagamento e estoque, na NexaOrder — e raramente compensa em um cadastro simples.
+
+**[14:30–16:10 · Slide 13 — Três semânticas de entrega]**
 
 O tema a seguir reaparece com nome novo, embora já tenha sido tratado na Unidade 2.
 
@@ -379,7 +393,7 @@ Exactly-once: um efeito observável por evento, dentro de uma fronteira declarad
 
 Segue a ressalva mais importante da aula, por ser fonte de erros custosos. O exactly-once não elimina duplicações na transmissão e não se estende automaticamente a efeitos fora da fronteira transacional. Ao chamar um provedor de pagamento externo, é necessária idempotência ponta a ponta, exatamente o que foi construído na Aula 8. Nenhuma configuração de plataforma impede que um provedor externo cobre duas vezes.
 
-**[15:40–17:20 · Slide 13 — Evolução de esquemas e compatibilidade]**
+**[16:10–17:40 · Slide 14 — Evolução de esquemas e compatibilidade]**
 
 Eventos publicados hoje podem ser lidos por serviços implantados semanas depois. Simultaneamente, um consumidor antigo pode continuar em produção enquanto o produtor já foi atualizado. As duas direções precisam funcionar.
 
@@ -393,7 +407,7 @@ A regra prática é a seguinte: remover, renomear ou mudar o tipo de um campo ex
 
 ### Aplicação profissional
 
-**[17:20–19:00 · Slide 14 — O ciclo do pedido reorganizado]**
+**[17:40–19:10 · Slide 15 — O ciclo do pedido reorganizado]**
 
 Os elementos da aula se reúnem no desenho completo do ciclo.
 
@@ -415,13 +429,13 @@ Quanto às chaves, adota-se o identificador do pedido, de modo que todos os even
 
 ### Fechamento
 
-**[19:00–19:40 · Slides 15 e 16 — Pontos-chave e atividade prática]**
+**[19:10–19:45 · Slides 16 e 17 — Pontos-chave e atividade prática]**
 
-Recapitulando. Três tipos de mensagem: comando acopla ao destinatário, evento de domínio registra um fato sem destinatário e notificação apenas avisa. A ordem é por partição: só existe garantia dentro de uma partição, e a chave decide o que permanece ordenado. Partições limitam a escala: o paralelismo útil de um grupo nunca ultrapassa o número de partições do tópico. Retenção habilita correção: reter eventos permite reprocessar e reconstruir estado, com custo de armazenamento proporcional. Duplicata é o normal: at-least-once é a configuração comum, e o efeito único é responsabilidade do desenho do consumidor. E esquema evolui aditivamente: campos opcionais preservam compatibilidade, enquanto remover ou renomear exige migração explícita.
+Recapitulando. Três tipos de mensagem: comando acopla ao destinatário, evento de domínio registra um fato sem destinatário e notificação apenas avisa. A ordem é por partição: só existe garantia dentro de uma partição, e a chave decide o que permanece ordenado. Partições limitam a escala: o paralelismo útil de um grupo nunca ultrapassa o número de partições do tópico. Retenção habilita correção: reter eventos permite reprocessar e reconstruir estado, com custo de armazenamento proporcional — e, quando o log é deliberadamente projetado para ser a fonte de verdade, isso se chama event sourcing, com snapshots para viabilizar a reconstrução e CQRS para viabilizar a consulta. Duplicata é o normal: at-least-once é a configuração comum, e o efeito único é responsabilidade do desenho do consumidor. E esquema evolui aditivamente: campos opcionais preservam compatibilidade, enquanto remover ou renomear exige migração explícita.
 
 Na atividade prática, você vai desenhar tópicos, chaves e grupos de consumidores para o ciclo de vida do pedido: listar no mínimo quatro eventos de domínio, definir tópico e chave de particionamento de cada um, justificar a chave em termos da ordenação necessária, definir dois grupos de consumidores distintos lendo o mesmo tópico com finalidades diferentes, calcular o número mínimo de partições para uma taxa de pico hipotética e indicar a semântica de entrega que cada consumidor deveria adotar.
 
-**[19:40–20:00 · Slide 17 — Encerramento]**
+**[19:45–20:00 · Slide 18 — Encerramento]**
 
 Esta aula forma a capacidade de desacoplar o ciclo do pedido com eventos, chaves e grupos de consumidores, e de dimensionar o paralelismo daí decorrente. A próxima aula desce uma camada: como esses serviços são executados, escalados e recuperados automaticamente.
 
@@ -429,21 +443,23 @@ Esta aula forma a capacidade de desacoplar o ciclo do pedido com eventos, chaves
 
 - Slide 0 — capa da Aula 10 (00:00–00:25).
 - Slide 1 — audiodescrição narrada integralmente (00:25–00:55).
-- Slide 4 — situação-problema, com a cadeia síncrona quebrando em um elo (02:20–03:40).
-- Recurso visual 37 — quadro dos três tipos de mensagem (aproximadamente 03:50).
-- Recurso visual 38 — tópico dividido em partições, com deslocamentos crescentes (aproximadamente 05:40).
-- Slide 7 — comparação entre chave por pedido e chave por tipo de evento (aproximadamente 07:20).
-- Recurso visual 39 — dois grupos de consumidores lendo o mesmo tópico (aproximadamente 08:50).
-- Slide 9 — cálculo do número mínimo de partições, com o consumidor ocioso destacado (aproximadamente 10:30).
-- Slide 10 — citação em tela cheia (11:50).
-- Recurso visual 40 — tabela de políticas de retenção (aproximadamente 12:20).
-- Recurso visual 41 — ciclo do pedido reorganizado por eventos (aproximadamente 17:30).
-- Slide 17 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
+- Slide 4 — situação-problema, com a cadeia síncrona quebrando em um elo (02:20–03:35).
+- Recurso visual 37 — quadro dos três tipos de mensagem (aproximadamente 03:45).
+- Recurso visual 38 — tópico dividido em partições, com deslocamentos crescentes (aproximadamente 05:30).
+- Slide 7 — comparação entre chave por pedido e chave por tipo de evento (aproximadamente 07:05).
+- Recurso visual 39 — dois grupos de consumidores lendo o mesmo tópico (aproximadamente 08:30).
+- Slide 9 — cálculo do número mínimo de partições, com o consumidor ocioso destacado (aproximadamente 10:05).
+- Slide 10 — citação em tela cheia (11:20).
+- Recurso visual 40 — tabela de políticas de retenção (aproximadamente 11:50).
+- Slide 12 — quadro comparativo entre estado como fonte de verdade e event sourcing, revelado linha a linha, com a coluna do event sourcing entrando por último (aproximadamente 13:10). *Elemento novo: ainda sem número na sequência global de recursos visuais — renumerar em `RECURSOS_VISUAIS.md` se for promovido a recurso visual próprio.*
+- Recurso visual 41 — ciclo do pedido reorganizado por eventos (aproximadamente 17:50).
+- Slide 18 — vinheta de encerramento e chamada para a próxima aula (últimos 15 segundos).
 
 ### Fontes e links de mídia
 
 - KREPS, Jay. *I heart logs: event data, stream processing, and data integration*. Sebastopol: O’Reilly Media, 2014 — referência conceitual, sem reprodução de trecho externo.
 - HOHPE, Gregor; WOOLF, Bobby. *Enterprise Integration Patterns*. Boston: Addison-Wesley, 2003 — referência conceitual, sem reprodução de trecho externo.
+- FOWLER, Martin. *Event sourcing*. [S. l.]: martinfowler.com, 2005. Disponível em: <https://martinfowler.com/eaaDev/EventSourcing.html>. Acesso em: 10 ago. 2026 — referência conceitual do Slide 12, sem reprodução de trecho externo.
 - Nenhuma mídia de terceiros é incorporada; diagramas, tabelas e fluxos devem ser produzidos originalmente pela equipe de edição a partir do texto-base da Aula 10 (`unidade_3.md`) e do deck `unidade_3/slides/aula10.html`.
 
 ---
