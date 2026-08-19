@@ -56,7 +56,7 @@ medido a cada execução da suíte.
 ```bash
 make setup
 make test        # 39 testes: 26 em pedidos, 13 em estoque
-make up           # docker compose, se houver Docker disponível
+make up           # sobe os contêineres, se houver Docker ou Podman disponível
 ```
 
 ## Pergunta que fica em aberto

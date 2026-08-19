@@ -12,7 +12,7 @@
 #
 # Uso:
 #   cp .env.example .env   # edite o segredo antes de usar em qualquer lugar real
-#   docker compose up --build
+#   make up      (usa Docker ou Podman — ver Makefile)
 #   curl -X POST http://localhost:8002/estoque/TECLADO-MEC-01/inicializar -d '{"quantidade": 100}'
 #   curl -X POST http://localhost:8001/pedidos -d '...'
 #   curl -X POST http://localhost:8001/pedidos/<id>/finalizar-compra

@@ -66,7 +66,7 @@ make setup
 make test          # 129 testes: 61 pedidos, 48 estoque, 8 pagamento, 7 expedicao, 5 gateway, 10 scripts
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests, agora com envFrom.secretRef
-make up             # docker compose injeta NEXAORDER_SEGREDO_ASSINATURA nos serviços
+make up             # contêineres (Docker ou Podman) injeta NEXAORDER_SEGREDO_ASSINATURA nos serviços
 ```
 
 ## Pergunta que fica em aberto

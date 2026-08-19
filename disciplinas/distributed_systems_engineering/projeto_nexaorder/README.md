@@ -16,10 +16,11 @@ cat README.md          # o que esta aula acrescentou
 make setup && make test   # sobe o que já existe neste estágio
 ```
 
-A partir da Aula 3 há código executável. A partir da Aula 4 há `docker compose`. Na
-Aula 12 a plataforma já sobe com identidade e autorização entre os cinco serviços; na
-Aula 16, com os cinco serviços, observabilidade, resiliência testada sob caos real e
-um pipeline de fluxo, junto de uma defesa arquitetural completa.
+A partir da Aula 3 há código executável. A partir da Aula 4 há `compose` — e o mesmo
+`make up` sobe a stack tanto em Docker quanto em Podman (ver abaixo). Na Aula 12 a
+plataforma já sobe com identidade e autorização entre os cinco serviços; na Aula 16,
+com os cinco serviços, observabilidade, resiliência testada sob caos real e um
+pipeline de fluxo, junto de uma defesa arquitetural completa.
 
 ## O que cada aula acrescenta
 
@@ -28,7 +29,7 @@ um pipeline de fluxo, junto de uma defesa arquitetural completa.
 | 1 | Fundamentos e decisão de distribuir | Modelo de domínio, dimensionamento (`N = ⌈λ/(c·u)⌉`), ADR 0001 |
 | 2 | Comunicação entre processos | Diagramas em Mermaid, contratos de API e de evento, ADR 0002 |
 | 3 | Concorrência, relógios e ordenação | Primeiro serviço em código: `pedidos`, com relógio de Lamport e correlação de trace_id |
-| 4 | Modelos de falha e recuperação | ADR de stack (Python/FastAPI/SQLite), disjuntor + retry + backoff, primeiro `docker compose` |
+| 4 | Modelos de falha e recuperação | ADR de stack (Python/FastAPI/SQLite), disjuntor + retry + backoff, primeiro `compose` |
 | 5 | Replicação e consistência | Réplica de leitura com atraso de 150 ms; consistência forte na reserva, eventual no catálogo |
 | 6 | Particionamento, CAP e PACELC | Hashing consistente, anel de partições, matriz PACELC da NexaOrder |
 | 7 | Consenso e eleição de líder | Simulação determinística de eleição, replicação de log e partição de rede (estilo Raft) |
@@ -73,8 +74,30 @@ make test                # roda a suíte completa de testes
 make verificar            # fronteiras de domínio + instabilidade (a partir da Aula 9)
 make validar-k8s          # manifests Kubernetes (a partir da Aula 11)
 make criterios-de-aceite  # identidade + observabilidade + testes, por serviço (Aula 16)
-make up                   # docker compose (a partir da Aula 4)
+make up                   # contêineres: Docker ou Podman (a partir da Aula 4)
 ```
 
 Nem todo alvo existe em toda aula — cada `README.md` de aula lista os que se aplicam
 naquele estágio.
+
+## Docker ou Podman
+
+Nenhum alvo do `Makefile` chama `docker` diretamente. O motor de contêiner é detectado
+na hora do `make up`, nesta ordem: `docker compose`, `podman compose`, `podman-compose`,
+`docker-compose`. Quem tem Docker instalado não percebe diferença; quem usa Podman
+roda os mesmos comandos, sem editar nada.
+
+```bash
+make up                              # detecta o motor disponível e sobe a stack
+make up COMPOSE="podman-compose"     # força um motor específico
+make verificar-compose               # só mostra qual motor seria usado
+```
+
+Se nenhum dos quatro for encontrado, `make up` para com uma mensagem explicando o que
+instalar, em vez de falhar com "command not found".
+
+Os `Dockerfile` e os `docker-compose.yml` são padrão OCI e não têm nada específico de
+Docker — o Podman os lê sem conversão. A stack da Aula 5 foi validada ponta a ponta em
+Podman 5.8 com podman-compose 1.6, incluindo `healthcheck`, `depends_on:
+service_healthy`, volume nomeado e a janela de leitura obsoleta de 150 ms observada por
+`curl`.

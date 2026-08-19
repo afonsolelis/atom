@@ -1,6 +1,6 @@
 SERVICOS := pedidos estoque
 
-.PHONY: setup test run-pedidos run-estoque up down logs
+.PHONY: setup test run-pedidos run-estoque verificar-compose up down logs
 
 setup:
 	@for s in $(SERVICOS); do \
@@ -22,11 +22,30 @@ run-pedidos:
 run-estoque:
 	cd services/estoque && .venv/bin/uvicorn app.main:app --reload --port 8002
 
-up:
-	docker compose up --build
+# Motor de contêiner — o projeto sobe igual em Docker ou em Podman.
+# A detecção usa o que estiver instalado, nesta ordem de preferência.
+# Para forçar um deles: make up COMPOSE="podman-compose"
+COMPOSE ?= $(shell \
+	if docker compose version >/dev/null 2>&1; then echo "docker compose"; \
+	elif podman compose version >/dev/null 2>&1; then echo "podman compose"; \
+	elif command -v podman-compose >/dev/null 2>&1; then echo "podman-compose"; \
+	elif command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; \
+	fi)
 
-down:
-	docker compose down -v
+verificar-compose:
+	@test -n "$(COMPOSE)" || { \
+		echo "ERRO: nenhum motor de compose encontrado."; \
+		echo "      Instale o Docker ou o Podman, ou informe o comando:"; \
+		echo "      make up COMPOSE=\"<seu comando de compose>\""; \
+		exit 1; \
+	}
+	@echo "--- compose: $(COMPOSE) ---"
 
-logs:
-	docker compose logs -f
+up: verificar-compose
+	$(COMPOSE) up --build
+
+down: verificar-compose
+	$(COMPOSE) down -v
+
+logs: verificar-compose
+	$(COMPOSE) logs -f

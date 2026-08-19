@@ -68,7 +68,7 @@ make setup
 make test         # 92 testes: 42 pedidos, 36 estoque, 6 pagamento, 5 expedicao, 3 gateway
 make verificar     # verificar_fronteiras.py + calcular_instabilidade.py
 python3 -m pytest scripts/   # 4 testes da fórmula de instabilidade (usa o venv compartilhado)
-make up            # docker compose com os cinco serviços
+make up            # contêineres (Docker ou Podman) com os cinco serviços
 ```
 
 ## Pergunta que fica em aberto

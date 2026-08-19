@@ -62,7 +62,7 @@ make setup
 make test          # 128 testes: 60 pedidos, 38 estoque, 8 pagamento, 7 expedicao, 5 gateway, 10 scripts
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests
-make up             # docker compose com os cinco serviços de aplicação
+make up             # contêineres (Docker ou Podman) com os cinco serviços de aplicação
 ```
 
 ## Pergunta que fica em aberto

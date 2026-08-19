@@ -62,7 +62,7 @@ make test                # 216 testes: 108 pedidos, 49 estoque, 8 pagamento, 7 e
 make verificar            # fronteiras + instabilidade (Aula 9)
 make validar-k8s          # os cinco manifests (Aula 11)
 make criterios-de-aceite  # identidade + observabilidade + testes, por serviço (Aula 16)
-make up                   # docker compose com os cinco serviços de aplicação
+make up                   # contêineres (Docker ou Podman) com os cinco serviços de aplicação
 ```
 
 ## A trajetória completa

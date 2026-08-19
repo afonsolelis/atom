@@ -63,7 +63,7 @@ particao = topico.particao_da_chave(chave)
 ```bash
 make setup
 make test         # 108 testes: 58 pedidos, 36 estoque, 6 pagamento, 5 expedicao, 3 gateway
-make up            # docker compose com os cinco serviços (broker de eventos não incluído — ver ADR 0010)
+make up            # contêineres (Docker ou Podman) com os cinco serviços (broker de eventos não incluído — ver ADR 0010)
 ```
 
 ## Pergunta que fica em aberto

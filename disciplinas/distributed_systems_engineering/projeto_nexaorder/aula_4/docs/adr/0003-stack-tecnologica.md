@@ -18,8 +18,8 @@ serviço e passa a ser uma escolha de plataforma.
 | Framework HTTP | FastAPI | Flask, Django REST Framework |
 | Validação de contrato | Pydantic (nativo do FastAPI) | jsonschema manual |
 | Banco por serviço | SQLite (arquivo local) | Postgres (adiado para quando a Aula 5 exigir réplicas de verdade) |
-| Empacotamento | Docker, uma imagem por serviço | processos nativos gerenciados por script |
-| Orquestração local | Docker Compose | scripts shell ad hoc |
+| Empacotamento | Contêineres OCI, uma imagem por serviço (Docker ou Podman) | processos nativos gerenciados por script |
+| Orquestração local | Compose (Docker Compose ou Podman Compose) | scripts shell ad hoc |
 
 ## Por quê
 
@@ -33,7 +33,7 @@ serviço e passa a ser uma escolha de plataforma.
   já, sem o custo operacional de subir um Postgres por serviço só para rodar um teste
   local. A troca para Postgres, quando fizer sentido, é uma mudança de driver, não de
   arquitetura — a fronteira já está certa.
-- **Docker Compose, não Kubernetes, por enquanto**: Compose é suficiente para
+- **Compose, não Kubernetes, por enquanto**: Compose é suficiente para
   demonstrar múltiplos serviços se comunicando e um disjuntor abrindo de verdade.
   Kubernetes entra na Aula 11, quando o assunto da aula é justamente orquestração,
   reconciliação e sondas — introduzi-lo antes disso obrigaria a ensinar kubectl antes
@@ -49,6 +49,6 @@ registrada aqui para não ser confundida com recomendação de produção.
 ## Evidência
 
 A stack se sustenta enquanto os testes de cada serviço rodarem em menos de 2 segundos
-localmente (sem depender de infraestrutura externa) e o `docker compose up` completo
+localmente (sem depender de infraestrutura externa) e o `make up` completo
 subir em menos de um minuto em uma máquina comum. Se qualquer um desses dois limites
 for violado de forma persistente, esta ADR deve ser revisitada.

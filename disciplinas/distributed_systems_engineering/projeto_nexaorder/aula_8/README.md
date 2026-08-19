@@ -24,7 +24,7 @@ até aqui: dois serviços novos e a orquestração que os une a `pedidos` e `est
 ## O experimento central: compensação em cascata
 
 ```bash
-docker compose up --build
+make up          # Docker ou Podman, detectado automaticamente
 curl -X POST http://localhost:8002/estoque/TECLADO-MEC-01/inicializar -d '{"quantidade": 100}'
 
 # força a expedição a falhar sempre
@@ -62,7 +62,7 @@ entre as quatro aplicações.
 ```bash
 make setup
 make test        # 85 testes: 42 pedidos, 34 estoque, 5 pagamento, 4 expedicao
-make up           # docker compose com os quatro serviços
+make up           # contêineres (Docker ou Podman) com os quatro serviços
 ```
 
 ## Pergunta que fica em aberto

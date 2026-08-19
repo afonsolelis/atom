@@ -33,7 +33,7 @@ testar resiliência sem esperar a outra equipe terminar.
 
 ## Como rodar
 
-**Sem Docker**, dois terminais:
+**Sem contêineres**, dois terminais:
 
 ```bash
 make setup
@@ -41,10 +41,10 @@ make run-estoque    # terminal 1 — porta 8002
 make run-pedidos    # terminal 2 — porta 8001
 ```
 
-**Com Docker** (requer Docker instalado):
+**Com contêineres** (requer Docker ou Podman instalado):
 
 ```bash
-make up              # docker compose up --build
+make up              # sobe os contêineres (Docker ou Podman)
 ```
 
 Demonstração do disjuntor abrindo:
@@ -74,7 +74,7 @@ curl -s -X POST http://localhost:8001/pedidos/<id>/reservar-estoque -w "\n%{http
    isolado, depois `test_integracao_estoque.py::test_disjuntor_abre_de_verdade_apos_falhas_http_repetidas` —
    o segundo prova que o comportamento também vale de ponta a ponta, com dois
    processos reais trocando HTTP.
-4. Se houver Docker disponível, faça a demonstração ao vivo do bloco acima. Se não,
+4. Se houver Docker ou Podman disponível, faça a demonstração ao vivo do bloco acima. Se não,
    rode os dois `make run-*` em terminais separados — o efeito é o mesmo.
 
 ## Pergunta que fica em aberto
@@ -109,4 +109,4 @@ docker-compose.yml                          [novo]
 Makefile                                    [alterado: setup/test para múltiplos serviços, up/down/logs]
 ```
 
-30 testes (26 em pedidos, 4 em estoque), 2 serviços, 1º `docker compose up` do projeto.
+30 testes (26 em pedidos, 4 em estoque), 2 serviços, 1º `make up` (compose) do projeto.
