@@ -107,6 +107,10 @@
         "description": "Changes related to Distributed Systems Engineering"
       },
       {
+        "value": "model_based_design",
+        "description": "Changes related to Model-Based Design for Cyber-Physical Systems"
+      },
+      {
         "value": "lives",
         "description": "Changes related to the complementary live sessions (slide decks)"
       }

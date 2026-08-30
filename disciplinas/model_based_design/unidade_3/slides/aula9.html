@@ -1,0 +1,1143 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23002057%27/%3E%3Crect x=%277%27 y=%2718%27 width=%274%27 height=%277%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2714%27 y=%2712%27 width=%274%27 height=%2713%27 rx=%271%27 fill=%27%23F0CE29%27/%3E%3Crect x=%2721%27 y=%277%27 width=%274%27 height=%2718%27 rx=%271%27 fill=%27%232BBBE0%27/%3E%3C/svg%3E" />
+<title>Aula 9 — Um requisito, três leituras: da ambiguidade à propriedade formal · Model-Based Design</title>
+<style>
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002057;   /* cor primária — azul institucional */
+    --azul-claro:   #2BBBE0;
+    --azul-medio:   #1F44A8;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F0CE29;
+    --magenta:      #E91E63;
+    --magenta-texto: #C2185B;
+    --verde-claro:  #8DD17E;
+    --verde-escuro: #1F8A4E;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --branco:       #FFFFFF;
+
+    --fonte: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .slide h1, .slide h2, .slide h3 {
+    font-family: var(--fonte);
+    color: var(--branco);
+    margin: 0 0 0.5em;
+    letter-spacing: -0.02em;
+  }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
+  .slide h2 {
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--amarelo);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: normal; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001640 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-escuro);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote (padrão PowerPoint: fundo azul + card branco) ---------- */
+  .slide-quote {
+    background: var(--azul-fecaf);
+    padding: 4vh 6vw 7vh;
+  }
+  .slide-quote.active { justify-content: flex-start; }
+  .quote-logo { margin: 0.5vh 0 2vh; }
+  .quote-shapes {
+    width: 92%;
+    margin: 0 auto;
+    height: 76px;
+    flex-shrink: 0;
+  }
+  .quote-shapes svg { width: 100%; height: 100%; display: block; }
+  .quote-card {
+    background: var(--branco);
+    border-radius: 30px;
+    padding: 3em 3.2em;
+    margin-top: -34px;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3vw, 2.7rem);
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--azul-fecaf);
+    font-weight: 700;
+  }
+
+  /* ---------- Slide: encerramento (padrão PowerPoint: título à esquerda + clusters) ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: flex-start; text-align: left;
+  }
+  .slide-fim h1 {
+    color: var(--branco);
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25em;
+  }
+  .slide-fim .fim-texto {
+    color: rgba(255,255,255,0.95);
+    font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+    max-width: 640px;
+    line-height: 1.5;
+  }
+  .slide-fim .fim-proxima {
+    color: var(--amarelo);
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    margin-top: 1.2em;
+  }
+  .slide-fim .fim-prof {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    margin-top: 2.2em;
+  }
+  .fim-logo { position: absolute; top: 6vh; left: 6vw; z-index: 3; }
+  .fim-cluster-topo {
+    position: absolute; top: 0; right: 0;
+    width: 58%; height: 190px;
+    pointer-events: none; z-index: 1;
+  }
+  .fim-cluster-topo svg { width: 100%; height: 100%; display: block; transform: scaleY(-1); }
+  .fim-cluster-base {
+    position: absolute; bottom: 0; left: 12%;
+    width: 64%; height: 165px;
+    pointer-events: none; z-index: 1;
+  }
+  .fim-cluster-base svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+  }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.55;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--azul-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
+
+  /* ---------- Componentes extras (stat-grid, callout) ---------- */
+  .callout-azul {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 1.2em 1.4em;
+    border-radius: 10px;
+    border-left: 8px solid var(--amarelo);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .callout-azul strong { color: var(--amarelo); }
+  .callout-azul em { color: rgba(255,255,255,0.92); }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .stat-card {
+    background: var(--branco);
+    padding: 1.2rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .stat-card .numero-grande {
+    display: block;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--azul-fecaf);
+    margin-bottom: 0.2em;
+  }
+  .stat-card .legenda {
+    font-size: 1rem;
+    color: #444;
+    font-weight: 500;
+  }
+
+  /* ---------- Padrão PowerPoint: capa centralizada + mosaico nos cantos ---------- */
+  .slide-capa.active { align-items: center; text-align: center; }
+  .slide-capa .slide-content { max-width: 880px; }
+  .slide-capa h1 { font-size: clamp(2.4rem, 4.6vw, 4.2rem); }
+  .capa-canto { position: absolute; width: 280px; height: 280px; pointer-events: none; z-index: 1; }
+  .capa-canto svg { width: 100%; height: 100%; display: block; }
+  .capa-tl { top: 0; left: 0; }
+  .capa-tr { top: 0; right: 0; }
+  .capa-bl { bottom: 0; left: 0; }
+  .capa-br { bottom: 0; right: 0; }
+
+  /* ---------- Padrão PowerPoint: slide de audiodescrição ---------- */
+  .slide-audio { background: var(--azul-fecaf); }
+  .audio-canto-tl { position: absolute; top: 0; left: 0; width: 150px; height: 130px; pointer-events: none; }
+  .audio-canto-tl svg, .audio-canto-br svg { width: 100%; height: 100%; display: block; }
+  .audio-canto-br { position: absolute; bottom: 0; right: 0; width: 360px; height: 250px; pointer-events: none; }
+  .slide-audio .audio-logo { margin-bottom: 3rem; }
+  .slide-audio h1 {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+  }
+  .audio-texto {
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+    color: rgba(255,255,255,0.95);
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  /* ---------- Padrão PowerPoint: título da aula + sumário (split branco/azul) ---------- */
+  .slide-sumario { padding: 0; background: var(--branco); overflow: hidden; }
+  .sumario-grid { display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%; }
+  .sumario-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column;
+  }
+  .sumario-logo svg { filter: brightness(0); }
+  .sumario-titulo {
+    color: var(--azul-fecaf) !important;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: auto 0;
+    padding-right: 0.8em;
+  }
+  .sumario-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 10vh 4vw 8vh 6vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .sumario-lado-escuro h2, .sumario-lado-escuro ul { position: relative; z-index: 2; }
+  .sumario-lado-escuro h2 { font-size: clamp(1.9rem, 3vw, 2.7rem); margin-bottom: 0.7em; }
+  .sumario-lado-escuro li { color: rgba(255,255,255,0.94); margin-bottom: 0.55em; }
+  .sumario-canto-rodape {
+    position: absolute; bottom: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none; z-index: 1;
+  }
+  .sumario-canto-rodape svg { transform: scaleY(-1); display: block; }
+
+  /* ---------- Padrão PowerPoint: conteúdo = moldura mosaico + card azul ---------- */
+  .slide:has(.mosaico-bg) { padding: 5.5vh 5.5vw; }
+  .mosaico-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .mosaico-bg svg { width: 100%; height: 100%; display: block; }
+  .mosaico-bg ~ .slide-content {
+    background: var(--azul-fecaf);
+    border-radius: 26px;
+    padding: 1.3em 2.4em 1.5em;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+    max-width: none;
+    max-height: 89vh;
+    overflow: hidden;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .mosaico-bg ~ .slide-content > * { flex-shrink: 0; }
+  /* Logo UniFECAF dentro do card (como no padrão) */
+  .mosaico-bg ~ .slide-content::before {
+    content: '';
+    display: block;
+    width: 110px; height: 28px;
+    background: url('data:image/png;base64,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') no-repeat left center / contain;
+    margin-bottom: 0.4em;
+  }
+  .mosaico-bg ~ .slide-content h1 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); color: var(--verde-claro); }
+  .mosaico-bg ~ .slide-content h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); color: var(--verde-claro); }
+  .mosaico-bg ~ .slide-content h1, .mosaico-bg ~ .slide-content h2 { margin-bottom: 0.3em; }
+  .mosaico-bg ~ .slide-content .kicker { font-size: clamp(0.95rem, 1.4vw, 1.15rem); margin-bottom: 0.2em; }
+  .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
+  /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
+  .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
+
+  /* ---------- Slides "divisor" (transição para captura de tela) e "resultado" ---------- */
+  .codigo-bloco {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: var(--azul-fecaf);
+    color: #EAF1FF;
+    padding: 0.75em 1.1em;
+    border-radius: 8px;
+    margin-top: 0.9em;
+    font-size: clamp(0.8rem, 1.05vw, 1rem);
+    overflow-x: auto;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    border-left: 5px solid var(--amarelo);
+  }
+  .codigo-bloco .prompt { color: var(--verde-claro); margin-right: 0.4em; }
+  .lista-numerada { padding-left: 1.4em; margin: 0; }
+  .lista-numerada li { margin-bottom: 0.6em; }
+  .nota-edicao {
+    margin-top: 1em;
+    font-size: 0.9rem;
+    color: var(--cinza-mute);
+    font-style: italic;
+  }
+  /* Marcação discreta do intervalo de tempo do roteiro, para orientar a edição */
+  .nota-tempo {
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    opacity: 0.7;
+  }
+  .slide-content-box .nota-tempo { color: var(--cinza-mute); margin-top: 0.9em; margin-bottom: 0; }
+  .slide-audio .nota-tempo, .slide-sumario .nota-tempo, .prof-lado-escuro .nota-tempo { color: rgba(255,255,255,0.65); margin-top: 1.2rem; }
+</style>
+</head>
+<body>
+<!-- Botão flutuante: voltar à home da disciplina -->
+<a class="btn-home" href="../../../../index.html" title="Voltar para o início da disciplina" aria-label="Voltar para a página inicial da disciplina">
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h5v-5.5h4V20h5v-9.5"/></svg>
+  <span>Início</span>
+</a>
+
+
+<!-- Logo oficial UniFECAF (referência direta ao site institucional) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-marca" viewBox="0 0 271 67">
+    <image href="data:image/png;base64,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" width="271" height="67"/>
+  </symbol>
+  <!-- Decoração de canto (triângulos sutis em tons da paleta) -->
+  <symbol id="trio-canto" viewBox="0 0 200 200">
+    <polygon points="200,0 100,0 200,100" fill="#002057" opacity="0.15"/>
+    <polygon points="200,40 130,40 200,110" fill="#F0CE29" opacity="0.45"/>
+    <polygon points="200,90 160,90 200,130" fill="#2BBBE0" opacity="0.45"/>
+  </symbol>
+  <!-- Padrão novo (PowerPoint) -->
+  <symbol id="canto-se" viewBox="0 0 80 80">
+    <polygon points="0,0 80,0 0,80" fill="var(--verde-escuro)" />
+    <polygon points="0,0 40,0 0,40" fill="var(--verde-claro)" />
+  </symbol>
+  <symbol id="canto-id" viewBox="0 0 150 100">
+    <polygon points="150,100 0,100 150,0" fill="var(--verde-claro)" />
+    <polygon points="50,100 150,100 150,50" fill="var(--amarelo)" />
+    <polygon points="0,100 100,100 50,50" fill="var(--verde-escuro)" />
+  </symbol>
+  <!-- Cluster de triângulos para slide "sobre o professor" (boundary entre branco/azul) -->
+  <symbol id="prof-cluster" viewBox="0 0 200 400">
+    <polygon points="40,20 110,20 75,90" fill="#E91E63"/>
+    <polygon points="80,60 150,60 115,130" fill="#1F44A8"/>
+    <polygon points="20,100 100,100 60,180" fill="#4CAF50"/>
+    <polygon points="100,140 170,140 135,210" fill="#F0CE29"/>
+    <polygon points="40,180 110,180 75,250" fill="#2BBBE0"/>
+    <polygon points="90,230 160,230 125,300" fill="#E91E63"/>
+    <polygon points="30,270 100,270 65,340" fill="#4CAF50"/>
+    <polygon points="100,310 170,310 135,380" fill="#F0CE29"/>
+  </symbol>
+  <!-- Triângulo amarelo do canto superior direito do slide-prof -->
+  <symbol id="prof-canto-amarelo" viewBox="0 0 100 100">
+    <polygon points="0,0 100,0 100,100" fill="#F0CE29"/>
+  </symbol>
+  <!-- Mini-cluster decorativo do canto inferior direito do slide-prof -->
+  <symbol id="prof-mini-cluster" viewBox="0 0 120 80">
+    <polygon points="10,30 50,30 30,70" fill="#E91E63"/>
+    <polygon points="40,10 80,10 60,50" fill="#4CAF50"/>
+    <polygon points="70,40 110,40 90,80" fill="#F0CE29"/>
+  </symbol>
+  <!-- Moldura dos slides de conteúdo: triângulos grandes e esparsos (padrão PowerPoint) -->
+  <symbol id="mosaico-frame" viewBox="0 0 1280 720" preserveAspectRatio="none">
+    <rect width="1280" height="720" fill="#001640"/>
+    <!-- topo -->
+    <polygon points="0,0 230,0 0,165" fill="#4CAF50"/>
+    <polygon points="130,0 390,0 260,140" fill="#1F44A8"/>
+    <polygon points="320,0 530,0 425,115" fill="#2BBBE0"/>
+    <polygon points="500,0 700,0 600,105" fill="#ED2E5C"/>
+    <polygon points="680,0 880,0 780,100" fill="#8DD17E"/>
+    <polygon points="850,0 1080,0 965,120" fill="#F0CE29"/>
+    <polygon points="1050,0 1280,0 1280,175" fill="#1F8A4E"/>
+    <!-- direita -->
+    <polygon points="1280,150 1280,370 1135,260" fill="#2BBBE0"/>
+    <polygon points="1280,340 1280,560 1160,450" fill="#E91E63"/>
+    <polygon points="1280,540 1280,720 1085,720" fill="#8DD17E"/>
+    <!-- base -->
+    <polygon points="975,720 1175,720 1075,605" fill="#1F44A8"/>
+    <polygon points="755,720 995,720 875,595" fill="#4CAF50"/>
+    <polygon points="540,720 775,720 655,615" fill="#2BBBE0"/>
+    <polygon points="325,720 560,720 440,595" fill="#F0CE29"/>
+    <polygon points="120,720 360,720 240,615" fill="#1F44A8"/>
+    <polygon points="0,720 165,720 0,555" fill="#ED2E5C"/>
+    <!-- esquerda -->
+    <polygon points="0,415 0,640 145,525" fill="#1F8A4E"/>
+    <polygon points="0,200 0,430 135,315" fill="#2BBBE0"/>
+  </symbol>
+  <!-- Cantos coloridos da capa (mosaico multicolorido, padrão PowerPoint) -->
+  <symbol id="capa-canto-1" viewBox="0 0 300 300">
+    <polygon points="0,0 260,0 0,260" fill="#2BBBE0"/>
+    <polygon points="0,0 120,0 0,120" fill="#45277A"/>
+    <polygon points="0,150 95,245 0,300" fill="#F0CE29"/>
+    <polygon points="0,250 55,300 0,300" fill="#1F44A8"/>
+  </symbol>
+  <symbol id="capa-canto-2" viewBox="0 0 300 300">
+    <polygon points="140,0 300,0 300,100" fill="#ED2E5C"/>
+    <polygon points="30,0 175,0 102,72" fill="#2BBBE0"/>
+    <polygon points="300,100 225,100 300,175" fill="#45277A"/>
+    <polygon points="300,150 215,235 300,235" fill="#8DD17E"/>
+  </symbol>
+  <symbol id="capa-canto-3" viewBox="0 0 300 300">
+    <polygon points="0,140 110,300 0,300" fill="#F0CE29"/>
+    <polygon points="0,70 75,135 0,200" fill="#ED2E5C"/>
+    <polygon points="60,200 160,300 60,300" fill="#1F44A8"/>
+    <polygon points="130,300 235,235 235,300" fill="#8DD17E"/>
+  </symbol>
+  <symbol id="capa-canto-4" viewBox="0 0 300 300">
+    <polygon points="300,60 300,300 60,300" fill="#8DD17E"/>
+    <polygon points="300,170 300,300 170,300" fill="#4CAF50"/>
+    <polygon points="135,255 225,255 180,195" fill="#F0CE29"/>
+    <polygon points="300,30 235,95 300,130" fill="#2BBBE0"/>
+  </symbol>
+  <!-- Cantos do slide de audiodescrição (setas verdes + composição verde/amarela) -->
+  <symbol id="audio-canto-tl" viewBox="0 0 150 130">
+    <polygon points="8,0 72,0 40,62" fill="#1F8A4E"/>
+    <polygon points="52,18 116,18 84,80" fill="#8DD17E"/>
+  </symbol>
+  <symbol id="audio-canto-br" viewBox="0 0 360 250">
+    <polygon points="40,250 190,95 340,250" fill="#1F8A4E"/>
+    <polygon points="190,250 270,165 350,250" fill="#F0CE29"/>
+    <polygon points="240,0 360,120 360,0" fill="#8DD17E"/>
+  </symbol>
+  <!-- Faixa de formas coloridas do slide de citação -->
+  <symbol id="faixa-mosaico" viewBox="0 0 1200 90" preserveAspectRatio="none">
+    <polygon points="0,90 0,10 80,90" fill="#1F8A4E"/>
+    <polygon points="95,10 175,10 175,90" fill="#8DD17E"/>
+    <polygon points="205,90 285,10 285,90" fill="#2BBBE0"/>
+    <polygon points="320,10 400,90 320,90" fill="#1F44A8"/>
+    <polygon points="450,10 530,10 450,90" fill="#F0CE29"/>
+    <polygon points="575,90 655,10 655,90" fill="#1F44A8"/>
+    <polygon points="700,10 780,90 700,90" fill="#4CAF50"/>
+    <polygon points="840,10 840,90 920,90" fill="#2BBBE0"/>
+    <polygon points="965,10 1045,10 965,90" fill="#8DD17E"/>
+    <polygon points="1100,90 1180,10 1180,90" fill="#1F8A4E"/>
+  </symbol>
+  <!-- Cluster de triângulos do encerramento -->
+  <symbol id="cluster-fim" viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet">
+    <polygon points="20,200 120,95 220,200" fill="#4CAF50"/>
+    <polygon points="170,200 250,115 330,200" fill="#1F44A8"/>
+    <polygon points="225,200 305,95 385,200" fill="#ED2E5C" opacity="0.92"/>
+    <polygon points="310,200 390,125 470,200" fill="#2BBBE0"/>
+    <polygon points="430,200 510,110 590,200" fill="#8DD17E"/>
+    <polygon points="90,75 160,140 30,140" fill="#8DD17E"/>
+    <polygon points="470,40 540,105 410,105" fill="#F0CE29"/>
+  </symbol>
+  <!-- Faixa de triângulos para rodapé da capa -->
+  <symbol id="faixa-triangulos" viewBox="0 0 1200 80" preserveAspectRatio="none">
+    <polygon points="0,80 50,30 100,80" fill="#F0CE29"/>
+    <polygon points="80,80 130,20 180,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="170,80 220,40 270,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="260,80 310,10 360,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="350,80 400,30 450,80" fill="#F0CE29"/>
+    <polygon points="440,80 490,40 540,80" fill="#FFFFFF" opacity="0.7"/>
+    <polygon points="530,80 580,20 630,80" fill="#F0CE29" opacity="0.85"/>
+    <polygon points="620,80 670,30 720,80" fill="#FFFFFF" opacity="0.5"/>
+    <polygon points="710,80 760,40 810,80" fill="#F0CE29"/>
+    <polygon points="800,80 850,10 900,80" fill="#FFFFFF" opacity="0.85"/>
+    <polygon points="890,80 940,30 990,80" fill="#F0CE29" opacity="0.7"/>
+    <polygon points="980,80 1030,40 1080,80" fill="#FFFFFF" opacity="0.6"/>
+    <polygon points="1070,80 1120,20 1170,80" fill="#F0CE29"/>
+  </symbol>
+</svg>
+
+<div class="deck" id="deck">
+
+  <section class="slide slide-capa active">
+    <div class="capa-canto capa-tl"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca">
+        <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Um requisito, três leituras: da ambiguidade à propriedade formal</h1>
+      <div class="subtitulo">Unidade 3 — Verificação formal e testes baseados em modelos</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo">
+        <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+      </div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides seguem o padrão visual UniFECAF: fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. Esta aula é gravada por captura de tela: o deck aparece na abertura e no encerramento, e a maior parte do tempo a gravação mostra o terminal ou o editor de código — os cartões de conteúdo funcionam como divisores, anunciando o que entra na tela e trazendo o comando executado em fonte monoespaçada, ou como cartões de resultado, com o número ou a tabela que o comando produziu em destaque. Os recursos visuais desta aula ilustram as três leituras conflitantes do requisito ambíguo, o funil que decompõe o requisito original em REQ-SAFE-001 e REQ-SAFE-006, um quadro comparativo dos quatro tipos de propriedade formal e a tabela dos sete REQ-SAFE classificados.</p>
+      <p class="nota-tempo">Abertura do vídeo — antes de 00:00 do roteiro cronometrado.</p>
+    </div>
+  </section>
+
+
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo">
+          <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+        </div>
+        <h1 class="sumario-titulo">Um requisito, três leituras: da ambiguidade à propriedade formal</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
+        </div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Da ambiguidade à propriedade formal</li>
+          <li>O supervisor do NexaBot: seis estados, função pura</li>
+          <li>Os sete REQ-SAFE classificados</li>
+          <li>Do predicado ao código Python</li>
+          <li>Contraexemplo: quando a especificação erra primeiro</li>
+          <li>Desafio: um requisito redundante?</li>
+          <li>Aplicação: ISO 26262, DO-178C, IEC 62304</li>
+        </ul>
+        <p class="nota-tempo">Abertura do vídeo — antes de 00:00 do roteiro cronometrado.</p>
+        <div class="sumario-canto-rodape"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>Ao final desta aula, você será capaz de</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Identificar as <strong>três fontes de ambiguidade</strong> de um requisito em linguagem natural.</li>
+          <li>Classificar uma propriedade formal como <strong>invariante, alcançabilidade, segurança ou vivacidade</strong>.</li>
+          <li>Traduzir um requisito de segurança do NexaBot em <strong>predicado Python executável</strong>.</li>
+        </ul>
+        <p class="nota-tempo">Abertura do vídeo — antes de 00:00 do roteiro cronometrado.</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ===== MIOLO: divisores para a captura de tela + resultados ===== -->
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: terminal · 00:00–01:40</p>
+      <h2>Um requisito, três leituras</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Na tela: tabela com <strong>6 requisitos</strong> de segurança do supervisor, cada um classificado por tipo.</li>
+          <li>Requisito de origem, em ata de reunião: <em>"o robô deve parar rapidamente se houver obstáculo."</em></li>
+          <li>Três leituras conflitantes: <strong>"rapidamente"</strong> — no próximo ciclo? <strong>"parar"</strong> — velocidade zero (existe atraso físico)? <strong>instante de referência</strong> — do obstáculo físico ou da detecção do sensor?</li>
+          <li>Meta da aula: requisito ambíguo → <strong>propriedade formal</strong>, verificável por máquina.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: editor · 01:40–05:00</p>
+      <h2>supervisor.py e requisitos.py: seis estados, cinco tipos de propriedade</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><code>nexabot/supervisor.py</code>: <strong>6 estados</strong> (OCIOSO, MOVENDO, DESACELERANDO, PARADO_OBSTACULO, FALHA, EMERGENCIA); função <code>transition</code> <strong>pura</strong> — mesma entrada, sempre a mesma saída.</li>
+          <li><code>nexabot/requisitos.py</code>: cada requisito é um objeto <code>Requisito</code> (ID, tipo, descrição, predicado Python).</li>
+          <li>Cinco tipos de propriedade: <strong>Invariante</strong> (nunca deixa de valer), <strong>Alcançabilidade</strong> (existe caminho?), <strong>Segurança</strong> (nada de ruim acontece), <strong>Vivacidade</strong> (algo bom acontece), <strong>Temporizado</strong> (dentro de quanto tempo?).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Resultado · TELA: editor · 05:00–07:00</p>
+      <h2>Os sete REQ-SAFE do NexaBot</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>ID</th><th>Tipo</th><th>Resumo</th></tr></thead>
+          <tbody>
+            <tr><td>001</td><td>Invariante</td><td>Nunca torque com obstáculo</td></tr>
+            <tr><td>002</td><td>Invariante</td><td>Emergência → freio + torque off</td></tr>
+            <tr><td>003</td><td>Alcançabilidade</td><td>MOVENDO é alcançável</td></tr>
+            <tr><td>004</td><td>Segurança (transição)</td><td>FALHA só sai por rearme</td></tr>
+            <tr><td>005</td><td>Vivacidade</td><td>Obstáculo removido → volta a MOVENDO</td></tr>
+            <tr><td>006</td><td>Temporizado</td><td>Torque zero em ≤ 150&nbsp;ms (30 períodos de 5&nbsp;ms)</td></tr>
+            <tr><td>007</td><td>Em aberto</td><td>Velocidade linear — sem predicado ainda</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: editor · 07:00–08:30</p>
+      <h2>Da propriedade ao predicado Python</h2>
+      <div class="slide-content-box">
+        <div class="codigo-bloco">verificar_transicao(estado, entradas, saida, proximo_estado) -&gt; bool</div>
+        <ul>
+          <li><strong>REQ-SAFE-001:</strong> não (torque_habilitado <strong>e</strong> obstaculo).</li>
+          <li><strong>REQ-SAFE-004:</strong> se estado = FALHA e próximo ≠ FALHA, então rearme = verdadeiro.</li>
+          <li>Implicação lógica sobre a <em>transição</em>; ID como campo de dados → rastreabilidade automática.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: terminal · 08:30–12:00</p>
+      <h2>Testando a versão ingênua do requisito</h2>
+      <div class="slide-content-box">
+        <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_09/02_do_texto_a_propriedade.py</div>
+        <ul>
+          <li>Requisito narrado: "se obstáculo removido e partida comandada, deve voltar a mover."</li>
+          <li>Versão ingênua: tradução quase literal do texto — parece correta à primeira vista.</li>
+          <li>O verificador testa essa versão contra <strong>todo</strong> o espaço de estados do supervisor.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Resultado · TELA: terminal · 12:00–14:00</p>
+      <h2>O contraexemplo de três passos e a lição central</h2>
+      <div class="slide-content-box">
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">3</span><span class="legenda">passos até a violação</span></div>
+          <div class="stat-card"><span class="numero-grande">0</span><span class="legenda">violações após a correção</span></div>
+        </div>
+        <p><strong>Contraexemplo:</strong> OCIOSO → MOVENDO → PARADO_OBSTACULO → (partida <strong>e</strong> falha de encoder simultâneas) → deveria ir a FALHA; a versão ingênua exigia MOVENDO.</p>
+        <p><strong>Lição central da aula:</strong> verificação formal encontra bugs não só no código, mas também na própria <em>especificação</em>.</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: terminal · 14:00–16:00</p>
+      <h2>Desafio: uma propriedade redundante adicional</h2>
+      <div class="slide-content-box">
+        <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_09/03_desafio.py</div>
+        <ul>
+          <li>Propriedade adicional: "o robô nunca aciona o freio e habilita o torque ao mesmo tempo."</li>
+          <li>Resultado: <strong>0 violações em 768 transições</strong> exploradas.</li>
+          <li>Se for registrada como defesa em profundidade, deve receber identificador novo: REQ-SAFE-007 já é o limite contínuo de velocidade.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">TELA: editor · 16:00–18:00</p>
+      <h2>Por que a indústria exige isso</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>ISO 26262</strong> (automotivo): exige evidência de verificação formal e rastreabilidade requisito–comportamento.</li>
+          <li><strong>DO-178C</strong> (aeroespacial): rastreabilidade entre requisito, projeto e teste.</li>
+          <li><strong>IEC 62304</strong> (dispositivos médicos): mesma disciplina — acidentes reais já vieram de condições de corrida não testadas manualmente.</li>
+          <li>Ponto comum: o requisito deixa de ser prosa e vira algo que <em>duas pessoas diferentes verificam sempre da mesma forma</em>.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <!-- ===== FECHAMENTO (deck na tela) ===== -->
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Recapitulando · 18:00–19:30</p>
+      <h2>Pontos-chave</h2>
+      <div class="slide-content-box">
+        <div class="pontos-chave">
+          <div class="ponto"><h3>Ambiguidade</h3><p>Um requisito em linguagem natural tolera ambiguidade de escala, objeto e instante de referência.</p></div>
+          <div class="ponto"><h3>Quatro tipos</h3><p>Invariante, alcançabilidade, segurança e vivacidade cobrem quase todo requisito de um sistema ciberfísico.</p></div>
+          <div class="ponto"><h3>Um vira dois</h3><p>REQ-SAFE-001 (sem prazo) e REQ-SAFE-006 (150 ms) resolveram juntos a ambiguidade do requisito original.</p></div>
+          <div class="ponto"><h3>Formalizar já revela falhas</h3><p>O próprio processo de formalização, como em REQ-SAFE-005, pode achar uma falha antes de qualquer verificação de código.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática · 18:00–19:30</p>
+      <h2>Formalize dois requisitos do NexaBot</h2>
+      <div class="slide-content-box">
+        <ol class="lista-numerada">
+          <li>Escolha dois requisitos adicionais (ex.: limite de corrente de partida; registro de eventos de segurança).</li>
+          <li>Escreva o texto em linguagem natural, como um cliente escreveria.</li>
+          <li>Identifique duas leituras ambíguas que o texto admite.</li>
+          <li>Escreva o predicado Python equivalente à assinatura <code>verificar_transicao</code>.</li>
+          <li>Classifique o tipo de propriedade e justifique em duas frases.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="slide-footer"><span>Model-Based Design · Unidade 3</span><span>Aula 9 — Videoaula 9</span></div>
+  </section>
+
+  <section class="slide slide-fim">
+    <div class="fim-logo">
+      <svg width="220" height="54" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
+    </div>
+    <div class="fim-cluster-topo">
+      <svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg>
+    </div>
+    <div class="fim-cluster-base">
+      <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg>
+    </div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Esta aula transformou um requisito ambíguo em predicados Python verificáveis, com cinco tipos de propriedade formal e os sete REQ-SAFE do NexaBot documentados como código.</p>
+      <p class="fim-proxima">Próxima aula: Aula 10 — o verificador explora exaustivamente o espaço de estados do supervisor, e um bug real de prioridade é introduzido, diagnosticado e corrigido ao vivo.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão · 19:30–20:00</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Navegação -->
+<nav class="nav" role="navigation" aria-label="Navegação dos slides">
+  <button id="prev" aria-label="Slide anterior">‹</button>
+  <span class="counter"><span id="cur">1</span> / <span id="total">1</span></span>
+  <button id="next" aria-label="Próximo slide">›</button>
+</nav>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const cur = document.getElementById('cur');
+  const total = document.getElementById('total');
+  const prev = document.getElementById('prev');
+  const next = document.getElementById('next');
+  let i = 0;
+  total.textContent = slides.length;
+
+  function show(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === n));
+    cur.textContent = n + 1;
+    prev.disabled = (n === 0);
+    next.disabled = (n === slides.length - 1);
+    i = n;
+    if (history.replaceState) history.replaceState(null, '', '#' + (n + 1));
+  }
+  prev.addEventListener('click', () => show(i - 1));
+  next.addEventListener('click', () => show(i + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft' || e.key === 'PageUp')  { e.preventDefault(); show(i - 1); }
+    if (e.key === 'Home') show(0);
+    if (e.key === 'End')  show(slides.length - 1);
+  });
+  // jump to slide by URL hash (#3 = slide 3)
+  const hash = parseInt(location.hash.replace('#', ''), 10);
+  if (!isNaN(hash) && hash >= 1 && hash <= slides.length) i = hash - 1;
+  show(i);
+</script>
+<script src="../../../../assets/fullscreen-button.js"></script>
+</body>
+</html>

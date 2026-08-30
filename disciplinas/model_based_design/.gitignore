@@ -1,0 +1,23 @@
+# Ambientes e dependências reinstaláveis — não versionar.
+# Reconstrução: ver AMBIENTE_E_STACK.md (uv venv + uv pip install) e,
+# para as fórmulas, `npm install mathjax-full --prefix tools`.
+tools/.venv/
+tools/node_modules/
+tools/package-lock.json
+projeto_nexabot/.venv/
+
+# Cache de fórmulas renderizadas (7,7 MB de PNG). É derivado do Markdown e
+# reconstruído por `tools/.venv/bin/python tools/formulas.py`, que leva alguns
+# minutos. Versioná-lo pesaria o repositório sem ganho de rastreabilidade.
+tools/_cache_formulas/
+
+# Artefatos de build do laboratório
+__pycache__/
+*.pyc
+*.so
+*.o
+.pytest_cache/
+.hypothesis/
+.coverage
+htmlcov/
+*.egg-info/

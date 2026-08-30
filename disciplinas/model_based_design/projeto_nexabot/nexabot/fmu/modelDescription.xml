@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  modelDescription.xml — FMU FMI 3.0 de Co-Simulation "NexaBotPlant".
+
+  Encapsula a planta do motor CC de tracao do NexaBot (nexabot/plant.py),
+  com os mesmos parametros identificados de nexabot/params.py. Usado na
+  Aula 8 ("Co-simulacao planta-controlador com FMI 3.0") para acoplar a
+  planta (em C, dentro deste FMU) ao DiscretePID (em Python, no mestre
+  de co-simulacao nexabot/cosim.py).
+
+  As valueReferences abaixo devem bater EXATAMENTE com as constantes
+  VR_U_VOLTS / VR_TAU_LOAD / VR_OMEGA / VR_CURRENT definidas em
+  nexabot/fmu/plant_fmu.c.
+-->
+<fmiModelDescription
+  fmiVersion="3.0"
+  modelName="NexaBotPlant"
+  description="Planta do motor CC de tracao do NexaBot (eixo esquerdo): estado [corrente, velocidade angular do motor], entradas tensao de armadura e torque de carga."
+  generationTool="nexabot/fmu/build_fmu.py"
+  generationDateAndTime="2026-08-29T00:00:00Z"
+  instantiationToken="{7d9f9d0a-6b0e-4b0a-9a6d-1f9c2e6b0a01}">
+
+  <CoSimulation
+    modelIdentifier="NexaBotPlant"
+    canHandleVariableCommunicationStepSize="true"
+    canGetAndSetFMUstate="false"
+    canSerializeFMUstate="false"
+    providesDirectionalDerivatives="false"
+    providesAdjointDerivatives="false"/>
+
+  <LogCategories>
+    <Category name="logStatusError" description="Mensagens de erro do FMU"/>
+  </LogCategories>
+
+  <DefaultExperiment startTime="0" stopTime="10" stepSize="0.005"/>
+
+  <ModelVariables>
+    <Float64 name="time"
+             valueReference="4"
+             causality="independent"
+             variability="continuous"
+             description="Tempo de simulacao [s] (variavel independente, exigida pela FMI 3.0)."/>
+    <Float64 name="u_volts"
+             valueReference="0"
+             causality="input"
+             variability="continuous"
+             start="0.0"
+             description="Tensao de armadura aplicada ao motor CC [V] (saturada em +-V_max dentro da planta)."/>
+    <Float64 name="tau_load"
+             valueReference="1"
+             causality="input"
+             variability="continuous"
+             start="0.0"
+             description="Torque de carga refletido ao eixo do motor [N.m] (positivo freia o eixo)."/>
+    <Float64 name="omega"
+             valueReference="2"
+             causality="output"
+             variability="continuous"
+             initial="exact"
+             start="0.0"
+             description="Velocidade angular do motor [rad/s] — estado da planta, y = w."/>
+    <Float64 name="current"
+             valueReference="3"
+             causality="output"
+             variability="continuous"
+             initial="exact"
+             start="0.0"
+             description="Corrente de armadura [A] — estado interno da planta."/>
+  </ModelVariables>
+
+  <ModelStructure>
+    <Output valueReference="2"/>
+    <Output valueReference="3"/>
+  </ModelStructure>
+
+</fmiModelDescription>

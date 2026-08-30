@@ -1,0 +1,58 @@
+name: MBD CI — NexaBot
+
+# CI de Model-Based Design: qualquer alteração no repositório roda a suíte
+# pytest completa, a checagem de equivalência SIL (código gerado x modelo)
+# e a geração da matriz de rastreabilidade — as três evidências que a
+# Aula 14/16 discutem como insumo de um processo de qualidade, não como
+# "certificação" (ver aula_16/02_evidencias.py e nexabot/rastreabilidade.py).
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+jobs:
+  mbd:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: disciplinas/model_based_design/projeto_nexabot
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Instala Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instala gcc (necessário para o SIL — compila o C gerado)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc
+
+      - name: Instala o projeto e dependências (uv)
+        run: |
+          python -m pip install --upgrade pip uv
+          uv venv .venv
+          uv pip install --python .venv/bin/python -e .
+
+      - name: Testes automatizados (pytest)
+        run: .venv/bin/python -m pytest -q
+
+      - name: Equivalência SIL — código gerado x modelo (Aula 14)
+        run: |
+          .venv/bin/python aula_14/02_equivalencia.py
+          .venv/bin/python aula_14/03_regressao.py
+
+      - name: Matriz de rastreabilidade (Aula 16)
+        run: .venv/bin/python aula_16/01_matriz_rastreabilidade.py
+
+      - name: Publica a matriz de rastreabilidade como artefato
+        uses: actions/upload-artifact@v4
+        with:
+          name: rastreabilidade
+          path: disciplinas/model_based_design/projeto_nexabot/rastreabilidade.md

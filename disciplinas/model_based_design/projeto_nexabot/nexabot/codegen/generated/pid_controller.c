@@ -1,0 +1,174 @@
+/* ============================================================================
+ * ARQUIVO GERADO AUTOMATICAMENTE — NÃO EDITAR MANUALMENTE
+ *
+ * Qualquer edição manual será perdida na próxima geração e quebra a
+ * cadeia de rastreabilidade requisito -> modelo -> código -> teste
+ * (ver nexabot/rastreabilidade.py e rastreabilidade.md).
+ *
+ * Requisitos de origem   : REQ-CTRL-001, REQ-CTRL-002, REQ-CTRL-003, REQ-CODEGEN-001, REQ-CODEGEN-002
+ * Modelo de referência   : nexabot.controllers.DiscretePID (pacote nexabot v1.0.0)
+ * Gerador                : nexabot/codegen/generate.py + templates Jinja2 (pid_controller.c.h.j2)
+ * Parâmetros do modelo   : Kp=2.0, Ki=40.0, Kd=0.02, Ts=0.005, u_max=24.0, tau_f=0.01, Kaw=1.0
+ * Hash SHA-256 (params)  : dc3b95c3d13a052d4dee683c2d5cd75bbc3c3996dede09f747dc8c076c32fa13
+ * Gerado em (UTC)        : 2026-08-29T23:56:04Z
+ *
+ * Equações derivadas simbolicamente por SymPy a partir da forma
+ * contínua do PID (Kp + Ki/s + Kd.s/(1+tau_f.s)), via discretização
+ * de Euler para trás (ver nexabot/codegen/derive.py):
+ *   I[k] = I[k-1] + Ki*Ts*e[k]
+ *   D[k] = (Kd*(e[k]-e[k-1]) + tau_f*D[k-1]) / (tau_f + Ts)
+ ============================================================================= */
+#include "pid_controller.h"
+
+/* ===========================================================================
+ * Variante em double — reprodução exata do contrato de DiscretePID.step
+ * (nexabot/controllers.py):
+ *
+ *   e[k]   = r[k] - y[k]
+ *   I[k]   = I[k-1] + Ki.Ts.e[k]
+ *   D[k]   = (Kd.(e[k]-e[k-1]) + tau_f.D[k-1]) / (tau_f + Ts)
+ *   u_ns   = Kp.e[k] + I[k] + D[k]
+ *   u[k]   = sat(u_ns, -u_max, +u_max)
+ *   se u[k] != u_ns:  I[k] <- I[k] + Kaw.(u[k] - u_ns).Ts
+ *
+ * As equações de I[k] e D[k] acima foram derivadas simbolicamente por
+ * `nexabot/codegen/derive.py` a partir da forma contínua do PID
+ * (Kp + Ki/s + Kd.s/(1+tau_f.s)) via discretização de Euler para trás —
+ * não foram digitadas a partir do zero. Ver Aula 13.
+ * ======================================================================== */
+
+void pid_init(pid_controller_t *pid, double Kp, double Ki, double Kd,
+              double Ts, double u_max, double tau_f, double Kaw)
+{
+    pid->Kp = Kp;
+    pid->Ki = Ki;
+    pid->Kd = Kd;
+    pid->Ts = Ts;
+    pid->u_max = u_max;
+    pid->tau_f = tau_f;
+    pid->Kaw = Kaw;
+    pid_reset(pid);
+}
+
+void pid_reset(pid_controller_t *pid)
+{
+    pid->integral = 0.0;
+    pid->e_prev = 0.0;
+    pid->d_state = 0.0;
+}
+
+double pid_step(pid_controller_t *pid, double r, double y)
+{
+    double e = r - y;
+
+    pid->integral += pid->Ki * pid->Ts * e;
+
+    double d = (pid->Kd * (e - pid->e_prev) + pid->tau_f * pid->d_state) /
+               (pid->tau_f + pid->Ts);
+
+    double u_unsat = pid->Kp * e + pid->integral + d;
+
+    double u = u_unsat;
+    if (u > pid->u_max) {
+        u = pid->u_max;
+    } else if (u < -pid->u_max) {
+        u = -pid->u_max;
+    }
+
+    if (u != u_unsat) {
+        pid->integral += pid->Kaw * (u - u_unsat) * pid->Ts;
+    }
+
+    pid->e_prev = e;
+    pid->d_state = d;
+    return u;
+}
+
+/* ===========================================================================
+ * Variante em ponto fixo Q16.16 (int32_t,
+ * 16 bits fracionários -> resolução de
+ * 1/65536 ~= 1.526e-05).
+ *
+ * Multiplicação e divisão passam por acumulador de 64 bits para não
+ * transbordar antes do deslocamento -- é o padrão em microcontroladores
+ * de 32 bits sem FPU (ex.: núcleo Cortex-M sem unidade de ponto
+ * flutuante, ou operações que o compilador não conseguiria vetorizar em
+ * FPU de precisão simples). O erro introduzido em relação à variante em
+ * double é o erro de quantização Q16.16,
+ * medido na Aula 13 (script 03_ponto_fixo.py).
+ * ======================================================================== */
+
+static inline pid_fixed_t pid_fixed_mul(pid_fixed_t a, pid_fixed_t b)
+{
+    int64_t prod = (int64_t)a * (int64_t)b;
+    return (pid_fixed_t)(prod >> PID_FIXED_SHIFT);
+}
+
+static inline pid_fixed_t pid_fixed_div(pid_fixed_t a, pid_fixed_t b)
+{
+    int64_t num = ((int64_t)a) << PID_FIXED_SHIFT;
+    return (pid_fixed_t)(num / (int64_t)b);
+}
+
+pid_fixed_t pid_double_to_fixed(double x)
+{
+    double scaled = x * (double)PID_FIXED_ONE;
+    return (pid_fixed_t)(scaled >= 0.0 ? scaled + 0.5 : scaled - 0.5);
+}
+
+double pid_fixed_to_double(pid_fixed_t x)
+{
+    return (double)x / (double)PID_FIXED_ONE;
+}
+
+void pid_fixed_init(pid_fixed_controller_t *pid, double Kp, double Ki,
+                     double Kd, double Ts, double u_max, double tau_f,
+                     double Kaw)
+{
+    pid->Kp = pid_double_to_fixed(Kp);
+    pid->Ki = pid_double_to_fixed(Ki);
+    pid->Kd = pid_double_to_fixed(Kd);
+    pid->Ts = pid_double_to_fixed(Ts);
+    pid->u_max = pid_double_to_fixed(u_max);
+    pid->tau_f = pid_double_to_fixed(tau_f);
+    pid->Kaw = pid_double_to_fixed(Kaw);
+    pid_fixed_reset(pid);
+}
+
+void pid_fixed_reset(pid_fixed_controller_t *pid)
+{
+    pid->integral = 0;
+    pid->e_prev = 0;
+    pid->d_state = 0;
+}
+
+pid_fixed_t pid_fixed_step(pid_fixed_controller_t *pid, pid_fixed_t r,
+                            pid_fixed_t y)
+{
+    pid_fixed_t e = r - y;
+
+    pid->integral += pid_fixed_mul(pid_fixed_mul(pid->Ki, pid->Ts), e);
+
+    pid_fixed_t num_d = pid_fixed_mul(pid->Kd, e - pid->e_prev) +
+                         pid_fixed_mul(pid->tau_f, pid->d_state);
+    pid_fixed_t den_d = pid->tau_f + pid->Ts;
+    pid_fixed_t d = pid_fixed_div(num_d, den_d);
+
+    pid_fixed_t u_unsat = pid_fixed_mul(pid->Kp, e) + pid->integral + d;
+
+    pid_fixed_t u = u_unsat;
+    if (u > pid->u_max) {
+        u = pid->u_max;
+    } else if (u < -pid->u_max) {
+        u = -pid->u_max;
+    }
+
+    if (u != u_unsat) {
+        pid->integral += pid_fixed_mul(pid->Kaw,
+                                        pid_fixed_mul(u - u_unsat, pid->Ts));
+    }
+
+    pid->e_prev = e;
+    pid->d_state = d;
+    return u;
+}

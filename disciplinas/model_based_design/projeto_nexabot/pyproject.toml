@@ -1,0 +1,46 @@
+[project]
+name = "nexabot"
+version = "1.0.0"
+description = "Laboratório da disciplina Model-Based Design for Cyber-Physical Systems — AGV NexaBot"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Afonso Cesar Lelis Brandão" }]
+
+dependencies = [
+    "numpy>=2.5",
+    "scipy>=1.18",
+    "matplotlib>=3.11",
+    "sympy>=1.14",
+    "control>=0.10.2",
+    "jinja2>=3.1",
+    "hypothesis>=6.165",
+    "pytest>=9.1",
+    "coverage>=7.16",
+    "fmpy>=0.3.31",
+    "pyserial>=3.5",
+]
+
+[project.optional-dependencies]
+# Ferramentas externas opcionais (contraparte industrial das Aulas 8, 10, 11 e 15).
+# Nenhum laboratório obrigatório depende delas.
+embarcado = ["platformio>=6.1"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nexabot"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+source = ["nexabot"]
+omit = ["*/firmware/*", "*/templates/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true

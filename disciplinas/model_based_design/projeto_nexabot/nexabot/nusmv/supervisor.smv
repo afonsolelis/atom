@@ -1,0 +1,116 @@
+-- Supervisor de segurança do NexaBot em SMV — mesma máquina de estados de
+-- nexabot/supervisor.py, para o verificador de mercado NuSMV.
+--
+-- Este arquivo existe por valor pedagógico e de comparação: a verificação
+-- CANÔNICA da disciplina roda no model checker de estados explícitos escrito
+-- do zero em nexabot/modelcheck.py (Aula 10), não aqui. Ver
+-- nexabot/nusmv/README.md para o motivo e para como instalar o NuSMV neste
+-- ambiente sem privilégios de root.
+--
+-- REQ-SAFE-006 (temporizado) não é modelado aqui: um NuSMV BDD simples não
+-- tem relógio nativo, e a disciplina já trata esse requisito com um
+-- autômato temporizado dedicado em nexabot/timed.py (Aula 11).
+
+MODULE main
+VAR
+  estado : {OCIOSO, MOVENDO, DESACELERANDO, PARADO_OBSTACULO, FALHA, EMERGENCIA};
+  comando_partir : boolean;
+  comando_parar  : boolean;
+  obstaculo      : boolean;
+  emergencia     : boolean;
+  falha_encoder  : boolean;
+  rearme         : boolean;
+  parado         : boolean; -- abstração de |velocidade| <= V_TOL
+
+ASSIGN
+  init(estado) := OCIOSO;
+
+  next(estado) := case
+    -- REQ-SAFE-004: FALHA é estritamente absorvente.
+    estado = FALHA & rearme & !falha_encoder & emergencia  : EMERGENCIA;
+    estado = FALHA & rearme & !falha_encoder & !emergencia : OCIOSO;
+    estado = FALHA                                          : FALHA;
+
+    -- REQ-SAFE-002: emergência tem prioridade sobre o restante.
+    emergencia : EMERGENCIA;
+    estado = EMERGENCIA & rearme & falha_encoder  : FALHA;
+    estado = EMERGENCIA & rearme & !falha_encoder : OCIOSO;
+    estado = EMERGENCIA                            : EMERGENCIA;
+
+    falha_encoder : FALHA;
+
+    -- REQ-SAFE-001: obstáculo interrompe qualquer movimento.
+    obstaculo & (estado = MOVENDO | estado = DESACELERANDO | estado = PARADO_OBSTACULO) : PARADO_OBSTACULO;
+    obstaculo : OCIOSO;
+
+    estado = OCIOSO & comando_partir : MOVENDO;
+    estado = OCIOSO                   : OCIOSO;
+
+    estado = MOVENDO & comando_parar : DESACELERANDO;
+    estado = MOVENDO                  : MOVENDO;
+
+    estado = DESACELERANDO & parado : OCIOSO;
+    estado = DESACELERANDO           : DESACELERANDO;
+
+    -- REQ-SAFE-005: obstáculo removido + partida => volta a MOVENDO.
+    estado = PARADO_OBSTACULO & comando_partir : MOVENDO;
+    estado = PARADO_OBSTACULO                   : OCIOSO;
+
+    TRUE : estado;
+  esac;
+
+DEFINE
+  torque_habilitado := case
+    estado = FALHA     : FALSE;
+    emergencia          : FALSE;
+    estado = EMERGENCIA : FALSE;
+    falha_encoder       : FALSE;
+    obstaculo           : FALSE;
+    estado = OCIOSO & comando_partir : TRUE;
+    estado = OCIOSO                   : FALSE;
+    estado = MOVENDO & comando_parar : FALSE;
+    estado = MOVENDO                  : TRUE;
+    estado = DESACELERANDO            : FALSE;
+    estado = PARADO_OBSTACULO & comando_partir : TRUE;
+    estado = PARADO_OBSTACULO                   : FALSE;
+    TRUE : FALSE;
+  esac;
+
+  freio_acionado := case
+    estado = FALHA     : TRUE;
+    emergencia          : TRUE;
+    estado = EMERGENCIA : TRUE;
+    falha_encoder       : TRUE;
+    obstaculo & (estado = MOVENDO | estado = DESACELERANDO | estado = PARADO_OBSTACULO) : TRUE;
+    obstaculo : FALSE;
+    estado = OCIOSO         : FALSE;
+    estado = MOVENDO        : FALSE;
+    estado = DESACELERANDO  : TRUE;
+    estado = PARADO_OBSTACULO : FALSE;
+    TRUE : FALSE;
+  esac;
+
+-- ---------------------------------------------------------------------
+-- Propriedades formais (REQ-SAFE-001 a 005; REQ-SAFE-006 fica em timed.py)
+-- ---------------------------------------------------------------------
+
+-- REQ-SAFE-001 (invariante): nunca torque habilitado com obstáculo presente.
+LTLSPEC G !(torque_habilitado & obstaculo);
+SPEC AG !(torque_habilitado & obstaculo);
+
+-- REQ-SAFE-002 (invariante): emergência => freio acionado e torque desabilitado.
+LTLSPEC G (emergencia -> (!torque_habilitado & freio_acionado));
+SPEC AG (emergencia -> (!torque_habilitado & freio_acionado));
+
+-- REQ-SAFE-003 (alcançabilidade): MOVENDO é alcançável a partir de OCIOSO
+-- (o estado inicial do modelo já é OCIOSO, então EF basta).
+SPEC EF (estado = MOVENDO);
+
+-- REQ-SAFE-004 (segurança): de FALHA só se sai com rearme explícito.
+LTLSPEC G ((estado = FALHA & X (estado != FALHA)) -> rearme);
+
+-- REQ-SAFE-005 (vivacidade): obstáculo removido + partida, sem falha/emergência
+-- concorrente => o PRÓXIMO estado é MOVENDO (o requisito completo, já com a
+-- qualificação descoberta pelo model checker Python na Aula 9).
+LTLSPEC G ((estado = PARADO_OBSTACULO & !obstaculo & comando_partir
+            & !emergencia & !falha_encoder) -> X (estado = MOVENDO));
