@@ -834,6 +834,7 @@
       <div class="logo-marca">
         <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
+      <p class="kicker">Aula 8 — Videoaula 8</p>
       <h1>Dois relógios, um só resultado: o preço de espaçar a comunicação</h1>
       <div class="subtitulo">Unidade 2 — Modelagem e simulação de sistemas de controle</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
@@ -870,7 +871,7 @@
         <ul>
           <li>FMI 3.0 e a estrutura de um FMU de co-simulação</li>
           <li><code>nexabot/cosim.py</code>: o mestre e o acoplamento Jacobi</li>
-          <li>Erro de acoplamento e sua relação com $T_s$</li>
+          <li>Erro de acoplamento e sua relação com T_s</li>
           <li>Verificar o FMU antes de julgar o acoplamento</li>
           <li>Passo de comunicação: de 1 a 50 ms</li>
           <li>Aplicação: integração multiferramenta na indústria</li>
@@ -909,9 +910,9 @@
       <h2>Dois programas, uma tabela</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Tabela já em execução: velocidade converge a $1{,}0000\,\mathrm{m/s}$; tensão de comando se estabiliza em $18{,}8533\,\mathrm{V}$ — igual ao regime já calculado na Unidade 1.</li>
-          <li>Por trás da tabela: a planta do NexaBot em C nativo e o controlador PID em Python, trocando dados a cada $5\,\mathrm{ms}$ via FMI.</li>
-          <li>Sugestão da equipe de firmware: espaçar a troca para $50\,\mathrm{ms}$ para reduzir sobrecarga de comunicação.</li>
+          <li>Tabela já em execução: velocidade converge a 1,0000&nbsp;m/s; tensão de comando se estabiliza em 18,8533&nbsp;V — igual ao regime já calculado na Unidade 1.</li>
+          <li>Por trás da tabela: a planta do NexaBot em C nativo e o controlador PID em Python, trocando dados a cada 5&nbsp;ms via FMI.</li>
+          <li>Sugestão da equipe de firmware: espaçar a troca para 50&nbsp;ms para reduzir sobrecarga de comunicação.</li>
           <li>Esta aula mede esse prejuízo, em vez de presumir que ele é pequeno.</li>
         </ul>
       </div>
@@ -942,7 +943,7 @@
       <h2>nexabot/cosim.py — o mestre e o acoplamento Jacobi</h2>
       <div class="slide-content-box">
         <ul>
-          <li>A cada passo de comunicação $H$: lê a velocidade do FMU, calcula o <code>DiscretePID</code> em Python, escreve a nova tensão, chama <code>doStep</code> para avançar $H$ segundos.</li>
+          <li>A cada passo de comunicação H: lê a velocidade do FMU, calcula o <code>DiscretePID</code> em Python, escreve a nova tensão, chama <code>doStep</code> para avançar H segundos.</li>
           <li>Entre pontos de comunicação, cada lado mantém a última entrada constante — retenção de ordem zero imposta pelo protocolo, distinta da do atuador físico.</li>
           <li>Essa disciplina tem nome técnico: <strong>acoplamento Jacobi</strong>.</li>
         </ul>
@@ -955,12 +956,12 @@
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">TELA: editor · 04:40–06:00</p>
-      <h2>Erro de acoplamento e sua relação com $T_s$</h2>
+      <h2>Erro de acoplamento e sua relação com T_s</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Quanto maior $H$, mais desatualizada fica a informação em cada lado — mesmo efeito que a Aula 7 mediu para o período de amostragem do controlador.</li>
-          <li>Aqui, $H$ também é o intervalo em que a planta em C fica sem saber que a tensão mudou: os dois efeitos se somam.</li>
-          <li>Na prática desta disciplina, $H$ quase sempre é escolhido igual a $T_s$ — aumentar $H$ sem cuidado equivale a aumentar o período de amostragem de todo o sistema.</li>
+          <li>Quanto maior H, mais desatualizada fica a informação em cada lado — mesmo efeito que a Aula 7 mediu para o período de amostragem do controlador.</li>
+          <li>Aqui, H também é o intervalo em que a planta em C fica sem saber que a tensão mudou: os dois efeitos se somam.</li>
+          <li>Na prática desta disciplina, H quase sempre é escolhido igual a T_s — aumentar H sem cuidado equivale a aumentar o período de amostragem de todo o sistema.</li>
         </ul>
       </div>
     </div>
@@ -976,7 +977,7 @@
         <ul>
           <li>O controlador já é o mesmo <code>DiscretePID</code> com o contrato fechado na Aula 7 — nenhuma equação nova.</li>
           <li>O que muda é o lado da planta: agora um binário C, carregado por interface padronizada, como se viesse de outra equipe.</li>
-          <li>Na Unidade 4, é o controlador que passa a ser C — mas os limites de $H$ vêm da física da planta, não da linguagem de implementação.</li>
+          <li>Na Unidade 4, é o controlador que passa a ser C — mas os limites de H vêm da física da planta, não da linguagem de implementação.</li>
         </ul>
       </div>
     </div>
@@ -1028,7 +1029,7 @@
           <div class="stat-card"><span class="numero-grande">18,8533&nbsp;V</span><span class="legenda">tensão de regime — bate com a Unidade 1</span></div>
           <div class="stat-card"><span class="numero-grande">400,0000&nbsp;rad/s</span><span class="legenda">velocidade de regime — degrau de 1,0 m/s</span></div>
         </div>
-        <p>Sobressinal $23{,}430\%$, tempo de subida $160\,\mathrm{ms}$, acomodação $605\,\mathrm{ms}$ — muito próximos do acoplamento direto em Python, sem ponte FMI.</p>
+        <p>Sobressinal 23,430%, tempo de subida 160&nbsp;ms, acomodação 605&nbsp;ms — muito próximos do acoplamento direto em Python, sem ponte FMI.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
@@ -1042,7 +1043,7 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_08/04_erro_de_acoplamento.py</div>
         <table class="tabela-industrial">
-          <thead><tr><th>$H$</th><th>Erro RMS relativo</th></tr></thead>
+          <thead><tr><th>H</th><th>Erro RMS relativo</th></tr></thead>
           <tbody>
             <tr><td>1&nbsp;ms</td><td>0,0284%</td></tr>
             <tr><td>5&nbsp;ms</td><td>0,2544%</td></tr>
@@ -1051,7 +1052,7 @@
             <tr><td>50&nbsp;ms</td><td><strong>6,2299%</strong></td></tr>
           </tbody>
         </table>
-        <p>Mais de 200 vezes o erro do caso de 1&nbsp;ms; o erro máximo instantâneo chega a quase 14% em 50&nbsp;ms — referência quase contínua em $H=0{,}5\,\mathrm{ms}$.</p>
+        <p>Mais de 200 vezes o erro do caso de 1&nbsp;ms; o erro máximo instantâneo chega a quase 14% em 50&nbsp;ms — referência quase contínua em H=0,5&nbsp;ms.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 8 — Videoaula 8</span></div>
@@ -1080,7 +1081,7 @@
       <h2>Pontos-chave</h2>
       <div class="slide-content-box">
         <div class="pontos-chave">
-          <div class="ponto"><h3>Integradores independentes</h3><p>Co-simulação troca dados só nos pontos de comunicação espaçados por $H$, em vez de integrar um modelo monolítico.</p></div>
+          <div class="ponto"><h3>Integradores independentes</h3><p>Co-simulação troca dados só nos pontos de comunicação espaçados por H, em vez de integrar um modelo monolítico.</p></div>
           <div class="ponto"><h3>Um FMU é um .zip</h3><p>XML de descrição + biblioteca binária; qualquer ferramenta compatível com FMI o carrega sem ver o código-fonte.</p></div>
           <div class="ponto"><h3>Verificar antes de julgar</h3><p><code>verify_fmu.py</code> separou erro de implementação (5,5×10⁻¹⁰%) de erro de acoplamento.</p></div>
           <div class="ponto"><h3>0,03% a 6,23%</h3><p>O erro de acoplamento do NexaBot cresce continuamente de 1 a 50 ms de passo de comunicação.</p></div>

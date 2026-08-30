@@ -826,6 +826,7 @@
       <div class="logo-marca">
         <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
+      <p class="kicker">Aula 5 — Videoaula 5</p>
       <h1>A carga muda, e a malha aberta erra de novo</h1>
       <div class="subtitulo">Unidade 2 — Modelagem e simulação de sistemas de controle</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
@@ -840,7 +841,7 @@
         <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
       <h1>Audiodescrição</h1>
-      <p class="audio-texto">Os slides seguem o padrão visual UniFECAF: fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. Esta disciplina é gravada por captura de tela e câmera, sem deck de slides na gravação: cada cartão aqui funciona como apoio de produção, indicando quando a gravação mostra o terminal ou o editor de código e quais números e comandos aparecem em cada trecho. Os recursos visuais desta aula ilustram a malha aberta e a malha fechada com distúrbio de carga, as curvas de módulo da sensibilidade $S$ e da complementar $T$ com a soma constante destacada, e a velocidade do NexaBot sob carga comparando as duas malhas.</p>
+      <p class="audio-texto">Os slides seguem o padrão visual UniFECAF: fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. Esta disciplina é gravada por captura de tela e câmera, sem deck de slides na gravação: cada cartão aqui funciona como apoio de produção, indicando quando a gravação mostra o terminal ou o editor de código e quais números e comandos aparecem em cada trecho. Os recursos visuais desta aula ilustram a malha aberta e a malha fechada com distúrbio de carga, as curvas de módulo da sensibilidade S e da complementar T com a soma constante destacada, e a velocidade do NexaBot sob carga comparando as duas malhas.</p>
       <p class="nota-tempo">Apoio de produção — sem tela correspondente no vídeo.</p>
     </div>
   </section>
@@ -861,11 +862,11 @@
         <h2>Sumário</h2>
         <ul>
           <li>Álgebra de blocos: série, paralelo, realimentação</li>
-          <li>Sensibilidade $S$ e complementar $T$: a identidade $S+T=1$</li>
+          <li>Sensibilidade S e complementar T: a identidade S+T=1</li>
           <li>Erro em regime e o tipo do sistema</li>
-          <li>O PID como caso particular de $C(s)$</li>
+          <li>O PID como caso particular de C(s)</li>
           <li>Rejeição de distúrbio: malha aberta contra malha fechada</li>
-          <li>$S+T=1$ verificada numericamente</li>
+          <li>S+T=1 verificada numericamente</li>
           <li>Aplicação: cruzeiro automotivo, piloto automático, robótica</li>
         </ul>
         <p class="nota-tempo">Apoio de produção — sem tela correspondente no vídeo.</p>
@@ -882,8 +883,8 @@
       <div class="slide-content-box">
         <ul>
           <li>Montar a malha fechada do NexaBot por álgebra de blocos em <code>python-control</code> e validar contra uma redução simbólica manual.</li>
-          <li>Definir as funções de sensibilidade $S$ e complementar $T$ e verificar numericamente a identidade <strong>$S+T=1$</strong>.</li>
-          <li>Explicar por que um polo na origem em $C(s)$ elimina o erro de regime a um distúrbio constante.</li>
+          <li>Definir as funções de sensibilidade S e complementar T e verificar numericamente a identidade <strong>S+T=1</strong>.</li>
+          <li>Explicar por que um polo na origem em C(s) elimina o erro de regime a um distúrbio constante.</li>
           <li>Comparar quantitativamente a rejeição a um distúrbio de carga em malha aberta e em malha fechada.</li>
         </ul>
         <p class="nota-tempo">Apoio de produção — sem tela correspondente no vídeo.</p>
@@ -916,8 +917,8 @@
       <h2>aula_05/01_algebra_blocos.py — série, paralelo, realimentação</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Controlador PD elementar: $K_p=6$ em paralelo com $K_d s$ puro, $K_d=0{,}01$, em série com $G(s)$ do NexaBot.</li>
-          <li><code>ct.series</code> multiplica, <code>ct.parallel</code> soma, <code>ct.feedback</code> resolve $L/(1+L)$ — a mesma álgebra de frações de uma redução manual.</li>
+          <li>Controlador PD elementar: K_p=6 em paralelo com K_d s puro, K_d=0,01, em série com G(s) do NexaBot.</li>
+          <li><code>ct.series</code> multiplica, <code>ct.parallel</code> soma, <code>ct.feedback</code> resolve L/(1+L) — a mesma álgebra de frações de uma redução manual.</li>
           <li>A vantagem não é fazer algo impossível à mão: é evitar erro de álgebra em polinômios de grau alto, com resultado auditável.</li>
           <li>As quatro tabelas bateram dentro de tolerância relativa de <strong>um milionésimo</strong>.</li>
         </ul>
@@ -930,17 +931,17 @@
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">TELA: editor · 03:20–05:10</p>
-      <h2>Sensibilidade $S$ e complementar $T$</h2>
+      <h2>Sensibilidade S e complementar T</h2>
       <div class="slide-content-box">
-        <p>Com $L(s)=C(s)G(s)$, a saída soma dois termos, ambos divididos por $1+L(s)$:</p>
+        <p>Com L(s)=C(s)G(s), a saída soma dois termos, ambos divididos por 1+L(s):</p>
         <table class="tabela-industrial">
           <thead><tr><th>Função</th><th>Definição</th><th>Multiplica o efeito de</th></tr></thead>
           <tbody>
-            <tr><td>Sensibilidade $S(s)$</td><td>$1/(1+L(s))$</td><td>Distúrbio de carga e ruído de medição</td></tr>
-            <tr><td>Complementar $T(s)$</td><td>$L(s)/(1+L(s))$</td><td>Referência</td></tr>
+            <tr><td>Sensibilidade S(s)</td><td>1/(1+L(s))</td><td>Distúrbio de carga e ruído de medição</td></tr>
+            <tr><td>Complementar T(s)</td><td>L(s)/(1+L(s))</td><td>Referência</td></tr>
           </tbody>
         </table>
-        <p><strong>$S(s)+T(s)=1$, sempre, em qualquer frequência</strong> — não é possível tornar $S$ e $T$ pequenos na mesma frequência, para nenhum $C(s)$ estabilizante.</p>
+        <p><strong>S(s)+T(s)=1, sempre, em qualquer frequência</strong> — não é possível tornar S e T pequenos na mesma frequência, para nenhum C(s) estabilizante.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
@@ -953,9 +954,9 @@
       <h2>Erro em regime permanente e o tipo do sistema</h2>
       <div class="slide-content-box">
         <ul>
-          <li>$G(s)$ do NexaBot não tem polo na origem — é <strong>tipo zero</strong>.</li>
-          <li>Se $C(s)$ também não tiver, $L(s)$ permanece tipo zero: erro de regime a um distúrbio constante é finito e diferente de zero.</li>
-          <li>Um único polo na origem em $C(s)$ eleva $L(s)$ a <strong>tipo um</strong>: $S(0)\to0$, e o erro de regime a qualquer distúrbio constante tende a zero.</li>
+          <li>G(s) do NexaBot não tem polo na origem — é <strong>tipo zero</strong>.</li>
+          <li>Se C(s) também não tiver, L(s) permanece tipo zero: erro de regime a um distúrbio constante é finito e diferente de zero.</li>
+          <li>Um único polo na origem em C(s) eleva L(s) a <strong>tipo um</strong>: S(0)→0, e o erro de regime a qualquer distúrbio constante tende a zero.</li>
           <li>Quem decide é o <em>número de integradores</em> no laço — não o valor dos ganhos.</li>
         </ul>
       </div>
@@ -967,13 +968,13 @@
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">TELA: editor · 07:00–08:30</p>
-      <h2>O PID como caso particular de $C(s)$: a ponte para a Aula 6</h2>
+      <h2>O PID como caso particular de C(s): a ponte para a Aula 6</h2>
       <div class="slide-content-box">
         <ul>
-          <li>$K_p+K_i/s+K_ds$ tem exatamente <strong>um polo na origem</strong> — suficiente para elevar $L(s)$ a tipo um e eliminar o erro de regime.</li>
+          <li>K_p+K_i/s+K_ds tem exatamente <strong>um polo na origem</strong> — suficiente para elevar L(s) a tipo um e eliminar o erro de regime.</li>
           <li>Só exige a velocidade medida pelo encoder — nenhum sensor adicional de corrente, ao contrário da realimentação de estados da Unidade 1.</li>
           <li>É por isso que o PID domina a indústria quando existe apenas um sensor de saída.</li>
-          <li>Escolher os três ganhos sem violar o limite físico de $24\,\mathrm{V}$ é o assunto da Aula 6.</li>
+          <li>Escolher os três ganhos sem violar o limite físico de 24&nbsp;V é o assunto da Aula 6.</li>
         </ul>
       </div>
     </div>
@@ -991,7 +992,7 @@
           <div class="stat-card"><span class="numero-grande">22,3%</span><span class="legenda">erro final — malha aberta</span></div>
           <div class="stat-card"><span class="numero-grande">≈0%</span><span class="legenda">erro final — malha fechada (PID)</span></div>
         </div>
-        <p>Cruzeiro de $1{,}00\,\mathrm{m/s}$ ($400\,\mathrm{rad/s}$); degrau de $162\,\mathrm{mN{\cdot}m}$ (30% do torque nominal) em $t=0{,}10\,\mathrm{s}$. Malha aberta estabiliza em $0{,}7771\,\mathrm{m/s}$; PID discreto ($K_p=2{,}0$, $K_i=50{,}0$, $K_d=0{,}001$, $T_s=5\,\mathrm{ms}$) recupera a referência, com a tensão subindo a $23{,}17\,\mathrm{V}$ e um pico que toca o teto de $24{,}00\,\mathrm{V}$.</p>
+        <p>Cruzeiro de 1,00&nbsp;m/s (400&nbsp;rad/s); degrau de 162&nbsp;mN·m (30% do torque nominal) em t=0,10&nbsp;s. Malha aberta estabiliza em 0,7771&nbsp;m/s; PID discreto (K_p=2,0, K_i=50,0, K_d=0,001, T_s=5&nbsp;ms) recupera a referência, com a tensão subindo a 23,17&nbsp;V e um pico que toca o teto de 24,00&nbsp;V.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 5 — Videoaula 5</span></div>
@@ -1001,16 +1002,16 @@
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Resultado · TELA: terminal · 11:00–13:30</p>
-      <h2>$S+T=1$, verificada numericamente</h2>
+      <h2>S+T=1, verificada numericamente</h2>
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_05/03_sensibilidade.py</div>
         <table class="tabela-industrial">
           <thead><tr><th>Frequência</th><th>Observação</th></tr></thead>
           <tbody>
-            <tr><td>200 pontos, $0{,}01$ a $10^6\,\mathrm{rad/s}$</td><td>maior desvio de $S+T-1$: <strong>$4{,}45\times10^{-16}$</strong> (ruído numérico)</td></tr>
-            <tr><td>$\omega\to0$</td><td>$|S|\approx-100{,}5\,\mathrm{dB}$, $|T|\approx1$</td></tr>
-            <tr><td>$364\,\mathrm{rad/s}$</td><td>pico de sensibilidade (água-cama): $|S|=1{,}4931$</td></tr>
-            <tr><td>$10^5\,\mathrm{rad/s}$</td><td>$|S|\to1$, $|T|\approx-100\,\mathrm{dB}$</td></tr>
+            <tr><td>200 pontos, 0,01 a 10⁶&nbsp;rad/s</td><td>maior desvio de S+T-1: <strong>4,45×10⁻¹⁶</strong> (ruído numérico)</td></tr>
+            <tr><td>ω→0</td><td>|S|≈-100,5&nbsp;dB, |T|≈1</td></tr>
+            <tr><td>364&nbsp;rad/s</td><td>pico de sensibilidade (água-cama): |S|=1,4931</td></tr>
+            <tr><td>10⁵&nbsp;rad/s</td><td>|S|→1, |T|≈-100&nbsp;dB</td></tr>
           </tbody>
         </table>
       </div>
@@ -1026,9 +1027,9 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_05/04_desafio.py</div>
         <ul>
-          <li>Cenário: degrau de $178{,}2\,\mathrm{mN{\cdot}m}$ (33% do torque nominal) em $t=0{,}15\,\mathrm{s}$, perto do limite que $24\,\mathrm{V}$ ainda compensam.</li>
-          <li>Critérios de aceitação: erro de regime entre 0 e $0{,}05\%$; sobressinal entre 0 e 3%; tempo de recuperação até $20\,\mathrm{ms}$.</li>
-          <li>Implementação de referência cumpre folgadamente; ganhos "fracos" ($K_p=0{,}2$, $K_i=5$) recuperam em ≈$85\,\mathrm{ms}$ e falham o critério de tempo.</li>
+          <li>Cenário: degrau de 178,2&nbsp;mN·m (33% do torque nominal) em t=0,15&nbsp;s, perto do limite que 24&nbsp;V ainda compensam.</li>
+          <li>Critérios de aceitação: erro de regime entre 0 e 0,05%; sobressinal entre 0 e 3%; tempo de recuperação até 20&nbsp;ms.</li>
+          <li>Implementação de referência cumpre folgadamente; ganhos "fracos" (K_p=0,2, K_i=5) recuperam em ≈85&nbsp;ms e falham o critério de tempo.</li>
         </ul>
       </div>
     </div>
@@ -1043,8 +1044,8 @@
       <div class="slide-content-box">
         <ul>
           <li><strong>Cruzeiro automotivo:</strong> malha aberta falha assim que a estrada sobe, como o NexaBot falhava sob carga; a malha fechada corrige continuamente.</li>
-          <li><strong>Piloto automático de aeronave:</strong> $T$ perto de 1 nas manobras normais, $S$ pequeno nas rajadas e no ruído de sensores inerciais — a mesma negociação de $S+T=1$.</li>
-          <li><strong>Braços robóticos:</strong> rigidez de malha — $T$ alto segue trajetória, mas transmite vibração; aumentar o ganho só desloca o problema de frequência, nunca o elimina.</li>
+          <li><strong>Piloto automático de aeronave:</strong> T perto de 1 nas manobras normais, S pequeno nas rajadas e no ruído de sensores inerciais — a mesma negociação de S+T=1.</li>
+          <li><strong>Braços robóticos:</strong> rigidez de malha — T alto segue trajetória, mas transmite vibração; aumentar o ganho só desloca o problema de frequência, nunca o elimina.</li>
         </ul>
       </div>
     </div>
@@ -1059,8 +1060,8 @@
       <div class="slide-content-box">
         <div class="pontos-chave">
           <div class="ponto"><h3>Álgebra auditável</h3><p><code>ct.series</code>, <code>ct.parallel</code> e <code>ct.feedback</code> reproduzem a redução simbólica manual — evitam erro em graus altos, não substituem o raciocínio.</p></div>
-          <div class="ponto"><h3>$S+T=1$</h3><p>Vale em qualquer frequência: nenhum projeto reduz sensibilidade a distúrbio e resposta a referência na mesma faixa ao mesmo tempo.</p></div>
-          <div class="ponto"><h3>Tipo do sistema</h3><p>O número de integradores em $L(s)$, não o valor dos ganhos, decide se o erro de regime é nulo ou apenas pequeno.</p></div>
+          <div class="ponto"><h3>S+T=1</h3><p>Vale em qualquer frequência: nenhum projeto reduz sensibilidade a distúrbio e resposta a referência na mesma faixa ao mesmo tempo.</p></div>
+          <div class="ponto"><h3>Tipo do sistema</h3><p>O número de integradores em L(s), não o valor dos ganhos, decide se o erro de regime é nulo ou apenas pequeno.</p></div>
           <div class="ponto"><h3>22,3% contra ≈0%</h3><p>Sob o mesmo degrau de 30% do torque nominal, a malha aberta perdeu velocidade permanentemente; a malha fechada recuperou a referência exata.</p></div>
         </div>
       </div>
@@ -1076,7 +1077,7 @@
       <div class="slide-content-box">
         <ol class="lista-numerada">
           <li>Repita o cálculo de erro de regime da malha aberta para um degrau de torque de carga de 40% do nominal, usando as equações de equilíbrio do texto-base.</li>
-          <li>Usando <code>aula_05/03_sensibilidade.py</code>, identifique a faixa de frequência em que $|S(j\omega)|$ é menor que um décimo.</li>
+          <li>Usando <code>aula_05/03_sensibilidade.py</code>, identifique a faixa de frequência em que |S(jω)| é menor que um décimo.</li>
           <li>Explique, em duas frases, o que essa faixa representa para a rejeição de distúrbios de baixa frequência no NexaBot.</li>
         </ol>
       </div>
@@ -1096,7 +1097,7 @@
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Esta aula formalizou por que fechar a malha resolve, de forma estrutural, a perda de velocidade sob carga do NexaBot: a identidade $S+T=1$ foi confirmada numericamente com desvio de $4{,}45\times10^{-16}$, e a rejeição de distúrbio caiu de $22{,}3\%$ de erro em malha aberta a praticamente zero em malha fechada.</p>
+      <p class="fim-texto">Esta aula formalizou por que fechar a malha resolve, de forma estrutural, a perda de velocidade sob carga do NexaBot: a identidade S+T=1 foi confirmada numericamente com desvio de 4,45×10⁻¹⁶, e a rejeição de distúrbio caiu de 22,3% de erro em malha aberta a praticamente zero em malha fechada.</p>
       <p class="fim-proxima">Próxima aula: Aula 6 — projeto e sintonia do PID por Ziegler-Nichols, tratando saturação e <em>windup</em> como parte do projeto, não como exceção.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>

@@ -834,6 +834,7 @@
       <div class="logo-marca">
         <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
+      <p class="kicker">Aula 6 — Videoaula 6</p>
       <h1>O integrador que não sabia parar</h1>
       <div class="subtitulo">Unidade 2 — Modelagem e simulação de sistemas de controle</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
@@ -890,7 +891,7 @@
       <div class="slide-content-box">
         <ul>
           <li>Descrever o contrato numérico do <code>DiscretePID</code>.</li>
-          <li>Obter o ganho crítico $K_u$ e o período crítico $T_u$ do NexaBot na malha discreta.</li>
+          <li>Obter o ganho crítico K_u e o período crítico T_u do NexaBot na malha discreta.</li>
           <li>Aplicar Ziegler-Nichols e comparar sintonias por quatro métricas objetivas.</li>
           <li>Explicar por que o <em>windup</em> do integrador exige uma correção explícita por <em>back-calculation</em>.</li>
         </ul>
@@ -909,8 +910,8 @@
       <h2>O windup já está acontecendo</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Pede-se ao NexaBot $4{,}0\,\mathrm{m/s}$ ($1\,600\,\mathrm{rad/s}$) — fisicamente impossível: o teto do motor a $24\,\mathrm{V}$ é $1{,}273\,\mathrm{m/s}$.</li>
-          <li>Tensão colada no teto de $24\,\mathrm{V}$ por meio segundo; velocidade sobe a um patamar bem abaixo do pedido — isso, sozinho, é apenas <strong>saturação</strong>.</li>
+          <li>Pede-se ao NexaBot 4,0&nbsp;m/s (1&nbsp;600&nbsp;rad/s) — fisicamente impossível: o teto do motor a 24&nbsp;V é 1,273&nbsp;m/s.</li>
+          <li>Tensão colada no teto de 24&nbsp;V por meio segundo; velocidade sobe a um patamar bem abaixo do pedido — isso, sozinho, é apenas <strong>saturação</strong>.</li>
           <li>A referência cai para um valor alcançável, e o robô demora quase <strong>2,5 segundos</strong> para obedecer — esse atraso é o problema real da aula.</li>
           <li>Cenário realista: operador digita velocidade errada, planejador mal calculado, ou bateria momentaneamente insuficiente sob carga.</li>
         </ul>
@@ -926,10 +927,10 @@
       <h2>nexabot/controllers.py — o contrato do DiscretePID</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Erro: $e[k]=r[k]-y[k]$.</li>
-          <li>Integral por Euler para trás: $I[k]=I[k-1]+K_iT_se[k]$.</li>
-          <li>Derivativo filtrado: $D[k]=\bigl(K_d(e[k]-e[k-1])+\tau_fD[k-1]\bigr)/(\tau_f+T_s)$.</li>
-          <li>Soma saturada entre $-24$ e $24\,\mathrm{V}$; estado inteiro cabe em duas variáveis — decisivo para um microcontrolador de memória limitada.</li>
+          <li>Erro: e[k]=r[k]-y[k].</li>
+          <li>Integral por Euler para trás: I[k]=I[k-1]+K_iT_se[k].</li>
+          <li>Derivativo filtrado: D[k]=(K_d(e[k]-e[k-1])+τ_fD[k-1])/(τ_f+T_s).</li>
+          <li>Soma saturada entre -24 e 24&nbsp;V; estado inteiro cabe em duas variáveis — decisivo para um microcontrolador de memória limitada.</li>
         </ul>
       </div>
     </div>
@@ -943,10 +944,10 @@
       <h2>Por que o ganho crítico só aparece na malha discreta</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Planta de 2ª ordem, dois polos reais, sem zero: em tempo contínuo, com proporcional puro, <strong>jamais</strong> entra em oscilação sustentada, para nenhum $K_p$.</li>
-          <li>Routh-Hurwitz satisfeito para qualquer $K_p&gt;0$ — a receita clássica de Ziegler-Nichols não teria "onde pegar" na malha contínua ideal.</li>
-          <li>A discretização por ZOH a $T_s=5\,\mathrm{ms}$ ($200\,\mathrm{Hz}$) introduz um atraso de fase que a planta contínua nunca teve.</li>
-          <li>A busca do ganho crítico é numérica, sobre a malha discreta <em>de fato</em> — não analítica sobre $G(s)$.</li>
+          <li>Planta de 2ª ordem, dois polos reais, sem zero: em tempo contínuo, com proporcional puro, <strong>jamais</strong> entra em oscilação sustentada, para nenhum K_p.</li>
+          <li>Routh-Hurwitz satisfeito para qualquer K_p&gt;0 — a receita clássica de Ziegler-Nichols não teria "onde pegar" na malha contínua ideal.</li>
+          <li>A discretização por ZOH a T_s=5&nbsp;ms (200&nbsp;Hz) introduz um atraso de fase que a planta contínua nunca teve.</li>
+          <li>A busca do ganho crítico é numérica, sobre a malha discreta <em>de fato</em> — não analítica sobre G(s).</li>
         </ul>
       </div>
     </div>
@@ -961,7 +962,7 @@
       <div class="slide-content-box">
         <ul>
           <li>Quatro métricas: sobressinal (%), tempo de subida (10–90%), tempo de acomodação (faixa de 2%) e ISE (integral do erro ao quadrado) — nenhuma substitui as outras três.</li>
-          <li>$I[k]=I[k-1]+K_iT_se[k]$ cresce enquanto o erro for diferente de zero, sem saber nada sobre saturação.</li>
+          <li>I[k]=I[k-1]+K_iT_se[k] cresce enquanto o erro for diferente de zero, sem saber nada sobre saturação.</li>
           <li>Referência inatingível → integrador cresce indefinidamente, sem sintoma visível na tensão, já presa no teto.</li>
           <li>O efeito só aparece quando a referência muda de novo — por isso escapa de um teste rápido em bancada.</li>
         </ul>
@@ -978,8 +979,8 @@
       <div class="slide-content-box">
         <div class="codigo-bloco">I[k] &lt;- I[k] + K_aw * (u[k] - u_ns) * T_s</div>
         <ul>
-          <li>Sempre que a saída saturada $u[k]$ difere da saída calculada $u_{ns}$, o integrador recebe uma correção proporcional.</li>
-          <li>Sem saturação: $u$ e $u_{ns}$ coincidem, correção zero — comporta-se como um PID comum.</li>
+          <li>Sempre que a saída saturada u[k] difere da saída calculada u_{ns}, o integrador recebe uma correção proporcional.</li>
+          <li>Sem saturação: u e u_{ns} coincidem, correção zero — comporta-se como um PID comum.</li>
           <li>Sob saturação: reduz o integrador na exata proporção do comando que não pôde ser aplicado, nem mais, nem menos.</li>
         </ul>
       </div>
@@ -995,10 +996,10 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_06/01_ganho_critico.py</div>
         <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">3,6911</span><span class="legenda">ganho crítico $K_u$</span></div>
-          <div class="stat-card"><span class="numero-grande">18,32&nbsp;ms</span><span class="legenda">período crítico $T_u$</span></div>
+          <div class="stat-card"><span class="numero-grande">3,6911</span><span class="legenda">ganho crítico K_u</span></div>
+          <div class="stat-card"><span class="numero-grande">18,32&nbsp;ms</span><span class="legenda">período crítico T_u</span></div>
         </div>
-        <p>Polo dominante em $-0{,}1432+0{,}9897j$. Oscilação sustentada: amplitude pico a pico de $11{,}40\,\mathrm{rad/s}$ na primeira metade contra $11{,}35\,\mathrm{rad/s}$ na segunda — praticamente idêntica, confirmando o limite de estabilidade.</p>
+        <p>Polo dominante em -0,1432+0,9897j. Oscilação sustentada: amplitude pico a pico de 11,40&nbsp;rad/s na primeira metade contra 11,35&nbsp;rad/s na segunda — praticamente idêntica, confirmando o limite de estabilidade.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
@@ -1014,12 +1015,12 @@
         <table class="tabela-industrial">
           <thead><tr><th>Sintonia</th><th>Sobressinal</th><th>Acomodação</th><th>ISE</th></tr></thead>
           <tbody>
-            <tr><td>Clássica ($K_p=2{,}2147$, $K_i=241{,}72$, $K_d=0{,}00507$)</td><td>24,84%</td><td>633,5&nbsp;ms</td><td>9&nbsp;926,5</td></tr>
+            <tr><td>Clássica (K_p=2,2147, K_i=241,72, K_d=0,00507)</td><td>24,84%</td><td>633,5&nbsp;ms</td><td>9&nbsp;926,5</td></tr>
             <tr><td>Sem sobressinal (Z-N)</td><td>—</td><td>—</td><td>9&nbsp;933,2</td></tr>
-            <tr><td>Manual ($K_p=1{,}3$, $K_i=15$, $K_d=0{,}01$)</td><td><strong>22,77%</strong></td><td>669&nbsp;ms</td><td><strong>9&nbsp;469,5</strong></td></tr>
+            <tr><td>Manual (K_p=1,3, K_i=15, K_d=0,01)</td><td><strong>22,77%</strong></td><td>669&nbsp;ms</td><td><strong>9&nbsp;469,5</strong></td></tr>
           </tbody>
         </table>
-        <p>Tempo de subida praticamente igual nas três, $159\,\mathrm{ms}$: o atuador satura em $24\,\mathrm{V}$ para qualquer uma delas nessa fase inicial.</p>
+        <p>Tempo de subida praticamente igual nas três, 159&nbsp;ms: o atuador satura em 24&nbsp;V para qualquer uma delas nessa fase inicial.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
@@ -1033,10 +1034,10 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_06/04_antiwindup.py</div>
         <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">2&nbsp;256,5&nbsp;ms</span><span class="legenda">recuperação sem anti-windup ($K_{aw}=0$; integrador em 9&nbsp;251,6)</span></div>
-          <div class="stat-card"><span class="numero-grande">872,5&nbsp;ms</span><span class="legenda">recuperação com anti-windup ($K_{aw}=2{,}0$; integrador em 4&nbsp;668,2)</span></div>
+          <div class="stat-card"><span class="numero-grande">2&nbsp;256,5&nbsp;ms</span><span class="legenda">recuperação sem anti-windup (K_{aw}=0; integrador em 9&nbsp;251,6)</span></div>
+          <div class="stat-card"><span class="numero-grande">872,5&nbsp;ms</span><span class="legenda">recuperação com anti-windup (K_{aw}=2,0; integrador em 4&nbsp;668,2)</span></div>
         </div>
-        <p>Mesma sintonia ($K_p=1{,}3$, $K_i=15$, $K_d=0{,}01$), mesma referência caindo de $4{,}0$ para $0{,}5\,\mathrm{m/s}$ em $t=0{,}5\,\mathrm{s}$: cerca de <strong>2,6 vezes mais rápido</strong> com uma única linha de correção.</p>
+        <p>Mesma sintonia (K_p=1,3, K_i=15, K_d=0,01), mesma referência caindo de 4,0 para 0,5&nbsp;m/s em t=0,5&nbsp;s: cerca de <strong>2,6 vezes mais rápido</strong> com uma única linha de correção.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 6 — Videoaula 6</span></div>
@@ -1066,7 +1067,7 @@
       <div class="slide-content-box">
         <div class="pontos-chave">
           <div class="ponto"><h3>Contrato do DiscretePID</h3><p>Proporcional, integral por Euler para trás e derivativo filtrado, com saturação e anti-windup explícitos.</p></div>
-          <div class="ponto"><h3>Ku e Tu discretos</h3><p>$K_u\approx3{,}6911$ e $T_u\approx18{,}32\,\mathrm{ms}$ só aparecem na malha discreta real.</p></div>
+          <div class="ponto"><h3>Ku e Tu discretos</h3><p>K_u≈3,6911 e T_u≈18,32&nbsp;ms só aparecem na malha discreta real.</p></div>
           <div class="ponto"><h3>Quatro métricas</h3><p>Sobressinal, subida, acomodação e ISE juntos decidem a sintonia — o ajuste manual venceu por ISE e sobressinal menores.</p></div>
           <div class="ponto"><h3>2,6x mais rápido</h3><p>O anti-windup reduziu o tempo de recuperação de 2.256,5&nbsp;ms para 872,5&nbsp;ms com uma única linha de correção.</p></div>
         </div>
@@ -1082,7 +1083,7 @@
       <h2>Explore o ganho de anti-windup</h2>
       <div class="slide-content-box">
         <ol class="lista-numerada">
-          <li>Repita <code>aula_06/04_antiwindup.py</code> alterando apenas $K_{aw}$ para $0{,}5$ e depois para $5{,}0$.</li>
+          <li>Repita <code>aula_06/04_antiwindup.py</code> alterando apenas K_{aw} para 0,5 e depois para 5,0.</li>
           <li>Registre o tempo de recuperação em cada caso.</li>
           <li>Explique, com base no que muda no integrador, por que um ganho de anti-windup muito alto também não é automaticamente a melhor escolha.</li>
         </ol>
@@ -1103,8 +1104,8 @@
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Esta aula projetou e sintonizou o PID do NexaBot pela malha discreta real ($K_u\approx3{,}6911$, $T_u\approx18{,}32\,\mathrm{ms}$), comparou quatro sintonias por métricas objetivas e corrigiu o windup do integrador ao vivo, reduzindo o tempo de recuperação de $2\,256{,}5\,\mathrm{ms}$ para $872{,}5\,\mathrm{ms}$.</p>
-      <p class="fim-proxima">Próxima aula: Aula 7 — discretização da malha e a justificativa numérica do período de amostragem de $5\,\mathrm{ms}$, incluindo o ponto exato em que economizar ciclos de processamento compromete a estabilidade.</p>
+      <p class="fim-texto">Esta aula projetou e sintonizou o PID do NexaBot pela malha discreta real (K_u≈3,6911, T_u≈18,32&nbsp;ms), comparou quatro sintonias por métricas objetivas e corrigiu o windup do integrador ao vivo, reduzindo o tempo de recuperação de 2&nbsp;256,5&nbsp;ms para 872,5&nbsp;ms.</p>
+      <p class="fim-proxima">Próxima aula: Aula 7 — discretização da malha e a justificativa numérica do período de amostragem de 5&nbsp;ms, incluindo o ponto exato em que economizar ciclos de processamento compromete a estabilidade.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>

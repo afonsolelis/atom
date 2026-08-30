@@ -349,6 +349,8 @@ Antes de fechar, pause a gravação e reflita sobre quatro perguntas. Primeira: 
 
 *[indicação de edição: inserir tela de pausa com contagem regressiva de 10 segundos e o texto "Pense e continue"]*
 
+### Fechamento
+
 **[18:40–19:30 · TELA: editor — pontos-chave e atividade prática]**
 
 Recapitulando os pontos-chave desta aula. Euler para frente, Euler para trás e Tustin discretizam de formas diferentes; o ZOH modela especificamente o que um atuador de tensão constante entre amostras realmente faz, e é por isso que a análise da malha fechada desta aula o usa. O período de cinco milissegundos do NexaBot dá cerca de vinte e nove vírgula seis amostras por constante de tempo mecânica, dentro da faixa recomendada de dez a trinta. A malha, com o PID moderado usado nesta aula, permanece com bom desempenho até cerca de oito vírgula vinte e seis milissegundos, degrada progressivamente depois disso, e se torna instável a partir de aproximadamente quarenta e quatro vírgula trinta e quatro milissegundos. Um único ciclo de atraso computacional custa mais margem de fase quanto maior for o período de amostragem, porque essa perda é proporcional a $\omega_{gc}\cdot T_s$, não uma penalidade fixa. E, entre encoder e PWM, é o encoder que domina o desempenho da malha, porque seu ruído de quantização entra direto na realimentação.

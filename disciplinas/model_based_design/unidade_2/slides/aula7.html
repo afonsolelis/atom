@@ -834,6 +834,7 @@
       <div class="logo-marca">
         <svg width="340" height="84" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
+      <p class="kicker">Aula 7 — Videoaula 7</p>
       <h1>Trinta amostras por constante de tempo: de onde vem esse número</h1>
       <div class="subtitulo">Unidade 2 — Modelagem e simulação de sistemas de controle</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
@@ -848,7 +849,7 @@
         <svg width="180" height="44" viewBox="0 0 271 67"><use href="#logo-marca"/></svg>
       </div>
       <h1>Audiodescrição</h1>
-      <p class="audio-texto">Os slides seguem o padrão visual UniFECAF: fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. Esta disciplina é gravada por captura de tela e câmera, sem deck de slides na gravação: cada cartão aqui funciona como apoio de produção, indicando quando a gravação mostra o terminal ou o editor de código e quais números e comandos aparecem em cada trecho. Os recursos visuais desta aula ilustram as respostas ao degrau de Euler para frente, Euler para trás e Tustin sobrepostas, o maior módulo de polo em função de $T_s$ cruzando o limite de instabilidade, e a linha do tempo de um ciclo de controle real.</p>
+      <p class="audio-texto">Os slides seguem o padrão visual UniFECAF: fundo azul-marinho com molduras de triângulos em amarelo, verde e ciano, e o conteúdo em cartões claros. Esta disciplina é gravada por captura de tela e câmera, sem deck de slides na gravação: cada cartão aqui funciona como apoio de produção, indicando quando a gravação mostra o terminal ou o editor de código e quais números e comandos aparecem em cada trecho. Os recursos visuais desta aula ilustram as respostas ao degrau de Euler para frente, Euler para trás e Tustin sobrepostas, o maior módulo de polo em função de T_s cruzando o limite de instabilidade, e a linha do tempo de um ciclo de controle real.</p>
       <p class="nota-tempo">Apoio de produção — sem tela correspondente no vídeo.</p>
     </div>
   </section>
@@ -869,7 +870,7 @@
         <h2>Sumário</h2>
         <ul>
           <li>Euler para frente, Euler para trás, Tustin e retenção de ordem zero</li>
-          <li>Escolha de $T_s$ a partir das constantes de tempo do NexaBot</li>
+          <li>Escolha de T_s a partir das constantes de tempo do NexaBot</li>
           <li>Atraso computacional e margem de fase</li>
           <li>Quantização de encoder e de PWM</li>
           <li>A varredura completa: bom desempenho, degradação, instabilidade</li>
@@ -890,7 +891,7 @@
       <div class="slide-content-box">
         <ul>
           <li>Distinguir Euler para frente, Euler para trás, Tustin e retenção de ordem zero como métodos de discretização.</li>
-          <li>Justificar numericamente a escolha de $T_s$ a partir das constantes de tempo do NexaBot.</li>
+          <li>Justificar numericamente a escolha de T_s a partir das constantes de tempo do NexaBot.</li>
           <li>Quantificar o custo de um atraso computacional de um ciclo em margem de fase.</li>
           <li>Explicar por que a resolução do encoder domina o desempenho da malha mais do que a resolução do PWM.</li>
         </ul>
@@ -909,8 +910,8 @@
       <h2>Uma proposta arriscada, já na tela</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Tabela na tela: 18 valores de $T_s$, de $0{,}5$ a $100\,\mathrm{ms}$, classificados como bom, degradado ou instável.</li>
-          <li>Um colega de firmware propôs aumentar o $T_s$ de $5\,\mathrm{ms}$ para liberar ciclos de CPU para outras tarefas.</li>
+          <li>Tabela na tela: 18 valores de T_s, de 0,5 a 100&nbsp;ms, classificados como bom, degradado ou instável.</li>
+          <li>Um colega de firmware propôs aumentar o T_s de 5&nbsp;ms para liberar ciclos de CPU para outras tarefas.</li>
           <li>Argumento: "a malha funcionou bem nas simulações contínuas, alguns milissegundos a mais não deveriam fazer diferença."</li>
           <li>A tabela já adianta: ultrapassar o limite não é desempenho um pouco pior — é a malha parar de funcionar.</li>
         </ul>
@@ -928,9 +929,9 @@
         <table class="tabela-industrial">
           <thead><tr><th>Método</th><th>Aproximação</th><th>Uso nesta disciplina</th></tr></thead>
           <tbody>
-            <tr><td>Euler para frente</td><td>$(x[k{+}1]-x[k])/T_s$</td><td>Simples, menor margem de estabilidade herdada</td></tr>
-            <tr><td>Euler para trás</td><td>$(x[k]-x[k{-}1])/T_s$</td><td>Termo integral do <code>DiscretePID</code></td></tr>
-            <tr><td>Tustin (bilinear)</td><td>$s\approx(2/T_s)(z-1)/(z+1)$</td><td>Preserva resposta em frequência</td></tr>
+            <tr><td>Euler para frente</td><td>(x[k+1]-x[k])/T_s</td><td>Simples, menor margem de estabilidade herdada</td></tr>
+            <tr><td>Euler para trás</td><td>(x[k]-x[k-1])/T_s</td><td>Termo integral do <code>DiscretePID</code></td></tr>
+            <tr><td>Tustin (bilinear)</td><td>s≈(2/T_s)(z-1)/(z+1)</td><td>Preserva resposta em frequência</td></tr>
             <tr><td>Retenção de ordem zero (ZOH)</td><td>tensão constante entre amostras</td><td>Discretização da planta — como o PWM se comporta de fato</td></tr>
           </tbody>
         </table>
@@ -943,12 +944,12 @@
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">TELA: editor · 03:10–04:40</p>
-      <h2>Escolha de $T_s$ a partir das constantes de tempo</h2>
+      <h2>Escolha de T_s a partir das constantes de tempo</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Polo lento do modelo acoplado: $138{,}6\,\mathrm{ms}$; aproximação mecânica desacoplada: $148{,}1\,\mathrm{ms}$.</li>
+          <li>Polo lento do modelo acoplado: 138,6&nbsp;ms; aproximação mecânica desacoplada: 148,1&nbsp;ms.</li>
           <li>Faixa recomendada pela literatura: 10 a 30 amostras por constante dominante.</li>
-          <li>Com $T_s=5\,\mathrm{ms}$: $27{,}7$ amostras pelo valor modal exato, ou $29{,}6$ pela aproximação — ambos dentro da faixa.</li>
+          <li>Com T_s=5&nbsp;ms: 27,7 amostras pelo valor modal exato, ou 29,6 pela aproximação — ambos dentro da faixa.</li>
         </ul>
       </div>
     </div>
@@ -962,9 +963,9 @@
       <h2>Atraso computacional e margem de fase</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Um ciclo de atraso entre ler o sensor e atualizar o comando se comporta como um atraso de transporte $e^{-sT_s}$.</li>
-          <li>Não muda o módulo de nenhuma frequência, mas subtrai fase — mais fase quanto maior $\omega\cdot T_s$.</li>
-          <li>O mesmo atraso de um ciclo custa pouca margem quando $T_s$ é pequeno, e muita margem quando $T_s$ é grande.</li>
+          <li>Um ciclo de atraso entre ler o sensor e atualizar o comando se comporta como um atraso de transporte e<sup>−sT_s</sup>.</li>
+          <li>Não muda o módulo de nenhuma frequência, mas subtrai fase — mais fase quanto maior ω· T_s.</li>
+          <li>O mesmo atraso de um ciclo custa pouca margem quando T_s é pequeno, e muita margem quando T_s é grande.</li>
         </ul>
       </div>
     </div>
@@ -978,9 +979,9 @@
       <h2>Quantização de encoder e de PWM</h2>
       <div class="slide-content-box">
         <ul>
-          <li>O encoder mede posição em pulsos inteiros; a velocidade por diferença herda essa granularidade — quanto menor $T_s$, mais ruidosa a estimativa.</li>
+          <li>O encoder mede posição em pulsos inteiros; a velocidade por diferença herda essa granularidade — quanto menor T_s, mais ruidosa a estimativa.</li>
           <li>O PWM é quantizado tipicamente entre 10 e 12 bits; a resolução resultante costuma ser desprezível.</li>
-          <li>Escolher $T_s$ equilibra três efeitos simultâneos: margem de fase, atraso computacional e ruído de quantização.</li>
+          <li>Escolher T_s equilibra três efeitos simultâneos: margem de fase, atraso computacional e ruído de quantização.</li>
         </ul>
       </div>
     </div>
@@ -997,9 +998,9 @@
         <table class="tabela-industrial">
           <thead><tr><th>Método</th><th>Erro RMS</th><th>Erro final</th></tr></thead>
           <tbody>
-            <tr><td>Euler para frente</td><td>$1{,}0858\,\mathrm{rad/s}$</td><td>$0{,}0323\%$</td></tr>
-            <tr><td>Tustin</td><td>$1{,}3234\,\mathrm{rad/s}$</td><td>$0{,}0059\%$</td></tr>
-            <tr><td>ZOH</td><td>$\sim10^{-9}\,\mathrm{rad/s}$</td><td>$\sim10^{-13}$</td></tr>
+            <tr><td>Euler para frente</td><td>1,0858&nbsp;rad/s</td><td>0,0323%</td></tr>
+            <tr><td>Tustin</td><td>1,3234&nbsp;rad/s</td><td>0,0059%</td></tr>
+            <tr><td>ZOH</td><td>~10⁻⁹&nbsp;rad/s</td><td>~10⁻¹³</td></tr>
           </tbody>
         </table>
         <p>O ZOH é exato porque reproduz literalmente como o driver aplica a tensão; o Tustin acerta melhor o valor final; nenhum método é sempre melhor — a métrica certa depende do que importa.</p>
@@ -1020,7 +1021,7 @@
           <div class="stat-card"><span class="numero-grande">11,29&nbsp;ms</span><span class="legenda">início da degradação</span></div>
           <div class="stat-card"><span class="numero-grande">44,34&nbsp;ms</span><span class="legenda">fronteira de instabilidade</span></div>
         </div>
-        <p>PID moderado ($K_p=0{,}5$, $K_i=5{,}0$, $K_d=0{,}0005$) contra degrau de $50\,\mathrm{rad/s}$. O $T_s=5\,\mathrm{ms}$ nominal do NexaBot fica bem dentro da faixa de bom desempenho.</p>
+        <p>PID moderado (K_p=0,5, K_i=5,0, K_d=0,0005) contra degrau de 50&nbsp;rad/s. O T_s=5&nbsp;ms nominal do NexaBot fica bem dentro da faixa de bom desempenho.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
@@ -1036,10 +1037,10 @@
         <table class="tabela-industrial">
           <thead><tr><th>Efeito</th><th>Resultado</th></tr></thead>
           <tbody>
-            <tr><td>Atraso de 1 ciclo em $T_s=5\,\mathrm{ms}$</td><td>margem $66{,}19°\to43{,}61°$ (perda de $22{,}58°$)</td></tr>
-            <tr><td>Atraso de 1 ciclo em $T_s=20\,\mathrm{ms}$</td><td>margem $32{,}51°\to-63{,}86°$ (perda de $96{,}37°$) — instável</td></tr>
-            <tr><td>Encoder grosseiro (128 pulsos/volta)</td><td>sobressinal $12{,}45\%$, chattering $1{,}5681\,\mathrm{V}$</td></tr>
-            <tr><td>PWM de 8 bits, encoder ideal</td><td>chattering $0{,}0927\,\mathrm{V}$ — 17× menor</td></tr>
+            <tr><td>Atraso de 1 ciclo em T_s=5&nbsp;ms</td><td>margem 66,19°→43,61° (perda de 22,58°)</td></tr>
+            <tr><td>Atraso de 1 ciclo em T_s=20&nbsp;ms</td><td>margem 32,51°→-63,86° (perda de 96,37°) — instável</td></tr>
+            <tr><td>Encoder grosseiro (128 pulsos/volta)</td><td>sobressinal 12,45%, chattering 1,5681&nbsp;V</td></tr>
+            <tr><td>PWM de 8 bits, encoder ideal</td><td>chattering 0,0927&nbsp;V — 17× menor</td></tr>
           </tbody>
         </table>
         <p>O encoder domina o desempenho: seu ruído entra direto na realimentação, enquanto o degrau do PWM é filtrado pela inércia mecânica da planta.</p>
@@ -1056,11 +1057,11 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_07/05_desafio.py</div>
         <table class="tabela-industrial">
-          <thead><tr><th>$T_s$</th><th>Veredito</th></tr></thead>
+          <thead><tr><th>T_s</th><th>Veredito</th></tr></thead>
           <tbody>
-            <tr><td>$5\,\mathrm{ms}$</td><td>estável, aprovado (sobressinal 2–5%)</td></tr>
-            <tr><td>$20\,\mathrm{ms}$</td><td>estável, reprovado (sobressinal 25–35%)</td></tr>
-            <tr><td>$50\,\mathrm{ms}$</td><td>diverge, reprovado</td></tr>
+            <tr><td>5&nbsp;ms</td><td>estável, aprovado (sobressinal 2–5%)</td></tr>
+            <tr><td>20&nbsp;ms</td><td>estável, reprovado (sobressinal 25–35%)</td></tr>
+            <tr><td>50&nbsp;ms</td><td>diverge, reprovado</td></tr>
           </tbody>
         </table>
       </div>
@@ -1077,7 +1078,7 @@
         <ul>
           <li>Controladores de motores em veículos elétricos, drones e processos industriais compartilham a mesma tensão de três frentes: CPU livre, margem de fase e ruído de estimativa.</li>
           <li>A prática que sustenta a decisão é sempre a mesma: uma varredura numérica da malha real, não uma regra de bolso.</li>
-          <li>Esta aula usou um PID moderado, não os ganhos clássicos de Ziegler-Nichols da Aula 6, para não mascarar o efeito de $T_s$ com saturação precoce — escolher o cenário certo também é parte do ofício.</li>
+          <li>Esta aula usou um PID moderado, não os ganhos clássicos de Ziegler-Nichols da Aula 6, para não mascarar o efeito de T_s com saturação precoce — escolher o cenário certo também é parte do ofício.</li>
         </ul>
       </div>
     </div>
@@ -1126,7 +1127,7 @@
       <h2>Repita o veredito com a sintonia da Aula 6</h2>
       <div class="slide-content-box">
         <ol class="lista-numerada">
-          <li>Usando <code>aula_07/05_desafio.py</code>, repita a verificação para o PID manual da Aula 6 ($K_p=1{,}3$, $K_i=15$, $K_d=0{,}01$), nos mesmos três períodos de amostragem.</li>
+          <li>Usando <code>aula_07/05_desafio.py</code>, repita a verificação para o PID manual da Aula 6 (K_p=1,3, K_i=15, K_d=0,01), nos mesmos três períodos de amostragem.</li>
           <li>Reporte se o veredito de aprovação muda em relação ao PID moderado desta aula.</li>
           <li>Se mudar, explique por que um controlador mais agressivo tolera menos folga de período de amostragem.</li>
         </ol>
@@ -1147,7 +1148,7 @@
     </div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Esta aula fechou o contrato numérico do <code>DiscretePID</code> e justificou, com uma varredura real, o período de amostragem de $5\,\mathrm{ms}$ que sustenta toda a malha do NexaBot.</p>
+      <p class="fim-texto">Esta aula fechou o contrato numérico do <code>DiscretePID</code> e justificou, com uma varredura real, o período de amostragem de 5&nbsp;ms que sustenta toda a malha do NexaBot.</p>
       <p class="fim-proxima">Próxima aula: Aula 8 — a mesma planta, agora compilada em C, acoplada ao controlador Python por co-simulação FMI, medindo o preço de espaçar a comunicação entre os dois.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
