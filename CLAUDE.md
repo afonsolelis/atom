@@ -75,10 +75,13 @@ The canonical source is **`assets/template_apresentacao/`** (`index.html` + `REA
 This repo uses Conventional Commits with a custom scope list defined in `commit-guidelines.json`:
 
 - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
-- Scopes: `base`, `unidade_1`–`unidade_4`, `instrumentos_avaliativos`, `estrutura_pontes`, `industria_4_0`, `sistemas_informacao`, `data_engineering`, `portos_aeroportos_ferrovias`, `distributed_systems`, `lives`.
+- Scopes: `base`, `unidade_1`–`unidade_4`, `instrumentos_avaliativos`, `estrutura_pontes`, `industria_4_0`, `sistemas_informacao`, `data_engineering`, `portos_aeroportos_ferrovias`, `distributed_systems`, `model_based_design`, `lives`.
 - Format: `^(\w+)(\(\w+\))?: (\w+.*)$` — e.g. `feat(unidade_1): add new exercise about bridge calculations`.
+- Adding a discipline means adding its scope to `commit-guidelines.json` too.
 
 Existing commits on `main` are short (`"ok"`, `"docs: adicionar materiais complementares (unidades 1–4)"`) — don't be afraid of terse messages, but stick to the format for anything non-trivial.
+
+**Commit straight to `main`.** The author asked for this explicitly: this is a single-author content repo on a deliberately trimmed flow, and feature branches only add friction here. When asked to commit, commit on `main` and push — do not create a branch, and do not open a PR unless asked. Committing and pushing still happen only when the author asks for them.
 
 ## When asked to "create a new unit" or "create a new aula"
 
