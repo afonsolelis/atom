@@ -116,6 +116,19 @@ concreta (reduzir mudanças arriscadas, adiar lançamento), não uma discussão 
 roteiro e prova que o algoritmo chega à mesma conclusão: o gargalo é a espera pelo
 pool de conexões dentro de pagamento, não o provedor externo.
 
+## O que muda quando os serviços estão em Pods diferentes
+
+Tudo acima é verificado por teste, com quatro aplicações FastAPI no mesmo processo.
+`docs/kubernetes-execucao.md` registra a mesma jornada em um cluster kind de três nós,
+e a diferença é instrutiva: a **propagação** continua correta — um único trace_id
+atravessou quatro serviços por rede real — mas a **leitura** deixa de existir. Os dez
+spans daquela compra ficaram espalhados por sete Pods, um pedaço em cada um, e
+`GET /_admin/spans/{trace_id}` pelo Service devolve o pedaço de uma réplica sorteada.
+
+Não é um detalhe de implantação: é a razão de um coletor central existir. Instrumentar
+sem agregar produz exatamente o que esta aula abriu criticando — fragmentos que,
+lidos isoladamente, parecem normais.
+
 ## Decisão registrada
 
 Ver `docs/adr/0013-spans-locais-sem-coletor-central.md`.

@@ -1,6 +1,6 @@
 SERVICOS := pedidos estoque pagamento expedicao gateway
 
-.PHONY: setup test verificar validar-k8s run-pedidos run-estoque run-pagamento run-expedicao run-gateway verificar-compose up down logs
+.PHONY: setup test verificar validar-k8s k8s-up k8s-down k8s-status run-pedidos run-estoque run-pagamento run-expedicao run-gateway verificar-compose up down logs
 
 setup:
 	@for s in $(SERVICOS); do \
@@ -28,6 +28,18 @@ verificar:
 
 validar-k8s:
 	scripts/.venv/bin/python3 scripts/validar_manifests_k8s.py
+
+# Cluster Kubernetes local de verdade (kind) — ver docs/kubernetes-execucao.md.
+k8s-up:
+	./scripts/deploy_kind.sh
+
+k8s-down:
+	./scripts/deploy_kind.sh destruir
+
+k8s-status:
+	kubectl get pods -o wide
+	kubectl get svc
+	kubectl get hpa
 
 run-pedidos:
 	cd services/pedidos && ESTOQUE_BASE_URL=http://localhost:8002 PAGAMENTO_BASE_URL=http://localhost:8003 EXPEDICAO_BASE_URL=http://localhost:8004 .venv/bin/uvicorn app.main:app --reload --port 8001

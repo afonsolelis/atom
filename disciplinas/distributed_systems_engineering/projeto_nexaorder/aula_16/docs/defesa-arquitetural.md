@@ -71,6 +71,31 @@ protótipo de desenvolvimento, nunca chegou a ter réplicas de dado ou de mensag
 para começar. A lista acima é o que precisaria mudar antes de uma implantação real
 — não uma lista de riscos já mitigados.
 
+**Esta seção deixou de ser análise e passou a ser medição.** Os manifests foram
+aplicados em um cluster kind de três nós ao longo de toda a Unidade 4
+(`docs/kubernetes-execucao.md`), e a execução confirmou os três itens — em dois deles,
+de forma mais severa do que a análise previa:
+
+- O banco em `emptyDir` não é só "sem réplica promovível": **ter uma segunda réplica
+  já quebra a leitura**. Um pedido criado existe em exatamente um dos quatro Pods, e o
+  gateway devolveu 404 em 24 requisições seguidas — determinístico, porque o `Service`
+  balanceia conexões e o cliente HTTP as mantém abertas.
+- O barramento em memória não sobrevive a uma segunda réplica, e não apenas a um
+  reinício: doze tentativas de fraude do mesmo dispositivo, distribuídas por quatro
+  Pods, viram três em cada um, e o alerta some sem nenhum erro registrado.
+- A ausência de coletor central custa exatamente o que o ADR 0013 admitia: dez spans
+  de um único trace espalhados por sete Pods, sem consulta que os reúna.
+
+E acrescentou um item que nenhuma análise deste projeto tinha, porque nenhum teste o
+alcançava: **o disjuntor não abria sob indisponibilidade total**. Um provedor fora do
+ar recusa a conexão em vez de dar timeout, e `httpx.ConnectError` escapava do cliente
+resiliente, da saga e do disjuntor — três compras devolveram HTTP 500 e vazaram
+reserva de estoque. Corrigido na Aula 14 (`aula_14/docs/testes-e-caos.md`), com
+regressão. Até então, esta defesa arquitetural teria afirmado ter uma proteção que,
+no modo de falha mais comum em produção, não existia. É a razão pela qual "decisão
+arquitetural é hipótese verificável" não é retórica: a verificação encontrou uma
+hipótese falsa.
+
 ## 5. RPO e RTO
 
 O roteiro define RPO ≈ 5 min e RTO ≈ 15 min para a NexaOrder madura, a partir de

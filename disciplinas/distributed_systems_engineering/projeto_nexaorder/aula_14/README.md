@@ -45,11 +45,26 @@ só eventual). Ver `docs/testes-e-caos.md` para a justificativa completa — o p
 tipo de resultado inesperado que o roteiro aponta como o valor de um experimento de
 caos real.
 
+## O experimento de caos encontrou um defeito de verdade
+
+Rodado no cluster, com a perturbação vinda do orquestrador
+(`kubectl scale deployment pagamento --replicas=0`) em vez de da alavanca interna
+`falhar_percentual`, o experimento reprovou o sistema: três compras devolveram HTTP
+500, o disjuntor não abriu e três reservas de estoque ficaram penduradas. A causa era
+`httpx.TimeoutException` no lugar de `httpx.TransportError` — um provedor fora do ar
+recusa a conexão, não dá timeout. Corrigido nesta aula, com
+`test_experimento_de_caos_pagamento_fora_do_ar_tambem_compensa` como regressão e o
+registro completo em `docs/kubernetes-execucao.md`.
+
+É o experimento fazendo exatamente o que o roteiro promete: revelar o que a leitura do
+código e 180 testes verdes não revelaram.
+
 ## Por que a composição degrada mais do que qualquer serviço isolado
 
 ```bash
-python3 -c "from disponibilidade_em_cadeia import disponibilidade_em_cadeia as d; print(d([0.999]*4))"
-# 0.9960059940...
+cd scripts && .venv/bin/python3 -c \
+  "from disponibilidade_em_cadeia import disponibilidade_em_cadeia as d; print(d([0.999]*4))"
+# 0.996005996001
 ```
 
 `pedidos → estoque, pagamento, expedição` é exatamente essa cadeia — a razão pela
@@ -72,10 +87,13 @@ neste projeto desde a Aula 4.
 
 ```bash
 make setup
-make test          # 180 testes: 84 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 26 scripts
+make test          # 181 testes: 85 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 26 scripts
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests
 make up             # contêineres (Docker ou Podman) com os cinco serviços de aplicação
+make k8s-up         # cluster Kubernetes local (kind) com os manifests aplicados
+make k8s-status     # pods, services e HPA do cluster
+make k8s-down       # destrói o cluster
 ```
 
 ## Pergunta que fica em aberto
@@ -89,15 +107,20 @@ contínuo, na borda. Essa é a pergunta da Aula 15.
 ```
 docs/
   testes-e-caos.md                                      [novo]
+  kubernetes-execucao.md                                [novo: o experimento em cluster]
   adr/0014-testes-de-contrato-sem-broker.md             [novo]
+  adr/0011-manifests-validados-nao-aplicados.md         [alterado: os manifests foram aplicados]
+services/pedidos/app/resiliencia.py                       [CORRIGIDO: httpx.TransportError, não TimeoutException]
+services/pedidos/app/main.py                              [CORRIGIDO: idem, nas 5 etapas da saga]
+k8s/kind/cluster.yaml + scripts/deploy_kind.sh             [novo: cluster kind de três nós]
 services/pedidos/tests/contratos.py                       [novo]
 services/pedidos/tests/test_contratos.py                  [novo: 5 testes]
 services/estoque/tests/test_desempenho.py                 [novo: 1 teste de carga]
 services/pedidos/tests/test_resiliencia.py                 [alterado: +1 teste soak]
 services/pedidos/tests/test_observabilidade.py             [alterado: +1 teste soak]
-services/pedidos/tests/test_saga_integracao.py             [alterado: +1 experimento de caos]
+services/pedidos/tests/test_saga_integracao.py             [alterado: +2 experimentos de caos]
 scripts/disponibilidade_em_cadeia.py + test                 [novo: 4 testes]
 ```
 
-180 testes, os três tipos de teste de desempenho nomeados corretamente, um
+181 testes, os três tipos de teste de desempenho nomeados corretamente, um
 experimento de caos determinístico com hipótese, kill switch e recuperação provados.

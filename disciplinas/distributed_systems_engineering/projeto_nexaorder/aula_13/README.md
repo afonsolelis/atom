@@ -83,7 +83,19 @@ make test          # 167 testes: 76 pedidos, 48 estoque, 8 pagamento, 7 expedica
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests
 make up             # contêineres (Docker ou Podman) com os cinco serviços de aplicação
+make k8s-up         # cluster Kubernetes local (kind) com os manifests aplicados
+make k8s-status     # pods, services e HPA do cluster
+make k8s-down       # destrói o cluster
 ```
+
+## Os três pilares em Pods separados
+
+`docs/kubernetes-execucao.md` registra a execução desta aula em um cluster kind de
+três nós — e o que a observabilidade mostra quando os serviços não estão mais no mesmo
+processo. Uma compra gerou dez spans com o mesmo trace_id, espalhados por quatro
+serviços e sete Pods; a propagação funciona, mas nenhuma consulta devolve o trace
+inteiro: `GET /_admin/spans/{trace_id}` pelo Service alcança uma réplica sorteada. É o
+compromisso do ADR 0013 deixando de ser uma frase e virando um sintoma.
 
 ## Pergunta que fica em aberto
 
@@ -92,12 +104,22 @@ desenhada desde a Unidade 1 — disjuntor, retry, saga — funciona sob falha re
 que o sistema se recupera do jeito que o projeto sempre presumiu. Essa validação
 deliberada é a pergunta da Aula 14.
 
+E ela não é retórica. Rodando este mesmo estágio no cluster com
+`kubectl scale deployment pagamento --replicas=0`, três compras devolveram **HTTP
+500**, o disjuntor de pagamento continuou **fechado** e três unidades de estoque
+ficaram reservadas sem compensação. O código desta aula trata o provedor que
+*responde com erro*, não o provedor que *não está lá*. A Aula 14 encontra e corrige
+isso — ver `docs/kubernetes-execucao.md`, seção 3.
+
 ## Estado do projeto
 
 ```
 docs/
   observabilidade.md                                    [novo]
+  kubernetes-execucao.md                                [novo: os três pilares em Pods separados]
   adr/0013-spans-locais-sem-coletor-central.md          [novo]
+  adr/0011-manifests-validados-nao-aplicados.md         [alterado: os manifests foram aplicados]
+k8s/kind/cluster.yaml + scripts/deploy_kind.sh           [novo: cluster kind de três nós]
 services/*/app/logs_estruturados.py                      [novo, idêntico em cada serviço]
 services/*/app/metricas.py                                [novo, idêntico em cada serviço]
 services/*/app/tracing.py                                 [novo, idêntico em cada serviço]

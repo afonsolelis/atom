@@ -236,6 +236,69 @@ def test_experimento_de_caos_indisponibilidade_total_do_pagamento(plataforma):
     assert cliente_pedidos.get("/saude").json()["disjuntor_pagamento"] == "fechado"
 
 
+class _TransporteIndisponivel(httpx.AsyncBaseTransport):
+    """Um provedor que não está no ar: a conexão é RECUSADA, não atendida
+    com erro. É o que o Kubernetes produz quando um Deployment vai a zero
+    réplicas — o Service existe, o DNS resolve, e não há endpoint atrás
+    dele. `falhar_percentual=100` (a alavanca da Aula 4/5) não reproduz
+    isto: ali o provedor responde, só que com erro."""
+
+    async def handle_async_request(self, request: httpx.Request) -> httpx.Response:
+        raise httpx.ConnectError("All connection attempts failed", request=request)
+
+
+def test_experimento_de_caos_pagamento_fora_do_ar_tambem_compensa(plataforma):
+    """Unidade 4, Aula 14 — a segunda perturbação do experimento de caos,
+    e a que revelou um defeito real.
+
+    O experimento anterior injeta falha com `falhar_percentual=100`: o
+    pagamento responde 500. Esta variação remove o provedor do ar: a
+    conexão é recusada (`httpx.ConnectError`). São modos de falha
+    diferentes, e até a Aula 13 o projeto tratava apenas o primeiro — o
+    segundo escapava como exceção não capturada, a saga morria no meio,
+    `finalizar-compra` devolvia 500, a reserva de estoque ficava pendurada
+    e o disjuntor não registrava falha nenhuma. Rodando os manifests em um
+    cluster kind com `kubectl scale deployment pagamento --replicas=0`,
+    três sagas seguidas devolveram HTTP 500, o disjuntor de pagamento
+    seguiu `fechado` e o saldo de estoque caiu de 98 para 95 sem
+    compensação (ver docs/kubernetes-execucao.md).
+
+    A correção está em `app/resiliencia.py` e `app/main.py`: capturar
+    `httpx.TransportError` — a superclasse de timeout E de erro de conexão
+    — em vez de só `httpx.TimeoutException`. Este teste é a regressão.
+    """
+    cliente_pedidos, pedidos, estoque, _, _ = plataforma
+    from fastapi.testclient import TestClient
+
+    saldo_antes = TestClient(estoque.app).get("/saldo/TECLADO-MEC-01").json()["quantidade"]
+    pedidos._disjuntor_pagamento.config.tamanho_janela = 4
+    pedidos._cliente_pagamento._cliente = httpx.AsyncClient(
+        transport=_TransporteIndisponivel(), base_url="http://servico"
+    )
+
+    resultados = []
+    for _ in range(2):
+        pedido = _criar_pedido(cliente_pedidos)
+        resposta = cliente_pedidos.post(f"/pedidos/{pedido['id']}/finalizar-compra")
+        assert resposta.status_code == 200, "a saga não pode estourar como erro interno"
+        resultados.append(resposta.json())
+
+    # A mesma hipótese do experimento anterior, agora sob o modo de falha
+    # que de fato acontece em um cluster: nenhum pedido fica preso.
+    assert all(r["sucesso"] is False for r in resultados)
+    assert all(r["estado_final"] == "RECEBIDO" for r in resultados)
+    assert all(r["falhou_em"] == "autorizar_pagamento" for r in resultados)
+    assert all([c["nome"] for c in r["compensacoes"]] == ["liberar_estoque"] for r in resultados)
+
+    # Nada de estoque vazado: toda reserva feita foi liberada.
+    assert TestClient(estoque.app).get("/saldo/TECLADO-MEC-01").json()["quantidade"] == saldo_antes
+
+    # E o disjuntor abre — antes da correção ele permanecia fechado
+    # justamente no caso em que mais importa, porque a conexão recusada
+    # nunca chegava a ser registrada como falha.
+    assert cliente_pedidos.get("/saude").json()["disjuntor_pagamento"] == "aberto"
+
+
 def test_spans_da_saga_formam_uma_arvore_com_a_saga_como_raiz(plataforma):
     """Unidade 4, Aula 13 — a mesma cascata do incidente do trace de doze
     segundos, só que aqui os spans são reais: medidos a partir das três

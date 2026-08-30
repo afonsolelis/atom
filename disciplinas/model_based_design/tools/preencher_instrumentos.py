@@ -130,7 +130,7 @@ BOX_MAP = [
     ("título", "1. Título"),
     ("desafio", "2. Desafio"),
     ("fonte de pesquisa", "3. Fontes de pesquisa"),
-    ("entregável", "4. Componentes avaliativos, submissão e pontuação"),
+    ("entregável", "4. Entregável e distribuição da pontuação"),
 ]
 
 ENTREGA_ORIENTACAO_PREFIXOS = (
@@ -167,11 +167,11 @@ def build_entrega(doc, secoes_a, solucao_lines, formula_index, estudante: bool) 
         elif t_solucao is None:
             print("    ! caixa 'solução' não encontrada no template (mestre)")
         elif solucao_lines is None:
-            print("    ! seção 'Solução esperada e critérios de correção' não encontrada no markdown")
+            print("    ! seção '5. Solução' não encontrada no markdown")
 
     orient_removidos = dc.remove_paragraphs_with_prefix(doc, ENTREGA_ORIENTACAO_PREFIXOS)
 
-    roteiro_lines = secoes_a.get("Roteiro do estudante")
+    roteiro_lines = secoes_a.get("Roteiro do Estudante")
     roteiro_removidos = dc.cut_body_after(
         doc, lambda t: t.strip().lower() == "roteiro do estudante", keep_matched=True,
     )
@@ -199,10 +199,11 @@ def fill_entrega() -> dict:
         return {}
 
     md_text = md_path.read_text(encoding="utf-8")
-    parte_a_text, parte_b_text = dc.split_parte_b(md_text)
-    secoes_a = dc.sections_dict(parte_a_text)
-    secoes_b = dc.sections_dict(parte_b_text) if parte_b_text else {}
-    solucao_lines = secoes_b.get("Solução esperada e critérios de correção")
+    # Layout Átomo 3.0 (o mesmo de portos_aeroportos_e_ferrovias): documento
+    # único, com a caixa "## 5. Solução" posicionada antes do "## Roteiro do
+    # Estudante" e removida por inteiro na versão do estudante.
+    secoes_a = dc.sections_dict(md_text)
+    solucao_lines = secoes_a.get("5. Solução")
 
     print("  renderizando fórmulas da entrega de trabalho...")
     formula_index = dc.build_formula_index(md_text)

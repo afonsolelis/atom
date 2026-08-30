@@ -39,3 +39,23 @@ aplicá-lo.
 `scripts/test_validar_manifests_k8s.py` prova que o validador detecta cada uma das
 quatro classes de violação que ele afirma verificar, com casos negativos construídos
 deliberadamente.
+
+## Atualização — os manifests foram aplicados
+
+O compromisso acima ("ninguém rodou `kubectl apply` contra estes manifests") **não
+vale mais**. O ambiente passou a ter Docker; `kind` e `kubectl` foram instalados, e os
+manifests desta aula subiram em um cluster de três nós, com a saga rodando de ponta a
+ponta dentro dele. O registro está em `docs/kubernetes-execucao.md`, e
+`scripts/deploy_kind.sh` reproduz a implantação.
+
+A decisão original continua correta como decisão: validar estruturalmente era o que
+dava para fazer sem cluster. O que a execução acrescentou foi justamente a classe de
+erro que este ADR admitia não detectar — `imagePullPolicy` implícito como `Always`
+com a tag `:latest`, `type: LoadBalancer` sem provedor de nuvem, `emptyDir` com mais
+de uma réplica dividindo o estado, e um estado em memória (spans, janela de eventos)
+que deixa de ser consultável assim que existe mais de um Pod. Nenhum dos quatro é
+YAML malformado; todos os quatro só aparecem em um cluster.
+
+O `Secret` da Aula 12 também deixou de ser aplicado a partir do arquivo: o script o
+cria imperativamente com valor aleatório, que é o que o próprio comentário de
+`k8s/segredos.yaml` recomenda.

@@ -89,6 +89,20 @@ por tempo de evento — que nenhum ponto de borda isolado possui sozinho. Não �
 um lugar; é triagem local para o simples, avaliação central para o que exige
 histórico.
 
+## O que a escala horizontal faz com esta janela
+
+Tudo acima é verdadeiro em um processo. `docs/kubernetes-execucao.md` registra o mesmo
+pipeline com `pedidos` em quatro réplicas dentro de um cluster kind, e o resultado
+merece estar aqui: doze tentativas do mesmo dispositivo, distribuídas pelas quatro
+réplicas por um `Service` comum, produzem **três em cada uma** — e um alerta com
+limiar de dez nunca dispara.
+
+O detalhe que importa é que as quatro réplicas calcularam a **mesma partição** para a
+mesma chave. `escolher_particao` está certo; o que não existe é alguém obrigando o
+evento a chegar ao dono daquela partição. Particionar por chave e rotear por partição
+são coisas diferentes, e um framework de fluxo real entrega as duas — é isso, e não a
+lógica de janela, que o ADR 0015 registra como ausente.
+
 ## Decisão registrada
 
 Ver `docs/adr/0015-fraude-simulada-sem-plataforma-real.md`.

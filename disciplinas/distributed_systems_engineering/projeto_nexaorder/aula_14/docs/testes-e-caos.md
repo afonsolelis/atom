@@ -99,6 +99,44 @@ cadeia. É por isso que disjuntor, compensação e processamento assíncrono nã
 refinamento opcional neste projeto — são o que evita que a composição de serviços
 saudáveis produza um fluxo pior do que qualquer um deles.
 
+## A segunda perturbação: o provedor que não está lá
+
+`falhar_percentual=100` produz um provedor que **responde com erro**. Existe um modo
+de falha diferente e mais comum em produção: o provedor que **não está no ar** — o
+processo caiu, o Deployment foi a zero réplicas, o Service não tem endpoint. Quem
+chama não recebe erro nem timeout: recebe conexão recusada.
+
+Aplicando essa perturbação pelo próprio Kubernetes
+(`kubectl scale deployment pagamento --replicas=0`) contra o estágio da Aula 13, o
+experimento encontrou um defeito real, e não uma confirmação:
+
+```
+saga 1 -> HTTP 500 | estado do pedido: RECEBIDO
+saga 2 -> HTTP 500 | estado do pedido: RECEBIDO
+saga 3 -> HTTP 500 | estado do pedido: RECEBIDO
+/saude: {'disjuntor_pagamento': 'fechado', ...}
+saldo de estoque: 99 → 96
+```
+
+A saga não compensou, o disjuntor não abriu, e três reservas de estoque ficaram
+penduradas. A causa: `app/resiliencia.py` e `app/main.py` capturavam
+`httpx.TimeoutException`, e `httpx.ConnectError` não é subclasse dela — a exceção
+escapava do cliente resiliente (sem retentativa, sem contar para o disjuntor), escapava
+das etapas da saga (sem virar `EtapaFalhou`) e virava erro 500.
+
+A correção — capturar `httpx.TransportError`, superclasse comum de timeout e de erro
+de conexão — está no código desta aula, com
+`test_experimento_de_caos_pagamento_fora_do_ar_tambem_compensa` como regressão. Depois
+dela, nove sagas seguidas sob indisponibilidade total compensam todas, o disjuntor abre
+na sétima (a janela é de 20 chamadas, e cada saga gasta 3) e a proteção passa a custar
+13 ms em vez de 1.780 ms. O registro completo está em `docs/kubernetes-execucao.md`.
+
+**Este é o argumento desta aula em forma de fato.** Nenhum dos 180 testes anteriores
+pegava o defeito, e não por descuido: todos usavam a única alavanca de falha que o
+projeto tinha, e essa alavanca produz um provedor que responde. Um mecanismo de
+resiliência nunca exercitado contra o modo de falha certo continua sendo uma hipótese
+— mesmo com cobertura de teste alta.
+
 ## Postmortem sem culpabilização
 
 Este projeto não tem um incidente de produção real para postmortemizar — mas o

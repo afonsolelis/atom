@@ -55,8 +55,11 @@ reencontra no terminal o número que viu no slide — isso é deliberado.
 
 ## Honestidade sobre o que é real e o que é simplificado
 
-Este projeto não tem Docker, Kubernetes, um broker de eventos ou um coletor de
-observabilidade reais neste ambiente de desenvolvimento. Em vez de fingir essa
+Docker e Kubernetes deixaram de ser hipótese: a partir da Aula 11, `make k8s-up` sobe
+os manifests em um cluster kind de três nós, e as aulas 13 a 16 registram em
+`docs/kubernetes-execucao.md` o que a execução real revelou — inclusive um defeito de
+correção que a suíte de testes não pegava (Aula 14). O que continua ausente é um
+broker de eventos e um coletor de observabilidade reais. Em vez de fingir essa
 integração, cada limite está documentado explicitamente em `docs/adr/000N-*.md` de
 cada aula — 16 ADRs ao todo, cada um seguindo o formato contexto/decisão/porquê/
 compromisso aceito/evidência. `aula_16/docs/defesa-arquitetural.md` reúne essa
@@ -73,6 +76,7 @@ make setup              # cria um venv por serviço + um para scripts/
 make test                # roda a suíte completa de testes
 make verificar            # fronteiras de domínio + instabilidade (a partir da Aula 9)
 make validar-k8s          # manifests Kubernetes (a partir da Aula 11)
+make k8s-up               # cluster kind de três nós com os manifests aplicados (Aula 11, 13–16)
 make criterios-de-aceite  # identidade + observabilidade + testes, por serviço (Aula 16)
 make up                   # contêineres: Docker ou Podman (a partir da Aula 4)
 ```

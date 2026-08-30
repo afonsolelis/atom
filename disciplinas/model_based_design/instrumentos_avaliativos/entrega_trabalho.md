@@ -1,6 +1,6 @@
 # Entrega de Trabalho (PBL) — Model-Based Design for Cyber-Physical Systems
 
-> **Arquivo-mestre de produção.** A Parte A é a versão do estudante. A Parte B, ao final, é exclusiva do professor tutor e não pode ser incluída no arquivo distribuído aos estudantes. A exportação para distribuição deve encerrar o documento do estudante exatamente antes do cabeçalho `# Parte B`.
+> Roteiro para elaboração com **Problem-Based Learning**.
 
 - **Disciplina:** Model-Based Design for Cyber-Physical Systems
 - **Professor-conteudista:** Afonso Cesar Lelis Brandão
@@ -8,8 +8,6 @@
 > O **caso** existe para que o estudante transfira o método de design baseado em modelos estudado no NexaBot — modelar, simular, verificar e gerar código com rastreabilidade — para um sistema ciberfísico diferente, demonstrando que aprendeu o método e não apenas reproduziu um exemplo memorizado.
 
 ---
-
-# Parte A — Versão do estudante
 
 ## 1. Título
 
@@ -86,7 +84,7 @@ As fontes 2, 3 e 4 constituem o conjunto mínimo de três fontes técnicas prim�
 
 ---
 
-## 4. Componentes avaliativos, submissão e pontuação
+## 4. Entregável e distribuição da pontuação
 
 A avaliação possui **três componentes obrigatórios**: parte teórica (25%), parte prática com repositório e memorial de cálculo (50%) e vídeo de apresentação (25%). Para a submissão, o estudante enviará **um PDF único** com as partes teórica e prática e o memorial como anexo, o **link do repositório** (Git) contendo o código do projeto, e **um link para o vídeo** ao final do PDF.
 
@@ -129,7 +127,7 @@ Entregue um **repositório versionado em Git** contendo, no mínimo:
 
 A proposta poderá conter diagramas de blocos, gráficos de resposta temporal, diagramas do autômato de segurança e demais representações gráficas que auxiliem na comunicação da solução. **Rastreabilidade:** os resultados do memorial devem ser **citados e discutidos** no relatório técnico — não basta anexar a conta solta, e o código do repositório deve ser referenciado por caminho de arquivo no relatório.
 
-### 3. Vídeo de apresentação — (25% da nota)
+### 3. Vídeo Pitch — (25% da nota)
 
 Grave um **vídeo de até 5 minutos**, simulando uma apresentação técnica para a auditoria de segurança que libera a operação colaborativa do AuroraArm. O vídeo deverá apresentar:
 
@@ -145,63 +143,9 @@ O vídeo deverá ser publicado no **YouTube (modo não listado)** ou em outra pl
 
 ---
 
-## Roteiro do estudante
+## 5. Solução
 
-### 1. Leia o desafio
-
-Sua primeira tarefa é entender o desafio proposto. Leia o cenário do **AuroraArm** com atenção:
-
-- **Quem** é a Aurora Robótica e qual é a situação atual (controlador manual, sem modelo formal, sem verificação exaustiva)?
-- **Qual** é o incidente que motivou a exigência de evidências (quase-acidente por falha do supervisor de segurança)?
-- **Quais** restrições foram colocadas (60 dias, hardware embarcado com orçamento de tempo e memória limitados, atrasos de sensor e de ciclo)?
-- **Onde** estão os números que você vai precisar (parâmetros físicos da junta, ponto de operação crítico, requisitos de desempenho e de segurança com prazo)?
-
-Tome **notas estruturadas** dos parâmetros físicos, do ponto de operação ($450\ \mathrm{rad/s}$ sob $0{,}25\ \mathrm{N\,m}$ de carga) e dos prazos de segurança (100 ms para zerar o torque, considerando 20 ms de atraso do sensor e possível perda de um ciclo de 2 ms). Esses números são sua **base de modelagem**. Separe dados fornecidos pelo caso de premissas que você precisar adotar (por exemplo, o critério de aceitação de equivalência SIL).
-
-### 2. Pesquise
-
-Antes de propor a solução, reúna referências e ancore suas escolhas técnicas:
-
-- **Releia** as Unidades 1 a 4 — todas são insumo direto (modelagem e identificação, controle e discretização, verificação formal e testes, geração de código e rastreabilidade).
-- **Aprofunde** os conceitos que vai aplicar: derivação de matrizes de espaço de estados a partir de leis físicas, cálculo de constantes de tempo e verificação de controlabilidade/observabilidade, sintonia de controlador com tratamento de saturação, formalização de propriedades de segurança e de vivacidade, verificação de prazo sob atraso, geração de código e verificação de equivalência SIL — todos demonstrados **passo a passo** no memorial de cálculo.
-- **Consulte** a ISO/TS 15066 para os limites de velocidade e separação em operação colaborativa, e a IEC 61508 para os conceitos de segurança funcional aplicáveis ao supervisor da junta.
-- **Pesquise** um **caso real** de integração de robô colaborativo a uma linha de produção, publicado por uma equipe de engenharia identificável, e traga ao menos uma comparação concreta com a solução que você propôs para o AuroraArm.
-
-### 3. Entrega
-
-Como orientação editorial desta atividade, estruture o **relatório técnico em PDF, com 12 a 18 páginas antes dos anexos**, assim:
-
-1. **Capa e resumo executivo** (1 página) — 5 linhas com a recomendação central de modelagem e controle.
-2. **Modelagem da junta e análise de controlabilidade/observabilidade** (2 a 3 páginas).
-3. **Projeto e sintonia do controlador, com tratamento de saturação** (2 a 3 páginas).
-4. **Formalização e verificação das propriedades de segurança e de vivacidade** (3 a 4 páginas), incluindo a verificação do prazo de 100 ms sob os atrasos informados.
-5. **Geração de código, equivalência SIL e matriz de rastreabilidade** (3 a 4 páginas).
-6. **Honestidade técnica: o que o pacote sustenta e o que exigiria certificação formal** (1 a 2 páginas).
-7. **Referências** — fontes consultadas, ABNT.
-
-Inclua no mesmo PDF, como anexo, o **memorial de cálculo** com os itens (a) a (e) descritos na seção anterior, cada um com fórmula, dados, premissas, substituição e resultado. Os resultados precisam aparecer e ser discutidos no corpo do relatório, e o repositório de código deve ser referenciado por caminho de arquivo.
-
-Para o **vídeo de apresentação (até 5 minutos)**:
-
-- Abra com **o problema** (quase-acidente do protótipo anterior) e a **recomendação central**.
-- Mostre o modelo e os principais números do memorial (constantes de tempo, tensão exigida em regime, período de amostragem).
-- Apresente a verificação do prazo de segurança e a matriz de rastreabilidade em alto nível.
-- Feche com **honestidade técnica** sobre os limites do pacote de evidências apresentado.
-- Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF** — confira se está acessível.
-
-**Dica final:** capriche na **defesa numérica**. Uma auditoria de segurança não aprova modelo bonito — aprova evidência **reproduzível e rastreável**. Cada decisão (constante de tempo considerada, folga de tensão aceita, prazo verificado, tolerância de equivalência SIL) deve estar ancorada em cálculo demonstrado ou em referência técnica, não em opinião — e o **memorial de cálculo**, somado ao repositório de código, é a sua prova de que a evidência foi de fato produzida, não alegada.
-
-Esse projeto é seu **portfólio final** — o tipo de pacote de evidências que se apresenta a uma auditoria de segurança ou a um cliente para defender decisões de projeto de um sistema ciberfísico real. **Capriche**.
-
-Boa entrega!
-
----
-
-# Parte B — Versão exclusiva do professor tutor
-
-> **NÃO DISTRIBUIR AOS ESTUDANTES.** Esta parte contém a solução esperada e a orientação de correção. Ao gerar a versão do estudante, encerrar o documento em "Boa entrega!". Ao gerar a versão do tutor, incluir as Partes A e B.
-
-## Solução esperada e critérios de correção
+> **Atenção:** este tópico será removido antes do case ser disponibilizado ao aluno — é apenas para o professor tutor que corrigirá.
 
 **Modelo esperado.** Com os parâmetros da junta, as matrizes de espaço de estados são
 
@@ -271,3 +215,55 @@ A corrente exigida ($3{,}74\ \mathrm{A}$) fica bem dentro do limite de $8\ \math
 - Classificar um requisito de segurança com prazo como propriedade de vivacidade, ou vice-versa, sem perceber a diferença entre "nunca ultrapassar o prazo" e "eventualmente retomar o movimento".
 - Apresentar código C "gerado" que na prática foi digitado manualmente, sem qualquer relação demonstrável com o modelo (ausência de bloco de rastreabilidade ou de processo de geração reproduzível).
 - Afirmar que o pacote de evidências "certifica" o AuroraArm, sem reconhecer a diferença entre produzir evidências e certificar um sistema segundo uma norma formal.
+
+---
+
+## Roteiro do Estudante
+
+### 1. Leia o desafio
+
+Sua primeira tarefa é entender o desafio proposto. Leia o cenário do **AuroraArm** com atenção:
+
+- **Quem** é a Aurora Robótica e qual é a situação atual (controlador manual, sem modelo formal, sem verificação exaustiva)?
+- **Qual** é o incidente que motivou a exigência de evidências (quase-acidente por falha do supervisor de segurança)?
+- **Quais** restrições foram colocadas (60 dias, hardware embarcado com orçamento de tempo e memória limitados, atrasos de sensor e de ciclo)?
+- **Onde** estão os números que você vai precisar (parâmetros físicos da junta, ponto de operação crítico, requisitos de desempenho e de segurança com prazo)?
+
+Tome **notas estruturadas** dos parâmetros físicos, do ponto de operação ($450\ \mathrm{rad/s}$ sob $0{,}25\ \mathrm{N\,m}$ de carga) e dos prazos de segurança (100 ms para zerar o torque, considerando 20 ms de atraso do sensor e possível perda de um ciclo de 2 ms). Esses números são sua **base de modelagem**. Separe dados fornecidos pelo caso de premissas que você precisar adotar (por exemplo, o critério de aceitação de equivalência SIL).
+
+### 2. Fontes de Pesquisa
+
+Antes de propor a solução, reúna referências e ancore suas escolhas técnicas:
+
+- **Releia** as Unidades 1 a 4 — todas são insumo direto (modelagem e identificação, controle e discretização, verificação formal e testes, geração de código e rastreabilidade).
+- **Aprofunde** os conceitos que vai aplicar: derivação de matrizes de espaço de estados a partir de leis físicas, cálculo de constantes de tempo e verificação de controlabilidade/observabilidade, sintonia de controlador com tratamento de saturação, formalização de propriedades de segurança e de vivacidade, verificação de prazo sob atraso, geração de código e verificação de equivalência SIL — todos demonstrados **passo a passo** no memorial de cálculo.
+- **Consulte** a ISO/TS 15066 para os limites de velocidade e separação em operação colaborativa, e a IEC 61508 para os conceitos de segurança funcional aplicáveis ao supervisor da junta.
+- **Pesquise** um **caso real** de integração de robô colaborativo a uma linha de produção, publicado por uma equipe de engenharia identificável, e traga ao menos uma comparação concreta com a solução que você propôs para o AuroraArm.
+
+### 3. Entrega
+
+Como orientação editorial desta atividade, estruture o **relatório técnico em PDF, com 12 a 18 páginas antes dos anexos**, assim:
+
+1. **Capa e resumo executivo** (1 página) — 5 linhas com a recomendação central de modelagem e controle.
+2. **Modelagem da junta e análise de controlabilidade/observabilidade** (2 a 3 páginas).
+3. **Projeto e sintonia do controlador, com tratamento de saturação** (2 a 3 páginas).
+4. **Formalização e verificação das propriedades de segurança e de vivacidade** (3 a 4 páginas), incluindo a verificação do prazo de 100 ms sob os atrasos informados.
+5. **Geração de código, equivalência SIL e matriz de rastreabilidade** (3 a 4 páginas).
+6. **Honestidade técnica: o que o pacote sustenta e o que exigiria certificação formal** (1 a 2 páginas).
+7. **Referências** — fontes consultadas, ABNT.
+
+Inclua no mesmo PDF, como anexo, o **memorial de cálculo** com os itens (a) a (e) descritos na seção anterior, cada um com fórmula, dados, premissas, substituição e resultado. Os resultados precisam aparecer e ser discutidos no corpo do relatório, e o repositório de código deve ser referenciado por caminho de arquivo.
+
+Para o **vídeo de apresentação (até 5 minutos)**:
+
+- Abra com **o problema** (quase-acidente do protótipo anterior) e a **recomendação central**.
+- Mostre o modelo e os principais números do memorial (constantes de tempo, tensão exigida em regime, período de amostragem).
+- Apresente a verificação do prazo de segurança e a matriz de rastreabilidade em alto nível.
+- Feche com **honestidade técnica** sobre os limites do pacote de evidências apresentado.
+- Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF** — confira se está acessível.
+
+**Dica final:** capriche na **defesa numérica**. Uma auditoria de segurança não aprova modelo bonito — aprova evidência **reproduzível e rastreável**. Cada decisão (constante de tempo considerada, folga de tensão aceita, prazo verificado, tolerância de equivalência SIL) deve estar ancorada em cálculo demonstrado ou em referência técnica, não em opinião — e o **memorial de cálculo**, somado ao repositório de código, é a sua prova de que a evidência foi de fato produzida, não alegada.
+
+Esse projeto é seu **portfólio final** — o tipo de pacote de evidências que se apresenta a uma auditoria de segurança ou a um cliente para defender decisões de projeto de um sistema ciberfísico real. **Capriche**.
+
+Boa entrega!

@@ -140,7 +140,16 @@ class ClienteResiliente:
                     raise FalhaTransitoria(f"{url} devolveu {resposta.status_code}")
                 self._disjuntor.registrar_sucesso()
                 return resposta
-            except (httpx.TimeoutException, FalhaTransitoria) as erro:
+            # `TransportError`, e não `TimeoutException`: um provedor
+            # INDISPONÍVEL não dá timeout, ele recusa a conexão
+            # (`httpx.ConnectError`). Até a Aula 13 só o timeout era
+            # capturado aqui, e uma indisponibilidade total escapava sem
+            # retentativa, sem contar para o disjuntor e sem virar
+            # `EtapaFalhou` — o disjuntor nunca abria justamente no caso
+            # em que ele mais importa. Foi o experimento de caos desta
+            # aula, rodado em cluster, que revelou isso
+            # (ver docs/testes-e-caos.md e docs/kubernetes-execucao.md).
+            except (httpx.TransportError, FalhaTransitoria) as erro:
                 ultimo_erro = erro
                 self._disjuntor.registrar_falha()
                 ultima_tentativa = tentativa == self._max_tentativas - 1

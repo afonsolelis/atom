@@ -36,6 +36,14 @@ um segredo de identidade compartilhado por HMAC, nenhum RPO/RTO implementado. Um
 defesa arquitetural madura nomeia esses limites como próximos passos — não os
 esconde para parecer mais completa.
 
+## A unidade inteira rodou em um cluster de verdade
+
+`docs/kubernetes-execucao.md` consolida o que as quatro aulas desta unidade
+encontraram ao aplicar os manifests em um cluster kind de três nós — incluindo um
+defeito de correção que 180 testes verdes não pegavam (a Aula 14 o encontrou e
+corrigiu). A seção 4 de `docs/defesa-arquitetural.md` deixou de ser previsão e passou
+a citar medição.
+
 ## O mesmo cálculo, insumo que deixou de ser suposição
 
 `docs/dimensionamento.md` (Aula 1) previa 6 instâncias a partir de três suposições.
@@ -58,11 +66,14 @@ aberto desde a primeira aula do projeto.
 
 ```bash
 make setup
-make test                # 216 testes: 108 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 38 scripts
+make test                # 217 testes: 109 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 38 scripts
 make verificar            # fronteiras + instabilidade (Aula 9)
 make validar-k8s          # os cinco manifests (Aula 11)
 make criterios-de-aceite  # identidade + observabilidade + testes, por serviço (Aula 16)
 make up                   # contêineres (Docker ou Podman) com os cinco serviços de aplicação
+make k8s-up               # cluster Kubernetes local (kind) com os manifests aplicados
+make k8s-status           # pods, services e HPA do cluster
+make k8s-down             # destrói o cluster
 ```
 
 ## A trajetória completa
@@ -70,7 +81,7 @@ make up                   # contêineres (Docker ou Podman) com os cinco serviç
 Dezesseis pastas, cada uma o projeto inteiro até aquele ponto — não um diff, uma
 aplicação completa e executável. `aula_1` modela o domínio; `aula_16` roda cinco
 serviços com identidade, observabilidade, resiliência testada sob caos real, e um
-pipeline de fluxo, com 216 testes verdes e uma defesa arquitetural honesta sobre o
+pipeline de fluxo, com 217 testes verdes e uma defesa arquitetural honesta sobre o
 que ainda falta para produção. É essa combinação — fundamentos, dados, serviços e
 operação — que a Aula 16 argumenta ser o que sustenta um sistema real, e é essa
 combinação que este projeto constrói, aula a aula, para ser mostrada, não só
@@ -81,7 +92,10 @@ descrita.
 ```
 docs/
   defesa-arquitetural.md                                              [novo]
+  kubernetes-execucao.md                                              [novo: a unidade em cluster]
   adr/0016-defesa-arquitetural-nao-introduz-mecanismo-novo.md         [novo]
+  adr/0011-manifests-validados-nao-aplicados.md                       [alterado: os manifests foram aplicados]
+k8s/kind/cluster.yaml + scripts/deploy_kind.sh                         [novo: cluster kind de três nós]
 scripts/disponibilidade_em_cadeia.py                                    [alterado: +disponibilidade_redundancia_paralela]
 scripts/dimensionamento_com_evidencias.py + test                        [novo: 2 testes]
 scripts/verificar_criterios_de_aceite.py + test                         [novo: 3 testes]
@@ -89,6 +103,6 @@ services/pedidos/tests/test_dimensionamento_com_evidencias.py           [novo: 1
 Makefile                                                                  [alterado: alvo criterios-de-aceite]
 ```
 
-216 testes, 16 ADRs, uma análise de pontos únicos de falha sem embelezamento, e o
+217 testes, 16 ADRs, uma análise de pontos únicos de falha sem embelezamento, e o
 argumento completo — requisitos, riscos, custo e evidências — que fecha a
 disciplina.

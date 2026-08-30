@@ -194,7 +194,7 @@ async def _reservar_estoque(pedido: dict[str, Any]) -> dict[str, Any]:
                 trace_id=pedido["trace_id"],
                 cabecalhos_extras=_CABECALHO_IDENTIDADE,
             )
-        except (CircuitoAberto, httpx.TimeoutException, FalhaTransitoria) as erro:
+        except (CircuitoAberto, httpx.TransportError, FalhaTransitoria) as erro:
             raise EtapaFalhou(f"reservar estoque falhou: {erro}") from erro
     return resposta.json()
 
@@ -208,7 +208,7 @@ async def _liberar_estoque(reserva_id: str, trace_id: str) -> None:
                 trace_id=trace_id,
                 cabecalhos_extras=_CABECALHO_IDENTIDADE,
             )
-        except (CircuitoAberto, httpx.TimeoutException, FalhaTransitoria):
+        except (CircuitoAberto, httpx.TransportError, FalhaTransitoria):
             # Compensação que falha é, por si só, um incidente a ser observado
             # (Aula 13) — mas não deve lançar de volta e travar a saga.
             pass
@@ -226,7 +226,7 @@ async def _autorizar_pagamento(pedido: dict[str, Any]) -> dict[str, Any]:
                 trace_id=pedido["trace_id"],
                 cabecalhos_extras=_CABECALHO_IDENTIDADE,
             )
-        except (CircuitoAberto, httpx.TimeoutException, FalhaTransitoria) as erro:
+        except (CircuitoAberto, httpx.TransportError, FalhaTransitoria) as erro:
             raise EtapaFalhou(f"autorizar pagamento falhou: {erro}") from erro
     return resposta.json()
 
@@ -240,7 +240,7 @@ async def _estornar_pagamento(cobranca_id: str, trace_id: str) -> None:
                 trace_id=trace_id,
                 cabecalhos_extras=_CABECALHO_IDENTIDADE,
             )
-        except (CircuitoAberto, httpx.TimeoutException, FalhaTransitoria):
+        except (CircuitoAberto, httpx.TransportError, FalhaTransitoria):
             pass
 
 
@@ -256,7 +256,7 @@ async def _solicitar_expedicao(pedido: dict[str, Any]) -> dict[str, Any]:
                 trace_id=pedido["trace_id"],
                 cabecalhos_extras=_CABECALHO_IDENTIDADE,
             )
-        except (CircuitoAberto, httpx.TimeoutException, FalhaTransitoria) as erro:
+        except (CircuitoAberto, httpx.TransportError, FalhaTransitoria) as erro:
             raise EtapaFalhou(f"solicitar expedição falhou: {erro}") from erro
     return resposta.json()
 

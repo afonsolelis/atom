@@ -380,6 +380,48 @@ def validar_avaliacao() -> None:
                 ok(f"{nome}: respostas do tutor presentes")
 
 
+def validar_avaliacao_final() -> None:
+    """Avaliação final no padrão Átomo 3.0 — o mesmo de
+    `disciplinas/portos_aeroportos_e_ferrovias/`: documento único, 30 objetivas
+    (15 asserção-razão + 15 interpretação) e 10 discursivas, com feedback para
+    todas as 5 alternativas de cada objetiva, ao final do documento."""
+    nome = f"Avaliação final_(30 questões múltipla escolha + 10 discursivas)_{DISC_ARQ}.docx"
+    doc, z = abrir(nome)
+    if doc is None:
+        return
+    txt = checar_comum(nome, doc, z, nome)
+
+    n_obj = len(re.findall(r"(?m)^Questão \d+ \((?:Asserção-Razão|Interpretação)\)", txt))
+    n_dis = len(re.findall(r"(?m)^Questão \d+ \(Discursiva\)", txt))
+    if n_obj != 30 or n_dis != 10:
+        falha(f"{nome}: {n_obj} objetivas e {n_dis} discursivas (exigidas 30 e 10)")
+    else:
+        ok(f"{nome}: 30 objetivas + 10 discursivas")
+
+    n_ast = len(re.findall(r"(?m)^\*[a-e]\.", txt))
+    if n_ast != 30:
+        falha(f"{nome}: {n_ast} alternativas marcadas com '*' (exigidas 30, uma por objetiva)")
+    else:
+        ok(f"{nome}: gabarito marcado com asterisco nas 30 objetivas")
+
+    # o feedback vai em lista com marcador; as alternativas das questões, não
+    n_fb = len(re.findall(r"(?m)^•\s+[a-e]\.\s", txt))
+    if n_fb != 150:
+        falha(f"{nome}: {n_fb} linhas de feedback (exigidas 150)")
+    else:
+        ok(f"{nome}: feedback para as 150 alternativas")
+
+    n_resp = txt.count("Resposta esperada")
+    if n_resp != 10:
+        falha(f"{nome}: {n_resp} respostas esperadas nas discursivas (exigidas 10)")
+    else:
+        ok(f"{nome}: as 10 discursivas com resposta esperada")
+
+    for outra in ("Indústria 4.0", "Digitalização de Processos"):
+        if outra in txt:
+            falha(f"{nome}: resíduo de conteúdo de outra disciplina ('{outra}')")
+
+
 def validar_pbl() -> None:
     base = f"TEMPLATE ENTREGA DE TRABALHO - {DISC_ARQ}"
     prist = f"{base}.docx"
@@ -430,6 +472,7 @@ def main(argv: list[str]) -> int:
         + [f"40 Questões - UNI{n}_{DISC_ARQ}.docx" for n in (1, 2, 3, 4)]
         + [f"Avaliação final_(10 discursivas)_{DISC_ARQ} - {s}.docx"
            for s in ("MESTRE", "ESTUDANTE")]
+        + [f"Avaliação final_(30 questões múltipla escolha + 10 discursivas)_{DISC_ARQ}.docx"]
         + [f"TEMPLATE ENTREGA DE TRABALHO - {DISC_ARQ} - {s}.docx"
            for s in ("MESTRE", "ESTUDANTE")]
     )
@@ -444,6 +487,7 @@ def main(argv: list[str]) -> int:
         validar_unidade(n)
         validar_questionario(n)
     validar_avaliacao()
+    validar_avaliacao_final()
     validar_pbl()
 
     print("=" * 78)

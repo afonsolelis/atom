@@ -45,6 +45,14 @@ provado com uma asserção lado a lado.
 FaaS desta aula ao orçamento de erro da Aula 13 com um número, não uma afirmação
 solta.
 
+## O pipeline de fluxo com quatro réplicas
+
+`docs/kubernetes-execucao.md` roda esta aula em um cluster kind: as mesmas doze
+tentativas que, em um processo, somam doze na janela viram **três em cada uma das
+quatro réplicas** quando distribuídas por um `Service`. Nenhum erro em lugar nenhum, e
+o alerta de fraude some. As quatro réplicas calculam a mesma partição para a mesma
+chave — falta o roteamento que um framework de fluxo real acrescenta, não o cálculo.
+
 ## Roteiro de condução
 
 1. Rode `test_janela_por_tempo_de_evento_agrupa_mesmo_com_atraso_de_rede` — narre a
@@ -60,10 +68,13 @@ solta.
 
 ```bash
 make setup
-make test          # 207 testes: 107 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 30 scripts
+make test          # 208 testes: 108 pedidos, 49 estoque, 8 pagamento, 7 expedicao, 6 gateway, 30 scripts
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests
 make up             # contêineres (Docker ou Podman) com os cinco serviços de aplicação
+make k8s-up         # cluster Kubernetes local (kind) com os manifests aplicados
+make k8s-status     # pods, services e HPA do cluster
+make k8s-down       # destrói o cluster
 ```
 
 ## Pergunta que fica em aberto
@@ -79,7 +90,10 @@ novo: reúne tudo isso em uma defesa arquitetural coerente.
 ```
 docs/
   processamento.md                                        [novo]
+  kubernetes-execucao.md                                  [novo: o pipeline em 4 réplicas]
   adr/0015-fraude-simulada-sem-plataforma-real.md         [novo]
+  adr/0011-manifests-validados-nao-aplicados.md           [alterado: os manifests foram aplicados]
+k8s/kind/cluster.yaml + scripts/deploy_kind.sh             [novo: cluster kind de três nós]
 services/pedidos/app/janela_evento.py                       [novo]
 services/pedidos/app/eventos_dispositivo.py                  [novo]
 services/pedidos/app/faas.py                                 [novo]
@@ -94,6 +108,6 @@ services/pedidos/tests/test_fraude_endpoint.py                [novo: 3 testes]
 scripts/mapreduce.py + test                                   [novo: 4 testes]
 ```
 
-207 testes, lote e fluxo lado a lado sobre o mesmo problema de negócio, tempo de
+208 testes, lote e fluxo lado a lado sobre o mesmo problema de negócio, tempo de
 evento provado divergente de tempo de processamento com os números exatos do
 roteiro.

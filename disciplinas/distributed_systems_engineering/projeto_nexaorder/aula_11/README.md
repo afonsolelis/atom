@@ -63,7 +63,14 @@ make test          # 128 testes: 60 pedidos, 38 estoque, 8 pagamento, 7 expedica
 make verificar      # fronteiras + instabilidade (Aula 9)
 make validar-k8s    # os cinco manifests
 make up             # contêineres (Docker ou Podman) com os cinco serviços de aplicação
+make k8s-up         # cluster Kubernetes local (kind) com os cinco manifests aplicados
+make k8s-status     # pods, services e HPA do cluster
+make k8s-down       # destrói o cluster
 ```
+
+Os manifests deixaram de ser só validados: `docs/kubernetes-execucao.md` registra a
+execução real em um cluster kind de três nós — incluindo os três problemas que só
+aparecem no cluster e que a validação estrutural não pegava.
 
 ## Pergunta que fica em aberto
 

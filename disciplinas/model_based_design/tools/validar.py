@@ -370,33 +370,112 @@ def validar_avaliacao() -> None:
 
 
 def validar_pbl() -> None:
+    """Entrega de trabalho no layout Átomo 3.0, o mesmo de
+    `disciplinas/portos_aeroportos_e_ferrovias/`: documento único, com a
+    caixa `## 5. Solução` posicionada antes do `## Roteiro do Estudante` e
+    marcada para remoção na cópia do estudante."""
     rel = "instrumentos_avaliativos/entrega_trabalho.md"
     txt = ler(rel)
     if txt is None:
         return
 
-    partes = dividir_partes(txt)
-    if partes is None:
-        falha(f"{rel}: exige separação explícita entre Parte A e Parte B")
-        return
-    parte_a = partes[0]
+    obrigatorias = ("## 1. Título", "## 2. Desafio", "## 3. Fontes de pesquisa",
+                    "## 4. Entregável e distribuição da pontuação",
+                    "## 5. Solução", "## Roteiro do Estudante")
+    faltando = [s for s in obrigatorias if s not in txt]
+    if faltando:
+        falha(f"{rel}: faltam as seções {faltando}")
+    else:
+        ok(f"{rel}: as 6 seções do modelo Átomo 3.0 presentes")
 
-    for obrig in ("## 1. Título", "## 2. Desafio", "## 3. Fontes de pesquisa",
-                  "## 4. Componentes avaliativos", "## Roteiro do estudante"):
-        if obrig not in parte_a:
-            falha(f"{rel}: falta a seção '{obrig}'")
+    if "## 5. Solução" in txt and "## Roteiro do Estudante" in txt:
+        if txt.index("## 5. Solução") > txt.index("## Roteiro do Estudante"):
+            falha(f"{rel}: '5. Solução' precisa vir antes do 'Roteiro do Estudante'")
+        else:
+            ok(f"{rel}: ordem das seções conforme o modelo")
 
-    fontes = parte_a.split("## 3. Fontes de pesquisa", 1)[-1].split("## 4.", 1)[0]
+    fontes = txt.split("## 3. Fontes de pesquisa", 1)[-1].split("## 4.", 1)[0]
     n_fontes = len(re.findall(r"^\d+\. ", fontes, re.M))
     if n_fontes < 4:
         falha(f"{rel}: {n_fontes} fontes de pesquisa (exigidas ao menos 4)")
     else:
         ok(f"{rel}: {n_fontes} fontes de pesquisa")
 
-    if any(m in parte_a for m in ("Solução esperada", "critérios de correção", "Rubrica")):
-        falha(f"{rel}: conteúdo de tutor vazou para a Parte A")
+    solucao = txt.split("## 5. Solução", 1)[-1].split("## Roteiro do Estudante", 1)[0]
+    if "será removido antes" not in solucao:
+        falha(f"{rel}: a seção '5. Solução' precisa do aviso de remoção antes da entrega ao aluno")
     else:
-        ok(f"{rel}: Parte A sem solução")
+        ok(f"{rel}: seção '5. Solução' marcada para remoção na cópia do estudante")
+
+    verificar_latex(rel, txt)
+
+
+def validar_avaliacao_final() -> None:
+    """Avaliação final no padrão Átomo 3.0 (o mesmo de portos_aeroportos_e_ferrovias):
+    40 questões — 15 asserção-razão, 15 de interpretação e 10 discursivas —
+    com feedback para todas as 5 alternativas das 30 objetivas."""
+    rel = "instrumentos_avaliativos/avaliacao_final.md"
+    txt = ler(rel)
+    if txt is None:
+        return
+
+    if "## Feedbacks" not in txt:
+        falha(f"{rel}: seção '## Feedbacks' ausente")
+        return
+    corpo, fb = txt.split("## Feedbacks", 1)
+
+    tipos = re.findall(r"^### Questão (\d+) \((Asserção-Razão|Interpretação|Discursiva)\)",
+                       corpo, re.M)
+    contagem = {k: sum(1 for _, x in tipos if x == k)
+                for k in ("Asserção-Razão", "Interpretação", "Discursiva")}
+    esperado = {"Asserção-Razão": 15, "Interpretação": 15, "Discursiva": 10}
+    if contagem != esperado:
+        falha(f"{rel}: tipologia {contagem} (exigido {esperado})")
+    else:
+        ok(f"{rel}: 40 questões — 15 asserção-razão + 15 interpretação + 10 discursivas")
+
+    gabarito = {}
+    for m in re.finditer(r"^### Questão (\d+) \((?:Asserção-Razão|Interpretação)\)(.*?)"
+                         r"(?=^### |\Z)", corpo, re.M | re.S):
+        marcadas = re.findall(r"^\*([a-e])\.", m.group(2), re.M)
+        if len(marcadas) != 1:
+            falha(f"{rel}: questão {m.group(1)} com {len(marcadas)} alternativas marcadas com '*'")
+        else:
+            gabarito[int(m.group(1))] = marcadas[0]
+
+    seq = "".join(gabarito[k] for k in sorted(gabarito))
+    if seq != "abcde" * 6:
+        falha(f"{rel}: rotação do gabarito fora do padrão a,b,c,d,e — obtida '{seq}'")
+    else:
+        ok(f"{rel}: gabarito com rotação a–e e 6 questões por letra")
+
+    blocos = dict(re.findall(r"^### Questão (\d+)\s*\n(.*?)(?=^### |\Z)", fb, re.M | re.S))
+    if len(blocos) != 30:
+        falha(f"{rel}: {len(blocos)} blocos de feedback (exigidos 30)")
+    n_alt = len(re.findall(r"^- \*\*[a-e]\.\*\*", fb, re.M))
+    if n_alt != 150:
+        falha(f"{rel}: {n_alt} alternativas com feedback (exigidas 150)")
+    else:
+        ok(f"{rel}: feedback para as 150 alternativas das 30 objetivas")
+
+    divergentes = []
+    for num, corpo_fb in blocos.items():
+        marcada = re.findall(r"^- \*\*([a-e])\.\*\* \*Correta!\*", corpo_fb, re.M)
+        if len(marcada) != 1 or marcada[0] != gabarito.get(int(num)):
+            divergentes.append(num)
+    if divergentes:
+        falha(f"{rel}: feedback divergente do gabarito nas questões {divergentes}")
+    else:
+        ok(f"{rel}: feedback e gabarito coerentes nas 30 objetivas")
+
+    for m in re.finditer(r"^### Questão (\d+) \(Discursiva\)(.*?)(?=^### |\Z)",
+                         corpo, re.M | re.S):
+        for campo in ("**Contexto:**", "**Enunciado:**", "**Resposta esperada:**"):
+            if campo not in m.group(2):
+                falha(f"{rel}: discursiva {m.group(1)} sem o campo '{campo}'")
+    n_resp = len(re.findall(r"\*\*Resposta esperada:\*\*", corpo))
+    if n_resp == 10:
+        ok(f"{rel}: as 10 discursivas com contexto, enunciado e resposta esperada")
 
     verificar_latex(rel, txt)
 
@@ -548,6 +627,7 @@ def main(argv: list[str]) -> int:
         validar_questoes(n)
         validar_roteiros(n)
     validar_avaliacao()
+    validar_avaliacao_final()
     validar_pbl()
     validar_laboratorio()
     validar_introducao()
