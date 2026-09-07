@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import ABERTURA_IMPORTS, RODAPE_ERRO, md, code  # noqa: E402
+from _comum import ABERTURA_IMPORTS, GLOSSARIO, RODAPE_ERRO, md, code  # noqa: E402
 
 TITULO = "Aula 1 — O NexaBot que esquece a própria velocidade"
 SLUG = "primeiro_contato"
@@ -69,6 +69,8 @@ O contrário — medir, comparar e corrigir — chama-se *malha fechada*, e é o
 assunto da Unidade 2. Hoje a gente só descobre por que a malha aberta não
 serve.
 """),
+
+    md(GLOSSARIO),
 
     md("""
 ## Passo 1 — Ligar o laboratório

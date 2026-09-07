@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import ABERTURA_IMPORTS, RODAPE_ERRO, md, code  # noqa: E402
+from _comum import ABERTURA_IMPORTS, GLOSSARIO, RODAPE_ERRO, md, code  # noqa: E402
 
 TITULO = "Aula 2 — Duas contas de física descrevem o motor inteiro"
 SLUG = "modelo_do_motor"
@@ -82,6 +82,8 @@ Estas aparecem o tempo todo. Cada uma é uma propriedade física do motor:
 Guarde `Ke` em especial: quando o motor gira, ele *gera* tensão contrária.
 Foi isso que fez a corrente descer devagar no gráfico da Aula 1.
 """),
+
+    md(GLOSSARIO),
 
     md("""
 ## Passo 1 — As duas frases

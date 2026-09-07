@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import ABERTURA_IMPORTS, RODAPE_ERRO, md, code  # noqa: E402
+from _comum import ABERTURA_IMPORTS, GLOSSARIO, RODAPE_ERRO, md, code  # noqa: E402
 
 TITULO = "Aula 4 — O que a física deixa você fazer"
 SLUG = "limites_do_projeto"
@@ -68,6 +68,8 @@ O driver do NexaBot entrega **no máximo 24 V**. Se o seu controlador pedir
 Isso chama-se **saturação**, e é onde a maioria dos projetos bonitos no papel
 morre. O papel não tem limite de tensão. O armazém tem.
 """),
+
+    md(GLOSSARIO),
 
     md("""
 ## Passo 1 — Perguntando ao modelo

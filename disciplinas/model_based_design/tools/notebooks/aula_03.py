@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _comum import ABERTURA_IMPORTS, RODAPE_ERRO, md, code  # noqa: E402
+from _comum import ABERTURA_IMPORTS, GLOSSARIO, RODAPE_ERRO, md, code  # noqa: E402
 
 TITULO = "Aula 3 — Trocando cálculo por álgebra"
 SLUG = "laplace_e_polos"
@@ -89,6 +89,8 @@ O motor do NexaBot tem **dois** polos. Um rápido (o elétrico) e um lento (o
 mecânico). É a mesma diferença de ritmo que você viu nas Aulas 1 e 2 — agora
 com nome e número.
 """),
+
+    md(GLOSSARIO),
 
     md("""
 ## Passo 1 — O motor virou uma fração
