@@ -883,7 +883,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal · 00:00–02:00</p>
+      <p class="kicker">TELA: terminal</p>
       <h2>"Já podemos confiar que isso vai rodar no ESP32?"</h2>
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/01_loopback_hil.py</div>
@@ -900,7 +900,6 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Slide · 02:00–03:30</p>
       <h2>SIL prova equivalência, HIL prova prazo</h2>
       <div class="slide-content-box">
         <ul>
@@ -916,7 +915,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor · 03:30–05:00 — nexabot/hil.py</p>
+      <p class="kicker">TELA: editor — nexabot/hil.py</p>
       <h2>Target, LoopbackTarget e SerialTarget</h2>
       <div class="slide-content-box">
         <ul>
@@ -932,7 +931,6 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Slide · 05:00–07:00</p>
       <h2>O protocolo de linha entre host e alvo</h2>
       <div class="slide-content-box">
         <ul>
@@ -948,7 +946,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal · 07:00–09:00</p>
+      <p class="kicker">TELA: terminal</p>
       <h2>Malha fechada com controlador fora do processo host</h2>
       <div class="slide-content-box">
         <ul>
@@ -965,7 +963,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal · 09:00–11:30</p>
+      <p class="kicker">TELA: terminal</p>
       <h2>Jitter e latência sobre durações crescentes</h2>
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/02_jitter.py</div>
@@ -986,7 +984,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Slide · 11:30–12:30 — Honestidade técnica</p>
+      <p class="kicker">Honestidade técnica</p>
       <h2>O que este jitter mede, e o que não mede</h2>
       <div class="slide-content-box">
         <ul>
@@ -1002,7 +1000,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal · 12:30–15:30</p>
+      <p class="kicker">TELA: terminal</p>
       <h2>Watchdog: estouro de prazo e recuperação</h2>
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/03_watchdog_real.py</div>
@@ -1019,7 +1017,7 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal · 15:30–17:00</p>
+      <p class="kicker">TELA: terminal</p>
       <h2>Desafio: o menor <code>Ts</code> ainda seguro</h2>
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/04_desafio.py</div>
@@ -1041,7 +1039,6 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Slide · 17:00–18:15</p>
       <h2>Onde jitter, latência e watchdog aparecem na indústria</h2>
       <div class="slide-content-box">
         <ul>
@@ -1058,7 +1055,7 @@
     <div class="quote-logo"><svg width="150" height="37" viewBox="0 0 271 67"><use href="#logo-marca"/></svg></div>
     <div class="quote-shapes"><svg viewBox="0 0 1200 90" preserveAspectRatio="none"><use href="#faixa-mosaico"/></svg></div>
     <div class="quote-card">
-      <p class="kicker" style="color:var(--azul-fecaf);">Pausa para reflexão · 18:15–18:45</p>
+      <p class="kicker" style="color:var(--azul-fecaf);">Pausa para reflexão</p>
       <blockquote>Uma equipe decide que, como o SIL da Aula 14 já provou equivalência numérica exata, não é necessário medir jitter e latência antes de embarcar o controlador em produção.</blockquote>
       <cite>1. Que defeito o SIL nunca poderia revelar, mesmo com erro zero? · 2. Por que um controlador correto ainda pode instabilizar se o período variar em torno de <code>Ts</code>? · 3. Que consequência teria a ausência do watchdog, à luz do REQ-SAFE-006? · 4. Que evidência desta aula justificaria um teste em bancada?</cite>
     </div>
