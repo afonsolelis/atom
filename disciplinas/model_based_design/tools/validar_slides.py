@@ -116,10 +116,20 @@ def validar_deck(caminho: Path, unidade: int, numero: int) -> None:
     if numero == 0 and not tem_prof:
         FALHAS.append(f"{nome}: deck de abertura sem o slide 'Sobre o professor'")
 
-    # nenhuma biografia inventada
-    if tem_prof and "[preencher" not in txt:
-        FALHAS.append(f"{nome}: slide do professor sem marcador '[preencher: …]' — "
-                      "verifique se alguma informação biográfica foi presumida")
+    # A biografia foi preenchida pelo professor (mesmos dados da disciplina
+    # irmã `portos_aeroportos_e_ferrovias`), então o marcador de pendência não
+    # pode mais sobrar em lugar nenhum — nem no slide do professor, nem fora.
+    if "[preencher" in txt:
+        FALHAS.append(f"{nome}: marcador de pendência '[preencher: …]' remanescente")
+
+    # o slide do professor exige a foto real, não o placeholder gráfico
+    if tem_prof:
+        if not re.search(r'<img[^>]+src="assets/foto-professor\.jpg"', fonte):
+            FALHAS.append(f"{nome}: slide do professor sem a foto "
+                          "'assets/foto-professor.jpg'")
+        elif not (caminho.parent / "assets" / "foto-professor.jpg").exists():
+            FALHAS.append(f"{nome}: referencia 'assets/foto-professor.jpg', "
+                          "mas o arquivo não existe")
 
     # --- o deck fala da SUA aula?
     #

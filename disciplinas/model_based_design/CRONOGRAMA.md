@@ -112,7 +112,8 @@ Dezessete decks HTML autocontidos: `aula0` (vídeo introdutório) e `aula1` a `a
 - Os decks das Unidades 1 e 2 tinham 10 slides e não traziam Sumário nem Objetivos de aprendizagem, ao contrário dos das Unidades 3 e 4. Foram nivelados para 15 a 18 slides.
 - O deck `aula0`, do vídeo introdutório, não existia e foi criado.
 - **O deck `aula5` continha o conteúdo do `aula9`** — título, tema de verificação formal e rodapé de outra unidade —, com apenas a tag `<title>` correta. Foi reescrito a partir do roteiro da Aula 5. Nenhuma checagem estrutural pegaria esse erro, então `validar_slides.py` passou a conferir se cada deck contém o título da própria videoaula e se o rodapé aponta para a unidade e a aula certas.
-- O slide "Sobre o professor" aparecia em sete decks, em cinco deles sem os marcadores `[preencher: …]`. A convenção do repositório, conferida nas três disciplinas já migradas, é de um deck em dezessete: apenas o `aula0`. O slide foi concentrado ali, e é o único ponto de todo o material que contém informação pessoal — deixada em branco, para o professor preencher.
+- O slide "Sobre o professor" aparecia em sete decks, em cinco deles sem os marcadores `[preencher: …]`. A convenção do repositório, conferida nas três disciplinas já migradas, é de um deck em dezessete: apenas o `aula0`. O slide foi concentrado ali, e é o único ponto de todo o material que contém informação pessoal.
+- **Informação pessoal preenchida pelo professor.** A foto entrou em `unidade_1/slides/assets/foto-professor.jpg` e a biografia foi alinhada às disciplinas irmãs `portos_aeroportos_e_ferrovias` e `industria_4_0_e_digitalizacao_de_processos`. Os três trechos de trajetória do `roteiro_video_introdutorio.md` também foram preenchidos. `validar_slides.py` deixou de exigir o marcador `[preencher: …]` e passou a exigir o oposto: nenhum marcador remanescente e a foto real presente no disco.
 
 ### Conferência executada sobre os 12 documentos institucionais
 

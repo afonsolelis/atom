@@ -9,7 +9,7 @@ Deck de apoio: `unidade_1/slides/aula0.html`
 
 > **Escopo deste vídeo.** Ele é uma apresentação: quem é o professor e o que é a disciplina. Não há demonstração técnica, terminal, código nem simulação — isso começa na Aula 1, que abre já com o ambiente na tela. Um vídeo de abertura que tenta ensinar acaba não apresentando nem ensinando.
 
-> **Aviso ao professor.** Os trechos entre colchetes com reticências são os únicos pontos do material em que aparece informação pessoal. Estão vazios de propósito: preencha com sua trajetória real antes de gravar. Nada foi presumido sobre sua formação, seus cargos ou seus projetos.
+> **Nota sobre a apresentação pessoal.** Os trechos de trajetória foram preenchidos com os mesmos dados usados nas disciplinas irmãs do repositório (`portos_aeroportos_e_ferrovias` e `industria_4_0_e_digitalizacao_de_processos`). Ajuste a redação ao seu jeito de falar antes de gravar — o conteúdo é seu, a locução também deve ser.
 
 ---
 
@@ -30,13 +30,13 @@ Deck de apoio: `unidade_1/slides/aula0.html`
 
 Olá. Eu sou o professor Afonso Brandão, e vou acompanhar você em *Model-Based Design for Cyber-Physical Systems* — design baseado em modelos para sistemas ciberfísicos.
 
-Antes de falar da disciplina, uma apresentação rápida: [… sua formação, em uma frase …].
+Antes de falar da disciplina, uma apresentação rápida: sou engenheiro civil e de produção, mestre em ciência dos materiais e doutorando em engenharia da computação.
 
 **[00:25–00:55 · Câmera cheia · Slide "Sobre o professor"]**
 
-Nos últimos anos, [… sua atuação profissional em uma ou duas frases: onde você trabalha ou trabalhou, com que tipo de sistema, em que papel …].
+Nos últimos anos, atuo como professor e conteudista na UniFECAF, na fronteira entre engenharia, simulação e computação — uma trajetória que liga chão de fábrica, modelo matemático e algoritmo.
 
-Isso importa aqui por um motivo específico: [… uma frase ligando sua experiência a modelagem, controle, sistemas embarcados, verificação ou engenharia de software crítica …].
+Isso importa aqui porque é exatamente o caminho desta disciplina: da lei física que descreve a planta até o código que roda no equipamento, sem perder a evidência de que ele está correto.
 
 **[00:55–01:30 · Câmera cheia · Slide "O que é esta disciplina"]**
 
@@ -57,7 +57,7 @@ Sua primeira ação é a da Aula 1. Nos vemos lá. Bons estudos.
 ## Indicações de edição
 
 - 00:00 — vinheta institucional de abertura, com o nome da disciplina em tela.
-- 00:25 — entra o slide "Sobre o professor"; a foto e os dados só aparecem depois de o professor preencher o deck.
+- 00:25 — entra o slide "Sobre o professor", já com a foto e os dados preenchidos no deck.
 - 00:55 — entra o slide "O que é esta disciplina", com os quatro exemplos de sistema ciberfísico revelados um a um conforme a narração.
 - 01:30 — entra o slide do percurso, com os quatro blocos — modelar, controlar, provar, embarcar — construídos em sequência.
 - 01:52 — vinheta de encerramento com a chamada para a Aula 1.
