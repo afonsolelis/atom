@@ -91,7 +91,7 @@ A entrega sai **dentro dos modelos Word oficiais da UniFECAF** (Núcleo das Enge
 
 O vídeo introdutório e o deck `aula0` são **apenas apresentação**: quem é o professor e o que é a disciplina. Não há demonstração técnica, terminal, código nem simulação — a prática começa na Aula 1, que abre já com o ambiente na tela.
 
-A gravação é integralmente em câmera cheia, sem captura de tela. O deck tem seis slides: capa, audiodescrição, "Sobre o professor", "O que é esta disciplina", o percurso das quatro unidades e o encerramento. A narração soma 225 palavras faladas, o que dá de 1 min 44 s a 1 min 57 s no ritmo de referência, deixando folga para as frases pessoais que o professor acrescentar nos campos em branco.
+A gravação é integralmente em câmera cheia, sem captura de tela. O deck tem seis slides: capa, audiodescrição, "Sobre o professor", "O que é esta disciplina", o percurso das quatro unidades e o encerramento. A narração soma 293 palavras faladas, dentro do teto de dois minutos.
 
 ## Fase 7 — Decks de slides
 
@@ -114,6 +114,7 @@ Dezessete decks HTML autocontidos: `aula0` (vídeo introdutório) e `aula1` a `a
 - **O deck `aula5` continha o conteúdo do `aula9`** — título, tema de verificação formal e rodapé de outra unidade —, com apenas a tag `<title>` correta. Foi reescrito a partir do roteiro da Aula 5. Nenhuma checagem estrutural pegaria esse erro, então `validar_slides.py` passou a conferir se cada deck contém o título da própria videoaula e se o rodapé aponta para a unidade e a aula certas.
 - O slide "Sobre o professor" aparecia em sete decks, em cinco deles sem os marcadores `[preencher: …]`. A convenção do repositório, conferida nas três disciplinas já migradas, é de um deck em dezessete: apenas o `aula0`. O slide foi concentrado ali, e é o único ponto de todo o material que contém informação pessoal.
 - **Informação pessoal preenchida pelo professor.** A foto entrou em `unidade_1/slides/assets/foto-professor.jpg` e a biografia foi alinhada às disciplinas irmãs `portos_aeroportos_e_ferrovias` e `industria_4_0_e_digitalizacao_de_processos`. Os três trechos de trajetória do `roteiro_video_introdutorio.md` também foram preenchidos. `validar_slides.py` deixou de exigir o marcador `[preencher: …]` e passou a exigir o oposto: nenhum marcador remanescente e a foto real presente no disco.
+- **Audiodescrição concentrada no `aula0`.** O slide se repetia nos dezessete decks. Ele descreve o professor e o padrão visual dos slides — informação que vale para a disciplina inteira, não por aula —, então ficou só no deck de abertura, e passou a descrever o professor fisicamente, como a acessibilidade pede. Os dois validadores foram invertidos junto: exigiam audiodescrição em todo deck, agora exigem que ela exista no `aula0` e não apareça nas aulas 1 a 16. As faixas de contagem de slides caíram um degrau, porque contavam o slide removido.
 
 ### Conferência executada sobre os 12 documentos institucionais
 

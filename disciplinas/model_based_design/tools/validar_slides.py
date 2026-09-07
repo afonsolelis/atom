@@ -79,7 +79,9 @@ def validar_deck(caminho: Path, unidade: int, numero: int) -> None:
 
     # --- estrutura
     n_slides = len(re.findall(r'<section class="slide', fonte))
-    alvo = (6, 9) if numero == 0 else (14, 20)
+    # Faixas rebaixadas em um slide quando a audiodescrição saiu das aulas 1 a 16
+    # e ficou só no aula0 — o piso anterior (6 e 14) a contabilizava.
+    alvo = (5, 9) if numero == 0 else (13, 20)
     if not alvo[0] <= n_slides <= alvo[1]:
         falha = FALHAS.append
         falha(f"{nome}: {n_slides} slides (alvo {alvo[0]} a {alvo[1]})")
@@ -88,8 +90,16 @@ def validar_deck(caminho: Path, unidade: int, numero: int) -> None:
 
     if 'class="slide slide-capa' not in fonte and "slide-capa" not in fonte:
         FALHAS.append(f"{nome}: sem slide de capa")
-    if "audiodescri" not in txt.lower():
-        FALHAS.append(f"{nome}: sem slide de audiodescrição (acessibilidade)")
+    # A audiodescrição é uma só, no deck de abertura: descreve o professor e o
+    # padrão visual dos slides, que valem para a disciplina inteira. Repeti-la
+    # em cada aula só acrescentava um slide idêntico ao anterior.
+    tem_audio = "audiodescri" in txt.lower()
+    if numero == 0 and not tem_audio:
+        FALHAS.append(f"{nome}: deck de abertura sem o slide de audiodescrição "
+                      "(acessibilidade)")
+    if numero != 0 and tem_audio:
+        FALHAS.append(f"{nome}: traz audiodescrição, que pela convenção da "
+                      "disciplina aparece apenas no aula0")
     if "slide-fim" not in fonte:
         FALHAS.append(f"{nome}: sem slide de encerramento")
 

@@ -583,8 +583,12 @@ def validar_slides() -> None:
         if "slide-prof" in parser.classes and not rel.endswith("aula0.html"):
             falha(f"{rel}: traz 'Sobre o professor', que pela convenção do "
                   "repositório aparece apenas no aula0")
-        if "Audiodescrição" not in txt:
-            falha(f"{rel}: falta slide de Audiodescrição")
+        # Assim como o slide do professor, a audiodescrição é uma só, no aula0:
+        # descreve o professor e o padrão visual, que valem para a disciplina
+        # inteira. Repeti-la em cada aula rendia dezesseis slides quase iguais.
+        if "Audiodescrição" in txt:
+            falha(f"{rel}: traz slide de Audiodescrição, que pela convenção da "
+                  "disciplina aparece apenas no aula0")
         if not re.search(rf"<title>Aula {aula}\b", txt):
             falha(f"{rel}: título HTML não corresponde à Aula {aula}")
         if re.search(r"MathJax|\\\(|\\\[|\$\$", txt):
