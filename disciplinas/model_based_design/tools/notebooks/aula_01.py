@@ -22,7 +22,6 @@ tamanho exato dessa queda.
 É só isso. Nenhuma fórmula nova, nenhuma teoria. Um robô que desobedece, e a
 medida de quanto ele desobedece.
 
-**Tempo:** cerca de 30 minutos, com calma.
 **Pré-requisito:** nenhum. Sério, nenhum.
 """),
 
@@ -367,8 +366,7 @@ if abs(falta) < 1.0:
     md("""
 ## Aprofundamento (opcional)
 
-Esta parte não cai na prova e não aparece na videoaula. Está aqui para quem
-quiser ver de onde vem o número.
+Esta parte é opcional. Está aqui para quem quiser ver de onde vem o número.
 
 Existe uma conta fechada para a velocidade final sem carga, sem precisar
 simular nada. Ela sai de igualar a zero as duas taxas de variação — ou seja,

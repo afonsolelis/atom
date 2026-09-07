@@ -24,7 +24,6 @@ você, a partir do modelo, e ver a cobertura pular.
 No fim, uma ferramenta vai encontrar um caso que ninguém escreveu à mão e
 reduzi-lo ao mínimo que ainda quebra.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebooks das Aulas 9 e 10.
 """),
 
@@ -164,7 +163,7 @@ print("É esse o abismo que 'a suíte está passando' esconde.")
 """),
 
     md("""
-### O que ficou de fora
+### E o que exatamente ficou de fora
 
 Não basta saber a porcentagem. É preciso saber **quais** transições ninguém
 testou — porque é exatamente ali que os bugs sobrevivem.
@@ -435,15 +434,15 @@ conhecido chama-se **MC/DC**, e ele exige mostrar que **cada condição
 isoladamente** consegue mudar o resultado. É caro, e é obrigatório em software
 aeronáutico do nível mais crítico.
 
-### O que ficou de fora
+### Os outros critérios de cobertura
 
-A teoria de cobertura de grafo tem uma família inteira de critérios — cobertura
-de nós, de arestas, de pares de arestas, de caminhos principais, de caminhos
-completos —, cada um mais forte e mais caro que o anterior.
+A teoria de cobertura de grafo tem uma família inteira de critérios —
+cobertura de nós, de arestas, de pares de arestas, de caminhos principais, de
+caminhos completos —, cada um mais forte e mais caro que o anterior.
 
-Esta aula usa **um**: cobrir toda transição. É o que faz sentido para um
-supervisor de estados e é o que a norma industrial normalmente pede na
-prática. Os demais estão no material complementar.
+Aqui você usou **um**: cobrir toda transição. É o que faz sentido para um
+supervisor de estados, e é o que a norma industrial costuma pedir na prática.
+Os demais estão no material complementar.
 
 ### O limite honesto de tudo isto
 

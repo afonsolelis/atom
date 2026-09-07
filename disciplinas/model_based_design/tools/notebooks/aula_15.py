@@ -24,7 +24,6 @@ No hardware de verdade, um ciclo demora 4,9 ms, o próximo 5,3, o próximo 5,0.
 Hoje você vai medir essa variação — ela tem nome, **jitter** — e vai ver o
 watchdog disparar quando o alvo para de responder.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** notebook da Aula 14.
 """),
 
@@ -344,16 +343,15 @@ if PRAZO_MS < float(np.max(p_ms)) * 3:
     md("""
 ## Aprofundamento (opcional)
 
-### O que ficou de fora
+### O protocolo de linha
 
-Esta aula, antes, detalhava o **protocolo de linha**: como os bytes são
-empacotados num quadro, o `checksum` que detecta corrupção, o byte de
-sincronismo que marca o início da mensagem, o tratamento de mensagem
-truncada.
+Como os bytes viajam pelo cabo é um assunto próprio: o quadro que empacota a
+mensagem, o `checksum` que detecta corrupção, o byte de sincronismo que marca
+o início, o tratamento de mensagem truncada.
 
-É conteúdo importante para quem vai implementar a ponte, e está no `README` do
-laboratório da aula. Mas ele não acrescenta nada ao entendimento de que **o
-tempo não é exato**, que é a ideia desta aula.
+Está tudo no `README` do laboratório desta aula, para quem for implementar a
+ponte. Nada disso muda o fato de que **o tempo não é exato**, que é a ideia
+daqui.
 
 ### De onde vem o jitter
 

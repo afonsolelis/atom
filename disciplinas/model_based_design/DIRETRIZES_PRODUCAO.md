@@ -94,8 +94,13 @@ em nota de rodapé.
    valores e vê o resultado mudar.
 6. **Caixa "Se você travou aqui".** Antecipa a dúvida mais provável da aula e
    responde antes de o aluno desistir.
-7. **O que ficou de fora.** Nomeia honestamente o assunto avançado que foi
-   adiado e diz onde encontrá-lo. Adiar não é esconder.
+7. **Onde ir além.** Nomeia o assunto avançado que não coube e diz onde
+   encontrá-lo. Adiar não é esconder.
+
+   Escreva sempre de frente para o aluno, nunca de costas para uma versão
+   anterior. Nada de "esta aula, antes, cobria X" ou "X saiu da videoaula":
+   para quem está assistindo, esta é a primeira e única versão. O mesmo vale
+   para estimativa de duração — o aluno vai no ritmo dele.
 
 ### O que foi cortado das videoaulas
 

@@ -21,7 +21,6 @@ você vai ver **cada um sozinho** antes de juntar os três.
 Depois vai cometer, de propósito, o erro mais comum de quem programa PID em
 sistema real — e consertá-lo.
 
-**Tempo:** cerca de 40 minutos.
 **Pré-requisito:** notebook da Aula 5.
 """),
 

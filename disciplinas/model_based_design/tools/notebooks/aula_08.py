@@ -24,7 +24,6 @@ erro nasce**.
 Hoje você mede esse erro e vê ele crescer quando as duas ferramentas se falam
 menos.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** notebook da Aula 7.
 """),
 
@@ -308,15 +307,15 @@ else:
     md("""
 ## Aprofundamento (opcional)
 
-### O que ficou de fora
+### Se você for trabalhar com isto
 
-Esta aula, na versão anterior, entrava na anatomia do padrão FMI: a estrutura
-interna do arquivo `.fmu`, o `modelDescription.xml`, os tipos de variável, os
-modos de acoplamento (Jacobi contra Gauss-Seidel).
+O padrão FMI tem bastante coisa por dentro: a estrutura do arquivo `.fmu`, o
+`modelDescription.xml` que descreve as variáveis, os tipos de dado e os modos
+de acoplamento (Jacobi contra Gauss-Seidel).
 
-Nada disso é necessário para entender **por que o erro nasce na conversa**,
-que é a ideia da aula. Quem for trabalhar com integração de modelos encontra
-o padrão completo no material complementar da unidade.
+Você não precisa de nada disso para entender **por que o erro nasce na
+conversa**, que é a ideia daqui. Mas quem for integrar modelos de verdade vai
+precisar — o padrão completo está no material complementar da unidade.
 
 ### Por que o erro cresce linearmente com H
 

@@ -26,7 +26,6 @@ número — e um número é a única forma de "equivalente" que vale alguma cois
 
 De brinde: um bug real, e a correção dele.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebook da Aula 13. Precisa do `gcc` instalado.
 """),
 
@@ -403,15 +402,15 @@ contas na mesma ordem, por que não dá zero absoluto?
 Nada disso é bug. É a razão de o critério de aceitação ser "da ordem do
 épsilon", e não "exatamente zero".
 
-### O que ficou de fora
+### Como isto vira rotina de time
 
-Esta aula, antes, também montava a integração contínua: o `GitHub Actions`
-rodando a comparação a cada `commit`, com o critério de aceitação como portão
-de mérito.
+O passo seguinte natural é a **integração contínua**: o `GitHub Actions`
+rodando esta comparação a cada `commit`, com o critério de aceitação como
+portão de mérito. Ninguém integra código que divergiu do modelo.
 
-É uma prática importante e é como isso vira rotina de time, mas não acrescenta
-nada ao entendimento de **por que a comparação numérica é necessária**. Está no
-material complementar da unidade.
+A configuração está no material complementar da unidade. A parte conceitual —
+**por que a comparação numérica é necessária** — é o que você acabou de fazer,
+e é ela que sustenta o resto.
 
 ### O teste de regressão
 

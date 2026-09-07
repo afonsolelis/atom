@@ -25,7 +25,6 @@ cada 5 milissegundos.
 Hoje você vai descobrir o que acontece quando ele dorme demais — e vai achar,
 com um número, o ponto exato em que o robô fica instável.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebooks das Aulas 5 e 6.
 """),
 

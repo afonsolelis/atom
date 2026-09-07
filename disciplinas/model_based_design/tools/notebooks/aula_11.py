@@ -25,7 +25,6 @@ obstáculo na frente.
 Hoje você troca "uma hora" por **"em até 150 milissegundos"**, e prova isso —
 incluindo o pior caso possível, aquele que nenhum teste normal produz.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** notebook da Aula 10.
 """),
 
@@ -314,17 +313,16 @@ print("REQ-SAFE-006:", "PASSOU" if r_x.ok else "REPROVOU")
     md("""
 ## Aprofundamento (opcional)
 
-### O que ficou de fora
+### A teoria por trás
 
-Autômatos temporizados têm uma teoria bonita por trás: **invariantes de
-localização** (condições que precisam valer enquanto o sistema fica num
-estado), **guardas** (condições de relógio que liberam uma transição) e
-**regiões de relógio** (a técnica que torna o problema decidível apesar de o
-tempo ser contínuo).
+Autômatos temporizados têm uma teoria bonita: **invariantes de localização**
+(condições que precisam valer enquanto o sistema fica num estado), **guardas**
+(condições de relógio que liberam uma transição) e **regiões de relógio** (a
+técnica que torna o problema decidível apesar de o tempo ser contínuo).
 
-Nada disso é necessário para entender que *o pior caso precisa ser enumerado,
-não estimado* — que é a ideia da aula. A teoria completa está no material
-complementar.
+Você não precisa dela para entender que *o pior caso precisa ser enumerado, e
+não estimado* — que é a ideia daqui. Mas ela está no material complementar,
+para quem for projetar sistemas temporizados de verdade.
 
 ### Contraparte industrial: UPPAAL
 

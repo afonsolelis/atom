@@ -25,7 +25,6 @@ mundo lê e acha claro — e descobrir que três programadores o transformariam 
 três programas diferentes. Depois vai reescrevê-lo de um jeito que não admite
 leitura dupla.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** ter passado pela Unidade 2. Não precisa de matemática nova.
 """),
 

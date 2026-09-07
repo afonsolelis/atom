@@ -24,7 +24,6 @@ Hoje você aprende a responder essa pergunta com honestidade — e a montar o
 documento que sustenta a resposta: a **matriz de rastreabilidade**, que liga
 cada requisito ao código e ao teste que o cobre.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** ter passado pelas quinze aulas anteriores.
 """),
 
@@ -433,15 +432,15 @@ else:
     md("""
 ## Aprofundamento (opcional)
 
-### O que ficou de fora
+### O texto normativo
 
-O detalhe normativo do **DO-330**, o suplemento do DO-178C que trata
-especificamente de qualificação de ferramenta, saiu da videoaula. Ele define
-cinco níveis de qualificação (TQL-1 a TQL-5) e os objetivos de cada um.
+O **DO-330** é o suplemento do DO-178C que trata especificamente de
+qualificação de ferramenta. Ele define cinco níveis (TQL-1 a TQL-5) e os
+objetivos exigidos em cada um.
 
 O critério das três perguntas que você aplicou no Passo 4 é a essência dele.
-O texto normativo completo é leitura de quem vai trabalhar em certificação, e
-está no material complementar.
+O texto completo é leitura de quem vai trabalhar em certificação, e está no
+material complementar.
 
 ### Onde isso é usado de verdade
 

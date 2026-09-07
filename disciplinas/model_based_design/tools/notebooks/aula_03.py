@@ -24,7 +24,6 @@ que dois números resumem o comportamento inteiro do motor.
 
 De quebra, o mistério dos 63% da Aula 1 acaba.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebooks das Aulas 1 e 2.
 """),
 
@@ -383,15 +382,16 @@ do Passo 1 imprimiu.
 É álgebra de ensino médio. Foi isso que Laplace comprou para você: a chance de
 resolver um problema de cálculo isolando variável.
 
-### O que ficou de fora desta aula
+### Para onde isto vai
 
-Na versão anterior desta disciplina, esta aula também cobria **diagrama de
-Bode, margem de fase, margem de ganho e largura de banda**. Esses assuntos
-foram movidos para a **Aula 7**, onde existe um problema concreto de
-estabilidade que os torna necessários. Aprender uma ferramenta antes de ter o
-problema que ela resolve é o jeito mais rápido de esquecê-la.
+Polos são metade da história da análise em frequência. A outra metade —
+**diagrama de Bode, margem de fase e largura de banda** — chega na **Aula 7**,
+junto com o problema de estabilidade que torna essas ferramentas necessárias.
 
-**Zeros** também ficaram de fora: o NexaBot não tem zero relevante, e um
+A ordem é de propósito: ferramenta antes do problema é ferramenta esquecida.
+
+Você também vai ouvir falar de **zeros**, o parente dos polos. O NexaBot não
+tem nenhum que importe, então eles ficam para o material complementar — um
 conceito sem exemplo próprio não gruda.
 """),
     code(r"""

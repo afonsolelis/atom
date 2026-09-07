@@ -22,7 +22,6 @@ Vai ver que o motor inteiro cabe em **duas frases de física**. E vai descobrir
 os cinco números do motor sem abrir o motor — só olhando como ele responde a
 um empurrão.
 
-**Tempo:** cerca de 40 minutos.
 **Pré-requisito:** ter rodado o notebook da Aula 1.
 """),
 
@@ -428,8 +427,7 @@ print(f"  pior erro: {max(erros):.2f}%")
     md("""
 ## Aprofundamento (opcional)
 
-Não cai na prova, não está na videoaula. É para quem quer saber *como* o
-computador acha os cinco números.
+Opcional. É para quem quer saber *como* o computador acha os cinco números.
 
 O método chama-se **mínimos quadrados não lineares**. "Mínimos quadrados"
 porque ele minimiza a soma dos erros ao quadrado (eleva ao quadrado para que

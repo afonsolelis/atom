@@ -25,7 +25,6 @@ Hoje você vai usar uma ferramenta que percorre **todos os caminhos possíveis**
 do supervisor do NexaBot. Não uma amostra grande: todos. E quando ela achar um
 problema, vai te entregar a sequência exata de passos que leva até ele.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebook da Aula 9.
 """),
 
@@ -384,16 +383,16 @@ resto do software.
 O supervisor desta disciplina é pequeno porque foi desenhado para ser
 verificável. Essa é uma decisão de arquitetura, não um acaso.
 
-### O que ficou de fora
+### A outra lógica temporal
 
 Existe uma segunda lógica temporal, **CTL** (*Computation Tree Logic*), que
 fala sobre a árvore de caminhos possíveis em vez de um caminho linear. Ela
 permite dizer coisas como "existe algum caminho em que...".
 
-Ela foi tirada desta aula. LTL com dois operadores já resolve todos os
-requisitos do NexaBot, e aprender duas lógicas parecidas ao mesmo tempo é a
-receita para não aprender nenhuma. CTL está no material complementar da
-unidade.
+Aqui a gente fica só com LTL, e com dois operadores dela. Isso resolve todos
+os requisitos do NexaBot, e aprender duas lógicas parecidas ao mesmo tempo é
+a receita para não aprender nenhuma. CTL está no material complementar da
+unidade, para quando LTL já estiver confortável.
 
 ### Contraparte industrial
 

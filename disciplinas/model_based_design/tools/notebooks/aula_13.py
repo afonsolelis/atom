@@ -26,7 +26,6 @@ chama atenção.
 
 Hoje você gera o C a partir do modelo. Ninguém digita, ninguém erra de digitar.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebook da Aula 6 (o PID).
 """),
 
@@ -347,14 +346,14 @@ Nenhuma dessas linhas foi digitada por alguém. Elas saem da forma contínua do
 PID mais a regra de discretização escolhida (Euler para trás), pela mesma
 álgebra que você viu no Aprofundamento da Aula 3.
 
-### O que ficou de fora
+### A derivação completa
 
-A derivação simbólica completa — passo a passo, do PID contínuo até a equação
-de diferenças, com a manipulação em `z⁻¹` — saiu da videoaula.
+O caminho simbólico inteiro — do PID contínuo até a equação de diferenças, com
+a manipulação em `z⁻¹` — está no material complementar.
 
-Ela é bonita e é conteúdo de quem vai escrever geradores de código. Para
-entender **por que o código gerado é confiável**, basta ver a entrada, a saída
-e a evidência de que uma corresponde à outra. Está no material complementar.
+Ele é conteúdo de quem vai escrever geradores de código. Para entender **por
+que o código gerado é confiável**, basta ver a entrada, a saída e a evidência
+de que uma corresponde à outra, que é o que a célula abaixo mostra.
 """),
     code(r"""
 from nexabot.codegen import derive

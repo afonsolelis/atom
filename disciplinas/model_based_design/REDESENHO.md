@@ -218,14 +218,18 @@ Um `.ipynb` por aula, em `unidade_N/notebooks/`, nomeados
 
 Estrutura fixa de cada notebook:
 
-1. **O que você vai fazer aqui** — em três linhas, sem jargão.
+1. **O que você vai fazer aqui** — em três linhas, sem jargão. Sem estimativa
+   de duração: o aluno vai no ritmo dele, e um relógio na abertura só serve
+   para ele se sentir atrasado.
 2. **Antes de começar** — o chão da aula, agora executável: célula que imprime
    `100 rad/s` convertido em voltas por segundo e em metros por segundo.
 3. **Passo a passo**, uma célula por ideia, cada uma precedida de texto em
    português explicando o que a célula faz *antes* de o aluno rodar.
 4. **Mexa aqui** — célula com um valor destacado para o aluno alterar, e a
    pergunta do que ele espera que aconteça antes de rodar de novo.
-5. **Aprofundamento** — o conteúdo que saiu da videoaula, marcado como opcional.
+5. **Aprofundamento** — o conteúdo mais avançado, marcado como opcional e
+   escrito para quem quiser ir além. O notebook nunca menciona que ele "saiu"
+   de algum lugar: para o aluno, esta é a primeira e única versão da aula.
 6. **Se deu erro** — os dois ou três erros mais prováveis e o que fazer.
 
 Os notebooks importam de `projeto_nexabot/nexabot/`, então nenhum número é

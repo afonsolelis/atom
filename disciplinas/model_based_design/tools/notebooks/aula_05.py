@@ -22,7 +22,6 @@ A correção cabe em três palavras: **medir, comparar, corrigir**. Você vai
 implementar isso em umas dez linhas e ver a mesma carga que derrubou o robô
 não derrubar mais nada.
 
-**Tempo:** cerca de 30 minutos.
 **Pré-requisito:** notebooks das Aulas 1 a 4.
 """),
 
@@ -439,15 +438,15 @@ infinito, e qualquer numerador finito dividido por infinito dá zero.
 
 O integrador coloca um infinito no lugar certo.
 
-### O que ficou de fora
+### Se você quiser ir além
 
-A versão anterior desta aula também cobria as **funções de sensibilidade $S$ e
-complementar $T$** e a classificação por **tipo de sistema**. Ambas são
-ferramentas de análise valiosas, mas exigem que você já esteja confortável com
-resposta em frequência — que só chega na Aula 7.
+Existe um jeito mais formal de analisar malha fechada, com as **funções de
+sensibilidade $S$ e complementar $T$** e a classificação por **tipo de
+sistema**. São ferramentas boas, e estão no material complementar da unidade.
 
-Elas estão no material complementar da unidade. A conclusão prática que você
-precisa hoje já está aqui: **com integrador, o erro em regime vai a zero**.
+Elas pedem que você já esteja confortável com resposta em frequência, que só
+aparece na Aula 7. A conclusão prática de que você precisa hoje já está aqui:
+**com integrador, o erro em regime vai a zero**.
 """),
     code(r"""
 import control as ct

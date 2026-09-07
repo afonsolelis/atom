@@ -24,7 +24,6 @@ Você vai fazer duas perguntas ao modelo e receber duas respostas honestas:
 Depois vai projetar um controle cada vez mais rápido — até a física dizer não.
 E vai ver exatamente onde ela diz não.
 
-**Tempo:** cerca de 35 minutos.
 **Pré-requisito:** notebooks das Aulas 1 a 3.
 """),
 
