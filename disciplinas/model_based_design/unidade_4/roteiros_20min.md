@@ -272,7 +272,7 @@ Na próxima aula, a Aula 15, o controlador deixa de rodar dentro do mesmo proces
 
 ---
 
-## Roteiro da Videoaula 15 — "5 milissegundos, de verdade"
+## Roteiro da Videoaula 15 — "Cinco milissegundos, de verdade"
 
 **Vínculo com o plano de aprendizagem:** Unidade 4, Aula 15 — Hardware-in-the-loop, tempo real e jitter.
 

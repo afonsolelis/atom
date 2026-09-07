@@ -1,7 +1,16 @@
 # Notebooks passo a passo
 
-Um notebook por aula. Você abre, roda célula por célula, muda os números e vê
-o resultado mudar.
+Um notebook por aula, **dentro da pasta da unidade**, na mesma convenção dos
+slides:
+
+```
+unidade_1/notebooks/aula_01_primeiro_contato.ipynb   ...  aula_04
+unidade_2/notebooks/aula_05_malha_fechada.ipynb      ...  aula_08
+unidade_3/notebooks/aula_09_requisito_formal.ipynb   ...  aula_12
+unidade_4/notebooks/aula_13_geracao_de_codigo.ipynb  ...  aula_16
+```
+
+Você abre, roda célula por célula, muda os números e vê o resultado mudar.
 
 Estes notebooks são a resposta a um problema real: a primeira versão desta
 disciplina entrava em Kirchhoff, espaço de estados e Laplace sem nunca ter
@@ -16,7 +25,7 @@ No terminal, a partir da pasta da disciplina:
 cd projeto_nexabot
 uv venv .venv
 uv pip install --python .venv/bin/python -e .
-.venv/bin/jupyter lab ../notebooks
+.venv/bin/jupyter lab ..
 ```
 
 Se o Jupyter abrir e a primeira célula rodar sem erro, está tudo certo.
@@ -40,9 +49,9 @@ disciplina. Se o motor mudar, muda lá e os dezesseis notebooks acompanham.
 
 ## Como estes arquivos são gerados
 
-O `.ipynb` é artefato. O que se revisa é o fonte em `tools/notebooks/aula_NN.py`,
-que declara as células como texto Python legível — JSON de notebook é
-impossível de revisar em diff.
+O `.ipynb` é artefato, e ele é gravado na pasta da unidade correspondente. O
+que se revisa é o fonte em `tools/notebooks/aula_NN.py`, que declara as células
+como texto Python legível — JSON de notebook é impossível de revisar em diff.
 
 ```bash
 python3 tools/nbkit.py          # reconstrói todos

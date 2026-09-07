@@ -25,7 +25,17 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 FONTES = RAIZ / "tools" / "notebooks"
-SAIDA = RAIZ / "notebooks"
+
+
+def _destino(n: int) -> Path:
+    """O notebook mora na pasta da unidade a que a aula pertence.
+
+    A convenção é a mesma dos slides: `unidade_N/slides/aulaN.html` e
+    `unidade_N/notebooks/aula_NN_*.ipynb`. As aulas se distribuem 1-4 na
+    Unidade 1, 5-8 na 2, 9-12 na 3 e 13-16 na 4.
+    """
+    unidade = (n - 1) // 4 + 1
+    return RAIZ / f"unidade_{unidade}" / "notebooks"
 
 
 # --------------------------------------------------------------- células
@@ -146,7 +156,6 @@ def main(argv: list[str]) -> int:
     pedidas = [int(a) for a in argv if a.isdigit()]
     alvos = pedidas or list(range(1, 17))
 
-    SAIDA.mkdir(exist_ok=True)
     erros: list[str] = []
     feitos = 0
     ausentes = []
@@ -159,12 +168,15 @@ def main(argv: list[str]) -> int:
         nb = montar(mod.CELULAS, mod.TITULO)
         rotulo = f"aula_{n:02d}"
         erros += validar(nb, rotulo)
-        destino = SAIDA / f"{rotulo}_{mod.SLUG}.ipynb"
+        pasta = _destino(n)
+        pasta.mkdir(parents=True, exist_ok=True)
+        destino = pasta / f"{rotulo}_{mod.SLUG}.ipynb"
         if not apenas_checar:
             destino.write_text(json.dumps(nb, ensure_ascii=False, indent=1) + "\n",
                                encoding="utf-8")
         n_code = sum(1 for c in nb["cells"] if c["cell_type"] == "code")
-        print(f"  {destino.name}: {len(nb['cells'])} células ({n_code} de código)")
+        rel = destino.relative_to(RAIZ)
+        print(f"  {rel}: {len(nb['cells'])} células ({n_code} de código)")
         feitos += 1
 
     print()

@@ -247,7 +247,7 @@ Esta aula projetou e sintonizou o controlador PID do NexaBot, e mostrou, na prá
 
 ---
 
-## Roteiro da Videoaula 7 — "30 amostras por constante de tempo: de onde vem esse número"
+## Roteiro da Videoaula 7 — "Trinta amostras por constante de tempo: de onde vem esse número"
 
 **Vínculo com o plano de aprendizagem:** Unidade 2, Aula 7 — Discretização e escolha do período de amostragem.
 
@@ -379,7 +379,7 @@ Esta aula fechou o contrato numérico do `DiscretePID` e justificou, com uma var
 
 ---
 
-## Roteiro da Videoaula 8 — "2 relógios, um só resultado: o preço de espaçar a comunicação"
+## Roteiro da Videoaula 8 — "Dois relógios, um só resultado: o preço de espaçar a comunicação"
 
 **Vínculo com o plano de aprendizagem:** Unidade 2, Aula 8 — Co-simulação planta-controlador com FMI 3.0.
 

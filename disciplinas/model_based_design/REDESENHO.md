@@ -212,7 +212,9 @@ Aula conceitual, já acessível. Mudança pequena.
 
 ## Notebooks
 
-Um `.ipynb` por aula, em `notebooks/`, nomeados `aula_NN_assunto.ipynb`.
+Um `.ipynb` por aula, em `unidade_N/notebooks/`, nomeados
+`aula_NN_assunto.ipynb` — mesma convenção dos slides, que ficam em
+`unidade_N/slides/`.
 
 Estrutura fixa de cada notebook:
 
@@ -227,14 +229,16 @@ Estrutura fixa de cada notebook:
 6. **Se deu erro** — os dois ou três erros mais prováveis e o que fazer.
 
 Os notebooks importam de `projeto_nexabot/nexabot/`, então nenhum número é
-reescrito: `params.py` continua sendo a fonte única de verdade.
+reescrito: `params.py` continua sendo a fonte única de verdade. A primeira
+célula de cada um acha o pacote sozinha, esteja o Jupyter aberto de onde
+estiver.
 
 ## Ordem de execução
 
 1. `DIRETRIZES_PRODUCAO.md` seção 3 — o padrão pedagógico. **Feito.**
 2. Este arquivo — o mapa de cortes. **Feito.**
-3. Unidade 1: `unidade_1.md`, `roteiros_20min.md`, 4 notebooks.
-4. Unidade 2, 3 e 4, na mesma forma.
+3. Os 16 notebooks. **Feito** — todos executados de ponta a ponta.
+4. Reescrita dos quatro `unidade_N.md` e dos roteiros, no padrão da seção 3.
 5. Decks HTML das 17 aulas, alinhados ao novo texto.
 6. Questionários: reconferir as 160 questões contra o conteúdo que saiu.
 7. `avaliacao_dissertativa.md` e `entrega_trabalho.md`, mesma conferência.

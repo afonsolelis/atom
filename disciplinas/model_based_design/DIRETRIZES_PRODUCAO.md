@@ -46,7 +46,7 @@ disciplinas/model_based_design/
 ├── AMBIENTE_E_STACK.md
 ├── CRONOGRAMA.md
 ├── roteiro_video_introdutorio.md
-├── unidade_1/  unidade_1.md · roteiros_20min.md · questoes_uni1.md
+├── unidade_1/  unidade_1.md · roteiros_20min.md · questoes_uni1.md · slides/ · notebooks/
 ├── unidade_2/  unidade_2.md · roteiros_20min.md · questoes_uni2.md
 ├── unidade_3/  unidade_3.md · roteiros_20min.md · questoes_uni3.md
 ├── unidade_4/  unidade_4.md · roteiros_20min.md · questoes_uni4.md
@@ -90,7 +90,7 @@ em nota de rodapé.
 4. **Número antes da fórmula.** Primeiro o valor medido que o aluno vê na
    tela; depois a fórmula que explica de onde ele veio. Nunca o contrário.
 5. **Notebook passo a passo.** Um `.ipynb` por aula, em
-   `notebooks/aula_NN_*.ipynb`, que o aluno roda célula a célula, mexe nos
+   `unidade_N/notebooks/aula_NN_*.ipynb`, que o aluno roda célula a célula, mexe nos
    valores e vê o resultado mudar.
 6. **Caixa "Se você travou aqui".** Antecipa a dúvida mais provável da aula e
    responde antes de o aluno desistir.

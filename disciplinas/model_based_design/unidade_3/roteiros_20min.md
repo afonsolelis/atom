@@ -21,7 +21,7 @@ O fio condutor das 4 aulas é o supervisor de segurança do NexaBot (`nexabot/su
 
 ---
 
-## Roteiro da Videoaula 9 — "Um requisito, 3 leituras: da ambiguidade à propriedade formal"
+## Roteiro da Videoaula 9 — "Um requisito, três leituras: da ambiguidade à propriedade formal"
 
 **Vínculo com o plano de aprendizagem:** Unidade 3, Aula 9 — Da especificação em texto à propriedade formal.
 

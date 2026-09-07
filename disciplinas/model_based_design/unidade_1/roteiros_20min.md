@@ -229,7 +229,7 @@ Recapitulando. As leis de Kirchhoff e de Newton para rotação modelam o eixo do
 
 ---
 
-## Roteiro da Videoaula 3 — "2 polos, uma pergunta: dá para ignorar o mais rápido?"
+## Roteiro da Videoaula 3 — "Dois polos, uma pergunta: dá para ignorar o mais rápido?"
 
 **Vínculo com o plano de aprendizagem:** Unidade 1, Aula 3 — Laplace, função de transferência e resposta em frequência.
 

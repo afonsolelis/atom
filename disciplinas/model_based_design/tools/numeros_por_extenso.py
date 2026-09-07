@@ -15,6 +15,12 @@ que ela é mesmo um número:
 - contém "vírgula" (é um decimal); ou
 - tem duas ou mais palavras-número compostas ("vinte e quatro", "cento e dez").
 
+**Não rode isto sobre os títulos das videoaulas.** Em título, número por
+extenso é a forma correta em português: "Dois polos, uma pergunta", não
+"2 polos". A primeira execução converteu os títulos junto, e os decks HTML
+— que carregam o título da própria aula — passaram a divergir dos roteiros,
+quebrando `validar_slides.py`. Os títulos foram restaurados à mão.
+
 Uso:
     python3 tools/numeros_por_extenso.py --check     # mostra o que mudaria
     python3 tools/numeros_por_extenso.py             # aplica
