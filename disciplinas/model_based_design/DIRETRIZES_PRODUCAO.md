@@ -59,7 +59,61 @@ disciplinas/model_based_design/
 
 O layout segue a **variante TECH do Átomo 3.0**, a mesma de `disciplinas/distributed_systems_engineering/`: um arquivo por unidade, roteiros em arquivo irmão, 40 questões por unidade e avaliação final exclusivamente dissertativa.
 
-## 3. Estrutura de cada `unidade_N.md`
+## 3. Padrão pedagógico — público introdutório
+
+O primeiro corte desta disciplina foi escrito para quem já tinha controle e
+modelagem na bagagem. A gravação das duas primeiras videoaulas mostrou que o
+público real é **introdutório**: o material entrava direto em Kirchhoff,
+espaço de estados e Laplace sem nunca ter dito o que é `rad/s`. Esta seção é a
+correção, e vale para as dezesseis aulas.
+
+### A regra que resolve a maior parte dos casos
+
+> **Nenhum símbolo, unidade ou palavra técnica aparece sem ser lido em voz alta
+> e traduzido para o português comum na primeira vez que surge.**
+
+Não é "ω": é "ômega, a velocidade de giro do eixo". Não é "rad/s": é "radianos
+por segundo — uma volta inteira são 6,28 radianos, então 100 rad/s é o eixo
+dando cerca de 16 voltas por segundo". A tradução vem **antes** do símbolo, não
+em nota de rodapé.
+
+### Estrutura obrigatória de cada aula
+
+1. **Gancho concreto.** Um fenômeno visível, sem jargão nenhum. O robô perde
+   velocidade quando pega a rampa. Ainda não há fórmula na tela.
+2. **Chão da aula.** Seção fixa, no máximo três conceitos, cada um em
+   linguagem comum e com uma analogia do cotidiano. É aqui que moram `rad/s`,
+   "o que é uma equação diferencial", "o que Laplace faz". Sem esta seção a
+   aula não é considerada pronta.
+3. **Uma ideia central.** Cada aula defende **uma** ideia. Todo o resto é
+   apoio a ela. Se a aula tem duas ideias centrais, ela precisa virar duas.
+4. **Número antes da fórmula.** Primeiro o valor medido que o aluno vê na
+   tela; depois a fórmula que explica de onde ele veio. Nunca o contrário.
+5. **Notebook passo a passo.** Um `.ipynb` por aula, em
+   `notebooks/aula_NN_*.ipynb`, que o aluno roda célula a célula, mexe nos
+   valores e vê o resultado mudar.
+6. **Caixa "Se você travou aqui".** Antecipa a dúvida mais provável da aula e
+   responde antes de o aluno desistir.
+7. **O que ficou de fora.** Nomeia honestamente o assunto avançado que foi
+   adiado e diz onde encontrá-lo. Adiar não é esconder.
+
+### O que foi cortado das videoaulas
+
+O contrato fixa dezesseis aulas de vinte minutos. Para caber o "chão" sem
+estourar o tempo, o conteúdo avançado saiu da videoaula e foi para o notebook
+ou para o material complementar. A lista por aula está em `REDESENHO.md`.
+
+### Vocabulário
+
+- Frases curtas. Uma ideia por frase.
+- Voz ativa, segunda pessoa: "você vai medir", não "mede-se".
+- Analogia antes da definição formal, sempre.
+- Nada de "trivialmente", "basta", "é imediato", "simplesmente". Se fosse
+  imediato o aluno não estaria assistindo.
+- Erro é conteúdo: mostrar o que quebra, e por quê, vale mais que o caminho
+  limpo.
+
+## 4. Estrutura de cada `unidade_N.md`
 
 1. Cabeçalho: disciplina, unidade, professor-conteudista.
 2. Relação da unidade com a atuação profissional.
@@ -89,7 +143,7 @@ Recursos visuais aparecem como blocos descritivos para a equipe de edição, no 
 
 De 3 a 5 recursos visuais por aula.
 
-## 4. Estrutura de cada `roteiros_20min.md`
+## 5. Estrutura de cada `roteiros_20min.md`
 
 Um arquivo por unidade, contendo os quatro roteiros das videoaulas daquela unidade. Cada roteiro contém:
 
@@ -105,7 +159,7 @@ Um arquivo por unidade, contendo os quatro roteiros das videoaulas daquela unida
 
 **Diferença em relação a uma disciplina expositiva:** esta é uma disciplina de captura de tela. Cada roteiro alterna entre blocos de **[SLIDE]** e blocos de **[TELA: terminal]** ou **[TELA: editor]**, e todo bloco de tela traz o comando literal e um resumo da saída que aparecerá. O professor não improvisa o que digita.
 
-## 5. Estrutura dos questionários
+## 6. Estrutura dos questionários
 
 - 40 questões por unidade: 20 de asserção-razão (1 a 20) e 20 de interpretação (21 a 40).
 - Cinco alternativas por questão, de `a.` a `e.`, com a correta prefixada por `*`.
@@ -113,7 +167,7 @@ Um arquivo por unidade, contendo os quatro roteiros das videoaulas daquela unida
 - Devolutiva para **todas** as alternativas, não apenas para a correta.
 - As questões de interpretação devem apresentar cenário, dado numérico ou trecho de código do NexaBot e exigir análise, não memorização.
 
-## 6. Checklist de gravação (por aula)
+## 7. Checklist de gravação (por aula)
 
 - [ ] Terminal em fonte grande, tema de alto contraste, prompt curto, diretório da aula já aberto.
 - [ ] Ambiente virtual ativado e verificado com `aula_01/01_ambiente.py`.
@@ -124,7 +178,7 @@ Um arquivo por unidade, contendo os quatro roteiros das videoaulas daquela unida
 - [ ] Marcação de erro deliberado ensaiada: o erro precisa aparecer e ser corrigido na mesma tomada, quando previsto no roteiro.
 - [ ] Duração cronometrada em ensaio antes da gravação definitiva.
 
-## 7. Regras de conteúdo
+## 8. Regras de conteúdo
 
 - Português do Brasil em todo o material, incluindo comentários e saídas dos scripts.
 - Estrangeirismos em itálico, exceto siglas, marcas, nomes próprios e trechos de código.
@@ -133,19 +187,19 @@ Um arquivo por unidade, contendo os quatro roteiros das videoaulas daquela unida
 - Todo número citado no material escrito e nos roteiros deve ser reproduzível por um script de `projeto_nexabot/`. Número que não roda não entra.
 - Honestidade técnica é requisito: o pipeline aberto **produz evidências**, não certifica. Confiança e eventual qualificação de ferramentas dependem do uso, do impacto de erro e da capacidade de detecção posterior — não da licença aberta ou comercial.
 
-## 8. Versões do estudante e do tutor
+## 9. Versões do estudante e do tutor
 
 - A avaliação final dissertativa e o trabalho PBL são arquivos-mestres, com Parte A (estudante) e Parte B (tutor).
 - Respostas esperadas, soluções e rubricas nunca podem permanecer no arquivo distribuído ao estudante.
 - A exportação para distribuição deve cortar o arquivo antes do início da Parte B.
 
-## 9. Formatos
+## 10. Formatos
 
 - Fonte editável de produção: Markdown.
 - Entrega institucional: DOCX gerado por `tools/build_docx.py`, com corpo em Times New Roman 12, espaçamento 1,15, alinhamento à esquerda.
 - Laboratórios: código Python e C versionado em `projeto_nexabot/`.
 
-## 10. Lista de verificação antes da entrega
+## 11. Lista de verificação antes da entrega
 
 - [x] Ementa oficial analisada criticamente e adequações registradas e justificadas.
 - [x] Plano de aprendizagem com 4 unidades e 16 aulas de 20 minutos.
