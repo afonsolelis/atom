@@ -8,6 +8,9 @@ nunca chega a ser cruzado de fato.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 3` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 3 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_03/01_laplace_sympy.py
 .venv/bin/python aula_03/02_polos_zeros.py

@@ -7,6 +7,9 @@ o "de onde vêm os números de `params.py`" da disciplina.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 2` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 2 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_02/01_sympy_derivacao.py
 .venv/bin/python aula_02/02_estado_vs_transferencia.py

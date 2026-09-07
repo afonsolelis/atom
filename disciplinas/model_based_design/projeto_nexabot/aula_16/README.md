@@ -7,6 +7,9 @@ produz (evidência) e o que ele não é (certificação DO-178C/ISO 26262).
 
 ## Como rodar
 
+Atalho: `./run.sh 16` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 16 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_16/01_matriz_rastreabilidade.py

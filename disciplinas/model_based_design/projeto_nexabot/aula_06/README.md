@@ -6,6 +6,9 @@ de windup no controlador PID.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 6` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 6 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_06/01_ganho_critico.py
 .venv/bin/python aula_06/02_ziegler_nichols.py

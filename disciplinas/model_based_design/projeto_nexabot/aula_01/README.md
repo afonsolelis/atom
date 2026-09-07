@@ -5,6 +5,9 @@ da disciplina e primeiro contato com a planta em malha aberta.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 1` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 1 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_01/01_ambiente.py
 .venv/bin/python aula_01/02_primeira_simulacao.py

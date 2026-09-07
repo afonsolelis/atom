@@ -7,6 +7,9 @@ computacional de 1 ciclo, e o efeito da resolução finita de encoder e PWM.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 7` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 7 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_07/01_euler_tustin_zoh.py
 .venv/bin/python aula_07/02_escolha_de_ts.py

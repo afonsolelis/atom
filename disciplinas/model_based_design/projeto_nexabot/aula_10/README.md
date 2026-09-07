@@ -7,6 +7,9 @@ qualquer ferramenta de mercado.
 
 ## Comandos exatos
 
+Atalho: `./run.sh 10` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 10 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_10/01_explora_estados.py

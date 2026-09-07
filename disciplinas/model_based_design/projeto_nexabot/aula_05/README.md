@@ -8,6 +8,9 @@ melhorar rejeição a distúrbio sem piorar a rejeição a ruído de sensor.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 5` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 5 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_05/01_algebra_blocos.py
 .venv/bin/python aula_05/02_rejeicao_disturbio.py

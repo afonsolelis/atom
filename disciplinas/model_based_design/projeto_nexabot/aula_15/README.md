@@ -9,6 +9,9 @@ hardware — ver `nexabot/firmware/README.md`).
 
 ## Como rodar
 
+Atalho: `./run.sh 15` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 15 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_15/01_loopback_hil.py

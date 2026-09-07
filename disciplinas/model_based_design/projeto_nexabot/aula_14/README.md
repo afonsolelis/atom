@@ -6,6 +6,9 @@ equivalência numérica entre `DiscretePID` (Python) e o código gerado.
 
 ## Como rodar
 
+Atalho: `./run.sh 14` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 14 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_14/01_compila_sil.py

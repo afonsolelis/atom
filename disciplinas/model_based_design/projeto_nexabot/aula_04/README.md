@@ -7,6 +7,9 @@ NexaBot, encerrados por um desafio de projeto com dois requisitos simultâneos.
 
 ## Comandos (execute nesta ordem, a partir de `projeto_nexabot/`)
 
+Atalho: `./run.sh 4` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 4 2` roda só o script 2.
+
 ```bash
 .venv/bin/python aula_04/01_ctrb_obsv.py
 .venv/bin/python aula_04/02_alocacao_polos.py

@@ -8,6 +8,9 @@ checker da Aula 10.
 
 ## Comandos exatos
 
+Atalho: `./run.sh 9` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 9 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_09/01_requisitos.py

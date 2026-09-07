@@ -7,6 +7,9 @@ digitação manual. Ver `nexabot/codegen/` (`derive.py`, `generate.py`,
 
 ## Como rodar
 
+Atalho: `./run.sh 13` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 13 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_13/01_do_modelo_ao_c.py

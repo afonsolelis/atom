@@ -8,6 +8,9 @@ mais os requisitos formais numa suíte pytest que precisa passar.
 
 ## Comandos exatos
 
+Atalho: `./run.sh 12` roda os scripts abaixo em ordem, pausando entre
+eles (`[Enter]` segue, `q` sai). `./run.sh 12 2` roda só o script 2.
+
 ```bash
 cd projeto_nexabot
 .venv/bin/python aula_12/01_gera_testes.py

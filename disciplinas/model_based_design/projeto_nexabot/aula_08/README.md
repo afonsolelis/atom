@@ -8,10 +8,12 @@ projeto.
 ## Pré-requisitos
 
 - `gcc` disponível no PATH (usado para compilar o FMU).
-- Ambiente virtual `.venv/` já criado com `numpy`, `scipy`, `control`,
-  `sympy`, `matplotlib`, `fmpy`, `pytest` etc. (já presente no repositório).
+- Ambiente virtual `.venv/` já criado (`./run.sh setup` na raiz do projeto).
 
 ## Ordem de execução
+
+Atalho: `./run.sh 8` roda os cinco scripts em ordem, pausando entre eles
+(`[Enter]` segue, `q` sai). `./run.sh 8 2` roda só o script 2.
 
 ### 1. Construir o FMU
 
