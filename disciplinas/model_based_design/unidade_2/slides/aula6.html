@@ -894,14 +894,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal</p>
-      <h2>O windup já está acontecendo</h2>
+      <p class="kicker">Preparação para a prática</p>
+      <h2>Antes de abrir o notebook</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Pede-se ao NexaBot 4,0&nbsp;m/s (1&nbsp;600&nbsp;rad/s) — fisicamente impossível: o teto do motor a 24&nbsp;V é 1,273&nbsp;m/s.</li>
-          <li>Tensão colada no teto de 24&nbsp;V por meio segundo; velocidade sobe a um patamar bem abaixo do pedido — isso, sozinho, é apenas <strong>saturação</strong>.</li>
-          <li>A referência cai para um valor alcançável, e o robô demora quase <strong>2,5 segundos</strong> para obedecer — esse atraso é o problema real da aula.</li>
-          <li>Cenário realista: operador digita velocidade errada, planejador mal calculado, ou bateria momentaneamente insuficiente sob carga.</li>
+          <li>Confirme o kernel Python da disciplina e reinicie-o se vier de outra aula.</li>
+          <li>Separe os conceitos de <strong>saturação</strong> e <strong>windup</strong>: o segundo aparece depois que o pedido volta a ser alcançável.</li>
+          <li>Observe no notebook as quatro métricas: sobressinal, subida, acomodação e ISE.</li>
+          <li>Execute as células em ordem; altere <code>K_aw</code> somente na seção <strong>Mexa aqui</strong>.</li>
         </ul>
       </div>
     </div>
@@ -911,14 +911,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor</p>
-      <h2>nexabot/controllers.py — o contrato do DiscretePID</h2>
+      <p class="kicker">Agora: notebook Python</p>
+      <h2>Abra <code>aula_06_pid_na_pratica.ipynb</code></h2>
       <div class="slide-content-box">
         <ul>
-          <li>Erro: e[k]=r[k]-y[k].</li>
-          <li>Integral por Euler para trás: I[k]=I[k-1]+K_iT_se[k].</li>
-          <li>Derivativo filtrado: D[k]=(K_d(e[k]-e[k-1])+τ_fD[k-1])/(τ_f+T_s).</li>
-          <li>Soma saturada entre -24 e 24&nbsp;V; estado inteiro cabe em duas variáveis — decisivo para um microcontrolador de memória limitada.</li>
+          <li>Caminho: preparação → símbolos → passos 1 a 4 → experimento <strong>Mexa aqui</strong>.</li>
+          <li>Comece pelo contrato do PID discreto e localize cada termo no código executável.</li>
+          <li>Compare a sintonia inicial, as métricas e o caso com e sem anti-<em>windup</em>.</li>
+          <li>Leia os valores impressos e os gráficos antes de executar a célula seguinte.</li>
         </ul>
       </div>
     </div>
@@ -1108,7 +1108,9 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  // Modo de gravação da Unidade 2: introdução, preparação, notebook e encerramento.
+  // Os slides intermediários permanecem no arquivo como material de apoio.
+  const slides = document.querySelectorAll('.slide:nth-of-type(-n+5), .slide:last-of-type');
   const cur = document.getElementById('cur');
   const total = document.getElementById('total');
   const prev = document.getElementById('prev');

@@ -884,14 +884,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal</p>
-      <h2>Quatro tabelas, uma palavra: bateram</h2>
+      <p class="kicker">Preparação para a prática</p>
+      <h2>Antes de abrir o notebook</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Na tela: quatro tabelas comparando <code>sympy</code> (álgebra simbólica) e <code>python-control</code> (<code>ct.series</code>, <code>ct.parallel</code>, <code>ct.feedback</code>) — todas terminam na mesma palavra, em verde: <strong>bateram</strong>.</li>
-          <li>Recuo à Unidade 1: o NexaBot perdia velocidade sob carga porque a tensão fixa não sabia que a carga havia mudado.</li>
-          <li>Um deslocamento fixo, calibrado para a carga média, funcionou só até a próxima caixa mais pesada aparecer.</li>
-          <li>O problema nunca esteve no valor do deslocamento: está na <strong>ausência de realimentação</strong>.</li>
+          <li>Abra o ambiente do projeto e confirme que o kernel Python selecionado é o da disciplina.</li>
+          <li>Tenha em mente o caso da Unidade 1: o NexaBot perde velocidade quando a carga muda.</li>
+          <li>Leia os símbolos <strong>G(s)</strong>, <strong>C(s)</strong>, <strong>S(s)</strong> e <strong>T(s)</strong> na preparação do notebook.</li>
+          <li>Execute as células em ordem; altere parâmetros somente quando chegar à seção <strong>Mexa aqui</strong>.</li>
         </ul>
       </div>
     </div>
@@ -901,14 +901,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor</p>
-      <h2>aula_05/01_algebra_blocos.py — série, paralelo, realimentação</h2>
+      <p class="kicker">Agora: notebook Python</p>
+      <h2>Abra <code>aula_05_malha_fechada.ipynb</code></h2>
       <div class="slide-content-box">
         <ul>
-          <li>Controlador PD elementar: K_p=6 em paralelo com K_d s puro, K_d=0,01, em série com G(s) do NexaBot.</li>
-          <li><code>ct.series</code> multiplica, <code>ct.parallel</code> soma, <code>ct.feedback</code> resolve L/(1+L) — a mesma álgebra de frações de uma redução manual.</li>
-          <li>A vantagem não é fazer algo impossível à mão: é evitar erro de álgebra em polinômios de grau alto, com resultado auditável.</li>
-          <li>As quatro tabelas bateram dentro de tolerância relativa de <strong>um milionésimo</strong>.</li>
+          <li>Caminho: preparação → símbolos → passos 1 a 4 → experimento <strong>Mexa aqui</strong>.</li>
+          <li>Execute uma célula por vez e leia a saída antes de avançar.</li>
+          <li>Compare malha aberta e fechada, verifique <strong>S+T=1</strong> e observe o erro em regime.</li>
+          <li>Use o bloco final para recuperar rapidamente o ambiente se alguma célula falhar.</li>
         </ul>
       </div>
     </div>
@@ -1101,7 +1101,9 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  // Modo de gravação da Unidade 2: introdução, preparação, notebook e encerramento.
+  // Os slides intermediários permanecem no arquivo como material de apoio.
+  const slides = document.querySelectorAll('.slide:nth-of-type(-n+5), .slide:last-of-type');
   const cur = document.getElementById('cur');
   const total = document.getElementById('total');
   const prev = document.getElementById('prev');

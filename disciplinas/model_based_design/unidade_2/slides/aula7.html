@@ -894,14 +894,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor</p>
-      <h2>Uma proposta arriscada, já na tela</h2>
+      <p class="kicker">Preparação para a prática</p>
+      <h2>Antes de abrir o notebook</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Tabela na tela: 18 valores de T_s, de 0,5 a 100&nbsp;ms, classificados como bom, degradado ou instável.</li>
-          <li>Um colega de firmware propôs aumentar o T_s de 5&nbsp;ms para liberar ciclos de CPU para outras tarefas.</li>
-          <li>Argumento: "a malha funcionou bem nas simulações contínuas, alguns milissegundos a mais não deveriam fazer diferença."</li>
-          <li>A tabela já adianta: ultrapassar o limite não é desempenho um pouco pior — é a malha parar de funcionar.</li>
+          <li>Confirme o kernel Python da disciplina e reinicie-o se vier de outra aula.</li>
+          <li>Recupere a ideia de período de amostragem <strong>T<sub>s</sub></strong>: o controlador só enxerga o sistema nos instantes de amostra.</li>
+          <li>Prepare-se para comparar ZOH, Tustin e os efeitos de atraso e quantização.</li>
+          <li>Execute as células em ordem; faça a varredura de <strong>T<sub>s</sub></strong> somente em <strong>Mexa aqui</strong>.</li>
         </ul>
       </div>
     </div>
@@ -911,18 +911,15 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor</p>
-      <h2>Euler, Tustin e retenção de ordem zero</h2>
+      <p class="kicker">Agora: notebook Python</p>
+      <h2>Abra <code>aula_07_amostragem.ipynb</code></h2>
       <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Método</th><th>Aproximação</th><th>Uso nesta disciplina</th></tr></thead>
-          <tbody>
-            <tr><td>Euler para frente</td><td>(x[k+1]-x[k])/T_s</td><td>Simples, menor margem de estabilidade herdada</td></tr>
-            <tr><td>Euler para trás</td><td>(x[k]-x[k-1])/T_s</td><td>Termo integral do <code>DiscretePID</code></td></tr>
-            <tr><td>Tustin (bilinear)</td><td>s≈(2/T_s)(z-1)/(z+1)</td><td>Preserva resposta em frequência</td></tr>
-            <tr><td>Retenção de ordem zero (ZOH)</td><td>tensão constante entre amostras</td><td>Discretização da planta — como o PWM se comporta de fato</td></tr>
-          </tbody>
-        </table>
+        <ul>
+          <li>Caminho: preparação → símbolos → passos 1 a 5 → experimento <strong>Mexa aqui</strong>.</li>
+          <li>Compare os métodos no mesmo modelo antes de variar o período de amostragem.</li>
+          <li>Observe quando o desempenho degrada e quando a malha perde estabilidade.</li>
+          <li>Finalize relacionando atraso computacional, encoder e PWM ao resultado observado.</li>
+        </ul>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 2</span><span>Aula 7 — Videoaula 7</span></div>
@@ -1152,7 +1149,9 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  // Modo de gravação da Unidade 2: introdução, preparação, notebook e encerramento.
+  // Os slides intermediários permanecem no arquivo como material de apoio.
+  const slides = document.querySelectorAll('.slide:nth-of-type(-n+5), .slide:last-of-type');
   const cur = document.getElementById('cur');
   const total = document.getElementById('total');
   const prev = document.getElementById('prev');

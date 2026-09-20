@@ -894,14 +894,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: terminal</p>
-      <h2>Dois programas, uma tabela</h2>
+      <p class="kicker">Preparação para a prática</p>
+      <h2>Antes de abrir o notebook</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Tabela já em execução: velocidade converge a 1,0000&nbsp;m/s; tensão de comando se estabiliza em 18,8533&nbsp;V — igual ao regime já calculado na Unidade 1.</li>
-          <li>Por trás da tabela: a planta do NexaBot em C nativo e o controlador PID em Python, trocando dados a cada 5&nbsp;ms via FMI.</li>
-          <li>Sugestão da equipe de firmware: espaçar a troca para 50&nbsp;ms para reduzir sobrecarga de comunicação.</li>
-          <li>Esta aula mede esse prejuízo, em vez de presumir que ele é pequeno.</li>
+          <li>Confirme o kernel Python da disciplina e mantenha disponível um compilador C no ambiente.</li>
+          <li>Recupere os papéis: a planta está no FMU; o controlador e o mestre de co-simulação estão em Python.</li>
+          <li>Primeiro verifique o FMU isoladamente; só depois avalie o erro de acoplamento.</li>
+          <li>Execute as células em ordem e varie o passo de comunicação somente em <strong>Mexa aqui</strong>.</li>
         </ul>
       </div>
     </div>
@@ -911,13 +911,14 @@
   <section class="slide">
     <div class="mosaico-bg"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">TELA: editor</p>
-      <h2>nexabot/fmu/plant_fmu.c e modelDescription.xml</h2>
+      <p class="kicker">Agora: notebook Python</p>
+      <h2>Abra <code>aula_08_cosimulacao.ipynb</code></h2>
       <div class="slide-content-box">
         <ul>
-          <li>A mesma planta do motor CC de tração do NexaBot, com os mesmos parâmetros de <code>nexabot/plant.py</code>, escrita em C nativo.</li>
-          <li>Implementa as funções da interface FMI 3.0 realmente usadas: instanciar, inicializar, avançar um passo (<code>doStep</code>), ler e escrever variáveis.</li>
-          <li><code>modelDescription.xml</code> declara 5 variáveis: tempo (independente); tensão de armadura e torque de carga (entradas); velocidade angular e corrente (saídas).</li>
+          <li>Caminho: preparação → símbolos → passos 1 a 4 → experimento <strong>Mexa aqui</strong>.</li>
+          <li>Construa e inspecione o FMU antes de iniciar a co-simulação.</li>
+          <li>Compare a planta empacotada com a referência e então varie o passo de comunicação.</li>
+          <li>Finalize registrando o compromisso entre custo de comunicação e erro de acoplamento.</li>
         </ul>
       </div>
     </div>
@@ -1123,7 +1124,9 @@
 </nav>
 
 <script>
-  const slides = document.querySelectorAll('.slide');
+  // Modo de gravação da Unidade 2: introdução, preparação, notebook e encerramento.
+  // Os slides intermediários permanecem no arquivo como material de apoio.
+  const slides = document.querySelectorAll('.slide:nth-of-type(-n+5), .slide:last-of-type');
   const cur = document.getElementById('cur');
   const total = document.getElementById('total');
   const prev = document.getElementById('prev');

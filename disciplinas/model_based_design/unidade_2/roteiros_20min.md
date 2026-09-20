@@ -7,15 +7,28 @@ Duração-alvo de cada videoaula: 20 minutos.
 Narração prevista: aproximadamente 2.200 a 2.700 palavras faladas por videoaula, sem contar títulos, marcações de tempo, comandos, saídas de terminal, indicações de edição e fontes.
 Ritmo de referência: 115 a 130 palavras por minuto, já considerando pausas, respiração e o tempo de leitura da saída na tela.
 
-Esta é uma disciplina gravada por captura de tela e câmera, sem deck de slides: cada roteiro alterna entre blocos `TELA: terminal`, com o diretório `projeto_nexabot/` já aberto e o interpretador `.venv/bin/python`, e blocos `TELA: editor`, com um arquivo de `nexabot/` ou de `aula_0N/` aberto para leitura comentada. Todo comando citado em bloco de terminal foi executado durante a produção deste roteiro, e a saída descrita reflete exatamente o que apareceu na tela — nenhum número aqui é estimado ou arredondado além do que o próprio script já arredonda. Nenhuma aula começa em tela neutra: os 2 primeiros minutos de cada videoaula já têm terminal ou editor abertos, com algo em andamento, e o gancho da aula nasce daquilo que já está na tela.
+Esta unidade será gravada com uma abertura curta em slides e desenvolvimento integral no notebook Python. Em cada aula, use somente os 5 primeiros slides para apresentar o tema, o percurso, os objetivos, a preparação e a transição; depois abra o notebook indicado e conduza a explicação executando as células em ordem. O último slide fica reservado para o encerramento. Os slides conceituais intermediários permanecem no HTML como apoio de produção, mas foram retirados da navegação normal. Os blocos `TELA: terminal` e `TELA: editor` registrados abaixo continuam válidos como texto de narração e referência técnica; durante a gravação, mostre a célula equivalente do notebook em vez de alternar para scripts avulsos.
 
-Plano de tempo de referência, adaptável ao ritmo de cada aula:
+## Roteiro mestre de gravação com notebooks
 
-- 00:00–02:00 — abertura contextualizada, já em tela de terminal ou editor;
-- 02:00–08:30 — desenvolvimento conceitual, em editor, com leitura comentada do código-fonte;
-- 08:30–16:00 — demonstração ao vivo, em terminal, com os comandos e a saída real da aula;
-- 16:00–18:30 — aplicação profissional (e, na Aula 7, pausa para reflexão com contagem regressiva);
-- 18:30–20:00 — pontos-chave, atividade prática e encerramento.
+Antes de cada aula, abra o deck e o notebook em abas separadas, selecione o kernel Python da disciplina, reinicie o kernel e deixe a primeira célula visível sem executá-la. Não use `Run All` durante a explicação: execute uma célula por vez, leia a saída e conecte o resultado ao conceito narrado. Preserve a seção **Mexa aqui** para a experimentação ao vivo.
+
+| Aula | 00:00–03:00 — slides | 03:00–18:30 — notebook | 18:30–20:00 — fechamento |
+|---|---|---|---|
+| 5 | Capa, percurso, objetivos, preparação e chamada para o notebook | `notebooks/aula_05_malha_fechada.ipynb`: preparação → símbolos → passos 1 a 4 → **Mexa aqui** | Retome os resultados na seção **O que você leva** e volte ao último slide |
+| 6 | Capa, percurso, objetivos, preparação e chamada para o notebook | `notebooks/aula_06_pid_na_pratica.ipynb`: preparação → símbolos → passos 1 a 4 → **Mexa aqui** | Compare saturação e *windup*, leia **O que você leva** e volte ao último slide |
+| 7 | Capa, percurso, objetivos, preparação e chamada para o notebook | `notebooks/aula_07_amostragem.ipynb`: preparação → símbolos → passos 1 a 5 → **Mexa aqui** | Registre o limite de amostragem observado, leia **O que você leva** e volte ao último slide |
+| 8 | Capa, percurso, objetivos, preparação e chamada para o notebook | `notebooks/aula_08_cosimulacao.ipynb`: preparação → símbolos → passos 1 a 4 → **Mexa aqui** | Registre o compromisso passo–erro, leia **O que você leva** e volte ao último slide |
+
+Se uma célula falhar, use primeiro a seção **Se deu erro** do próprio notebook. Para preservar a continuidade da gravação, reinicie o kernel e execute novamente apenas as células anteriores necessárias. Na Aula 8, confirme também a presença de um compilador C antes de iniciar.
+
+Plano de tempo de referência para o novo formato:
+
+- 00:00–03:00 — abertura, objetivos e preparação nos 5 slides iniciais;
+- 03:00–06:00 — contexto, símbolos e hipótese do experimento no notebook;
+- 06:00–15:30 — execução comentada dos passos do notebook;
+- 15:30–18:30 — seção **Mexa aqui**, comparação e aplicação profissional;
+- 18:30–20:00 — **O que você leva**, atividade prática e último slide.
 
 O fio condutor das 4 aulas é fechar a malha de velocidade do NexaBot: a Aula 5 formaliza malha aberta contra malha fechada; a Aula 6 projeta e sintoniza o PID, tratando saturação e *windup* como parte do projeto, não como exceção; a Aula 7 discretiza esse controlador e fixa o contrato numérico do `DiscretePID` que a Unidade 4 traduzirá para C; e a Aula 8 acopla planta e controlador por co-simulação FMI 3.0, medindo o erro que esse acoplamento introduz. Cada roteiro é texto de narração pronto para leitura em voz alta, não notas de aula: frases completas, encadeamento explícito entre as ideias, sem recursos de oralidade informal.
 
