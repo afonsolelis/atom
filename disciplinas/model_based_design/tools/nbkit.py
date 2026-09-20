@@ -27,6 +27,51 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parent.parent
 FONTES = RAIZ / "tools" / "notebooks"
 
+PREPARACAO_AMBIENTE_MD = """
+## Preparar o ambiente
+
+Execute esta célula antes de começar. Ela verifica as dependências usadas na
+disciplina e instala somente o que estiver faltando no kernel atual. Quando
+tudo dá certo, a célula termina sem imprimir mensagens; se houver uma falha,
+ela mostra o diagnóstico completo.
+"""
+
+PREPARACAO_AMBIENTE_CODE = r'''
+import importlib.util
+import subprocess
+import sys
+
+# nome usado no `import`: nome do pacote no instalador
+DEPENDENCIAS = {
+    "numpy": "numpy",
+    "scipy": "scipy",
+    "matplotlib": "matplotlib",
+    "sympy": "sympy",
+    "control": "control",
+    "jinja2": "jinja2",
+    "yaml": "pyyaml",
+    "hypothesis": "hypothesis",
+    "pytest": "pytest",
+    "coverage": "coverage",
+    "fmpy": "fmpy",
+    "serial": "pyserial",
+}
+
+faltantes = [pacote for modulo, pacote in DEPENDENCIAS.items()
+             if importlib.util.find_spec(modulo) is None]
+
+if faltantes:
+    resultado = subprocess.run(
+        [sys.executable, "-m", "pip", "install", *faltantes],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if resultado.returncode != 0:
+        print(resultado.stdout)
+        resultado.check_returncode()
+'''
+
 
 def _destino(n: int) -> Path:
     """O notebook mora na pasta da unidade a que a aula pertence.
@@ -62,6 +107,15 @@ def _linhas(texto: str) -> list[str]:
 
 
 def montar(celulas: list[dict], titulo: str) -> dict:
+    # Todos os notebooks começam com o título e, logo depois, com uma célula
+    # silenciosa de preparação. A injeção central evita que uma aula nova seja
+    # publicada sem a mesma proteção contra dependências ausentes.
+    celulas = [
+        celulas[0],
+        md(PREPARACAO_AMBIENTE_MD),
+        code(PREPARACAO_AMBIENTE_CODE),
+        *celulas[1:],
+    ]
     saida = []
     for indice, c in enumerate(celulas):
         # O nbformat 4.5 tornou `id` obrigatório. O identificador deriva do
