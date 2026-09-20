@@ -208,31 +208,27 @@ O protocolo é simples: cada linha é um comando ASCII terminado em `\n`. `STEP 
 
 *Latência* é o tempo entre o host enviar `STEP` e receber `U <u>`. *Jitter* é a variação do período efetivo do laço em torno do nominal $T_s$ — quanto cada ciclo dura a mais ou a menos dos 5 ms esperados. Um sistema pode ter latência baixa e jitter alto, se essa latência variar de forma imprevisível de ciclo a ciclo; é essa variação, não o valor médio, que compromete a estabilidade de um controlador discreto, cuja análise (Aula 7) assume $T_s$ constante.
 
-### Exemplo numérico: jitter medido sobre um período de 5 ms
+### Exemplo numérico: como julgar uma medição sobre um período de 5 ms
 
-Rodando `run_closed_loop_hil` com `LoopbackTarget` por 2 s (400 amostras a $T_s=5\,\mathrm{ms}$), em tempo real, neste ambiente de desenvolvimento — um sistema operacional de uso geral, sem garantias de tempo real —, as métricas medidas foram:
-
-$
-\text{período médio} = 5{,}123\,\mathrm{ms}, \qquad \text{jitter pico a pico} = 0{,}909\,\mathrm{ms}, \qquad \text{desvio-padrão do jitter} = 0{,}133\,\mathrm{ms},
-$
+Rodando `run_closed_loop_hil` com `LoopbackTarget` por 2 s, são obtidas 400 amostras a $T_s=5\,\mathrm{ms}$. Os valores de período, jitter e latência dependem da carga do sistema operacional e, por isso, devem ser lidos da execução corrente. O critério didático do laboratório limita o desvio-padrão do jitter a $10\,\%$ do período nominal:
 
 $
-\text{latência média} = 0{,}108\,\mathrm{ms}, \qquad \text{latência p95} = 0{,}287\,\mathrm{ms}, \qquad \text{latência máxima} = 2{,}002\,\mathrm{ms}.
+0{,}10\times5\,\mathrm{ms}=0{,}5\,\mathrm{ms}.
 $
 
-O jitter pico a pico consome $18{,}2\,\%$ do período nominal — fração nada desprezível, mesmo sem falha alguma, só pela natureza de um SO de uso geral, sem escalonamento determinístico. A latência máxima, 2,0 ms, corresponde a $40\,\%$ do período: um único ciclo lento consumiria quase metade do orçamento antes do próximo passo. Em um alvo real-time dedicado esses números tendem a ser menores, mas o raciocínio é o mesmo.
+Se a coluna `jitter_desvio_padrao_ms` ficar abaixo de $0{,}5\,\mathrm{ms}$, a rodada atende ao critério adotado; se ultrapassar, a rodada documenta que o computador, sob aquela carga, não sustentou o orçamento. Já `atraso_maximo_ms` é um extremo observado, útil para encontrar picos, mas não constitui limite superior garantido. Uma campanha reproduzível registra ambiente, carga, duração e repetições. Em um alvo de tempo real dedicado os números tendem a ser menores, mas o método de análise é o mesmo.
 
-> **Recurso visual 9 — Distribuição do jitter sobre 400 ciclos.** Histograma do período efetivo do laço em torno de 5 ms, com faixa sombreada indicando a fração consumida pelo jitter pico a pico.
-> *Texto alternativo:* histograma da duração de 400 ciclos de controle mostra a maioria concentrada perto de 5 ms, com dispersão de até 0,909 ms entre o ciclo mais curto e o mais longo.
+> **Recurso visual 9 — Distribuição do jitter sobre 400 ciclos.** Histograma do período efetivo do laço em torno de 5 ms, com a linha do período nominal e a faixa do critério de $10\,\%$ destacadas.
+> *Texto alternativo:* histograma da duração de 400 ciclos de controle mostra uma distribuição em torno de 5 ms e destaca o limite didático de meio milissegundo para o desvio-padrão do jitter.
 
 ### Watchdog: o que acontece quando o alvo não responde
 
 Um alvo que atrasa sua resposta não pode fazer o laço host esperar indefinidamente — um firmware travado poderia nunca responder. A classe `Watchdog` executa `target.step(...)` em uma thread auxiliar, sob um prazo (`deadline_s`); se o alvo não responde a tempo, devolve o comando seguro (tensão zero) e sinaliza o estouro.
 
-Testado com prazo de 10 ms e chamada normal, o resultado foi `u = 24,0 V`, sem estouro. Injetando atraso deliberado de 50 ms — cinco vezes o prazo —, o resultado passou a `u = 0,0 V`, com `estourou = True`. É o mesmo raciocínio de REQ-SAFE-004: quando o tempo é prazo físico, a resposta segura diante de seu descumprimento é assumir o pior caso — zerar o comando —, não esperar mais.
+Testado com prazo de 15 ms e chamada normal, o controlador devolve `u = 10,6 V`, sem estouro. Injetando atraso deliberado de 200 ms, o resultado passa a `u = 0,0 V`, com `estourou_prazo = True`. É o mesmo raciocínio de REQ-SAFE-004: quando o tempo é prazo físico, a resposta segura diante de seu descumprimento é assumir o pior caso — zerar o comando —, não esperar mais.
 
-> **Recurso visual 10 — Watchdog: o caminho normal e o caminho do estouro.** Diagrama de dois trilhos paralelos sobre a mesma linha de tempo. No trilho superior, o alvo responde dentro do prazo de 10 ms e o comando de 24,0 V segue para a planta. No trilho inferior, a resposta do alvo atrasa 50 ms; ao cruzar a marca do prazo, o trilho muda de cor e o comando entregue passa a 0,0 V, com a marcação `estourou = True`. Uma legenda registra que o valor seguro é escolhido por projeto, não devolvido pelo alvo.
-> *Texto alternativo:* diagrama compara dois cenários do watchdog na mesma linha de tempo: no primeiro, o alvo responde dentro do prazo e o comando de vinte e quatro volts é aplicado; no segundo, o alvo atrasa além do prazo e o watchdog substitui o comando por zero volt, sinalizando estouro.
+> **Recurso visual 10 — Watchdog: o caminho normal e o caminho do estouro.** Diagrama de dois trilhos paralelos sobre a mesma linha de tempo. No trilho superior, o alvo responde dentro do prazo de 15 ms e o comando de 10,6 V segue para a planta. No trilho inferior, a resposta atrasa 200 ms; ao cruzar a marca do prazo, o comando entregue passa a 0,0 V, com a marcação `estourou_prazo = True`. Uma legenda registra que o valor seguro é escolhido por projeto, não devolvido pelo alvo.
+> *Texto alternativo:* diagrama compara dois cenários do watchdog: no primeiro, o alvo responde dentro do prazo e o comando calculado é aplicado; no segundo, o alvo atrasa além de quinze milissegundos e o watchdog substitui o comando por zero volt.
 
 ### O caminho para o ESP32 real
 
@@ -246,7 +242,7 @@ Reflita:
 
 1. Que tipo de defeito o SIL, por construção, nunca poderia revelar, mesmo com erro de equivalência igual a zero?
 2. Por que um controlador matematicamente correto ainda pode causar instabilidade real se o período efetivo variar significativamente em torno de $T_s$?
-3. O watchdog zera o torque diante de atraso de 50 ms com prazo de 10 ms. Que consequência teria sua ausência num cenário de obstáculo, à luz do REQ-SAFE-006?
+3. O watchdog zera o torque diante de atraso de 200 ms com prazo de 15 ms. Que consequência teria sua ausência num cenário de obstáculo, à luz do REQ-SAFE-006?
 4. Que evidência desta aula você apresentaria a um revisor para justificar um teste em bancada com hardware real?
 
 Uma resposta madura reconhece que equivalência numérica (Aula 14) e comportamento temporal (Aula 15) são propriedades independentes: um controlador numericamente perfeito ainda pode falhar em produção se o alvo não responder dentro do prazo que a física exige.
@@ -264,7 +260,7 @@ Rode `run_closed_loop_hil` por 5 s com `LoopbackTarget` e registre período méd
 - SIL prova equivalência numérica; HIL prova que o sistema respeita seu prazo — propriedades independentes, nenhuma substitui a outra.
 - O protocolo STEP/RESET/QUIT é idêntico entre loopback (sem hardware) e alvo serial real (ESP32/PlatformIO), permitindo demonstrar sem placa.
 - Jitter mede a variação do período do laço; latência mede o tempo de resposta de uma chamada ao alvo — ambos em milissegundos sobre um período nominal de 5 ms.
-- O jitter pico a pico medido (0,909 ms) consumiu cerca de 18% do período de amostragem, mesmo sem falha simulada.
+- O laboratório compara o desvio-padrão medido com $10\,\%$ de $T_s$; extremos observados são evidência da rodada, não limites garantidos.
 - Um watchdog com prazo definido devolve comando seguro (torque zero) quando o alvo não responde a tempo, sem esperar indefinidamente por um alvo travado.
 - Quando o tempo deixa de ser eixo de gráfico e vira prazo físico, a resposta correta a um estouro é sempre assumir o pior caso, não esperar mais.
 

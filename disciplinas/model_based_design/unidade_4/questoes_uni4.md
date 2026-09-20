@@ -140,7 +140,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-**12.** I. O jitter pico a pico medido em 400 ciclos de `run_closed_loop_hil` com `LoopbackTarget` foi de 0,909 ms, consumindo cerca de 18,2% do período nominal de 5 ms.
+**12.** I. Em uma campanha registrada de 400 ciclos de `run_closed_loop_hil`, um jitter pico a pico de 0,909 ms consome cerca de 18,2% do período nominal de 5 ms.
 
 PORQUE
 
@@ -176,7 +176,7 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**15.** I. Uma latência máxima de 2,002 ms medida em uma chamada individual ao alvo, frente a um período nominal de 5 ms, corresponde a cerca de 40% do orçamento de tempo do ciclo de controle.
+**15.** I. Em uma campanha registrada, uma latência máxima de 2,002 ms frente a um período nominal de 5 ms corresponde a cerca de 40% do orçamento de tempo do ciclo de controle.
 
 PORQUE
 
@@ -346,7 +346,7 @@ c. O prazo é de 15 ms; como 20 ms excede esse prazo, o `Watchdog` deve devolver
 d. O prazo é de 25 ms; como 20 ms não excede esse prazo, nenhum estouro deve ocorrer.
 e. O prazo é de 3 ms; como 20 ms excede esse prazo, o `Watchdog` deve reiniciar automaticamente o processo do alvo sem sinalizar falha.
 
-**33.** A latência p95 medida em uma execução de `run_closed_loop_hil` foi de 0,287 ms, e a latência máxima foi de 2,002 ms, sobre um Ts nominal de 5 ms. Se a equipe configurar o `Watchdog` com um prazo de exatamente 0,3 ms — pouco acima do p95 —, qual é a consequência mais provável dessa escolha?
+**33.** Em uma campanha registrada, a latência p95 foi de 0,287 ms e a máxima foi de 2,002 ms, sobre um Ts nominal de 5 ms. Se a equipe configurar o `Watchdog` com prazo de exatamente 0,3 ms — pouco acima do p95 —, qual é a consequência mais provável dessa escolha?
 
 a. Nenhuma consequência, pois o prazo de 0,3 ms é maior do que toda a distribuição de latências observadas.
 b. O `Watchdog` nunca estourará, pois o prazo está acima da latência média de 0,108 ms.
@@ -362,7 +362,7 @@ c. Está incorreta, apenas porque HIL exige necessariamente um ESP32 físico con
 d. Está correta, desde que o teste tenha sido executado com `real_time=True`.
 e. Está incorreta, apenas porque a Aula 14 usa Python puro, sem nenhum código C envolvido.
 
-**35.** Um controlador apresenta erro de equivalência SIL de exatamente 0,0 V (double) e, ao ser testado em HIL, apresenta latência máxima de 2,002 ms sobre um Ts de 5 ms, sem qualquer estouro de watchdog registrado. Qual conclusão é tecnicamente correta sobre esse controlador?
+**35.** Um controlador apresenta erro de equivalência SIL de exatamente 0,0 V (double) e, em uma campanha HIL registrada, apresenta latência máxima de 2,002 ms sobre um Ts de 5 ms, sem estouro de watchdog. Qual conclusão é tecnicamente correta sobre esse controlador?
 
 a. Como o erro de equivalência é zero, o comportamento temporal medido em HIL é redundante e poderia ter sido dispensado.
 b. A ausência de estouro do watchdog garante que o controlador nunca apresentará jitter em produção, sob nenhuma condição de carga.
@@ -630,7 +630,7 @@ e. Está correto, pois a matriz relaciona 14 requisitos em 91 arquivos Python, n
 - e. Correta: 0,75 ms / 5 ms = 0,15, ou seja, 15% do período nominal.
 
 **Questão 32** (correta: a)
-- a. Correta: 3×Ts=3×5 ms=15 ms; como o atraso de 20 ms excede esse prazo, o `Watchdog` deve devolver u=0,0 V e sinalizar `estourou=True`, exatamente como no cenário de atraso de 50 ms sob prazo de 10 ms descrito na aula.
+- a. Correta: 3×Ts=3×5 ms=15 ms; como o atraso de 20 ms excede esse prazo, o `Watchdog` deve devolver u=0,0 V e sinalizar `estourou_prazo=True`, pelo mesmo princípio demonstrado com atraso de 200 ms sob prazo de 15 ms.
 - b. Incorreta: 3×Ts=15 ms, não 5 ms; além disso, o `Watchdog` não aguarda ciclos adicionais — decide dentro do prazo configurado.
 - c. Incorreta: o comando seguro do `Watchdog`, por definição (REQ-SAFE-004), é tensão zero, não o último comando válido.
 - d. Incorreta: 3×Ts=15 ms, não 25 ms; e 20 ms excede 15 ms, portanto há estouro.

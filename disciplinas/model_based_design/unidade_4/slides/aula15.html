@@ -951,9 +951,9 @@
       <div class="slide-content-box">
         <ul>
           <li>Velocidade final: 100,000&nbsp;rad/s, erro de regime permanente 0,00%.</li>
-          <li>200 amostras, <code>Ts</code> nominal 5,0000&nbsp;ms, período médio <strong>5,0886&nbsp;ms</strong>.</li>
-          <li>Desvio-padrão do jitter 0,0396&nbsp;ms · jitter pico a pico 0,1369&nbsp;ms.</li>
-          <li>Latência média 0,0888&nbsp;ms · p95 0,1576&nbsp;ms · máxima 0,2415&nbsp;ms.</li>
+          <li>200 amostras, <code>Ts</code> nominal de 5&nbsp;ms; leia o período médio da execução corrente.</li>
+          <li>Compare o desvio-padrão do jitter com 10% de <code>Ts</code>: <strong>0,5&nbsp;ms</strong>.</li>
+          <li>Latência média, p95 e máxima variam com a carga do computador e devem ser lidas ao vivo.</li>
         </ul>
       </div>
     </div>
@@ -968,11 +968,11 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/02_jitter.py</div>
         <table class="tabela-industrial">
-          <thead><tr><th>Amostras</th><th>Desvio-padrão jitter</th><th>Latência máxima</th></tr></thead>
+          <thead><tr><th>Duração</th><th>Amostras</th><th>Leitura</th></tr></thead>
           <tbody>
-            <tr><td>100 (0,5&nbsp;s)</td><td>0,0391&nbsp;ms</td><td>0,3254&nbsp;ms</td></tr>
-            <tr><td>200 (1&nbsp;s)</td><td>0,0428&nbsp;ms</td><td>0,3523&nbsp;ms</td></tr>
-            <tr><td>400 (2&nbsp;s)</td><td>0,0442&nbsp;ms</td><td>0,4083&nbsp;ms</td></tr>
+            <tr><td>0,5&nbsp;s</td><td>100</td><td>Leia jitter σ e latência na saída atual</td></tr>
+            <tr><td>1&nbsp;s</td><td>200</td><td>Compare com a primeira rodada</td></tr>
+            <tr><td>2&nbsp;s</td><td>400</td><td>Observe extremos sem tratá-los como garantia</td></tr>
           </tbody>
         </table>
         <p>Critério de aceitação: desvio-padrão do jitter ≤ 10% de <code>Ts</code> (0,5&nbsp;ms) — passa com folga nas três durações.</p>
@@ -1005,8 +1005,8 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/03_watchdog_real.py</div>
         <ul>
-          <li>Prazo declarado: 3×<code>Ts</code> = <strong>15&nbsp;ms</strong>. Sem atraso: <code>u</code> = 10,600&nbsp;V, sem estouro (0,26&nbsp;ms real).</li>
-          <li>Atraso deliberado de 200&nbsp;ms: <code>u</code> = <strong>0,000&nbsp;V</strong>, estouro confirmado — decisão de segurança tomada aos 15&nbsp;ms; o tempo extra (232,52&nbsp;ms) é custo de encerrar o processo.</li>
+          <li>Prazo declarado: 3×<code>Ts</code> = <strong>15&nbsp;ms</strong>. Sem atraso: <code>u</code> = 10,600&nbsp;V, sem estouro.</li>
+          <li>Atraso deliberado de 200&nbsp;ms: <code>u</code> = <strong>0,000&nbsp;V</strong>, estouro confirmado — decisão de segurança tomada aos 15&nbsp;ms; o tempo extra é custo de encerrar o processo.</li>
           <li>Após encerrar o alvo, um novo <code>LoopbackTarget</code> recupera a operação normal: <code>u</code> = 10,600&nbsp;V, sem estouro.</li>
         </ul>
       </div>
@@ -1022,15 +1022,15 @@
       <div class="slide-content-box">
         <div class="codigo-bloco"><span class="prompt">$</span>.venv/bin/python aula_15/04_desafio.py</div>
         <table class="tabela-industrial">
-          <thead><tr><th><code>Ts</code></th><th>Atraso máx. medido</th><th>Limite (20% de <code>Ts</code>)</th></tr></thead>
+          <thead><tr><th><code>Ts</code></th><th>Limite da rodada</th><th>Decisão</th></tr></thead>
           <tbody>
-            <tr><td>5&nbsp;ms</td><td>0,1788&nbsp;ms</td><td>1,0000&nbsp;ms</td></tr>
-            <tr><td>2&nbsp;ms</td><td>0,0809&nbsp;ms</td><td>0,4000&nbsp;ms</td></tr>
-            <tr><td>1&nbsp;ms</td><td>0,0731&nbsp;ms</td><td>0,2000&nbsp;ms</td></tr>
-            <tr><td>0,5&nbsp;ms</td><td>0,0696&nbsp;ms</td><td>0,1000&nbsp;ms</td></tr>
+            <tr><td>5&nbsp;ms</td><td>1,0&nbsp;ms</td><td>Compare com o atraso observado</td></tr>
+            <tr><td>2&nbsp;ms</td><td>0,4&nbsp;ms</td><td>Compare com o atraso observado</td></tr>
+            <tr><td>1&nbsp;ms</td><td>0,2&nbsp;ms</td><td>Compare com o atraso observado</td></tr>
+            <tr><td>0,5&nbsp;ms</td><td>0,1&nbsp;ms</td><td>Compare com o atraso observado</td></tr>
           </tbody>
         </table>
-        <p>Menor <code>Ts</code> seguro, <strong>neste ambiente</strong>: 0,5&nbsp;ms (2.000&nbsp;Hz). Em firmware bare-metal, o jitter cairia ordens de grandeza.</p>
+        <p>O script informa o menor <code>Ts</code> aprovado <strong>nesta rodada</strong>. Uma campanha empírica não estabelece segurança universal.</p>
       </div>
     </div>
     <div class="slide-footer"><span>Model-Based Design · Unidade 4</span><span>Aula 15 — Videoaula 15</span></div>

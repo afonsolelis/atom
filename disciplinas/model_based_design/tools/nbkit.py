@@ -19,6 +19,7 @@ Uso:
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -62,15 +63,21 @@ def _linhas(texto: str) -> list[str]:
 
 def montar(celulas: list[dict], titulo: str) -> dict:
     saida = []
-    for c in celulas:
+    for indice, c in enumerate(celulas):
+        # O nbformat 4.5 tornou `id` obrigatório. O identificador deriva do
+        # conteúdo para permanecer estável entre reconstruções equivalentes.
+        bruto = f"{titulo}\0{indice}\0{c['tipo']}\0{c['fonte']}".encode("utf-8")
+        cell_id = hashlib.sha256(bruto).hexdigest()[:16]
         if c["tipo"] == "markdown":
             saida.append({
+                "id": cell_id,
                 "cell_type": "markdown",
                 "metadata": {},
                 "source": _linhas(c["fonte"]),
             })
         else:
             saida.append({
+                "id": cell_id,
                 "cell_type": "code",
                 "execution_count": None,
                 "metadata": {},

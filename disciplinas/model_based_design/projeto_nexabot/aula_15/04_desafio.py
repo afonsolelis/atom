@@ -92,9 +92,10 @@ def main() -> None:
         print(f"Menor Ts seguro neste ambiente, com esta margem: {escolhido * 1e3:.2f} ms "
               f"({1.0/escolhido:.0f} Hz)")
     else:
-        print("Nenhum candidato respeitou o critério -- nem mesmo Ts=5ms (o Ts de projeto).")
-        print("Isso seria um sinal real de alerta: reveja o critério de margem ou o ambiente.")
-        raise SystemExit(1)
+        print("Nenhum candidato foi aprovado NESTA RODADA -- nem mesmo Ts=5 ms.")
+        print("O laboratório funcionou: o resultado é uma medição do ambiente, não uma")
+        print("falha do script. Feche cargas concorrentes, repita a campanha e compare")
+        print("as rodadas antes de tomar uma decisão de projeto.")
 
     print("\nLição: a resposta depende do AMBIENTE de execução, não só do algoritmo --")
     print("o mesmo laço, no mesmo hardware, mas competindo por CPU com outros processos,")
