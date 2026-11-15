@@ -90,7 +90,7 @@
   // t = segundos simulados após o início; caminho = nós percorridos pelo pacote vermelho
   const CENARIOS = [
     { id: 'phishing', l: 'Phishing simulado no financeiro', aulas: 'Aulas 1 e 7', d: 'Campanha autorizada: 40 e-mails de um domínio registrado há 2 dias; uma analista clica e digita a senha.', passos: [
-      { t: 0, no: 'mail', c: ['net', 'mail'], txt: '40 e-mails de rh@portal-rh-beneficios.com chegam ao financeiro', tec: 'T1566.002', f: 'email', r: null },
+      { t: 0, no: 'mail', c: ['net', 'mail'], txt: '40 e-mails de rh@portal-rh-beneficios.example chegam ao financeiro', tec: 'T1566.002', f: 'email', r: null },
       { t: 240, no: 'nb', c: ['mail', 'nb'], txt: 'Carla Dias clica no link e abre a página falsa (domínio com 2 dias)', tec: 'T1566.002', f: 'dns', r: 'R1' },
       { t: 330, no: 'ident', c: ['net', 'vpn', 'ident'], txt: 'A senha digitada na página falsa é usada na VPN; o MFA bloqueia o acesso', tec: 'T1078', f: 'ident', r: null, bloqueado: true }
     ] },
@@ -138,7 +138,7 @@
   /* ------------------------------ Superfície ------------------------------ */
   const ATIVOS = [
     { host: 'hml-gestao.tatame.com.br', ip: '203.0.113.45', svc: 'HTTPS (painel antigo)', inv: false, waf: false, cve: 'CVE-2021-41773', cvss: 7.5, epss: 0.94, kev: true, crit: 3, obs: 'Homologação esquecida com cópia de dados reais' },
-    { host: 'vpn.tatame.com.br', ip: '203.0.113.30', svc: 'VPN NetGuard', inv: true, waf: false, cve: 'CVE-2024-3400', cvss: 10.0, epss: 0.96, kev: true, crit: 3, obs: 'Exemplo de falha crítica em appliance de borda' },
+    { host: 'vpn.tatame.com.br', ip: '203.0.113.30', svc: 'VPN NetGuard', inv: true, waf: false, cve: 'CVE-2026-0000 (fictícia)', cvss: 10.0, epss: 0.96, kev: true, crit: 3, obs: 'Exemplo de falha crítica em appliance de borda' },
     { host: 'mx1.tatame.com.br', ip: '203.0.113.40', svc: 'SMTP', inv: true, waf: false, cve: '—', cvss: 0, epss: 0, kev: false, crit: 2, obs: 'SPF e DMARC em quarentena' },
     { host: 'gestao.tatame.com.br', ip: '203.0.113.21', svc: 'HTTPS (portal)', inv: true, waf: true, cve: 'CVE-2023-44487', cvss: 7.5, epss: 0.82, kev: true, crit: 3, obs: 'Mitigado na CDN; corrigir na origem' },
     { host: 'api.tatame.com.br', ip: '203.0.113.22', svc: 'HTTPS (API)', inv: true, waf: true, cve: 'BOLA (achado de teste)', cvss: 8.1, epss: 0, kev: false, crit: 3, obs: 'Falha de lógica, sem CVE: autorização por objeto' },
@@ -229,7 +229,8 @@
     else p.st = 'miss';
     if (!p.bloqueado && !regraOk && p.impacto) p.st = 'imp';
     S.nos[p.no] = S.nos[p.no] === 'isol' ? 'isol' : (p.bloqueado ? S.nos[p.no] : 'comp');
-    if (['net', 'mail', 'waf', 'ident', 'gw'].includes(p.no) && !p.impacto) S.nos[p.no] = undefined;
+    // nós de passagem não ficam "comprometidos", mas um isolamento feito pelo SOC persiste
+    if (['net', 'mail', 'waf', 'ident', 'gw'].includes(p.no) && !p.impacto && S.nos[p.no] !== 'isol') S.nos[p.no] = undefined;
     S.alvo = { no: p.no, ate: S.t + 60 };
     for (let k = 0; k < 3; k++) pacote(p.c, 'red');
     if (p.http) {

@@ -32,7 +32,7 @@ b) Proponha os elementos mínimos do documento de autorização e das regras de 
 
 ### Questão 2 — Unidade 1: Cyber Kill Chain e MITRE ATT&CK na leitura de um incidente
 
-A Transportadora Pantanal Cargas reconstruiu a linha do tempo de um incidente real:
+A Transportadora Pantanal Cargas reconstruiu a linha do tempo de um incidente que sofreu:
 
 | Dia | Evento observado |
 |---|---|

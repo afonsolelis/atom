@@ -63,6 +63,8 @@ Tópicos Kafka: `tatame.eventos` (6 partições, chave = academia), `tatame.audi
 | Caio Mendes | administrador de TI da sede |
 | Carla Dias | analista do financeiro (alvo do *phishing* simulado) |
 | Felipe Nogueira | filiado dono de academias em `us-virginia` |
+| Ana Lima | analista do financeiro (conta `ana.lima`, usuária legítima do ERP) |
+| M. Teixeira | perita forense externa, recebe as evidências na cadeia de custódia (Aula 12) |
 
 Hosts da sede seguem o padrão `NB-<ÁREA>-NNN` (ex.: `NB-FIN-031`) e `SRV-<FUNÇÃO>-NN`.
 
@@ -70,15 +72,37 @@ Hosts da sede seguem o padrão `NB-<ÁREA>-NNN` (ex.: `NB-FIN-031`) e `SRV-<FUN�
 
 O **Grupo Cobalto Austral** é um grupo fictício de *ransomware* usado nos exercícios de emulação (Unidades 2 e 4). Ele entra por *phishing* ou por credenciais vazadas, abusa de contas válidas, move-se para os servidores da sede e tenta extorquir com dados de alunos. As técnicas são descritas pelos IDs do MITRE ATT&CK, sem comandos de ataque.
 
+## Regras do CEP (R1–R13)
+
+Estado padrão ao abrir ou reiniciar o simulador (`simulador.js`, constante `REGRAS`). As regras desligadas são as lacunas que as aulas descobrem e corrigem.
+
+| Regra | O que detecta | Fonte | Técnica | Severidade | Padrão |
+|---|---|---|---|---|---|
+| R1 | Acesso a domínio recém-registrado logo após e-mail externo | DNS e *proxy* | T1566.002 | alta | ligada |
+| R2 | Muitas falhas de login seguidas de sucesso | auditoria de identidade | T1110.004 | alta | ligada |
+| R3 | *Token* lendo fichas de muitos alunos diferentes (BOLA) | API gateway | T1190 | crítica | desligada |
+| R4 | Varredura: excesso de 403/404 por IP | WAF/CDN | T1595 | média | ligada |
+| R5 | RDP de estação de trabalho para servidor | Active Directory | T1021.001 | alta | desligada |
+| R6 | Acesso à memória do LSASS | EDR | T1003 | crítica | ligada |
+| R7 | Exclusão de cópias de sombra | EDR | T1490 | crítica | ligada |
+| R8 | Ferramenta de acesso remoto não aprovada | EDR | T1219 | alta | desligada |
+| R9 | Saída volumosa para destino novo | *buckets* e saída de rede | T1567.002 | alta | desligada |
+| R10 | Catraca fora do padrão (volume ou *firmware*) | catracas | T1495 | média | desligada |
+| R11 | Login sem MFA em conta privilegiada ou VPN | auditoria de identidade | T1078 | alta | ligada |
+| R12 | Certificado novo para subdomínio fora do inventário | monitor de certificados (CT) | T1596 | baixa | desligada |
+| R13 | Consulta em massa ao AD | Active Directory | T1087.002 | média | desligada |
+
+Fontes desligadas no padrão: *buckets* e saída de rede, catracas e monitor de certificados.
+
 ## Cenários do simulador
 
-| Cenário | Aulas | O que acontece | Técnicas ATT&CK |
+| Cenário | Aulas | O que acontece | Técnicas ATT&CK (as mesmas dos passos do simulador) |
 |---|---|---|---|
 | `phishing` | 1, 7 | campanha simulada contra o financeiro, clique e tentativa de login | T1566.002, T1078 |
-| `recon` | 5, 6 | levantamento externo, subdomínio de homologação exposto, varredura | T1593, T1596, T1595 |
-| `api-abuso` | 6, 10 | *credential stuffing* no app e acesso a dados de outro aluno (BOLA) | T1110.004, T1190 |
-| `ransomware` | 2, 8, 12, 13 | cadeia completa do Cobalto Austral, da conta válida à criptografia na sede | T1078, T1021.001, T1003, T1486, T1490 |
-| `catraca` | 4, 9 | catraca de uma academia passa a enviar volume anômalo e um firmware não assinado | T1495, T1499 |
+| `recon` | 5, 6 | levantamento externo, subdomínio de homologação exposto, varredura | T1596, T1595, T1190 (os slides da Aula 5 acrescentam T1593, T1591 e T1589) |
+| `api-abuso` | 6, 10 | *credential stuffing* no app e acesso a dados de outro aluno (BOLA) | T1110.004, T1078, T1190 |
+| `ransomware` | 2, 8, 12, 13 | cadeia completa do Cobalto Austral, da conta válida à criptografia na sede | T1078, T1087.002, T1021.001, T1003, T1567.002, T1490, T1486 |
+| `catraca` | 4, 9 | catraca de uma academia passa a enviar volume anômalo e um firmware não assinado, que gera *check-ins* falsos | T1499, T1495, T1565 |
 | `exfiltracao` | 11, 14 | ferramenta de acesso remoto não aprovada e cópia de dados para bucket externo | T1219, T1567.002 |
 
 Cada cenário gera eventos nos mesmos tópicos que o tráfego legítimo. Se a fonte de telemetria estiver ligada e a regra do CEP correspondente estiver ativa, nasce um alerta no SOC; senão, o passo passa despercebido. Ligar e desligar fontes e regras é o que as aulas exploram.

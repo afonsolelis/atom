@@ -258,10 +258,10 @@ e. As asserções I e II são proposições falsas.
 **21.** O SIEM da distribuidora fictícia Vale Norte exibiu, para a mesma conta, os seguintes eventos do registro de segurança de um servidor exposto à internet:
 
 ```
-02:14:01  4625  conta=financeiro01  origem=203.0.113.45
-02:14:09  4625  conta=financeiro01  origem=203.0.113.45
+02:14:01  4625  conta=financeiro01  origem=192.0.2.45
+02:14:09  4625  conta=financeiro01  origem=192.0.2.45
    ... (mais 7 eventos 4625 idênticos até 02:16:22)
-02:16:40  4624  conta=financeiro01  origem=203.0.113.45
+02:16:40  4624  conta=financeiro01  origem=192.0.2.45
 ```
 
 Com base nos conceitos da Aula 9, qual é a interpretação mais adequada desse trecho?
@@ -296,7 +296,7 @@ c. Corresponde a uma consulta DNS registrada pelo Sysmon, útil para identificar
 *d. Indica que o registro de auditoria foi apagado, o que, após a execução de processos, sugere tentativa de apagar rastros.
 e. Corresponde a uma conexão de rede registrada pelo Sysmon, indicando comunicação com servidor de comando e controle.
 
-**25.** A loja virtual fictícia Pague Fácil processa pagamentos com cartão e mantém apenas os últimos 30 dias de registros no SIEM, por economia de armazenamento. Em uma investigação, a equipe estima que o invasor obteve o acesso inicial há cerca de 45 dias. Qual avaliação é correta?
+**25.** A loja virtual fictícia Mercado Ipê processa pagamentos com cartão e mantém apenas os últimos 30 dias de registros no SIEM, por economia de armazenamento. Em uma investigação, a equipe estima que o invasor obteve o acesso inicial há cerca de 45 dias. Qual avaliação é correta?
 
 a. A retenção atende ao PCI DSS, que exige apenas sete dias de histórico, e a investigação não é prejudicada.
 b. A retenção é irrelevante, pois uma boa correlação no SIEM compensa a ausência dos registros antigos.
@@ -412,7 +412,7 @@ e. O domínio é o vértice capacidade; o MISP é um formato de descrição de o
 b. Y (20), Z (24) e X (6).
 c. X (6), Y (20) e Z (24).
 d. Z (24), X (6) e Y (20).
-e. Y (10), Z (9) e X (6).
+e. Y (9), Z (9) e X (6).
 
 **37.** Linha do tempo de um incidente na empresa fictícia Lumen Varejo: na segunda-feira, o EDR detecta atividade suspeita em um servidor; na quarta-feira, a equipe confirma que o servidor continha dados pessoais de clientes e que o incidente pode acarretar risco relevante aos titulares. Qual afirmação está de acordo com a LGPD e a Resolução CD/ANPD nº 15/2024?
 
@@ -449,9 +449,9 @@ e. Alerta, incidente e evento.
 ## Gabarito e feedbacks
 
 **Questão 1** (correta: c)
-- a. Incorreta: a asserção II é falsa; o registro nativo não traz por padrão o *hash* do executável nem o processo pai, e é justamente isso que o Sysmon acrescenta.
+- a. Incorreta: a asserção II é falsa; o registro nativo não traz por padrão o *hash* do executável (e, do processo pai, registra no máximo o nome), e é justamente esse contexto que o Sysmon acrescenta.
 - b. Incorreta: a asserção II não é verdadeira; reveja a comparação entre o evento 4688 e o Sysmon na Aula 9.
-- c. Correta: o evento 4688 só registra a linha de comando se a política específica estiver habilitada ("ter a fonte não basta; é preciso configurá-la"), e o Sysmon não é redundante, pois enriquece a telemetria com *hash* e processo pai.
+- c. Correta: o evento 4688 só registra a linha de comando se a política específica estiver habilitada ("ter a fonte não basta; é preciso configurá-la"), e o Sysmon não é redundante, pois enriquece a telemetria com o *hash* do executável e os detalhes do processo pai, como a linha de comando dele.
 - d. Incorreta: a asserção I é verdadeira; o registro da linha de comando no 4688 depende de uma política específica.
 - e. Incorreta: apenas a II é falsa; a I descreve corretamente a configuração do evento 4688.
 
@@ -596,7 +596,7 @@ e. Alerta, incidente e evento.
 - e. Incorreta: é exatamente a combinação de eventos isoladamente inofensivos que a correlação deve examinar.
 
 **Questão 22** (correta: e)
-- a. Incorreta: 480 resultaria de 6 minutos por alerta, ou do dobro de horas de análise; o enunciado indica 12 minutos.
+- a. Incorreta: 480 resultaria de 3 minutos por alerta, ou do quádruplo das horas de análise; o enunciado indica 12 minutos e 24 horas.
 - b. Incorreta: 240 alertas exigiriam 48 horas de análise; a equipe dispõe de 24 horas (4 × 6).
 - c. Incorreta: o valor não corresponde à conta; 24 horas × 60 ÷ 12 = 120, e não 100.
 - d. Incorreta: a equipe não consegue triar todo o volume; essa é justamente a situação de fadiga de alertas.
@@ -698,7 +698,7 @@ e. Alerta, incidente e evento.
 - b. Incorreta: as pontuações estão corretas, mas a ordem não segue a maior severidade; Z (24) supera Y (20).
 - c. Incorreta: a ordem está invertida, começando pelo incidente de menor severidade.
 - d. Incorreta: X (6) tem severidade menor que Y (20) e deve ser atendido por último.
-- e. Incorreta: as pontuações de Y e Z foram calculadas com soma, e não com multiplicação dos fatores.
+- e. Incorreta: as pontuações de Y e Z foram calculadas com soma (5 + 2 + 2 = 9 e 4 + 3 + 2 = 9), e não com a multiplicação dos fatores; pelo produto, Z (24) vem antes de Y (20).
 
 **Questão 37** (correta: e)
 - a. Incorreta: o prazo da Resolução CD/ANPD nº 15/2024 é de três dias úteis, e conta do conhecimento de que dados pessoais foram afetados, não da detecção.

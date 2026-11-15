@@ -140,7 +140,7 @@ Título; Desafio (contexto pelo lide — o quê, quem, quando, onde, por quê �
 
 ### Slides e videoaulas
 
-- Um PPTX por videoaula (`SLIDES - Videoaula N.pptx`), no padrão UniFECAF: capa, **audiodescrição** do professor, "Sobre o professor", sumário, slides de conteúdo e imagem, citação, encerramento.
+- Um PPTX por videoaula (`SLIDES - Videoaula N.pptx`), no padrão UniFECAF: capa, **audiodescrição** do professor (nos decks HTML, só na apresentação da disciplina, `aula0`), "Sobre o professor", sumário, slides de conteúdo e imagem, citação, encerramento.
 - Os slides servem para **sinalizar a edição** à equipe de produção: frases, imagens, takes e trechos exatos de vídeos do Envato, com os links.
 - Gravação obrigatória no **estúdio** ou nos laboratórios da faculdade; em casa, só com autorização e aula-teste aprovada. A modalidade deve ser confirmada até 2 dias úteis após o convite.
 - Cada bloco de videoaulas tem uma ficha de validação (coordenador + videomaker) na subpasta da unidade.
@@ -155,7 +155,7 @@ Todas as aulas usam a mesma aplicação fictícia como alvo do Red Team e ambien
 
 | Arquivo | Papel |
 |---|---|
-| [`simulador/APLICACAO.md`](simulador/APLICACAO.md) | fonte única de nomes, hosts, endereços, pessoas, adversário emulado (Grupo Cobalto Austral) e cenários |
+| [`simulador/APLICACAO.md`](simulador/APLICACAO.md) | fonte única de nomes, hosts, endereços, pessoas, adversário emulado (Grupo Cobalto Austral), regras do CEP (R1–R13) e cenários |
 | [`simulador/index.html`](simulador/index.html) | simulador no navegador, com 9 abas: arquitetura animada, requisições do gateway, filas e eventos (partições e *lag*), telemetria (fontes e custo), regras do CEP (R1–R13), cenários, SOC (investigar, conter, MTTD/MTTR), superfície externa (CVSS, EPSS, KEV) e cobertura ATT&CK |
 | `simulador/BRIEF_DECKS.md` | mapa de qual aba e cenário cada aula usa |
 
@@ -188,7 +188,7 @@ O layout foi desenhado para 1280x720. Em telas maiores, o `deck.js` aumenta a fo
 
 `python scripts/auditar_layout.py [aulaN ...] [--size 1920x1080] [--shots pasta]` precisa do servidor local rodando. Ele passa por todos os slides, avança fluxos e terminais e acusa conteúdo fora do slide, texto cortado, elementos ou rótulos SVG sobrepostos e conteúdo sob a navegação.
 
-`python scripts/validar_slides.py` confere cada deck: estrutura (capa, audiodescrição, encerramento, assets), pelo menos 4 laboratórios com VS Code, um laboratório na plataforma Rede Tatame, uma simulação de programa e uma visualização animada ou 3D, alvos dos laboratórios existentes, sintaxe dos scripts (`node --check`) e ausência de comandos ofensivos operacionais. A Aula 1 é o deck de referência.
+`python scripts/validar_slides.py` confere cada deck: estrutura (capa, audiodescrição do professor só na `aula0`, encerramento, assets), pelo menos 4 laboratórios com VS Code, um laboratório na plataforma Rede Tatame, uma simulação de programa e uma visualização animada ou 3D, alvos dos laboratórios existentes, sintaxe dos scripts (`node --check`) e ausência de comandos ofensivos operacionais. A Aula 1 é o deck de referência.
 
 Para ver localmente com as cenas 3D e os caminhos relativos funcionando, sirva a raiz do repositório: `python -m http.server 8765` e abra `http://127.0.0.1:8765/disciplinas/red_team_blue_team_strategies/`.
 
@@ -200,7 +200,7 @@ Para ver localmente com as cenas 3D e os caminhos relativos funcionando, sirva a
 4. Confirmar a modalidade de gravação (estúdio ou casa) com a Carolina.
 5. Contrato: cadastro no Banco de Talentos (link no e-mail do convite).
 6. Slides: os 17 decks HTML com laboratórios estão prontos e todos usam a plataforma fictícia Rede Tatame e o simulador em `simulador/` (a revisar em sala e na gravação). Falta confirmar com o NEaD se o HTML substitui os PPTX `SLIDES - Videoaula N.pptx` do Drive ou se é preciso preencher também os PPTX para a equipe de edição.
-7. Revisar os marcadores **[conferir]** do material complementar (15 restantes: episódios de podcast, alguns links e o livro *O ovo do cuco*). Os livros do *Direto da fonte* das 4 unidades e a bibliografia básica da `EMENTA.md` já foram confirmados na Biblioteca Virtual em 13/11/2026, com link da ficha de cada obra.
+7. Resta **1 marcador [conferir]** (revisão completa de 15/11/2026): o episódio de *podcast* da Unidade 4 (carreira em cibersegurança, gratuito, até 45 min, com link do episódio). Todos os demais foram verificados e resolvidos. Os livros do *Direto da fonte* das 4 unidades e a bibliografia básica da `EMENTA.md` já foram confirmados na Biblioteca Virtual em 13/11/2026, com link da ficha de cada obra.
 8. Gerar as cópias DOCX preenchidas a partir dos modelos de `documentos/` e enviá-las à pasta do Drive.
 9. Após receber o plano oficial: ajustar títulos e ordem das aulas, e revisar questões e avaliações afetadas.
 10. **Prazo de comunicação à ANPD (Aula 12):** o laboratório conta três dias úteis a partir do dia útil seguinte à ciência do incidente; confirmar a regra de contagem e os feriados locais com o jurídico.

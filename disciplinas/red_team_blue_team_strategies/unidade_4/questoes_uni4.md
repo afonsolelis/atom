@@ -257,10 +257,10 @@ e. As asserções I e II são proposições falsas.
 
 **21.** A equipe de segurança da Varejo Horizonte montou um plano de emulação com 40 técnicas ATT&CK associadas a um grupo de *ransomware* que ataca o varejo. Na primeira execução, 12 técnicas geraram alerta. Durante a própria sessão, a equipe criou regras para outras 10 técnicas que já tinham telemetria. No reteste, 8 dessas novas regras geraram o alerta esperado e 2 não dispararam. Considerando apenas detecções comprovadas por execução, qual é a cobertura testada do plano ao final da sessão?
 
-a. 55%, pois as 10 novas regras somam-se às 12 detecções iniciais.
+a. 55%.
 *b. 50%.
-c. 30%, pois as regras criadas na sessão só contam no ciclo seguinte.
-d. 20%, considerando apenas as regras que passaram no reteste.
+c. 30%.
+d. 20%.
 e. 45%.
 
 **22.** Durante uma sessão de *purple teaming* na Transportadora Rota Sul, o facilitador registrou o seguinte quadro:
@@ -289,11 +289,11 @@ e. Deixar o Red Team escolher livremente as técnicas, sem informar o Blue Team,
 
 **24.** Um engenheiro de detecção da Clínica Vitalis acabou de escrever uma regra para a técnica T1053 (*Scheduled Task/Job*) e quer validá-la rapidamente com um teste pequeno, já mapeado a essa técnica, em um laboratório autorizado. Qual recurso estudado na Aula 13 atende diretamente a essa necessidade?
 
-a. ATT&CK Navigator, que permite visualizar a cobertura e o plano de emulação sobre a matriz.
-b. *Adversary Emulation Library*, que reúne planos completos de emulação baseados em grupos reais.
-c. MITRE Caldera, plataforma para automatizar campanhas completas de emulação de adversários.
+a. ATT&CK Navigator.
+b. *Adversary Emulation Library*.
+c. MITRE Caldera.
 *d. Atomic Red Team.
-e. DeTT&CT, que pontua separadamente visibilidade e detecção de cada técnica.
+e. DeTT&CT.
 
 **25.** Relato de uma sessão de *purple teaming* na Logística Veloz: "Em quatro horas, percorremos apenas 3 das 20 técnicas planejadas. As discussões sobre cada alerta se estenderam sem conclusão, e ninguém registrou quem criaria as regras pendentes nem quando." Qual papel, descrito no *Purple Team Exercise Framework* (PTEF), foi mal exercido nessa sessão?
 
@@ -424,10 +424,10 @@ e. Detalhar ainda mais o relatório à diretoria, incluindo a descrição técni
 
 **39.** Uma estudante concluiu a disciplina e descobriu que gosta de escrever regras de detecção, testá-las contra técnicas emuladas em laboratório e ajustá-las para reduzir falsos positivos. Considerando as funções apresentadas na Aula 16, qual trilha de carreira corresponde melhor a esse perfil?
 
-a. *Pentester*, que realiza testes de invasão em escopo definido.
-b. Operador de Red Team, dedicado à emulação de adversários orientada a objetivos.
-c. Resposta a incidentes, com foco em contenção, investigação e recuperação.
-d. Analista de SOC, concentrado na triagem e na investigação de alertas recebidos.
+a. *Pentester*.
+b. Operador de Red Team.
+c. Resposta a incidentes.
+d. Analista de SOC.
 *e. Engenheiro de detecção.
 
 **40.** A Rede Educa Mais migrou seus sistemas acadêmicos para a nuvem e adotou uma arquitetura *Zero Trust*. A equipe precisa atualizar o plano de emulação usado nos ciclos de *purple teaming*. Qual atualização é a mais coerente com as tendências estudadas?
@@ -583,8 +583,8 @@ e. Substituir os analistas do SOC por ferramentas de IA generativa, que dispensa
 **Questão 21** (correta: b)
 - a. Incorreta: somar as 10 regras pressupõe que todas funcionaram, mas 2 não dispararam no reteste; regra não retestada (ou reprovada) é apenas hipótese.
 - b. Correta: cobertura testada = (12 detecções iniciais + 8 regras aprovadas no reteste) ÷ 40 = 20 ÷ 40 = 50%.
-- c. Incorreta: regras criadas e retestadas na própria sessão já contam, como no exemplo da Aula 13 (de 30% para 50% no reteste).
-- d. Incorreta: o cálculo ignora as 12 técnicas que já geravam alerta desde a primeira execução.
+- c. Incorreta: 30% suporia que as regras criadas na sessão só contam no ciclo seguinte, mas regras criadas e retestadas na própria sessão já contam, como no exemplo da Aula 13 (de 30% para 50% no reteste).
+- d. Incorreta: 20% considera só as 8 regras aprovadas no reteste e ignora as 12 técnicas que já geravam alerta desde a primeira execução.
 - e. Incorreta: 45% corresponderia a 18 técnicas; o total comprovado é 12 + 8 = 20.
 
 **Questão 22** (correta: e)

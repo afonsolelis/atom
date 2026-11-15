@@ -57,8 +57,8 @@ Ao final da disciplina, o estudante deverá ser capaz de:
 
 - SANTOS, Joas Antonio dos. *Introdução ao Red Team Operations 2.0*: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/220894>.
 - STALLINGS, William. *Criptografia e segurança de redes*: princípios e práticas. 6. ed. São Paulo: Pearson, 2015. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/22446>.
-- MITRE. *ATT&CK*. Disponível em: <https://attack.mitre.org/>.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *The NIST Cybersecurity Framework (CSF) 2.0*. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *SP 800-115: Technical guide to information security testing and assessment*. Gaithersburg: NIST, 2008.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *SP 800-61 Rev. 3: Incident response recommendations and considerations for cybersecurity risk management*. Gaithersburg: NIST, 2025.
+- MITRE CORPORATION. *MITRE ATT&CK*. McLean: MITRE, [s. d.]. Disponível em: <https://attack.mitre.org/>. Acesso em: 13 nov. 2026.
+- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *The NIST Cybersecurity Framework (CSF) 2.0*. Gaithersburg: NIST, 2024. (NIST CSWP 29). DOI: <https://doi.org/10.6028/NIST.CSWP.29>.
+- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *Technical guide to information security testing and assessment*. Gaithersburg: NIST, 2008. (NIST SP 800-115). DOI: <https://doi.org/10.6028/NIST.SP.800-115>.
+- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *Incident response recommendations and considerations for cybersecurity risk management*: a CSF 2.0 community profile. Gaithersburg: NIST, 2025. (NIST SP 800-61 Rev. 3). DOI: <https://doi.org/10.6028/NIST.SP.800-61r3>.
 - HUTCHINS, Eric M.; CLOPPERT, Michael J.; AMIN, Rohan M. Intelligence-driven computer network defense informed by analysis of adversary campaigns and intrusion kill chains. *Leading Issues in Information Warfare & Security Research*, v. 1, p. 80-106, 2011.

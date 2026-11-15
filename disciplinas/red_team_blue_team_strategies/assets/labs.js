@@ -619,11 +619,11 @@
   const MAPA = {
     app: [70, 40, 'App do aluno'], portal: [70, 95, 'Portal gestão'], catraca: [70, 150, 'Catracas IoT'], net: [70, 235, 'Internet'],
     waf: [215, 95, 'CDN / WAF'], hml: [215, 195, 'hml-gestao'], gw: [350, 95, 'API gateway'], pay: [350, 180, 'PagaFácil'],
-    ident: [490, 25, 'svc-identidade'], alunos: [490, 70, 'svc-alunos'], checkin: [490, 115, 'svc-checkin'], cobranca: [490, 160, 'svc-cobranca'], notif: [490, 205, 'svc-notificações'],
+    ident: [490, 25, 'svc-identidade'], alunos: [490, 70, 'svc-alunos'], checkin: [490, 115, 'svc-checkin'], cobranca: [490, 160, 'svc-cobranca'], notif: [490, 205, 'svc-notificacoes'],
     db: [630, 45, 'db-alunos'], kafka: [630, 125, 'Kafka'], cep: [760, 85, 'Motor CEP'], lake: [760, 145, 'Data lake'], siem: [760, 215, 'SIEM · SOC'],
     mail: [215, 300, 'E-mail'], vpn: [215, 355, 'VPN'], nb: [350, 300, 'NB-FIN-031'], ad: [350, 355, 'SRV-AD-01'], arq: [490, 300, 'SRV-ARQ-01'], erp: [490, 355, 'SRV-ERP-01'], edr: [630, 330, 'Console EDR']
   };
-  const MAPA_ARESTAS = [['app', 'waf'], ['portal', 'waf'], ['catraca', 'waf'], ['net', 'waf'], ['net', 'hml'], ['net', 'mail'], ['net', 'vpn'], ['waf', 'gw'], ['hml', 'db'], ['gw', 'ident'], ['gw', 'alunos'], ['gw', 'checkin'], ['gw', 'cobranca'], ['gw', 'notif'], ['gw', 'pay'], ['alunos', 'db'],
+  const MAPA_ARESTAS = [['app', 'waf'], ['portal', 'waf'], ['catraca', 'waf'], ['net', 'waf'], ['net', 'hml'], ['net', 'mail'], ['net', 'vpn'], ['waf', 'gw'], ['hml', 'db'], ['gw', 'ident'], ['gw', 'alunos'], ['gw', 'checkin'], ['gw', 'cobranca'], ['gw', 'notif'], ['cobranca', 'pay'], ['alunos', 'db'],
     ['ident', 'kafka'], ['alunos', 'kafka'], ['checkin', 'kafka'], ['cobranca', 'kafka'], ['kafka', 'cep'], ['kafka', 'lake'], ['cep', 'siem'], ['mail', 'nb'], ['vpn', 'ad'], ['nb', 'ad'], ['ad', 'arq'], ['ad', 'erp'], ['arq', 'edr'], ['erp', 'edr'], ['nb', 'edr'], ['edr', 'siem']];
   function miniMapa(sel, cfg) {
     cfg = cfg || {};

@@ -39,7 +39,7 @@ Template de origem: `documentos/Instrumentos Avaliativos/TEMPLATE ENTREGA DE TRA
 | Estações e servidores | 1.100 estações Windows; 180 servidores (130 Windows, 50 Linux) |
 | Sistemas críticos | LIS (sistema de informação laboratorial) e banco de laudos *on-premises*; ERP de faturamento; portal e aplicativo do paciente em nuvem pública; API de integração com 27 operadoras de saúde |
 | Ambiente sensível | 96 analisadores laboratoriais conectados ao LIS por uma rede segregada (equipamentos de fornecedor, sem agente de segurança) |
-| Identidade | Active Directory sincronizado com o Microsoft Entra ID; MFA por notificação *push* simples (sem correspondência de número) |
+| Identidade | Active Directory sincronizado com o Microsoft Entra ID; MFA de um provedor terceiro (fictício, "AutentiQ"), integrado ao Entra ID e à VPN, com aprovação por notificação *push* simples (sem correspondência de número) |
 | Acesso remoto | VPN SSL no *firewall* de borda, com autenticação pelo AD e MFA |
 | Faturamento anual | R$ 940 milhões |
 | Orçamento aprovado para o programa | **até R$ 1,2 milhão nos próximos 12 meses** |
@@ -50,8 +50,8 @@ Template de origem: `documentos/Instrumentos Avaliativos/TEMPLATE ENTREGA DE TRA
 |---|---|---|
 | 06/10 09h12 | 37 colaboradores do faturamento e do atendimento recebem *e-mail* "Atualização do repasse de convênios — outubro" com *link* para uma página falsa de *login* corporativo. | Filtro de *e-mail* registrou a entrega; nenhum alerta. |
 | 06/10 09h31 | Uma analista de faturamento digita usuário e senha na página falsa. | — |
-| 06/10 09h33–09h41 | A analista recebe 14 notificações *push* de MFA, nega todas e **aprova a 15ª** por engano. | Registros de entrada do Entra ID (não enviados ao SIEM). |
-| 06/10 09h58 | Um novo dispositivo é registrado como método de MFA da conta. | Registro de auditoria do Entra ID (não enviado ao SIEM). |
+| 06/10 09h33–09h41 | A analista recebe 14 notificações *push* de MFA, nega todas e **aprova a 15ª** por engano. | Registro de autenticação do console do AutentiQ (não enviado ao SIEM); a entrada aparece no Entra ID como bem-sucedida. |
+| 06/10 09h58 | Um novo dispositivo é registrado como método de MFA da conta. | Registro de auditoria do console do AutentiQ (não enviado ao SIEM). |
 | 06/10 11h20 | Conexão VPN SSL com a conta da analista, a partir de um endereço residencial brasileiro nunca visto. | *Log* local do *firewall* (7 dias); o SIEM só recebe bloqueios. |
 | 06/10 11h47–13h05 | Consultas em massa ao AD (usuários, grupos, computadores) e varredura de portas na rede interna. | Nenhum registro centralizado. |
 | 06/10 14h10 | Sessão RDP da conta da analista para o servidor de arquivos FS-FAT01. | Evento 4624 (tipo 10) no SIEM, sem regra associada. |
@@ -85,6 +85,7 @@ Em 20/10/2026, o centro setorial de compartilhamento de informações de saúde 
 | SIEM em nuvem | 45 regras ativas (38 padrão do fornecedor, nunca revisadas); ~1.900 alertas/dia, ~92% falsos positivos | 90 dias | — | licença de 60 GB/dia; uso atual de 40 GB/dia |
 | Controladores de domínio (AD) | Auditoria padrão: 4624, 4625, 4740 coletados; sem 4768/4769 (Kerberos) e sem auditoria de acesso a objetos | 90 dias | Sim, parcial | +4 GB/dia para incluir Kerberos e alterações de grupos |
 | Entra ID (entradas e auditoria) | Habilitado; sem licença de detecção de risco de identidade | 30 dias | Não | 2 GB/dia |
+| Provedor de MFA (AutentiQ) | Registros de autenticação (*pushes* enviados, negados e aprovados) e de cadastro de dispositivos, só no console do fornecedor; exportação por API disponível | 30 dias | Não | 0,5 GB/dia |
 | *Firewall* / VPN SSL | Tráfego e sessões VPN registrados localmente | 7 dias | Só bloqueios | 6 GB/dia (sessões VPN: 0,5 GB/dia) |
 | EDR | 85% das estações e 60% dos servidores; *tamper protection* ativa; alertas críticos ao MSSP 24×7, médios ao SOC interno em horário comercial | 30 dias | Só alertas | — |
 | Sysmon | Inexistente | — | — | 5 GB/dia (servidores Windows) |
@@ -142,9 +143,9 @@ Fontes primárias mínimas (todas de acesso gratuito):
 Fontes complementares recomendadas:
 
 7. CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. *#StopRansomware*. Washington, DC: CISA, [s. d.]. Disponível em: <https://www.cisa.gov/stopransomware>. Acesso em: 13 nov. 2026.
-8. MITRE ENGENUITY CENTER FOR THREAT-INFORMED DEFENSE. *Adversary emulation library*. [S. l.], [s. d.]. Disponível em: <https://github.com/center-for-threat-informed-defense/adversary_emulation_library>. Acesso em: 13 nov. 2026.
+8. MITRE CENTER FOR THREAT-INFORMED DEFENSE. *Adversary emulation library*. [S. l.], [s. d.]. Disponível em: <https://github.com/center-for-threat-informed-defense/adversary_emulation_library>. Acesso em: 13 nov. 2026.
 9. BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). Disponível em: <https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm>. Acesso em: 13 nov. 2026.
-10. AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS. Resolução CD/ANPD nº 15, de 24 de abril de 2024. Aprova o Regulamento de Comunicação de Incidente de Segurança. Brasília, DF: ANPD, 2024.
+10. AUTORIDADE NACIONAL DE PROTEÇÃO DE DADOS. Resolução CD/ANPD nº 15, de 24 de abril de 2024. Aprova o Regulamento de Comunicação de Incidente de Segurança. *Diário Oficial da União*: seção 1, Brasília, DF, ed. 81, p. 114, 26 abr. 2024.
 
 As fontes 1 a 4 formam o conjunto mínimo obrigatório; 5 e 6 são fortemente recomendadas. O estudante pode acrescentar fontes primárias equivalentes (documentação de fornecedores de EDR/SIEM, relatórios públicos de incidentes no setor de saúde), com referência completa conforme a ABNT.
 
@@ -157,7 +158,7 @@ As fontes 1 a 4 formam o conjunto mínimo obrigatório; 5 e 6 são fortemente re
 | Regras de engajamento | 3 (avaliações, NIST SP 800-115, célula branca), 7 (simulação ética de *phishing*), 13 (emulação de adversários) |
 | Telemetria e lacunas | 4 (NIST CSF, defesa em profundidade, SOC), 9 (telemetria, registros e SIEM), 10 (engenharia de detecção e EDR) |
 | Detecções e resposta | 10, 11 (*threat hunting*), 12 (resposta a incidentes) |
-| Métricas e programa | 14 (MTTD, MTTR, cobertura ATT&CK), 15 (*tabletop*), 16 (programa contínuo) |
+| Métricas e programa | 14 (MTTD, MTTR, cobertura ATT&CK), 15 (*tabletop*), 16 (programa contínuo, ALE e ROSI) |
 | Priorização de riscos | 6 (gestão de vulnerabilidades e priorização por risco) |
 
 ---
@@ -187,7 +188,7 @@ As fontes 1 a 4 formam o conjunto mínimo obrigatório; 5 e 6 são fortemente re
 
 - Releia a linha do tempo e marque, para cada linha, **qual técnica ATT&CK** ela representa e **se havia registro** que permitiria detectá-la.
 - Separe o que é **fato do caso** (horários, volumes, ferramentas) do que será **premissa sua** (por exemplo, o momento que você considera "início do ataque" para calcular o MTTD). Premissas devem ser declaradas no relatório.
-- Anote os números que vão sustentar seus argumentos: 14 *pushes* negados, 11h33 entre o alerta do LSASS e o alerta crítico, 1,8 GB exfiltrados, 1.900 alertas/dia com 92% de falsos positivos, 40 de 60 GB/dia de licença do SIEM, R$ 1,2 milhão de orçamento.
+- Anote os números que vão sustentar seus argumentos: 14 *pushes* negados, 11h33 entre o alerta do LSASS e a confirmação pelo MSSP, 1,8 GB exfiltrados, 1.900 alertas/dia com 92% de falsos positivos, 40 de 60 GB/dia de licença do SIEM, R$ 1,2 milhão de orçamento.
 
 ### 2. Modele o adversário (Parte 1)
 
@@ -222,7 +223,7 @@ As fontes 1 a 4 formam o conjunto mínimo obrigatório; 5 e 6 são fortemente re
 
 ### 7. Escreva para o conselho (Parte 6)
 
-- Uma página, sem siglas não explicadas. Comece pela recomendação, mostre o risco em reais (você pode usar a expectativa de perda anual da Aula 1), o investimento, as metas e as decisões que o conselho precisa tomar.
+- Uma página, sem siglas não explicadas. Comece pela recomendação, mostre o risco em reais (você pode usar a expectativa de perda anual das Aulas 1 e 16), o investimento, as metas e as decisões que o conselho precisa tomar.
 
 ### 8. Revise antes de enviar
 
@@ -248,14 +249,13 @@ Adversário: afiliado de *ransomware* com dupla extorsão (perfil "Cascavel"), m
 | *Initial Access* | T1566.002 *Phishing: Spearphishing Link* | *E-mail* de 06/10 09h12; boletim |
 | *Credential Access* | T1621 *Multi-Factor Authentication Request Generation* | 14 *pushes* negados e 15º aprovado |
 | *Persistence* | T1098.005 *Account Manipulation: Device Registration* | Novo dispositivo de MFA às 09h58; boletim |
-| *Initial Access* / *Persistence* | T1133 *External Remote Services* (com T1078 *Valid Accounts*) | VPN SSL com conta legítima às 11h20 |
+| *Initial Access* / *Persistence* / *Stealth* | T1133 *External Remote Services* + T1078 *Valid Accounts* (inclui T1078.002 *Domain Accounts*) | VPN SSL com conta legítima às 11h20; uso de `svc_backup` às 15h05 |
 | *Discovery* | T1087.002 *Account Discovery: Domain Account* (ou T1046 *Network Service Discovery*) | Consultas em massa ao AD; varredura interna |
 | *Credential Access* | T1003.001 *OS Credential Dumping: LSASS Memory* | Alerta do EDR às 14h32 |
 | *Lateral Movement* | T1021.001 *Remote Services: Remote Desktop Protocol* | RDP para FS-FAT01 |
-| *Defense Evasion* / *Persistence* | T1078.002 *Valid Accounts: Domain Accounts* | Uso de `svc_backup` |
 | *Collection* | T1560.001 *Archive Collected Data: Archive via Utility* (ou T1039 *Data from Network Shared Drive*) | Compactação às 16h40 |
 | *Exfiltration* | T1567.002 *Exfiltration Over Web Service: Exfiltration to Cloud Storage* | 1,8 GB às 17h02–17h51 |
-| *Defense Evasion* | T1562.001 *Impair Defenses: Disable or Modify Tools* | Tentativa às 01h20 |
+| *Defense Impairment* | T1685 *Disable or Modify Tools* (antiga T1562.001, renumerada no ATT&CK v19) | Tentativa às 01h20 |
 
 Alternativas aceitáveis e bem justificáveis pelo boletim: T1110.003 *Password Spraying*, T1558.003 *Kerberoasting*, T1490 *Inhibit System Recovery*, T1484.001 *Group Policy Modification*, T1486 *Data Encrypted for Impact* (esta última deve aparecer como **impacto simulado**, nunca executado). Um bom trabalho explica que incluir técnicas do boletim que **não** ocorreram no incidente testa o que o adversário faria nos próximos passos (3 a 6 dias até a criptografia).
 
@@ -265,7 +265,7 @@ Sinais de baixa qualidade: lista de técnicas sem ID ou com ID errado; técnicas
 
 - **Objetivo:** validar detecção e resposta à cadeia "Cascavel" até a exfiltração simulada e a tentativa de desativar defesas; medir MTTD/MTTR por técnica.
 - **Modelo:** qualquer modelo justificado. Referência: híbrido — fase 1 **aberta** (técnica a técnica, conforme o PTEF, para construir detecções) e, após 3 a 6 meses, fase 2 **às cegas** para medir MTTD/MTTR reais do SOC e do MSSP.
-- **Escopo:** AD, estações e servidores Windows corporativos, VPN, Entra ID, servidores de arquivos, *proxy*; *phishing* simulado para grupos definidos.
+- **Escopo:** AD, estações e servidores Windows corporativos, VPN, Entra ID, configuração do AutentiQ do lado da Vitalis (a plataforma do fornecedor só com autorização dele), servidores de arquivos, *proxy*; *phishing* simulado para grupos definidos.
 - **Exclusões esperadas:** analisadores laboratoriais e sua rede; LIS e banco de laudos em produção (no máximo, testes passivos ou em homologação); portal do paciente em nuvem (salvo autorização específica e respeito às regras do provedor); sistemas de terceiros e operadoras; negação de serviço; criptografia ou exclusão de dados reais; desativação real de EDR em produção sem acordo da célula branca.
 - **Janelas:** evitar o pico de coletas (cerca de 6h–10h) e fechamentos de faturamento; execução em horário acordado, com plantão técnico disponível.
 - **LGPD:** princípio da necessidade; uso de **arquivos-isca sintéticos** (dados fictícios com marcadores) para simular a exfiltração; proibição de copiar dados reais de pacientes; destino de exfiltração controlado pelo próprio Red Team; registro e descarte seguro de evidências; cláusula de confidencialidade e acordo de tratamento de dados com o fornecedor; DPO na célula branca. O *phishing* simulado não deve usar temas que causem angústia (por exemplo, "resultado de exame alterado") e precisa de alinhamento com RH e jurídico; os resultados individuais não devem ser usados para punição.
@@ -280,24 +280,24 @@ Critério de referência: **detectada** = telemetria centralizada + regra + tria
 | Técnica | Classificação atual | Motivo |
 |---|---|---|
 | T1566.002 | Parcial | Filtro de *e-mail* previne em parte; *logs* fora do SIEM |
-| T1621 | Nenhuma | Entra ID fora do SIEM; sem regra |
-| T1098.005 | Nenhuma | Auditoria do Entra ID fora do SIEM |
-| T1133 / T1078 | Nenhuma | SIEM só recebe bloqueios da VPN |
+| T1621 | Nenhuma | Registros do AutentiQ fora do SIEM; sem regra |
+| T1098.005 | Nenhuma | Auditoria do AutentiQ fora do SIEM |
+| T1133 / T1078 | Nenhuma | SIEM só recebe bloqueios da VPN; o 4624 da `svc_backup` chega ao SIEM, mas sem regra (quem tratar T1078.002 em linha própria pode classificá-la como parcial) |
 | T1087.002 | Nenhuma | Sem eventos de LDAP/Kerberos nem regra |
-| T1003.001 | Parcial | EDR alerta, mas severidade média sem triagem fora do horário |
+| T1003.001 | Parcial | EDR alerta, mas com severidade média: não vai ao MSSP e ficou sem triagem na fila do SOC interno, mesmo em horário comercial |
 | T1021.001 | Parcial | 4624 tipo 10 no SIEM, sem regra |
 | T1560.001 | Parcial | Telemetria de processo no EDR, sem regra |
 | T1567.002 | Nenhuma | *Proxy* fora do SIEM e categoria liberada |
-| T1562.001 | Detectada | *Tamper protection* + alerta crítico ao MSSP |
+| T1685 | Detectada | *Tamper protection* + alerta crítico ao MSSP |
 
 Com 10 técnicas: cobertura estrita = 1/10 = **10%**; cobertura ponderada (parcial = 0,5) = (1 + 4 × 0,5)/10 = **30%**. Outras classificações são aceitáveis se o critério estiver declarado e for aplicado de forma consistente.
 
-**Restrição de licença:** há 20 GB/dia livres. Uma priorização coerente cabe nela, por exemplo: Entra ID (2) + sessões VPN (0,5) + Kerberos/grupos do AD (4) + Sysmon em servidores (5) + *proxy* (7) = 18,5 GB/dia. DNS (8 GB/dia) e o tráfego completo do *firewall* (6 GB/dia) exigiriam comprar blocos adicionais (R$ 90 mil por 10 GB/dia) ou filtrar na origem. Deve ser penalizado o trabalho que propõe "enviar tudo ao SIEM" sem considerar a licença.
+**Restrição de licença:** há 20 GB/dia livres. Uma priorização coerente cabe nela, por exemplo: Entra ID (2) + AutentiQ (0,5) + sessões VPN (0,5) + Kerberos/grupos do AD (4) + Sysmon em servidores (5) + *proxy* (7) = 19 GB/dia. DNS (8 GB/dia) e o tráfego completo do *firewall* (6 GB/dia) exigiriam comprar blocos adicionais (R$ 90 mil por 10 GB/dia) ou filtrar na origem. Deve ser penalizado o trabalho que propõe "enviar tudo ao SIEM" sem considerar a licença.
 
 ### Parte 4 — Detecções e resposta (exemplos aceitáveis)
 
-1. **Fadiga de MFA (T1621):** no Entra ID, mais de 5 negações de *push* para o mesmo usuário em 10 minutos, seguidas de aprovação, gera alerta alto. Mitigação complementar: correspondência de número e FIDO2 para usuários críticos.
-2. **Registro de novo método de MFA (T1098.005)** em até 24 h após entrada de risco ou de local incomum.
+1. **Fadiga de MFA (T1621):** nos registros do AutentiQ enviados ao SIEM, mais de 5 negações de *push* para o mesmo usuário em 10 minutos, seguidas de aprovação, geram alerta alto. Mitigação complementar: ativar a correspondência de número (ou migrar para o MFA nativo do Entra ID, que já a exige) e FIDO2 para usuários críticos.
+2. **Registro de novo método de MFA (T1098.005)** no AutentiQ em até 24 h após entrada de risco ou de local incomum (correlacionando com o Entra ID e a VPN).
 3. **VPN de origem inédita (T1133/T1078):** primeira conexão de um usuário a partir de ASN ou país nunca visto em 30 dias, ou "viagem impossível" entre entradas do Entra ID e da VPN.
 4. **Acesso ao LSASS (T1003.001):** reclassificar o alerta do EDR para **alto** em servidores e enviá-lo ao MSSP 24×7; complementar com Sysmon (evento 10). Exemplo Sigma esperado (simplificado):
 
@@ -356,7 +356,7 @@ tags:
 
 **Orçamento (exemplo que fecha em R$ 1,2 milhão):** engenheiro(a) de detecção R$ 260 mil + MSSP para alertas médios R$ 240 mil + 2 exercícios externos R$ 360 mil + EDR em 100% dos servidores R$ 70 mil + FIDO2 R$ 66 mil + 1 bloco de SIEM R$ 90 mil = **R$ 1,086 milhão**, com reserva de R$ 114 mil. Alternativas válidas: trocar um exercício externo por exercícios internos com a equipe treinada, ou trocar o MSSP por plantão interno. Penalizar propostas que ultrapassam o orçamento sem pedir suplemento justificado.
 
-**Valor para o negócio (Aula 1):** expectativa de perda anual atual = 0,20 × R$ 18 milhões = **R$ 3,6 milhões**. Se o estudante premissar redução da probabilidade para, por exemplo, 8%, a nova expectativa é R$ 1,44 milhão, redução de R$ 2,16 milhões por ano contra R$ 1,2 milhão investido. A premissa de redução deve estar declarada como estimativa.
+**Valor para o negócio (Aulas 1 e 16):** expectativa de perda anual atual = 0,20 × R$ 18 milhões = **R$ 3,6 milhões**. Se o estudante premissar redução da probabilidade para, por exemplo, 8%, a nova expectativa é R$ 1,44 milhão, redução de R$ 2,16 milhões por ano contra R$ 1,2 milhão investido. A premissa de redução deve estar declarada como estimativa.
 
 ### Parte 6 — Sumário executivo
 

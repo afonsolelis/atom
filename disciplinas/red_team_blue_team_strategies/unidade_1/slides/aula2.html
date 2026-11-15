@@ -10,7 +10,7 @@
   .fases7 { columns: 2; column-gap: 2.2rem; margin: 0 0 .6em; }
   .fases7 li { break-inside: avoid; margin-bottom: .35em !important; font-size: clamp(.95rem, 1.25vw, 1.2rem) !important; }
   .nv { flex: 1; display: flex; flex-direction: column; gap: .6rem; min-height: 0; }
-  .nv-grid { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: repeat(14, minmax(66px, 1fr)); gap: 4px; align-content: start; }
+  .nv-grid { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: repeat(15, minmax(62px, 1fr)); gap: 4px; align-content: start; }
   .nv-th { font: 700 10.5px/1.2 var(--fonte); color: #F2CB0A; background: #0B1424; border: 1px solid #22314F; border-radius: 6px; padding: 6px 4px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; }
   .nv-col { display: flex; flex-direction: column; gap: 4px; }
   .nv-c { font: 10.5px/1.25 var(--fonte); color: #DCE3EE; background: #13213D; border: 1px solid #2F3B55; border-radius: 5px; padding: 5px 4px; cursor: pointer; text-align: left; min-height: 46px; }
@@ -61,18 +61,7 @@
     </div>
   </section>
 
-  <!-- 2. Audiodescrição -->
-  <section class="slide slide-audio">
-    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
-    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
-    <div class="slide-content">
-      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Audiodescrição</h1>
-      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Os laboratórios usam a Rede Tatame, rede fictícia de academias de jiu-jitsu, atacada pelo Grupo Cobalto Austral, um grupo de <em>ransomware</em> também fictício. Esta aula tem sete laboratórios: uma cena em 3D com as sete fases da Cyber Kill Chain ligadas por um tubo, em que uma esfera branca percorre o caminho até ser barrada por um escudo azul; um diagrama animado do ataque de <em>ransomware</em> à Rede Tatame, fase a fase; uma página simulada da base MITRE ATT&amp;CK aberta na técnica T1566; uma matriz clicável no estilo do ATT&amp;CK Navigator, com células em verde, amarelo e vermelho; um console de SIEM que descreve o incidente por fases e técnicas; o simulador da plataforma Rede Tatame rodando a emulação do grupo, com a linha do tempo dos passos e a matriz de cobertura; e um editor VS Code com um <em>script</em> em Python que calcula a cobertura de detecção.</p>
-    </div>
-  </section>
-
-  <!-- 3. Sumário -->
+  <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
@@ -100,7 +89,7 @@
     </div>
   </section>
 
-  <!-- 4. O problema de hoje -->
+  <!-- 3. O problema de hoje -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -119,7 +108,7 @@
     </div>
   </section>
 
-  <!-- 5. Kill Chain -->
+  <!-- 4. Kill Chain -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -141,7 +130,7 @@
     </div>
   </section>
 
-  <!-- 6. LAB 3D Kill Chain -->
+  <!-- 5. LAB 3D Kill Chain -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -160,7 +149,7 @@
     </div>
   </section>
 
-  <!-- 7. LAB flow ransomware -->
+  <!-- 6. LAB flow ransomware -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -169,7 +158,7 @@
     </div>
   </section>
 
-  <!-- 8. Limitações -->
+  <!-- 7. Limitações -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -188,7 +177,7 @@
     </div>
   </section>
 
-  <!-- 9. ATT&CK -->
+  <!-- 8. ATT&CK -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -197,7 +186,7 @@
       <div class="slide-content-box">
         <p>O <strong>ATT&amp;CK</strong> (<em>Adversarial Tactics, Techniques, and Common Knowledge</em>) é uma base pública mantida pela MITRE, organização sem fins lucrativos, construída a partir de observações de ataques reais.</p>
         <ul>
-          <li><strong>Táticas</strong>, o "porquê": o objetivo do atacante naquele momento. A matriz Enterprise tem 14 táticas, de Reconhecimento (<em>Reconnaissance</em>) a Impacto (<em>Impact</em>).</li>
+          <li><strong>Táticas</strong>, o "porquê": o objetivo do atacante naquele momento. A matriz Enterprise tem 15 táticas, de Reconhecimento (<em>Reconnaissance</em>) a Impacto (<em>Impact</em>). Desde a versão 19 (abril de 2026), a antiga Evasão de defesas foi dividida em Furtividade (<em>Stealth</em>) e Enfraquecimento de defesas (<em>Defense Impairment</em>).</li>
           <li><strong>Técnicas e subtécnicas</strong>, o "como": a forma de alcançar o objetivo. Exemplo: T1566, <em>Phishing</em>; T1566.001, <em>Spearphishing Attachment</em>.</li>
           <li><strong>Procedimentos</strong>: a implementação concreta usada por um grupo ou <em>malware</em> específico.</li>
         </ul>
@@ -205,7 +194,7 @@
     </div>
   </section>
 
-  <!-- 10. Tabela -->
+  <!-- 9. Tabela -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -226,7 +215,7 @@
     </div>
   </section>
 
-  <!-- 11. LAB browser T1566 -->
+  <!-- 10. LAB browser T1566 -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -245,7 +234,7 @@
     </div>
   </section>
 
-  <!-- 12. Red e Blue usam ATT&CK -->
+  <!-- 11. Red e Blue usam ATT&CK -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -262,7 +251,7 @@
     </div>
   </section>
 
-  <!-- 13. LAB Navigator -->
+  <!-- 12. LAB Navigator -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -271,7 +260,7 @@
     </div>
   </section>
 
-  <!-- 14. Complementares -->
+  <!-- 13. Complementares -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -281,7 +270,7 @@
         <table class="tabela-industrial">
           <thead><tr><th></th><th>Cyber Kill Chain</th><th>MITRE ATT&amp;CK</th></tr></thead>
           <tbody>
-            <tr><td><strong>Nível</strong></td><td>Visão de alto nível, 7 fases</td><td>Detalhe operacional: 14 táticas, técnicas e procedimentos</td></tr>
+            <tr><td><strong>Nível</strong></td><td>Visão de alto nível, 7 fases</td><td>Detalhe operacional: 15 táticas, técnicas e procedimentos</td></tr>
             <tr><td><strong>Público</strong></td><td>Diretoria: em que ponto o ataque foi interrompido</td><td>Analista que escreve a regra; operador que planeja a simulação</td></tr>
             <tr><td><strong>No relatório</strong></td><td>As fases organizam a narrativa do incidente</td><td>Dentro de cada fase, as técnicas observadas</td></tr>
           </tbody>
@@ -291,7 +280,7 @@
     </div>
   </section>
 
-  <!-- 15. LAB SIEM -->
+  <!-- 14. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -311,7 +300,7 @@
     </div>
   </section>
 
-  <!-- 15b. PLATAFORMA REDE TATAME: ransomware e cobertura -->
+  <!-- 14b. PLATAFORMA REDE TATAME: ransomware e cobertura -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -330,7 +319,7 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
+  <!-- 15. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -348,7 +337,7 @@
     </div>
   </section>
 
-  <!-- 17. LAB VS Code -->
+  <!-- 16. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -383,7 +372,7 @@
     </div>
   </section>
 
-  <!-- 18. Pontos-chave -->
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -400,7 +389,7 @@
     </div>
   </section>
 
-  <!-- 19. Referências -->
+  <!-- 18. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -414,7 +403,7 @@
     </div>
   </section>
 
-  <!-- 20. Encerramento -->
+  <!-- 19. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -519,7 +508,7 @@ Labs.flow('#lab-flow', {
     { title: '1 · Reconhecimento', text: 'O atacante lista nomes e cargos do financeiro da sede em redes profissionais e em www.tatame.com.br. Defesa possível: reduzir a exposição pública e monitorar domínios parecidos com tatame.com.br.', on: ['rec'], dim: true },
     { title: '2 · Armamento', text: 'Prepara uma planilha com macro, longe da vista da vítima. Defesa possível: há pouca visibilidade direta; a inteligência de ameaças sobre campanhas do setor ajuda a antecipar.', on: ['arm'], links: [['rec', 'arm', 'red']], dim: true },
     { title: '3 · Entrega', text: 'O e-mail "Repasse das academias" chega a 12 pessoas do financeiro. Defesa possível: filtro de e-mail com sandbox de anexos e atenção a remetentes recém-criados.', on: ['ent', 'def'], links: [['arm', 'ent', 'red'], ['def', 'ent', 'blue']], dim: true },
-    { title: '4 · Exploração', text: 'Uma analista abre a planilha no notebook NB-FIN-027 e habilita o conteúdo. Defesa possível: política que bloqueia macros em arquivos vindos da internet; o EDR alerta quando o Excel cria outros processos.', on: ['exp'], links: [['ent', 'exp', 'red']], dim: true },
+    { title: '4 · Exploração', text: 'Outra analista do financeiro (não é a Carla Dias) abre a planilha no notebook dela, o NB-FIN-027 e habilita o conteúdo. Defesa possível: política que bloqueia macros em arquivos vindos da internet; o EDR alerta quando o Excel cria outros processos.', on: ['exp'], links: [['ent', 'exp', 'red']], dim: true },
     { title: '5 · Instalação', text: 'O programa cria uma tarefa agendada para sobreviver ao reinício. Defesa possível: EDR e SIEM vigiam tarefas novas criadas por usuários comuns.', on: ['ins'], links: [['exp', 'ins', 'red']], dim: true },
     { title: '6 · Comando e controle', text: 'A máquina passa a contatar um servidor externo em intervalos regulares. Defesa possível: DNS e proxy revelam a comunicação periódica com um domínio registrado há poucos dias.', on: ['c2', 'def'], links: [['ins', 'c2', 'red'], ['def', 'c2', 'blue']], dim: true },
     { title: '7 · Ações sobre os objetivos', text: 'Cópia das exportações de fichas de alunos do SRV-ARQ-01, inclusive de menores, e criptografia dos servidores da sede. Defesa possível: backups offline e alerta de muitos arquivos renomeados em pouco tempo (T1486).', on: ['obj', 'def'], bad: ['obj'], links: [['c2', 'obj', 'red'], ['def', 'obj', 'blue']], dim: true },
@@ -570,17 +559,18 @@ Labs.browser('#lab-brw', {
 /* ---------- 13. Matriz no estilo ATT&CK Navigator ---------- */
 Labs.register('#lab-nav', (el) => {
   const M = [
-    ['Reconhecimento', [['T1595', 'Varredura ativa'], ['T1589', 'Identidades da vítima'], ['T1593', 'Sites abertos']]],
+    ['Reconheci­mento', [['T1595', 'Varredura ativa'], ['T1589', 'Identidades da vítima'], ['T1593', 'Sites abertos']]],
     ['Desenv. de recursos', [['T1583', 'Adquirir infraestrutura'], ['T1585', 'Criar contas'], ['T1588', 'Obter capacidades']]],
     ['Acesso inicial', [['T1566', 'Phishing'], ['T1078', 'Contas válidas'], ['T1190', 'App exposta'], ['T1133', 'Serviço remoto externo']]],
     ['Execução', [['T1059', 'Interpretador de comandos'], ['T1204', 'Execução pelo usuário'], ['T1053', 'Tarefa agendada']]],
     ['Persistência', [['T1547', 'Autoexecução no logon'], ['T1136', 'Criar conta'], ['T1098', 'Manipular conta']]],
-    ['Escalonamento de privilégios', [['T1068', 'Explorar falha local'], ['T1548', 'Abuso de elevação'], ['T1134', 'Manipular token']]],
-    ['Evasão de defesas', [['T1562', 'Prejudicar defesas'], ['T1070', 'Remover indicadores'], ['T1027', 'Ofuscação']]],
+    ['Escalona­mento de privilégios', [['T1068', 'Explorar falha local'], ['T1548', 'Abuso de elevação'], ['T1134', 'Manipular token']]],
+    ['Furtividade', [['T1070', 'Remover indicadores'], ['T1027', 'Ofuscação'], ['T1036', 'Mascaramento']]],
+    ['Enfraqueci­mento de defesas', [['T1685', 'Desativar ferramentas'], ['T1112', 'Modificar registro'], ['T1556', 'Modificar autenticação']]],
     ['Acesso a credenciais', [['T1003', 'Extração de credenciais'], ['T1110', 'Força bruta'], ['T1555', 'Cofres de senha']]],
     ['Descoberta', [['T1087', 'Descobrir contas'], ['T1018', 'Sistemas remotos'], ['T1046', 'Serviços de rede']]],
-    ['Movimentação lateral', [['T1021', 'Serviços remotos'], ['T1570', 'Transferência lateral'], ['T1550', 'Material de autenticação']]],
-    ['Coleta', [['T1005', 'Dados locais'], ['T1039', 'Compartilhamentos'], ['T1560', 'Compactar dados']]],
+    ['Movimen­tação lateral', [['T1021', 'Serviços remotos'], ['T1570', 'Transferência lateral'], ['T1550', 'Material de autenticação']]],
+    ['Coleta', [['T1005', 'Dados locais'], ['T1039', 'Comparti­lhamentos'], ['T1560', 'Compactar dados']]],
     ['Comando e controle', [['T1071', 'Protocolo de aplicação'], ['T1105', 'Transferir ferramentas'], ['T1572', 'Tunelamento']]],
     ['Exfiltração', [['T1041', 'Pelo canal de C2'], ['T1567', 'Por serviço web'], ['T1048', 'Protocolo alternativo']]],
     ['Impacto', [['T1486', 'Criptografia de dados'], ['T1490', 'Inibir recuperação'], ['T1489', 'Parar serviços']]]
@@ -668,7 +658,7 @@ Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'ransomware' });
 Labs.vscode('#lab-vsc', {
   folder: 'cobertura-attack', team: 'blue', status: 'Python 3.12', open: 'cobertura.py', typeOnEnter: true,
   files: [
-    { path: 'cobertura.py', hl: [12, 13, 14, 15], code:
+    { path: 'cobertura.py', hl: [14, 15], code:
 `"""Mede a cobertura de detecção das técnicas ATT&CK priorizadas para a Rede Tatame."""
 import csv
 from collections import Counter
@@ -709,9 +699,9 @@ T1053.005,Tarefa agendada,Persistência,regra
 T1547.001,Chaves Run do registro,Persistência,regra
 T1136.001,Criação de conta local,Persistência,regra
 T1098,Manipulação de conta,Persistência,regra
-T1562.001,Desativar ferramentas de segurança,Evasão de defesas,regra
-T1070.001,Limpeza de logs de eventos,Evasão de defesas,regra
-T1027,Arquivos ofuscados,Evasão de defesas,nenhuma
+T1685,Desativar ou modificar ferramentas,Enfraquecimento de defesas,regra
+T1685.005,Limpeza de logs de eventos,Enfraquecimento de defesas,regra
+T1027,Arquivos ofuscados,Furtividade,nenhuma
 T1003.001,Memória do LSASS,Acesso a credenciais,regra
 T1110.003,Password spraying,Acesso a credenciais,regra
 T1539,Roubo de cookie de sessão,Acesso a credenciais,nenhuma
@@ -734,7 +724,7 @@ T1490,Inibir recuperação do sistema,Impacto,regra
 T1489,Parada de serviços,Impacto,telemetria
 T1657,Roubo financeiro,Impacto,nenhuma
 T1565.001,Manipulação de dados armazenados,Impacto,nenhuma` },
-    { path: 'deteccoes/T1486_renomeacao.kql', hl: [6, 7], code:
+    { path: 'deteccoes/T1486_renomeacao.kql', hl: [6, 7, 8], code:
 `// T1486 · Muitos arquivos renomeados em pouco tempo (possível criptografia)
 // Alvos prováveis na sede: SRV-ARQ-01 e SRV-ERP-01
 DeviceFileEvents

@@ -7,7 +7,7 @@
    ===================================================================== */
 (function () {
   'use strict';
-  // Favicon da disciplina (escudo vermelho/azul), servido ao lado deste arquivo
+  // Favicon da disciplina (escudo vermelho, roxo e azul), servido ao lado deste arquivo
   if (!document.querySelector('link[rel~="icon"]')) {
     const me = document.currentScript && document.currentScript.src;
     const base = me ? me.replace(/deck\.js(\?.*)?$/, '') : '../../assets/';

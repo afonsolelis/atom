@@ -54,18 +54,8 @@
     </div>
   </section>
 
-  <!-- 2. Audiodescrição -->
-  <section class="slide slide-audio">
-    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
-    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
-    <div class="slide-content">
-      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Audiodescrição</h1>
-      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios: um diagrama animado que liga as fases clássicas da resposta a incidentes às funções do CSF 2.0; um editor VS Code com um <em>playbook</em> de <em>ransomware</em> em YAML, um validador e uma calculadora de prazo em Python; uma simulação de mesa, com um relógio e escolhas em cada ponto de decisão; um terminal que calcula o <em>hash</em> das evidências e registra a cadeia de custódia; um calendário de novembro de 2026 que conta os três dias úteis para comunicar a ANPD; e uma fila de incidentes que se reordena pela pontuação de severidade.</p>
-    </div>
-  </section>
 
-  <!-- 3. Sumário -->
+  <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
@@ -92,7 +82,7 @@
   </section>
 
 
-  <!-- 4. O problema de hoje -->
+  <!-- 3. O problema de hoje -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -100,9 +90,9 @@
       <h2>Invasor confirmado no ERP. E agora?</h2>
       <div class="problema">
         <div class="historia">
-          <p>Marina Prado é a CISO, a diretora de segurança da informação da Rede Tatame. Às 03:00 de sexta-feira, 13/11, o telefone toca.</p>
-          <p>A caça da Aula 11 confirmou: às 02:22, o invasor instalou no SRV-ERP-01 o ConectaJá, ferramenta de acesso remoto não aprovada. O ERP guarda os responsáveis financeiros de alunos, inclusive menores.</p>
-          <p>O que está em jogo: o próximo passo do <em>ransomware</em> é apagar as cópias de sombra e cifrar os servidores. E a ANPD, a Autoridade Nacional de Proteção de Dados, precisa ser comunicada em três dias úteis.</p>
+          <p>Marina Prado é a CISO (diretora de segurança da informação) da Rede Tatame. Às 03:00 de sexta, 13/11, o EDR alerta: o SRV-ERP-01 e mais quatro servidores executam o <code>vssadmin</code> para apagar as cópias de sombra.</p>
+          <p>A caça da Aula 11 já tinha achado o ConectaJá, instalado às 02:22 no SRV-ERP-01, que guarda os responsáveis financeiros de alunos, inclusive menores.</p>
+          <p>O que está em jogo: apagar as cópias de sombra antecede a criptografia num <em>ransomware</em>, e a ANPD (Autoridade Nacional de Proteção de Dados) precisa ser comunicada em três dias úteis.</p>
           <div class="pergunta">Como a Rede Tatame conduz este incidente: conter sem destruir evidências, recuperar o ERP e comunicar a ANPD no prazo?</div>
           <div class="papeis"><span><b>Coordena</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>TI da sede</b> Caio Mendes</span><span><b>Conta afetada</b> Carla Dias</span></div>
         </div>
@@ -111,7 +101,7 @@
     </div>
   </section>
 
-  <!-- 5. Evento, alerta, incidente -->
+  <!-- 4. Evento, alerta, incidente -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -129,7 +119,7 @@
     </div>
   </section>
 
-  <!-- 6. Rev 2 e Rev 3 -->
+  <!-- 5. Rev 2 e Rev 3 -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -147,7 +137,7 @@
     </div>
   </section>
 
-  <!-- 7. Tabela Rev2 x Rev3 -->
+  <!-- 6. Tabela Rev2 x Rev3 -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -167,7 +157,7 @@
     </div>
   </section>
 
-  <!-- 8. LAB flow: Rev2 -> CSF -->
+  <!-- 7. LAB flow: Rev2 -> CSF -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -186,7 +176,7 @@
     </div>
   </section>
 
-  <!-- 9. Playbooks e papéis -->
+  <!-- 8. Playbooks e papéis -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -204,7 +194,7 @@
     </div>
   </section>
 
-  <!-- 10. LAB VS Code: playbook -->
+  <!-- 9. LAB VS Code: playbook -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -223,7 +213,7 @@
     </div>
   </section>
 
-  <!-- 11. LAB tabletop -->
+  <!-- 10. LAB tabletop -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -242,7 +232,7 @@
     </div>
   </section>
 
-  <!-- 12. Contenção sem destruir evidências -->
+  <!-- 11. Contenção sem destruir evidências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -260,7 +250,7 @@
     </div>
   </section>
 
-  <!-- 12b. PLATAFORMA REDE TATAME: SOC durante o ransomware -->
+  <!-- 11b. PLATAFORMA REDE TATAME: SOC durante o ransomware -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -279,7 +269,7 @@
     </div>
   </section>
 
-  <!-- 13. Erradicação e recuperação -->
+  <!-- 12. Erradicação e recuperação -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -295,7 +285,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB terminal: evidências -->
+  <!-- 13. LAB terminal: evidências -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -314,7 +304,7 @@
     </div>
   </section>
 
-  <!-- 15. Comunicação e LGPD -->
+  <!-- 14. Comunicação e LGPD -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -331,7 +321,7 @@
     </div>
   </section>
 
-  <!-- 16. LAB calendário -->
+  <!-- 15. LAB calendário -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -350,7 +340,7 @@
     </div>
   </section>
 
-  <!-- 17. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -371,7 +361,7 @@
     </div>
   </section>
 
-  <!-- 18. LAB priorização -->
+  <!-- 17. LAB priorização -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -391,7 +381,7 @@
     </div>
   </section>
 
-  <!-- 19. Lições aprendidas -->
+  <!-- 18. Lições aprendidas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -409,7 +399,7 @@
     </div>
   </section>
 
-  <!-- 20. Próxima unidade -->
+  <!-- 19. Próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -443,7 +433,7 @@
     </div>
   </section>
 
-  <!-- 21. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -461,7 +451,7 @@
     </div>
   </section>
 
-  <!-- 22. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -478,7 +468,7 @@
     </div>
   </section>
 
-  <!-- 23. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -496,11 +486,11 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- 4. Mini-mapa do problema ---------- */
+/* ---------- 3. Mini-mapa do problema ---------- */
 Labs.miniMapa('#mapa-problema', { destaque: ['arq', 'ad', 'edr', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
   legenda: 'Onde a aula acontece: o SRV-ERP-01 (em vermelho), o servidor de arquivos ao lado e o SOC que coordena a resposta.' });
 
-/* ---------- 8. Fluxo: Rev. 2 dentro do CSF 2.0 ---------- */
+/* ---------- 7. Fluxo: Rev. 2 dentro do CSF 2.0 ---------- */
 Labs.flow('#lab-flow', {
   w: 1100, h: 480,
   nodes: [
@@ -531,7 +521,7 @@ Labs.flow('#lab-flow', {
   ]
 });
 
-/* ---------- 10. VS Code: playbook, validador e prazo ---------- */
+/* ---------- 9. VS Code: playbook, validador e prazo ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'resposta-incidentes', team: 'blue', status: 'Python 3.12', open: 'playbooks/ransomware.yaml',
   files: [
@@ -575,7 +565,7 @@ etapas:
     responsavel: coordenador_incidente
     formato: sem_caca_a_culpados
     prazo_dias: 10`},
-    { path: 'ferramentas/validar_playbook.py', hl: [5, 11, 12, 15, 16, 19, 20], code:
+    { path: 'ferramentas/validar_playbook.py', hl: [5, 11, 12, 14, 15, 16, 17, 19, 20], code:
 `"""Confere se um playbook tem o mínimo exigido pela política de resposta a incidentes."""
 import sys
 import yaml
@@ -635,10 +625,10 @@ print(f"Prazo final: {uteis[-1]:%d/%m/%Y} ({DIAS[uteis[-1].weekday()]})")`}
   ]
 });
 
-/* ---------- 12b. Plataforma Rede Tatame ---------- */
+/* ---------- 11b. Plataforma Rede Tatame ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'soc', reiniciar: true, cenario: 'ransomware', autostart: true });
 
-/* ---------- 11. Simulação de mesa ---------- */
+/* ---------- 10. Simulação de mesa ---------- */
 Labs.register('#lab-tt', (el) => {
   const S = [
     { h: 'sex 13/11 · 03:05', s: 'O EDR alerta: cinco servidores estão executando vssadmin para apagar cópias de sombra. O playbook de ransomware foi acionado. O que fazer com os servidores?',
@@ -693,7 +683,7 @@ Labs.register('#lab-tt', (el) => {
   draw();
 });
 
-/* ---------- 14. Terminal: hash e cadeia de custódia ---------- */
+/* ---------- 13. Terminal: hash e cadeia de custódia ---------- */
 Labs.terminal('#lab-term', {
   title: 'perito@estacao-forense: ~/caso-IR-2026-031', prompt: 'perito@estacao-forense:~/caso-IR-2026-031$ ',
   steps: [
@@ -715,7 +705,7 @@ Labs.terminal('#lab-term', {
   done: 'Integridade confirmada: as evidências são as mesmas que foram coletadas.'
 });
 
-/* ---------- 16. Calendário: três dias úteis ---------- */
+/* ---------- 15. Calendário: três dias úteis ---------- */
 Labs.register('#lab-cal', (el) => {
   const FER = { '2026-11-02': 'Finados', '2026-11-15': 'Proclamação', '2026-11-20': 'Consciência Negra', '2026-12-25': 'Natal' };
   const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
@@ -744,7 +734,7 @@ Labs.register('#lab-cal', (el) => {
   pick(new Date(2026, 10, 13));
 });
 
-/* ---------- 18. Fila de priorização ---------- */
+/* ---------- 17. Fila de priorização ---------- */
 Labs.register('#lab-pri', (el) => {
   const I = [
     { id: 'A', t: 'Conta de estagiário com login suspeito', v: [2, 2, 1] },

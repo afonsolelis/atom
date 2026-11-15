@@ -2,7 +2,7 @@
 
 Uso (a partir da raiz da disciplina):  python scripts/validar_slides.py [aulaN ...]
 Verifica, em cada unidade_N/slides/aulaK.html:
-- estrutura (deck, capa, audiodescrição, encerramento, assets compartilhados);
+- estrutura (deck, capa, audiodescrição só na aula0, encerramento, assets compartilhados);
 - laboratórios: pelo menos 4 chamadas Labs.*, com pelo menos um VS Code, uma
   simulação de programa (terminal, SIEM, navegador ou laboratório próprio) e uma
   visualização (fluxo animado ou cena 3D); todo alvo '#id' existe no HTML;
@@ -42,9 +42,14 @@ def check(k: int) -> list[str]:
             p.append(f"{rel}: falta referência a {a}")
     if 'id="deck"' not in t:
         p.append(f"{rel}: falta <div class=\"deck\" id=\"deck\">")
-    for cls in ("slide-capa", "slide-audio", "slide-fim"):
+    for cls in ("slide-capa", "slide-fim"):
         if cls not in t:
             p.append(f"{rel}: falta slide '{cls}'")
+    # Audiodescrição do professor: só na apresentação da disciplina (aula0).
+    if k == 0 and "slide-audio" not in t:
+        p.append(f"{rel}: aula0 deve ter o slide de audiodescrição (slide-audio)")
+    if k != 0 and "slide-audio" in t:
+        p.append(f"{rel}: audiodescrição fica só na aula0; remova o slide-audio")
     if k == 0 and "slide-prof" not in t:
         p.append(f"{rel}: aula0 deve ter o slide 'Sobre o professor' (slide-prof)")
     n_slides = len(re.findall(r'<section class="slide[ "]', t))

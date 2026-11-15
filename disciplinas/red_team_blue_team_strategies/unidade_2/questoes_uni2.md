@@ -449,7 +449,7 @@ e. Reescrever o relatório sem a narrativa do ataque, para evitar que o caminho 
 
 **Questão 3** (correta: d)
 - a. Incorreta: a I é falsa; "informação pública" não significa "informação sem regras".
-- b. Incorreta: a I é falsa, então não pode ser verdadeira com qualquer relação com a II.
+- b. Incorreta: a alternativa considera a I verdadeira, mas ela é falsa; a coleta de dados de funcionários exige previsão nas regras de engajamento e está sujeita à LGPD.
 - c. Incorreta: a I é falsa e a II é verdadeira — a combinação é a inversa.
 - d. Correta: a I é falsa, pois as regras de engajamento devem prever a coleta de dados de funcionários e a LGPD se aplica; a II é verdadeira, pois nomes, cargos e *e-mails* são dados pessoais.
 - e. Incorreta: a II é verdadeira. Revise "Limites éticos e legais do OSINT".
