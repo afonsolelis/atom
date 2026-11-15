@@ -111,6 +111,10 @@
         "description": "Changes related to Model-Based Design for Cyber-Physical Systems"
       },
       {
+        "value": "red_blue_team",
+        "description": "Changes related to Red Team & Blue Team Strategies"
+      },
+      {
         "value": "lives",
         "description": "Changes related to the complementary live sessions (slide decks)"
       }

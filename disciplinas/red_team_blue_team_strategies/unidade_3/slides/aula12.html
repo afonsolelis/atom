@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 12 — Resposta a incidentes</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .tt { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 230px; gap: .8rem; }
+  .tt-main { display: flex; flex-direction: column; gap: .6rem; min-height: 0; overflow: auto; }
+  .tt-clock { font: 800 1.5rem var(--fonte-titulo); color: #F2CB0A; }
+  .tt-sit { color: #DCE3EE; font-size: 1rem; line-height: 1.45; }
+  .tt-opts { display: grid; gap: .45rem; }
+  .tt-opts button { text-align: left; background: #0B1424; border: 1px solid #2F3B55; color: #DCE3EE; border-radius: 8px; padding: .6em .8em; font: .92rem/1.35 var(--fonte); cursor: pointer; }
+  .tt-opts button:hover:not(:disabled) { border-color: #00B1D2; }
+  .tt-opts button.ok { border-color: #3FD47A; background: rgba(63,212,122,.12); }
+  .tt-opts button.no { border-color: #FF2B5F; background: rgba(255,43,95,.12); }
+  .tt-fb { font-size: .92rem; line-height: 1.4; color: #C9D4E5; border-left: 3px solid #F2CB0A; padding: .4em .7em; background: rgba(255,255,255,.04); }
+  .tt-side { background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .6em .7em; overflow: auto; font: .8rem/1.4 var(--fonte); color: #C9D4E5; }
+  .tt-side h5 { margin: 0 0 .4em; color: #F2CB0A; font: 700 .78rem var(--fonte); text-transform: uppercase; letter-spacing: .06em; }
+  .tt-side div { padding: .3em 0; border-bottom: 1px solid #1A2440; }
+  .tt-side .ok { color: #3FD47A; } .tt-side .no { color: #FF8BA3; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal span { text-align: center; font: 700 .72rem var(--fonte); color: #7F8FA9; text-transform: uppercase; padding: .2em 0; }
+  .cal button { aspect-ratio: 1.6; border: 1px solid #22314F; background: #0B1424; color: #DCE3EE; border-radius: 6px; font: 600 .9rem var(--fonte); cursor: pointer; position: relative; }
+  .cal button.fds { color: #6E7681; background: #0A0F1A; }
+  .cal button.fer { color: #F2940A; border-color: #6B4A0A; }
+  .cal button.con { background: #F2CB0A; color: #002156; border-color: #F2CB0A; }
+  .cal button.uti { background: rgba(0,177,210,.3); border-color: #00B1D2; }
+  .cal button.fim { background: #FF2B5F; color: #fff; border-color: #FF2B5F; }
+  .cal button small { position: absolute; left: 0; right: 0; bottom: 1px; font: 600 .55rem var(--fonte); }
+  .pri-row { display: grid; grid-template-columns: 1.6fr repeat(3, .9fr) .6fr; gap: .5rem; align-items: center; padding: .45em .6em; border-radius: 8px; background: #0B1424; border: 1px solid #22314F; margin-bottom: .4rem; font: .88rem var(--fonte); color: #DCE3EE; transition: transform .3s; }
+  .pri-row b.sc { font: 800 1.4rem var(--fonte-titulo); text-align: center; }
+  .pri-head { display: grid; grid-template-columns: 1.6fr repeat(3, .9fr) .6fr; gap: .5rem; padding: 0 .6em .2em; font: 700 .7rem var(--fonte); color: #7F8FA9; text-transform: uppercase; letter-spacing: .05em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 3|Aula 12 — Videoaula 12">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 12 — Resposta a incidentes</h1>
+      <div class="subtitulo">Unidade 3 — Blue Team: detecção e resposta</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios: um diagrama animado que liga as fases clássicas da resposta a incidentes às funções do CSF 2.0; um editor VS Code com um <em>playbook</em> de <em>ransomware</em> em YAML, um validador e uma calculadora de prazo em Python; uma simulação de mesa, com um relógio e escolhas em cada ponto de decisão; um terminal que calcula o <em>hash</em> das evidências e registra a cadeia de custódia; um calendário de novembro de 2026 que conta os três dias úteis para comunicar a ANPD; e uma fila de incidentes que se reordena pela pontuação de severidade.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Resposta a incidentes</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Evento, alerta e incidente</li>
+          <li>Do NIST SP 800-61 Rev. 2 à Rev. 3</li>
+          <li><em>Playbooks</em>, papéis e simulação de mesa</li>
+          <li>Contenção sem destruir evidências</li>
+          <li>Comunicação e LGPD: três dias úteis</li>
+          <li>Priorização de incidentes</li>
+          <li>Lições aprendidas</li>
+          <li>O que vem na Unidade 4</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>Invasor confirmado no ERP. E agora?</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Marina Prado é a CISO, a diretora de segurança da informação da Rede Tatame. Às 03:00 de sexta-feira, 13/11, o telefone toca.</p>
+          <p>A caça da Aula 11 confirmou: às 02:22, o invasor instalou no SRV-ERP-01 o ConectaJá, ferramenta de acesso remoto não aprovada. O ERP guarda os responsáveis financeiros de alunos, inclusive menores.</p>
+          <p>O que está em jogo: o próximo passo do <em>ransomware</em> é apagar as cópias de sombra e cifrar os servidores. E a ANPD, a Autoridade Nacional de Proteção de Dados, precisa ser comunicada em três dias úteis.</p>
+          <div class="pergunta">Como a Rede Tatame conduz este incidente: conter sem destruir evidências, recuperar o ERP e comunicar a ANPD no prazo?</div>
+          <div class="papeis"><span><b>Coordena</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>TI da sede</b> Caio Mendes</span><span><b>Conta afetada</b> Carla Dias</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Evento, alerta, incidente -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Evento, alerta e incidente</h2>
+      <div class="slide-content-box">
+        <p>Nem todo evento é um incidente.</p>
+        <ul>
+          <li>Um <strong>evento</strong> é qualquer ocorrência observável.</li>
+          <li>Um <strong>alerta</strong> é a sinalização de que um evento pode ser malicioso.</li>
+          <li>Um <strong>incidente</strong> é uma ocorrência que efetivamente compromete, ou ameaça de forma iminente, a confidencialidade, a integridade ou a disponibilidade de sistemas e dados.</li>
+        </ul>
+        <div class="callout-azul"><p>A declaração de incidente é uma decisão formal, que mobiliza pessoas, recursos e, muitas vezes, obrigações legais.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Rev 2 e Rev 3 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O ciclo de resposta</p>
+      <h2>Do modelo clássico ao NIST SP 800-61 Rev. 3</h2>
+      <div class="slide-content-box">
+        <p>Por mais de uma década, o NIST SP 800-61 Rev. 2 (2012) consagrou um ciclo em quatro fases: <strong>preparação</strong>; <strong>detecção e análise</strong>; <strong>contenção, erradicação e recuperação</strong>; e <strong>atividades pós-incidente</strong>.</p>
+        <p>Em abril de 2025, o NIST publicou a <strong>Revisão 3</strong>, que reorganiza as recomendações como um perfil do <strong>CSF 2.0</strong>: a resposta a incidentes deixa de ser um processo isolado e passa a fazer parte da gestão de riscos cibernéticos.</p>
+        <ul>
+          <li>A preparação se distribui por Governar, Identificar e Proteger.</li>
+          <li>A resposta propriamente dita ocorre em Detectar, Responder e Recuperar.</li>
+          <li>As lições aprendidas alimentam a melhoria contínua em todas as funções.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Tabela Rev2 x Rev3 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comparação</p>
+      <h2>Fases clássicas e funções do CSF 2.0</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.6em">
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Fase clássica (Rev. 2)</th><th>Funções do CSF 2.0 relacionadas (Rev. 3)</th><th>Exemplos de atividades</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Preparação</strong></td><td>Governar, Identificar, Proteger</td><td>Políticas, papéis, inventário, <em>playbooks</em>, treinamentos</td></tr>
+            <tr><td><strong>Detecção e análise</strong></td><td>Detectar</td><td>Triagem de alertas, definição de escopo e severidade</td></tr>
+            <tr><td><strong>Contenção, erradicação e recuperação</strong></td><td>Responder, Recuperar</td><td>Isolar máquinas, remover persistência, restaurar <em>backups</em></td></tr>
+            <tr><td><strong>Pós-incidente</strong></td><td>Identificar (melhoria)</td><td>Reunião de lições aprendidas, ajuste de detecções e controles</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB flow: Rev2 -> CSF -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>As quatro fases dentro das seis funções</h2></div><span class="lab-badge blue">NIST SP 800-61 Rev. 3</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Situar a resposta nos dois guias do NIST: o SP 800-61 e o CSF 2.0.</div>
+            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa.</div>
+            <div class="rl obs"><b>Observe</b>A preparação se espalha por três funções. O pós-incidente volta para Identificar.</div>
+            <div class="rl conc"><b>Conclusão</b>Na última etapa, o caso do SRV-ERP-01 percorre o mapa inteiro.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-flow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Playbooks e papéis -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Preparação</p>
+      <h2><em>Playbooks</em> e papéis definidos antes do incidente</h2>
+      <div class="slide-content-box">
+        <p>Um <em>playbook</em> descreve, passo a passo, como responder a um tipo específico de incidente (<em>ransomware</em>, conta comprometida, vazamento de dados), com responsáveis, critérios de decisão e contatos. Parte desses passos pode ser automatizada por plataformas SOAR, como bloquear um domínio ou desabilitar uma conta.</p>
+        <ul>
+          <li>O <strong>coordenador do incidente</strong> decide e prioriza.</li>
+          <li>Os <strong>analistas técnicos</strong> investigam e executam.</li>
+          <li>As áreas <strong>jurídica</strong>, de <strong>comunicação</strong> e de <strong>privacidade</strong> (o encarregado de dados) participam desde as primeiras horas.</li>
+        </ul>
+        <p>Fluxo de um <em>playbook</em> de <em>ransomware</em>: alerta, triagem, isolar <em>hosts</em>, preservar evidências, acionar jurídico e encarregado, erradicar, restaurar e lições aprendidas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB VS Code: playbook -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>O <em>playbook</em> de <em>ransomware</em> como código</h2></div><span class="lab-badge blue">SOAR</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ter, antes da crise, quem faz o quê e em que ordem.</div>
+            <div class="rl"><b>Faça</b>1. Leia <code>ransomware.yaml</code>.<br>2. Rode o validador.<br>3. Rode o prazo para 13/11 e para 17/11.</div>
+            <div class="rl obs"><b>Observe</b>Só o isolamento é automático, executado pela plataforma SOAR (orquestração e resposta automatizada). Preservar vem antes de erradicar.</div>
+            <div class="rl conc"><b>Conclusão</b>Para 17/11, o feriado de 20/11 empurra o prazo para a segunda-feira.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. LAB tabletop -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Simulação de mesa</p><h2>Simulação de mesa: o caso de <em>ransomware</em></h2></div><span class="lab-badge purple">Tabletop</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Tomar, em ordem, as decisões da madrugada de 13/11.</div>
+            <div class="rl"><b>Faça</b>Leia cada situação, escolha uma opção e leia o retorno.</div>
+            <div class="rl obs"><b>Observe</b>O diário à direita registra cada decisão, como num incidente real.</div>
+            <div class="rl conc"><b>Conclusão</b>Defenda também as escolhas que fogem do <em>playbook</em>: a justificativa é o que conta.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-tt"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Contenção sem destruir evidências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Contenção</p>
+      <h2>Conter sem destruir evidências</h2>
+      <div class="slide-content-box">
+        <p>A contenção busca <strong>impedir que o dano aumente</strong>: isolar máquinas pelo EDR, desabilitar contas, bloquear domínios e endereços.</p>
+        <ul>
+          <li>Desligar um computador interrompe o ataque, mas apaga a memória volátil, onde podem estar chaves, processos e conexões.</li>
+          <li>A RFC 3227 recomenda coletar evidências da mais volátil para a menos volátil: memória antes do disco, por exemplo.</li>
+          <li>Toda evidência deve ter <strong>cadeia de custódia</strong>: quem coletou, quando, como, onde ficou guardada e por quais mãos passou, com <em>hashes</em> que comprovem sua integridade.</li>
+          <li>A ABNT NBR ISO/IEC 27037 traz diretrizes para identificar, coletar, adquirir e preservar evidências digitais.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12b. PLATAFORMA REDE TATAME: SOC durante o ransomware -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Conter a tempo: o SOC contra o Cobalto Austral</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Medir quanto tempo o SOC leva para perceber e conter.</div>
+            <div class="rl"><b>Faça</b>1. No <strong>SOC</strong>, investigue o alerta da R11 (caio.mendes) e clique em <strong>Conter</strong>.<br>2. Marque o alerta de svc-backup como <strong>Falso positivo</strong>.<br>3. Em <strong>Cenários</strong>, veja os passos interrompidos. Depois clique em <strong>Reiniciar</strong> e rode sem conter.</div>
+            <div class="rl obs"><b>Observe</b>MTTD (tempo médio até detectar) e MTTR (tempo médio até responder) aparecem no topo do SOC.</div>
+            <div class="rl conc"><b>Conclusão</b>Sem contenção, a cadeia chega à exclusão das cópias de sombra e à criptografia (T1486).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Erradicação e recuperação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Depois da contenção</p>
+      <h2>Erradicação e recuperação</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Erradicação</strong>: remover persistência e contas criadas pelo invasor e corrigir a falha de entrada.</li>
+          <li><strong>Recuperação</strong>: restaurar a partir de <em>backups</em> íntegros e monitorar com atenção redobrada.</li>
+        </ul>
+        <div class="callout-azul"><p>No caso que acompanhamos desde a Aula 9: remover o serviço "ConectaJa Update", trocar a senha de carla.dias, exigir segundo fator no acesso remoto ao SRV-ERP-01 e restaurar a partir de um <em>backup</em> anterior a 13/11.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB terminal: evidências -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2><em>Hash</em> das evidências e cadeia de custódia</h2></div><span class="lab-badge blue">Forense</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Preservar as evidências do SRV-ERP-01 de modo que valham depois.</div>
+            <div class="rl"><b>Faça</b>Rode os comandos em ordem na estação forense.</div>
+            <div class="rl obs"><b>Observe</b>O SHA-256 é calculado na chegada. Cada transferência vira uma linha nova na cadeia de custódia.</div>
+            <div class="rl conc"><b>Conclusão</b>Os arquivos ficam somente leitura: a análise trabalha sempre sobre cópias.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Comunicação e LGPD -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comunicação e obrigações legais</p>
+      <h2>LGPD e a Resolução CD/ANPD nº 15/2024</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>O art. 48 da LGPD determina que o controlador comunique à ANPD e aos titulares a ocorrência de incidente de segurança que possa acarretar <strong>risco ou dano relevante</strong>.</li>
+          <li>A <strong>Resolução CD/ANPD nº 15/2024</strong> regulamentou essa obrigação e fixou o prazo de <strong>três dias úteis</strong>, contados do conhecimento de que o incidente afetou dados pessoais.</li>
+          <li>A mesma resolução exige que o controlador mantenha <strong>registro dos incidentes</strong>.</li>
+        </ul>
+        <div class="callout-azul"><p>Na prática, o encarregado e o jurídico precisam ser acionados cedo, e o <em>playbook</em> deve prever quem decide pela comunicação e com quais informações.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. LAB calendário -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Calendário</p><h2>Contando os três dias úteis</h2></div><span class="lab-badge purple">LGPD</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Contar o prazo de comunicação à ANPD.</div>
+            <div class="rl"><b>Faça</b>Clique no dia em que a Rede Tatame soube que dados pessoais foram afetados.</div>
+            <div class="rl obs"><b>Observe</b>Amarelo: conhecimento. Azul: dias úteis. Vermelho: prazo. Laranja: feriados nacionais.</div>
+            <div class="rl conc"><b>Conclusão</b>Neste modelo, a contagem começa no dia útil seguinte. Confirme a regra com o jurídico.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-cal"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Priorizando três incidentes abertos</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.8em">
+        <p>Com uma equipe pequena, usa-se uma pontuação simples: <strong>severidade = criticidade do ativo (1 a 5) × confiança na detecção (1 a 3) × abrangência (1 a 3)</strong>.</p>
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Incidente</th><th>Cálculo</th><th>Severidade</th></tr></thead>
+          <tbody>
+            <tr><td>(A) Conta de estagiário com <em>login</em> suspeito</td><td>2 × 2 × 1</td><td><strong>4</strong></td></tr>
+            <tr><td>(B) Servidor de banco de dados de clientes com processo desconhecido</td><td>5 × 2 × 1</td><td><strong>10</strong></td></tr>
+            <tr><td>(C) Cinco servidores apagando cópias de sombra</td><td>4 × 3 × 3</td><td><strong>36</strong></td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.6rem">A ordem de atendimento é C, B e A. A fórmula não substitui o julgamento do coordenador, mas torna a decisão explícita, rápida e auditável.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. LAB priorização -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker" style="margin:0">Laboratório · Exemplo numérico</p>
+      <div class="lab-head"><h2>Fila de incidentes ordenada pela severidade</h2><span class="lab-badge blue">Coordenação</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Escolher que incidente atender primeiro.</div>
+            <div class="rl"><b>Faça</b>1. B está enviando dados para fora: suba a confiança de B para 3.<br>2. A conta de A alcança o servidor de pagamentos: suba a criticidade de A para 5.</div>
+            <div class="rl obs"><b>Observe</b>Os valores iniciais são os do exemplo: A = 4, B = 10, C = 36. A fila se reordena sozinha.</div>
+            <div class="rl conc"><b>Conclusão</b>A pontuação explica a decisão, mas quem decide é o coordenador.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-pri"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Lições aprendidas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pós-incidente</p>
+      <h2>Lições aprendidas sem caça a culpados</h2>
+      <div class="slide-content-box">
+        <p>Após o incidente, a reunião de <strong>lições aprendidas</strong> deve ser feita sem caça a culpados, com foco em perguntas como:</p>
+        <ul>
+          <li>O que funcionou?</li>
+          <li>Em que ponto a detecção ou a decisão demorou?</li>
+          <li>Quais regras, <em>playbooks</em> e controles precisam mudar?</li>
+        </ul>
+        <div class="callout-azul"><p>Cada resposta deve virar uma ação com responsável e prazo, fechando o ciclo com a engenharia de detecção da Aula 10.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Próxima unidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que você verá na próxima unidade</p>
+      <h2>Unidade 4: vermelho e azul na mesma sala</h2>
+      <div class="slide-content-box">
+        <p>Na Unidade 4, vermelho e azul trabalham juntos. Você vai:</p>
+        <ul>
+          <li>planejar ciclos de <em>purple teaming</em> e de emulação de adversários;</li>
+          <li>medir a evolução da defesa com métricas de detecção e resposta e com a cobertura do MITRE ATT&amp;CK;</li>
+          <li>conhecer exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em>;</li>
+          <li>estruturar um programa contínuo de segurança, encerrando com as trilhas de carreira da área.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>O incidente tem dono, ordem e prazo</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Playbook pronto</b>O <em>playbook</em> de <em>ransomware</em> define papéis e etapas. Só o isolamento é automático, e preservar vem antes de erradicar.</div>
+        <div class="ev"><b>Conter cedo</b>Na plataforma, conter o primeiro alerta interrompeu a cadeia antes da exclusão das cópias de sombra e da criptografia.</div>
+        <div class="ev"><b>Evidência que vale</b>Memória antes do disco, <em>hash</em> SHA-256 de cada arquivo e cadeia de custódia registrada linha a linha.</div>
+        <div class="ev"><b>Prazo e prioridade</b>Conhecimento em 13/11, sexta: a comunicação à ANPD vai até 18/11. A pontuação de severidade ordena a fila.</div>
+        <div class="resposta">Resposta à pergunta da aula: a Rede Tatame segue o <em>playbook</em>: isola o SRV-ERP-01 sem desligá-lo, preserva memória e disco com <em>hash</em> e cadeia de custódia, remove o ConectaJá e a credencial de Carla, restaura de <em>backup</em> íntegro, comunica a ANPD em até três dias úteis e transforma as lições aprendidas em melhorias.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Evento, alerta e incidente são conceitos diferentes; declarar incidente é uma decisão formal.</li>
+          <li>O NIST SP 800-61 Rev. 3 integra a resposta a incidentes às funções do CSF 2.0.</li>
+          <li><em>Playbooks</em> e papéis definidos antes do incidente economizam o tempo mais valioso.</li>
+          <li>Contenção deve preservar evidências, com ordem de volatilidade e cadeia de custódia.</li>
+          <li>A LGPD e a Resolução CD/ANPD nº 15/2024 exigem comunicação em três dias úteis quando houver risco ou dano relevante.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.78em">
+        <p>AGÊNCIA NACIONAL DE PROTEÇÃO DE DADOS (Brasil). Resolução CD/ANPD nº 15, de 24 de abril de 2024. Aprova o Regulamento de Comunicação de Incidente de Segurança. <em>Diário Oficial da União</em>, Brasília, DF, 2024.</p>
+        <p>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <em>ABNT NBR ISO/IEC 27037</em>: tecnologia da informação: técnicas de segurança: diretrizes para identificação, coleta, aquisição e preservação de evidência digital. Rio de Janeiro: ABNT, 2013.</p>
+        <p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <em>Diário Oficial da União</em>, Brasília, DF, 15 ago. 2018.</p>
+        <p>BREZINSKI, Dominique; KILLALEA, Tom. <em>RFC 3227</em>: guidelines for evidence collection and archiving. [<em>S. l.</em>]: IETF, 2002.</p>
+        <p>CICHONSKI, Paul <em>et al</em>. <em>SP 800-61 Rev. 2</em>: computer security incident handling guide. Gaithersburg: NIST, 2012. DOI: 10.6028/NIST.SP.800-61r2.</p>
+        <p>NELSON, Alex <em>et al</em>. <em>SP 800-61 Rev. 3</em>: incident response recommendations and considerations for cybersecurity risk management: a CSF 2.0 community profile. Gaithersburg: NIST, 2025. DOI: 10.6028/NIST.SP.800-61r3.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já sabe distinguir evento, alerta e incidente, relacionar o ciclo de resposta ao CSF 2.0, conduzir um <em>playbook</em>, conter sem destruir evidências, contar o prazo da ANPD e priorizar incidentes. Agora você conhece os dois lados. Na próxima unidade, vamos colocá-los na mesma sala.</p>
+      <p class="fim-proxima">Próxima aula: Aula 13 — <em>Purple teaming</em> e emulação de adversários.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['arq', 'ad', 'edr', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o SRV-ERP-01 (em vermelho), o servidor de arquivos ao lado e o SOC que coordena a resposta.' });
+
+/* ---------- 8. Fluxo: Rev. 2 dentro do CSF 2.0 ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 480,
+  nodes: [
+    { id: 'prep', x: 190, y: 70, label: 'Preparação', sub: 'Rev. 2 · fase 1', icon: '📋', w: 230 },
+    { id: 'det', x: 190, y: 180, label: 'Detecção e análise', sub: 'Rev. 2 · fase 2', icon: '🔎', w: 230 },
+    { id: 'cer', x: 190, y: 290, label: 'Contenção, erradicação', sub: 'e recuperação · fase 3', icon: '🧯', w: 230 },
+    { id: 'pos', x: 190, y: 400, label: 'Pós-incidente', sub: 'Rev. 2 · fase 4', icon: '📝', w: 230 },
+    { id: 'gv', x: 860, y: 45, label: 'Governar', sub: 'GV', icon: '🏛️', k: 'purple', w: 200, h: 58 },
+    { id: 'id', x: 860, y: 123, label: 'Identificar', sub: 'ID', icon: '🗂️', k: 'purple', w: 200, h: 58 },
+    { id: 'pr', x: 860, y: 201, label: 'Proteger', sub: 'PR', icon: '🛡️', k: 'purple', w: 200, h: 58 },
+    { id: 'de', x: 860, y: 279, label: 'Detectar', sub: 'DE', icon: '📡', k: 'blue', w: 200, h: 58 },
+    { id: 'rs', x: 860, y: 357, label: 'Responder', sub: 'RS', icon: '🚒', k: 'blue', w: 200, h: 58 },
+    { id: 'rc', x: 860, y: 435, label: 'Recuperar', sub: 'RC', icon: '♻️', k: 'green', w: 200, h: 58 }
+  ],
+  links: [
+    { from: 'prep', to: 'det' }, { from: 'det', to: 'cer' }, { from: 'cer', to: 'pos' },
+    { from: 'prep', to: 'gv' }, { from: 'prep', to: 'id' }, { from: 'prep', to: 'pr' }, { from: 'det', to: 'de' },
+    { from: 'cer', to: 'rs' }, { from: 'cer', to: 'rc' }, { from: 'pos', to: 'id', dashed: true }
+  ],
+  steps: [
+    { title: 'Rev. 2 (2012) · o ciclo clássico', text: 'Quatro fases em sequência, com o pós-incidente voltando à preparação. A resposta aparece como um processo próprio, ao lado da gestão de riscos.', on: ['prep', 'det', 'cer', 'pos'], links: [['prep', 'det'], ['det', 'cer'], ['cer', 'pos']] },
+    { title: 'Rev. 3 (2025) · seis funções do CSF 2.0', text: 'A resposta a incidentes passa a ser um perfil do CSF 2.0: as recomendações se distribuem pelas mesmas funções usadas para gerir o risco cibernético da organização inteira.', on: ['gv', 'id', 'pr', 'de', 'rs', 'rc'] },
+    { title: 'Preparação: Governar, Identificar, Proteger', text: 'Políticas, papéis, inventário, playbooks e treinamentos. A preparação deixa de ser só da equipe de resposta e vira responsabilidade da gestão.', on: ['prep', 'gv', 'id', 'pr'], links: [['prep', 'gv', 'purple'], ['prep', 'id', 'purple'], ['prep', 'pr', 'purple']], dim: true },
+    { title: 'Detecção e análise: Detectar', text: 'Triagem de alertas, definição de escopo e severidade. É aqui que entram SIEM, EDR e caça, das Aulas 9 a 11.', on: ['det', 'de'], links: [['det', 'de']], dim: true },
+    { title: 'Contenção, erradicação e recuperação: Responder, Recuperar', text: 'Isolar máquinas, remover persistência e restaurar backups íntegros.', on: ['cer', 'rs', 'rc'], links: [['cer', 'rs'], ['cer', 'rc', 'green']], dim: true },
+    { title: 'Pós-incidente: Identificar (melhoria)', text: 'As lições aprendidas atualizam riscos, inventário e prioridades. Na Rev. 3, a melhoria contínua atravessa todas as funções.', on: ['pos', 'id'], links: [['pos', 'id', 'amber']], dim: true },
+    { title: 'O caso SRV-ERP-01 no mapa', text: 'DE: 10 falhas e um sucesso (Aula 9) e a caça H-11 (Aula 11). RS: isolar e preservar evidências. RC: restaurar backup anterior a 13/11. ID e GV: nova regra, MFA no acesso remoto e playbook revisado.', on: ['de', 'rs', 'rc', 'id', 'gv'], links: [['det', 'de'], ['cer', 'rs'], ['cer', 'rc', 'green'], ['pos', 'id', 'amber']] }
+  ]
+});
+
+/* ---------- 10. VS Code: playbook, validador e prazo ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'resposta-incidentes', team: 'blue', status: 'Python 3.12', open: 'playbooks/ransomware.yaml',
+  files: [
+    { path: 'playbooks/ransomware.yaml', hl: [17, 18, 19, 23, 24, 29], code:
+`playbook: ransomware-v3
+gatilho:
+  regra: "Exclusão de cópias de sombra com vssadmin"   # regra da Aula 10
+  severidade_minima: high
+contatos:
+  coordenador_incidente: plantao-ir@tatame.com.br
+  encarregado_dados: dpo@tatame.com.br
+etapas:
+  - id: triagem
+    responsavel: analista_n2
+    acao: confirmar_alerta_e_escopo
+    prazo_min: 15
+  - id: isolar
+    automatico: true
+    acao: edr.isolar_host
+    alvo: "{{ alerta.host.name }}"
+    observacao: "isolar, não desligar: a memória volátil é evidência"
+  - id: preservar
+    responsavel: analista_forense
+    ordem_volatilidade: [memoria, conexoes, processos, disco]   # RFC 3227
+    cadeia_de_custodia: obrigatoria
+  - id: acionar
+    responsavel: coordenador_incidente
+    notificar: [coordenador_incidente, juridico, encarregado_dados, comunicacao]
+    prazo_min: 60
+  - id: avaliar_dados_pessoais
+    responsavel: encarregado_dados
+    se_afetados: "registrar a data de conhecimento e calcular o prazo da ANPD"
+  - id: erradicar
+    responsavel: analista_n2
+    acao: [remover_persistencia, desabilitar_contas_do_invasor, corrigir_entrada]
+  - id: recuperar
+    responsavel: infraestrutura
+    acao: restaurar_backup_integro
+    monitoramento_reforcado_dias: 30
+  - id: licoes_aprendidas
+    responsavel: coordenador_incidente
+    formato: sem_caca_a_culpados
+    prazo_dias: 10`},
+    { path: 'ferramentas/validar_playbook.py', hl: [5, 11, 12, 15, 16, 19, 20], code:
+`"""Confere se um playbook tem o mínimo exigido pela política de resposta a incidentes."""
+import sys
+import yaml
+
+OBRIGATORIOS = {"coordenador_incidente", "juridico", "encarregado_dados", "comunicacao"}
+
+pb = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))
+ids = [e["id"] for e in pb["etapas"]]
+problemas = []
+for etapa in pb["etapas"]:
+    if "responsavel" not in etapa and not etapa.get("automatico"):
+        problemas.append(f"etapa '{etapa['id']}' sem responsável")
+acionados = {p for e in pb["etapas"] for p in e.get("notificar", [])}
+if faltam := OBRIGATORIOS - acionados:
+    problemas.append(f"papéis nunca acionados: {', '.join(sorted(faltam))}")
+if ids.index("preservar") > ids.index("erradicar"):
+    problemas.append("evidências precisam ser preservadas antes da erradicação")
+
+print(f"{pb['playbook']}: {len(ids)} etapas")
+print("\\n".join(f"  [x] {p}" for p in problemas) or "  [ok] nenhum problema encontrado")
+sys.exit(1 if problemas else 0)`},
+    { path: 'ferramentas/prazo_anpd.py', hl: [5, 8, 9, 14, 15, 16], code:
+`"""Prazo de comunicação à ANPD: 3 dias úteis após o conhecimento (Res. CD/ANPD nº 15/2024)."""
+import sys
+from datetime import date, timedelta
+
+FERIADOS = {date(2026, 11, 2), date(2026, 11, 15), date(2026, 11, 20), date(2026, 12, 25)}
+DIAS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
+
+def dia_util(d: date) -> bool:
+    return d.weekday() < 5 and d not in FERIADOS
+
+def dias_contados(conhecimento: date, n: int = 3) -> list[date]:
+    d, uteis = conhecimento, []
+    while len(uteis) < n:
+        d += timedelta(days=1)
+        if dia_util(d):
+            uteis.append(d)
+        elif d in FERIADOS:
+            print(f"  {d:%d/%m} ({DIAS[d.weekday()]}) feriado, não conta")
+    return uteis
+
+conhecimento = date.fromisoformat(sys.argv[1])
+print(f"Conhecimento: {conhecimento:%d/%m/%Y} ({DIAS[conhecimento.weekday()]})")
+uteis = dias_contados(conhecimento)
+for k, d in enumerate(uteis, 1):
+    print(f"  dia útil {k}: {d:%d/%m} ({DIAS[d.weekday()]})")
+print(f"Prazo final: {uteis[-1]:%d/%m/%Y} ({DIAS[uteis[-1].weekday()]})")`}
+  ],
+  run: [
+    { label: 'Validar', cmd: 'python ferramentas/validar_playbook.py playbooks/ransomware.yaml', file: 'ferramentas/validar_playbook.py', out: [
+      'ransomware-v3: 8 etapas', '[ok]  [ok] nenhum problema encontrado' ] },
+    { label: 'Prazo 13/11', kind: 'blue', cmd: 'python ferramentas/prazo_anpd.py 2026-11-13', file: 'ferramentas/prazo_anpd.py', out: [
+      'Conhecimento: 13/11/2026 (sex)', '[mute]  15/11 (dom) feriado, não conta', '  dia útil 1: 16/11 (seg)', '  dia útil 2: 17/11 (ter)', '  dia útil 3: 18/11 (qua)', '[hi]Prazo final: 18/11/2026 (qua)' ] },
+    { label: 'Prazo 17/11', kind: 'blue', cmd: 'python ferramentas/prazo_anpd.py 2026-11-17', file: 'ferramentas/prazo_anpd.py', out: [
+      'Conhecimento: 17/11/2026 (ter)', '[warn]  20/11 (sex) feriado, não conta', '  dia útil 1: 18/11 (qua)', '  dia útil 2: 19/11 (qui)', '  dia útil 3: 23/11 (seg)', '[hi]Prazo final: 23/11/2026 (seg)' ] }
+  ]
+});
+
+/* ---------- 12b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'soc', reiniciar: true, cenario: 'ransomware', autostart: true });
+
+/* ---------- 11. Simulação de mesa ---------- */
+Labs.register('#lab-tt', (el) => {
+  const S = [
+    { h: 'sex 13/11 · 03:05', s: 'O EDR alerta: cinco servidores estão executando vssadmin para apagar cópias de sombra. O playbook de ransomware foi acionado. O que fazer com os servidores?',
+      o: [['Desligar os cinco servidores da tomada', 0, 'O ataque para, mas a memória volátil some: processos, conexões e chaves que poderiam explicar a invasão.'],
+          ['Isolar os cinco servidores pelo EDR', 1, 'Isolar corta a rede e mantém a máquina ligada, com o canal do EDR aberto para coletar evidências. É o que o playbook prevê.'],
+          ['Esperar a equipe chegar às 8h', 0, 'Cinco horas é tempo de sobra para a criptografia terminar. A contenção busca impedir que o dano aumente.']] },
+    { h: 'sex 13/11 · 03:25', s: 'Servidores isolados. Quem precisa ser acionado agora?',
+      o: [['Só a equipe técnica, para não alarmar ninguém', 0, 'Jurídico, comunicação e encarregado de dados entram desde as primeiras horas: há decisões legais que dependem deles.'],
+          ['O coordenador do incidente, que aciona jurídico, comunicação e encarregado de dados', 1, 'É a etapa "acionar" do playbook: papéis definidos antes, e não negociados de madrugada.'],
+          ['A imprensa, por transparência', 0, 'Comunicação externa é decisão do coordenador com jurídico e comunicação, com informações confirmadas.']] },
+    { h: 'sex 13/11 · 04:10', s: 'O analista forense chegou ao SRV-ERP-01. Por onde começar a coleta?',
+      o: [['Imagem do disco, depois a memória', 0, 'A ordem está invertida: a memória é mais volátil e se perde primeiro. A RFC 3227 manda começar por ela.'],
+          ['Memória, depois o disco, com hash e cadeia de custódia', 1, 'Ordem de volatilidade e registro de quem coletou, quando, como e onde guardou, com o hash de cada arquivo.'],
+          ['Copiar os arquivos suspeitos para um pendrive pessoal', 0, 'Sem cadeia de custódia e sem hash, a evidência perde valor e pode ser contestada.']] },
+    { h: 'sex 13/11 · 16:00', s: 'A análise mostra que o cadastro de responsáveis financeiros do ERP foi acessado, incluindo os de alunos menores de idade. E a comunicação?',
+      o: [['Esperar a investigação inteira terminar', 0, 'O prazo de três dias úteis corre a partir do conhecimento de que dados pessoais foram afetados, e não do fim da investigação.'],
+          ['Registrar a data de conhecimento e preparar a comunicação à ANPD e aos titulares', 1, 'Conhecimento em 13/11 (sexta): o prazo vai até 18/11 (quarta). O encarregado avalia o risco ou dano relevante.'],
+          ['Não comunicar, porque nenhuma família reclamou', 0, 'A obrigação do art. 48 da LGPD depende do risco ou dano relevante, e não de reclamações.']] },
+    { h: 'seg 16/11 · 10:00', s: 'Evidências preservadas. Como erradicar e recuperar?',
+      o: [['Restaurar o backup mais recente e reabrir o acesso', 0, 'O backup mais recente pode já conter a persistência. E a falha de entrada continua aberta.'],
+          ['Remover o serviço ConectaJa, trocar a senha de carla.dias, exigir MFA no acesso remoto e restaurar backup íntegro', 1, 'Erradicação remove persistência e corrige a entrada; recuperação usa backup íntegro e monitora com atenção redobrada.'],
+          ['Formatar todos os servidores da empresa', 0, 'Desproporcional e lento. A erradicação precisa ser dirigida pelo que a investigação encontrou.']] },
+    { h: 'qua 25/11 · 14:00', s: 'Reunião de lições aprendidas. Qual é o foco?',
+      o: [['Descobrir de quem foi a culpa pela senha fraca', 0, 'Caçar culpados faz as pessoas esconderem erros na próxima vez. O foco é o processo.'],
+          ['O que funcionou, onde demorou e o que muda, com responsável e prazo', 1, 'Cada resposta vira ação: regra nova, MFA, playbook revisado. O ciclo fecha com a engenharia de detecção.'],
+          ['Pular a reunião: o incidente já acabou', 0, 'Sem lições aprendidas, o mesmo incidente volta. É a etapa que melhora todas as outras.']] }
+  ];
+  let k = 0, pts = 0; const log = [];
+  el.innerHTML = '<div class="lab-panel tt"><div class="tt-main"></div><div class="tt-side"><h5>Diário do incidente</h5><div class="tt-log"></div></div></div>';
+  const main = el.querySelector('.tt-main'), lg = el.querySelector('.tt-log');
+  function draw() {
+    lg.innerHTML = log.map((l) => '<div class="' + (l.ok ? 'ok' : 'no') + '">' + Labs.esc(l.h) + '<br>' + Labs.esc(l.t) + '</div>').join('') || '<div>Nenhuma decisão registrada.</div>';
+    if (k >= S.length) {
+      main.innerHTML = '<div class="tt-clock">Fim da simulação</div><div class="tt-sit">Decisões alinhadas ao <em>playbook</em>: <b style="color:#F2CB0A">' + pts + ' de ' + S.length + '</b>. Use as escolhas diferentes como ponto de partida da discussão.</div><div><button class="lab-btn">⟲ Recomeçar</button></div>';
+      main.querySelector('button').addEventListener('click', () => { k = 0; pts = 0; log.length = 0; draw(); });
+      return;
+    }
+    const st = S[k];
+    main.innerHTML = '<div class="tt-clock">' + st.h + '</div><div class="tt-sit">' + Labs.esc(st.s) + '</div><div class="tt-opts"></div><div class="tt-fb" hidden></div><div><button class="lab-btn" hidden>Próxima decisão ▶</button></div>';
+    const opts = main.querySelector('.tt-opts'), fb = main.querySelector('.tt-fb'), nx = main.querySelector('.lab-btn');
+    st.o.forEach(([t, ok, f]) => {
+      const b = Labs.h('button', '', Labs.esc(t)); opts.appendChild(b);
+      b.addEventListener('click', () => {
+        opts.querySelectorAll('button').forEach((x) => (x.disabled = true));
+        b.classList.add(ok ? 'ok' : 'no'); if (ok) pts++;
+        log.push({ h: st.h, t: t, ok }); fb.hidden = false; fb.textContent = f; nx.hidden = false;
+        lg.innerHTML = log.map((l) => '<div class="' + (l.ok ? 'ok' : 'no') + '">' + Labs.esc(l.h) + '<br>' + Labs.esc(l.t) + '</div>').join('');
+      });
+    });
+    nx.addEventListener('click', () => { k++; draw(); });
+  }
+  draw();
+});
+
+/* ---------- 14. Terminal: hash e cadeia de custódia ---------- */
+Labs.terminal('#lab-term', {
+  title: 'perito@estacao-forense: ~/caso-IR-2026-031', prompt: 'perito@estacao-forense:~/caso-IR-2026-031$ ',
+  steps: [
+    { cmd: 'ls -l evidencias/', note: 'Memória coletada às 04:18, disco às 05:52: primeiro o mais volátil.', out: [
+      'total 186469272',
+      '-r--r----- 1 perito ir  17179869184 nov 13 04:18 SRV-ERP-01_memoria.raw',
+      '-r--r----- 1 perito ir 173764665344 nov 13 05:52 SRV-ERP-01_disco.E01'] },
+    { cmd: 'sha256sum evidencias/* | tee evidencias.sha256', note: 'O hash de cada arquivo é calculado na chegada e guardado em um arquivo próprio.', out: [
+      'a0f002fffece071ded10299d7da1a55b5567434f9ab300ac6f51ac88e67d1477  evidencias/SRV-ERP-01_disco.E01',
+      'a58574da5d5dd3479ede358ee14836268d6b5dce36108e664884a4a371a8c5c7  evidencias/SRV-ERP-01_memoria.raw'] },
+    { cmd: 'column -s, -t cadeia_custodia.csv', note: 'O formulário de custódia: cada item com quem, quando, como, onde e o hash.', out: [
+      'item  descricao                  coletado_por   data_hora         metodo                 local              sha256',
+      'EV-1  memoria RAM SRV-ERP-01     L. Ferraz      2026-11-13 04:18  coleta via EDR         cofre-digital-01   a58574da…71a8c5c7',
+      'EV-2  imagem de disco SRV-ERP-01 L. Ferraz      2026-11-13 05:52  imagem forense E01     cofre-digital-01   a0f002ff…e67d1477'] },
+    { cmd: 'echo "EV-1+EV-2,transferencia para M. Teixeira,L. Ferraz,2026-11-13 09:10,entrega em maos com lacre 0457,lab-forense-02,hashes conferidos" >> cadeia_custodia.csv', note: 'A transferência para outra perita vira uma linha nova. Nada é apagado ou sobrescrito.', out: [] },
+    { cmd: 'sha256sum -c evidencias.sha256', note: 'Antes de começar a análise, a integridade é conferida de novo.', out: [
+      '[ok]evidencias/SRV-ERP-01_disco.E01: OK', '[ok]evidencias/SRV-ERP-01_memoria.raw: OK'] }
+  ],
+  done: 'Integridade confirmada: as evidências são as mesmas que foram coletadas.'
+});
+
+/* ---------- 16. Calendário: três dias úteis ---------- */
+Labs.register('#lab-cal', (el) => {
+  const FER = { '2026-11-02': 'Finados', '2026-11-15': 'Proclamação', '2026-11-20': 'Consciência Negra', '2026-12-25': 'Natal' };
+  const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+  const iso = (d) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  const util = (d) => d.getDay() !== 0 && d.getDay() !== 6 && !FER[iso(d)];
+  const ini = new Date(2026, 10, 1), fim = new Date(2026, 11, 5);
+  el.innerHTML = '<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.5rem;overflow:auto"><h4>Novembro e início de dezembro de 2026</h4><div class="cal"></div><div class="lab-grid2"><div class="lab-kpi amber"><small>Conhecimento</small><b id="k-c"></b></div><div class="lab-kpi red"><small>Prazo final para comunicar</small><b id="k-p"></b></div></div><p id="cal-msg" style="margin:0;color:#C9D4E5;font-size:.92rem"></p></div>';
+  const cal = el.querySelector('.cal');
+  DIAS.forEach((d) => cal.insertAdjacentHTML('beforeend', '<span>' + d + '</span>'));
+  for (let i = 0; i < ini.getDay(); i++) cal.insertAdjacentHTML('beforeend', '<i></i>');
+  const btn = {};
+  for (let d = new Date(ini); d <= fim; d.setDate(d.getDate() + 1)) {
+    const k = iso(d), dd = new Date(d), b = Labs.h('button', (d.getDay() === 0 || d.getDay() === 6) ? 'fds' : FER[k] ? 'fer' : '', d.getDate() + (FER[k] ? '<small>feriado</small>' : ''));
+    b.title = FER[k] || ''; b.addEventListener('click', () => pick(dd)); cal.appendChild(b); btn[k] = b;
+  }
+  function pick(c) {
+    Object.values(btn).forEach((b) => b.classList.remove('con', 'uti', 'fim'));
+    btn[iso(c)].classList.add('con');
+    const uteis = [], pul = []; const d = new Date(c);
+    while (uteis.length < 3) { d.setDate(d.getDate() + 1); if (util(d)) uteis.push(new Date(d)); else if (FER[iso(d)]) pul.push(FER[iso(d)]); }
+    uteis.forEach((u, i) => btn[iso(u)] && btn[iso(u)].classList.add(i === 2 ? 'fim' : 'uti'));
+    const f = (x) => String(x.getDate()).padStart(2, '0') + '/' + String(x.getMonth() + 1).padStart(2, '0') + ' (' + DIAS[x.getDay()] + ')';
+    el.querySelector('#k-c').textContent = f(c); el.querySelector('#k-p').textContent = f(uteis[2]);
+    el.querySelector('#cal-msg').textContent = 'Dias úteis contados: ' + uteis.map(f).join(', ') + '.' + (pul.length ? ' Feriado no caminho: ' + pul.join(', ') + '.' : '');
+  }
+  pick(new Date(2026, 10, 13));
+});
+
+/* ---------- 18. Fila de priorização ---------- */
+Labs.register('#lab-pri', (el) => {
+  const I = [
+    { id: 'A', t: 'Conta de estagiário com login suspeito', v: [2, 2, 1] },
+    { id: 'B', t: 'Banco de dados de clientes com processo desconhecido', v: [5, 2, 1] },
+    { id: 'C', t: 'Cinco servidores apagando cópias de sombra', v: [4, 3, 3] }
+  ];
+  const MAX = [5, 3, 3];
+  el.innerHTML = '<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.4rem;overflow:auto"><h4>Severidade = criticidade × confiança × abrangência</h4><div class="pri-head"><span>Incidente</span><span>Criticidade (1–5)</span><span>Confiança (1–3)</span><span>Abrangência (1–3)</span><span style="text-align:center">Nota</span></div><div class="pri-list" style="position:relative"></div><p id="pri-msg" style="margin:.3rem 0 0;color:#C9D4E5;font-size:.95rem"></p></div>';
+  const list = el.querySelector('.pri-list');
+  I.forEach((x) => {
+    const row = Labs.h('div', 'pri-row', '<span><b>(' + x.id + ')</b> ' + Labs.esc(x.t) + '</span>' +
+      x.v.map((v, j) => '<select class="lab-select" data-j="' + j + '">' + Array.from({ length: MAX[j] }, (_, n) => '<option' + (n + 1 === v ? ' selected' : '') + '>' + (n + 1) + '</option>').join('') + '</select>').join('') +
+      '<b class="sc"></b>');
+    row.querySelectorAll('select').forEach((s) => s.addEventListener('change', () => { x.v[+s.dataset.j] = +s.value; calc(); }));
+    x.row = row; list.appendChild(row);
+  });
+  function calc() {
+    I.forEach((x) => { x.s = x.v[0] * x.v[1] * x.v[2]; const b = x.row.querySelector('.sc'); b.textContent = x.s; b.style.color = x.s >= 20 ? '#FF5C7A' : x.s >= 10 ? '#F2CB0A' : '#3FD47A'; });
+    const ord = I.slice().sort((a, b) => b.s - a.s);
+    ord.forEach((x) => list.appendChild(x.row));
+    el.querySelector('#pri-msg').textContent = 'Ordem de atendimento: ' + ord.map((x) => x.id + ' (' + x.s + ')').join(', ') + '.';
+  }
+  calc();
+});
+</script>
+</body>
+</html>

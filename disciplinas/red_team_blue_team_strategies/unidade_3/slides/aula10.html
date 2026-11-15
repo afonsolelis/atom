@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 10 — Engenharia de detecção e EDR</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .code-box { background: #0D1117; color: #D4D4D4; border-radius: 10px; padding: .7em 1em; font: clamp(.72rem, .95vw, .92rem)/1.45 var(--mono); margin: 0; white-space: pre; overflow: auto; }
+  .duas-col { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; align-items: start; }
+  .edr { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 250px 1fr; grid-template-rows: auto 1fr; background: #10131A; border: 1px solid #2A3142; border-radius: 10px; overflow: hidden; color: #DCE3EE; font-family: var(--fonte); box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+  .edr-top { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #171C27; border-bottom: 1px solid #2A3142; font-size: 13px; }
+  .edr-top b { color: #fff; font-size: 14px; }
+  .edr-top .sp { flex: 1; }
+  .edr-list { overflow: auto; border-right: 1px solid #2A3142; background: #131824; }
+  .edr-list button { display: block; width: 100%; text-align: left; background: none; border: 0; border-left: 3px solid transparent; color: #C9D4E5; padding: 9px 12px; cursor: pointer; font: 12.5px/1.35 var(--fonte); border-bottom: 1px solid #1E2433; }
+  .edr-list button.is-on { background: #1C2742; border-left-color: #00B1D2; color: #fff; }
+  .edr-list small { display: block; color: #7F8FA9; margin-top: 2px; }
+  .edr-main { min-width: 0; min-height: 0; display: flex; flex-direction: column; padding: 10px 12px; gap: 8px; overflow: auto; }
+  .edr-tree { font: 13px/1.5 var(--mono); background: #0B0F17; border: 1px solid #222A3A; border-radius: 8px; padding: 8px 10px; }
+  .edr-tree div { white-space: pre; }
+  .edr-tree .bad { color: #FF5C7A; font-weight: 700; }
+  .edr-tree .net { color: #F2CB0A; }
+  .edr-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; font-size: 12px; }
+  .edr-meta div { background: #151B28; border: 1px solid #222A3A; border-radius: 6px; padding: 6px 8px; }
+  .edr-meta small { display: block; color: #7F8FA9; font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; }
+  .edr-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .edr-log { font: 12.5px/1.5 var(--mono); background: #0B0F17; border: 1px solid #222A3A; border-radius: 8px; padding: 6px 10px; min-height: 70px; white-space: pre-wrap; flex: 1; }
+  .edr-pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font: 700 11px var(--fonte); }
+  .edr-pill.on { background: #0E3F25; color: #3FD47A; } .edr-pill.iso { background: #4A1028; color: #FF8BA3; } .edr-pill.off { background: #4A3D06; color: #F2CB0A; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 3|Aula 10 — Videoaula 10">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 10 — Engenharia de detecção e EDR</h1>
+      <div class="subtitulo">Unidade 3 — Blue Team: detecção e resposta</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios: um diagrama animado com as sete etapas do ciclo de vida de uma detecção, dispostas em círculo; um editor VS Code com uma regra Sigma, testes automatizados em Python e a conversão da regra para linguagens de SIEM; um terminal PowerShell que executa um teste do Atomic Red Team em máquina isolada; um console de EDR com fila de alertas, árvore de processos e botões de resposta; uma árvore de processos em 3D com a cadeia suspeita em vermelho; e uma calculadora de precisão e sensibilidade.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Engenharia de detecção e EDR</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O ciclo de vida de uma detecção</li>
+          <li>Detecção como código e o padrão Sigma</li>
+          <li>Laboratório: regra Sigma com testes e conversão</li>
+          <li>Tipos de detecção</li>
+          <li>Testar antes de confiar: Atomic Red Team</li>
+          <li>EDR: console, árvore de processos e resposta</li>
+          <li>Precisão e sensibilidade com números</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>A regra dispararia antes da criptografia?</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Rafael Tavares é o engenheiro de detecção da Rede Tatame: ele escreve e mantém as regras que geram alertas para o SOC.</p>
+          <p>Na Aula 9, o SOC percebeu o <em>login</em> das 02:17 no SRV-ERP-01 com a conta de Carla Dias. O EDR (<em>Endpoint Detection and Response</em>, o agente que registra os processos de cada máquina) mostra a origem: dias antes, um documento do Word aberto no notebook NB-FIN-031 iniciou o PowerShell.</p>
+          <p>A CISO Marina Prado quer uma prova: se o invasor apagar as cópias de sombra do servidor, passo que antecede a criptografia num <em>ransomware</em>, alguma regra dispara? Ninguém testou. E a regra de PowerShell já gera 400 alertas por mês.</p>
+          <div class="pergunta">Como Rafael transforma uma técnica de ataque em uma regra testada, que dispara quando o ataque acontece e não afoga o SOC?</div>
+          <div class="papeis"><span><b>Detecção</b> Rafael Tavares</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Pede a prova</b> Marina Prado, CISO</span><span><b>Notebook de origem</b> NB-FIN-031</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Ciclo de vida -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>O ciclo de vida de uma detecção</h2>
+      <div class="slide-content-box">
+        <ol>
+          <li><strong>Requisito</strong>: qual comportamento adversário queremos detectar e por quê, por exemplo uma técnica ATT&amp;CK usada por grupos que ameaçam o setor.</li>
+          <li><strong>Pesquisa</strong>: que rastros essa técnica deixa e em quais fontes.</li>
+          <li><strong>Desenvolvimento</strong> da regra.</li>
+          <li><strong>Teste</strong> com dados reais ou simulados.</li>
+          <li><strong>Implantação</strong>.</li>
+          <li><strong>Ajuste</strong> contínuo com base nos resultados.</li>
+          <li><strong>Aposentadoria</strong>, quando a regra deixa de fazer sentido.</li>
+        </ol>
+        <div class="callout-azul"><p>Esse ciclo transforma cada técnica emulada pelo Red Team, como as que estudamos na Unidade 2, em uma melhoria verificável.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LAB flow: ciclo -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>Uma detecção da ideia à aposentadoria</h2></div><span class="lab-badge purple">Engenharia de detecção</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver as etapas pelas quais a regra de Rafael precisa passar.</div>
+            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa.</div>
+            <div class="rl obs"><b>Observe</b>A técnica é a T1490 (inibir a recuperação do sistema). O nó do centro mostra de onde vem o requisito: inteligência de ameaças e exercícios do Red Team.</div>
+            <div class="rl conc"><b>Conclusão</b>O ajuste devolve a regra ao desenvolvimento, e até a aposentadoria é documentada.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-flow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Detecção como código -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Detecção como código</p>
+      <h2>Regras em repositório, com revisão e testes</h2>
+      <div class="slide-content-box">
+        <p>Na abordagem de <strong>detecção como código</strong> (<em>detection-as-code</em>), as regras ficam em um repositório com controle de versão, passam por revisão de pares e são validadas automaticamente antes de chegar à produção.</p>
+        <ul>
+          <li>É possível saber quem alterou uma regra, quando e por quê.</li>
+          <li>Uma mudança que gerou ruído pode ser desfeita.</li>
+          <li>A esteira típica: repositório Git, revisão de pares, testes automatizados, conversão Sigma e SIEM em produção.</li>
+        </ul>
+        <div class="callout-azul"><p>O <strong>Sigma</strong> é um formato aberto, em YAML, para escrever regras de detecção independentes de fornecedor. Ferramentas do próprio projeto convertem cada regra para a linguagem de consulta de diferentes SIEMs.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Regra Sigma -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Padrão Sigma</p>
+      <h2>Anatomia de uma regra Sigma</h2>
+      <div class="slide-content-box" style="padding:1em 1.4em">
+        <div class="duas-col">
+<pre class="code-box">title: Exclusão de cópias de sombra com vssadmin
+status: experimental
+description: Detecta o vssadmin apagando cópias de
+  sombra, ação comum antes de ransomware
+references:
+  - https://attack.mitre.org/techniques/T1490/
+tags:
+  - attack.impact
+  - attack.t1490
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\vssadmin.exe'
+    CommandLine|contains|all:
+      - 'delete'
+      - 'shadows'
+  condition: selection
+falsepositives:
+  - Rotinas legítimas de administração de backup
+level: high</pre>
+          <div>
+            <p>A regra detecta o utilitário <code>vssadmin</code> apagando cópias de sombra do Windows, comportamento frequente pouco antes da criptografia por <em>ransomware</em> (T1490).</p>
+            <ul>
+              <li><strong>Fonte de dados</strong>: criação de processos, que pode vir do evento 4688 ou do Sysmon ID 1.</li>
+              <li><strong>Mapeamento ATT&amp;CK</strong>: as <em>tags</em> ligam a regra à tática e à técnica.</li>
+              <li><strong>Lógica</strong>: a imagem termina em <code>vssadmin.exe</code> e a linha de comando contém "delete" e "shadows".</li>
+              <li><strong>Falsos positivos esperados</strong>: documentados desde o início.</li>
+            </ul>
+            <p>Essa documentação embutida é o que permite medir a cobertura, como fizemos na Aula 2.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LAB VS Code: Sigma + pytest -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Regra, teste e conversão no mesmo repositório</h2></div><span class="lab-badge blue">Detecção como código</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Escrever a regra das cópias de sombra como código, com testes.</div>
+            <div class="rl"><b>Faça</b>1. Abra a regra Sigma, formato aberto de regras de detecção.<br>2. Clique em <strong>Rodar testes</strong>.<br>3. Converta para SPL e KQL, linguagens de busca de dois SIEMs.</div>
+            <div class="rl obs"><b>Observe</b>A regra precisa disparar nos eventos positivos e ficar quieta nos negativos: os 5 testes passam.</div>
+            <div class="rl conc"><b>Conclusão</b>A mesma lógica roda em SIEMs diferentes, sem reescrever.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Tipos de detecção -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comparação</p>
+      <h2>Tipos de detecção</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.6em">
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Tipo</th><th>Como funciona</th><th>Vantagem</th><th>Limitação</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Indicador (IOC)</strong></td><td>Compara com <em>hashes</em>, IPs ou domínios conhecidos</td><td>Simples e precisa</td><td>O adversário troca o indicador com facilidade</td></tr>
+            <tr><td><strong>Comportamental</strong></td><td>Procura a técnica, como na regra do <code>vssadmin</code></td><td>Resiste a variações de ferramenta</td><td>Exige conhecimento do ambiente para reduzir ruído</td></tr>
+            <tr><td><strong>Anomalia</strong></td><td>Compara com uma linha de base estatística</td><td>Encontra o desconhecido</td><td>Muitos falsos positivos se a base for instável</td></tr>
+            <tr><td><strong>Correlação</strong></td><td>Combina eventos de fontes diferentes</td><td>Aumenta a confiança</td><td>Depende de normalização de qualidade</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Testar antes de confiar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Validação</p>
+      <h2>Testar antes de confiar</h2>
+      <div class="slide-content-box">
+        <p>Uma regra nunca testada é apenas uma hipótese. Projetos abertos como o <strong>Atomic Red Team</strong> oferecem testes pequenos, mapeados ao ATT&amp;CK, que reproduzem técnicas em laboratório para verificar se a regra dispara.</p>
+        <ul>
+          <li><strong>Precisão</strong>: dos alertas gerados, quantos eram verdadeiros.</li>
+          <li><strong>Sensibilidade</strong> ou <em>recall</em>: dos ataques que ocorreram, quantos foram detectados.</li>
+          <li>Ajustar uma regra quase sempre é uma troca entre os dois.</li>
+        </ul>
+        <div class="callout-azul"><p>Esses testes rodam somente em máquina virtual isolada, com <em>snapshot</em> para voltar ao estado anterior. Em produção, só com autorização formal e janela combinada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB terminal: Atomic Red Team -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>A regra dispara quando a técnica acontece?</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Provar que a regra dispara quando a técnica acontece.</div>
+            <div class="rl"><b>Faça</b>Rode os comandos em ordem na VM isolada <code>LAB-WIN11</code>. O teste 1 da T1490 vem do Atomic Red Team, biblioteca aberta de testes.</div>
+            <div class="rl obs"><b>Observe</b>O evento 1 do Sysmon traz <code>Image</code> e <code>CommandLine</code>, os campos que a regra Sigma usa.</div>
+            <div class="rl conc"><b>Conclusão</b>A técnica aconteceu, o alerta saiu em 2 segundos e a VM voltou ao <em>snapshot</em> limpo.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12b. PLATAFORMA REDE TATAME: regra R3 e abuso da API -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Ligar uma regra e provar que ela dispara</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver na plataforma que uma regra desligada deixa o ataque passar.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Regras do CEP</strong>, leia a R3. Ela procura BOLA: um aluno lendo fichas de outros alunos trocando o id na URL.<br>2. Em <strong>Cenários</strong>, inicie <em>Abuso da API do app</em>.<br>3. Ative a R3, inicie de novo e investigue o alerta no <strong>SOC</strong>.</div>
+            <div class="rl obs"><b>Observe</b>Com a R3 desligada, a leitura das fichas fica "visto nos logs, sem alerta". Depois, confira os disparos por regra.</div>
+            <div class="rl conc"><b>Conclusão</b>Uma regra só protege depois de ligada e testada. O passo "14 contas entram" ainda pede uma regra.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. EDR -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">EDR</p>
+      <h2>EDR: os olhos dentro do <em>endpoint</em></h2>
+      <div class="slide-content-box">
+        <p>O <strong>EDR</strong> (<em>Endpoint Detection and Response</em>) é um agente instalado em computadores e servidores que registra, de forma contínua, criação de processos, alterações em arquivos e no registro do sistema, conexões de rede e carregamento de módulos.</p>
+        <ul>
+          <li>Diferentemente do antivírus tradicional, centrado em assinaturas de arquivos, o EDR reconstrói a <strong>árvore de processos</strong>: um documento do Word que abriu o PowerShell, que baixou um executável.</li>
+          <li>Além de detectar, ele permite <strong>responder</strong>: isolar a máquina da rede, encerrar processos e coletar evidências remotamente.</li>
+          <li>Como adversários tentam desativar esses agentes, a <strong>saúde do próprio sensor</strong> também precisa ser monitorada.</li>
+          <li>A MITRE mantém o <strong>D3FEND</strong>, base de conhecimento de contramedidas complementar ao ATT&amp;CK.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB EDR console -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Console de EDR</p><h2>Do alerta à resposta no console do EDR</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Usar o EDR para entender o alerta e responder.</div>
+            <div class="rl"><b>Faça</b>1. Clique em cada alerta para ver a árvore de processos.<br>2. Teste isolar, encerrar processo e coletar evidências.</div>
+            <div class="rl obs"><b>Observe</b>No NB-FIN-031, o Word abriu o PowerShell. O terceiro alerta é um sensor parado no SRV-ARQ-01.</div>
+            <div class="rl conc"><b>Conclusão</b>Isolar corta a rede, mas mantém o canal com o EDR para a investigação continuar.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-edr"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB 3D: árvore de processos -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A árvore de processos em três dimensões</h2></div><span class="lab-badge blue">EDR</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Enxergar a cadeia suspeita no meio da rotina do NB-FIN-031.</div>
+            <div class="rl"><b>Faça</b>1. Gire a cena com o mouse.<br>2. Clique em <strong>Destacar cadeia suspeita</strong>.<br>3. Clique em <strong>Isolar</strong>.</div>
+            <div class="rl obs"><b>Observe</b><code>WINWORD.EXE</code> abriu <code>powershell.exe</code>, que falou com 198.51.100.23 e gravou <code>fatura_0311.exe</code>.</div>
+            <div class="rl conc"><b>Conclusão</b>Um editor de texto abrindo um interpretador de comandos é uma relação que o antivírus por assinatura não vê.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Precisão de uma regra de PowerShell suspeito</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.8em">
+        <p>Em 30 dias, a regra disparou 400 vezes, e a investigação mostrou que 20 alertas eram verdadeiros. A equipe percebeu que 350 falsos positivos vinham do mesmo <em>script</em> de inventário e criou uma exceção restrita a ele.</p>
+        <div class="stat-grid" style="margin-top:.3rem">
+          <div class="stat-card"><span class="numero-grande">5%</span><span class="legenda">precisão antes: 20 ÷ 400 (19 de cada 20 alertas são desperdício)</span></div>
+          <div class="stat-card"><span class="numero-grande">47,5%</span><span class="legenda">precisão depois: 19 ÷ 40, no mês seguinte</span></div>
+          <div class="stat-card"><span class="numero-grande">95%</span><span class="legenda">sensibilidade depois: 19 ÷ 20 (antes, 100%)</span></div>
+        </div>
+        <p style="margin-top:.8rem">Um ataque real deixou de ser detectado. Vale a troca? Provavelmente sim, desde que a lacuna seja coberta por outra regra e que a exceção seja a mais específica possível.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. LAB calculadora de precisão -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker" style="margin:0">Laboratório · Exemplo numérico</p>
+      <div class="lab-head"><h2>Precisão e sensibilidade antes e depois do ajuste</h2><span class="lab-badge purple">Ajuste de regra</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Decidir se a exceção na regra de PowerShell vale a pena.</div>
+            <div class="rl"><b>Faça</b>1. Compare antes (400 alertas, 20 verdadeiros) e depois (40 e 19).<br>2. Simule uma exceção ampla: 15 alertas, 12 verdadeiros.</div>
+            <div class="rl obs"><b>Observe</b>Precisão olha os alertas recebidos. Sensibilidade olha os ataques que aconteceram.</div>
+            <div class="rl conc"><b>Conclusão</b>A exceção mais específica corta o ruído e perde menos ataques.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-prec"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora a regra tem prova</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Regra como código</b>A regra Sigma do vssadmin fica no repositório com eventos de exemplo e 5 testes que rodam a cada alteração.</div>
+        <div class="ev"><b>Teste da técnica</b>O teste atômico T1490, na VM isolada, gerou o evento 1 do Sysmon, e o alerta saiu em 2 segundos.</div>
+        <div class="ev"><b>Ligar e provar</b>Na plataforma, o abuso da API só gerou alerta depois que a R3 foi ativada e testada com o cenário.</div>
+        <div class="ev"><b>Ver e ajustar</b>O EDR mostra o Word abrindo o PowerShell no NB-FIN-031 e isola a máquina. A exceção restrita leva a precisão de 5% para 47,5%.</div>
+        <div class="resposta">Resposta à pergunta da aula: Rafael segue o ciclo de vida da detecção: descreve a técnica pelo ATT&amp;CK, escreve a regra em Sigma, testa com eventos de exemplo e com um teste atômico em laboratório, publica e mede precisão e sensibilidade, ajustando com exceções específicas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Engenharia de detecção aplica requisitos, testes e versionamento à criação de regras.</li>
+          <li>O Sigma permite escrever regras portáveis entre SIEMs, documentando fonte, técnica e falsos positivos.</li>
+          <li>Detecções comportamentais resistem melhor a mudanças do adversário do que indicadores.</li>
+          <li>Precisão e sensibilidade orientam o ajuste das regras.</li>
+          <li>O EDR une telemetria detalhada do <em>endpoint</em> e capacidade de resposta.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>MITRE. <em>Inhibit system recovery (T1490)</em>. MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/techniques/T1490/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>MITRE. <em>MITRE D3FEND</em>. Disponível em: &lt;https://d3fend.mitre.org/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>RED CANARY. <em>Atomic Red Team</em>. Disponível em: &lt;https://github.com/redcanaryco/atomic-red-team&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>SIGMAHQ. <em>Sigma</em>: generic signature format for SIEM systems. Disponível em: &lt;https://github.com/SigmaHQ/sigma&gt;. Acesso em: 13 nov. 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já sabe conduzir uma detecção pelo seu ciclo de vida, escrever e testar uma regra Sigma, ler uma árvore de processos no EDR e medir o ajuste com precisão e sensibilidade. Regras, porém, só encontram o que já conhecemos. Na próxima aula, vamos procurar o que nenhuma regra viu.</p>
+      <p class="fim-proxima">Próxima aula: Aula 11 — <em>Threat hunting</em> e inteligência de ameaças.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'edr', 'cep', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o EDR do notebook NB-FIN-031 e dos servidores, o motor de regras (CEP) e o SOC. Em vermelho, o SRV-ERP-01.' });
+
+/* ---------- 6. Fluxo: ciclo de vida da detecção ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 470,
+  nodes: [
+    { id: 'req', x: 550, y: 50, label: '1. Requisito', sub: 'T1490 ameaça o setor', icon: '🎯' },
+    { id: 'pes', x: 847, y: 118, label: '2. Pesquisa', sub: 'rastros e fontes', icon: '🔎' },
+    { id: 'dev', x: 920, y: 270, label: '3. Desenvolvimento', sub: 'regra Sigma', icon: '✍️', w: 190 },
+    { id: 'tes', x: 715, y: 392, label: '4. Teste', sub: 'Atomic Red Team', icon: '🧪' },
+    { id: 'imp', x: 385, y: 392, label: '5. Implantação', sub: 'SIEM em produção', icon: '🚀' },
+    { id: 'aju', x: 180, y: 270, label: '6. Ajuste', sub: 'precisão e recall', icon: '🎚️' },
+    { id: 'apo', x: 253, y: 118, label: '7. Aposentadoria', sub: 'regra sem uso', icon: '📦', w: 180 },
+    { id: 'cti', x: 550, y: 235, label: 'CTI e Red Team', sub: 'origem dos requisitos', icon: '🤝', k: 'purple', w: 200 }
+  ],
+  links: [
+    { from: 'req', to: 'pes' }, { from: 'pes', to: 'dev' }, { from: 'dev', to: 'tes' }, { from: 'tes', to: 'imp' },
+    { from: 'imp', to: 'aju' }, { from: 'aju', to: 'apo' }, { from: 'aju', to: 'dev', dashed: true, curve: 60, label: 'volta ao código' },
+    { from: 'cti', to: 'req', dashed: true }
+  ],
+  steps: [
+    { title: 'Origem', text: 'Um relatório de inteligência e o último exercício do Red Team mostram que grupos de ransomware apagam cópias de sombra antes de criptografar.', on: ['cti'] },
+    { title: '1. Requisito', text: 'Detectar a técnica T1490 (Inhibit System Recovery) em estações e servidores Windows, com severidade alta.', on: ['cti', 'req'], links: [['cti', 'req', 'purple']] },
+    { title: '2. Pesquisa', text: 'A técnica deixa rastro na criação de processos: evento 4688 com linha de comando ou Sysmon ID 1. As duas fontes estão no SIEM?', on: ['req', 'pes'], links: [['req', 'pes']] },
+    { title: '3. Desenvolvimento', text: 'A regra é escrita em Sigma, com fonte, mapeamento ATT&CK, lógica e falsos positivos esperados, e enviada para revisão de pares.', on: ['pes', 'dev'], links: [['pes', 'dev']] },
+    { title: '4. Teste', text: 'O teste do Atomic Red Team para T1490 roda em máquina isolada. Testes automatizados confirmam que a regra dispara nos positivos e não dispara nos negativos.', on: ['dev', 'tes'], links: [['dev', 'tes', 'green']] },
+    { title: '5. Implantação', text: 'A regra é convertida para a linguagem do SIEM e publicada pela esteira. O repositório registra quem aprovou e quando.', on: ['tes', 'imp'], links: [['tes', 'imp', 'green']] },
+    { title: '6. Ajuste', text: 'Uma rotina de backup legítima gera alertas. A exceção específica volta ao desenvolvimento e passa de novo pelos testes.', on: ['imp', 'aju', 'dev'], links: [['imp', 'aju', 'amber'], ['aju', 'dev', 'amber']] },
+    { title: '7. Aposentadoria', text: 'Quando a fonte de dados muda ou a técnica deixa de ser relevante, a regra é desativada com registro do motivo, e não esquecida ligada.', on: ['aju', 'apo'], links: [['aju', 'apo']] }
+  ]
+});
+
+/* ---------- 9. VS Code: Sigma, testes e conversão ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'deteccoes', team: 'blue', status: 'Python 3.12 · pySigma', open: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', panelHeight: '40%',
+  files: [
+    { path: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', hl: [14, 15, 16, 17, 18, 19], code:
+`title: Exclusão de cópias de sombra com vssadmin
+status: experimental
+description: Detecta o vssadmin apagando cópias de sombra, ação comum antes de ransomware
+references:
+  - https://attack.mitre.org/techniques/T1490/
+tags:
+  - attack.impact
+  - attack.t1490
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection:
+    Image|endswith: '\\vssadmin.exe'
+    CommandLine|contains|all:
+      - 'delete'
+      - 'shadows'
+  condition: selection
+falsepositives:
+  - Rotinas legítimas de administração de backup
+level: high`},
+    { path: 'tests/sigma_lite.py', hl: [5, 6, 7, 8, 9, 10, 11, 12], code:
+`"""Avaliador mínimo de regras Sigma para testes: uma seleção, com |endswith, |contains e |all."""
+import yaml
+
+def _casa(valor: str, modificadores: list[str], esperado) -> bool:
+    valor = valor.lower()                       # Sigma compara sem diferenciar maiúsculas
+    padroes = [p.lower() for p in (esperado if isinstance(esperado, list) else [esperado])]
+    if "endswith" in modificadores:
+        testes = [valor.endswith(p) for p in padroes]
+    elif "contains" in modificadores:
+        testes = [p in valor for p in padroes]
+    else:
+        testes = [valor == p for p in padroes]
+    return all(testes) if "all" in modificadores else any(testes)
+
+def carregar_regra(caminho: str) -> dict:
+    with open(caminho, encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+def dispara(regra: dict, evento: dict) -> bool:
+    assert regra["detection"]["condition"] == "selection", "avaliador só cobre 'selection'"
+    for chave, esperado in regra["detection"]["selection"].items():
+        campo, *mods = chave.split("|")
+        if campo not in evento or not _casa(evento[campo], mods, esperado):
+            return False
+    return True`},
+    { path: 'tests/test_vssadmin.py', hl: [12, 13, 14, 16, 17, 18], code:
+`import json
+import pytest
+from sigma_lite import carregar_regra, dispara
+
+REGRA = carregar_regra(
+    "rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml")
+
+def eventos(arquivo: str) -> list[dict]:
+    with open(f"tests/eventos/{arquivo}", encoding="utf-8") as f:
+        return json.load(f)
+
+@pytest.mark.parametrize("ev", eventos("positivos.json"), ids=lambda e: e["id"])
+def test_dispara_no_comportamento(ev):
+    assert dispara(REGRA, ev)
+
+@pytest.mark.parametrize("ev", eventos("negativos.json"), ids=lambda e: e["id"])
+def test_nao_dispara_em_uso_legitimo(ev):
+    assert not dispara(REGRA, ev)`},
+    { path: 'tests/eventos/positivos.json', code:
+`[
+  {"id": "atomic-T1490-1",
+   "Image": "C:\\\\Windows\\\\System32\\\\vssadmin.exe",
+   "CommandLine": "vssadmin.exe delete shadows /all /quiet"},
+  {"id": "maiusculas",
+   "Image": "C:\\\\WINDOWS\\\\system32\\\\VSSADMIN.EXE",
+   "CommandLine": "VSSADMIN Delete Shadows /For=C: /Oldest"}
+]`},
+    { path: 'tests/eventos/negativos.json', code:
+`[
+  {"id": "listar-copias",
+   "Image": "C:\\\\Windows\\\\System32\\\\vssadmin.exe",
+   "CommandLine": "vssadmin list shadows"},
+  {"id": "criar-copia",
+   "Image": "C:\\\\Windows\\\\System32\\\\vssadmin.exe",
+   "CommandLine": "vssadmin create shadow /for=C:"},
+  {"id": "outro-binario",
+   "Image": "C:\\\\Ferramentas\\\\backup.exe",
+   "CommandLine": "backup.exe --delete-old-shadows"}
+]`},
+    { path: '.github/workflows/deteccoes.yml', code:
+`name: deteccoes
+on: [pull_request]
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pyyaml pytest sigma-cli pysigma-backend-splunk pysigma-backend-kusto
+      - run: sigma check rules/          # sintaxe e campos obrigatórios
+      - run: pytest -q                   # positivos disparam, negativos não
+      - run: sigma convert -t splunk -p sysmon rules/ > build/splunk.spl`}
+  ],
+  run: [
+    { label: 'Rodar testes', cmd: 'pytest -v', file: 'tests/test_vssadmin.py', out: [
+      '============================= test session starts =============================',
+      'platform win32 -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0', 'rootdir: C:\\lab\\deteccoes', 'collected 5 items', '',
+      '[ok]tests/test_vssadmin.py::test_dispara_no_comportamento[atomic-T1490-1] PASSED   [ 20%]',
+      '[ok]tests/test_vssadmin.py::test_dispara_no_comportamento[maiusculas] PASSED   [ 40%]',
+      '[ok]tests/test_vssadmin.py::test_nao_dispara_em_uso_legitimo[listar-copias] PASSED   [ 60%]',
+      '[ok]tests/test_vssadmin.py::test_nao_dispara_em_uso_legitimo[criar-copia] PASSED   [ 80%]',
+      '[ok]tests/test_vssadmin.py::test_nao_dispara_em_uso_legitimo[outro-binario] PASSED   [100%]', '',
+      '[ok]============================== 5 passed in 0.07s ==============================' ] },
+    { label: 'Para SPL', kind: 'blue', cmd: 'sigma convert -t splunk -p sysmon rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', file: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', out: [
+      '[mute]Parsing Sigma rules  [####################################]  100%',
+      '[hi]EventID=1 Image="*\\\\vssadmin.exe" CommandLine="*delete*" CommandLine="*shadows*"', '',
+      '[info]O pipeline sysmon traduziu a categoria process_creation para EventID=1.' ] },
+    { label: 'Para KQL', kind: 'blue', cmd: 'sigma convert -t kusto -p microsoft_xdr rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', file: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', out: [
+      '[mute]Parsing Sigma rules  [####################################]  100%',
+      '[hi]DeviceProcessEvents',
+      '[hi]| where FolderPath endswith "\\\\vssadmin.exe" and (ProcessCommandLine contains "delete" and ProcessCommandLine contains "shadows")', '',
+      '[info]Mesma lógica, outro dialeto: os nomes de campo vêm do pipeline microsoft_xdr.' ] }
+  ]
+});
+
+/* ---------- 12. Terminal: Atomic Red Team T1490 ---------- */
+Labs.terminal('#lab-term', {
+  theme: 'windows', title: 'Administrador: Windows PowerShell · LAB-WIN11 (VM isolada)', prompt: 'PS C:\\lab> ',
+  intro: ['[mute]Rede da VM: somente host-only. Snapshot "limpo-2026-11-13" criado antes do teste.'],
+  steps: [
+    { cmd: 'Invoke-AtomicTest T1490 -ShowDetailsBrief', note: 'Lista os testes disponíveis para a técnica, sem executar nada.', out: [
+      'PathToAtomicsFolder = C:\\AtomicRedTeam\\atomics', '',
+      '[hi]T1490-1 Windows - Delete Volume Shadow Copies', 'T1490-2 Windows - Delete Volume Shadow Copies via WMI', 'T1490-3 Windows - wbadmin Delete Windows Backup Catalog', '[mute](demais testes omitidos)', ''] },
+    { cmd: 'Invoke-AtomicTest T1490 -TestNumbers 1 -CheckPrereqs', note: 'Confere os pré-requisitos do teste 1 antes de rodá-lo.', out: [
+      'CheckPrereq\'s for: T1490-1 Windows - Delete Volume Shadow Copies', '[ok]Prerequisites met: T1490-1 Windows - Delete Volume Shadow Copies', ''] },
+    { cmd: 'Invoke-AtomicTest T1490 -TestNumbers 1', note: 'O teste reproduz a técnica na VM. Do lado da defesa, o que importa é o rastro que ela deixa.', out: [
+      'PathToAtomicsFolder = C:\\AtomicRedTeam\\atomics', '',
+      '[warn]Executing test: T1490-1 Windows - Delete Volume Shadow Copies', '[mute](saída do utilitário omitida)', '[warn]Done executing test: T1490-1 Windows - Delete Volume Shadow Copies', ''] },
+    { cmd: "Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' -MaxEvents 30 | Where-Object { $_.Id -eq 1 -and $_.Message -match 'vssadmin' } | Select-Object -First 1 -ExpandProperty Message",
+      note: 'Image e CommandLine: os dois campos que a regra Sigma verifica.', out: [
+      'Process Create:', 'UtcTime: 2026-11-13 14:22:07.931', 'ProcessId: 7340',
+      '[hi]Image: C:\\Windows\\System32\\vssadmin.exe', '[hi]CommandLine: vssadmin.exe delete shadows /all /quiet', 'User: LAB-WIN11\\aluno',
+      'Hashes: SHA256=8E2B0D6F1A3C9475B6D8E0F2A4C6E8B1D3F5A7C9E1B3D5F7A9C1E3B5D7F9A1C3',
+      'ParentImage: C:\\Windows\\System32\\cmd.exe', '', '[blue]SIEM: alerta "Exclusão de cópias de sombra com vssadmin" · nível high · LAB-WIN11 · 14:22:09'] },
+    { cmd: "Restore-VMSnapshot -VMName 'LAB-WIN11' -Name 'limpo-2026-11-13' -Confirm:$false", note: 'Executado no hospedeiro Hyper-V: a VM volta ao estado anterior ao teste.', out: [
+      '[ok]Snapshot restaurado. LAB-WIN11 pronta para o próximo teste.', ''] }
+  ],
+  done: 'Teste concluído: a técnica aconteceu, a telemetria chegou e a regra disparou em 2 segundos.'
+});
+
+/* ---------- 12b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cep', reiniciar: true, regras: { R3: false } });
+
+/* ---------- 14. Console de EDR ---------- */
+Labs.register('#lab-edr', (el) => {
+  const A = [
+    { id: 'A-2291', t: 'Exclusão de cópias de sombra', host: 'LAB-WIN11', sev: 'alta', tec: 'T1490', user: 'LAB-WIN11\\aluno', hora: '14:22:09',
+      tree: [['explorer.exe', 0], ['powershell.exe  (Invoke-AtomicTest T1490)', 1], ['cmd.exe /c', 2], ['vssadmin.exe delete shadows /all /quiet', 3, 'bad']] },
+    { id: 'A-2292', t: 'Office iniciou interpretador de comandos', host: 'NB-FIN-031', sev: 'alta', tec: 'T1204.002 · T1059.001', user: 'TATAME\\carla.dias', hora: '09:41:52',
+      tree: [['explorer.exe', 0], ['OUTLOOK.EXE', 1], ['WINWORD.EXE  "repasse_academias_outubro.docm"', 2], ['powershell.exe', 3, 'bad'], ['conexão 198.51.100.23:443', 4, 'net'], ['arquivo gravado: C:\\Users\\carla.dias\\AppData\\Local\\Temp\\fatura_0311.exe', 4, 'net'], ['fatura_0311.exe  (assinatura ausente, visto em 1 máquina)', 4, 'bad']] },
+    { id: 'A-2293', t: 'Sensor sem comunicação', host: 'SRV-ARQ-01', sev: 'média', tec: 'saúde do sensor', user: 'NT AUTHORITY\\SYSTEM', hora: '07:10:00',
+      tree: [['último contato do agente: 13/11/2026 07:10', 0], ['serviço do agente: parado', 0, 'bad'], ['eventos 7036 e 7040 recebidos pelo SIEM antes do silêncio', 0, 'net']] }
+  ];
+  const state = {};
+  el.innerHTML = '<div class="edr"><div class="edr-top"><b>EDR · Console Rede Tatame</b><span>3 alertas abertos</span><span class="sp"></span><span>Sensores ativos: 148 / 149</span></div><div class="edr-list"></div><div class="edr-main"></div></div>';
+  const list = el.querySelector('.edr-list'), main = el.querySelector('.edr-main');
+  A.forEach((a, k) => {
+    const b = Labs.h('button', '', '<span class="sev sev-' + (a.sev === 'alta' ? 'alta' : 'media') + '">' + a.sev + '</span> ' + Labs.esc(a.t) + '<small>' + a.id + ' · ' + a.host + ' · ' + a.hora + '</small>');
+    b.addEventListener('click', () => show(k)); list.appendChild(b); a.b = b; state[a.host] = { iso: false, log: [] };
+  });
+  function show(k) {
+    const a = A[k], s = state[a.host];
+    A.forEach((x, j) => x.b.classList.toggle('is-on', j === k));
+    const pill = a.tec === 'saúde do sensor' ? '<span class="edr-pill off">sensor offline</span>' : s.iso ? '<span class="edr-pill iso">isolada da rede</span>' : '<span class="edr-pill on">online</span>';
+    main.innerHTML =
+      '<div class="edr-meta"><div><small>Máquina</small>' + a.host + ' ' + pill + '</div><div><small>Usuário</small>' + Labs.esc(a.user) + '</div><div><small>ATT&amp;CK</small>' + a.tec + '</div><div><small>Horário</small>' + a.hora + '</div></div>' +
+      '<div class="edr-tree">' + a.tree.map(([t, d, c]) => '<div class="' + (c || '') + '">' + '   '.repeat(d) + (d ? '└─ ' : '') + Labs.esc(t) + '</div>').join('') + '</div>' +
+      '<div class="edr-acts"></div><div class="edr-log"></div>';
+    const acts = main.querySelector('.edr-acts'), log = main.querySelector('.edr-log');
+    const btns = a.tec === 'saúde do sensor'
+      ? [['Abrir chamado para a TI', 'blue', ['Chamado INC-88412 aberto para a equipe de servidores.', 'Regra de correlação: sensor parado + falta de eventos = investigar a máquina.']]]
+      : [['Isolar máquina', 'red', null], ['Encerrar processo', 'blue', ['Processo ' + (k === 0 ? 'vssadmin.exe (7340)' : 'powershell.exe (5512) e fatura_0311.exe (6020)') + ' encerrado.']],
+         ['Coletar evidências', 'blue', ['Pacote de coleta solicitado: lista de processos, conexões, tarefas agendadas e arquivos recentes.', 'SHA-256 do pacote registrado no caso ' + a.id + '.']]];
+    btns.forEach(([lbl, cls, msg]) => {
+      const b = Labs.h('button', 'lab-btn ' + cls, lbl); acts.appendChild(b);
+      b.addEventListener('click', () => {
+        if (!msg) { s.iso = !s.iso; s.log.push(s.iso ? a.host + ' isolada: só o canal com o console do EDR continua aberto.' : a.host + ' liberada de volta para a rede.'); show(k); return; }
+        msg.forEach((m) => s.log.push(m)); draw();
+      });
+    });
+    function draw() { log.innerHTML = s.log.length ? s.log.map((m) => '<span class="o-ok">✔</span> ' + Labs.esc(m)).join('\n') : '<span class="o-mute">Nenhuma ação de resposta registrada neste alerta.</span>'; }
+    draw();
+  }
+  show(0);
+});
+
+/* ---------- 15. Cena 3D: árvore de processos ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  root.position.y = 0.6;
+  const N = {
+    explorer: { p: [0, 4, 0], t: 'explorer.exe' },
+    chrome: { p: [-6, 1.6, 1.5], t: 'chrome.exe', par: 'explorer' },
+    teams: { p: [-3, 1.6, -2.5], t: 'Teams.exe', par: 'explorer' },
+    onedrive: { p: [7.5, 1.6, -1.5], t: 'OneDrive.exe', par: 'explorer' },
+    outlook: { p: [2, 1.6, 1.5], t: 'OUTLOOK.EXE', par: 'explorer' },
+    renderer: { p: [-6.5, -1, 3], t: 'chrome.exe (aba)', par: 'chrome' },
+    word: { p: [2.5, -1, 2], t: 'WINWORD.EXE', par: 'outlook', bad: 1 },
+    ps: { p: [3, -3.6, 2.5], t: 'powershell.exe', par: 'word', bad: 1 },
+    net: { p: [7.4, -2.4, 0.5], t: '198.51.100.23:443', par: 'ps', bad: 1, net: 1 },
+    exe: { p: [3.5, -6.2, 3], t: 'fatura_0311.exe', par: 'ps', bad: 1 }
+  };
+  const mats = {}, lines = [];
+  Object.entries(N).forEach(([k, n]) => {
+    const col = n.net ? 0xF2CB0A : n.bad ? 0xFF2B5F : 0x00B1D2;
+    const m = new THREE.Mesh(n.net ? new THREE.OctahedronGeometry(0.55) : new THREE.SphereGeometry(0.5, 24, 24),
+      new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.35, roughness: 0.4 }));
+    m.position.set(...n.p); root.add(m); n.m = m; mats[k] = m.material;
+    const l = c.label(n.t, { color: n.bad ? '#FF8BA3' : '#E6EDF3', scale: 1.35 }); l.position.set(n.p[0], n.p[1] + 1.05, n.p[2]); root.add(l);
+    if (n.par) {
+      const a = new THREE.Vector3(...N[n.par].p), b = new THREE.Vector3(...n.p);
+      const g = new THREE.BufferGeometry().setFromPoints([a, b]);
+      const ln = new THREE.Line(g, new THREE.LineBasicMaterial({ color: n.bad && N[n.par].bad ? 0xFF2B5F : 0x3A5A8C }));
+      root.add(ln); lines.push({ ln, a, b, bad: !!(n.bad && N[n.par].bad), k });
+    }
+  });
+  const dots = lines.filter((l) => l.bad).map((l, j) => { const d = new THREE.Mesh(new THREE.SphereGeometry(0.14, 10, 10), new THREE.MeshBasicMaterial({ color: 0xffffff })); root.add(d); return { d, l, o: j * 0.25 }; });
+  let foco = false, iso = false;
+  const ctl = c.controls('<button class="lab-btn red">Destacar cadeia suspeita</button><button class="lab-btn ghost">Isolar NB-FIN-031</button>');
+  const [bF, bI] = ctl.querySelectorAll('button');
+  bF.addEventListener('click', () => {
+    foco = !foco; bF.classList.toggle('ghost', foco);
+    Object.values(N).forEach((n) => { n.m.material.transparent = true; n.m.material.opacity = foco && !n.bad ? 0.15 : 1; });
+  });
+  bI.addEventListener('click', () => {
+    iso = !iso; bI.classList.toggle('ghost', !iso); bI.textContent = iso ? 'Máquina isolada (clique para liberar)' : 'Isolar NB-FIN-031';
+    mats.net.color.set(iso ? 0x555555 : 0xF2CB0A); mats.net.emissive.set(iso ? 0x222222 : 0xF2CB0A);
+  });
+  c.onFrame((t) => {
+    dots.forEach((p) => { const u = (t * 0.5 + p.o) % 1; p.d.position.lerpVectors(p.l.a, p.l.b, u); p.d.visible = !(iso && p.l.k === 'net'); });
+    N.ps.m.scale.setScalar(1 + Math.sin(t * 4) * 0.12); N.exe.m.scale.setScalar(1 + Math.sin(t * 4 + 1) * 0.12);
+  });
+  c.legend('<i style="background:#00B1D2"></i>Processo de rotina<br><i style="background:#FF2B5F"></i>Cadeia suspeita<br><i style="background:#F2CB0A"></i>Conexão de rede<br><i style="background:#555"></i>Conexão cortada pelo isolamento');
+}, { camera: [0, 1.5, 20], autoRotate: false, hint: 'Arraste para girar · role para aproximar', fallback: 'Cadeia: OUTLOOK.EXE → WINWORD.EXE → powershell.exe → 198.51.100.23 e fatura_0311.exe.' });
+
+/* ---------- 17. Calculadora de precisão e sensibilidade ---------- */
+Labs.register('#lab-prec', (el) => {
+  const pct = (v) => (isFinite(v) ? (v * 100).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + '%' : '-');
+  el.innerHTML = `
+  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.5rem;overflow:auto">
+    <label class="lab-range">Ataques reais no período <output id="o-at"></output><input id="i-at" type="range" min="1" max="60" value="20"></label>
+    <div class="lab-grid2">
+      <div>
+        <h4>Antes da exceção</h4>
+        <label class="lab-range">Alertas gerados <output id="o-a0"></output><input id="i-a0" type="range" min="1" max="600" value="400"></label>
+        <label class="lab-range">Alertas verdadeiros <output id="o-v0"></output><input id="i-v0" type="range" min="0" max="60" value="20"></label>
+      </div>
+      <div>
+        <h4>Depois da exceção</h4>
+        <label class="lab-range">Alertas gerados <output id="o-a1"></output><input id="i-a1" type="range" min="1" max="600" value="40"></label>
+        <label class="lab-range">Alertas verdadeiros <output id="o-v1"></output><input id="i-v1" type="range" min="0" max="60" value="19"></label>
+      </div>
+    </div>
+    <div class="lab-grid2">
+      <div style="display:grid;gap:.45rem"><div class="lab-kpi red"><small>Precisão antes</small><b id="k-p0"></b></div><div class="lab-kpi blue"><small>Sensibilidade antes</small><b id="k-r0"></b></div><div class="lab-kpi"><small>Falsos positivos antes</small><b id="k-f0"></b></div></div>
+      <div style="display:grid;gap:.45rem"><div class="lab-kpi green"><small>Precisão depois</small><b id="k-p1"></b></div><div class="lab-kpi blue"><small>Sensibilidade depois</small><b id="k-r1"></b></div><div class="lab-kpi"><small>Falsos positivos depois</small><b id="k-f1"></b></div></div>
+    </div>
+    <p id="prec-msg" style="margin:0;color:#C9D4E5;font-size:.95rem"></p>
+  </div>`;
+  const $ = (id) => el.querySelector('#' + id);
+  function calc() {
+    const at = +$('i-at').value;
+    ['0', '1'].forEach((s) => { const a = $('i-a' + s), v = $('i-v' + s); v.max = Math.min(+a.value, at); if (+v.value > +v.max) v.value = v.max; });
+    const a0 = +$('i-a0').value, v0 = +$('i-v0').value, a1 = +$('i-a1').value, v1 = +$('i-v1').value;
+    ['at', 'a0', 'v0', 'a1', 'v1'].forEach((k) => ($('o-' + k).textContent = $('i-' + k).value));
+    $('k-p0').textContent = pct(v0 / a0); $('k-p1').textContent = pct(v1 / a1);
+    $('k-r0').textContent = pct(v0 / at); $('k-r1').textContent = pct(v1 / at);
+    $('k-f0').textContent = a0 - v0; $('k-f1').textContent = a1 - v1;
+    const perdidos = at - v1;
+    $('prec-msg').textContent = 'Depois do ajuste: ' + (a1 - v1) + ' alertas falsos e ' + perdidos + (perdidos === 1 ? ' ataque não detectado' : ' ataques não detectados') + '. ' +
+      (perdidos > at - v0 ? 'A lacuna nova precisa ser coberta por outra regra.' : 'Nenhuma perda de sensibilidade.');
+  }
+  el.querySelectorAll('input').forEach((i) => i.addEventListener('input', calc));
+  calc();
+});
+</script>
+</body>
+</html>

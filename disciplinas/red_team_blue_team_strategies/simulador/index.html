@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Rede Tatame — Red Team &amp; Blue Team Strategies</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="alternate icon" type="image/png" href="../assets/favicon.png">
+<link rel="apple-touch-icon" href="../assets/favicon.png">
+<link rel="stylesheet" href="simulador.css">
+</head>
+<body>
+<script>
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.body.classList.add('embed');
+  // Dentro do slide: o layout foi pensado para ~880 px de largura; em telas maiores, amplia.
+  const z = () => { const s = Math.max(1, Math.min(2.2, innerWidth / 880)); document.documentElement.style.zoom = s; document.documentElement.style.setProperty('--z', s); };
+  z(); addEventListener('resize', z);
+}
+</script>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <span>Red Team &amp; Blue Team Strategies · Simulador</span>
+      <strong>Plataforma da Rede Tatame</strong>
+      <a href="../index.html">Portal da disciplina</a>
+    </div>
+    <div class="clock"><b id="relogio">09:00:00</b><small id="relogio-sub">seg 16/11/2026 · relógio simulado</small></div>
+    <div class="ctrl">
+      <label for="velocidade">Velocidade</label>
+      <select id="velocidade">
+        <option value="5">1 s = 5 s</option>
+        <option value="15" selected>1 s = 15 s</option>
+        <option value="60">1 s = 1 min</option>
+        <option value="240">1 s = 4 min</option>
+      </select>
+      <button class="btn go" id="btn-rodar">Iniciar</button>
+      <button class="btn" id="btn-reiniciar">Reiniciar</button>
+    </div>
+  </div>
+  <nav class="tabs" id="abas">
+    <a href="#arquitetura"><span class="n">1</span>Arquitetura</a>
+    <a href="#trafego"><span class="n">2</span>Requisições</a>
+    <a href="#eventos"><span class="n">3</span>Filas e eventos</a>
+    <a href="#telemetria"><span class="n">4</span>Telemetria</a>
+    <a href="#cep"><span class="n">5</span>Regras do CEP</a>
+    <a href="#cenarios"><span class="n">6</span>Cenários</a>
+    <a href="#soc"><span class="n">7</span>SOC<span class="badge" id="badge-soc"></span></a>
+    <a href="#superficie"><span class="n">8</span>Superfície</a>
+    <a href="#cobertura"><span class="n">9</span>Cobertura ATT&amp;CK</a>
+  </nav>
+</header>
+
+<main>
+  <section class="view" id="v-arquitetura">
+    <div class="head"><span class="k">Visão geral</span><h1>A plataforma distribuída da Rede Tatame</h1>
+      <p>240 academias e 36.000 alunos em quatro regiões. App do aluno, portal das academias e catracas falam com o API gateway; os microsserviços publicam no Kafka; o CEP correlaciona os eventos em tempo real e o SOC recebe os alertas. Clique em um componente para ver o que ele guarda e que telemetria envia. Tudo aqui é fictício.</p></div>
+    <div class="grid">
+      <div class="panel c8 arch"><svg id="arch" viewBox="0 0 1180 640" role="img" aria-label="Diagrama da arquitetura da plataforma"></svg>
+        <div class="legend"><span><i style="background:#00B1D2"></i>requisição legítima</span><span><i style="background:#FF2B5F"></i>ação do cenário (Red Team)</span><span><i style="background:#F2CB0A"></i>alerta gerado</span><span><i style="background:#3FD47A"></i>componente isolado</span></div>
+      </div>
+      <div class="c4" style="display:flex;flex-direction:column;gap:12px">
+        <div class="panel"><h2>Componente <small id="no-nome">clique no diagrama</small></h2><div id="no-info" class="hint">Cada caixa mostra o papel do componente, os dados que guarda, se fica exposto à internet e para onde manda os registros.</div></div>
+        <div class="panel"><h2>Agora <small>desde o início da simulação</small></h2><div class="kpis" id="kpis-geral"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-trafego">
+    <div class="head"><span class="k">Frontend e API</span><h1>Requisições chegando ao API gateway</h1>
+      <p>Cada linha é uma requisição registrada pelo gateway: origem, rota, status, latência e o aluno já anonimizado. As linhas vermelhas vêm do cenário em execução. É desse registro que o WAF e as regras do CEP tiram os sinais de abuso.</p></div>
+    <div class="grid">
+      <div class="panel c8"><h2>Log do gateway <small><label><input type="checkbox" id="so-atk"> só o cenário</label></small></h2><div class="scroll tall"><table id="tb-req"></table></div></div>
+      <div class="c4" style="display:flex;flex-direction:column;gap:12px">
+        <div class="panel"><h2>Requisições por serviço <small>último minuto simulado</small></h2><div class="bars" id="bars-svc"></div></div>
+        <div class="panel"><h2>Status HTTP <small>último minuto</small></h2><div class="bars" id="bars-status"></div><p class="hint">Uma rajada de 401 e 404 vinda de poucos IPs é o rastro típico de <em>credential stuffing</em> e de varredura.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-eventos">
+    <div class="head"><span class="k">Mensageria</span><h1>Tópicos Kafka, partições e consumidores</h1>
+      <p>Os serviços publicam em três tópicos. A chave de <code>tatame.eventos</code> é a academia, então os eventos de uma academia ficam na mesma partição e em ordem. Três grupos consomem o mesmo log: o CEP, o data lake e o encaminhador do SIEM. A distância entre o fim do log e o que o grupo já leu é o <em>lag</em>.</p></div>
+    <div class="grid">
+      <div class="panel c7"><h2>Tópico <select id="sel-topico"><option>tatame.eventos</option><option>tatame.auditoria</option><option>tatame.seguranca</option></select></h2>
+        <div class="parts" id="parts"></div>
+        <h2 style="margin-top:12px">Grupos de consumidores</h2><div class="bars" id="bars-lag"></div>
+        <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" id="btn-parar-siem">Parar o encaminhador do SIEM</button><span class="hint">Com o consumidor parado, os eventos continuam no Kafka, mas o SOC deixa de vê-los e o lag cresce.</span></div>
+      </div>
+      <div class="panel c5"><h2>Últimas mensagens <small id="msg-info"></small></h2><div class="msg" id="msgs"></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-telemetria">
+    <div class="head"><span class="k">Blue Team · Fontes</span><h1>Que telemetria chega ao SIEM</h1>
+      <p>Uma regra só dispara se a fonte de dados que ela usa estiver ligada. Desligue uma fonte e rode um cenário: o passo acontece, mas ninguém vê. Os números de eventos por segundo são da amostra simulada.</p></div>
+    <div class="grid"><div class="panel c7"><h2>Fontes de dados</h2><div id="lst-fontes"></div></div>
+      <div class="panel c5"><h2>Volume e custo <small>estimativa da amostra</small></h2><div class="kpis" id="kpis-fontes"></div><div class="bars" id="bars-fontes" style="margin-top:10px"></div><p class="hint">Cada fonte custa armazenamento e licença. Ligar tudo não é de graça; desligar a fonte errada abre um ponto cego.</p></div></div>
+  </section>
+
+  <section class="view" id="v-cep">
+    <div class="head"><span class="k">Detecção em tempo real</span><h1>Regras do motor de CEP</h1>
+      <p>O CEP lê os tópicos e procura padrões em sequência e em janelas de tempo. Algumas regras vêm desligadas de propósito: são as lacunas que as aulas descobrem e corrigem. Ligue, desligue e veja o efeito no SOC e na cobertura.</p></div>
+    <div class="grid"><div class="panel c8"><h2>Regras <small id="cep-resumo"></small></h2><div id="lst-regras"></div></div>
+      <div class="panel c4"><h2>Disparos por regra</h2><div class="bars" id="bars-regras"></div></div></div>
+  </section>
+
+  <section class="view" id="v-cenarios">
+    <div class="head"><span class="k">Red Team · Exercícios autorizados</span><h1>Cenários de ataque simulados</h1>
+      <p>Cada cenário é uma sequência de passos com técnica do MITRE ATT&amp;CK, a fonte de dados que o registraria e a regra que o detectaria. Os passos aparecem no tráfego, nos tópicos e no SOC. Conter um alerta no SOC interrompe o cenário.</p></div>
+    <div class="grid"><div class="panel c12"><div class="cards" id="cards-cen"></div></div>
+      <div class="panel c12 timeline"><h2>Linha do tempo <small id="cen-nome">nenhum cenário em execução</small> <button class="btn sm purple" id="btn-repetir" style="display:none">Repetir com as fontes e regras atuais</button></h2><ul class="steps" id="cen-passos"></ul><div class="kpis" id="kpis-cen" style="margin-top:10px"></div></div></div>
+  </section>
+
+  <section class="view" id="v-soc">
+    <div class="head"><span class="k">Blue Team · SOC</span><h1>Fila de alertas do SOC</h1>
+      <p>Alertas gerados pelo CEP. Investigue para ver os eventos relacionados; marque falso positivo ou contenha. Conter isola o componente afetado e interrompe o cenário. O tempo até o alerta (MTTD) e até a contenção (MTTR) é medido no relógio simulado.</p></div>
+    <div class="grid"><div class="panel c12"><div class="kpis" id="kpis-soc"></div></div>
+      <div class="panel c8"><h2>Alertas</h2><div class="scroll tall"><table id="tb-alertas"></table></div></div>
+      <div class="panel c4"><h2>Investigação <small id="inv-id"></small></h2><div id="inv" class="hint">Clique em "Investigar" em um alerta.</div></div></div>
+  </section>
+
+  <section class="view" id="v-superficie">
+    <div class="head"><span class="k">Red Team · Reconhecimento e vulnerabilidades</span><h1>Superfície externa e vulnerabilidades</h1>
+      <p>O que um levantamento externo encontra sobre a Rede Tatame e como a equipe prioriza a correção. A coluna de risco combina CVSS, EPSS, presença no catálogo KEV e criticidade do ativo. Os ativos e as notas são fictícios; os CVEs são reais.</p></div>
+    <div class="grid"><div class="panel c12"><h2>Ativos expostos <small><label><input type="checkbox" id="ord-risco" checked> ordenar por risco</label></small></h2><div class="scroll tall"><table id="tb-ativos"></table></div><div class="note" id="sup-nota"></div></div></div>
+  </section>
+
+  <section class="view" id="v-cobertura">
+    <div class="head"><span class="k">Purple Team</span><h1>Cobertura das técnicas dos cenários</h1>
+      <p>Cada técnica usada nos cenários aparece com o estado da defesa: <b>comprovada</b> (regra ativa e já testada com sucesso), <b>detectável</b> (regra e fonte ativas, ainda sem teste), <b>parcial</b> (há telemetria, mas falta regra) ou <b>cega</b> (nem telemetria). Rode os cenários, ajuste fontes e regras e retestem.</p></div>
+    <div class="grid"><div class="panel c12"><div class="kpis" id="kpis-cob"></div></div><div class="panel c12"><div class="matrix" id="matrix"></div></div></div>
+  </section>
+</main>
+
+<script src="simulador.js"></script>
+</body>
+</html>

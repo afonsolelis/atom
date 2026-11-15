@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 14 — Métricas de detecção e resposta e cobertura ATT&amp;CK</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .vd-list { display: grid; gap: .5rem; overflow: auto; min-height: 0; }
+  .vd-item { display: grid; grid-template-columns: 1fr auto; gap: .3rem .8rem; align-items: center; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .55em .8em; }
+  .vd-item p { margin: 0; color: #fff; font: 600 .95rem var(--fonte); }
+  .vd-item .bt { display: flex; gap: .35rem; }
+  .vd-item .fb { grid-column: 1 / -1; font: .85rem/1.4 var(--fonte); color: #C9D4E5; display: none; }
+  .vd-item.ok { border-color: #3FD47A; } .vd-item.ok .fb { display: block; }
+  .vd-item.bad { border-color: #FF5C7A; } .vd-item.bad .fb { display: block; }
+  .hm { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; flex: 1; min-height: 0; align-content: start; }
+  .hm h5 { margin: 0; hyphens: auto; overflow-wrap: break-word; letter-spacing: 0 !important; font: 700 max(11px, .82vw) var(--fonte); color: #9FB0C8; text-transform: uppercase; letter-spacing: .03em; min-height: 2.6em; }
+  .hm .col { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .hm button { overflow-wrap: break-word; hyphens: manual; text-align: left; border: 1px solid transparent; border-radius: 6px; padding: 6px 7px; font: 600 max(12px, 1vw)/1.25 var(--fonte); color: #06121F; cursor: pointer; min-height: 52px; transition: background .4s; }
+  .hm button small { display: block; font-weight: 500; font-size: max(11px, .86vw); opacity: .85; }
+  .hm button.g { background: #3FD47A; } .hm button.y { background: #F2CB0A; } .hm button.n { background: #3A4560; color: #C9D4E5; }
+  .hm button.sel { outline: 2px solid #fff; }
+  .hm-det { font: max(13px, 1vw)/1.45 var(--fonte); color: #DCE3EE; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: 8px 12px; min-height: 4.6em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 4|Aula 14 — Videoaula 14">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 14 — Métricas de detecção e resposta e cobertura ATT&amp;CK</h1>
+      <div class="subtitulo">Unidade 4 — Purple Team e estratégia de segurança</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios, todos sobre a plataforma fictícia da Rede Tatame: um classificador de seis indicadores em métrica de vaidade ou de decisão; um editor VS Code com um script em Python que calcula média e mediana do MTTD e do MTTR de dez incidentes; um mapa de calor da matriz ATT&amp;CK que parece inteiramente verde até mostrar quais regras foram testadas; uma escada em 3D com os quatro níveis do NIST CSF 2.0; e um console de SIEM que compara os alertas de janeiro com os de depois de três ciclos de <em>purple teaming</em>; e o simulador da plataforma, em que se marca um falso positivo, se contém um alerta e se leem MTTD, MTTR e cobertura no painel do SOC.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Métricas de detecção e resposta e cobertura ATT&amp;CK</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema de hoje na Rede Tatame</li>
+          <li>Métrica de vaidade e métrica de decisão</li>
+          <li>Métricas de tempo: MTTD, MTTR e <em>dwell time</em></li>
+          <li>Laboratório: média e mediana em Python</li>
+          <li>Métricas de qualidade da detecção</li>
+          <li>Cobertura ATT&amp;CK e suas armadilhas</li>
+          <li>Modelos de maturidade, em 3D</li>
+          <li>Do número à decisão</li>
+          <li>Exemplo numérico no SIEM: antes e depois</li>
+          <li>Plataforma Rede Tatame: as métricas no SOC</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>"Bloqueamos 2 milhões de ataques este ano"</h2>
+      <div class="problema">
+        <div class="historia">
+          <p><strong>Marina Prado</strong> é a CISO (diretora de segurança da informação) da Rede Tatame. Todo trimestre ela leva um relatório de segurança à diretoria.</p>
+          <p>O último relatório abria com "bloqueamos 2 milhões de ataques". Um diretor perguntou: "Estamos melhorando? Onde investir? Qual risco ainda aceitamos?". O número não respondia a nenhuma das três.</p>
+          <p>O que está em jogo: o orçamento do próximo ano e a confiança da diretoria no SOC (centro de operações de segurança) de Luiza Ferraz.</p>
+          <div class="pergunta">Quais números mostram à diretoria se a detecção e a resposta da Rede Tatame estão melhorando?</div>
+          <div class="papeis"><span><b>CISO</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Pergunta</b> a diretoria</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. LAB vaidade x decisão -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Classificação</p><h2>Vaidade ou decisão?</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Separar os números que impressionam dos que ajudam a decidir.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Leia cada indicador do relatório de Marina Prado.</p><p>2. Clique em "Vaidade" ou "Decisão" e leia a explicação.</p></div>
+            <div class="rl obs"><b>Observe</b><p>Pergunte: se este número piorar, alguém muda alguma coisa? Indicadores de decisão têm meta, dono e consequência.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Só três dos seis indicadores ajudam a diretoria a decidir.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vaidade"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Métricas de tempo -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Velocidade</p>
+      <h2>Métricas de tempo: MTTD, MTTR e <em>dwell time</em></h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>MTTD</strong> (<em>mean time to detect</em>): tempo médio entre o início de uma atividade maliciosa e sua detecção.</li>
+          <li><strong>MTTR</strong> (<em>mean time to respond</em>): tempo médio entre a detecção e a contenção.</li>
+          <li><strong><em>Dwell time</em></strong> (tempo de permanência): período em que o atacante fica no ambiente sem ser descoberto. Os relatórios M-Trends, da Mandiant, mostram que a mediana global caiu de centenas de dias, no início da década de 2010, para cerca de dez dias em 2023, evidência de que investir em detecção funciona.</li>
+        </ul>
+        <div class="callout-azul"><p>Dois cuidados. Médias são sensíveis a valores extremos: um único incidente esquecido por 90 dias distorce a média do trimestre, por isso acompanhe também a <strong>mediana</strong>. E defina com precisão os marcos de início e fim; se cada analista marca o "momento da detecção" de um jeito, a métrica deixa de ser comparável.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB VS Code: média x mediana -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Média e mediana de dez incidentes</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Medir o tempo de detecção e de resposta sem ser enganado por um caso extremo.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Abra <code>marcos.yaml</code>: o que conta como início, detecção e contenção.</p><p>2. Rode <code>metricas.py</code> sobre os dez incidentes do trimestre.</p></div>
+            <div class="rl obs"><b>Observe</b><p>O MTTR médio é 217,8 h; a mediana é 2 h. O INC-07, esquecido por 90 dias, puxa a média.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Reporte média e mediana, e trate o caso extremo à parte.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Qualidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Qualidade</p>
+      <h2>Métricas de qualidade da detecção</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Métrica</th><th>Fórmula ou definição</th><th>O que revela</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Precisão dos alertas</strong></td><td>verdadeiros positivos ÷ total de alertas</td><td>Quanto do trabalho do SOC é útil</td></tr>
+            <tr><td><strong>Taxa de falsos positivos</strong></td><td>falsos positivos ÷ total de alertas</td><td>Ruído e risco de fadiga de alertas</td></tr>
+            <tr><td><strong>Cobertura ATT&amp;CK testada</strong></td><td>técnicas com detecção validada ÷ técnicas priorizadas</td><td>Lacunas frente às ameaças relevantes</td></tr>
+            <tr><td><strong>Visibilidade</strong></td><td>técnicas com telemetria disponível ÷ técnicas priorizadas</td><td>Se há dados para detectar</td></tr>
+            <tr><td><strong>Taxa de reteste</strong></td><td>ações de melhoria retestadas ÷ ações concluídas</td><td>Se as correções foram comprovadas</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.7em">A <strong>fadiga de alertas</strong> é um risco real: quando a maior parte dos alertas é falsa, os analistas passam a fechá-los rapidamente e acabam ignorando o verdadeiro. Reduzir ruído é uma melhoria de segurança, e não apenas de produtividade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Cobertura ATT&CK -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Cobertura</p>
+      <h2>Cobertura ATT&amp;CK e suas três armadilhas</h2>
+      <div class="slide-content-box">
+        <p>Mapear as detecções na matriz ATT&amp;CK com o ATT&amp;CK Navigator gera um mapa de calor muito comunicativo, desde que bem interpretado.</p>
+        <ol>
+          <li><strong>Contar a técnica como coberta porque existe uma regra</strong>, sem nunca tê-la testado. O indicador relevante é a cobertura <strong>testada</strong>, alimentada pelos ciclos de <em>purple teaming</em>.</li>
+          <li><strong>Tratar todas as técnicas como iguais.</strong> Uma técnica pode ser executada de muitas formas (procedimentos), e uma regra pode detectar apenas uma delas.</li>
+          <li><strong>Buscar 100% da matriz.</strong> O objetivo é cobrir as técnicas priorizadas pela inteligência de ameaças, e não todas as existentes.</li>
+        </ol>
+        <div class="callout-azul"><p>Frameworks abertos tornam a avaliação mais rigorosa. O DeTT&amp;CT propõe pontuar separadamente a <strong>visibilidade</strong> (qualidade das fontes de dados) e a <strong>detecção</strong> de cada técnica, em níveis, em vez de usar apenas "coberto ou não coberto".</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB heatmap -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Mapa de calor</p><h2>A <em>layer</em> toda verde</h2></div><span class="lab-badge purple">ATT&amp;CK</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Ver se a cobertura ATT&amp;CK mede detecção de verdade ou só a existência de regras.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Troque a visão para "Cobertura testada".</p><p>2. Clique em uma técnica para ver visibilidade (0 a 4) e detecção (0 a 5).</p></div>
+            <div class="rl obs"><b>Observe</b><p>As 20 técnicas têm regra, mas só 10 foram testadas: a cobertura cai de 100% para 50%.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Regra nunca testada é hipótese, não cobertura.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-heat"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Maturidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Capacidade</p>
+      <h2>Modelos de maturidade</h2>
+      <div class="slide-content-box">
+        <p>Métricas operacionais mostram o desempenho; <strong>modelos de maturidade</strong> mostram a capacidade da organização de sustentá-lo.</p>
+        <ul>
+          <li>O <strong>NIST CSF 2.0</strong> descreve quatro níveis (<em>tiers</em>) para o rigor da governança e da gestão de riscos cibernéticos: <strong>Parcial</strong>, <strong>Informado por riscos</strong>, <strong>Repetível</strong> e <strong>Adaptativo</strong>.</li>
+          <li>Na operação de SOC, modelos como o <strong>SOC-CMM</strong> avaliam pessoas, processos, tecnologia e serviços.</li>
+        </ul>
+        <div class="callout-azul"><p>O valor de um modelo de maturidade está menos na nota e mais no diálogo que ele provoca sobre <strong>onde a organização quer chegar</strong> e o que falta para isso.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB 3D escada -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A escada dos <em>tiers</em> do CSF 2.0</h2></div><span class="lab-badge">Governança</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Mostrar à diretoria onde a Rede Tatame está e aonde quer chegar.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique em "Hoje" e em "Meta em 18 meses".</p><p>2. Compare as quatro colunas do SOC-CMM (modelo de maturidade de SOC, de 1 a 5).</p></div>
+            <div class="rl obs"><b>Observe</b><p>Hoje a Rede Tatame está no <em>tier</em> 2 do NIST CSF 2.0; a meta é o 3. Processos é a coluna mais baixa.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>A coluna mais baixa indica por onde começar.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Do número à decisão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comunicação</p>
+      <h2>Do número à decisão</h2>
+      <div class="slide-content-box">
+        <p>Um bom painel tem poucos indicadores, cada um com <strong>dono, meta, fonte de dados e periodicidade</strong>. Exemplo fictício:</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Indicador</th><th>Dono</th><th>Meta</th><th>Fonte</th><th>Periodicidade</th></tr></thead>
+          <tbody>
+            <tr><td>MTTD mediano</td><td>Coordenação do SOC</td><td>≤ 6 h</td><td>Sistema de casos</td><td>Mensal</td></tr>
+            <tr><td>Precisão dos alertas</td><td>Engenharia de detecção</td><td>≥ 25%</td><td>SIEM</td><td>Mensal</td></tr>
+            <tr><td>Cobertura testada das técnicas priorizadas</td><td>Líder <em>purple</em></td><td>≥ 70%</td><td><em>Layers</em> do Navigator</td><td>Por ciclo</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.6em">Para a diretoria, interessam tendências e risco: "a cobertura das técnicas mais usadas contra o nosso setor subiu de 45% para 72% no semestre" comunica mais do que qualquer número de alertas.</p>
+        <div class="callout-azul"><p><strong>Lei de Goodhart</strong>: quando uma métrica vira meta, ela tende a deixar de ser uma boa métrica. Se o SOC for cobrado apenas por MTTR, pode fechar incidentes cedo demais.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Antes e depois do <em>purple teaming</em></h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Indicador</th><th>Janeiro</th><th>Após três ciclos</th><th>Cálculo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Alertas por mês</strong></td><td>1.200</td><td>600</td><td></td></tr>
+            <tr><td><strong>Verdadeiros positivos</strong></td><td>180</td><td>150</td><td></td></tr>
+            <tr><td><strong>Precisão</strong></td><td>15%</td><td>25%</td><td>180 ÷ 1.200 e 150 ÷ 600</td></tr>
+            <tr><td><strong>MTTD mediano</strong></td><td>18 h</td><td>4 h</td><td>(18 − 4) ÷ 18 ≈ 78% de redução</td></tr>
+            <tr><td><strong>MTTR</strong></td><td>9 h</td><td>3 h</td><td>(9 − 3) ÷ 9 ≈ 67% de redução</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.7em">A melhora veio do ajuste de regras e da automação da triagem. E por que os verdadeiros positivos caíram de 180 para 150? Parte dos "positivos" anteriores eram duplicados de um mesmo incidente, consolidados pela nova correlação. Toda métrica precisa de contexto.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB SIEM -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>A conta na tela, regra por regra</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Provar com dados que três ciclos <em>purple</em> melhoraram a detecção.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique nas buscas salvas, à esquerda, na ordem.</p><p>2. Some a coluna de alertas: 1.200 em janeiro, 600 depois.</p></div>
+            <div class="rl obs"><b>Observe</b><p>A precisão sobe de 15% para 25% e o MTTD mediano cai de 18 h para 4 h. Os verdadeiros positivos caem porque duplicados foram agrupados.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Toda métrica precisa de contexto antes de ir à diretoria.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15b. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>As métricas no painel do SOC</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Ler MTTD, MTTR e falsos positivos no painel do SOC.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Em <strong>Cenários</strong>, com "1 s = 1 min", inicie a <em>Emulação do Grupo Cobalto Austral</em>.</p><p>2. Em <strong>SOC</strong>, marque o R11 do <code>svc-backup</code> (exceção documentada) como "Falso positivo".</p><p>3. No R11 de <code>caio.mendes</code>: "Investigar" e "Conter".</p></div>
+            <div class="rl obs"><b>Observe</b><p>O MTTD médio aparece logo; o MTTR, depois da contenção. Em <strong>Cobertura ATT&amp;CK</strong>, só 1 técnica está comprovada.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Regra sem teste não é cobertura.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15c. De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora o relatório responde à diretoria</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Cortar a vaidade</b>Saem os "2 milhões de ataques"; ficam indicadores com meta, dono e consequência.</div>
+        <div class="ev"><b>Tempo com mediana</b>MTTD e MTTR com média e mediana: um caso esquecido não esconde o trimestre.</div>
+        <div class="ev"><b>Cobertura testada</b>Das 20 técnicas com regra, só 10 foram testadas: a cobertura real é 50%.</div>
+        <div class="ev"><b>Antes e depois</b>Precisão de 15% para 25% e MTTD mediano de 18 h para 4 h após três ciclos.</div>
+        <div class="resposta">Resposta à pergunta da aula: MTTD e MTTR com mediana, precisão dos alertas e cobertura ATT&amp;CK testada, comparados ao longo do tempo e explicados com contexto.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Métricas devem apoiar decisões, e não apenas contar eventos.</li>
+          <li>MTTD, MTTR e <em>dwell time</em> medem velocidade; precisão e taxa de falsos positivos medem qualidade.</li>
+          <li>Cobertura ATT&amp;CK só tem valor quando é <strong>testada</strong> e focada nas técnicas priorizadas.</li>
+          <li>Modelos de maturidade, como os <em>tiers</em> do NIST CSF 2.0, orientam a evolução da capacidade.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>HUBBARD, Douglas W.; SEIERSEN, Richard. <em>How to measure anything in cybersecurity risk</em>. Hoboken: Wiley, 2016.</p>
+        <p>MANDIANT. <em>M-Trends 2024</em>: special report. Reston: Mandiant, 2024.</p>
+        <p>MITRE. <em>ATT&amp;CK Navigator</em>. Disponível em: &lt;https://mitre-attack.github.io/attack-navigator/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>The NIST cybersecurity framework (CSF) 2.0</em>. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.</p>
+        <p>RABOBANK CYBER DEFENCE CENTRE. <em>DeTT&amp;CT</em>: detect tactics, techniques &amp; combat threats. Disponível em: &lt;https://github.com/rabobank-cdc/DeTTECT&gt;. Acesso em: 13 nov. 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Métricas mostram se o SOC melhora. Mas e as pessoas e as decisões em uma crise? Na próxima aula, vamos treinar com simulações.</p>
+      <p class="fim-proxima">Próxima aula: Aula 15 — Exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em>.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['kafka', 'cep', 'edr', 'ident', 'lake'], alvo: 'siem', caminho: ['kafka', 'cep', 'siem'],
+  legenda: 'Onde a aula acontece: o SIEM do SOC (em vermelho), que recebe os alertas do motor CEP e do EDR. É dali que saem os números do relatório.' });
+
+/* ---------- 5. Vaidade ou decisão ---------- */
+Labs.register('#lab-vaidade', (el) => {
+  const I = [
+    { t: '2 milhões de ataques bloqueados no ano', r: 'v', fb: 'Vaidade. Conta tentativas automatizadas que qualquer filtro barra e não diz nada sobre um adversário competente.' },
+    { t: 'MTTD mediano dos incidentes confirmados: 4 h (meta: até 6 h)', r: 'd', fb: 'Decisão. Tem meta, usa a mediana e, se piorar, leva a revisar regras, turnos ou automação da triagem.' },
+    { t: '1.450 regras de detecção ativas no SIEM', r: 'v', fb: 'Vaidade. Mais regras podem significar mais ruído. O que importa é quantas foram testadas contra técnicas priorizadas.' },
+    { t: 'Precisão dos alertas por regra, com as 5 piores destacadas', r: 'd', fb: 'Decisão. Aponta quais regras ajustar primeiro e combate a fadiga de alertas.' },
+    { t: '38 mil e-mails filtrados por dia no mx1.tatame.com.br', r: 'v', fb: 'Vaidade. Volume de filtragem descreve o tráfego, não a capacidade de detectar o e-mail que passou.' },
+    { t: 'Cobertura testada das técnicas priorizadas pela CTI: 72%', r: 'd', fb: 'Decisão. Liga a defesa às ameaças relevantes e mostra quais lacunas entram no próximo ciclo purple.' }
+  ];
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
+    <h4>Relatório trimestral de segurança · Rede Tatame · 6 indicadores</h4>
+    <div class="vd-list">${I.map((x, i) => `<div class="vd-item" data-i="${i}"><p>${x.t}</p><div class="bt"><button class="lab-btn ghost" data-a="v">Vaidade</button><button class="lab-btn blue" data-a="d">Decisão</button></div><div class="fb"></div></div>`).join('')}</div>
+    <div class="lab-grid2"><div class="lab-kpi green"><small>Acertos</small><b id="k-ok">0 de 6</b></div><div class="lab-kpi amber"><small>Indicadores de decisão no relatório</small><b>3 de 6</b></div></div>
+  </div>`;
+  let ok = 0;
+  el.querySelectorAll('.vd-item').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || card.dataset.done) return;
+      const x = I[+card.dataset.i], certo = b.dataset.a === x.r;
+      card.dataset.done = 1; card.classList.add(certo ? 'ok' : 'bad');
+      card.querySelector('.fb').textContent = (certo ? 'Correto. ' : 'Não exatamente. ') + x.fb;
+      card.querySelectorAll('button').forEach((bb) => (bb.disabled = true));
+      if (certo) ok++;
+      el.querySelector('#k-ok').textContent = ok + ' de 6';
+    });
+  });
+});
+
+/* ---------- 7. VS Code: média x mediana ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'metricas-soc', team: 'blue', status: 'Python 3.12', open: 'metricas.py', typeOnEnter: true,
+  files: [
+    { path: 'marcos.yaml', code:
+`# Definição dos marcos: todos os analistas registram do mesmo jeito
+inicio_atividade: primeiro evento malicioso confirmado na investigação
+deteccao: abertura do caso no sistema de casos (não o horário do alerta bruto)
+contencao: host isolado ou conta bloqueada, registrado no caso
+unidade: horas
+revisao: cada caso é conferido pela coordenação antes de entrar no painel`},
+    { path: 'dados/incidentes_2026T2.csv', hl: [8], code:
+`id,inicio_atividade,deteccao,contencao,resumo
+INC-01,2026-04-03 08:10,2026-04-03 12:10,2026-04-03 14:10,phishing com link para o financeiro
+INC-02,2026-04-11 14:25,2026-04-11 17:25,2026-04-11 19:25,credential stuffing no app.tatame.com.br
+INC-03,2026-04-19 09:40,2026-04-19 14:40,2026-04-19 16:40,leitura de fichas de outros alunos na API (BOLA)
+INC-04,2026-04-28 22:05,2026-04-29 00:05,2026-04-29 02:05,catraca da academia 117 com firmware não assinado
+INC-05,2026-05-06 10:30,2026-05-06 16:30,2026-05-06 18:30,login sem MFA na VPN com senha vazada
+INC-06,2026-05-14 16:50,2026-05-14 20:50,2026-05-14 22:50,acesso a domínio recém-registrado após e-mail
+INC-07,2026-05-22 07:15,2026-05-22 10:15,2026-08-20 10:15,conta de filiado no portal de gestão (caso esquecido)
+INC-08,2026-06-02 13:00,2026-06-02 18:00,2026-06-02 20:00,varredura no hml-gestao fora do inventário
+INC-09,2026-06-15 11:20,2026-06-15 15:20,2026-06-15 17:20,ferramenta de acesso remoto não aprovada em NB-FIN-031
+INC-10,2026-06-24 18:45,2026-06-24 22:45,2026-06-25 00:45,consulta em massa ao AD fora da janela de manutenção`},
+    { path: 'metricas.py', hl: [16, 17, 21, 22], code:
+`"""MTTD e MTTR do trimestre: média e mediana, lado a lado."""
+import csv
+import sys
+from datetime import datetime
+from statistics import mean, median
+
+FMT = "%Y-%m-%d %H:%M"
+arquivo = sys.argv[1] if len(sys.argv) > 1 else "dados/incidentes_2026T2.csv"
+
+def horas(inicio, fim):
+    delta = datetime.strptime(fim, FMT) - datetime.strptime(inicio, FMT)
+    return delta.total_seconds() / 3600
+
+ttd, ttr = [], []
+for inc in csv.DictReader(open(arquivo, encoding="utf-8")):
+    ttd.append(horas(inc["inicio_atividade"], inc["deteccao"]))  # marco: início -> detecção
+    ttr.append(horas(inc["deteccao"], inc["contencao"]))         # marco: detecção -> contenção
+    print(f"{inc['id']}  detectar {ttd[-1]:6.1f} h   conter {ttr[-1]:7.1f} h")
+
+print(f"\\n{len(ttd)} incidentes")
+print(f"MTTD  média {mean(ttd):6.1f} h   mediana {median(ttd):5.1f} h")
+print(f"MTTR  média {mean(ttr):6.1f} h   mediana {median(ttr):5.1f} h")
+pior = max(ttr)
+print(f"Maior tempo de contenção: {pior:.0f} h ({pior / 24:.0f} dias)")`}
+  ],
+  run: [
+    { label: 'Calcular o trimestre', kind: 'blue', cmd: 'python metricas.py', file: 'metricas.py', out: [
+      'INC-01  detectar    4.0 h   conter     2.0 h',
+      'INC-02  detectar    3.0 h   conter     2.0 h',
+      'INC-03  detectar    5.0 h   conter     2.0 h',
+      'INC-04  detectar    2.0 h   conter     2.0 h',
+      'INC-05  detectar    6.0 h   conter     2.0 h',
+      'INC-06  detectar    4.0 h   conter     2.0 h',
+      '[err] INC-07  detectar    3.0 h   conter  2160.0 h',
+      'INC-08  detectar    5.0 h   conter     2.0 h',
+      'INC-09  detectar    4.0 h   conter     2.0 h',
+      'INC-10  detectar    4.0 h   conter     2.0 h',
+      '', '10 incidentes',
+      '[ok] MTTD  média    4.0 h   mediana   4.0 h',
+      '[warn] MTTR  média  217.8 h   mediana   2.0 h',
+      '[err] Maior tempo de contenção: 2160 h (90 dias)',
+      '[info] Sem valor extremo, média e mediana coincidem (MTTD). Com um caso de 90 dias, a média do MTTR vai a 217,8 h: (9 × 2 + 2160) ÷ 10.',
+      '[info] Reporte as duas e trate o INC-07 à parte: por que ele ficou esquecido?' ] }
+  ]
+});
+
+/* ---------- 10. Mapa de calor ATT&CK ---------- */
+Labs.register('#lab-heat', (el) => {
+  const COLS = [
+    ['Acesso inicial', [['T1566.001', 'Anexo de spear-phishing', 1, 3, 4, '2 de 2 procedimentos'], ['T1566.002', 'Link de spear-phishing', 1, 3, 3, '1 de 2 procedimentos'], ['T1078', 'Contas válidas', 0, 3], ['T1133', 'Serviços remotos externos', 0, 2]]],
+    ['Execução', [['T1059.001', 'PowerShell', 1, 4, 3, '2 de 3 procedimentos'], ['T1204.002', 'Arquivo malicioso', 0, 3]]],
+    ['Persis&shy;tência', [['T1053.005', 'Tarefa agendada', 1, 4, 4, '2 de 2 procedimentos'], ['T1547.001', 'Chaves Run do registro', 0, 3]]],
+    ['Credenciais', [['T1110.003', 'Pulverização de senhas', 1, 3, 3, '1 de 1 procedimento']]],
+    ['Evasão', [['T1562.001', 'Desativar ferramentas de defesa', 0, 2], ['T1070.001', 'Limpar logs de eventos', 0, 3]]],
+    ['Descoberta', [['T1082', 'Informações do sistema', 0, 1], ['T1087.002', 'Contas de domínio', 1, 3, 2, '1 de 3 procedimentos'], ['T1018', 'Sistemas remotos', 0, 2]]],
+    ['Mov. lateral', [['T1021.001', 'RDP', 1, 4, 4, '1 de 1 procedimento'], ['T1021.002', 'Compartilh. admin.', 0, 3]]],
+    ['Exfiltração', [['T1567.002', 'Para armaze&shy;namento em nuvem', 1, 2, 2, '1 de 2 procedimentos'], ['T1048', 'Protocolo alternativo', 0, 1]]],
+    ['Impacto', [['T1490', 'Inibir recuperação', 1, 3, 4, '2 de 2 procedimentos'], ['T1486', 'Criptografia para impacto', 1, 4, 4, '1 de 1 procedimento']]]
+  ];
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
+    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap"><h4 style="margin:0;flex:1">Layer: técnicas priorizadas · Rede Tatame</h4>
+      <div class="lab-chiprow"><button class="lab-chip is-on" data-v="regra">Existe regra</button><button class="lab-chip" data-v="teste">Cobertura testada</button></div></div>
+    <div class="hm">${COLS.map(([tat, ts], c) => `<div class="col"><h5>${tat}</h5>${ts.map((t, r) => `<button data-c="${c}" data-r="${r}">${t[0]}<small>${t[1]}</small></button>`).join('')}</div>`).join('')}</div>
+    <div class="hm-det">Clique em uma técnica para ver os detalhes.</div>
+    <div class="lab-grid3"><div class="lab-kpi green"><small>Cobertura exibida</small><b id="k-cob">20/20 = 100%</b></div><div class="lab-kpi"><small>Técnicas priorizadas</small><b>20</b></div><div class="lab-kpi amber"><small>Hipóteses (nunca testadas)</small><b id="k-hip">?</b></div></div>
+  </div>`;
+  let view = 'regra';
+  const btns = [...el.querySelectorAll('.hm button')], det = el.querySelector('.hm-det');
+  function paint() {
+    let ok = 0;
+    btns.forEach((b) => {
+      const t = COLS[+b.dataset.c][1][+b.dataset.r];
+      const cls = view === 'regra' ? 'g' : t[2] ? 'g' : 'n';
+      b.className = cls + (b.classList.contains('sel') ? ' sel' : '');
+      if (cls === 'g') ok++;
+    });
+    el.querySelector('#k-cob').textContent = ok + '/20 = ' + Math.round(ok / 20 * 100) + '%';
+    el.querySelector('#k-hip').textContent = view === 'regra' ? '?' : String(20 - ok);
+    el.querySelectorAll('.lab-chip').forEach((c) => c.classList.toggle('is-on', c.dataset.v === view));
+  }
+  el.querySelectorAll('.lab-chip').forEach((c) => c.addEventListener('click', () => { view = c.dataset.v; paint(); }));
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.classList.remove('sel')); b.classList.add('sel');
+    const [id, nome, testada, vis, dt, proc] = COLS[+b.dataset.c][1][+b.dataset.r];
+    det.innerHTML = `<b>${id} · ${nome}</b><br>Regra no SIEM: sim · Visibilidade: ${vis}/4 · ` +
+      (testada ? `Detecção validada em ciclo purple: ${dt}/5 · Procedimentos detectados: ${proc}.` : `<span style="color:#F2CB0A">Nunca testada: a detecção é uma hipótese.</span> Entra na fila do próximo ciclo.`);
+    paint();
+  }));
+  paint();
+});
+
+/* ---------- 12. Cena 3D: escada dos tiers ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  const TIERS = ['1 · Parcial', '2 · Informado por riscos', '3 · Repetível', '4 · Adaptativo'];
+  const cores = [0xff2b5f, 0xf2cb0a, 0x00b1d2, 0x3fd47a];
+  TIERS.forEach((t, i) => {
+    const h = 0.8 * (i + 1);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(1.9, h, 3), new THREE.MeshStandardMaterial({ color: cores[i], emissive: cores[i], emissiveIntensity: 0.18, roughness: 0.5 }));
+    m.position.set(-5.6 + i * 1.95, h / 2, 0); root.add(m);
+    const l = c.label(t, { size: 32, scale: 1.3 }); l.position.set(-5.6 + i * 1.95, h + 0.5, 1.6); root.add(l);
+  });
+  const pos = (tier) => new THREE.Vector3(-5.6 + (tier - 1) * 1.95, 0.8 * tier + 0.45, -0.6);
+  const hoje = new THREE.Mesh(new THREE.SphereGeometry(0.38, 24, 24), new THREE.MeshStandardMaterial({ color: 0xf2cb0a, emissive: 0xf2cb0a, emissiveIntensity: 0.5 }));
+  const meta = new THREE.Mesh(new THREE.SphereGeometry(0.38, 24, 24), new THREE.MeshStandardMaterial({ color: 0x9b6bff, emissive: 0x6a3df0, emissiveIntensity: 0.6, transparent: true, opacity: 0.85 }));
+  hoje.position.copy(pos(2)); meta.position.copy(pos(3)); root.add(hoje, meta);
+  // colunas no estilo SOC-CMM (autoavaliação fictícia, 1 a 5)
+  const DIM = [['Pessoas', 2.5, 3.5], ['Processos', 1.8, 3.2], ['Tecnologia', 3.4, 3.8], ['Serviços', 2.6, 3.4]];
+  const cols = DIM.map(([n, v], i) => {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 1, 28), new THREE.MeshStandardMaterial({ color: 0x58c4e8, emissive: 0x0b6e8a, emissiveIntensity: 0.4 }));
+    m.position.set(2.6 + i * 1.25, 0, 0.4); m.userData = { h: v, alvo: v }; root.add(m);
+    const l = c.label(n, { size: 30, scale: 1.15, depthTest: false }); l.position.set(m.position.x, i % 2 ? -1.05 : -0.45, m.position.z + 1.1); root.add(l);
+    return m;
+  });
+  const leg = c.legend('');
+  const ctl = c.controls('<button class="lab-chip is-on" data-m="0">Hoje</button><button class="lab-chip" data-m="1">Meta em 18 meses</button>');
+  let alvoEsfera = pos(2);
+  function modo(m) {
+    ctl.querySelectorAll('button').forEach((b) => b.classList.toggle('is-on', +b.dataset.m === m));
+    alvoEsfera = pos(m ? 3 : 2);
+    cols.forEach((col, i) => (col.userData.alvo = DIM[i][m ? 2 : 1]));
+    leg.innerHTML = (m ? '<b>Meta: tier 3 · Repetível</b>' : '<b>Hoje: tier 2 · Informado por riscos</b>') + '<br>SOC-CMM (fictício, 1 a 5):<br>' +
+      DIM.map((d) => `${d[0]}: ${(m ? d[2] : d[1]).toFixed(1).replace('.', ',')}`).join('<br>') +
+      (m ? '' : '<br><span style="color:#F2CB0A">Processos é a dimensão mais baixa</span>');
+  }
+  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => modo(+b.dataset.m)));
+  modo(0);
+  c.onFrame((t) => {
+    hoje.position.lerp(alvoEsfera, 0.06); hoje.position.y += Math.sin(t * 3) * 0.01;
+    meta.rotation.y = t;
+    cols.forEach((m) => { m.userData.h += (m.userData.alvo - m.userData.h) * 0.07; m.scale.y = m.userData.h; m.position.y = m.userData.h / 2; });
+  });
+}, { camera: [0, 5.5, 14.5] });
+
+/* ---------- 15. SIEM: antes e depois ---------- */
+Labs.siem('#lab-siem', {
+  product: 'SIEM · SOC Rede Tatame', time: 'Jan/2026 e set/2026', lang: 'SPL', index: 'index=tatame_seguranca',
+  searches: [
+    { group: 'Janeiro', name: '1. Alertas por regra', q: 'index=tatame_seguranca mes=2026-01 | stats count as alertas sum(vp) as vp by regra | eval precisao=round(vp/alertas*100)',
+      cols: ['regra', 'alertas', 'verdadeiros positivos', 'falsos positivos', 'precisão'], total: 1200, unit: 'alertas',
+      hist: [38, 41, 40, 44, 36, 39, 42, 37, 40, 43, 38, 41, 39, 40, 42, 38, 37, 40], hot: [3, 10],
+      rows: [
+        ['Login falho em massa', '420', '21', '399', '5%'],
+        ['Execução de script incomum', '260', '39', '221', '15%'],
+        ['Acesso a domínio recém-registrado', '210', '42', '168', '20%'],
+        ['Processo filho do Office', '120', '36', '84', '30%'],
+        ['Renomeação em massa de arquivos', '100', '15', '85', '15%'],
+        ['Tarefa agendada fora do horário', '90', '27', '63', '30%'],
+        ['TOTAL', '1.200', '180', '1.020', '15%']
+      ], note: 'Precisão geral: 180 ÷ 1.200 = 15%. Só a regra de login falho gera 35% dos alertas com 5% de precisão: é a primeira candidata a ajuste.' },
+    { group: 'Após três ciclos', name: '2. Alertas por regra', q: 'index=tatame_seguranca mes=2026-09 | stats count as alertas sum(vp) as vp by regra | eval precisao=round(vp/alertas*100)',
+      cols: ['regra', 'alertas', 'verdadeiros positivos', 'falsos positivos', 'precisão'], total: 600, unit: 'alertas',
+      hist: [19, 21, 20, 18, 22, 20, 19, 21, 20, 18, 21, 20, 19, 22, 20, 19, 21, 20], hot: [4],
+      rows: [
+        ['Execução de script incomum', '140', '35', '105', '25%'],
+        ['Acesso a domínio recém-registrado', '120', '36', '84', '30%'],
+        ['Processo filho do Office', '110', '33', '77', '30%'],
+        ['Login falho em massa', '90', '9', '81', '10%'],
+        ['Renomeação em massa de arquivos', '80', '13', '67', '16%'],
+        ['Tarefa agendada fora do horário', '60', '24', '36', '40%'],
+        ['TOTAL', '600', '150', '450', '25%']
+      ], note: 'Precisão geral: 150 ÷ 600 = 25%. A regra de login falho caiu de 420 para 90 alertas depois do ajuste de limiar e da lista de contas de serviço com exceção documentada, como a svc-backup.' },
+    { group: 'Comparação', name: '3. Resumo antes e depois', q: 'index=painel_soc | table periodo alertas vp precisao mttd_mediano mttr',
+      cols: ['período', 'alertas', 'VP', 'precisão', 'MTTD mediano', 'MTTR'], total: 3, unit: 'linhas',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      rows: [
+        ['janeiro', '1.200', '180', '15%', '18 h', '9 h'],
+        ['após 3 ciclos', '600', '150', '25%', '4 h', '3 h'],
+        ['variação', '−50%', '−17%', '+10 p.p.', '−78%', '−67%']
+      ], note: 'MTTD: (18 − 4) ÷ 18 ≈ 78%. MTTR: (9 − 3) ÷ 9 ≈ 67%. Os verdadeiros positivos caíram 17%: veja a próxima busca antes de concluir que a detecção piorou.' },
+    { group: 'Comparação', name: '4. Duplicados de janeiro', q: 'index=tatame_seguranca mes=2026-01 vp=1 caso="INC-2026-0117" | table _time regra host caso',
+      cols: ['horário', 'regra', 'host', 'caso', 'severidade'], sevCol: 4, total: 4, unit: 'alertas do mesmo caso',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [8],
+      rows: [
+        ['14/01 09:12:03', 'Processo filho do Office', 'NB-FIN-044', 'INC-2026-0117', 'high'],
+        ['14/01 09:12:41', 'Execução de script incomum', 'NB-FIN-044', 'INC-2026-0117', 'high'],
+        ['14/01 09:13:10', 'Execução de script incomum', 'NB-FIN-044', 'INC-2026-0117', 'high'],
+        ['14/01 09:15:22', 'Acesso a domínio recém-registrado', 'NB-FIN-044', 'INC-2026-0117', 'medium']
+      ], note: 'Em janeiro, um único incidente gerava vários alertas verdadeiros. A nova correlação agrupa alertas do mesmo host e da mesma janela em um só. Por isso os VP caíram: toda métrica precisa de contexto.' }
+  ]
+});
+
+/* ---------- 15b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'soc' });
+</script>
+</body>
+</html>

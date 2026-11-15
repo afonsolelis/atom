@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 7 — Engenharia social e simulação de phishing</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  /* caixa de entrada */
+  .mx { flex: 1; min-height: 0; display: grid; grid-template-columns: 230px 1fr; background: #fff; border-radius: 10px; overflow: hidden; color: #1A1A1A; font-family: var(--fonte); box-shadow: 0 16px 40px rgba(0,0,0,.45); }
+  .mx-list { background: #F3F5F9; border-right: 1px solid #DDE2EA; overflow: auto; }
+  .mx-list h5 { margin: 0; padding: 10px 12px; font: 700 12px var(--fonte); color: #556; text-transform: uppercase; letter-spacing: .06em; }
+  .mx-item { padding: 9px 12px; border-bottom: 1px solid #E3E7EE; font-size: 12.5px; line-height: 1.35; }
+  .mx-item b { display: block; font-size: 13px; }
+  .mx-item.on { background: #DDE9FF; border-left: 4px solid #2B6CB0; }
+  .mx-read { display: flex; flex-direction: column; min-height: 0; }
+  .mx-top { padding: 10px 16px; border-bottom: 1px solid #E3E7EE; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .mx-top .sp { flex: 1; }
+  .mx-btn { font: 700 12.5px var(--fonte); border: 0; border-radius: 6px; padding: 7px 12px; cursor: pointer; background: #E9ECF2; color: #234; }
+  .mx-btn.rep { background: #B3123F; color: #fff; }
+  .mx-cnt { font: 700 12.5px var(--fonte); color: #B3123F; }
+  .mx-body { flex: 1; min-height: 0; overflow: auto; padding: 12px 18px; font-size: 14px; line-height: 1.5; }
+  .mx-body p { color: #1A1A1A; font-size: 14px !important; margin: 0 0 8px; }
+  .mx-h { font-size: 13px; color: #445; margin-bottom: 8px; }
+  .mx-subj { font: 800 17px var(--fonte); margin: 4px 0 8px; color: #111; }
+  .fl { cursor: pointer; border-bottom: 2px dotted transparent; border-radius: 3px; }
+  .fl:hover { background: #FFF3BF; }
+  .fl.found { background: #FFD6DF; border-bottom-color: #FF2B5F; }
+  .mx-cta { display: inline-block; background: #2B6CB0; color: #fff; padding: 9px 16px; border-radius: 6px; font-weight: 700; margin: 4px 0 10px; }
+  .mx-hover { font: 12px var(--mono); color: #777; }
+  .mx-tech { font: 12px/1.5 var(--mono); background: #F3F5F9; border: 1px solid #DDE2EA; border-radius: 6px; padding: 8px 10px; margin-top: 8px; }
+  .mx-why { background: #0F1B33; color: #DCE3EE; border-left: 4px solid #FF2B5F; padding: 8px 12px; font-size: 13.5px; min-height: 2.8em; }
+  /* plataforma de simulação */
+  .sp-nav { display: flex; gap: 6px; padding: 8px 14px; background: #1B2440; }
+  .sp-nav button { font: 600 12.5px var(--fonte); border: 1px solid #3A4A70; background: transparent; color: #DCE3EE; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+  .sp-nav button.on { background: #9B6BFF; border-color: #9B6BFF; color: #fff; }
+  .sp-pg { padding: 12px 18px; }
+  .sp-pg h3 { margin: 0 0 6px; font: 800 18px var(--fonte); color: #1B2440; }
+  .sp-row { display: grid; grid-template-columns: 170px 1fr; gap: 6px 12px; font-size: 13.5px; margin-bottom: 4px; }
+  .sp-row > span:first-child { color: #667; font-weight: 700; }
+  .sp-ok { color: #0E7A3D; font-weight: 700; }
+  .sp-no { color: #B3123F; text-decoration: line-through; }
+  .sp-kpis { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 8px 0; }
+  .sp-kpis div { border: 1px solid #DDE2EA; border-radius: 8px; padding: 8px; text-align: center; }
+  .sp-kpis b { display: block; font: 800 22px var(--fonte); color: #1B2440; }
+  .sp-kpis small { font-size: 11.5px; color: #667; }
+  .sp-edu { border: 3px solid #3FD47A; border-radius: 12px; padding: 14px 18px; background: #F2FFF7; }
+  /* planejador */
+  .pl-q { margin-bottom: .55rem; }
+  .pl-q h5 { margin: 0 0 .3rem; font: 700 .85rem var(--fonte); color: #F2CB0A; }
+  .pl-out { font-size: .85rem; line-height: 1.45; color: #DCE3EE; }
+  .pl-out .ok { color: #3FD47A; } .pl-out .no { color: #FF5C7A; }
+  .pl-out p { font-size: .88rem !important; line-height: 1.4 !important; margin: 0 0 .45em !important; color: #DCE3EE !important; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 2|Aula 7 — Videoaula 7">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 7 — Engenharia social e simulação de <em>phishing</em></h1>
+      <div class="subtitulo">Unidade 2 — Red Team: operações ofensivas controladas</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem sete laboratórios, quase todos sobre a Rede Tatame, a rede fictícia de academias usada em toda a disciplina, e um mapa da plataforma com o caminho do <em>e-mail</em> até o financeiro: uma caixa de entrada com um <em>e-mail</em> simulado em que você clica nas pistas de <em>phishing</em> e no botão de reporte; um diagrama animado que acompanha uma campanha autorizada até o bloqueio pelo SOC; um navegador com uma plataforma de simulação mostrando o planejamento, o painel de resultados e a página educativa; um editor VS Code com um programa em Python e uma consulta SQL que calculam as métricas; um console de SIEM com os rastros técnicos da campanha; o simulador da plataforma Rede Tatame, com o cenário de <em>phishing</em> contra o financeiro e a fila de alertas do SOC; e um planejador interativo para o caso do hospital.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Engenharia social e simulação de <em>phishing</em></h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema de hoje na Rede Tatame</li>
+          <li>O elemento humano nas violações</li>
+          <li>Engenharia social e os princípios de persuasão</li>
+          <li>Vetores mais comuns</li>
+          <li>Anatomia de uma isca</li>
+          <li>Simulações autorizadas e a <em>Phish Scale</em></li>
+          <li>Métricas que importam</li>
+          <li>O rastro para o Blue Team</li>
+          <li>A campanha na plataforma Rede Tatame</li>
+          <li>Pausa para reflexão: o caso do hospital</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>Mil pessoas receberam um <em>e-mail</em> falso</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Carla Dias é analista do financeiro da <strong>Rede Tatame</strong>. Em março, ela e outras 999 pessoas receberam um <em>e-mail</em> de "benefícios do RH". Era uma campanha simulada, autorizada pela CISO Marina Prado.</p>
+          <p>Carla clicou no link e preencheu o formulário simulado. Outras pessoas apagaram a mensagem, e algumas usaram o botão de reporte, que avisa o SOC (centro de operações de segurança).</p>
+          <p>O que está em jogo: o financeiro paga fornecedores e acessa a VPN. Num ataque real, esse formulário entregaria a senha dela ao adversário. Só o aviso rápido de alguém e o segundo fator de login impediriam o uso dessa senha.</p>
+          <div class="pergunta">Quando um <em>e-mail</em> falso chega, as pessoas da Tatame percebem e avisam o SOC a tempo?</div>
+          <div class="papeis"><span><b>Alvo da isca</b> Carla Dias</span><span><b>Red Team</b> Bruno Sato</span><span><b>Autoriza</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Elemento humano -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>O elemento humano nas violações</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Nem sempre um ataque começa por uma falha técnica. O caminho mais curto até os dados muitas vezes passa por uma pessoa que abre um anexo, informa uma senha por telefone ou segura a porta para um "técnico" sem crachá.</li>
+          <li>Relatórios anuais como o <em>Data Breach Investigations Report</em> (DBIR), da Verizon, apontam de forma recorrente que o elemento humano está presente na maioria das violações analisadas.</li>
+          <li>Por isso a engenharia social faz parte de muitas operações de Red Team, sempre com autorização e com finalidade educativa.</li>
+        </ul>
+        <div class="callout-azul"><p>O golpista que liga se passando pelo gerente do banco usa urgência e autoridade. Os mesmos gatilhos aparecem no <em>e-mail</em> corporativo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Engenharia social e Cialdini -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Engenharia social e os princípios de persuasão</h2>
+      <div class="slide-content-box" style="font-size:.92em">
+        <p><strong>Engenharia social</strong> é a manipulação psicológica de pessoas para que realizem ações ou revelem informações que favoreçam o atacante. Explora características humanas, e não falhas de <em>software</em>. Os princípios descritos por Robert Cialdini ajudam a entender por que funciona.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Princípio</th><th>Como aparece em um golpe</th><th>Exemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Autoridade</td><td>O atacante se passa por alguém com poder</td><td>"Aqui é o diretor financeiro, preciso disso agora"</td></tr>
+            <tr><td>Urgência e escassez</td><td>Prazo curto para agir</td><td>"Sua conta será bloqueada em 1 hora"</td></tr>
+            <tr><td>Aprovação social</td><td>"Todos já fizeram"</td><td>"Falta só você atualizar o cadastro"</td></tr>
+            <tr><td>Reciprocidade</td><td>Oferece algo antes de pedir</td><td>Brinde ou ajuda técnica não solicitada</td></tr>
+            <tr><td>Afeição</td><td>Simpatia e semelhança</td><td>Conversa amigável antes do pedido</td></tr>
+            <tr><td>Compromisso e coerência</td><td>Pequenos "sins" levam a um grande "sim"</td><td>Pedidos que crescem aos poucos</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Vetores -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Vetores</p>
+      <h2>Vetores mais comuns de engenharia social</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Vetor</th><th>Como funciona</th><th>ATT&amp;CK</th></tr></thead>
+          <tbody>
+            <tr><td><em>Phishing</em></td><td>Acesso inicial por anexo malicioso ou por <em>link</em> malicioso</td><td>T1566, T1566.001, T1566.002</td></tr>
+            <tr><td><em>Phishing for Information</em></td><td>Mensagem que busca coletar informações</td><td>T1598</td></tr>
+            <tr><td><em>Vishing</em> e <em>smishing</em></td><td>O mesmo golpe por voz ou por SMS</td><td></td></tr>
+            <tr><td><em>Pretexting</em></td><td>Uma história inventada para justificar o pedido</td><td></td></tr>
+            <tr><td><em>Tailgating</em></td><td>Engenharia social física: entrar no prédio seguindo um funcionário</td><td></td></tr>
+            <tr><td><em>Business Email Compromise</em></td><td>O golpista se passa por executivo ou fornecedor para desviar pagamentos</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB inbox -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Anatomia de uma isca</p><h2>Encontre as pistas e reporte a mensagem</h2></div><span class="lab-badge purple">Conscientização</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>Mensagem fictícia e inofensiva, criada para treino, que Carla Dias recebeu.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Reconhecer as pistas de uma isca.</div>
+            <div class="rl"><b>Faça</b>1. Clique em cada trecho suspeito. Há 7 pistas.<br>2. Clique em <em>Reportar phishing</em>.</div>
+            <div class="rl obs"><b>Observe</b>Remetente de fora, urgência de uma hora e autoridade do RH. Quase todas as pistas usam um princípio de Cialdini.</div>
+            <div class="rl conc"><b>Conclusão</b>Quem conhece as pistas reporta, e o reporte aciona o SOC.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-inbox"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Simulações autorizadas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulações autorizadas</p>
+      <h2>O que uma simulação ética de <em>phishing</em> exige</h2>
+      <div class="slide-content-box">
+        <p>Campanhas controladas, enviadas aos próprios colaboradores, para medir e melhorar a capacidade de reconhecer e <strong>reportar</strong> mensagens suspeitas. Plataformas como o <strong>GoPhish</strong>, de código aberto, criam campanhas, enviam mensagens e coletam métricas.</p>
+        <ul>
+          <li><strong>Autorização formal</strong> da liderança e alinhamento com RH, jurídico e encarregado de dados (DPO).</li>
+          <li><strong>Finalidade educativa</strong>: quem clica recebe orientação imediata, e não punição.</li>
+          <li><strong>Proteção de dados</strong>: nenhuma senha real é armazenada, e os resultados individuais têm acesso restrito, conforme a LGPD (Lei Geral de Proteção de Dados).</li>
+          <li><strong>Limites de pretexto</strong>: demissões, saúde, salários ou tragédias podem causar dano real e costumam ser vetados nas regras de engajamento.</li>
+        </ul>
+        <div class="callout-azul"><p>Uma isca muito fácil gera números enganosamente bons. O NIST propôs a <em>Phish Scale</em>, que classifica a dificuldade de uma mensagem pelas pistas que ela contém e pelo quanto o contexto se aproxima da rotina do público.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB flow: campanha -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: acompanhar a campanha do envio ao bloqueio</p><h2>Uma campanha autorizada, do envio ao bloqueio</h2></div><span class="lab-badge purple">Red e Blue</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 11. LAB browser: plataforma -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma de simulação</p><h2>Bastidores de uma campanha autorizada</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>Plataforma fictícia da equipe de Bruno Sato, com o fluxo de ferramentas como o GoPhish. Nenhuma mensagem real é enviada.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver como se planeja uma campanha ética.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Planejamento</strong>, leia os pretextos vetados e as aprovações.<br>2. Abra <strong>Resultados</strong> e depois <strong>Página educativa</strong>.</div>
+            <div class="rl obs"><b>Observe</b>A página educativa não tem campo de senha. A "submissão" é só um evento registrado.</div>
+            <div class="rl conc"><b>Conclusão</b>Dá para medir o risco sem guardar senhas nem expor pessoas.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-brw"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Métricas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Métricas</p>
+      <h2>Métricas que importam</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Métrica</th><th>O que mede</th></tr></thead>
+          <tbody>
+            <tr><td>Taxa de clique</td><td>Quantos foram enganados pela isca</td></tr>
+            <tr><td>Taxa de submissão de dados</td><td>Quantos chegaram a preencher o formulário simulado</td></tr>
+            <tr><td><strong>Taxa de reporte</strong></td><td>Quantos avisaram a segurança. Frequentemente esquecida, é a que mais interessa ao Blue Team</td></tr>
+            <tr><td>Tempo até o primeiro reporte</td><td>Quão rápido o SOC fica sabendo</td></tr>
+            <tr><td>Razão reporte/clique</td><td>Se a organização detecta mais do que é enganada</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Um único reporte rápido permite que o SOC bloqueie a mensagem para toda a empresa. Por isso, além de "quem clicou", vale medir o tempo até o primeiro reporte.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB VS Code -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Métricas de campanha em Python e SQL</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>Duas campanhas equivalentes, com três meses de intervalo. Entre elas, treinamentos curtos e um botão de reporte.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Comparar as duas campanhas com números.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>python metricas.py</em>.<br>2. Clique em <em>Consulta SQL</em>.</div>
+            <div class="rl obs"><b>Observe</b>Cliques caem de 18% para 9%. Reportes sobem de 12% para 30%. A consulta agrega por campanha e nunca mostra quem clicou.</div>
+            <div class="rl conc"><b>Conclusão</b>A razão reporte/clique passou de 0,67 para 3,3.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Rastro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Visão do Blue Team</p>
+      <h2>O rastro técnico e o rastro humano</h2>
+      <div class="slide-content-box">
+        <div class="colunas" style="align-items:start;gap:2rem">
+          <div>
+            <h3>Rastro técnico</h3>
+            <ul>
+              <li>Cabeçalhos de <em>e-mail</em>.</li>
+              <li>Domínios recém-registrados e parecidos com o da empresa.</li>
+              <li>Falhas nas verificações de autenticação de <em>e-mail</em>: SPF (quais servidores podem enviar pelo domínio), DKIM (assinatura da mensagem) e DMARC (o que fazer quando as duas falham).</li>
+              <li>Cliques registrados no <em>proxy</em> (o intermediário que registra o acesso à web) e acessos a páginas falsas.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Rastro humano</h3>
+            <ul>
+              <li>O reporte do colaborador.</li>
+              <li>Em uma organização madura, cada pessoa funciona como um sensor.</li>
+            </ul>
+            <div class="callout-azul"><p>O SIEM correlaciona os dois: o reporte confirma o que os registros técnicos sugerem.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB SIEM -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>O SOC acompanha a campanha de março</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>O SOC trata a campanha autorizada como um ataque real. Assim o exercício também mede a defesa.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Medir quanto tempo a mensagem ficou circulando.</div>
+            <div class="rl"><b>Faça</b>1. Clique nas quatro buscas salvas, em ordem.<br>2. Compare a hora do primeiro reporte com a do bloqueio.</div>
+            <div class="rl obs"><b>Observe</b>O SPF passa, mas o domínio tem 2 dias e não publica DMARC. O primeiro reporte chega às 09h09; o bloqueio geral, às 09h21.</div>
+            <div class="rl conc"><b>Conclusão</b>O reporte rápido encurta o tempo em que a isca fica nas caixas.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>A campanha vista pelo SOC da plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver o que acontece depois que Carla digita a senha.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Phishing simulado no financeiro</em>.<br>2. Espere o alerta da R1 e a tentativa de login na VPN.<br>3. Em <strong>SOC</strong>, investigue o alerta da R1 e clique em <em>Conter</em>.<br>4. Marque como <em>Falso positivo</em> o alerta da R11 sobre <code>svc-backup</code>.</div>
+            <div class="rl obs"><b>Observe</b>O MFA (segundo fator de login) bloqueia a senha na VPN. O painel mostra o MTTD (tempo até detectar) e o MTTR (tempo até responder).</div>
+            <div class="rl conc"><b>Conclusão</b>A senha vazou, mas o MFA e o SOC seguraram o ataque.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Lendo duas campanhas de 1.000 mensagens</h2>
+      <div class="slide-content-box" style="font-size:.95em">
+        <div class="colunas" style="align-items:center;gap:2rem">
+          <table class="tabela-industrial">
+            <thead><tr><th>Indicador</th><th>Campanha 1</th><th>Campanha 2</th></tr></thead>
+            <tbody>
+              <tr><td>Cliques</td><td>180 (18%)</td><td>90 (9%)</td></tr>
+              <tr><td>Submissões</td><td>60 (6%)</td><td>25 (2,5%)</td></tr>
+              <tr><td>Reportes</td><td>120 (12%)</td><td>300 (30%)</td></tr>
+              <tr><td>Primeiro reporte</td><td>9 minutos</td><td></td></tr>
+              <tr><td><strong>Reporte/clique</strong></td><td>120 ÷ 180 ≈ 0,67</td><td>300 ÷ 90 ≈ 3,3</td></tr>
+            </tbody>
+          </table>
+          <svg viewBox="0 0 360 230" role="img" aria-label="Gráfico de barras: cliques caem de 180 para 90, submissões de 60 para 25 e reportes sobem de 120 para 300" style="width:100%;height:auto">
+            <g font-family="Montserrat, Arial" font-size="12" fill="#333">
+              <line x1="20" y1="190" x2="350" y2="190" stroke="#999"/>
+              <rect x="35" y="136" width="36" height="54" fill="#8FA3BF"/><rect x="75" y="163" width="36" height="27" fill="#FF2B5F"/>
+              <rect x="150" y="172" width="36" height="18" fill="#8FA3BF"/><rect x="190" y="182.5" width="36" height="7.5" fill="#FF2B5F"/>
+              <rect x="265" y="154" width="36" height="36" fill="#8FA3BF"/><rect x="305" y="100" width="36" height="90" fill="#3FD47A"/>
+              <text x="53" y="130" text-anchor="middle">180</text><text x="93" y="157" text-anchor="middle">90</text>
+              <text x="168" y="166" text-anchor="middle">60</text><text x="208" y="177" text-anchor="middle">25</text>
+              <text x="283" y="148" text-anchor="middle">120</text><text x="323" y="94" text-anchor="middle">300</text>
+              <text x="73" y="208" text-anchor="middle">Cliques</text><text x="188" y="208" text-anchor="middle">Submissões</text><text x="303" y="208" text-anchor="middle">Reportes</text>
+              <rect x="40" y="10" width="12" height="12" fill="#8FA3BF"/><text x="57" y="21">Campanha 1</text>
+              <rect x="150" y="10" width="12" height="12" fill="#FF2B5F"/><text x="167" y="21">Campanha 2 (queda)</text>
+              <rect x="150" y="30" width="12" height="12" fill="#3FD47A"/><text x="167" y="41">Campanha 2 (alta)</text>
+            </g>
+          </svg>
+        </div>
+        <p style="margin-top:.6em">Depois de três meses de treinamentos curtos e de um botão de reporte, há mais de três reportes para cada clique: sinal de uma cultura que detecta.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>O pedido do hospital</h2>
+      <div class="slide-content-box">
+        <p>Um hospital com 2.500 colaboradores pede ao Red Team uma simulação de <em>phishing</em> com o tema "resultado de exames de colaboradores com covid". A diretoria também quer receber a lista nominal de quem clicou para aplicar advertências.</p>
+        <ol>
+          <li>Que riscos éticos e legais esse pedido apresenta, considerando a LGPD e o bem-estar dos colaboradores?</li>
+          <li>Que tema alternativo, plausível para o ambiente hospitalar, você proporia?</li>
+          <li>Quais métricas você apresentaria à diretoria no lugar da lista nominal, e por quê?</li>
+        </ol>
+        <div class="callout-azul"><p><strong>Desafio prático:</strong> elabore um plano de campanha de uma página com objetivo, público, pretexto, métricas (clique, submissão, reporte e tempo até o primeiro reporte), tratamento dos dados e ação educativa para quem clicar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. LAB planejador -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Desafio prático</p><h2>Planejador de campanha para o hospital</h2></div><span class="lab-badge purple">Regras de engajamento</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Montar um plano ético para a campanha do hospital.</div>
+            <div class="rl"><b>Faça</b>1. Escolha uma opção em cada decisão.<br>2. Leia a avaliação de cada escolha no plano à direita.</div>
+            <div class="rl obs"><b>Observe</b>Pretextos de saúde e lista nominal para punição recebem alerta. Métricas agregadas são aprovadas.</div>
+            <div class="rl conc"><b>Conclusão</b>Punir quem clica faz as pessoas pararem de reportar.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-plan"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora a Tatame sabe se as pessoas avisam</h2>
+      <div class="resolvido">
+        <div class="ev"><b>As pistas da isca</b>A caixa de entrada mostrou 7 pistas. Quase todas usam autoridade ou urgência.</div>
+        <div class="ev"><b>Medir sem expor</b>A plataforma registra o clique e a submissão sem guardar senhas, e quem clica vê uma página educativa.</div>
+        <div class="ev"><b>O aviso a tempo</b>No SIEM, o primeiro reporte chegou 9 minutos após o envio. O bloqueio geral veio 12 minutos depois.</div>
+        <div class="ev"><b>A cultura melhora</b>O script comparou as campanhas: reportes de 12% para 30% e 3,3 reportes por clique. Na plataforma, que simula o ataque real, o MFA barrou a senha na VPN.</div>
+        <div class="resposta">Resposta à pergunta da aula: sim, e cada vez mais. Na campanha de março, 120 pessoas avisaram e o SOC removeu a isca 12 minutos após o primeiro reporte. Três meses depois, há mais de três reportes para cada clique.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>A engenharia social explora princípios de persuasão, como autoridade e urgência.</li>
+          <li><em>Phishing</em> (T1566) é um dos vetores de acesso inicial mais usados por adversários reais.</li>
+          <li>Simulações autorizadas têm finalidade educativa, protegem os dados e evitam pretextos danosos.</li>
+          <li>A taxa de reporte e o tempo até o primeiro reporte medem a capacidade de detecção humana.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>CIALDINI, Robert B. <em>As armas da persuasão</em>. Rio de Janeiro: Sextante, 2012.</p>
+        <p>MITNICK, Kevin D.; SIMON, William L. <em>A arte de enganar</em>. São Paulo: Pearson Education, 2003.</p>
+        <p>MITRE. <em>Phishing (T1566)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/techniques/T1566/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>STEVES, Michelle; GREENE, Kristen; THEOFANOS, Mary. Categorizing human phishing difficulty: a Phish Scale. <em>Journal of Cybersecurity</em>, v. 6, n. 1, 2020.</p>
+        <p>VERIZON. <em>Data breach investigations report</em>. [S. l.]: Verizon, 2025.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 23. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já reconhece os gatilhos de persuasão, sabe planejar uma simulação ética e lê uma campanha pela taxa de reporte. O clique é só o começo: na próxima aula, veremos o que o Grupo Cobalto Austral faria depois de entrar na sede da Tatame e como o Red Team conta essa história.</p>
+      <p class="fim-proxima">Próxima aula: Aula 8 — Pós-exploração, movimentação lateral e relatório de Red Team.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['mail', 'siem', 'vpn'], alvo: 'nb', caminho: ['net', 'mail', 'nb'],
+  legenda: 'Onde a aula acontece: o <em>e-mail</em> da campanha entra pelo servidor de correio e chega ao notebook do financeiro. O SIEM recebe os reportes; a VPN é o próximo passo de quem tem a senha.' });
+
+/* ---------- 7. Caixa de entrada: pistas da isca ---------- */
+Labs.register('#lab-inbox', (el) => {
+  const W = {
+    rem: 'Remetente: o nome diz "RH Tatame", mas o domínio é portal-rh-beneficios.com, registrado há 2 dias. O domínio da empresa é tatame.com.br.',
+    urg: 'Urgência e escassez: "bloqueado em 1 hora" quer que você aja antes de pensar.',
+    sau: 'Saudação genérica: "Prezado(a) colaborador(a)". O RH de verdade sabe o seu nome.',
+    soc: 'Aprovação social: "92% do seu setor já atualizou, falta só você".',
+    aut: 'Autoridade: assinatura da diretoria e ameaça de suspender o benefício.',
+    lnk: 'Link que não corresponde ao texto: o botão diz portal da Tatame, mas o endereço real é portal-rh-beneficios.com, o mesmo domínio novo do remetente.',
+    tec: 'Autenticação de e-mail: o SPF passa, porque o domínio é do próprio remetente. O alerta está no domínio externo de 2 dias, sem DMARC. A política p=quarantine da Tatame só protege tatame.com.br.'
+  };
+  const f = (k, html) => '<span class="fl" data-flag="' + k + '">' + html + '</span>';
+  el.innerHTML = `<div class="mx">
+    <div class="mx-list"><h5>Caixa de entrada</h5>
+      <div class="mx-item"><b>Equipe de TI</b>Janela de manutenção no sábado</div>
+      <div class="mx-item on"><b>RH Tatame</b>URGENTE: seu benefício será bloqueado</div>
+      <div class="mx-item"><b>Comunicação Interna</b>Copa Tatame de jiu-jitsu 2026</div>
+      <div class="mx-item"><b>Financeiro</b>Repasses das academias</div>
+    </div>
+    <div class="mx-read">
+      <div class="mx-top"><button class="mx-btn rep" data-act="rep">⚑ Reportar phishing</button><button class="mx-btn" data-act="tec">Detalhes técnicos</button><span class="sp"></span><span class="mx-cnt">0 de 7 pistas</span></div>
+      <div class="mx-body">
+        <div class="mx-subj">${f('urg', 'URGENTE: seu acesso ao portal de benefícios será bloqueado em 1 hora')}</div>
+        <div class="mx-h">De: ${f('rem', 'RH Tatame &lt;rh@portal-rh-beneficios.com&gt;')}<br>Para: carla.dias@tatame.com.br · hoje, 09:00</div>
+        <p>${f('sau', 'Prezado(a) colaborador(a),')}</p>
+        <p>Identificamos uma pendência no seu cadastro de benefícios. ${f('soc', '92% do seu setor já atualizou os dados, falta só você.')}</p>
+        <p>Para evitar a suspensão do vale-alimentação, confirme seus dados pelo botão abaixo.</p>
+        ${f('lnk', '<span class="mx-cta">Acessar o portal Tatame</span>')}
+        <div class="mx-hover" hidden>Endereço real: http://portal-rh-beneficios.com/login</div>
+        <p>${f('aut', 'Diretoria de Pessoas e Benefícios<br>Este é um comunicado oficial. O não cumprimento implica suspensão do benefício.')}</p>
+        <div class="mx-tech" hidden>Received: from mail.portal-rh-beneficios.com (198.51.100.77)<br>Authentication-Results: mx1.tatame.com.br;<br>&nbsp; ${f('tec', 'spf=pass smtp.mailfrom=portal-rh-beneficios.com; dkim=none; dmarc=none (domínio criado há 2 dias)')}</div>
+      </div>
+      <div class="mx-why">Clique nos trechos que parecem suspeitos.</div>
+    </div></div>`;
+  const found = new Set(), why = el.querySelector('.mx-why'), cnt = el.querySelector('.mx-cnt');
+  el.querySelectorAll('.fl').forEach((s) => s.addEventListener('click', () => {
+    found.add(s.dataset.flag); s.classList.add('found'); why.textContent = W[s.dataset.flag];
+    if (s.dataset.flag === 'lnk') el.querySelector('.mx-hover').hidden = false;
+    cnt.textContent = found.size + ' de 7 pistas';
+  }));
+  el.querySelector('[data-act="tec"]').addEventListener('click', () => { el.querySelector('.mx-tech').hidden = false; });
+  el.querySelector('[data-act="rep"]').addEventListener('click', () => {
+    why.style.borderLeftColor = '#3FD47A';
+    why.innerHTML = '<b>Obrigado! Reporte recebido às 09:09.</b> Você encontrou ' + found.size + ' de 7 pistas. Era uma simulação autorizada. No SOC da Tatame, o seu reporte abre um caso, e a mensagem pode ser removida de todas as caixas.';
+  });
+});
+
+/* ---------- 9. Fluxo: campanha até o bloqueio ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'plat', x: 110, y: 90, label: 'Plataforma', sub: 'campanha autorizada', icon: '🎯', k: 'red' },
+    { id: 'gw', x: 340, y: 90, label: 'Gateway', sub: 'SPF, DKIM, DMARC', icon: '✉️' },
+    { id: 'caixas', x: 570, y: 90, label: '1.000 caixas', sub: 'sede e academias', icon: '📥' },
+    { id: 'clique', x: 820, y: 60, label: '180 cliques', sub: '60 submissões', icon: '🖱️', k: 'amber' },
+    { id: 'edu', x: 1000, y: 180, label: 'Página educativa', sub: 'orientação', icon: '🎓', k: 'green', w: 180 },
+    { id: 'rep', x: 570, y: 250, label: '120 reportes', sub: '1º em 9 min', icon: '⚑', k: 'blue' },
+    { id: 'soc', x: 340, y: 250, label: 'SOC Tatame', sub: 'abre o caso', icon: '🛡️', k: 'blue' },
+    { id: 'bloq', x: 340, y: 375, label: 'Bloqueio geral', sub: 'remove de todas as caixas', icon: '🧹', k: 'green', w: 210 },
+    { id: 'met', x: 800, y: 375, label: 'Métricas', sub: 'reporte/clique 0,67', icon: '📈', k: 'purple', w: 190 }
+  ],
+  links: [
+    { from: 'plat', to: 'gw' }, { from: 'gw', to: 'caixas' }, { from: 'caixas', to: 'clique' }, { from: 'clique', to: 'edu' },
+    { from: 'caixas', to: 'rep' }, { from: 'rep', to: 'soc' }, { from: 'soc', to: 'bloq' }, { from: 'bloq', to: 'caixas', dashed: true, curve: 60 },
+    { from: 'rep', to: 'met', curve: -30 }, { from: 'clique', to: 'met', curve: 40 }
+  ],
+  steps: [
+    { title: '09h00 · Envio', text: 'A plataforma dispara 1.000 mensagens com o pretexto aprovado. A autorização assinada por Marina Prado, CISO, e as regras de engajamento cobrem a campanha.', on: ['plat', 'gw'], links: [['plat', 'gw', 'red']] },
+    { title: '09h00 · O gateway avalia', text: 'O domínio portal-rh-beneficios.com passa no SPF, mas tem 2 dias e não publica DMARC. O gateway marca a mensagem como externa, e ela chega às caixas.', on: ['gw', 'caixas'], links: [['gw', 'caixas', 'red']] },
+    { title: 'Os cliques', text: '180 pessoas clicam (18%) e 60 chegam a enviar o formulário simulado (6%). Nenhuma senha é armazenada.', on: ['caixas', 'clique'], links: [['caixas', 'clique', 'amber']] },
+    { title: 'A orientação imediata', text: 'Quem clica cai na página educativa, com as pistas da mensagem. Finalidade educativa, e não punição.', on: ['clique', 'edu'], links: [['clique', 'edu', 'green']] },
+    { title: '09h09 · O primeiro reporte', text: 'Nove minutos depois do envio, alguém usa o botão de reporte. No total, 120 pessoas reportam (12%).', on: ['caixas', 'rep'], links: [['caixas', 'rep', 'blue']] },
+    { title: 'O SOC age', text: 'O reporte abre um caso. Luiza Ferraz, do SOC, confirma a campanha e aplica o bloqueio: a mensagem some das caixas de quem ainda não abriu.', on: ['rep', 'soc', 'bloq', 'caixas'], links: [['rep', 'soc', 'blue'], ['soc', 'bloq', 'blue'], ['bloq', 'caixas', 'green']] },
+    { title: 'A leitura da campanha', text: 'Razão reporte/clique de 120 ÷ 180 ≈ 0,67. Três meses depois, com treinamento e botão de reporte, a razão sobe para 3,3.', on: ['met', 'rep', 'clique'], links: [['rep', 'met', 'purple'], ['clique', 'met', 'purple']] }
+  ]
+});
+
+/* ---------- 10. Navegador: plataforma de simulação ---------- */
+(function () {
+  const nav = (k) => '<div class="sp-nav">' + ['Planejamento', 'Resultados', 'Página educativa'].map((t, i) => '<button data-p="' + i + '"' + (i === k ? ' class="on"' : '') + '>' + t + '</button>').join('') + '</div>';
+  const urls = ['simulador.example.com/campanhas/2026-03/planejamento', 'simulador.example.com/campanhas/2026-03/resultados', 'treinamento.tatame.com.br/voce-participou-de-uma-simulacao'];
+  const pages = [
+    nav(0) + '<div class="sp-pg"><h3>Campanha 2026-03 · Atualização de cadastro</h3>' +
+      '<div class="sp-row"><span>Objetivo</span><span>Medir reconhecimento e reporte; linha de base para o programa de conscientização</span></div>' +
+      '<div class="sp-row"><span>Público</span><span>1.000 contas: e-mail da sede e portal de gestão das 240 academias</span></div>' +
+      '<div class="sp-row"><span>Pretexto aprovado</span><span class="sp-ok">Atualização de cadastro no portal de benefícios</span></div>' +
+      '<div class="sp-row"><span>Pretextos vetados</span><span><span class="sp-no">demissões</span> · <span class="sp-no">saúde</span> · <span class="sp-no">salários</span> · <span class="sp-no">tragédias</span> · <span class="sp-no">alunos menores</span></span></div>' +
+      '<div class="sp-row"><span>Dificuldade</span><span>Moderada, classificada pela Phish Scale (pistas visíveis, contexto próximo da rotina)</span></div>' +
+      '<div class="sp-row"><span>Aprovações</span><span class="sp-ok">CISO Marina Prado ✓ · RH ✓ · Jurídico ✓ · DPO ✓</span></div>' +
+      '<div class="sp-row"><span>Dados</span><span>Senhas não são armazenadas; resultado individual visível só à equipe do programa; descarte em 90 dias</span></div>' +
+      '<div class="sp-row"><span>Quem clicar</span><span>Página educativa imediata e microtreinamento de 5 minutos</span></div></div>',
+    nav(1) + '<div class="sp-pg"><h3>Resultados · Campanha 2026-03</h3>' +
+      '<div class="sp-kpis"><div><b>1.000</b><small>enviados</small></div><div><b>180</b><small>cliques · 18%</small></div><div><b>60</b><small>submissões · 6%</small></div><div><b style="color:#0B6E8A">120</b><small>reportes · 12%</small></div><div><b style="color:#0B6E8A">9 min</b><small>1º reporte</small></div></div>' +
+      '<p><b>Razão reporte/clique:</b> 120 ÷ 180 ≈ 0,67. Para cada clique, menos de um reporte.</p>' +
+      '<p style="color:#667">Visão por área disponível para a equipe do programa. A diretoria recebe apenas números agregados.</p></div>',
+    nav(2) + '<div class="sp-pg"><div class="sp-edu"><h3>Você participou de uma simulação de phishing</h3><p>Esta mensagem foi enviada pela equipe de segurança da Rede Tatame, com autorização da diretoria. Nenhum dado foi guardado, e ninguém será punido.</p>' +
+      '<p><b>As pistas que estavam na mensagem:</b></p><ul><li>Remetente de fora: portal-rh-beneficios.com, e não tatame.com.br</li><li>Urgência: "bloqueado em 1 hora"</li><li>Saudação genérica e "falta só você"</li><li>Botão com endereço diferente do texto</li></ul>' +
+      '<p><b>Da próxima vez:</b> use o botão ⚑ Reportar no seu e-mail. Um reporte rápido protege toda a empresa.</p></div></div>'
+  ];
+  Labs.browser('#lab-brw', {
+    url: urls[0], html: pages[0],
+    onReady(page, api) { page.querySelectorAll('.sp-nav button').forEach((b) => b.addEventListener('click', () => api.go(urls[+b.dataset.p], pages[+b.dataset.p]))); }
+  });
+})();
+
+/* ---------- 12. VS Code: métricas ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'metricas-phishing-tatame', team: 'purple', status: 'Python 3.12 · PostgreSQL', open: 'metricas.py', typeOnEnter: true,
+  files: [
+    { path: 'metricas.py', hl: [11, 12, 13, 18, 19], code: String.raw`"""Calcula as métricas que importam a partir do resultado agregado das campanhas."""
+import json
+
+pct = lambda x: f"{x:.1%}".replace(".", ",")
+dec = lambda x: f"{x:.2f}".replace(".", ",")
+campanhas = json.load(open("campanhas.json", encoding="utf-8"))
+
+print(f"{'campanha':<34}{'clique':>8}{'submissão':>11}{'reporte':>9}{'reporte/clique':>16}")
+for c in campanhas:
+    n = c["enviados"]
+    razao = c["reportes"] / c["cliques"]
+    print(f"{c['campanha']:<34}{pct(c['cliques'] / n):>8}{pct(c['submissoes'] / n):>11}"
+          f"{pct(c['reportes'] / n):>9}{dec(razao):>16}")
+
+antes, depois = campanhas
+for campo in ("cliques", "submissoes", "reportes"):
+    variacao = (depois[campo] - antes[campo]) / antes[campo]
+    print(f"{campo:<11} {antes[campo]:>4} -> {depois[campo]:>4}  ({variacao:+.0%})")
+if depois["reportes"] > depois["cliques"]:
+    print("Mais reportes do que cliques: as pessoas funcionam como sensores.")` },
+    { path: 'campanhas.json', code: `[
+  {"campanha": "2026-03 Atualização de cadastro", "enviados": 1000, "cliques": 180, "submissoes": 60, "reportes": 120},
+  {"campanha": "2026-06 Atualização de cadastro", "enviados": 1000, "cliques": 90, "submissoes": 25, "reportes": 300}
+]` },
+    { path: 'primeiro_reporte.sql', hl: [3, 4], code: `-- Tempo até o primeiro reporte e totais por campanha (sem identificar pessoas)
+SELECT c.nome AS campanha,
+       MIN(CASE WHEN e.tipo = 'reporte' THEN e.ocorrido_em END) - c.enviada_em AS ate_primeiro_reporte,
+       COUNT(DISTINCT CASE WHEN e.tipo = 'clique' THEN e.colaborador_id END) AS cliques,
+       COUNT(DISTINCT CASE WHEN e.tipo = 'reporte' THEN e.colaborador_id END) AS reportes
+FROM campanhas c
+JOIN eventos e ON e.campanha_id = c.id
+WHERE c.nome = '2026-03 Atualização de cadastro'
+GROUP BY c.nome, c.enviada_em;` }
+  ],
+  run: [
+    { label: 'python metricas.py', kind: 'purple', cmd: 'python metricas.py', file: 'metricas.py', out: [
+      'campanha                            clique  submissão  reporte  reporte/clique',
+      '[red] 2026-03 Atualização de cadastro      18,0%       6,0%    12,0%            0,67',
+      '[ok] 2026-06 Atualização de cadastro       9,0%       2,5%    30,0%            3,33',
+      'cliques      180 ->   90  (-50%)', 'submissoes    60 ->   25  (-58%)', '[ok] reportes     120 ->  300  (+150%)',
+      '[hi] Mais reportes do que cliques: as pessoas funcionam como sensores.' ] },
+    { label: 'Consulta SQL', kind: 'blue', cmd: 'psql simulacoes -f primeiro_reporte.sql', file: 'primeiro_reporte.sql', out: [
+      '            campanha             | ate_primeiro_reporte | cliques | reportes',
+      '---------------------------------+----------------------+---------+----------',
+      '[hi]  2026-03 Atualização de cadastro | 00:09:00             |     180 |      120',
+      '(1 row)', '', '[info] Nenhuma coluna com nome ou e-mail: o resultado sai agregado.' ] }
+  ]
+});
+
+/* ---------- 14. SIEM: rastros da campanha ---------- */
+Labs.siem('#lab-siem', {
+  product: 'SIEM · SOC Rede Tatame', time: 'Hoje, 08h50 – 10h30', lang: 'KQL', index: 'logs-email, logs-proxy, caixa-reportes, casos',
+  searches: [
+    { group: 'Rastro técnico', name: '1. Autenticação de e-mail', q: 'logs-email | where sender_domain == "portal-rh-beneficios.com" | summarize count() by spf, dkim, dmarc',
+      cols: ['domínio remetente', 'idade do domínio', 'SPF', 'DKIM', 'DMARC', 'mensagens', 'severidade'], sevCol: 6, total: 1000, unit: 'mensagens',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 980, 20, 0, 0, 0, 0, 0, 0], hot: [10, 11],
+      rows: [['portal-rh-beneficios.com', '2 dias', 'pass', 'none', 'none', '1.000', 'alta']],
+      note: 'O SPF passa porque o domínio é do remetente. Os sinais são outros: domínio externo de 2 dias, sem DKIM nem DMARC, falando em nome do RH. Na plataforma, é a regra R1 que liga esse domínio novo ao clique.' },
+    { group: 'Rastro técnico', name: '2. Cliques no proxy', q: 'logs-proxy | where url_domain == "portal-rh-beneficios.com" | summarize usuarios = dcount(user) by bin(ts, 10m)',
+      cols: ['janela', 'usuários distintos', 'acumulado'], total: 180, unit: 'usuários',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 51, 33, 19, 9, 4, 2, 0], hot: [10, 11],
+      rows: [['09:00–09:10', '62', '62'], ['09:10–09:20', '51', '113'], ['09:20–09:30', '33', '146'], ['09:30–09:40', '19', '165'], ['09:40–09:50', '9', '174'], ['09:50–10:10', '6', '180']],
+      note: 'A maior parte dos cliques acontece nos primeiros minutos. Por isso o tempo até o primeiro reporte importa tanto.' },
+    { group: 'Rastro humano', name: '3. Reportes recebidos', q: 'caixa-reportes | where subject has "benefícios" | summarize reportes = count() by bin(ts, 10m)',
+      cols: ['janela', 'reportes', 'acumulado', 'observação'], total: 120, unit: 'reportes',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 38, 41, 22, 11, 7, 0, 0], hot: [10],
+      rows: [['09:09', '1', '1', 'primeiro reporte, 9 min após o envio'], ['09:10–09:20', '38', '39', ''], ['09:20–09:30', '41', '80', ''], ['09:30–09:40', '22', '102', ''], ['09:40–10:10', '18', '120', '']],
+      note: 'O primeiro reporte chega em 9 minutos. No total, 120 reportes, ou 12% dos destinatários.' },
+    { group: 'Resposta', name: '4. Do reporte ao bloqueio', q: 'casos | where origem == "reporte_usuario" and assunto has "benefícios" | project abertura, triagem, bloqueio',
+      cols: ['caso', 'primeiro reporte', 'triagem', 'bloqueio geral', 'mensagens removidas', 'severidade'], sevCol: 5, total: 1, unit: 'caso',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], hot: [10],
+      rows: [['SIM-2026-03', '09:09', '09:14', '09:21', 'todas as não abertas', 'média']],
+      note: 'Entre o primeiro reporte e o bloqueio passaram 12 minutos. Cada minuto a menos nesse intervalo protege quem ainda não abriu a mensagem.' }
+  ]
+});
+
+/* ---------- 15. Plataforma Rede Tatame: phishing e SOC ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
+
+/* ---------- 18. Planejador do caso do hospital ---------- */
+Labs.register('#lab-plan', (el) => {
+  const Q = [
+    { k: 'tema', t: 'Pretexto', o: [
+      ['Resultado de exames de colaboradores com covid', false, 'Tema de saúde: causa angústia real e envolve dado sensível. Costuma ser vetado no RoE.'],
+      ['Nova escala de plantões publicada no sistema de RH', true, 'Plausível para o hospital, faz parte da rotina e não causa dano real.'],
+      ['Lista de demissões do próximo mês', false, 'Demissão é tema vetado: pode causar dano real ao colaborador.']] },
+    { k: 'rel', t: 'O que a diretoria recebe', o: [
+      ['Lista nominal de quem clicou', false, 'Expõe resultado individual sem necessidade (LGPD) e desestimula o reporte.'],
+      ['Métricas agregadas por área: clique, submissão, reporte e tempo até o 1º reporte', true, 'Mostra a capacidade de detecção da organização sem expor pessoas.']] },
+    { k: 'cli', t: 'Quem clicar', o: [
+      ['Recebe advertência formal', false, 'Punição gera medo de reportar, e o SOC perde o sensor humano.'],
+      ['Vê a página educativa na hora e faz um microtreinamento', true, 'Finalidade educativa: aprende no momento em que errou.']] },
+    { k: 'dad', t: 'Dados digitados no formulário', o: [
+      ['Guardar o que foi digitado, como prova', false, 'Senha real armazenada é risco grave e não é necessária para a métrica.'],
+      ['Registrar só o evento de submissão; nada do que foi digitado é guardado', true, 'Mede a submissão sem guardar nenhuma senha real.']] }
+  ];
+  const sel = {};
+  el.innerHTML = '<div class="lab-panel" style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:1rem;min-height:0;overflow:auto"><div class="pl-qs"></div><div><h4>Plano de campanha · 1 página</h4><div class="pl-out"></div></div></div>';
+  const qs = el.querySelector('.pl-qs'), out = el.querySelector('.pl-out');
+  Q.forEach((q) => {
+    const d = Labs.h('div', 'pl-q', '<h5>' + q.t + '</h5><div class="lab-chiprow"></div>');
+    q.o.forEach((o, j) => {
+      const b = Labs.h('button', 'lab-chip', Labs.esc(o[0]));
+      b.addEventListener('click', () => { sel[q.k] = j; d.querySelectorAll('.lab-chip').forEach((x) => x.classList.toggle('is-on', x === b)); draw(); });
+      d.querySelector('.lab-chiprow').appendChild(b);
+    });
+    qs.appendChild(d);
+  });
+  function draw() {
+    let ok = 0;
+    const linhas = Q.map((q) => {
+      if (sel[q.k] == null) return '<p><b>' + q.t + ':</b> <span style="color:#7F8FA9">a decidir</span></p>';
+      const o = q.o[sel[q.k]]; if (o[1]) ok++;
+      return '<p><b>' + q.t + ':</b> ' + Labs.esc(o[0]) + '<br><span class="' + (o[1] ? 'ok' : 'no') + '">' + (o[1] ? '✓ ' : '✗ ') + Labs.esc(o[2]) + '</span></p>';
+    });
+    out.innerHTML = '<p><b>Objetivo:</b> medir reconhecimento e reporte dos 2.500 colaboradores.</p>' + linhas.join('') +
+      '<p><b>Métricas:</b> clique, submissão, reporte e tempo até o primeiro reporte.</p>' +
+      '<div class="lab-kpi ' + (ok === 4 ? 'green' : 'amber') + '" style="margin-top:.4rem"><small>Decisões compatíveis com uma simulação ética</small><b>' + ok + ' de 4</b></div>';
+  }
+  draw();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 0 — Apresentação da disciplina Red Team &amp; Blue Team Strategies</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .unid .ponto h3 { font-size: 1rem; margin: 0 0 .4em; }
+  .unid .ponto ol { margin: 0; padding-left: 1.3em; }
+  .unid .ponto li { font-size: clamp(.82rem, 1.05vw, 1rem) !important; line-height: 1.35; margin-bottom: .25em; }
+  .unid .ponto:nth-child(1) { border-color: #F2CB0A; } .unid .ponto:nth-child(2) { border-color: #FF2B5F; }
+  .unid .ponto:nth-child(3) { border-color: #00B1D2; } .unid .ponto:nth-child(4) { border-color: #9B6BFF; }
+  .role { flex: 1; display: grid; grid-template-rows: auto 1fr; gap: .7rem; min-height: 0; }
+  .role-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+  .role-cards button { text-align: left; background: #0B1424; border: 2px solid #22314F; border-radius: 10px; padding: .55em .8em; color: #DCE3EE; font: 700 .92rem var(--fonte); cursor: pointer; }
+  .role-cards button small { display: block; font: 600 .72rem var(--fonte); text-transform: uppercase; letter-spacing: .06em; margin-top: .2em; }
+  .role-cards button.is-on { border-color: #F2CB0A; background: #13213D; }
+  .role-det { overflow: auto; }
+  .role-det p, .role-det li { color: #DCE3EE !important; font-size: .98rem !important; margin-bottom: .35em !important; }
+  .role-det h5 { margin: .5em 0 .3em; font: 700 .85rem var(--fonte); color: #F2CB0A; text-transform: uppercase; letter-spacing: .05em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 1|Aula 0 — Apresentação da disciplina">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Red Team &amp; Blue Team Strategies</h1>
+      <div class="subtitulo">Apresentação da disciplina</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Todos os laboratórios da disciplina usam a Rede Tatame, uma rede fictícia de academias de jiu-jitsu. Esta apresentação tem seis laboratórios: um painel com seis cartões de profissões da área, que mostram o que cada uma faz e quais aulas a preparam; um mapa em 3D com as dezesseis aulas como esferas ao longo de uma espiral, em quatro cores, uma por unidade; um diagrama animado do ciclo que transforma um teste ofensivo em melhoria defensiva; o simulador da plataforma Rede Tatame, com o diagrama da arquitetura em caixas ligadas por linhas e pontos coloridos que representam as requisições; um terminal de letras verdes que apresenta o plano da disciplina; e um editor VS Code com um plano de estudos em YAML e um <em>script</em> em Python que calcula o seu progresso.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sobre o professor -->
+  <section class="slide slide-prof">
+    <div class="prof-grid">
+      <div class="prof-lado-claro">
+        <div class="prof-logo-claro">
+          <svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg>
+        </div>
+        <div class="prof-foto" role="figure" aria-label="Retrato do professor Afonso Cesar Lelis Brandão" data-source="Acervo pessoal de Afonso Cesar Lelis Brandão" data-license="Uso autorizado neste material didático">
+          <img src="../../assets/foto-professor.jpg" alt="Professor Afonso Cesar Lelis Brandão, responsável pela disciplina" />
+        </div>
+      </div>
+      <div class="prof-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true">
+          <svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg>
+        </div>
+        <div class="prof-canto-rodape" aria-hidden="true"><svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg></div>
+        <h2 class="prof-nome">Afonso Cesar Lelis Brandão</h2>
+        <p class="prof-cargo">Professor e conteudista · UniFECAF</p>
+        <p class="prof-descricao">Professor e conteudista da UniFECAF. Conduz esta disciplina a partir de casos de empresas fictícias e de laboratórios simulados, ligando cada técnica ofensiva estudada à melhoria defensiva que ela permite, com atenção constante à <strong>ética</strong>, à <strong>legislação</strong> e à comunicação de riscos para públicos técnicos e executivos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Apresentação da disciplina</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema do semestre na Rede Tatame</li>
+          <li>A disciplina e a atuação profissional</li>
+          <li>Papéis e vagas do mercado</li>
+          <li>O que você vai aprender</li>
+          <li>As quatro unidades e o mapa das 16 aulas</li>
+          <li>Do teste ofensivo à melhoria defensiva</li>
+                    <li>Como funcionam os laboratórios dos slides</li>
+          <li>Regras éticas dos laboratórios</li>
+          <li>Como você será avaliado</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4b. O problema do semestre -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema do semestre na Rede Tatame</p>
+      <h2>Uma empresa que precisa provar que está protegida</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>A <strong>Rede Tatame</strong> é uma rede fictícia de 240 academias de jiu-jitsu, com 36.000 alunos, um app, um portal, catracas com leitor facial e uma sede em São Paulo. É o sistema que vamos atacar e defender o semestre inteiro.</p>
+          <p>Uma rede concorrente, também fictícia, ficou uma semana parada por um <em>ransomware</em>, o sequestro de dados por criptografia. O conselho pergunta à CISO (diretora de segurança da informação), Marina Prado: "conseguiríamos perceber e conter um ataque assim?"</p>
+          <p>O que está em jogo: fichas de alunos, cerca de 30% menores de idade, atestados de saúde, biometria facial e a cobrança das academias.</p>
+          <div class="pergunta">Como a Rede Tatame pode provar, com números, que detecta e contém ataques cada vez melhor?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Autoriza</b> Marina Prado</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Relação com a atuação profissional -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A disciplina e a profissão</p>
+      <h2>Por que testar e treinar a defesa</h2>
+      <div class="slide-content-box">
+        <p>Toda organização que depende de sistemas digitais, de um hospital a uma <em>fintech</em>, de uma indústria a um órgão público, está sendo observada por alguém que procura uma brecha. <em>Ransomware</em>, vazamentos de dados pessoais e fraudes por engenharia social fazem parte do risco operacional cotidiano.</p>
+        <ul>
+          <li>Não basta comprar ferramentas de proteção: é preciso <strong>testar</strong> se elas funcionam e <strong>treinar</strong> as pessoas que as operam.</li>
+          <li>O <strong>Red Team</strong> simula, de forma autorizada e controlada, um adversário real para descobrir como ele chegaria aos ativos críticos.</li>
+          <li>O <strong>Blue Team</strong> protege, monitora, detecta e responde.</li>
+          <li>Juntos, no <em>purple teaming</em>, cada ataque simulado vira uma lição concreta para fortalecer a defesa.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Mercado e papéis -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Mercado</p>
+      <h2>Onde essa lógica aparece no mercado</h2>
+      <div class="slide-content-box">
+        <p>O pensamento de Red Team e Blue Team está presente em vagas de:</p>
+        <ul style="columns:2;column-gap:2rem">
+          <li>analista de SOC;</li>
+          <li>analista de segurança;</li>
+          <li><em>pentester</em>;</li>
+          <li>engenheiro de detecção;</li>
+          <li>especialista em resposta a incidentes;</li>
+          <li>consultor de GRC (governança, risco e conformidade).</li>
+        </ul>
+        <div class="callout-azul"><p>Também é exigido por reguladores: o setor financeiro adota programas de testes de intrusão baseados em inteligência de ameaças, como o europeu TIBER-EU, e a LGPD exige medidas técnicas aptas a proteger dados pessoais. Em um mercado que aponta escassez de profissionais de cibersegurança, essas competências são um diferencial.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB papéis -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Explorador de carreiras</p><h2>Seis papéis e as aulas que preparam para eles</h2></div><span class="lab-badge purple">Carreira</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Descobrir que profissional responde a cada parte da pergunta do semestre.</div>
+            <div class="rl"><b>Faça</b>Clique em cada um dos seis cartões.</div>
+            <div class="rl obs"><b>Observe</b>A cor da equipe, o que a pessoa faz no dia a dia, a pergunta que ela responde e as aulas mais ligadas ao papel.</div>
+            <div class="rl conc"><b>Conclusão</b>Nenhum papel usa só um lado: o <em>pentester</em> precisa entender a detecção, e o analista de SOC (centro de operações de segurança) precisa entender o ataque.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-roles"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Objetivos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Objetivos de aprendizagem</p>
+      <h2>Ao final da disciplina, você será capaz de</h2>
+      <div class="slide-content-box">
+        <ol>
+          <li>diferenciar os papéis, objetivos e entregáveis de Red Team, Blue Team e Purple Team;</li>
+          <li>planejar uma avaliação de segurança autorizada, com escopo, regras de engajamento e critérios éticos e legais;</li>
+          <li>modelar o comportamento de adversários com a Cyber Kill Chain e a matriz MITRE ATT&amp;CK;</li>
+          <li>explicar as etapas de uma operação ofensiva e priorizar vulnerabilidades por risco;</li>
+          <li>projetar a monitoração, a detecção e a resposta a incidentes de um ambiente corporativo;</li>
+          <li>conduzir ciclos de <em>purple teaming</em> e medir a evolução da capacidade defensiva com indicadores.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Unidades e aulas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Organização</p>
+      <h2>Quatro unidades, dezesseis aulas</h2>
+      <div class="slide-content-box">
+        <div class="pontos-chave unid" style="margin-top:0">
+          <div class="ponto"><h3>1 · Fundamentos: ataque e defesa como estratégia</h3><ol start="1"><li>Red, Blue e Purple Team: papéis, objetivos e ética</li><li>Cyber Kill Chain e MITRE ATT&amp;CK</li><li>Varredura, <em>pentest</em> e Red Team</li><li>NIST CSF, defesa em profundidade e SOC</li></ol></div>
+          <div class="ponto"><h3>2 · Red Team: operações ofensivas controladas</h3><ol start="5"><li>Reconhecimento e OSINT</li><li>Varredura, enumeração e gestão de vulnerabilidades</li><li>Engenharia social e simulação de <em>phishing</em></li><li>Pós-exploração, movimentação lateral e relatório</li></ol></div>
+          <div class="ponto"><h3>3 · Blue Team: detecção e resposta</h3><ol start="9"><li>Telemetria, registros e SIEM</li><li>Engenharia de detecção e EDR</li><li><em>Threat hunting</em> e inteligência de ameaças</li><li>Resposta a incidentes</li></ol></div>
+          <div class="ponto"><h3>4 · Purple Team e estratégia de segurança</h3><ol start="13"><li><em>Purple teaming</em> e emulação de adversários</li><li>Métricas de detecção e resposta e cobertura ATT&amp;CK</li><li><em>Tabletop</em>, CTF e <em>cyber range</em></li><li>Programa contínuo, carreira e tendências</li></ol></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB 3D mapa -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>O mapa da disciplina</h2></div><span class="lab-badge">16 aulas</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver o caminho do semestre até a resposta da pergunta.</div>
+            <div class="rl"><b>Faça</b>Arraste para girar e clique em U1, U2, U3 ou U4, no canto da cena.</div>
+            <div class="rl obs"><b>Observe</b>Amarelo: fundamentos. Vermelho: Red Team. Azul: Blue Team. Roxo: Purple Team. A esfera branca que percorre o caminho é você.</div>
+            <div class="rl conc"><b>Conclusão</b>O roxo, no topo, só funciona depois do vermelho e do azul.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-mapa"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Fio condutor -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O fio condutor</p>
+      <h2>Cada conteúdo ofensivo vira uma melhoria defensiva</h2>
+      <div class="slide-content-box">
+        <p>O diferencial da disciplina é a pergunta que acompanha cada técnica estudada: <strong>que rastro isso deixa e como a defesa pode percebê-lo?</strong></p>
+        <ul>
+          <li>Na Unidade 1, você aprende a linguagem comum, a ética e as regras do jogo.</li>
+          <li>Na Unidade 2, acompanha uma operação ofensiva, sempre conceitual e autorizada.</li>
+          <li>Na Unidade 3, monta a detecção e a resposta.</li>
+          <li>Na Unidade 4, une as duas equipes e mede a evolução com indicadores.</li>
+        </ul>
+        <div class="callout-azul"><p>Ao final, você será capaz de conversar com a área técnica e com a diretoria sobre risco cibernético, com evidências.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB flow ciclo -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver o ciclo que responde à pergunta do semestre</p><h2>Do teste ofensivo à melhoria defensiva</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-area" id="lab-ciclo"></div>
+    </div>
+  </section>
+
+  <!-- 12c. PLATAFORMA REDE TATAME: arquitetura -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Um passeio pela arquitetura</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Conhecer o sistema que vamos atacar e defender.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Iniciar</strong>, no topo do simulador, e veja as requisições (pontos azuis) passando pelo WAF, o filtro de tráfego da borda.<br>2. Clique nas caixas <code>db-alunos</code>, <code>hml-gestao</code> e <code>PagaFácil</code>.</div>
+            <div class="rl obs"><b>Observe</b>Quantas fichas o banco guarda, por que um ambiente esquecido sem WAF é um risco e por que a PagaFácil nunca entra no escopo.</div>
+            <div class="rl conc"><b>Conclusão</b>As abas de 1 a 9 são os temas da disciplina e voltam a cada aula.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Como funcionam os labs -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Laboratórios nos slides</p>
+      <h2>Como funcionam os laboratórios embutidos</h2>
+      <div class="slide-content-box">
+        <p>Cada aula alterna slides de conceito com slides de laboratório, logo depois do conceito que eles demonstram. Tudo é simulado: nenhum comando é executado de verdade.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Laboratório</th><th>O que você faz</th></tr></thead>
+          <tbody>
+            <tr><td><strong>VS Code</strong></td><td>Abre arquivos, assiste ao código sendo digitado e clica em ▶ para ver a saída no terminal integrado</td></tr>
+            <tr><td><strong>Terminal</strong></td><td>Avança comando a comando, com uma nota explicando cada passo</td></tr>
+            <tr><td><strong>SIEM</strong></td><td>Clica nas buscas salvas e lê o histograma, a tabela e a nota do analista</td></tr>
+            <tr><td><strong>Navegador e painéis</strong></td><td>Navega por páginas, relatórios, matrizes e calculadoras interativas</td></tr>
+            <tr><td><strong>Diagrama animado</strong></td><td>Avança etapa por etapa, ou liga o modo automático</td></tr>
+            <tr><td><strong>Plataforma Rede Tatame</strong></td><td>Usa o simulador da disciplina: roda cenários, liga regras e fontes, investiga alertas no SOC</td></tr>
+            <tr><td><strong>Cena 3D</strong></td><td>Arrasta para girar, rola para aproximar e usa os botões no canto (precisa de internet)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB terminal -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Boas-vindas pelo terminal</h2></div><span class="lab-badge">Primeiro contato</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ter o plano da disciplina e a Rede Tatame em uma tela.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim. "Executar tudo" roda o roteiro inteiro.</div>
+            <div class="rl obs"><b>Observe</b>Os comandos de Linux <code>cat</code>, <code>ls</code>, <code>grep</code> e <code>wc</code>, que voltam em outros laboratórios, e a nota que explica cada passo.</div>
+            <div class="rl conc"><b>Conclusão</b>Você já sabe ler um terminal simulado.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB VS Code -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Seu plano de estudos como código</h2></div><span class="lab-badge blue">Organização</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Acompanhar seu progresso na disciplina como um pequeno projeto.</div>
+            <div class="rl"><b>Faça</b>1. Abra <code>plano_de_estudos.yaml</code>: as 16 aulas, com <code>feita: true</code> ou <code>false</code>.<br>2. Clique em "Executar progresso.py".</div>
+            <div class="rl obs"><b>Observe</b>O exemplo simula quem concluiu as Aulas 1 a 3: 3 ÷ 16 ≈ 19%, e a próxima é a Aula 4.</div>
+            <div class="rl conc"><b>Conclusão</b>Arquivo de dados mais <em>script</em> curto: o mesmo formato dos laboratórios de código.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Ética dos labs -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Regras éticas</p>
+      <h2>O que vale em cada laboratório da disciplina</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Tudo é fictício</strong>: a Rede Tatame, as pessoas, os domínios e os incidentes. Os endereços IP são de faixas privadas (10.x, 192.168.x) ou reservadas para documentação (203.0.113.x, 198.51.100.x).</li>
+          <li><strong>Tudo é autorizado</strong>: cada cenário ofensivo parte de uma carta de autorização, com escopo e regras de engajamento.</li>
+          <li><strong>O ataque fica no nível conceitual</strong>: estudamos fases, técnicas e rastros. Não há código de exploração, <em>malware</em> nem instruções passo a passo de ataque, e eles não serão aceitos nos trabalhos.</li>
+          <li><strong>Fora da disciplina</strong>: testar qualquer sistema sem autorização formal de quem responde por ele é crime (Código Penal, art. 154-A). A Aula 1 aprofunda o tema.</li>
+        </ul>
+        <div class="callout-azul"><p>Cada técnica estudada termina com uma pergunta defensiva: que rastro ela deixa e como detectá-la?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Avaliação: trabalho -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Avaliação · Trabalho (PBL)</p>
+      <h2>O Purple Team da Vitalis Diagnósticos</h2>
+      <div class="slide-content-box">
+        <p>Estudo de caso de uma rede fictícia de medicina diagnóstica que escapou por pouco de um <em>ransomware</em>. Como consultor(a) da nova CISO, você propõe um programa de Purple Team. Entregável: relatório técnico em PDF, de 15 a 20 páginas.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Parte</th><th>Peso</th><th>Parte</th><th>Peso</th></tr></thead>
+          <tbody>
+            <tr><td>1. Modelagem do adversário</td><td>20%</td><td>5. Métricas e programa</td><td>15%</td></tr>
+            <tr><td>2. Regras de engajamento</td><td>15%</td><td>6. Sumário executivo</td><td>10%</td></tr>
+            <tr><td>3. Telemetria e lacunas</td><td>15%</td><td>7. Qualidade formal</td><td>5%</td></tr>
+            <tr><td>4. Detecções e resposta</td><td>20%</td><td><strong>Total</strong></td><td><strong>100%</strong></td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.7em">O trabalho é consultivo e defensivo. Não existe resposta única: escolhas diferentes são aceitas quando justificadas com os dados do caso e com as fontes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Avaliação final -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Avaliação · Prova final</p>
+      <h2>Dez questões discursivas sobre casos</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>10 questões discursivas</strong> no estilo ENADE, com valor sugerido de 10 pontos cada (100 pontos).</li>
+          <li>Unidade 1: questões 1 a 3; Unidade 2: 4 e 5; Unidade 3: 6 a 8; Unidade 4: 9 e 10. A questão 10 é integradora.</li>
+          <li>Extensão esperada: de 10 a 20 linhas por questão. Quando houver cálculo, mostre o raciocínio.</li>
+          <li>Organizações e situações são fictícias, e as atividades ofensivas citadas ocorrem sempre em engajamentos autorizados.</li>
+        </ul>
+        <div class="callout-azul"><p>Respostas apenas definicionais, sem análise do cenário apresentado, não atendem integralmente ao comando. Os laboratórios dos slides são um bom treino para essa análise.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O caminho até a resposta</p>
+      <h2>Como o semestre responde à pergunta</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Unidade 1 · Linguagem e regras</b>Papéis, modelos de ataque, tipos de avaliação, NIST CSF e SOC. Nenhum teste sem autorização.</div>
+        <div class="ev"><b>Unidade 2 · Red Team</b>Emula o Grupo Cobalto Austral, grupo fictício de <em>ransomware</em>, e mostra os caminhos até os dados.</div>
+        <div class="ev"><b>Unidade 3 · Blue Team</b>Liga a telemetria, escreve regras e responde aos alertas no SOC.</div>
+        <div class="ev"><b>Unidade 4 · Purple Team</b>Reteste, cobertura ATT&amp;CK e tempos de detecção e resposta, mês a mês.</div>
+        <div class="resposta">Resposta da disciplina: com exercícios autorizados que repetem o ciclo testar, detectar, responder e medir. Cada ciclo deixa números, como cobertura e tempo até detectar e conter, que mostram se a defesa melhorou.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Boas-vindas à disciplina</h1>
+      <p class="fim-texto">Se você quer entender como os ataques acontecem para conseguir defender uma empresa, este é o lugar. Nos vemos nas aulas.</p>
+      <p class="fim-proxima">Próxima aula: Aula 1 — Red, Blue e Purple Team: papéis, objetivos e ética.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 7. Explorador de papéis ---------- */
+Labs.register('#lab-roles', (el) => {
+  const AULAS = ['', 'Red, Blue e Purple Team', 'Kill Chain e ATT&CK', 'Varredura, pentest e Red Team', 'NIST CSF, defesa em profundidade e SOC',
+    'Reconhecimento e OSINT', 'Gestão de vulnerabilidades', 'Engenharia social e phishing', 'Pós-exploração e relatório',
+    'Telemetria e SIEM', 'Engenharia de detecção e EDR', 'Threat hunting e inteligência', 'Resposta a incidentes',
+    'Purple teaming e emulação', 'Métricas e cobertura ATT&CK', 'Tabletop, CTF e cyber range', 'Programa contínuo e carreira'];
+  const EQ = { red: ['Red Team', '#FF5C7A'], blue: ['Blue Team', '#58C4E8'], purple: ['Purple Team', '#C2A5FF'], gov: ['Governança', '#F2CB0A'] };
+  const R = [
+    { n: 'Analista de SOC', e: 'blue', faz: 'Monitora alertas, faz a triagem, investiga casos suspeitos e escala o que for grave.', q: 'Isto é um ataque real? Precisa de contenção agora?', a: [4, 9, 10, 12] },
+    { n: 'Analista de segurança', e: 'blue', faz: 'Implanta e mantém controles, acompanha vulnerabilidades e apoia as outras áreas a corrigi-las.', q: 'Quais controles faltam e o que corrigir primeiro?', a: [3, 4, 6, 16] },
+    { n: 'Pentester', e: 'red', faz: 'Conduz testes autorizados, comprova o impacto das falhas encontradas e escreve o relatório.', q: 'O que um atacante consegue fazer neste sistema?', a: [1, 3, 5, 6, 8] },
+    { n: 'Engenheiro(a) de detecção', e: 'purple', faz: 'Transforma técnicas do ATT&CK em regras testadas e mede a cobertura de detecção.', q: 'Se esta técnica for usada amanhã, alguém vai ver?', a: [2, 10, 13, 14] },
+    { n: 'Resposta a incidentes', e: 'blue', faz: 'Contém, erradica e recupera; depois conduz as lições aprendidas com as outras áreas.', q: 'Como paramos o ataque e voltamos a operar com segurança?', a: [4, 11, 12, 15] },
+    { n: 'Consultor(a) de GRC', e: 'gov', faz: 'Traduz risco técnico em decisões de negócio e acompanha conformidade com leis e normas, como a LGPD.', q: 'Quanto risco aceitamos e o que a diretoria precisa decidir?', a: [1, 3, 14, 16] }
+  ];
+  el.innerHTML = '<div class="lab-panel role"><div class="role-cards">' +
+    R.map((r, i) => '<button data-i="' + i + '">' + r.n + '<small style="color:' + EQ[r.e][1] + '">' + EQ[r.e][0] + '</small></button>').join('') +
+    '</div><div class="role-det"></div></div>';
+  const det = el.querySelector('.role-det');
+  function show(i) {
+    const r = R[i];
+    el.querySelectorAll('.role-cards button').forEach((b) => b.classList.toggle('is-on', +b.dataset.i === i));
+    det.innerHTML = '<h5>O que faz</h5><p>' + r.faz + '</p><h5>Pergunta que responde</h5><p>"' + r.q + '"</p><h5>Aulas mais ligadas</h5><ul>' +
+      r.a.map((k) => '<li>Aula ' + k + ': ' + Labs.esc(AULAS[k]) + '</li>').join('') + '</ul>';
+  }
+  el.querySelector('.role-cards').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); });
+  show(0);
+});
+
+/* ---------- 10. Cena 3D: mapa das 16 aulas ---------- */
+Labs.scene3d('#lab-mapa', (c) => {
+  const { THREE, root } = c;
+  const U = [
+    ['Unidade 1 · Fundamentos', 0xf2cb0a, '#F2CB0A', ['Red, Blue e Purple Team', 'Kill Chain e ATT&CK', 'Varredura, pentest e Red Team', 'NIST CSF, defesa e SOC']],
+    ['Unidade 2 · Red Team', 0xff2b5f, '#FF5C7A', ['Reconhecimento e OSINT', 'Vulnerabilidades', 'Engenharia social', 'Pós-exploração e relatório']],
+    ['Unidade 3 · Blue Team', 0x00b1d2, '#58C4E8', ['Telemetria e SIEM', 'Detecção e EDR', 'Threat hunting', 'Resposta a incidentes']],
+    ['Unidade 4 · Purple Team', 0x9b6bff, '#C2A5FF', ['Purple teaming', 'Métricas e cobertura', 'Tabletop, CTF, cyber range', 'Programa contínuo']]
+  ];
+  const pts = [];
+  for (let k = 0; k <= 16; k++) { pts.push(new THREE.Vector3(-6.4 + k * 0.8, -3.2 + k * 0.34 + Math.sin(k * 0.55) * 1.1, Math.cos(k * 0.5) * 1.4)); }
+  const curve = new THREE.CatmullRomCurve3(pts);
+  root.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 300, 0.05, 8, false), new THREE.MeshBasicMaterial({ color: 0x3a5a8c })));
+  const base = new THREE.Mesh(new THREE.SphereGeometry(0.4, 20, 20), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x666666 }));
+  base.position.copy(pts[0]); root.add(base);
+  const lb = c.label('Aula 0 · início', { size: 28 }); lb.position.copy(pts[0]).add(new THREE.Vector3(0, -0.85, 0)); root.add(lb);
+  const bolas = [];
+  for (let k = 1; k <= 16; k++) {
+    const u = U[Math.floor((k - 1) / 4)];
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.36, 24, 24), new THREE.MeshStandardMaterial({ color: u[1], emissive: u[1], emissiveIntensity: 0.3 }));
+    m.position.copy(pts[k]); root.add(m);
+    const l = c.label(String(k), { size: 34, bg: false }); l.position.copy(pts[k]).add(new THREE.Vector3(0, 0.7, 0)); root.add(l);
+    bolas.push({ m, l, u: Math.floor((k - 1) / 4) });
+  }
+  const eu = new THREE.Mesh(new THREE.SphereGeometry(0.2, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  root.add(eu);
+  const leg = c.legend(''); leg.style.maxWidth = '280px';
+  const ctl = c.controls(U.map((u, i) => '<button class="lab-btn ghost" data-i="' + i + '" style="border-color:' + u[2] + '">U' + (i + 1) + '</button>').join('') + '<button class="lab-btn ghost" data-i="-1">Todas as unidades</button>');
+  ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
+  let sel = -1;
+  function set(i) {
+    sel = i;
+    ctl.querySelectorAll('button').forEach((b) => b.classList.toggle('ghost', +b.dataset.i !== i));
+    bolas.forEach((b) => { const on = i < 0 || b.u === i; b.m.material.emissiveIntensity = i >= 0 && on ? 0.8 : 0.3; b.m.material.opacity = on ? 1 : 0.2; b.m.material.transparent = !on; b.l.material.opacity = on ? 1 : 0.25; });
+    leg.innerHTML = i < 0
+      ? '<b>16 aulas em 4 unidades</b><br>Clique em U1, U2, U3 ou U4.'
+      : '<b style="color:' + U[i][2] + '">' + U[i][0] + '</b><br>' + U[i][3].map((t, k) => 'Aula ' + (i * 4 + k + 1) + ': ' + t).join('<br>');
+  }
+  ctl.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) set(+b.dataset.i); });
+  set(-1);
+  c.onFrame((t) => {
+    eu.position.copy(curve.getPoint((t * 0.04) % 1));
+    bolas.forEach((b, k) => { const s = sel === b.u ? 1.15 + Math.sin(t * 3 + k) * 0.08 : 1; b.m.scale.setScalar(s); });
+  });
+  root.rotation.y = -0.15;
+}, { camera: [0, 2, 15], autoRotate: false });
+
+/* ---------- 12. Fluxo: do teste ofensivo à melhoria defensiva ---------- */
+Labs.flow('#lab-ciclo', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'u1', x: 130, y: 215, label: 'Fundamentos', sub: 'ética e autorização · U1', icon: '⚖️', k: 'amber', w: 220 },
+    { id: 'red', x: 390, y: 85, label: 'Red Team emula', sub: 'técnica ATT&CK · U2', icon: '🎯', k: 'red', w: 220 },
+    { id: 'tel', x: 650, y: 85, label: 'Telemetria', sub: 'registros, EDR, SIEM · U3', icon: '📡', k: 'blue', w: 230 },
+    { id: 'det', x: 920, y: 85, label: 'Detectou?', sub: 'regra e alerta · U3', icon: '🔔', k: 'blue', w: 220 },
+    { id: 'resp', x: 920, y: 340, label: 'Resposta', sub: 'contenção · U3', icon: '🛡️', k: 'green', w: 220 },
+    { id: 'pur', x: 650, y: 340, label: 'Purple Team', sub: 'ajusta e retesta · U4', icon: '🤝', k: 'purple', w: 220 },
+    { id: 'met', x: 390, y: 340, label: 'Métricas', sub: 'MTTD, MTTR, cobertura · U4', icon: '📈', k: 'amber', w: 240 }
+  ],
+  links: [
+    { from: 'u1', to: 'red', label: 'carta de autorização' }, { from: 'red', to: 'tel' }, { from: 'tel', to: 'det' },
+    { from: 'det', to: 'resp', label: 'sim' }, { from: 'det', to: 'pur', label: 'não', dashed: true }, { from: 'resp', to: 'pur' },
+    { from: 'pur', to: 'met' }, { from: 'met', to: 'red', label: 'próximo ciclo', dashed: true, curve: -40 }
+  ],
+  steps: [
+    { title: 'A base: ética e autorização', text: 'Nada começa sem escopo, regras de engajamento e carta de autorização. É o primeiro tema da Unidade 1.', on: ['u1'], dim: true },
+    { title: 'O Red Team emula uma técnica', text: 'O Red Team da Rede Tatame escolhe uma técnica que de fato ameaça a empresa, como as do Grupo Cobalto Austral (grupo fictício de ransomware), catalogada no MITRE ATT&CK, e a executa no ambiente autorizado. É o foco da Unidade 2.', on: ['u1', 'red'], links: [['u1', 'red', 'red']], dim: true },
+    { title: 'A técnica deixa rastros', text: 'Registros do API gateway, do Active Directory, do EDR e da rede chegam ao SIEM pelo Kafka. Sem telemetria, não há como detectar. Unidade 3.', on: ['red', 'tel'], links: [['red', 'tel', 'red']], dim: true },
+    { title: 'Alguma regra disparou?', text: 'Uma regra de detecção transforma o rastro em alerta. É aqui que se descobre se a defesa funciona.', on: ['tel', 'det'], links: [['tel', 'det', 'blue']], dim: true },
+    { title: 'Se sim: resposta', text: 'O SOC faz a triagem, investiga e contém, por exemplo isolando um servidor da sede. O tempo até detectar e até conter é anotado.', on: ['det', 'resp'], links: [['det', 'resp', 'green']], dim: true },
+    { title: 'Se não: uma lacuna encontrada', text: 'A técnica passou despercebida. Num ataque real, seria um problema; num exercício, é a melhor descoberta possível.', on: ['det', 'pur'], bad: ['det'], links: [['det', 'pur', 'amber']], dim: true },
+    { title: 'Purple Team: ajustar e retestar', text: 'Red e Blue sentam juntos, escrevem ou ajustam a regra e repetem a técnica até ela ser detectada. Unidade 4.', on: ['resp', 'pur'], links: [['resp', 'pur', 'purple']], dim: true },
+    { title: 'Medir e recomeçar', text: 'Cobertura, MTTD e MTTR mostram, com números, que a defesa melhorou. O ciclo recomeça com a próxima técnica.', on: ['pur', 'met', 'red'], links: [['pur', 'met', 'purple'], ['met', 'red', 'purple']], dim: true }
+  ]
+});
+
+/* ---------- 4. Problema do semestre: mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['waf', 'gw', 'kafka', 'cep', 'siem', 'edr', 'vpn', 'ad'], alvo: 'db', caminho: ['net', 'hml', 'db'],
+  legenda: 'A plataforma inteira: nuvem em cima, sede embaixo. Em vermelho, o ativo que mais pesa, o banco de fichas de alunos. A linha destacada é um caminho que o semestre vai descobrir.' });
+
+/* ---------- 12c. Plataforma Rede Tatame: arquitetura ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'arquitetura' });
+
+/* ---------- 14. Terminal de boas-vindas ---------- */
+Labs.terminal('#lab-term', {
+  theme: 'green', title: 'aluno@unifecaf: ~', prompt: 'aluno@unifecaf:~$ ',
+  steps: [
+    { cmd: 'cat boas-vindas.txt', note: 'O comando cat mostra o conteúdo de um arquivo.', out: [
+      '[hi] RED TEAM & BLUE TEAM STRATEGIES',
+      'Boas-vindas! Aqui você aprende como os ataques acontecem',
+      'para conseguir defender uma empresa.',
+      '',
+      'Regra da disciplina: cada conteúdo ofensivo vira uma melhoria defensiva.' ] },
+    { cmd: 'ls disciplina/', note: 'O ls lista o conteúdo de uma pasta: quatro unidades, o trabalho e a avaliação final.', out: [
+      'unidade_1_fundamentos/   unidade_2_red_team/   unidade_3_blue_team/',
+      'unidade_4_purple_team/   trabalho_pbl/         avaliacao_final/' ] },
+    { cmd: 'cat disciplina/unidade_*/plano.txt', note: 'O asterisco junta os quatro planos de unidade em uma só saída.', speed: 55, out: [
+      '[hi] Unidade 1 · Fundamentos: ataque e defesa como estratégia',
+      '  01 Red, Blue e Purple Team: papéis, objetivos e ética', '  02 Cyber Kill Chain e MITRE ATT&CK', '  03 Varredura, pentest e Red Team', '  04 NIST CSF, defesa em profundidade e SOC',
+      '[red] Unidade 2 · Red Team: operações ofensivas controladas',
+      '  05 Reconhecimento e OSINT', '  06 Varredura, enumeração e gestão de vulnerabilidades', '  07 Engenharia social e simulação de phishing', '  08 Pós-exploração, movimentação lateral e relatório',
+      '[blue] Unidade 3 · Blue Team: detecção e resposta',
+      '  09 Telemetria, registros e SIEM', '  10 Engenharia de detecção e EDR', '  11 Threat hunting e inteligência de ameaças', '  12 Resposta a incidentes',
+      '[purple] Unidade 4 · Purple Team e estratégia de segurança',
+      '  13 Purple teaming e emulação de adversários', '  14 Métricas de detecção e resposta e cobertura ATT&CK', '  15 Tabletop, CTF e cyber range', '  16 Programa contínuo, carreira e tendências' ] },
+    { cmd: 'grep -h "^  [0-9]" disciplina/unidade_*/plano.txt | wc -l', note: 'O grep filtra as linhas que começam com o número da aula; o wc -l conta essas linhas.', out: [ '16' ] },
+    { cmd: 'cat disciplina/rede_tatame.txt', note: 'A empresa fictícia que aparece em cada laboratório.', out: [
+      '[hi] Rede Tatame · 240 academias de jiu-jitsu · 36.000 alunos',
+      'Regiões: sa-saopaulo, us-virginia, eu-estocolmo, ap-sydney',
+      'Plataforma: app.tatame.com.br, gestao.tatame.com.br, api.tatame.com.br',
+      'Eventos no Kafka: tatame.eventos, tatame.auditoria, tatame.seguranca',
+      'Sede: corp.tatame.local, SRV-AD-01, SRV-ARQ-01, SRV-ERP-01',
+      '[warn] Fora do escopo, sempre: api.pagafacil.example (pagamentos)' ] },
+    { cmd: 'cat disciplina/regras_dos_labs.txt', note: 'As regras éticas valem para cada laboratório da disciplina.', out: [
+      '[ok] 1. Empresas, pessoas, domínios e IPs são fictícios.',
+      '[ok] 2. Cada cenário ofensivo tem autorização, escopo e regras de engajamento.',
+      '[ok] 3. O ataque fica no nível conceitual: fases, técnicas e rastros.',
+      '[ok] 4. Cada técnica termina com a pergunta: como detectar?',
+      '[warn] 5. Fora da disciplina, testar sem autorização formal é crime.' ] },
+    { cmd: 'cat disciplina/trabalho_pbl/README.txt disciplina/avaliacao_final/README.txt', note: 'Os dois instrumentos de avaliação, em resumo.', out: [
+      '[info] Trabalho (PBL): o Purple Team da Vitalis Diagnósticos (empresa fictícia).',
+      '       Relatório técnico em PDF, 15 a 20 páginas, 7 partes com pesos de 5% a 20%.',
+      '[info] Avaliação final: 10 questões discursivas sobre casos, 10 pontos cada.' ] }
+  ],
+  done: 'Roteiro concluído. Próxima parada: Aula 1.'
+});
+
+/* ---------- 15. VS Code: plano de estudos ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'meus-estudos', team: 'purple', status: 'Python 3.12', open: 'plano_de_estudos.yaml', typeOnEnter: true,
+  files: [
+    { path: 'plano_de_estudos.yaml', hl: [7, 8, 9, 10], code:
+`# Plano de estudos · Red Team & Blue Team Strategies
+disciplina: "Red Team & Blue Team Strategies"
+unidades:
+  - numero: 1
+    titulo: "Fundamentos: ataque e defesa como estratégia"
+    aulas:
+      - { n: 1, titulo: "Red, Blue e Purple Team: papéis, objetivos e ética", feita: true }
+      - { n: 2, titulo: "Cyber Kill Chain e MITRE ATT&CK", feita: true }
+      - { n: 3, titulo: "Varredura, pentest e Red Team", feita: true }
+      - { n: 4, titulo: "NIST CSF, defesa em profundidade e SOC", feita: false }
+  - numero: 2
+    titulo: "Red Team: operações ofensivas controladas"
+    aulas:
+      - { n: 5, titulo: "Reconhecimento e OSINT", feita: false }
+      - { n: 6, titulo: "Varredura, enumeração e gestão de vulnerabilidades", feita: false }
+      - { n: 7, titulo: "Engenharia social e simulação de phishing", feita: false }
+      - { n: 8, titulo: "Pós-exploração, movimentação lateral e relatório", feita: false }
+  - numero: 3
+    titulo: "Blue Team: detecção e resposta"
+    aulas:
+      - { n: 9, titulo: "Telemetria, registros e SIEM", feita: false }
+      - { n: 10, titulo: "Engenharia de detecção e EDR", feita: false }
+      - { n: 11, titulo: "Threat hunting e inteligência de ameaças", feita: false }
+      - { n: 12, titulo: "Resposta a incidentes", feita: false }
+  - numero: 4
+    titulo: "Purple Team e estratégia de segurança"
+    aulas:
+      - { n: 13, titulo: "Purple teaming e emulação de adversários", feita: false }
+      - { n: 14, titulo: "Métricas de detecção e resposta e cobertura ATT&CK", feita: false }
+      - { n: 15, titulo: "Tabletop, CTF e cyber range", feita: false }
+      - { n: 16, titulo: "Programa contínuo, carreira e tendências", feita: false }` },
+    { path: 'progresso.py', hl: [8, 9, 10], code:
+`"""Mostra o progresso no plano de estudos e a próxima aula."""
+import yaml
+
+with open("plano_de_estudos.yaml", encoding="utf-8") as f:
+    plano = yaml.safe_load(f)
+
+total = feitas = 0
+for u in plano["unidades"]:
+    ok = sum(a["feita"] for a in u["aulas"])
+    total += len(u["aulas"])
+    feitas += ok
+    barra = "#" * ok + "." * (len(u["aulas"]) - ok)
+    print(f"Unidade {u['numero']} [{barra}] {ok}/{len(u['aulas'])}  {u['titulo']}")
+
+print(f"\\nProgresso: {feitas}/{total} aulas ({feitas / total:.0%})")
+prox = next(a for u in plano["unidades"] for a in u["aulas"] if not a["feita"])
+print(f"Próxima: Aula {prox['n']}. {prox['titulo']}")` }
+  ],
+  run: [
+    { label: 'Executar progresso.py', kind: 'purple', cmd: 'python progresso.py', file: 'progresso.py', out: [
+      '[hi] Unidade 1 [###.] 3/4  Fundamentos: ataque e defesa como estratégia',
+      'Unidade 2 [....] 0/4  Red Team: operações ofensivas controladas',
+      'Unidade 3 [....] 0/4  Blue Team: detecção e resposta',
+      'Unidade 4 [....] 0/4  Purple Team e estratégia de segurança',
+      '',
+      '[ok] Progresso: 3/16 aulas (19%)',
+      '[info] Próxima: Aula 4. NIST CSF, defesa em profundidade e SOC' ] }
+  ]
+});
+</script>
+</body>
+</html>

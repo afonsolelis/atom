@@ -1,0 +1,4 @@
+# Originais institucionais baixados do Drive: binários grandes e o template de unidade
+# contém credenciais de acesso à Biblioteca Virtual. Só o manifesto é versionado.
+/documentos/*
+!/documentos/MANIFESTO_SHA256.md

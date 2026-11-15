@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 15 — Exercícios de simulação: tabletop, CTF e cyber range</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .ttx-top { display: flex; align-items: center; gap: .8rem; }
+  .ttx-clock { font: 800 1.5rem var(--mono); color: #FF5C7A; background: #0B1424; border: 1px solid #22314F; border-radius: 8px; padding: .15em .5em; }
+  .ttx-inject { background: #1B0F1E; border: 1px solid #FF2B5F; border-radius: 10px; padding: .7em 1em; color: #fff; font: 600 1.05rem/1.4 var(--fonte); }
+  .ttx-inject small { display: block; color: #FF9CB0; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .2em; }
+  .ttx-ops { display: grid; gap: .45rem; }
+  .ttx-ops button { text-align: left; background: #0B1424; color: #DCE3EE; border: 1px solid #2F3B55; border-radius: 8px; padding: .55em .8em; font: .95rem/1.35 var(--fonte); cursor: pointer; }
+  .ttx-ops button:hover:not(:disabled) { border-color: #00B1D2; }
+  .ttx-ops button.s3 { border-color: #3FD47A; background: rgba(63,212,122,.12); } .ttx-ops button.s1 { border-color: #F2CB0A; } .ttx-ops button.s0 { border-color: #FF5C7A; }
+  .ttx-fb { font: .92rem/1.45 var(--fonte); color: #C9D4E5; border-left: 3px solid #F2CB0A; padding: .3em .7em; min-height: 2.8em; }
+  .ctf-wrap { display: grid; grid-template-columns: 1.25fr 1fr; gap: .8rem; flex: 1; min-height: 0; }
+  .ctf-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; align-content: start; }
+  .ctf-board h5 { margin: 0; font: 700 max(11px, .82vw) var(--fonte); color: #9FB0C8; text-transform: uppercase; text-align: center; }
+  .ctf-board button { background: #13254A; color: #F2CB0A; border: 1px solid #2F3B55; border-radius: 6px; font: 800 1rem var(--fonte-titulo); padding: .55em 0; cursor: pointer; }
+  .ctf-board button.solved { background: #0E3F25; color: #3FD47A; border-color: #3FD47A; }
+  .ctf-board button.sel { outline: 2px solid #fff; }
+  .ctf-log { font: max(12px, .9vw)/1.45 var(--mono); background: #06101F; color: #B8C4D6; border-radius: 8px; padding: 6px 10px; white-space: pre; overflow: auto; max-height: 17em; }
+  .ctf-score { width: 100%; border-collapse: collapse; font: max(13px, 1vw) var(--fonte); color: #DCE3EE; }
+  .ctf-score td { padding: 5px 8px; border-bottom: 1px solid #1E2A44; } .ctf-score td:last-child { text-align: right; font-weight: 700; color: #F2CB0A; }
+  .ctf-score tr.me td { color: #3FD47A; }
+  .ctf-in { display: flex; gap: .4rem; } .ctf-in input { flex: 1; background: #0B1424; border: 1px solid #2F3B55; color: #fff; border-radius: 6px; padding: .45em .6em; font: 13px var(--mono); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 4|Aula 15 — Videoaula 15">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 15 — Exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em></h1>
+      <div class="subtitulo">Unidade 4 — Purple Team e estratégia de segurança</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios, todos sobre a plataforma fictícia da Rede Tatame: um console de <em>tabletop</em> com relógio, três <em>injects</em> em sequência e botões de decisão com resposta comentada; um placar de CTF no formato <em>jeopardy</em> com um desafio de análise de registros e verificação da <em>flag</em> por <em>hash</em>; uma cena em 3D de um <em>cyber range</em> com a rede simulada, a equipe azul, a equipe vermelha e a célula de controle; o simulador da plataforma usado como <em>cyber range</em>, em que a turma contém a emulação do Grupo Cobalto Austral em duas rodadas e compara os resultados; um diagrama animado do ciclo de avaliação de um exercício; e um editor VS Code com o cronograma de <em>injects</em> em YAML e um script que calcula a pontuação de 58% e de 83%.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em></h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema de hoje na Rede Tatame</li>
+          <li>Por que exercitar: treinamento, teste e exercício</li>
+          <li>Laboratório: um mini-<em>tabletop</em> ao vivo</li>
+          <li><em>Capture the flag</em> e o placar</li>
+          <li><em>Cyber range</em> em 3D</li>
+          <li>Plataforma Rede Tatame como <em>cyber range</em></li>
+          <li>Comparação dos três formatos</li>
+          <li>Avaliar para melhorar</li>
+          <li>Exemplo numérico: pontuando um <em>tabletop</em></li>
+          <li>Pausa para reflexão</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>Sexta-feira, 22h: o <em>ransomware</em> chegou</h2>
+      <div class="problema">
+        <div class="historia">
+          <p><strong>Luiza Ferraz</strong>, analista do SOC (centro de operações de segurança), está de plantão. Na tela: "SRV-ARQ-01 e SRV-ERP-01 criptografados. Pedido de resgate recebido."</p>
+          <p>A Rede Tatame tem um plano de resposta a incidentes, escrito na Unidade 3, mas ninguém nunca o ensaiou. Quem Luiza liga primeiro? Quem pode desligar a VPN? Quem fala com a imprensa? Pilotos treinam panes em simulador; a equipe de segurança precisa do mesmo.</p>
+          <p>O que está em jogo: as fichas de 36 mil alunos, cerca de 30% menores de idade, e as academias paradas sem check-in.</p>
+          <div class="pergunta">Como a Rede Tatame pode treinar a resposta a um <em>ransomware</em> antes de enfrentar um de verdade?</div>
+          <div class="papeis"><span><b>Plantão do SOC</b> Luiza Ferraz</span><span><b>Facilitadora</b> Marina Prado</span><span><b>Equipe vermelha</b> Bruno Sato</span><span><b>TI da sede</b> Caio Mendes</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Por que exercitar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Por que exercitar</h2>
+      <div class="slide-content-box">
+        <p>O NIST SP 800-84 distingue três atividades complementares:</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Atividade</th><th>Para que serve</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Treinamento</strong></td><td>Ensina papéis e procedimentos</td></tr>
+            <tr><td><strong>Teste</strong></td><td>Avalia se um componente funciona</td></tr>
+            <tr><td><strong>Exercício</strong></td><td>Simula um cenário para validar planos, políticas e capacidades</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.7em">A publicação descreve dois formatos principais de exercício: o <em>tabletop</em>, baseado em discussão, e o <strong>exercício funcional</strong>, em que as pessoas executam suas funções em um ambiente simulado.</p>
+        <div class="callout-azul"><p>Os exercícios completam o ciclo da resposta a incidentes estudado na Unidade 3: um plano que nunca foi exercitado é só um documento.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Tabletop -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Formato 1</p>
+      <h2>Exercício <em>tabletop</em></h2>
+      <div class="slide-content-box">
+        <p>Os participantes se reúnem, em uma sala ou por videoconferência, e discutem como reagiriam a um cenário apresentado em etapas.</p>
+        <ul>
+          <li><strong>Cenário</strong>: uma situação plausível, como um <em>ransomware</em> em uma sexta-feira à noite.</li>
+          <li><strong><em>Injects</em></strong>: informações novas inseridas ao longo do exercício ("a imprensa ligou", "o <em>backup</em> também foi criptografado") para forçar decisões.</li>
+          <li><strong>Papéis</strong>: facilitador, que conduz; participantes de TI, jurídico, comunicação e diretoria; avaliadores, que registram as decisões.</li>
+          <li><strong>Relatório pós-ação</strong> (<em>after-action report</em>): pontos fortes, lacunas e um plano de melhoria com responsáveis e prazos.</li>
+        </ul>
+        <p>A CISA, agência de cibersegurança dos Estados Unidos, disponibiliza gratuitamente os <em>CISA Tabletop Exercise Packages</em> (CTEP), com cenários prontos, perguntas de discussão e modelos de relatório, alinhados à metodologia HSEEP.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB tabletop console -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Mini-<em>tabletop</em></p><h2>Três <em>injects</em>, três decisões</h2></div><span class="lab-badge red">Crise simulada</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Ensaiar as decisões das primeiras horas: quem decide, quem fala e o que se preserva.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Leia o <em>inject</em> (informação nova da facilitadora) e decida sozinho antes de clicar.</p><p>2. Escolha uma alternativa e leia a resposta comentada.</p><p>3. Clique em "Próximo <em>inject</em>".</p></div>
+            <div class="rl obs"><b>Observe</b><p>As melhores respostas começam por autoridade e comunicação, antes de qualquer ação técnica.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>O <em>tabletop</em> mostra lacunas do plano sem tocar em nenhum sistema.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-ttx"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. CTF -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Formato 2</p>
+      <h2><em>Capture the flag</em> (CTF)</h2>
+      <div class="slide-content-box">
+        <p>Os CTFs são competições em que participantes resolvem desafios técnicos para obter "bandeiras" (<em>flags</em>), sequências de texto que comprovam a solução. Há dois formatos principais:</p>
+        <ul>
+          <li><strong><em>Jeopardy</em></strong>: desafios independentes, organizados por categoria (forense, criptografia, <em>web</em>, análise de registros) e pontuação. É o formato mais comum para iniciantes, como no picoCTF, da Carnegie Mellon University.</li>
+          <li><strong>Ataque e defesa</strong>: cada equipe recebe uma infraestrutura com serviços vulneráveis e precisa protegê-los enquanto tenta explorar os das outras equipes. Exige trabalho coordenado e é mais próximo da realidade operacional.</li>
+        </ul>
+        <div class="callout-azul"><p>Para o Blue Team, há CTFs defensivos, focados em investigar registros, analisar tráfego e reconstruir a linha do tempo de um incidente.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LAB CTF -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · CTF defensivo</p><h2>Um desafio introdutório de análise de registros</h2></div><span class="lab-badge blue">Jeopardy</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Treinar a habilidade técnica do Blue Team: achar um padrão em registros de autenticação.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Leia o <code>auth.log</code> do <code>svc-gestao-01</code>, uma cópia de treino.</p><p>2. Procure várias falhas seguidas do mesmo endereço, na mesma conta, terminando em sucesso.</p><p>3. Envie no formato <code>flag{IP}</code>; se travar, use "Dica".</p></div>
+            <div class="rl obs"><b>Observe</b><p>O placar compara o <em>hash</em> SHA-256 da resposta, sem guardar a resposta em texto.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>O CTF treina o olho do analista em pequenas doses.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-ctf"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Cyber range -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Formato 3</p>
+      <h2><em>Cyber range</em>: a operação em escala</h2>
+      <div class="slide-content-box">
+        <p>Um <em>cyber range</em> é um ambiente virtual controlado que reproduz uma rede realista, com servidores, estações, tráfego de usuários e ferramentas de defesa, para treinamento e exercícios técnicos em escala. Ele permite executar ataques simulados sem risco ao ambiente de produção.</p>
+        <ul>
+          <li><strong>Locked Shields</strong>: exercício anual de defesa cibernética ao vivo, organizado pelo Centro de Excelência em Defesa Cibernética Cooperativa da OTAN (CCDCOE), em que equipes azuis defendem sistemas de um país fictício.</li>
+          <li><strong>Exercício Guardião Cibernético</strong>: promovido no Brasil pelo Comando de Defesa Cibernética, reúne órgãos públicos e setores de infraestrutura crítica.</li>
+        </ul>
+        <div class="callout-azul"><p>A lógica é sempre a mesma: equipes azuis operam e defendem, uma equipe vermelha gera a pressão prevista no roteiro e uma <strong>célula de controle</strong> conduz o exercício, observa e pontua.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. LAB 3D cyber range -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>Por dentro de um <em>cyber range</em></h2></div><span class="lab-badge purple">Ambiente controlado</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Entender quem faz o quê em um <em>cyber range</em> (ambiente isolado que imita a rede real).</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique em cada botão da cena para destacar um papel.</p><p>2. Gire a cena com o mouse.</p></div>
+            <div class="rl obs"><b>Observe</b><p>Pontos verdes são tráfego de alunos simulado; vermelhos, eventos do roteiro; azuis, ações de defesa.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>A célula de controle conduz e pontua; nada toca a produção.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11b. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>O exercício completo, em duas rodadas</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Usar a plataforma como <em>cyber range</em> e medir o efeito de conter cedo.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Em <strong>Cenários</strong>, inicie <em>Emulação do Grupo Cobalto Austral</em>. Em <strong>SOC</strong>, contenha logo o R11 de <code>caio.mendes</code> (o do <code>svc-backup</code> é exceção).</p><p>2. Clique em <strong>Reiniciar</strong>, inicie de novo e espere o alerta R6 (LSASS).</p><p>3. No R6, clique em "Investigar" e depois em "Conter".</p></div>
+            <div class="rl obs"><b>Observe</b><p>Rodada 1: o adversário para em um ou dois passos. Rodada 2: avança quatro ou mais.</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Os passos sem alerta entram no relatório pós-ação como lacunas.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Comparação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comparação</p>
+      <h2><em>Tabletop</em>, CTF e <em>cyber range</em></h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Critério</th><th><em style="color:inherit">Tabletop</em></th><th>CTF</th><th><em style="color:inherit">Cyber range</em></th></tr></thead>
+          <tbody>
+            <tr><td><strong>Foco</strong></td><td>Decisões, papéis e comunicação</td><td>Habilidades técnicas individuais ou de equipe</td><td>Operação técnica integrada em ambiente realista</td></tr>
+            <tr><td><strong>Público</strong></td><td>Técnico e executivo</td><td>Técnico</td><td>Técnico (equipes Blue, Red e coordenação)</td></tr>
+            <tr><td><strong>Custo e preparo</strong></td><td>Baixo</td><td>Baixo a médio</td><td>Médio a alto</td></tr>
+            <tr><td><strong>Entregável</strong></td><td>Relatório pós-ação e plano de melhoria</td><td>Pontuação e aprendizado</td><td>Métricas de desempenho e lições aprendidas</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Avaliar para melhorar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Avaliação</p>
+      <h2>Avaliar para melhorar</h2>
+      <div class="slide-content-box">
+        <p>Um exercício só gera valor se for <strong>avaliado</strong>.</p>
+        <ul>
+          <li><strong>Antes</strong>: objetivos mensuráveis ("acionar o plano de comunicação em até 1 hora") e critérios de avaliação.</li>
+          <li><strong>Logo ao final</strong>: o <em>hot wash</em>, uma conversa imediata enquanto as impressões estão frescas.</li>
+          <li><strong>Depois</strong>: o relatório formal, com pontos fortes, lacunas e plano de melhoria.</li>
+          <li><strong>No exercício seguinte</strong>: as ações de melhoria entram no mesmo controle usado no <em>purple teaming</em>, com dono e prazo, e são verificadas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB flow: ciclo de avaliação -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver como a avaliação vira melhoria</p><h2>Do objetivo ao exercício seguinte</h2></div><span class="lab-badge purple">Melhoria contínua</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 15. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Pontuando um <em>tabletop</em></h2>
+      <div class="slide-content-box">
+        <p>Em um <em>tabletop</em> de <em>ransomware</em> com <strong>8 <em>injects</em></strong>, os avaliadores deram de 0 a 3 pontos à resposta da equipe em cada um (0 = sem ação; 3 = ação correta, no tempo e pelo responsável certo).</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">24</span><span class="legenda">pontuação máxima: 8 × 3</span></div>
+          <div class="stat-card"><span class="numero-grande">58%</span><span class="legenda">1º exercício: 14 ÷ 24</span></div>
+          <div class="stat-card"><span class="numero-grande">83%</span><span class="legenda">exercício seguinte: 20 ÷ 24</span></div>
+        </div>
+        <p style="margin-top:.8em">Os piores resultados do primeiro exercício foram nos <em>injects</em> de comunicação com clientes e de notificação à ANPD. Depois de revisar o plano e treinar o jurídico, a equipe chegou a 20 pontos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. LAB VS Code: injects + pontuação -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Cronograma de <em>injects</em> e pontuação</h2></div><span class="lab-badge purple">Facilitação</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b><p>Pontuar o <em>tabletop</em> e transformar as notas baixas em plano de melhoria.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Leia os objetivos e os 8 <em>injects</em> em <code>injects.yaml</code>.</p><p>2. Rode os dois exercícios com <code>pontuar.py</code>.</p></div>
+            <div class="rl obs"><b>Observe</b><p>O primeiro fica em 58% (14 de 24), com lacunas em I6 e I7. O segundo chega a 83% (20 de 24).</p></div>
+            <div class="rl conc"><b>Conclusão</b><p>Nota baixa vira ação com dono, prazo e verificação no exercício seguinte.</p></div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>A cooperativa que nunca exercitou</h2>
+      <div class="slide-content-box">
+        <p>Uma cooperativa de crédito com 40 agências nunca realizou exercícios de simulação. A diretoria acredita que "o plano de resposta a incidentes está aprovado, então estamos preparados". O SOC é terceirizado e o <em>backup</em> nunca foi restaurado em um teste completo.</p>
+        <ol>
+          <li>Qual tipo de exercício você recomendaria primeiro? Justifique considerando custo e público.</li>
+          <li>Proponha três <em>injects</em> que testem as fragilidades descritas.</li>
+          <li>Que métricas você incluiria no relatório pós-ação?</li>
+        </ol>
+        <div class="callout-azul"><p><strong>Desafio prático</strong>: usando um dos cenários dos <em>CISA Tabletop Exercise Packages</em> como inspiração, monte um roteiro de <em>tabletop</em> de 60 minutos para essa cooperativa, com objetivos, papéis, cinco <em>injects</em> e critérios de pontuação.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17b. De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora o plano já foi ensaiado</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Decidir no <em>tabletop</em></b>Os <em>injects</em> mostram quem aciona o comitê, quem fala com a imprensa e o que se preserva.</div>
+        <div class="ev"><b>Treinar no CTF</b>O analista pratica achar, nos registros, o endereço que forçou a senha e entrou.</div>
+        <div class="ev"><b>Agir no <em>cyber range</em></b>Na plataforma, conter cedo parou o adversário em um ou dois passos; conter tarde deixou avançar quatro.</div>
+        <div class="ev"><b>Avaliar e repetir</b>A pontuação foi de 58% para 83% depois do plano de melhoria.</div>
+        <div class="resposta">Resposta à pergunta da aula: com exercícios em ambiente seguro (<em>tabletop</em>, CTF e <em>cyber range</em>), com objetivos medidos e um relatório pós-ação cujas ações são verificadas no exercício seguinte.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Exercícios validam planos, papéis e capacidades antes de uma crise real.</li>
+          <li>O <em>tabletop</em> testa decisões e comunicação; o CTF desenvolve habilidades técnicas; o <em>cyber range</em> integra a operação em ambiente realista.</li>
+          <li>Todo exercício precisa de objetivos mensuráveis e de um relatório pós-ação com plano de melhoria.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. <em>CISA tabletop exercise packages</em>. Disponível em: &lt;https://www.cisa.gov/resources-tools/services/cisa-tabletop-exercise-packages&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>GRANCE, Tim <em>et al</em>. <em>SP 800-84</em>: guide to test, training, and exercise programs for IT plans and capabilities. Gaithersburg: NIST, 2006.</p>
+        <p>NATO COOPERATIVE CYBER DEFENCE CENTRE OF EXCELLENCE. <em>Locked Shields</em>. Disponível em: &lt;https://ccdcoe.org/exercises/locked-shields/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>PICOCTF. <em>picoCTF</em>. Pittsburgh: Carnegie Mellon University. Disponível em: &lt;https://picoctf.org/&gt;. Acesso em: 13 nov. 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já sabe escolher entre <em>tabletop</em>, CTF e <em>cyber range</em>, montar <em>injects</em> e pontuar um exercício. Resolva a pausa para reflexão: na última aula, vamos juntar tudo em um programa contínuo e falar da sua carreira.</p>
+      <p class="fim-proxima">Próxima aula: Aula 16 — Programa contínuo de segurança, carreira e tendências.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'ad', 'arq', 'edr', 'siem'], alvo: 'erp', caminho: ['net', 'vpn', 'ad', 'arq', 'erp'],
+  legenda: 'Onde a aula acontece: os servidores da sede cifrados (SRV-ERP-01 em vermelho), a VPN por onde o ataque entrou e o SOC de plantão.' });
+
+/* ---------- 7. Console de tabletop ---------- */
+Labs.register('#lab-ttx', (el) => {
+  const INJ = [
+    { h: '22:00', t: 'Monitoramento: "SRV-ARQ-01 e SRV-ERP-01 criptografados. Pedido de resgate recebido." Quem você liga primeiro?', ops: [
+      ['Aciono o plantão do SOC e o responsável pelo plano de resposta, que convoca o comitê de crise.', 3, 'Melhor resposta. O plano define quem aciona o comitê; a primeira ligação é para quem tem autoridade para decidir e coordenar.'],
+      ['Ligo para o fornecedor do antivírus pedindo uma solução.', 1, 'O fornecedor pode ajudar depois, mas ninguém com autoridade foi avisado. As decisões dos próximos minutos ficam sem dono.'],
+      ['Respondo ao e-mail do grupo para entender quanto querem.', 0, 'Contato com o criminoso sem coordenação do comitê, do jurídico e de especialistas expõe a Rede Tatame e pode atrapalhar a investigação.']] },
+    { h: '22:20', t: 'Inject: "O backup em disco também foi criptografado."', ops: [
+      ['Verifico se existe cópia offline ou imutável e testo a restauração em ambiente isolado, preservando evidências.', 3, 'Melhor resposta. Restaurar em ambiente isolado evita reinfecção, e as evidências preservadas sustentam a investigação e eventuais notificações.'],
+      ['Restauro imediatamente o que der sobre os servidores afetados.', 1, 'A pressa é compreensível, mas restaurar sobre máquinas comprometidas pode reinfectar o ambiente e apagar evidências.'],
+      ['Proponho pagar o resgate para ganhar tempo.', 0, 'Pagamento não garante a recuperação e é decisão da diretoria, com apoio jurídico. Não é uma resposta técnica ao inject.']] },
+    { h: '22:40', t: 'Inject: "A imprensa ligou: há rumores de vazamento de fichas de alunos, inclusive menores."', ops: [
+      ['Encaminho para a área de comunicação, que usa a mensagem de espera aprovada pelo comitê.', 3, 'Melhor resposta. Uma só voz, com mensagem validada, evita contradições e promessas que a Rede Tatame não pode cumprir.'],
+      ['O analista de plantão explica ao jornalista o que já sabe.', 0, 'Informação técnica parcial, dada por quem não é porta-voz, pode virar manchete e ter efeitos jurídicos.'],
+      ['Respondo "sem comentários" e desligo.', 1, 'Evita o pior, mas o silêncio total costuma alimentar especulação. O plano deveria prever uma posição de espera.']] }
+  ];
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.7rem;min-height:0">
+    <div class="ttx-top"><span class="ttx-clock">22:00</span><h4 style="margin:0;flex:1">Tabletop · Rede Tatame · facilitadora Marina Prado</h4><b id="ttx-pts" style="color:#F2CB0A">0 / 9 pts</b></div>
+    <div class="ttx-inject"></div><div class="ttx-ops"></div><div class="ttx-fb">Leia o inject, pense na sua resposta e só então escolha.</div>
+    <div style="display:flex;gap:.5rem"><button class="lab-btn" id="ttx-next" disabled>Próximo inject</button><button class="lab-btn ghost" id="ttx-reset">Reiniciar</button></div>
+  </div>`;
+  const clock = el.querySelector('.ttx-clock'), inj = el.querySelector('.ttx-inject'), ops = el.querySelector('.ttx-ops'), fb = el.querySelector('.ttx-fb'), next = el.querySelector('#ttx-next'), pts = el.querySelector('#ttx-pts');
+  let k = 0, total = 0;
+  function show() {
+    const x = INJ[k]; clock.textContent = x.h;
+    inj.innerHTML = `<small>Inject ${k + 1} de ${INJ.length} · ${x.h}</small>${x.t}`;
+    ops.innerHTML = x.ops.map((o, j) => `<button data-j="${j}">${String.fromCharCode(65 + j)}) ${o[0]}</button>`).join('');
+    fb.textContent = 'Leia o inject, pense na sua resposta e só então escolha.'; next.disabled = true;
+  }
+  ops.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b || b.disabled) return;
+    const o = INJ[k].ops[+b.dataset.j]; total += o[1];
+    ops.querySelectorAll('button').forEach((bb, j) => { bb.disabled = true; bb.classList.add('s' + INJ[k].ops[j][1]); });
+    fb.innerHTML = `<b>${o[1]} ponto${o[1] === 1 ? '' : 's'}.</b> ${o[2]}`;
+    pts.textContent = total + ' / 9 pts';
+    if (k < INJ.length - 1) next.disabled = false;
+    else fb.innerHTML += `<br><b style="color:#F2CB0A">Fim do mini-tabletop: ${total} de 9 pontos (${Math.round(total / 9 * 100)}%). No hot wash, discuta as escolhas com nota 0 ou 1.</b>`;
+  });
+  next.addEventListener('click', () => { k++; show(); });
+  el.querySelector('#ttx-reset').addEventListener('click', () => { k = 0; total = 0; pts.textContent = '0 / 9 pts'; show(); });
+  show();
+});
+
+/* ---------- 9. Placar de CTF ---------- */
+Labs.register('#lab-ctf', (el) => {
+  const CAT = ['Forense', 'Criptografia', 'Web', 'Registros'];
+  const DESC = {
+    Forense: 'Analisar uma imagem de disco fictícia e reconstruir a linha do tempo de arquivos.',
+    Criptografia: 'Identificar uma codificação clássica e decodificar uma mensagem de treino.',
+    Web: 'Ler os cabeçalhos HTTP de uma aplicação de treino e encontrar a configuração insegura.',
+    Registros: 'Encontrar padrões suspeitos em registros de autenticação.'
+  };
+  const ALVO = '073fdb2a04ee2d390b360cbe5c34dc1234ad7c9c2cb5d857b589e3652bccba50';
+  const LOG = `Nov 14 09:00:58 svc-gestao-01 sshd: Failed password for carla from 10.10.4.15
+Nov 14 09:01:03 svc-gestao-01 sshd: Accepted password for carla from 10.10.4.15
+Nov 14 09:01:12 svc-gestao-01 sshd: Failed password for suporte from 10.10.8.23
+Nov 14 09:01:15 svc-gestao-01 sshd: Failed password for suporte from 10.10.8.23
+Nov 14 09:01:19 svc-gestao-01 sshd: Failed password for root from 10.10.9.7
+Nov 14 09:01:20 svc-gestao-01 sshd: Failed password for suporte from 10.10.8.23
+Nov 14 09:01:24 svc-gestao-01 sshd: Failed password for suporte from 10.10.8.23
+Nov 14 09:01:26 svc-gestao-01 sshd: Failed password for root from 10.10.9.7
+Nov 14 09:01:28 svc-gestao-01 sshd: Failed password for suporte from 10.10.8.23
+Nov 14 09:01:31 svc-gestao-01 sshd: Accepted password for suporte from 10.10.8.23
+Nov 14 09:01:33 svc-gestao-01 sshd: Failed password for root from 10.10.9.7`;
+  const times = [['Equipe Sentinela', 900], ['Equipe Farol', 700], ['Turma UniFECAF (você)', 500, true], ['Equipe Atalaia', 400]];
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
+    <h4>CTF da turma · formato jeopardy · ambiente de treino</h4>
+    <div class="ctf-wrap">
+      <div style="display:flex;flex-direction:column;gap:.6rem;min-height:0">
+        <div class="ctf-board">${CAT.map((c) => `<h5>${c}</h5>`).join('')}${[100, 200, 300].map((p) => CAT.map((c) => `<button data-c="${c}" data-p="${p}">${p}</button>`).join('')).join('')}</div>
+        <div id="ctf-ch" style="display:flex;flex-direction:column;gap:.45rem;min-height:0"></div>
+      </div>
+      <div><table class="ctf-score"><tbody></tbody></table></div>
+    </div></div>`;
+  const ch = el.querySelector('#ctf-ch'), tb = el.querySelector('.ctf-score tbody');
+  const board = [...el.querySelectorAll('.ctf-board button')];
+  function placar() {
+    tb.innerHTML = times.slice().sort((a, b) => b[1] - a[1]).map((t, i) => `<tr class="${t[2] ? 'me' : ''}"><td>${i + 1}º</td><td>${t[0]}</td><td>${t[1]}</td></tr>`).join('');
+  }
+  async function sha256(txt) {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  }
+  let resolvido = false;
+  function abrir(b) {
+    board.forEach((x) => x.classList.remove('sel')); b.classList.add('sel');
+    const c = b.dataset.c, p = +b.dataset.p;
+    if (c !== 'Registros' || p !== 100) { ch.innerHTML = `<p style="margin:0;color:#C9D4E5;font-size:.9rem"><b>${c} · ${p} pontos.</b> ${DESC[c]} Desafio fechado nesta demonstração.</p>`; return; }
+    ch.innerHTML = `<p style="margin:0;color:#fff;font-size:.9rem"><b>Registros · 100.</b> Qual endereço fez cinco falhas seguidas na mesma conta e depois conseguiu entrar?</p>
+      <div class="ctf-log">${Labs.esc(LOG)}</div>
+      <div class="ctf-in"><input aria-label="Resposta no formato flag{IP}" value="flag{"><button class="lab-btn blue">Enviar</button><button class="lab-btn ghost">Dica</button></div><div class="ctf-msg" style="font-size:.88rem;color:#C9D4E5;min-height:1.3em"></div>`;
+    const [env, dica] = ch.querySelectorAll('button'), inp = ch.querySelector('input'), msg = ch.querySelector('.ctf-msg');
+    const enviar = async () => {
+      const v = inp.value.trim().toLowerCase().replace(/\s+/g, '');
+      if (!window.crypto || !crypto.subtle) { msg.textContent = 'Este navegador não oferece crypto.subtle; abra o arquivo no Chrome ou no Edge.'; return; }
+      const h = await sha256(v);
+      if (h === ALVO) {
+        msg.innerHTML = '<span style="color:#3FD47A">Flag correta. SHA-256 confere: ' + h.slice(0, 16) + '…</span> Na vida real, o próximo passo seria abrir um caso: a conta "suporte" foi acessada depois de tentativas seguidas de senha.';
+        if (!resolvido) { resolvido = true; times[2][1] += 100; b.classList.add('solved'); placar(); }
+      } else msg.innerHTML = '<span style="color:#FF5C7A">Hash não confere (' + h.slice(0, 12) + '…).</span> Confira o formato flag{IP}.';
+    };
+    env.addEventListener('click', enviar);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') enviar(); e.stopPropagation(); });
+    dica.addEventListener('click', () => { msg.textContent = 'Ignore a conta "carla" (uma falha só) e o endereço que tenta "root" sem sucesso. Conte as falhas por endereço e por conta.'; });
+  }
+  board.forEach((b) => b.addEventListener('click', () => abrir(b)));
+  placar();
+  abrir(board.find((b) => b.dataset.c === 'Registros' && b.dataset.p === '100'));
+});
+
+/* ---------- 11. Cena 3D: cyber range ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  const mat = (col, e) => new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: e || 0.25, roughness: 0.45 });
+  const grupos = { rede: new THREE.Group(), azul: new THREE.Group(), verm: new THREE.Group(), ctrl: new THREE.Group() };
+  Object.values(grupos).forEach((g) => root.add(g));
+  const piso = new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.4, 0.1, 48), new THREE.MeshStandardMaterial({ color: 0x13254a, transparent: true, opacity: 0.9 }));
+  piso.position.y = -0.05; grupos.rede.add(piso);
+  const nos = [];
+  for (let i = 0; i < 4; i++) { const s = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.3, 0.6), mat(0xdce3ee, 0.1)); const a = i / 4 * Math.PI * 2; s.position.set(Math.cos(a) * 1.2, 0.65, Math.sin(a) * 1.2); grupos.rede.add(s); nos.push(s); }
+  for (let i = 0; i < 10; i++) { const w = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.3, 0.4), mat(0x9fb0c8, 0.1)); const a = i / 10 * Math.PI * 2 + 0.3; w.position.set(Math.cos(a) * 2.7, 0.15, Math.sin(a) * 2.7); grupos.rede.add(w); nos.push(w); }
+  const lr = c.label('Rede simulada', { size: 34, scale: 1.25 }); lr.position.set(0, 2, 0); grupos.rede.add(lr);
+  const time = (g, col, x, z, nome) => { for (let i = 0; i < 4; i++) { const p = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.7, 16), mat(col, 0.4)); p.position.set(x + (i % 2) * 0.7 - 0.35, 0.35, z + Math.floor(i / 2) * 0.7 - 0.35); g.add(p); } const l = c.label(nome, { size: 32, scale: 1.3, color: '#' + col.toString(16).padStart(6, '0') }); l.position.set(x, 2.45, z); g.add(l); };
+  time(grupos.azul, 0x00b1d2, -5.6, 0, 'Equipe azul');
+  time(grupos.verm, 0xff2b5f, 5.6, 0, 'Equipe vermelha');
+  const ctrlBox = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.5, 1.2), mat(0xf2cb0a, 0.35)); ctrlBox.position.set(0, 4.2, -1.5); grupos.ctrl.add(ctrlBox);
+  const lc = c.label('Célula de controle', { size: 32, scale: 1.2, color: '#F2CB0A' }); lc.position.set(0, 3.45, -1.5); grupos.ctrl.add(lc);
+  [[-5.6, 0], [5.6, 0], [0, 0]].forEach(([x, z]) => { const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 4, -1.5), new THREE.Vector3(x, 1, z)]); grupos.ctrl.add(new THREE.Line(g, new THREE.LineDashedMaterial({ color: 0xf2cb0a, dashSize: 0.25, gapSize: 0.18 })).computeLineDistances()); });
+  // tráfego: verde = usuários simulados; vermelho = eventos do roteiro; azul = ações de defesa
+  const pk = [];
+  const mk = (col, from, n) => { for (let i = 0; i < n; i++) { const m = new THREE.Mesh(new THREE.SphereGeometry(0.09, 10, 10), new THREE.MeshBasicMaterial({ color: col })); m.userData = { from, o: Math.random(), alvo: nos[Math.floor(Math.random() * nos.length)] }; root.add(m); pk.push(m); } };
+  mk(0x3fd47a, null, 18); mk(0xff2b5f, new THREE.Vector3(5.6, 0.6, 0), 6); mk(0x58c4e8, new THREE.Vector3(-5.6, 0.6, 0), 6);
+  const info = {
+    rede: 'Rede simulada: réplica da sede e da nuvem da Rede Tatame, com tráfego de alunos e academias gerado por robôs. Nada aqui toca a produção nem dados reais de alunos.',
+    azul: 'Equipe azul: opera os sistemas, monitora, detecta e responde. É quem está sendo treinada e avaliada.',
+    verm: 'Equipe vermelha: gera os eventos previstos no roteiro do exercício, sempre dentro do ambiente isolado.',
+    ctrl: 'Célula de controle: conduz o exercício, injeta eventos, observa as equipes e registra a pontuação.'
+  };
+  const leg = c.legend('<i style="background:#3FD47A"></i>tráfego de usuários<br><i style="background:#FF2B5F"></i>eventos do roteiro<br><i style="background:#58C4E8"></i>ações de defesa');
+  const ctl = c.controls(Object.keys(info).map((k) => `<button class="lab-chip" data-k="${k}">${{ rede: 'Rede', azul: 'Equipe azul', verm: 'Equipe vermelha', ctrl: 'Controle' }[k]}</button>`).join(''));
+  const nota = c.legend(''); nota.style.top = 'auto'; nota.style.bottom = '34px'; nota.style.maxWidth = '60%'; nota.hidden = true;
+  let foco = null;
+  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+    foco = foco === b.dataset.k ? null : b.dataset.k;
+    ctl.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x.dataset.k === foco));
+    Object.entries(grupos).forEach(([k, g]) => g.traverse((o) => { if (o.material && 'opacity' in o.material) { o.material.transparent = true; o.material.opacity = !foco || k === foco ? (o === piso ? 0.9 : 1) : 0.18; } }));
+    nota.hidden = !foco; nota.textContent = foco ? info[foco] : '';
+  }));
+  c.onFrame((t) => {
+    ctrlBox.rotation.y = Math.sin(t * 0.6) * 0.15;
+    pk.forEach((m) => {
+      const u = (t * 0.22 + m.userData.o) % 1, a = m.userData.alvo.position;
+      if (!m.userData.from) { const ang = m.userData.o * 6.28 + t * 0.4; m.position.set(Math.cos(ang) * 2.7 * (1 - u) + a.x * u, 0.3 + Math.sin(u * Math.PI) * 0.6, Math.sin(ang) * 2.7 * (1 - u) + a.z * u); }
+      else { const f = m.userData.from; m.position.set(f.x + (a.x - f.x) * u, f.y + Math.sin(u * Math.PI) * 1.4, f.z + (a.z - f.z) * u); }
+    });
+  });
+}, { camera: [0, 6, 13.5] });
+
+/* ---------- 14. Fluxo: avaliar para melhorar ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'obj', x: 120, y: 90, label: 'Objetivos', sub: 'mensuráveis', icon: '🎯', k: 'purple' },
+    { id: 'cond', x: 360, y: 90, label: 'Condução', sub: '8 injects', icon: '🗣️', k: 'red' },
+    { id: 'aval', x: 600, y: 90, label: 'Avaliadores', sub: 'notas de 0 a 3', icon: '📝', k: 'amber' },
+    { id: 'hot', x: 860, y: 90, label: 'Hot wash', sub: 'logo ao final', icon: '☕', k: 'blue' },
+    { id: 'aar', x: 860, y: 260, label: 'Relatório pós-ação', sub: 'fortes e lacunas', icon: '📄', k: 'blue', w: 200 },
+    { id: 'plano', x: 600, y: 260, label: 'Plano de melhoria', sub: 'dono e prazo', icon: '🛠️', k: 'green', w: 200 },
+    { id: 'ctrl', x: 360, y: 260, label: 'Controle de ações', sub: 'o mesmo do purple', icon: '📋', k: 'purple', w: 190 },
+    { id: 'prox', x: 130, y: 375, label: 'Próximo exercício', sub: 'verifica as ações', icon: '🔁', k: 'green', w: 200 }
+  ],
+  links: [
+    { from: 'obj', to: 'cond' }, { from: 'cond', to: 'aval' }, { from: 'aval', to: 'hot' }, { from: 'hot', to: 'aar' },
+    { from: 'aar', to: 'plano' }, { from: 'plano', to: 'ctrl' }, { from: 'ctrl', to: 'prox' }, { from: 'prox', to: 'obj', dashed: true }
+  ],
+  steps: [
+    { title: '1 · Objetivos antes de tudo', text: 'Exemplos: acionar o comitê de crise em até 15 minutos; acionar o plano de comunicação em até 1 hora; decidir sobre a notificação à ANPD com base em fatos.', on: ['obj'], links: [['obj', 'cond', 'purple']] },
+    { title: '2 · Condução', text: 'A facilitadora apresenta os 8 injects no tempo previsto e força decisões. Ninguém executa nada nos sistemas: é um exercício de discussão.', on: ['cond'], links: [['cond', 'aval', 'red']] },
+    { title: '3 · Avaliação durante o exercício', text: 'Os avaliadores dão de 0 a 3 pontos por inject: 3 é ação correta, no tempo e pelo responsável certo. Primeiro exercício: 14 de 24 pontos.', on: ['aval'], links: [['aval', 'hot', 'amber']] },
+    { title: '4 · Hot wash', text: 'Conversa imediata, com as impressões frescas. A equipe admite que ninguém sabia quem falava com alunos e academias, nem quem decidia sobre a ANPD.', on: ['hot'], links: [['hot', 'aar', 'blue']] },
+    { title: '5 · Relatório pós-ação', text: 'Pontuação de 58%. Pontos fortes: isolamento rápido da rede. Lacunas: comunicação com alunos e academias (nota 0) e notificação à ANPD (nota 1).', on: ['aar'], bad: ['aar'], links: [['aar', 'plano', 'blue']] },
+    { title: '6 · Plano de melhoria no controle de ações', text: 'Revisar o plano de comunicação (dono: gerência de comunicação, 30 dias) e treinar o jurídico sobre notificação (dono: DPO, 45 dias). As ações entram no mesmo controle do purple teaming.', on: ['plano', 'ctrl'], links: [['plano', 'ctrl', 'green']] },
+    { title: '7 · O exercício seguinte verifica', text: 'O novo tabletop repete os injects críticos. Resultado: 20 de 24 pontos, 83%. As duas ações são marcadas como verificadas, como um reteste.', on: ['prox', 'obj'], links: [['ctrl', 'prox', 'green'], ['prox', 'obj', 'purple']] }
+  ]
+});
+
+/* ---------- 16. VS Code: injects + pontuação ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'tabletop-ransomware', team: 'purple', status: 'Python 3.12', open: 'injects.yaml', typeOnEnter: true,
+  files: [
+    { path: 'injects.yaml', hl: [4, 5, 6, 13, 14], code:
+`# Tabletop "Sexta-feira, 22h": Rede Tatame (fictícia)
+# Duração: 90 min · Facilitadora: Marina Prado (CISO) · Pontuação: 0 a 3 por inject
+objetivos:
+  - acionar o comitê de crise em até 15 minutos
+  - acionar o plano de comunicação em até 1 hora
+  - decidir sobre notificação à ANPD com base em fatos
+injects:
+  - { t: 0,  id: I1, resp: SOC,           texto: "SRV-ARQ-01 e SRV-ERP-01 inacessíveis e nota de resgate na tela" }
+  - { t: 10, id: I2, resp: CISO,          texto: "Plantonista pede autorização para acionar o comitê de crise" }
+  - { t: 20, id: I3, resp: Infraestrutura, texto: "O backup em disco também foi criptografado" }
+  - { t: 30, id: I4, resp: Diretor de TI,  texto: "Desligar a VPN e isolar a sede da nuvem? As academias param?" }
+  - { t: 40, id: I5, resp: Comunicação,    texto: "A imprensa ligou pedindo uma posição" }
+  - { t: 50, id: I6, resp: Comunicação,    texto: "Alunos reclamam nas redes de check-in e mensalidades paradas" }
+  - { t: 60, id: I7, resp: DPO e Jurídico, texto: "Indícios de que fichas de alunos, inclusive menores, foram copiadas" }
+  - { t: 75, id: I8, resp: Diretoria,      texto: "O grupo reduz o resgate e dá prazo de 48 horas" }`},
+    { path: 'avaliacao.csv', hl: [7, 8], code:
+`inject,exercicio_1,exercicio_2
+I1,2,3
+I2,2,3
+I3,2,2
+I4,3,3
+I5,2,3
+I6,0,2
+I7,1,2
+I8,2,2`},
+    { path: 'pontuar.py', hl: [16, 17, 18], code:
+`"""Pontua um tabletop: 0 = sem ação ... 3 = ação correta, no tempo e pelo responsável certo."""
+import csv
+import sys
+import yaml
+
+roteiro = yaml.safe_load(open("injects.yaml", encoding="utf-8"))
+coluna = sys.argv[1] if len(sys.argv) > 1 else "exercicio_1"
+notas = {l["inject"]: int(l[coluna]) for l in csv.DictReader(open("avaliacao.csv", encoding="utf-8"))}
+
+MAX_POR_INJECT = 3
+for inj in roteiro["injects"]:
+    n = notas[inj["id"]]
+    barra = "#" * n + "." * (MAX_POR_INJECT - n)
+    print(f"T+{inj['t']:>2} {inj['id']} [{barra}] {n}/3  {inj['resp']}")
+
+total = sum(notas.values())
+maximo = MAX_POR_INJECT * len(roteiro["injects"])
+print(f"\\nPontuação: {total}/{maximo} = {total / maximo:.0%}")
+fracos = [i for i in roteiro["injects"] if notas[i["id"]] <= 1]
+for i in fracos:
+    print(f"Lacuna -> {i['id']}: {i['texto']} ({i['resp']})")
+if not fracos:
+    print("Nenhum inject com nota 0 ou 1.")`}
+  ],
+  run: [
+    { label: 'Pontuar o 1º exercício', kind: 'red', cmd: 'python pontuar.py exercicio_1', file: 'pontuar.py', out: [
+      'T+ 0 I1 [##.] 2/3  SOC', 'T+10 I2 [##.] 2/3  CISO', 'T+20 I3 [##.] 2/3  Infraestrutura', '[ok] T+30 I4 [###] 3/3  Diretor de TI',
+      'T+40 I5 [##.] 2/3  Comunicação', '[err] T+50 I6 [...] 0/3  Comunicação', '[err] T+60 I7 [#..] 1/3  DPO e Jurídico', 'T+75 I8 [##.] 2/3  Diretoria',
+      '', '[hi] Pontuação: 14/24 = 58%',
+      '[warn] Lacuna -> I6: Alunos reclamam nas redes de check-in e mensalidades paradas (Comunicação)',
+      '[warn] Lacuna -> I7: Indícios de que fichas de alunos, inclusive menores, foram copiadas (DPO e Jurídico)' ] },
+    { label: 'Pontuar o exercício seguinte', kind: 'purple', cmd: 'python pontuar.py exercicio_2', file: 'avaliacao.csv', out: [
+      '[ok] T+ 0 I1 [###] 3/3  SOC', '[ok] T+10 I2 [###] 3/3  CISO', 'T+20 I3 [##.] 2/3  Infraestrutura', '[ok] T+30 I4 [###] 3/3  Diretor de TI',
+      '[ok] T+40 I5 [###] 3/3  Comunicação', 'T+50 I6 [##.] 2/3  Comunicação', 'T+60 I7 [##.] 2/3  DPO e Jurídico', 'T+75 I8 [##.] 2/3  Diretoria',
+      '', '[hi] Pontuação: 20/24 = 83%', '[ok] Nenhum inject com nota 0 ou 1.' ] }
+  ]
+});
+
+/* ---------- 11b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
+</script>
+</body>
+</html>

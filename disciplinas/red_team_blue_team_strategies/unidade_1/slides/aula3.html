@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 3 — Avaliações de segurança: varredura, pentest e Red Team</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .brw-page h1 { color: #0F2A3D !important; font-size: 22px !important; margin: 0 0 4px !important; }
+  .brw-page em { color: inherit !important; font-weight: inherit !important; }
+  .brw-page b, .brw-page strong { color: inherit !important; }
+  .rel { font-family: var(--fonte); color: #1A1A1A; }
+  .rel-top { background: #0F2A3D; color: #fff; padding: 10px 22px; display: flex; gap: 14px; align-items: center; font-size: 13px; }
+  .rel-top b { font-size: 15px; }
+  .rel-body { padding: 14px 24px 20px; }
+  .rel h1 { font: 800 21px var(--fonte); color: #0F2A3D; margin: 0 0 2px; }
+  .rel .sub { color: #666; font-size: 13px; margin-bottom: 10px; }
+  .rel-tabs { display: flex; gap: 4px; border-bottom: 2px solid #D9DEE8; margin-bottom: 12px; }
+  .rel-tabs button { border: 0; background: none; padding: 8px 12px; font: 600 13.5px var(--fonte); color: #555; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+  .rel-tabs button.on { color: #0B6E8A; border-bottom-color: #0B6E8A; }
+  .rel table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  .rel th { background: #0F2A3D; color: #fff; text-align: left; padding: 6px 8px; font-weight: 600; }
+  .rel td { border-bottom: 1px solid #E3E7EF; padding: 6px 8px; vertical-align: top; color: #222; }
+  .rel .kp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 12px; }
+  .rel .kp div { background: #F2F5FA; border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #555; }
+  .rel .kp b { display: block; font-size: 20px; color: #0F2A3D; }
+  .rel .pill { display: inline-block; border-radius: 4px; padding: 2px 7px; font: 700 11px var(--fonte); color: #fff; }
+  .rel .alta { background: #F2700A; } .rel .media { background: #C9A400; } .rel .gap { background: #B3123F; } .rel .ok { background: #1F8A4C; } .rel .late { background: #C9A400; }
+  .orc-card { background: #0B1424; border: 2px solid #22314F; border-radius: 12px; padding: .8em 1em; transition: all .3s; }
+  .orc-card.rec { border-color: #3FD47A; box-shadow: 0 0 18px rgba(63,212,122,.35); }
+  .orc-card h5 { margin: 0 0 .4em; font: 700 1rem var(--fonte); color: #fff; }
+  .orc-card .tot { font: 800 1.5rem var(--fonte); color: #F2CB0A; }
+  .orc-card p { font-size: .9rem !important; color: #C9D4E5 !important; margin: .3em 0 !important; }
+  .orc-why { background: #13213D; border-left: 4px solid #3FD47A; border-radius: 0 10px 10px 0; padding: .7em 1em; color: #DCE3EE; font-size: .95rem; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 1|Aula 3 — Videoaula 3">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 3 — Avaliações de segurança: varredura, pentest e Red Team</h1>
+      <div class="subtitulo">Unidade 1 — Fundamentos: ataque e defesa como estratégia</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Os laboratórios usam a Rede Tatame, rede fictícia de academias de jiu-jitsu. Esta aula tem sete laboratórios: um terminal preto com uma varredura de vulnerabilidades autorizada na borda da plataforma; o simulador da Rede Tatame, com a tabela de ativos expostos ordenada por risco e o cenário de reconhecimento externo; uma pirâmide em 3D com três andares, azul, amarelo e vermelho, para varredura, pentest e Red Team; um diagrama circular animado com as sete fases do PTES ligadas às quatro fases do NIST SP 800-115; um editor VS Code que confere regras de engajamento escritas em YAML; uma janela de navegador com um relatório de Red Team em três abas; e um painel interativo que compara duas formas de gastar o mesmo orçamento.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Avaliações de segurança: varredura, pentest e Red Team</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema de hoje: que avaliação a Rede Tatame precisa?</li>
+          <li>Três tipos de avaliação e uma varredura no terminal</li>
+          <li>Laboratório: a superfície da Rede Tatame no simulador</li>
+          <li>A pirâmide das avaliações, em 3D</li>
+          <li>Metodologias: NIST SP 800-115, PTES e OWASP</li>
+          <li>Caixa-preta, caixa-cinza e caixa-branca</li>
+          <li>Regras de engajamento como código</li>
+          <li>O relatório e a linha do tempo Red x Blue</li>
+          <li>Pausa para reflexão e o orçamento</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>"Fizemos um <em>pentest</em> e está tudo certo"</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Caio Mendes é o administrador de TI da sede. Na reunião de planejamento, ele lembra que o portal das academias passou por um <em>pentest</em>, um teste de invasão, no ano passado, e conclui que está tudo certo.</p>
+          <p>A CISO, Marina Prado, tem R$ 120.000 para o próximo ano e duas dúvidas: o que a Rede Tatame expõe na internet hoje, e se o SOC (centro de operações de segurança) perceberia um ataque realista.</p>
+          <p>O que está em jogo: um ambiente de homologação esquecido, com cópia de dados de alunos, e a VPN da sede.</p>
+          <div class="pergunta">Que tipo de avaliação responde a cada dúvida da Rede Tatame: varredura, <em>pentest</em> ou Red Team?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>TI da sede</b> Caio Mendes</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Decide e autoriza</b> Marina Prado</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Três tipos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Três tipos de avaliação, três perguntas</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Varredura de vulnerabilidades</strong>: verificação em geral automatizada que compara os sistemas com bases de vulnerabilidades conhecidas. Responde "quais falhas conhecidas existem nos meus ativos?". É ampla, rápida e deve ser periódica, mas gera falsos positivos e não comprova se a falha é explorável.</li>
+          <li><strong>Teste de invasão (<em>pentest</em>)</strong>: especialistas tentam explorar as vulnerabilidades, dentro de um escopo definido, para demonstrar o impacto real. Responde "o que um atacante consegue fazer nesse sistema?". O foco é encontrar o maior número de falhas relevantes em um alvo delimitado.</li>
+          <li><strong>Operação de Red Team</strong>: emula um adversário específico perseguindo um objetivo de negócio, com furtividade e por mais tempo. Responde "a organização detecta e responde a um ataque realista?". Avalia tecnologia, <strong>pessoas e processos de defesa</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LAB terminal: varredura -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Uma varredura autorizada e seus limites</h2></div><span class="lab-badge red">Varredura</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Responder à primeira dúvida: o que a Rede Tatame expõe na internet.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim do roteiro.</div>
+            <div class="rl obs"><b>Observe</b>O escopo antes do primeiro pacote, as versões encontradas, as notas CVSS (gravidade de 0 a 10) de cada CVE (falha catalogada) e um achado crítico que é, provavelmente, falso positivo.</div>
+            <div class="rl conc"><b>Conclusão</b>A varredura é ampla e rápida, aponta candidatos e acha o <code>hml-gestao</code>. Comprovar a falha é trabalho do <em>pentest</em>.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6b. PLATAFORMA REDE TATAME: superfície e reconhecimento -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Da lista de achados ao que a defesa enxerga</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Priorizar os achados e ver o que o SOC percebe de um reconhecimento.</div>
+            <div class="rl"><b>Faça</b>1. Na aba <strong>Superfície</strong>, veja quais ativos ficam no topo e quais estão fora do inventário.<br>2. Em <strong>Cenários</strong>, inicie <em>Reconhecimento externo</em>.<br>3. Clique em <strong>Reiniciar</strong>, ligue a fonte <em>Monitor de certificados</em> (Telemetria) e a regra R12 (Regras do CEP) e rode de novo.</div>
+            <div class="rl obs"><b>Observe</b>O risco combina CVSS, EPSS (chance de exploração), catálogo KEV (falhas já exploradas) e criticidade. Na primeira rodada, só a varredura da borda gera alerta.</div>
+            <div class="rl conc"><b>Conclusão</b>O <code>promo-hml</code> é da agência: aparece no levantamento, mas fica fora do escopo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Tabela -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comparação</p>
+      <h2>Varredura, pentest e Red Team lado a lado</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Critério</th><th>Varredura</th><th><em>Pentest</em></th><th>Red Team</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pergunta</strong></td><td>Quais falhas conhecidas existem?</td><td>O que pode ser explorado?</td><td>Detectamos e respondemos?</td></tr>
+            <tr><td><strong>Escopo</strong></td><td>Amplo</td><td>Delimitado</td><td>Orientado a objetivos</td></tr>
+            <tr><td><strong>Furtividade</strong></td><td>Nenhuma</td><td>Baixa</td><td>Alta</td></tr>
+            <tr><td><strong>Duração típica</strong></td><td>Horas</td><td>Dias a semanas</td><td>Semanas a meses</td></tr>
+            <tr><td><strong>Blue Team avisado?</strong></td><td>Sim</td><td>Normalmente sim</td><td>Normalmente não (só a liderança)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB 3D: pirâmide -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A pirâmide das avaliações</h2></div><span class="lab-badge purple">Maturidade</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Comparar os três tipos de avaliação lado a lado.</div>
+            <div class="rl"><b>Faça</b>Clique em Varredura, <em>Pentest</em> e Red Team, no canto da cena, e gire a pirâmide.</div>
+            <div class="rl obs"><b>Observe</b>Como num hospital: a varredura é o <em>check-up</em> de rotina, o <em>pentest</em> é o exame detalhado de um órgão e o Red Team é a simulação de emergência.</div>
+            <div class="rl conc"><b>Conclusão</b>Cada andar se apoia no de baixo: Red Team sem varredura esbarra em falhas que uma varredura já mostraria.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Metodologias -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Metodologias de referência</p>
+      <h2>Método garante cobertura e repetibilidade</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>NIST SP 800-115</strong>: organiza a avaliação em quatro fases: planejamento, descoberta, ataque e relatório.</li>
+          <li><strong>PTES</strong> (<em>Penetration Testing Execution Standard</em>): detalha sete fases: pré-engajamento, coleta de informações, modelagem de ameaças, análise de vulnerabilidades, exploração, pós-exploração e relatório.</li>
+          <li><strong>OWASP Web Security Testing Guide</strong>: a referência mais usada para aplicações <em>web</em>.</li>
+        </ul>
+        <div class="callout-azul"><p>As metodologias concordam no essencial: o teste começa no pré-engajamento, com escopo e autorização, e só termina quando o relatório é entregue.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB flow PTES -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver que as metodologias seguem a mesma ordem</p><h2>O ciclo do PTES e as fases do NIST</h2></div><span class="lab-badge">Metodologia</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 11. Caixas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Nível de informação</p>
+      <h2>Caixa-preta, caixa-cinza e caixa-branca</h2>
+      <div class="slide-content-box">
+        <p>O nível de informação fornecido aos testadores muda o resultado.</p>
+        <div class="pontos-chave" style="margin-top:.4rem">
+          <div class="ponto"><h3>Caixa-preta</h3><p>A equipe recebe apenas o nome da empresa, como um atacante externo. Mais realista, mas consome tempo descobrindo o que a empresa já sabe.</p></div>
+          <div class="ponto"><h3>Caixa-cinza</h3><p>Informações parciais, como uma conta de usuário comum. Equilibra realismo e eficiência.</p></div>
+          <div class="ponto"><h3>Caixa-branca</h3><p>Acesso a diagramas, código-fonte e configurações. Encontra mais falhas por hora investida.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. RoE -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Regras de engajamento na prática</p>
+      <h2>O que o documento precisa definir</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Ativos <strong>dentro e fora do escopo</strong> e as <strong>janelas de horário</strong>.</li>
+          <li><strong>Técnicas proibidas</strong>, por exemplo negação de serviço em produção.</li>
+          <li><strong>Tratamento de dados sensíveis</strong> encontrados durante o teste.</li>
+          <li><strong>Critérios de parada</strong> e a <strong>carta de autorização</strong>, que o testador apresenta se for abordado.</li>
+          <li>Em Red Team, a <strong>célula branca</strong> (<em>white cell</em>): um pequeno grupo da liderança que sabe do exercício e pode interrompê-lo se ele for confundido com um incidente real.</li>
+        </ul>
+        <div class="callout-azul"><p>Erro comum: testar um endereço de terceiro, como o servidor de um fornecedor. Sem autorização do dono do ativo, o teste vira acesso indevido, com as consequências legais vistas na Aula 1.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB VS Code RoE -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Um modelo de RoE, conferido item por item</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Preparar a operação de Red Team que responde à segunda dúvida.</div>
+            <div class="rl"><b>Faça</b>1. Leia as linhas destacadas do <code>roe_tatame.yaml</code>: célula branca e critérios de parada.<br>2. Clique em "Rascunho" e depois em "Versão final".</div>
+            <div class="rl obs"><b>Observe</b>O rascunho tem dois itens faltando e o teste não começa. Na versão final, um alvo é da rede de pagamentos e outro é do site da agência.</div>
+            <div class="rl conc"><b>Conclusão</b>O <em>script</em> só confere se o campo existe. "E-mail do gerente de TI" não é carta de autorização, e isso exige leitura humana.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Relatório -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O relatório</p>
+      <h2>Onde o teste gera valor</h2>
+      <div class="slide-content-box">
+        <p>Um teste só se transforma em melhoria quando seus resultados são bem comunicados. Um bom relatório tem duas camadas:</p>
+        <ul>
+          <li><strong>Sumário executivo</strong>: explica em linguagem de negócio o risco encontrado e as prioridades.</li>
+          <li><strong>Seção técnica</strong>: cada achado com evidências, severidade e recomendação de correção.</li>
+        </ul>
+        <div class="callout-azul"><p>Em operações de Red Team, o relatório inclui a linha do tempo do ataque comparada com o que o Blue Team detectou. É essa comparação que revela as lacunas de detecção e resposta.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB browser relatório -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>Um relatório de Red Team em três camadas</h2></div><span class="lab-badge purple">Red x Blue</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver o que uma operação de Red Team entrega para a Rede Tatame.</div>
+            <div class="rl"><b>Faça</b>Navegue pelas três abas do relatório RT-2026-07.</div>
+            <div class="rl obs"><b>Observe</b>O sumário para a diretoria, os achados com evidência e a linha do tempo de cada ação do Red Team ao lado do que o SOC viu.</div>
+            <div class="rl conc"><b>Conclusão</b>O SOC percebeu 2 de 7 ações. As lacunas viram o plano de trabalho do Blue Team.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-brw"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>A rede de farmácias e o "pentest completo"</h2>
+      <div class="slide-content-box">
+        <p>Uma rede de farmácias com 300 lojas pede uma proposta de "<em>pentest</em> completo", com o objetivo declarado de "saber se o SOC terceirizado está detectando ataques". Ela já realiza varreduras mensais de vulnerabilidades.</p>
+        <ol>
+          <li>O serviço solicitado responde à pergunta da empresa? Justifique.</li>
+          <li>Que tipo de avaliação você recomendaria e com qual objetivo de negócio?</li>
+          <li>Quais três itens não podem faltar nas regras de engajamento desse trabalho?</li>
+        </ol>
+        <div class="callout-azul"><p><strong>Desafio prático</strong>: redija, em até uma página, um esboço de regras de engajamento para esse cenário.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Resolvendo o caso -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Resolvendo o caso</p>
+      <h2>Uma resposta possível para a rede de farmácias</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>1. Não responde.</strong> O <em>pentest</em> busca o maior número de falhas em um alvo delimitado, em geral com o Blue Team avisado. Ele não mede se o SOC percebe um ataque, e as falhas conhecidas já aparecem nas varreduras mensais.</li>
+          <li><strong>2. Operação de Red Team</strong> com objetivo de negócio, por exemplo: partir de uma loja e chegar à base de clientes sem ser detectado. O SOC terceirizado não é avisado, e o resultado é medido em tempo até detectar e tempo até responder.</li>
+          <li><strong>3. Itens indispensáveis</strong>: célula branca, com um contato no fornecedor do SOC; escopo com exclusões explícitas, como caixas e sistemas de terceiros; critérios de parada; e regras para dados de clientes e receitas, que são dados pessoais sensíveis.</li>
+        </ul>
+        <div class="callout-azul"><p>Outras respostas são aceitas se forem justificadas pela pergunta de negócio. O modelo de RoE da Rede Tatame, visto no laboratório, é um ponto de partida para o desafio.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Priorizando o orçamento de R$ 120.000</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Opção</th><th>Composição</th><th>Total anual</th><th>Faz mais sentido quando</th></tr></thead>
+          <tbody>
+            <tr><td><strong>(a)</strong></td><td>4 <em>pentests</em> de aplicações × R$ 30.000</td><td style="white-space:nowrap">R$ 120.000</td><td>a empresa vai lançar quatro novos sistemas expostos à internet</td></tr>
+            <tr><td><strong>(b)</strong></td><td>Varreduras mensais (R$ 2.000 × 12 = R$ 24.000) + Red Team (R$ 96.000)</td><td style="white-space:nowrap">R$ 120.000</td><td>a principal dúvida da diretoria é a capacidade de detecção</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>As duas opções custam o mesmo. O número sozinho não decide: a pergunta de negócio decide.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. LAB orçamento -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Decisão</p><h2>Mesmo orçamento, perguntas diferentes</h2></div><span class="lab-badge">Linguagem da diretoria</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Decidir como gastar os R$ 120.000 da Rede Tatame.</div>
+            <div class="rl"><b>Faça</b>1. Escolha uma das perguntas da diretoria.<br>2. Mexa nos preços: se o Red Team ficar mais caro, o que você negociaria?</div>
+            <div class="rl obs"><b>Observe</b>Valores iniciais do exemplo: orçamento de R$ 120.000, <em>pentest</em> a R$ 30.000, varredura a R$ 2.000 por mês e Red Team a R$ 96.000.</div>
+            <div class="rl conc"><b>Conclusão</b>O número sozinho não decide: a pergunta de negócio decide.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-orc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Cada dúvida tem a sua avaliação</h2>
+      <div class="resolvido">
+        <div class="ev"><b>O que está exposto</b>A varredura da borda achou o <code>hml-gestao</code>, fora do inventário, e um falso positivo. Deve ser periódica.</div>
+        <div class="ev"><b>A falha é explorável?</b>Só um <em>pentest</em> no <code>hml-gestao</code>, com escopo próprio, comprova o risco da versão antiga.</div>
+        <div class="ev"><b>O SOC percebe?</b>Só uma operação de Red Team responde, com RoE, célula branca e critérios de parada.</div>
+        <div class="ev"><b>Onde gastar</b>Com a dúvida sobre detecção, a opção de varreduras mensais mais Red Team cabe nos R$ 120.000.</div>
+        <div class="resposta">Resposta: para saber o que está exposto, varredura periódica; para comprovar uma falha, <em>pentest</em>; para saber se o SOC percebe e reage, Red Team. O "<em>pentest</em> do ano passado" não responde a nenhuma das duas dúvidas de Marina.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Varredura, <em>pentest</em> e Red Team respondem a perguntas diferentes.</li>
+          <li>Metodologias como NIST SP 800-115, PTES e OWASP WSTG dão método e repetibilidade.</li>
+          <li>Regras de engajamento e carta de autorização são obrigatórias; em Red Team, também a célula branca.</li>
+          <li>O relatório, com a linha do tempo Red x Blue, é onde o teste vira melhoria.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>SP 800-115: technical guide to information security testing and assessment</em>. Gaithersburg: NIST, 2008.</p>
+        <p>OWASP FOUNDATION. <em>OWASP web security testing guide</em>. Versão 4.2. 2020. Disponível em: &lt;https://owasp.org/www-project-web-security-testing-guide/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>PTES. <em>The penetration testing execution standard</em>. Disponível em: &lt;http://www.pentest-standard.org/&gt;. Acesso em: 13 nov. 2026.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já escolhe a avaliação certa para cada pergunta de negócio e sabe o que não pode faltar nas regras de engajamento e no relatório. Já sabemos como o ataque é planejado; na próxima aula, vamos ver como a defesa se organiza.</p>
+      <p class="fim-proxima">Próxima aula: Aula 4 — Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Problema de hoje: mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['waf', 'portal', 'vpn', 'mail', 'siem'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
+  legenda: 'Onde a aula acontece: a borda da plataforma. Em vermelho, a homologação esquecida, que chega ao banco sem passar pelo WAF.' });
+
+/* ---------- 6. Terminal: varredura autorizada ---------- */
+Labs.terminal('#lab-term', {
+  title: 'bruno.sato@NB-RED-002: ~/varredura-borda', prompt: 'bruno.sato@NB-RED-002:~/varredura-borda$ ',
+  steps: [
+    { cmd: 'cat escopo.txt', note: 'Antes de qualquer pacote, o escopo autorizado. Sistemas de terceiros ficam de fora, mesmo com nome parecido.', out: [
+      '# Varredura autorizada · chamado SEC-4471 · Rede Tatame (fictícia)',
+      'faixa autorizada : 203.0.113.0/26 (borda da plataforma)',
+      'janela           : 16/11/2026, das 09:00 às 18:00 · aprovação: Marina Prado (CISO)',
+      '[warn] fora do escopo   : api.pagafacil.example (pagamentos), status.tatame.com.br,',
+      '[warn]                    promo-hml.tatame.com.br (198.51.100.23, hospedado pela agência)' ] },
+    { cmd: 'nmap -sV -p 25,443,8080 203.0.113.0/26', note: 'Descoberta de serviços e versões na faixa autorizada. Atrás da CDN, o site e o app mostram só a borda; a homologação aparece sem proteção.', speed: 70, out: [
+      'Starting Nmap 7.94 ( https://nmap.org ) at 2026-11-16 09:12 -03',
+      'Nmap scan report for www.tatame.com.br (203.0.113.10)',
+      '443/tcp  open  ssl/http  CDN edge', '',
+      'Nmap scan report for app.tatame.com.br (203.0.113.20)',
+      '443/tcp  open  ssl/http  CDN edge', '',
+      'Nmap scan report for gestao.tatame.com.br (203.0.113.21)',
+      '443/tcp  open  ssl/http  CDN edge (HTTP/2)', '',
+      'Nmap scan report for api.tatame.com.br (203.0.113.22)',
+      '443/tcp  open  ssl/http  CDN edge', '',
+      'Nmap scan report for vpn.tatame.com.br (203.0.113.30)',
+      '443/tcp  open  ssl/http  NetGuard SSL VPN 9.1', '',
+      'Nmap scan report for mx1.tatame.com.br (203.0.113.40)',
+      '25/tcp   open  smtp      Postfix smtpd', '',
+      'Nmap scan report for hml-gestao.tatame.com.br (203.0.113.45)',
+      '443/tcp  open  ssl/http  Apache httpd 2.4.49 ((Unix))',
+      '8080/tcp open  http      Apache Tomcat 9.0.54', '',
+      '[info] Nmap done: 64 IP addresses (7 hosts up) scanned in 41.07 seconds' ] },
+    { cmd: 'vulnscan relatorio --alvos 203.0.113.0/26 --min-cvss 7.0', note: 'O scanner (fictício) cruza as versões encontradas com bases de vulnerabilidades conhecidas e com o inventário.', out: [
+      '[mute] vulnscan 3.2 · base de vulnerabilidades atualizada em 15/11/2026',
+      'HOST          COMPONENTE            CVE             CVSS  SEVERIDADE  MÉTODO',
+      '[red] 203.0.113.30  NetGuard SSL VPN 9.1  CVE-2024-3400   10.0  crítica     versão por banner',
+      '[red] 203.0.113.10  log4j-core 2.14.1     CVE-2021-44228  10.0  crítica     texto da página de erro',
+      '[warn] 203.0.113.45  Apache httpd 2.4.49   CVE-2021-41773   7.5  alta        versão por banner',
+      '[warn] 203.0.113.21  HTTP/2                CVE-2023-44487   7.5  alta        resposta do protocolo',
+      '',
+      '4 achados com CVSS >= 7.0 · 1 ativo fora do inventário: hml-gestao.tatame.com.br' ] },
+    { cmd: 'vulnscan detalhe CVE-2021-44228 --host 203.0.113.10', note: 'A versão foi lida de uma página de erro antiga, e não do componente instalado.', out: [
+      'Detecção  : página /erro.html cita "log4j-core 2.14.1"',
+      'Inventário: log4j-core 2.17.1 instalado desde 2022 (inventário autenticado)',
+      'Origem    : página estática esquecida, gerada antes da correção',
+      '[ok] Veredito  : provável FALSO POSITIVO · marcado para revisão manual' ] },
+    { cmd: 'vulnscan exportar --formato csv > varredura_2026-11-16.csv', note: 'O resultado segue para priorização. Comprovar se a falha da homologação é explorável é trabalho do pentest, com outro escopo e outra autorização.', out: [
+      '[ok] 4 achados exportados (2 críticos, 2 altos), 1 deles marcado como provável falso positivo.',
+      '[info] Próximo passo: priorizar com o dono de cada ativo, incluindo o hml-gestao, que ninguém sabia que existia.' ] }
+  ],
+  done: 'Roteiro concluído: ampla e rápida, a varredura aponta candidatos, inclusive falsos positivos.'
+});
+
+/* ---------- 6b. Plataforma Rede Tatame: superfície e reconhecimento ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'superficie' });
+
+/* ---------- 8. Cena 3D: pirâmide das avaliações ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  const N = [
+    { n: 'Varredura', cor: 0x00b1d2, css: '#58C4E8', rb: 4.3, rt: 3.0, h: 1.5, y: -1.6,
+      t: 'Pergunta: quais falhas conhecidas existem?<br>Escopo amplo · sem furtividade · horas<br>Blue Team avisado: sim<br><i>Analogia: check-up de rotina</i>' },
+    { n: 'Pentest', cor: 0xf2cb0a, css: '#F2CB0A', rb: 2.85, rt: 1.55, h: 1.5, y: 0.0,
+      t: 'Pergunta: o que pode ser explorado?<br>Escopo delimitado · furtividade baixa · dias a semanas<br>Blue Team avisado: normalmente sim<br><i>Analogia: exame detalhado de um órgão</i>' },
+    { n: 'Red Team', cor: 0xff2b5f, css: '#FF5C7A', rb: 1.4, rt: 0.05, h: 1.7, y: 1.7,
+      t: 'Pergunta: detectamos e respondemos?<br>Orientado a objetivos · furtividade alta · semanas a meses<br>Blue Team avisado: normalmente não (só a liderança)<br><i>Analogia: simulação de emergência no hospital</i>' }
+  ];
+  const meshes = N.map((a, i) => {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(a.rt, a.rb, a.h, 4, 1), new THREE.MeshStandardMaterial({ color: a.cor, emissive: a.cor, emissiveIntensity: 0.15, transparent: true, opacity: 0.88, flatShading: true }));
+    m.rotation.y = Math.PI / 4; m.position.y = a.y; root.add(m);
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+    m.add(e);
+    const l = c.label(a.n, { color: a.css, size: 40 }); l.position.set(0, a.y + (i === 2 ? 0.2 : 0), a.rb + 0.6); root.add(l);
+    return m;
+  });
+  const up = c.label('mais profundo e realista', { size: 28, color: '#FF9DB3' }); up.position.set(-4.6, 2.6, 0); root.add(up);
+  const dn = c.label('mais amplo e frequente', { size: 28, color: '#9FE6F5' }); dn.position.set(-4.6, -2.7, 0); root.add(dn);
+  const leg = c.legend(''); leg.style.maxWidth = '330px';
+  const ctl = c.controls(N.map((a, i) => '<button class="lab-btn ghost" data-i="' + i + '">' + a.n + '</button>').join('') + '<button class="lab-btn ghost" data-i="-1">Pirâmide inteira</button>');
+  ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
+  let sel = -1;
+  function set(i) {
+    sel = i;
+    ctl.querySelectorAll('button').forEach((b) => b.classList.toggle('ghost', +b.dataset.i !== i));
+    meshes.forEach((m, k) => { m.material.opacity = i < 0 || k === i ? 0.9 : 0.25; m.material.emissiveIntensity = k === i ? 0.55 : 0.15; });
+    leg.innerHTML = i < 0 ? '<b>Três andares, três perguntas</b><br>Clique em um andar para ver os critérios.' : '<b style="color:' + N[i].css + '">' + N[i].n + '</b><br>' + N[i].t;
+  }
+  ctl.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) set(+b.dataset.i); });
+  set(-1);
+  c.onFrame((t) => {
+    meshes.forEach((m, k) => {
+      const alvo = k === sel ? 1.4 : 0;
+      m.position.z += (alvo - m.position.z) * 0.08;
+      m.position.y = N[k].y + (k === sel ? Math.sin(t * 3) * 0.06 : 0);
+    });
+  });
+}, { camera: [0, 3.5, 13], spin: 0.12 });
+
+/* ---------- 10. Fluxo: PTES e NIST SP 800-115 ---------- */
+(function () {
+  const P = [
+    ['pre', 'Pré-engajamento', 'escopo, RoE, autorização', '📝'], ['col', 'Coleta', 'de informações', '🔎'], ['mod', 'Modelagem', 'de ameaças', '🧭'],
+    ['ana', 'Análise', 'de vulnerabilidades', '🧪'], ['exp', 'Exploração', 'comprovar o impacto', '🎯'], ['pos', 'Pós-exploração', 'até onde o acesso chega', '🧗'], ['rel', 'Relatório', 'achados e correções', '📄']
+  ];
+  const nodes = P.map(([id, label, sub, icon], i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / 7;
+    return { id, label, sub, icon, k: 'red', w: 200, x: Math.round(400 + 290 * Math.cos(a)), y: Math.round(218 + 160 * Math.sin(a)) };
+  });
+  nodes.push(
+    { id: 'n1', x: 960, y: 70, label: 'Planejamento', sub: 'NIST SP 800-115', k: 'amber', w: 210 },
+    { id: 'n2', x: 960, y: 170, label: 'Descoberta', sub: 'NIST SP 800-115', k: 'amber', w: 210 },
+    { id: 'n3', x: 960, y: 270, label: 'Ataque', sub: 'NIST SP 800-115', k: 'amber', w: 210 },
+    { id: 'n4', x: 960, y: 370, label: 'Relatório', sub: 'NIST SP 800-115', k: 'amber', w: 210 }
+  );
+  const links = P.map(([id], i) => ({ from: id, to: P[(i + 1) % 7][0], dashed: i === 6 }));
+  Labs.flow('#lab-flow', {
+    w: 1100, h: 440, nodes, links,
+    steps: [
+      { title: 'Duas metodologias, a mesma lógica', text: 'À esquerda, as sete fases do PTES em ciclo. À direita, as quatro fases do NIST SP 800-115. Avance para ver como uma se encaixa na outra.', on: ['pre', 'col', 'mod', 'ana', 'exp', 'pos', 'rel', 'n1', 'n2', 'n3', 'n4'] },
+      { title: '1 · Pré-engajamento', text: 'Objetivo, escopo, janelas, regras de engajamento e carta de autorização. Nada técnico começa antes. No NIST, é o planejamento.', on: ['pre', 'n1'], links: [['pre', 'n1', 'amber']], dim: true },
+      { title: '2 · Coleta de informações', text: 'Domínios, endereços, tecnologias e pessoas, sempre dentro do escopo. No NIST, começa a descoberta.', on: ['col', 'n2'], links: [['pre', 'col', 'red'], ['col', 'n2', 'amber']], dim: true },
+      { title: '3 · Modelagem de ameaças', text: 'Quais ativos importam e quem teria interesse neles. Orienta onde gastar o tempo do teste.', on: ['mod', 'n2'], links: [['col', 'mod', 'red'], ['mod', 'n2', 'amber']], dim: true },
+      { title: '4 · Análise de vulnerabilidades', text: 'Varreduras e verificação manual das falhas candidatas, separando os falsos positivos, como no terminal desta aula.', on: ['ana', 'n2'], links: [['mod', 'ana', 'red'], ['ana', 'n2', 'amber']], dim: true },
+      { title: '5 · Exploração', text: 'Comprovar, de forma controlada e autorizada, que a falha permite acesso. No NIST, é a fase de ataque.', on: ['exp', 'n3'], links: [['ana', 'exp', 'red'], ['exp', 'n3', 'amber']], dim: true },
+      { title: '6 · Pós-exploração', text: 'Medir até onde o acesso chega e o valor do que fica exposto, sempre dentro das regras de engajamento.', on: ['pos', 'n3'], links: [['exp', 'pos', 'red'], ['pos', 'n3', 'amber']], dim: true },
+      { title: '7 · Relatório', text: 'Achados, evidências, severidade e recomendações. É a fase em que o teste vira melhoria.', on: ['rel', 'n4'], links: [['pos', 'rel', 'red'], ['rel', 'n4', 'amber']], dim: true },
+      { title: 'O ciclo recomeça', text: 'O relatório alimenta o próximo pré-engajamento. Para aplicações web, o OWASP Web Security Testing Guide detalha o que testar em cada parte da aplicação.', on: ['rel', 'pre'], links: [['rel', 'pre', 'green']], dim: true }
+    ]
+  });
+})();
+
+/* ---------- 13. VS Code: regras de engajamento ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'redteam-tatame', team: 'red', status: 'Python 3.12', open: 'roe_tatame.yaml', typeOnEnter: true,
+  files: [
+    { path: 'roe_tatame.yaml', hl: [20, 21, 22, 23, 24, 25, 26, 27, 28], code:
+`# Regras de engajamento · Rede Tatame (fictícia) · operação de Red Team
+objetivo: >
+  Verificar se o SOC detecta e responde a um ataque realista que parte de
+  uma conta do financeiro e busca as exportações de fichas no SRV-ARQ-01.
+modelo: caixa-cinza (uma conta de colaborador da sede)
+escopo:
+  redes: ["10.10.0.0/16", "10.40.0.0/16"]   # sede e nuvem
+  dominios: ["tatame.com.br"]               # PagaFácil e status: sempre fora
+fora_do_escopo:
+  redes:
+    - "10.40.99.0/24"              # pagamentos (PCI)
+    - "198.51.100.23/32"           # promo-hml, hospedado pela agência
+janelas:
+  periodo: "2026-11-16 a 2026-12-11"
+  horario: "08:00-22:00, sem ações em fins de semana"
+tecnicas_proibidas: [negacao_de_servico, alterar_dados_de_alunos, mexer_nas_catracas]
+dados_sensiveis: >
+  Fichas de alunos (30% menores), atestados e biometria (LGPD): registrar só
+  a evidência mínima, sem copiar registros, e descartar ao final.
+criterios_de_parada:
+  - incidente real detectado em paralelo
+  - qualquer impacto no check-in, nas catracas ou na cobrança das academias
+  - palavra de parada "AMBAR" dita por alguém da célula branca
+celula_branca:
+  - { nome: "Marina Prado", papel: "CISO" }
+  - { nome: "Caio Mendes", papel: "administrador de TI da sede" }
+  - { nome: "Diretoria executiva", papel: "assina a carta" }
+blue_team_avisado: false           # só a célula branca sabe
+carta_de_autorizacao: "assinada pela diretoria executiva em 10/11/2026 · AUT-2026-118"` },
+    { path: 'roe_rascunho.yaml', code:
+`# Rascunho enviado pela diretoria, antes da reunião de pré-engajamento
+objetivo: "pentest completo"
+escopo:
+  redes: ["10.10.0.0/16"]
+fora_do_escopo:
+  redes: ["10.40.99.0/24"]
+janelas:
+  periodo: "a combinar"
+tecnicas_proibidas: [negacao_de_servico]
+dados_sensiveis: "não copiar dados de alunos"
+celula_branca: []
+carta_de_autorizacao: "e-mail do gerente de TI"` },
+    { path: 'validar_roe.py', hl: [7, 8, 11, 12], code:
+`"""Confere se as regras de engajamento têm o mínimo exigido e se cada alvo está no escopo."""
+import ipaddress
+import sys
+
+import yaml
+
+OBRIGATORIOS = ["objetivo", "escopo", "fora_do_escopo", "janelas", "tecnicas_proibidas",
+                "dados_sensiveis", "criterios_de_parada", "celula_branca", "carta_de_autorizacao"]
+
+
+def faltando(roe: dict) -> list[str]:
+    return [campo for campo in OBRIGATORIOS if not roe.get(campo)]
+
+
+def no_escopo(roe: dict, alvo: str) -> bool:
+    ip = ipaddress.ip_address(alvo)
+    if any(ip in ipaddress.ip_network(r) for r in roe["fora_do_escopo"]["redes"]):
+        return False
+    return any(ip in ipaddress.ip_network(r) for r in roe["escopo"]["redes"])
+
+
+roe = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))
+ausentes = faltando(roe)
+for campo in OBRIGATORIOS:
+    print(("  ✗ " if campo in ausentes else "  ✓ ") + campo)
+if ausentes:
+    sys.exit(f"RoE incompleta: faltam {len(ausentes)} item(ns). O teste não pode começar.")
+
+print("RoE completa. Conferindo alvos:")
+for alvo in sys.argv[2:]:
+    situacao = "dentro do escopo" if no_escopo(roe, alvo) else "FORA DO ESCOPO: não testar"
+    print(f"  {alvo:<15} {situacao}")` }
+  ],
+  run: [
+    { label: 'Rascunho', kind: 'red', cmd: 'python validar_roe.py roe_rascunho.yaml', file: 'roe_rascunho.yaml', out: [
+      '[ok]   ✓ objetivo', '[ok]   ✓ escopo', '[ok]   ✓ fora_do_escopo', '[ok]   ✓ janelas', '[ok]   ✓ tecnicas_proibidas', '[ok]   ✓ dados_sensiveis',
+      '[err]   ✗ criterios_de_parada', '[err]   ✗ celula_branca', '[ok]   ✓ carta_de_autorizacao',
+      '[err] RoE incompleta: faltam 2 item(ns). O teste não pode começar.' ] },
+    { label: 'Versão final', cmd: 'python validar_roe.py roe_tatame.yaml 10.10.1.20 10.40.99.14 198.51.100.23', file: 'roe_tatame.yaml', out: [
+      '[ok]   ✓ objetivo', '[ok]   ✓ escopo', '[ok]   ✓ fora_do_escopo', '[ok]   ✓ janelas', '[ok]   ✓ tecnicas_proibidas', '[ok]   ✓ dados_sensiveis',
+      '[ok]   ✓ criterios_de_parada', '[ok]   ✓ celula_branca', '[ok]   ✓ carta_de_autorizacao',
+      'RoE completa. Conferindo alvos:',
+      '[ok]   10.10.1.20      dentro do escopo',
+      '[err]   10.40.99.14     FORA DO ESCOPO: não testar',
+      '[err]   198.51.100.23   FORA DO ESCOPO: não testar' ] }
+  ]
+});
+
+/* ---------- 15. Navegador: relatório de Red Team ---------- */
+Labs.browser('#lab-brw', {
+  url: 'https://intranet.corp.tatame.local/redteam/relatorios/RT-2026-07',
+  html: `<div class="rel">
+  <div class="rel-top"><b>Portal do Red Team</b><span>Rede Tatame (fictícia) · Bruno Sato</span><span style="margin-left:auto">Classificação: CONFIDENCIAL</span></div>
+  <div class="rel-body">
+    <h1>RT-2026-07 · Operação de Red Team</h1>
+    <div class="sub">Sede da Rede Tatame · 3 semanas · objetivo combinado: ler as exportações de fichas de alunos sem ser detectado</div>
+    <div class="rel-tabs"><button data-tab="s" class="on">Sumário executivo</button><button data-tab="a">Achados técnicos</button><button data-tab="t">Linha do tempo Red x Blue</button></div>
+    <div data-pane="s">
+      <div class="kp"><div>Objetivo atingido<b>Sim, no dia 9</b></div><div>Ações detectadas pelo SOC<b>2 de 7</b></div><div>Achados<b>2 altos · 2 médios</b></div></div>
+      <p>A equipe emulou o Grupo Cobalto Austral, grupo fictício de extorsão, e chegou ao objetivo combinado no nono dia. O SOC percebeu duas das sete ações, ambas tarde demais para impedir o objetivo.</p>
+      <p><b>Riscos principais:</b> acesso remoto protegido só por senha, conta de serviço com privilégios excessivos e alertas sem triagem fora do horário comercial.</p>
+      <p><b>Prioridades para 30 dias:</b> MFA na VPN; trocar e restringir as contas de serviço; triagem 24x7 dos alertas de severidade média.</p>
+    </div>
+    <div data-pane="a" hidden><table><tr><th>ID</th><th>Achado</th><th>Severidade</th><th>Evidência</th><th>Recomendação</th></tr>
+      <tr><td>F-01</td><td>VPN NetGuard aceita só usuário e senha</td><td><span class="pill alta">alta</span></td><td>Login com credencial obtida no <em>phishing</em> simulado (D1)</td><td>Exigir MFA resistente a <em>phishing</em></td></tr>
+      <tr><td>F-02</td><td>Conta de serviço <code>svc-backup</code> com senha de 2019 e privilégio de administrador do domínio</td><td><span class="pill alta">alta</span></td><td>Uso da conta no D6, sem alerta</td><td>Trocar a senha, reduzir privilégios e alertar uso interativo</td></tr>
+      <tr><td>F-03</td><td>Alertas médios do EDR sem triagem fora do horário</td><td><span class="pill media">média</span></td><td>Alerta do D5 às 19h40 visto no D6 às 09h10</td><td>Triagem 24x7 ou escalonamento automático</td></tr>
+      <tr><td>F-04</td><td><em>Logs</em> do <em>proxy</em> fora do SIEM</td><td><span class="pill media">média</span></td><td>Acesso do D9 sem rastro centralizado</td><td>Enviar os <em>logs</em> do <em>proxy</em> ao SIEM</td></tr></table></div>
+    <div data-pane="t" hidden><table><tr><th>Quando</th><th>Ação do Red Team</th><th>O que o Blue Team viu</th><th>Resultado</th></tr>
+      <tr><td>D1 09:10</td><td><em>Phishing</em> simulado para 25 pessoas; 2 credenciais digitadas</td><td>Nada</td><td><span class="pill gap">lacuna</span></td></tr>
+      <tr><td>D1 14:30</td><td>Login na VPN com uma das credenciais</td><td>Nada</td><td><span class="pill gap">lacuna</span></td></tr>
+      <tr><td>D3 10:05</td><td>Descoberta de contas e servidores no AD (SRV-AD-01)</td><td>Nada</td><td><span class="pill gap">lacuna</span></td></tr>
+      <tr><td>D5 19:40</td><td>Tentativa de obter credenciais no SRV-ARQ-01</td><td>Alerta médio do EDR, triado só no D6 às 09:10</td><td><span class="pill late">tarde (13h30)</span></td></tr>
+      <tr><td>D6 11:20</td><td>Uso da conta de serviço no SRV-ERP-01</td><td>Nada</td><td><span class="pill gap">lacuna</span></td></tr>
+      <tr><td>D8 16:00</td><td>Acesso remoto à pasta de exportações do SRV-ARQ-01</td><td>Alerta às 16:12, encerrado como falso positivo</td><td><span class="pill late">mal triado</span></td></tr>
+      <tr><td>D9 10:30</td><td>Leitura de amostra de 5 fichas (evidência mínima, sem cópia)</td><td>Nada</td><td><span class="pill gap">lacuna</span></td></tr></table></div>
+  </div></div>`,
+  onReady(page) {
+    page.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => {
+      page.querySelectorAll('[data-tab]').forEach((x) => x.classList.toggle('on', x === b));
+      page.querySelectorAll('[data-pane]').forEach((p) => { p.hidden = p.dataset.pane !== b.dataset.tab; });
+    }));
+  }
+});
+
+/* ---------- 19. Painel de orçamento ---------- */
+Labs.register('#lab-orc', (el) => {
+  const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+  const Q = [
+    { t: 'Detectamos e respondemos a um ataque?', rec: 'b', why: 'A dúvida é sobre a capacidade de detecção. Só o Red Team mede se o SOC percebe e reage; as varreduras mensais mantêm as falhas conhecidas sob controle.' },
+    { t: 'Vamos lançar 4 sistemas expostos à internet', rec: 'a', why: 'Cada sistema novo precisa ter suas falhas encontradas antes de ir ao ar. Quatro pentests delimitados, um por sistema, respondem a essa pergunta.' }
+  ];
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.7rem;overflow:auto">
+    <h4>Pergunta da diretoria</h4>
+    <div class="lab-chiprow">${Q.map((q, i) => '<button class="lab-chip" data-q="' + i + '">' + q.t + '</button>').join('')}</div>
+    <div class="lab-grid2">
+      <div>
+        <label class="lab-range">Orçamento anual <output id="o-b"></output><input id="i-b" type="range" min="60000" max="240000" step="5000" value="120000"></label>
+        <label class="lab-range">Preço de um pentest <output id="o-p"></output><input id="i-p" type="range" min="10000" max="60000" step="1000" value="30000"></label>
+        <label class="lab-range">Varredura por mês <output id="o-v"></output><input id="i-v" type="range" min="500" max="6000" step="100" value="2000"></label>
+        <label class="lab-range">Operação de Red Team <output id="o-r"></output><input id="i-r" type="range" min="40000" max="200000" step="2000" value="96000"></label>
+      </div>
+      <div style="display:grid;gap:.6rem;align-content:start">
+        <div class="orc-card" id="c-a"><h5>(a) 4 pentests de aplicações</h5><div class="tot" id="t-a"></div><p id="d-a"></p></div>
+        <div class="orc-card" id="c-b"><h5>(b) Varreduras mensais + Red Team</h5><div class="tot" id="t-b"></div><p id="d-b"></p></div>
+      </div>
+    </div>
+    <div class="orc-why" id="why">Escolha uma pergunta acima.</div>
+  </div>`;
+  const $ = (id) => el.querySelector('#' + id);
+  let q = 0;
+  function calc() {
+    const B = +$('i-b').value, p = +$('i-p').value, v = +$('i-v').value, r = +$('i-r').value;
+    const a = 4 * p, b = 12 * v + r;
+    $('o-b').textContent = brl(B); $('o-p').textContent = brl(p); $('o-v').textContent = brl(v); $('o-r').textContent = brl(r);
+    $('t-a').textContent = brl(a); $('t-b').textContent = brl(b);
+    $('d-a').textContent = '4 × ' + brl(p) + (a > B ? ' · passa do orçamento em ' + brl(a - B) : ' · cabe no orçamento');
+    $('d-b').textContent = '12 × ' + brl(v) + ' = ' + brl(12 * v) + ' + ' + brl(r) + (b > B ? ' · passa do orçamento em ' + brl(b - B) : ' · cabe no orçamento');
+    el.querySelectorAll('.lab-chip').forEach((c) => c.classList.toggle('is-on', +c.dataset.q === q));
+    $('c-a').classList.toggle('rec', q >= 0 && Q[q].rec === 'a');
+    $('c-b').classList.toggle('rec', q >= 0 && Q[q].rec === 'b');
+    if (q >= 0) {
+      const tot = Q[q].rec === 'a' ? a : b;
+      $('why').innerHTML = '<b>Recomendação: opção (' + Q[q].rec + ').</b> ' + Q[q].why + (tot > B ? ' <b style="color:#FF5C7A">Com estes preços ela não cabe no orçamento: reduza o escopo ou negocie antes de trocar de opção.</b>' : '');
+    }
+  }
+  el.querySelectorAll('input').forEach((i) => i.addEventListener('input', calc));
+  el.querySelector('.lab-chiprow').addEventListener('click', (e) => { const c = e.target.closest('.lab-chip'); if (c) { q = +c.dataset.q; calc(); } });
+  calc();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 9 — Telemetria, registros e SIEM</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .ret-track { position: relative; height: 74px; margin: 1.9rem 0 1.6rem; background: #0B1424; border: 1px solid #22314F; border-radius: 8px; }
+  .ret-track .zone { position: absolute; top: 0; bottom: 0; transition: all .4s; }
+  .ret-track .hot { background: rgba(0,177,210,.45); }
+  .ret-track .cold { background: rgba(0,177,210,.18); }
+  .ret-track .inv { position: absolute; top: -6px; bottom: -6px; width: 3px; background: #FF2B5F; box-shadow: 0 0 10px #FF2B5F; transition: left .4s; }
+  .ret-track .inv span, .ret-track .now span { position: absolute; top: 100%; transform: translateX(-50%); white-space: nowrap; font: 600 11.5px var(--fonte); margin-top: 6px; }
+  .ret-track .inv span { color: #FF5C7A; top: auto; bottom: 100%; margin: 0 0 8px; }
+  .ret-track .now { position: absolute; right: 0; top: -6px; bottom: -6px; width: 3px; background: #F2CB0A; }
+  .ret-track .now span { color: #F2CB0A; }
+  .ret-axis { display: flex; justify-content: space-between; color: #7F8FA9; font: 11px var(--fonte); margin-top: -1.2rem; }
+  .cap-bars { display: grid; gap: .5rem; margin-top: .4rem; }
+  .cap-row { display: grid; grid-template-columns: 150px 1fr 70px; gap: .6rem; align-items: center; font: 12.5px var(--fonte); color: #C9D4E5; }
+  .cap-row .bar { height: 18px; background: #1A2440; border-radius: 4px; overflow: hidden; }
+  .cap-row .bar i { display: block; height: 100%; transition: width .5s; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 3|Aula 9 — Videoaula 9">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 9 — Telemetria, registros e SIEM</h1>
+      <div class="subtitulo">Unidade 3 — Blue Team: detecção e resposta</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem seis laboratórios: um diagrama animado que acompanha um registro da fonte até o analista; um terminal PowerShell em uma máquina de laboratório que mostra os eventos 4625, 4624 e o evento 1 do Sysmon; um editor VS Code com um normalizador de eventos e uma regra de correlação em Python; um console de SIEM com buscas de falhas de <em>logon</em>, correlação, enriquecimento e retenção; uma linha do tempo interativa de retenção de registros; e uma calculadora de alertas contra a capacidade da equipe.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Telemetria, registros e SIEM</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O que você verá nesta unidade</li>
+          <li>Evento, registro e telemetria</li>
+          <li>Laboratório: o caminho de um registro</li>
+          <li>Fontes de registro essenciais e o Sysmon</li>
+          <li>Laboratório: 4625, 4624 e Sysmon no PowerShell</li>
+          <li>O SIEM: normalizar, correlacionar e reter</li>
+          <li>Laboratórios: normalizador, SIEM e retenção</li>
+          <li>Fadiga de alertas e a conta da capacidade</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>Um <em>login</em> às 2h da manhã no ERP</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Luiza Ferraz é analista nível 2 do SOC (<em>Security Operations Center</em>, a equipe que monitora a segurança) da Rede Tatame. Ela está no plantão da madrugada de sexta-feira, 13/11.</p>
+          <p>Às 02:17, alguém entra no SRV-ERP-01, o servidor do ERP (o sistema de gestão financeira), com a conta de Carla Dias, do financeiro, depois de errar a senha 10 vezes. Carla está dormindo. A fila do SOC já tem centenas de alertas, quase todos ruído.</p>
+          <p>O que está em jogo: o ERP guarda as mensalidades e os repasses das 240 academias e o cadastro dos responsáveis financeiros de alunos menores de idade.</p>
+          <div class="pergunta">Que registros a Rede Tatame precisa coletar, guardar e correlacionar para que o SOC perceba esse <em>login</em> a tempo, sem se afogar em alertas?</div>
+          <div class="papeis"><span><b>Blue Team</b> Luiza Ferraz, SOC</span><span><b>Conta usada</b> carla.dias</span><span><b>Alvo</b> SRV-ERP-01</span><span><b>Fontes da sede</b> Caio Mendes, TI</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O que você verá nesta unidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Abertura da Unidade 3</p>
+      <h2>O que você verá nesta unidade</h2>
+      <div class="slide-content-box">
+        <p>Na Unidade 2, acompanhamos o adversário e perguntamos, em cada etapa, que rastro ficava para trás. Agora vestimos a camisa azul e respondemos à pergunta inversa: <strong>como a defesa encontra esses rastros e reage a tempo?</strong></p>
+        <ul>
+          <li><strong>Aula 9</strong>: de onde vêm os dados que alimentam o SOC (registros, telemetria e SIEM).</li>
+          <li><strong>Aula 10</strong>: como transformar conhecimento sobre técnicas de ataque em regras de detecção testáveis, com apoio do EDR.</li>
+          <li><strong>Aula 11</strong>: como caçar ameaças que escaparam das regras, usando inteligência de ameaças.</li>
+          <li><strong>Aula 12</strong>: como conduzir a resposta a um incidente, da contenção às lições aprendidas, incluindo a comunicação prevista na LGPD.</li>
+        </ul>
+        <div class="callout-azul"><p>Objetivo: projetar, em linhas gerais, a cadeia completa de detecção e resposta de uma organização, competência central para quem pretende atuar em SOC, engenharia de detecção ou resposta a incidentes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Evento, registro e telemetria -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Evento, registro e telemetria</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Um <strong>evento</strong> é qualquer ocorrência observável em um sistema: um <em>login</em>, a criação de um processo, uma consulta DNS.</li>
+          <li>O <strong>registro</strong> (<em>log</em>) é a anotação desse evento, com data, hora, origem e detalhes.</li>
+          <li><strong>Telemetria</strong> é o termo mais amplo para o conjunto de dados que sensores e sistemas enviam continuamente para análise.</li>
+        </ul>
+        <p>O guia NIST SP 800-92 define a gestão de registros como o processo de <strong>gerar, transmitir, armazenar, analisar e descartar</strong> esses dados. Cada etapa precisa ser planejada, e não improvisada durante um incidente.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB flow: caminho do registro -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>O caminho de um registro, da fonte ao analista</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Seguir o evento das 02:14 até ele virar trabalho para o SOC.</div>
+            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa ou ligue o modo automático.</div>
+            <div class="rl obs"><b>Observe</b>Cada etapa é uma fase do guia NIST SP 800-92: gerar, transmitir, armazenar, analisar e descartar. Os pontos nas linhas são eventos em trânsito.</div>
+            <div class="rl conc"><b>Conclusão</b>Uma fonte que ninguém configurou, como o DNS interno, nunca chega ao SIEM.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-flow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Fontes de registro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Fontes de registro essenciais</p>
+      <h2>Não existe monitoração sem saber o que monitorar</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.6em">
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Fonte</th><th>Exemplo de evento</th><th>O que revela</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Windows (Segurança)</strong></td><td>4624 (<em>logon</em> bem-sucedido), 4625 (falha de <em>logon</em>), 4688 (criação de processo), 1102 (registro de auditoria apagado)</td><td>Uso de credenciais, força bruta, execução de comandos, tentativa de apagar rastros</td></tr>
+            <tr><td><strong>Sysmon</strong></td><td>ID 1 (processo, com linha de comando), ID 3 (conexão de rede), ID 22 (consulta DNS)</td><td>Comportamento detalhado do <em>endpoint</em></td></tr>
+            <tr><td><strong><em>Firewall</em> e <em>proxy</em></strong></td><td>Conexões permitidas e bloqueadas, URLs acessadas</td><td>Comando e controle, exfiltração</td></tr>
+            <tr><td><strong>DNS</strong></td><td>Domínios consultados por cada máquina</td><td>Domínios recém-registrados, tunelamento</td></tr>
+            <tr><td><strong>Nuvem e identidade</strong></td><td>Trilhas de auditoria do provedor e do serviço de identidade</td><td>Criação de chaves, mudança de permissões, <em>logins</em> impossíveis</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8b. PLATAFORMA REDE TATAME: fontes e filas -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Que telemetria da Rede Tatame chega ao SOC</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame-fontes"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Descobrir que telemetria da plataforma chega ao SOC e quanto ela custa.</div>
+            <div class="rl"><b>Faça</b>1. Na aba <strong>Telemetria</strong>, anote as fontes ligadas e o custo por mês.<br>2. Ligue as catracas e a saída de rede. Quanto sobe a ingestão?<br>3. Em <strong>Filas e eventos</strong>, clique em <strong>Iniciar</strong> e depois em <strong>Parar o encaminhador do SIEM</strong>.</div>
+            <div class="rl obs"><b>Observe</b>O <em>lag</em> (atraso) do <code>siem-forwarder</code> cresce. Os eventos seguem no Kafka, o barramento de mensagens, mas o SOC não os vê.</div>
+            <div class="rl conc"><b>Conclusão</b>Cada fonte ligada custa dinheiro; cada fonte desligada é um ponto cego.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Sysmon e configuração -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Sysmon e configuração</p>
+      <h2>Ter a fonte não basta: é preciso configurá-la</h2>
+      <div class="slide-content-box">
+        <p>O <strong>Sysmon</strong> (<em>System Monitor</em>), ferramenta gratuita da Microsoft, enriquece a telemetria do Windows com informações que o registro nativo não traz por padrão.</p>
+        <ul>
+          <li>No evento ID 1, ele registra a linha de comando, o <em>hash</em> do executável e o <strong>processo pai</strong>.</li>
+          <li>O evento nativo 4688 só registra a linha de comando se uma política específica estiver habilitada.</li>
+          <li>Uma fonte instalada, mas mal configurada, produz registros que não respondem às perguntas da investigação.</li>
+        </ul>
+        <div class="callout-azul"><p>No próximo laboratório, vamos errar a senha numa máquina de laboratório, ver os eventos surgirem e conferir o que o Sysmon acrescenta ao abrir o Bloco de Notas pelo PowerShell.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB terminal -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Falhas, sucesso e processo no Windows</h2></div><span class="lab-badge blue">Máquina de laboratório</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver, numa máquina de laboratório, os eventos que um <em>login</em> como o das 02:17 deixa.</div>
+            <div class="rl"><b>Faça</b>Rode os comandos em ordem na VM <code>LAB-WIN11</code>. A conta <code>aluno</code> errou a senha três vezes antes de entrar.</div>
+            <div class="rl obs"><b>Observe</b>O tipo de <em>logon</em> (2 = teclado, 3 = rede, 10 = área de trabalho remota) e a origem. No Sysmon, o <em>hash</em> e o processo pai.</div>
+            <div class="rl conc"><b>Conclusão</b>Sem a política de linha de comando, o evento 4688 não diz com quais argumentos o processo rodou.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. SIEM -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O SIEM</p>
+      <h2>Normalizar, enriquecer, correlacionar e reter</h2>
+      <div class="slide-content-box">
+        <p>O SIEM (<em>Security Information and Event Management</em>) centraliza os registros e executa funções-chave:</p>
+        <ul>
+          <li><strong>Normalização</strong>: converte formatos diferentes em um esquema comum. O "usuário" do <em>firewall</em> e o "<em>TargetUserName</em>" do Windows passam a ocupar o mesmo campo. Esquemas abertos, como o OCSF (<em>Open Cybersecurity Schema Framework</em>), buscam padronizar esse trabalho entre fornecedores.</li>
+          <li><strong>Correlação</strong>: combina eventos que, isolados, parecem inofensivos. Dez falhas (4625) seguidas de um sucesso (4624) da mesma origem, em menos de cinco minutos, sugerem que uma senha foi descoberta.</li>
+          <li><strong>Enriquecimento</strong>: acrescenta contexto, como geolocalização do IP, criticidade do ativo e cargo do usuário, o que acelera a triagem.</li>
+          <li><strong>Retenção</strong>: define por quanto tempo os dados ficam disponíveis.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB VS Code: normalizador -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Normalizar dois formatos e correlacionar</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Juntar Windows e <em>firewall</em> e achar o padrão das 02:17.</div>
+            <div class="rl"><b>Faça</b>1. Leia o mapa de campos em <code>normalizar.py</code>.<br>2. Clique em <strong>Normalizar</strong>.<br>3. Clique em <strong>Correlacionar</strong>.</div>
+            <div class="rl obs"><b>Observe</b><code>user.name</code> e <code>source.ip</code> passam a valer para as duas fontes. A conta <code>ana.lima</code> errou duas vezes e entrou: fica abaixo do limiar.</div>
+            <div class="rl conc"><b>Conclusão</b>A regra acha carla.dias: 10 falhas e um sucesso em pouco mais de 3 minutos.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB SIEM -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>Os mesmos eventos dentro do SIEM</h2></div><span class="lab-badge blue">SOC</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Confirmar no SIEM o que houve às 02:17 e até quando dá para olhar para trás.</div>
+            <div class="rl"><b>Faça</b>Rode as quatro buscas, na ordem.</div>
+            <div class="rl obs"><b>Observe</b>A origem com mais falhas é a conta de serviço <code>svc-backup</code>, com senha vencida. O enriquecimento mostra ativo crítico, usuária fora do horário e notebook do financeiro.</div>
+            <div class="rl conc"><b>Conclusão</b>Volume alto não indica ataque. O contexto separa ruído de ameaça.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13b. PLATAFORMA REDE TATAME: catraca sem e com telemetria -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>A catraca adulterada, sem e com a fonte certa</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame-catraca"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Provar que uma regra só dispara se a fonte de dados estiver ligada.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Catraca adulterada</em> e espere os três passos.<br>2. Ligue a fonte das catracas em <strong>Telemetria</strong> e a regra R10 em <strong>Regras do CEP</strong>, o motor de regras em tempo real.<br>3. Inicie de novo e investigue o alerta no <strong>SOC</strong>.</div>
+            <div class="rl obs"><b>Observe</b>Sem a fonte, os passos ficam "não detectado". Os <em>check-ins</em> falsos ficam "visto nos logs, sem alerta": há dado, mas nenhuma regra.</div>
+            <div class="rl conc"><b>Conclusão</b>Para avisar o SOC, a Rede Tatame precisa da fonte ligada e da regra ativa.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Retenção -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Retenção</p>
+      <h2>Por quanto tempo guardar os registros</h2>
+      <div class="slide-content-box">
+        <p>A retenção deve atender a requisitos legais e contratuais e à realidade das investigações.</p>
+        <ul>
+          <li>O PCI DSS exige guardar o histórico de auditoria por pelo menos <strong>12 meses</strong>, com os <strong>3 meses</strong> mais recentes disponíveis para análise imediata.</li>
+          <li>Se um invasor permaneceu semanas no ambiente, registros de apenas sete dias não contam a história do início.</li>
+          <li>No Brasil, o Marco Civil da Internet (Lei nº 12.965/2014) também traz obrigações de guarda de registros para alguns provedores.</li>
+        </ul>
+        <div class="callout-azul"><p>Retenção é uma decisão de projeto: quanto guardar, onde guardar, por quanto tempo e quando descartar com segurança.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB retenção -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Simulação</p><h2>O início da invasão ainda está nos registros?</h2></div><span class="lab-badge blue">Retenção</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Saber se o começo de uma invasão ainda estaria nos registros.</div>
+            <div class="rl"><b>Faça</b>1. Comece com 7 dias de retenção e invasão de 30 dias atrás.<br>2. Ajuste até atender ao PCI DSS, o padrão de segurança de dados de cartão.</div>
+            <div class="rl obs"><b>Observe</b>A linha vermelha é o dia da entrada. A faixa clara é a pesquisa imediata; a faixa fraca, o arquivo.</div>
+            <div class="rl conc"><b>Conclusão</b>A Rede Tatame guarda 12 meses no SIEM. Dado que só existe em fita atrasa a investigação.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-ret"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Fadiga de alertas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Operação do SOC</p>
+      <h2>Fadiga de alertas: quando mais é menos</h2>
+      <div class="slide-content-box">
+        <p>Coletar tudo e alertar sobre tudo parece seguro, mas produz o efeito contrário.</p>
+        <ul>
+          <li>Quando a maioria dos alertas é de falsos positivos, os analistas passam a fechá-los no automático.</li>
+          <li>O alerta verdadeiro se perde no meio da fila.</li>
+          <li>Esse fenômeno, chamado <strong>fadiga de alertas</strong>, é um dos principais problemas operacionais dos SOCs.</li>
+        </ul>
+        <div class="callout-azul"><p>A pergunta útil passa a ser: quantos alertas conseguimos investigar com qualidade?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Alertas <em>versus</em> capacidade da equipe</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.8em">
+        <p>Um SOC recebe 1.800 alertas por dia, e a triagem de cada um leva, em média, 10 minutos: 1.800 × 10 = 18.000 minutos, ou <strong>300 horas de análise por dia</strong>. A equipe N1 tem seis analistas (dois por turno), com cerca de 6 horas efetivas de triagem cada: 6 × 6 = 36 horas por dia.</p>
+        <div class="stat-grid" style="margin-top:.4rem">
+          <div class="stat-card"><span class="numero-grande">300 h</span><span class="legenda">demanda diária de triagem</span></div>
+          <div class="stat-card"><span class="numero-grande">216</span><span class="legenda">alertas por dia que a equipe consegue triar (36 × 60 ÷ 10)</span></div>
+          <div class="stat-card"><span class="numero-grande">12%</span><span class="legenda">do volume recebido</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 261</span><span class="legenda">alertas por dia depois de ajustar as cinco regras ruidosas</span></div>
+        </div>
+        <p style="margin-top:.8rem">Se 95% dos alertas vêm de cinco regras ruidosas e o ajuste corta 90% do ruído delas: 1.800 − (0,95 × 1.800 × 0,9) ≈ 261. Ajustar regras costuma ser mais eficiente do que contratar mais analistas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. LAB capacidade -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker" style="margin:0">Laboratório · Exemplo numérico</p>
+      <div class="lab-head"><h2>Calculadora de alertas e capacidade do SOC</h2><span class="lab-badge blue">Gestão do SOC</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Verificar se o alerta das 02:17 cabe na fila do SOC.</div>
+            <div class="rl"><b>Faça</b>1. Contrate mais dois analistas.<br>2. Volte a seis e corte 90% do ruído das regras ruidosas.<br>3. Reduza a triagem para 6 minutos.</div>
+            <div class="rl obs"><b>Observe</b>Com os valores do texto, a equipe tria 216 dos 1.800 alertas por dia (12%).</div>
+            <div class="rl conc"><b>Conclusão</b>Ajustar regras rende mais do que contratar.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-cap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora o SOC enxerga o <em>login</em> das 02:17</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Coletar as fontes certas</b>Os eventos 4624 e 4625 do Windows e o Sysmon chegam ao SIEM pelo Kafka. Fonte desligada é ponto cego, como as catracas na plataforma.</div>
+        <div class="ev"><b>Normalizar e correlacionar</b>Com campos comuns, a regra "10 falhas e um sucesso em 5 minutos" acha carla.dias às 02:17:12. O enriquecimento mostra um notebook do financeiro de madrugada.</div>
+        <div class="ev"><b>Guardar o bastante</b>Doze meses no SIEM, com três para pesquisa imediata, como pede o PCI DSS, permitem reconstruir o começo da invasão.</div>
+        <div class="ev"><b>Caber na equipe</b>Ajustar as cinco regras ruidosas leva a fila de 1.800 para cerca de 261 alertas por dia. O alerta verdadeiro não se perde.</div>
+        <div class="resposta">Resposta à pergunta da aula: coletar os eventos de autenticação e de processos de servidores e notebooks, levá-los ao SIEM em formato comum, correlacionar falhas seguidas de sucesso, guardar 12 meses e manter o volume de alertas dentro da capacidade do SOC.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>Sem fontes de registro bem escolhidas e configuradas, não há detecção possível.</li>
+          <li>Eventos como 4624, 4625 e 4688 e a telemetria do Sysmon são a base da monitoração de <em>endpoints</em> Windows.</li>
+          <li>O SIEM normaliza, enriquece, correlaciona e retém dados de múltiplas fontes.</li>
+          <li>A retenção deve atender à lei, aos contratos e ao tempo real das investigações.</li>
+          <li>Volume de alertas acima da capacidade da equipe gera fadiga e alertas perdidos.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>BRASIL. Lei nº 12.965, de 23 de abril de 2014. Estabelece princípios, garantias, direitos e deveres para o uso da Internet no Brasil (Marco Civil da Internet). <em>Diário Oficial da União</em>, Brasília, DF, 24 abr. 2014.</p>
+        <p>KENT, Karen; SOUPPAYA, Murugiah. <em>SP 800-92</em>: guide to computer security log management. Gaithersburg: NIST, 2006. DOI: 10.6028/NIST.SP.800-92.</p>
+        <p>MICROSOFT. <em>Sysmon</em>. Sysinternals. Disponível em: &lt;https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>PCI SECURITY STANDARDS COUNCIL. <em>Payment card industry data security standard</em>: requirements and testing procedures. Versão 4.0.1. [<em>S. l.</em>]: PCI SSC, 2024.</p>
+        <p>SANDERS, Chris; SMITH, Jason. <em>Applied network security monitoring</em>: collection, detection, and analysis. Waltham: Syngress, 2014.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já sabe de onde vêm os dados do SOC, quais fontes priorizar, o que o SIEM faz com eles e por que o volume de alertas precisa caber na capacidade da equipe. Na próxima aula, vamos escrever regras que encontram o ataque sem afogar o analista.</p>
+      <p class="fim-proxima">Próxima aula: Aula 10 — Engenharia de detecção e EDR.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'ad', 'edr', 'kafka', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o <em>login</em> sai do notebook NB-FIN-031 e chega ao SRV-ERP-01 (em vermelho). Os registros precisam chegar ao SIEM, o sistema que reúne e analisa os registros para o SOC.' });
+
+/* ---------- 7. Fluxo: caminho do registro ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 470,
+  nodes: [
+    { id: 'srv', x: 110, y: 60, label: 'Servidores', sub: 'Windows e Linux', icon: '🖥️', w: 180 },
+    { id: 'est', x: 110, y: 160, label: 'Estações', sub: 'Sysmon e EDR', icon: '💻', w: 180 },
+    { id: 'fw', x: 110, y: 260, label: 'Firewall e proxy', sub: 'conexões e URLs', icon: '🧱', w: 180 },
+    { id: 'cloud', x: 110, y: 360, label: 'Nuvem e identidade', sub: 'trilhas de auditoria', icon: '☁️', w: 190 },
+    { id: 'col', x: 360, y: 210, label: 'Coleta', sub: 'agentes e syslog', icon: '📥' },
+    { id: 'norm', x: 570, y: 210, label: 'Normalização', sub: 'esquema comum', icon: '🔧' },
+    { id: 'siem', x: 780, y: 210, label: 'SIEM', sub: 'enriquece e correlaciona', icon: '📊', k: 'blue', w: 190 },
+    { id: 'arm', x: 780, y: 390, label: 'Armazenamento', sub: 'retenção e descarte', icon: '🗄️', w: 190 },
+    { id: 'alr', x: 980, y: 110, label: 'Alerta', sub: 'severidade alta', icon: '🚨', k: 'amber', w: 160 },
+    { id: 'ana', x: 980, y: 300, label: 'Analista N1', sub: 'triagem', icon: '🛡️', k: 'blue', w: 160 },
+    { id: 'dns', x: 360, y: 420, label: 'DNS interno', sub: 'não configurado', icon: '❔', k: 'red', w: 170 }
+  ],
+  links: [
+    { from: 'srv', to: 'col' }, { from: 'est', to: 'col' }, { from: 'fw', to: 'col' }, { from: 'cloud', to: 'col' },
+    { from: 'col', to: 'norm', label: 'transmitir' }, { from: 'norm', to: 'siem' }, { from: 'siem', to: 'arm', label: 'armazenar' },
+    { from: 'siem', to: 'alr', label: 'regra' }, { from: 'alr', to: 'ana' }, { from: 'dns', to: 'col', dashed: true }
+  ],
+  steps: [
+    { title: '02:14:03 · Gerar', text: 'O servidor SRV-ERP-01 registra o evento 4625: falha de logon da conta carla.dias, tipo 10, origem 10.10.20.31.', on: ['srv'] },
+    { title: 'Transmitir', text: 'Um agente no servidor envia o evento ao coletor. O firewall, as estações e a nuvem fazem o mesmo, cada um no seu formato.', on: ['srv', 'est', 'fw', 'cloud', 'col'], links: [['srv', 'col'], ['est', 'col'], ['fw', 'col'], ['cloud', 'col']] },
+    { title: 'Normalizar', text: 'TargetUserName (Windows) e usuario (firewall) viram o mesmo campo user.name. IpAddress e src viram source.ip. Agora uma busca cobre todas as fontes.', on: ['col', 'norm'], links: [['col', 'norm']] },
+    { title: 'Enriquecer e correlacionar', text: 'O SIEM acrescenta contexto (SRV-ERP-01 é ativo crítico) e percebe que 10 falhas foram seguidas de um sucesso da mesma origem em 3 minutos.', on: ['norm', 'siem'], links: [['norm', 'siem']] },
+    { title: 'Analisar', text: 'A regra de correlação gera um alerta de severidade alta, que entra na fila do analista N1 já com o contexto anexado.', on: ['siem', 'alr', 'ana'], links: [['siem', 'alr', 'amber'], ['alr', 'ana', 'amber']] },
+    { title: 'Armazenar e descartar', text: 'O evento é guardado conforme a política de retenção e descartado de forma controlada ao fim do prazo. Sem isso, a investigação de amanhã não tem passado.', on: ['siem', 'arm'], links: [['siem', 'arm', 'green']] },
+    { title: 'A câmera sem gravação', text: 'O DNS interno nunca foi configurado para enviar registros. Consultas a domínios recém-registrados acontecem todos os dias e nenhuma chega ao SIEM.', on: ['dns'], bad: ['dns'], links: [['dns', 'col', 'red']], dim: true }
+  ]
+});
+
+/* ---------- 8b e 13b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame-fontes', { aba: 'telemetria', reiniciar: true });
+Labs.plataforma('#lab-tatame-catraca', { aba: 'cenarios', reiniciar: true, fontes: { catracas: false }, regras: { R10: false } });
+
+/* ---------- 10. Terminal: 4625, 4624, Sysmon e 4688 ---------- */
+Labs.terminal('#lab-term', {
+  theme: 'windows', title: 'Administrador: Windows PowerShell · LAB-WIN11', prompt: 'PS C:\\lab> ',
+  intro: ['[mute]Máquina virtual isolada do laboratório. A conta aluno errou a senha três vezes antes de entrar.'],
+  steps: [
+    { cmd: "Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625} -MaxEvents 3 | Select-Object TimeCreated, Id, @{n='Conta';e={$_.Properties[5].Value}}, @{n='TipoLogon';e={$_.Properties[10].Value}}, @{n='Origem';e={$_.Properties[19].Value}}",
+      note: 'No 4625, a conta está na propriedade 5, o tipo de logon na 10 e o endereço de origem na 19.', out: [
+      '', 'TimeCreated          Id Conta TipoLogon Origem', '-----------          -- ----- --------- ------',
+      '13/11/2026 10:02:41 4625 aluno         2 127.0.0.1', '13/11/2026 10:02:33 4625 aluno         2 127.0.0.1', '13/11/2026 10:02:26 4625 aluno         2 127.0.0.1', ''] },
+    { cmd: "Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4624} -MaxEvents 50 | Where-Object { $_.Properties[5].Value -eq 'aluno' } | Select-Object -First 1 TimeCreated, Id, @{n='Conta';e={$_.Properties[5].Value}}, @{n='TipoLogon';e={$_.Properties[8].Value}}, @{n='Origem';e={$_.Properties[18].Value}}",
+      note: 'No 4624 as posições mudam: tipo de logon na 8 e origem na 18. O filtro descarta os logons de serviço do sistema.', out: [
+      '', 'TimeCreated          Id Conta TipoLogon Origem', '-----------          -- ----- --------- ------',
+      '13/11/2026 10:02:52 4624 aluno         2 127.0.0.1', '', '[info]Três falhas em 15 segundos e um sucesso 11 segundos depois: aqui foi só o aluno digitando errado.'] },
+    { cmd: '.\\Sysmon64.exe -accepteula -i .\\sysmonconfig.xml',
+      note: 'Instala o Sysmon com uma configuração comunitária, que define o que registrar e o que ignorar.', out: [
+      '', 'System Monitor - System activity monitor', 'Loading configuration file with schema version 4.90', 'Configuration file validated.',
+      '[ok]Sysmon64 installed.', '[ok]SysmonDrv installed.', 'Starting SysmonDrv.', '[ok]SysmonDrv started.', 'Starting Sysmon64..', '[ok]Sysmon64 started.', ''] },
+    { cmd: 'Start-Process notepad.exe', note: 'Abrimos o Bloco de Notas a partir do PowerShell. Para o Sysmon, isso gera um evento ID 1.', out: [''] },
+    { cmd: "Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' -MaxEvents 20 | Where-Object { $_.Id -eq 1 -and $_.Message -match 'notepad' } | Select-Object -First 1 -ExpandProperty Message",
+      note: 'Linha de comando, hash e processo pai: o contexto que o registro nativo não traz por padrão.', out: [
+      'Process Create:', 'RuleName: -', 'UtcTime: 2026-11-13 13:04:18.512', 'ProcessGuid: {6a1f0c2e-9b42-6734-2a01-000000001e00}', 'ProcessId: 6124',
+      '[hi]Image: C:\\Windows\\System32\\notepad.exe', 'FileVersion: 10.0.26100.1', 'Description: Notepad', '[hi]CommandLine: "C:\\Windows\\system32\\notepad.exe"',
+      'CurrentDirectory: C:\\lab\\', 'User: LAB-WIN11\\aluno', 'IntegrityLevel: High',
+      '[hi]Hashes: SHA256=4C1F9A0E7D2B8C35F6E1A9D04B7C2E58193F0A6D7B4E2C1D9F8A7B6C5D4E3F21',
+      '[hi]ParentImage: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe', 'ParentCommandLine: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"', ''] },
+    { cmd: "Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit' -Name ProcessCreationIncludeCmdLine_Enabled",
+      note: 'A política que inclui a linha de comando no 4688 não existe nesta máquina. O 4688 dirá que o processo foi criado, mas não com quais argumentos.', out: [
+      "[err]Get-ItemProperty: Property ProcessCreationIncludeCmdLine_Enabled does not exist at path", "[err]HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit.", '',
+      '[warn]Conclusão: a fonte 4688 existe, mas sem esta política não registra a linha de comando.'] }
+  ],
+  done: 'Roteiro concluído: ter a fonte não basta, é preciso configurá-la.'
+});
+
+/* ---------- 12. VS Code: normalizador e correlação ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'normalizacao', team: 'blue', status: 'Python 3.12', open: 'normalizar.py',
+  files: [
+    { path: 'normalizar.py', hl: [5, 6, 7, 8, 9, 10, 11, 12, 30], code:
+`"""Normaliza eventos do Windows e do firewall para um esquema comum (estilo ECS)."""
+import json
+from datetime import datetime
+
+MAPA_WINDOWS = {
+    "TimeCreated": "@timestamp",
+    "EventID": "event.code",
+    "Computer": "host.name",
+    "TargetUserName": "user.name",
+    "LogonType": "winlog.logon.type",
+    "IpAddress": "source.ip",
+}
+RESULTADO = {4624: "success", 4625: "failure"}
+
+def de_windows(linha: str) -> dict:
+    bruto = json.loads(linha)
+    ev = {MAPA_WINDOWS[k]: v for k, v in bruto.items() if k in MAPA_WINDOWS}
+    ev["event.outcome"] = RESULTADO.get(bruto["EventID"], "unknown")
+    ev["event.dataset"] = "windows.security"
+    return ev
+
+def de_firewall(linha: str) -> dict:
+    campos = dict(par.split("=", 1) for par in linha.split())
+    return {
+        "@timestamp": campos["ts"],
+        "event.dataset": "firewall",
+        "event.action": campos["acao"],
+        "source.ip": campos["src"],
+        "destination.ip": campos["dst"],
+        "destination.port": int(campos["dport"]),
+        "user.name": campos.get("usuario"),
+    }
+
+def carregar() -> list[dict]:
+    eventos = [de_windows(l) for l in open("amostras/windows_seguranca.jsonl", encoding="utf-8")]
+    eventos += [de_firewall(l) for l in open("amostras/firewall.log", encoding="utf-8")]
+    for ev in eventos:
+        ev["@timestamp"] = datetime.fromisoformat(ev["@timestamp"])
+    return sorted(eventos, key=lambda e: e["@timestamp"])
+
+if __name__ == "__main__":
+    eventos = carregar()
+    print(f"{len(eventos)} eventos normalizados")
+    for ev in eventos[:3]:
+        print({k: str(v) for k, v in ev.items()})`},
+    { path: 'correlacao.py', hl: [6, 7, 13, 14, 18, 19], code:
+`"""Regra: 10 falhas (4625) seguidas de sucesso (4624), mesma origem e conta, em até 5 min."""
+from collections import defaultdict, deque
+from datetime import timedelta
+from normalizar import carregar
+
+LIMIAR = 10
+JANELA = timedelta(minutes=5)
+
+falhas = defaultdict(deque)          # (source.ip, user.name) -> horários das falhas
+for ev in carregar():
+    if ev["event.dataset"] != "windows.security":
+        continue
+    chave, t = (ev["source.ip"], ev["user.name"]), ev["@timestamp"]
+    while falhas[chave] and t - falhas[chave][0] > JANELA:
+        falhas[chave].popleft()      # esquece falhas fora da janela
+    if ev["event.outcome"] == "failure":
+        falhas[chave].append(t)
+    elif ev["event.outcome"] == "success":
+        if len(falhas[chave]) >= LIMIAR:
+            print(f"[ALERTA] {chave[1]} em {ev['host.name']}: {len(falhas[chave])} falhas "
+                  f"e sucesso às {t:%H:%M:%S} a partir de {chave[0]}")
+        falhas[chave].clear()`},
+    { path: 'amostras/windows_seguranca.jsonl', code:
+`{"TimeCreated": "2026-11-13T02:14:03-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:14:21-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:14:38-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:14:55-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:15:12-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:15:29-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:15:47-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:16:04-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:16:22-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:16:40-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T02:17:12-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+{"TimeCreated": "2026-11-13T07:58:10-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "caio.mendes", "LogonType": 10, "IpAddress": "10.10.30.3"}
+{"TimeCreated": "2026-11-13T08:01:02-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}
+{"TimeCreated": "2026-11-13T08:01:14-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}
+{"TimeCreated": "2026-11-13T08:01:30-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}`},
+    { path: 'amostras/firewall.log', code:
+`ts=2026-11-13T02:13:58-03:00 acao=allow src=10.10.20.31 dst=10.10.1.30 dport=3389 usuario=carla.dias
+ts=2026-11-13T02:19:40-03:00 acao=deny src=10.10.20.31 dst=10.10.1.20 dport=445 usuario=carla.dias
+ts=2026-11-13T08:00:55-03:00 acao=allow src=10.10.20.18 dst=10.10.1.30 dport=3389 usuario=ana.lima`}
+  ],
+  run: [
+    { label: 'Normalizar', cmd: 'python normalizar.py', file: 'normalizar.py', out: [
+      '[ok]18 eventos normalizados',
+      "{'@timestamp': '2026-11-13 02:13:58-03:00', 'event.dataset': 'firewall', 'event.action': 'allow', 'source.ip': '10.10.20.31', 'destination.ip': '10.10.1.30', 'destination.port': '3389', 'user.name': 'carla.dias'}",
+      "{'@timestamp': '2026-11-13 02:14:03-03:00', 'event.code': '4625', 'host.name': 'SRV-ERP-01', 'user.name': 'carla.dias', 'winlog.logon.type': '10', 'source.ip': '10.10.20.31', 'event.outcome': 'failure', 'event.dataset': 'windows.security'}",
+      "{'@timestamp': '2026-11-13 02:14:21-03:00', 'event.code': '4625', 'host.name': 'SRV-ERP-01', 'user.name': 'carla.dias', 'winlog.logon.type': '10', 'source.ip': '10.10.20.31', 'event.outcome': 'failure', 'event.dataset': 'windows.security'}",
+      '', '[info]Firewall e Windows agora usam os mesmos campos: user.name e source.ip.' ] },
+    { label: 'Correlacionar', kind: 'blue', cmd: 'python correlacao.py', file: 'correlacao.py', out: [
+      '[red][ALERTA] carla.dias em SRV-ERP-01: 10 falhas e sucesso às 02:17:12 a partir de 10.10.20.31' ] }
+  ]
+});
+
+/* ---------- 13. SIEM ---------- */
+Labs.siem('#lab-siem', {
+  product: 'SIEM · SOC Rede Tatame', time: '13/11/2026, 00h – 24h', lang: 'KQL', index: 'logs-windows, logs-firewall',
+  searches: [
+    { group: 'Autenticação', name: '1. Falhas de logon por origem', q: 'event.code : 4625 | stats count() by source.ip, user.name, host.name',
+      cols: ['source.ip', 'user.name', 'host.name', 'falhas'], total: 214, unit: 'eventos 4625',
+      hist: [4, 4, 14, 4, 4, 4, 4, 4, 15, 14, 14, 14, 13, 14, 14, 13, 14, 14, 13, 4, 4, 4, 4, 4], hot: [2],
+      rows: [
+        ['10.10.1.40', 'svc-backup', 'SRV-ARQ-01', '96'],
+        ['10.10.20.31', 'carla.dias', 'SRV-ERP-01', '10'],
+        ['10.10.20.18', 'ana.lima', 'SRV-ERP-01', '2'],
+        ['(71 origens)', '(71 contas)', '(diversos)', '106']
+      ], note: 'A conta de serviço svc-backup falha 4 vezes por hora, das 0h às 24h: senha vencida, ruído conhecido. O pico das 02h é outra história.' },
+    { group: 'Autenticação', name: '2. Falhas seguidas de sucesso', lang: 'EQL', q: 'sequence by source.ip, user.name with maxspan=5m [authentication where event.code == "4625"] with runs=10 [authentication where event.code == "4624"]',
+      cols: ['início', 'fim', 'source.ip', 'user.name', 'host.name', 'falhas', 'severidade'], sevCol: 6, total: 1, unit: 'sequência',
+      hist: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
+      rows: [['02:14:03', '02:17:12', '10.10.20.31', 'carla.dias', 'SRV-ERP-01', '10', 'alta']],
+      note: 'Isoladas, as 10 falhas não chamam atenção. Em sequência, terminando em sucesso em pouco mais de 3 minutos, sugerem que a senha foi descoberta.' },
+    { group: 'Autenticação', name: '3. Enriquecer o evento', q: 'event.code : 4624 and source.ip : "10.10.20.31" | lookup ativos on host.name | lookup rh on user.name | lookup rede on source.ip',
+      cols: ['@timestamp', 'host.name', 'criticidade', 'user.name', 'cargo', 'origem (inventário)', 'horário usual'], total: 1, unit: 'evento',
+      hist: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
+      rows: [['02:17:12', 'SRV-ERP-01', 'alta (ERP)', 'carla.dias', 'analista do financeiro', 'NB-FIN-031 (sede, São Paulo)', '08h – 18h']],
+      note: 'O contexto acelera a triagem: ativo crítico, usuária que não trabalha de madrugada e um notebook do financeiro falando com o ERP às 2h. O analista já começa sabendo o que perguntar.' },
+    { group: 'Retenção', name: '4. Até quando dá para olhar?', q: '_index : logs-* | stats min(@timestamp) as mais_antigo, max(@timestamp) as mais_recente by _index',
+      cols: ['índice', 'mais antigo', 'mais recente', 'dias disponíveis'], total: 3, unit: 'índices', hist: [],
+      rows: [
+        ['logs-windows', '13/11/2025', '13/11/2026', '365'],
+        ['logs-firewall', '13/11/2025', '13/11/2026', '365'],
+        ['logs-proxy', '06/11/2026', '13/11/2026', '7']
+      ], note: 'Windows e firewall cumprem a política de 12 meses do SOC. O índice do proxy da sede recomeçou do zero quando o equipamento foi trocado, há uma semana: se o invasor entrou há um mês, os acessos web daquela época não podem mais ser pesquisados.' }
+  ]
+});
+
+/* ---------- 15. Linha do tempo de retenção ---------- */
+Labs.register('#lab-ret', (el) => {
+  el.innerHTML = `
+  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem">
+    <h4>Janela de retenção dos registros</h4>
+    <div class="lab-grid3">
+      <label class="lab-range">Pesquisa imediata (dias) <output id="o-hot"></output><input id="i-hot" type="range" min="7" max="180" value="7"></label>
+      <label class="lab-range">Retenção total (dias) <output id="o-tot"></output><input id="i-tot" type="range" min="7" max="400" value="7"></label>
+      <label class="lab-range">Invasão começou há (dias) <output id="o-inv"></output><input id="i-inv" type="range" min="1" max="365" value="30"></label>
+    </div>
+    <div class="ret-track"><div class="zone cold"></div><div class="zone hot"></div><div class="inv"><span></span></div><div class="now"><span>hoje</span></div></div>
+    <div class="ret-axis"><span>há 400 dias</span><span>há 300</span><span>há 200</span><span>há 100</span><span></span></div>
+    <div class="lab-grid3" style="margin-top:.6rem">
+      <div class="lab-kpi" id="k-ini"><small>Início da invasão nos registros?</small><b></b></div>
+      <div class="lab-kpi" id="k-pci"><small>Atende ao PCI DSS (12 meses, 3 imediatos)?</small><b></b></div>
+      <div class="lab-kpi blue" id="k-vol"><small>Volume guardado (20 GB por dia)</small><b></b></div>
+    </div>
+    <p id="ret-msg" style="margin:0;color:#C9D4E5;font-size:.95rem"></p>
+  </div>`;
+  const q = (s) => el.querySelector(s);
+  const hot = q('#i-hot'), tot = q('#i-tot'), inv = q('#i-inv');
+  const set = (k, ok, txt) => { const b = q(k); b.className = 'lab-kpi ' + (ok ? 'green' : 'red'); b.querySelector('b').textContent = txt; };
+  function calc() {
+    if (+tot.value < +hot.value) tot.value = hot.value;
+    const H = +hot.value, T = +tot.value, I = +inv.value, pct = (d) => (Math.min(d, 400) / 400) * 100;
+    q('#o-hot').textContent = H; q('#o-tot').textContent = T; q('#o-inv').textContent = I;
+    q('.zone.hot').style.cssText = 'right:0;width:' + pct(H) + '%';
+    q('.zone.cold').style.cssText = 'right:0;width:' + pct(T) + '%';
+    q('.inv').style.left = (100 - pct(I)) + '%'; q('.inv span').textContent = 'invasão: há ' + I + ' dias';
+    const visivel = I <= T, imediato = I <= H, pci = T >= 365 && H >= 90;
+    set('#k-ini', visivel, visivel ? (imediato ? 'Sim, na hora' : 'Sim, no arquivo') : 'Não');
+    set('#k-pci', pci, pci ? 'Sim' : 'Não');
+    q('#k-vol b').textContent = (T * 20 / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' TB';
+    q('#ret-msg').textContent = !visivel
+      ? 'Os primeiros ' + (I - T) + ' dias da invasão já foram descartados. A investigação vai começar pelo meio da história.'
+      : imediato ? 'Toda a atividade do invasor pode ser pesquisada agora.' : 'O início existe, mas está no arquivo de longo prazo: será preciso restaurá-lo antes de pesquisar.';
+  }
+  [hot, tot, inv].forEach((i) => i.addEventListener('input', calc));
+  calc();
+});
+
+/* ---------- 18. Calculadora de capacidade ---------- */
+Labs.register('#lab-cap', (el) => {
+  const n = (v, d) => v.toLocaleString('pt-BR', { maximumFractionDigits: d || 0 });
+  el.innerHTML = `
+  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.5rem;overflow:auto">
+    <div class="lab-grid2">
+      <div>
+        <label class="lab-range">Alertas por dia <output id="o-a"></output><input id="i-a" type="range" min="200" max="4000" step="50" value="1800"></label>
+        <label class="lab-range">Minutos de triagem por alerta <output id="o-m"></output><input id="i-m" type="range" min="2" max="30" value="10"></label>
+        <label class="lab-range">Analistas N1 <output id="o-n"></output><input id="i-n" type="range" min="1" max="60" value="6"></label>
+        <label class="lab-range">Horas efetivas por analista <output id="o-h"></output><input id="i-h" type="range" min="3" max="8" step="0.5" value="6"></label>
+        <label class="lab-range">Parcela vinda das 5 regras ruidosas <output id="o-r"></output><input id="i-r" type="range" min="0" max="100" value="95"></label>
+        <label class="lab-range">Ruído cortado nessas regras <output id="o-c"></output><input id="i-c" type="range" min="0" max="100" value="0"></label>
+      </div>
+      <div style="display:grid;gap:.5rem;align-content:start">
+        <div class="lab-kpi amber"><small>Demanda de análise</small><b id="k-dem"></b></div>
+        <div class="lab-kpi blue"><small>Capacidade da equipe</small><b id="k-cap"></b></div>
+        <div class="lab-kpi" id="k-cob"><small>Cobertura do volume</small><b></b></div>
+      </div>
+    </div>
+    <div class="cap-bars">
+      <div class="cap-row"><span>Alertas recebidos</span><div class="bar"><i id="b-vol" style="background:#FF2B5F"></i></div><span id="t-vol"></span></div>
+      <div class="cap-row"><span>Alertas que cabem</span><div class="bar"><i id="b-cap" style="background:#3FD47A"></i></div><span id="t-cap"></span></div>
+    </div>
+  </div>`;
+  const $ = (id) => el.querySelector('#' + id);
+  function calc() {
+    const a = +$('i-a').value, m = +$('i-m').value, an = +$('i-n').value, h = +$('i-h').value, r = +$('i-r').value / 100, c = +$('i-c').value / 100;
+    const vol = Math.round(a - r * a * c), dem = vol * m / 60, capH = an * h, capA = Math.floor(capH * 60 / m), cob = Math.min(1, capA / vol);
+    $('o-a').textContent = n(a); $('o-m').textContent = m + ' min'; $('o-n').textContent = an; $('o-h').textContent = n(h, 1) + ' h';
+    $('o-r').textContent = Math.round(r * 100) + '%'; $('o-c').textContent = Math.round(c * 100) + '%';
+    $('k-dem').textContent = n(dem, 1) + ' h/dia (' + n(vol) + ' alertas)';
+    $('k-cap').textContent = n(capH, 1) + ' h/dia (' + n(capA) + ' alertas)';
+    const k = $('k-cob'); k.className = 'lab-kpi ' + (cob >= 1 ? 'green' : cob >= 0.6 ? 'amber' : 'red');
+    k.querySelector('b').textContent = n(cob * 100, 1) + '%' + (cob >= 1 ? ' (cabe tudo)' : '');
+    const mx = Math.max(vol, capA, 1);
+    $('b-vol').style.width = (vol / mx * 100) + '%'; $('b-cap').style.width = (Math.min(capA, mx) / mx * 100) + '%';
+    $('t-vol').textContent = n(vol); $('t-cap').textContent = n(capA);
+  }
+  el.querySelectorAll('input').forEach((i) => i.addEventListener('input', calc));
+  calc();
+});
+</script>
+</body>
+</html>

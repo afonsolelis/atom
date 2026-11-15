@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 11 — Threat hunting e inteligência de ameaças</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .hash-box { font: 13px/1.5 var(--mono); word-break: break-all; background: #0B1424; border: 1px solid #22314F; border-radius: 8px; padding: .5em .7em; color: #DCE3EE; }
+  .hash-box b { color: #FF5C7A; }
+  .hash-ta { width: 100%; min-height: 84px; resize: vertical; background: #0B1424; color: #fff; border: 1px solid #2F3B55; border-radius: 8px; padding: .5em .7em; font: 13.5px/1.5 var(--mono); }
+  .verd { display: flex; align-items: center; gap: .6rem; padding: .55em .8em; border-radius: 8px; font: 600 .95rem var(--fonte); }
+  .verd.ok { background: rgba(63,212,122,.15); border: 1px solid #3FD47A; color: #3FD47A; }
+  .verd.no { background: rgba(255,43,95,.15); border: 1px solid #FF2B5F; color: #FF8BA3; }
+  .cti { font: 14px/1.45 var(--fonte); color: #1A1A1A; }
+  .cti-top { background: #23395B; color: #fff; padding: 8px 14px; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+  .cti-top b { font-size: 15px; }
+  .cti-body { padding: 12px 16px; }
+  .cti h3 { margin: 0 0 6px !important; font-size: 17px !important; color: #23395B !important; text-transform: none !important; letter-spacing: 0 !important; }
+  .cti-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 10px; }
+  .cti-tag { font: 700 11.5px var(--fonte); padding: 3px 8px; border-radius: 4px; color: #fff; background: #5A6B85; }
+  .cti-tag.amber { background: #FFC000; color: #000; } .cti-tag.green { background: #33FF00; color: #000; } .cti-tag.att { background: #C0392B; }
+  .cti-tabs { display: flex; gap: 2px; border-bottom: 2px solid #23395B; margin-bottom: 8px; }
+  .cti-tabs button { border: 0; background: #E3E8F0; padding: 6px 12px; cursor: pointer; font: 600 13px var(--fonte); color: #23395B; border-radius: 6px 6px 0 0; }
+  .cti-tabs button.on { background: #23395B; color: #fff; }
+  .cti table { width: 100%; border-collapse: collapse; font: 12.5px var(--mono); }
+  .cti th { background: #EEF1F7; text-align: left; padding: 5px 7px; font: 700 11.5px var(--fonte); }
+  .cti td { border-bottom: 1px solid #E3E8F0; padding: 5px 7px; }
+  .cti .dia { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto auto auto; gap: 8px; text-align: center; }
+  .cti .dia div { border: 2px solid #23395B; border-radius: 8px; padding: 6px; background: #F5F7FB; font-size: 13px; }
+  .cti .dia div b { display: block; color: #23395B; }
+  .cti .dia .pv { border-color: #C0392B; background: #FDEDEC; }
+  .cti .nivel { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; font-size: 13px; }
+  .cti .nivel button { border: 1px solid #23395B; background: #fff; color: #23395B; font: 600 12px var(--fonte); padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+  .cti .nivel span.r { font-weight: 700; color: #1E7D45; }
+  .cad-row { display: grid; grid-template-columns: 170px 1fr 90px; gap: .6rem; align-items: center; font: 13px var(--fonte); color: #C9D4E5; margin-bottom: .45rem; }
+  .cad-row .bar { height: 20px; background: #1A2440; border-radius: 4px; overflow: hidden; }
+  .cad-row .bar i { display: block; height: 100%; transition: width .5s; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 3|Aula 11 — Videoaula 11">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 11 — <em>Threat hunting</em> e inteligência de ameaças</h1>
+      <div class="subtitulo">Unidade 3 — Blue Team: detecção e resposta</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Esta aula tem sete laboratórios: um diagrama animado do ciclo de caça orientado por hipóteses; um editor VS Code com um <em>script</em> de caça que conta em quantas máquinas cada ferramenta de acesso remoto aparece; um console de SIEM com as buscas da caça; uma Pirâmide da Dor em 3D, com seis camadas do verde ao vermelho; um simulador que altera um byte de um arquivo e mostra o <em>hash</em> mudando; uma plataforma de inteligência de ameaças aberta em um navegador, com marcações TLP e o Modelo Diamante; e uma calculadora da cadência da caça.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo"><em>Threat hunting</em> e inteligência de ameaças</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li><em>Dwell time</em> e comprometimento presumido</li>
+          <li>Caça orientada por hipóteses</li>
+          <li>Laboratórios: uma caça do começo ao fim</li>
+          <li>A Pirâmide da Dor, em 3D e na prática</li>
+          <li>Inteligência de ameaças: níveis e Modelo Diamante</li>
+          <li>STIX, TAXII, MISP e TLP</li>
+          <li>A cadência da caça e o <em>dwell time</em></li>
+          <li>Pausa para reflexão</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>O que o invasor deixou para trás?</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Luiza Ferraz, analista nível 2 do SOC, conduz as caças a ameaças (<em>threat hunting</em>) da Rede Tatame: buscas ativas por invasores que nenhuma regra apontou.</p>
+          <p>Na Aula 9, o SOC viu o <em>login</em> das 02:17 no SRV-ERP-01 com a conta de Carla Dias, e a senha foi trocada. Mas o invasor ficou alguns minutos lá dentro, e nenhuma regra disparou depois disso. Ao mesmo tempo, chega um relatório do setor: o Grupo Cobalto Austral instala ferramentas legítimas de acesso remoto para voltar quando quiser.</p>
+          <p>O que está em jogo: uma porta escondida no ERP deixa o grupo voltar, copiar dados de alunos e extorquir a rede.</p>
+          <div class="pergunta">Como encontrar um invasor que já está dentro e que nenhuma regra viu?</div>
+          <div class="papeis"><span><b>Caçadora</b> Luiza Ferraz</span><span><b>Regras novas</b> Rafael Tavares</span><span><b>TI da sede</b> Caio Mendes</span><span><b>Adversário</b> Grupo Cobalto Austral</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. O que é threat hunting -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>O que é <em>threat hunting</em></h2>
+      <div class="slide-content-box">
+        <p><em>Threat hunting</em> é a busca <strong>proativa e iterativa</strong> por atividade maliciosa que escapou dos controles automatizados.</p>
+        <ul>
+          <li>Parte da premissa de <strong>comprometimento presumido</strong> (<em>assume breach</em>): em vez de esperar o alerta, o caçador supõe que o adversário já está no ambiente e procura evidências disso.</li>
+          <li>A caça não substitui o SOC: ela o complementa.</li>
+          <li>Quando bem-sucedida, gera novas regras para a engenharia de detecção.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Hipóteses -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Caça orientada por hipóteses</p>
+      <h2>Uma boa hipótese é específica e verificável</h2>
+      <div class="slide-content-box">
+        <p>A abordagem mais madura é a <strong>orientada por hipóteses</strong>. Exemplo:</p>
+        <div class="callout-azul"><p>"Um adversário está usando ferramentas legítimas de acesso remoto, instaladas fora do processo oficial de TI, para manter persistência."</p></div>
+        <p>As hipóteses nascem de:</p>
+        <ul>
+          <li>inteligência de ameaças;</li>
+          <li>técnicas ATT&amp;CK sem cobertura de detecção;</li>
+          <li>achados do Red Team;</li>
+          <li>anomalias observadas no ambiente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB flow: ciclo da caça -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>O ciclo da caça orientada por hipóteses</h2></div><span class="lab-badge blue">Threat hunting</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver o caminho da caça H-11, da hipótese à regra nova.</div>
+            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa.</div>
+            <div class="rl obs"><b>Observe</b>Quatro fontes de hipótese entram pela esquerda: inteligência de ameaças (CTI), ATT&amp;CK, Red Team e anomalias.</div>
+            <div class="rl conc"><b>Conclusão</b>A caça termina em dois produtos: um incidente e uma regra nova.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-flow"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB VS Code: script de caça -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Empilhar para achar o raro</h2></div><span class="lab-badge blue">Caça H-11</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Achar, entre 149 máquinas, as poucas que rodam algo fora do padrão.</div>
+            <div class="rl"><b>Faça</b>1. Leia a lista de ferramentas aprovadas no <em>script</em>.<br>2. Clique em <strong>Executar a caça</strong>.</div>
+            <div class="rl obs"><b>Observe</b>Empilhamento (<em>stack counting</em>) conta em quantas máquinas cada programa aparece. Depois, quem iniciou e com qual conta.</div>
+            <div class="rl conc"><b>Conclusão</b><code>conectaja.exe</code> aparece numa máquina só, iniciado pelo PowerShell com a conta carla.dias.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LAB SIEM: caça -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>Separar o legítimo do suspeito</h2></div><span class="lab-badge blue">Caça H-11</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Separar o legítimo do suspeito com rede, linha do tempo e mudanças.</div>
+            <div class="rl"><b>Faça</b>Rode as quatro buscas, na ordem.</div>
+            <div class="rl obs"><b>Observe</b>A busca 3 liga a caça à Aula 9: o <em>login</em> das 02:17:12 veio antes do serviço novo.</div>
+            <div class="rl conc"><b>Conclusão</b>As máquinas da TI têm mudança aprovada; o SRV-ERP-01 confirma a hipótese.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9b. PLATAFORMA REDE TATAME: caça no cenário de exfiltração -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>A caça H-11 na plataforma, antes e depois da regra</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver por que a caça foi necessária: o dado existia, faltava a regra.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Acesso remoto não aprovado e saída de dados</em>.<br>2. Na <strong>Arquitetura</strong>, clique no SRV-ERP-01.<br>3. Ative a R8 em <strong>Regras do CEP</strong>, inicie de novo e, no <strong>SOC</strong>, contenha o alerta antes do envio dos 2,8 GB.</div>
+            <div class="rl obs"><b>Observe</b>Sem a R8, os passos ficam "visto nos logs, sem alerta". O envio fica "não detectado": a saída de rede está desligada. Falta tempo? Use 1 s = 5 s.</div>
+            <div class="rl conc"><b>Conclusão</b>O achado da caça vira regra, e a próxima instalação é contida a tempo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Pirâmide da Dor -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Indicadores <em>versus</em> comportamentos</p>
+      <h2>A Pirâmide da Dor</h2>
+      <div class="slide-content-box" style="padding:1em 1.6em">
+        <p style="margin-bottom:.4em">Em 2013, David Bianco propôs a <strong>Pirâmide da Dor</strong> (<em>Pyramid of Pain</em>), que relaciona o tipo de indicador usado na defesa ao "custo" que sua detecção impõe ao adversário.</p>
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Nível (da base ao topo)</th><th>Exemplo</th><th>Dificuldade para o adversário trocar</th></tr></thead>
+          <tbody>
+            <tr><td><em>Hashes</em></td><td><em>Hash</em> SHA-256 de um executável</td><td>Trivial</td></tr>
+            <tr><td>Endereços IP</td><td>IP de um servidor de comando e controle</td><td>Fácil</td></tr>
+            <tr><td>Nomes de domínio</td><td>Domínio usado para <em>phishing</em></td><td>Simples</td></tr>
+            <tr><td>Artefatos de rede e de <em>host</em></td><td>Padrão de URL, chave de registro criada</td><td>Incômodo</td></tr>
+            <tr><td>Ferramentas</td><td>Uma ferramenta específica de ataque</td><td>Desafiador</td></tr>
+            <tr><td><strong>TTPs</strong></td><td>O comportamento em si (táticas, técnicas e procedimentos)</td><td>Difícil</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. LAB 3D: Pirâmide -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>Subindo a Pirâmide da Dor</h2></div><span class="lab-badge purple">CTI e detecção</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Escolher que tipo de indicador da caça vale mais.</div>
+            <div class="rl"><b>Faça</b>Clique em cada nível, nos botões da cena.</div>
+            <div class="rl obs"><b>Observe</b>Do verde (barato para o adversário trocar) ao vermelho (caro). Cada nível traz um exemplo da H-11.</div>
+            <div class="rl conc"><b>Conclusão</b>Detectar TTPs (táticas, técnicas e procedimentos) obriga o adversário a mudar o jeito de trabalhar.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB hash -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Simulação</p><h2>Um byte a menos, um <em>hash</em> novo</h2></div><span class="lab-badge blue">Pirâmide da Dor na prática</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver por que bloquear o <em>hash</em> do ConectaJá não basta.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Alterar um byte</strong> ou edite um caractere.<br>2. Compare o <em>hash</em> novo com a lista de bloqueio.</div>
+            <div class="rl obs"><b>Observe</b>O SHA-256 é recalculado no navegador, e quase todos os 64 caracteres mudam.</div>
+            <div class="rl conc"><b>Conclusão</b>A regra de comportamento olha o que o programa faz: criar serviço e abrir acesso remoto.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-hash"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. CTI -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Inteligência de ameaças</p>
+      <h2>Do dado à decisão: os níveis de CTI</h2>
+      <div class="slide-content-box">
+        <p>A <strong>inteligência de ameaças</strong> (<em>Cyber Threat Intelligence</em>, CTI) é a informação sobre adversários coletada, analisada e contextualizada para apoiar decisões. Uma lista de IPs ainda não é inteligência: ela se torna inteligência quando responde a perguntas como "quem ameaça meu setor, com quais objetivos e de que forma?".</p>
+        <ul>
+          <li><strong>Estratégica</strong>: tendências, motivações e riscos para a alta gestão (por exemplo, o aumento de extorsão contra empresas de saúde).</li>
+          <li><strong>Operacional</strong>: campanhas e atores específicos, com suas intenções e capacidades, para líderes de SOC e resposta a incidentes.</li>
+          <li><strong>Tática</strong>: TTPs e indicadores, para analistas, caçadores e engenheiros de detecção. Algumas fontes separam ainda um nível <strong>técnico</strong>, restrito aos indicadores.</li>
+        </ul>
+        <p style="font-size:.9em">A nomenclatura dos níveis varia entre autores.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Diamante e padrões -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Análise e compartilhamento</p>
+      <h2>Modelo Diamante, STIX, TAXII, MISP e TLP</h2>
+      <div class="slide-content-box">
+        <p>O <strong>Modelo Diamante</strong> (Caltagirone, Pendergast e Betz, 2013) descreve cada evento de intrusão por quatro vértices: <strong>adversário</strong>, <strong>capacidade</strong>, <strong>infraestrutura</strong> e <strong>vítima</strong>. Conhecendo um vértice, o analista "pivota" para descobrir os outros, por exemplo de um domínio malicioso (infraestrutura) para outras vítimas que o contataram.</p>
+        <ul>
+          <li><strong>STIX</strong> descreve objetos como indicadores, campanhas e padrões de ataque.</li>
+          <li><strong>TAXII</strong> define como trocar esses objetos.</li>
+          <li><strong>MISP</strong> é uma plataforma aberta para armazenar e compartilhar eventos entre organizações.</li>
+          <li><strong>TLP</strong> (<em>Traffic Light Protocol</em>), mantido pelo FIRST, indica com que liberdade cada informação pode ser repassada: TLP:RED, TLP:AMBER (e AMBER+STRICT), TLP:GREEN e TLP:CLEAR.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB navegador: plataforma de CTI -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>Um evento compartilhado na plataforma de CTI</h2></div><span class="lab-badge purple">CTI</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Usar o relatório do setor sobre o Cobalto Austral sem se afogar em indicadores.</div>
+            <div class="rl"><b>Faça</b>Clique nas abas Atributos, ATT&amp;CK, Diamante (clique na infraestrutura) e Níveis.</div>
+            <div class="rl obs"><b>Observe</b>O pivô em 198.51.100.77 leva ao SRV-ERP-01. A marca TLP:AMBER permite uso interno, sem publicar.</div>
+            <div class="rl conc"><b>Conclusão</b>As quatro técnicas valem mais que os 450 atributos juntos.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-cti"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>A cadência da caça e o <em>dwell time</em></h2>
+      <div class="slide-content-box">
+        <p>Suponha que uma técnica de persistência não tenha regra de detecção e só possa ser encontrada por caça.</p>
+        <div class="stat-grid" style="margin-top:.2rem">
+          <div class="stat-card"><span class="numero-grande">15 dias</span><span class="legenda">tempo médio até encontrar o invasor com caças a cada 30 dias (metade do intervalo)</span></div>
+          <div class="stat-card"><span class="numero-grande">3,5 dias</span><span class="legenda">com caças semanais</span></div>
+          <div class="stat-card"><span class="numero-grande">minutos</span><span class="legenda">se a caça virar uma regra automatizada</span></div>
+        </div>
+        <p style="margin-top:.8rem">Um invasor que se instala em um dia aleatório espera, em média, metade do intervalo entre caças. Por isso, o melhor produto de uma caça não é apenas o incidente encontrado, mas <strong>a detecção que nasce dela</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. LAB cadência -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker" style="margin:0">Laboratório · Exemplo numérico</p>
+      <div class="lab-head"><h2>Calculadora da cadência de caça</h2><span class="lab-badge blue">Gestão da caça</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Decidir com que frequência caçar.</div>
+            <div class="rl"><b>Faça</b>1. Mova o intervalo entre caças.<br>2. Compare 30 dias, 7 dias e 1 dia com a regra automatizada.</div>
+            <div class="rl obs"><b>Observe</b>A espera média fica perto da metade do intervalo; o pior caso, perto do intervalo inteiro.</div>
+            <div class="rl conc"><b>Conclusão</b>A caça acha o desconhecido; o que ela acha deve virar regra automática.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-cad"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>Importar 300 IPs e 150 <em>hashes</em> é suficiente?</h2>
+      <div class="slide-content-box" style="padding:1.2em 1.8em">
+        <p>Uma cooperativa de crédito recebe de um parceiro um relatório sobre um grupo que ataca o setor financeiro. O relatório traz 300 IPs e 150 <em>hashes</em>, além do comportamento do grupo: acesso inicial com credenciais válidas de VPN, instalação de ferramentas legítimas de acesso remoto e exclusão de cópias de sombra antes da criptografia. O gestor do SOC propõe apenas importar os IPs e <em>hashes</em> no <em>firewall</em> e no EDR.</p>
+        <ol>
+          <li>Com base na Pirâmide da Dor, qual é a limitação da proposta do gestor?</li>
+          <li>Formule duas hipóteses de caça a partir do comportamento descrito no relatório.</li>
+          <li>Em que nível de CTI (estratégico, operacional ou tático) cada parte do relatório se encaixa?</li>
+        </ol>
+        <div class="callout-azul"><p><strong>Desafio prático:</strong> escolha uma das hipóteses e descreva, em até uma página, quais fontes de dados você consultaria, o que seria considerado evidência e qual regra de detecção poderia nascer da caça.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Uma resolução possível -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão · discussão</p>
+      <h2>Um caminho para responder</h2>
+      <div class="slide-content-box" style="padding:1.2em 1.8em">
+        <ul>
+          <li><strong>Limitação</strong>: IPs e <em>hashes</em> ficam na base da pirâmide. Importá-los é útil e barato, mas o grupo os troca em minutos. A parte valiosa do relatório é a descrição do comportamento.</li>
+          <li><strong>Hipótese 1</strong>: "contas válidas estão acessando a VPN de origens ou horários incomuns para seus donos" (credenciais válidas, T1078).</li>
+          <li><strong>Hipótese 2</strong>: "há ferramentas legítimas de acesso remoto instaladas fora do processo oficial de TI" (T1219), a mesma caça H-11 desta aula.</li>
+          <li><strong>Níveis</strong>: o fato de o grupo mirar o setor financeiro serve à gestão (estratégico); a campanha e o ator, ao líder do SOC (operacional); comportamento, IPs e <em>hashes</em>, a caçadores e engenheiros de detecção (tático).</li>
+        </ul>
+        <div class="callout-azul"><p>A regra que pode nascer da hipótese 2: alertar sempre que um processo de acesso remoto que não está na lista aprovada for executado ou instalado como serviço.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>A caça achou a porta escondida</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Hipótese H-11</b>Ferramentas de acesso remoto fora do processo de TI (T1219), a partir do relatório do setor e de uma técnica sem regra.</div>
+        <div class="ev"><b>Empilhar para achar o raro</b>Em 149 máquinas, o ConectaJá rodou em uma só: o SRV-ERP-01, instalado como serviço às 02:22 pela conta carla.dias.</div>
+        <div class="ev"><b>Separar o legítimo</b>As três máquinas da TI tinham mudança aprovada. O ERP falava com 198.51.100.77, sem consulta DNS.</div>
+        <div class="ev"><b>Subir a pirâmide</b><em>Hash</em> e IP mudam em minutos. A regra R8, de comportamento, passa a pegar a próxima instalação.</div>
+        <div class="resposta">Resposta à pergunta da aula: com uma hipótese específica, baseada em inteligência de ameaças e no ATT&amp;CK, a caçadora empilha a telemetria do EDR para achar o raro, confirma no SIEM e transforma o achado em incidente e em regra nova de comportamento.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><em>Threat hunting</em> parte do comprometimento presumido e é guiado por hipóteses.</li>
+          <li>Na Pirâmide da Dor, detectar TTPs impõe muito mais custo ao adversário do que bloquear <em>hashes</em> e IPs.</li>
+          <li>CTI é informação contextualizada para decisão, em níveis estratégico, operacional e tático.</li>
+          <li>O Modelo Diamante e padrões como STIX, TAXII, MISP e TLP organizam a análise e o compartilhamento.</li>
+          <li>O melhor resultado de uma caça é uma nova detecção automatizada.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 21. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>BIANCO, David J. The pyramid of pain. <em>Enterprise Detection &amp; Response</em>, mar. 2013. Disponível em: &lt;https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>CALTAGIRONE, Sergio; PENDERGAST, Andrew; BETZ, Christopher. <em>The diamond model of intrusion analysis</em>. [<em>S. l.</em>]: Center for Cyber Intelligence Analysis and Threat Research, 2013.</p>
+        <p>FIRST. <em>Traffic light protocol (TLP)</em>: FIRST standards definitions and usage guidance. Versão 2.0. 2022. Disponível em: &lt;https://www.first.org/tlp/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>MANDIANT. <em>M-Trends 2024</em>: special report. [<em>S. l.</em>]: Google Cloud, 2024.</p>
+        <p>OASIS. <em>STIX version 2.1</em>. OASIS Standard. 2021. Disponível em: &lt;https://oasis-open.github.io/cti-documentation/&gt;. Acesso em: 13 nov. 2026.</p>
+        <p>ROBERTS, Scott J.; BROWN, Rebekah. <em>Intelligence-driven incident response</em>: outwitting the adversary. Sebastopol: O'Reilly, 2017.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 22. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você já sabe formular uma hipótese de caça, empilhar dados para achar o raro, subir a Pirâmide da Dor e transformar inteligência de ameaças em decisão. Encontramos o invasor no SRV-ERP-01. Na próxima aula, vamos conduzir a resposta ao incidente.</p>
+      <p class="fim-proxima">Próxima aula: Aula 12 — Resposta a incidentes.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 4. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'ad', 'edr', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o SRV-ERP-01 (em vermelho), o EDR que registra os processos e o SIEM onde a caçadora pesquisa.' });
+
+/* ---------- 7. Fluxo: ciclo da caça ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 470,
+  nodes: [
+    { id: 'cti', x: 110, y: 70, label: 'Inteligência', sub: 'relatório do setor', icon: '📰', w: 180 },
+    { id: 'att', x: 110, y: 180, label: 'ATT&CK', sub: 'técnica sem cobertura', icon: '🧩', w: 180 },
+    { id: 'red', x: 110, y: 290, label: 'Red Team', sub: 'achados do exercício', icon: '🎯', k: 'red', w: 180 },
+    { id: 'ano', x: 110, y: 400, label: 'Anomalias', sub: 'algo fora do normal', icon: '📈', w: 180 },
+    { id: 'hip', x: 420, y: 110, label: 'Criar hipótese', sub: 'específica e verificável', icon: '💡', k: 'amber', w: 200 },
+    { id: 'inv', x: 760, y: 110, label: 'Investigar', sub: 'EDR, SIEM, scripts', icon: '🔎', w: 190 },
+    { id: 'pad', x: 760, y: 340, label: 'Padrões e TTPs', sub: 'confirmar ou descartar', icon: '🧠', w: 190 },
+    { id: 'inf', x: 420, y: 340, label: 'Informar', sub: 'enriquecer detecções', icon: '🛠️', k: 'green', w: 200 },
+    { id: 'ir', x: 990, y: 230, label: 'Resposta', sub: 'incidente aberto', icon: '🚒', k: 'red', w: 160 }
+  ],
+  links: [
+    { from: 'cti', to: 'hip' }, { from: 'att', to: 'hip' }, { from: 'red', to: 'hip' }, { from: 'ano', to: 'hip' },
+    { from: 'hip', to: 'inv' }, { from: 'inv', to: 'pad' }, { from: 'pad', to: 'inf' }, { from: 'inf', to: 'hip', label: 'nova hipótese' },
+    { from: 'pad', to: 'ir', dashed: true }
+  ],
+  steps: [
+    { title: 'Origens', text: 'Um relatório do setor descreve grupos instalando ferramentas legítimas de acesso remoto, e a técnica T1219 não tem nenhuma regra no SIEM.', on: ['cti', 'att', 'red', 'ano'] },
+    { title: 'Hipótese H-11', text: 'Há ferramentas de acesso remoto instaladas fora do processo oficial de TI, usadas para manter persistência.', on: ['cti', 'att', 'hip'], links: [['cti', 'hip', 'amber'], ['att', 'hip', 'amber']] },
+    { title: 'Investigar', text: 'Empilhamento de 30 dias de processos nas 149 máquinas da sede: a ferramenta oficial aparece em 145; duas ferramentas não aprovadas aparecem em 3 máquinas e em 1.', on: ['hip', 'inv'], links: [['hip', 'inv']] },
+    { title: 'Padrões e TTPs', text: 'Nas máquinas da TI, há mudança aprovada: desvio de processo, não ataque. No SRV-ERP-01, a ferramenta foi instalada como serviço por carla.dias às 02:22, minutos depois do logon suspeito.', on: ['inv', 'pad'], links: [['inv', 'pad']] },
+    { title: 'Incidente', text: 'Hipótese confirmada no SRV-ERP-01. O caso vai para a resposta a incidentes, assunto da Aula 12.', on: ['pad', 'ir'], bad: ['ir'], links: [['pad', 'ir', 'red']] },
+    { title: 'Informar', text: 'Nasce a regra "acesso remoto fora da lista aprovada", testada e versionada como na Aula 10. A próxima hipótese: logons de VPN em horários incomuns.', on: ['pad', 'inf', 'hip'], links: [['pad', 'inf', 'green'], ['inf', 'hip', 'green']] }
+  ]
+});
+
+/* ---------- 8. VS Code: script de caça ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'caca-h11', team: 'blue', status: 'Python 3.12', open: 'caca_acesso_remoto.py',
+  files: [
+    { path: 'caca_acesso_remoto.py', hl: [7, 8, 9, 23, 24, 25, 26], code:
+`"""Caça H-11: ferramentas de acesso remoto instaladas fora do processo oficial de TI (T1219)."""
+import csv
+from collections import defaultdict
+
+TOTAL_HOSTS = 149                          # máquinas com EDR ativo no período
+APROVADAS = {"suporte_ti.exe"}             # ferramenta oficial, distribuída pela TI
+ACESSO_REMOTO = APROVADAS | {"remotodesk.exe", "conectaja.exe", "telaviva_agent.exe"}
+
+hosts = defaultdict(set)                   # ferramenta -> máquinas em que rodou
+achados = defaultdict(lambda: [0, set()])  # (ferramenta, pai, conta) -> [execuções, máquinas]
+with open("dados/processos_30d.csv", encoding="utf-8") as f:
+    for ev in csv.DictReader(f):
+        nome = ev["process_name"].lower()
+        if nome not in ACESSO_REMOTO:
+            continue
+        hosts[nome].add(ev["host"])
+        if nome not in APROVADAS:
+            chave = (nome, ev["parent_name"].lower(), ev["user"])
+            achados[chave][0] += 1
+            achados[chave][1].add(ev["host"])
+
+print("1) Empilhamento: em quantas máquinas cada ferramenta rodou (mais rara primeiro)")
+for nome, hs in sorted(hosts.items(), key=lambda kv: len(kv[1])):
+    rotulo = "aprovada" if nome in APROVADAS else "FORA DO PADRÃO"
+    print(f"{len(hs):5d} hosts {len(hs) / TOTAL_HOSTS:7.1%}  {nome:<16} {rotulo}")
+
+print("\\n2) Fora do padrão: quem iniciou, com qual conta e onde")
+for (nome, pai, conta), (n, maquinas) in sorted(achados.items(), key=lambda kv: -kv[1][0]):
+    print(f"{n:5d}x  {nome:<15} pai={pai:<15} conta={conta:<10} em {', '.join(sorted(maquinas))}")`},
+    { path: 'dados/amostra_processos.csv', code:
+`timestamp,host,user,process_name,parent_name
+2026-10-14T08:02:11-03:00,NB-FIN-031,carla.dias,suporte_ti.exe,services.exe
+2026-10-14T08:02:15-03:00,NB-FIN-018,ana.lima,suporte_ti.exe,services.exe
+2026-10-20T10:31:40-03:00,NB-TI-003,SYSTEM,remotodesk.exe,services.exe
+2026-10-20T10:44:02-03:00,NB-TI-007,SYSTEM,remotodesk.exe,services.exe
+2026-10-21T09:12:57-03:00,NB-TI-011,SYSTEM,remotodesk.exe,services.exe
+2026-11-13T02:22:33-03:00,SRV-ERP-01,carla.dias,ConectaJa.exe,powershell.exe
+2026-11-13T08:00:04-03:00,SRV-ERP-01,SYSTEM,suporte_ti.exe,services.exe`},
+    { path: 'hipoteses/H-11.md', code:
+`# H-11 · Acesso remoto fora do padrão
+
+Hipótese: um adversário usa ferramentas legítimas de acesso remoto,
+instaladas fora do processo oficial de TI, para manter persistência.
+
+Origem: relatório do setor (TLP:AMBER) e T1219 sem cobertura no SIEM.
+Dados: criação de processos (EDR, 30 dias), conexões de rede, mudanças aprovadas.
+Evidência: ferramenta não aprovada + sem chamado de mudança + conexão externa.
+Saída esperada: incidente (se confirmar) e regra nova (sempre).`}
+  ],
+  run: [
+    { label: 'Executar a caça', kind: 'blue', cmd: 'python caca_acesso_remoto.py', file: 'caca_acesso_remoto.py', out: [
+      '1) Empilhamento: em quantas máquinas cada ferramenta rodou (mais rara primeiro)',
+      '[red]    1 hosts    0.7%  conectaja.exe    FORA DO PADRÃO',
+      '[warn]    3 hosts    2.0%  remotodesk.exe   FORA DO PADRÃO',
+      '  145 hosts   97.3%  suporte_ti.exe   aprovada', '',
+      '2) Fora do padrão: quem iniciou, com qual conta e onde',
+      '[warn]   41x  remotodesk.exe  pai=services.exe    conta=SYSTEM     em NB-TI-003, NB-TI-007, NB-TI-011',
+      '[red]    1x  conectaja.exe   pai=powershell.exe  conta=carla.dias  em SRV-ERP-01', '',
+      '[info]telaviva_agent.exe não apareceu em nenhuma máquina.' ] }
+  ]
+});
+
+/* ---------- 9. SIEM: caça ---------- */
+Labs.siem('#lab-siem', {
+  product: 'SIEM · Caça H-11', time: '14/10/2026 – 13/11/2026', lang: 'KQL', index: 'logs-edr, logs-firewall, cmdb',
+  searches: [
+    { group: 'Caça H-11', name: '1. Empilhamento no SIEM', q: 'process.name : ("suporte_ti.exe" or "remotodesk.exe" or "conectaja.exe" or "telaviva_agent.exe") | stats dc(host.name) as maquinas by process.name | sort maquinas asc',
+      cols: ['process.name', 'máquinas', '% das 149', 'aprovada?'], total: 3, unit: 'ferramentas', hist: [],
+      rows: [['conectaja.exe', '1', '0,7%', 'não'], ['remotodesk.exe', '3', '2,0%', 'não'], ['suporte_ti.exe', '145', '97,3%', 'sim']],
+      note: 'Mesmo resultado do script: o SIEM e o código contam a mesma coisa, de jeitos diferentes.' },
+    { group: 'Caça H-11', name: '2. Para onde se conectam?', q: 'event.category : network and process.name : ("remotodesk.exe" or "conectaja.exe") | stats count() by host.name, process.name, destination.ip, destination.domain',
+      cols: ['host.name', 'process.name', 'destination.ip', 'destination.domain', 'conexões'], total: 4, unit: 'combinações',
+      hist: [0, 0, 0, 0, 0, 0, 5, 9, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22], hot: [29],
+      rows: [
+        ['NB-TI-003', 'remotodesk.exe', '198.51.100.40', 'relay.remotodesk.example.com', '6'],
+        ['NB-TI-007', 'remotodesk.exe', '198.51.100.40', 'relay.remotodesk.example.com', '5'],
+        ['NB-TI-011', 'remotodesk.exe', '198.51.100.40', 'relay.remotodesk.example.com', '7'],
+        ['SRV-ERP-01', 'conectaja.exe', '198.51.100.77', '(sem consulta DNS)', '22']
+      ], note: 'As máquinas da TI falam com o serviço do fabricante. O servidor do ERP fala direto com um IP, sem nome, desde a madrugada de hoje.' },
+    { group: 'Caça H-11', name: '3. Linha do tempo no SRV-ERP-01', q: 'host.name : "SRV-ERP-01" and @timestamp >= "2026-11-13T02:10" and @timestamp <= "2026-11-13T02:30" | sort @timestamp asc',
+      cols: ['@timestamp', 'evento', 'detalhe', 'ATT&CK'], total: 5, unit: 'eventos',
+      hist: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0], hot: [11, 12],
+      rows: [
+        ['02:17:12', '4624 logon tipo 10', 'carla.dias de 10.10.20.31, após 10 falhas', 'T1078'],
+        ['02:21:40', 'processo criado', 'powershell.exe, pai explorer.exe, conta carla.dias', 'T1059.001'],
+        ['02:22:05', 'arquivo criado', 'C:\\ProgramData\\conecta\\ConectaJa.exe', '-'],
+        ['02:22:31', '7045 serviço instalado', '"ConectaJa Update", início automático', 'T1543.003'],
+        ['02:22:33', 'conexão de rede', 'conectaja.exe para 198.51.100.77:443', 'T1219']
+      ], note: 'Credencial válida, serviço novo e acesso remoto, em 6 minutos. A hipótese H-11 está confirmada neste servidor.' },
+    { group: 'Caça H-11', name: '4. Máquinas da TI: há mudança aprovada?', q: 'process.name : "remotodesk.exe" | lookup mudancas on host.name | table host.name, mudanca.id, mudanca.status, mudanca.descricao',
+      cols: ['host.name', 'mudança', 'status', 'descrição'], total: 3, unit: 'máquinas', hist: [],
+      rows: [
+        ['NB-TI-003', 'MUD-5521', 'aprovada', 'Avaliação de ferramenta de suporte, pedida por Caio Mendes (até 30/11)'],
+        ['NB-TI-007', 'MUD-5521', 'aprovada', 'Avaliação de ferramenta de suporte, pedida por Caio Mendes (até 30/11)'],
+        ['NB-TI-011', 'MUD-5521', 'aprovada', 'Avaliação de ferramenta de suporte, pedida por Caio Mendes (até 30/11)']
+      ], note: 'Legítimo, mas fora da lista oficial: o caçador registra o achado e pede à TI que inclua a avaliação no inventário. Não é incidente.' }
+  ]
+});
+
+/* ---------- 9b. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios', reiniciar: true, regras: { R8: false } });
+
+/* ---------- 11. Cena 3D: Pirâmide da Dor ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  root.position.set(-2.6, 0.2, 0);
+  const L = [
+    ['Hashes', 'Trivial', 0x3FD47A, 'SHA-256 de ConectaJa.exe: basta recompilar para mudar.'],
+    ['Endereços IP', 'Fácil', 0x9BD94A, '198.51.100.77: trocar de servidor leva minutos.'],
+    ['Nomes de domínio', 'Simples', 0xF2CB0A, 'Domínio de phishing: registrar outro custa pouco.'],
+    ['Artefatos de rede e de host', 'Incômodo', 0xF2940A, 'Serviço "ConectaJa Update" criado após logon remoto.'],
+    ['Ferramentas', 'Desafiador', 0xF2600A, 'A própria ConectaJa: trocar exige aprender outra.'],
+    ['TTPs', 'Difícil', 0xFF2B5F, 'Credencial válida + serviço novo + acesso remoto (T1078, T1543.003, T1219).']
+  ];
+  const layers = [];
+  L.forEach(([nome, dif, col], i) => {
+    const rb = 5 - i * 0.8, rt = Math.max(0.15, 5 - (i + 1) * 0.8);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, 1, 4, 1), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.15, roughness: 0.5, transparent: true, opacity: 0.95 }));
+    m.rotation.y = Math.PI / 4; m.position.y = i * 1.08 - 3; root.add(m);
+    const lb = c.label(nome + ' · ' + dif, { color: '#fff', scale: 1.15 }); lb.position.set(rb * 0.7 + 4.3, i * 1.08 - 3, 0); root.add(lb);
+    layers.push({ m, base: m.position.y, lb });
+  });
+  const leg = c.legend('Clique em um nível');
+  const ctl = c.controls(L.map((l, i) => '<button class="lab-chip" data-i="' + i + '">' + l[0] + '</button>').join(''));
+  ctl.style.flexDirection = 'column'; ctl.style.alignItems = 'flex-start';
+  let sel = -1;
+  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+    sel = +b.dataset.i; c.stopAutoRotate();
+    ctl.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x === b));
+    const [nome, dif, col, ex] = L[sel];
+    leg.innerHTML = '<b style="color:#' + col.toString(16).padStart(6, '0') + '">' + nome + '</b><br>Custo para o adversário: ' + dif + '<br><span style="display:inline-block;max-width:260px">' + ex + '</span>';
+  }));
+  c.onFrame((t) => {
+    layers.forEach((ly, i) => {
+      const on = i === sel;
+      ly.m.position.y += ((on ? ly.base + 0.35 : ly.base) - ly.m.position.y) * 0.12;
+      ly.lb.position.y = ly.m.position.y;
+      ly.m.material.emissiveIntensity = on ? 0.55 + Math.sin(t * 4) * 0.15 : 0.15;
+      ly.m.material.opacity = sel < 0 || on ? 0.95 : 0.35;
+    });
+  });
+}, { camera: [0, 2.5, 14.5], autoRotate: false, hint: 'Arraste para girar · role para aproximar', fallback: 'Da base ao topo: hashes, IPs, domínios, artefatos, ferramentas e TTPs.' });
+
+/* ---------- 12. Simulador de hash ---------- */
+Labs.register('#lab-hash', (el) => {
+  function sha256(text) {
+    const bytes = Array.from(new TextEncoder().encode(text)), K = [], H = [];
+    for (let n = 2, c = 0; c < 64; n++) {
+      let p = true; for (let d = 2; d * d <= n; d++) if (n % d === 0) { p = false; break; }
+      if (!p) continue;
+      if (c < 8) H.push((Math.pow(n, 1 / 2) % 1) * 4294967296 | 0);
+      K.push((Math.pow(n, 1 / 3) % 1) * 4294967296 | 0); c++;
+    }
+    const len = bytes.length * 8; bytes.push(0x80);
+    while (bytes.length % 64 !== 56) bytes.push(0);
+    for (let s = 56; s >= 0; s -= 8) bytes.push(s >= 32 ? Math.floor(len / 2 ** s) & 255 : (len >>> s) & 255);
+    const r = (x, n) => (x >>> n) | (x << (32 - n));
+    for (let o = 0; o < bytes.length; o += 64) {
+      const w = [];
+      for (let i = 0; i < 64; i++) {
+        if (i < 16) w[i] = (bytes[o + 4 * i] << 24) | (bytes[o + 4 * i + 1] << 16) | (bytes[o + 4 * i + 2] << 8) | bytes[o + 4 * i + 3];
+        else w[i] = (w[i - 16] + (r(w[i - 15], 7) ^ r(w[i - 15], 18) ^ (w[i - 15] >>> 3)) + w[i - 7] + (r(w[i - 2], 17) ^ r(w[i - 2], 19) ^ (w[i - 2] >>> 10))) | 0;
+      }
+      let [a, b, c, d, e, f, g, h] = H;
+      for (let i = 0; i < 64; i++) {
+        const t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
+        const t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+        h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+      }
+      [a, b, c, d, e, f, g, h].forEach((v, i) => (H[i] = (H[i] + v) | 0));
+    }
+    return H.map((v) => (v >>> 0).toString(16).padStart(8, '0')).join('');
+  }
+  const ORIG = 'ferramenta_demo.txt\nArquivo inofensivo usado na aula de threat hunting.\nVersão 1.0';
+  const IOC = sha256(ORIG);
+  el.innerHTML = `
+  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.55rem;overflow:auto">
+    <h4>ferramenta_demo.txt</h4>
+    <textarea class="hash-ta no-nav" spellcheck="false"></textarea>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap"><button class="lab-btn red" id="b-byte">Alterar um byte</button><button class="lab-btn ghost" id="b-reset">Restaurar original</button></div>
+    <div><small style="color:#9FB0C8">SHA-256 na lista de bloqueio (IOC, base da pirâmide)</small><div class="hash-box" id="h-ioc"></div></div>
+    <div><small style="color:#9FB0C8">SHA-256 do arquivo agora <span id="h-diff"></span></small><div class="hash-box" id="h-now"></div></div>
+    <div class="lab-grid2">
+      <div class="verd" id="v-hash"></div>
+      <div class="verd ok">✔ Regra comportamental: serviço criado + acesso remoto (T1543.003, T1219) detectado</div>
+    </div>
+  </div>`;
+  const ta = el.querySelector('textarea'), $ = (id) => el.querySelector('#' + id);
+  $('h-ioc').textContent = IOC;
+  function upd() {
+    const now = sha256(ta.value); let diff = 0;
+    $('h-now').innerHTML = now.split('').map((ch, i) => (ch !== IOC[i] ? (diff++, '<b>' + ch + '</b>') : ch)).join('');
+    $('h-diff').textContent = diff ? '(' + diff + ' de 64 caracteres diferentes)' : '(idêntico)';
+    const v = $('v-hash'); v.className = 'verd ' + (diff ? 'no' : 'ok');
+    v.textContent = diff ? '✘ Bloqueio por hash: o arquivo passa' : '✔ Bloqueio por hash: arquivo bloqueado';
+  }
+  ta.addEventListener('input', upd);
+  $('b-byte').addEventListener('click', () => { const s = ta.value; ta.value = s.slice(0, -1) + (s.slice(-1) === '0' ? '1' : '0'); upd(); });
+  $('b-reset').addEventListener('click', () => { ta.value = ORIG; upd(); });
+  ta.value = ORIG; upd();
+});
+
+/* ---------- 15. Navegador: plataforma de CTI ---------- */
+Labs.browser('#lab-cti', {
+  url: 'https://cti.rede-setorial.example.com/events/view/1187', secure: true,
+  html: `
+  <div class="cti">
+    <div class="cti-top"><b>MISP · Rede setorial de CTI</b><span>Organização: Rede Tatame (fictícia)</span><span style="flex:1"></span><span>Eventos › 1187</span></div>
+    <div class="cti-body">
+      <h3>Evento 1187 · Grupo Cobalto Austral contra redes de academias</h3>
+      <div style="font-size:12.5px;color:#555">Criado por: parceiro da rede setorial · Data: 10/11/2026 · Ameaça: alta · Análise: concluída</div>
+      <div class="cti-tags"><span class="cti-tag amber">tlp:amber</span><span class="cti-tag">setor:academias</span><span class="cti-tag">motivação:extorsão</span><span class="cti-tag att">T1078</span><span class="cti-tag att">T1133</span><span class="cti-tag att">T1219</span><span class="cti-tag att">T1490</span></div>
+      <div class="cti-tabs"><button class="on" data-t="attr">Atributos</button><button data-t="att">ATT&amp;CK</button><button data-t="dia">Diamante</button><button data-t="niv">Níveis</button></div>
+      <div data-p="attr">
+        <p style="margin:0 0 6px;font-size:13px">450 atributos: <b>300 ip-dst</b> e <b>150 sha256</b>. Primeiras linhas:</p>
+        <table><thead><tr><th>Tipo</th><th>Valor</th><th>Comentário</th><th>Visto pela última vez</th></tr></thead><tbody>
+          <tr><td>ip-dst</td><td>198.51.100.77</td><td>retransmissão de acesso remoto</td><td>12/11/2026</td></tr>
+          <tr><td>ip-dst</td><td>203.0.113.91</td><td>retransmissão de acesso remoto</td><td>08/11/2026</td></tr>
+          <tr><td>ip-dst</td><td>198.51.100.12</td><td>origem de logons na VPN</td><td>09/11/2026</td></tr>
+          <tr><td>sha256</td><td>c7a1…e40f</td><td>instalador ConectaJa reempacotado</td><td>07/11/2026</td></tr>
+          <tr><td>sha256</td><td>19be…7a22</td><td>instalador ConectaJa reempacotado</td><td>02/11/2026</td></tr>
+        </tbody></table>
+      </div>
+      <div data-p="att" hidden>
+        <table><thead><tr><th>Técnica</th><th>Nome</th><th>Comportamento relatado</th></tr></thead><tbody>
+          <tr><td>T1078</td><td>Contas válidas</td><td>acesso inicial com credenciais válidas</td></tr>
+          <tr><td>T1133</td><td>Serviços remotos externos</td><td>entrada pela VPN da vítima</td></tr>
+          <tr><td>T1219</td><td>Ferramentas de acesso remoto</td><td>ferramentas legítimas de acesso remoto para persistência</td></tr>
+          <tr><td>T1490</td><td>Inibir a recuperação do sistema</td><td>exclusão de cópias de sombra antes da criptografia</td></tr>
+        </tbody></table>
+        <p style="font-size:12.5px;margin:8px 0 0">As quatro técnicas são o topo da pirâmide: valem mais que os 450 atributos juntos.</p>
+      </div>
+      <div data-p="dia" hidden>
+        <div class="dia">
+          <div></div><div><b>Adversário</b>Grupo Cobalto Austral (fictício), motivação: extorsão</div><div></div>
+          <div class="pv"><b>Infraestrutura</b>198.51.100.77 (ponto de partida do pivô)</div><div style="border:0;background:none;font-size:12px;color:#555">Clique na infraestrutura para pivotar</div><div><b>Capacidade</b>ConectaJa reempacotada, exclusão de cópias de sombra</div>
+          <div></div><div><b>Vítima</b>redes de academias com VPN e dados de alunos</div><div></div>
+        </div>
+        <p id="pivo" style="font-size:12.5px;margin:8px 0 0"></p>
+      </div>
+      <div data-p="niv" hidden>
+        <div class="nivel">
+          <span>"O grupo ataca empresas que guardam dados pessoais, em busca de extorsão."</span><button data-r="Estratégica: para a diretoria">Revelar</button>
+          <span>"Campanha ativa contra redes de academias desde outubro, pelo Grupo Cobalto Austral."</span><button data-r="Operacional: para o líder do SOC">Revelar</button>
+          <span>"Credenciais válidas de VPN, acesso remoto legítimo, exclusão de cópias de sombra."</span><button data-r="Tática: para caçadores e detecção">Revelar</button>
+          <span>"300 IPs e 150 hashes."</span><button data-r="Tática (ou técnica, para quem separa)">Revelar</button>
+        </div>
+      </div>
+    </div>
+  </div>`,
+  onReady(page) {
+    const tabs = page.querySelectorAll('.cti-tabs button');
+    tabs.forEach((b) => b.addEventListener('click', () => {
+      tabs.forEach((x) => x.classList.toggle('on', x === b));
+      page.querySelectorAll('[data-p]').forEach((p) => (p.hidden = p.dataset.p !== b.dataset.t));
+    }));
+    page.querySelector('.dia .pv').style.cursor = 'pointer';
+    page.querySelector('.dia .pv').addEventListener('click', () => {
+      page.querySelector('#pivo').innerHTML = '<b>Pivô:</b> buscando 198.51.100.77 no SIEM da Rede Tatame: 22 conexões do SRV-ERP-01 desde a madrugada (caça H-11). Na rede setorial, outras 2 redes de academias reportaram o mesmo IP.';
+    });
+    page.querySelectorAll('.nivel button').forEach((b) => b.addEventListener('click', () => { const s = document.createElement('span'); s.className = 'r'; s.textContent = b.dataset.r; b.replaceWith(s); }));
+  }
+});
+
+/* ---------- 17. Calculadora de cadência ---------- */
+Labs.register('#lab-cad', (el) => {
+  const f = (v) => v.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
+  el.innerHTML = `
+  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem">
+    <label class="lab-range">Intervalo entre caças (dias) <output id="o-i"></output><input id="i-i" type="range" min="1" max="90" value="30"></label>
+    <div class="lab-grid3">
+      <div class="lab-kpi amber"><small>Espera média (fórmula: intervalo ÷ 2)</small><b id="k-f"></b></div>
+      <div class="lab-kpi blue"><small>Espera média simulada</small><b id="k-s"></b></div>
+      <div class="lab-kpi red"><small>Pior caso simulado</small><b id="k-w"></b></div>
+    </div>
+    <div>
+      <div class="cad-row"><span>Caça a cada 30 dias</span><div class="bar"><i style="width:100%;background:#FF2B5F"></i></div><span>15 dias</span></div>
+      <div class="cad-row"><span>Caça semanal</span><div class="bar"><i style="width:23.3%;background:#F2CB0A"></i></div><span>3,5 dias</span></div>
+      <div class="cad-row"><span id="t-cur"></span><div class="bar"><i id="b-cur" style="background:#00B1D2"></i></div><span id="v-cur"></span></div>
+      <div class="cad-row"><span>Regra automatizada</span><div class="bar"><i style="width:.4%;background:#3FD47A"></i></div><span>minutos</span></div>
+    </div>
+  </div>`;
+  const $ = (id) => el.querySelector('#' + id);
+  function calc() {
+    const I = +$('i-i').value; let soma = 0, pior = 0;
+    for (let k = 0; k < 2000; k++) { const chegada = Math.random() * I, espera = I - chegada; soma += espera; pior = Math.max(pior, espera); }
+    $('o-i').textContent = I; $('k-f').textContent = f(I / 2) + ' dias'; $('k-s').textContent = f(soma / 2000) + ' dias'; $('k-w').textContent = f(pior) + ' dias';
+    $('t-cur').textContent = 'Sua escolha: a cada ' + I + (I === 1 ? ' dia' : ' dias'); $('v-cur').textContent = f(I / 2) + ' dias';
+    $('b-cur').style.width = Math.min(100, (I / 2) / 15 * 100) + '%';
+  }
+  $('i-i').addEventListener('input', calc); calc();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 4 — Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .csf { flex: 1; display: flex; flex-direction: column; gap: .55rem; overflow: auto; }
+  .csf-row { display: grid; grid-template-columns: 1fr auto; gap: .8rem; align-items: center; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .5em .8em; }
+  .csf-row.certo { border-color: #3FD47A; } .csf-row.errado { border-color: #FF2B5F; }
+  .csf-row p { margin: 0 !important; font-size: .95rem !important; color: #DCE3EE !important; }
+  .csf-row small { display: block; color: #9FB0C8; font-size: .8rem; margin-top: .25em; }
+  .csf-opts { display: flex; gap: 4px; }
+  .csf-opts button { font: 700 .72rem var(--fonte); width: 3.1em; padding: .45em 0; border-radius: 6px; border: 1px solid #2F3B55; background: #13213D; color: #DCE3EE; cursor: pointer; }
+  .csf-opts button.is-on { background: #00B1D2; color: #002156; border-color: #00B1D2; }
+  .csf-legend { display: flex; gap: .4rem; flex-wrap: wrap; font: .78rem var(--fonte); color: #9FB0C8; }
+  .csf-legend b { color: #F2CB0A; }
+  .ex-line { position: relative; height: 34px; background: #13213D; border-radius: 6px; overflow: hidden; }
+  .ex-line i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; transition: width .4s; }
+  .ex-line span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font: 700 .85rem var(--fonte); color: #fff; text-shadow: 0 1px 3px #000; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Red Team &amp; Blue Team Strategies · Unidade 1|Aula 4 — Videoaula 4">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Aula 4 — Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</h1>
+      <div class="subtitulo">Unidade 1 — Fundamentos: ataque e defesa como estratégia</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Os slides usam fundo azul-marinho com molduras de triângulos coloridos e cartões com o conteúdo. Os laboratórios usam a Rede Tatame, rede fictícia de academias de jiu-jitsu. Esta aula tem sete laboratórios: um exercício de clicar para classificar seis controles da Rede Tatame nas funções do NIST CSF 2.0; uma cena em 3D com seis anéis concêntricos coloridos em volta de um ativo dourado, atravessados por pontos vermelhos que representam ataques; um diagrama animado da jornada de um alerta do N1 ao N3; um console de SIEM com a fila do analista e a investigação de um <em>login</em> de outro país; o simulador da Rede Tatame, em que uma catraca adulterada passa despercebida até a fonte de telemetria e a regra serem ligadas; um editor VS Code com um <em>playbook</em> em YAML e um <em>script</em> em Python que calcula MTTD e MTTR; e uma calculadora de registros expostos conforme o tempo até a contenção.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O problema de hoje: quanto tempo um intruso ficaria?</li>
+          <li>As seis funções do NIST CSF 2.0, na prática</li>
+          <li>Defesa em profundidade e Zero Trust, em 3D</li>
+          <li>O SOC por dentro: N1, N2 e N3</li>
+          <li>Laboratório: um <em>login</em> de outro país no SIEM</li>
+          <li>Laboratório: a catraca adulterada no simulador</li>
+          <li>MTTD, MTTR, pessoas e processos</li>
+          <li>Laboratório: <em>playbook</em> e métricas em código</li>
+          <li>O custo do tempo e a próxima unidade</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O problema de hoje -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O problema de hoje na Rede Tatame</p>
+      <h2>E se alguém ficasse 258 dias lá dentro?</h2>
+      <div class="problema">
+        <div class="historia">
+          <p>Luiza Ferraz é analista de nível 2 do SOC (centro de operações de segurança) da Rede Tatame, que funciona 24 horas por dia.</p>
+          <p>Segundo a IBM (<em>Cost of a Data Breach</em> 2024), as organizações levam, em média, 258 dias para identificar e conter uma violação de dados. A diretoria pergunta a Marina Prado, a CISO (diretora de segurança da informação): "e nós, quanto tempo levaríamos?"</p>
+          <p>O que está em jogo: cada dia de intruso dentro de casa é mais um dia de fichas de alunos copiadas para fora.</p>
+          <div class="pergunta">Como a Rede Tatame organiza a defesa, em camadas e no SOC, para perceber e conter um intruso em horas, e não em meses?</div>
+          <div class="papeis"><span><b>SOC nível 2</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Governança</b> Marina Prado</span><span><b>Usuária</b> Carla Dias</span></div>
+        </div>
+        <div class="lab-area" id="mapa-problema"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. NIST CSF -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>As seis funções do NIST CSF 2.0</h2>
+      <div class="slide-content-box">
+        <p>Publicado em 2024, o <strong>NIST Cybersecurity Framework 2.0</strong> organiza a gestão de riscos cibernéticos em seis funções:</p>
+        <ul class="fases7" style="columns:2;column-gap:2rem">
+          <li><strong>Governar</strong> (<em>Govern</em>): estratégia, papéis, políticas e supervisão de riscos. É a função incluída na versão 2.0.</li>
+          <li><strong>Identificar</strong> (<em>Identify</em>): conhecer ativos, riscos e dependências.</li>
+          <li><strong>Proteger</strong> (<em>Protect</em>): gestão de identidades, treinamento, proteção de dados.</li>
+          <li><strong>Detectar</strong> (<em>Detect</em>): encontrar e analisar possíveis ataques e comprometimentos.</li>
+          <li><strong>Responder</strong> (<em>Respond</em>): agir sobre um incidente detectado.</li>
+          <li><strong>Recuperar</strong> (<em>Recover</em>): restaurar ativos e operações afetados.</li>
+        </ul>
+        <div class="callout-azul"><p>O Blue Team atua sobretudo em Detectar e Responder, mas depende das demais funções: não é possível monitorar um ativo que ninguém sabe que existe.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LAB CSF -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Classificação</p><h2>Seis controles, seis funções</h2></div><span class="lab-badge blue">NIST CSF 2.0</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>A Rede Tatame listou seis controles que já tem. Em que função do NIST CSF (<em>Cybersecurity Framework</em>) cada um se encaixa?</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver como a defesa da Rede Tatame se organiza em funções.</div>
+            <div class="rl"><b>Faça</b>1. Para cada controle, clique em uma sigla: GV, ID, PR, DE, RS ou RC.<br>2. Clique em "Conferir".</div>
+            <div class="rl obs"><b>Observe</b>Cada linha mostra a resposta e o porquê. Pergunte: o controle evita, percebe, reage ou restaura? Se "decide quem faz o quê", é Governar.</div>
+            <div class="rl conc"><b>Conclusão</b>Detectar e Responder dependem das outras funções: não se monitora o que ninguém sabe que existe.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-csf"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Defesa em profundidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>Defesa em profundidade e Zero Trust</h2>
+      <div class="slide-content-box">
+        <p>A <strong>defesa em profundidade</strong> parte do princípio de que qualquer controle pode falhar. Por isso, a proteção é organizada em camadas sobrepostas: pessoas, perímetro, rede, <em>endpoint</em>, aplicação e dados.</p>
+        <ul>
+          <li>O atacante precisa vencer várias barreiras.</li>
+          <li>Cada barreira gera uma nova chance de detecção.</li>
+          <li>Pense na segurança de um banco: portaria, catracas, câmeras, vigilante e, no fim, o cofre.</li>
+        </ul>
+        <div class="callout-azul"><p>O modelo <strong>Zero Trust</strong> complementa as camadas: elimina a confiança implícita baseada na localização da rede. Cada acesso é verificado, com o menor privilégio necessário.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB 3D camadas -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>As camadas em volta das fichas de alunos</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Entender por que uma camada sozinha não basta.</div>
+            <div class="rl"><b>Faça</b>1. Desligue uma camada nos botões da cena, como um controle que falhou.<br>2. Depois desligue quase todas.</div>
+            <div class="rl obs"><b>Observe</b>Os pontos vermelhos são tentativas de ataque; os azuis foram barrados. Acompanhe o contador de ataques que chegam ao <code>db-alunos</code>.</div>
+            <div class="rl conc"><b>Conclusão</b>Nenhuma camada precisa ser perfeita. As chances de bloqueio da cena são ilustrativas.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-3d"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. SOC -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O Centro de Operações de Segurança</p>
+      <h2>O SOC em três níveis</h2>
+      <div class="slide-content-box">
+        <p>O <strong>SOC</strong> é a estrutura, interna, terceirizada ou híbrida, que monitora o ambiente continuamente.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Nível</th><th>Função principal</th></tr></thead>
+          <tbody>
+            <tr><td><strong>N1 · Triagem</strong></td><td>Analisa alertas, descarta falsos positivos e escala casos suspeitos</td></tr>
+            <tr><td><strong>N2 · Investigação</strong></td><td>Aprofunda a análise, define escopo e inicia a contenção</td></tr>
+            <tr><td><strong>N3 · Especialistas</strong></td><td>Caçam ameaças, fazem análise forense e criam novas detecções</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.8em">Ferramentas principais: <strong>SIEM</strong>, que centraliza e correlaciona registros; <strong>EDR</strong>, que monitora o comportamento de computadores e servidores; e <strong>SOAR</strong>, que automatiza respostas repetitivas. Tudo isso será aprofundado na Unidade 3.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB flow alerta -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver como os três níveis do SOC encurtam o tempo</p><h2>A jornada de um alerta, do N1 ao N3</h2></div><span class="lab-badge blue">SOC</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 11. LAB SIEM -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>O turno do analista no console</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Acompanhar o trabalho do SOC em um caso real de turno.</div>
+            <div class="rl"><b>Faça</b>Clique nas cinco buscas salvas, na ordem: fila do N1, <em>logins</em> da conta, regra de viagem impossível, mesmo IP em outras contas e métricas.</div>
+            <div class="rl obs"><b>Observe</b>A severidade decide a ordem da fila. Às 09:03, a sessão estrangeira mexeu nas regras da caixa de entrada.</div>
+            <div class="rl conc"><b>Conclusão</b>Do primeiro sinal à contenção foram 81 minutos. Os IPs usam faixas reservadas para documentação.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11b. PLATAFORMA REDE TATAME: catraca, telemetria e SOC -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Uma catraca adulterada e a camada que faltava</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver uma camada sem telemetria e o efeito de ligá-la.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Catraca adulterada</em> e veja como terminam os três passos.<br>2. Em <strong>Telemetria</strong>, veja quanto o custo por mês sobe com a fonte das catracas.<br>3. Clique em <strong>Reiniciar</strong>, ligue essa fonte e a regra R10 e rode de novo. No <strong>SOC</strong>, contenha o alerta R10.</div>
+            <div class="rl obs"><b>Observe</b>Sem a fonte, os dois primeiros passos não são detectados. Com ela, o alerta aparece e a contenção interrompe os check-ins falsos.</div>
+            <div class="rl conc"><b>Conclusão</b>Você fez o papel do N1 e do N2. O N3 procuraria o mesmo firmware nas outras catracas.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. MTTD e MTTR -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Indicadores</p>
+      <h2>MTTD e MTTR: o SOC medido pelo tempo</h2>
+      <div class="slide-content-box">
+        <p>Para saber se o SOC está funcionando, não basta contar alertas. Dois indicadores são centrais:</p>
+        <ul>
+          <li><strong>MTTD</strong> (<em>mean time to detect</em>): tempo médio entre o início de um ataque e sua detecção.</li>
+          <li><strong>MTTR</strong> (<em>mean time to respond</em>): tempo médio entre a detecção e a contenção.</li>
+        </ul>
+        <div class="callout-azul"><p>É nesses números que os exercícios de Red Team e de <em>purple teaming</em> geram valor: cada simulação mede, de forma controlada, quanto tempo a defesa leva para perceber e reagir.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Pessoas e processos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pessoas e processos</p>
+      <h2>O elo que as ferramentas não substituem</h2>
+      <div class="slide-content-box">
+        <p>Ferramentas geram alertas, mas são pessoas que decidem o que fazer com eles. Um SOC maduro:</p>
+        <ul>
+          <li>documenta seus procedimentos de resposta (<em>playbooks</em>);</li>
+          <li>define quem pode isolar um servidor ou bloquear uma conta;</li>
+          <li>treina a equipe com simulações e revisa cada incidente para aprender com ele;</li>
+          <li>mantém relação com a infraestrutura, que aplica correções; o jurídico, que avalia obrigações de notificação; e a comunicação, que fala com clientes e imprensa.</li>
+        </ul>
+        <div class="callout-azul"><p>Sem esses processos, mesmo a melhor tecnologia produz apenas um volume crescente de alertas que ninguém consegue tratar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB VS Code -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2><em>Playbook</em> e métricas do SOC</h2></div><span class="lab-badge blue">Processos</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Medir se o SOC está ficando mais rápido.</div>
+            <div class="rl"><b>Faça</b>1. Abra o <em>playbook</em> <code>conta_comprometida.yaml</code>: quem faz o quê e em quanto tempo.<br>2. Clique em "Executar metricas_soc.py".</div>
+            <div class="rl obs"><b>Observe</b>MTTD (tempo médio até detectar): média de 24,0 h e mediana de 5,8 h. MTTR (até conter): média de 4,1 h e mediana de 2,2 h.</div>
+            <div class="rl conc"><b>Conclusão</b>Um único caso de 96 horas, o INC-36, puxa a média para cima.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-vsc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O custo do tempo</h2>
+      <div class="slide-content-box">
+        <p>Segundo o relatório <em>Cost of a Data Breach</em> 2024, da IBM, as organizações levaram, em média, <strong>258 dias</strong> para identificar e conter uma violação de dados. Suponha que um atacante, depois de entrar, exfiltre 2.000 fichas de alunos da Rede Tatame por dia.</p>
+        <div class="stat-grid">
+          <div class="stat-card"><span class="numero-grande">516.000</span><span class="legenda">registros em 258 dias (2.000 × 258)</span></div>
+          <div class="stat-card"><span class="numero-grande">20.000</span><span class="legenda">registros se a contenção levar 10 dias</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 96%</span><span class="legenda">de redução no volume exposto</span></div>
+        </div>
+        <p style="margin-top:.8em">É por isso que as métricas de tempo de detecção e de resposta estão no centro do trabalho do Blue Team.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. LAB calculadora -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Conta na tela</p><h2>Quantos registros cada dia custa</h2></div><span class="lab-badge">Linguagem da diretoria</span></div>
+      <div class="lab-split wide-left">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Traduzir o tempo de detecção em fichas expostas.</div>
+            <div class="rl"><b>Faça</b>1. Comece pelos valores do exemplo: 2.000 fichas por dia, 258 dias no cenário atual e 10 dias de meta.<br>2. Mexa no tempo até a contenção.</div>
+            <div class="rl obs"><b>Observe</b>Quanto se ganha indo de 258 para 30 dias, e de 30 para 10.</div>
+            <div class="rl conc"><b>Conclusão</b>A conta é linear: cada dia a menos evita o mesmo número de fichas vazadas.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-calc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Próxima unidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que você verá na próxima unidade</p>
+      <h2>Unidade 2: vestindo a camisa vermelha</h2>
+      <div class="slide-content-box">
+        <p>Agora que você conhece a defesa, vamos ver como o Red Team tenta vencê-la, de forma conceitual e sempre dentro de um cenário autorizado.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Aula</th><th>Tema</th></tr></thead>
+          <tbody>
+            <tr><td>5</td><td>Reconhecimento e OSINT</td></tr>
+            <tr><td>6</td><td>Varredura, enumeração e gestão de vulnerabilidades</td></tr>
+            <tr><td>7</td><td>Engenharia social e simulação de <em>phishing</em></td></tr>
+            <tr><td>8</td><td>Pós-exploração, movimentação lateral e relatório de Red Team</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Em cada etapa, a mesma pergunta: que rastro isso deixa para o Blue Team?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora Marina tem como responder</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Seis funções</b>O NIST CSF organiza a defesa: Governar define responsáveis; Detectar e Responder dependem de Identificar e Proteger.</div>
+        <div class="ev"><b>Camadas</b>Nenhuma camada basta sozinha. A catraca era uma camada cega até a fonte e a regra R10 serem ligadas.</div>
+        <div class="ev"><b>SOC em níveis</b>N1, N2 e N3 levaram o caso de Carla Dias do alerta à contenção em 81 minutos.</div>
+        <div class="ev"><b>Medir o tempo</b>MTTD mediano de 5,8 h. Passar de 258 para 10 dias evita cerca de 96% das fichas expostas.</div>
+        <div class="resposta">Resposta: com camadas que se cobrem, telemetria em cada uma delas e um SOC em níveis que segue <em>playbooks</em> e mede MTTD e MTTR. É assim que a Rede Tatame troca meses por horas.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>O NIST CSF 2.0 organiza a segurança em seis funções, com a Governança no centro.</li>
+          <li>A defesa em profundidade pressupõe que controles falham e por isso os sobrepõe.</li>
+          <li>O SOC, com SIEM, EDR e SOAR, é o coração operacional do Blue Team.</li>
+          <li>Reduzir o tempo de detecção e resposta reduz diretamente o impacto de um incidente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Referências -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Referências</p>
+      <h2>Referências da aula</h2>
+      <div class="slide-content-box" style="font-size:.85em">
+        <p>IBM. <em>Cost of a data breach report 2024</em>. Armonk: IBM, 2024.</p>
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>The NIST cybersecurity framework (CSF) 2.0</em>. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.</p>
+        <p>ROSE, Scott <em>et al</em>. <em>SP 800-207: zero trust architecture</em>. Gaithersburg: NIST, 2020. DOI: 10.6028/NIST.SP.800-207.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. Encerramento -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Encerramento</h1>
+      <p class="fim-texto">Você fecha a Unidade 1 sabendo como a defesa se organiza: as funções do NIST CSF, as camadas da defesa em profundidade, os níveis do SOC e as métricas de tempo que mostram se ele melhora.</p>
+      <p class="fim-proxima">Próxima aula: Aula 5 — Reconhecimento e OSINT (Unidade 2).</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/deck.js"></script>
+<script src="../../assets/labs.js"></script>
+<script>
+/* ---------- 6. Classificação nas funções do CSF ---------- */
+Labs.register('#lab-csf', (el) => {
+  const F = { GV: 'Governar', ID: 'Identificar', PR: 'Proteger', DE: 'Detectar', RS: 'Responder', RC: 'Recuperar' };
+  const C = [
+    ['MFA no portal das academias e na VPN, e treinamento anual contra <em>phishing</em>.', 'PR', 'Reduz a chance de o ataque dar certo: é prevenção.'],
+    ['<em>Playbook</em> que isola o notebook e troca a senha quando uma conta é comprometida.', 'RS', 'Age sobre um incidente já detectado.'],
+    ['A diretoria aprovou a política de segurança e definiu que a CISO, Marina Prado, responde por riscos cibernéticos.', 'GV', 'Estratégia, papéis e supervisão de riscos.'],
+    ['<em>Backups</em> <em>offline</em> testados a cada trimestre e plano para reabrir o check-in das academias.', 'RC', 'Restaura ativos e operações depois do incidente.'],
+    ['Inventário atualizado de servidores da sede, serviços em nuvem e catracas, com o dono de cada um.', 'ID', 'Conhecer ativos e dependências vem antes de protegê-los.'],
+    ['O CEP e o SIEM correlacionam <em>logins</em> e alertas do EDR, com SOC 24x7.', 'DE', 'Encontra e analisa possíveis ataques.']
+  ];
+  const resp = C.map(() => null);
+  el.innerHTML = '<div class="lab-panel csf">' +
+    '<div class="csf-legend">' + Object.entries(F).map(([k, v]) => '<span><b>' + k + '</b> ' + v + '</span>').join(' · ') + '</div>' +
+    C.map((c, i) => '<div class="csf-row" data-i="' + i + '"><p>' + (i + 1) + '. ' + c[0] + '<small></small></p><div class="csf-opts">' +
+      Object.keys(F).map((k) => '<button data-k="' + k + '">' + k + '</button>').join('') + '</div></div>').join('') +
+    '<div style="display:flex;gap:.6rem;align-items:center"><button class="lab-btn blue" data-a="ok">Conferir</button><button class="lab-btn ghost" data-a="reset">Recomeçar</button><span id="csf-score" style="color:#F2CB0A;font:700 1rem var(--fonte)"></span></div></div>';
+  const rows = el.querySelectorAll('.csf-row');
+  el.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.k) {
+      const row = b.closest('.csf-row'), i = +row.dataset.i;
+      resp[i] = b.dataset.k;
+      row.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x === b));
+      row.classList.remove('certo', 'errado'); row.querySelector('small').textContent = '';
+    } else if (b.dataset.a === 'ok') {
+      let n = 0;
+      rows.forEach((row, i) => {
+        const ok = resp[i] === C[i][1]; if (ok) n++;
+        row.classList.toggle('certo', ok); row.classList.toggle('errado', !ok);
+        row.querySelector('small').textContent = (ok ? 'Certo: ' : 'Resposta: ') + F[C[i][1]] + '. ' + C[i][2];
+      });
+      el.querySelector('#csf-score').textContent = n + ' de 6 corretos';
+    } else if (b.dataset.a === 'reset') {
+      resp.fill(null);
+      rows.forEach((row) => { row.classList.remove('certo', 'errado'); row.querySelector('small').textContent = ''; row.querySelectorAll('button').forEach((x) => x.classList.remove('is-on')); });
+      el.querySelector('#csf-score').textContent = '';
+    }
+  });
+});
+
+/* ---------- 8. Cena 3D: defesa em profundidade ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  const L = [['Pessoas', 0xf2cb0a], ['Perímetro', 0xff8a3d], ['Rede', 0x9b6bff], ['Endpoint', 0x00b1d2], ['Aplicação', 0x3fd47a], ['Dados', 0x58c4e8]];
+  const R = [6, 5, 4, 3.1, 2.25, 1.45];
+  const ativo = L.map(() => true);
+  const hex = (n) => '#' + n.toString(16).padStart(6, '0');
+  const camadas = L.map(([nome, cor], i) => {
+    const h = 0.3 + i * 0.25;
+    const parede = new THREE.Mesh(new THREE.CylinderGeometry(R[i], R[i], h, 72, 1, true), new THREE.MeshStandardMaterial({ color: cor, emissive: cor, emissiveIntensity: 0.3, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false }));
+    parede.position.y = h / 2;
+    const borda = new THREE.Mesh(new THREE.TorusGeometry(R[i], 0.045, 8, 120), new THREE.MeshBasicMaterial({ color: cor }));
+    borda.rotation.x = Math.PI / 2; borda.position.y = h;
+    root.add(parede, borda);
+    const a = 0.35 + i * 0.95;
+    const l = c.label(nome, { size: 30, color: hex(cor) }); l.position.set(R[i] * Math.cos(a), h + 0.45, R[i] * Math.sin(a)); root.add(l);
+    return { parede, borda, l };
+  });
+  const nucleo = new THREE.Mesh(new THREE.IcosahedronGeometry(0.7, 1), new THREE.MeshStandardMaterial({ color: 0xf2cb0a, emissive: 0xb8860b, emissiveIntensity: 0.6, flatShading: true }));
+  nucleo.position.y = 0.9; root.add(nucleo);
+  const ln = c.label('db-alunos', { size: 30 }); ln.position.set(0, 2.2, 0); root.add(ln);
+  const P = [];
+  for (let k = 0; k < 36; k++) {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 10), new THREE.MeshBasicMaterial({ color: 0xff2b5f, transparent: true }));
+    root.add(m); const p = { m }; nova(p); p.r = 7.5 + Math.random() * 6; P.push(p);
+  }
+  function nova(p) {
+    p.th = Math.random() * Math.PI * 2; p.r = 7.5 + Math.random() * 1.5; p.y = 0.15 + Math.random() * 0.6;
+    p.prox = 0; p.parado = 0; p.v = 1.1 + Math.random() * 0.6;
+    p.m.material.color.setHex(0xff2b5f); p.m.material.opacity = 1; p.m.visible = true;
+  }
+  let barrados = 0, chegaram = 0, flash = 0;
+  const leg = c.legend(''); leg.style.maxWidth = '260px';
+  const ctl = c.controls(L.map(([n], i) => '<button class="lab-btn blue" data-i="' + i + '">' + n + '</button>').join(''));
+  ctl.style.maxWidth = '62%';
+  ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
+  ctl.addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    const i = +b.dataset.i; ativo[i] = !ativo[i];
+    b.classList.toggle('blue', ativo[i]); b.classList.toggle('ghost', !ativo[i]);
+    camadas[i].parede.material.opacity = ativo[i] ? 0.25 : 0.03;
+    camadas[i].borda.visible = ativo[i];
+    camadas[i].l.material.opacity = ativo[i] ? 1 : 0.35;
+    barrados = 0; chegaram = 0; draw();
+  });
+  function draw() {
+    const on = ativo.filter(Boolean).length;
+    leg.innerHTML = '<b>' + on + ' de 6 camadas ativas</b><br>Ataques barrados: ' + barrados + '<br>Chegaram ao ativo: <b style="color:' + (chegaram ? '#FF5C7A' : '#3FD47A') + '">' + chegaram + '</b><br><small>Chances de bloqueio ilustrativas</small>';
+  }
+  draw();
+  c.onFrame((t, dt) => {
+    nucleo.rotation.y = t * 0.7;
+    flash = Math.max(0, flash - dt * 2);
+    nucleo.material.emissive.setRGB(0.72 + flash * 0.3, 0.53 * (1 - flash), 0.04);
+    P.forEach((p) => {
+      if (p.parado) {
+        p.parado -= dt; p.m.material.opacity = Math.max(0, p.parado / 0.9);
+        if (p.parado <= 0) nova(p);
+        return;
+      }
+      p.r -= p.v * dt;
+      while (p.prox < 6 && p.r <= R[p.prox]) {
+        if (ativo[p.prox] && Math.random() < 0.5) { p.parado = 0.9; p.r = R[p.prox]; p.m.material.color.setHex(0x00b1d2); barrados++; draw(); break; }
+        p.prox++;
+      }
+      if (!p.parado && p.r <= 0.75) { chegaram++; flash = 1; draw(); nova(p); return; }
+      p.m.position.set(p.r * Math.cos(p.th), p.y, p.r * Math.sin(p.th));
+    });
+  });
+}, { camera: [0, 9, 12], spin: 0.1 });
+
+/* ---------- 4. Problema de hoje: mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['catraca', 'waf', 'gw', 'kafka', 'cep', 'edr', 'ident'], alvo: 'siem', caminho: ['catraca', 'waf', 'gw', 'checkin', 'kafka', 'cep', 'siem'],
+  legenda: 'Onde a aula acontece: as camadas da plataforma e o caminho dos registros até o SOC (em vermelho).' });
+
+/* ---------- 10. Fluxo: a jornada do alerta ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 440,
+  nodes: [
+    { id: 'idp', x: 130, y: 85, label: 'Login no e-mail', sub: '192.0.2.201 · Países Baixos', icon: '🌍', k: 'red', w: 230 },
+    { id: 'siem', x: 390, y: 85, label: 'SIEM', sub: 'regra: viagem impossível', icon: '📊', k: 'blue', w: 220 },
+    { id: 'n1', x: 650, y: 85, label: 'N1 · Triagem', sub: 'confirma ou descarta', icon: '🎧', k: 'blue', w: 220 },
+    { id: 'user', x: 920, y: 85, label: 'Carla Dias', sub: 'financeiro, em São Paulo', icon: '📞', w: 220 },
+    { id: 'n2', x: 650, y: 235, label: 'N2 · Luiza Ferraz', sub: 'escopo e contenção', icon: '🔬', k: 'blue', w: 220 },
+    { id: 'soar', x: 920, y: 235, label: 'SOAR', sub: 'revoga, troca senha', icon: '⚙️', k: 'green', w: 220 },
+    { id: 'n3', x: 390, y: 235, label: 'N3 · Rafael Tavares', sub: 'caça e nova detecção', icon: '🧠', k: 'purple', w: 230 },
+    { id: 'det', x: 130, y: 235, label: 'Nova regra', sub: 'encaminhamento suspeito', icon: '🧩', k: 'purple', w: 230 },
+    { id: 'pb', x: 650, y: 375, label: 'Playbook PB-07', sub: 'conta comprometida', icon: '📘', k: 'amber', w: 230 }
+  ],
+  links: [
+    { from: 'idp', to: 'siem', label: 'logs de entrada' }, { from: 'siem', to: 'n1', label: 'alerta alto' }, { from: 'n1', to: 'user', label: 'telefone', dashed: true },
+    { from: 'n1', to: 'n2', label: 'escala' }, { from: 'n2', to: 'soar', label: 'contenção' }, { from: 'n2', to: 'n3', label: 'caça' },
+    { from: 'n3', to: 'det' }, { from: 'det', to: 'siem', dashed: true, curve: 40 }, { from: 'pb', to: 'n2', dashed: true }
+  ],
+  steps: [
+    { title: '08:55 · Um login de outro país', text: 'A conta de Carla Dias, do financeiro da sede da Rede Tatame, entra no e-mail corporativo a partir de um endereço nos Países Baixos. Às 08:40, o mesmo usuário tinha entrado de São Paulo.', on: ['idp'], dim: true },
+    { title: '09:31 · O SIEM correlaciona', text: 'A regra de viagem impossível, que roda a cada 30 minutos, compara os dois logins: cerca de 9.800 km em 15 minutos. Um alerta de severidade alta cai na fila do N1.', on: ['idp', 'siem'], links: [['idp', 'siem', 'red']], dim: true },
+    { title: '09:34 · N1 faz a triagem', text: 'O endereço não é da VPN corporativa nem de um fornecedor conhecido. O analista liga para Carla, que confirma estar em São Paulo. O caso é escalado ao N2.', on: ['siem', 'n1', 'user'], links: [['siem', 'n1', 'blue'], ['n1', 'user', 'amber']], dim: true },
+    { title: '09:40 · N2 investiga', text: 'Seguindo o playbook, Luiza Ferraz define o escopo: a sessão estrangeira leu e-mails e criou uma regra que encaminha mensagens com a palavra "repasse" para um endereço externo.', on: ['n1', 'n2', 'pb'], links: [['n1', 'n2', 'blue'], ['pb', 'n2', 'amber']], dim: true },
+    { title: '10:16 · Contenção', text: 'O SOAR revoga as sessões, força a troca de senha e remove a regra de encaminhamento. Detectar levou 36 minutos; conter, mais 45.', on: ['n2', 'soar'], links: [['n2', 'soar', 'green']], dim: true },
+    { title: 'N3 caça no restante do ambiente', text: 'Rafael Tavares, engenheiro de detecção, procura o mesmo endereço em outras contas e encontra duas tentativas de login sem sucesso, que também são tratadas.', on: ['n2', 'n3'], links: [['n2', 'n3', 'purple']], dim: true },
+    { title: 'A lição vira detecção', text: 'Ele escreve uma regra nova: criação de encaminhamento externo logo após login de país incomum. O playbook é atualizado e o próximo caso parecido será detectado mais cedo.', on: ['n3', 'det', 'siem', 'pb'], links: [['n3', 'det', 'purple'], ['det', 'siem', 'purple']], dim: true }
+  ]
+});
+
+/* ---------- 11. SIEM: o turno do analista ---------- */
+Labs.siem('#lab-siem', {
+  product: 'SIEM · SOC Rede Tatame', time: '21/08/2026, 07h00 – 12h00', lang: 'KQL', index: 'SecurityAlert, SigninLogs',
+  searches: [
+    { group: 'Turno da manhã', name: '1. Fila do N1', q: 'SecurityAlert | where Status == "New" | sort by Severity desc, TimeGenerated asc',
+      cols: ['hora', 'alerta', 'entidade', 'severidade', 'status'], sevCol: 3, total: 5, unit: 'alertas novos',
+      hist: [1, 0, 1, 1, 0, 1, 0, 1, 0, 0], hot: [7],
+      rows: [
+        ['09:31', 'Viagem impossível', 'carla.dias', 'alta', 'novo'],
+        ['09:12', 'Muitas falhas de login', 'vpn.tatame.com.br', 'média', 'novo'],
+        ['08:20', 'Varredura de portas interna', '10.10.3.18', 'média', 'novo'],
+        ['08:47', 'Macro em anexo bloqueada', 'NB-ATD-014', 'baixa', 'novo'],
+        ['07:58', 'Assinatura de antivírus desatualizada', 'NB-PRD-112', 'info', 'novo']
+      ], note: 'O N1 começa pela severidade. Viagem impossível em uma conta do financeiro vai para o topo da fila.' },
+    { group: 'Caso: carla.dias', name: '2. Logins da conta (24 h)', q: 'SigninLogs | where UserPrincipalName == "carla.dias@tatame.com.br" | project TimeGenerated, IPAddress, Location, AppDisplayName, ResultType',
+      cols: ['hora', 'IP', 'local', 'aplicação', 'resultado'], total: 4, unit: 'logins',
+      hist: [1, 0, 0, 1, 1, 1, 0, 0, 0, 0], hot: [4, 5],
+      rows: [
+        ['07:12', '198.51.100.20', 'São Paulo, BR', 'VPN', 'sucesso'],
+        ['08:40', '198.51.100.20', 'São Paulo, BR', 'E-mail', 'sucesso'],
+        ['08:55', '192.0.2.201', 'Amsterdã, NL', 'E-mail', 'sucesso'],
+        ['09:03', '192.0.2.201', 'Amsterdã, NL', 'E-mail (regras da caixa)', 'sucesso']
+      ], note: 'Às 09:03, a sessão estrangeira mexeu nas regras da caixa de entrada. É o primeiro sinal de que alguém quer ficar.' },
+    { group: 'Caso: carla.dias', name: '3. Regra de viagem impossível', q: 'SigninLogs | where ResultType == 0 | sort by UserPrincipalName asc, TimeGenerated asc | extend U0 = prev(UserPrincipalName), L0 = prev(Location), T0 = prev(TimeGenerated) | where UserPrincipalName == U0 and Location != L0 and TimeGenerated - T0 < 2h',
+      cols: ['usuário', 'de', 'para', 'intervalo', 'distância', 'severidade'], sevCol: 5, total: 1, unit: 'ocorrência',
+      hist: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0], hot: [4],
+      rows: [['carla.dias', 'São Paulo, BR (08:40)', 'Amsterdã, NL (08:55)', '15 min', '≈ 9.800 km', 'alta']],
+      note: 'Nenhum avião cobre 9.800 km em 15 minutos. Ou a credencial está com outra pessoa, ou há uma VPN que o SOC não conhece.' },
+    { group: 'Caso: carla.dias', name: '4. Mesmo IP em outras contas', q: 'SigninLogs | where IPAddress == "192.0.2.201" | summarize Tentativas = count(), Sucesso = countif(ResultType == 0) by UserPrincipalName',
+      cols: ['conta', 'tentativas', 'sucesso'], total: 3, unit: 'contas',
+      hist: [0, 0, 0, 0, 2, 1, 1, 0, 0, 0], hot: [4, 5, 6],
+      rows: [['carla.dias', '2', '2'], ['caio.mendes', '1', '0'], ['financeiro.repasses', '1', '0']],
+      note: 'O N3 amplia o escopo: duas outras contas foram tentadas, sem sucesso. As pessoas são avisadas e as senhas, trocadas por precaução.' },
+    { group: 'Métricas', name: '5. MTTD e MTTR do trimestre', q: 'Incidents | where StartTime between (datetime(2026-07-01) .. datetime(2026-09-30)) | summarize MTTD = avg(DetectTime - StartTime), MTTR = avg(ContainTime - DetectTime)',
+      cols: ['período', 'incidentes', 'MTTD médio', 'MTTD mediana', 'MTTR médio', 'MTTR mediana'], total: 6, unit: 'incidentes',
+      hist: [1, 1, 0, 1, 1, 0, 1, 0, 1, 0], hot: [],
+      rows: [['jul a set/2026', '6', '24,0 h', '5,8 h', '4,1 h', '2,2 h']],
+      note: 'O caso de hoje (INC-34) foi detectado em 0,6 h e contido em 0,75 h. Um único caso de 96 h puxa a média do trimestre para cima.' }
+  ]
+});
+
+/* ---------- 11b. Plataforma Rede Tatame: catraca ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'catraca' });
+
+/* ---------- 14. VS Code: playbook e métricas ---------- */
+Labs.vscode('#lab-vsc', {
+  folder: 'soc-rede-tatame', team: 'blue', status: 'Python 3.12', open: 'playbooks/conta_comprometida.yaml', typeOnEnter: true,
+  files: [
+    { path: 'playbooks/conta_comprometida.yaml', hl: [17, 18, 19, 20, 25, 26, 27], code:
+`# Playbook PB-07 · conta comprometida · SOC Rede Tatame (fictícia)
+gatilho: alerta "Viagem impossível" ou "Login de país incomum"
+severidade_minima: alta
+etapas:
+  - nivel: N1
+    prazo: 15 min
+    acoes:
+      - conferir os logins da conta nas últimas 24 h
+      - checar se o IP é da VPN corporativa ou de fornecedor conhecido
+      - confirmar com o usuário por telefone, nunca pelo e-mail da conta
+    escalar_se: usuário não reconhece o acesso
+  - nivel: N2
+    prazo: 30 min
+    acoes:
+      - listar o que a sessão suspeita fez (leitura, regras da caixa, downloads)
+      - definir o escopo (outras contas, mesmo IP, mesmo período)
+    contencao_sem_aprovacao:        # o analista executa na hora
+      - revogar sessões ativas
+      - forçar troca de senha
+      - remover regras de encaminhamento externo
+  - nivel: N3
+    acoes:
+      - caçar o mesmo indicador no restante do ambiente
+      - propor nova detecção e atualizar este playbook
+comunicar:
+  - gestor do usuário
+  - DPO e jurídico se houver dado de aluno exposto   # menores e saúde pesam mais
+licoes_aprendidas: reunião em até 5 dias úteis` },
+    { path: 'incidentes_2026.csv', code:
+`id,tipo,inicio,deteccao,contencao
+INC-31,Credencial capturada por phishing,2026-07-02T08:10,2026-07-02T14:40,2026-07-02T17:10
+INC-32,Malware em estação,2026-07-15T10:00,2026-07-15T10:45,2026-07-15T12:15
+INC-33,Conta de fornecedor fora do horário,2026-08-03T22:30,2026-08-05T09:30,2026-08-05T15:30
+INC-34,Login de país incomum,2026-08-21T08:55,2026-08-21T09:31,2026-08-21T10:16
+INC-35,Password spraying na VPN,2026-09-09T02:00,2026-09-09T07:00,2026-09-09T09:00
+INC-36,Exfiltração para nuvem,2026-09-28T13:00,2026-10-02T13:00,2026-10-03T01:00` },
+    { path: 'metricas_soc.py', hl: [14, 15, 21, 22], code:
+`"""Calcula MTTD e MTTR a partir do registro de incidentes do SOC."""
+import csv
+from datetime import datetime
+from statistics import mean, median
+
+
+def horas(de: str, ate: str) -> float:
+    return (datetime.fromisoformat(ate) - datetime.fromisoformat(de)).total_seconds() / 3600
+
+
+with open("incidentes_2026.csv", encoding="utf-8") as f:
+    incidentes = list(csv.DictReader(f))
+
+ttd = [horas(i["inicio"], i["deteccao"]) for i in incidentes]     # até detectar
+ttr = [horas(i["deteccao"], i["contencao"]) for i in incidentes]  # até conter
+
+print(f"{'caso':<8}{'tipo':<36}{'detectar':>9}{'conter':>8}")
+for i, d, r in zip(incidentes, ttd, ttr):
+    print(f"{i['id']:<8}{i['tipo']:<36}{d:>8.1f}h{r:>7.1f}h")
+
+print(f"\\nMTTD: média {mean(ttd):.1f} h | mediana {median(ttd):.1f} h")
+print(f"MTTR: média {mean(ttr):.1f} h | mediana {median(ttr):.1f} h")
+pior = max(zip(ttd, incidentes), key=lambda par: par[0])[1]
+print(f"Maior tempo até detectar: {pior['id']} ({pior['tipo']})")` }
+  ],
+  run: [
+    { label: 'Executar metricas_soc.py', kind: 'blue', cmd: 'python metricas_soc.py', file: 'metricas_soc.py', out: [
+      'caso    tipo                                 detectar  conter',
+      'INC-31  Credencial capturada por phishing        6.5h    2.5h',
+      'INC-32  Malware em estação                       0.8h    1.5h',
+      'INC-33  Conta de fornecedor fora do horário     35.0h    6.0h',
+      'INC-34  Login de país incomum                    0.6h    0.8h',
+      'INC-35  Password spraying na VPN                 5.0h    2.0h',
+      '[warn] INC-36  Exfiltração para nuvem                  96.0h   12.0h',
+      '',
+      '[hi] MTTD: média 24.0 h | mediana 5.8 h',
+      '[hi] MTTR: média 4.1 h | mediana 2.2 h',
+      '[warn] Maior tempo até detectar: INC-36 (Exfiltração para nuvem)' ] }
+  ]
+});
+
+/* ---------- 16. Calculadora: o custo do tempo ---------- */
+Labs.register('#lab-calc', (el) => {
+  const n = (v) => Math.round(v).toLocaleString('pt-BR');
+  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.7rem">
+    <h4>Registros expostos conforme o tempo até a contenção</h4>
+    <label class="lab-range">Registros exfiltrados por dia <output id="o-t"></output><input id="i-t" type="range" min="500" max="10000" step="500" value="2000"></label>
+    <label class="lab-range">Dias até conter, cenário atual <output id="o-a"></output><input id="i-a" type="range" min="1" max="365" value="258"></label>
+    <label class="lab-range">Dias até conter, meta do SOC <output id="o-m"></output><input id="i-m" type="range" min="1" max="365" value="10"></label>
+    <div class="lab-grid3">
+      <div class="lab-kpi red"><small>Cenário atual</small><b id="k-a"></b></div>
+      <div class="lab-kpi green"><small>Com a meta</small><b id="k-m"></b></div>
+      <div class="lab-kpi amber"><small>Redução</small><b id="k-r"></b></div>
+    </div>
+    <div class="ex-line"><i id="b-a" style="background:#FF2B5F"></i><span id="s-a"></span></div>
+    <div class="ex-line"><i id="b-m" style="background:#3FD47A"></i><span id="s-m"></span></div>
+  </div>`;
+  const $ = (id) => el.querySelector('#' + id);
+  function calc() {
+    const t = +$('i-t').value, a = +$('i-a').value, m = +$('i-m').value;
+    const ra = t * a, rm = t * m, red = ra ? 1 - rm / ra : 0;
+    $('o-t').textContent = n(t); $('o-a').textContent = a + ' dias'; $('o-m').textContent = m + ' dias';
+    $('k-a').textContent = n(ra); $('k-m').textContent = n(rm);
+    $('k-r').textContent = red >= 0 ? '≈ ' + Math.round(red * 100) + '%' : 'a meta é pior';
+    const mx = Math.max(ra, rm, 1);
+    $('b-a').style.width = (ra / mx) * 100 + '%'; $('b-m').style.width = (rm / mx) * 100 + '%';
+    $('s-a').textContent = n(t) + ' × ' + a + ' dias = ' + n(ra) + ' registros';
+    $('s-m').textContent = n(t) + ' × ' + m + ' dias = ' + n(rm) + ' registros';
+  }
+  el.querySelectorAll('input').forEach((i) => i.addEventListener('input', calc));
+  calc();
+});
+</script>
+</body>
+</html>
