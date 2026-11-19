@@ -183,7 +183,28 @@
     </div>
   </section>
 
-  <!-- 9. LAB VS Code: plano + layer -->
+  <!-- 9. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o plano e o código são lidos e executados</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>gerar_layer.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o plano <code>cobalto-austral.yaml</code> (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>ATT&amp;CK Navigator</strong> (MITRE)</td><td>Abre a <em>layer</em> JSON gerada e pinta a matriz</td><td><code>mitre-attack.github.io/attack-navigator</code></td><td>Nada a instalar: roda no navegador</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> na página do pacote no PyPI (<code>pypi.org</code>), abra os <em>links</em> do projeto e veja se "Source Code" leva ao repositório oficial, <code>github.com/yaml/pyyaml</code>, e qual é a data da última versão. Os módulos <code>csv</code> e <code>json</code> já vêm com o Python e não se instalam. Use o Navigator no endereço da própria MITRE: a <em>layer</em> revela o que a Rede Tatame ainda não detecta e não deve ser aberta em cópia hospedada por terceiros.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB VS Code: plano + layer -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -192,7 +213,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b><p>Transformar o boletim de CTI em um plano de teste e medir a cobertura.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Leia <code>cobalto-austral.yaml</code>: escopo, técnicas e regra esperada.</p><p>2. Rode as duas execuções de <code>gerar_layer.py</code>.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Leia <code>cobalto-austral.yaml</code>: escopo, técnicas e regra esperada.</p><p>3. Rode as duas execuções de <code>gerar_layer.py</code>.</p></div>
             <div class="rl obs"><b>Observe</b><p>A cobertura testada sobe de 40% para 80%. A T1567.002 continua sem telemetria.</p></div>
             <div class="rl conc"><b>Conclusão</b><p>O plano diz o que testar; a <em>layer</em> mostra o que já foi comprovado.</p></div>
           </div>
@@ -202,7 +223,7 @@
     </div>
   </section>
 
-  <!-- 10. LAB sessão purple -->
+  <!-- 11. LAB sessão purple -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -221,7 +242,7 @@
     </div>
   </section>
 
-  <!-- 10b. PLATAFORMA REDE TATAME -->
+  <!-- 12. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -240,7 +261,7 @@
     </div>
   </section>
 
-  <!-- 11. Ferramentas -->
+  <!-- 13. Ferramentas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -250,7 +271,7 @@
         <table class="tabela-industrial">
           <thead><tr><th>Ferramenta</th><th>Mantenedor</th><th>Uso principal</th></tr></thead>
           <tbody>
-            <tr><td><strong>MITRE Caldera</strong></td><td>MITRE (código aberto)</td><td>Plataforma para automatizar a emulação de adversários</td></tr>
+            <tr><td><strong>Caldera</strong></td><td>Apache Software Foundation (código aberto; criado pela MITRE)</td><td>Plataforma para automatizar a emulação de adversários</td></tr>
             <tr><td><strong>Atomic Red Team</strong></td><td>Red Canary (código aberto)</td><td>Biblioteca de testes pequenos, cada um mapeado a uma técnica ATT&amp;CK</td></tr>
             <tr><td><strong><em>Adversary Emulation Library</em></strong></td><td>MITRE Center for Threat-Informed Defense</td><td>Planos completos de emulação baseados em grupos reais</td></tr>
             <tr><td><strong>ATT&amp;CK Navigator</strong></td><td>MITRE</td><td>Visualização da cobertura e do plano sobre a matriz</td></tr>
@@ -262,7 +283,7 @@
     </div>
   </section>
 
-  <!-- 12. LAB terminal -->
+  <!-- 14. LAB terminal -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -281,7 +302,7 @@
     </div>
   </section>
 
-  <!-- 13. Exemplo numérico -->
+  <!-- 15. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -303,7 +324,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB 3D: cobertura -->
+  <!-- 16. LAB 3D: cobertura -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -322,7 +343,7 @@
     </div>
   </section>
 
-  <!-- 14b. De volta ao problema -->
+  <!-- 17. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -338,7 +359,7 @@
     </div>
   </section>
 
-  <!-- 15. Pontos-chave -->
+  <!-- 18. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -355,23 +376,23 @@
     </div>
   </section>
 
-  <!-- 16. Referências -->
+  <!-- 19. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
       <div class="slide-content-box" style="font-size:.85em">
+        <p>APACHE SOFTWARE FOUNDATION. <em>Apache Caldera</em>. Disponível em: &lt;https://caldera.apache.org/&gt;. Acesso em: 19 nov. 2026.</p>
         <p>APPLEBAUM, Andy <em>et al</em>. Intelligent, automated red team emulation. <em>In</em>: ANNUAL CONFERENCE ON COMPUTER SECURITY APPLICATIONS, 32., 2016, Los Angeles. <em>Proceedings</em> [...]. New York: ACM, 2016.</p>
         <p>MITRE CENTER FOR THREAT-INFORMED DEFENSE. <em>Adversary emulation library</em>. Disponível em: &lt;https://github.com/center-for-threat-informed-defense/adversary_emulation_library&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>MITRE. <em>Caldera</em>. Disponível em: &lt;https://caldera.mitre.org/&gt;. Acesso em: 13 nov. 2026.</p>
         <p>RED CANARY. <em>Atomic Red Team</em>. Disponível em: &lt;https://github.com/redcanaryco/atomic-red-team&gt;. Acesso em: 13 nov. 2026.</p>
         <p>SCYTHE. <em>Purple team exercise framework (PTEF)</em>. Disponível em: &lt;https://github.com/scythe-io/purple-team-exercise-framework&gt;. Acesso em: 13 nov. 2026.</p>
       </div>
     </div>
   </section>
 
-  <!-- 17. Encerramento -->
+  <!-- 20. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -427,7 +448,26 @@ Labs.flow('#lab-ciclo', {
 /* ---------- 9. VS Code: plano de emulação + layer ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'emulacao-cobalto', team: 'purple', status: 'Python 3.12', open: 'plano/cobalto-austral.yaml', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      'PyYAML  6.0.3' ] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacote de terceiros que o gerar_layer.py importa (csv, json e sys vêm com o Python)
+PyYAML==6.0.3`},
     { path: 'plano/cobalto-austral.yaml', hl: [8, 11, 16, 21, 26, 31], code:
 `# Plano de emulação: Grupo Cobalto Austral (adversário fictício) contra a Rede Tatame
 # Fonte: boletim de CTI BI-2026-041 · Autorização: APR-3107 (Marina Prado, CISO)

@@ -356,7 +356,7 @@ tags:
 
 **Orçamento (exemplo que fecha em R$ 1,2 milhão):** engenheiro(a) de detecção R$ 260 mil + MSSP para alertas médios R$ 240 mil + 2 exercícios externos R$ 360 mil + EDR em 100% dos servidores R$ 70 mil + FIDO2 R$ 66 mil + 1 bloco de SIEM R$ 90 mil = **R$ 1,086 milhão**, com reserva de R$ 114 mil. Alternativas válidas: trocar um exercício externo por exercícios internos com a equipe treinada, ou trocar o MSSP por plantão interno. Penalizar propostas que ultrapassam o orçamento sem pedir suplemento justificado.
 
-**Valor para o negócio (Aulas 1 e 16):** expectativa de perda anual atual = 0,20 × R$ 18 milhões = **R$ 3,6 milhões**. Se o estudante premissar redução da probabilidade para, por exemplo, 8%, a nova expectativa é R$ 1,44 milhão, redução de R$ 2,16 milhões por ano contra R$ 1,2 milhão investido. A premissa de redução deve estar declarada como estimativa.
+**Valor para o negócio (Aulas 1 e 16):** expectativa de perda anual atual = 0,20 × R$ 18 milhões = **R$ 3,6 milhões**. Se o estudante adotar como premissa a redução da probabilidade para, por exemplo, 8%, a nova expectativa é R$ 1,44 milhão, redução de R$ 2,16 milhões por ano contra R$ 1,2 milhão investido. A premissa de redução deve estar declarada como estimativa.
 
 ### Parte 6 — Sumário executivo
 

@@ -177,7 +177,28 @@
     </div>
   </section>
 
-  <!-- 9. LAB VS Code: ROSI e roadmap -->
+  <!-- 9. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde as premissas e o código são lidos e executados</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>rosi.py</code> e o <code>priorizar.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o <code>premissas.yaml</code> (o <code>import yaml</code> do <code>rosi.py</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td>Módulo <strong>csv</strong></td><td>Lê o <code>roadmap.csv</code> no <code>priorizar.py</code></td><td>Biblioteca padrão: <code>docs.python.org/3/library/csv.html</code></td><td>Nada a instalar: vem com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> fixe a versão no <code>requirements.txt</code> com <code>==</code>, para que a conta levada ao conselho rode amanhã com o mesmo código de hoje. Na página do pacote no PyPI, em "Download files", cada arquivo tem o seu <em>hash</em> SHA-256, e o <code>pip install --require-hashes</code> recusa qualquer arquivo diferente do conferido. Depois, <code>pip freeze</code> lista o que ficou instalado: dependência também entra no inventário do programa de segurança.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB VS Code: ROSI e roadmap -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -186,7 +207,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b><p>Traduzir o programa em reais, com as premissas à vista do conselho.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Leia <code>premissas.yaml</code>.</p><p>2. Rode <code>rosi.py</code> (ALE, perda anual esperada, e ROSI, retorno do investimento em segurança).</p><p>3. Rode <code>priorizar.py</code>.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Leia <code>premissas.yaml</code>.</p><p>3. Rode <code>rosi.py</code> (ALE, perda anual esperada, e ROSI, retorno do investimento em segurança).</p><p>4. Rode <code>priorizar.py</code>.</p></div>
             <div class="rl obs"><b>Observe</b><p>ROSI de 87% no cenário otimista e 7% no conservador; o programa se paga abaixo de 8,25%. O <em>roadmap</em> usa R$ 240 mil de R$ 300 mil e o Red Team espera.</p></div>
             <div class="rl conc"><b>Conclusão</b><p>Premissas explícitas deixam o conselho decidir com o risco à vista.</p></div>
           </div>
@@ -196,7 +217,7 @@
     </div>
   </section>
 
-  <!-- 9b. PLATAFORMA REDE TATAME -->
+  <!-- 11. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -215,7 +236,7 @@
     </div>
   </section>
 
-  <!-- 10. Tendências: Zero Trust e nuvem -->
+  <!-- 12. Tendências: Zero Trust e nuvem -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -228,7 +249,7 @@
     </div>
   </section>
 
-  <!-- 11. Tendências: IA -->
+  <!-- 13. Tendências: IA -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -244,7 +265,7 @@
     </div>
   </section>
 
-  <!-- 12. LAB browser: IA -->
+  <!-- 14. LAB browser: IA -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -263,7 +284,7 @@
     </div>
   </section>
 
-  <!-- 13. Carreira -->
+  <!-- 15. Carreira -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -287,7 +308,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB mapa de carreira -->
+  <!-- 16. LAB mapa de carreira -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -306,7 +327,7 @@
     </div>
   </section>
 
-  <!-- 15. O caminho percorrido -->
+  <!-- 17. O caminho percorrido -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -325,7 +346,7 @@
     </div>
   </section>
 
-  <!-- 15b. De volta ao problema -->
+  <!-- 18. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -341,7 +362,7 @@
     </div>
   </section>
 
-  <!-- 16. Pontos-chave -->
+  <!-- 19. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -358,7 +379,7 @@
     </div>
   </section>
 
-  <!-- 17. Referências -->
+  <!-- 20. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -374,7 +395,7 @@
     </div>
   </section>
 
-  <!-- 18. Encerramento da disciplina -->
+  <!-- 21. Encerramento da disciplina -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -456,7 +477,22 @@ Labs.flow('#lab-flow', {
 /* ---------- 9. VS Code: ROSI e roadmap ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'caso-de-negocio', team: 'purple', status: 'Python 3.12', open: 'premissas.yaml', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
+    { cmd: 'pip freeze', out: ['[ok] PyYAML==6.0.3'] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacote de terceiros que o rosi.py importa (o csv do priorizar.py vem com o Python)
+PyYAML==6.0.3`},
     { path: 'premissas.yaml', hl: [3, 4, 5, 7, 8], code:
 `# Premissas do caso de negócio: programa contínuo de segurança da Rede Tatame
 # Fonte: workshop de risco com Finanças e Operações (estimativas, não certezas)

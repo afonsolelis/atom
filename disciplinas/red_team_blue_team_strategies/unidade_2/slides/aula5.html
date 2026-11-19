@@ -314,7 +314,28 @@
     </div>
   </section>
 
-  <!-- 16. LAB VS Code: consolidar OSINT -->
+  <!-- 16. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>consolidar_osint.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
+            <tr><td><strong><code>csv</code>, <code>json</code>, <code>collections</code>, <code>pathlib</code></strong></td><td>Ler os arquivos de achados e contar por área</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> para cada <code>import</code> do código, veja primeiro se o módulo está na lista da biblioteca padrão, em <code>docs.python.org/3/library</code>. Neste laboratório todos estão, então não há pacote para baixar. Quando o módulo não estiver lá, aí sim busque o nome no PyPI (<code>pypi.org</code>), o índice oficial de pacotes Python. Cada pacote de terceiros que se deixa de instalar é um fornecedor a menos para vigiar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. LAB VS Code: consolidar OSINT -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -323,7 +344,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Transformar os achados soltos em números para a diretoria.</div>
-            <div class="rl"><b>Faça</b>1. Abra <code>escopo.json</code> e veja os terceiros fora do escopo.<br>2. Clique em <em>Executar</em>.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Abra <code>escopo.json</code> e veja os terceiros fora do escopo.<br>3. Clique em <em>Executar</em>.</div>
             <div class="rl obs"><b>Observe</b>12,5% da superfície ativa é desconhecida e 65% das pessoas têm <em>e-mail</em> exposto. Terceiros saem marcados para não acessar.</div>
             <div class="rl conc"><b>Conclusão</b>O relatório mostra o tamanho do problema e onde agir primeiro.</div>
           </div>
@@ -333,7 +354,7 @@
     </div>
   </section>
 
-  <!-- 17. Rastro para o Blue Team -->
+  <!-- 18. Rastro para o Blue Team -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -350,7 +371,7 @@
     </div>
   </section>
 
-  <!-- 18. LAB SIEM -->
+  <!-- 19. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -370,7 +391,7 @@
     </div>
   </section>
 
-  <!-- 19. Exemplo numérico -->
+  <!-- 20. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -387,7 +408,7 @@
     </div>
   </section>
 
-  <!-- 20. De volta ao problema -->
+  <!-- 21. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -403,7 +424,7 @@
     </div>
   </section>
 
-  <!-- 21. Pontos-chave -->
+  <!-- 22. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -420,7 +441,7 @@
     </div>
   </section>
 
-  <!-- 22. Referências -->
+  <!-- 23. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -435,7 +456,7 @@
     </div>
   </section>
 
-  <!-- 23. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -609,9 +630,19 @@ Labs.scene3d('#lab-3d', (c) => {
 /* ---------- 14. Plataforma Rede Tatame: cenário de reconhecimento ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
 
-/* ---------- 16. VS Code: consolidar OSINT ---------- */
+/* ---------- 17. VS Code: consolidar OSINT ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'osint-tatame', team: 'red', status: 'Python 3.12', open: 'consolidar_osint.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      '[info] Só o pip: o script usa apenas a biblioteca padrão (csv, json, collections, pathlib).' ] }
+  ],
   files: [
     { path: 'consolidar_osint.py', hl: [20, 23, 24], code: String.raw`"""Consolida achados de OSINT em um relatório de exposição (engajamento autorizado)."""
 import csv
@@ -710,7 +741,7 @@ pessoa210@tatame.com.br,ti` }
   ]
 });
 
-/* ---------- 18. SIEM: o que o Blue Team vê ---------- */
+/* ---------- 19. SIEM: o que o Blue Team vê ---------- */
 Labs.siem('#lab-siem', {
   product: 'SIEM · SOC Rede Tatame', time: 'Últimos 7 dias', lang: 'KQL', index: 'logs-waf, logs-dns, monitor-ct, inventario',
   searches: [

@@ -89,7 +89,7 @@
     </div>
   </section>
 
-  <!-- 3. O que você verá nesta unidade -->
+  <!-- 4. O que você verá nesta unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -165,7 +165,7 @@
     </div>
   </section>
 
-  <!-- 7b. PLATAFORMA REDE TATAME: fontes e filas -->
+  <!-- 8. PLATAFORMA REDE TATAME: fontes e filas -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -184,7 +184,7 @@
     </div>
   </section>
 
-  <!-- 8. Sysmon e configuração -->
+  <!-- 9. Sysmon e configuração -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -202,7 +202,7 @@
     </div>
   </section>
 
-  <!-- 9. LAB terminal -->
+  <!-- 10. LAB terminal -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -221,7 +221,7 @@
     </div>
   </section>
 
-  <!-- 10. SIEM -->
+  <!-- 11. SIEM -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -239,7 +239,28 @@
     </div>
   </section>
 
-  <!-- 11. LAB VS Code: normalizador -->
+  <!-- 12. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor e terminal onde o código é lido e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda <code>normalizar.py</code> e <code>correlacao.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site; no Ubuntu, <code>sudo apt install python3 python3-venv</code></td></tr>
+            <tr><td><strong>json, datetime, collections</strong></td><td>Ler os registros, comparar horários e guardar as falhas em fila</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>Ambiente virtual</strong> (<code>.venv</code>)</td><td>Separar os pacotes deste projeto dos pacotes do sistema</td><td>Módulo <code>venv</code>, também da biblioteca padrão</td><td><code>python3 -m venv .venv</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> procure cada módulo que aparece em <code>import</code> no índice da biblioteca padrão (<code>docs.python.org/3/library</code>). Se ele está lá, não há pacote a baixar, e o <code>pip list</code> de um ambiente novo mostra apenas o próprio <code>pip</code>. Cada pacote de terceiros que se evita é uma dependência a menos para atualizar e vigiar, o que reduz o risco na cadeia de suprimentos de <em>software</em>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB VS Code: normalizador -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -248,7 +269,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Juntar Windows e <em>firewall</em> e achar o padrão das 02:17.</div>
-            <div class="rl"><b>Faça</b>1. Leia o mapa de campos em <code>normalizar.py</code>.<br>2. Clique em <strong>Normalizar</strong>.<br>3. Clique em <strong>Correlacionar</strong>.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Leia o mapa de campos em <code>normalizar.py</code>.<br>3. Clique em <strong>Normalizar</strong>.<br>4. Clique em <strong>Correlacionar</strong>.</div>
             <div class="rl obs"><b>Observe</b><code>user.name</code> e <code>source.ip</code> passam a valer para as duas fontes. A conta <code>ana.lima</code> errou duas vezes e entrou: fica abaixo do limiar.</div>
             <div class="rl conc"><b>Conclusão</b>A regra acha carla.dias: 10 falhas e um sucesso em pouco mais de 3 minutos.</div>
           </div>
@@ -258,7 +279,7 @@
     </div>
   </section>
 
-  <!-- 12. LAB SIEM -->
+  <!-- 14. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -277,7 +298,7 @@
     </div>
   </section>
 
-  <!-- 12b. PLATAFORMA REDE TATAME: catraca sem e com telemetria -->
+  <!-- 15. PLATAFORMA REDE TATAME: catraca sem e com telemetria -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -296,7 +317,7 @@
     </div>
   </section>
 
-  <!-- 13. Retenção -->
+  <!-- 16. Retenção -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -314,7 +335,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB retenção -->
+  <!-- 17. LAB retenção -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -333,7 +354,7 @@
     </div>
   </section>
 
-  <!-- 15. Fadiga de alertas -->
+  <!-- 18. Fadiga de alertas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -351,7 +372,7 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
+  <!-- 19. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -370,7 +391,7 @@
     </div>
   </section>
 
-  <!-- 17. LAB capacidade -->
+  <!-- 20. LAB capacidade -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -390,7 +411,7 @@
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 21. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -406,7 +427,7 @@
     </div>
   </section>
 
-  <!-- 18. Pontos-chave -->
+  <!-- 22. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -424,7 +445,7 @@
     </div>
   </section>
 
-  <!-- 19. Referências -->
+  <!-- 23. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -440,7 +461,7 @@
     </div>
   </section>
 
-  <!-- 20. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -534,6 +555,15 @@ Labs.terminal('#lab-term', {
 /* ---------- 11. VS Code: normalizador e correlação ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'normalizacao', team: 'blue', status: 'Python 3.12', open: 'normalizar.py',
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2' ] }
+  ],
   files: [
     { path: 'normalizar.py', hl: [5, 6, 7, 8, 9, 10, 11, 12, 31], code:
 `"""Normaliza eventos do Windows e do firewall para um esquema comum (estilo ECS)."""

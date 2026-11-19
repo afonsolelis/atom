@@ -135,7 +135,7 @@
     </div>
   </section>
 
-  <!-- 5b. PLATAFORMA REDE TATAME: superfície e reconhecimento -->
+  <!-- 6. PLATAFORMA REDE TATAME: superfície e reconhecimento -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -154,7 +154,7 @@
     </div>
   </section>
 
-  <!-- 6. Tabela -->
+  <!-- 7. Tabela -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -175,7 +175,7 @@
     </div>
   </section>
 
-  <!-- 7. LAB 3D: pirâmide -->
+  <!-- 8. LAB 3D: pirâmide -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -194,7 +194,7 @@
     </div>
   </section>
 
-  <!-- 8. Metodologias -->
+  <!-- 9. Metodologias -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -211,7 +211,7 @@
     </div>
   </section>
 
-  <!-- 9. LAB flow PTES -->
+  <!-- 10. LAB flow PTES -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -220,7 +220,7 @@
     </div>
   </section>
 
-  <!-- 10. Caixas -->
+  <!-- 11. Caixas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -237,7 +237,7 @@
     </div>
   </section>
 
-  <!-- 11. RoE -->
+  <!-- 12. RoE -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -256,7 +256,28 @@
     </div>
   </section>
 
-  <!-- 12. LAB VS Code RoE -->
+  <!-- 13. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.88em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é escrito e executado, com realce e depuração</td><td><code>code.visualstudio.com</code> e a aba Extensões do editor</td><td>Instalador do site e <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>validar_roe.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o arquivo <code>roe_tatame.yaml</code> (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>Extensão YAML</strong> (Red Hat), opcional</td><td>Realce e validação dos arquivos <code>.yaml</code> das regras</td><td>Aba Extensões do VS Code, editor "Red Hat"</td><td><code>code --install-extension redhat.vscode-yaml</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o <code>requirements.txt</code> fixa a versão com <code>==</code>, e assim todos da equipe instalam exatamente o mesmo pacote. Para ir além, a página do pacote no PyPI mostra, em "Download files", o <em>hash</em> SHA-256 de cada arquivo. O comando <code>pip hash</code> calcula o <em>hash</em> do arquivo baixado para comparar com o da página. É a mesma conferência de impressão digital que fizemos com a carta de autorização na Aula 1.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB VS Code RoE -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -265,7 +286,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Preparar a operação de Red Team que responde à segunda dúvida.</div>
-            <div class="rl"><b>Faça</b>1. Leia as linhas destacadas do <code>roe_tatame.yaml</code>: célula branca e critérios de parada.<br>2. Clique em "Rascunho" e depois em "Versão final".</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Leia as linhas destacadas do <code>roe_tatame.yaml</code>: célula branca e critérios de parada.<br>3. Clique em "Rascunho" e depois em "Versão final".</div>
             <div class="rl obs"><b>Observe</b>O rascunho tem dois itens faltando e o teste não começa. Na versão final, um alvo é da rede de pagamentos e outro é do site da agência.</div>
             <div class="rl conc"><b>Conclusão</b>O <em>script</em> só confere se o campo existe. "E-mail do gerente de TI" não é carta de autorização, e isso exige leitura humana.</div>
           </div>
@@ -275,7 +296,7 @@
     </div>
   </section>
 
-  <!-- 13. Relatório -->
+  <!-- 15. Relatório -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -292,7 +313,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB browser relatório -->
+  <!-- 16. LAB browser relatório -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -311,7 +332,7 @@
     </div>
   </section>
 
-  <!-- 15. Pausa para reflexão -->
+  <!-- 17. Pausa para reflexão -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -329,7 +350,7 @@
     </div>
   </section>
 
-  <!-- 16. Resolvendo o caso -->
+  <!-- 18. Resolvendo o caso -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -346,7 +367,7 @@
     </div>
   </section>
 
-  <!-- 17. Exemplo numérico -->
+  <!-- 19. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -365,7 +386,7 @@
     </div>
   </section>
 
-  <!-- 18. LAB orçamento -->
+  <!-- 20. LAB orçamento -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -384,7 +405,7 @@
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 21. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -400,7 +421,7 @@
     </div>
   </section>
 
-  <!-- 19. Pontos-chave -->
+  <!-- 22. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -417,7 +438,7 @@
     </div>
   </section>
 
-  <!-- 20. Referências -->
+  <!-- 23. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -431,7 +452,7 @@
     </div>
   </section>
 
-  <!-- 21. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -583,7 +604,22 @@ Labs.scene3d('#lab-3d', (c) => {
 /* ---------- 13. VS Code: regras de engajamento ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'redteam-tatame', team: 'red', status: 'Python 3.12', open: 'roe_tatame.yaml', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 1))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
+    { cmd: 'pip freeze', out: ['[ok] PyYAML==6.0.3'] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
+PyYAML==6.0.3`},
     { path: 'roe_tatame.yaml', hl: [23, 24, 25, 26, 27, 28, 29, 30, 31], code:
 `# Regras de engajamento · Rede Tatame (fictícia) · operação de Red Team
 objetivo: >

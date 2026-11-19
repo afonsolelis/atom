@@ -43,7 +43,7 @@ A Transportadora Pantanal Cargas reconstruiu a linha do tempo de um incidente qu
 | D+4 | Credenciais de um administrador são usadas em *logons* remotos em três servidores |
 | D+9 | Grande volume de dados sai para um serviço de armazenamento em nuvem não homologado |
 
-a) Associe os eventos às fases da Cyber Kill Chain e explique por que a maior parte deles, a partir de D+4, fica mal representada nesse modelo.
+a) Associe os eventos às fases da Cyber Kill Chain e explique por que os eventos a partir de D+4 ficam mal representados nesse modelo.
 
 b) Justifique por que o MITRE ATT&CK complementa a Kill Chain nesse caso, explicando como o Blue Team pode usá-lo para transformar essa linha do tempo em melhorias de detecção.
 
@@ -221,7 +221,7 @@ b) Usar a lista nominal para punição contraria a finalidade educativa da simul
 
 **Resposta esperada**
 
-a) Volume: 1.500 × 12 = 18.000 minutos = **300 horas** de análise por dia. Capacidade: 8 × 6 = 48 horas = 2.880 minutos ÷ 12 = **240 alertas por dia**, ou **16%** do volume. A **fadiga de alertas** ocorre quando o excesso de alertas, em especial falsos positivos, leva os analistas a fechá-los rapidamente ou ignorá-los; com isso, o alerta verdadeiro se perde no ruído. É um risco de segurança porque 84% dos alertas sequer são analisados, e a atenção dedicada aos analisados cai — o ataque real pode estar entre os ignorados, aumentando o *dwell time*.
+a) Volume: 1.500 × 12 = 18.000 minutos = **300 horas** de análise por dia. Capacidade: 8 × 6 = 48 horas = 2.880 minutos ÷ 12 = **240 alertas por dia**, ou **16%** do volume. A **fadiga de alertas** ocorre quando o excesso de alertas, em especial falsos positivos, leva os analistas a fechá-los rapidamente ou ignorá-los; com isso, o alerta verdadeiro se perde no ruído. É um risco de segurança porque 84% dos alertas nem sequer são analisados, e a atenção dedicada aos analisados cai — o ataque real pode estar entre os ignorados, aumentando o *dwell time*.
 
 b) Ações: (1) **ajustar as cinco regras ruidosas** com exceções restritas às rotinas administrativas conhecidas (por exemplo, por conta de serviço e servidor de origem específicos), sem desligá-las — se elas responderem por 70% do volume (1.050 alertas) e o ajuste eliminar a maior parte do ruído, o volume se aproxima da capacidade; (2) **priorizar por criticidade** do ativo e confiança da regra, para que os alertas mais relevantes sejam triados primeiro; (3) **enriquecer e correlacionar** no SIEM (contexto de ativo, usuário, inteligência), agrupando alertas relacionados em um único caso; (4) **automatizar** etapas repetitivas da triagem (SOAR); (5) **revisar continuamente** a precisão de cada regra como métrica. Cada ação reduz ruído sem retirar visibilidade da técnica monitorada; exceções devem ser estreitas, documentadas e revisadas, para não abrir brechas que o atacante possa usar.
 
@@ -235,7 +235,7 @@ b) Ações: (1) **ajustar as cinco regras ruidosas** com exceções restritas à
 
 **Resposta esperada**
 
-a) A Pirâmide da Dor, proposta por David Bianco, relaciona o tipo de indicador ao custo que sua detecção impõe ao adversário. *Hashes* (base) e endereços IP estão nos níveis mais baixos: são triviais ou fáceis de trocar, de modo que o bloqueio é útil, mas contornado em minutos. A descrição do comportamento — credenciais válidas de acesso remoto, tarefas agendadas para persistência, uso de ferramentas administrativas legítimas para movimentação lateral — está no topo, nas **TTPs**, que obrigam o adversário a mudar sua forma de trabalhar. Considerar a ameaça "coberta" só com IPs e *hashes* é um erro: justamente o comportamento mais estável do grupo fica sem detecção, e o uso de ferramentas legítimas sequer geraria *hash* malicioso.
+a) A Pirâmide da Dor, proposta por David Bianco, relaciona o tipo de indicador ao custo que sua detecção impõe ao adversário. *Hashes* (base) e endereços IP estão nos níveis mais baixos: são triviais ou fáceis de trocar, de modo que o bloqueio é útil, mas contornado em minutos. A descrição do comportamento — credenciais válidas de acesso remoto, tarefas agendadas para persistência, uso de ferramentas administrativas legítimas para movimentação lateral — está no topo, nas **TTPs**, que obrigam o adversário a mudar sua forma de trabalhar. Considerar a ameaça "coberta" só com IPs e *hashes* é um erro: justamente o comportamento mais estável do grupo fica sem detecção, e o uso de ferramentas legítimas nem sequer geraria *hash* malicioso.
 
 b) Precisão: 10 ÷ 250 = **4%**. Pelo ciclo de vida da detecção: analisar os falsos positivos para identificar padrões (por exemplo, tarefas criadas por ferramentas corporativas conhecidas), refinar a lógica com exceções restritas e contexto (criação remota, contas incomuns, binários em pastas temporárias), versionar a regra como código (por exemplo, em padrão Sigma), e **testar** antes de confiar: executar o comportamento em ambiente autorizado (emulação, por exemplo com testes atômicos) e verificar se a regra dispara, além de medir a nova precisão no mês seguinte. Hipótese de caça: "se o grupo usa credenciais válidas de acesso remoto, haverá *logons* de VPN de contas em horários, locais ou dispositivos incomuns, seguidos de *logons* remotos em servidores que essas contas não costumam acessar". A caça que confirmar o padrão deve gerar uma nova regra automatizada.
 

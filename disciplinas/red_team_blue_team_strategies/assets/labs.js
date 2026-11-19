@@ -4,7 +4,11 @@
    Labs.register(alvo, init)  laboratório próprio: init(el) roda na 1ª
                               entrada do slide e pode devolver {enter, leave}
    Labs.vscode(alvo, cfg)     editor VS Code com explorador, abas, realce de
-                              sintaxe, digitação ao vivo e terminal integrado
+                              sintaxe, digitação ao vivo e terminal integrado.
+                              Ocupa o slide inteiro (cfg.full: false desliga);
+                              o roteiro do laboratório abre com a tecla G.
+                              cfg.setup: [{cmd, out, file, venv}] vira o botão
+                              "Preparar o ambiente" (instalação antes de rodar)
    Labs.terminal(alvo, cfg)   terminal (linux | windows | green) roteirizado
    Labs.siem(alvo, cfg)       console de SIEM com buscas salvas, histograma
                               e tabela de resultados
@@ -110,7 +114,7 @@
   function outLine(line) {
     let t = line, c = '', d = null;
     if (line && typeof line === 'object') { t = line.t || ''; c = line.c || ''; d = line.d; }
-    else { const m = /^\[(ok|warn|err|info|mute|hi|red|blue|purple)\]\s?/.exec(t || ''); if (m) { c = m[1]; t = t.slice(m[0].length); } }
+    if (!c) { const m = /^\[(ok|warn|err|info|mute|hi|red|blue|purple)\]\s?/.exec(t || ''); if (m) { c = m[1]; t = t.slice(m[0].length); } }
     return { html: c ? '<span class="o-' + c + '">' + esc(t) + '</span>' : esc(t), d };
   }
   async function stream(target, lines, scroller, token, speed) {
@@ -136,8 +140,21 @@
         '<div class="vsc-explorer"><h4>EXPLORADOR</h4><div class="vsc-folder">▾ ' + esc(cfg.folder || 'lab') + '</div><div class="vsc-tree"></div></div>' +
         '<div class="vsc-main"><div class="vsc-tabs"></div><div class="vsc-crumbs"></div><div class="vsc-editor"><pre class="vsc-code"></pre></div>' +
         '<div class="vsc-panel"><div class="vsc-panel-tabs"><span>PROBLEMAS</span><span>SAÍDA</span><span class="on">TERMINAL</span><span class="sp"></span></div><div class="vsc-term"></div></div></div></div>' +
-        '<div class="vsc-status"><span>⎇ ' + esc(cfg.branch || 'main') + '</span><span>' + esc(cfg.status || '') + '</span><span class="sp"></span><span class="vsc-lang"></span><span>UTF-8</span><span>LF</span></div>';
+        '<div class="vsc-status"><span>⎇ ' + esc(cfg.branch || 'main') + '</span><span>' + esc(cfg.status || '') + '</span><span class="sp"></span><button type="button" class="vsc-guia" title="Mostrar ou esconder o roteiro do laboratório (tecla G)">☰ Roteiro</button><span class="vsc-lang"></span><span>UTF-8</span><span>LF</span></div>';
       el.appendChild(root);
+      // Tela cheia: o VS Code ocupa o slide inteiro; o roteiro (Objetivo, Faça, Observe, Conclusão)
+      // vira um painel sobreposto, aberto pelo botão "Roteiro" da barra de status ou pela tecla G.
+      const slideEl = el.closest('.slide');
+      const guia = root.querySelector('.vsc-guia');
+      if (slideEl && cfg.full !== false) {
+        slideEl.classList.add('vsc-full');
+        const alterna = () => slideEl.classList.toggle('show-side');
+        guia.addEventListener('click', alterna);
+        document.addEventListener('keydown', (e) => {
+          if ((e.key === 'g' || e.key === 'G') && slideEl.classList.contains('active') && !e.ctrlKey && !e.metaKey && !e.altKey && !/^(INPUT|TEXTAREA|SELECT)$/.test((e.target.tagName || ''))) alterna();
+        });
+        if (!slideEl.querySelector('.lab-side')) guia.remove();
+      } else guia.remove();
       const tree = root.querySelector('.vsc-tree'), tabs = root.querySelector('.vsc-tabs'), crumbs = root.querySelector('.vsc-crumbs');
       const codeEl = root.querySelector('.vsc-code'), editor = root.querySelector('.vsc-editor'), term = root.querySelector('.vsc-term');
       const ptabs = root.querySelector('.vsc-panel-tabs'), langEl = root.querySelector('.vsc-lang');
@@ -197,23 +214,52 @@
         }
         render(f); typing = null;
       }
-      const prompt = cfg.prompt || (cfg.shell === 'pwsh' ? 'PS C:\\lab\\' + (cfg.folder || 'lab') + '> ' : 'aluno@lab:~/' + (cfg.folder || 'lab') + '$ ');
+      let prompt = cfg.prompt || (cfg.shell === 'pwsh' ? 'PS C:\\lab\\' + (cfg.folder || 'lab') + '> ' : 'aluno@lab:~/' + (cfg.folder || 'lab') + '$ ');
       let running = null;
+      async function exec(cmd, out, speed) {
+        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+        for (const ch of cmd) { term.insertAdjacentText('beforeend', ch); await sleep(14); }
+        term.insertAdjacentText('beforeend', '\n'); term.scrollTop = term.scrollHeight; await sleep(250);
+        const lines = typeof out === 'function' ? out() : (out || []);
+        await stream(term, lines, term, running, speed);
+      }
+      const travar = (v) => ptabs.querySelectorAll('.lab-btn').forEach((b) => (b.disabled = v));
       async function run(k) {
         const r = cfg.run[k]; if (!r || running) return;
         running = { cancel: false };
-        ptabs.querySelectorAll('.lab-btn').forEach((b) => (b.disabled = true));
+        travar(true);
         if (r.file) open(r.file);
         if (r.clear !== false) term.innerHTML = '';
+        await exec(r.cmd, r.out, r.speed);
         term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
-        for (const ch of r.cmd) { term.insertAdjacentText('beforeend', ch); await sleep(14); }
-        term.insertAdjacentText('beforeend', '\n'); await sleep(250);
-        const lines = typeof r.out === 'function' ? r.out() : (r.out || []);
-        await stream(term, lines, term, running, r.speed);
-        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
-        ptabs.querySelectorAll('.lab-btn').forEach((b) => (b.disabled = false));
+        travar(false);
         running = null;
         cfg.onRun && cfg.onRun(k, api);
+      }
+      // Preparação do ambiente: cfg.setup = [{ cmd, out, speed, file }], executados em sequência no
+      // mesmo terminal (versão do interpretador, ambiente virtual, instalação de pacotes e programas).
+      let pronto = false, bSetup = null;
+      async function setup() {
+        if (!cfg.setup || running) return;
+        running = { cancel: false };
+        travar(true);
+        term.innerHTML = '';
+        for (const st of cfg.setup) {
+          if (st.file) open(st.file);
+          await exec(st.cmd, st.out, st.speed);
+          if (st.venv) prompt = '(' + (st.venv === true ? '.venv' : st.venv) + ') ' + prompt;   // ambiente virtual ativado
+          if (st.prompt) prompt = st.prompt;
+          await sleep(350);
+        }
+        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+        term.scrollTop = term.scrollHeight;
+        travar(false);
+        running = null; pronto = true;
+        if (bSetup) { bSetup.classList.add('feito'); bSetup.textContent = '✓ ' + (cfg.setupLabel || 'Ambiente pronto'); }
+      }
+      if (cfg.setup && cfg.setup.length) {
+        bSetup = h('button', 'lab-btn setup', '⬇ ' + esc(cfg.setupLabel || 'Preparar o ambiente'));
+        bSetup.addEventListener('click', setup); ptabs.appendChild(bSetup);
       }
       (cfg.run || []).forEach((r, k) => {
         const b = h('button', 'lab-btn' + (r.kind ? ' ' + r.kind : ''), '▶ ' + esc(r.label || r.cmd));
@@ -226,7 +272,7 @@
       open(cfg.open || (files[0] && files[0].path));
       let first = true;
       const api = {
-        open, run, term, setCode(path, code) { const f = files.find((x) => x.path === path); if (f) { f.code = code; if (current === f) render(f); } },
+        open, run, setup, term, get pronto() { return pronto; }, setCode(path, code) { const f = files.find((x) => x.path === path); if (f) { f.code = code; if (current === f) render(f); } },
         enter() { if (first && cfg.typeOnEnter && current) typeOut(current); first = false; },
         leave() { if (typing) typing.cancel = true; }
       };
@@ -245,7 +291,7 @@
       el.appendChild(root);
       const body = root.querySelector('.term-body'), note = root.querySelector('.note');
       const [bNext, bAll, bReset] = root.querySelectorAll('.term-ctrl button');
-      const prompt = cfg.prompt || (cfg.theme === 'windows' ? 'PS C:\\Users\\analista> ' : 'analista@lab:~$ ');
+      let prompt = cfg.prompt || (cfg.theme === 'windows' ? 'PS C:\\Users\\analista> ' : 'analista@lab:~$ ');
       let k = 0, busy = false, tok = { cancel: false };
       function reset() {
         tok.cancel = true; tok = { cancel: false }; k = 0; busy = false;

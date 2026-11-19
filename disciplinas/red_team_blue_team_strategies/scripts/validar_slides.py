@@ -61,6 +61,20 @@ def check(k: int) -> list[str]:
         p.append(f"{rel}: {len(calls)} laboratórios (mínimo 4)")
     if "vscode" not in kinds:
         p.append(f"{rel}: nenhum laboratório VS Code")
+    # Cada VS Code mostra a preparação do ambiente (setup) antes de rodar, e o deck traz o slide "Antes do código".
+    for bloco in re.split(r"(?=Labs\.vscode\(\s*')", t)[1:]:
+        alvo = re.match(r"Labs\.vscode\(\s*'#([\w-]+)'", bloco).group(1)
+        fim = re.search(r"\n\}\);", bloco)
+        if not re.search(r"\bsetup:\s*\[", bloco[: fim.start() if fim else len(bloco)]):
+            p.append(f"{rel}: VS Code #{alvo} sem a preparação do ambiente (setup)")
+    if "vscode" in kinds and "Antes do código" not in t:
+        p.append(f"{rel}: falta o slide 'Antes do código' (onde achar e como instalar) antes do VS Code")
+    # Os comentários <!-- N. título --> acompanham o número real do slide.
+    for n, m in enumerate(re.finditer(r'(?:<!--\s*(.*?)\s*-->\s*)?<section class="slide[ "]', t, re.S), 1):
+        c = m.group(1) or ""
+        if not re.match(rf"{n}\.\s", c):
+            p.append(f"{rel}: slide {n} sem comentário numerado '<!-- {n}. ... -->' (achei: '{c[:30]}')")
+            break
     if not kinds & {"terminal", "siem", "browser", "register"}:
         p.append(f"{rel}: nenhuma simulação de programa (terminal, SIEM, navegador ou laboratório próprio)")
     if "plataforma" not in kinds:

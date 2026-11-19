@@ -269,7 +269,28 @@
     </div>
   </section>
 
-  <!-- 13. LAB VS Code -->
+  <!-- 13. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>priorizar.py</code> e o <code>fila.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
+            <tr><td><strong><code>csv</code></strong></td><td>Ler o <code>achados.csv</code>; o resto do código é Python puro</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> baixe o instalador só do <em>site</em> do projeto e leia o endereço letra por letra antes de clicar. Quando o projeto publica o <em>hash</em> SHA-256 do arquivo, compare com o resultado de <code>sha256sum</code> no arquivo baixado. Na extensão, confira o editor "Microsoft" com o selo de verificado e o número de instalações. Todo programa instalado entra no inventário e passa a precisar de correções, como qualquer ativo desta aula.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -278,7 +299,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Ordenar os sete achados da Tatame por risco.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Priorizar</em>.<br>2. Clique em <em>Calcular filas</em>.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Clique em <em>Priorizar</em>.<br>3. Clique em <em>Calcular filas</em>.</div>
             <div class="rl obs"><b>Observe</b>Pelo CVSS, A vem primeiro. Pelo risco, B (<code>hml-gestao</code>) lidera. A fila crítica leva 0,4 semana; a de CVSS, 3,2.</div>
             <div class="rl conc"><b>Conclusão</b>A fórmula de risco encurta a fila sem esquecer o que importa.</div>
           </div>
@@ -288,7 +309,7 @@
     </div>
   </section>
 
-  <!-- 14. Rastro -->
+  <!-- 15. Rastro -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -305,7 +326,7 @@
     </div>
   </section>
 
-  <!-- 15. LAB SIEM -->
+  <!-- 16. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -325,7 +346,7 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
+  <!-- 17. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -346,7 +367,7 @@
     </div>
   </section>
 
-  <!-- 17. LAB console de gestão -->
+  <!-- 18. LAB console de gestão -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -365,7 +386,7 @@
     </div>
   </section>
 
-  <!-- 18. PLATAFORMA REDE TATAME -->
+  <!-- 19. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -384,7 +405,7 @@
     </div>
   </section>
 
-  <!-- 19. Log4Shell -->
+  <!-- 20. Log4Shell -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -402,7 +423,7 @@
     </div>
   </section>
 
-  <!-- 20. De volta ao problema -->
+  <!-- 21. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -418,7 +439,7 @@
     </div>
   </section>
 
-  <!-- 21. Pontos-chave -->
+  <!-- 22. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -435,7 +456,7 @@
     </div>
   </section>
 
-  <!-- 22. Referências -->
+  <!-- 23. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -451,7 +472,7 @@
     </div>
   </section>
 
-  <!-- 23. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -489,7 +510,7 @@ const br = (v, d) => v.toFixed(d).replace('.', ',');
 Labs.miniMapa('#mapa-problema', { destaque: ['waf', 'vpn', 'app', 'gw', 'ad', 'arq', 'erp'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
   legenda: 'Onde a aula acontece: tudo o que a varredura alcançou, da borda aos servidores da sede. Em vermelho, a <code>hml-gestao</code>, o achado B do exemplo.' });
 
-/* ---------- 6. Fluxo: etapas ---------- */
+/* ---------- 5. Fluxo: etapas ---------- */
 Labs.flow('#lab-flow', {
   w: 1100, h: 430,
   nodes: [
@@ -521,7 +542,7 @@ Labs.flow('#lab-flow', {
   ]
 });
 
-/* ---------- 7. Terminal ---------- */
+/* ---------- 6. Terminal ---------- */
 Labs.terminal('#lab-term', {
   title: 'red@lab: ~/tatame-tat2611', prompt: 'red@lab:~/tatame-tat2611$ ',
   steps: [
@@ -560,7 +581,7 @@ Labs.terminal('#lab-term', {
   done: 'Roteiro concluído: 7 hosts, 2 compartilhamentos expostos, 1.200 achados, 1 falso positivo descartado.'
 });
 
-/* ---------- 11. Navegador: CVE-2021-44228 ---------- */
+/* ---------- 10. Navegador: CVE-2021-44228 ---------- */
 (function () {
   const nav = (k) => '<div class="cv-nav">' + ['Registro e CVSS', 'EPSS', 'KEV'].map((t, i) => '<button data-p="' + i + '"' + (i === k ? ' class="on"' : '') + '>' + t + '</button>').join('') + '</div>';
   const V = [
@@ -597,7 +618,7 @@ Labs.terminal('#lab-term', {
   });
 })();
 
-/* ---------- 12. Cena 3D: cubo de risco ---------- */
+/* ---------- 11. Cena 3D: cubo de risco ---------- */
 Labs.scene3d('#lab-3d', (c) => {
   const { THREE, root } = c;
   const S = 6; // aresta do cubo
@@ -641,6 +662,16 @@ Labs.scene3d('#lab-3d', (c) => {
 /* ---------- 14. VS Code: priorizar ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'gestao-vulns-tatame', team: 'blue', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      '[info] Só o pip: os dois scripts usam apenas a biblioteca padrão (csv).' ] }
+  ],
   files: [
     { path: 'priorizar.py', hl: [6, 7, 8, 10, 11, 12, 14, 15, 16], code: String.raw`"""Prioriza vulnerabilidades por risco: CVSS x probabilidade x exposição x criticidade."""
 import csv

@@ -127,7 +127,28 @@
     </div>
   </section>
 
-  <!-- 6. LAB VS Code: média x mediana -->
+  <!-- 6. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é lido e executado</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>metricas.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td>Módulo <strong>venv</strong></td><td>Cria o ambiente virtual <code>.venv</code>, separado do Python do sistema</td><td>Biblioteca padrão: <code>docs.python.org/3/library/venv.html</code></td><td><code>python3 -m venv .venv</code></td></tr>
+            <tr><td>Módulos <strong>csv</strong>, <strong>datetime</strong> e <strong>statistics</strong></td><td>Leem o CSV, subtraem horários e calculam média e mediana</td><td>Biblioteca padrão: <code>docs.python.org/3/library</code></td><td>Nada a instalar: vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> antes de qualquer <code>pip install</code>, procure o nome do módulo em <code>docs.python.org/3/library</code>. Se ele está na biblioteca padrão, não há o que instalar. O cuidado importa: existe no PyPI um pacote chamado <code>statistics</code>, um porte antigo para Python 2, com última versão de 2017, que não é o módulo oficial. Instalar por reflexo traria para a máquina do SOC um código de terceiros sem necessidade.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB VS Code: média x mediana -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -136,7 +157,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b><p>Medir o tempo de detecção e de resposta sem ser enganado por um caso extremo.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Abra <code>marcos.yaml</code>: o que conta como início, detecção e contenção.</p><p>2. Rode <code>metricas.py</code> sobre os dez incidentes do trimestre.</p></div>
+            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Abra <code>marcos.yaml</code>: o que conta como início, detecção e contenção.</p><p>3. Rode <code>metricas.py</code> sobre os dez incidentes do trimestre.</p></div>
             <div class="rl obs"><b>Observe</b><p>O MTTR médio é 217,8 h; a mediana é 2 h. O INC-07, esquecido por 90 dias, puxa a média.</p></div>
             <div class="rl conc"><b>Conclusão</b><p>Reporte média e mediana, e trate o caso extremo à parte.</p></div>
           </div>
@@ -146,7 +167,7 @@
     </div>
   </section>
 
-  <!-- 7. Qualidade -->
+  <!-- 8. Qualidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -168,7 +189,7 @@
     </div>
   </section>
 
-  <!-- 8. Cobertura ATT&CK -->
+  <!-- 9. Cobertura ATT&CK -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -186,7 +207,7 @@
     </div>
   </section>
 
-  <!-- 9. LAB heatmap -->
+  <!-- 10. LAB heatmap -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -205,7 +226,7 @@
     </div>
   </section>
 
-  <!-- 10. Maturidade -->
+  <!-- 11. Maturidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -222,7 +243,7 @@
     </div>
   </section>
 
-  <!-- 11. LAB 3D escada -->
+  <!-- 12. LAB 3D escada -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -241,7 +262,7 @@
     </div>
   </section>
 
-  <!-- 12. Do número à decisão -->
+  <!-- 13. Do número à decisão -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -263,7 +284,7 @@
     </div>
   </section>
 
-  <!-- 13. Exemplo numérico -->
+  <!-- 14. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -285,7 +306,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB SIEM -->
+  <!-- 15. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -304,7 +325,7 @@
     </div>
   </section>
 
-  <!-- 14b. PLATAFORMA REDE TATAME -->
+  <!-- 16. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -323,7 +344,7 @@
     </div>
   </section>
 
-  <!-- 14c. De volta ao problema -->
+  <!-- 17. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -339,7 +360,7 @@
     </div>
   </section>
 
-  <!-- 15. Pontos-chave -->
+  <!-- 18. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -356,7 +377,7 @@
     </div>
   </section>
 
-  <!-- 16. Referências -->
+  <!-- 19. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -372,7 +393,7 @@
     </div>
   </section>
 
-  <!-- 17. Encerramento -->
+  <!-- 20. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -426,6 +447,16 @@ Labs.register('#lab-vaidade', (el) => {
 /* ---------- 6. VS Code: média x mediana ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'metricas-soc', team: 'blue', status: 'Python 3.12', open: 'metricas.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2' ] },
+    { cmd: 'python -c "import sys; print(\'statistics\' in sys.stdlib_module_names)"', out: ['[ok] True'] }
+  ],
   files: [
     { path: 'marcos.yaml', code:
 `# Definição dos marcos: todos os analistas registram do mesmo jeito
@@ -496,7 +527,7 @@ print(f"Maior tempo de contenção: {pior:.0f} h ({pior / 24:.0f} dias)")`}
 /* ---------- 9. Mapa de calor ATT&CK ---------- */
 Labs.register('#lab-heat', (el) => {
   const COLS = [
-    ['Acesso inicial', [['T1566.001', 'Anexo de spear-phishing', 1, 3, 4, '2 de 2 procedimentos'], ['T1566.002', 'Link de spear-phishing', 1, 3, 3, '1 de 2 procedimentos'], ['T1078', 'Contas válidas', 0, 3], ['T1133', 'Serviços remotos externos', 0, 2]]],
+    ['Acesso inicial', [['T1566.001', 'Anexo de spear-phishing', 0, 3], ['T1566.002', 'Link de spear-phishing', 1, 3, 3, '1 de 2 procedimentos'], ['T1078', 'Contas válidas', 1, 3, 4, '1 de 2 procedimentos'], ['T1133', 'Serviços remotos externos', 0, 2]]],
     ['Execução', [['T1059.001', 'PowerShell', 1, 4, 3, '2 de 3 procedimentos'], ['T1204.002', 'Arquivo malicioso', 0, 3]]],
     ['Persis&shy;tência', [['T1053.005', 'Tarefa agendada', 1, 4, 4, '2 de 2 procedimentos'], ['T1547.001', 'Chaves Run do registro', 0, 3]]],
     ['Credenciais', [['T1110.003', 'Pulverização de senhas', 1, 3, 3, '1 de 1 procedimento']]],

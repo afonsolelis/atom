@@ -91,7 +91,7 @@
       <div class="problema">
         <div class="historia">
           <p>Marina Prado é a CISO (diretora de segurança da informação) da Rede Tatame. Às 03:00 de sexta, 13/11, o EDR alerta: o SRV-ERP-01 e mais quatro servidores executam o <code>vssadmin</code> para apagar as cópias de sombra.</p>
-          <p>A caça da Aula 11 já tinha achado o ConectaJá, instalado às 02:22 no SRV-ERP-01, que guarda os responsáveis financeiros de alunos, inclusive menores.</p>
+          <p>A caça da Aula 11 achou o ConectaJá, instalado às 02:22 no SRV-ERP-01, que guarda os responsáveis financeiros de alunos, inclusive menores.</p>
           <p>O que está em jogo: apagar as cópias de sombra antecede a criptografia num <em>ransomware</em>, e a ANPD (Autoridade Nacional de Proteção de Dados) precisa ser comunicada em três dias úteis.</p>
           <div class="pergunta">Como a Rede Tatame conduz este incidente: conter sem destruir evidências, recuperar o ERP e comunicar a ANPD no prazo?</div>
           <div class="papeis"><span><b>Coordena</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>TI da sede</b> Caio Mendes</span><span><b>Conta afetada</b> Carla Dias</span></div>
@@ -194,7 +194,28 @@
     </div>
   </section>
 
-  <!-- 9. LAB VS Code: playbook -->
+  <!-- 9. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensões Python e YAML</td><td>Editar o <em>playbook</em> e rodar as duas ferramentas no terminal</td><td><code>code.visualstudio.com</code>; aba Extensões: <code>ms-python.python</code> e <code>redhat.vscode-yaml</code></td><td>Instalador do site; <code>code --install-extension redhat.vscode-yaml</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador do validador e do cálculo de prazo</td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o <code>ransomware.yaml</code> no validador (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code>; documentação em <code>pyyaml.org</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>sys</strong> e <strong>datetime</strong></td><td>Argumentos da linha de comando e contas com datas</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o nome usado no <code>import</code> nem sempre é o nome do pacote. O código escreve <code>import yaml</code>, e o pacote se chama <code>PyYAML</code>; no PyPI não existe pacote <code>yaml</code>, e <code>pyaml</code> é outro projeto. Confirme o nome na documentação oficial e fixe a versão com <code>==</code> no <code>requirements.txt</code>, para que a ferramenta usada durante um incidente seja a mesma que foi testada antes dele.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB VS Code: playbook -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -203,7 +224,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Ter, antes da crise, quem faz o quê e em que ordem.</div>
-            <div class="rl"><b>Faça</b>1. Leia <code>ransomware.yaml</code>.<br>2. Rode o validador.<br>3. Rode o prazo para 13/11 e para 17/11.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Leia <code>ransomware.yaml</code>.<br>3. Rode o validador.<br>4. Rode o prazo para 13/11 e para 17/11.</div>
             <div class="rl obs"><b>Observe</b>Só o isolamento é automático, executado pela plataforma SOAR (orquestração e resposta automatizada). Preservar vem antes de erradicar.</div>
             <div class="rl conc"><b>Conclusão</b>Para 17/11, o feriado de 20/11 empurra o prazo para a segunda-feira.</div>
           </div>
@@ -213,7 +234,7 @@
     </div>
   </section>
 
-  <!-- 10. LAB tabletop -->
+  <!-- 11. LAB tabletop -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -232,7 +253,7 @@
     </div>
   </section>
 
-  <!-- 11. Contenção sem destruir evidências -->
+  <!-- 12. Contenção sem destruir evidências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -250,7 +271,7 @@
     </div>
   </section>
 
-  <!-- 11b. PLATAFORMA REDE TATAME: SOC durante o ransomware -->
+  <!-- 13. PLATAFORMA REDE TATAME: SOC durante o ransomware -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -269,7 +290,7 @@
     </div>
   </section>
 
-  <!-- 12. Erradicação e recuperação -->
+  <!-- 14. Erradicação e recuperação -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -285,7 +306,7 @@
     </div>
   </section>
 
-  <!-- 13. LAB terminal: evidências -->
+  <!-- 15. LAB terminal: evidências -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -304,7 +325,7 @@
     </div>
   </section>
 
-  <!-- 14. Comunicação e LGPD -->
+  <!-- 16. Comunicação e LGPD -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -321,7 +342,7 @@
     </div>
   </section>
 
-  <!-- 15. LAB calendário -->
+  <!-- 17. LAB calendário -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -340,7 +361,7 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
+  <!-- 18. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -361,7 +382,7 @@
     </div>
   </section>
 
-  <!-- 17. LAB priorização -->
+  <!-- 19. LAB priorização -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -381,7 +402,7 @@
     </div>
   </section>
 
-  <!-- 18. Lições aprendidas -->
+  <!-- 20. Lições aprendidas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -399,7 +420,7 @@
     </div>
   </section>
 
-  <!-- 19. Próxima unidade -->
+  <!-- 21. Próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -417,7 +438,7 @@
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 22. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -433,7 +454,7 @@
     </div>
   </section>
 
-  <!-- 20. Pontos-chave -->
+  <!-- 23. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -451,7 +472,7 @@
     </div>
   </section>
 
-  <!-- 21. Referências -->
+  <!-- 24. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -468,7 +489,7 @@
     </div>
   </section>
 
-  <!-- 22. Encerramento -->
+  <!-- 25. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -524,7 +545,26 @@ Labs.flow('#lab-flow', {
 /* ---------- 9. VS Code: playbook, validador e prazo ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'resposta-incidentes', team: 'blue', status: 'Python 3.12', open: 'playbooks/ransomware.yaml',
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      'PyYAML  6.0.3' ] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
+PyYAML==6.0.3`},
     { path: 'playbooks/ransomware.yaml', hl: [17, 18, 19, 23, 24, 29], code:
 `playbook: ransomware-v3
 gatilho:

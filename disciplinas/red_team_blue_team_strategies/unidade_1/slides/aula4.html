@@ -214,7 +214,7 @@
     </div>
   </section>
 
-  <!-- 10b. PLATAFORMA REDE TATAME: catraca, telemetria e SOC -->
+  <!-- 11. PLATAFORMA REDE TATAME: catraca, telemetria e SOC -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -233,7 +233,7 @@
     </div>
   </section>
 
-  <!-- 11. MTTD e MTTR -->
+  <!-- 12. MTTD e MTTR -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -250,7 +250,7 @@
     </div>
   </section>
 
-  <!-- 12. Pessoas e processos -->
+  <!-- 13. Pessoas e processos -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -269,7 +269,28 @@
     </div>
   </section>
 
-  <!-- 13. LAB VS Code -->
+  <!-- 14. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.88em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é escrito e executado, com realce e depuração</td><td><code>code.visualstudio.com</code> e a aba Extensões do editor</td><td>Instalador do site e <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>metricas_soc.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Extensão YAML</strong> (Red Hat)</td><td>Realce e validação do <em>playbook</em> <code>conta_comprometida.yaml</code></td><td>Aba Extensões do VS Code, editor "Red Hat"</td><td><code>code --install-extension redhat.vscode-yaml</code></td></tr>
+            <tr><td>Módulos <strong>csv</strong>, <strong>datetime</strong> e <strong>statistics</strong></td><td>Leem os incidentes e calculam média e mediana</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: já vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> na aba Extensões do VS Code, abra a página da extensão antes de instalar e olhe três coisas: o selo de editor verificado ao lado do nome (aqui, Red Hat, com o domínio <code>redhat.com</code>), o identificador exato (<code>redhat.vscode-yaml</code>) e o número de instalações. Uma extensão roda com as permissões do seu usuário. Em um SOC, instalar a cópia de nome parecido abre a porta que a equipe deveria vigiar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -278,7 +299,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Medir se o SOC está ficando mais rápido.</div>
-            <div class="rl"><b>Faça</b>1. Abra o <em>playbook</em> <code>conta_comprometida.yaml</code>: quem faz o quê e em quanto tempo.<br>2. Clique em "Executar metricas_soc.py".</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Abra o <em>playbook</em> <code>conta_comprometida.yaml</code>: quem faz o quê e em quanto tempo.<br>3. Clique em "Executar metricas_soc.py".</div>
             <div class="rl obs"><b>Observe</b>MTTD (tempo médio até detectar): média de 24,0 h e mediana de 5,8 h. MTTR (até conter): média de 4,1 h e mediana de 2,2 h.</div>
             <div class="rl conc"><b>Conclusão</b>Um único caso de 96 horas, o INC-36, puxa a média para cima.</div>
           </div>
@@ -288,7 +309,7 @@
     </div>
   </section>
 
-  <!-- 14. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -306,7 +327,7 @@
     </div>
   </section>
 
-  <!-- 15. LAB calculadora -->
+  <!-- 17. LAB calculadora -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -325,7 +346,7 @@
     </div>
   </section>
 
-  <!-- 16. Próxima unidade -->
+  <!-- 18. Próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -347,7 +368,7 @@
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 19. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -356,14 +377,14 @@
       <div class="resolvido">
         <div class="ev"><b>Seis funções</b>O NIST CSF organiza a defesa: Governar define responsáveis; Detectar e Responder dependem de Identificar e Proteger.</div>
         <div class="ev"><b>Camadas</b>Nenhuma camada basta sozinha. A catraca era uma camada cega até a fonte e a regra R10 serem ligadas.</div>
-        <div class="ev"><b>SOC em níveis</b>N1, N2 e N3 levaram o caso de Carla Dias do alerta à contenção em 81 minutos.</div>
+        <div class="ev"><b>SOC em níveis</b>N1, N2 e N3 levaram o caso de Carla Dias do primeiro sinal à contenção em 81 minutos.</div>
         <div class="ev"><b>Medir o tempo</b>MTTD mediano de 5,8 h. Passar de 258 para 10 dias evita cerca de 96% das fichas expostas.</div>
         <div class="resposta">Resposta: com camadas que se cobrem, telemetria em cada uma delas e um SOC em níveis que segue <em>playbooks</em> e mede MTTD e MTTR. É assim que a Rede Tatame troca meses por horas.</div>
       </div>
     </div>
   </section>
 
-  <!-- 17. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -380,7 +401,7 @@
     </div>
   </section>
 
-  <!-- 18. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -394,7 +415,7 @@
     </div>
   </section>
 
-  <!-- 19. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -605,6 +626,20 @@ Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'catraca' });
 /* ---------- 14. VS Code: playbook e métricas ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'soc-rede-tatame', team: 'blue', status: 'Python 3.12', open: 'playbooks/conta_comprometida.yaml', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'code --install-extension redhat.vscode-yaml', out: [
+      'Installing extensions...',
+      "Installing extension 'redhat.vscode-yaml'...",
+      { t: "Extension 'redhat.vscode-yaml' v2.0.0 was successfully installed.", c: 'ok', d: 400 } ] },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      '[mute] Só o pip: este laboratório usa apenas a biblioteca padrão do Python.' ] }
+  ],
   files: [
     { path: 'playbooks/conta_comprometida.yaml', hl: [17, 18, 19, 20, 25, 26, 27], code:
 `# Playbook PB-07 · conta comprometida · SOC Rede Tatame (fictícia)

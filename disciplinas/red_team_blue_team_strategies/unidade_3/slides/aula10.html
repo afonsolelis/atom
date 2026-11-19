@@ -199,7 +199,29 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 8. LAB VS Code: Sigma + pytest -->
+  <!-- 8. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.84em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensões Python e YAML</td><td>Editar a regra <code>.yml</code> e os testes, com terminal integrado</td><td><code>code.visualstudio.com</code>; aba Extensões: <code>ms-python.python</code> e <code>redhat.vscode-yaml</code></td><td>Instalador do site; <code>code --install-extension redhat.vscode-yaml</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador dos testes e do comando <code>sigma</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>pytest</strong> e <strong>PyYAML</strong></td><td>Rodar os testes; ler a regra (o <code>import yaml</code>)</td><td><code>pypi.org/project/pytest</code> e <code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>sigma-cli</strong>, com <em>backends</em> Splunk e Kusto e <em>pipeline</em> Sysmon</td><td>O comando <code>sigma convert</code>, que gera SPL e KQL</td><td><code>sigmahq.io</code> e <code>github.com/SigmaHQ/sigma-cli</code></td><td>O mesmo <code>requirements.txt</code></td></tr>
+            <tr><td><strong>sigma_lite.py</strong></td><td>Avaliador mínimo de regras, usado só pelos testes</td><td>Pasta <code>tests/</code> do próprio projeto</td><td>Não se instala: é um módulo local</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> parta do <em>site</em> do projeto (<code>sigmahq.io</code>) e siga o <em>link</em> até o PyPI, em vez de adivinhar o nome. O pacote do comando <code>sigma</code> chama-se <code>sigma-cli</code>; o pacote <code>sigma</code> do PyPI é outro projeto, de métodos numéricos. Depois de instalar, <code>sigma plugin list</code> mostra os <em>backends</em> e <em>pipelines</em> oficiais. Um <code>import</code> que não está no PyPI nem na biblioteca padrão, como <code>sigma_lite</code>, é arquivo do próprio repositório.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LAB VS Code: Sigma + pytest -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -208,7 +230,7 @@ level: high</pre>
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Escrever a regra das cópias de sombra como código, com testes.</div>
-            <div class="rl"><b>Faça</b>1. Abra a regra Sigma, formato aberto de regras de detecção.<br>2. Clique em <strong>Rodar testes</strong>.<br>3. Converta para SPL e KQL, linguagens de busca de dois SIEMs.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Abra a regra Sigma, formato aberto de regras de detecção.<br>3. Clique em <strong>Rodar testes</strong>.<br>4. Converta para SPL e KQL, linguagens de busca de dois SIEMs.</div>
             <div class="rl obs"><b>Observe</b>A regra precisa disparar nos eventos positivos e ficar quieta nos negativos: os 5 testes passam.</div>
             <div class="rl conc"><b>Conclusão</b>A mesma lógica roda em SIEMs diferentes, sem reescrever.</div>
           </div>
@@ -218,7 +240,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 9. Tipos de detecção -->
+  <!-- 10. Tipos de detecção -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -238,7 +260,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 10. Testar antes de confiar -->
+  <!-- 11. Testar antes de confiar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -256,7 +278,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 11. LAB terminal: Atomic Red Team -->
+  <!-- 12. LAB terminal: Atomic Red Team -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -275,7 +297,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 11b. PLATAFORMA REDE TATAME: regra R3 e abuso da API -->
+  <!-- 13. PLATAFORMA REDE TATAME: regra R3 e abuso da API -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -294,7 +316,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 12. EDR -->
+  <!-- 14. EDR -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -312,7 +334,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 13. LAB EDR console -->
+  <!-- 15. LAB EDR console -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -331,7 +353,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 14. LAB 3D: árvore de processos -->
+  <!-- 16. LAB 3D: árvore de processos -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -350,7 +372,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 17. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -368,7 +390,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 16. LAB calculadora de precisão -->
+  <!-- 18. LAB calculadora de precisão -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -388,7 +410,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 19. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -404,7 +426,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 17. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -422,7 +444,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 18. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -437,7 +459,7 @@ level: high</pre>
     </div>
   </section>
 
-  <!-- 19. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -492,7 +514,29 @@ Labs.flow('#lab-flow', {
 /* ---------- 8. VS Code: Sigma, testes e conversão ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'deteccoes', team: 'blue', status: 'Python 3.12 · pySigma', open: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', panelHeight: '40%',
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -q -r requirements.txt', file: 'requirements.txt', out: [] },
+    { cmd: 'pip list | grep -i -E "sigma|pytest"', out: [
+      'pySigma                 1.5.1',
+      'pySigma-backend-kusto   1.0.1',
+      'pysigma-backend-splunk  2.1.0',
+      'pysigma-pipeline-sysmon 2.0.0',
+      'pytest                  8.3.3',
+      'sigma-cli               3.1.0' ] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacotes de terceiros do laboratório, com versão fixada (o resto vem com o Python)
+PyYAML==6.0.3                    # lê as regras .yml (import yaml)
+pytest==8.3.3                    # roda os testes
+pluggy==1.5.0                    # dependência do pytest
+sigma-cli==3.1.0                 # comando sigma (instala também o pySigma 1.x)
+pysigma-backend-splunk==2.1.0    # alvo splunk (SPL)
+pysigma-backend-kusto==1.0.1     # alvo kusto (KQL) e pipeline microsoft_xdr; exige pySigma 1.x
+pysigma-pipeline-sysmon==2.0.0   # pipeline sysmon`},
     { path: 'rules/windows/process_creation/proc_creation_win_vssadmin_delete_shadows.yml', hl: [12, 13, 14, 15, 16, 17, 18], code:
 `title: Exclusão de cópias de sombra com vssadmin
 status: experimental
@@ -591,7 +635,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install pyyaml pytest sigma-cli pysigma-backend-splunk pysigma-backend-kusto
+      - run: pip install -r requirements.txt
       - run: sigma check rules/          # sintaxe e campos obrigatórios
       - run: pytest -q                   # positivos disparam, negativos não
       - run: sigma convert -t splunk -p sysmon rules/ > build/splunk.spl`}
@@ -599,7 +643,7 @@ jobs:
   run: [
     { label: 'Rodar testes', cmd: 'pytest -v', file: 'tests/test_vssadmin.py', out: [
       '============================= test session starts =============================',
-      'platform win32 -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0', 'rootdir: C:\\lab\\deteccoes', 'collected 5 items', '',
+      'platform linux -- Python 3.12.7, pytest-8.3.3, pluggy-1.5.0', 'rootdir: /home/aluno/deteccoes', 'collected 5 items', '',
       '[ok]tests/test_vssadmin.py::test_dispara_no_comportamento[atomic-T1490-1] PASSED   [ 20%]',
       '[ok]tests/test_vssadmin.py::test_dispara_no_comportamento[maiusculas] PASSED   [ 40%]',
       '[ok]tests/test_vssadmin.py::test_nao_dispara_em_uso_legitimo[listar-copias] PASSED   [ 60%]',

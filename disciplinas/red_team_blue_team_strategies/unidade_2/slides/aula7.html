@@ -272,7 +272,28 @@
     </div>
   </section>
 
-  <!-- 12. LAB VS Code -->
+  <!-- 12. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Roda o <code>metricas.py</code>, que só usa o <code>json</code> da biblioteca padrão</td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema; nenhum pacote extra</td></tr>
+            <tr><td><strong><code>psql</code></strong> (cliente do PostgreSQL)</td><td>Envia o <code>primeiro_reporte.sql</code> ao banco <code>simulacoes</code></td><td><code>postgresql.org/download</code> ou o repositório da distribuição</td><td><code>sudo apt install -y postgresql-client</code></td></tr>
+            <tr><td><strong>Banco <code>simulacoes</code></strong></td><td>Guarda os eventos das campanhas autorizadas</td><td>Servidor da plataforma de simulação da Tatame</td><td>Nada a instalar: o <code>psql</code> só se conecta a ele</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> programa de sistema se instala pelo repositório oficial da distribuição, cujos pacotes são assinados e conferidos pelo <code>apt</code>. Antes de instalar, <code>apt policy postgresql-client</code> mostra a versão e de qual repositório ela virá. Desconfie de tutorial que manda colar no terminal um comando com <code>sudo</code> baixado de um endereço qualquer: a pressa de quem copia é a mesma que as iscas desta aula exploram.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -282,7 +303,7 @@
           <p>Duas campanhas equivalentes, com três meses de intervalo. Entre elas, treinamentos curtos e um botão de reporte.</p>
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Comparar as duas campanhas com números.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>python metricas.py</em>.<br>2. Clique em <em>Consulta SQL</em>.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Clique em <em>python metricas.py</em>.<br>3. Clique em <em>Consulta SQL</em>.</div>
             <div class="rl obs"><b>Observe</b>Cliques caem de 18% para 9%. Reportes sobem de 12% para 30%. A consulta agrega por campanha e nunca mostra quem clicou.</div>
             <div class="rl conc"><b>Conclusão</b>A razão reporte/clique passou de 0,67 para 3,3.</div>
           </div>
@@ -292,7 +313,7 @@
     </div>
   </section>
 
-  <!-- 13. Rastro -->
+  <!-- 14. Rastro -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -322,7 +343,7 @@
     </div>
   </section>
 
-  <!-- 14. LAB SIEM -->
+  <!-- 15. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -342,7 +363,7 @@
     </div>
   </section>
 
-  <!-- 15. PLATAFORMA REDE TATAME -->
+  <!-- 16. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -361,7 +382,7 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
+  <!-- 17. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -400,7 +421,7 @@
     </div>
   </section>
 
-  <!-- 17. Pausa para reflexão -->
+  <!-- 18. Pausa para reflexão -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -418,7 +439,7 @@
     </div>
   </section>
 
-  <!-- 18. LAB planejador -->
+  <!-- 19. LAB planejador -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -437,7 +458,7 @@
     </div>
   </section>
 
-  <!-- 19. De volta ao problema -->
+  <!-- 20. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -453,7 +474,7 @@
     </div>
   </section>
 
-  <!-- 20. Pontos-chave -->
+  <!-- 21. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -470,7 +491,7 @@
     </div>
   </section>
 
-  <!-- 21. Referências -->
+  <!-- 22. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -486,7 +507,7 @@
     </div>
   </section>
 
-  <!-- 22. Encerramento -->
+  <!-- 23. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -613,9 +634,19 @@ Labs.flow('#lab-flow', {
   });
 })();
 
-/* ---------- 12. VS Code: métricas ---------- */
+/* ---------- 13. VS Code: métricas ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'metricas-phishing-tatame', team: 'purple', status: 'Python 3.12 · PostgreSQL', open: 'metricas.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'sudo apt install -y postgresql-client', out: [
+      'The following NEW packages will be installed:',
+      '  libpq5 postgresql-client postgresql-client-16 postgresql-client-common',
+      { t: 'Setting up postgresql-client-16 (16.15-0ubuntu0.24.04.1) ...', c: 'ok', d: 500 } ] },
+    { cmd: 'psql --version', out: ['psql (PostgreSQL) 16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)'] }
+  ],
   files: [
     { path: 'metricas.py', hl: [11, 12, 13, 17, 19], code: String.raw`"""Calcula as métricas que importam a partir do resultado agregado das campanhas."""
 import json
@@ -666,7 +697,7 @@ GROUP BY c.nome, c.enviada_em;` }
   ]
 });
 
-/* ---------- 14. SIEM: rastros da campanha ---------- */
+/* ---------- 15. SIEM: rastros da campanha ---------- */
 Labs.siem('#lab-siem', {
   product: 'SIEM · SOC Rede Tatame', time: 'Hoje, 08h50 – 10h30', lang: 'KQL', index: 'logs-email, logs-proxy, caixa-reportes, casos',
   searches: [
@@ -693,10 +724,10 @@ Labs.siem('#lab-siem', {
   ]
 });
 
-/* ---------- 15. Plataforma Rede Tatame: phishing e SOC ---------- */
+/* ---------- 16. Plataforma Rede Tatame: phishing e SOC ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
 
-/* ---------- 18. Planejador do caso do hospital ---------- */
+/* ---------- 19. Planejador do caso do hospital ---------- */
 Labs.register('#lab-plan', (el) => {
   const Q = [
     { k: 'tema', t: 'Pretexto', o: [

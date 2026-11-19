@@ -300,7 +300,7 @@
     </div>
   </section>
 
-  <!-- 14b. PLATAFORMA REDE TATAME: ransomware e cobertura -->
+  <!-- 15. PLATAFORMA REDE TATAME: ransomware e cobertura -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -319,7 +319,7 @@
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -337,7 +337,28 @@
     </div>
   </section>
 
-  <!-- 16. LAB VS Code -->
+  <!-- 17. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é escrito e executado, com realce e depuração</td><td><code>code.visualstudio.com</code> e a aba Extensões do editor</td><td>Instalador do site e <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>cobertura.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td>Módulos <strong>csv</strong> e <strong>collections</strong></td><td>Leem o <code>tecnicas_tatame.csv</code> e contam as técnicas por situação</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: já vêm com o Python</td></tr>
+            <tr><td><strong>Ambiente virtual</strong> (<code>venv</code>)</td><td>Pasta <code>.venv</code> que isola os pacotes deste projeto</td><td><code>docs.python.org/3/library/venv.html</code></td><td><code>python3 -m venv .venv</code></td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> antes de rodar <code>pip install</code>, procure o nome do módulo importado na lista da biblioteca padrão (<code>docs.python.org/3/library</code>). Se ele estiver lá, como <code>csv</code> e <code>collections</code>, não há o que instalar. Só o que não estiver nessa lista é buscado no PyPI. Instalar "por garantia" um pacote de nome parecido com o de um módulo é uma forma conhecida de trazer código malicioso para a máquina.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -346,7 +367,7 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Decidir por onde começar as regras novas.</div>
-            <div class="rl"><b>Faça</b>1. Abra <code>tecnicas_tatame.csv</code>: 40 técnicas com a situação de cada uma.<br>2. Clique em "Executar cobertura.py".</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Abra <code>tecnicas_tatame.csv</code>: 40 técnicas com a situação de cada uma.<br>3. Clique em "Executar cobertura.py".</div>
             <div class="rl obs"><b>Observe</b>Cobertura atual de 18 ÷ 40 = 45%. Com regras para as 10 técnicas que já têm telemetria, 28 ÷ 40 = 70%.</div>
             <div class="rl conc"><b>Conclusão</b>Criar regra onde o registro já existe é o caminho mais barato.</div>
           </div>
@@ -356,7 +377,7 @@
     </div>
   </section>
 
-  <!-- De volta ao problema -->
+  <!-- 19. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -372,7 +393,7 @@
     </div>
   </section>
 
-  <!-- 17. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -389,7 +410,7 @@
     </div>
   </section>
 
-  <!-- 18. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -403,7 +424,7 @@
     </div>
   </section>
 
-  <!-- 19. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -508,7 +529,7 @@ Labs.flow('#lab-flow', {
     { title: '1 · Reconhecimento', text: 'O atacante lista nomes e cargos do financeiro da sede em redes profissionais e em www.tatame.com.br. Defesa possível: reduzir a exposição pública e monitorar domínios parecidos com tatame.com.br.', on: ['rec'], dim: true },
     { title: '2 · Armamento', text: 'Prepara uma planilha com macro, longe da vista da vítima. Defesa possível: há pouca visibilidade direta; a inteligência de ameaças sobre campanhas do setor ajuda a antecipar.', on: ['arm'], links: [['rec', 'arm', 'red']], dim: true },
     { title: '3 · Entrega', text: 'O e-mail "Repasse das academias" chega a 12 pessoas do financeiro. Defesa possível: filtro de e-mail com sandbox de anexos e atenção a remetentes recém-criados.', on: ['ent', 'def'], links: [['arm', 'ent', 'red'], ['def', 'ent', 'blue']], dim: true },
-    { title: '4 · Exploração', text: 'Outra analista do financeiro (não é a Carla Dias) abre a planilha no notebook dela, o NB-FIN-027 e habilita o conteúdo. Defesa possível: política que bloqueia macros em arquivos vindos da internet; o EDR alerta quando o Excel cria outros processos.', on: ['exp'], links: [['ent', 'exp', 'red']], dim: true },
+    { title: '4 · Exploração', text: 'Outra analista do financeiro (não é a Carla Dias) abre a planilha no notebook dela, o NB-FIN-027, e habilita o conteúdo. Defesa possível: política que bloqueia macros em arquivos vindos da internet; o EDR alerta quando o Excel cria outros processos.', on: ['exp'], links: [['ent', 'exp', 'red']], dim: true },
     { title: '5 · Instalação', text: 'O programa cria uma tarefa agendada para sobreviver ao reinício. Defesa possível: EDR e SIEM vigiam tarefas novas criadas por usuários comuns.', on: ['ins'], links: [['exp', 'ins', 'red']], dim: true },
     { title: '6 · Comando e controle', text: 'A máquina passa a contatar um servidor externo em intervalos regulares. Defesa possível: DNS e proxy revelam a comunicação periódica com um domínio registrado há poucos dias.', on: ['c2', 'def'], links: [['ins', 'c2', 'red'], ['def', 'c2', 'blue']], dim: true },
     { title: '7 · Ações sobre os objetivos', text: 'Cópia das exportações de fichas de alunos do SRV-ARQ-01, inclusive de menores, e criptografia dos servidores da sede. Defesa possível: backups offline e alerta de muitos arquivos renomeados em pouco tempo (T1486).', on: ['obj', 'def'], bad: ['obj'], links: [['c2', 'obj', 'red'], ['def', 'obj', 'blue']], dim: true },
@@ -657,6 +678,17 @@ Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'ransomware' });
 /* ---------- 17. VS Code: cobertura de detecção ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'cobertura-attack', team: 'blue', status: 'Python 3.12', open: 'cobertura.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'python -c "import csv, collections; print(csv.__name__, collections.__name__)"', out: ['[ok] csv collections'] },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      '[mute] Só o pip: este laboratório usa apenas a biblioteca padrão do Python.' ] }
+  ],
   files: [
     { path: 'cobertura.py', hl: [14, 15], code:
 `"""Mede a cobertura de detecção das técnicas ATT&CK priorizadas para a Rede Tatame."""
@@ -694,8 +726,8 @@ T1078,Contas válidas,Acesso inicial,regra
 T1190,Exploração de aplicação exposta,Acesso inicial,regra
 T1133,Serviços remotos externos,Acesso inicial,regra
 T1059.001,PowerShell,Execução,regra
-T1204.002,Execução de arquivo malicioso,Execução,regra
-T1053.005,Tarefa agendada,Persistência,regra
+T1204.002,Execução de arquivo malicioso,Execução,telemetria
+T1053.005,Tarefa agendada,Persistência,telemetria
 T1547.001,Chaves Run do registro,Persistência,regra
 T1136.001,Criação de conta local,Persistência,regra
 T1098,Manipulação de conta,Persistência,regra
@@ -710,12 +742,12 @@ T1555.003,Credenciais de navegadores,Acesso a credenciais,nenhuma
 T1087.002,Descoberta de contas de domínio,Descoberta,telemetria
 T1018,Descoberta de sistemas remotos,Descoberta,telemetria
 T1046,Descoberta de serviços de rede,Descoberta,telemetria
-T1021.001,RDP,Movimentação lateral,regra
-T1021.002,Compartilhamentos administrativos,Movimentação lateral,telemetria
+T1021.001,RDP,Movimentação lateral,telemetria
+T1021.002,Compartilhamentos administrativos,Movimentação lateral,regra
 T1039,Dados de compartilhamento de rede,Coleta,telemetria
 T1560.001,Compactação com utilitário,Coleta,telemetria
-T1071.001,Protocolos web,Comando e controle,telemetria
-T1105,Transferência de ferramentas,Comando e controle,telemetria
+T1071.001,Protocolos web,Comando e controle,regra
+T1105,Transferência de ferramentas,Comando e controle,regra
 T1572,Tunelamento de protocolo,Comando e controle,nenhuma
 T1567.002,Exfiltração para nuvem,Exfiltração,telemetria
 T1048,Exfiltração por protocolo alternativo,Exfiltração,nenhuma
@@ -740,14 +772,14 @@ DeviceFileEvents
       'Técnicas priorizadas: 40', '  regra       18', '  telemetria  10', '  nenhuma     12', '',
       '[warn] Cobertura atual: 18/40 = 45%', '[ok] Com regras para as que já têm telemetria: 28/40 = 70%', '',
       '[hi] Próximas regras (a telemetria já existe):',
+      '  T1204.002 Execução              Execução de arquivo malicioso',
+      '  T1053.005 Persistência          Tarefa agendada',
       '  T1087.002 Descoberta            Descoberta de contas de domínio',
       '  T1018     Descoberta            Descoberta de sistemas remotos',
       '  T1046     Descoberta            Descoberta de serviços de rede',
-      '  T1021.002 Movimentação lateral  Compartilhamentos administrativos',
+      '  T1021.001 Movimentação lateral  RDP',
       '  T1039     Coleta                Dados de compartilhamento de rede',
       '  T1560.001 Coleta                Compactação com utilitário',
-      '  T1071.001 Comando e controle    Protocolos web',
-      '  T1105     Comando e controle    Transferência de ferramentas',
       '  T1567.002 Exfiltração           Exfiltração para nuvem',
       '  T1489     Impacto               Parada de serviços' ] }
   ]

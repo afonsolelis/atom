@@ -193,7 +193,28 @@
     </div>
   </section>
 
-  <!-- 10. LAB VS Code BFS -->
+  <!-- 10. Antes do código: onde achar e como instalar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>Onde achar e como instalar o que o laboratório usa</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Roda o <code>caminhos.py</code>; o operador <code>:=</code> do código exige a versão 3.8 ou mais nova</td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
+            <tr><td><strong><code>json</code>, <code>sys</code>, <code>collections</code></strong></td><td>Ler o grafo e montar a fila da busca em largura</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> rode <code>python3 --version</code> e compare com a versão que o código pede; a página "What's New" da documentação oficial diz em que versão cada recurso da linguagem entrou. O BloodHound, citado no comentário do código, <strong>não</strong> é instalado: o laboratório reproduz só a ideia do grafo, em Python puro, sobre um diretório fictício. Ferramenta de coleta em diretório real só se usa com autorização escrita e dentro do escopo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. LAB VS Code BFS -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -203,7 +224,7 @@
           <p>O mesmo grafo da cena 3D, em JSON. O script faz uma busca em largura (BFS) a partir de cada usuário comum.</p>
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Contar quantos usuários chegam a <em>Domain Admins</em>.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Antes das correções</em>.<br>2. Abra <code>correcoes.json</code>.<br>3. Clique em <em>Depois das correções</em>.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Clique em <em>Antes das correções</em>.<br>3. Abra <code>correcoes.json</code>.<br>4. Clique em <em>Depois das correções</em>.</div>
             <div class="rl obs"><b>Observe</b>Com três arestas a menos, os usuários com caminho caem de 10 para 1.</div>
             <div class="rl conc"><b>Conclusão</b>O cálculo mostra o efeito de cada correção antes de aplicá-la.</div>
           </div>
@@ -213,7 +234,7 @@
     </div>
   </section>
 
-  <!-- 11. LAB SIEM -->
+  <!-- 12. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -233,7 +254,7 @@
     </div>
   </section>
 
-  <!-- 12. PLATAFORMA REDE TATAME -->
+  <!-- 13. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -252,7 +273,7 @@
     </div>
   </section>
 
-  <!-- 13. Limites -->
+  <!-- 14. Limites -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -274,7 +295,7 @@
     </div>
   </section>
 
-  <!-- 14. Relatório -->
+  <!-- 15. Relatório -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -296,7 +317,26 @@
     </div>
   </section>
 
-  <!-- 15. LAB VS Code relatório -->
+  <!-- 16. Antes do código: o pacote novo do segundo laboratório -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Antes do código</p>
+      <h2>O que falta instalar para gerar o relatório</h2>
+      <div class="slide-content-box" style="font-size:.95em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
+          <tbody>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o registro <code>operacao.yaml</code> (o <code>import yaml</code> do <code>gerar_relatorio.py</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>VS Code, Python 3.12 e <code>venv</code></strong></td><td>Os mesmos do laboratório anterior</td><td>Já instalados</td><td>Só criar um <code>.venv</code> novo na pasta deste projeto</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o nome usado no <code>import</code> nem sempre é o nome do pacote. O código diz <code>import yaml</code>, mas o pacote se chama <strong>PyYAML</strong>; quem diz isso é a documentação do projeto, em <code>pyyaml.org</code>. Instalar pelo palpite é o caminho mais curto para um pacote falso de nome parecido (<em>typosquatting</em>). No <code>requirements.txt</code>, a versão fica fixada com <code>==</code>, para o relatório ser gerado sempre com a mesma biblioteca.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. LAB VS Code relatório -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -306,7 +346,7 @@
           <p>Cada técnica executada é registrada com hora, tática, técnica ATT&amp;CK e se a defesa detectou.</p>
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Gerar o rascunho do relatório a partir do registro.</div>
-            <div class="rl"><b>Faça</b>1. Abra <code>operacao.yaml</code>.<br>2. Clique em <em>Gerar relatório</em>.<br>3. Leia o <code>relatorio.md</code> gerado.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Abra <code>operacao.yaml</code>.<br>3. Clique em <em>Gerar relatório</em>.<br>4. Leia o <code>relatorio.md</code> gerado.</div>
             <div class="rl obs"><b>Observe</b>A taxa de detecção sai do próprio registro: 4 de 12 técnicas, 33%.</div>
             <div class="rl conc"><b>Conclusão</b>O relatório conta o ataque e mostra o que a defesa perdeu.</div>
           </div>
@@ -316,7 +356,7 @@
     </div>
   </section>
 
-  <!-- 16. LAB linha do tempo -->
+  <!-- 18. LAB linha do tempo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -336,7 +376,7 @@
     </div>
   </section>
 
-  <!-- 17. Exemplo numérico -->
+  <!-- 19. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -355,7 +395,7 @@
     </div>
   </section>
 
-  <!-- 18. Próxima unidade -->
+  <!-- 20. Próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -376,7 +416,7 @@
     </div>
   </section>
 
-  <!-- 19. De volta ao problema -->
+  <!-- 21. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -392,7 +432,7 @@
     </div>
   </section>
 
-  <!-- 20. Pontos-chave -->
+  <!-- 22. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -409,7 +449,7 @@
     </div>
   </section>
 
-  <!-- 21. Referências -->
+  <!-- 23. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -425,7 +465,7 @@
     </div>
   </section>
 
-  <!-- 22. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -469,7 +509,7 @@ function menorCaminho(arestas, inicio, alvo) {
 
 /* ---------- Mini-mapa do problema ---------- */
 Labs.miniMapa('#mapa-problema', { destaque: ['arq', 'erp', 'siem', 'edr'], alvo: 'ad', caminho: ['nb', 'arq', 'ad'],
-  legenda: 'Onde a aula acontece: a rede interna da sede. O caminho vai do notebook da recepção ao servidor de arquivos e dali ao controlador de domínio, em vermelho.' });
+  legenda: 'Onde a aula acontece: a rede interna da sede. O caminho vai de um notebook da sede (o mapa desenha o <code>NB-FIN-031</code>; o da recepção fica na mesma rede) ao servidor de arquivos e dali ao controlador de domínio, em vermelho.' });
 
 /* ---------- 7. Fluxo: da recepção ao DC ---------- */
 Labs.flow('#lab-flow', {
@@ -554,9 +594,19 @@ Labs.scene3d('#lab-3d', (c) => {
   c.onFrame((t) => { M[GRAFO.alvo].rotation.y = t; M[GRAFO.alvo].scale.setScalar(1 + Math.sin(t * 2.5) * 0.1); });
 }, { camera: [0, 3, 15] });
 
-/* ---------- 10. VS Code: BFS ---------- */
+/* ---------- 11. VS Code: BFS ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'caminhos-ad-tatame', team: 'purple', status: 'Python 3.12', open: 'caminhos.py', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      '[info] Só o pip: o script usa apenas a biblioteca padrão (json, sys, collections).' ] }
+  ],
   files: [
     { path: 'caminhos.py', hl: [12, 15, 16, 17, 18, 19, 20, 27, 28, 29, 30], code: String.raw`"""Caminhos de ataque em um grafo fictício de diretório (conceito do BloodHound)."""
 import json
@@ -654,7 +704,7 @@ for u, c in sorted(com_caminho.items(), key=lambda x: len(x[1])):
   ]
 });
 
-/* ---------- 11. SIEM: o que deveria existir ---------- */
+/* ---------- 12. SIEM: o que deveria existir ---------- */
 Labs.siem('#lab-siem', {
   product: 'SIEM · SOC Rede Tatame', time: 'Dia da operação, 09h – 18h', lang: 'KQL', index: 'win-security, sysmon, proxy',
   searches: [
@@ -681,13 +731,31 @@ Labs.siem('#lab-siem', {
   ]
 });
 
-/* ---------- 12. Plataforma Rede Tatame: emulação do Cobalto Austral ---------- */
+/* ---------- 13. Plataforma Rede Tatame: emulação do Cobalto Austral ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
 
-/* ---------- 15. VS Code: gerador de relatório ---------- */
+/* ---------- 17. VS Code: gerador de relatório ---------- */
 Labs.vscode('#lab-rel', {
   folder: 'relatorio-op-tatame', team: 'red', status: 'Python 3.12', open: 'operacao.yaml', typeOnEnter: true,
+  setup: [
+    { cmd: 'python3 -m venv .venv', out: [] },
+    { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 1))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      'PyYAML  6.0.3' ] }
+  ],
   files: [
+    { path: 'requirements.txt', code:
+`# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
+PyYAML==6.0.3`},
     { path: 'operacao.yaml', hl: [5, 9, 11, 14], code: `codigo: OP-2026-11-TATAME
 objetivo: emular o Grupo Cobalto Austral e demonstrar acesso às fichas de alunos a partir de um e-mail
 resultado: objetivo alcançado em 1 dia; impacto demonstrado e não executado
@@ -706,7 +774,7 @@ linha_do_tempo:
   - { hora: "17:30", tatica: Coleta, id: T1213, nome: Acesso às exportações de fichas (evidência), detectada: false }
 recomendacoes:
   - Remover sessões de administradores do domínio em servidores comuns (SRV-ARQ-01 e SRV-ERP-01)
-  - Retirar do grupo TODOS-SEDE o acesso administrativo à NB-REC-001
+  - Retirar do grupo TODOS-SEDE o acesso administrativo ao NB-REC-001
   - Exigir segundo fator e contas administrativas separadas das de uso diário
   - Criar detecções para logon remoto atípico e para conexões periódicas a domínios raros` },
     { path: 'gerar_relatorio.py', hl: [5, 6, 7], code: String.raw`"""Gera o rascunho do relatório de Red Team a partir do registro da operação."""
@@ -767,7 +835,7 @@ Detecção: 4 de 12 técnicas (33%).
 
 ## Recomendações priorizadas
 1. Remover sessões de administradores do domínio em servidores comuns (SRV-ARQ-01 e SRV-ERP-01)
-2. Retirar do grupo TODOS-SEDE o acesso administrativo à NB-REC-001
+2. Retirar do grupo TODOS-SEDE o acesso administrativo ao NB-REC-001
 3. Exigir segundo fator e contas administrativas separadas das de uso diário
 4. Criar detecções para logon remoto atípico e para conexões periódicas a domínios raros` }
   ],
@@ -788,7 +856,7 @@ Detecção: 4 de 12 técnicas (33%).
   onRun(k, api) { api.open('relatorio.md'); }
 });
 
-/* ---------- 15. Linha do tempo de detecção ---------- */
+/* ---------- 18. Linha do tempo de detecção ---------- */
 Labs.register('#lab-tl', (el) => {
   const T = [
     ['09:12', 'Acesso inicial', 'T1566.002', 'Phishing com link', 1, 'Reporte de uma colaboradora em 9 minutos.'],
