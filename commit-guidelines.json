@@ -115,6 +115,10 @@
         "description": "Changes related to Red Team & Blue Team Strategies"
       },
       {
+        "value": "drones_iot",
+        "description": "Changes related to Drones e Sensores IoT no Monitoramento de Obras"
+      },
+      {
         "value": "lives",
         "description": "Changes related to the complementary live sessions (slide decks)"
       }

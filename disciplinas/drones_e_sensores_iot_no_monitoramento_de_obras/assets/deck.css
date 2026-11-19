@@ -1,0 +1,641 @@
+  /* ---------- Paleta UniFECAF (primária) + acentos do Átomo 3.0 ---------- */
+  :root {
+    /* Identidade UniFECAF */
+    --azul-fecaf:   #002156;   /* cor primária — azul institucional */
+    --azul-claro:   #00B1D2;
+    --azul-medio:   #254AB9;
+
+    /* Acentos (apoio em pontos-chave e detalhes) */
+    --amarelo:      #F2CB0A;
+    --magenta:      #FF2B5F;
+    --magenta-texto: #C2185B;
+    --verde-claro:  #95DE68;
+    --verde-escuro: #11A360;
+
+    /* Neutros */
+    --cinza-bg:     #F2F4F8;
+    --cinza-texto:  #1A1A1A;
+    --cinza-mute:   #5A6175;
+    --branco:       #FFFFFF;
+
+    --fonte: 'Montserrat', Arial, sans-serif;
+    --fonte-titulo: 'Poppins', 'Montserrat', Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font-family: var(--fonte);
+    color: var(--cinza-texto);
+    background: #111;
+    overflow: hidden;
+  }
+
+  /* ---------- Slide container ---------- */
+  .deck { position: relative; width: 100vw; height: 100vh; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    padding: 6vh 8vw;
+    overflow: hidden;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+  }
+  .slide.active { display: flex; flex-direction: column; justify-content: center; }
+
+  /* ---------- Triângulos decorativos (canto) ---------- */
+  .triangulos-canto {
+    position: absolute;
+    top: 0; right: 0;
+    width: 150px; height: 150px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .triangulos-rodape {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 80px;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .triangulos-rodape svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Slide content ---------- */
+  .slide-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 68.75rem; /* 1100px a 1280x720; cresce com a escala */
+    margin: 0 auto;
+  }
+  .slide h1, .slide h2, .slide h3 {
+    font-family: var(--fonte-titulo);
+    color: var(--branco);
+    margin: 0 0 0.5em;
+    letter-spacing: -0.02em;
+  }
+  .slide h1 {
+    font-size: clamp(2.4rem, 4.5vw, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+  }
+  .slide h2 {
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    line-height: 1.1;
+    font-weight: 700;
+  }
+  .slide h3 {
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .kicker {
+    font-family: var(--fonte);
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+    color: var(--amarelo);
+    margin: 0 0 0.4em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .slide p, .slide li {
+    font-size: clamp(1rem, 1.4vw, 1.35rem);
+    line-height: 1.5;
+    margin: 0 0 0.6em;
+  }
+  .slide ul, .slide ol { padding-left: 1.4em; margin: 0 0 1em; }
+  .slide strong { color: var(--amarelo); }
+  .slide em { color: var(--azul-claro); font-style: italic; font-weight: 600; }
+
+  .slide-content-box {
+    background: var(--branco);
+    color: var(--cinza-texto);
+    padding: 2.5em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .slide-content-box h1,
+  .slide-content-box h2,
+  .slide-content-box h3,
+  .slide-content-box .kicker {
+    color: var(--azul-fecaf);
+  }
+  .slide-content-box p,
+  .slide-content-box li {
+    color: var(--cinza-texto);
+  }
+  .slide-content-box strong { color: var(--magenta-texto); }
+  .slide-content-box em { color: var(--azul-fecaf); }
+  .slide-content-box .tabela-industrial td { border-bottom-color: #DDD; }
+  .slide-content-box .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,32,87,0.03); }
+  .slide-content-box .tabela-industrial tbody tr:hover { background: rgba(43,187,224,0.08); }
+  .slide-content-box .tabela-industrial thead tr { background: var(--azul-fecaf); }
+
+  /* ---------- Slide: capa ---------- */
+  .slide-capa {
+    background: linear-gradient(135deg, var(--azul-fecaf) 0%, #001530 100%);
+    color: var(--branco);
+  }
+  .slide-capa .logo-marca { margin-bottom: 2.5rem; }
+  .slide-capa h1 {
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    color: var(--branco);
+  }
+  .slide-capa .subtitulo {
+    font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+    color: var(--amarelo);
+    margin-top: 0.5em;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .slide-capa .docente {
+    margin-top: 2rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ---------- Slide: section divider ---------- */
+  .slide-section {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+  }
+  .slide-section h1 { color: var(--branco); }
+  .slide-section .numero {
+    font-size: clamp(4rem, 8vw, 8rem);
+    font-weight: 900;
+    color: var(--amarelo);
+    line-height: 1;
+    margin-bottom: 0.2em;
+  }
+  .slide-section h2 { color: var(--branco); }
+
+  /* ---------- Slide: 2 colunas ---------- */
+  .colunas { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  @media (max-width: 800px) { .colunas { grid-template-columns: 1fr; } }
+  .col-imagem {
+    background: var(--branco);
+    border-radius: 12px;
+    aspect-ratio: 4/3;
+    display: flex; align-items: center; justify-content: center;
+    color: #999;
+    border: 2px dashed #ccc;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .col-imagem img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+  /* ---------- Slide: pontos-chave ---------- */
+  .pontos-chave {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .ponto {
+    background: var(--branco);
+    border-left: 6px solid var(--verde-escuro);
+    padding: 1.2rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  }
+  .ponto:nth-child(2) { border-color: var(--azul-claro); }
+  .ponto:nth-child(3) { border-color: var(--amarelo); }
+  .ponto:nth-child(4) { border-color: var(--magenta); }
+  .ponto h3 { color: var(--cinza-texto); text-transform: none; letter-spacing: 0; font-size: 1.1rem; }
+  .ponto p { margin: 0; font-size: 1rem; }
+
+  /* ---------- Slide: quote (padrão PowerPoint: fundo azul + card branco) ---------- */
+  .slide-quote {
+    background: var(--azul-fecaf);
+    padding: 4vh 6vw 7vh;
+  }
+  .slide-quote.active { justify-content: flex-start; }
+  .quote-logo { margin: 0.5vh 0 2vh; }
+  .quote-shapes {
+    width: 92%;
+    margin: 0 auto;
+    height: 76px;
+    flex-shrink: 0;
+  }
+  .quote-shapes svg { width: 100%; height: 100%; display: block; }
+  .quote-card {
+    background: var(--branco);
+    border-radius: 30px;
+    padding: 3em 3.2em;
+    margin-top: -34px;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+  .slide-quote blockquote {
+    font-size: clamp(1.6rem, 3vw, 2.7rem);
+    line-height: 1.35;
+    font-weight: 600;
+    color: var(--azul-fecaf);
+    margin: 0;
+  }
+  .slide-quote cite {
+    display: block;
+    margin-top: 1.4rem;
+    font-size: clamp(1rem, 1.4vw, 1.3rem);
+    font-style: normal;
+    color: var(--azul-fecaf);
+    font-weight: 700;
+  }
+
+  /* ---------- Slide: encerramento (padrão PowerPoint: título à esquerda + clusters) ---------- */
+  .slide-fim {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    align-items: flex-start; text-align: left;
+  }
+  .slide-fim h1 {
+    color: var(--branco);
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25em;
+  }
+  .slide-fim .fim-texto {
+    color: rgba(255,255,255,0.95);
+    font-size: clamp(1.15rem, 1.7vw, 1.6rem);
+    max-width: 640px;
+    line-height: 1.5;
+  }
+  .slide-fim .fim-proxima {
+    color: var(--amarelo);
+    font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+    margin-top: 1.2em;
+  }
+  .slide-fim .fim-prof {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    margin-top: 2.2em;
+  }
+  .fim-logo { position: absolute; top: 6vh; left: 6vw; z-index: 3; }
+  .fim-cluster-topo {
+    position: absolute; top: 0; right: 0;
+    width: 58%; height: 190px;
+    pointer-events: none; z-index: 1;
+  }
+  .fim-cluster-topo svg { width: 100%; height: 100%; display: block; transform: scaleY(-1); }
+  .fim-cluster-base {
+    position: absolute; bottom: 0; left: 12%;
+    width: 64%; height: 165px;
+    pointer-events: none; z-index: 1;
+  }
+  .fim-cluster-base svg { width: 100%; height: 100%; display: block; }
+
+  /* ---------- Footer de slide (rodapé com info) ---------- */
+  .slide-footer {
+    position: absolute;
+    bottom: 18px;
+    left: 8vw; right: 8vw;
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    z-index: 3;
+  }
+
+  /* ---------- Slide: sobre o professor (split white | navy) ---------- */
+  .slide-prof {
+    padding: 0;
+    background: var(--branco);
+    overflow: hidden;
+  }
+  .prof-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%; width: 100%;
+  }
+  .prof-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column; gap: 2.5rem;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .prof-logo-claro { width: 100%; }
+  .prof-logo-claro svg {
+    filter: brightness(0); /* SVG branco → preto sobre fundo claro */
+  }
+  .prof-foto {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 380px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, #B8E0F5 0%, #B8E0F5 55%, #C8E6A0 55%, #8FBE6A 100%);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  /* Núvem do placeholder de foto */
+  .prof-foto::before {
+    content: '';
+    position: absolute;
+    top: 22%; left: 35%;
+    width: 30%; height: 14%;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow:
+      -22% 12% 0 -6% #FFFFFF,
+      30% 14% 0 -8% #FFFFFF;
+  }
+  .prof-foto img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    position: relative; z-index: 2;
+  }
+  /* Quando houver foto real, esconde gradiente + nuvem do placeholder */
+  .prof-foto:has(img) { background: none; }
+  .prof-foto:has(img)::before { display: none; }
+  .prof-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 8vh 4vw 6vh 5vw;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+  }
+  .prof-lado-escuro > * { position: relative; z-index: 2; }
+  .prof-nome {
+    color: var(--branco) !important;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    margin: 0 0 0.1em;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .prof-cargo {
+    color: rgba(255,255,255,0.9);
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    font-weight: 400;
+    margin-bottom: 1.5em;
+  }
+  .prof-descricao {
+    color: rgba(255,255,255,0.92);
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.55;
+    margin: 0 0 1.5em;
+  }
+  .prof-contato {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-top: auto;
+  }
+  .prof-contato-item { font-size: clamp(0.95rem, 1.15vw, 1.15rem); }
+  .prof-contato-item strong {
+    color: var(--branco);
+    font-weight: 700;
+    margin-right: 0.4em;
+  }
+  .prof-contato-item a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .prof-contato-item a:hover { text-decoration: underline; }
+
+  /* Decoração: cluster de triângulos na boundary (left edge do lado escuro) */
+  .prof-triangulos-boundary {
+    position: absolute;
+    left: -90px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 60%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.55;
+  }
+  /* Decoração: triângulo amarelo top-right */
+  .prof-canto-topo {
+    position: absolute;
+    top: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none;
+  }
+  /* Decoração: triângulos pequenos bottom-right */
+  .prof-canto-rodape {
+    position: absolute;
+    bottom: 30px; right: 30px;
+    width: 90px; height: 60px;
+    pointer-events: none;
+  }
+
+  /* ---------- Navegação ---------- */
+  .nav {
+    position: fixed; bottom: 16px; right: 20px;
+    display: flex; align-items: center; gap: 12px;
+    z-index: 100;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    font-size: 0.9rem;
+  }
+  .nav button {
+    border: none;
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .nav button:hover { background: var(--azul-medio); }
+  .nav button:disabled { background: #ccc; cursor: not-allowed; }
+  .counter { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--cinza-texto); }
+
+  /* ---------- Print (export para PDF) ---------- */
+  @media print {
+    body { background: var(--branco); }
+    .nav { display: none; }
+    .slide {
+      display: flex !important;
+      position: relative !important;
+      inset: auto !important;
+      page-break-after: always;
+      page-break-inside: avoid;
+      width: 100vw; height: 100vh;
+    }
+    @page { size: 1280px 720px; margin: 0; }
+  }
+
+  /* ---------- Tabelas industriais ---------- */
+  .tabela-industrial { width: 100%; border-collapse: collapse; font-size: clamp(0.85rem, 1.1vw, 1.05rem); margin-top: 0.6rem; }
+  .tabela-industrial thead tr { background: rgba(0,0,0,0.2); color: var(--branco); }
+  .tabela-industrial th { padding: 0.55em 0.9em; text-align: left; font-weight: 700; }
+  .tabela-industrial td { padding: 0.45em 0.9em; border-bottom: 1px solid rgba(255,255,255,0.2); vertical-align: top; }
+  .tabela-industrial tbody tr:nth-child(even) { background: rgba(0,0,0,0.1); }
+  .tabela-industrial tbody tr:hover { background: rgba(0,0,0,0.3); }
+
+  .canto-se { position: absolute; top: 0; left: 0; width: 100px; height: 100px; pointer-events: none; z-index: 1; }
+  .canto-id { position: absolute; bottom: 0; right: 0; width: 150px; height: 100px; pointer-events: none; z-index: 1; }
+
+  /* ---------- Componentes extras (stat-grid, callout) ---------- */
+  .callout-azul {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 1.2em 1.4em;
+    border-radius: 10px;
+    border-left: 8px solid var(--amarelo);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  }
+  .callout-azul strong { color: var(--amarelo); }
+  .callout-azul em { color: rgba(255,255,255,0.92); }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1rem;
+  }
+  .stat-card {
+    background: var(--branco);
+    padding: 1.2rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    text-align: center;
+  }
+  .stat-card .numero-grande {
+    display: block;
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1;
+    color: var(--azul-fecaf);
+    margin-bottom: 0.2em;
+  }
+  .stat-card .legenda {
+    font-size: 1rem;
+    color: #444;
+    font-weight: 500;
+  }
+
+  /* ---------- Padrão PowerPoint: capa centralizada + mosaico nos cantos ---------- */
+  .slide-capa.active { align-items: center; text-align: center; }
+  .slide-capa .slide-content { max-width: 880px; }
+  .slide-capa h1 { font-size: clamp(2.4rem, 4.6vw, 4.2rem); }
+  .capa-canto { position: absolute; width: 280px; height: 280px; pointer-events: none; z-index: 1; }
+  .capa-canto svg { width: 100%; height: 100%; display: block; }
+  .capa-tl { top: 0; left: 0; }
+  .capa-tr { top: 0; right: 0; }
+  .capa-bl { bottom: 0; left: 0; }
+  .capa-br { bottom: 0; right: 0; }
+
+  /* ---------- Padrão PowerPoint: slide de audiodescrição ---------- */
+  .slide-audio { background: var(--azul-fecaf); }
+  .audio-canto-tl { position: absolute; top: 0; left: 0; width: 150px; height: 130px; pointer-events: none; }
+  .audio-canto-tl svg, .audio-canto-br svg { width: 100%; height: 100%; display: block; }
+  .audio-canto-br { position: absolute; bottom: 0; right: 0; width: 360px; height: 250px; pointer-events: none; }
+  .slide-audio .audio-logo { margin-bottom: 3rem; }
+  .slide-audio h1 {
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+  }
+  .audio-texto {
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.9vw, 1.7rem);
+    color: rgba(255,255,255,0.95);
+    line-height: 1.6;
+    max-width: 720px;
+  }
+
+  /* ---------- Padrão PowerPoint: título da aula + sumário (split branco/azul) ---------- */
+  .slide-sumario { padding: 0; background: var(--branco); overflow: hidden; }
+  .sumario-grid { display: grid; grid-template-columns: 1fr 1fr; height: 100%; width: 100%; }
+  .sumario-lado-claro {
+    background: #FFFFFF;
+    padding: 6vh 4vw;
+    display: flex; flex-direction: column;
+  }
+  .sumario-logo svg { filter: brightness(0); }
+  .sumario-titulo {
+    color: var(--azul-fecaf) !important;
+    font-size: clamp(1.9rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: auto 0;
+    padding-right: 0.8em;
+  }
+  .sumario-lado-escuro {
+    background: var(--azul-fecaf);
+    color: var(--branco);
+    padding: 10vh 4vw 8vh 6vw;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative;
+  }
+  .sumario-lado-escuro h2, .sumario-lado-escuro ul { position: relative; z-index: 2; }
+  .sumario-lado-escuro h2 { font-size: clamp(1.9rem, 3vw, 2.7rem); margin-bottom: 0.7em; }
+  .sumario-lado-escuro li { color: rgba(255,255,255,0.94); margin-bottom: 0.55em; }
+  .sumario-canto-rodape {
+    position: absolute; bottom: 0; right: 0;
+    width: 110px; height: 110px;
+    pointer-events: none; z-index: 1;
+  }
+  .sumario-canto-rodape svg { transform: scaleY(-1); display: block; }
+
+  /* ---------- Padrão PowerPoint: conteúdo = moldura mosaico + card azul ---------- */
+  .slide:has(.mosaico-bg) { padding: 5.5vh 5.5vw; }
+  .mosaico-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .mosaico-bg svg { width: 100%; height: 100%; display: block; }
+  .mosaico-bg ~ .slide-content {
+    background: var(--azul-fecaf);
+    border-radius: 26px;
+    padding: 1.3em 2.4em 1.5em;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.4);
+    max-width: none;
+    max-height: 89vh;
+    overflow: hidden;
+    flex: 1;
+    display: flex; flex-direction: column;
+  }
+  .mosaico-bg ~ .slide-content > * { flex-shrink: 0; }
+  /* Logo UniFECAF dentro do card (como no padrão) */
+  .mosaico-bg ~ .slide-content::before {
+    content: '';
+    display: block;
+    width: 110px; height: 28px;
+    background: url('data:image/png;base64,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') no-repeat left center / contain;
+    margin-bottom: 0.4em;
+  }
+  .mosaico-bg ~ .slide-content h1 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); color: var(--verde-claro); }
+  .mosaico-bg ~ .slide-content h2 { font-size: clamp(1.5rem, 2.6vw, 2.2rem); color: var(--verde-claro); }
+  .mosaico-bg ~ .slide-content h1, .mosaico-bg ~ .slide-content h2 { margin-bottom: 0.3em; }
+  .mosaico-bg ~ .slide-content .kicker { font-size: clamp(0.95rem, 1.4vw, 1.15rem); margin-bottom: 0.2em; }
+  .mosaico-bg ~ .slide-content .slide-content-box { padding: 1.5em 2em; box-shadow: none; }
+  /* Padrão PowerPoint: slides de conteúdo não exibem rodapé */
+  .slide:has(.mosaico-bg) .slide-footer { display: none; }
+  /* ---------- Botão flutuante: voltar à home da disciplina ---------- */
+  .btn-home {
+    position: fixed; top: 14px; right: 18px; z-index: 200;
+    display: flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.92); color: var(--azul-fecaf);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    text-decoration: none; font-family: var(--fonte);
+    font-size: 0.85rem; font-weight: 700; line-height: 1;
+    padding: 8px 14px 8px 11px; border-radius: 100px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+  }
+  .btn-home:hover { background: var(--azul-fecaf); color: #fff; transform: translateY(-1px); }
+  .btn-home svg { display: block; }
+  @media print { .btn-home { display: none !important; } }
+
+  /* Callout dentro do cartão branco: texto claro sobre o azul */
+  .slide-content-box .callout-azul p, .slide-content-box .callout-azul li { color: #fff; }
+  .slide-content-box .callout-azul strong { color: var(--amarelo); }
+
+  /* Navegação some nos laboratórios quando o mouse fica parado (ver deck.js) */
+  .nav, .btn-home { transition: opacity .35s ease; }
+  body.nav-idle .nav, body.nav-idle .btn-home { opacity: 0; pointer-events: none; }
+  .tabela-industrial + .callout-azul, .tabela-industrial + div, table + .callout-azul { margin-top: 1rem; }

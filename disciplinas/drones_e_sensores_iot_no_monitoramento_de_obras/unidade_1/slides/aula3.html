@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 3 — Arquiteturas IoT para o canteiro: dispositivos, conectividade e nuvem</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .duas-fotos { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; }
+  .duas-fotos .texto p, .duas-fotos .texto li { font-size: clamp(.9rem, 1.2vw, 1.12rem); }
+  .duas-fotos .figura { min-height: 0; }
+  .camadas .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
+  .camadas .figura figcaption { font-size: .9rem; background: linear-gradient(transparent, rgba(0,20,50,.92) 35%, rgba(0,20,50,.96)); padding-top: 2.4em; }
+  .camadas .num-camada { position: absolute; left: .6rem; top: .5rem; z-index: 4; width: 2rem; height: 2rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font: 800 1rem/2rem var(--fonte-titulo); text-align: center; }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .4em .7em; font-size: clamp(.78rem, 1vw, .98rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .regra { margin-top: .8rem; }
+  .regra p { margin: 0; }
+  .timeline.cinco .etapa p { font-size: clamp(.78rem, 1vw, .95rem); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem); color: rgba(255,255,255,.75); }
+  .viz-lado code, .slide code { font-family: Consolas, 'Courier New', monospace; font-size: .9em; color: var(--obra-ciano); background: rgba(0,0,0,.25); padding: 0 .3em; border-radius: 4px; }
+  .pontos li { font-size: clamp(1rem, 1.5vw, 1.3rem); margin-bottom: .55em; }
+  .stat-grid.compacto { margin-top: .4rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(2rem, 3.2vw, 2.8rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  /* crédito das fotos em tela cheia fica à esquerda (a navegação ocupa o canto direito) */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .mini-intro { margin: 0 !important; font-size: clamp(.85rem, 1.1vw, 1.02rem) !important; }
+  .tab-rodape { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; margin-top: .8rem; }
+  .tab-rodape .callout-azul { align-self: start; }
+  .tab-rodape .figura { min-height: 0; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 3 — Arquiteturas IoT para o canteiro">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Arquiteturas IoT para o canteiro</h1>
+      <div class="subtitulo">Aula 3 — Dispositivos, conectividade e nuvem</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Arquiteturas IoT para o canteiro</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>IoT no canteiro: as "coisas" que medem</li>
+          <li>As quatro camadas: percepção, rede, plataforma, aplicação</li>
+          <li>Conectividade: LoRaWAN, NB-IoT, 4G/5G e Wi-Fi</li>
+          <li>Borda × nuvem</li>
+          <li>MQTT: publicar e assinar</li>
+          <li>A malha fechada com IoT e o gêmeo digital</li>
+          <li>A bateria aguenta? Exemplo numérico</li>
+          <li>Pausa para reflexão: automático ou humano?</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto de abertura: 2h da madrugada -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Construction_site_night.JPG/1280px-Construction_site_night.JPG'); background-position: 50% 0%" role="img" aria-label="Canteiro de obras urbano fotografado do alto, à noite, com perfuratrizes de estacas iluminadas por refletores junto a prédios vizinhos e ruas iluminadas ao redor"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Duas da manhã, depois de uma chuva forte</p>
+      <h2>Atrás da cortina de estacas, a água sobe. Ninguém está na obra.</h2>
+      <p>Uma escavação de <strong>9 m</strong> para um subsolo, ao lado de uma rua movimentada (na foto, um canteiro urbano à noite). Em <strong>malha aberta</strong>, alguém descobre o problema às 7h, talvez tarde demais.</p>
+      <p>Em um <strong>sistema IoT</strong> bem projetado, o piezômetro detecta a subida, o dado atravessa a cidade em segundos, a bomba liga e o engenheiro de plantão é avisado. Hoje vamos montar esse sistema, camada por camada.</p>
+    </div>
+    <p class="credito">Foto: MC — Wikimedia Commons (domínio público)</p>
+  </section>
+
+  <!-- 4. O que é IoT no canteiro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceito</p>
+      <h2>IoT no canteiro: coisas que medem e conversam</h2>
+      <div class="duas-fotos">
+        <div class="texto">
+          <p><strong>Internet das Coisas (IoT)</strong> é a conexão de objetos físicos a redes de dados, para que enviem informações e recebam comandos <strong>sem intervenção humana a cada leitura</strong>.</p>
+          <p>No canteiro, as "coisas" são:</p>
+          <ul>
+            <li>piezômetros e inclinômetros</li>
+            <li>marcos de recalque automatizados</li>
+            <li>sensores de vibração e estações meteorológicas</li>
+            <li>gruas e caminhões rastreados</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg/1280px-Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg" alt="Escavação profunda da Estação Brooklin do Metrô de São Paulo, vista de cima: paredes de contenção de concreto travadas por grandes estroncas horizontais, com operários no fundo" loading="lazy">
+          <figcaption>Escavação escorada em plena cidade (Estação Brooklin, São Paulo): o que vamos vigiar</figcaption>
+          <p class="credito">Foto: Diogo Moreira / Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Piezometer_for_groundwater.JPG/1280px-Piezometer_for_groundwater.JPG" alt="Medidor de nível d'água em carretel, montado sobre um pilar de concreto junto ao tubo azul de um poço de observação, com o cabo estendido em diagonal" loading="lazy">
+          <figcaption>Medidor em carretel: lê à mão o nível d'água num piezômetro (poço)</figcaption>
+          <p class="credito">Foto: Chixoy — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. As quatro camadas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Arquitetura</p>
+      <h2>As quatro camadas de uma arquitetura IoT</h2>
+      <div class="galeria camadas" style="--cols:4">
+        <figure class="figura">
+          <span class="num-camada">1</span>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg/1280px-LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg" alt="Datalogger IoT compacto com pequeno painel solar e cabo de sensor enrolado, apoiado sobre piso de concreto" loading="lazy" style="object-position:50% 35%">
+          <figcaption><b>Percepção</b>Sensor + datalogger (nó sensor): mede, digitaliza, guarda. Bateria, às vezes painel solar.</figcaption>
+          <p class="credito">Foto: Niau33 — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <span class="num-camada">2</span>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/2021-09-17-SH-Netz-LoRaWAN-Gateway-Dagebuell.jpg/1280px-2021-09-17-SH-Netz-LoRaWAN-Gateway-Dagebuell.jpg" alt="Mastro treliçado metálico com antena de gateway LoRaWAN no topo, contra o céu claro" loading="lazy" style="object-position:50% 20%">
+          <figcaption><b>Rede</b>O gateway recebe o rádio dos nós e encaminha à internet (4G/5G, fibra ou satélite) até o servidor de rede.</figcaption>
+          <p class="credito">Foto: Fabian Horst — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <span class="num-camada">3</span>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/BalticServers_data_center.jpg/1280px-BalticServers_data_center.jpg" alt="Corredor de data center com fileiras de servidores iluminados por luzes azuis" loading="lazy">
+          <figcaption><b>Plataforma</b>Nuvem: guarda séries temporais, aplica regras, compara limites. Aqui vive o <b style="display:inline">gêmeo digital</b>.</figcaption>
+          <p class="credito">Foto: BalticServers.com — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <span class="num-camada">4</span>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Control_Room_DSC0038.jpg/1280px-Control_Room_DSC0038.jpg" alt="Operador em uma sala de controle diante de uma parede de monitores com painéis, gráficos e imagens de câmeras" loading="lazy">
+          <figcaption><b>Aplicação</b>Dashboards, relatórios, alertas por SMS/e-mail, integração com BIM e cronograma.</figcaption>
+          <p class="credito">Foto: Arielinson — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Canteiro 3D com as camadas -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>As camadas funcionando no canteiro</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="canteiro3d" data-opts='{"drone":false}' role="img" aria-label="Cena 3D de um canteiro com escavação escorada e prédio em construção. Sensores verdes no subsolo e no prédio pulsam e enviam pacotes amarelos a um gateway LoRaWAN no alto de um poste; o gateway repassa pacotes azuis a uma nuvem que representa a plataforma e o gêmeo digital."></div>
+        <div class="viz-lado">
+          <h3>Siga uma leitura</h3>
+          <ul>
+            <li><strong>1 · Percepção:</strong> o sensor verde (piezômetro, inclinômetro, extensômetro) mede e o nó envia.</li>
+            <li><strong>2 · Rede:</strong> o pacote amarelo voa por rádio até o <em>gateway LoRaWAN</em> no poste.</li>
+            <li><strong>3 · Plataforma:</strong> o gateway encaminha à nuvem (pacote azul), onde vive o gêmeo digital.</li>
+            <li><strong>4 · Aplicação:</strong> painel e alertas chegam ao engenheiro, onde ele estiver.</li>
+          </ul>
+          <p class="mini">Arraste para girar. Repare no contador de leituras recebidas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Conectividade: tabela -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conectividade</p>
+      <h2>Não existe rede "melhor": existe a adequada</h2>
+      <table class="tabela-industrial compacta">
+        <thead><tr><th>Tecnologia</th><th>Alcance típico</th><th>Taxa de dados</th><th>Consumo</th><th>Uso típico no canteiro</th></tr></thead>
+        <tbody>
+          <tr><td><b>LoRaWAN</b></td><td>2–5 km (urbano) a mais de 10 km (aberto)</td><td>muito baixa (centenas de bit/s a dezenas de kbit/s)</td><td>muito baixo (anos de bateria)</td><td>piezômetros, inclinômetros, fissurômetros</td></tr>
+          <tr><td><b>NB-IoT / LTE-M</b></td><td>cobertura da operadora celular</td><td>baixa</td><td>baixo</td><td>nós isolados com cobertura celular, sem gateway próprio</td></tr>
+          <tr><td><b>4G/5G</b></td><td>cobertura da operadora</td><td>alta</td><td>alto</td><td>câmeras, gateways, imagens e vídeos</td></tr>
+          <tr><td><b>Wi-Fi</b></td><td>dezenas a centenas de metros</td><td>alta</td><td>alto</td><td>escritório de obra, áreas cobertas, equipamentos com energia</td></tr>
+        </tbody>
+      </table>
+      <div class="tab-rodape">
+        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Regra prática:</strong> leitura lenta e a bateria → LoRaWAN ou NB-IoT. Muito dado e energia disponível → 4G/5G ou Wi-Fi.</p><p style="margin-top:.6em">LoRaWAN opera em faixas de radiofrequência <strong>não licenciadas</strong>; mesmo assim, no Brasil, equipamento de radiocomunicação precisa de <strong>homologação da Anatel</strong>.</p></div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Cell_tower_aerial.jpg/1280px-Cell_tower_aerial.jpg" alt="Vista aérea de uma torre de telefonia celular com antenas no topo, em meio a um terreno com vegetação rasteira" loading="lazy" style="object-position:50% 30%">
+          <figcaption>Torre da operadora: é por ela que passam NB-IoT, LTE-M e 4G/5G</figcaption>
+          <p class="credito">Foto: Wikideas1 — Wikimedia Commons (CC0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Rede: alcance -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Quem alcança quem? Alcance × consumo</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="rede" role="img" aria-label="Mapa de 4 por 4 quilômetros com o canteiro no centro e sete sensores espalhados. Botões trocam a tecnologia: Wi-Fi, com cerca de 200 metros ao ar livre, conecta só os dois sensores dentro do canteiro; LoRaWAN, com cerca de 3 quilômetros de alcance urbano, alcança todos os sensores do mapa a partir de um gateway no canteiro; NB-IoT e 4G usam a torre da operadora. Sensores conectados ficam verdes e enviam pacotes; os demais ficam vermelhos."></div>
+        <div class="viz-lado">
+          <h3>Troque a tecnologia</h3>
+          <p>Clique nos botões e veja quais sensores ficam <strong>verdes</strong> (conectados).</p>
+          <ul>
+            <li><strong>Wi-Fi:</strong> só o que está dentro do canteiro (≈ 200 m ao ar livre, com antena externa).</li>
+            <li><strong>LoRaWAN:</strong> um gateway próprio no canteiro cobre o mapa todo (2 a 5 km em área urbana), com anos de bateria.</li>
+            <li><strong>NB-IoT / 4G:</strong> usam a torre da operadora; dependem da cobertura e de plano de dados.</li>
+          </ul>
+          <p class="mini">Alcances ilustrativos: na prática dependem de relevo, prédios, antena e altura do gateway.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Foto: gateway -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg/1280px-2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg'); background-position: 70% 50%" role="img" aria-label="Gateway LoRaWAN com antena vertical e painel instalado no alto de um prédio, com vista para um porto, rio e a cidade ao fundo"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Camada de rede</p>
+      <h2>O gateway: a ponte entre o rádio e a internet</h2>
+      <p>Um gateway LoRaWAN no alto de um prédio "escuta" sensores a quilômetros. <strong>Quanto mais alto e desobstruído</strong>, maior o alcance.</p>
+      <p>Por padrão, ele não decide nada: recebe o rádio e encaminha ao <strong>servidor de rede</strong> LoRaWAN, que entrega as mensagens à plataforma (por exemplo, via MQTT). Mas pode rodar regras simples <strong>na borda</strong>, como veremos agora.</p>
+    </div>
+    <p class="credito">Foto: Fabian Horst — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 10. Borda x nuvem -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Onde a decisão roda?</p>
+      <h2>Borda (<em>edge</em>) × nuvem (<em>cloud</em>)</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Na borda</h3>
+          <p>No próprio datalogger ou gateway.</p>
+          <ul>
+            <li>Resposta rápida: ligar uma bomba em segundos</li>
+            <li>Funciona mesmo se o 4G cair</li>
+            <li>Regras simples e críticas</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo">
+          <h3>Na nuvem</h3>
+          <p>Nos servidores da plataforma.</p>
+          <ul>
+            <li>Cruza muitos sensores e obras</li>
+            <li>Guarda o histórico completo</li>
+            <li>Roda modelos pesados e o gêmeo digital</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Sistemas robustos fazem <strong>os dois</strong>: regra crítica na borda; análise e registro na nuvem.</p></div>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado"><p><strong>Na escavação, na borda:</strong> o gateway liga a bomba se o nível d'água passar do alerta, mesmo com a internet fora do ar.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><p><strong>Na escavação, na nuvem:</strong> a plataforma cruza o PZ-03 com a chuva, o recalque do vizinho e o cronograma da escavação.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. MQTT -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação · protocolo MQTT</p>
+      <h2>Publicar e assinar: o caminho de cada mensagem</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="mqtt" role="img" aria-label="Animação do protocolo MQTT. À esquerda, três sensores publicam mensagens em tópicos; no centro, o broker recebe cada mensagem e a reenvia apenas aos assinantes do tópico, à direita: painel, gêmeo digital, alerta por SMS e a bomba de rebaixamento. Com o botão de chuva forte, o nível d'água do piezômetro sobe; ao passar a atenção o gêmeo publica um alerta; ao passar o alerta, publica o comando de ligar a bomba, e o nível volta a cair."></div>
+        <div class="viz-lado">
+          <h3>Como funciona</h3>
+          <p>A leitura de cada sensor é <strong>publicada</strong> (pelo servidor de rede LoRaWAN) em um <strong>tópico</strong>, como <code>obra/escavacao/PZ-03/nivel</code>, no <strong>broker</strong>. Quem <strong>assina</strong> o tópico recebe.</p>
+          <p class="mini"><code>#</code> assina tudo abaixo; <code>+</code> vale um nível. Ex.: o painel assina <code>obra/#</code>.</p>
+          <p>Clique em <strong>Chuva forte</strong>: o gêmeo digital compara o nível com os limites e <strong>publica um comando</strong> em <code>obra/cmd/bomba</code>. É o mesmo protocolo no sentido contrário: isso <strong>fecha a malha</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Malha fechada em 5 passos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A malha fechada com IoT</p>
+      <h2>Do piezômetro à bomba, e de volta ao piezômetro</h2>
+      <div class="timeline cinco" style="--n:5">
+        <div class="etapa"><div class="ano">1 · Medir</div><p>O piezômetro <strong>PZ-03</strong>, atrás da cortina, lê o nível d'água a cada 15 min.</p></div>
+        <div class="etapa"><div class="ano">2 · Transmitir</div><p>O nó envia por <strong>LoRaWAN</strong> ao gateway; o servidor de rede publica via <strong>MQTT</strong> na plataforma.</p></div>
+        <div class="etapa"><div class="ano">3 · Comparar</div><p>O <strong>gêmeo digital</strong> compara com os limites: <strong>atenção</strong> a 2,0 m abaixo do fundo da escavação; <strong>alerta</strong> a 1,0 m.</p></div>
+        <div class="etapa"><div class="ano">4 · Agir</div><p>Atenção: lê mais vezes e avisa o engenheiro. Alerta: <strong>liga a bomba</strong> e recomenda paralisar a frente próxima.</p></div>
+        <div class="etapa"><div class="ano">5 · Medir de novo</div><p>As leituras seguintes confirmam se o nível caiu. Se não caiu, a decisão sobe para a <strong>geotecnia</strong>.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.2rem;background:rgba(0,0,0,.25)"><p>O laço <strong>não termina na tela</strong>: termina numa ação no canteiro e numa nova leitura que verifica a ação.</p></div>
+      <div class="stat-grid compacto" style="margin-top:1.1rem">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="2" data-dec="1" data-suf=" m">0</span><div class="legenda">nível de <b style="color:#9a7400">atenção</b>, abaixo do fundo da escavação</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="1" data-dec="1" data-suf=" m">0</span><div class="legenda">nível de <b style="color:#c2185b">alerta</b>: liga a bomba</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="15" data-suf=" min">0</span><div class="legenda">entre leituras em condição normal</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="9" data-suf=" m">0</span><div class="legenda">de profundidade na escavação do caso</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Malha viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Duas da manhã: o nível d'água sobe e a bomba liga</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="malha" data-opts='{"nome":"NA do PZ-03","unidade":"m","eixo":"nível d&#39;água (m abaixo do fundo)","base":3.5,"atencao":2.0,"alerta":1.0,"taxa":0.5,"residual":-0.6,"horas":12,"vel":1,"acaoNo":"alerta","manual":6,"atrasoAberta":2,"atrasoFechada":0.05,"intMin":5,"intMax":120,"intPasso":5,"intIni":15,"intUnid":"min","rotFechada":"bomba ligada (automático)","rotAberta":"bomba ligada após a vistoria","dec":2}' role="img" aria-label="Gráfico animado de 12 horas do nível d'água atrás da cortina, em metros abaixo do fundo da escavação, com nível de atenção a 2,0 m e de alerta a 1,0 m, e um ciclo de etapas Obra, Sensor, Gateway, Plataforma, Decisão e Ação. Em malha fechada, com leitura a cada 15 minutos, a bomba liga logo depois que o nível cruza o alerta e a curva dobra para baixo; em malha aberta, com vistoria a cada 6 horas, a água chega ao fundo da escavação antes de a bomba ser ligada."></div>
+        <div class="viz-lado">
+          <h3>Malha fechada × aberta</h3>
+          <p>Chuva forte: o nível sobe 0,5 m/h. Com IoT (leitura a cada <strong>15 min</strong>), ao cruzar o <strong>alerta</strong> a plataforma liga a bomba e a curva dobra para baixo. Clique em <strong>Malha aberta</strong>: com vistoria a cada 6 h, a água chega ao fundo antes da ação.</p>
+          <div data-controles></div>
+          <p class="mini">Valores ilustrativos. Leituras mais frequentes vigiam melhor, mas gastam mais bateria: é a conta do próximo slide.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Exemplo numérico: bateria -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>A bateria aguenta? A taxa de leitura governa a autonomia</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"T","label":"Intervalo entre leituras","min":1,"max":60,"step":1,"value":15,"unit":"min"},
+            {"id":"C","label":"Bateria de lítio","min":5000,"max":38000,"step":1000,"value":19000,"unit":"mAh"}
+          ],
+          "outputs": [
+            {"label":"Carga por ciclo (2 s × 25 mA + 1 s × 120 mA + sono × 0,02 mA)","expr":"2*25+1*120+(T*60-3)*0.02","unit":"mA·s","dec":1},
+            {"label":"Corrente média","expr":"o1/(T*60)","unit":"mA","dec":3},
+            {"label":"Autonomia (80% da bateria utilizável)","expr":"0.8*C/o2/24","unit":"dias","dec":0},
+            {"label":"Em anos","expr":"o3/365","unit":"anos","dec":1,"destaque":true}
+          ],
+          "barras": [
+            {"label":"Seu intervalo","expr":"o3","unit":"dias"},
+            {"label":"15 min (normal)","expr":"0.8*C/((50+120+897*0.02)/900)/24","unit":"dias"},
+            {"label":"1 min (alerta)","expr":"0.8*C/((50+120+57*0.02)/60)/24","unit":"dias"}
+          ],
+          "nota": "Nó sensor de piezômetro do texto base. Com 15 min: ≈ 0,209 mA → ≈ 8,3 anos; com 1 min: ≈ 2,85 mA → ≈ 222 dias."
+        }' role="img" aria-label="Calculadora de autonomia de bateria de um nó sensor LoRa com barras animadas comparando o intervalo escolhido com leituras a cada 15 minutos e a cada 1 minuto"></div>
+        <div class="viz-lado">
+          <h3>Mova o intervalo</h3>
+          <p><span class="formula">Ī = Q<sub>ciclo</sub> / T<sub>ciclo</sub></span> &nbsp; <span class="formula">t = 0,8 · C / Ī</span></p>
+          <div data-controles></div>
+          <p class="mini">Moral: bons sistemas usam <strong>amostragem adaptativa</strong>: leem devagar no normal e aceleram só quando a malha entra em atenção.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Pausa para reflexão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão · Desafio</p>
+      <h2>A malha deve agir sozinha ou chamar um humano?</h2>
+      <p class="mini-intro">Regra prática para testar: ações <strong>reversíveis, de baixo risco e urgentes</strong> podem ser automáticas; ações <strong>de alto impacto ou difíceis de reverter</strong> pedem um humano no laço.</p>
+      <div class="viz-grid inv">
+        <div class="viz-lado">
+          <h3>Teste dois casos</h3>
+          <p class="mini"><strong>Ligar a bomba:</strong> 2 · 4 · 5 · 2.<br><strong>Travar as máquinas da escavação:</strong> 5 · 3 · 2 · 1.</p>
+          <div data-controles></div>
+        </div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"I","label":"Consequência de agir errado (1 a 5)","min":1,"max":5,"step":1,"value":2},
+            {"id":"U","label":"Urgência: pouco tempo até o dano (1 a 5)","min":1,"max":5,"step":1,"value":4},
+            {"id":"R","label":"Reversibilidade da ação (1 a 5)","min":1,"max":5,"step":1,"value":5},
+            {"id":"S","label":"Confiança no sensor / redundância (1 a 3)","min":1,"max":3,"step":1,"value":2}
+          ],
+          "outputs": [
+            {"label":"A favor do automático","expr":"2*U+2*R+2*S","unit":"pts"},
+            {"label":"A favor do humano no laço","expr":"3*I+2*(6-R)+2*(3-S)","unit":"pts"},
+            {"label":"Sugestão","expr":"o1>o2+3?&#39;automática, com aviso ao engenheiro&#39;:(o2>o1+3?&#39;humano no laço: o sistema recomenda, o engenheiro decide&#39;:&#39;semiautomática: ação de baixo risco já, decisão maior com humano&#39;)"}
+          ],
+          "barras": [
+            {"label":"Automático","expr":"o1","unit":"pts"},
+            {"label":"Humano no laço","expr":"o2","unit":"pts"}
+          ],
+          "nota": "Pontuação ilustrativa, só para organizar o raciocínio."
+        }' role="img" aria-label="Balança interativa com duas barras, a favor da ação automática e a favor do humano no laço, que mudam conforme a consequência de agir errado, a urgência, a reversibilidade da ação e a confiança no sensor"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Desenhe a sua arquitetura IoT</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Escolha um caso</h3>
+          <ul>
+            <li><strong>(a)</strong> Recalque de um edifício vizinho a uma escavação.</li>
+            <li><strong>(b)</strong> Vibração causada por cravação de estacas próxima a um casarão histórico.</li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>Indique na folha</h3>
+          <ul>
+            <li>As <strong>quatro camadas</strong></li>
+            <li>A <strong>rede</strong> escolhida, justificada por alcance, taxa e consumo</li>
+            <li>Onde roda cada regra: <strong>borda ou nuvem</strong></li>
+            <li>A <strong>malha fechada</strong>: níveis de atenção e alerta e a ação de cada um</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Dica para o caso (b): vibração exige <strong>taxa de amostragem alta</strong> (lembre de Nyquist, Aula 2). Isso muda a escolha da rede e da energia.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>O que levar desta aula</h2>
+      <div class="stat-grid compacto">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="4">0</span><div class="legenda">camadas: percepção, rede, plataforma, aplicação</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="8.3" data-dec="1" data-suf=" anos">0</span><div class="legenda">de bateria lendo a cada 15 min</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="222" data-suf=" dias">0</span><div class="legenda">lendo a cada 1 min</div></div>
+      </div>
+      <ul class="pontos" style="margin-top:.9rem">
+        <li>A rede se escolhe por <strong>alcance, taxa de dados e consumo</strong>: LoRaWAN e NB-IoT para leituras lentas a bateria; 4G/5G e Wi-Fi para muito dado.</li>
+        <li><strong>Borda</strong> para respostas rápidas e independentes da internet; <strong>nuvem</strong> para histórico, cruzamento e análise.</li>
+        <li>O <strong>MQTT</strong> leva leituras e comandos; o <strong>gêmeo digital</strong> vive na camada de plataforma.</li>
+        <li>A <strong>malha fechada IoT</strong> vai do sensor à ação no canteiro e volta ao sensor; a <strong>amostragem adaptativa</strong> equilibra vigilância e bateria.</li>
+      </ul>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p>Automático ou humano? Ações <strong>reversíveis, de baixo risco e urgentes</strong> podem ser automáticas; ações <strong>de alto impacto ou difíceis de reverter</strong> pedem um humano no laço.</p></div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Arquiteturas IoT para o canteiro</h1>
+      <p class="fim-texto">Você montou uma arquitetura IoT completa e fechou a malha do sensor até a ação no canteiro. Falta o outro protagonista: o drone.</p>
+      <p class="fim-proxima">Próxima aula: Aula 4 — Drones (RPA): tipos, componentes, cargas úteis e regulamentação brasileira.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* mqtt — broker MQTT com publicadores, assinantes e pacotes animados.
+   O gêmeo digital assina as leituras, compara com os limites e publica
+   alertas e o comando da bomba: o mesmo protocolo fecha a malha. */
+Obra.register('mqtt', (host) => {
+  const { ctx } = Obra.canvas2d(host);
+  const h = Obra.hud(host);
+  const cNivel = Obra.chip(h, ''), cBomba = Obra.chip(h, ''), cMsg = Obra.chip(h, '');
+  const ATENCAO = 2.0, ALERTA = 1.0;
+  const PUBS = [
+    { id: 'p0', nome: 'PZ-03 · piezômetro', topico: 'obra/escavacao/PZ-03/nivel' },
+    { id: 'p1', nome: 'INC-01 · inclinômetro', topico: 'obra/escavacao/INC-01/desloc' },
+    { id: 'p2', nome: 'VIB-02 · vibração', topico: 'obra/vizinho/VIB-02/vel' }
+  ];
+  const SUBS = [
+    { id: 's0', nome: 'Painel (dashboard)', filtro: 'obra/#' },
+    { id: 's1', nome: 'Gêmeo digital (regras)', filtro: 'obra/escavacao/+/nivel' },
+    { id: 's2', nome: 'Alerta por SMS', filtro: 'obra/alerta/#' },
+    { id: 's3', nome: 'Bomba B-01 (atuador)', filtro: 'obra/cmd/bomba' }
+  ];
+  const casa = (filtro, topico) => {
+    const f = filtro.split('/'), t = topico.split('/');
+    for (let i = 0; i < f.length; i++) {
+      if (f[i] === '#') return true;
+      if (i >= t.length) return false;
+      if (f[i] !== '+' && f[i] !== t[i]) return false;
+    }
+    return f.length === t.length;
+  };
+  let st;
+  const reinicia = () => {
+    st = { nivel: 3.2, chuva: false, bomba: false, estado: 'normal', msgs: 0, pac: [], prox: [0.3, 1.0, 1.7], intervalo: 3, flash: {}, log: [] };
+  };
+  reinicia();
+  const btns = Obra.botoes(host, [
+    ['Chuva forte', (b) => { st.chuva = !st.chuva; b.classList.toggle('on', st.chuva); if (st.chuva) st.prox[0] = 0.2; }],
+    ['↺ Reiniciar', () => { reinicia(); btns[0].classList.remove('on'); }]
+  ]);
+  let W = 1, H = 1;
+  const pos = (id) => {
+    if (id === 'broker') return [W * 0.5, H * 0.55];
+    const k = +id.slice(1), lista = id[0] === 'p' ? PUBS : SUBS, n = lista.length;
+    const y = H * 0.2 + (H * 0.72) * (k + 0.5) / n;
+    return [id[0] === 'p' ? W * 0.15 : W * 0.85, y];
+  };
+  const envia = (de, para, topico, payload, cor, aoChegar) => {
+    st.pac.push({ de, para, topico, payload, cor, t: 0, dur: 0.7, aoChegar });
+  };
+  const publica = (de, topico, payload, cor) => {
+    st.msgs++;
+    envia(de, 'broker', topico, payload, cor, () => {
+      st.flash.broker = 1;
+      SUBS.forEach((s) => { if (casa(s.filtro, topico) && s.id !== de) envia('broker', s.id, topico, payload, cor, () => { st.flash[s.id] = 1; recebe(s, topico, payload); }); });
+    });
+  };
+  const fmtN = (v) => Obra.fmt(v, 2) + ' m';
+  const recebe = (s, topico, payload) => {
+    if (s.id === 's1') {
+      // gêmeo digital: compara com os limites
+      const v = st.nivel;
+      if (v <= ALERTA && !st.bomba && st.estado !== 'alerta') {
+        st.estado = 'alerta';
+        publica('s1', 'obra/alerta/PZ-03', 'ALERTA', '#FF2B5F');
+        publica('s1', 'obra/cmd/bomba', 'LIGAR', '#FF2B5F');
+      } else if (v <= ATENCAO && st.estado === 'normal') {
+        st.estado = 'atenção'; st.intervalo = 0.7;
+        publica('s1', 'obra/alerta/PZ-03', 'ATENÇÃO', '#F2CB0A');
+      } else if (v > ATENCAO && st.estado !== 'normal') {
+        st.estado = 'normal'; st.intervalo = 3;
+        if (st.bomba) publica('s1', 'obra/cmd/bomba', 'DESLIGAR', '#11A360');
+      }
+    }
+    if (s.id === 's3') st.bomba = payload === 'LIGAR';
+  };
+  const caixa = (x, y, w, hh, txt, sub, cor, brilho) => {
+    ctx.fillStyle = brilho > 0 ? `rgba(242,203,10,${0.25 + 0.5 * brilho})` : 'rgba(0,33,86,.85)';
+    ctx.strokeStyle = cor; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.roundRect(x - w / 2, y - hh / 2, w, hh, 8); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '600 13px Montserrat, Arial';
+    ctx.fillText(txt, x, y - 3);
+    ctx.font = '11.5px Consolas, monospace'; ctx.fillStyle = 'rgba(43,217,254,.95)'; ctx.fillText(sub, x, y + 13);
+  };
+  const lp = Obra.loop((t, dt) => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1); W = ctx.canvas.width / dpr; H = ctx.canvas.height / dpr;
+    // física simples do nível d'água (m abaixo do fundo da escavação)
+    if (st.bomba) st.nivel = Math.min(3.2, st.nivel + dt * 0.18);
+    else if (st.chuva) st.nivel = Math.max(0.2, st.nivel - dt * 0.6);
+    // publicações periódicas
+    PUBS.forEach((p, k) => {
+      st.prox[k] -= dt;
+      if (st.prox[k] <= 0) {
+        st.prox[k] = k === 0 ? st.intervalo : 3.4 + k * 0.5;
+        const val = k === 0 ? Obra.fmt(st.nivel, 2) : k === 1 ? Obra.fmt(1.2 + Math.sin(t) * 0.1, 1) + ' mm' : Obra.fmt(0.8 + Math.random() * 0.3, 1) + ' mm/s';
+        publica(p.id, p.topico, val, k === 0 ? '#2BD9FE' : '#95DE68');
+        st.flash[p.id] = 1;
+      }
+    });
+    ctx.clearRect(0, 0, W, H);
+    // ligações
+    const [bx, by] = pos('broker');
+    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
+    [...PUBS, ...SUBS].forEach((n) => { const [x, y] = pos(n.id); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(bx, by); ctx.stroke(); });
+    // broker
+    const fb = st.flash.broker || 0;
+    const r = Math.min(W, H) * 0.11;
+    const g = ctx.createRadialGradient(bx, by, 0, bx, by, r * 1.6);
+    g.addColorStop(0, `rgba(43,217,254,${0.35 + fb * 0.4})`); g.addColorStop(1, 'rgba(43,217,254,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, r * 1.6, 0, 7); ctx.fill();
+    ctx.fillStyle = '#0a2a5c'; ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(bx, by, r, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 15px Montserrat, Arial'; ctx.fillText('Broker', bx, by - 2);
+    ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fillText('MQTT (na nuvem)', bx, by + 15);
+    // títulos das colunas
+    ctx.font = '700 12px Montserrat, Arial'; ctx.fillStyle = '#F2CB0A';
+    ctx.fillText('PUBLICAM (gateway → servidor de rede)', W * 0.17, H * 0.16); ctx.fillText('ASSINAM', W * 0.85, H * 0.16);
+    // nós
+    const bw = Math.min(215, W * 0.29), bh = 42;
+    PUBS.forEach((p) => { const [x, y] = pos(p.id); caixa(x, y, bw, bh, p.nome, p.topico.replace('obra/', '…/'), '#2BD9FE', st.flash[p.id] || 0); });
+    SUBS.forEach((s) => {
+      const [x, y] = pos(s.id);
+      let nome = s.nome;
+      if (s.id === 's3') nome += st.bomba ? ' · LIGADA' : ' · desligada';
+      caixa(x, y, bw, bh, nome, 'assina ' + s.filtro, s.id === 's3' && st.bomba ? '#11A360' : '#F2CB0A', st.flash[s.id] || 0);
+    });
+    for (const k in st.flash) st.flash[k] = Math.max(0, st.flash[k] - dt * 2.5);
+    // pacotes
+    st.pac.forEach((pk) => {
+      pk.t += dt / pk.dur;
+      const [x0, y0] = pos(pk.de), [x1, y1] = pos(pk.para), f = Math.min(1, pk.t);
+      const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
+      ctx.fillStyle = pk.cor; ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.fill();
+      ctx.font = '12px Consolas, monospace'; ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.textAlign = 'center';
+      // o rótulo some perto das pontas, para não empilhar texto sobre o broker
+      if (f > 0.12 && f < 0.88) ctx.fillText(pk.payload, x, y - 10);
+      if (pk.t >= 1 && pk.aoChegar && !pk.ok) { pk.ok = true; pk.aoChegar(); }
+    });
+    st.pac = st.pac.filter((pk) => pk.t < 1);
+    // régua do nível d'água
+    const rx = W * 0.5, ry0 = H * 0.08, rw = W * 0.26;
+    ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(rx - rw / 2, ry0, rw, 10);
+    const X = (m) => rx - rw / 2 + rw * (1 - m / 3.2);
+    ctx.fillStyle = 'rgba(242,203,10,.5)'; ctx.fillRect(X(ATENCAO), ry0, X(ALERTA) - X(ATENCAO), 10);
+    ctx.fillStyle = 'rgba(255,43,95,.55)'; ctx.fillRect(X(ALERTA), ry0, X(0) - X(ALERTA), 10);
+    ctx.fillStyle = '#2BD9FE'; ctx.beginPath(); ctx.arc(X(st.nivel), ry0 + 5, 7, 0, 7); ctx.fill();
+    ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.textAlign = 'center';
+    ctx.fillText('NA do PZ-03: distância ao fundo (atenção 2,0 m · alerta 1,0 m)', rx, ry0 + 26);
+    cNivel.innerHTML = 'PZ-03: <b>' + fmtN(st.nivel) + '</b> abaixo do fundo';
+    cNivel.classList.toggle('alerta', st.nivel <= ALERTA);
+    cBomba.innerHTML = 'Situação: <b>' + st.estado + '</b> · bomba <b>' + (st.bomba ? 'ligada' : 'desligada') + '</b>';
+    cMsg.innerHTML = 'Mensagens publicadas: <b>' + st.msgs + '</b>';
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

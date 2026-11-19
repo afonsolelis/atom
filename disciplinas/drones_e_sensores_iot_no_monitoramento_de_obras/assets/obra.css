@@ -1,0 +1,156 @@
+/* =====================================================================
+   Drones e Sensores IoT no Monitoramento de Obras — camada visual extra
+   sobre deck.css (padrão UniFECAF): fotos em tela cheia, cenas 3D,
+   animações e calculadoras interativas (obra.js).
+   ===================================================================== */
+:root {
+  --obra-ciano: #2BD9FE;
+  --obra-laranja: #FF8A1F;
+  --obra-alerta: #FF2B5F;
+  --obra-ok: #11A360;
+  --obra-escuro: #07101F;
+}
+
+/* ---------- Slide de foto em tela cheia ---------- */
+.slide.slide-foto { padding: 0; background: #000; }
+.slide-foto .foto-bg {
+  position: absolute; inset: 0; background-size: cover; background-position: center;
+  transform: scale(1.02); transform-origin: 50% 50%;
+}
+.slide-foto.active .foto-bg { animation: kenburns 22s ease-out forwards; }
+@keyframes kenburns { from { transform: scale(1.02) translate(0, 0); } to { transform: scale(1.14) translate(-2%, -1.5%); } }
+.slide-foto .foto-veu {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,21,48,.92) 0%, rgba(0,21,48,.70) 38%, rgba(0,21,48,.05) 70%);
+}
+.slide-foto .slide-content {
+  position: relative; z-index: 2; margin: 0; padding: 0 0 0 7vw; max-width: 46rem;
+  height: 100%; display: flex; flex-direction: column; justify-content: center;
+}
+.slide-foto.active .slide-content > * { animation: sobe .9s both; }
+.slide-foto.active .slide-content > *:nth-child(2) { animation-delay: .15s; }
+.slide-foto.active .slide-content > *:nth-child(3) { animation-delay: .3s; }
+.slide-foto.active .slide-content > *:nth-child(4) { animation-delay: .45s; }
+@keyframes sobe { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+.slide-foto h2 { font-size: clamp(1.9rem, 3.6vw, 3.1rem); }
+.slide-foto .big { font-size: clamp(3rem, 7vw, 6rem); font-weight: 900; color: var(--amarelo); line-height: 1; margin: 0 0 .1em; font-family: var(--fonte-titulo); }
+
+/* Crédito obrigatório de toda foto (licença Creative Commons) */
+.credito {
+  position: absolute; right: .8rem; bottom: .6rem; z-index: 5;
+  font-size: 11px !important; line-height: 1.25 !important; margin: 0 !important;
+  color: rgba(255,255,255,.9) !important; background: rgba(0,0,0,.7);
+  padding: .2em .55em; border-radius: 4px; max-width: 60%; text-align: right;
+}
+.figura { position: relative; margin: 0; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,.25); background: #0b1a33; }
+.figura img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.slide.active .figura img { animation: zoomlento 18s ease-out forwards; }
+@keyframes zoomlento { from { transform: scale(1); } to { transform: scale(1.08); } }
+.figura figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 2em .9em .55em; font-size: .9rem; line-height: 1.3; color: #fff;
+  background: linear-gradient(transparent, rgba(0,0,0,.82) 45%, rgba(0,0,0,.9)); text-shadow: 0 1px 2px rgba(0,0,0,.8); }
+.figura figcaption + .credito, .figura .credito { bottom: auto; top: .5rem; }
+
+/* ---------- Galeria de fotos ---------- */
+.galeria { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: .9rem; }
+.galeria .figura { aspect-ratio: 4 / 3; }
+.slide.active .galeria .figura { animation: aparece .7s both; }
+.slide.active .galeria .figura:nth-child(2) { animation-delay: .12s; }
+.slide.active .galeria .figura:nth-child(3) { animation-delay: .24s; }
+.slide.active .galeria .figura:nth-child(4) { animation-delay: .36s; }
+.slide.active .galeria .figura:nth-child(5) { animation-delay: .48s; }
+.slide.active .galeria .figura:nth-child(6) { animation-delay: .6s; }
+@keyframes aparece { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+
+/* ---------- Layout de slides com visualização ---------- */
+.slide.slide-viz { padding: 3vh 3vw; }
+.slide-viz .slide-content { max-width: none; height: 100%; display: flex; flex-direction: column; gap: .6rem; }
+.slide-viz .slide-content > h2 { margin: 0; font-size: clamp(1.4rem, 2.4vw, 2.1rem); }
+.slide-viz .slide-content > .kicker { margin: 0; font-size: clamp(.85rem, 1.2vw, 1.1rem); }
+.viz-grid { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(16rem, 30%); gap: 1rem; }
+.viz-grid.inv { grid-template-columns: minmax(16rem, 30%) minmax(0, 1fr); }
+.viz-grid.cheio { grid-template-columns: 1fr; }
+.viz-lado { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 1rem 1.2rem; overflow: auto; }
+.viz-lado p, .viz-lado li { font-size: clamp(.85rem, 1.15vw, 1.08rem); }
+.viz-lado h3 { font-size: clamp(.9rem, 1.2vw, 1.1rem); color: var(--amarelo); margin-bottom: .4em; }
+.viz {
+  position: relative; min-height: 0; height: 100%; border-radius: 14px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 30%, #12305f 0%, var(--obra-escuro) 75%);
+  border: 1px solid rgba(255,255,255,.12);
+}
+.viz canvas { display: block; width: 100%; height: 100%; }
+.viz .dica { position: absolute; left: .8rem; bottom: .6rem; font-size: .78rem; color: rgba(255,255,255,.7); margin: 0; pointer-events: none; }
+.viz .rotulo3d {
+  position: absolute; transform: translate(-50%, -100%); pointer-events: none; white-space: nowrap;
+  font-size: .8rem; font-weight: 600; color: #fff; background: rgba(0,33,86,.85); border: 1px solid var(--obra-ciano);
+  padding: .15em .5em; border-radius: 4px; transition: opacity .3s;
+}
+.viz .hud {
+  position: absolute; top: .7rem; left: .8rem; display: flex; flex-wrap: wrap; gap: .4rem; z-index: 3; max-width: calc(100% - 1.6rem - var(--ctrl-w, 0px));
+}
+.viz .hud .chip {
+  font-size: .8rem; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.2);
+  padding: .25em .6em; border-radius: 99px; font-variant-numeric: tabular-nums;
+}
+.viz .hud .chip b { color: var(--obra-ciano); }
+.viz .hud .chip.alerta { border-color: var(--obra-alerta); background: rgba(255,43,95,.35); animation: pisca 1s infinite; }
+@keyframes pisca { 50% { opacity: .55; } }
+.viz .controles {
+  position: absolute; right: .7rem; top: .7rem; z-index: 3; display: flex; flex-direction: column; gap: .35rem; align-items: flex-end;
+}
+.btn-viz {
+  font: 600 .82rem var(--fonte); color: #fff; background: rgba(0,33,86,.85); border: 1px solid rgba(255,255,255,.35);
+  padding: .4em .8em; border-radius: 8px; cursor: pointer;
+}
+.btn-viz:hover, .btn-viz.on { background: var(--azul-claro); color: var(--azul-fecaf); border-color: var(--azul-claro); }
+
+/* ---------- Controles deslizantes das calculadoras ---------- */
+.ctrl { margin: 0 0 .7rem; }
+.ctrl label { display: flex; justify-content: space-between; gap: .5rem; font-size: clamp(.78rem, 1vw, .95rem); color: rgba(255,255,255,.85); }
+.ctrl label output { color: var(--amarelo); font-weight: 700; font-variant-numeric: tabular-nums; }
+.ctrl input[type=range] { width: 100%; accent-color: var(--amarelo); }
+.resultado {
+  margin-top: .6rem; padding: .7rem .9rem; border-radius: 10px; background: rgba(242,203,10,.12); border-left: 4px solid var(--amarelo);
+  font-size: clamp(.85rem, 1.1vw, 1.05rem);
+}
+.resultado small { font-size: .92em; opacity: .9; }
+.resultado .num { font-size: 1.6em; font-weight: 800; color: var(--amarelo); font-variant-numeric: tabular-nums; }
+.formula { font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif; font-size: 1.05em; color: #dfe9ff; white-space: nowrap; }
+
+/* ---------- Números animados ---------- */
+.contador { font-variant-numeric: tabular-nums; }
+
+/* ---------- Linha do tempo animada ---------- */
+.timeline { display: grid; grid-template-columns: repeat(var(--n, 4), 1fr); gap: .8rem; position: relative; margin-top: 1rem; }
+.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 1.1rem; height: 3px; background: rgba(255,255,255,.2); }
+.timeline .etapa { position: relative; padding-top: 2.6rem; }
+.timeline .etapa::before { content: ""; position: absolute; top: .55rem; left: 0; width: 1.2rem; height: 1.2rem; border-radius: 50%;
+  background: var(--amarelo); box-shadow: 0 0 0 5px rgba(242,203,10,.25); }
+.slide.active .timeline .etapa { animation: sobe .7s both; }
+.slide.active .timeline .etapa:nth-child(2) { animation-delay: .2s; }
+.slide.active .timeline .etapa:nth-child(3) { animation-delay: .4s; }
+.slide.active .timeline .etapa:nth-child(4) { animation-delay: .6s; }
+.slide.active .timeline .etapa:nth-child(5) { animation-delay: .8s; }
+.timeline .ano { font: 800 1.3rem var(--fonte-titulo); color: var(--amarelo); }
+.timeline p { font-size: clamp(.82rem, 1.1vw, 1.02rem); }
+
+/* ---------- Cartões "Antes × Depois" ---------- */
+.versus { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: stretch; }
+.versus .lado { border-radius: 14px; padding: 1.1rem 1.3rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
+.versus .lado.novo { border-color: var(--obra-ciano); background: rgba(43,217,254,.08); }
+.versus .vs { align-self: center; font: 900 1.6rem var(--fonte-titulo); color: var(--amarelo); }
+.versus h3 { color: var(--amarelo); }
+
+@media print {
+  .viz canvas { display: none; }
+  .slide-foto .foto-bg { animation: none !important; }
+}
+
+/* o cartão do padrão (mosaico-bg) não encolhe os filhos; a área da visualização precisa ocupar o resto */
+.mosaico-bg ~ .slide-content > .viz-grid { flex: 1 1 0; min-height: 0; }
+.mosaico-bg ~ .slide-content > .galeria { flex: 1 1 0; min-height: 0; }
+.slide-viz .mosaico-bg ~ .slide-content { padding: 1em 1.6em 1.2em; max-height: 94vh; }
+.mosaico-bg ~ .slide-content > .galeria { grid-auto-rows: 1fr; }
+.mosaico-bg ~ .slide-content > .galeria .figura { aspect-ratio: auto; min-height: 0; }
+
+/* Crédito de foto em tela cheia: canto inferior esquerdo (o direito é da navegação do deck) */
+.slide-foto > .credito { right: auto; left: .8rem; text-align: left; }

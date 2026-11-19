@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 1 — Monitoramento de obras na era digital: do diário de obra ao canteiro conectado</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* ajustes locais desta aula (não altera os assets compartilhados) */
+  .dupla { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.86rem, 1.15vw, 1.05rem); margin-bottom: .35em; }
+  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-top: .4rem; }
+  .quatro .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); border-radius: 12px; padding: .9rem 1rem; }
+  .quatro .card:nth-child(2) { border-top-color: var(--obra-ciano); }
+  .quatro .card:nth-child(3) { border-top-color: var(--obra-alerta); }
+  .quatro .card:nth-child(4) { border-top-color: var(--obra-ok); }
+  .quatro .card h3 { color: #fff; font-size: 1.15rem; margin: 0 0 .3em; }
+  .quatro .card p { font-size: clamp(.82rem, 1.05vw, .98rem); margin: 0; }
+  .quatro .ico { font-size: 1.9rem; line-height: 1; margin-bottom: .3rem; }
+  .stat-grid.compacto { margin-top: .4rem; gap: .8rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .55rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .pk { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: .8rem; margin-top: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: .75rem .95rem; font-size: clamp(.84rem, 1.08vw, 1rem); }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); }
+  .fig-larga { margin-top: .6rem; background: #000; border-radius: 10px; overflow: hidden; position: relative; }
+  .fig-larga img { display: block; width: 100%; }
+  .slide-foto > .credito { right: auto; left: .8rem; text-align: left; }
+  .quatro .card p { font-size: clamp(.9rem, 1.25vw, 1.12rem); }
+  .quatro .card { padding: 1.1rem 1.15rem; }
+  .tl-grande .ano { font-size: 1.55rem; }
+  .tl-grande p { font-size: clamp(.95rem, 1.35vw, 1.2rem); }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.95rem, 1.35vw, 1.18rem) !important; margin-bottom: .55em; }
+  .pk { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .pk div { font-size: clamp(.95rem, 1.3vw, 1.15rem); padding: 1rem 1.15rem; }
+  .mosaico-bg ~ .slide-content > .fill { flex: 1 1 0; min-height: 0; }
+  .pk.fill { grid-auto-rows: 1fr; margin-bottom: .3rem; }
+  .pk.fill div:nth-child(5):last-child { grid-column: span 2; }
+  .pk.fill div { font-size: clamp(1rem, 1.5vw, 1.3rem); padding: 1.1rem 1.4rem; line-height: 1.45; }
+  .quatro.fill .card { display: flex; flex-direction: column; justify-content: center; }
+  .quatro.fill .ico { font-size: 2.6rem; margin-bottom: .6rem; }
+  .quatro.fill .card h3 { font-size: 1.35rem; }
+  .versus.fill .lado li { font-size: clamp(1rem, 1.4vw, 1.2rem); margin-bottom: .5em; }
+  .tl-grande { margin: auto 0 !important; }
+  .stat-grid.fill { grid-auto-rows: 1fr; margin-top: 0; }
+  .stat-grid.fill .stat-card { display: flex; flex-direction: column; justify-content: center; }
+  .stat-grid.fill .numero-grande { font-size: clamp(2.6rem, 4.6vw, 3.8rem); }
+  .stat-grid.fill .legenda { font-size: 1rem; }
+  .versus li { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+  .fig-larga .credito { position: static; display: block; max-width: none; text-align: left; border-radius: 0; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 1 — Monitoramento de obras na era digital">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Monitoramento de obras na era digital</h1>
+      <div class="subtitulo">Aula 1 — Do diário de obra ao canteiro conectado</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Monitoramento de obras na era digital</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Por que monitorar uma obra</li>
+          <li>Do diário de obra ao canteiro conectado</li>
+          <li>O ciclo dado → informação → decisão → ação</li>
+          <li>Malha aberta × malha fechada</li>
+          <li>Gêmeo digital: modelo, sombra e gêmeo</li>
+          <li>O que drones e sensores resolvem (e o que não)</li>
+          <li>Exemplo numérico: convencional × drone</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Abertura: a trinca -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Seattle_-_619_Western_-_crack_in_wall.jpg/1280px-Seattle_-_619_Western_-_crack_in_wall.jpg')" role="img" aria-label="Trinca larga e irregular em uma parede de concreto claro, atravessada por um medidor de trincas transparente colado sobre a abertura para acompanhar se ela aumenta"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Segunda-feira, 7h</p>
+      <h2>"Engenheiro, apareceu uma trinca na garagem do prédio vizinho."</h2>
+      <p>Sua escavação está a <strong>6 metros</strong> de profundidade. A trinca é antiga ou nova? Está crescendo? Tem relação com a sua obra?</p>
+      <p>Se a única informação disponível é uma anotação no diário de obra de <strong>três semanas atrás</strong>, você está decidindo no escuro. Repare na foto: a plaqueta colada sobre a trinca é um <em>medidor de trincas</em>, o instrumento mais simples de monitoramento que existe.</p>
+    </div>
+    <p class="credito">Foto: Joe Mabel — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 4. Por que monitorar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Por que monitorar uma obra?</p>
+      <h2>Medir, ao longo do tempo, se a obra se comporta como o projeto previu</h2>
+      <div class="quatro fill">
+        <div class="card"><div class="ico" aria-hidden="true">📅</div><h3>Prazo</h3><p>Avanço físico real × cronograma: volumes escavados, pavimentos concretados, área de fachada executada.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">💰</div><h3>Custo</h3><p>Medição de serviços para pagamento, controle de perdas e de retrabalho.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">⛑️</div><h3>Segurança</h3><p>De pessoas (quedas, equipamentos) e de estruturas: recalques, deslocamentos de contenções, nível d'água.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">📐</div><h3>Qualidade</h3><p>Prumo, nível e espessuras; desempenho dos materiais, como temperatura e maturidade do concreto.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem"><p style="margin:0">O solo nunca é exatamente o da sondagem. Monitorar é transformar <strong>incerteza de projeto</strong> em <strong>informação de obra</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. Foto: canteiro visto do alto -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Esta%C3%A7%C3%A3o_Campo_Belo_em_obras.jpg/1280px-Esta%C3%A7%C3%A3o_Campo_Belo_em_obras.jpg'); background-position: 60% 50%" role="img" aria-label="Vista aérea das obras das estações Campo Belo das linhas 5-Lilás e 17-Ouro do Metrô de São Paulo, em 2018: a via elevada do monotrilho cruza a avenida, com canteiros e escavações entre prédios altos e casas"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Do diário de obra ao canteiro conectado</p>
+      <h2>O jeito tradicional funciona, mas tem três fragilidades</h2>
+      <p><strong>Baixa frequência:</strong> leitura semanal ou mensal.<br><strong>Atraso:</strong> o dado leva dias para virar relatório.<br><strong>Subjetividade:</strong> cada vistoriador descreve do seu jeito.</p>
+      <p>Do alto, a obra inteira cabe numa imagem (aqui, as estações Campo Belo do Metrô de São Paulo). Com um <em>drone</em>, isso vira rotina: um voo registra o canteiro todo, com cada foto datada e georreferenciada.</p>
+    </div>
+    <p class="credito">Foto: Sddcje — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 6. Canteiro 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>O canteiro conectado: olhos no céu e nervos na estrutura</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="canteiro3d" role="img" aria-label="Cena 3D de um canteiro de obras: um prédio sobe pavimento a pavimento, uma grua gira, sensores pulsam na escavação e no prédio, pacotes de dados viajam até um gateway e depois para a nuvem, e um drone voa em faixas paralelas cobrindo o terreno"></div>
+        <div class="viz-lado">
+          <h3>Dois tipos de dado, um só canteiro</h3>
+          <ul>
+            <li><strong>Drone:</strong> cobertura. Voa em faixas paralelas e gera ortofoto, modelo 3D e volumes do canteiro inteiro.</li>
+            <li><strong>Sensores:</strong> frequência. Leem a contenção, a fundação e a estrutura 24 horas por dia.</li>
+            <li><strong>Gateway e nuvem:</strong> o dado chega sozinho à plataforma, em minutos.</li>
+          </ul>
+          <p>Gire a cena e acompanhe um pacote de dados do sensor até a nuvem.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Antes x depois com contadores -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A mudança de escala</p>
+      <h2>Frequência sobe, atraso cai, dado vira número</h2>
+      <div class="versus" style="margin-bottom:.9rem">
+        <div class="lado">
+          <h3>Diário de obra e campanhas manuais</h3>
+          <ul>
+            <li>Vistoria visual e foto de celular</li>
+            <li>Topografia e instrumentação lidas à mão</li>
+            <li>Relatório em PDF dias depois</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo">
+          <h3>Canteiro conectado</h3>
+          <ul>
+            <li>Ortofoto e modelo 3D do canteiro em um voo</li>
+            <li>Sensores enviando leituras sozinhos à nuvem</li>
+            <li>Dado <strong>quantitativo e rastreável</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="stat-grid compacto fill">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="1">0</span><div class="legenda">leitura por mês, numa campanha manual mensal</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="720">0</span><div class="legenda">leituras por mês, com um sensor lendo a cada hora</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="3" data-suf=" dias">0</span><div class="legenda">de atraso típico do relatório manual (ilustrativo)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="5" data-suf=" min">0</span><div class="legenda">até a leitura chegar ao painel (ilustrativo)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Ciclo dado → ação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Dado sozinho não salva obra nenhuma</p>
+      <h2>O ciclo dado → informação → decisão → ação</h2>
+      <div class="timeline tl-grande" style="--n:4">
+        <div class="etapa"><div class="ano">1. Dado</div><p>A leitura bruta: <em>"o inclinômetro registrou 18 mm a 4 m de profundidade"</em>.</p></div>
+        <div class="etapa"><div class="ano">2. Informação</div><p>O dado comparado a uma referência: <em>"é 60% do limite de projeto e dobrou em uma semana"</em>.</p></div>
+        <div class="etapa"><div class="ano">3. Decisão</div><p>O julgamento técnico: <em>"reduzir a escavação na frente norte e instalar mais uma linha de tirantes"</em>.</p></div>
+        <div class="etapa"><div class="ano">4. Ação</div><p>A intervenção executada no canteiro, por quem tem autoridade para agir.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-bottom:.4rem"><p style="margin:0;font-size:1.15rem">Toda a tecnologia desta disciplina serve para <strong>encurtar e tornar confiável</strong> esse ciclo. Se o 18 mm fica arquivado numa pasta, o ciclo parou no passo 1.</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Malha aberta x fechada -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceito da engenharia de controle</p>
+      <h2>Malha aberta × malha fechada</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="malha" data-opts='{"nome":"Deslocamento da contenção","eixo":"deslocamento da contenção (mm)","atencao":18,"alerta":30,"taxa":0.09,"residual":0,"rotFechada":"tirantes executados","rotAberta":"tirantes após o relatório"}' role="img" aria-label="Gráfico animado do deslocamento da contenção ao longo de 20 dias, com nível de atenção em 18 mm e de alerta em 30 mm, e um ciclo de etapas Obra, Sensor, Gateway, Plataforma, Decisão e Ação. Com o botão Malha fechada, a leitura automática passa a atenção, os tirantes são executados e a curva para de subir; com o botão Malha aberta, a leitura é semanal, a ação só vem depois do relatório e a curva passa do alerta."></div>
+        <div class="viz-lado">
+          <h3>Compare os dois modos</h3>
+          <p><strong>Malha aberta:</strong> mede e arquiva. A leitura vira relatório e ninguém a compara com o limite a tempo.</p>
+          <p><strong>Malha fechada:</strong> medir → comparar com o limite → decidir → agir → <em>medir de novo</em> para confirmar o efeito.</p>
+          <p>Use os botões <strong>Malha fechada</strong> e <strong>Malha aberta</strong>. Atenção em 18 mm (60% do limite) e alerta em 30 mm, como no texto.</p>
+          <div data-controles></div>
+          <p style="font-size:.85rem;opacity:.85">Taxas ilustrativas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Kritzinger: modelo, sombra, gêmeo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Kritzinger et al. (2018)</p>
+      <h2>Modelo digital, sombra digital ou gêmeo digital?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="kritzinger" role="img" aria-label="Animação com a obra física à esquerda e o modelo no computador à direita, ligados por duas setas. Botões alternam entre modelo digital, em que as duas setas são manuais e o modelo fica desatualizado; sombra digital, em que os dados vão automaticamente da obra ao modelo e a volta é manual; e gêmeo digital, em que as duas setas são automáticas e o modelo devolve um comando à obra."></div>
+        <div class="viz-lado">
+          <h3>O critério é o fluxo de dados</h3>
+          <ul>
+            <li><strong>Modelo digital:</strong> sem troca automática. Um BIM atualizado à mão.</li>
+            <li><strong>Sombra digital:</strong> físico → digital automático; a volta é manual.</li>
+            <li><strong>Gêmeo digital:</strong> automático <em>nos dois sentidos</em>.</li>
+          </ul>
+          <p>Clique nos três botões da animação e observe as duas setas entre a obra e o modelo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Gêmeo 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Gêmeo digital é, por definição, uma malha fechada</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="gemeo3d" role="img" aria-label="Cena 3D com um prédio real à esquerda e seu gêmeo digital em wireframe à direita, ligados por um fluxo de dados. Ao simular recalque, o prédio real inclina, o gêmeo acompanha e muda de cor de verde para amarelo e vermelho; em malha fechada, um fluxo vermelho de comando volta à obra e estabiliza a inclinação."></div>
+        <div class="viz-lado">
+          <h3>Teste</h3>
+          <p>Clique em <strong>Simular recalque</strong>. Os pontos amarelos são dados indo da obra para o modelo. Em <strong>malha fechada</strong>, aparece o fluxo vermelho de volta: o comando que estabiliza a inclinação.</p>
+          <p>Na construção, a maior parte dos sistemas atuais é <strong>sombra digital</strong>, e tudo bem, desde que o laço seja fechado por um engenheiro que decide.</p>
+          <p style="font-size:.8rem;opacity:.8">Inclinação exagerada no desenho para ficar visível.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Galeria: do modelo ao gêmeo -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">As peças de um gêmeo, no mundo real</p>
+      <h2>Modelo, realidade capturada, sensores e painel</h2>
+      <div class="galeria" style="--cols:4">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Architectural_BIM_3D_Modeling.jpg/1280px-Architectural_BIM_3D_Modeling.jpg" alt="Modelo BIM 3D de um edifício térreo com telhado azul, estacionamento, árvores e calçadas, visto em perspectiva" loading="lazy">
+          <figcaption><b>Modelo BIM:</b> sozinho, é só modelo digital</figcaption>
+          <p class="credito">Imagem: Archdraw — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Scan-to-BIM_Mechanical_Room.jpg/1280px-Scan-to-BIM_Mechanical_Room.jpg" alt="Nuvem de pontos em tons de cinza de uma casa de máquinas, com as tubulações modeladas em verde-água sobrepostas a ela" loading="lazy">
+          <figcaption><b>Realidade capturada:</b> nuvem de pontos vira modelo</figcaption>
+          <p class="credito">Imagem: Oregon State University — Wikimedia Commons (CC BY-SA 2.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Structural_Health_Monitoring_System_Inside_Bridge_Deck_Panel_IA_%288423182623%29.jpg/1280px-Structural_Health_Monitoring_System_Inside_Bridge_Deck_Panel_IA_%288423182623%29.jpg" alt="Armaduras e cordoalhas de protensão dentro da fôrma de um painel de tabuleiro de ponte, com pequenos sensores brancos fixados junto às barras antes da concretagem" loading="lazy">
+          <figcaption><b>Sensores embutidos:</b> antes da concretagem</figcaption>
+          <p class="credito">Foto: Federal Highway Administration — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg/1280px-Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg" alt="Sala de controle do Centro de Operações da Prefeitura do Rio de Janeiro, com uma parede de telas que mostram mapas da cidade, câmeras de trânsito e indicadores, e operadores em estações de trabalho" loading="lazy" style="object-position:42% 50%">
+          <figcaption><b>Painel:</b> onde o dado vira informação (Centro de Operações Rio)</figcaption>
+          <p class="credito">Foto: Jjsoares — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+      <div class="callout-azul" style="margin-top:.9rem"><p style="margin:0">Gêmeo digital = <strong>modelo + fluxo contínuo de dados do ativo</strong> + capacidade de simular e devolver decisões à obra.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. O que resolvem e o que não resolvem -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Sem ilusões</p>
+      <h2>O que drones e sensores resolvem, e o que não resolvem</h2>
+      <div class="dupla">
+        <div class="slide-content-box">
+          <p><strong>Resolvem:</strong> <em>cobertura</em> (o canteiro inteiro em um voo), <em>frequência</em> (leitura contínua), <em>acesso</em> (fachadas, coberturas e taludes sem expor pessoas) e <em>rastreabilidade</em> (dado datado e georreferenciado).</p>
+          <p><strong>Não resolvem:</strong></p>
+          <ul>
+            <li>projeto mal feito;</li>
+            <li>falta de limites de alerta definidos;</li>
+            <li>sensor mal instalado ou nunca calibrado;</li>
+            <li>falta de alguém com autoridade para agir.</li>
+          </ul>
+          <p>Monitoramento sem plano de resposta é só um <strong>gerador de gráficos bonitos</strong>.</p>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Surveying_prism_and_total_station%2C_for_land_surveying%2C_in_Shibuya-ku.jpg/1280px-Surveying_prism_and_total_station%2C_for_land_surveying%2C_in_Shibuya-ku.jpg" alt="Estação total robótica e prisma topográfico montados em tripés amarelos sobre uma calçada, ao lado de cones de sinalização" loading="lazy">
+          <figcaption>A topografia convencional continua indispensável: dá os pontos de controle e valida os produtos aéreos.</figcaption>
+          <p class="credito">Foto: Syced — Wikimedia Commons (CC0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Exemplo numérico: calculadora -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Levantamento mensal: convencional × drone</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"A","label":"Área do canteiro","min":2,"max":50,"step":1,"value":12,"unit":"ha"},
+            {"id":"pc","label":"Produtividade convencional","min":1,"max":6,"step":0.5,"value":3,"unit":"ha/dia"},
+            {"id":"n","label":"Número de medições mensais","min":1,"max":24,"step":1,"value":10,"unit":""}
+          ],
+          "outputs": [
+            {"label":"Tempo convencional T<sub>c</sub>","expr":"Math.ceil(A/pc)+1","unit":"dias"},
+            {"label":"Custo C<sub>c</sub> (R$ 2.400/dia)","expr":"o1*2400","unit":"R$"},
+            {"label":"Tempo com drone T<sub>d</sub>","expr":"Math.ceil(A/40)+1","unit":"dias"},
+            {"label":"Custo C<sub>d</sub> (R$ 3.000/dia)","expr":"o3*3000","unit":"R$"},
+            {"label":"Dado chega antes","expr":"o1-o3","unit":"dias"},
+            {"label":"Economia total","expr":"n*(o2-o4)","unit":"R$","destaque":true}
+          ],
+          "barras": [{"label":"Convencional","expr":"o2","unit":"R$"},{"label":"Drone","expr":"o4","unit":"R$"}],
+          "nota":"T<sub>c</sub> = A/p<sub>c</sub> arredondado para dias inteiros + 1 dia de escritório; T<sub>d</sub> = 1 dia de campo (até 40 ha, com pontos de controle) + 1 de processamento. Valores ilustrativos, não são tabela de preços."
+        }' role="img" aria-label="Calculadora com barras animadas comparando o custo por levantamento convencional e por drone; com 12 hectares, o convencional leva 5 dias e custa 12 mil reais, o drone leva 2 dias e custa 6 mil reais, e 10 medições economizam 60 mil reais"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Densidade de informação + escala -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Mais importante que o dinheiro</p>
+      <h2>A densidade de informação muda de escala</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="densidade" role="img" aria-label="Trecho de terreno visto de cima. No modo topografia convencional aparecem poucos pontos medidos, um a cada 100 metros quadrados; no modo drone, o terreno inteiro é preenchido por milhares de pontos coloridos pela cota, revelando um monte e uma vala que os pontos esparsos não mostravam."></div>
+        <div class="viz-lado">
+          <h3>12 ha têm o tamanho de…</h3>
+          <div class="stat-grid compacto" style="grid-template-columns:1fr 1fr">
+            <div class="stat-card"><span class="numero-grande contador" data-ate="17">0</span><div class="legenda">campos de futebol oficiais (105 × 68 m)</div></div>
+            <div class="stat-card"><span class="numero-grande contador" data-ate="1200">0</span><div class="legenda">pontos no convencional (1 a cada 100 m²)</div></div>
+          </div>
+          <figure class="figura" style="height:9.5rem;margin-top:.7rem">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Aerial_view_of_the_Chatham_Town_FC_football_pitch.jpg/1280px-Aerial_view_of_the_Chatham_Town_FC_football_pitch.jpg" alt="Campo de futebol de grama visto de cima por drone, com as linhas brancas e as arquibancadas ao redor" loading="lazy">
+            <figcaption>1 campo ≈ 0,7 ha</figcaption>
+            <p class="credito">Foto: Stephen Kennard — Wikimedia Commons (CC BY-SA 3.0)</p>
+          </figure>
+          <p style="margin-top:.6rem">O drone gera <strong>dezenas de pontos por m²</strong>. Ressalva: não enxerga sob vegetação densa nem dentro de galerias, e sua exatidão depende dos pontos de controle.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Escolha uma obra que você conhece</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <p>Pode ser uma obra pública noticiada na sua cidade. Em uma folha:</p>
+          <ol class="lista-num">
+            <li>Liste <strong>3 riscos</strong> ligados a prazo, custo, segurança ou qualidade.</li>
+            <li>Para cada risco, diga <strong>o que medir</strong> e se seria por drone, por sensor ou por topografia convencional.</li>
+            <li>Para um dos riscos, descreva a <strong>malha fechada</strong> completa: medição, limite, decisão e ação.</li>
+            <li>Classifique o sistema como <strong>modelo, sombra ou gêmeo digital</strong>, e justifique.</li>
+          </ol>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/%282019.12.09%29_Obras_PS_Central%2C_Drone_%2849204900632%29.jpg/1280px-%282019.12.09%29_Obras_PS_Central%2C_Drone_%2849204900632%29.jpg" alt="Vista aérea, feita por drone, do canteiro de obras do Pronto-Socorro Central de Itapevi (SP): terreno de terra cercado por tapume, com contêineres, material empilhado e um monte de areia, ao lado de um estacionamento e de prédios do bairro" loading="lazy">
+          <figcaption>Obra pública vista por drone (Itapevi, SP): quais riscos você monitoraria aqui?</figcaption>
+          <p class="credito">Foto: Célio Junior / Prefeitura de Itapevi (SP) — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="pk fill">
+        <div>Monitorar é medir sistematicamente, ao longo do tempo, se a obra se comporta como o projeto previu, em <strong>prazo, custo, segurança e qualidade</strong>.</div>
+        <div>O valor está no ciclo <strong>dado → informação → decisão → ação</strong>; dado arquivado sem comparação é malha aberta.</div>
+        <div><strong>Malha fechada:</strong> medir → comparar com o limite → decidir → agir → medir de novo para confirmar.</div>
+        <div><strong>Gêmeo digital:</strong> fluxo contínuo e bidirecional; só físico → digital é <strong>sombra digital</strong> (Kritzinger et al., 2018).</div>
+        <div>Drones e sensores aumentam cobertura, frequência e rastreabilidade, mas <strong>não substituem</strong> limites de alerta, calibração e plano de resposta.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Monitoramento de obras na era digital</h1>
+      <p class="fim-texto">Mas dá para confiar na leitura do sensor? Qual é a incerteza dela?</p>
+      <p class="fim-proxima">Próxima aula: Aula 2 — Fundamentos de sensoriamento: grandezas, transdutores, incerteza e calibração.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 1 */
+(function () {
+  const { canvas2d, loop, hud, chip, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+  /* kritzinger — modelo × sombra × gêmeo digital (fluxo de dados) */
+  Obra.register('kritzinger', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host);
+    const cModo = chip(h, ''), cSync = chip(h, '');
+    let modo = 0, ultimaMan = 0, valDig = 0, cmd = 0;
+    const NOMES = ['Modelo digital', 'Sombra digital', 'Gêmeo digital'];
+    const btns = botoes(host, NOMES.map((n, k) => [n, () => { modo = k; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === modo]));
+    const pac = Array.from({ length: 9 }, (_, k) => k / 9);
+    function caixa(x, y, w, hh, cor, tit) {
+      ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.strokeStyle = cor; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.roundRect(x, y, w, hh, 12); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.font = '700 15px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(tit, x + w / 2, y + 24);
+    }
+    function predio(x, y, w, hh, cor, arame) {
+      for (let i = 0; i < 6; i++) {
+        const yy = y + hh - (i + 1) * hh / 6;
+        if (arame) { ctx.strokeStyle = cor; ctx.strokeRect(x, yy + 2, w, hh / 6 - 4); }
+        else { ctx.fillStyle = i % 2 ? '#c9ccd2' : '#bfc3ca'; ctx.fillRect(x, yy + 2, w, hh / 6 - 4); ctx.fillStyle = '#335577'; for (let j = 0; j < 4; j++) ctx.fillRect(x + 6 + j * (w - 12) / 4, yy + 6, (w - 12) / 4 - 6, hh / 6 - 12); }
+      }
+    }
+    function medidor(x, y, w, v, lim, txt) {
+      ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(x, y, w, 12);
+      ctx.fillStyle = v > lim ? '#FF2B5F' : v > lim * 0.75 ? '#F2CB0A' : '#11A360'; ctx.fillRect(x, y, w * Math.min(1, v / 20), 12);
+      ctx.strokeStyle = '#FF2B5F'; ctx.beginPath(); ctx.moveTo(x + w * lim / 20, y - 4); ctx.lineTo(x + w * lim / 20, y + 16); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(txt, x + w / 2, y + 30);
+    }
+    function seta(x0, x1, y, auto, cor, t, rotulo, inv) {
+      ctx.strokeStyle = auto ? cor : 'rgba(255,255,255,.35)'; ctx.lineWidth = auto ? 3 : 2; ctx.setLineDash(auto ? [] : [7, 7]);
+      ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+      const d = Math.sign(x1 - x0); ctx.fillStyle = auto ? cor : 'rgba(255,255,255,.35)';
+      ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x1 - d * 12, y - 7); ctx.lineTo(x1 - d * 12, y + 7); ctx.fill();
+      if (auto) pac.forEach((f0) => { const f = (f0 + t * 0.45) % 1; ctx.fillStyle = cor; ctx.beginPath(); ctx.arc(x0 + (x1 - x0) * f, y, 5, 0, 7); ctx.fill(); });
+      else { const f = (t * 0.12) % 1; ctx.font = '18px Arial'; ctx.textAlign = 'center'; ctx.fillText('🧑‍💼', x0 + (x1 - x0) * f, y + 6); }
+      ctx.fillStyle = auto ? '#fff' : 'rgba(255,255,255,.65)'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText(rotulo + (auto ? ' · AUTOMÁTICO' : ' · manual'), (x0 + x1) / 2, y + (inv ? 26 : -14));
+    }
+    const lp = loop((t, dt) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      // grandeza física: recalque que cresce e oscila; no gêmeo o comando a estabiliza
+      const bruto = 9 + 7 * Math.sin(t * 0.5) + 3 * Math.sin(t * 1.3);
+      if (modo === 2 && bruto > 12) cmd = Math.min(1, cmd + dt * 2); else cmd = Math.max(0, cmd - dt);
+      const valFis = modo === 2 ? Math.min(bruto, 12 + (bruto - 12) * 0.25) : bruto;
+      if (modo === 0) { if (t - ultimaMan > 6) { ultimaMan = t; valDig = valFis; } } else { valDig = valFis; ultimaMan = t; }
+      const bw = Math.min(W * 0.3, 260), bh = H * 0.62, by = H * 0.2;
+      const xL = W * 0.06, xR = W - xL - bw;
+      caixa(xL, by, bw, bh, '#F2CB0A', 'Obra (ativo físico)');
+      caixa(xR, by, bw, bh, '#2BD9FE', 'Modelo no computador');
+      const pw = bw * 0.5, ph = bh * 0.5;
+      predio(xL + (bw - pw) / 2, by + 40, pw, ph, '#fff', false);
+      predio(xR + (bw - pw) / 2, by + 40, pw, ph, '#2BD9FE', true);
+      medidor(xL + 20, by + bh - 52, bw - 40, valFis, 15, 'recalque real: ' + fmt(valFis, 1) + ' mm');
+      medidor(xR + 20, by + bh - 52, bw - 40, valDig, 15, 'no modelo: ' + fmt(valDig, 1) + ' mm');
+      seta(xL + bw + 8, xR - 8, by + bh * 0.3, modo >= 1, '#F2CB0A', t, 'dados');
+      seta(xR - 8, xL + bw + 8, by + bh * 0.72, modo === 2, '#FF2B5F', t, 'decisão / comando', true);
+      if (modo === 2 && cmd > 0.1) { ctx.globalAlpha = cmd; ctx.fillStyle = '#FF2B5F'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('ação aplicada: escavação reduzida', xL + bw / 2, by - 10); ctx.globalAlpha = 1; }
+      const atraso = t - ultimaMan;
+      cModo.innerHTML = '<b>' + NOMES[modo] + '</b>' + (modo === 0 ? ': nenhuma troca automática' : modo === 1 ? ': só físico → digital é automático' : ': automático nos dois sentidos');
+      cSync.innerHTML = modo === 0 ? 'Modelo atualizado à mão há <b>' + fmt(atraso, 0) + ' s</b>' : 'Modelo <b>sincronizado</b>';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* densidade — pontos da topografia convencional × nuvem de pontos do drone */
+  Obra.register('densidade', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cInfo = chip(h, '');
+    let modo = 0, t0 = 0;
+    const btns = botoes(host, [
+      ['Convencional: 1 ponto / 100 m²', () => { modo = 0; t0 = lp.t; btns[0].classList.add('on'); btns[1].classList.remove('on'); }, true],
+      ['Drone: nuvem de pontos', () => { modo = 1; t0 = lp.t; btns[1].classList.add('on'); btns[0].classList.remove('on'); }]
+    ]);
+    const LX = 80, LY = 50; // trecho de 80 m × 50 m = 4.000 m²
+    const cota = (x, y) => 2.2 * Math.exp(-((x - 24) ** 2 + (y - 20) ** 2) / 140) - 1.6 * Math.exp(-((y - 33 + 0.15 * x) ** 2) / 6) / (1 + Math.exp(-(x - 40) / 3))
+      + 0.4 * Math.sin(x / 9) + 0.25 * Math.cos(y / 7);
+    const cor = (z) => { const f = Math.max(0, Math.min(1, (z + 1.8) / 4.2)); return `hsl(${240 - f * 210},75%,${42 + f * 12}%)`; };
+    const lp = loop((t) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const esc = Math.min((W - 40) / LX, (H - 100) / LY), ox = (W - LX * esc) / 2, oy = 52;
+      ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(ox, oy, LX * esc, LY * esc);
+      ctx.strokeStyle = 'rgba(255,255,255,.4)'; ctx.strokeRect(ox, oy, LX * esc, LY * esc);
+      const prog = Math.min(1, (t - t0) * 0.6);
+      if (modo === 1) {
+        const passo = 0.5; let n = 0;
+        for (let x = 0; x < LX * prog; x += passo) for (let y = 0; y < LY; y += passo) {
+          const jx = x + ((x * 7.3 + y * 3.1) % 1) * passo * 0.6, jy = y + ((x * 2.7 + y * 5.9) % 1) * passo * 0.6;
+          ctx.fillStyle = cor(cota(jx, jy)); ctx.fillRect(ox + jx * esc, oy + jy * esc, Math.max(1.2, passo * esc * 0.75), Math.max(1.2, passo * esc * 0.75)); n++;
+        }
+        cInfo.innerHTML = 'Drone: <b>' + fmt(n * 5) + '</b> pontos em 4.000 m² (≈ 20 pontos/m², ilustrativo) — o monte e a vala aparecem';
+      } else {
+        let n = 0;
+        for (let x = 5; x < LX; x += 10) for (let y = 5; y < LY; y += 10) {
+          if (x > LX * prog + 5) continue; n++;
+          ctx.fillStyle = cor(cota(x, y)); ctx.beginPath(); ctx.arc(ox + x * esc, oy + y * esc, 6, 0, 7); ctx.fill();
+          ctx.strokeStyle = '#fff'; ctx.stroke();
+          ctx.fillStyle = '#fff'; ctx.font = '10px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(fmt(cota(x, y) + 100, 1), ox + x * esc, oy + y * esc - 9);
+        }
+        cInfo.innerHTML = 'Convencional: <b>' + n + '</b> pontos em 4.000 m² (1 a cada 100 m²) — entre eles, o terreno é suposição';
+      }
+      ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(ox, oy + LY * esc + 14); ctx.lineTo(ox + 10 * esc, oy + LY * esc + 14); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('10 m', ox, oy + LY * esc + 28);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

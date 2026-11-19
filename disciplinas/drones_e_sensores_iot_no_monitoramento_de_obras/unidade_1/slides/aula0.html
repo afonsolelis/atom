@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 0 — Boas-vindas: Drones e Sensores IoT no Monitoramento de Obras</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* ajustes locais da Aula 0 */
+  .unidades-fotos { margin-top: 1.1rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .unidades-fotos .figura { aspect-ratio: auto; min-height: 0; }
+  .avaliacao { flex: 1 1 0; display: flex; flex-direction: column; justify-content: center; }
+  .avaliacao li { font-size: clamp(1.05rem, 1.65vw, 1.4rem); margin-bottom: .75em; }
+  .avaliacao + .callout-azul p { font-size: clamp(1.05rem, 1.55vw, 1.3rem); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 0 — Vídeo introdutório">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Drones e Sensores IoT no Monitoramento de Obras</h1>
+      <div class="subtitulo">Aula 0 — Boas-vindas e relação da disciplina com a atuação profissional</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Audiodescrição -->
+  <section class="slide slide-audio">
+    <div class="audio-canto-tl" aria-hidden="true"><svg viewBox="0 0 150 130"><use href="#audio-canto-tl"/></svg></div>
+    <div class="audio-canto-br" aria-hidden="true"><svg viewBox="0 0 360 250"><use href="#audio-canto-br"/></svg></div>
+    <div class="slide-content">
+      <div class="audio-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Audiodescrição</h1>
+      <p class="audio-texto">Olá! Para quem usa audiodescrição: sou o professor Afonso Cesar Lelis Brandão, um homem de pele clara, com cabelos castanho-escuros curtos e barba cheia, também escura e bem aparada. Tenho olhos castanhos e sobrancelhas grossas. Neste vídeo, apareço em plano médio, de frente para a câmera.</p>
+    </div>
+  </section>
+
+  <!-- 3. Sobre o professor -->
+  <section class="slide slide-prof">
+    <div class="prof-grid">
+      <div class="prof-lado-claro">
+        <div class="prof-logo-claro"><svg width="200" height="49" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <div class="prof-foto" role="figure" aria-label="Retrato do professor Afonso Cesar Lelis Brandão">
+          <img src="../../assets/foto-professor.jpg" alt="Professor Afonso Cesar Lelis Brandão, responsável pela disciplina" />
+        </div>
+      </div>
+      <div class="prof-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <div class="prof-canto-rodape" aria-hidden="true"><svg width="90" height="60" viewBox="0 0 120 80"><use href="#prof-mini-cluster"/></svg></div>
+        <h2 class="prof-nome">Afonso Cesar Lelis Brandão</h2>
+        <p class="prof-cargo">Professor e conteudista · UniFECAF</p>
+        <p class="prof-descricao">Professor e conteudista da UniFECAF. Nesta disciplina, conduz você do canteiro de obras aos dados: como um <strong>drone</strong> mede a obra do alto, como um <strong>sensor</strong> mede a obra por dentro e como transformar essas medições em <strong>decisões</strong> de engenharia, com segurança, dentro da lei e no tempo certo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Boas-vindas à disciplina</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>A obra vista do alto e por dentro</li>
+          <li>Um canteiro conectado, em 3D</li>
+          <li>Do diário de obra ao dado em tempo real</li>
+          <li>Gêmeo digital e malha fechada: medir, decidir, agir</li>
+          <li>O caminho das 4 unidades</li>
+          <li>Como você será avaliado</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Foto de abertura -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/%282021.09.02%29_Obras_no_Cemit%C3%A9rio_Biosseguro%2C_drone_%2851420053726%29.jpg/1280px-%282021.09.02%29_Obras_no_Cemit%C3%A9rio_Biosseguro%2C_drone_%2851420053726%29.jpg'); background-position: 70% 50%" role="img" aria-label="Vista aérea, feita por drone, de uma obra pública em Itapevi, na Grande São Paulo: encosta terraplenada, estruturas de concreto em execução, uma cobertura metálica em montagem e fileiras de peças pré-moldadas de concreto"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Ponto de partida</p>
+      <h2>Toda obra conta uma história. A pergunta é: quem está medindo?</h2>
+      <p>Esta foto de uma obra pública em Itapevi (SP) foi tirada por um <strong>drone</strong>. Em um único voo, ele registra o avanço de um canteiro inteiro, com exatidão de centímetros quando apoiado em pontos de controle ou RTK. Enquanto isso, <strong>sensores</strong> enterrados no solo e presos à estrutura medem o que o olho não vê: deslocamentos, pressões, vibrações.</p>
+      <p>Nesta disciplina, você vai aprender a usar as duas coisas a serviço da engenharia.</p>
+    </div>
+    <p class="credito">Foto: Célio Junior / Prefeitura de Itapevi (SP) — Wikimedia Commons (CC BY 2.0)</p>
+  </section>
+
+  <!-- 6. Canteiro 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Um canteiro conectado: o que acontece ao mesmo tempo</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="canteiro3d" role="img" aria-label="Cena 3D de um canteiro de obras: um prédio sobe pavimento a pavimento, uma grua gira, sensores pulsam na escavação e no prédio, pacotes de dados viajam até um gateway e depois para a nuvem, e um drone voa em faixas paralelas cobrindo o terreno"></div>
+        <div class="viz-lado">
+          <h3>Repare em três fluxos</h3>
+          <ul>
+            <li><strong>Do alto:</strong> o drone voa em faixas paralelas e "pinta" o terreno coberto. Cada faixa vira fotos sobrepostas que, juntas, formam um mapa e um modelo 3D.</li>
+            <li><strong>Por dentro:</strong> sensores na escavação e no prédio enviam leituras (pontos amarelos) para um <em>gateway</em>.</li>
+            <li><strong>Para a decisão:</strong> o gateway repassa tudo à nuvem (pontos azuis), onde vive o <em>gêmeo digital</em> da obra.</li>
+          </ul>
+          <p>Gire a cena com o mouse e procure cada sensor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Galeria: o canteiro real -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Do mundo real</p>
+      <h2>O que vamos monitorar</h2>
+      <div class="galeria" style="--cols:3">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg/1280px-Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg" alt="Grua de torre amarela sobre um edifício em construção, com estrutura de concreto aparente" loading="lazy">
+          <figcaption>Estrutura em execução: prazo, avanço e segurança</figcaption>
+          <p class="credito">Foto: Governo da Cidade de Taichung — Wikimedia Commons (atribuição)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28b%29.jpg/1280px-Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28b%29.jpg" alt="Fundo da escavação da Estação Brooklin do Metrô de São Paulo: paredes de contenção de concreto travadas por estroncas horizontais e operários montando a armadura da laje de fundo" loading="lazy">
+          <figcaption>Escavação escorada (Metrô de SP): deslocamentos e água no solo</figcaption>
+          <p class="credito">Foto: Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Workers_pouring_concrete_from_a_boom_pump.jpg/1280px-Workers_pouring_concrete_from_a_boom_pump.jpg" alt="Operários lançando concreto com o mangote de uma bomba-lança sobre armaduras de uma laje" loading="lazy">
+          <figcaption>Concretagem: qualidade, cura e resistência</figcaption>
+          <p class="credito">Foto: Grendelkhan — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Active_total_station_on_a_construction_site.jpg/1280px-Active_total_station_on_a_construction_site.jpg" alt="Estação total montada sobre tripé em um canteiro de obras, apontada para a estrutura" loading="lazy">
+          <figcaption>Topografia convencional: o ponto de partida</figcaption>
+          <p class="credito">Foto: Cvstr — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/DJI_Phantom_1_1530564a.jpg/1280px-DJI_Phantom_1_1530564a.jpg" alt="Drone quadricóptero branco pousado, com quatro hélices e câmera sob o corpo" loading="lazy">
+          <figcaption>Drone (RPA): o olho do alto</figcaption>
+          <p class="credito">Foto: Nevit Dilmen — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Data_logger.jpg/1280px-Data_logger.jpg" alt="Datalogger eletrônico, pequeno equipamento que registra leituras de sensores ao longo do tempo" loading="lazy">
+          <figcaption>Datalogger: o registrador que não dorme</figcaption>
+          <p class="credito">Foto: Cjp24 — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Antes x depois -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A mudança de chave</p>
+      <h2>Do diário de obra ao canteiro conectado</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Como era (e ainda é, em muitas obras)</h3>
+          <ul>
+            <li>Medição topográfica pontual, quando dá</li>
+            <li>Leitura manual de instrumentos, uma vez por semana</li>
+            <li>Relatório em PDF que chega dias depois</li>
+            <li>Problema descoberto quando a fissura já apareceu</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo">
+          <h3>Para onde vamos</h3>
+          <ul>
+            <li>Voo de drone semanal: mapa, modelo 3D e volumes</li>
+            <li>Sensores lendo a cada 15 minutos, dia e noite (mais rápido em alerta)</li>
+            <li>Painel com níveis de atenção e alerta</li>
+            <li>Tendência percebida <strong>antes</strong> do dano</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul"><p>Tecnologia não substitui o engenheiro. Ela dá ao engenheiro a informação certa, a tempo de agir.</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Gêmeo digital -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Gêmeo digital: a obra viva dentro do computador</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="gemeo3d" role="img" aria-label="Cena 3D com um prédio real à esquerda e seu gêmeo digital em wireframe à direita, ligados por um fluxo de dados. Ao simular recalque, o prédio real inclina, o gêmeo acompanha e muda de cor de verde para amarelo e vermelho; em malha fechada, um fluxo vermelho de comando volta à obra e estabiliza a inclinação."></div>
+        <div class="viz-lado">
+          <h3>Não é só uma maquete 3D</h3>
+          <p>Um modelo BIM bonito, parado, é um <em>modelo digital</em>. Ele vira <strong>gêmeo digital</strong> quando recebe dados reais da obra, de forma contínua, e passa a mostrar o estado atual dela.</p>
+          <p>Clique em <strong>Simular recalque</strong> e compare a <strong>malha fechada</strong> (medir, comparar com o limite, decidir, agir e medir de novo) com a <strong>malha aberta</strong> (medir e arquivar). A inclinação está exagerada no desenho para ficar visível.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Caminho das unidades -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O caminho</p>
+      <h2>16 videoaulas em 4 unidades</h2>
+      <div class="timeline" style="--n:4">
+        <div class="etapa"><div class="ano">Unidade 1</div><p><strong>Fundamentos.</strong> Monitoramento digital, sensores, arquiteturas IoT e drones com a regulamentação brasileira.</p></div>
+        <div class="etapa"><div class="ano">Unidade 2</div><p><strong>Drones.</strong> Planejamento de voo, fotogrametria, ortomosaico, modelos 3D, volumes, LiDAR e termografia.</p></div>
+        <div class="etapa"><div class="ano">Unidade 3</div><p><strong>Sensores IoT.</strong> Monitoramento geotécnico e estrutural, vibração e ruído, séries temporais e alertas.</p></div>
+        <div class="etapa"><div class="ano">Unidade 4</div><p><strong>Integração.</strong> BIM e gêmeo digital, visão computacional, gestão e um projeto completo de monitoramento.</p></div>
+      </div>
+      <div class="galeria unidades-fotos" style="--cols:4">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Representative_LoRaWAN_Deployment_with_Gateway_%2B_End_Device.png/1280px-Representative_LoRaWAN_Deployment_with_Gateway_%2B_End_Device.png" alt="Nó sensor LoRaWAN com sonda de umidade do solo ao lado de um gateway LoRaWAN, com antenas, sobre uma mesa" loading="lazy">
+          <figcaption>U1 · medir e conectar</figcaption>
+          <p class="credito">Foto: Roujiamo87 — Wikimedia Commons (CC0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Obras_Centro_de_Eventos_drone_Rodrigo_Pessoa_%286%29_%2850776013991%29.jpg/1280px-Obras_Centro_de_Eventos_drone_Rodrigo_Pessoa_%286%29_%2850776013991%29.jpg" alt="Vista aérea, feita por drone, de um centro de eventos em construção em Votuporanga (SP): prédio branco com janelas redondas sobre terreno de terra vermelha terraplenado" loading="lazy">
+          <figcaption>U2 · o drone no ar</figcaption>
+          <p class="credito">Foto: Rodrigo Pessoa / Prefeitura de Votuporanga (SP) — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Obras_de_recupera%C3%A7%C3%A3o_da_Linha_6_do_metr%C3%B4_%2851857996316%29.jpg" alt="Vista do alto de um poço circular de obra do metrô ao lado de uma avenida, com água acumulada no fundo, um pórtico amarelo e caminhões-betoneira: obras de recuperação da Linha 6-Laranja, em São Paulo" loading="lazy">
+          <figcaption>U3 · sensores IoT: solo, água e estruturas</figcaption>
+          <p class="credito">Foto: Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Architectural_BIM_3D_Modeling.jpg/1280px-Architectural_BIM_3D_Modeling.jpg" alt="Modelo BIM 3D de um edifício térreo visto em perspectiva" loading="lazy">
+          <figcaption>U4 · BIM e gêmeo digital</figcaption>
+          <p class="credito">Imagem: Archdraw — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Por que importa -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atuação profissional</p>
+      <h2>Onde isso aparece na sua carreira</h2>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="4">0</span><div class="legenda">unidades, do sensor isolado ao projeto completo de monitoramento</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="16">0</span><div class="legenda">videoaulas com cenas 3D, simulações e cálculos interativos</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="24" data-suf=" h">0</span><div class="legenda">por dia: o tempo que um sensor bem instalado observa a obra</div></div>
+      </div>
+      <div class="slide-content-box" style="margin-top:1.2rem">
+        <ul>
+          <li><strong>Construtoras e incorporadoras:</strong> controle de avanço físico, medição de terraplenagem, inspeção de fachadas.</li>
+          <li><strong>Geotecnia e fundações:</strong> instrumentação de escavações, taludes, barragens e prédios vizinhos.</li>
+          <li><strong>Infraestrutura e concessões:</strong> pontes, rodovias e ferrovias monitoradas à distância.</li>
+          <li><strong>Empresas de tecnologia para construção:</strong> um mercado que procura engenheiros que falem a língua dos dados.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Avaliação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Como você será avaliado</p>
+      <h2>Estude com a obra na cabeça</h2>
+      <div class="slide-content-box avaliacao">
+        <ul>
+          <li><strong>Questionários de cada unidade:</strong> questões de asserção-razão e de interpretação, no padrão ENADE.</li>
+          <li><strong>Atividade Avaliativa Individual:</strong> um caso real de obra para você analisar, calcular e justificar.</li>
+          <li><strong>Entrega de trabalho:</strong> um projeto de monitoramento para uma obra, com drone, sensores e plano de ação.</li>
+          <li><strong>Avaliação final:</strong> questões objetivas e discursivas sobre toda a disciplina.</li>
+        </ul>
+      </div>
+      <div class="callout-azul"><p>Nas questões, a pergunta quase sempre é "o que o engenheiro deve fazer com esse dado?". Treine essa resposta em cada simulação dos slides.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Boas-vindas à disciplina</h1>
+      <p class="fim-texto">A obra vai ganhar olhos no céu e nervos na estrutura. Você vai aprender a ler o que eles dizem.</p>
+      <p class="fim-proxima">Próxima aula: Aula 1 — Monitoramento de obras na era digital: do diário de obra ao canteiro conectado.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

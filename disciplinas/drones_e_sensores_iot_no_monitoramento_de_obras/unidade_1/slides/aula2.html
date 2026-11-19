@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 2 — Fundamentos de sensoriamento: grandezas, transdutores, incerteza e calibração</title>
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* ajustes locais desta aula (não altera os assets compartilhados) */
+  .slide-foto > .credito { right: auto; left: .8rem; text-align: left; }
+  .dupla { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.95rem, 1.3vw, 1.15rem); margin-bottom: .5em; }
+  .pilha { display: grid; grid-template-rows: 1fr 1fr; gap: .8rem; min-height: 0; }
+  .pilha > .figura { min-height: 0; }
+  .tabela-industrial td, .tabela-industrial th { font-size: clamp(.86rem, 1.15vw, 1.05rem); }
+  .tabela-industrial td:first-child { color: var(--amarelo); font-weight: 700; white-space: nowrap; }
+  .escala { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .9rem; flex: 1 1 0; min-height: 0; }
+  .escala .figura { min-height: 0; height: 100%; }
+  .escala .col { display: flex; flex-direction: column; gap: .8rem; min-height: 0; }
+  .stat-grid.compacto { margin-top: 0; gap: .8rem; grid-template-columns: 1fr; }
+  .stat-grid.compacto .stat-card { padding: .7rem .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.8rem, 2.8vw, 2.4rem); }
+  .stat-grid.compacto .legenda { font-size: .86rem; }
+  .escala .stat-grid { flex: 1 1 0; grid-auto-rows: 1fr; }
+  .escala .stat-card { display: flex; flex-direction: column; justify-content: center; }
+  .escala .numero-grande { font-size: clamp(2.2rem, 3.6vw, 3rem) !important; }
+  .escala .legenda { font-size: .98rem !important; }
+  .carac { display: grid; grid-template-columns: repeat(5, 1fr); gap: .7rem; margin-top: .3rem; }
+  .carac div { background: rgba(255,255,255,.07); border-top: 5px solid var(--amarelo); border-radius: 10px; padding: .7rem .8rem; font-size: clamp(.82rem, 1.05vw, .98rem); }
+  .carac div:nth-child(2) { border-color: var(--obra-ciano); } .carac div:nth-child(3) { border-color: var(--verde-claro); }
+  .carac div:nth-child(4) { border-color: var(--obra-laranja); } .carac div:nth-child(5) { border-color: var(--obra-alerta); }
+  .carac b { display: block; color: #fff; font-size: 1.08rem; margin-bottom: .25rem; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.15rem; font-size: clamp(.95rem, 1.3vw, 1.15rem); }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); }
+  .mosaico-bg ~ .slide-content > .fill { flex: 1 1 0; min-height: 0; }
+  .pk.fill { grid-auto-rows: 1fr; margin-bottom: .3rem; }
+  .pk.fill div { font-size: clamp(1rem, 1.5vw, 1.3rem); padding: 1.1rem 1.4rem; line-height: 1.45; }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.95rem, 1.35vw, 1.2rem); padding: .75em 1em; }
+  .cadeia { display: flex; flex-direction: column; gap: .5rem; }
+  .cadeia div { position: relative; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-radius: 10px; padding: .55rem .9rem; font-size: clamp(.95rem, 1.35vw, 1.2rem); padding: .8rem 1rem; }
+  .cadeia div b { color: var(--amarelo); }
+  .cadeia div + div::before { content: "▲"; position: absolute; top: -.85rem; left: 1.2rem; color: var(--obra-ciano); font-size: .8rem; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .55rem; }
+  .foto-direita .slide-content { max-width: 46%; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 2 — Fundamentos de sensoriamento">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Fundamentos de sensoriamento</h1>
+      <div class="subtitulo">Aula 2 — Grandezas, transdutores, incerteza e calibração</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Fundamentos de sensoriamento</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Grandezas e mensurandos</li>
+          <li>Sensor, transdutor e datalogger</li>
+          <li>Faixa, resolução, sensibilidade, deriva, histerese</li>
+          <li>Exatidão × precisão e incerteza</li>
+          <li>Amostragem e o critério de Nyquist</li>
+          <li>Calibração e rastreabilidade</li>
+          <li>Exemplos: piezômetro e recalque</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Abertura -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0f/Survey_level_and_field_technician.jpg/1280px-Survey_level_and_field_technician.jpg')" role="img" aria-label="Nível topográfico digital montado sobre tripé amarelo e vermelho em um campo de vegetação seca; ao fundo, um técnico segura a mira para a leitura"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">O sistema acusa</p>
+      <p class="big">9 mm</p>
+      <h2>Recalque do pilar P12 do vizinho. O nível de alerta é 10 mm.</h2>
+      <p>Mobilizar a equipe ou esperar a próxima leitura? Depende de uma pergunta que muita gente esquece: <strong>qual é a incerteza desses 9 mm?</strong> Se for ±0,2 mm, você está longe do alerta. Se for ±1,5 mm, o alerta pode já ter sido atingido.</p>
+    </div>
+    <p class="credito">Foto: Cvstr — Wikimedia Commons (CC BY 4.0)</p>
+  </section>
+
+  <!-- 4. Grandezas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Grandezas e mensurandos</p>
+      <h2>Toda medição começa pela grandeza, e pelo mensurando bem definido</h2>
+      <table class="tabela-industrial grande">
+        <thead><tr><th>Família</th><th>Grandezas na obra</th><th>Unidades</th><th>Exemplo de instrumento</th></tr></thead>
+        <tbody>
+          <tr><td>Geométricas</td><td>deslocamento, recalque, inclinação</td><td>mm, graus</td><td>nivelamento, inclinômetro, LVDT</td></tr>
+          <tr><td>Hidráulicas</td><td>nível d'água, poropressão</td><td>m, kPa</td><td>piezômetro</td></tr>
+          <tr><td>Mecânicas</td><td>deformação, força, aceleração, velocidade de vibração</td><td>με, kN, m/s², mm/s</td><td>extensômetro, célula de carga, acelerômetro (m/s²), sismógrafo de engenharia (mm/s)</td></tr>
+          <tr><td>Térmicas</td><td>temperatura</td><td>°C</td><td>termopar no concreto massa</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="margin-top:1rem"><p style="margin:0"><strong>Mensurando</strong> é o valor específico que se quer medir: <em>"o recalque do pilar P12 entre 1º e 15 de março"</em>. Recalque em relação a quê? Medido onde? Com que referência? Definir bem o mensurando é metade do trabalho.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. Obra instrumentada 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Uma escavação instrumentada: cada sensor, uma grandeza</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="instrumentos3d" role="img" aria-label="Cena 3D em corte de uma escavação escorada ao lado de um prédio vizinho. O solo é semitransparente e mostra os instrumentos: marco de recalque e sismógrafo de vibração no prédio, inclinômetro e piezômetro no solo atrás da contenção, extensômetro numa escora e termopar na laje de fundo. Pulsos de dados saem de cada sensor até um datalogger na superfície."></div>
+        <div class="viz-lado">
+          <h3>Procure na cena</h3>
+          <ul>
+            <li><strong>Marco de recalque</strong> (mm) e <strong>sismógrafo</strong> de vibração (velocidade, mm/s) no prédio vizinho;</li>
+            <li><strong>Inclinômetro</strong> (mm) e <strong>piezômetro</strong> (kPa) no solo atrás da parede;</li>
+            <li><strong>Extensômetro</strong> (με) na escora;</li>
+            <li><strong>Termopar</strong> (°C) na laje de fundo;</li>
+            <li>tudo chegando ao <strong>datalogger</strong>.</li>
+          </ul>
+          <p>Clique nos botões para destacar cada instrumento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Galeria de sensores -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Sensor, transdutor e datalogger</p>
+      <h2>O sensor responde à grandeza; o transdutor a converte em sinal elétrico</h2>
+      <div class="galeria" style="--cols:3">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Strain_gauge_-.jpg/1280px-Strain_gauge_-.jpg" alt="Extensômetro elétrico de resistência colado sobre uma peça metálica cinza, com a grade metálica dourada em zigue-zague e dois fios pretos soldados" loading="lazy">
+          <figcaption><b>Extensômetro elétrico:</b> a grade muda de resistência ao deformar</figcaption>
+          <p class="credito">Foto: Cristian V. — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Vibrating_wire_sensor.JPG/1280px-Vibrating_wire_sensor.JPG" alt="Sensor de corda vibrante metálico, com estrutura recortada e um fio fino tensionado no centro, ao lado de uma régua graduada em centímetros" loading="lazy">
+          <figcaption><b>Corda vibrante:</b> a frequência do fio muda com a deformação</figcaption>
+          <p class="credito">Foto: Ogni Dranoel — Wikimedia Commons (CC BY-SA 3.0 de)</p>
+        </figure>
+        <figure class="figura" style="background:#fff">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Vibrating_wire_piezometer_from_USBR_6515-09_Fig._1.png/960px-Vibrating_wire_piezometer_from_USBR_6515-09_Fig._1.png" alt="Desenho em corte de um piezômetro de corda vibrante: filtro, diafragma, corda vibrante, bobinas de excitação e leitura, carcaça de aço inoxidável e cabo de quatro condutores" loading="lazy" style="object-fit:contain;padding:1rem 0 2.2rem">
+          <figcaption><b>Piezômetro de corda vibrante:</b> a água empurra o diafragma</figcaption>
+          <p class="credito">Desenho: U.S. Bureau of Reclamation — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Strain_gauge_062TZ.jpg/1280px-Strain_gauge_062TZ.jpg" alt="Roseta de extensômetros colada em uma superfície, com terminais de solda e quatro fios coloridos ligados a ela" loading="lazy">
+          <figcaption><b>Roseta:</b> deformação em várias direções</figcaption>
+          <p class="credito">Foto: Arnold.p — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura" style="background:#fff">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/FreescaleSemiconductor_3-Axis-MEMS-Accelerometer_MMA8452Q_10953-01b.jpg/500px-FreescaleSemiconductor_3-Axis-MEMS-Accelerometer_MMA8452Q_10953-01b.jpg" alt="Pequeno chip preto quadrado de acelerômetro MEMS de três eixos, com contatos dourados nas bordas" loading="lazy" style="object-fit:contain">
+          <figcaption><b>MEMS:</b> acelerômetro e inclinômetro em chip</figcaption>
+          <p class="credito">Foto: SparkFun — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg/1280px-LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg" alt="Datalogger IoT compacto com pequeno painel solar e cabo de sensor enrolado, apoiado sobre piso de concreto" loading="lazy">
+          <figcaption><b>Datalogger:</b> registra as leituras e as entrega à rede</figcaption>
+          <p class="credito">Foto: Niau33 — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Extensômetro + ponte de Wheatstone -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Por dentro do transdutor</p>
+      <h2>Extensômetro: a viga deforma, a resistência muda, a ponte mede</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="ponte" role="img" aria-label="Animação de uma viga biapoiada com carga no meio do vão e um extensômetro colado na face inferior. Ao aumentar a deformação, a viga flete, a grade do extensômetro se alonga e, à direita, uma ponte de Wheatstone com quatro resistores mostra a tensão de saída em milivolts no voltímetro."></div>
+        <div class="viz-lado">
+          <h3>Aumente a deformação</h3>
+          <div data-controles></div>
+          <p style="font-size:.8rem;opacity:.8">GF = 2,0; R = 120 Ω; excitação 5 V; ¼ de ponte. Valores ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Comparação de escala -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Para ter dimensão</p>
+      <h2>Sensores minúsculos, grandezas minúsculas, estruturas enormes</h2>
+      <div class="escala">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/DARPA_TIMU_Michigan_Penny.jpg/1280px-DARPA_TIMU_Michigan_Penny.jpg" alt="Unidade de medição inercial em chip, com acelerômetros e giroscópios, apoiada sobre uma moeda de um centavo de dólar e menor que o desenho do prédio gravado nela" loading="lazy">
+          <figcaption>Unidade inercial MEMS sobre uma moeda de 1 centavo de dólar (19 mm)</figcaption>
+          <p class="credito">Foto: University of Michigan — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Installation_of_plate_girder_Ishikarigawa_bridge.jpg/1280px-Installation_of_plate_girder_Ishikarigawa_bridge.jpg" alt="Fotografia antiga em preto e branco de uma viga metálica de ponte sendo lançada em balanço sobre pilares de concreto, com um guindaste sobre o trecho já montado" loading="lazy" style="object-position:30% 50%">
+          <figcaption>Viga de ponte em lançamento: dezenas de metros de comprimento</figcaption>
+          <p class="credito">Foto: autor desconhecido — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <div class="col">
+          <div class="stat-grid compacto">
+            <div class="stat-card"><span class="numero-grande contador" data-ate="1000" data-pre="1 : ">0</span><div class="legenda">grade de 6 mm numa viga de 6 m</div></div>
+            <div class="stat-card"><span class="numero-grande contador" data-ate="3" data-suf=" μm">0</span><div class="legenda">alongamento da grade de 6 mm com 500 με (ilustrativo)</div></div>
+            <div class="stat-card"><span class="numero-grande contador" data-ate="23" data-pre="≈ " data-suf="×">0</span><div class="legenda">menor que a espessura de um fio de cabelo (≈ 70 μm)</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Características estáticas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Características estáticas</p>
+      <h2>Leia a ficha técnica antes de confiar no número</h2>
+      <div class="carac">
+        <div><b>Faixa</b>intervalo medido corretamente (ex.: 0 a 200 kPa)</div>
+        <div><b>Resolução</b>menor variação que o instrumento indica (ex.: 0,01 mm)</div>
+        <div><b>Sensibilidade</b>variação da saída ÷ variação da entrada (ex.: 16 mA / 200 kPa = 0,08 mA/kPa)</div>
+        <div><b>Deriva</b>indicação muda lentamente sem o mensurando mudar</div>
+        <div><b>Histerese</b>indicação diferente subindo ou descendo</div>
+      </div>
+      <div class="dupla" style="margin-top:.9rem;grid-template-columns:1fr 1.25fr">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Mid_1980s_Mahr_mechanical_dial_indicator_range_10_mm_accuracy_0_01_mm_6_rubis.jpg/1280px-Mid_1980s_Mahr_mechanical_dial_indicator_range_10_mm_accuracy_0_01_mm_6_rubis.jpg" alt="Relógio comparador mecânico com mostrador branco graduado em centésimos de milímetro, ponteiro preto e haste de medição, dentro de um estojo transparente" loading="lazy" style="object-position:50% 30%">
+          <figcaption>Relógio comparador: faixa de 10 mm, resolução de 0,01 mm</figcaption>
+          <p class="credito">Foto: R. Henrik Nilsson — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+        <div class="callout-azul" style="display:flex;flex-direction:column;justify-content:center">
+          <p style="font-size:1.6rem;font-weight:800;margin:0 0 .4em;color:var(--amarelo)">Resolução não é exatidão.</p>
+          <p style="margin:0 0 .6em">Um sensor pode exibir <strong>três casas decimais</strong> e errar por um <strong>milímetro inteiro</strong>. O display mostra o que o instrumento <em>consegue indicar</em>, não o quanto ele <em>acerta</em>.</p>
+          <p style="margin:0">Em monitoramentos de meses, a <strong>deriva</strong> pesa: um zero que "anda" 0,5 mm por mês vira um recalque falso.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Exatidão x precisão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exatidão × precisão</p>
+      <h2>Tiros no alvo: viés se calibra, dispersão se reduz</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="sensor" role="img" aria-label="Alvo com centro representando o valor verdadeiro. Pontos azuis representam leituras sucessivas e um círculo amarelo marca a média delas. Controles deslizantes ajustam o erro sistemático, que desloca o grupo para longe do centro, e a dispersão, que espalha os pontos."></div>
+        <div class="viz-lado">
+          <h3>Teste os quatro casos</h3>
+          <p><strong>Precisão:</strong> leituras repetidas próximas entre si. <strong>Veracidade:</strong> média próxima do valor verdadeiro (sem viés). <strong>Exatidão:</strong> cada leitura perto do valor verdadeiro, o que exige as duas.</p>
+          <div data-controles></div>
+          <p style="font-size:.88rem">Agrupados e longe do centro: precisos, com viés (corrigível por <strong>calibração</strong>). Espalhados em torno do centro: sem viés, mas imprecisos; cada leitura isolada é inexata.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Nyquist -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Taxa de amostragem</p>
+      <h2>Nyquist: amostre a mais que o dobro da maior frequência</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="amostragem" data-opts='{"f0":50,"fsMin":20,"fsMax":600,"fsPasso":10,"fsIni":400}' role="img" aria-label="Senoide azul de 50 hertz representando a vibração da cravação de estacas e, em amarelo, os pontos amostrados pelo sensor ligados por linhas. A 400 amostras por segundo, os pontos reproduzem a onda; exatamente em 100 hertz o resultado depende da fase; abaixo de 100 hertz aparece uma onda falsa mais lenta, o aliasing."></div>
+        <div class="viz-lado">
+          <p style="font-size:1.3rem;margin:0 0 .4rem"><span class="formula">f<sub>s</sub> &gt; 2 · f<sub>max</sub></span></p>
+          <div data-controles></div>
+          <p style="font-size:.9rem">Cravação de estacas com componentes até <strong>50 Hz</strong>: é preciso f<sub>s</sub> &gt; 100 Hz; em 100 Hz ou menos, o registro engana. Na prática, use de 5 a 10 vezes f<sub>max</sub> (250 a 500 Hz). Teste 400, 100 e 60 Hz. Já um piezômetro em argila pode ser lido <strong>a cada hora</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Foto piezômetro -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Piezometer_for_groundwater.JPG/1280px-Piezometer_for_groundwater.JPG'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Medidor elétrico de nível d'água em carretel preto, com visor digital no centro, montado sobre um pilar de concreto junto ao tubo azul de um poço de observação; o cabo graduado sai do carretel em diagonal; ao fundo, vegetação, um muro de pedras e céu azul"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Calibração</p>
+      <h2>A água no solo vira número, mas só se a reta estiver certa</h2>
+      <p><strong>Calibrar</strong> é comparar as indicações do instrumento com um padrão de incerteza conhecida e estabelecer a relação entre elas, muitas vezes uma reta <span class="formula">y = a + b·x</span>.</p>
+      <p>Na foto, um medidor de nível em carretel para leitura manual de um poço de observação. Um piezômetro elétrico faz o mesmo sozinho, com saída de <strong>4–20 mA</strong>.</p>
+    </div>
+    <p class="credito">Foto: Chixoy — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 13. Rastreabilidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Rastreabilidade</p>
+      <h2>Calibração só vale se a cadeia chegar ao Inmetro</h2>
+      <div class="dupla" style="grid-template-columns:1fr 1.1fr">
+        <div style="display:flex;flex-direction:column;gap:.8rem;justify-content:center">
+          <div class="cadeia">
+            <div><b>Padrões nacionais</b> mantidos pelo <b>Inmetro</b></div>
+            <div><b>Laboratório acreditado</b> da Rede Brasileira de Calibração (<b>RBC</b>)</div>
+            <div><b>Padrão de referência</b> usado na calibração, com incerteza conhecida</div>
+            <div><b>Seu sensor na obra</b>, com certificado de calibração</div>
+          </div>
+          <p style="font-size:clamp(.88rem,1.2vw,1.05rem);margin:0">Cadeia <strong>ininterrupta</strong>: cada padrão foi calibrado por outro, mais exato. O certificado deve trazer a <strong>incerteza</strong> e a <strong>rastreabilidade</strong>.</p>
+        </div>
+        <div class="pilha">
+          <figure class="figura">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Calibration_Laboratory_Provides_Key_Aircraft_Support_%28AFRC2019-0098-16%29.jpg/1280px-Calibration_Laboratory_Provides_Key_Aircraft_Support_%28AFRC2019-0098-16%29.jpg" alt="Técnico de laboratório de calibração usando um instrumento de medição de bancada para calibrar um calibrador cilíndrico, com notebook ao lado" loading="lazy" style="object-position:50% 35%">
+            <figcaption>Laboratório de calibração: comparação com padrão</figcaption>
+            <p class="credito">Foto: NASA/Lauren Hughes — Wikimedia Commons (domínio público)</p>
+          </figure>
+          <figure class="figura">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Funchal%2C_Museu_A_Cidade_do_A%C3%A7%C3%BAcar_%28calibration_weights%29.jpg/1280px-Funchal%2C_Museu_A_Cidade_do_A%C3%A7%C3%BAcar_%28calibration_weights%29.jpg" alt="Conjunto antigo de pesos-padrão de latão de vários tamanhos expostos em vitrine de museu" loading="lazy">
+            <figcaption>Pesos-padrão antigos: a ideia de padrão é secular</figcaption>
+            <p class="credito">Foto: Dr. Thomas Liptak — Wikimedia Commons (CC BY-SA 4.0)</p>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Curva de calibração (exemplo a) -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (a)</p>
+      <h2>Reta de calibração de um piezômetro 4–20 mA</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calibracao" role="img" aria-label="Gráfico de calibração com corrente em miliampères no eixo horizontal e pressão em quilopascals no vertical. Pontos de calibração aparecem um a um e uma reta é ajustada de 4 mA e 0 kPa até 20 mA e 200 kPa. Uma linha tracejada leva a leitura de 9,6 mA até 70 kPa. Um botão mostra a deriva após anos de uso, deslocando a resposta do sensor."></div>
+        <div class="viz-lado">
+          <p style="margin:0 0 .3rem"><strong>Dois pontos:</strong> 4 mA ↔ 0 kPa e 20 mA ↔ 200 kPa</p>
+          <p><span class="formula">b = (200 − 0) / (20 − 4) = 12,5 kPa/mA</span><br><span class="formula">a = 0 − 12,5 × 4 = −50 kPa</span></p>
+          <p style="font-size:.85rem;margin:0 0 .4rem">b é o fator de escala (o inverso da sensibilidade, 0,08 mA/kPa): converte a corrente lida em pressão.</p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Incerteza: calculadora (exemplo b) -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (b) · GUM</p>
+      <h2>Incerteza combinada da leitura de recalque</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"u1","label":"u<sub>1</sub> instrumento","min":0,"max":1.5,"step":0.1,"value":0.3,"unit":"mm"},
+            {"id":"u2","label":"u<sub>2</sub> mira e posicionamento","min":0,"max":1.5,"step":0.1,"value":0.4,"unit":"mm"},
+            {"id":"u3","label":"u<sub>3</sub> referência de nível","min":0,"max":1.5,"step":0.1,"value":0.5,"unit":"mm"},
+            {"id":"u4","label":"u<sub>4</sub> efeitos térmicos","min":0,"max":1.5,"step":0.1,"value":0.2,"unit":"mm"},
+            {"id":"k","label":"fator de abrangência k","min":1,"max":3,"step":1,"value":2,"unit":""}
+          ],
+          "outputs": [
+            {"label":"u<sub>c</sub> = √(u₁² + u₂² + u₃² + u₄²)","expr":"Math.sqrt(u1*u1+u2*u2+u3*u3+u4*u4)","unit":"mm","dec":2},
+            {"label":"U = k · u<sub>c</sub>","expr":"k*o1","unit":"mm","dec":1,"destaque":true},
+            {"label":"Recalque de 9,0 mm entre","expr":"Obra.fmt(9-o2,1)+\" e \"+Obra.fmt(9+o2,1)+\" mm\""},
+            {"label":"Decisão (alerta 10 mm)","expr":"9+o2>=10?\"ATENÇÃO: o intervalo inclui o alerta\":\"normal: intervalo abaixo do alerta\""}
+          ],
+          "barras": [{"label":"u1","expr":"u1","unit":"mm","dec":1},{"label":"u2","expr":"u2","unit":"mm","dec":1},{"label":"u3","expr":"u3","unit":"mm","dec":1},{"label":"u4","expr":"u4","unit":"mm","dec":1},{"label":"uc","expr":"o1","unit":"mm","dec":2},{"label":"U","expr":"o2","unit":"mm","dec":1}],
+          "nota":"Fontes independentes combinam-se pela raiz da soma dos quadrados; k = 2 ≈ 95% de confiança."
+        }' role="img" aria-label="Calculadora de incerteza com barras para as quatro fontes e para a incerteza expandida. Com 0,3, 0,4, 0,5 e 0,2 mm, a incerteza combinada é 0,73 mm e a expandida, com k igual a 2, cerca de 1,5 mm; o recalque de 9 mm pode estar entre 7,5 e 10,5 mm e inclui o alerta de 10 mm."></div>
+        <div class="viz-lado">
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Incerteza: decisão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Da incerteza à decisão</p>
+      <h2>9,0 ± 1,5 mm: o valor real pode já ter passado de 10 mm</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="incerteza" role="img" aria-label="Curva em forma de sino centrada na leitura de recalque, com a faixa de mais ou menos U sombreada e uma linha vermelha no nível de alerta de 10 mm. A área da curva além do alerta fica vermelha e o painel mostra a probabilidade de o recalque real já ter ultrapassado o alerta."></div>
+        <div class="viz-lado">
+          <h3>Mexa na leitura e na incerteza</h3>
+          <div data-controles></div>
+          <p class="nota-padrao" style="font-size:.88rem">Decisão defensável com 9,0 ± 1,5 mm: tratar como <strong>atenção</strong>, aumentar a frequência de leitura e preparar a resposta. Ignorar o valor por estar "abaixo de 10" é o erro clássico.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Leia a ficha técnica de um sensor real</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <p>Escolha um <em>datasheet</em>: inclinômetro MEMS, piezômetro de corda vibrante ou sismógrafo de vibração.</p>
+          <ol class="lista-num">
+            <li>Anote <strong>faixa, resolução, exatidão (ou incerteza), sensibilidade, deriva térmica</strong> e <strong>taxa de amostragem máxima</strong>.</li>
+            <li>Esse sensor detecta com segurança uma variação de <strong>2 mm</strong> (ou 2 kPa, ou 1 mm/s)?</li>
+            <li>Justifique com os conceitos da aula: resolução × exatidão, incerteza e Nyquist.</li>
+          </ol>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/American_Swedish_Institute-Fissurometer-Crack_Gauge_monitor.jpg/1280px-American_Swedish_Institute-Fissurometer-Crack_Gauge_monitor.jpg" alt="Parede clara com uma trinca vertical que desce até o arco de uma janela; sobre a trinca, um pequeno fissurômetro de plástico colado nas duas bordas" loading="lazy" style="object-position:50% 62%">
+          <figcaption>Fissurômetro sobre uma trinca: para acompanhar 0,1 mm de abertura, que faixa e que resolução você exigiria?</figcaption>
+          <p class="credito">Foto: Myotus — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="pk fill">
+        <div><strong>Sensor</strong> responde à grandeza; <strong>transdutor</strong> a converte em sinal mensurável; o <strong>datalogger</strong> registra e transmite.</div>
+        <div><strong>Resolução não é exatidão</strong>; precisão é repetibilidade, veracidade é ausência de viés, e exatidão exige as duas.</div>
+        <div>A qualidade da medição é a <strong>incerteza</strong>: fontes independentes pela raiz da soma dos quadrados; <span class="formula">U = k · u<sub>c</sub></span>, k = 2.</div>
+        <div>A amostragem deve satisfazer <strong>Nyquist</strong> (<span class="formula">f<sub>s</sub> &gt; 2 f<sub>max</sub></span>) e acompanhar a velocidade do fenômeno.</div>
+        <div>Calibração só vale se for <strong>rastreável</strong> aos padrões nacionais (Inmetro/RBC).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Fundamentos de sensoriamento</h1>
+      <p class="fim-texto">Agora você sabe avaliar se uma leitura merece confiança. Mas como ela sai do solo e chega à tela do engenheiro?</p>
+      <p class="fim-proxima">Próxima aula: Aula 3 — Arquiteturas IoT para o canteiro: dispositivos, conectividade e nuvem.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 2 */
+(function () {
+  const { canvas2d, cena3d, loop, slider, hud, chip, botoes, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const novo = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+
+  /* ponte — viga com extensômetro + ponte de Wheatstone (¼ de ponte) */
+  Obra.register('ponte', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sE = slider(p, { id: 'eps', label: 'Deformação ε na face inferior', min: 0, max: 1000, step: 10, value: 500, unit: 'με' });
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const GF = 2, R = 120, V = 5;
+    let epsA = 0;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      const eps = +sE.value; epsA += (eps - epsA) * Math.min(1, dt * 5);
+      const dRR = GF * epsA * 1e-6, dR = R * dRR, vout = V * dRR / 4 * 1000;
+      res.innerHTML = `<span class="formula">ΔR/R = GF · ε</span> = 2,0 × ${fmt(eps)}×10⁻⁶ = ${fmt(GF * eps * 1e-6 * 1000, 2)}×10⁻³<br>` +
+        `ΔR = <b>${fmt(R * GF * eps * 1e-6, 3)} Ω</b> em 120 Ω<br><span class="formula">V<sub>s</sub> ≈ V · GF · ε / 4</span> = <span class="num">${fmt(V * GF * eps * 1e-6 / 4 * 1000, 2)} mV</span><br><small>Sinal de milivolts: precisa de amplificação e de um bom datalogger.</small>`;
+      ctx.clearRect(0, 0, W, H);
+      // viga
+      const x0 = W * 0.05, L = W * 0.48, yb = H * 0.42, hv = 26, f = epsA / 1000 * 38;
+      ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillStyle = '#fff';
+      ctx.fillText('viga biapoiada (flecha exagerada)', x0 + L / 2, H * 0.12);
+      const yv = (x) => yb + f * Math.sin(Math.PI * (x - x0) / L);
+      ctx.fillStyle = '#b9bcc2'; ctx.beginPath();
+      for (let x = x0; x <= x0 + L; x += 4) ctx.lineTo(x, yv(x) - hv / 2);
+      for (let x = x0 + L; x >= x0; x -= 4) ctx.lineTo(x, yv(x) + hv / 2);
+      ctx.fill();
+      // apoios
+      ctx.fillStyle = '#F2CB0A';
+      [[x0 + 6, 0], [x0 + L - 6, 1]].forEach(([x]) => { ctx.beginPath(); ctx.moveTo(x, yb + hv / 2); ctx.lineTo(x - 12, yb + hv / 2 + 20); ctx.lineTo(x + 12, yb + hv / 2 + 20); ctx.fill(); });
+      // carga
+      const xm = x0 + L / 2, P = 20 + epsA / 1000 * 40;
+      ctx.strokeStyle = '#FF2B5F'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(xm, yv(xm) - hv / 2 - 10 - P); ctx.lineTo(xm, yv(xm) - hv / 2 - 10); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#FF2B5F'; ctx.beginPath(); ctx.moveTo(xm, yv(xm) - hv / 2 - 2); ctx.lineTo(xm - 9, yv(xm) - hv / 2 - 16); ctx.lineTo(xm + 9, yv(xm) - hv / 2 - 16); ctx.fill();
+      ctx.fillText('P', xm + 16, yv(xm) - hv / 2 - 20);
+      // extensômetro na face inferior
+      const gw = 34 * (1 + epsA / 1000 * 0.25), gy = yv(xm) + hv / 2;
+      ctx.fillStyle = '#F2CB0A'; ctx.fillRect(xm - gw / 2, gy, gw, 6);
+      ctx.strokeStyle = 'rgba(242,203,10,.6)'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(xm, gy + 6); ctx.lineTo(xm, H * 0.6); ctx.stroke(); ctx.setLineDash([]);
+      // lupa da grade
+      const zx = xm - 90, zy = H * 0.6, zw = 180, zh = H * 0.3;
+      ctx.fillStyle = 'rgba(255,255,255,.06)'; ctx.strokeStyle = '#F2CB0A'; ctx.beginPath(); ctx.roundRect(zx, zy, zw, zh, 10); ctx.fill(); ctx.stroke();
+      const nfios = 8, alt = zh * 0.55, esp = (zw - 50) / nfios * (1 + epsA / 1000 * 0.25) / 1.25;
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 2; ctx.beginPath();
+      let gx = zx + zw / 2 - esp * nfios / 2;
+      ctx.moveTo(gx, zy + zh * 0.2 + alt + 10);
+      for (let k = 0; k < nfios; k++) { const yA = zy + zh * 0.2, yB = yA + alt; ctx.lineTo(gx, k % 2 ? yB : yA); gx += esp; ctx.lineTo(gx, k % 2 ? yB : yA); }
+      ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.font = '11px Montserrat, Arial'; ctx.fillText('grade: alonga com ε → R aumenta', zx + zw / 2, zy + zh - 6);
+      // ponte de Wheatstone
+      const cx = W * 0.78, cy = H * 0.48, r = Math.min(W * 0.15, H * 0.3);
+      const N = [cx, cy - r], E = [cx + r, cy], S = [cx, cy + r], O = [cx - r, cy];
+      const resistor = (a, b, rot, dest) => {
+        ctx.strokeStyle = dest ? '#F2CB0A' : '#2BD9FE'; ctx.lineWidth = dest ? 3 : 2;
+        const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy), ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+        ctx.beginPath(); ctx.moveTo(...a); ctx.lineTo(mx - ux * 22, my - uy * 22);
+        for (let k = 0; k < 6; k++) { const s = -22 + (k + 0.5) * 44 / 6, z = k % 2 ? -7 : 7; ctx.lineTo(mx + ux * s + nx * z, my + uy * s + ny * z); }
+        ctx.lineTo(mx + ux * 22, my + uy * 22); ctx.lineTo(...b); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = dest ? '#F2CB0A' : '#fff'; ctx.font = (dest ? '700 ' : '') + '12px Montserrat, Arial';
+        ctx.fillText(rot, mx + nx * 26 * Math.sign(mx - cx || 1) * Math.sign(nx || 1), my + ny * 26 * Math.sign(my - cy || 1) * Math.sign(ny || 1) + 4);
+      };
+      resistor(N, O, '', true); resistor(N, E, '', false); resistor(O, S, '', false); resistor(E, S, '', false);
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'right'; ctx.fillText('extensômetro R + ΔR', (N[0] + O[0]) / 2 - 14, (N[1] + O[1]) / 2 - 10);
+      ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('R', (N[0] + E[0]) / 2 + 12, (N[1] + E[1]) / 2 - 8);
+      ctx.textAlign = 'right'; ctx.fillText('R', (O[0] + S[0]) / 2 - 12, (O[1] + S[1]) / 2 + 16);
+      ctx.textAlign = 'left'; ctx.fillText('R', (E[0] + S[0]) / 2 + 12, (E[1] + S[1]) / 2 + 16);
+      [N, E, S, O].forEach((q) => { ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(q[0], q[1], 4, 0, 7); ctx.fill(); });
+      // excitação
+      ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.beginPath(); ctx.moveTo(...N); ctx.lineTo(N[0], N[1] - 26); ctx.moveTo(...S); ctx.lineTo(S[0], S[1] + 26); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText('+5 V', N[0], N[1] - 32); ctx.fillText('0 V', S[0], S[1] + 40);
+      // voltímetro
+      ctx.strokeStyle = '#11A360'; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(...O); ctx.lineTo(cx - 34, cy); ctx.moveTo(...E); ctx.lineTo(cx + 34, cy); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#07101F'; ctx.strokeStyle = '#11A360'; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(cx - 34, cy - 18, 68, 36, 6); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#11A360'; ctx.font = '700 15px Consolas, monospace'; ctx.fillText(fmt(vout, 2) + ' mV', cx, cy + 5);
+      ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.fillText('ponte de Wheatstone (¼ de ponte)', cx, H * 0.12);
+      void dR;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* incerteza — distribuição da leitura × nível de alerta */
+  Obra.register('incerteza', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sX = slider(p, { id: 'x', label: 'Leitura de recalque', min: 6, max: 11, step: 0.1, value: 9, unit: 'mm' });
+    const sU = slider(p, { id: 'U', label: 'Incerteza expandida U (k = 2)', min: 0.2, max: 3, step: 0.1, value: 1.5, unit: 'mm' });
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const ALERTA = 10;
+    const erf = (x) => { const s = Math.sign(x); x = Math.abs(x); const t = 1 / (1 + 0.3275911 * x); const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return s * y; };
+    const Phi = (z) => 0.5 * (1 + erf(z / Math.SQRT2));
+    let xa = 9, Ua = 1.5;
+    const notaPadrao = host.closest('.viz-grid')?.querySelector('.nota-padrao');
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      xa += (+sX.value - xa) * Math.min(1, dt * 6); Ua += (+sU.value - Ua) * Math.min(1, dt * 6);
+      const x = +sX.value, U = +sU.value, uc = U / 2, pr = 1 - Phi((ALERTA - x) / uc);
+      const est = x - U >= ALERTA ? '<b style="color:#FF2B5F">ALERTA</b>: todo o intervalo está acima de 10 mm' : x + U >= ALERTA ? '<b style="color:#F2CB0A">ATENÇÃO</b>: o intervalo inclui o alerta' : '<b style="color:#11A360">normal</b>: intervalo abaixo do alerta';
+      res.innerHTML = `Intervalo: <b>${fmt(x - U, 1)} a ${fmt(x + U, 1)} mm</b><br>Chance de o recalque real já passar de 10 mm: <span class="num">${fmt(pr * 100, pr < 0.1 ? 1 : 0)}%</span><br>${est}`;
+      ctx.clearRect(0, 0, W, H);
+      const x0 = 50, x1 = W - 30, base = H - 78, topo = 70, mn = 4, mx = 13;
+      const X = (v) => x0 + (v - mn) / (mx - mn) * (x1 - x0);
+      // altura normalizada pelo pico: com U pequeno a curva fica estreita, mas não sai da área
+      const ucA = Ua / 2, pico = 1 / (ucA * Math.sqrt(2 * Math.PI)), esc = 0.85 * (base - topo) / pico;
+      const Y = (d) => base - Math.min(base - topo, d * esc);
+      // faixa ±U
+      ctx.fillStyle = 'rgba(43,217,254,.10)'; ctx.fillRect(X(xa - Ua), topo - 10, X(xa + Ua) - X(xa - Ua), base - topo + 10);
+      // curva
+      const dens = (v) => Math.exp(-0.5 * ((v - xa) / ucA) ** 2) / (ucA * Math.sqrt(2 * Math.PI));
+      ctx.beginPath(); ctx.moveTo(X(mn), base);
+      for (let v = mn; v <= mx; v += 0.02) ctx.lineTo(X(v), Y(dens(v)));
+      ctx.lineTo(X(mx), base); ctx.closePath(); ctx.fillStyle = 'rgba(43,217,254,.25)'; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(X(ALERTA), base);
+      for (let v = ALERTA; v <= mx; v += 0.02) ctx.lineTo(X(v), Y(dens(v)));
+      ctx.lineTo(X(mx), base); ctx.closePath(); ctx.fillStyle = 'rgba(255,43,95,.6)'; ctx.fill();
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let v = mn; v <= mx; v += 0.02) v === mn ? ctx.moveTo(X(v), Y(dens(v))) : ctx.lineTo(X(v), Y(dens(v)));
+      ctx.stroke(); ctx.lineWidth = 1;
+      // eixo
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(x0, base); ctx.lineTo(x1, base); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'center';
+      for (let v = mn; v <= mx; v++) { ctx.fillRect(X(v) - 0.5, base, 1, 6); ctx.fillText(v + ' mm', X(v), base + 20); }
+      // alerta
+      ctx.strokeStyle = '#FF2B5F'; ctx.lineWidth = 2; ctx.setLineDash([7, 5]); ctx.beginPath(); ctx.moveTo(X(ALERTA), topo - 36); ctx.lineTo(X(ALERTA), base); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+      ctx.fillStyle = '#FF2B5F'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('nível de alerta 10 mm', X(ALERTA) + 6, topo - 24);
+      // leitura
+      ctx.strokeStyle = '#F2CB0A'; ctx.beginPath(); ctx.moveTo(X(xa), base); ctx.lineTo(X(xa), Y(dens(xa))); ctx.stroke();
+      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'center'; ctx.fillText('leitura ' + fmt(xa, 1) + ' mm', X(xa), Math.max(topo + 4, Y(dens(xa)) - 10));
+      // barra ±U
+      const yb = base + 52; ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(xa - Ua), yb); ctx.lineTo(X(xa + Ua), yb);
+      ctx.moveTo(X(xa - Ua), yb - 6); ctx.lineTo(X(xa - Ua), yb + 6); ctx.moveTo(X(xa + Ua), yb - 6); ctx.lineTo(X(xa + Ua), yb + 6); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#2BD9FE'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('± U = ' + fmt(Ua, 1) + ' mm', X(xa), yb + 18);
+      ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('Onde pode estar o recalque real? (curva normal com u = U/2)', x0, 28);
+      // a nota fixa do painel vale só para o caso 9,0 ± 1,5 mm
+      if (notaPadrao) notaPadrao.style.display = Math.abs(x - 9) < 0.05 && Math.abs(U - 1.5) < 0.05 ? '' : 'none';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* calibracao — pontos de calibração, reta ajustada, leitura e deriva */
+  Obra.register('calibracao', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sI = slider(p, { id: 'i', label: 'Leitura do sensor', min: 4, max: 20, step: 0.1, value: 9.6, unit: 'mA' });
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    let deriva = false, t0 = 0;
+    const btns = botoes(host, [
+      ['Sensor recém-calibrado', () => { deriva = false; btns[0].classList.add('on'); btns[1].classList.remove('on'); }, true],
+      ['Depois de anos: deriva +0,3 mA', () => { deriva = true; btns[1].classList.add('on'); btns[0].classList.remove('on'); }]
+    ]);
+    const PTS = [[4.02, 0], [7.98, 50], [12.01, 100], [15.99, 150], [20.0, 200]];
+    const a = -50, b = 12.5, DER = 0.3;
+    const lp = loop((t) => {
+      if (!t0) t0 = t || 0.0001;
+      const [W, H] = dims(ctx);
+      const i = +sI.value, pr = a + b * i, h = pr / 9.81;
+      const pVerd = a + b * (i - DER);
+      res.innerHTML = `<span class="formula">p = −50 + 12,5 × ${fmt(i, 1)}</span> = <span class="num">${fmt(pr, 1)} kPa</span><br>` +
+        `<span class="formula">h = p / γ<sub>w</sub> = ${fmt(pr, 1)} / 9,81</span> ≈ <b>${fmt(h, 2)} m</b> de coluna d'água` +
+        (deriva ? `<br><b style="color:#FF2B5F">Com deriva de +0,3 mA, a pressão real é ${fmt(pVerd, 2)} kPa: erro de ${fmt(b * DER, 2)} kPa.</b> Recalibre.` : '');
+      ctx.clearRect(0, 0, W, H);
+      const x0 = 70, x1 = W - 30, y0 = H - 50, y1 = 60;
+      const X = (mA) => x0 + mA / 22 * (x1 - x0), Y = (kPa) => y0 - (kPa + 60) / 280 * (y0 - y1);
+      // grade
+      ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '12px Montserrat, Arial';
+      for (let m = 0; m <= 22; m += 2) { ctx.beginPath(); ctx.moveTo(X(m), y1); ctx.lineTo(X(m), y0); ctx.stroke(); ctx.textAlign = 'center'; ctx.fillText(m, X(m), y0 + 18); }
+      for (let k = -50; k <= 200; k += 50) { ctx.beginPath(); ctx.moveTo(x0, Y(k)); ctx.lineTo(x1, Y(k)); ctx.stroke(); ctx.textAlign = 'right'; ctx.fillText(k, x0 - 8, Y(k) + 4); }
+      ctx.textAlign = 'center'; ctx.fillText('corrente (mA)', (x0 + x1) / 2, y0 + 38);
+      ctx.save(); ctx.translate(18, (y0 + y1) / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('pressão (kPa)', 0, 0); ctx.restore();
+      // pontos aparecendo
+      const tt = t - t0, n = Math.min(PTS.length, Math.floor(tt / 0.3) + 1);
+      for (let k = 0; k < n; k++) { const [m, kp] = PTS[k]; ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.arc(X(m), Y(kp), 6, 0, 7); ctx.fill(); }
+      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.fillText('● pontos do padrão de referência', x0 + 10, y1 - 26);
+      // reta
+      const fr = Math.min(1, Math.max(0, (tt - 1.5) / 0.8));
+      if (fr > 0) {
+        ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(X(4), Y(a + b * 4)); const xe = 4 + 16 * fr; ctx.lineTo(X(xe), Y(a + b * xe)); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = '#2BD9FE'; ctx.fillText('reta de calibração p = −50 + 12,5·i', x0 + 10, y1 - 8);
+      }
+      if (deriva) {
+        ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(4 + DER), Y(0)); ctx.lineTo(X(20 + DER), Y(200)); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+        ctx.fillStyle = '#FF2B5F'; ctx.textAlign = 'right'; ctx.fillText('resposta real após a deriva', X(20.6), Y(200) + 22);
+      }
+      if (fr >= 1) {
+        ctx.strokeStyle = '#F2CB0A'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(i), y0); ctx.lineTo(X(i), Y(pr)); ctx.lineTo(x0, Y(pr)); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(i), Y(pr), 6, 0, 7); ctx.fill();
+        ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillStyle = '#fff';
+        ctx.fillText(fmt(i, 1) + ' mA → ' + fmt(pr, 1) + ' kPa', X(i) + 10, Y(pr) - 10);
+        if (deriva) { ctx.fillStyle = '#FF2B5F'; ctx.beginPath(); ctx.arc(X(i), Y(pVerd), 5, 0, 7); ctx.fill(); }
+      }
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* instrumentos3d — escavação escorada instrumentada, em corte */
+  Obra.register('instrumentos3d', (host) => {
+    const h = hud(host); const cSel = chip(h, 'Instrumentos: <b>todos</b>');
+    let foco = -1;
+    const INSTR = ['Marco de recalque', 'Sismógrafo', 'Inclinômetro', 'Piezômetro', 'Extensômetro', 'Termopar'];
+    const btns = botoes(host, [['Todos', () => sel(-1), true], ...INSTR.map((n, k) => [n, () => sel(k)])]);
+    function sel(k) { foco = k; btns.forEach((b, j) => b.classList.toggle('on', j === k + 1)); cSel.innerHTML = 'Instrumento: <b>' + (k < 0 ? 'todos' : INSTR[k]) + '</b>'; }
+    return cena3d(host, { r: 82, ph: 1.12, th: 0.42, alvo: [-4, -7, 6] }, ({ THREE, scene, rotulo }) => {
+      const solo = (w, hh, d, x, y, z, cor) => {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(w, hh, d), new THREE.MeshStandardMaterial({ color: cor, transparent: true, opacity: 0.42, depthWrite: false, roughness: 0.9 }));
+        m.position.set(x, y, z); scene.add(m);
+        const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: 0xc89b6d, transparent: true, opacity: 0.5 })); e.position.copy(m.position); scene.add(e);
+        return m;
+      };
+      // solo em três blocos (a escavação fica entre x = 0 e x = 20)
+      solo(45, 32, 40, -22.5, -16, 0, 0x8a6f4d);
+      solo(25, 32, 40, 32.5, -16, 0, 0x8a6f4d);
+      solo(20, 18, 40, 10, -23, 0, 0x7a5f3d);
+      // grama
+      const g1 = caixa(THREE, 45, 0.4, 40, 0x47703f); g1.position.set(-22.5, 0.2, 0); scene.add(g1);
+      const g2 = caixa(THREE, 25, 0.4, 40, 0x47703f); g2.position.set(32.5, 0.2, 0); scene.add(g2);
+      // paredes de contenção e laje de fundo
+      [0, 20].forEach((x) => { const w = caixa(THREE, 0.8, 16, 40, 0x9aa0a8); w.position.set(x, -7, 0); scene.add(w); });
+      const laje = caixa(THREE, 19.2, 0.8, 40, 0xb9bcc2); laje.position.set(10, -13.6, 0); scene.add(laje);
+      // escoras
+      const escoras = [];
+      [-14, 0, 12].forEach((z) => { const e = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 19.2, 10), new THREE.MeshStandardMaterial({ color: 0xc0392b, metalness: 0.5, roughness: 0.5 })); e.rotation.z = Math.PI / 2; e.position.set(10, -4, z); e.castShadow = true; scene.add(e); escoras.push(e); });
+      // prédio vizinho
+      const pred = new THREE.Group(); pred.position.set(-24, 0, 0); scene.add(pred);
+      for (let i = 0; i < 6; i++) { const a = caixa(THREE, 22, 3.3, 24, i % 2 ? 0xc9ccd2 : 0xbfc3ca); a.position.y = i * 3.6 + 1.8; pred.add(a);
+        for (let j = -3; j <= 3; j++) { const jan = caixa(THREE, 1.8, 1.5, 0.2, 0x335577, { metalness: 0.6, roughness: 0.2 }); jan.position.set(j * 3, i * 3.6 + 1.8, 12.05); pred.add(jan); } }
+      // instrumentos
+      const sens = [];
+      const ponto = (geo, cor, x, y, z, txt, dy) => { const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: cor, transparent: true })); m.position.set(x, y, z); scene.add(m); const r = rotulo(m, txt, dy); sens.push({ m, r, base: m.scale.clone() }); return m; };
+      ponto(new THREE.CylinderGeometry(0.7, 0.7, 1.2, 12), 0xF2CB0A, -12.4, 0.8, 11, 'Marco de recalque · mm', 2.2);
+      ponto(new THREE.BoxGeometry(1.6, 1.6, 1.6), 0x2BD9FE, -12.6, 19, 12.2, 'Sismógrafo · mm/s', 2.2);
+      const inc = ponto(new THREE.CylinderGeometry(0.35, 0.35, 28, 10), 0x95DE68, -4, -13, 16, 'Inclinômetro · mm', 15.8);
+      ponto(new THREE.SphereGeometry(1.1, 12, 10), 0x2BD9FE, -9, -22, 15, 'Piezômetro · kPa', 2.2);
+      ponto(new THREE.BoxGeometry(2.2, 1.1, 1.1), 0xF2CB0A, 10, -4, 12, 'Extensômetro na escora · με', 2.4);
+      ponto(new THREE.SphereGeometry(1, 12, 10), 0xFF8A1F, 14, -13, 17, 'Termopar · °C', 2.2);
+      void inc;
+      // datalogger
+      const dl = caixa(THREE, 3, 2.4, 2, 0xe8ecf2); dl.position.set(-6, 1.6, -14); scene.add(dl);
+      const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 4, 6), new THREE.MeshBasicMaterial({ color: 0x333333 })); ant.position.set(-5, 4.6, -14); scene.add(ant);
+      rotulo(dl, 'Datalogger', 4.5);
+      // pacotes
+      const pac = [], geoP = new THREE.SphereGeometry(0.4, 8, 6);
+      sens.forEach((s, k) => { for (let j = 0; j < 3; j++) { const q = new THREE.Mesh(geoP, new THREE.MeshBasicMaterial({ color: 0xffffff })); scene.add(q); pac.push({ q, k, f: j / 3 }); } });
+      const alvoDL = dl.position.clone();
+      return (t, dt) => {
+        sens.forEach((s, k) => {
+          const ativo = foco < 0 || foco === k, pul = 1 + 0.25 * Math.sin(t * 4 + k);
+          if (k !== 2) s.m.scale.setScalar(ativo ? pul * (foco === k ? 1.6 : 1) : 0.6);
+          s.m.material.opacity = ativo ? 1 : 0.25;
+          s.r.dataset.oculto = ativo ? '' : '1'; if (!ativo) s.r.style.opacity = 0;
+        });
+        pac.forEach((p) => {
+          const s = sens[p.k], ativo = foco < 0 || foco === p.k;
+          p.q.visible = ativo; p.f = (p.f + dt * 0.35) % 1;
+          const ini = s.m.position;
+          p.q.position.set(ini.x + (alvoDL.x - ini.x) * p.f, ini.y + (alvoDL.y - ini.y) * p.f + Math.sin(p.f * Math.PI) * 4, ini.z + (alvoDL.z - ini.z) * p.f);
+        });
+      };
+    });
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>
