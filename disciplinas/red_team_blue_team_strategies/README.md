@@ -17,7 +17,7 @@ Todo o material escrito está produzido em Markdown, **com base na ementa propos
 - trabalho PBL (caso Vitalis Diagnósticos, com solução e rubrica para o tutor);
 - avaliação final com 10 discursivas, respostas esperadas e critérios de correção.
 
-`python scripts/validar.py` confere as regras dos templates (estrutura, 700–1200 palavras e 3–5 imagens por aula, seções obrigatórias, formato e distribuição das questões, pesos do PBL). Ainda **não** foram gerados os DOCX preenchidos, e nada foi validado pela coordenação.
+`python scripts/validar.py` confere as regras dos templates (estrutura, 700–1200 palavras e 3–5 imagens por aula, seções obrigatórias, formato e distribuição das questões, pesos do PBL). Os DOCX preenchidos são gerados por `python scripts/gerar_docx.py` (em `entregas_docx/`, fora do git), a partir dos modelos de `documentos/`, e foram enviados ao Drive em 15/11/2026. Nada foi validado pela coordenação ainda.
 
 Os slides das 16 aulas e da apresentação estão em HTML, com laboratórios embutidos (ver [Slides HTML e laboratórios](#slides-html-e-laboratórios)). O portal da disciplina é o [`index.html`](index.html).
 
@@ -201,6 +201,6 @@ Para ver localmente com as cenas 3D e os caminhos relativos funcionando, sirva a
 5. Contrato: cadastro no Banco de Talentos (link no e-mail do convite).
 6. Slides: os 17 decks HTML com laboratórios estão prontos e todos usam a plataforma fictícia Rede Tatame e o simulador em `simulador/` (a revisar em sala e na gravação). Falta confirmar com o NEaD se o HTML substitui os PPTX `SLIDES - Videoaula N.pptx` do Drive ou se é preciso preencher também os PPTX para a equipe de edição.
 7. Resta **1 marcador [conferir]** (revisão completa de 15/11/2026): o episódio de *podcast* da Unidade 4 (carreira em cibersegurança, gratuito, até 45 min, com link do episódio). Todos os demais foram verificados e resolvidos. Os livros do *Direto da fonte* das 4 unidades e a bibliografia básica da `EMENTA.md` já foram confirmados na Biblioteca Virtual em 13/11/2026, com link da ficha de cada obra.
-8. Gerar as cópias DOCX preenchidas a partir dos modelos de `documentos/` e enviá-las à pasta do Drive.
+8. ~~Gerar as cópias DOCX preenchidas e enviá-las ao Drive~~ — feito em 15/11/2026: 10 DOCX (4 templates de unidade, 4 questionários, trabalho e avaliação final) nas subpastas de "Originais - Átomo 3.0 TECH", mais a ementa em DOCX e o ZIP dos slides HTML na raiz dessa pasta. Ao mudar o Markdown, rode `python scripts/gerar_docx.py` e reenvie.
 9. Após receber o plano oficial: ajustar títulos e ordem das aulas, e revisar questões e avaliações afetadas.
 10. **Prazo de comunicação à ANPD (Aula 12):** o laboratório conta três dias úteis a partir do dia útil seguinte à ciência do incidente; confirmar a regra de contagem e os feriados locais com o jurídico.
