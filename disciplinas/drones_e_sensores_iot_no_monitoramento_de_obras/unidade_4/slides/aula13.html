@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 13 — Integração com BIM e gêmeo digital: 4D e comparação as-built × as-designed</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .dupla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.92rem, 1.3vw, 1.14rem); margin-bottom: .5em; }
+  .fig-contain img { object-fit: contain; background: #fff; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; font-size: 1.25rem; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.92rem, 1.3vw, 1.15rem); }
+  .cards3 .card.ok { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .cards3 .card.duvida { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card.ruim { border-color: var(--magenta); background: rgba(255,43,95,.07); }
+  .cards3 .formula { font-size: 1.3rem; display: block; margin: .3em 0 .5em; color: #fff; }
+  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .versus p, .versus li { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin-bottom: .45em; }
+  .versus.fill { flex: 1 1 0; min-height: 0; }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.35rem; }
+  .timeline.cinco { --n: 5; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-bottom: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); line-height: 1.42; }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .6rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .galeria.legendas .figura figcaption { font-size: .95rem; }
+  .galeria .figura figcaption b { color: var(--amarelo); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  /* tipografia maior nos slides de texto (preencher o cartão) */
+  .versus.fill .lado li, .versus.fill .lado p { font-size: clamp(1.05rem, 1.65vw, 1.42rem); margin-bottom: .6em; }
+  .versus.fill .lado h3 { font-size: 1.45rem; }
+  .versus.fill .lado { display: flex; flex-direction: column; justify-content: center; }
+  .cards3.fill .card { justify-content: center; }
+  .cards3.fill .card p { font-size: clamp(1.05rem, 1.6vw, 1.38rem); }
+  .cards3.fill .card h3 { font-size: 1.6rem; }
+  .cards3.fill .formula { font-size: 1.7rem; margin: .4em 0 .7em; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; margin-bottom: .7em; }
+  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .timeline.grande { margin-top: auto !important; margin-bottom: auto; }
+  .timeline.grande .etapa p { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .timeline.grande .ano { font-size: 1.55rem; }
+  .pk div { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .tabela-industrial.xl td, .tabela-industrial.xl th { font-size: clamp(1.02rem, 1.5vw, 1.3rem) !important; padding: .8em 1em !important; }
+  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 13 — Integração com BIM e gêmeo digital">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Integração com BIM e gêmeo digital</h1>
+      <div class="subtitulo">Aula 13 — 4D e comparação as-built × as-designed</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Integração com BIM e gêmeo digital</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>BIM: o modelo é informação</li>
+          <li>4D, 5D e as "dimensões" do BIM</li>
+          <li>BIM na lei e a ISO 19650</li>
+          <li>Realidade capturada: scan-to-BIM e scan-vs-BIM</li>
+          <li>As-built × as-designed: desvio, tolerância e incerteza</li>
+          <li>Do modelo ao gêmeo digital</li>
+          <li>Exemplo numérico: o pilar P7 e o avanço no 4D</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Building_in_construction%2C_Recife.jpg/1280px-Building_in_construction%2C_Recife.jpg'); background-position: 50% 40%" role="img" aria-label="Edifício alto em construção em Recife, com a estrutura de concreto à mostra nos pavimentos superiores e uma grua torre ao lado, contra o céu azul com nuvens"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Reunião mensal de obra</p>
+      <h2>"Avanço físico de 62%, conforme o cronograma."</h2>
+      <p>O drone voou ontem. Os sensores mandam leitura a cada 15 minutos. Mas cada dado mora num sistema diferente.</p>
+      <p><strong>O que foi construído está onde o projeto mandou?</strong> E é o que deveria estar pronto <strong>nesta data</strong>?</p>
+    </div>
+    <p class="credito">Foto: herval — Wikimedia Commons (CC BY 2.0)</p>
+  </section>
+
+  <!-- 4. BIM é informação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">BIM: o modelo é informação, não desenho</p>
+      <h2>No CAD, uma linha é uma linha. No BIM, é o "pilar P12"</h2>
+      <div class="versus fill">
+        <div class="lado">
+          <h3>CAD (desenho)</h3>
+          <ul>
+            <li>Linhas, arcos e textos</li>
+            <li>A planta não sabe que aquilo é um pilar</li>
+            <li>Mudou o projeto? Cada vista é corrigida à mão</li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>BIM (objetos com informação)</h3>
+          <ul>
+            <li><strong>Geometria + propriedades + relações</strong>: material, fck, data de concretagem, fase</li>
+            <li><strong>IFC</strong> (openBIM, ISO 16739): formato aberto entre softwares</li>
+            <li>Cada objeto tem um <strong>GUID</strong>, identificador único: é nele que se penduram sensor, foto e pendência</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Existe até classe IFC para instrumento: <strong>IfcSensor</strong>. O monitoramento cabe dentro do modelo.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. Dimensões -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">4D, 5D e as "dimensões" do BIM</p>
+      <h2>Ligue o modelo ao cronograma e aos custos</h2>
+      <div class="dupla" style="grid-template-columns:1.25fr 1fr">
+        <figure class="figura fig-contain">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/6_BIM_DIMENSIONS.png" alt="Quadro colorido com as seis dimensões do BIM lado a lado: 1D pesquisa, 2D desenhos, 3D forma, 4D tempo, 5D custo e 6D desempenho, cada uma com seus usos" loading="lazy">
+          <p class="credito">Imagem: Fernando.morales.tosar — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <div class="slide-content-box">
+          <p><strong>3D:</strong> o modelo geométrico com informação.</p>
+          <p><strong>4D:</strong> cada elemento ligado a uma atividade do cronograma. O modelo "cresce" no tempo, e o planejado é comparado ao executado.</p>
+          <p><strong>5D:</strong> quantidades e custos: orçamento, medição e fluxo de caixa extraídos do modelo.</p>
+          <p><strong>6D, 7D…</strong> variam na literatura (sustentabilidade, operação). Importa o <strong>uso</strong>, não o número.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. BIM na lei -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">BIM na administração pública</p>
+      <h2>Decreto nº 10.306/2020: implantação em fases</h2>
+      <div class="timeline grande cinco" style="margin-top:1.4rem">
+        <div class="etapa"><div class="ano">2019</div><p><strong>Decreto nº 9.983</strong>: institui a Estratégia BIM BR.</p></div>
+        <div class="etapa"><div class="ano">2020</div><p><strong>Decreto nº 10.306</strong>: BIM nas obras federais abrangidas, em três fases.</p></div>
+        <div class="etapa"><div class="ano">2021</div><p><strong>Fase 1 — projeto</strong>: modelos das disciplinas, interferências, quantitativos, pranchas.</p></div>
+        <div class="etapa"><div class="ano">2024</div><p><strong>Fase 2 — execução</strong>: orçamento, planejamento e controle da obra e <strong>modelo as-built</strong>.</p></div>
+        <div class="etapa"><div class="ano">2028</div><p><strong>Fase 3 — pós-obra</strong>: gestão e manutenção do ativo.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:auto;margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0;font-size:1.12rem">Lei nº 14.133/2021, art. 19, § 3º: nas licitações de obras e serviços de engenharia, o BIM é adotado <strong>preferencialmente</strong>, sempre que adequado ao objeto. O monitoramento desta disciplina alimenta exatamente a <strong>fase 2</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 7. ISO 19650 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">ISO 19650: gestão da informação com BIM</p>
+      <h2>Um ambiente comum de dados (CDE), com estados controlados</h2>
+      <div class="timeline grande" style="--n:4;margin-top:1.4rem">
+        <div class="etapa"><div class="ano">Em elaboração</div><p>A equipe produz: modelo, nuvem de pontos recém-processada, série de leituras ainda não validada.</p></div>
+        <div class="etapa"><div class="ano">Compartilhado</div><p>Liberado para as outras equipes coordenarem e verificarem.</p></div>
+        <div class="etapa"><div class="ano">Publicado</div><p>Aprovado para uso: é com ele que se constrói, mede e paga.</p></div>
+        <div class="etapa"><div class="ano">Arquivado</div><p>Histórico preservado: quem mudou o quê, quando e por quê.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:auto;margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0;font-size:1.12rem">Leitura de sensor e nuvem de pontos também são <strong>informação da obra</strong>: precisam de dono, versão e estado. Um gráfico solto num e-mail não é informação gerida.</p></div>
+    </div>
+  </section>
+
+  <!-- 8. BIM 4D 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>BIM 4D: o planejado em fantasma, o executado em sólido</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="bim4d" role="img" aria-label="Cena 3D de um edifício de 12 pavimentos. Um controle desliza a semana da obra: os pavimentos planejados até aquela semana aparecem em contorno azul-claro, os efetivamente executados aparecem sólidos, e os planejados mas não executados ficam em vermelho, mostrando o atraso."></div>
+        <div class="viz-lado">
+          <h3>Arraste a semana</h3>
+          <div data-controles></div>
+          <ul>
+            <li><strong>Contorno azul:</strong> o que o cronograma previa.</li>
+            <li><strong>Sólido:</strong> o que a nuvem de pontos confirmou.</li>
+            <li><strong>Vermelho:</strong> previsto e não executado.</li>
+          </ul>
+          <p class="mini">Cronograma e atraso ilustrativos: a obra perde um pouco de ritmo a cada laje.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Realidade capturada -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Realidade capturada</p>
+      <h2>Como saber o que foi, de fato, construído</h2>
+      <div class="galeria legendas" style="--cols:3">
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/3D-Laserscanner_on_tripod.jpg" alt="Laser scanner terrestre cinza montado sobre tripé azul, com o espelho rotativo visível entre as duas carcaças" loading="lazy" style="object-fit:contain;background:#fff">
+          <figcaption><b>Laser scanner terrestre:</b> milímetros, de perto</figcaption>
+          <p class="credito">Foto: Dr. Schorsch — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Point_cloud_data_of_the_David_W._Dyer_Federal_Building_and_United_States_Courthouse_in_Florida.jpg/1280px-Point_cloud_data_of_the_David_W._Dyer_Federal_Building_and_United_States_Courthouse_in_Florida.jpg" alt="Nuvem de pontos colorida da fachada de um edifício histórico com colunata, gerada por escaneamento a laser" loading="lazy">
+          <figcaption><b>Nuvem de pontos:</b> milhões de pontos com posição e cor</figcaption>
+          <p class="credito">Imagem: autor desconhecido — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Scan-to-BIM_Mechanical_Room.jpg/1280px-Scan-to-BIM_Mechanical_Room.jpg" alt="Nuvem de pontos em tons de cinza de uma casa de máquinas, com as tubulações modeladas em verde-água sobrepostas a ela" loading="lazy">
+          <figcaption><b>Scan-to-BIM:</b> a nuvem vira modelo as-built</figcaption>
+          <p class="credito">Imagem: Oregon State University — Wikimedia Commons (CC BY-SA 2.0)</p>
+        </figure>
+      </div>
+      <div class="callout-azul" style="margin-top:.9rem;background:rgba(0,0,0,.25)"><p style="margin:0">E o drone da Unidade 2: fotogrametria ou LiDAR geram a mesma nuvem, do canteiro inteiro, em um voo.</p></div>
+    </div>
+  </section>
+
+  <!-- 10. scan-to-BIM x scan-vs-BIM -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Dois usos bem diferentes da mesma nuvem</p>
+      <h2>Scan-to-BIM × scan-vs-BIM</h2>
+      <div class="versus fill">
+        <div class="lado">
+          <h3>Scan-to-BIM</h3>
+          <p><strong>Modelar a partir da nuvem.</strong></p>
+          <ul>
+            <li>Cria o <strong>as-built</strong> de uma estrutura existente ou recém-executada</li>
+            <li>Exemplo: modelar o sobrado vizinho antes da escavação</li>
+          </ul>
+        </div>
+        <div class="vs">≠</div>
+        <div class="lado novo">
+          <h3>Scan-vs-BIM</h3>
+          <p><strong>Comparar a nuvem com o projeto (as-designed).</strong></p>
+          <ul>
+            <li>"Está no lugar certo?": desvio geométrico</li>
+            <li>"Já foi executado?": avanço no 4D</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Antes de tudo, <strong>registro</strong>: a nuvem precisa estar alinhada ao sistema de coordenadas do modelo, com pontos de controle. Um erro de registro de 2 cm põe a obra inteira "fora de posição".</p></div>
+    </div>
+  </section>
+
+  <!-- 11. Mapa de desvios -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comparação nuvem-modelo (cloud-to-model)</p>
+      <h2>O mapa de calor dos desvios de uma laje</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="desvio" role="img" aria-label="Planta de uma laje de 30 por 20 metros coberta por milhares de pontos coloridos pelo desvio em relação ao modelo: verdes dentro da tolerância, amarelos inconclusivos e vermelhos fora dela, concentrados numa região de flecha no meio do vão e numa borda deslocada. Controles ajustam a tolerância e a incerteza, e contadores mostram a porcentagem de pontos em cada classe."></div>
+        <div class="viz-lado">
+          <h3>Mexa na tolerância e na incerteza</h3>
+          <div data-controles></div>
+          <p><strong style="color:var(--verde-claro)">Verde:</strong> |d| + U ≤ tolerância.<br><strong style="color:var(--magenta)">Vermelho:</strong> |d| − U &gt; tolerância.<br><strong style="color:var(--amarelo)">Amarelo:</strong> inconclusivo.</p>
+          <p class="mini">Desvios ilustrativos: uma flecha no meio do vão e uma borda executada fora de posição.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Regra de decisão e BCF -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Lembra da Aula 2? O desvio tem incerteza</p>
+      <h2>Conforme, não conforme ou inconclusivo</h2>
+      <div class="cards3 fill">
+        <div class="card ok"><h3>Conforme</h3><span class="formula">d + U ≤ tolerância</span><p>Mesmo no pior caso, o elemento está dentro. Liberar.</p></div>
+        <div class="card ruim"><h3>Não conforme</h3><span class="formula">d − U &gt; tolerância</span><p>Mesmo no melhor caso, está fora. Abrir pendência para o projetista.</p></div>
+        <div class="card duvida"><h3>Inconclusivo</h3><span class="formula">tolerância entre d − U e d + U</span><p>A medição não decide. Medir de novo, com método mais exato.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;margin-bottom:.3rem;background:rgba(0,0,0,.25)"><p style="margin:0">Fluxo: nuvem → <strong>registro</strong> → distância de cada ponto ao modelo → <strong>mapa de calor</strong> → pendência presa ao GUID do elemento, no formato aberto <strong>BCF</strong> (BIM Collaboration Format) → decisão.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. Exemplo numérico -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O pilar P7 e o avanço medido no 4D</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"dx","label":"Desvio Δx do pilar","min":-20,"max":20,"step":1,"value":12,"unit":"mm"},
+            {"id":"dy","label":"Desvio Δy do pilar","min":-20,"max":20,"step":1,"value":-9,"unit":"mm"},
+            {"id":"U","label":"Incerteza expandida U","min":0,"max":6,"step":0.5,"value":3,"unit":"mm"},
+            {"id":"tol","label":"Tolerância contratual","min":5,"max":20,"step":1,"value":10,"unit":"mm"},
+            {"id":"vp","label":"Concreto previsto no 4D","min":100,"max":800,"step":10,"value":420,"unit":"m³"},
+            {"id":"ve","label":"Concreto confirmado pela nuvem","min":100,"max":800,"step":2,"value":378,"unit":"m³"}
+          ],
+          "outputs": [
+            {"label":"Desvio d = √(Δx² + Δy²)","expr":"Math.hypot(dx,dy)","unit":"mm","dec":1},
+            {"label":"Intervalo d ± U","expr":"(o1-U).toLocaleString(\"pt-BR\",{maximumFractionDigits:1})+\" a \"+(o1+U).toLocaleString(\"pt-BR\",{maximumFractionDigits:1})+\" mm\""},
+            {"label":"Pilar","expr":"o1+U<=tol?\"CONFORME\":(o1-U>tol?\"NÃO CONFORME\":\"INCONCLUSIVO\")","destaque":true},
+            {"label":"Índice de avanço I","expr":"ve/vp","dec":2}
+          ],
+          "barras": [{"label":"d − U","expr":"o1-U","unit":"mm","dec":1},{"label":"d","expr":"o1","unit":"mm","dec":1},{"label":"d + U","expr":"o1+U","unit":"mm","dec":1},{"label":"Tolerância","expr":"tol","unit":"mm"}],
+          "nota":"Com 12, −9, U = 3 e tolerância 10: d = 15 mm e d − U = 12 mm &gt; 10 mm → não conforme. 378/420 = 0,90 do previsto."
+        }' role="img" aria-label="Calculadora com barras: com desvios de 12 e menos 9 milímetros, incerteza de 3 e tolerância de 10, o desvio é de 15 milímetros, o intervalo vai de 12 a 18 e o pilar é não conforme; o índice de avanço com 378 de 420 metros cúbicos é 0,90"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Gêmeo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Do modelo ao gêmeo digital</p>
+      <h2>Sensores pendurados no modelo, pelo GUID</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="gemeo3d" role="img" aria-label="Cena 3D com um prédio real à esquerda e seu gêmeo digital em wireframe à direita, ligados por um fluxo de dados. Ao simular recalque, o prédio real inclina, o gêmeo acompanha e muda de cor de verde para amarelo e vermelho; em malha fechada, um fluxo vermelho de comando volta à obra e estabiliza a inclinação."></div>
+        <div class="viz-lado">
+          <h3>Modelo → sombra → gêmeo</h3>
+          <ul>
+            <li>ID de cada inclinômetro e piezômetro associado ao <strong>GUID</strong> do elemento.</li>
+            <li>Leituras chegam pela plataforma IoT e <strong>pintam o modelo</strong> pelo nível de alerta: <strong>sombra digital</strong>.</li>
+            <li>A decisão volta à obra automaticamente (reprograma o 4D, aciona a equipe): <strong>gêmeo digital</strong> (Kritzinger et al., 2018).</li>
+          </ul>
+          <p>Clique em <strong>Simular recalque</strong> e compare malha aberta e fechada.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Atividade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Classifique seis pilares</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <ol class="lista-num">
+            <li>Pegue a planta de formas de um pavimento-tipo (pode ser de um projeto acadêmico).</li>
+            <li>Escolha <strong>6 pilares</strong> e invente desvios Δx e Δy de uma comparação nuvem-modelo.</li>
+            <li>Com tolerância de <strong>10 mm</strong> e <strong>U = 3 mm</strong>, classifique cada um: conforme, não conforme ou inconclusivo.</li>
+            <li>Redija a pendência do pior caso, como no BCF: <strong>elemento, problema, responsável, prazo</strong>.</li>
+          </ol>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Architectural_BIM_3D_Modeling.jpg/1280px-Architectural_BIM_3D_Modeling.jpg" alt="Modelo BIM 3D de um edifício térreo com telhado azul, estacionamento, árvores e calçadas, visto em perspectiva" loading="lazy">
+          <figcaption>Cada objeto do modelo pode receber uma pendência.</figcaption>
+          <p class="credito">Imagem: Archdraw — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="pk">
+        <div><strong>BIM</strong> é modelo de informação; <strong>IFC</strong> e <strong>GUID</strong> ligam sensores, fotos e pendências a cada elemento.</div>
+        <div><strong>4D</strong> = modelo + cronograma; <strong>5D</strong> = custos. Desde 2024, obras federais abrangidas usam BIM na execução e no <strong>as-built</strong>.</div>
+        <div><strong>Scan-to-BIM</strong> modela o existente; <strong>scan-vs-BIM</strong> compara a nuvem registrada com o projeto.</div>
+        <div>Conformidade = <strong>desvio + tolerância + incerteza</strong>; inconclusivo pede nova medição.</div>
+        <div>Dados automáticos no modelo = <strong>sombra digital</strong>; quando a decisão volta à obra, <strong>gêmeo digital</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Integração com BIM e gêmeo digital</h1>
+      <p class="fim-texto">E quem vai olhar as 3.200 fotos de fachada que o drone tirou?</p>
+      <p class="fim-proxima">Próxima aula: Aula 14 — IA e visão computacional: detecção de fissuras e medição de avanço físico.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 13 */
+(function () {
+  const { canvas2d, cena3d, loop, slider, hud, chip, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+  /* bim4d — edifício de 12 pavimentos: planejado (contorno) × executado (sólido) por semana */
+  Obra.register('bim4d', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sSem = slider(p, { id: 'sem', label: 'Semana da obra', min: 0, max: 40, step: 1, value: 22, unit: '' });
+    const h = hud(host);
+    const cPlan = chip(h, ''), cExec = chip(h, ''), cInd = chip(h, '');
+    const N = 12;
+    const plano = (i) => 4 + i * 2.5;            // semana prevista de conclusão do pavimento i (0..11)
+    const real = (i) => 4.5 + i * 2.9;           // execução real, perdendo ritmo
+    return cena3d(host, { r: 74, ph: 1.12, th: 0.7, alvo: [0, 17, 0] }, ({ THREE, scene, rotulo }) => {
+      const chao = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshStandardMaterial({ color: 0x47703f, roughness: 0.95 }));
+      chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; scene.add(chao);
+      const canteiro = caixa(THREE, 44, 0.3, 34, 0x8a6f4d); canteiro.position.y = 0.15; scene.add(canteiro);
+      const pavs = [];
+      for (let i = 0; i < N; i++) {
+        const y = i * 3 + 1.8;
+        const solido = caixa(THREE, 22, 2.8, 16, i % 2 ? 0xc9ccd2 : 0xb9bcc2);
+        solido.position.set(0, y, 0); scene.add(solido);
+        const geo = new THREE.EdgesGeometry(new THREE.BoxGeometry(22, 2.8, 16));
+        const arame = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: 0x2BD9FE, transparent: true, opacity: 0.9 }));
+        arame.position.set(0, y, 0); scene.add(arame);
+        const atraso = new THREE.Mesh(new THREE.BoxGeometry(22.2, 2.85, 16.2), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, transparent: true, opacity: 0.35, depthWrite: false }));
+        atraso.position.set(0, y, 0); scene.add(atraso);
+        pavs.push({ solido, arame, atraso });
+      }
+      // grua
+      const topo = new THREE.Object3D(); topo.position.set(0, 38, 0); scene.add(topo);
+      const rTopo = rotulo(topo, '', 0);
+      let semAtual = +sSem.value;
+      return (t, dt) => {
+        semAtual += (+sSem.value - semAtual) * Math.min(1, dt * 4);
+        const S = semAtual;
+        let nPlan = 0, nExec = 0;
+        pavs.forEach((pv, i) => {
+          const fp = Math.max(0, Math.min(1, (S - plano(i) + 2.5) / 2.5));
+          const fe = Math.max(0, Math.min(1, (S - real(i) + 2.9) / 2.9));
+          nPlan += fp; nExec += fe;
+          pv.arame.visible = fp > 0.02;
+          pv.solido.visible = fe > 0.02;
+          pv.solido.scale.y = Math.max(0.02, fe); pv.solido.position.y = i * 3 + 0.4 + 1.4 * fe;
+          pv.atraso.visible = fp > 0.98 && fe < 0.98;
+        });
+        const ind = nPlan > 0.05 ? nExec / nPlan : 1;
+        cPlan.innerHTML = 'Semana <b>' + fmt(+sSem.value) + '</b> · previsto <b>' + fmt(nPlan, 1) + '</b> pav.';
+        cExec.innerHTML = 'Executado <b>' + fmt(nExec, 1) + '</b> pav.';
+        cInd.innerHTML = 'Índice de avanço <b>' + fmt(ind, 2) + '</b>';
+        cInd.classList.toggle('alerta', ind < 0.85 && nPlan > 1);
+        rTopo.innerHTML = ind < 0.95 && nPlan > 1 ? 'Atraso: ' + fmt(nPlan - nExec, 1) + ' pavimento(s)' : 'Dentro do previsto';
+        topo.position.y = Math.max(6, nPlan * 3 + 4);
+      };
+    });
+  });
+
+  /* desvio — mapa de calor da comparação nuvem-modelo de uma laje 30 m × 20 m */
+  Obra.register('desvio', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sTol = slider(p, { id: 'tol', label: 'Tolerância', min: 4, max: 20, step: 1, value: 10, unit: 'mm' });
+    const sU = slider(p, { id: 'U', label: 'Incerteza expandida U', min: 0, max: 6, step: 0.5, value: 3, unit: 'mm' });
+    const { ctx } = canvas2d(host);
+    const h = hud(host);
+    const cOk = chip(h, ''), cDuv = chip(h, ''), cRuim = chip(h, '');
+    const LX = 30, LY = 20;
+    // desvio (mm) ilustrativo: flecha no meio do vão + borda deslocada + ruído
+    const desv = (x, y) => -18 * Math.exp(-(((x - 17) / 6) ** 2 + ((y - 10) / 4.5) ** 2))
+      + (x > 26 ? 16 * (x - 26) / 4 : 0) + 2.2 * Math.sin(x * 1.7 + y * 0.9) + 1.5 * Math.cos(y * 2.3);
+    const pts = [];
+    const ruido = (a, b) => { const v = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return v - Math.floor(v); };
+    for (let x = 0.15; x < LX; x += 0.3) for (let y = 0.15; y < LY; y += 0.3) {
+      const jx = x + (ruido(x, y) - 0.5) * 0.03, jy = y + (ruido(y, x) - 0.5) * 0.03;
+      pts.push([jx, jy, desv(jx, jy)]);
+    }
+    const lp = loop((t) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const esc = Math.min((W - 60) / LX, (H - 120) / LY), ox = (W - LX * esc) / 2, oy = 56;
+      ctx.fillStyle = 'rgba(185,188,194,.18)'; ctx.fillRect(ox, oy, LX * esc, LY * esc);
+      const tol = +sTol.value, U = +sU.value, prog = Math.min(1, t * 0.9), lado = Math.max(2, 0.3 * esc + 0.6);
+      let ok = 0, duv = 0, ruim = 0, n = 0;
+      for (const [x, y, d] of pts) {
+        if (x > LX * prog) continue;
+        n++;
+        const a = Math.abs(d);
+        let cor;
+        if (a + U <= tol) { ok++; cor = 'rgba(149,222,104,.9)'; }
+        else if (a - U > tol) { ruim++; cor = 'rgba(255,43,95,.95)'; }
+        else { duv++; cor = 'rgba(242,203,10,.95)'; }
+        ctx.fillStyle = cor; ctx.fillRect(ox + x * esc - lado / 2, oy + y * esc - lado / 2, lado, lado);
+      }
+      // pilares do modelo (contorno) e borda
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.strokeRect(ox, oy, LX * esc, LY * esc);
+      for (const px of [0, 10, 20, 30]) for (const py of [0, 10, 20]) { ctx.strokeRect(ox + px * esc - 6, oy + py * esc - 6, 12, 12); }
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('flecha no meio do vão', ox + 17 * esc, oy + 10 * esc + 4);
+      ctx.save(); ctx.translate(ox + 28.6 * esc, oy + 10 * esc); ctx.rotate(-Math.PI / 2); ctx.fillText('borda fora de posição', 0, 0); ctx.restore();
+      // escala
+      ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(ox, oy + LY * esc + 16); ctx.lineTo(ox + 5 * esc, oy + LY * esc + 16); ctx.stroke();
+      ctx.textAlign = 'left'; ctx.font = '11px Montserrat, Arial'; ctx.fillText('5 m', ox, oy + LY * esc + 30);
+      const pct = (k) => n ? fmt(100 * k / n, 1) + '%' : '—';
+      cOk.innerHTML = 'Conforme <b>' + pct(ok) + '</b>';
+      cDuv.innerHTML = 'Inconclusivo <b>' + pct(duv) + '</b>';
+      cRuim.innerHTML = 'Não conforme <b>' + pct(ruim) + '</b>';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

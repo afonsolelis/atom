@@ -3,7 +3,7 @@
 - **Professor-conteudista:** Afonso Cesar Lelis Brandão
 - **Layout:** Átomo 3.0 (mesmo padrão de `disciplinas/portos_aeroportos_e_ferrovias/`)
 - **Escopo de commit:** `drones_iot`
-- **Status:** Unidade 1 produzida (texto, roteiros, questões, decks aula0–aula4) com o plano proposto; Unidades 2–4 e instrumentos avaliativos ainda em scaffold. Aguardando o material da coordenação (ementa, plano de aprendizagem, contrato, prazos) e o acesso à Biblioteca Virtual.
+- **Status:** disciplina completa sobre o plano proposto — Unidades 1–4 (texto, roteiros, questões, decks aula0–aula16), portal `index.html` e instrumentos avaliativos (avaliação final e PBL). Pendentes: reconciliar com o material da coordenação (ementa, plano de aprendizagem, contrato, prazos) e preencher "Direto da fonte" quando houver acesso à Biblioteca Virtual.
 
 ## Estrutura
 
@@ -13,7 +13,7 @@ unidade_N/roteiros_15min.md    roteiros estendidos (15–20 min) das 4 videoaula
 unidade_N/questoes_uniN.md     20 questões (10 AR + 10 interpretação) + feedbacks
 unidade_N/slides/aulaN.html    decks UniFECAF (aula0 + aula1–aula16, numeração contínua)
 assets/                        deck.css, deck.js, sprite.js (padrão UniFECAF) + obra.css/obra.js (fotos, 3D, simulações) — ver assets/README_DECKS.md
-tools/                         wikimedia.py (fotos), capturar_slides.py (PNG por slide), validar.py (checagem estrutural)
+tools/                         wikimedia.py (fotos), capturar_slides.py (PNG por slide; rodar com `uv run --with playwright python …`), validar.py N (checagem estrutural)
 instrumentos_avaliativos/      avaliacao_final.md (30 objetivas + 10 discursivas) + entrega_trabalho.md (PBL)
 ```
 
@@ -55,7 +55,8 @@ instrumentos_avaliativos/      avaliacao_final.md (30 objetivas + 10 discursivas
 - [ ] Prazos de entrega
 - [ ] Bibliografia da Biblioteca Virtual disponível para a disciplina
 - [ ] Seção "Direto da fonte" (livro da BV) de cada unidade — aguardando acesso
-- [x] Decks da Unidade 1 (aula0–aula4); [ ] decks aula5–aula16 e `index.html` do portal
+- [x] Decks aula0–aula16 e `index.html` do portal
+- [x] Unidades 2–4 e instrumentos avaliativos (`avaliacao_final.md`, `entrega_trabalho.md`)
 
 ## Referências normativas a considerar (validar na produção)
 

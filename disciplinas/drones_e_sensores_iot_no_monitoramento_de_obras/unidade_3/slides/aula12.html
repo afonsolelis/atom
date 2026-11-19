@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 12 — Dados de sensores: séries temporais, níveis de alerta e dashboards</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .cards5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: .8rem; margin-top: .6rem; }
+  .cards5 .card { border-radius: 14px; padding: .9rem 1rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards5 .card .ic { font: 900 1.6rem var(--fonte-titulo); color: var(--obra-ciano); }
+  .cards5 .card h3 { color: var(--amarelo); margin: .2em 0 .35em; font-size: clamp(.95rem, 1.25vw, 1.15rem); }
+  .cards5 .card p { font-size: clamp(.8rem, 1.02vw, .96rem); }
+  .cards4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-top: .8rem; }
+  .cards4 .card { border-radius: 14px; padding: 1rem 1.1rem; background: rgba(43,217,254,.07); border: 1px solid var(--obra-ciano); }
+  .cards4 .card .n { font: 900 2.2rem var(--fonte-titulo); color: var(--amarelo); line-height: 1; }
+  .cards4 .card h3 { color: #fff; margin: .3em 0; font-size: clamp(.95rem, 1.25vw, 1.15rem); }
+  .cards4 .card p { font-size: clamp(.82rem, 1.05vw, .98rem); }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .38em .7em; font-size: clamp(.78rem, 1vw, .96rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .tabela-industrial td.esp { color: #ff8fa8; }
+  .tarp td:first-child { font-weight: 800; white-space: nowrap; }
+  .tarp tr.verde td:first-child { color: #95DE68; }
+  .tarp tr.amarelo td:first-child { color: #F2CB0A; }
+  .tarp tr.vermelho td:first-child { color: #FF5C7F; }
+  .versus p, .versus li { font-size: clamp(.86rem, 1.12vw, 1.05rem); }
+  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .pontos li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .4em; }
+  .stat-grid.compacto { margin-top: .4rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  .callout-escuro { background: rgba(0,0,0,.25) !important; }
+  .duas-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.1rem; }
+  .duas-col p, .duas-col li { font-size: clamp(.86rem, 1.12vw, 1.05rem); }
+  .regra-inc { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin-top: .6rem; }
+  .regra-inc > div { border-radius: 12px; padding: .8rem 1rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .regra-inc h3 { font-size: clamp(.95rem, 1.2vw, 1.1rem); margin-bottom: .3em; }
+  .regra-inc p { font-size: clamp(.84rem, 1.08vw, 1.02rem); }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.3vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.4rem; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 3|Aula 12 — Dados de sensores">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Dados de sensores</h1>
+      <div class="subtitulo">Aula 12 — Séries temporais, níveis de alerta e dashboards</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Dados de sensores</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Anatomia de uma leitura e os cinco defeitos do dado de campo</li>
+          <li>Limpeza: mediana, média móvel e compensação térmica</li>
+          <li>Níveis de alerta e o plano de ação (TARP)</li>
+          <li>Persistência, velocidade e fadiga de alarmes</li>
+          <li>Incerteza nos limiares</li>
+          <li>Dashboards: o que mostrar e o que esconder</li>
+          <li>Fechamento da Unidade 3 e prévia da Unidade 4</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto de abertura -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Real-time_bus_tracking_control_room_in_Lebanon.jpg/1280px-Real-time_bus_tracking_control_room_in_Lebanon.jpg'); background-position: 70% 50%" role="img" aria-label="Sala de controle com uma parede de monitores exibindo mapas e painéis em tempo real, diante da qual um grupo de pessoas conversa em pé"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Segunda-feira, 7h</p>
+      <h2>37 alarmes no fim de semana. 35 eram falsos.</h2>
+      <p>60 sensores, milhares de leituras por dia. Um pico de rádio, uma bateria fraca, o sol batendo numa escora: cada um virou um alarme. A equipe passou a <strong>ignorar o painel</strong>, e um dos alarmes era real.</p>
+      <p>Hoje: como transformar séries temporais em <strong>decisões confiáveis</strong>, sem cair na <strong>fadiga de alarmes</strong>.</p>
+    </div>
+    <p class="credito">Foto: UrusHyby — Wikimedia Commons (CC0)</p>
+  </section>
+
+  <!-- 4. Anatomia de uma leitura -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Série temporal</p>
+      <h2>Anatomia de uma leitura</h2>
+      <table class="tabela-industrial compacta">
+        <thead><tr><th>Campo</th><th>Exemplo</th><th>Por que importa</th></tr></thead>
+        <tbody>
+          <tr><td><b>Carimbo de tempo</b></td><td>2026-03-14T05:15:00Z (UTC)</td><td>em UTC, com o fuso declarado: evita confusão de horário e duplicatas</td></tr>
+          <tr><td><b>Sensor</b></td><td>INC-01 · prof. 6,5 m · eixo A</td><td>identificação única e posição</td></tr>
+          <tr><td><b>Valor bruto</b></td><td>2.845,3 Hz · 9,6 mA · dígitos</td><td>o que o transdutor realmente leu</td></tr>
+          <tr><td><b>Valor de engenharia</b></td><td>6,8 mm · 70 kPa</td><td>bruto × fatores de calibração − leitura zero</td></tr>
+          <tr><td><b>Qualidade</b></td><td>ok · suspeito · espúrio · interpolado</td><td>flags: o dado ruim é marcado, não apagado</td></tr>
+          <tr><td><b>Saúde</b></td><td>bateria 78% · sinal −112 dBm</td><td>antes de confiar no valor, confie no sensor</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul callout-escuro" style="margin-top:.9rem"><p><strong>Leitura zero</strong> e <strong>fatores de calibração versionados</strong>; banco de <strong>séries temporais</strong>; e uma regra de ouro: <strong>nunca sobrescrever o valor bruto</strong>. Se a calibração mudar, você recalcula.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. Cinco defeitos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Qualidade do dado</p>
+      <h2>Cinco defeitos que todo dado de campo tem</h2>
+      <div class="cards5">
+        <div class="card"><div class="ic">⚡</div><h3>Picos espúrios</h3><p>Uma leitura absurda isolada: interferência de rádio, descarga elétrica, alguém mexeu no cabo.</p></div>
+        <div class="card"><div class="ic">▯ ▯</div><h3>Lacunas</h3><p>Bateria acabou, gateway caiu, rádio sem sinal. Lacuna não é zero.</p></div>
+        <div class="card"><div class="ic">↗</div><h3>Deriva</h3><p>Subida lenta sem causa física: o sensor envelhece. Só a calibração e a redundância revelam.</p></div>
+        <div class="card"><div class="ic">☀</div><h3>Ciclos térmicos</h3><p>Dia e noite, sol na escora: o valor oscila todo dia sem a estrutura mudar.</p></div>
+        <div class="card"><div class="ic">⏱</div><h3>Carimbo errado</h3><p>Fuso, horário de verão, relógio do datalogger atrasado, leituras duplicadas.</p></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem"><p>Tratar o dado não é "maquiar": é <strong>separar o que a obra fez do que o sensor fez</strong>, com cada correção registrada.</p></div>
+    </div>
+  </section>
+
+  <!-- 6. Viz limpeza -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Limpando a série: mediana, média móvel e temperatura</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="limpeza" role="img" aria-label="Gráfico de 30 dias de recalque, em milímetros, com leituras horárias. A série bruta, em cinza, tem tendência de crescimento suave, oscilação diária causada pela temperatura, ruído, três picos espúrios e uma lacuna de dois dias. Botões ligam o filtro de mediana, que remove os picos, a média móvel de 24 horas, que suaviza mas atrasa a curva, e a compensação de temperatura, que retira a oscilação diária; a série tratada aparece em ciano."></div>
+        <div class="viz-lado">
+          <h3>Ligue os filtros, um a um</h3>
+          <ul>
+            <li><strong>Mediana</strong> (janela de 5 leituras): derruba picos isolados sem deformar a tendência.</li>
+            <li><strong>Média móvel de 24 h</strong>: suaviza o ciclo diário, mas <strong>atrasa</strong> a curva em cerca de 12 h.</li>
+            <li><strong>Compensar temperatura</strong>: subtrai o efeito térmico ajustado (0,05 mm/°C) a partir do termômetro do próprio sensor.</li>
+          </ul>
+          <p class="mini">A lacuna fica como lacuna: não se inventa dado. Série e coeficientes ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Exemplo numérico: oito leituras -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Oito leituras diárias de recalque</h2>
+      <div class="duas-col">
+        <table class="tabela-industrial compacta">
+          <thead><tr><th>Dia</th><th>Recalque (mm)</th><th>Observação</th></tr></thead>
+          <tbody>
+            <tr><td>d1</td><td>4,0</td><td></td></tr>
+            <tr><td>d2</td><td>4,2</td><td></td></tr>
+            <tr><td>d3</td><td>4,3</td><td></td></tr>
+            <tr><td>d4</td><td>4,5</td><td></td></tr>
+            <tr><td>d5</td><td class="esp"><strong>10,6</strong></td><td class="esp">espúrio: salto de 6,1 mm e volta; mediana de d4–d6 = 5,2 mm</td></tr>
+            <tr><td>d6</td><td>5,2</td><td></td></tr>
+            <tr><td>d7</td><td>5,9</td><td></td></tr>
+            <tr><td>d8</td><td>6,8</td><td>última leitura</td></tr>
+          </tbody>
+        </table>
+        <div>
+          <p><strong>Média móvel de 3 dias</strong> em d8:<br><span class="formula">(5,2 + 5,9 + 6,8) / 3 ≈ 6,0 mm</span></p>
+          <p style="margin-top:.6em"><strong>Taxa recente</strong>:<br><span class="formula">(6,8 − 5,2) / 2 = 0,8 mm/dia</span></p>
+          <div class="callout-azul callout-escuro" style="margin-top:.8rem"><p>Níveis: <strong>atenção 10 mm</strong>, <strong>alerta 15 mm</strong>, <strong>limite de velocidade 0,5 mm/dia</strong>.</p><p style="margin-top:.4em">Pelo valor, está tudo normal. Pela <strong>velocidade</strong>, não: 0,8 &gt; 0,5 mm/dia.</p></div>
+          <p class="mini" style="margin-top:.6rem">Se o d5 não fosse filtrado, o sistema teria disparado um alarme de atenção falso. Valores ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. TARP -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Níveis de alerta</p>
+      <h2>Níveis de alerta e o plano de ação (TARP)</h2>
+      <table class="tabela-industrial compacta tarp">
+        <thead><tr><th>Nível</th><th>Gatilho</th><th>Ação</th><th>Responsável · prazo</th></tr></thead>
+        <tbody>
+          <tr class="verde"><td>Verde · normal</td><td>dentro do esperado</td><td>leitura na frequência de rotina</td><td>equipe de instrumentação</td></tr>
+          <tr class="amarelo"><td>Amarelo · atenção</td><td>valor <strong>ou velocidade</strong> passou do nível de atenção</td><td>aumentar a frequência de leitura, inspecionar, avisar o projetista</td><td>engenheiro da obra · mesmo dia</td></tr>
+          <tr class="vermelho"><td>Vermelho · alerta</td><td>nível de alerta <strong>confirmado</strong></td><td>executar as medidas de contingência previstas (reduzir ou paralisar a frente, reforço); reunião técnica</td><td>engenheiro responsável + projetista · imediato</td></tr>
+        </tbody>
+      </table>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado"><p><strong>TARP</strong> (<em>Trigger Action Response Plan</em>): para cada nível, o <strong>gatilho</strong>, a <strong>ação</strong>, o <strong>dono</strong> e o <strong>prazo</strong>, decididos <strong>antes</strong> da obra começar.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><p>Gatilhos por <strong>valor</strong> e por <strong>velocidade</strong>. Antes de escalar, <strong>confirmar</strong> com uma 2ª leitura ou um 2º instrumento.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Viz alertas -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Persistência e velocidade: menos alarmes falsos, sem perder o real</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="alertas" role="img" aria-label="Gráfico de 40 dias de deslocamento com leituras a cada 6 horas, ruído e picos isolados, e um nível de atenção tracejado. A partir do dia 25 o deslocamento real começa a crescer. Marcadores vermelhos indicam alarmes falsos e um marcador verde o primeiro alarme verdadeiro. Um controle muda a persistência, o número de leituras consecutivas acima do limite exigidas para alarmar, e um botão liga o gatilho de velocidade."></div>
+        <div class="viz-lado">
+          <h3>Ajuste a regra de alarme</h3>
+          <p><strong>Persistência N</strong>: só alarma com N leituras seguidas acima do limite. <strong>Gatilho de velocidade</strong>: alarma se a taxa (médias diárias da série filtrada) passar de 0,5 mm/dia.</p>
+          <div data-controles></div>
+          <p class="mini">N maior = menos falsos, mais atraso. A velocidade pega o movimento <strong>antes</strong> de o valor chegar ao limite. Série ilustrativa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Calc: quanto tempo até o alerta -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Quanto tempo até o alerta?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"X","label":"Leitura atual","min":0,"max":20,"step":0.1,"value":6.8,"unit":"mm"},
+            {"id":"X0","label":"Leitura anterior","min":0,"max":20,"step":0.1,"value":5.2,"unit":"mm"},
+            {"id":"N","label":"Dias entre as leituras","min":1,"max":7,"step":1,"value":2,"unit":"dias"},
+            {"id":"A","label":"Nível de atenção","min":5,"max":20,"step":0.5,"value":10,"unit":"mm"},
+            {"id":"L","label":"Nível de alerta","min":5,"max":30,"step":0.5,"value":15,"unit":"mm"},
+            {"id":"V","label":"Limite de velocidade","min":0.1,"max":2,"step":0.1,"value":0.5,"unit":"mm/dia"}
+          ],
+          "outputs": [
+            {"label":"Taxa","expr":"(X-X0)/N","unit":"mm/dia","dec":2},
+            {"label":"Dias até a atenção","expr":"X>=A?0:(o1>0?(A-X)/o1:Infinity)","unit":"dias","dec":1,"destaque":true},
+            {"label":"Dias até o alerta","expr":"X>=L?0:(o1>0?(L-X)/o1:Infinity)","unit":"dias","dec":1},
+            {"label":"Situação","expr":"X>=L?&#39;ALERTA pelo valor&#39;:(X>=A?&#39;ATENÇÃO pelo valor&#39;:(o1>V?&#39;velocidade acima do limite&#39;:&#39;normal&#39;))"}
+          ],
+          "barras": [
+            {"label":"Taxa medida","expr":"o1","unit":"mm/dia","dec":2},
+            {"label":"Limite de velocidade","expr":"V","unit":"mm/dia","dec":2}
+          ],
+          "nota": "taxa = (x − x₀)/Δt; t = (L − x)/taxa. Projeção linear, valores ilustrativos."
+        }' role="img" aria-label="Calculadora que estima a taxa de recalque entre duas leituras, os dias até os níveis de atenção e de alerta e a situação, com barras comparando a taxa medida e o limite de velocidade"></div>
+        <div class="viz-lado">
+          <h3>Projete a tendência</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Incerteza nos limiares -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Lembra da Aula 2?</p>
+      <h2>Incerteza nos limiares</h2>
+      <p>Toda leitura é <span class="formula">x ± U</span>. Compare o <strong>intervalo</strong> com o limite L, não só o número.</p>
+      <div class="regra-inc">
+        <div><h3 style="color:#95DE68">x + U &lt; L</h3><p>Todo o intervalo está abaixo do limite: <strong>normal</strong> (pelo valor).</p></div>
+        <div><h3 style="color:#F2CB0A">x + U ≥ L</h3><p>O limite pode ter sido atingido: tratar como <strong>atenção</strong>, repetir a leitura.</p></div>
+        <div><h3 style="color:#FF5C7F">x − U ≥ L</h3><p>Todo o intervalo passou do limite: <strong>alerta confirmado</strong>.</p></div>
+      </div>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado"><p><strong>Exemplo:</strong> 6,8 ± 1,5 mm contra atenção de 10 mm → 8,3 mm no máximo: normal pelo valor. Mas a <strong>velocidade</strong> de 0,8 mm/dia manda subir para atenção.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><p>Antes de confiar no número: <strong>redundância</strong> de instrumentos e <strong>saúde do sensor</strong> (bateria, última leitura, histórico de calibração).</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Bom dashboard -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Dashboards</p>
+      <h2>O que um bom dashboard mostra (e o que esconde)</h2>
+      <div class="versus">
+        <div class="lado novo">
+          <h3>Mostrar</h3>
+          <ul>
+            <li><strong>Planta</strong> da obra com o status de cada instrumento por cor</li>
+            <li><strong>Séries</strong> com os limites desenhados</li>
+            <li>A <strong>velocidade</strong>, não só o valor</li>
+            <li><strong>Saúde</strong>: bateria, última leitura, sinal</li>
+            <li><strong>Lista de alarmes</strong> com reconhecimento: quem viu, quando, o que fez</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado">
+          <h3>Evitar</h3>
+          <ul>
+            <li>Gráfico sem limite (número sem referência)</li>
+            <li>Eixo cortado que exagera a variação</li>
+            <li>30 cores e 40 gráficos na mesma tela</li>
+            <li>Alarme sem dono</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem"><p><strong>Princípio:</strong> cada alerta tem <strong>dono, prazo e ação</strong>. Se ninguém é responsável por um alarme, ele é ruído.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. Viz dashboard -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Um painel de obra ao vivo</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="dashboard" role="img" aria-label="Painel escuro de monitoramento. À esquerda, a planta da obra com seis instrumentos em círculos coloridos por status: inclinômetro, piezômetro, marco de recalque, sismógrafo, fissurômetro e sensor de poeira. À direita, duas séries que se atualizam ao vivo, o deslocamento do inclinômetro com níveis de atenção e alerta e o nível do piezômetro. Embaixo, um registro de alarmes com hora, sensor, nível e status, e informações de saúde dos sensores. O botão Simular evento faz o inclinômetro acelerar e passar à atenção; o botão Reconhecer registra que o engenheiro de plantão viu o alarme."></div>
+        <div class="viz-lado">
+          <h3>Simule um evento</h3>
+          <ol>
+            <li>Clique em <strong>Simular evento</strong>: o INC-01 acelera, fica amarelo e entra no registro como <strong>novo</strong>.</li>
+            <li>Clique em <strong>Reconhecer</strong>: o alarme passa a ter dono (Eng. de plantão) e hora.</li>
+          </ol>
+          <p class="mini">Repare no FIS-05 em cinza: <strong>bateria baixa</strong>. Saúde do sensor também é alarme. Dados ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Gêmeo digital -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Ponte para a Unidade 4</p>
+      <h2>Do dashboard ao gêmeo digital</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="gemeo3d" role="img" aria-label="Cena 3D com um prédio real à esquerda e seu gêmeo digital em wireframe à direita, ligados por um fluxo de dados. Ao simular recalque, o prédio real inclina, o gêmeo acompanha e muda de cor de verde para amarelo e vermelho; em malha fechada, um fluxo vermelho de comando volta à obra e estabiliza a inclinação."></div>
+        <div class="viz-lado">
+          <h3>Um passo além</h3>
+          <p>O <strong>dashboard</strong> mostra números e cores.</p>
+          <p>O <strong>gêmeo digital</strong> (Unidade 4) põe esses mesmos números <strong>dentro do modelo BIM</strong> da obra, compara o real com o projetado e <strong>devolve decisões</strong> ao canteiro.</p>
+          <p>É a <strong>malha fechada</strong> da Aula 1, agora com dados limpos, níveis de alerta e um plano de ação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Da planilha ao painel</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Tratar a série</h3>
+          <ul>
+            <li>Pegue uma série real ou simulada numa planilha (30 leituras)</li>
+            <li>Aplique a <strong>mediana de 3</strong> e marque os espúrios</li>
+            <li>Calcule a <strong>média móvel</strong> e a <strong>taxa</strong> (mm/dia)</li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>Decidir e mostrar</h3>
+          <ul>
+            <li>Defina níveis de <strong>atenção, alerta e velocidade</strong></li>
+            <li>Monte a tabela <strong>TARP</strong>: gatilho, ação, dono, prazo</li>
+            <li>Esboce o <strong>dashboard</strong> em 3 telas: planta, séries, alarmes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem"><p>Teste a sua regra: quantos alarmes falsos ela teria dado na sua série? E quanto tempo levaria para pegar um movimento real?</p></div>
+    </div>
+  </section>
+
+  <!-- 16. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>O que levar desta aula</h2>
+      <div class="stat-grid compacto">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="0.8" data-dec="1" data-suf=" mm/dia">0</span><div class="legenda">taxa recente no exemplo (limite: 0,5)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="4" data-suf=" dias">0</span><div class="legenda">até a atenção, se a taxa continuar</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="35" data-suf=" de 37">0</span><div class="legenda">alarmes falsos: a fadiga começa assim</div></div>
+      </div>
+      <ul class="pontos" style="margin-top:.9rem">
+        <li>Guarde o <strong>bruto</strong>, marque a qualidade e versione a calibração; lacuna não é zero.</li>
+        <li><strong>Mediana</strong> tira picos, <strong>média móvel</strong> suaviza mas atrasa, <strong>compensação térmica</strong> tira o ciclo diário.</li>
+        <li>Alertas por <strong>valor e por velocidade</strong>, com persistência e confirmação, num <strong>TARP</strong> com dono, prazo e ação.</li>
+        <li>Compare o <strong>intervalo x ± U</strong> com o limite; um bom dashboard mostra limites, velocidade e saúde do sensor.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 17. Fechamento da unidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Fechamento</p>
+      <h2>Unidade 3 concluída: sensores IoT no monitoramento de obras</h2>
+      <div class="cards4">
+        <div class="card"><div class="n">9</div><h3>Geotécnico</h3><p>Inclinômetros, piezômetros e marcos de recalque; distorção angular.</p></div>
+        <div class="card"><div class="n">10</div><h3>Estrutural</h3><p>Extensômetros, acelerômetros, fissurômetros e maturidade do concreto.</p></div>
+        <div class="card"><div class="n">11</div><h3>Segurança, ambiente e produtividade</h3><p>Vibração, ruído, poeira e rastreamento de equipamentos.</p></div>
+        <div class="card"><div class="n">12</div><h3>Dados</h3><p>Séries temporais, níveis de alerta, TARP e dashboards.</p></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1.1rem"><p>Em todas as aulas, a mesma pergunta: <strong>o que medir, com que incerteza, contra qual limite, e qual ação</strong> fecha a malha.</p></div>
+    </div>
+  </section>
+
+  <!-- 18. Prévia da Unidade 4 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que você verá na próxima unidade</p>
+      <h2>Unidade 4 — Integração, inteligência e gestão do monitoramento</h2>
+      <div class="timeline grande" style="--n:4">
+        <div class="etapa"><div class="ano">Aula 13</div><p><strong>BIM e gêmeo digital</strong>: 4D e comparação as-built × as-designed.</p></div>
+        <div class="etapa"><div class="ano">Aula 14</div><p><strong>IA e visão computacional</strong>: detecção de fissuras e medição de avanço físico.</p></div>
+        <div class="etapa"><div class="ano">Aula 15</div><p><strong>Gestão do monitoramento</strong>: custo-benefício, LGPD, segurança da informação e contratos.</p></div>
+        <div class="etapa"><div class="ano">Aula 16</div><p><strong>Projeto integrado</strong> de monitoramento de uma obra.</p></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1.6rem"><p>Drones (Unidade 2) e sensores (Unidade 3) se encontram no <strong>modelo da obra</strong>, e a decisão passa a ter custo, contrato e responsabilidade.</p></div>
+    </div>
+  </section>
+
+  <!-- 19. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Sensores IoT concluídos</h1>
+      <p class="fim-texto">Você sabe o que medir no solo, na estrutura e no entorno, e como transformar séries em alertas confiáveis. Na Unidade 4, tudo isso vai para o modelo da obra.</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 4 — Integração, Inteligência e Gestão do Monitoramento.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 12 */
+(function () {
+  const { canvas2d, loop, slider, hud, chip, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const novo = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+  // gerador pseudoaleatório com semente fixa (a série é sempre a mesma)
+  const rng = (seed) => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const gauss = (r) => { let s = 0; for (let i = 0; i < 6; i++) s += r(); return (s - 3) / Math.sqrt(0.5); };
+  const mediana = (a) => { const b = a.slice().sort((x, y) => x - y); return b[b.length >> 1]; };
+
+  /* limpeza — série horária de 30 dias: picos, lacuna, ciclo térmico */
+  Obra.register('limpeza', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host);
+    const cPic = chip(h, ''), cLac = chip(h, ''), cUlt = chip(h, '');
+    const on = { med: false, mm: false, temp: false };
+    const btns = botoes(host, [
+      ['Filtro de mediana', (b) => { on.med = !on.med; b.classList.toggle('on', on.med); }],
+      ['Média móvel de 24 h', (b) => { on.mm = !on.mm; b.classList.toggle('on', on.mm); }],
+      ['Compensar temperatura', (b) => { on.temp = !on.temp; b.classList.toggle('on', on.temp); }],
+      ['↺ Desligar tudo', () => { on.med = on.mm = on.temp = false; btns.slice(0, 3).forEach((b) => b.classList.remove('on')); }]
+    ]);
+    const r = rng(12), N = 30 * 24, K = 0.05;
+    const tend = (i) => 2 + 4.5 * (1 - Math.exp(-i / 24 / 14));
+    const temp = [], bruto = [];
+    for (let i = 0; i < N; i++) {
+      const T = 22 + 6 * Math.sin(2 * Math.PI * ((i % 24) - 9) / 24) + gauss(r) * 0.4;
+      temp.push(T);
+      let v = tend(i) + K * (T - 22) + gauss(r) * 0.04;
+      bruto.push(v);
+    }
+    const PICOS = [150, 330, 560];
+    bruto[150] += 3.2; bruto[330] -= 2.6; bruto[560] += 3.8;
+    const LAC = [17 * 24, 19 * 24];
+    for (let i = LAC[0]; i < LAC[1]; i++) bruto[i] = null;
+    const tratar = () => {
+      let s = bruto.slice(), rem = 0;
+      if (on.med) s = s.map((v, i) => {
+        if (v == null) return null;
+        const jan = []; for (let k = i - 2; k <= i + 2; k++) if (k >= 0 && k < N && bruto[k] != null) jan.push(bruto[k]);
+        const m = mediana(jan); if (Math.abs(v - m) > 1) rem++; return m;
+      });
+      if (on.temp) s = s.map((v, i) => v == null ? null : v - K * (temp[i] - 22));
+      if (on.mm) { const base = s.slice(); s = base.map((v, i) => { if (v == null) return null; let a = 0, n = 0; for (let k = Math.max(0, i - 23); k <= i; k++) if (base[k] != null) { a += base[k]; n++; } return a / n; }); }
+      return [s, rem];
+    };
+    let rev = 0;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      rev = Math.min(N, rev + dt * N / 3);
+      const [s, rem] = tratar();
+      const algum = on.med || on.mm || on.temp;
+      const gx = 52, gy = 96, gw = W - gx - 20, gh = H - gy - 44, vmin = -1, vmax = 11;
+      const X = (i) => gx + (i / (N - 1)) * gw, Y = (v) => gy + gh - (v - vmin) / (vmax - vmin) * gh;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(255,255,255,.04)'; ctx.fillRect(gx, gy, gw, gh);
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      for (let v = 0; v <= 10; v += 2) { ctx.fillText(v + ' mm', gx - 5, Y(v) + 4); ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.beginPath(); ctx.moveTo(gx, Y(v)); ctx.lineTo(gx + gw, Y(v)); ctx.stroke(); }
+      ctx.textAlign = 'center'; for (let d = 0; d <= 30; d += 5) ctx.fillText('dia ' + d, X(Math.min(N - 1, d * 24)), gy + gh + 16);
+      // lacuna
+      ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(X(LAC[0]), gy, X(LAC[1]) - X(LAC[0]), gh);
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText('lacuna (48 h)', (X(LAC[0]) + X(LAC[1])) / 2, gy + 14);
+      const linha = (arr, cor, lw) => {
+        ctx.strokeStyle = cor; ctx.lineWidth = lw; ctx.beginPath(); let up = true;
+        for (let i = 0; i < rev; i++) { const v = arr[i]; if (v == null) { up = true; continue; } up ? ctx.moveTo(X(i), Y(v)) : ctx.lineTo(X(i), Y(v)); up = false; }
+        ctx.stroke(); ctx.lineWidth = 1;
+      };
+      linha(bruto, algum ? 'rgba(200,205,215,.45)' : 'rgba(220,225,235,.9)', 1);
+      if (algum) linha(s, '#2BD9FE', 2.2);
+      // picos marcados
+      PICOS.forEach((i) => { if (i < rev) { ctx.strokeStyle = on.med ? '#FF2B5F' : 'rgba(255,43,95,.5)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X(i), Y(bruto[i]), 8, 0, 7); ctx.stroke(); ctx.lineWidth = 1; } });
+      // tendência real (referência)
+      ctx.strokeStyle = 'rgba(242,203,10,.7)'; ctx.setLineDash([5, 5]); ctx.beginPath();
+      for (let i = 0; i < rev; i += 6) i ? ctx.lineTo(X(i), Y(tend(i))) : ctx.moveTo(X(i), Y(tend(i)));
+      ctx.stroke(); ctx.setLineDash([]);
+      // legenda
+      ctx.textAlign = 'left'; ctx.font = '12px Montserrat, Arial';
+      const lg = [['rgba(220,225,235,.9)', 'bruto'], ['#2BD9FE', 'tratado'], ['#F2CB0A', 'recalque real (referência)']];
+      let lx = gx + 8; lg.forEach(([c, txt]) => { ctx.fillStyle = c; ctx.fillRect(lx, gy + gh - 16, 14, 3); ctx.fillStyle = '#fff'; ctx.fillText(txt, lx + 18, gy + gh - 11); lx += ctx.measureText(txt).width + 40; });
+      if (on.mm) { ctx.fillStyle = '#F2CB0A'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('média móvel de 24 h: atraso de ≈ 12 h em relação ao real', gx + 8, gy + 34); }
+      let ult = null; for (let i = N - 1; i >= 0; i--) if (s[i] != null) { ult = s[i]; break; }
+      cPic.innerHTML = 'Picos: <b>' + (on.med ? rem + ' removidos' : '3 na série') + '</b>';
+      cLac.innerHTML = 'Lacunas: <b>1 (48 h)</b>';
+      cUlt.innerHTML = 'Último valor ' + (algum ? 'tratado' : 'bruto') + ': <b>' + fmt(ult, 2) + ' mm</b>';
+    });
+    return { start: () => { rev = 0; lp.start(); }, stop: lp.stop };
+  });
+
+  /* alertas — persistência N e gatilho de velocidade */
+  Obra.register('alertas', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sN = slider(p, { id: 'N', label: 'Persistência: leituras seguidas acima do limite', min: 1, max: 4, step: 1, value: 1 });
+    const h = hud(host);
+    const cF = chip(h, ''), cA = chip(h, '');
+    let vel = false;
+    const btns = botoes(host, [['Gatilho de velocidade: desligado', (b) => { vel = !vel; b.classList.toggle('on', vel); b.textContent = 'Gatilho de velocidade: ' + (vel ? 'ligado' : 'desligado'); }]]);
+    void btns;
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const r = rng(7), PASSO = 0.25, N = 40 / PASSO, LIM = 8, INI = 25, VLIM = 0.5;
+    const real = [], x = [];
+    for (let i = 0; i <= N; i++) {
+      const d = i * PASSO;
+      real.push(6 + (d > INI ? 0.9 * (d - INI) : 0));
+      let v = real[i] + gauss(r) * 0.22;
+      if (d < INI - 1 && r() < 0.05) v += 2.3 + r() * 1.3;
+      x.push(v);
+    }
+    // picos garantidos com duas leituras seguidas (para N = 2 ainda ter um falso)
+    x[40] = 8.9; x[41] = 8.6;
+    const filt = x.map((v, i) => mediana(x.slice(Math.max(0, i - 4), i + 1))); // mediana das 5 últimas leituras
+    const media = (i) => (filt[i] + filt[i - 1] + filt[i - 2] + filt[i - 3]) / 4;
+    const tCruza = INI + (LIM - 6) / 0.9;
+    const calc = (n) => {
+      const al = []; let seg = 0, armado = true, segV = 0;
+      for (let i = 0; i <= N; i++) {
+        const d = i * PASSO;
+        seg = x[i] > LIM ? seg + 1 : 0;
+        const taxa = i >= 7 ? (media(i) - media(i - 4)) / 1 : 0; // média de 4 leituras (1 dia), comparada com a do dia anterior
+        segV = vel && taxa > VLIM ? segV + 1 : 0;
+        const dispara = seg >= n || segV >= n;
+        if (dispara && armado) { al.push({ i, d, falso: d < INI, tipo: seg >= n ? 'valor' : 'velocidade' }); armado = false; }
+        if (!dispara && x[i] < LIM && (!vel || taxa <= VLIM)) armado = true;
+      }
+      return al;
+    };
+    const lp = loop((t) => {
+      const [W, H] = dims(ctx);
+      const n = +sN.value, al = calc(n);
+      const falsos = al.filter((a) => a.falso).length, verd = al.find((a) => !a.falso);
+      const atrasoIni = verd ? (verd.d - INI) * 24 : null;
+      cF.innerHTML = 'Alarmes falsos: <b>' + falsos + '</b>';
+      cF.classList.toggle('alerta', falsos > 2);
+      cA.innerHTML = verd ? 'Evento real detectado <b>' + fmt(atrasoIni, 0) + ' h</b> após começar' : 'Evento real: <b>não detectado</b>';
+      res.innerHTML = `Persistência N = <b>${n}</b> (${n * 6} h de leituras)<br>Alarmes falsos (antes do dia 25): <span class="num">${falsos}</span><br>` +
+        (verd ? `1º alarme verdadeiro: dia <b>${fmt(verd.d, 2)}</b>, por <b>${verd.tipo}</b><br>O valor real cruza a atenção no dia ${fmt(tCruza, 1)}` : 'Nenhum alarme verdadeiro.');
+      const gx = 50, gy = 50, gw = W - gx - 20, gh = H - gy - 40, vmin = 4, vmax = 20;
+      const X = (d) => gx + d / 40 * gw, Y = (v) => gy + gh - (Math.min(vmax, v) - vmin) / (vmax - vmin) * gh;
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = 'rgba(255,255,255,.04)'; ctx.fillRect(gx, gy, gw, gh);
+      ctx.fillStyle = 'rgba(255,43,95,.08)'; ctx.fillRect(X(INI), gy, X(40) - X(INI), gh);
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      for (let v = 4; v <= 20; v += 4) ctx.fillText(v + ' mm', gx - 5, Y(v) + 4);
+      ctx.textAlign = 'center'; for (let d = 0; d <= 40; d += 5) ctx.fillText('dia ' + d, X(d), gy + gh + 16);
+      ctx.fillText('movimento real começa', (X(INI) + X(40)) / 2, gy + 14);
+      ctx.strokeStyle = '#F2CB0A'; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(gx, Y(LIM)); ctx.lineTo(gx + gw, Y(LIM)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.fillText('nível de atenção: 8 mm', gx + 6, Y(LIM) + 14);
+      ctx.strokeStyle = 'rgba(242,203,10,.6)'; ctx.beginPath(); real.forEach((v, i) => i ? ctx.lineTo(X(i * PASSO), Y(v)) : ctx.moveTo(X(0), Y(v))); ctx.stroke();
+      ctx.strokeStyle = 'rgba(43,217,254,.6)'; ctx.beginPath(); x.forEach((v, i) => i ? ctx.lineTo(X(i * PASSO), Y(v)) : ctx.moveTo(X(0), Y(v))); ctx.stroke();
+      x.forEach((v, i) => { ctx.fillStyle = v > LIM ? '#FF8A1F' : '#2BD9FE'; ctx.beginPath(); ctx.arc(X(i * PASSO), Y(v), 2.4, 0, 7); ctx.fill(); });
+      al.forEach((a) => {
+        const c = a.falso ? '#FF2B5F' : '#11A360', xx = X(a.d), yy = Y(x[a.i]) - 12;
+        ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(xx, yy + 8); ctx.lineTo(xx, yy - 16); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = c; ctx.beginPath(); ctx.moveTo(xx, yy - 16); ctx.lineTo(xx + 12, yy - 11); ctx.lineTo(xx, yy - 6); ctx.fill();
+      });
+      ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left';
+      const lg = [['#2BD9FE', 'leitura (a cada 6 h)'], ['#F2CB0A', 'deslocamento real'], ['#FF2B5F', 'alarme falso'], ['#11A360', 'alarme verdadeiro']];
+      let lx = gx + 8; lg.forEach(([c, txt]) => { ctx.fillStyle = c; ctx.fillRect(lx, gy + gh - 14, 12, 4); ctx.fillStyle = '#fff'; ctx.fillText(txt, lx + 16, gy + gh - 9); lx += ctx.measureText(txt).width + 34; });
+      void t;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* dashboard — painel de obra com planta, séries, registro de alarmes e saúde */
+  Obra.register('dashboard', (host) => {
+    const { ctx } = canvas2d(host);
+    const r = rng(3);
+    const INSTR = [
+      { id: 'INC-01', x: 0.30, y: 0.28, tipo: 'inclinômetro', bat: 81 },
+      { id: 'PZ-02', x: 0.70, y: 0.30, tipo: 'piezômetro', bat: 74 },
+      { id: 'MR-03', x: 0.15, y: 0.72, tipo: 'marco de recalque', bat: 92 },
+      { id: 'VIB-04', x: 0.50, y: 0.80, tipo: 'sismógrafo', bat: 66 },
+      { id: 'FIS-05', x: 0.84, y: 0.70, tipo: 'fissurômetro', bat: 18 },
+      { id: 'MP10-06', x: 0.86, y: 0.12, tipo: 'poeira', bat: 88 }
+    ];
+    const ATN = 10, ALR = 15;
+    let st;
+    const reinicia = () => {
+      st = { min: 6 * 60, inc: [], pz: [], evento: false, vInc: 4.2, log: [{ hora: '06:10', sensor: 'FIS-05', nivel: 'bateria 18%', status: 'reconhecido · Técnico' }], novo: null, acum: 0, ultima: 0 };
+      for (let k = 0; k < 40; k++) { st.inc.push(4.2 + gauss(r) * 0.12); st.pz.push(2.4 + 0.15 * Math.sin(k / 6) + gauss(r) * 0.03); }
+    };
+    reinicia();
+    const hhmm = (m) => String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(Math.floor(m % 60)).padStart(2, '0');
+    const btns = botoes(host, [
+      ['Simular evento', () => { st.evento = true; }],
+      ['Reconhecer', () => { if (st.novo) { st.novo.status = 'reconhecido · Eng. de plantão ' + hhmm(st.min); st.novo = null; } }],
+      ['↺', () => reinicia()]
+    ]);
+    btns[0].parentElement.style.flexDirection = 'row';
+    const status = (it) => {
+      if (it.id === 'FIS-05') return 'manut';
+      if (it.id === 'INC-01') { const v = st.inc[st.inc.length - 1]; return v >= ALR ? 'alerta' : v >= ATN ? 'atencao' : 'ok'; }
+      return 'ok';
+    };
+    const COR = { ok: '#11A360', atencao: '#F2CB0A', alerta: '#FF2B5F', manut: '#8a93a3' };
+    const painel = (x, y, w, hh, titulo) => {
+      ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.strokeStyle = 'rgba(255,255,255,.14)';
+      ctx.beginPath(); ctx.roundRect(x, y, w, hh, 8); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText(titulo, x + 10, y + 18);
+    };
+    const serie = (x, y, w, hh, arr, vmin, vmax, lims, unid) => {
+      const gx = x + 40, gy = y + 26, gw = w - 52, gh = hh - 36;
+      const Y = (v) => gy + gh - (v - vmin) / (vmax - vmin) * gh, X = (k) => gx + k / (arr.length - 1) * gw;
+      ctx.font = '10px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.textAlign = 'right';
+      [vmin, (vmin + vmax) / 2, vmax].forEach((v) => ctx.fillText(fmt(v, 0) + ' ' + unid, gx - 4, Y(v) + 3));
+      lims.forEach(([v, c, txt]) => { ctx.strokeStyle = c; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(gx, Y(v)); ctx.lineTo(gx + gw, Y(v)); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = c; ctx.textAlign = 'right'; ctx.fillText(txt, gx + gw - 2, Y(v) - 3); });
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath(); arr.forEach((v, k) => k ? ctx.lineTo(X(k), Y(v)) : ctx.moveTo(X(k), Y(v))); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(arr.length - 1), Y(arr[arr.length - 1]), 3.5, 0, 7); ctx.fill();
+    };
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      // relógio: 1 s = 10 min; nova leitura a cada 10 min simulados
+      st.min += dt * 10; st.acum += dt; st.ultima += dt * 10;
+      if (st.acum >= 1) {
+        st.acum = 0; st.ultima = 0;
+        if (st.evento && st.vInc < 12.6) st.vInc += 0.45;
+        const ant = st.inc[st.inc.length - 1];
+        const novoV = st.vInc + gauss(r) * 0.1;
+        st.inc.push(novoV); st.inc.shift();
+        st.pz.push(2.4 + 0.15 * Math.sin(st.min / 60) + gauss(r) * 0.03); st.pz.shift();
+        if (ant < ATN && novoV >= ATN) { st.novo = { hora: hhmm(st.min), sensor: 'INC-01', nivel: 'ATENÇÃO · ' + fmt(novoV, 1) + ' mm', status: 'NOVO' }; st.log.unshift(st.novo); }
+      }
+      ctx.clearRect(0, 0, W, H);
+      // barra de título
+      ctx.fillStyle = '#fff'; ctx.font = '700 14px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('Painel da obra · Edifício Aurora (fictício)', 12, 24);
+      ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillText('hora: ' + hhmm(st.min), 12, 42);
+      const top = 54, m = 10, bottomH = H * 0.3;
+      const pw = W * 0.42, ph = H - top - bottomH - m * 2;
+      // planta
+      painel(m, top, pw, ph, 'Planta · status dos instrumentos');
+      const ax = m + 16, ay = top + 28, aw = pw - 32, ah = ph - 40;
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([4, 4]); ctx.strokeRect(ax, ay, aw, ah); ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(ax + aw * 0.22, ay + ah * 0.18, aw * 0.56, ah * 0.48);
+      ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('escavação', ax + aw * 0.5, ay + ah * 0.44);
+      ctx.fillStyle = 'rgba(185,188,194,.25)'; ctx.fillRect(ax + aw * 0.86, ay + ah * 0.5, aw * 0.14, ah * 0.4);
+      INSTR.forEach((it) => {
+        const s = status(it), x = ax + it.x * aw, y = ay + it.y * ah;
+        const pul = s === 'atencao' || s === 'alerta' ? 3 * Math.sin(t * 6) : 0;
+        ctx.fillStyle = COR[s]; ctx.beginPath(); ctx.arc(x, y, 8 + pul, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(it.id, x, y - 13);
+      });
+      // séries
+      const sx = m * 2 + pw, sw = W - sx - m, sh = (ph - m) / 2;
+      painel(sx, top, sw, sh, 'INC-01 · deslocamento a 6,5 m (mm)');
+      serie(sx, top, sw, sh, st.inc, 0, 20, [[ATN, '#F2CB0A', 'atenção 10'], [ALR, '#FF2B5F', 'alerta 15']], '');
+      painel(sx, top + sh + m, sw, sh, 'PZ-02 · nível d\'água abaixo do fundo (m)');
+      serie(sx, top + sh + m, sw, sh, st.pz, 1, 4, [[2.0, '#F2CB0A', 'atenção 2,0'], [1.0, '#FF2B5F', 'alerta 1,0']], '');
+      // registro de alarmes + saúde
+      const ly = top + ph + m, lw = W - m * 2;
+      painel(m, ly, lw, bottomH, 'Registro de alarmes');
+      ctx.font = '600 11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.textAlign = 'left';
+      const cols = [m + 12, m + 70, m + 150, m + lw * 0.45];
+      ['hora', 'sensor', 'nível', 'status'].forEach((c, k) => ctx.fillText(c, cols[k], ly + 36));
+      st.log.slice(0, 3).forEach((e, k) => {
+        const y = ly + 54 + k * 17;
+        ctx.font = (e.status === 'NOVO' ? '700 ' : '') + '12px Montserrat, Arial';
+        ctx.fillStyle = e.status === 'NOVO' ? '#F2CB0A' : '#fff';
+        [e.hora, e.sensor, e.nivel, e.status].forEach((c, j) => ctx.fillText(c, cols[j], y));
+      });
+      const minBat = INSTR.reduce((a, b) => (b.bat < a.bat ? b : a));
+      ctx.font = '11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.textAlign = 'right';
+      ctx.fillText('Saúde · bateria mínima: ' + minBat.bat + '% (' + minBat.id + ') · última leitura: há ' + fmt(st.ultima, 0) + ' min', m + lw - 10, ly + 18);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

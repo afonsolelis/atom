@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 7 — Produtos cartográficos: ortomosaico, MDS/MDT, nuvem de pontos e cálculo de volumes</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .galeria .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
+  .galeria.legendas .figura figcaption { font-size: .88rem; }
+  .galeria .figura.claro { background: #fff; }
+  .galeria .figura.claro img { object-fit: contain; padding: .4rem .4rem 4.2rem; }
+  .foto-direita .slide-content { max-width: 44%; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.9rem, 1.25vw, 1.15rem); }
+  .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
+  .cards3 .card.corte { border-color: var(--obra-alerta); background: rgba(255,43,95,.07); }
+  .cards3 .card.ciano { border-color: var(--obra-ciano); background: rgba(43,217,254,.07); }
+  .cards3 .card.verde { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .versus p, .versus li { font-size: clamp(.9rem, 1.2vw, 1.1rem); }
+  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .mini-intro { margin: 0 !important; font-size: clamp(.85rem, 1.1vw, 1.02rem) !important; }
+  .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
+  .fecho .lado p, .fecho .pontos li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .45em; }
+  .formula.grande { font-size: clamp(1.4rem, 2.4vw, 2.1rem); display: block; text-align: center; margin: .3em 0 .5em; color: #fff; }
+  .texto-figura { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .texto-figura .texto p, .texto-figura .texto li { font-size: clamp(.92rem, 1.25vw, 1.15rem); }
+  .texto-figura .figura { min-height: 0; }
+  .texto-figura .figura.claro { background: #fff; }
+  .texto-figura .figura.claro img { object-fit: contain; padding: .5rem; }
+  .stat-grid.tres .stat-card { padding: .8rem; }
+  .stat-grid.tres .numero-grande { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .stat-grid.tres .legenda { font-size: .85rem; }
+  .lista-contrato { margin: 0; padding-left: 1.1em; }
+  .lista-contrato li { font-size: clamp(.8rem, 1.02vw, .96rem) !important; margin-bottom: .2em; }
+  .compacto .ctrl { margin-bottom: .35rem; }
+  .compacto h3 { margin-bottom: .2em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 7 — Produtos cartográficos e cálculo de volumes">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Das fotos aos metros cúbicos</h1>
+      <div class="subtitulo">Aula 7 — Produtos cartográficos: ortomosaico, MDS/MDT, nuvem de pontos e cálculo de volumes</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Das fotos aos metros cúbicos</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Os quatro produtos de um levantamento</li>
+          <li>Nuvem de pontos</li>
+          <li>Por que a foto não é mapa: o ortomosaico</li>
+          <li>MDS × MDT, em 3D</li>
+          <li>Cálculo de volumes: corte e aterro</li>
+          <li>Empolamento e viagens de caminhão</li>
+          <li>Incerteza do volume: δV ≈ A · δz</li>
+          <li>Pausa para reflexão: quem está certo na medição?</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto: gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Wimmelburg_stockpiles_2020_germany.jpg/1280px-Wimmelburg_stockpiles_2020_germany.jpg'); background-position: 60% 50%" role="img" aria-label="Vista aérea de grandes pilhas de material, uma escura à esquerda e outra clara à direita, separadas por uma rodovia, com galpões, estacionamento e vegetação no entorno, em Wimmelburg, Alemanha"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Fim do mês na terraplenagem</p>
+      <h2>Empreiteira: 48.200 m³. Fiscalização: 46.900 m³. Alguém errou?</h2>
+      <p>São <strong>1.300 m³</strong> de diferença, algumas dezenas de milhares de reais na medição. Os dois mediram com drone.</p>
+      <p>Antes de apontar culpados, é preciso saber <strong>o que cada produto do drone representa</strong>, como o volume é calculado e <strong>quanta incerteza</strong> cabe nesse número.</p>
+    </div>
+    <p class="credito">Foto: Thuringius — Wikimedia Commons (CC0)</p>
+  </section>
+
+  <!-- 4. Quatro produtos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Da nuvem densa da Aula 6</p>
+      <h2>Quatro produtos, quatro perguntas diferentes</h2>
+      <div class="galeria legendas" style="--cols:3">
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Geo-Referenced_Point_Cloud.JPG" alt="Modelo 3D georreferenciado, com textura fotográfica, de uma área de rochas avermelhadas, estradas de terra e vegetação rasteira, gerado a partir de imagens aéreas de drone" loading="lazy">
+          <figcaption><b>Nuvem de pontos</b>Milhões de pontos X, Y, Z com cor: "onde está cada coisa?"</figcaption>
+          <p class="credito">Imagem: Stoermerjp — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg/1280px-Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg" alt="Ortofoto vertical feita por drone de uma obra ao redor de uma estação ferroviária, com linhas férreas, plataformas, um edifício de telhado laranja e ruas" loading="lazy">
+          <figcaption><b>Ortomosaico</b>A foto com escala constante: "quanto mede e onde está, em planta?"</figcaption>
+          <p class="credito">Foto: Reinhold Möller Ermell — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura claro">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/DTM_DSM.png" alt="Esquema em perfil: a linha vermelha do modelo digital de superfície passa por cima dos telhados das casas, e a linha azul do modelo digital do terreno passa por baixo delas, seguindo o solo" loading="lazy">
+          <figcaption><b>MDS e MDT</b>Superfície (vermelho) × terreno nu (azul): "qual é a cota, e de quê?"</figcaption>
+          <p class="credito">Imagem: MartinOver — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+      <p class="mini" style="margin-top:.6rem">Usar o produto errado é a fonte mais comum de erro de volume.</p>
+    </div>
+  </section>
+
+  <!-- 5. Nuvem de pontos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Produto 1</p>
+      <h2>Nuvem de pontos: o produto mais bruto e mais rico</h2>
+      <div class="texto-figura">
+        <div class="texto">
+          <ul>
+            <li>Cada ponto tem coordenadas <strong>X, Y, Z</strong> e, na fotogrametria, a <strong>cor RGB</strong>.</li>
+            <li>Densidade típica: da ordem de <strong>centenas de pontos por m²</strong>, conforme o GSD.</li>
+            <li>Permite <strong>medir</strong> distâncias e alturas, extrair <strong>perfis e seções</strong>.</li>
+            <li>Os pontos podem ser <strong>classificados</strong>: solo, vegetação, edificação, máquinas.</li>
+          </ul>
+          <div class="callout-azul" style="margin-top:.8rem;background:rgba(0,0,0,.25)"><p>A classificação é o que permite, mais adiante, separar o <strong>terreno</strong> de tudo o que está <strong>sobre</strong> ele.</p></div>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Geo-Referenced_Point_Cloud.JPG" alt="Modelo 3D georreferenciado com textura fotográfica de uma área de rochas avermelhadas, estradas de terra e vegetação rasteira, visto em perspectiva" loading="lazy" style="object-fit:contain">
+          <p class="credito">Imagem: Stoermerjp — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Relevo: foto não é mapa -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação · perspectiva central</p>
+      <h2>Por que uma foto aérea não é um mapa</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="relevo" role="img" aria-label="À esquerda, vista lateral: uma câmera a 100 metros de altura fotografa um prédio; o raio que passa pelo topo do prédio chega ao solo mais longe do que a base, mostrando o deslocamento devido ao relevo. À direita, vista de cima: o telhado aparece deslocado em relação à base. O botão Ortorretificar reprojeta o topo na vertical, e telhado e base passam a coincidir."></div>
+        <div class="viz-lado">
+          <h3>Deslocamento devido ao relevo</h3>
+          <p>Na foto, o <strong>topo</strong> do prédio aparece deslocado <strong>para fora</strong> em relação à base. Quanto mais alto o objeto e mais longe do centro da foto, maior o deslocamento.</p>
+          <div data-controles></div>
+          <p class="mini">Clique em <strong>Ortorretificar</strong>: cada ponto é reprojetado como se fosse visto na vertical.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Ortomosaico -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg/1280px-Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Ortofoto feita por drone de um trecho em obras ao redor de uma estação ferroviária em Eggolsheim, Alemanha: linhas férreas e plataformas no centro, edifício com telhado laranja e painéis solares, estacionamentos, ruas e áreas de terra em execução"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Produto 2 · ortomosaico</p>
+      <h2>A foto que vira mapa</h2>
+      <p>O <strong>ortomosaico</strong> é o mosaico das fotos <strong>ortorretificadas</strong>: reprojetadas sobre o modelo de superfície como se cada ponto fosse visto na vertical.</p>
+      <p>Resultado: <strong>escala constante</strong>. Nele se medem distâncias e áreas, confere-se a <strong>locação</strong> e se sobrepõe o projeto em CAD ou BIM.</p>
+      <p>É o produto preferido para medir o <strong>avanço físico</strong> da obra.</p>
+    </div>
+    <p class="credito">Foto: Reinhold Möller Ermell — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 8. MDS x MDT -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Produtos 3 e 4</p>
+      <h2>MDS × MDT: superfície ou terreno?</h2>
+      <div class="texto-figura">
+        <div class="versus" style="grid-template-columns:1fr;gap:.7rem">
+          <div class="lado">
+            <h3>MDS — modelo digital de superfície</h3>
+            <p>Cota do <strong>primeiro obstáculo</strong> visto de cima: telhados, árvores, máquinas, pilhas.</p>
+          </div>
+          <div class="lado novo">
+            <h3>MDT — modelo digital do terreno</h3>
+            <p>O <strong>solo nu</strong>, depois de filtrar tudo o que não é terreno. Dele saem curvas de nível, perfis e seções.</p>
+          </div>
+          <p class="mini">MDS − MDT = <strong>altura dos objetos</strong> (modelo normalizado). Sob mata densa a câmera não vê o chão: é aí que entra o LiDAR da Aula 8.</p>
+        </div>
+        <figure class="figura claro">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/DTM_DSM.png" alt="Esquema em perfil comparando os dois modelos: a linha vermelha do modelo digital de superfície passa por cima dos telhados das casas e acompanha o morro, enquanto a linha azul do modelo digital do terreno passa por baixo das casas, seguindo apenas o solo" loading="lazy">
+          <p class="credito">Imagem: MartinOver — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 3D MDS/MDT -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>O mesmo canteiro, cinco representações</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="mdsmdt3d" role="img" aria-label="Cena 3D de um canteiro com terreno ondulado, um edifício, um grupo de árvores, uma pilha de material e uma máquina. Botões alternam entre a cena real, a nuvem de pontos colorida, o MDS (superfície que passa por cima de tudo), o MDT (só o terreno e a pilha, sem prédio, árvores e máquina) e a diferença MDS menos MDT, que destaca em vermelho a altura dos objetos."></div>
+        <div class="viz-lado">
+          <h3>Use os botões</h3>
+          <ul class="pontos">
+            <li><strong>Nuvem de pontos:</strong> amostras X, Y, Z com cor.</li>
+            <li><strong>MDS:</strong> um "lençol" sobre tudo, inclusive a máquina e as copas.</li>
+            <li><strong>MDT:</strong> prédio, árvores e máquina somem. A <strong>pilha fica</strong>: é material, é o que queremos medir.</li>
+            <li><strong>MDS − MDT:</strong> em vermelho, o que viraria <strong>volume falso</strong> se você usasse o MDS.</li>
+          </ul>
+          <p class="mini">Terreno de 120 × 120 m, ilustrativo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Cálculo de volumes -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Cálculo de volumes</p>
+      <h2>Volume é soma de prismas: diferença de cota × área</h2>
+      <p><span class="formula grande">V = Σ Δz<sub>i</sub> · A<sub>c</sub></span></p>
+      <p style="text-align:center">Terreno dividido em células de área A<sub>c</sub>. Em cada uma, Δz = cota medida − cota de referência. <strong style="color:var(--obra-alerta)">Δz &gt; 0: corte</strong> · <strong style="color:var(--obra-ciano)">Δz &lt; 0: aterro</strong>.</p>
+      <div class="cards3" style="margin-top:.8rem">
+        <div class="card ciano"><span class="tag">referência 1</span><h3>Greide de projeto</h3><p>Quanto <strong>ainda falta</strong> escavar ou aterrar até a cota projetada.</p></div>
+        <div class="card"><span class="tag">referência 2</span><h3>Levantamento anterior</h3><p>Quanto <strong>se movimentou no mês</strong>: a base da medição de pagamento.</p></div>
+        <div class="card verde"><span class="tag">referência 3</span><h3>Plano de base</h3><p>Volume de uma <strong>pilha</strong> de agregado ou de material estocado.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>Na prática, o software faz essa soma com <strong>milhões de células</strong> (ou com prismas sobre uma triangulação). A conta é simples; o que exige engenharia é escolher <strong>as duas superfícies</strong> certas.</p></div>
+    </div>
+  </section>
+
+  <!-- 11. Três cuidados -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Três cuidados</p>
+      <h2>Onde o volume costuma dar errado</h2>
+      <div class="cards3">
+        <div class="card corte"><span class="tag">1</span><h3>Use o MDT</h3><p>Máquinas e vegetação no MDS viram <strong>"volume" falso</strong>. Uma escavadeira parada sobre o corte some do volume escavado.</p></div>
+        <div class="card ciano"><span class="tag">2</span><h3>Mesmo referencial</h3><p>As duas superfícies precisam estar no <strong>mesmo sistema de coordenadas e de altitudes</strong>. Um deslocamento vertical entre elas vira volume.</p></div>
+        <div class="card verde"><span class="tag">3</span><h3>Empolamento</h3><p>O volume medido no corte é <strong>in situ</strong>. Escavado, o solo se solta e ocupa mais espaço no caminhão.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>Na medição de pagamento, os três cuidados viram cláusulas: qual superfície, qual referencial e em que estado (in situ ou solto) o volume é medido.</p></div>
+    </div>
+  </section>
+
+  <!-- 12. Volume interativo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico · interativo</p>
+      <h2>Oito células de 10 × 10 m contra o greide de projeto</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="volume" role="img" aria-label="Malha de oito células de 10 por 10 metros, coloridas em vermelho para corte e azul para aterro, com o valor de delta z de cada uma, e abaixo um perfil de barras acima e abaixo da linha do greide. Um controle de viés soma o mesmo erro de cota a todas as células e mostra como corte, aterro e volume líquido mudam."></div>
+        <div class="viz-lado">
+          <h3>Δz = z<sub>levantado</sub> − z<sub>projeto</sub></h3>
+          <p class="mini">+1,40 · +0,90 · +0,35 · −0,20 · +1,10 · +0,60 · −0,45 · −0,80 m</p>
+          <div data-controles></div>
+          <p class="mini">Sem viés: corte de 435 m³ e aterro de 145 m³. Leve o viés a <strong>+3 cm</strong>: o volume líquido muda 800 × 0,03 = 24 m³, cerca de 5,5% do corte.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Empolamento e viagens -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico · empolamento</p>
+      <h2>O corte vai para o bota-fora: quantas viagens?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"V","label":"Volume de corte (in situ)","min":100,"max":2000,"step":5,"value":435,"unit":"m³"},
+            {"id":"e","label":"Empolamento","min":10,"max":50,"step":1,"value":25,"unit":"%"},
+            {"id":"c","label":"Capacidade do caminhão","min":6,"max":20,"step":1,"value":12,"unit":"m³"}
+          ],
+          "outputs": [
+            {"label":"Volume solto","expr":"V*(1+e/100)","unit":"m³","dec":1},
+            {"label":"Viagens","expr":"Math.ceil(o1/c)","unit":"viagens","destaque":true}
+          ],
+          "barras": [
+            {"label":"In situ (medido)","expr":"V","unit":"m³","dec":0},
+            {"label":"Solto (no caminhão)","expr":"Math.round(o1*10)/10+0.002","unit":"m³","dec":1}
+          ],
+          "nota": "435 × 1,25 ≈ 543,8 m³; 543,8 / 12 = 45,3 → 46 viagens (arredonda-se para cima)."
+        }' role="img" aria-label="Calculadora de empolamento: volume de corte in situ, porcentagem de empolamento e capacidade do caminhão resultam no volume solto e no número de viagens, com barras comparando volume in situ e solto"></div>
+        <div class="viz-lado">
+          <h3>V<sub>solto</sub> = V<sub>corte</sub> · (1 + e)</h3>
+          <p>O drone mede o volume <strong>no lugar</strong>. O caminhão carrega o volume <strong>solto</strong>.</p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Incerteza do volume -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Incerteza do volume</p>
+      <h2>Erro aleatório se compensa; viés vira volume</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"A","label":"Área medida","min":0.1,"max":10,"step":0.1,"value":2,"unit":"ha"},
+            {"id":"dz","label":"Viés vertical do modelo δz","min":0,"max":10,"step":0.5,"value":3,"unit":"cm"}
+          ],
+          "outputs": [
+            {"label":"Área","expr":"A*10000","unit":"m²"},
+            {"label":"δV ≈ A · δz","expr":"o1*dz/100","unit":"m³","destaque":true},
+            {"label":"Em caminhões de 12 m³ (in situ)","expr":"Math.round(o2/12)","unit":"viagens"}
+          ],
+          "barras": [
+            {"label":"Viés de 1 cm","expr":"o1*0.01","unit":"m³"},
+            {"label":"Viés escolhido","expr":"o2","unit":"m³"}
+          ],
+          "nota": "2 ha × 3 cm = 20.000 m² × 0,03 m = 600 m³."
+        }' role="img" aria-label="Calculadora da incerteza de volume por viés vertical: área em hectares e viés em centímetros resultam no erro de volume delta V igual a área vezes delta z, com barras comparando o efeito de 1 centímetro e do viés escolhido"></div>
+        <div class="viz-lado">
+          <h3><span class="formula">δV ≈ A · δz</span></h3>
+          <p>Erros <strong>aleatórios</strong> de cota, célula a célula, tendem a se compensar. Um <strong>viés</strong> em todo o modelo não se compensa: vira volume.</p>
+          <div data-controles></div>
+          <p class="mini">Por isso a <strong>média</strong> dos resíduos nos checkpoints (Aula 6) importa tanto quanto o RMSE.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Pausa para reflexão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão · Desafio</p>
+      <h2>48.200 × 46.900 m³: quem está certo?</h2>
+      <p class="mini-intro">Frente de <strong>4 ha</strong>. Diferença de <strong>1.300 m³</strong> (≈ 2,8% de 46.900). Um viés de apenas <strong>3 cm</strong> em 4 ha vale <strong>1.200 m³</strong>; com dois voos, cada um com seu viés, ≈ 1.700 m³ (raiz da soma dos quadrados): talvez ninguém esteja "errado".</p>
+      <div class="viz-grid inv">
+        <div class="viz-lado compacto">
+          <h3>O que exigir no contrato, antes da 1ª medição</h3>
+          <ul class="lista-contrato">
+            <li><strong>Mesma referência</strong> (o primitivo)</li>
+            <li><strong>MDT</strong>, e não MDS</li>
+            <li><strong>Checkpoints</strong>: RMSE<sub>z</sub> e <strong>média</strong></li>
+            <li><strong>Data e hora</strong> do voo</li>
+            <li><strong>Tolerância</strong> e <strong>arbitragem</strong></li>
+          </ul>
+          <div data-controles></div>
+        </div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"A","label":"Área da frente","min":1,"max":10,"step":0.5,"value":4,"unit":"ha"},
+            {"id":"dz","label":"Viés vertical plausível","min":0,"max":8,"step":0.5,"value":3,"unit":"cm"},
+            {"id":"D","label":"Diferença entre as medições","min":0,"max":3000,"step":50,"value":1300,"unit":"m³"}
+          ],
+          "outputs": [
+            {"label":"Diferença relativa","expr":"D/46900*100","unit":"%","dec":1},
+            {"label":"Viés δz em A","expr":"A*10000*dz/100","unit":"m³","destaque":true},
+            {"label":"Dois voos (√2 · δV)","expr":"o2*Math.SQRT2","unit":"m³"},
+            {"label":"Leitura","expr":"D<=o3?&#39;cabe na incerteza: combine o método&#39;:&#39;excede o viés plausível: investigar&#39;"}
+          ],
+          "barras": [
+            {"label":"Diferença medida","expr":"D","unit":"m³"},
+            {"label":"Viés em um voo","expr":"o2","unit":"m³"},
+            {"label":"Dois voos (√2)","expr":"o3","unit":"m³"}
+          ],
+          "nota": "4 ha × 3 cm = 1.200 m³; 1.300 / 46.900 ≈ 2,8%."
+        }' role="img" aria-label="Calculadora comparando a diferença entre as duas medições de volume com o volume equivalente a um viés vertical na área da frente, com barras e uma leitura indicando se a diferença cabe na incerteza"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade + pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática e pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="versus fecho">
+        <div class="lado">
+          <h3>Atividade prática</h3>
+          <p>Baixe um ortomosaico e um MDS gratuitos (por exemplo, um conjunto de dados de exemplo do <strong>OpenDroneMap</strong>) e, no <strong>QGIS</strong>, meça uma área, trace um perfil e calcule o volume de uma pilha com um plano de base.</p>
+          <p>Repita deslocando o plano de base <strong>5 cm</strong> para cima e para baixo. Quanto muda o volume? Relacione com <span class="formula">δV ≈ A · δz</span>.</p>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>Pontos-chave</h3>
+          <ul class="pontos">
+            <li><strong>Nuvem</strong>, <strong>ortomosaico</strong>, <strong>MDS</strong> e <strong>MDT</strong> respondem a perguntas diferentes.</li>
+            <li>O ortomosaico corrige o <strong>deslocamento devido ao relevo</strong>: escala constante.</li>
+            <li><span class="formula">V = Σ Δz · A<sub>c</sub></span>, com corte e aterro, sempre com <strong>MDT</strong>, no <strong>mesmo referencial</strong> e considerando o <strong>empolamento</strong>.</li>
+            <li>Viés de cota vira volume: <span class="formula">δV ≈ A · δz</span>.</li>
+            <li>Medição por drone exige <strong>método e tolerância em contrato</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Das fotos aos metros cúbicos</h1>
+      <p class="fim-texto">Você sabe o que cada produto representa, como calcular volumes e quanta incerteza cabe neles.</p>
+      <p class="fim-proxima">Próxima aula: Aula 8 — LiDAR embarcado e termografia na inspeção de estruturas e fachadas.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* relevo — deslocamento devido ao relevo numa foto de perspectiva central
+   (vista lateral + vista de cima) e o efeito da ortorretificação. */
+Obra.register('relevo', (host, opts, painel) => {
+  const p = painel || document.createElement('div');
+  const sH = Obra.slider(p, { id: 'h', label: 'Altura do prédio', min: 5, max: 40, step: 1, value: 30, unit: 'm' });
+  const sX = Obra.slider(p, { id: 'x', label: 'Distância ao centro da foto', min: 0, max: 60, step: 1, value: 40, unit: 'm' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+  const { ctx } = Obra.canvas2d(host);
+  const H = 100; // altura de voo (m)
+  let orto = false, f = 0;
+  Obra.botoes(host, [['Ortorretificar', (b) => { orto = !orto; b.classList.toggle('on', orto); }]]);
+  const lp = Obra.loop((t, dt) => {
+    f += ((orto ? 1 : 0) - f) * Math.min(1, dt * 3);
+    const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, Hc = ctx.canvas.height / dpr;
+    ctx.clearRect(0, 0, W, Hc);
+    const h = +sH.value, x0 = +sX.value;
+    const desl = x0 * h / (H - h);             // deslocamento do topo projetado no solo (m)
+    res.innerHTML = `Topo projetado <span class="num">${Obra.fmt(desl * (1 - f), 1)} m</span> para fora da base` +
+      `<br><small>Δ = x · h / (H − h) = ${Obra.fmt(x0)} × ${Obra.fmt(h)} / (100 − ${Obra.fmt(h)}); H = 100 m${orto ? ' · ortorretificado: Δ = 0' : ''}</small>`;
+    // ---- vista lateral (esquerda) ----
+    const LW = W * 0.62, m = 30, base = Hc - 46;
+    const esc = Math.min((LW - 2 * m) / 130, (base - 50) / (H + 8));
+    const cx = m + 10 * esc;                    // nadir à esquerda
+    const X = (v) => cx + v * esc, Y = (v) => base - v * esc;
+    ctx.fillStyle = 'rgba(194,120,47,.45)'; ctx.fillRect(m - 10, base, LW - m, 6);
+    ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'left';
+    ctx.fillText('Vista lateral', m - 10, 22);
+    // câmera
+    ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.arc(X(0), Y(H), 7, 0, 7); ctx.fill();
+    ctx.fillText('Câmera (H = 100 m)', X(0) + 12, Y(H) + 4);
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(X(0), Y(H)); ctx.lineTo(X(0), base); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillText('nadir', X(0) + 4, base + 22);
+    // prédio
+    const bw = 8;
+    ctx.fillStyle = '#7f9bb8'; ctx.fillRect(X(x0 - bw / 2), Y(h), bw * esc, h * esc);
+    ctx.strokeStyle = '#fff'; ctx.strokeRect(X(x0 - bw / 2), Y(h), bw * esc, h * esc);
+    // raios
+    const xt = x0 + desl * (1 - f);              // onde o topo "cai" no solo
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = '#2BD9FE'; ctx.beginPath(); ctx.moveTo(X(0), Y(H)); ctx.lineTo(X(x0), base); ctx.stroke();
+    ctx.strokeStyle = '#FF2B5F';
+    ctx.beginPath();
+    if (f < 0.98) { ctx.moveTo(X(0), Y(H)); ctx.lineTo(X(x0 + desl), base); }
+    ctx.stroke();
+    if (f > 0.02) { ctx.globalAlpha = f; ctx.strokeStyle = '#95DE68'; ctx.beginPath(); ctx.moveTo(X(x0), Y(H)); ctx.lineTo(X(x0), base); ctx.stroke(); ctx.globalAlpha = 1; }
+    ctx.lineWidth = 1;
+    ctx.fillStyle = '#2BD9FE'; ctx.beginPath(); ctx.arc(X(x0), base, 5, 0, 7); ctx.fill();
+    ctx.fillStyle = '#FF2B5F'; ctx.beginPath(); ctx.arc(X(xt), base, 5, 0, 7); ctx.fill();
+    ctx.font = '600 12px Montserrat, Arial';
+    ctx.fillStyle = '#2BD9FE'; ctx.textAlign = 'right'; ctx.fillText('base', X(x0) - 6, base + 22);
+    ctx.fillStyle = '#FF2B5F'; ctx.textAlign = 'left'; ctx.fillText('topo na foto', X(xt) + 6, base + 22);
+    // ---- vista de cima (direita) ----
+    const ox = LW + 20, ow = W - ox - 16, oy = 40, oh = Hc - oy - 30;
+    ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.fillRect(ox, oy, ow, oh);
+    ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.strokeRect(ox, oy, ow, oh);
+    ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'left';
+    ctx.fillText(f > 0.5 ? 'Vista de cima: ortomosaico' : 'Vista de cima: foto', ox, 22);
+    const e2 = Math.min(ow / 110, oh / 60), c0x = ox + 12 * e2, c0y = oy + oh / 2;
+    ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.arc(c0x, c0y, 4, 0, 7); ctx.fill();
+    ctx.font = '600 11px Montserrat, Arial'; ctx.fillText('centro', c0x - 10, c0y + 18);
+    const s = 14 * e2;
+    ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.setLineDash([5, 4]);
+    ctx.strokeRect(c0x + x0 * e2 - s / 2, c0y - s / 2, s, s); ctx.setLineDash([]);
+    const tx = c0x + (x0 + desl * (1 - f)) * e2;
+    ctx.fillStyle = 'rgba(255,43,95,.55)'; ctx.fillRect(tx - s / 2, c0y - s / 2, s, s);
+    ctx.strokeStyle = '#FF2B5F'; ctx.strokeRect(tx - s / 2, c0y - s / 2, s, s);
+    ctx.lineWidth = 1;
+    ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'left';
+    ctx.fillText('tracejado: base · cheio: telhado', ox + 6, oy + oh - 8);
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+
+/* volume — 8 células de 10 × 10 m contra o greide, com viés vertical ajustável. */
+Obra.register('volume', (host, opts, painel) => {
+  const DZ = [1.40, 0.90, 0.35, -0.20, 1.10, 0.60, -0.45, -0.80], AC = 100;
+  const p = painel || document.createElement('div');
+  const sB = Obra.slider(p, { id: 'b', label: 'Viés vertical do modelo', min: -10, max: 10, step: 0.5, value: 0, unit: 'cm' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+  const { ctx } = Obra.canvas2d(host);
+  const soma = (b) => { let c = 0, a = 0; DZ.forEach((v) => { const d = v + b; if (d > 0) c += d * AC; else a -= d * AC; }); return [c, a]; };
+  const [c0, a0] = soma(0);
+  let bAnim = 0;
+  const lp = Obra.loop((t, dt) => {
+    const b = +sB.value / 100;
+    bAnim += (b - bAnim) * Math.min(1, dt * 5);
+    const [c, a] = soma(b);
+    const dl = (c - a) - (c0 - a0);
+    res.innerHTML = `Corte: <b>${Obra.fmt(c, 0)} m³</b> · Aterro: <b>${Obra.fmt(a, 0)} m³</b><br>` +
+      `Variação do volume líquido: <span class="num">${dl >= 0 ? '+' : '−'}${Obra.fmt(Math.abs(dl), 0)} m³</span>` +
+      `<br><small>= 800 m² × ${Obra.fmt(Math.abs(b) * 100, 1)} cm${c0 ? ' · ' + Obra.fmt(Math.abs(dl) / c0 * 100, 1) + '% do corte sem viés (435 m³)' : ''}</small>`;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, Hc = ctx.canvas.height / dpr;
+    ctx.clearRect(0, 0, W, Hc);
+    // malha 4 × 2 (vista de cima)
+    const gTop = 36, gH = Hc * 0.42, cw = Math.min((W - 60) / 4, gH / 2 * 1.0), gx = (W - cw * 4) / 2;
+    ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+    ctx.fillText('Malha vista de cima · células de 10 × 10 m (100 m²)', W / 2, 22);
+    DZ.forEach((v, k) => {
+      const d = v + bAnim, col = k % 4, lin = Math.floor(k / 4);
+      const x = gx + col * cw, y = gTop + lin * cw;
+      const intens = Math.min(1, Math.abs(d) / 1.5) * 0.75 + 0.15;
+      ctx.fillStyle = d > 0 ? `rgba(255,43,95,${intens})` : `rgba(43,217,254,${intens})`;
+      ctx.fillRect(x + 2, y + 2, cw - 4, cw - 4);
+      ctx.fillStyle = '#fff'; ctx.font = '700 15px Montserrat, Arial';
+      ctx.fillText((d >= 0 ? '+' : '−') + Obra.fmt(Math.abs(d), 2) + ' m', x + cw / 2, y + cw / 2 + 2);
+      ctx.font = '600 11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.85)';
+      ctx.fillText(d > 0 ? 'corte' : 'aterro', x + cw / 2, y + cw / 2 + 20);
+    });
+    // perfil de barras (Δz em relação ao greide)
+    const pTop = gTop + 2 * cw + 30, pH = Hc - pTop - 20, zero = pTop + pH * 0.55, ez = (pH * 0.42) / 1.5;
+    const bw = (W - 80) / 8;
+    ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(30, zero); ctx.lineTo(W - 30, zero); ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+    ctx.fillText('greide de projeto', 32, zero + 16);
+    DZ.forEach((v, k) => {
+      const d = v + bAnim, x = 40 + k * bw + bw * 0.15, w = bw * 0.7, hh = d * ez;
+      ctx.fillStyle = d > 0 ? 'rgba(255,43,95,.85)' : 'rgba(43,217,254,.85)';
+      ctx.fillRect(x, d > 0 ? zero - hh : zero, w, Math.abs(hh));
+    });
+    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.setLineDash([5, 4]); ctx.beginPath();
+    ctx.moveTo(30, zero - bAnim * ez); ctx.lineTo(W - 30, zero - bAnim * ez); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.textAlign = 'right';
+    ctx.fillText('perfil das 8 células (barras = Δz)', W - 32, Hc - 6);
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+
+/* mdsmdt3d — o mesmo canteiro como cena real, nuvem de pontos, MDS, MDT e MDS − MDT. */
+Obra.register('mdsmdt3d', (host) => {
+  const h = Obra.hud(host);
+  const cModo = Obra.chip(h, '');
+  return Obra.cena3d(host, { r: 175, ph: 0.95, th: 0.6, alvo: [0, 4, 0], fogNear: 300, fogFar: 700 }, ({ THREE, scene, rotulo }) => {
+    const L = 120, N = 96;
+    const terreno = (x, z) => 2.2 * Math.sin(x / 22) * Math.cos(z / 28) + 0.03 * x;
+    const PILHA = { x: 28, z: -22, r: 15, h: 7 };
+    const PREDIO = { x: -32, z: 14, w: 22, d: 16, h: 13 };
+    const MAQ = { x: 6, z: 30, w: 9, d: 4, h: 3.8 };
+    const ARV = []; let sd = 7;
+    const rnd = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
+    for (let k = 0; k < 16; k++) ARV.push({ x: -50 + rnd() * 30, z: -52 + rnd() * 34, r: 3.2 + rnd() * 1.6, h: 8 + rnd() * 4 });
+    const zPilha = (x, z) => { const d = Math.hypot(x - PILHA.x, z - PILHA.z); return d < PILHA.r ? PILHA.h * (1 - d / PILHA.r) : 0; };
+    const zMDT = (x, z) => terreno(x, z) + zPilha(x, z);
+    const dentro = (o, x, z) => Math.abs(x - o.x) < o.w / 2 && Math.abs(z - o.z) < o.d / 2;
+    const zObj = (x, z) => {   // altura acima do MDT e tipo
+      let a = 0, tipo = 0;
+      if (dentro(PREDIO, x, z)) { a = PREDIO.h; tipo = 1; }
+      if (dentro(MAQ, x, z)) { a = MAQ.h; tipo = 3; }
+      for (const t of ARV) { const d = Math.hypot(x - t.x, z - t.z); if (d < t.r) { const v = t.h - (d / t.r) * 4.5; if (v > a) { a = v; tipo = 2; } } }
+      return [a, tipo];
+    };
+    const malha = (fz, corFn) => {
+      const g = new THREE.PlaneGeometry(L, L, N, N); g.rotateX(-Math.PI / 2);
+      const pos = g.attributes.position, cores = new Float32Array(pos.count * 3), c = new THREE.Color();
+      for (let i = 0; i < pos.count; i++) {
+        const x = pos.getX(i), z = pos.getZ(i), y = fz(x, z); pos.setY(i, y);
+        corFn(x, z, y, c); cores.set([c.r, c.g, c.b], i * 3);
+      }
+      g.setAttribute('color', new THREE.BufferAttribute(cores, 3)); g.computeVertexNormals();
+      const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, side: THREE.DoubleSide }));
+      m.receiveShadow = true; scene.add(m); return m;
+    };
+    const rampa = (y, c) => c.setHSL(0.62 - Math.min(1, Math.max(0, (y + 4) / 22)) * 0.62, 0.75, 0.5);
+    // cena real: terreno + objetos
+    const real = new THREE.Group(); scene.add(real);
+    const chao = malha(zMDT, (x, z, y, c) => { zPilha(x, z) > 0.05 ? c.setHex(0xb08a5a) : c.setHex(0x6d8a4a); });
+    scene.remove(chao); real.add(chao);
+    const pred = Obra.caixa(THREE, PREDIO.w, PREDIO.h, PREDIO.d, 0xd7dae0); pred.position.set(PREDIO.x, terreno(PREDIO.x, PREDIO.z) + PREDIO.h / 2 - 0.5, PREDIO.z); real.add(pred);
+    const maq = Obra.caixa(THREE, MAQ.w, MAQ.h, MAQ.d, 0xf2cb0a); maq.position.set(MAQ.x, terreno(MAQ.x, MAQ.z) + MAQ.h / 2, MAQ.z); real.add(maq);
+    ARV.forEach((t) => {
+      const y0 = terreno(t.x, t.z);
+      const tr = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, t.h - 4.5, 6), new THREE.MeshStandardMaterial({ color: 0x5b3b22 })); tr.position.set(t.x, y0 + (t.h - 4.5) / 2, t.z);
+      const co = new THREE.Mesh(new THREE.ConeGeometry(t.r, 4.5 + 2, 10), new THREE.MeshStandardMaterial({ color: 0x2f6b2f, roughness: 0.9 })); co.position.set(t.x, y0 + t.h - 2.2, t.z);
+      tr.castShadow = co.castShadow = true; real.add(tr, co);
+    });
+    const ancora = (x, y, z) => { const o = new THREE.Object3D(); o.position.set(x, y, z); real.add(o); return o; };
+    const rots = [
+      rotulo(ancora(PREDIO.x, terreno(PREDIO.x, PREDIO.z) + PREDIO.h, PREDIO.z), 'Edifício', 2),
+      rotulo(ancora(-35, 12, -36), 'Árvores', 2),
+      rotulo(ancora(PILHA.x, zMDT(PILHA.x, PILHA.z), PILHA.z), 'Pilha de material', 2),
+      rotulo(ancora(MAQ.x, terreno(MAQ.x, MAQ.z) + MAQ.h, MAQ.z), 'Máquina', 2)
+    ];
+    // MDS, MDT, MDS − MDT
+    const mds = malha((x, z) => zMDT(x, z) + zObj(x, z)[0], (x, z, y, c) => rampa(y, c));
+    const mdt = malha(zMDT, (x, z, y, c) => rampa(y, c));
+    const ndsm = malha((x, z) => zMDT(x, z) + zObj(x, z)[0], (x, z, y, c) => { const a = zObj(x, z)[0]; a > 0.3 ? c.setHex(0xff2b5f) : c.setHex(0x51637e); });
+    // nuvem de pontos
+    const NP = 14000, pp = new Float32Array(NP * 3), pc = new Float32Array(NP * 3), cc = new THREE.Color();
+    for (let i = 0; i < NP; i++) {
+      const x = (rnd() - 0.5) * L, z = (rnd() - 0.5) * L, [a, tipo] = zObj(x, z), y = zMDT(x, z) + a;
+      pp.set([x, y + 0.2, z], i * 3);
+      if (tipo === 1) cc.setHex(0xdfe3ea); else if (tipo === 2) cc.setHex(0x3f9a3f); else if (tipo === 3) cc.setHex(0xf2cb0a); else if (zPilha(x, z) > 0.05) cc.setHex(0xc89a62); else cc.setHex(0x8fae6a);
+      pc.set([cc.r, cc.g, cc.b], i * 3);
+    }
+    const pg = new THREE.BufferGeometry(); pg.setAttribute('position', new THREE.BufferAttribute(pp, 3)); pg.setAttribute('color', new THREE.BufferAttribute(pc, 3));
+    const nuvem = new THREE.Points(pg, new THREE.PointsMaterial({ size: 0.9, vertexColors: true })); scene.add(nuvem);
+    const MODOS = {
+      real: 'Cena real: terreno, edifício, árvores, pilha e máquina',
+      nuvem: 'Nuvem de pontos: X, Y, Z + cor (14 mil pontos aqui)',
+      mds: 'MDS: a primeira superfície vista de cima (cor = cota)',
+      mdt: 'MDT: só o solo, com a pilha (cor = cota)',
+      ndsm: 'MDS − MDT: em vermelho, o que viraria volume falso'
+    };
+    const btns = Obra.botoes(host, [
+      ['Cena real', () => modo('real'), true], ['Nuvem de pontos', () => modo('nuvem')], ['MDS', () => modo('mds')], ['MDT', () => modo('mdt')], ['MDS − MDT', () => modo('ndsm')]
+    ]);
+    const chaves = ['real', 'nuvem', 'mds', 'mdt', 'ndsm'];
+    function modo(m) {
+      real.visible = m === 'real'; nuvem.visible = m === 'nuvem'; mds.visible = m === 'mds'; mdt.visible = m === 'mdt'; ndsm.visible = m === 'ndsm';
+      rots.forEach((r) => { if (m === 'real') delete r.dataset.oculto; else r.dataset.oculto = '1'; });
+      btns.forEach((b, k) => b.classList.toggle('on', chaves[k] === m));
+      cModo.innerHTML = MODOS[m];
+    }
+    modo('real');
+    return () => {};
+  });
+});
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

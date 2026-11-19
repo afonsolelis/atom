@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 15 — Gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .dupla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.92rem, 1.3vw, 1.14rem); margin-bottom: .5em; }
+  .fig-contain img { object-fit: contain; background: #fff; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; font-size: 1.25rem; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.92rem, 1.3vw, 1.15rem); }
+  .cards3 .card.ok { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .cards3 .card.duvida { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card.ruim { border-color: var(--magenta); background: rgba(255,43,95,.07); }
+  .cards3 .formula { font-size: 1.3rem; display: block; margin: .3em 0 .5em; color: #fff; }
+  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .versus p, .versus li { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin-bottom: .45em; }
+  .versus.fill { flex: 1 1 0; min-height: 0; }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.35rem; }
+  .timeline.cinco { --n: 5; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-bottom: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); line-height: 1.42; }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .6rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .galeria.legendas .figura figcaption { font-size: .95rem; }
+  .galeria .figura figcaption b { color: var(--amarelo); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  /* tipografia maior nos slides de texto (preencher o cartão) */
+  .versus.fill .lado li, .versus.fill .lado p { font-size: clamp(1.05rem, 1.65vw, 1.42rem); margin-bottom: .6em; }
+  .versus.fill .lado h3 { font-size: 1.45rem; }
+  .versus.fill .lado { display: flex; flex-direction: column; justify-content: center; }
+  .cards3.fill .card { justify-content: center; }
+  .cards3.fill .card p { font-size: clamp(1.05rem, 1.6vw, 1.38rem); }
+  .cards3.fill .card h3 { font-size: 1.6rem; }
+  .cards3.fill .formula { font-size: 1.7rem; margin: .4em 0 .7em; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; margin-bottom: .7em; }
+  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .timeline.grande { margin-top: auto !important; margin-bottom: auto; }
+  .timeline.grande .etapa p { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .timeline.grande .ano { font-size: 1.55rem; }
+  .pk div { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .tabela-industrial.xl td, .tabela-industrial.xl th { font-size: clamp(1.02rem, 1.5vw, 1.3rem) !important; padding: .8em 1em !important; }
+  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+</style>
+<style>
+  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .quatro .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); border-radius: 12px; padding: 1rem 1.1rem; display: flex; flex-direction: column; justify-content: center; }
+  .quatro .card:nth-child(2) { border-top-color: var(--obra-ciano); }
+  .quatro .card:nth-child(3) { border-top-color: var(--obra-ok); }
+  .quatro .card:nth-child(4) { border-top-color: var(--obra-alerta); }
+  .quatro .card h3 { color: #fff; font-size: 1.3rem; margin: 0 0 .35em; }
+  .quatro .card p { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin: 0; }
+  .quatro .ico { font-size: 2.4rem; line-height: 1; margin-bottom: .5rem; }
+  .seis { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .seis div { background: rgba(255,255,255,.07); border-left: 5px solid var(--obra-ciano); border-radius: 8px; padding: .8rem 1.1rem; font-size: clamp(1.02rem, 1.5vw, 1.3rem); display: flex; flex-direction: column; justify-content: center; }
+  .seis div b { color: var(--amarelo); display: block; font-size: 1.12em; margin-bottom: .2em; }
+  .seis div:nth-child(even) { border-color: var(--amarelo); }
+  .stat-grid.fill { grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-top: 0; }
+  .stat-grid.fill .stat-card { display: flex; flex-direction: column; justify-content: center; }
+  .stat-grid.fill .numero-grande { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+  .stat-grid.fill .legenda { font-size: clamp(1rem, 1.45vw, 1.25rem); line-height: 1.4; }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.92rem, 1.3vw, 1.14rem); padding: .55em .9em; }
+  .tabela-industrial td.verde { color: var(--verde-claro) !important; font-weight: 800; }
+  .tabela-industrial td.amarelo { color: var(--amarelo) !important; font-weight: 800; }
+  .tabela-industrial td.laranja { color: var(--obra-laranja) !important; font-weight: 800; }
+  .tabela-industrial td.vermelho { color: var(--magenta) !important; font-weight: 800; }
+  .pontos li { font-size: clamp(.98rem, 1.4vw, 1.22rem); margin-bottom: .55em; }
+  .versus.fecho .lado p { font-size: clamp(1.02rem, 1.5vw, 1.3rem); }
+  /* checklist interativo */
+  .checklist { position: absolute; inset: 0; padding: .8rem 1.1rem; display: flex; flex-direction: column; gap: .4rem; overflow: auto; }
+  .checklist .item { display: flex; align-items: center; gap: .7rem; text-align: left; width: 100%; cursor: pointer;
+    font: 500 clamp(.85rem, 1.1vw, 1.04rem) var(--fonte); color: #fff; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 10px; padding: .48rem .8rem; transition: background .25s, border-color .25s; }
+  .checklist .item .caixa { flex: 0 0 1.4rem; height: 1.4rem; border-radius: 6px; border: 2px solid rgba(255,255,255,.5); display: grid; place-items: center; font-weight: 800; color: var(--azul-fecaf); }
+  .checklist .item.ok { background: rgba(17,163,96,.22); border-color: var(--verde-escuro); }
+  .checklist .item.ok .caixa { background: var(--verde-claro); border-color: var(--verde-claro); }
+  .checklist .item b { color: var(--amarelo); }
+  .checklist .barra { height: 10px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; margin-top: .2rem; }
+  .checklist .barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amarelo), var(--verde-claro)); transition: width .4s; }
+  .checklist .status { font: 700 clamp(.9rem, 1.2vw, 1.1rem) var(--fonte); color: var(--amarelo); }
+  .checklist .status.ok { color: var(--verde-claro); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 15 — Gestão do monitoramento">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Gestão do monitoramento</h1>
+      <div class="subtitulo">Aula 15 — Custo-benefício, LGPD, segurança da informação e contratos</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Gestão do monitoramento</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Quanto custa: CAPEX e OPEX</li>
+          <li>Valor esperado da perda evitada</li>
+          <li>LGPD: dado pessoal no canteiro</li>
+          <li>Medidas de privacidade e governança</li>
+          <li>Segurança da informação em IoT</li>
+          <li>Contratos, SLA e plano de resposta</li>
+          <li>Pausa para reflexão: segurança ou vigilância?</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Security_Camera-07-PTZ_mounted_on_light_pole.jpg/1280px-Security_Camera-07-PTZ_mounted_on_light_pole.jpg'); background-position: 70% 60%" role="img" aria-label="Câmera de vigilância do tipo domo presa por um braço curvo a um poste de iluminação pública, contra o céu azul com nuvens"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">A reunião de aprovação do plano</p>
+      <h2>Quatro pessoas, quatro perguntas</h2>
+      <p><strong>Financeiro:</strong> "vale o que custa?"<br><strong>Jurídico:</strong> "podemos filmar trabalhadores e o vizinho?"<br><strong>TI:</strong> "e se alguém invadir o gateway e apagar as leituras?"<br><strong>Cliente:</strong> "de quem são os dados, e quem atende o alerta às 3h?"</p>
+      <p>Sistema tecnicamente perfeito que não passa nessa reunião não sai do papel.</p>
+    </div>
+    <p class="credito">Foto: Myotus — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 4. CAPEX x OPEX -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Quanto custa monitorar</p>
+      <h2>Investimento inicial + custo mensal</h2>
+      <div class="versus fill">
+        <div class="lado">
+          <h3>CAPEX (investimento)</h3>
+          <ul>
+            <li>Instrumentos e instalação</li>
+            <li>Dataloggers, gateway, licenças</li>
+            <li>Drone e câmeras</li>
+          </ul>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>OPEX (todo mês)</h3>
+          <ul>
+            <li>Conectividade e plataforma</li>
+            <li>Voos e processamento</li>
+            <li>Manutenção e recalibração</li>
+            <li><strong>Horas de engenheiro</strong> para analisar e responder</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;margin-bottom:.3rem;background:rgba(0,0,0,.25)"><p style="margin:0">Sistema sem orçamento para análise é a <strong>malha aberta</strong> da Aula 1… com conta de luz.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. VE calc -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (a): valor esperado VE = p · C</p>
+      <h2>A perda evitada paga o monitoramento?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"ps","label":"Probabilidade de dano sem monitorar","min":1,"max":20,"step":0.5,"value":8,"unit":"%"},
+            {"id":"cs","label":"Consequência sem monitorar","min":0.5,"max":10,"step":0.1,"value":5,"unit":"R$ mi"},
+            {"id":"pc","label":"Probabilidade com monitoramento","min":0.5,"max":10,"step":0.5,"value":2,"unit":"%"},
+            {"id":"cc","label":"Consequência detectada cedo","min":0.1,"max":10,"step":0.1,"value":2,"unit":"R$ mi"},
+            {"id":"g","label":"Ganhos diretos (drone, retrabalho)","min":0,"max":300,"step":10,"value":90,"unit":"R$ mil"}
+          ],
+          "outputs": [
+            {"label":"Custo C = 180 mil + 14 × 12 mil","expr":"348000","unit":"R$"},
+            {"label":"VE sem monitorar","expr":"ps/100*cs*1e6","unit":"R$"},
+            {"label":"VE com monitoramento","expr":"pc/100*cc*1e6","unit":"R$"},
+            {"label":"Benefício B (perda evitada + ganhos)","expr":"o2-o3+g*1000","unit":"R$"},
+            {"label":"ROI = (B − C)/C","expr":"(o4-o1)/o1*100","unit":"%","dec":1,"destaque":true}
+          ],
+          "barras": [{"label":"Custo C","expr":"o1","unit":"R$"},{"label":"VE sem","expr":"o2","unit":"R$"},{"label":"VE com","expr":"o3","unit":"R$"},{"label":"Benefício B","expr":"o4","unit":"R$"}],
+          "nota":"Valores ilustrativos. Com 8% × R$ 5 mi e 2% × R$ 2 mi: perda evitada de R$ 360 mil; B = R$ 450 mil; ROI ≈ 29,3%. Teste a sensibilidade: as probabilidades são estimativas."
+        }' role="img" aria-label="Calculadora com barras: custo de 348 mil reais, valor esperado sem monitoramento de 400 mil, com monitoramento de 40 mil, benefício de 450 mil e retorno de 29,3 por cento"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Além do dinheiro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Ler a conta com senso crítico</p>
+      <h2>O que a planilha não mostra</h2>
+      <div class="cards3 fill">
+        <div class="card ok"><h3>Não monetizável</h3><p>Vidas, reputação, a relação com a vizinhança e a <strong>responsabilidade técnica</strong> de quem assina a obra.</p></div>
+        <div class="card duvida"><h3>Probabilidades estimadas</h3><p>8% ou 4%? Use <strong>faixas</strong> e veja em que probabilidade o sistema deixa de se pagar (análise de sensibilidade).</p></div>
+        <div class="card ruim"><h3>Custos esquecidos</h3><p>Horas de análise, recalibração, troca de baterias, plantão para alertas fora do expediente.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Dado pessoal no canteiro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">LGPD — Lei nº 13.709/2018</p>
+      <h2>Dado pessoal: pessoa identificada ou identificável</h2>
+      <div class="quatro">
+        <div class="card"><div class="ico" aria-hidden="true">🙂</div><h3>Rostos</h3><p>Trabalhadores e vizinhos nas fotos de drone e nas câmeras.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">🚗</div><h3>Placas</h3><p>Veículos que entram no canteiro ou passam na rua.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">🏠</div><h3>Vizinhança</h3><p>O quintal, a piscina e as janelas da casa ao lado.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">📍</div><h3>Localização e acessos</h3><p>Trabalhador rastreado; quem acessou a plataforma e quando.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;margin-bottom:.3rem;background:rgba(0,0,0,.25)"><p style="margin:0"><strong>Biometria</strong> (como reconhecimento facial) é <strong>dado sensível</strong> (art. 5º, II), com regras mais restritas (art. 11).</p></div>
+    </div>
+  </section>
+
+  <!-- 8. Bases legais e princípios -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Todo tratamento precisa de base legal (art. 7º)</p>
+      <h2>Bases legais e princípios no monitoramento</h2>
+      <table class="tabela-industrial grande xl">
+        <thead><tr><th>Base legal (exemplos)</th><th>Onde aparece no canteiro</th></tr></thead>
+        <tbody>
+          <tr><td>Cumprimento de obrigação legal</td><td>Registros exigidos por normas de segurança do trabalho</td></tr>
+          <tr><td>Execução de contrato</td><td>Controle de acesso de trabalhadores contratados</td></tr>
+          <tr><td>Proteção da vida e da incolumidade física</td><td>Alerta de pessoa em área de risco</td></tr>
+          <tr><td>Legítimo interesse</td><td>Fotos de drone para medir avanço, com minimização e avaliação de impacto</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p style="margin:0">Princípios do art. 6º que mais pesam aqui: <strong>finalidade</strong> (para que serve), <strong>necessidade</strong> (o mínimo de dados) e <strong>transparência</strong> (avisar quem é filmado).</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Privacidade viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Medidas práticas de privacidade</p>
+      <h2>Mesma câmera, muito menos dado pessoal</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="privacidade" role="img" aria-label="Cena do canteiro vista por uma câmera: à esquerda a casa vizinha com uma pessoa na janela e no quintal, no centro trabalhadores e a escavação, à direita um carro com placa na rua. Botões ligam a máscara de privacidade sobre o lote vizinho, o desfoque de rostos e placas e a retenção de 30 dias; contadores mostram quantos dados pessoais continuam expostos e quantas imagens estão guardadas."></div>
+        <div class="viz-lado">
+          <h3>Ligue as medidas</h3>
+          <ul>
+            <li><strong>Máscara de privacidade</strong> sobre janelas e quintais vizinhos.</li>
+            <li><strong>Desfoque</strong> de rostos e placas quando identificar não é necessário.</li>
+            <li><strong>Retenção definida</strong>: guardar por prazo certo e descartar.</li>
+            <li><strong>Aviso</strong> nos acessos e comunicação aos vizinhos.</li>
+          </ul>
+          <p class="mini">O que serve à engenharia (a escavação, o EPI, o avanço) continua visível.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Governança -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Governança dos dados</p>
+      <h2>Papéis, documentos, prazos e sanções</h2>
+      <div class="stat-grid fill" style="grid-template-columns:repeat(4,1fr)">
+        <div class="stat-card"><span class="numero-grande">2</span><div class="legenda">papéis: <strong>controlador</strong> (decide) e <strong>operador</strong> (trata em nome dele), definidos em contrato</div></div>
+        <div class="stat-card"><span class="numero-grande">RIPD</span><div class="legenda">relatório de impacto para tratamentos de risco, e um <strong>encarregado</strong> indicado</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="3" data-suf=" dias">0</span><div class="legenda">úteis, como regra, para comunicar à <strong>ANPD</strong> incidente com risco relevante (Res. CD/ANPD nº 15/2024)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="2" data-suf="%">0</span><div class="legenda">do faturamento: multa máxima, limitada a <strong>R$ 50 milhões</strong> por infração (art. 52)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Foto: CIA -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/BalticServers_data_center.jpg/1280px-BalticServers_data_center.jpg')" role="img" aria-label="Corredor de um data center com fileiras de servidores em racks iluminados por luzes azuis"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Segurança da informação</p>
+      <h2>Confidencialidade, integridade e disponibilidade</h2>
+      <p>No monitoramento, a mais crítica é a <strong>integridade</strong>: uma leitura adulterada pode esconder um recalque.</p>
+      <p>A <strong>disponibilidade</strong> vem logo atrás: o alerta precisa chegar às 3h. Referência de gestão: <strong>ISO/IEC 27001</strong>.</p>
+    </div>
+    <p class="credito">Foto: BalticServers.com — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 12. Ataque viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A cadeia do dado, elo por elo</p>
+      <h2>Feche as portas e veja o painel voltar a dizer a verdade</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="ataque" role="img" aria-label="Diagrama da cadeia sensor, gateway, servidor de rede e broker, plataforma e painel, com um invasor tentando entrar pelos elos vulneráveis. Botões ligam controles: troca da senha padrão, MQTT com TLS, segmentação e privilégio mínimo, firmware atualizado e logs com cópia de segurança. Abaixo, um gráfico compara o recalque real, que sobe, com o valor exibido no painel, que fica artificialmente estável enquanto a integridade está comprometida."></div>
+        <div class="viz-lado">
+          <h3>Os erros clássicos de IoT</h3>
+          <p>O OWASP põe em 1º lugar as <strong>senhas fracas, padrão ou embutidas</strong>.</p>
+          <ul>
+            <li>LoRaWAN cifra as mensagens com <strong>AES-128</strong>; o <strong>MQTT</strong> deve rodar sobre <strong>TLS</strong>.</li>
+            <li>Cada usuário só com o acesso de que precisa.</li>
+            <li>Logs mostram <strong>quem mudou o limite de alerta</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Checklist -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Checklist mínimo</p>
+      <h2>Antes de ligar o sistema de monitoramento</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="checklistseg" role="img" aria-label="Lista interativa de oito controles de segurança e privacidade para o sistema de monitoramento, com caixas de marcar e uma barra de progresso"></div>
+        <div class="viz-lado">
+          <h3>Clique em cada item conferido</h3>
+          <p>Segurança e privacidade são <strong>requisitos de projeto</strong>, verificados antes da primeira leitura, e não um conserto depois do incidente.</p>
+          <p>Boa parte desta lista vira <strong>cláusula de contrato</strong> com o fornecedor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Contrato -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Contratos: o monitoramento como obrigação</p>
+      <h2>O plano de monitoramento é anexo do contrato</h2>
+      <div class="seis">
+        <div><b>Escopo</b>grandezas, instrumentos, posições e frequências</div>
+        <div><b>Níveis e resposta</b>quem faz o quê, em quanto tempo, em cada nível (TARP)</div>
+        <div><b>SLA</b>disponibilidade, tempo leitura → painel, prazo de reparo de sensor</div>
+        <div><b>Propriedade dos dados</b>do contratante, entregues em formato aberto (CSV, IFC)</div>
+        <div><b>Confidencialidade e LGPD</b>papéis de controlador e operador, incidentes, segurança</div>
+        <div><b>Responsabilidade técnica</b>ART do profissional responsável pelo monitoramento</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. SLA calc -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (b): SLA</p>
+      <h2>Quanto tempo fora do ar cabe na disponibilidade?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"d","label":"Disponibilidade contratada","min":98,"max":99.99,"step":0.01,"value":99.5,"unit":"%"},
+            {"id":"dias","label":"Dias no mês","min":28,"max":31,"step":1,"value":30,"unit":"dias"}
+          ],
+          "outputs": [
+            {"label":"Fora do ar admitido por mês","expr":"dias*24*(1-d/100)","unit":"h","dec":2,"destaque":true},
+            {"label":"Em minutos","expr":"o1*60","unit":"min","dec":1},
+            {"label":"Por ano (365 dias)","expr":"365*24*(1-d/100)","unit":"h","dec":1}
+          ],
+          "barras": [{"label":"Horas fora do ar no mês","expr":"o1","unit":"h","dec":2},{"label":"Referência: 1 turno (8 h)","expr":"8","unit":"h"}],
+          "nota":"99,5% em 30 dias: 30 × 24 × 0,005 = 3,6 h. Se o alerta crítico não pode esperar, peça mais disponibilidade E uma regra na borda (Aula 3)."
+        }' role="img" aria-label="Calculadora: com disponibilidade de 99,5 por cento em 30 dias, a plataforma pode ficar 3,6 horas fora do ar por mês"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. TARP -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Plano de resposta (TARP) no contrato</p>
+      <h2>Quem faz o quê, em quanto tempo</h2>
+      <table class="tabela-industrial grande xl">
+        <thead><tr><th>Nível</th><th>Gatilho (exemplo)</th><th>Ação</th><th>Responsável e prazo</th></tr></thead>
+        <tbody>
+          <tr><td class="verde">Verde</td><td>abaixo da atenção</td><td>rotina de leitura e relatório</td><td>equipe de monitoramento, semanal</td></tr>
+          <tr><td class="amarelo">Amarelo</td><td>atenção atingida</td><td>aumentar frequência, inspecionar, preparar reforço</td><td>engenheiro da obra, em 24 h</td></tr>
+          <tr><td class="laranja">Laranja</td><td>velocidade alta rumo ao alerta</td><td>reduzir ritmo na frente, mobilizar reforço</td><td>engenheiro + projetista, em 6 h</td></tr>
+          <tr><td class="vermelho">Vermelho</td><td>alerta atingido</td><td>parar a frente, executar reforço, avisar vizinhos</td><td>responsável técnico, imediato (plantão 24 h)</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p style="margin:0">Valores e prazos ilustrativos: os gatilhos vêm do projeto; os prazos, do contrato. Sem nome e telefone ao lado de cada nível, o plano não funciona às 3h.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão (Desafio)</p>
+      <h2>Segurança do trabalho ou vigilância?</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <p>A construtora quer <strong>reconhecimento facial</strong> nos acessos e IA que identifica, pelo rosto, quem está sem capacete, para aplicar advertências.</p>
+          <p>Biometria é <strong>dado sensível</strong>. Há alternativas menos invasivas: <strong>crachá com RFID</strong> no acesso; detecção de capacete <strong>sem identificar</strong> a pessoa, com alerta ao encarregado da frente.</p>
+          <p><strong>Onde termina a segurança e começa a vigilância?</strong> Pese finalidade, necessidade, transparência, prazo de guarda e quem acessa as imagens.</p>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Installing_a_Security_camera_in_Tokyo_area_-_June_17_2019.jpeg/1280px-Installing_a_Security_camera_in_Tokyo_area_-_June_17_2019.jpeg" alt="Equipe de técnicos de uniforme e capacete instalando uma câmera de segurança no alto de um poste em uma rua comercial, com escada apoiada no poste" loading="lazy">
+          <figcaption>Instalar a câmera é fácil. Justificar cada dado que ela coleta, nem tanto.</figcaption>
+          <p class="credito">Foto: Nesnad — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Atividade + pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática e pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="versus fecho" style="flex:1 1 0;min-height:0">
+        <div class="lado">
+          <h3>Atividade: ficha de gestão</h3>
+          <p>Para a obra da Aula 16 (ou outra), monte: (1) CAPEX, OPEX e o valor esperado da perda evitada; (2) inventário de dados pessoais, com base legal e minimização; (3) cinco controles de segurança; (4) as cláusulas do contrato, com um SLA numérico.</p>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>Pontos-chave</h3>
+          <ul class="pontos">
+            <li>Custo = <strong>CAPEX + OPEX</strong> (com horas de análise); benefício = <strong>perda evitada</strong> (VE = p · C) + ganhos diretos.</li>
+            <li>Imagens de obra têm <strong>dados pessoais</strong>: base legal, finalidade e minimização; biometria é <strong>sensível</strong>.</li>
+            <li><strong>Integridade</strong> do dado é segurança estrutural: senha padrão trocada, TLS, segmentação e logs.</li>
+            <li>Plano de monitoramento = <strong>anexo contratual</strong>: escopo, TARP, SLA, dados em formato aberto e ART.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Gestão do monitoramento</h1>
+      <p class="fim-texto">Agora é juntar tudo numa obra real, do primeiro sensor ao último contrato.</p>
+      <p class="fim-proxima">Próxima aula: Aula 16 — Projeto integrado de monitoramento de uma obra (fechamento da disciplina).</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 15 */
+(function () {
+  const { canvas2d, loop, hud, chip, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+  /* privacidade — máscara, desfoque e retenção sobre a cena de uma câmera de canteiro */
+  Obra.register('privacidade', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cExp = chip(h, ''), cRet = chip(h, '');
+    let mascara = false, desfoque = false, retencao = false, guardadas = 2160;
+    const bt = botoes(host, [
+      ['Máscara de privacidade', (b) => { mascara = !mascara; b.classList.toggle('on', mascara); }],
+      ['Desfocar rostos e placas', (b) => { desfoque = !desfoque; b.classList.toggle('on', desfoque); }],
+      ['Retenção de 30 dias', (b) => { retencao = !retencao; b.classList.toggle('on', retencao); }]
+    ]);
+    void bt;
+    function pessoa(x, y, s, cor, capacete, rosto) {
+      ctx.fillStyle = cor; ctx.fillRect(x - 6 * s, y - 22 * s, 12 * s, 22 * s);
+      ctx.fillStyle = '#f1c27d'; ctx.beginPath(); ctx.arc(x, y - 30 * s, 7 * s, 0, 7); ctx.fill();
+      if (capacete) { ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.arc(x, y - 32 * s, 7.5 * s, Math.PI, 0); ctx.fill(); }
+      if (rosto) rostos.push([x, y - 30 * s, 9 * s]);
+    }
+    let rostos = [];
+    const lp = loop((t, dt) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H); rostos = [];
+      const chao = H * 0.72;
+      // céu e chão
+      ctx.fillStyle = 'rgba(43,217,254,.10)'; ctx.fillRect(0, 0, W, chao);
+      ctx.fillStyle = 'rgba(138,111,77,.55)'; ctx.fillRect(0, chao, W, H - chao);
+      // casa vizinha
+      const cx0 = W * 0.04, cw = W * 0.26;
+      ctx.fillStyle = '#d9c7a8'; ctx.fillRect(cx0, chao - H * 0.32, cw, H * 0.32);
+      ctx.fillStyle = '#a0522d'; ctx.beginPath(); ctx.moveTo(cx0 - 10, chao - H * 0.32); ctx.lineTo(cx0 + cw / 2, chao - H * 0.48); ctx.lineTo(cx0 + cw + 10, chao - H * 0.32); ctx.fill();
+      ctx.fillStyle = '#7fb3d5'; ctx.fillRect(cx0 + cw * 0.15, chao - H * 0.25, cw * 0.28, H * 0.1); ctx.fillRect(cx0 + cw * 0.57, chao - H * 0.25, cw * 0.28, H * 0.1);
+      pessoa(cx0 + cw * 0.29, chao - H * 0.16, 0.9, '#c0392b', false, true);
+      ctx.fillStyle = '#4fa3d1'; ctx.fillRect(cx0 + cw * 0.1, chao + 8, cw * 0.6, 22); // piscina
+      pessoa(cx0 + cw * 0.85, chao + 4, 1.1, '#8e44ad', false, true);
+      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('lote vizinho', cx0 + cw / 2, chao + 50);
+      // divisa / tapume
+      ctx.fillStyle = '#e8ecf2'; ctx.fillRect(cx0 + cw + 14, chao - 40, 6, 40);
+      // canteiro: escavação e trabalhadores
+      const ex0 = W * 0.36, ew = W * 0.36;
+      ctx.fillStyle = 'rgba(60,45,30,.9)'; ctx.fillRect(ex0, chao, ew, H * 0.2);
+      ctx.fillStyle = '#9aa0a8'; ctx.fillRect(ex0, chao, 6, H * 0.2); ctx.fillRect(ex0 + ew - 6, chao, 6, H * 0.2);
+      ctx.fillStyle = '#fff'; ctx.fillText('escavação (o que interessa à engenharia)', ex0 + ew / 2, chao + H * 0.2 - 10);
+      pessoa(ex0 + ew * 0.2, chao, 1.2, '#FF8A1F', true, true);
+      pessoa(ex0 + ew * 0.45, chao, 1.2, '#FF8A1F', true, true);
+      pessoa(ex0 + ew * 0.7, chao, 1.2, '#FF8A1F', false, true);
+      ctx.fillStyle = '#FF2B5F'; ctx.font = '700 12px Montserrat, Arial'; ctx.fillText('sem capacete', ex0 + ew * 0.7, chao - 52);
+      // rua: carro com placa
+      const rx = W * 0.78;
+      ctx.fillStyle = '#2b2f36'; ctx.fillRect(rx - 10, chao + H * 0.12, W * 0.22, 18);
+      ctx.fillStyle = '#2980b9'; ctx.beginPath(); ctx.roundRect(rx, chao - 6, W * 0.17, 34, 8); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.fillRect(rx + W * 0.05, chao + 12, W * 0.07, 12);
+      ctx.fillStyle = '#000'; ctx.font = '700 10px Arial'; ctx.fillText('ABC1D23', rx + W * 0.085, chao + 22);
+      const placa = [rx + W * 0.085, chao + 18, W * 0.045];
+      // câmera
+      ctx.fillStyle = '#e8ecf2'; ctx.fillRect(W * 0.5 - 3, 14, 6, 30); ctx.beginPath(); ctx.arc(W * 0.5, 50, 12, 0, 7); ctx.fill();
+      ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(W * 0.5, 52, 6, 0, 7); ctx.fill();
+      ctx.strokeStyle = 'rgba(242,203,10,.35)'; ctx.beginPath(); ctx.moveTo(W * 0.5, 52); ctx.lineTo(0, H); ctx.moveTo(W * 0.5, 52); ctx.lineTo(W, H); ctx.stroke();
+      // medidas
+      let expostos = rostos.length + 2; // rostos + placa + quintal
+      if (desfoque) {
+        rostos.forEach(([x, y, r]) => { for (let i = -r; i < r; i += 4) for (let j = -r; j < r; j += 4) { ctx.fillStyle = `hsl(30,30%,${45 + ((i * 7 + j * 3) % 20)}%)`; ctx.fillRect(x + i, y + j, 4, 4); } });
+        ctx.fillStyle = '#888'; ctx.fillRect(placa[0] - placa[2] / 2 - 4, placa[1] - 8, placa[2] + 8, 16);
+        expostos -= rostos.length + 1;
+      }
+      if (mascara) {
+        ctx.fillStyle = 'rgba(10,10,10,.92)'; ctx.fillRect(0, 0, cx0 + cw + 12, H);
+        ctx.fillStyle = '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.fillText('MÁSCARA DE PRIVACIDADE', (cx0 + cw) / 2, H * 0.45);
+        expostos = desfoque ? 0 : expostos - 3;
+      }
+      const alvo = retencao ? 720 : 2160 + (t % 1 < dt ? 1 : 0);
+      guardadas += (alvo - guardadas) * Math.min(1, dt * 2);
+      cExp.innerHTML = 'Dados pessoais expostos: <b>' + Math.max(0, expostos) + '</b>';
+      cExp.classList.toggle('alerta', expostos > 4);
+      cRet.innerHTML = 'Imagens guardadas: <b>' + fmt(guardadas) + '</b> ' + (retencao ? '(30 dias)' : '(sem prazo, crescendo)');
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* ataque — cadeia IoT, controles e integridade do dado no painel */
+  Obra.register('ataque', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cRisco = chip(h, ''), cInt = chip(h, '');
+    const CTRL = [
+      ['Trocar senha padrão', 1, 'admin/admin'],
+      ['MQTT com TLS', 2, 'texto aberto'],
+      ['Segmentação e privilégio mínimo', 3, 'todos são admin'],
+      ['Firmware atualizado', 0, 'falha conhecida'],
+      ['Logs e cópia de segurança', 3, 'sem rastro']
+    ];
+    const on = CTRL.map(() => false);
+    const btns = botoes(host, CTRL.map(([n], k) => [n, (b) => { on[k] = !on[k]; b.classList.toggle('on', on[k]); }]));
+    void btns;
+    const NOS = ['Sensor', 'Gateway', 'Servidor de rede / broker', 'Plataforma', 'Painel'];
+    const serie = [];
+    const lp = loop((t) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const ml = 30, mr = 75, yN = Math.max(H * 0.4, 200), xs = NOS.map((_, k) => ml + 40 + k * (W - ml - mr - 40) / (NOS.length - 1));
+      // vulnerabilidades por nó
+      const vul = NOS.map(() => []);
+      CTRL.forEach(([, no, txt], k) => { if (!on[k]) vul[no].push(txt); });
+      // linhas e pacotes
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xs[0], yN); ctx.lineTo(xs[4], yN); ctx.stroke(); ctx.lineWidth = 1;
+      for (let k = 0; k < 4; k++) for (let j = 0; j < 3; j++) { const f = (t * 0.4 + j / 3) % 1; ctx.fillStyle = (k === 1 && !on[1]) ? '#F2CB0A' : '#2BD9FE'; ctx.beginPath(); ctx.arc(xs[k] + (xs[k + 1] - xs[k]) * f, yN, 4, 0, 7); ctx.fill(); }
+      NOS.forEach((n, k) => {
+        const v = vul[k].length;
+        ctx.fillStyle = v ? 'rgba(255,43,95,.25)' : 'rgba(17,163,96,.25)'; ctx.strokeStyle = v ? '#FF2B5F' : '#95DE68'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.roundRect(xs[k] - 58, yN - 26, 116, 52, 10); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = '#fff'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center';
+        const linhas = n.split(' / '); linhas.forEach((l, i) => ctx.fillText(l, xs[k], yN - (linhas.length - 1) * 7 + i * 14 + 4));
+        ctx.font = '11px Montserrat, Arial'; ctx.fillStyle = '#FF8A9F';
+        vul[k].forEach((txt, i) => ctx.fillText('⚠ ' + txt, xs[k], yN + 44 + i * 15));
+      });
+      // invasor
+      const vulneraveis = vul.map((v, k) => v.length ? k : -1).filter((k) => k >= 0);
+      if (vulneraveis.length) {
+        const alvo = vulneraveis[Math.floor(t / 2.5) % vulneraveis.length], xa = xs[alvo], f = (t % 2.5) / 2.5;
+        ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 6]); ctx.beginPath(); ctx.moveTo(W / 2, 22); ctx.lineTo(W / 2 + (xa - W / 2) * f, 22 + (yN - 48 - 22) * f); ctx.stroke(); ctx.setLineDash([]);
+        ctx.font = '20px Arial'; ctx.textAlign = 'center'; ctx.fillText('🕵️', W / 2, 24);
+      }
+      // integridade: com senha padrão, sem TLS ou sem segmentação, o valor pode ser adulterado
+      const comprometido = !on[0] || !on[1] || !on[2];
+      const tt = t % 16, real = 2 + tt * 0.9;
+      serie.push([tt, real, comprometido ? Math.min(real, 6) : real]); if (serie.length > 600) serie.shift();
+      const gx = ml + 10, gy = yN + 110, gw = W - mr - ml - 10, gh = H - yN - 130;
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.strokeRect(gx, gy, gw, gh);
+      ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([4, 4]); const ya = gy + gh - 12 / 18 * gh; ctx.beginPath(); ctx.moveTo(gx, ya); ctx.lineTo(gx + gw, ya); ctx.stroke(); ctx.setLineDash([]);
+      const pts = serie.filter((s) => s[0] <= tt);
+      [[1, '#F2CB0A', 'recalque real'], [2, '#2BD9FE', 'valor no painel']].forEach(([i, cor, nome], k) => {
+        ctx.strokeStyle = cor; ctx.lineWidth = i === 2 ? 3 : 2; ctx.beginPath();
+        pts.forEach((s, j) => { const x = gx + s[0] / 16 * gw, y = gy + gh - Math.min(18, s[i]) / 18 * gh; j ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = cor; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('— ' + nome, gx + 8 + k * 130, gy + 16);
+      });
+      ctx.fillStyle = '#FF2B5F'; ctx.fillText('alerta 12 mm', gx + gw - 90, ya - 5);
+      while (serie.length && serie[0][0] > tt) serie.shift();
+      const risco = vul.flat().length;
+      cRisco.innerHTML = 'Portas abertas: <b>' + risco + '</b> de 5';
+      cInt.innerHTML = comprometido ? '<b>Integridade comprometida</b>: o painel pode mentir' : 'Integridade <b>protegida</b>';
+      cInt.classList.toggle('alerta', comprometido);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* checklistseg — controles mínimos de segurança e privacidade */
+  Obra.register('checklistseg', (host) => {
+    const ITENS = [
+      'Credenciais <b>padrão trocadas</b> no gateway, dataloggers e plataforma',
+      'Comunicação <b>criptografada</b>: chaves LoRaWAN próprias, MQTT sobre <b>TLS</b>',
+      '<b>Contas individuais</b>, com acesso mínimo necessário e autenticação forte',
+      'Rede do canteiro <b>segmentada</b> (sensores longe do Wi-Fi de visitantes)',
+      '<b>Firmware</b> atualizado e plano de atualização no contrato',
+      '<b>Logs</b> de acesso e de alteração de limites; <b>cópias de segurança</b> das séries',
+      '<b>Inventário de dados pessoais</b>, base legal e minimização (máscara, desfoque, retenção)',
+      'Plano de resposta a <b>incidentes</b>, inclusive comunicação à ANPD'
+    ];
+    const box = document.createElement('div'); box.className = 'checklist'; host.appendChild(box);
+    const estado = ITENS.map(() => false);
+    const btns = ITENS.map((txt, k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'item no-nav';
+      b.innerHTML = '<span class="caixa"></span><span>' + txt + '</span>';
+      b.addEventListener('click', (e) => { e.stopPropagation(); estado[k] = !estado[k]; atualiza(); });
+      box.appendChild(b); return b;
+    });
+    const barra = document.createElement('div'); barra.className = 'barra'; barra.innerHTML = '<i></i>'; box.appendChild(barra);
+    const st = document.createElement('div'); st.className = 'status'; box.appendChild(st);
+    function atualiza() {
+      const n = estado.filter(Boolean).length;
+      btns.forEach((b, k) => { b.classList.toggle('ok', estado[k]); b.querySelector('.caixa').textContent = estado[k] ? '✓' : ''; });
+      barra.firstChild.style.width = (n / ITENS.length * 100) + '%';
+      st.classList.toggle('ok', n === ITENS.length);
+      st.innerHTML = n === ITENS.length ? 'Pronto: o sistema pode entrar em operação.' : n + ' de ' + ITENS.length + ' itens conferidos · ainda não ligue o sistema';
+    }
+    atualiza();
+    return { start() {}, stop() {} };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

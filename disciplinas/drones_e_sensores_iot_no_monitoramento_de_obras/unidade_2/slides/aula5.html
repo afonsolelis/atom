@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 5 — Planejamento de voo: GSD, sobreposição, altura e plano de missão</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .foto-direita .slide-content { max-width: 44%; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.86rem, 1.15vw, 1.06rem); }
+  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-top: .6rem; }
+  .quatro .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); border-radius: 12px; padding: 1rem 1.1rem; }
+  .quatro .card:nth-child(2) { border-top-color: var(--obra-ciano); }
+  .quatro .card:nth-child(3) { border-top-color: var(--obra-laranja); }
+  .quatro .card:nth-child(4) { border-top-color: var(--verde-claro); }
+  .quatro .card h3 { color: #fff; font-size: 1.15rem; margin: 0 0 .3em; }
+  .quatro .card p { font-size: clamp(.86rem, 1.15vw, 1.05rem); margin: 0; }
+  .versus p, .versus li { font-size: clamp(.88rem, 1.15vw, 1.08rem); }
+  .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .stat-grid.cinco { grid-template-columns: repeat(5, 1fr); }
+  .stat-grid.cinco .stat-card { padding: .9rem .6rem; }
+  .stat-grid.cinco .numero-grande { font-size: clamp(1.7rem, 2.8vw, 2.5rem); }
+  .stat-grid.cinco .legenda { font-size: .85rem; }
+  .tabela-gsd { width: 100%; border-collapse: collapse; margin-top: .4rem; font-size: clamp(.86rem, 1.1vw, 1.02rem); }
+  .tabela-gsd th, .tabela-gsd td { padding: .35rem .6rem; border-bottom: 1px solid rgba(255,255,255,.15); text-align: center; }
+  .tabela-gsd th { color: var(--amarelo); }
+  .tabela-gsd tr.alvo td { background: rgba(242,203,10,.14); font-weight: 700; }
+  .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
+  .fecho .lado p, .fecho .pontos li { font-size: clamp(.92rem, 1.25vw, 1.14rem); margin-bottom: .45em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 5 — Planejamento de voo: GSD, sobreposição e plano de missão">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Planejamento de voo</h1>
+      <div class="subtitulo">Aula 5 — GSD, sobreposição, altura e plano de missão</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Planejamento de voo</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O que é planejar um voo de mapeamento</li>
+          <li>GSD: o tamanho do pixel no terreno</li>
+          <li>A área de cada foto e as sobreposições</li>
+          <li>Altura sobre o terreno, não sobre a decolagem</li>
+          <li>Velocidade, obturador e arrasto</li>
+          <li>O plano de missão e o aerolevantamento</li>
+          <li>Exemplo: o canteiro de 12 ha, conta por conta</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto: gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Aerial_view_of_the_ELT_construction_site_%28DJI_0911%29.jpg/1280px-Aerial_view_of_the_ELT_construction_site_%28DJI_0911%29.jpg'); background-position: 70% 50%" role="img" aria-label="Vista aérea feita por drone de um grande canteiro de obras em terreno desértico alaranjado, com plataformas de terra, estruturas metálicas em montagem, contêineres, um guindaste vermelho e estradas de serviço"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">"Resolução de 2 cm", pediu a gerenciadora</p>
+      <h2>O piloto subiu a 120 m e voltou com 90 fotos</h2>
+      <p>No escritório, o software não monta o modelo em metade da área — e, onde monta, cada pixel cobre <strong>mais de 3 cm</strong> do terreno.</p>
+      <p>Ninguém errou o voo: <strong>errou-se o plano</strong>. Hoje: as contas que vêm <strong>antes</strong> da decolagem.</p>
+    </div>
+    <p class="credito">Foto: ESO / Guido Vecchia — Wikimedia Commons (CC BY 4.0)</p>
+  </section>
+
+  <!-- 4. Planejar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Voo de mapeamento</p>
+      <h2>Faixas paralelas, como um cortador de grama</h2>
+      <p>No voo de <strong>inspeção</strong>, o piloto aponta a câmera para o que quer ver. No de <strong>mapeamento</strong>, a missão é automática: o drone percorre faixas paralelas e dispara em intervalos regulares, para que <strong>cada ponto do terreno apareça em várias fotos</strong>, vistas de posições diferentes — a matéria-prima da fotogrametria (Aula 6).</p>
+      <div class="quatro">
+        <div class="card"><h3>1. Resolução</h3><p>O <strong>GSD</strong> exigido pelo produto: quanto do terreno cabe num pixel.</p></div>
+        <div class="card"><h3>2. Altura</h3><p>A altura <strong>acima do terreno</strong> que entrega esse GSD com a câmera escolhida.</p></div>
+        <div class="card"><h3>3. Sobreposições</h3><p><strong>Frontal</strong> (ao longo da faixa) e <strong>lateral</strong> (entre faixas).</p></div>
+        <div class="card"><h3>4. Traçado</h3><p>Polígono, direção das faixas, velocidade e intervalo de disparo.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Número de fotos, tempo de voo e baterias são <strong>consequência</strong> dessas quatro escolhas.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. GSD viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Interativo · GSD</p>
+      <h2>O tamanho do pixel no terreno depende da altura</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="gsd" role="img" aria-label="Vista lateral de um drone a uma altura ajustável sobre o terreno, com o cone de visão da câmera e a largura da faixa imageada no solo; à direita, um alvo xadrez de 60 cm mostrado com os pixels do GSD atual, que ficam mais grossos quanto mais alto o voo; uma linha tracejada marca o teto de 120 m."></div>
+        <div class="viz-lado">
+          <h3>Semelhança de triângulos</h3>
+          <p><span class="formula">GSD = H · p / f</span></p>
+          <p class="mini">Câmera de 20 MP: 5.472 × 3.648 px, pixel p = 2,41 µm, f = 8,8 mm (sensor de 1").</p>
+          <div data-controles></div>
+          <p class="mini">Dobrar a altura dobra o GSD. Fissura de 1 mm não aparece num GSD de 2 cm.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. GSD na prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">GSD na prática</p>
+      <h2>Altura, resolução e área: o compromisso central</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Com a câmera de 20 MP</h3>
+          <table class="tabela-gsd">
+            <tr><th>Altura H</th><th>GSD</th><th>Largura W da foto</th></tr>
+            <tr><td>30 m</td><td>0,82 cm</td><td>45 m</td></tr>
+            <tr><td>50 m</td><td>1,37 cm</td><td>75 m</td></tr>
+            <tr class="alvo"><td>70 m</td><td>1,92 cm</td><td>105 m</td></tr>
+            <tr><td>100 m</td><td>2,74 cm</td><td>150 m</td></tr>
+            <tr><td>120 m</td><td>3,29 cm</td><td>180 m</td></tr>
+          </table>
+          <p class="mini" style="margin-top:.5rem">W = 5.472 × GSD. Voar mais alto cobre mais área por foto, mas com pixel maior.</p>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>Três consequências</h3>
+          <ul class="pontos">
+            <li><strong>Dobrar a altura dobra o GSD</strong>: a imagem fica duas vezes mais grosseira.</li>
+            <li>A <strong>exatidão final</strong> costuma ficar na ordem de <strong>1 a 3 GSD</strong> (Aula 6).</li>
+            <li>Um objeto só é identificável se ocupar <strong>vários pixels</strong>.</li>
+            <li>O teto da categoria aberta (RBAC nº 100) é <strong>120 m acima do solo</strong>: com esta câmera, GSD de 3,29 cm — acima dos 2 cm pedidos no gancho.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Sobreposição viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Interativo · footprint e sobreposição</p>
+      <h2>Quantas fotos enxergam cada ponto do terreno?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="sobreposicao" role="img" aria-label="Vista de cima de um terreno coberto por fotos de 105 por 70 metros dispostas em faixas; um mapa de cores mostra em quantas fotos cada ponto aparece, e o drone percorre as faixas destacando a foto atual. Os controles mudam as sobreposições frontal e lateral."></div>
+        <div class="viz-lado">
+          <h3>Footprint a 70 m: 105 × 70 m</h3>
+          <p><span class="formula">B = L · (1 − s<sub>f</sub>)</span> &nbsp; <span class="formula">d = W · (1 − s<sub>l</sub>)</span></p>
+          <div data-controles></div>
+          <p class="mini">Usual em obra: <strong>75–80% frontal</strong> e <strong>65–75% lateral</strong>. Relevo forte e superfícies homogêneas (solo exposto, gramado) pedem os valores mais altos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Foto histórica -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/111-SC-1893_-_Aerial_photography_-_Overlap_photographs_-_NARA_-_55165141.jpg/1280px-111-SC-1893_-_Aerial_photography_-_Overlap_photographs_-_NARA_-_55165141.jpg'); background-size: auto 100%; background-position: right center; background-color: #e9e4d6" role="img" aria-label="Ficha histórica do Arquivo Nacional dos Estados Unidos intitulada Overlap photographs: uma tabela relaciona a altura de voo ao intervalo entre exposições e à área coberta, com o desenho de aviões fotografando em sequência e, abaixo, uma tira de fotos aéreas sobrepostas"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Nada de novo sob o sol</p>
+      <h2>A mesma conta, um século atrás</h2>
+      <p>Esta ficha do início do século XX já relacionava <strong>altura de voo</strong>, <strong>intervalo entre fotos</strong> e <strong>área coberta</strong> para garantir a sobreposição.</p>
+      <p>Hoje o drone faz a conta sozinho, mas a lógica é a mesma: a <strong>base</strong> B entre fotos e o <strong>espaçamento</strong> d entre faixas saem do footprint e das sobreposições, e o intervalo de disparo é <span class="formula">Δt = B / v</span>.</p>
+      <p class="mini">Δt precisa ser maior que o tempo mínimo que a câmera leva para gravar uma foto.</p>
+    </div>
+    <p class="credito">Imagem: autor desconhecido, NARA — Wikimedia Commons (domínio público)</p>
+  </section>
+
+  <!-- 9. Relevo 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D · altura sobre o terreno</p>
+      <h2>O morro rouba altura — e sobreposição</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="plano3d" role="img" aria-label="Cena 3D de um canteiro de 400 por 300 metros com um morro de 20 metros. Um drone percorre faixas paralelas a 70 metros da cota de decolagem; sob ele, o retângulo da foto encolhe e fica vermelho sobre o morro, quando a sobreposição lateral cai para 58%. O botão Acompanhar relevo mantém o drone a 70 metros do terreno e a foto com tamanho constante."></div>
+        <div class="viz-lado">
+          <h3>H é medido até o terreno</h3>
+          <p>Voando a 70 m da <strong>decolagem</strong>, sobre um morro de +20 m o drone está a <strong>50 m</strong> do chão: GSD melhor, mas <strong>W = 75 m</strong> e a sobreposição lateral cai para <strong>1 − 31,5/75 = 58%</strong>.</p>
+          <p>É onde aparecem os "buracos" no modelo.</p>
+          <p class="mini">Clique em <strong>Acompanhar relevo</strong> (<em>terrain follow</em>): o drone sobe junto com o terreno. Alternativa: planejar pela cota mais alta. O drone está ampliado; o resto, em escala.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Arrasto -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Velocidade, obturador e arrasto</p>
+      <h2>Durante a exposição, o drone anda</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"v","label":"Velocidade do drone","min":2,"max":15,"step":0.5,"value":6,"unit":"m/s"},
+            {"id":"e","label":"Exposição: 1/x s, com x =","min":250,"max":2000,"step":50,"value":1000},
+            {"id":"H","label":"Altura sobre o terreno","min":30,"max":120,"step":1,"value":70,"unit":"m"}
+          ],
+          "outputs": [
+            {"label":"GSD","expr":"H*0.00241/8.8*100","unit":"cm","dec":2},
+            {"label":"Arrasto v · t<sub>exp</sub>","expr":"v/e*1000","unit":"mm","dec":1},
+            {"label":"Arrasto em pixels","expr":"(v/e*1000)/(o1*10)","unit":"px","dec":2,"destaque":true},
+            {"label":"Avaliação","expr":"o3<0.5?&#39;abaixo de meio pixel: aceitável&#39;:&#39;acima de meio pixel: reduza v ou a exposição&#39;"}
+          ],
+          "barras": [
+            {"label":"Arrasto","expr":"o3","unit":"px","dec":2},
+            {"label":"Limite prático","expr":"0.5","unit":"px","dec":2}
+          ],
+          "nota": "Exemplo da aula: 6 m/s × 1/1.000 s = 6 mm ≈ 0,31 pixel."
+        }' role="img" aria-label="Calculadora do arrasto da imagem: velocidade vezes tempo de exposição, comparado ao GSD, com barras do arrasto em pixels e do limite prático de meio pixel"></div>
+        <div class="viz-lado">
+          <h3>Regra prática: arrasto &lt; ½ pixel</h3>
+          <p><span class="formula">arrasto = v · t<sub>exp</sub></span></p>
+          <div data-controles></div>
+          <p class="mini"><strong>Obturador mecânico (global):</strong> o quadro inteiro é exposto de uma vez. <strong>Eletrônico (<em>rolling shutter</em>):</strong> as linhas são lidas em sequência e a imagem sai levemente "torta" em movimento — reduza a velocidade ou modele o efeito no software.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Mission Planner -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/e/ee/Mission_Planner.png'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Tela do software livre Mission Planner: à esquerda, o painel de instrumentos com horizonte artificial, altitude e velocidade; à direita, a imagem de satélite da cidade de São Carlos (SP), onde o plano de voo é desenhado"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">O plano de missão completo</p>
+      <h2>O software calcula; o engenheiro responde</h2>
+      <ul class="pontos">
+        <li><strong>Polígono</strong> da área, com <strong>margem</strong> além do limite da obra (as bordas têm menos sobreposição).</li>
+        <li><strong>Altura</strong>, <strong>GSD</strong> e <strong>sobreposições</strong>.</li>
+        <li><strong>Direção das faixas</strong>: em geral paralelas ao lado maior, para reduzir curvas.</li>
+        <li><strong>Velocidade</strong> e <strong>intervalo de disparo</strong>.</li>
+        <li><strong>Baterias</strong> e pontos de troca; <strong>decolagem e pouso</strong>.</li>
+        <li><strong>Meteorologia</strong>: vento, chuva, sol baixo (sombras longas).</li>
+      </ul>
+      <p class="mini">Mission Planner, QGroundControl e os aplicativos dos fabricantes fazem as contas a partir de poucos parâmetros.</p>
+    </div>
+    <p class="credito">Imagem: Jesimar da Silva Arantes — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 12. Regulamentação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O plano encontra a regulamentação (Aula 4)</p>
+      <h2>Faixas sobrepostas = aerolevantamento</h2>
+      <div class="cards3">
+        <div class="card"><h3>Aerolevantamento</h3><p>Voo em <strong>faixas sobrepostas</strong> para gerar ortomosaico ou modelo do terreno: executado por entidade <strong>inscrita no Ministério da Defesa</strong> (Portaria GM-MD nº 3.703/2021).</p></div>
+        <div class="card"><h3>SARPAS</h3><p>Pedido de acesso ao espaço aéreo com <strong>4 dias corridos</strong> de antecedência (ICA 100-40). Áreas pequenas podem ser pré-autorizadas, se atendidas as condições cumulativas do art. 38.</p></div>
+        <div class="card"><h3>RBAC nº 100</h3><p>Categoria aberta: até <strong>120 m</strong> acima do solo, em linha de visada e a pelo menos <strong>30 m</strong> de pessoas não envolvidas e não anuentes (ou barreira).</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>O plano de missão é <strong>documento de engenharia</strong>: ele justifica o GSD contratado, prova que a altura respeita o teto e entra no pedido de aerolevantamento. Foto de inspeção, sem faixas sobrepostas, não é aerolevantamento.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. Calculadora do exemplo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O canteiro de 12 ha (400 × 300 m), conta por conta</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"H","label":"Altura sobre o terreno H","min":40,"max":120,"step":1,"value":70,"unit":"m"},
+            {"id":"sf","label":"Sobreposição frontal","min":60,"max":90,"step":5,"value":80,"unit":"%"},
+            {"id":"sl","label":"Sobreposição lateral","min":50,"max":85,"step":5,"value":70,"unit":"%"},
+            {"id":"v","label":"Velocidade","min":3,"max":12,"step":0.5,"value":6,"unit":"m/s"}
+          ],
+          "outputs": [
+            {"label":"GSD","expr":"H*0.00241/8.8*100","unit":"cm","dec":2},
+            {"label":"Contrato (GSD ≤ 2 cm)","expr":"o1<=2?&#39;atende&#39;:&#39;NÃO atende&#39;"},
+            {"label":"Footprint W × L","expr":"Obra.fmt(5472*o1/100)+&#39; × &#39;+Obra.fmt(3648*o1/100)+&#39; m&#39;"},
+            {"label":"Base B · espaçamento d","expr":"Obra.fmt(3648*o1/100*(1-sf/100),1)+&#39; m · &#39;+Obra.fmt(5472*o1/100*(1-sl/100),1)+&#39; m&#39;"},
+            {"label":"Intervalo Δt","expr":"3648*o1/100*(1-sf/100)/v","unit":"s","dec":1},
+            {"label":"Faixas × fotos","expr":"(Math.ceil(300/(5472*o1/100*(1-sl/100)))+1)+&#39; × &#39;+(Math.ceil(400/(3648*o1/100*(1-sf/100)))+1)+&#39; = &#39;+(Math.ceil(300/(5472*o1/100*(1-sl/100)))+1)*(Math.ceil(400/(3648*o1/100*(1-sf/100)))+1)+&#39; fotos&#39;"},
+            {"label":"Tempo de voo","expr":"((Math.ceil(300/(5472*o1/100*(1-sl/100)))+1)*400+Math.ceil(300/(5472*o1/100*(1-sl/100)))*5472*o1/100*(1-sl/100))/v/60","unit":"min","dec":1,"destaque":true}
+          ],
+          "barras": [
+            {"label":"Tempo de voo","expr":"o7","unit":"min","dec":1},
+            {"label":"Bateria (21 min úteis)","expr":"21","unit":"min","dec":0}
+          ],
+          "nota": "Câmera 5.472 × 3.648 px, p = 2,41 µm, f = 8,8 mm. Faixas ao longo dos 400 m; voos e fotos arredondados para cima."
+        }' role="img" aria-label="Calculadora do plano de voo para o canteiro de 12 hectares: GSD, footprint, base, espaçamento entre faixas, intervalo de disparo, número de fotos e tempo de voo, com barras comparando o tempo de voo com os 21 minutos úteis de uma bateria"></div>
+        <div class="viz-lado">
+          <h3>Do contrato ao plano</h3>
+          <p><span class="formula">H<sub>máx</sub> = GSD · f / p = 0,02 × 8,8 / 0,00241 ≈ 73 m</span></p>
+          <p class="mini">Adotamos 70 m, com folga para o relevo.</p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Resultados -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico · resultado</p>
+      <h2>A 70 m: GSD de 1,92 cm e um voo de 13 minutos</h2>
+      <div class="stat-grid cinco">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="105" data-suf=" m">0</span><div class="legenda">largura W da foto (a "faixa de 100 m" da Aula 4)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="31.5" data-dec="1" data-suf=" m">0</span><div class="legenda">espaçamento d entre faixas (70% lateral)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="14" data-suf=" m">0</span><div class="legenda">base B entre fotos (80% frontal): uma foto a cada 2,3 s</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="330" data-suf="">0</span><div class="legenda">fotos: 11 faixas × 30 fotos</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="13.1" data-dec="1" data-suf=" min">0</span><div class="legenda">4.715 m a 6 m/s: cabe numa bateria de 21 min úteis</div></div>
+      </div>
+      <div class="versus" style="margin-top:1.1rem">
+        <div class="lado"><h3>Arrasto</h3><p>Exposição de 1/1.000 s: <span class="formula">6 × 0,001 = 6 mm ≈ 0,31 pixel</span> — abaixo de meio pixel, aceitável.</p><p class="mini">E, pela Aula 4: <span class="formula">A = v · t<sub>útil</sub> · d = 6 × 1.260 × 31,5 ≈ 23,8 ha</span> por bateria.</p></div>
+        <div class="vs">!</div>
+        <div class="lado novo"><h3>E o morro de +20 m?</h3><p>Ali <strong>H = 50 m</strong>, <strong>W = 75 m</strong> e a sobreposição lateral cai para <strong>58%</strong>, abaixo do recomendado. Solução: <strong>acompanhar o relevo</strong> ou planejar o espaçamento pelo ponto mais alto.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Diagnóstico do gancho -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao gancho</p>
+      <h2>Por que o voo a 120 m falhou</h2>
+      <div class="cards3">
+        <div class="card"><h3>Resolução</h3><p>A 120 m, <span class="formula">GSD = 120 × 0,00241 / 8,8 ≈ 3,29 cm</span>: acima dos 2 cm do contrato. O limite era <strong>73 m</strong>.</p></div>
+        <div class="card"><h3>Sobreposição</h3><p>A 120 m, a foto cobre 180 × 120 m. Com 80/70%, seriam cerca de <strong>126 fotos</strong> para 12 ha; com <strong>90</strong>, a sobreposição foi menor que a necessária — e vieram os buracos.</p></div>
+        <div class="card"><h3>Plano</h3><p>Sem margem nas bordas, sem conferir o relevo e sem registrar o GSD exigido, o plano não tinha como ser auditado. <strong>"Quanto mais alto, mais rápido"</strong> não é critério de engenharia.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>Antes de decolar: <strong>GSD exigido → altura máxima → footprint → sobreposições → B e d → fotos, tempo e baterias</strong>. Nessa ordem.</p></div>
+    </div>
+  </section>
+
+  <!-- 16. Ortofoto -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg/1280px-Eggolsheim_Bahnhof_Baustelle_Orthophoto-20240428-RM-165210.jpg'); background-position: 60% 50%" role="img" aria-label="Ortofoto feita por drone de um trecho em obras ao redor de uma estação ferroviária em Eggolsheim, Alemanha: linhas férreas e plataformas no centro, edifício de telhado laranja com painéis solares, estacionamentos, ruas e áreas de terra em execução"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">O que um bom plano entrega</p>
+      <h2>Centenas de fotos bem sobrepostas viram um mapa</h2>
+      <p>Esta ortofoto de uma obra ferroviária na Alemanha só existe porque cada ponto do terreno foi fotografado <strong>várias vezes</strong>, de posições diferentes, com GSD controlado.</p>
+      <p>Como as fotos viram 3D — e como provar que o 3D está no lugar certo — é a <strong>Aula 6</strong>.</p>
+    </div>
+    <p class="credito">Foto: Reinhold Möller Ermell — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 17. Atividade + pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática e pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="versus fecho">
+        <div class="lado">
+          <h3>Atividade prática</h3>
+          <p>Escolha a câmera de um drone real (pixels, sensor e distância focal) e uma obra. Calcule a altura para GSD de <strong>2 cm</strong> e de <strong>5 cm</strong>, o footprint, B e d com <strong>80/70%</strong>, o número de fotos e o tempo de voo a 6 m/s.</p>
+          <p>Depois desenhe o polígono e as faixas num software gratuito de planejamento e compare com as suas contas.</p>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>Pontos-chave</h3>
+          <ul class="pontos">
+            <li><span class="formula">GSD = H · p / f</span>: H é a altura <strong>acima do terreno</strong>.</li>
+            <li>Footprint <span class="formula">W = N<sub>x</sub> · GSD</span>; <span class="formula">B = L(1 − s<sub>f</sub>)</span> e <span class="formula">d = W(1 − s<sub>l</sub>)</span>.</li>
+            <li>Em obra: <strong>75–80% frontal</strong> e <strong>65–75% lateral</strong>.</li>
+            <li>Relevo reduz altura e sobreposição: <strong>acompanhe o terreno</strong>; arrasto &lt; ½ pixel.</li>
+            <li>O plano é documento de engenharia; faixas sobrepostas = <strong>aerolevantamento</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Plano pronto, drone no ar</h1>
+      <p class="fim-texto">330 fotos bem sobrepostas. E agora: como elas viram um modelo 3D — e como provar que ele está no lugar certo?</p>
+      <p class="fim-proxima">Próxima aula: Aula 6 — Fotogrametria com drones: SfM, pontos de controle, RTK/PPK e precisão.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Câmera da aula: 5.472 × 3.648 px, pixel 2,41 µm, f = 8,8 mm. */
+const CAM = { nx: 5472, ny: 3648, p: 0.00241, f: 8.8 };
+const gsdDe = (H) => H * CAM.p / CAM.f;           // m
+const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+/* gsd — vista lateral: drone, cone da câmera, faixa no solo e um alvo xadrez
+   de 60 cm "pixelado" com o GSD da altura escolhida. */
+Obra.register('gsd', (host, opts, painel) => {
+  const p = painel || document.createElement('div');
+  const sH = Obra.slider(p, { id: 'H', label: 'Altura sobre o terreno H', min: 20, max: 150, step: 1, value: 70, unit: 'm' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+  const { ctx } = Obra.canvas2d(host);
+  let Hs = +sH.value;
+  const lp = Obra.loop((t, dt) => {
+    const W = ctx.canvas.width / dprOf(), Hc = ctx.canvas.height / dprOf();
+    ctx.clearRect(0, 0, W, Hc);
+    Hs += (+sH.value - Hs) * Math.min(1, dt * 5);
+    const H = +sH.value, g = gsdDe(H), Wf = CAM.nx * g;
+    res.innerHTML = `<span class="formula">GSD = ${Obra.fmt(H)} × 0,00241 / 8,8</span><br>GSD: <span class="num">${Obra.fmt(g * 100, 2)} cm</span><br>Faixa W = 5.472 × GSD ≈ <b>${Obra.fmt(Wf)} m</b>` +
+      (g > 0.02 ? '<br><b style="color:#FF2B5F">Acima de 2 cm: não atende ao contrato</b>' : '<br><b style="color:#95DE68">Até 2 cm: atende ao contrato</b>') +
+      (H > 120 ? '<br><b style="color:#FF2B5F">Acima de 120 m: fora da categoria aberta</b>' : '');
+    // --- painel esquerdo: vista lateral
+    const LW = W * 0.62, base = Hc - 46, topo = 40;
+    const escY = (base - topo) / 160, escX = escY;           // mesma escala nos dois eixos
+    const cx = LW / 2 + 10;
+    ctx.fillStyle = 'rgba(138,111,77,.55)'; ctx.fillRect(0, base, LW + 20, Hc - base);
+    ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(10, base - 120 * escY); ctx.lineTo(LW + 10, base - 120 * escY); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#F2CB0A'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left';
+    ctx.fillText('teto da categoria aberta: 120 m', 14, base - 120 * escY - 6);
+    // régua
+    ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial';
+    [0, 40, 80].forEach((y) => { ctx.fillText(y + ' m', 14, base - y * escY - 3); ctx.fillRect(10, base - y * escY, 18, 1); });
+    // cone
+    const yD = base - Hs * escY, meia = Math.min(LW / 2 + 10, (CAM.nx * gsdDe(Hs) / 2) * escX);
+    const grad = ctx.createLinearGradient(0, yD, 0, base);
+    grad.addColorStop(0, 'rgba(43,217,254,.35)'); grad.addColorStop(1, 'rgba(43,217,254,.08)');
+    ctx.fillStyle = grad; ctx.beginPath(); ctx.moveTo(cx, yD); ctx.lineTo(cx - meia, base); ctx.lineTo(cx + meia, base); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#2BD9FE'; ctx.stroke();
+    // faixa no solo
+    ctx.fillStyle = '#F2CB0A'; ctx.fillRect(cx - meia, base - 3, 2 * meia, 6);
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 13px Montserrat, Arial';
+    ctx.fillText('W ≈ ' + Obra.fmt(CAM.nx * gsdDe(Hs)) + ' m', cx, base + 22);
+    // altura
+    ctx.strokeStyle = '#fff'; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(cx + 26, yD); ctx.lineTo(cx + 26, base); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = 'left'; ctx.fillText('H = ' + Obra.fmt(Hs) + ' m', cx + 32, (yD + base) / 2);
+    // drone
+    ctx.fillStyle = '#e8ecf2'; ctx.fillRect(cx - 14, yD - 8, 28, 8);
+    ctx.fillStyle = '#30343c'; ctx.fillRect(cx - 30, yD - 10, 60, 3);
+    ctx.fillStyle = 'rgba(255,255,255,.6)';
+    const giro = Math.abs(Math.sin(t * 30)) * 12 + 3;
+    ctx.fillRect(cx - 30 - giro / 2, yD - 13, giro, 2); ctx.fillRect(cx + 30 - giro / 2, yD - 13, giro, 2);
+    // pessoa de 1,75 m para escala
+    const px = cx - meia - 22 > 34 ? cx - meia - 22 : 40;
+    ctx.fillStyle = '#ff8a1f'; ctx.fillRect(px - 2, base - 1.75 * escY, 4, 1.75 * escY);
+    // --- painel direito: alvo de 60 cm pixelado
+    const ax = LW + 40, aw = Math.min(W - ax - 20, Hc - 120), ay = 50;
+    ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+    ctx.fillText('Alvo xadrez de 60 cm visto pela câmera', ax + aw / 2, ay - 14);
+    const alvo = 0.60, n = alvo / g, cel = aw / n;
+    const quad = (x, y) => ((x < alvo / 2) === (y < alvo / 2) ? 1 : 0); // 1 = preto
+    for (let i = 0; i < Math.ceil(n); i++) for (let j = 0; j < Math.ceil(n); j++) {
+      let s = 0; const k = 4;
+      for (let a = 0; a < k; a++) for (let b = 0; b < k; b++) {
+        const x = Math.min(alvo - 1e-6, (i + (a + 0.5) / k) * g), y = Math.min(alvo - 1e-6, (j + (b + 0.5) / k) * g); s += quad(x, y);
+      }
+      const v = Math.round(255 - 235 * s / (k * k));
+      ctx.fillStyle = `rgb(${v},${v},${v})`;
+      ctx.fillRect(ax + i * cel, ay + j * cel, Math.min(cel + 0.5, aw - i * cel), Math.min(cel + 0.5, aw - j * cel));
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.strokeRect(ax, ay, aw, aw);
+    ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial';
+    ctx.fillText(Obra.fmt(n, 1) + ' pixels de lado', ax + aw / 2, ay + aw + 18);
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+
+/* sobreposicao — vista de cima: fotos de 105 × 70 m em faixas; mapa de
+   quantas fotos enxergam cada ponto; o drone percorre as faixas. */
+Obra.register('sobreposicao', (host, opts, painel) => {
+  const p = painel || document.createElement('div');
+  const sF = Obra.slider(p, { id: 'sf', label: 'Sobreposição frontal s<sub>f</sub>', min: 40, max: 90, step: 5, value: 80, unit: '%' });
+  const sL = Obra.slider(p, { id: 'sl', label: 'Sobreposição lateral s<sub>l</sub>', min: 30, max: 85, step: 5, value: 70, unit: '%' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+  const { ctx } = Obra.canvas2d(host);
+  const WF = 105, LF = 70, AX = 300, AY = 200, CEL = 2.5;   // área de 300 × 200 m
+  let mapa = null, chave = '', fotos = [];
+  const cores = ['#3b1f2b', '#FF2B5F', '#FF8A1F', '#F2CB0A', '#95DE68', '#2BD9FE', '#7b6bff'];
+  const corDe = (n) => (n <= 0 ? cores[0] : n === 1 ? cores[1] : n === 2 ? cores[2] : n < 5 ? cores[3] : n < 9 ? cores[4] : n < 16 ? cores[5] : cores[6]);
+  function calcula(sf, sl) {
+    const B = LF * (1 - sf), d = WF * (1 - sl);
+    fotos = [];
+    const nF = Math.ceil(AY / d) + 1, nP = Math.ceil(AX / B) + 1;
+    for (let i = 0; i < nF; i++) {
+      const y = i * d;
+      for (let j = 0; j < nP; j++) { const x = (i % 2 ? nP - 1 - j : j) * B; fotos.push([x, y]); }
+    }
+    const nx = Math.round(AX / CEL), ny = Math.round(AY / CEL); mapa = new Uint16Array(nx * ny);
+    for (const [fx, fy] of fotos) {
+      const x0 = Math.max(0, Math.floor((fx - LF / 2) / CEL)), x1 = Math.min(nx - 1, Math.floor((fx + LF / 2) / CEL));
+      const y0 = Math.max(0, Math.floor((fy - WF / 2) / CEL)), y1 = Math.min(ny - 1, Math.floor((fy + WF / 2) / CEL));
+      for (let a = x0; a <= x1; a++) for (let b = y0; b <= y1; b++) mapa[b * nx + a]++;
+    }
+    let soma = 0, min = 1e9; for (const v of mapa) { soma += v; min = Math.min(min, v); }
+    res.innerHTML = `B = 70 × (1 − ${Obra.fmt(sf, 2)}) = <b>${Obra.fmt(B, 1)} m</b> · d = 105 × (1 − ${Obra.fmt(sl, 2)}) = <b>${Obra.fmt(d, 1)} m</b><br>` +
+      `Cada ponto aparece, em média, em <span class="num">${Obra.fmt(soma / mapa.length, 0)}</span> fotos (mínimo ${min}); ≈ 1 / [(1 − s<sub>f</sub>)(1 − s<sub>l</sub>)] = ${Obra.fmt(1 / ((1 - sf) * (1 - sl)), 1)}.<br><small>Área de 300 × 200 m; ${fotos.length} fotos.</small>`;
+  }
+  const lp = Obra.loop((t) => {
+    const sf = +sF.value / 100, sl = +sL.value / 100, k = sf + '|' + sl;
+    if (k !== chave) { chave = k; calcula(sf, sl); }
+    const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+    ctx.clearRect(0, 0, W, H);
+    const esc = Math.min((W - 40) / AX, (H - 90) / AY), ox = (W - AX * esc) / 2, oy = 34;
+    const nx = Math.round(AX / CEL);
+    for (let i = 0; i < mapa.length; i++) {
+      const a = i % nx, b = Math.floor(i / nx);
+      ctx.fillStyle = corDe(mapa[i]); ctx.fillRect(ox + a * CEL * esc, oy + b * CEL * esc, CEL * esc + 0.6, CEL * esc + 0.6);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 1.5; ctx.strokeRect(ox, oy, AX * esc, AY * esc); ctx.lineWidth = 1;
+    // trajetória e foto atual
+    ctx.save(); ctx.beginPath(); ctx.rect(ox, oy, AX * esc, AY * esc); ctx.clip();
+    ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.beginPath();
+    fotos.forEach(([x, y], i) => { const X = ox + x * esc, Y = oy + y * esc; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }); ctx.stroke();
+    const idx = Math.floor(t * 6) % fotos.length, [fx, fy] = fotos[idx];
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5;
+    ctx.strokeRect(ox + (fx - LF / 2) * esc, oy + (fy - WF / 2) * esc, LF * esc, WF * esc); ctx.lineWidth = 1;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ox + fx * esc, oy + fy * esc, 5, 0, 7); ctx.fill();
+    ctx.restore();
+    // legenda
+    const leg = [['0', cores[0]], ['1', cores[1]], ['2', cores[2]], ['3–4', cores[3]], ['5–8', cores[4]], ['9–15', cores[5]], ['16+', cores[6]]];
+    ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left';
+    let lx = ox; const ly = oy + AY * esc + 22;
+    ctx.fillStyle = '#fff'; ctx.fillText('fotos que veem o ponto:', lx, ly + 4); lx += 165;
+    leg.forEach(([txt, c]) => { ctx.fillStyle = c; ctx.fillRect(lx, ly - 7, 14, 14); ctx.fillStyle = '#fff'; ctx.fillText(txt, lx + 18, ly + 4); lx += 54; });
+    ctx.textAlign = 'center'; ctx.fillText('direção de voo →  (foto atual em branco: 70 m ao longo × 105 m entre faixas)', W / 2, 20);
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+
+/* plano3d — canteiro de 400 × 300 m com morro de 20 m; voo em faixas a 70 m
+   da decolagem (altura fixa) ou acompanhando o relevo. */
+Obra.register('plano3d', (host) => {
+  let segue = false;
+  const h = Obra.hud(host);
+  const cH = Obra.chip(h, ''), cW = Obra.chip(h, ''), cS = Obra.chip(h, '');
+  const LX = 400, LZ = 300, D = 31.5, HV = 70;
+  const morro = (x, z) => 20 * Math.exp(-((x - 60) ** 2 + (z - 10) ** 2) / (2 * 55 * 55));
+  return Obra.cena3d(host, { r: 430, ph: 1.12, th: 0.75, alvo: [0, 25, 0], fogNear: 600, fogFar: 1500, auto: false }, ({ THREE, scene, rotulo }) => {
+    // terreno
+    const geo = new THREE.PlaneGeometry(LX + 80, LZ + 80, 96, 76); geo.rotateX(-Math.PI / 2);
+    const pos = geo.attributes.position, cols = [];
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i), z = pos.getZ(i), y = morro(x, z); pos.setY(i, y);
+      const f = y / 20; cols.push(0.45 - f * 0.12, 0.36 + f * 0.22, 0.24 - f * 0.04);
+    }
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(cols, 3)); geo.computeVertexNormals();
+    const solo = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 })); solo.receiveShadow = true; scene.add(solo);
+    const lim = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([[-LX / 2, -LZ / 2], [LX / 2, -LZ / 2], [LX / 2, LZ / 2], [-LX / 2, LZ / 2]].map(([x, z]) => new THREE.Vector3(x, morro(x, z) + 0.6, z))), new THREE.LineBasicMaterial({ color: 0xF2CB0A }));
+    scene.add(lim);
+    // rótulos
+    const topo = new THREE.Object3D(); topo.position.set(60, 22, 10); scene.add(topo); rotulo(topo, 'Morro: +20 m', 2);
+    const dec = new THREE.Mesh(new THREE.CylinderGeometry(4, 4, 0.6, 20), new THREE.MeshBasicMaterial({ color: 0xffffff })); dec.position.set(-LX / 2 - 15, 0.3, LZ / 2 + 15); scene.add(dec);
+    rotulo(dec, 'Decolagem (cota 0)', 3);
+    // trajetória em faixas ao longo de X
+    const nF = Math.ceil(LZ / D) + 1, pts = [];
+    for (let i = 0; i < nF; i++) { const z = -LZ / 2 + i * D; const ida = i % 2 === 0; pts.push([ida ? -LX / 2 : LX / 2, z], [ida ? LX / 2 : -LX / 2, z]); }
+    const segs = []; let total = 0;
+    for (let i = 0; i < pts.length - 1; i++) { const a = pts[i], b = pts[i + 1], L = Math.hypot(b[0] - a[0], b[1] - a[1]); segs.push({ a, b, L, s0: total }); total += L; }
+    const pAt = (s) => { s %= total; const g = segs.find((q) => s <= q.s0 + q.L) || segs[segs.length - 1]; const f = (s - g.s0) / g.L; return [g.a[0] + (g.b[0] - g.a[0]) * f, g.a[1] + (g.b[1] - g.a[1]) * f]; };
+    const linha = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x2BD9FE, transparent: true, opacity: 0.7 })); scene.add(linha);
+    const desenhaLinha = () => {
+      const v = [];
+      for (let s = 0; s <= total; s += 4) { const [x, z] = pAt(Math.min(s, total - 0.01)); v.push(new THREE.Vector3(x, (segue ? morro(x, z) : 0) + HV, z)); }
+      linha.geometry.setFromPoints(v);
+    };
+    desenhaLinha();
+    // drone e foto
+    const dr = Obra.droneModelo(THREE, 4); scene.add(dr.g); rotulo(dr.g, 'Drone (ampliado)', 8);
+    const foto = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ color: 0x95DE68, transparent: true, opacity: 0.35, side: THREE.DoubleSide, depthWrite: false }));
+    foto.rotation.x = -Math.PI / 2; scene.add(foto);
+    const borda = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(1, 1)), new THREE.LineBasicMaterial({ color: 0xffffff }));
+    borda.rotation.x = -Math.PI / 2; scene.add(borda);
+    const cone = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0x2BD9FE, transparent: true, opacity: 0.6 })); scene.add(cone);
+    // marcas das fotos tiradas (centros)
+    const marcas = []; const mGeo = new THREE.SphereGeometry(1.4, 6, 6);
+    const bt = Obra.botoes(host, [['Acompanhar relevo', (b) => { segue = !segue; b.classList.toggle('on', segue); desenhaLinha(); marcas.forEach((m) => scene.remove(m)); marcas.length = 0; s = 0; }]]);
+    void bt;
+    let s = 0, ultimaFoto = -1e9;
+    return (t, dt) => {
+      s += dt * 110;   // tempo acelerado
+      if (s > total) { s = 0; marcas.forEach((m) => scene.remove(m)); marcas.length = 0; ultimaFoto = -1e9; }
+      const [x, z] = pAt(s), yT = morro(x, z), y = (segue ? yT : 0) + HV;
+      dr.g.position.set(x, y, z);
+      dr.helices.forEach((hh, k) => (hh.rotation.y += (k % 2 ? 1 : -1) * 0.9));
+      const Hs = y - yT, W = 1.5 * Hs, L = Hs, sl = 1 - D / W;
+      foto.position.set(x, yT + 0.8, z); foto.scale.set(L, W, 1);
+      borda.position.copy(foto.position); borda.scale.copy(foto.scale);
+      const ok = sl >= 0.65;
+      foto.material.color.setHex(ok ? 0x95DE68 : 0xFF2B5F);
+      const c = [[-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]];
+      const v = []; c.forEach(([a, b]) => { v.push(new THREE.Vector3(x, y - 1, z), new THREE.Vector3(x + a, yT + 0.8, z + b)); });
+      cone.geometry.setFromPoints(v);
+      if (s - ultimaFoto >= 14) { ultimaFoto = s; const m = new THREE.Mesh(mGeo, new THREE.MeshBasicMaterial({ color: ok ? 0xffffff : 0xFF2B5F })); m.position.set(x, yT + 1.2, z); scene.add(m); marcas.push(m); }
+      cH.innerHTML = 'Altura sobre o terreno <b>' + Obra.fmt(Hs) + ' m</b> · GSD <b>' + Obra.fmt(gsdDe(Hs) * 100, 2) + ' cm</b>';
+      cW.innerHTML = 'Foto <b>' + Obra.fmt(L) + ' × ' + Obra.fmt(W) + ' m</b> · d = 31,5 m';
+      cS.innerHTML = 'Sobreposição lateral <b>' + Obra.fmt(sl * 100) + '%</b>' + (ok ? '' : ' · abaixo de 65%');
+      cS.classList.toggle('alerta', !ok);
+    };
+  });
+});
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

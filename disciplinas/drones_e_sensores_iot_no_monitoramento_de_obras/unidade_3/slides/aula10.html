@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 10 — Monitoramento estrutural: extensômetros, acelerômetros, fissurômetros e maturidade do concreto</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .texto-foto { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.1rem; flex: 1 1 0; min-height: 0; }
+  .texto-foto .texto p, .texto-foto .texto li { font-size: clamp(.86rem, 1.15vw, 1.05rem); margin-bottom: .4em; }
+  .texto-foto .figura { min-height: 0; }
+  .camadas .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
+  .camadas .figura figcaption { font-size: .88rem; background: linear-gradient(transparent, rgba(0,20,50,.92) 35%, rgba(0,20,50,.96)); padding-top: 2.4em; }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem); color: rgba(255,255,255,.75); }
+  .pontos li { font-size: clamp(.95rem, 1.4vw, 1.2rem); margin-bottom: .5em; }
+  .stat-grid.compacto { margin-top: .4rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.8rem, 2.9vw, 2.5rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  .versus .lado li, .versus .lado p { font-size: clamp(.84rem, 1.12vw, 1.03rem); }
+  .chk { display: flex; gap: .5rem; align-items: center; font-size: clamp(.8rem, 1vw, .95rem); margin: 0 0 .6rem; cursor: pointer; }
+  .chk input { accent-color: var(--amarelo); width: 1.1rem; height: 1.1rem; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 3|Aula 10 — Monitoramento estrutural">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Monitoramento estrutural</h1>
+      <div class="subtitulo">Aula 10 — Extensômetros, acelerômetros, fissurômetros e maturidade do concreto</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Monitoramento estrutural</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Quatro perguntas, quatro sensores</li>
+          <li>Extensômetros: σ = E · ε e a temperatura</li>
+          <li>Exemplo: a carga na escora</li>
+          <li>Acelerômetros e frequência natural</li>
+          <li>Fissurômetros: tendência × oscilação</li>
+          <li>Maturidade do concreto (Nurse-Saul)</li>
+          <li>Exemplo: pode liberar a laje?</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto de abertura -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Cement_Slab_Pour.jpg/1280px-Cement_Slab_Pour.jpg'); background-position: 60% 50%" role="img" aria-label="Laje de concreto recém-lançada no fundo de um terreno estreito, com fôrmas de madeira nas bordas, barras de espera e a parede de um prédio vizinho ao fundo"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Sexta-feira, 17h</p>
+      <h2>Dá para tirar o escoramento antes de romper os corpos de prova?</h2>
+      <p>A laje foi concretada na quarta. O empreiteiro quer <strong>reaproveitar fôrmas e escoras na segunda</strong>, mas os corpos de prova só serão rompidos depois.</p>
+      <p>Na escavação ao lado, uma <strong>escora metálica</strong> sob sol forte parece "ganhar" carga toda tarde. Hoje vamos medir o que a estrutura está sentindo.</p>
+    </div>
+    <p class="credito">Foto: Beams&amp;Lintels — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 4. Quatro perguntas, quatro sensores -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Visão geral</p>
+      <h2>Quatro perguntas, quatro sensores</h2>
+      <div class="galeria camadas" style="--cols:4">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Strain_Gauge_Installation_in_SCC_Beams-2_SC_%288496265082%29.jpg/1280px-Strain_Gauge_Installation_in_SCC_Beams-2_SC_%288496265082%29.jpg" alt="Mãos prendendo com abraçadeiras plásticas um extensômetro às barras de aço da armadura de uma viga antes da concretagem" loading="lazy">
+          <figcaption><b>Deforma quanto?</b>Extensômetro: ε em µε → tensão e força.</figcaption>
+          <p class="credito">Foto: Federal Highway Administration — Wikimedia Commons (domínio público)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Acelerometro_1.JPG/1280px-Acelerometro_1.JPG" alt="Acelerômetro piezoelétrico metálico cilíndrico em corte, mostrando a massa interna e o elemento sensor, com rosca de fixação na base" loading="lazy">
+          <figcaption><b>Vibra como?</b>Acelerômetro: aceleração e frequências.</figcaption>
+          <p class="credito">Foto: Jf268 — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Crackmeter_imgp7707.jpg/1280px-Crackmeter_imgp7707.jpg" alt="Fissurômetro de acrílico com duas placas graduadas sobrepostas, parafusado sobre uma trinca em parede de tijolos" loading="lazy">
+          <figcaption><b>A fissura abre?</b>Fissurômetro: abertura em mm ao longo do tempo.</figcaption>
+          <p class="credito">Foto: Smial — Wikimedia Commons (CC BY-SA 2.0 de)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Concrete_Slab_Forms_.jpg/1280px-Concrete_Slab_Forms_.jpg" alt="Fôrmas de madeira montadas para uma laje sobre o terreno, prontas para a concretagem" loading="lazy">
+          <figcaption><b>O concreto já resiste?</b>Sensor de temperatura embutido: maturidade.</figcaption>
+          <p class="credito">Foto: Beams&amp;Lintels — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Extensômetros -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Extensômetros</p>
+      <h2>Elétrico × corda vibrante — e a pegadinha da temperatura</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Elétrico de resistência</h3>
+          <ul>
+            <li>Grade colada: <span class="formula">ΔR/R = GF · ε</span> (Aula 2)</li>
+            <li>Lê rápido: serve a ensaios e cargas dinâmicas</li>
+            <li>Sensível a umidade e à resistência do cabo: sofre no longo prazo</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo">
+          <h3>Corda vibrante</h3>
+          <ul>
+            <li>Fio tensionado entre dois blocos: <span class="formula">ε ∝ f²</span></li>
+            <li>Estável por anos; a frequência não depende do cabo</li>
+            <li>Embutido no concreto ou soldado na escora; leitura lenta</li>
+          </ul>
+        </div>
+      </div>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado"><h3>Da deformação à tensão</h3><p><span class="formula">σ = E · ε</span> (regime elástico), com <span class="formula">1 µε = 10⁻⁶</span>. Aço: E ≈ 200 GPa → 100 µε = 20 MPa.</p></div>
+        <div class="vs">!</div>
+        <div class="lado novo"><h3>Temperatura</h3><p>Aço: α ≈ 12 × 10⁻⁶/°C. Uma variação de <strong>15 °C</strong> dá <strong>180 µε</strong> de dilatação livre — a ordem de grandeza do sinal. Por isso o sensor traz um <strong>termistor</strong>: a leitura é compensada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Viz escora -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação · exemplo numérico</p>
+      <h2>Quanto a escora está carregando?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="escora" role="img" aria-label="Corte de uma escavação com duas paredes de contenção e uma escora metálica horizontal entre elas, com um extensômetro amarelo no meio. Setas de compressão crescem com a carga. Uma barra mostra a utilização em relação à carga de projeto de 900 kN, com marcas de atenção em 70% e alerta em 90%. Com 250 microdeformações, a tensão é 50 MPa, a força 600 kN e a utilização 67%. Ao aquecer a escora sem compensar a temperatura, a força aparente sobe."></div>
+        <div class="viz-lado">
+          <h3>Mova a deformação e o sol</h3>
+          <p><span class="formula">σ = E · ε</span> &nbsp; <span class="formula">N = σ · A</span><br><small>E = 200 GPa · A = 120 cm² · projeto 900 kN</small></p>
+          <div data-controles></div>
+          <p class="mini">Atenção 70% e alerta 90% da carga de projeto: limites ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Foto: instalar antes de concretar -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Strain_Gauge_Installation_in_SCC_Beams-2_SC_%288496265082%29.jpg/1280px-Strain_Gauge_Installation_in_SCC_Beams-2_SC_%288496265082%29.jpg'); background-position: 60% 50%" role="img" aria-label="Técnicos amarrando com abraçadeiras plásticas um extensômetro às barras de aço da armadura de uma viga, com fios saindo do sensor"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Na obra</p>
+      <h2>Instalar antes de concretar: depois não tem segunda chance</h2>
+      <p>Extensômetros <strong>amarrados à armadura</strong> antes do lançamento; cabo protegido e identificado até a caixa do datalogger.</p>
+      <p><strong>Leitura zero</strong> logo após o lançamento. Vibrador, bomba e pisoteio destroem sensores: <strong>perder alguns é comum</strong>, por isso se instala com <strong>redundância</strong>.</p>
+    </div>
+    <p class="credito">Foto: Federal Highway Administration — Wikimedia Commons (domínio público)</p>
+  </section>
+
+  <!-- 8. Acelerômetros -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Acelerômetros</p>
+      <h2>A estrutura tem uma assinatura: a frequência natural</h2>
+      <div class="texto-foto">
+        <div class="texto">
+          <ul>
+            <li><strong>MEMS</strong>: baratos, baixo consumo, cabem num nó IoT. <strong>Piezoelétricos</strong>: alta sensibilidade e alta frequência.</li>
+            <li><span class="formula">f = (1/2π) · √(k/m)</span>: rigidez k e massa m definem como a estrutura vibra (identificação modal).</li>
+            <li>Se a <strong>rigidez cai</strong> (fissuração, dano), a frequência cai: <span class="formula">f₂/f₁ = √(k₂/k₁)</span>. Queda de <strong>5% em f</strong> ↔ cerca de <strong>10% em k</strong> (0,95² = 0,9025).</li>
+            <li>Lembre de <strong>Nyquist</strong> (Aula 2): amostrar 5 a 10 vezes a maior frequência de interesse.</li>
+            <li>Usos: pisos e passarelas, pontes, edifícios altos, vibração de cravação de estacas.</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Accelerometer-with-wireless-sensor-on-a-hanger.jpg" alt="Acelerômetro ligado a um nó de sensor sem fio, fixado na base de um pendural de uma ponte em arco metálico, com caminhão passando ao fundo" loading="lazy" style="object-position:50% 70%">
+          <figcaption>Acelerômetro com nó sem fio num pendural de ponte em arco</figcaption>
+          <p class="credito">Foto: Y. Lei, W. A. Shen, Y. Song, Y. Wang — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. 3D modal -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Rigidez caiu? A frequência denuncia</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="modal3d" role="img" aria-label="Edifício esbelto 3D de 12 pavimentos oscilando no primeiro modo, com deslocamento maior no topo, onde um acelerômetro amarelo pulsa. No canto, um espectro mostra o pico de frequência. Com rigidez original o pico está em 1,20 Hz; após dano com 10% de perda de rigidez, a oscilação fica mais lenta e o pico desloca para cerca de 1,14 Hz, uma queda de 5,1%."></div>
+        <div class="viz-lado">
+          <h3>Compare os dois estados</h3>
+          <ul>
+            <li><strong>Rigidez original</strong>: f₁ = 1,20 Hz.</li>
+            <li><strong>Após dano (−10% de k)</strong>: f = 1,20 · √0,9 ≈ 1,14 Hz.</li>
+            <li>O pico do <strong>espectro</strong> anda para a esquerda: −5,1%.</li>
+          </ul>
+          <p class="mini">Valores ilustrativos; deslocamentos exagerados. Na prática, temperatura e ocupação também mexem na frequência: compare sempre com o histórico.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Foto: Millennium Bridge -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Millennium_Bridge_London.jpg/1280px-Millennium_Bridge_London.jpg'); background-position: 70% 50%" role="img" aria-label="Passarela Millennium Bridge, em Londres, vista do tabuleiro, com pedestres caminhando em direção à cúpula da Catedral de São Paulo, sob céu azul"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Londres, junho de 2000</p>
+      <h2>A passarela que balançou</h2>
+      <p>A <strong>Millennium Bridge</strong> foi fechada <strong>dois dias após a inauguração</strong>: os pedestres sincronizavam o passo com a oscilação lateral e a amplificavam.</p>
+      <p>Reaberta em <strong>2002</strong>, depois da instalação de <strong>amortecedores</strong>. Lição: medir aceleração e frequências faz parte do projeto e do comissionamento.</p>
+    </div>
+    <p class="credito">Foto: Telemaque MySon — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 11. Fissurômetros -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Fissurômetros</p>
+      <h2>A fissura está crescendo?</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Tell-tale de acrílico</h3>
+          <ul>
+            <li>Duas placas graduadas sobrepostas, fixadas uma de cada lado da fissura</li>
+            <li>Leitura <strong>visual</strong>, da ordem do milímetro</li>
+            <li>Barato, mas <strong>sem dado contínuo</strong></li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo">
+          <h3>Fissurômetro elétrico</h3>
+          <ul>
+            <li>Potenciômetro ou LVDT entre dois pontos fixos</li>
+            <li>Resolução da ordem de <strong>0,01 mm</strong></li>
+            <li>Datalogger e IoT: leitura a cada hora</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Instale com <strong>leitura zero e foto datada</strong>. A abertura <strong>oscila</strong> com a temperatura do dia e da estação: o que importa é a <strong>tendência</strong>.</p></div>
+      <div class="callout-azul" style="margin-top:.7rem;background:rgba(0,0,0,.25)"><p><strong>Antes da obra</strong>, mapeie as fissuras do vizinho numa <strong>vistoria cautelar</strong>: é o seu marco zero técnico e jurídico.</p></div>
+    </div>
+  </section>
+
+  <!-- 12. Viz fissura -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Oscilação diária × tendência: 30 dias de uma fissura</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="fissura" role="img" aria-label="Série de 30 dias da variação de abertura de uma fissura em relação à leitura zero, com oscilação diária de cerca de 0,04 mm causada pela temperatura e, a partir do dia 15, uma tendência de abertura de 0,01 mm por dia. Linhas de atenção em 0,20 mm e alerta em 0,40 mm. Um botão sobrepõe a média diária, que separa a tendência do efeito térmico; outro mostra só quatro leituras manuais semanais, nas quais a tendência se perde no ruído."></div>
+        <div class="viz-lado">
+          <h3>Separe o sinal do ruído</h3>
+          <p>Até o dia 15 a fissura só "respira" com a temperatura. Depois, começa a abrir <strong>0,01 mm/dia</strong>.</p>
+          <ul>
+            <li><strong>Separar efeito térmico</strong>: a média diária revela a tendência.</li>
+            <li><strong>Leitura manual semanal</strong>: 4 pontos, cada um numa hora diferente. Dá para ver a tendência?</li>
+          </ul>
+          <p class="mini">Atenção (+0,20 mm) e alerta (+0,40 mm) relativos à leitura zero: limites ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Maturidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Maturidade do concreto</p>
+      <h2>Temperatura × tempo vira resistência</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Nurse-Saul</h3>
+          <p><span class="formula">M = Σ (T − T₀) · Δt</span> &nbsp;(°C·h)</p>
+          <ul>
+            <li><strong>T₀</strong>: temperatura de referência (<em>datum</em>). A ASTM C1074 recomenda <strong>0 °C</strong> para cimento tipo I sem aditivos, com cura entre 0 e 40 °C; o ideal é determiná-la para a mistura.</li>
+            <li>Concreto mais quente amadurece mais rápido; no frio, demora.</li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>Na obra</h3>
+          <ul>
+            <li><strong>Calibração</strong> em laboratório: curva f<sub>c</sub> × M da <strong>mesma mistura</strong>.</li>
+            <li>Sensores embutidos (termopar ou sensor sem fio) registram T a cada <strong>15–30 min</strong>.</li>
+            <li>Uso: desforma, retirada de escoramento, protensão.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>A maturidade <strong>não substitui</strong> o controle tecnológico de aceitação do concreto: os <strong>corpos de prova</strong> continuam valendo. Ela apoia decisões de prazo, com confirmação.</p></div>
+    </div>
+  </section>
+
+  <!-- 14. Viz maturidade -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Quando a laje chega a 21 MPa?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="maturidade" role="img" aria-label="Dois gráficos de 0 a 72 horas. Embaixo, a temperatura do concreto; em cima, a resistência estimada pela maturidade, com a meta de 21 MPa, que corresponde a cerca de 845 graus Celsius hora. No caso do exemplo, com 28, 32 e 26 graus por 12 horas, a meta é atingida por volta de 28,8 horas; no inverno, a 15 graus constantes, só por volta de 56,3 horas."></div>
+        <div class="viz-lado">
+          <h3>Compare os cenários</h3>
+          <p><span class="formula">f<sub>c</sub> ≈ 9,2 · ln M − 41</span> (MPa)<br><small>calibração ilustrativa, T₀ = 0 °C</small></p>
+          <div data-controles></div>
+          <p class="mini">O botão <strong>Livre</strong> usa a temperatura constante do controle. A 25 °C, 21 MPa em ≈ 33,8 h.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Calc liberar a laje -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Pode liberar a laje?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"T1","label":"Temperatura média 0–12 h","min":5,"max":40,"step":1,"value":28,"unit":"°C"},
+            {"id":"T2","label":"Temperatura média 12–24 h","min":5,"max":40,"step":1,"value":32,"unit":"°C"},
+            {"id":"T3","label":"Temperatura média 24–36 h","min":5,"max":40,"step":1,"value":26,"unit":"°C"},
+            {"id":"alvo","label":"Resistência necessária","min":15,"max":30,"step":1,"value":21,"unit":"MPa"}
+          ],
+          "outputs": [
+            {"label":"Maturidade às 36 h, M = 12·(T1+T2+T3)","expr":"12*(T1+T2+T3)","unit":"°C·h"},
+            {"label":"f<sub>c</sub> estimado","expr":"9.2*Math.log(o1)-41","unit":"MPa","dec":1},
+            {"label":"M necessário","expr":"Math.exp((alvo+41)/9.2)","unit":"°C·h"},
+            {"label":"Decisão","expr":"o2>=alvo?&#39;atinge o alvo às 36 h: liberar com confirmação&#39;:&#39;ainda não: aguardar&#39;","destaque":true}
+          ],
+          "barras": [
+            {"label":"M às 36 h","expr":"o1","unit":"°C·h"},
+            {"label":"M necessário","expr":"o3","unit":"°C·h"}
+          ],
+          "nota": "Caso do texto: M = 1.032 °C·h → f<sub>c</sub> ≈ 22,8 MPa ≥ 21 MPa; o alvo (≈ 845 °C·h) foi atingido por volta de 29 h. Calibração ilustrativa."
+        }' role="img" aria-label="Calculadora de maturidade com três temperaturas médias de 12 horas e a resistência necessária, com barras comparando a maturidade às 36 horas com a maturidade necessária"></div>
+        <div class="viz-lado">
+          <h3>Mude as temperaturas</h3>
+          <p><span class="formula">M = Σ (T − 0) · 12 h</span></p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Plano de instrumentação estrutural</h2>
+      <p>Edifício de <strong>15 pavimentos</strong>, escavação escorada para dois subsolos e um vizinho com <strong>fissuras pré-existentes</strong>.</p>
+      <div class="versus" style="margin-top:.6rem">
+        <div class="lado">
+          <h3>Para cada sensor</h3>
+          <ul>
+            <li><strong>O que</strong> medir e <strong>onde</strong> instalar (escoras, lajes, vizinho)</li>
+            <li><strong>Quando</strong> fazer a leitura zero</li>
+            <li>Como <strong>compensar a temperatura</strong></li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>E a decisão</h3>
+          <ul>
+            <li>Qual <strong>decisão</strong> cada sensor apoia (reforçar escora, desformar, parar a cravação…)</li>
+            <li>Atenção e alerta de cada grandeza</li>
+            <li>Que sensor <strong>confirma</strong> qual</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Dica: no vizinho, comece pela <strong>vistoria cautelar</strong>; sem ela, nenhuma fissura tem idade.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>O que levar desta aula</h2>
+      <div class="stat-grid compacto">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="600" data-suf=" kN">0</span><div class="legenda">na escora: 250 µε × 200 GPa × 120 cm²</div></div>
+        <div class="stat-card"><span class="numero-grande">−10% k</span><div class="legenda">de rigidez ↔ cerca de −5% na frequência</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="845" data-suf=" °C·h">0</span><div class="legenda">para 21 MPa na calibração do exemplo</div></div>
+      </div>
+      <ul class="pontos" style="margin-top:.9rem">
+        <li><strong>Extensômetro</strong>: σ = E · ε, sempre com <strong>compensação térmica</strong> e leitura zero bem feita.</li>
+        <li><strong>Acelerômetro</strong>: a frequência natural é a <strong>assinatura da rigidez</strong>; queda persistente pede investigação.</li>
+        <li><strong>Fissurômetro</strong>: vale a <strong>tendência</strong>, não a oscilação diária.</li>
+        <li><strong>Maturidade</strong>: calibrada para a mistura e <strong>confirmada por corpos de prova</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Monitoramento estrutural</h1>
+      <p class="fim-texto">A estrutura agora fala: deformação, vibração, fissura e maturidade. Na próxima aula, olhamos para fora dela: pessoas, vizinhança e máquinas.</p>
+      <p class="fim-proxima">Próxima aula: Aula 11 — Segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 10 */
+(function () {
+  const { canvas2d, cena3d, loop, slider, hud, chip, botoes, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const novo = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+
+  /* escora — extensômetro numa escora metálica: σ = E·ε, N = σ·A, temperatura */
+  Obra.register('escora', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sE = slider(p, { id: 'eps', label: 'Deformação medida', min: 0, max: 400, step: 10, value: 250, unit: 'µε' });
+    const sT = slider(p, { id: 'dT', label: 'Variação de temperatura desde a leitura zero', min: -10, max: 20, step: 1, value: 0, unit: '°C' });
+    const lab = novo('label', 'chk'); lab.innerHTML = '<input type="checkbox" checked> Compensar a temperatura (termistor)'; p.appendChild(lab);
+    const cb = lab.querySelector('input'); cb.classList.add('no-nav');
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const E = 200e3, A = 120e2, NP = 900; // MPa, mm², kN
+    let Na = 0;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      const eps = +sE.value, dT = +sT.value, term = 12 * dT;
+      // a leitura bruta inclui a parcela térmica; a compensação a retira
+      const epsBruta = eps + term, epsUsada = cb.checked ? eps : epsBruta;
+      const sig = E * epsUsada * 1e-6, N = sig * A / 1000, u = N / NP;
+      Na += (N - Na) * Math.min(1, dt * 5);
+      res.innerHTML = (dT ? 'Leitura bruta: ' + fmt(epsBruta) + ' µε (parcela térmica ' + (term > 0 ? '+' : '') + fmt(term) + ' µε)<br>' : '') +
+        'σ = 200 GPa × ' + fmt(epsUsada) + ' µε = <b>' + fmt(sig, 0) + ' MPa</b><br>N = σ · A = <span class="num">' + fmt(N, 0) + ' kN</span><br>' + fmt(u * 100, 0) + '% da carga de projeto' +
+        (!cb.checked && dT ? '<br><small>Sem compensar, a temperatura vira "carga" no relatório.</small>' : '');
+      ctx.clearRect(0, 0, W, H);
+      const top = 60, bot = H - 70, xL = W * 0.12, xR = W * 0.88, ww = 26;
+      // solo e paredes
+      ctx.fillStyle = 'rgba(138,111,77,.45)'; ctx.fillRect(0, top, xL - ww / 2, bot - top); ctx.fillRect(xR + ww / 2, top, W - xR, bot - top);
+      ctx.fillStyle = '#9aa0a8'; ctx.fillRect(xL - ww / 2, top, ww, bot - top); ctx.fillRect(xR - ww / 2, top, ww, bot - top);
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('solo', xL / 2 - 6, top + 18); ctx.fillText('solo', (xR + W) / 2 + 6, top + 18);
+      // escora
+      const ye = top + (bot - top) * 0.38, he = 22;
+      const cor = u >= 0.9 ? '#FF2B5F' : u >= 0.7 ? '#F2CB0A' : '#c0392b';
+      ctx.fillStyle = cor; ctx.fillRect(xL + ww / 2, ye - he / 2, xR - xL - ww, he);
+      ctx.fillStyle = '#F2CB0A'; ctx.fillRect(W / 2 - 22, ye - he / 2 - 9, 44, 9);
+      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('extensômetro', W / 2, ye - he / 2 - 15);
+      ctx.fillText('escora metálica (A = 120 cm²)', W / 2, ye + he / 2 + 18);
+      // setas de compressão
+      const len = 12 + 60 * Math.min(1.3, Na / NP);
+      ctx.fillStyle = '#2BD9FE';
+      [[xL + ww / 2 + 4, 1], [xR - ww / 2 - 4, -1]].forEach(([x0, s]) => {
+        ctx.beginPath(); ctx.moveTo(x0 + s * 4, ye); ctx.lineTo(x0 + s * (4 + 14), ye - 9); ctx.lineTo(x0 + s * (4 + 14), ye + 9); ctx.fill();
+        ctx.fillRect(s > 0 ? x0 + 18 : x0 - 18 - len, ye - 3, len, 6);
+      });
+      // sol
+      if (dT > 0) {
+        const sx = W * 0.8, sy = top - 26 + 30, r = 10 + dT * 0.6;
+        ctx.fillStyle = 'rgba(242,203,10,.9)'; ctx.beginPath(); ctx.arc(sx, sy, r, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.textAlign = 'right'; ctx.font = '12px Montserrat, Arial'; ctx.fillText('+' + dT + ' °C', sx - r - 6, sy + 4);
+      }
+      // barra de utilização
+      const bx = W * 0.12, bw = W * 0.76, by = bot + 26;
+      ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(bx, by, bw, 14);
+      const ua = Math.min(1.2, Na / NP);
+      ctx.fillStyle = cor === '#c0392b' ? '#11A360' : cor; ctx.fillRect(bx, by, bw * Math.min(1, ua / 1.2), 14);
+      [[0.7, '#F2CB0A', 'atenção 70%', 32], [0.9, '#FF2B5F', 'alerta 90%', 32], [1, '#fff', '100% = 900 kN', -9]].forEach(([f, c, txt, dy]) => {
+        const x = bx + bw * f / 1.2; ctx.fillStyle = c; ctx.fillRect(x - 1, by - 5, 2, 24);
+        ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(txt, x, by + dy);
+      });
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('utilização: ' + fmt(Na / NP * 100, 0) + '%', bx, by - 8);
+      void t;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* modal3d — edifício esbelto no 1º modo; perda de rigidez reduz a frequência */
+  Obra.register('modal3d', (host) => {
+    const h = hud(host); const cF = chip(h, ''), cK = chip(h, ''), cD = chip(h, '');
+    const F0 = 1.2; let kRel = 1;
+    const btns = botoes(host, [
+      ['Rigidez original', () => { kRel = 1; btns[0].classList.add('on'); btns[1].classList.remove('on'); }, true],
+      ['Após dano: −10% de rigidez', () => { kRel = 0.9; btns[1].classList.add('on'); btns[0].classList.remove('on'); }]
+    ]);
+    // espectro sobreposto
+    const cv = novo('canvas'); cv.style.cssText = 'position:absolute;right:.7rem;bottom:.7rem;width:250px;height:130px;z-index:3;border-radius:8px;background:rgba(0,10,30,.75);border:1px solid rgba(255,255,255,.2)';
+    host.appendChild(cv); const sc = cv.getContext('2d');
+    return cena3d(host, { r: 70, ph: 1.25, th: 0.6, alvo: [0, 18, 0] }, ({ THREE, scene, rotulo }) => {
+      const chao = new THREE.Mesh(new THREE.BoxGeometry(60, 0.4, 60), new THREE.MeshStandardMaterial({ color: 0x47703f })); chao.position.y = -0.2; chao.receiveShadow = true; scene.add(chao);
+      const N = 12, hp = 3, Hb = N * hp, lajes = [], pil = [];
+      for (let i = 1; i <= N; i++) { const l = caixa(THREE, 10, 0.4, 10, i % 2 ? 0xc9ccd2 : 0xb9bcc2); l.position.y = i * hp; scene.add(l); lajes.push(l); }
+      for (let i = 0; i < N; i++) for (const [x, z] of [[-4.5, -4.5], [4.5, -4.5], [-4.5, 4.5], [4.5, 4.5]]) { const c = caixa(THREE, 0.5, hp, 0.5, 0x8a9099); c.position.set(x, i * hp + hp / 2, z); c.userData = { i, x }; scene.add(c); pil.push(c); }
+      const acel = caixa(THREE, 1.4, 0.8, 1.4, 0xF2CB0A); scene.add(acel); rotulo(acel, 'Acelerômetro', 1.6);
+      let fase = 0, fA = F0;
+      return (t, dt) => {
+        const f = F0 * Math.sqrt(kRel); fA += (f - fA) * Math.min(1, dt * 3);
+        fase += dt * 2 * Math.PI * fA * 0.8;
+        const amp = 2.2, desl = (y) => amp * Math.sin(Math.PI / 2 * y / Hb) * Math.sin(fase);
+        lajes.forEach((l, k) => { l.position.x = desl((k + 1) * hp); });
+        pil.forEach((c) => { const y0 = c.userData.i * hp, y1 = y0 + hp, d0 = desl(y0), d1 = desl(y1); c.position.x = c.userData.x + (d0 + d1) / 2; c.rotation.z = -Math.atan2(d1 - d0, hp); });
+        acel.position.set(desl(Hb), Hb + 0.6, 0); acel.scale.setScalar(1 + 0.15 * Math.abs(Math.sin(t * 6)));
+        // espectro
+        const dpr = dprOf(), W = 250, Hs = 130; if (cv.width !== W * dpr) { cv.width = W * dpr; cv.height = Hs * dpr; sc.setTransform(dpr, 0, 0, dpr, 0, 0); }
+        sc.clearRect(0, 0, W, Hs);
+        const x0 = 14, x1 = W - 10, yb = Hs - 24, yt = 36, fx = (v) => x0 + (v - 0.6) / (1.8 - 0.6) * (x1 - x0);
+        const pico = (fc, v) => 1 / (1 + ((v - fc) / 0.025) ** 2);
+        if (kRel < 1) { sc.strokeStyle = 'rgba(255,255,255,.35)'; sc.setLineDash([4, 3]); sc.beginPath(); for (let v = 0.6; v <= 1.8; v += 0.004) { const y = yb - pico(F0, v) * (yb - yt); v === 0.6 ? sc.moveTo(fx(v), y) : sc.lineTo(fx(v), y); } sc.stroke(); sc.setLineDash([]); }
+        sc.strokeStyle = '#2BD9FE'; sc.lineWidth = 2; sc.beginPath();
+        for (let v = 0.6; v <= 1.8; v += 0.004) { const y = yb - pico(fA, v) * (yb - yt); v === 0.6 ? sc.moveTo(fx(v), y) : sc.lineTo(fx(v), y); }
+        sc.stroke(); sc.lineWidth = 1;
+        sc.strokeStyle = 'rgba(255,255,255,.5)'; sc.beginPath(); sc.moveTo(x0, yb); sc.lineTo(x1, yb); sc.stroke();
+        sc.fillStyle = 'rgba(255,255,255,.75)'; sc.font = '10px Montserrat, Arial'; sc.textAlign = 'center';
+        [0.6, 1.0, 1.4, 1.8].forEach((v) => sc.fillText(fmt(v, 1) + ' Hz', fx(v), yb + 13));
+        sc.fillStyle = '#fff'; sc.font = '600 11px Montserrat, Arial'; sc.textAlign = 'left'; sc.fillText('Espectro do acelerômetro', x0, 14);
+        sc.fillStyle = '#2BD9FE'; sc.textAlign = 'center'; sc.fillText(fmt(fA, 2) + ' Hz', fx(fA), yt - 5);
+        cF.innerHTML = 'f₁: <b>' + fmt(f, 2) + ' Hz</b>';
+        cK.innerHTML = 'Rigidez: <b>' + (kRel < 1 ? '−10%' : 'original') + '</b>';
+        cD.innerHTML = 'Frequência: <b>' + (kRel < 1 ? '−' + fmt((1 - Math.sqrt(kRel)) * 100, 1) + '%' : '0%') + '</b>';
+      };
+    });
+  });
+
+  /* fissura — 30 dias: ciclo térmico diário + tendência + ruído */
+  Obra.register('fissura', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cV = chip(h, ''), cT = chip(h, '');
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+    const ND = 30, PH = 24, serie = [];
+    const tend = (d) => (d > 15 ? 0.01 * (d - 15) : 0);
+    for (let i = 0; i <= ND * PH; i++) { const d = i / PH; serie.push(0.04 * Math.sin(2 * Math.PI * (d - 0.375)) + tend(d) + (rnd() - 0.5) * 0.01); }
+    const media = []; for (let d = 0; d < ND; d++) { let s = 0; for (let k = 0; k < PH; k++) s += serie[d * PH + k]; media.push([d + 0.5, s / PH]); }
+    const manuais = [[7, 9], [14, 15], [21, 7], [28, 14]].map(([d, hr]) => [d + hr / 24, serie[d * PH + hr]]);
+    let termico = false, manual = false, prog = 0;
+    const btns = botoes(host, [
+      ['Separar efeito térmico', (b) => { termico = !termico; b.classList.toggle('on', termico); }],
+      ['Leitura manual semanal', (b) => { manual = !manual; b.classList.toggle('on', manual); }],
+      ['↺ Reiniciar', () => { prog = 0; }]
+    ]);
+    void btns;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      prog = Math.min(1, prog + dt / 7);
+      ctx.clearRect(0, 0, W, H);
+      const gx = 64, gw = W - gx - 24, gy = 110, gh = H - gy - 44, vMin = -0.1, vMax = 0.45;
+      const X = (d) => gx + d / ND * gw, Y = (v) => gy + gh - (v - vMin) / (vMax - vMin) * gh;
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      for (let v = -0.1; v <= 0.401; v += 0.1) { ctx.fillText(fmt(v, 1) + ' mm', gx - 6, Y(v) + 4); }
+      ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(gx, Y(0)); ctx.lineTo(gx + gw, Y(0)); ctx.stroke();
+      ctx.textAlign = 'center'; for (let d = 0; d <= ND; d += 5) ctx.fillText('dia ' + d, X(d), gy + gh + 16);
+      [[0.2, '#F2CB0A', 'atenção +0,20 mm'], [0.4, '#FF2B5F', 'alerta +0,40 mm']].forEach(([v, c, txt]) => {
+        ctx.strokeStyle = c; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(gx, Y(v)); ctx.lineTo(gx + gw, Y(v)); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = c; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText(txt, gx + 6, Y(v) - 5);
+      });
+      const nMax = Math.floor(prog * ND * PH);
+      if (!manual) {
+        ctx.strokeStyle = 'rgba(43,217,254,' + (termico ? 0.35 : 0.95) + ')'; ctx.lineWidth = 1.5; ctx.beginPath();
+        for (let i = 0; i <= nMax; i++) { const x = X(i / PH), y = Y(serie[i]); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+        ctx.stroke(); ctx.lineWidth = 1;
+      } else {
+        manuais.forEach(([d, v]) => { if (d <= prog * ND) { ctx.fillStyle = '#FF8A1F'; ctx.beginPath(); ctx.arc(X(d), Y(v), 7, 0, 7); ctx.fill(); } });
+        ctx.fillStyle = '#FF8A1F'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('● leituras manuais (uma por semana, em horários diferentes)', gx + 6, gy - 10);
+      }
+      if (termico) {
+        ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 3; ctx.beginPath();
+        media.forEach(([d, v], k) => { if (d <= prog * ND) { k ? ctx.lineTo(X(d), Y(v)) : ctx.moveTo(X(d), Y(v)); } });
+        ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('— média diária (efeito térmico removido)', gx + 6, gy - 26 < 60 ? gy - 26 : gy - 26);
+      }
+      const dAt = prog * ND, vAt = serie[nMax];
+      const ult = media.filter(([d]) => d <= dAt).slice(-7);
+      const tnd = ult.length > 1 ? (ult[ult.length - 1][1] - ult[0][1]) / (ult[ult.length - 1][0] - ult[0][0]) : 0;
+      cV.innerHTML = 'Desde a leitura zero: <b>' + (vAt >= 0 ? '+' : '') + fmt(vAt, 2) + ' mm</b>';
+      cT.innerHTML = 'Tendência (7 dias): <b>' + fmt(tnd, 3) + ' mm/dia</b>';
+      void t;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* maturidade — Nurse-Saul com T0 = 0 °C e curva fc = 9,2·ln(M) − 41 */
+  Obra.register('maturidade', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cM = chip(h, ''), cF = chip(h, ''), cT = chip(h, '');
+    let modo = 0;
+    const btns = botoes(host, [
+      ['Exemplo (28 · 32 · 26 °C)', () => sel(0), true],
+      ['Inverno (15 °C)', () => sel(1)],
+      ['Livre', () => sel(2)]
+    ]);
+    const sel = (k) => { modo = k; btns.forEach((b, j) => b.classList.toggle('on', j === k)); cur = 0; };
+    const p = painel || novo('div');
+    const sT = slider(p, { id: 'T', label: 'Temperatura constante (modo Livre)', min: 5, max: 35, step: 1, value: 25, unit: '°C' });
+    const ALVO = 21, MREQ = Math.exp((ALVO + 41) / 9.2), TMAX = 72;
+    const temp = (t) => (modo === 0 ? (t < 12 ? 28 : t < 24 ? 32 : 26) : modo === 1 ? 15 : +sT.value);
+    const fc = (M) => (M >= 100 ? 9.2 * Math.log(M) - 41 : null);
+    let cur = 0;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      cur = Math.min(TMAX, cur + dt * 12);
+      // integra M
+      const pts = []; let M = 0, t21 = null;
+      for (let s = 0; s <= TMAX + 1e-9; s += 0.1) { if (s > 0) { const Tm = temp(s - 0.05); M += Tm * 0.1; if (t21 == null && M >= MREQ) t21 = s - (M - MREQ) / Tm; } pts.push([s, M]); }
+      ctx.clearRect(0, 0, W, H);
+      const gx = 64, gw = W - gx - 26, g1 = 108, h1 = (H - g1 - 50) * 0.66, g2 = g1 + h1 + 22, h2 = (H - g1 - 50) * 0.34 - 22;
+      const X = (s) => gx + s / TMAX * gw, Yf = (v) => g1 + h1 - v / 40 * h1, Yt = (v) => g2 + h2 - v / 40 * h2;
+      ctx.strokeStyle = 'rgba(255,255,255,.5)';
+      ctx.beginPath(); ctx.moveTo(gx, g1); ctx.lineTo(gx, g1 + h1); ctx.lineTo(gx + gw, g1 + h1); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(gx, g2); ctx.lineTo(gx, g2 + h2); ctx.lineTo(gx + gw, g2 + h2); ctx.stroke();
+      ctx.font = '11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.textAlign = 'right';
+      [0, 10, 20, 30, 40].forEach((v) => ctx.fillText(v + ' MPa', gx - 6, Yf(v) + 4));
+      [0, 20, 40].forEach((v) => ctx.fillText(v + ' °C', gx - 6, Yt(v) + 4));
+      ctx.textAlign = 'center'; for (let s = 0; s <= TMAX; s += 12) ctx.fillText(s + ' h', X(s), g2 + h2 + 15);
+      // alvo
+      ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(gx, Yf(ALVO)); ctx.lineTo(gx + gw, Yf(ALVO)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#FF2B5F'; ctx.textAlign = 'right'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('meta 21 MPa ≈ 845 °C·h', gx + gw - 4, Yf(ALVO) + 20);
+      // curvas até o cursor
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 3; ctx.beginPath(); let ini = false;
+      pts.forEach(([s, m]) => { if (s > cur) return; const v = fc(m); if (v == null) return; const y = Yf(Math.max(0, v)); ini ? ctx.lineTo(X(s), y) : ctx.moveTo(X(s), y); ini = true; });
+      ctx.stroke();
+      ctx.strokeStyle = '#FF8A1F'; ctx.beginPath(); pts.forEach(([s], k) => { if (s > cur) return; const y = Yt(temp(s)); k ? ctx.lineTo(X(s), y) : ctx.moveTo(X(s), y); }); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.fillStyle = '#2BD9FE'; ctx.fillText('fc estimado pela maturidade', gx + 6, g1 + 14);
+      ctx.fillStyle = '#FF8A1F'; ctx.fillText('temperatura do concreto', gx + 6, g2 + 12);
+      if (t21 != null && t21 <= cur) {
+        ctx.strokeStyle = '#11A360'; ctx.beginPath(); ctx.moveTo(X(t21), g1); ctx.lineTo(X(t21), g2 + h2); ctx.stroke();
+        ctx.fillStyle = '#11A360'; ctx.textAlign = X(t21) > gx + gw - 140 ? 'right' : 'left';
+        ctx.fillText('21 MPa em ' + fmt(t21, 1) + ' h', X(t21) + (ctx.textAlign === 'left' ? 6 : -6), Yf(ALVO) - 12);
+      }
+      const Mc = pts[Math.min(pts.length - 1, Math.round(cur / 0.1))][1], fcc = fc(Mc);
+      cM.innerHTML = 'M (' + fmt(cur, 0) + ' h): <b>' + fmt(Mc, 0) + ' °C·h</b>';
+      cF.innerHTML = 'f<sub>c</sub>: <b>' + (fcc == null ? '—' : fmt(fcc, 1) + ' MPa') + '</b>';
+      cT.innerHTML = '21 MPa em: <b>' + (t21 == null ? '> 72 h' : fmt(t21, 1) + ' h') + '</b>';
+      void t;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

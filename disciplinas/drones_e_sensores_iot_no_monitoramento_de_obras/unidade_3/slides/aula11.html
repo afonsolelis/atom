@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 11 — Segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .duas-col { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.1rem; flex: 1 1 0; min-height: 0; }
+  .duas-col .texto p, .duas-col .texto li { font-size: clamp(.86rem, 1.12vw, 1.05rem); }
+  .duas-col .figura { min-height: 0; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.84rem, 1.1vw, 1.03rem); }
+  .cards3 .card.seg { border-color: var(--obra-alerta); background: rgba(255,43,95,.07); }
+  .cards3 .card.amb { border-color: var(--obra-ciano); background: rgba(43,217,254,.07); }
+  .cards3 .card.prod { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .38em .7em; font-size: clamp(.78rem, 1vw, .96rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .versus p, .versus li { font-size: clamp(.86rem, 1.12vw, 1.05rem); }
+  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .pontos li { font-size: clamp(.9rem, 1.25vw, 1.12rem); margin-bottom: .45em; }
+  .stat-grid.compacto { margin-top: .4rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  .callout-escuro { background: rgba(0,0,0,.25) !important; }
+  .perguntas { display: grid; grid-template-columns: repeat(5, 1fr); gap: .6rem; margin-top: .8rem; }
+  .perguntas div { border-radius: 10px; padding: .6rem .7rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .perguntas b { display: block; color: var(--amarelo); font-size: .95rem; margin-bottom: .2em; }
+  .perguntas span { font-size: clamp(.78rem, 1vw, .92rem); }
+  .regras2 { display: flex; gap: .8rem; margin-top: .5rem; }
+  .regras2 > div { flex: 1; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 3|Aula 11 — Segurança, ambiente e produtividade">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Segurança, ambiente e produtividade</h1>
+      <div class="subtitulo">Aula 11 — Vibração, ruído, poeira e rastreamento de equipamentos</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Segurança, ambiente e produtividade</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Três frentes, uma só arquitetura IoT</li>
+          <li>Vibração: velocidade de partícula, frequência e a NBR 9653</li>
+          <li>Ruído: decibéis, dB(A) e a NBR 10151</li>
+          <li>Poeira: MP10, MP2,5 e os padrões do CONAMA</li>
+          <li>Rastreamento de máquinas e pessoas: cercas virtuais</li>
+          <li>Produtividade: a máquina trabalha ou só fica ligada?</li>
+          <li>Pausa para reflexão: segurança ou vigilância?</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto de abertura -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/d/dd/Pile_driving_for_a_sewer_shaft_-_geograph.org.uk_-_1120180.jpg'); background-position: 75% 35%" role="img" aria-label="Bate-estacas cravando estacas-prancha metálicas para um poço de esgoto, a poucos metros da fachada de tijolos de um sobrado com porta vermelha, ao lado de um poste de iluminação"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Segunda-feira, 8h</p>
+      <h2>Estacas a 15 m de um casarão tombado</h2>
+      <p>A cravação de estacas-prancha começou. O vizinho reclama do <strong>tremor</strong>, a vizinhança do <strong>barulho</strong> e da <strong>poeira</strong>, e um caminhão de terra quase atingiu um ajudante na rampa.</p>
+      <p>Quatro problemas diferentes. A mesma resposta: <strong>medir, comparar com um limite e agir</strong>, com a arquitetura IoT que você já conhece.</p>
+    </div>
+    <p class="credito">Foto: Stephen Craven — Wikimedia Commons (CC BY-SA 2.0)</p>
+  </section>
+
+  <!-- 4. Três frentes -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Visão geral</p>
+      <h2>Três frentes, uma só arquitetura</h2>
+      <div class="cards3">
+        <div class="card seg"><h3>Segurança</h3><ul><li><strong>Vibração</strong> em edificações vizinhas (sismógrafo)</li><li><strong>Colisões</strong> máquina × pessoa (rastreamento, cercas virtuais)</li></ul></div>
+        <div class="card amb"><h3>Ambiente</h3><ul><li><strong>Ruído</strong> na vizinhança (sonômetro)</li><li><strong>Poeira</strong> na divisa (sensor de MP10 e MP2,5)</li></ul></div>
+        <div class="card prod"><h3>Produtividade</h3><ul><li><strong>Uso das máquinas</strong>: horas de motor, marcha lenta, consumo (telemetria)</li><li>Ciclos de carga e transporte</li></ul></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem"><p>A pilha é a da Aula 3: <strong>sensor → rede → plataforma → ação</strong>. Muda a grandeza, a taxa de amostragem e quem define o limite.</p></div>
+      <table class="tabela-industrial compacta" style="margin-top:.8rem">
+        <thead><tr><th>Quem regula</th><th>O quê</th></tr></thead>
+        <tbody>
+          <tr><td><b>ABNT</b></td><td>NBR 9653 (vibração de desmonte com explosivos) · NBR 10151 (ruído em áreas habitadas)</td></tr>
+          <tr><td><b>CONAMA</b></td><td>padrões nacionais de qualidade do ar (Resolução nº 506/2024)</td></tr>
+          <tr><td><b>Município</b></td><td>leis de ruído e horários permitidos para a obra</td></tr>
+          <tr><td><b>NR-18</b></td><td>segurança e saúde no trabalho na indústria da construção</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 5. Vibração -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Vibração</p>
+      <h2>Vibração: velocidade de partícula e frequência</h2>
+      <div class="duas-col">
+        <div class="texto">
+          <p><strong>PPV</strong> (velocidade de vibração de partícula de pico, em mm/s): o <strong>maior</strong> dos três valores de pico das componentes vertical, longitudinal e transversal.</p>
+          <p>A <strong>frequência dominante</strong> (Hz) importa tanto quanto a amplitude: as edificações sofrem mais em <strong>baixas frequências</strong>, próximas das suas frequências naturais.</p>
+          <ul>
+            <li><strong>Sismógrafo de engenharia</strong> com geofone triaxial no pé da edificação vizinha</li>
+            <li>Gatilho por limiar: grava o evento inteiro quando a vibração passa de um valor</li>
+            <li>Fontes: cravação de estacas, compactação vibratória, demolição, desmonte com explosivos</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Seismograph_recording_vibrations.jpg" alt="Sismógrafo de engenharia montado junto a uma obra: sensores sobre um tripé apoiado no piso de pedra ao lado de uma árvore, com o registrador em uma maleta azul no chão e o canteiro ao fundo" loading="lazy" style="object-position:50% 60%">
+          <figcaption>Sismógrafo registrando a vibração de uma obra vizinha</figcaption>
+          <p class="credito">Foto: Wilson, Ihrig &amp; Associates, Inc. — Wikimedia Commons (domínio público)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Viz PPV -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Cada golpe do martelo: PPV × frequência × limite</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="ppv" role="img" aria-label="À esquerda, forma de onda da velocidade de vibração em milímetros por segundo, com uma rajada a cada golpe do martelo que decai rapidamente, e linhas tracejadas do limite. À direita, a curva-limite da NBR 9653 em função da frequência, de 15 mm/s em 4 Hz a 50 mm/s acima de 40 Hz, com o ponto medido plotado. Controles mudam a distância à fonte e a frequência dominante."></div>
+        <div class="viz-lado">
+          <h3>Mova a distância e a frequência</h3>
+          <p>PPV ilustrativo: <span class="formula">PPV = 12 · (15 / D)<sup>1,4</sup></span> mm/s, ou seja, 12 mm/s a 15 m.</p>
+          <div data-controles></div>
+          <p class="mini">Aproxime a estaca do casarão e veja o ponto subir; mude a frequência e veja o limite mudar. Lei de atenuação e valores ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. NBR 9653 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Norma</p>
+      <h2>NBR 9653: a curva e os cuidados</h2>
+      <table class="tabela-industrial compacta">
+        <thead><tr><th>Faixa de frequência</th><th>Limite de velocidade de vibração de partícula de pico</th></tr></thead>
+        <tbody>
+          <tr><td><b>4 Hz a 15 Hz</b></td><td>iniciando em 15 mm/s, aumentando linearmente até 20 mm/s</td></tr>
+          <tr><td><b>15 Hz a 40 Hz</b></td><td>acima de 20 mm/s, aumentando linearmente até 50 mm/s</td></tr>
+          <tr><td><b>acima de 40 Hz</b></td><td>50 mm/s</td></tr>
+          <tr><td><b>abaixo de 4 Hz</b></td><td>critério de deslocamento de partícula de pico de no máximo 0,6 mm (de zero a pico)</td></tr>
+        </tbody>
+      </table>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado">
+          <h3>Exemplo</h3>
+          <p>12 mm/s a 10 Hz: <span class="formula">limite = 15 + 5 · (10 − 4) / 11 ≈ 17,7 mm/s</span> → <strong>68%</strong> do limite.</p>
+          <p>A mesma vibração a 30 Hz teria limite de <strong>38 mm/s</strong>.</p>
+        </div>
+        <div class="vs">!</div>
+        <div class="lado novo">
+          <h3>Cuidados</h3>
+          <ul>
+            <li>A norma trata de <strong>desmonte de rocha com explosivos</strong> em áreas urbanas (pressão acústica: 134 dBL pico, 100 Pa).</li>
+            <li>Para estacas, compactação e edificações sensíveis (casarão tombado), o <strong>plano de monitoramento</strong> fixa limites próprios, em geral mais baixos.</li>
+            <li><strong>Conforto humano</strong> é outra régua, bem abaixo dos limites de dano.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Ruído -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Ruído</p>
+      <h2>Ruído: decibéis não se somam como metros</h2>
+      <div class="duas-col">
+        <div class="texto">
+          <p>O <strong>decibel</strong> é logarítmico; o <strong>dB(A)</strong> pondera as frequências como o ouvido humano; o <strong>L<sub>Aeq</sub></strong> é o nível equivalente de um período.</p>
+          <table class="tabela-industrial compacta">
+            <thead><tr><th>NBR 10151:2019 — R<sub>LAeq</sub></th><th>Diurno</th><th>Noturno</th></tr></thead>
+            <tbody>
+              <tr><td>Áreas de residências rurais</td><td><b>40 dB</b></td><td><b>35 dB</b></td></tr>
+              <tr><td>Estritamente residencial urbana, hospitais, escolas</td><td><b>50 dB</b></td><td><b>45 dB</b></td></tr>
+              <tr><td>Mista, predominantemente residencial</td><td><b>55 dB</b></td><td><b>50 dB</b></td></tr>
+              <tr><td colspan="3">Demais tipos de área: ver a norma. Lei municipal pode regular os horários de obra.</td></tr>
+            </tbody>
+          </table>
+          <div class="callout-azul callout-escuro" style="margin-top:.7rem"><p><strong>Duas fontes iguais = +3 dB.</strong> Dobrar a distância de uma fonte pontual = <strong>−6 dB</strong>.</p></div>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Sound_level_meter_Bruel_Kjaer.jpg/1280px-Sound_level_meter_Bruel_Kjaer.jpg" alt="Sonômetro portátil verde-claro com microfone no topo e visor digital marcando 49,3 decibéis" loading="lazy" style="object-fit:contain;background:#fff">
+          <figcaption>Sonômetro: 49,3 dB no visor</figcaption>
+          <p class="credito">Foto: Harke — Wikimedia Commons (domínio público)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Calc ruído -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Somando três máquinas</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"A","label":"Gerador (no receptor)","min":40,"max":90,"step":1,"value":62,"unit":"dB(A)"},
+            {"id":"B","label":"Escavadeira (no receptor)","min":40,"max":90,"step":1,"value":65,"unit":"dB(A)"},
+            {"id":"C","label":"Bate-estacas (no receptor)","min":40,"max":90,"step":1,"value":68,"unit":"dB(A)"},
+            {"id":"L","label":"Limite de referência","min":40,"max":70,"step":1,"value":55,"unit":"dB(A)"}
+          ],
+          "outputs": [
+            {"label":"Total","expr":"10*Math.log10(10**(A/10)+10**(B/10)+10**(C/10))","unit":"dB(A)","dec":1},
+            {"label":"Sem a mais barulhenta","expr":"10*Math.log10(10**(A/10)+10**(B/10)+10**(C/10)-10**(Math.max(A,B,C)/10))","unit":"dB(A)","dec":1},
+            {"label":"Sem a mais silenciosa","expr":"10*Math.log10(10**(A/10)+10**(B/10)+10**(C/10)-10**(Math.min(A,B,C)/10))","unit":"dB(A)","dec":1},
+            {"label":"Total − limite","expr":"o1-L","unit":"dB","dec":1,"destaque":true}
+          ],
+          "barras": [
+            {"label":"Total","expr":"o1","unit":"dB","dec":1},
+            {"label":"Sem a + barulhenta","expr":"o2","unit":"dB","dec":1},
+            {"label":"Sem a + silenciosa","expr":"o3","unit":"dB","dec":1},
+            {"label":"Limite","expr":"L","unit":"dB"}
+          ],
+          "nota": "Atenuação com a distância (fonte pontual): L₂ = L₁ − 20·log(r₂/r₁); 85 dB(A) a 10 m → ≈ 66,9 dB(A) a 80 m. Valores ilustrativos."
+        }' role="img" aria-label="Calculadora de soma de níveis sonoros de três máquinas com barras comparando o total, o total sem a máquina mais barulhenta, o total sem a mais silenciosa e o limite de referência"></div>
+        <div class="viz-lado">
+          <h3>A conta logarítmica</h3>
+          <p><span class="formula">L = 10 · log(10<sup>L₁/10</sup> + 10<sup>L₂/10</sup> + 10<sup>L₃/10</sup>)</span></p>
+          <div data-controles></div>
+          <p class="mini">62 + 65 + 68 dB(A) dão ≈ 70,4 dB(A), não 195. Desligar o gerador quase não muda nada; o que manda é a fonte mais forte.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Poeira -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Poeira</p>
+      <h2>Poeira: MP10 e MP2,5</h2>
+      <div class="duas-col">
+        <div class="texto">
+          <ul>
+            <li><strong>MP10</strong> e <strong>MP2,5</strong>: partículas de até 10 µm e até 2,5 µm.</li>
+            <li><strong>Sensores óticos</strong> de espalhamento de luz: baratos e fáceis de conectar, mas <strong>superestimam com umidade alta</strong> e precisam de colocalização/calibração com uma estação de referência.</li>
+            <li><strong>Resolução CONAMA nº 506/2024</strong> (substituiu a 491/2018): padrão PI-2, em vigor desde 1º/01/2025 — <strong>MP10 100 µg/m³</strong> e <strong>MP2,5 50 µg/m³</strong> (média de 24 h).</li>
+            <li>São padrões de qualidade do <strong>ar ambiente</strong>, não limites de emissão da obra: o plano define <strong>níveis próprios de gatilho</strong>.</li>
+            <li>Ações: aspersão, lavagem de rodas, cobertura de caçambas, barreiras.</li>
+            <li>Saúde do trabalhador: <strong>sílica cristalina</strong> (NR-15, programa de proteção respiratória).</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Dust_control_for_Lechmere_Elevated_demolition%2C_June_2020.jpg" alt="Escavadeira amarela demolindo um viaduto metálico verde enquanto um jato d'água é lançado sobre o ponto de demolição para controlar a poeira, atrás de um tapume de tela" loading="lazy">
+          <figcaption>Jato d'água controlando a poeira de uma demolição</figcaption>
+          <p class="credito">Foto: MassDOT — Wikimedia Commons (domínio público)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Malha MP10 -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Poeira na divisa: a aspersão liga a tempo?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="malha" data-opts='{"nome":"MP10 na divisa","unidade":"µg/m³","eixo":"MP10 na divisa (µg/m³, média de 15 min)","atencao":100,"alerta":150,"max":220,"taxa":15,"residual":-8,"horas":12,"vel":1,"acaoNo":"atencao","manual":6,"atrasoAberta":3,"atrasoFechada":0.25,"intMin":5,"intMax":60,"intPasso":5,"intIni":15,"intUnid":"min","rotFechada":"aspersão ligada","rotAberta":"aspersão após a vistoria","dec":0}' role="img" aria-label="Gráfico animado de 12 horas da concentração de MP10 na divisa do canteiro, com nível de atenção em 100 e de alerta em 150 microgramas por metro cúbico. Em malha fechada, com leitura a cada 15 minutos, a aspersão liga logo depois de cruzar a atenção e a curva cai; em malha aberta, com vistoria a cada 6 horas, a concentração passa do alerta."></div>
+        <div class="viz-lado">
+          <h3>Malha fechada × aberta</h3>
+          <p>Dia seco e vento: a poeira sobe. Com o sensor IoT, ao cruzar a <strong>atenção</strong> a plataforma avisa e o <strong>caminhão-pipa / aspersão</strong> entra em ação. Clique em <strong>Malha aberta</strong>: com vistoria a cada 6 h, a divisa passa do alerta.</p>
+          <div data-controles></div>
+          <p class="mini">Níveis de atenção e alerta do <strong>plano da obra</strong>, ilustrativos; não são os padrões do CONAMA, que valem para médias de 24 h no ar ambiente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Rastreamento -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Rastreamento</p>
+      <h2>Rastreamento: máquinas, pessoas e cercas virtuais</h2>
+      <div class="duas-col">
+        <div class="texto">
+          <ul>
+            <li><strong>Telemetria GNSS nas máquinas</strong>: posição, horas de motor, tempo em marcha lenta, consumo.</li>
+            <li><strong>RTLS</strong> (localização em tempo real) em capacetes e crachás: <strong>UWB</strong>, da ordem de decímetros; <strong>BLE</strong>, da ordem de metros.</li>
+            <li><strong>Cerca virtual</strong> (<em>geofencing</em>) e <strong>zona de exclusão</strong> em torno da máquina: alerta sonoro ao operador e ao trabalhador.</li>
+            <li>Dado de localização de pessoas é <strong>dado pessoal</strong>: LGPD (Unidade 4).</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Construction_site_excavator_and_truck.jpg/1280px-Construction_site_excavator_and_truck.jpg" alt="Terraplenagem em área aberta: uma escavadeira trabalha no alto de um monte de terra ao lado de um caminhão basculante, sob céu azul" loading="lazy">
+          <figcaption>Escavadeira e caminhão: o par que mais gera quase-acidentes</figcaption>
+          <p class="credito">Foto: Neb — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Rastreio 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>A zona de exclusão em volta da escavadeira</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="rastreio3d" role="img" aria-label="Cena 3D de um canteiro plano com uma escavadeira que gira o braço, um caminhão que vai e volta e três trabalhadores de capacete amarelo caminhando. Um disco vermelho translúcido de 8 metros de raio marca a zona de exclusão em volta da escavadeira. Com a cerca virtual ligada, quando um trabalhador entra no disco ele e a escavadeira piscam, a máquina para e o contador de alertas sobe; com a cerca desligada, ninguém é avisado e os quase-acidentes não são registrados."></div>
+        <div class="viz-lado">
+          <h3>Ligue e desligue a cerca</h3>
+          <ul>
+            <li>O <strong>disco vermelho</strong> é a zona de exclusão (raio de 8 m).</li>
+            <li>Cerca <strong>ligada</strong>: quem entra recebe alerta no crachá, a máquina para e o evento é registrado.</li>
+            <li>Cerca <strong>desligada</strong>: ninguém é avisado e os quase-acidentes somem dos relatórios.</li>
+            <li>O chip de <strong>ociosidade</strong> soma o tempo em que a escavadeira fica ligada e parada.</li>
+          </ul>
+          <p class="mini">Arraste para girar. Tempos e distâncias ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Calc produtividade -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>A escavadeira trabalha ou só fica ligada?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"T","label":"Turno","min":6,"max":12,"step":0.5,"value":9,"unit":"h"},
+            {"id":"G","label":"Motor ligado","min":0,"max":12,"step":0.1,"value":7.2,"unit":"h"},
+            {"id":"M","label":"Em marcha lenta (ligada e parada)","min":0,"max":8,"step":0.1,"value":2.1,"unit":"h"},
+            {"id":"Q","label":"Consumo em marcha lenta","min":1,"max":10,"step":0.5,"value":4,"unit":"L/h"},
+            {"id":"D","label":"Dias trabalhados por mês","min":15,"max":26,"step":1,"value":22}
+          ],
+          "outputs": [
+            {"label":"Tempo produtivo (ligado − marcha lenta)","expr":"Math.max(0,G-M)","unit":"h","dec":1},
+            {"label":"Utilização (produtivo / turno)","expr":"o1/T*100","unit":"%","dec":1},
+            {"label":"Ociosidade (marcha lenta / ligado)","expr":"G>0?M/G*100:0","unit":"%","dec":1},
+            {"label":"Diesel em marcha lenta por dia","expr":"M*Q","unit":"L","dec":1},
+            {"label":"Diesel em marcha lenta por mês","expr":"o4*D","unit":"L","dec":1,"destaque":true}
+          ],
+          "barras": [
+            {"label":"Produtivo","expr":"o1","unit":"h","dec":1},
+            {"label":"Marcha lenta","expr":"M","unit":"h","dec":1},
+            {"label":"Desligada","expr":"Math.max(0,T-G)","unit":"h","dec":1}
+          ],
+          "nota": "Telemetria ilustrativa. Ociosidade alta aponta gargalo (falta caminhão, espera de liberação), não culpa do operador."
+        }' role="img" aria-label="Calculadora de utilização de uma escavadeira com barras animadas das horas produtivas, em marcha lenta e desligada, e o diesel gasto em marcha lenta por dia e por mês"></div>
+        <div class="viz-lado">
+          <h3>Telemetria vira decisão</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão · Desafio</p>
+      <h2>Rastrear pessoas: segurança ou vigilância?</h2>
+      <div class="versus">
+        <div class="lado novo">
+          <h3>Segurança</h3>
+          <p>O crachá UWB avisa o ajudante e o operador quando alguém entra na zona de exclusão: evita <strong>atropelamentos na rampa</strong> e registra quase-acidentes.</p>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado">
+          <h3>Vigilância</h3>
+          <p>O <strong>mesmo dado</strong> mostra pausas, idas ao banheiro, tempo de conversa e a produtividade individual de cada trabalhador.</p>
+        </div>
+      </div>
+      <div class="perguntas">
+        <div><b>Finalidade</b><span>Para que exatamente o dado é coletado?</span></div>
+        <div><b>Minimização</b><span>Só a proximidade, sem histórico nominal de trajetos?</span></div>
+        <div><b>Retenção</b><span>Por quanto tempo o dado fica guardado?</span></div>
+        <div><b>Transparência</b><span>O trabalhador sabe o que é coletado?</span></div>
+        <div><b>Acesso</b><span>Quem vê os dados: segurança ou RH?</span></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:.9rem"><p><strong>Regra para testar:</strong> coletar o <strong>mínimo necessário</strong> para a finalidade de segurança, <strong>informar</strong> os trabalhadores e <strong>não reutilizar</strong> o dado para outra finalidade.</p></div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>O plano da cravação junto ao casarão</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Onde instalar</h3>
+          <ul>
+            <li>O <strong>sismógrafo</strong>: no pé do casarão, do lado das estacas</li>
+            <li>O <strong>sonômetro</strong>: no receptor mais exposto da vizinhança</li>
+            <li>O <strong>sensor de MP10</strong>: na divisa, a favor do vento predominante</li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>O que definir</h3>
+          <ul>
+            <li>Limites do plano (<strong>atenção e alerta</strong>) e a <strong>ação</strong> de cada um</li>
+            <li>A regra da <strong>cerca virtual</strong> na rampa dos caminhões</li>
+            <li>O <strong>relatório</strong> que vai para o vizinho e para a prefeitura</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem"><p>Dica: casarão tombado pede limite de vibração <strong>abaixo</strong> da curva da NBR 9653, e registro fotográfico das fissuras <strong>antes</strong> da primeira estaca.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>O que levar desta aula</h2>
+      <div class="stat-grid compacto">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="17.7" data-dec="1" data-suf=" mm/s">0</span><div class="legenda">limite da NBR 9653 a 10 Hz</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="3" data-pre="+" data-suf=" dB">0</span><div class="legenda">duas fontes iguais somadas</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="100" data-suf=" µg/m³">0</span><div class="legenda">MP10, média de 24 h (CONAMA 506/2024, PI-2)</div></div>
+      </div>
+      <ul class="pontos" style="margin-top:.9rem">
+        <li>Vibração se avalia por <strong>PPV e frequência</strong>; a NBR 9653 é referência para desmonte, e edificações sensíveis pedem limites próprios.</li>
+        <li>Decibéis se somam de forma <strong>logarítmica</strong>; a fonte mais forte domina.</li>
+        <li>Sensores óticos de poeira precisam de <strong>calibração</strong>; padrões do CONAMA são de ar ambiente, não gatilhos da obra.</li>
+        <li>Rastreamento previne colisões e mede produtividade, mas dado de pessoa exige <strong>finalidade e minimização</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Segurança, ambiente e produtividade</h1>
+      <p class="fim-texto">Vibração, ruído, poeira e máquinas: quatro grandezas, a mesma malha fechada. Agora falta aprender a tratar os dados que tudo isso produz.</p>
+      <p class="fim-proxima">Próxima aula: Aula 12 — Dados de sensores: séries temporais, níveis de alerta e dashboards.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 11 */
+(function () {
+  const { canvas2d, cena3d, loop, slider, hud, chip, botoes, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const novo = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+  // curva-limite da NBR 9653 (mm/s) em função da frequência (Hz), para f >= 4 Hz
+  const limite = (f) => f <= 15 ? 15 + 5 * (f - 4) / 11 : f <= 40 ? 20 + 30 * (f - 15) / 25 : 50;
+
+  /* ppv — golpes do martelo, PPV × distância e ponto sobre a curva da NBR 9653 */
+  Obra.register('ppv', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || novo('div');
+    const sD = slider(p, { id: 'D', label: 'Distância da estaca ao casarão', min: 5, max: 50, step: 1, value: 15, unit: 'm' });
+    const sF = slider(p, { id: 'f', label: 'Frequência dominante', min: 4, max: 60, step: 1, value: 10, unit: 'Hz' });
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const h = hud(host);
+    const cP = chip(h, ''), cL = chip(h, ''), cR = chip(h, '');
+    const GOLPE = 0.9, JAN = 2.4, VMAX = 60;
+    let pA = 12;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      const D = +sD.value, f = +sF.value;
+      const ppv = 12 * Math.pow(15 / D, 1.4), lim = limite(f), pct = ppv / lim * 100;
+      pA += (ppv - pA) * Math.min(1, dt * 6);
+      cP.innerHTML = 'PPV: <b>' + fmt(ppv, 1) + ' mm/s</b>';
+      cL.innerHTML = 'Limite a ' + fmt(f) + ' Hz: <b>' + fmt(lim, 1) + ' mm/s</b>';
+      cR.innerHTML = 'Uso do limite: <b>' + fmt(pct, 0) + '%</b>';
+      cR.classList.toggle('alerta', pct >= 100);
+      const est = pct >= 100 ? '<b style="color:#FF2B5F">acima do limite da curva</b>' : pct >= 50 ? '<b style="color:#F2CB0A">atenção</b> (acima de 50% do limite)' : '<b style="color:#11A360">abaixo de 50% do limite</b>';
+      res.innerHTML = `<span class="formula">PPV = 12 · (15 / ${fmt(D)})<sup>1,4</sup></span> = <b>${fmt(ppv, 1)} mm/s</b><br>Limite NBR 9653 a ${fmt(f)} Hz: <b>${fmt(lim, 1)} mm/s</b><br>Uso do limite: <span class="num">${fmt(pct, 0)}%</span><br>${est}`;
+      ctx.clearRect(0, 0, W, H);
+      // ---- forma de onda (esquerda)
+      const gx = 48, gy = 64, gw = W * 0.54 - gx, gh = H - gy - 46, y0 = gy + gh / 2;
+      const Y = (v) => y0 - (v / VMAX) * (gh / 2);
+      ctx.fillStyle = 'rgba(255,255,255,.04)'; ctx.fillRect(gx, gy, gw, gh);
+      ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#fff'; ctx.textAlign = 'left';
+      ctx.fillText('Velocidade de vibração no casarão (mm/s)', gx, gy - 10);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.moveTo(gx, y0); ctx.lineTo(gx + gw, y0); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      [-60, -30, 0, 30, 60].forEach((v) => ctx.fillText(String(v), gx - 6, Y(v) + 4));
+      ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 5]);
+      [lim, -lim].forEach((v) => { ctx.beginPath(); ctx.moveTo(gx, Y(v)); ctx.lineTo(gx + gw, Y(v)); ctx.stroke(); });
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#FF2B5F'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.fillText('± limite a ' + fmt(f) + ' Hz', gx + 6, Y(lim) - 5);
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 1.6; ctx.beginPath();
+      // a forma de onda é desenhada com frequência visual reduzida (fica legível na tela)
+      const fv = 3 + f * 0.25;
+      let pk = 0; for (let k = 1; k < 200; k++) { const tau = k / 200 * 0.5; pk = Math.max(pk, Math.exp(-tau / 0.13) * Math.sin(2 * Math.PI * fv * tau)); }
+      for (let i = 0; i <= gw; i++) {
+        const tt = t - JAN + (i / gw) * JAN;
+        const tau = ((tt % GOLPE) + GOLPE) % GOLPE;
+        const v = pA / pk * Math.exp(-tau / 0.13) * Math.sin(2 * Math.PI * fv * tau);
+        i ? ctx.lineTo(gx + i, Y(v)) : ctx.moveTo(gx + i, Y(v));
+      }
+      ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.textAlign = 'center'; ctx.font = '11px Montserrat, Arial';
+      ctx.fillText('tempo → (um golpe do martelo a cada 0,9 s; oscilação desenhada mais lenta)', gx + gw / 2, gy + gh + 18);
+      // ---- curva-limite (direita)
+      const cx0 = W * 0.6 + 30, cy0 = gy, cw = W - cx0 - 18, ch = gh;
+      const FX = (fr) => cx0 + (fr / 60) * cw, FY = (v) => cy0 + ch - (v / VMAX) * ch;
+      ctx.fillStyle = 'rgba(255,255,255,.04)'; ctx.fillRect(cx0, cy0, cw, ch);
+      ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('Curva-limite NBR 9653', cx0, cy0 - 10);
+      ctx.fillStyle = 'rgba(255,43,95,.13)'; ctx.beginPath(); ctx.moveTo(FX(4), FY(VMAX));
+      for (let fr = 4; fr <= 60; fr += 0.5) ctx.lineTo(FX(fr), FY(limite(fr)));
+      ctx.lineTo(FX(60), FY(VMAX)); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#FF2B5F'; ctx.lineWidth = 2.5; ctx.beginPath();
+      for (let fr = 4; fr <= 60; fr += 0.5) fr === 4 ? ctx.moveTo(FX(fr), FY(limite(fr))) : ctx.lineTo(FX(fr), FY(limite(fr)));
+      ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = 'rgba(255,255,255,.65)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center';
+      [0, 15, 30, 45, 60].forEach((fr) => ctx.fillText(fr + ' Hz', FX(fr), cy0 + ch + 16));
+      ctx.textAlign = 'right'; [0, 20, 40, 60].forEach((v) => ctx.fillText(String(v), cx0 - 5, FY(v) + 4));
+      ctx.textAlign = 'left'; ctx.fillStyle = '#FF2B5F'; ctx.fillText('dano possível', FX(30), FY(55));
+      // ponto medido
+      const px = FX(f), py = FY(Math.min(VMAX, pA));
+      ctx.strokeStyle = 'rgba(242,203,10,.6)'; ctx.setLineDash([3, 4]);
+      ctx.beginPath(); ctx.moveTo(px, FY(0)); ctx.lineTo(px, py); ctx.lineTo(cx0, py); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = pct >= 100 ? '#FF2B5F' : '#F2CB0A'; ctx.beginPath(); ctx.arc(px, py, 7 + Math.sin(t * 5) * 1.5, 0, 7); ctx.fill();
+      ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = px > cx0 + cw * 0.6 ? 'right' : 'left';
+      ctx.fillText(fmt(ppv, 1) + ' mm/s', px + (px > cx0 + cw * 0.6 ? -12 : 12), py - 8);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* rastreio3d — escavadeira, caminhão, trabalhadores e zona de exclusão */
+  Obra.register('rastreio3d', (host) => {
+    const h = hud(host);
+    const cCerca = chip(h, ''), cAl = chip(h, ''), cOc = chip(h, '');
+    let cerca = true, alertas = 0, naoReg = 0, ocioso = 0;
+    const btns = botoes(host, [
+      ['Cerca virtual: ligada', (b) => { cerca = !cerca; b.classList.toggle('on', cerca); b.textContent = 'Cerca virtual: ' + (cerca ? 'ligada' : 'desligada'); }, true],
+      ['↺ Reiniciar', () => { alertas = 0; naoReg = 0; ocioso = 0; }]
+    ]);
+    void btns;
+    return cena3d(host, { r: 62, ph: 0.92, th: 0.55, alvo: [0, 0, 3] }, ({ THREE, scene, rotulo }) => {
+      const chao = caixa(THREE, 76, 0.5, 52, 0x8a6f4d); chao.position.y = -0.25; scene.add(chao);
+      // rota dos caminhões
+      const rota = caixa(THREE, 70, 0.08, 6, 0x6d5a40); rota.position.set(0, 0.05, 16); scene.add(rota);
+      // escavadeira
+      const exc = new THREE.Group(); scene.add(exc);
+      const esteira = caixa(THREE, 6, 1.2, 5, 0x30343c); esteira.position.y = 0.6; exc.add(esteira);
+      const sup = new THREE.Group(); sup.position.y = 1.3; exc.add(sup);
+      const corpo = caixa(THREE, 5, 2.4, 4.2, 0xf2cb0a); corpo.position.set(-0.6, 1.2, 0); sup.add(corpo);
+      const cab = caixa(THREE, 2, 2, 2, 0x335577, { metalness: 0.5, roughness: 0.3 }); cab.position.set(1, 3.2, 1.1); sup.add(cab);
+      const lanca = caixa(THREE, 7, 0.7, 0.7, 0xe0b000); lanca.position.set(4.5, 3.4, 0); lanca.rotation.z = 0.35; sup.add(lanca);
+      const braco = caixa(THREE, 0.6, 4.5, 0.6, 0xe0b000); braco.position.set(7.9, 3.2, 0); sup.add(braco);
+      const conc = caixa(THREE, 1.4, 1.2, 1.6, 0x30343c); conc.position.set(7.9, 0.9, 0); sup.add(conc);
+      const matsEx = [corpo.material];
+      rotulo(cab, 'Escavadeira (telemetria GNSS)', 3);
+      // zona de exclusão
+      const R = 8;
+      const zona = new THREE.Mesh(new THREE.CircleGeometry(R, 48), new THREE.MeshBasicMaterial({ color: 0xff2b5f, transparent: true, opacity: 0.25, depthWrite: false }));
+      zona.rotation.x = -Math.PI / 2; zona.position.y = 0.06; scene.add(zona);
+      const anel = new THREE.Mesh(new THREE.RingGeometry(R - 0.25, R, 64), new THREE.MeshBasicMaterial({ color: 0xff2b5f, side: THREE.DoubleSide }));
+      anel.rotation.x = -Math.PI / 2; anel.position.y = 0.08; scene.add(anel);
+      const marcaZona = new THREE.Object3D(); marcaZona.position.set(-R, 0.2, -2); scene.add(marcaZona);
+      rotulo(marcaZona, 'Zona de exclusão · 8 m', 0.5);
+      // caminhão
+      const cam = new THREE.Group(); scene.add(cam);
+      const cacamba = caixa(THREE, 6, 2.6, 3.2, 0x9aa0a8); cacamba.position.set(-1, 2.2, 0); cam.add(cacamba);
+      const cabine = caixa(THREE, 2.2, 2.6, 3, 0xff8a1f); cabine.position.set(3.2, 2.1, 0); cam.add(cabine);
+      const chassi = caixa(THREE, 8.6, 0.8, 2.8, 0x222222); chassi.position.set(0.1, 0.8, 0); cam.add(chassi);
+      cam.position.set(-30, 0, 16);
+      rotulo(cabine, 'Caminhão', 2.8);
+      // trabalhadores (crachá UWB)
+      const corPessoa = 0x2bd9fe;
+      const trab = [];
+      const rotas = [
+        (s) => [-20 + 34 * (0.5 - 0.5 * Math.cos(s * 0.5)), 6 * Math.sin(s * 0.33) - 2],
+        (s) => [14 * Math.cos(s * 0.27) + 4, 11 * Math.sin(s * 0.27) - 4],
+        (s) => [22 - 6 * Math.sin(s * 0.4), -14 + 8 * Math.cos(s * 0.4)]
+      ];
+      rotas.forEach((f, k) => {
+        const g = new THREE.Group(); scene.add(g);
+        const m = new THREE.MeshStandardMaterial({ color: corPessoa, roughness: 0.7 });
+        const corpoP = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 1.5, 10), m); corpoP.position.y = 0.75; corpoP.castShadow = true; g.add(corpoP);
+        const cabeca = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 8), new THREE.MeshStandardMaterial({ color: 0xe0b48a })); cabeca.position.y = 1.75; g.add(cabeca);
+        const capacete = new THREE.Mesh(new THREE.SphereGeometry(0.36, 10, 8, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0xf2cb0a })); capacete.position.y = 1.85; g.add(capacete);
+        g.scale.setScalar(2.2);
+        if (k === 0) rotulo(capacete, 'Trabalhador (crachá UWB)', 1.2);
+        trab.push({ g, m, f, dentro: false });
+      });
+      let ang = 0, fase = 0, tcam = 0;
+      const atualizaChips = () => {
+        cCerca.innerHTML = 'Cerca virtual: <b>' + (cerca ? 'ligada' : 'desligada') + '</b>';
+        cAl.innerHTML = cerca ? 'Alertas registrados: <b>' + alertas + '</b>' : 'Quase-acidentes não registrados: <b>' + naoReg + '</b>';
+        cAl.classList.toggle('alerta', !cerca && naoReg > 0);
+        cOc.innerHTML = 'Ociosidade da escavadeira: <b>' + fmt(ocioso, 0) + ' min</b>';
+      };
+      return (t, dt) => {
+        // escavadeira: trabalha 8 s, espera caminhão 3 s (marcha lenta)
+        fase = (fase + dt) % 11;
+        let algumDentro = false;
+        trab.forEach((w, k) => {
+          const [x, z] = w.f(t + k * 7);
+          w.g.position.set(x, 0, z);
+          const d = Math.hypot(x, z);
+          const entrou = d < R;
+          if (entrou && !w.dentro) { if (cerca) alertas++; else naoReg++; }
+          w.dentro = entrou; if (entrou) algumDentro = true;
+          const pisca = entrou && cerca && Math.sin(t * 14) > 0;
+          w.m.color.setHex(pisca ? 0xff2b5f : corPessoa);
+        });
+        const parada = fase > 8 || (algumDentro && cerca);
+        if (!parada) ang += dt * 0.9; else ocioso += dt; // 1 s de cena = 1 min
+        sup.rotation.y = Math.sin(ang) * 1.3;
+        matsEx.forEach((m) => m.color.setHex(algumDentro && cerca && Math.sin(t * 14) > 0 ? 0xff2b5f : 0xf2cb0a));
+        zona.material.opacity = algumDentro ? (cerca ? 0.35 + 0.2 * Math.sin(t * 10) : 0.25) : 0.22;
+        // caminhão vai e volta na rota
+        tcam += dt;
+        const xc = -30 + 52 * (0.5 - 0.5 * Math.cos(tcam * 0.25));
+        cam.position.x = xc; cam.rotation.y = Math.sin(tcam * 0.25) >= 0 ? 0 : Math.PI;
+        atualizaChips();
+      };
+    });
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

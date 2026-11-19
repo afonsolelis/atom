@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 9 — Monitoramento geotécnico: inclinômetros, piezômetros e marcos de recalque</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .quatro { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: .9rem; margin-top: .6rem; }
+  .quatro .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); border-radius: 12px; padding: .8rem 1rem; }
+  .quatro .card h3 { color: var(--amarelo); font-size: clamp(.95rem, 1.3vw, 1.15rem); margin-bottom: .3em; }
+  .quatro .card p, .quatro .card li { font-size: clamp(.82rem, 1.1vw, 1rem); }
+  .texto-foto { display: grid; grid-template-columns: 1.25fr 1fr; gap: 1.1rem; flex: 1 1 0; min-height: 0; }
+  .texto-foto .texto p, .texto-foto .texto li { font-size: clamp(.86rem, 1.15vw, 1.05rem); margin-bottom: .4em; }
+  .texto-foto .figura { min-height: 0; }
+  .figura.clara { background: #fff; }
+  .figura.clara img { object-fit: contain; padding: .6rem; }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .35em .7em; font-size: clamp(.8rem, 1.05vw, 1rem); text-align: center; }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem); color: rgba(255,255,255,.75); }
+  .pontos li { font-size: clamp(.95rem, 1.4vw, 1.2rem); margin-bottom: .5em; }
+  .stat-grid.compacto { margin-top: .4rem; }
+  .stat-grid.compacto .stat-card { padding: .8rem; }
+  .stat-grid.compacto .numero-grande { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+  .stat-grid.compacto .legenda { font-size: .88rem; }
+  .bjerrum { display: grid; grid-template-columns: repeat(6, 1fr); gap: .5rem; margin-top: .8rem; }
+  .bjerrum div { border-radius: 10px; padding: .7rem .7rem; background: rgba(255,255,255,.06); border-top: 6px solid var(--c); }
+  .bjerrum b { display: block; font: 800 clamp(1.2rem, 2vw, 1.7rem) var(--fonte-titulo); color: var(--c); }
+  .bjerrum span { font-size: clamp(.76rem, 1vw, .95rem); }
+  .regua-b { height: 12px; border-radius: 6px; margin-top: .8rem; background: linear-gradient(90deg, #11A360, #F2CB0A 40%, #FF8A1F 65%, #FF2B5F); }
+  .timeline .etapa p { font-size: clamp(.8rem, 1.05vw, .98rem); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 3|Aula 9 — Monitoramento geotécnico">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Monitoramento geotécnico</h1>
+      <div class="subtitulo">Aula 9 — Inclinômetros, piezômetros e marcos de recalque</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Monitoramento geotécnico</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Método observacional: instrumentar para decidir</li>
+          <li>Inclinômetros: do ângulo ao milímetro</li>
+          <li>Exemplo numérico: o perfil de deslocamentos</li>
+          <li>Piezômetros e tempo de resposta</li>
+          <li>Marcos de recalque e referência de nível</li>
+          <li>Distorção angular e a escala de Bjerrum</li>
+          <li>Do manual ao IoT</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto de abertura: Santos -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/SantosTiltedBuildings.JPG/1280px-SantosTiltedBuildings.JPG'); background-position: 60% 30%" role="img" aria-label="Edifício residencial alto na orla de Santos visivelmente inclinado em relação aos prédios vizinhos, com jardim e calçada à frente"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Orla de Santos (SP)</p>
+      <h2>Prédios inclinados: o recalque diferencial que todo mundo vê</h2>
+      <p>Dezenas de edifícios das décadas de <strong>1950 a 1970</strong>, com fundações rasas sobre uma camada de <strong>argila mole</strong>, recalcaram mais de um lado que do outro e inclinaram.</p>
+      <p>Agora a obra é sua: uma <strong>escavação de 10 m</strong> ao lado de um prédio assim. Que instrumentos, onde e com quais limites, <strong>antes da primeira caçamba</strong>?</p>
+    </div>
+    <p class="credito">Foto: Niels Elgaard Larsen — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 4. Método observacional -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceito</p>
+      <h2>Instrumentar para decidir: o método observacional</h2>
+      <div class="timeline" style="--n:4">
+        <div class="etapa"><div class="ano">1 · Projetar</div><p>Com as hipóteses <strong>mais prováveis</strong> sobre o solo, não as mais pessimistas (Peck, 1969).</p></div>
+        <div class="etapa"><div class="ano">2 · Prever</div><p>Calcular o comportamento esperado: deslocamentos, poropressões, recalques.</p></div>
+        <div class="etapa"><div class="ano">3 · Combinar antes</div><p>Definir <strong>limites</strong> de atenção e alerta e o <strong>plano de contingência</strong> para cada um.</p></div>
+        <div class="etapa"><div class="ano">4 · Medir e agir</div><p>Comparar as leituras com a previsão e acionar o plano se o limite for cruzado.</p></div>
+      </div>
+      <div class="quatro" style="--n:3; margin-top:1.1rem">
+        <div class="card"><h3>O solo atrás da contenção está se deslocando?</h3><p>→ <strong>Inclinômetro</strong>: deslocamento horizontal ao longo da profundidade (mm).</p></div>
+        <div class="card"><h3>A água está empurrando mais?</h3><p>→ <strong>Piezômetro</strong>: poropressão e nível d'água (kPa ou m).</p></div>
+        <div class="card"><h3>O vizinho está afundando?</h3><p>→ <strong>Marcos de recalque</strong>: deslocamento vertical dos pilares e fachadas (mm).</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Regra de ouro: a <strong>leitura zero</strong> é feita <strong>antes de escavar</strong>. Sem referência, nenhum número vira informação.</p></div>
+    </div>
+  </section>
+
+  <!-- 5. 3D: escavação instrumentada -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>A escavação avança e os instrumentos respondem</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="geotec3d" role="img" aria-label="Cena 3D em corte de uma escavação contida por cortina de estacas, ao lado de um prédio vizinho. Atrás da cortina há um tubo de inclinômetro com uma linha amarela que mostra o perfil de deslocamento e dois piezômetros no solo; no pé do prédio há três marcos de recalque. A cada clique em Escavar, o fundo desce 2,5 m até 10 m, a cortina flete para dentro da escavação de forma exagerada e os marcos descem e mudam de verde para amarelo e vermelho."></div>
+        <div class="viz-lado">
+          <h3>Clique em Escavar</h3>
+          <ul>
+            <li>O fundo desce em etapas: <strong>2,5 → 5 → 7,5 → 10 m</strong>.</li>
+            <li>A <strong>cortina flete</strong> para dentro da escavação; o <strong>inclinômetro</strong> (linha amarela) registra o perfil.</li>
+            <li>Os <strong>marcos</strong> no pé do vizinho descem; o mais próximo da escavação desce mais.</li>
+            <li>Os <strong>piezômetros</strong> vigiam a água atrás da cortina.</li>
+          </ul>
+          <p class="mini">Deformações exageradas na cena; valores e limites dos marcos (atenção 4 mm, alerta 8 mm) ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Como funciona o inclinômetro -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Inclinômetro</p>
+      <h2>Como funciona: medir ângulos para achar milímetros</h2>
+      <div class="quatro" style="--n:4">
+        <div class="card"><h3>Tubo-guia</h3><p>Tubo com <strong>4 ranhuras</strong>, instalado num furo; o <strong>fundo</strong> fica engastado em solo ou rocha que não se move, abaixo da escavação.</p></div>
+        <div class="card"><h3>Sonda</h3><p>Desce guiada pelas rodas; acelerômetros (servo ou MEMS) medem a inclinação θ a cada <strong>L = 0,5 m</strong> (distância entre rodas).</p></div>
+        <div class="card"><h3>Duas passadas</h3><p>Leitura a <strong>0°</strong> e de novo girando a sonda <strong>180°</strong>: a diferença cancela o viés do sensor.</p></div>
+        <div class="card"><h3>Conta</h3><p>Cada trecho: <span class="formula">d = L · sen θ</span>. O perfil soma os trechos <strong>de baixo para cima</strong> e é sempre comparado à <strong>leitura zero</strong>.</p></div>
+      </div>
+      <div class="versus" style="margin-top:1.1rem">
+        <div class="lado"><h3>Sonda manual</h3><ul><li>Um técnico desce a sonda em <strong>campanhas</strong> (diárias a mensais)</li><li>Uma sonda serve vários tubos: barato por ponto</li><li>Entre campanhas, ninguém está olhando</li></ul></div>
+        <div class="vs">×</div>
+        <div class="lado novo"><h3>Inclinômetro <em>in-place</em></h3><ul><li><strong>Cadeia de sensores MEMS fixos</strong> dentro do tubo</li><li>Leitura <strong>automática</strong> a cada 15–60 min, via datalogger e IoT</li><li>Mais caro por tubo; ideal nos pontos críticos</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Viz inclinômetro -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Do tubo ao perfil: deslocamento acumulado × profundidade</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="inclinometro" role="img" aria-label="À esquerda, um tubo de inclinômetro de 8 metros com uma sonda que desce de meio em meio metro. À direita, o gráfico do deslocamento horizontal acumulado em milímetros contra a profundidade, com linhas verticais de atenção em 15 mm e de alerta em 25 mm. Botões mostram a leitura de referência, igual a zero, a leitura de 7 dias atrás, com 7,0 mm no topo, e a de hoje, com 10,0 mm no topo; abaixo de 3 metros o deslocamento é nulo."></div>
+        <div class="viz-lado">
+          <h3>Troque a leitura</h3>
+          <p><strong>Referência</strong>: tudo zero. <strong>Há 7 dias</strong>: 7,0 mm no topo. <strong>Hoje</strong>: 10,0 mm no topo.</p>
+          <p>Só os <strong>6 trechos de cima</strong> (até 3 m) mudaram: o solo se move perto da superfície, junto da cortina.</p>
+          <p class="mini">Velocidade: (10,0 − 7,0) / 7 ≈ 0,43 mm/dia. Limites de atenção (15 mm) e alerta (25 mm) ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Do ângulo ao milímetro (L = 0,5 m)</h2>
+      <table class="tabela-industrial compacta">
+        <thead><tr><th>Trecho (profundidade)</th><th>Δ(sen θ) × 10⁻³</th><th>L · Δ(sen θ) (mm)</th><th>Acumulado no topo do trecho (mm)</th></tr></thead>
+        <tbody>
+          <tr><td>0,0 – 0,5 m</td><td>6,0</td><td>3,0</td><td><b>10,0</b></td></tr>
+          <tr><td>0,5 – 1,0 m</td><td>5,0</td><td>2,5</td><td>7,0</td></tr>
+          <tr><td>1,0 – 1,5 m</td><td>4,0</td><td>2,0</td><td>4,5</td></tr>
+          <tr><td>1,5 – 2,0 m</td><td>3,0</td><td>1,5</td><td>2,5</td></tr>
+          <tr><td>2,0 – 2,5 m</td><td>1,6</td><td>0,8</td><td>1,0</td></tr>
+          <tr><td>2,5 – 3,0 m</td><td>0,4</td><td>0,2</td><td>0,2</td></tr>
+          <tr><td>abaixo de 3,0 m</td><td>0</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <div class="stat-grid compacto" style="margin-top:.9rem">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="10" data-dec="1" data-suf=" mm">0</span><div class="legenda">no topo: 0,5 m × Σ = 0,5 × 0,020</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="0.43" data-dec="2" data-suf=" mm/d">0</span><div class="legenda">velocidade: (10,0 − 7,0) / 7 dias</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="11.7" data-dec="1" data-suf=" dias">0</span><div class="legenda">até a atenção (15 mm), no ritmo atual</div></div>
+      </div>
+      <div class="callout-azul" style="margin-top:.9rem;background:rgba(0,0,0,.25)"><p>O máximo está no <strong>topo</strong> e o fundo não se moveu. Mas a conta <strong>supõe o fundo fixo</strong>: essa premissa precisa ser verificada (tubo mais profundo, prisma no topo do tubo).</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Piezômetros -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Piezômetros</p>
+      <h2>Medir a água que empurra: <span class="formula">u = γ<sub>w</sub> · h</span></h2>
+      <div class="texto-foto">
+        <div class="texto">
+          <ul>
+            <li><strong>Casagrande (tubo aberto):</strong> bulbo filtrante ligado a um tubo; lê-se o nível d'água com medidor elétrico em carretel. Barato e robusto, mas <strong>lento em argila</strong>: a água precisa entrar no tubo.</li>
+            <li><strong>Corda vibrante:</strong> a pressão deforma um <strong>diafragma</strong> que tensiona um fio; a <strong>frequência</strong> do fio muda com a pressão. Resposta rápida, leitura automática; pede compensação de <strong>temperatura</strong> e de <strong>pressão atmosférica</strong>.</li>
+            <li><strong>Pneumático:</strong> leitura por gás num painel na superfície; sem eletrônica enterrada.</li>
+          </ul>
+          <p>Com γ<sub>w</sub> ≈ 9,81 kN/m³, cada metro de coluna d'água ≈ 9,81 kPa.</p>
+        </div>
+        <figure class="figura clara">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Vibrating_wire_piezometer_from_USBR_6515-09_Fig._1.png" alt="Desenho em corte de um piezômetro de corda vibrante: à esquerda o filtro e o diafragma, no centro o fio vibrante e as bobinas de excitação e leitura dentro de uma carcaça de aço inox, e à direita a vedação interna e o cabo de quatro condutores" loading="lazy">
+          <figcaption>Corda vibrante em corte: filtro → diafragma → fio vibrante e bobinas → cabo de 4 condutores</figcaption>
+          <p class="credito">Figura: U.S. Department of the Interior, Bureau of Reclamation — Wikimedia Commons (domínio público)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Viz tempo de resposta -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>Tempo de resposta: o piezômetro "vê" a água a tempo?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="resposta" role="img" aria-label="Gráfico com eixo de tempo logarítmico de 1 minuto a 30 dias. No instante zero a poropressão real sobe em degrau. A curva do piezômetro de corda vibrante acompanha em minutos; a do piezômetro Casagrande demora tanto mais quanto menor a permeabilidade do solo: cerca de 10 horas em solo com k de 10 elevado a menos 8 metros por segundo e cerca de 4 dias com 10 elevado a menos 9."></div>
+        <div class="viz-lado">
+          <h3>Mude o solo</h3>
+          <p>Tempo básico de Hvorslev do Casagrande: <span class="formula">T = A / (F · k)</span>, com A ≈ 2,8 × 10⁻⁴ m² e F ≈ 0,77 m.</p>
+          <div data-controles></div>
+          <p class="mini">90% da resposta em ≈ 2,3 T. Ordens de grandeza ilustrativas: em argila, o Casagrande pode chegar tarde para uma escavação que avança por dia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Marcos de recalque -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Recalques</p>
+      <h2>Marcos de recalque e a referência que não pode se mexer</h2>
+      <div class="texto-foto">
+        <div class="texto">
+          <ul>
+            <li><strong>Marcos</strong>: pinos chumbados nos pilares e na fachada do vizinho, numerados e fotografados na leitura zero.</li>
+            <li><strong>Nivelamento geométrico de precisão</strong>: nível + mira de ínvar, sempre pelo mesmo caminho; resolução de décimos de milímetro.</li>
+            <li><strong>Referência de nível (RN) profunda</strong>: ancorada <strong>fora da zona de influência</strong> da escavação. Se a RN se mexe, todos os recalques mentem.</li>
+            <li><strong>Automação</strong>: estação total robótica lendo prismas; células de recalque por <strong>nível hidrostático</strong>; clinômetros de parede (<em>tiltmeters</em>).</li>
+          </ul>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7f/Precise_Level_Benchmark%2C_Singapore.jpg/1280px-Precise_Level_Benchmark%2C_Singapore.jpg" alt="Referência de nível de precisão: pequena placa metálica numerada chumbada no chão, entre plantas, com a ponta de uma mira de nivelamento apoiada sobre ela, ao lado de uma tampa metálica" loading="lazy" style="object-position:50% 60%">
+          <figcaption>Referência de nível de precisão com a mira apoiada (Singapura)</figcaption>
+          <p class="credito">Foto: MapStaringEnthusiast — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. 3D recalque diferencial -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>Recalque diferencial: o prédio não afunda por igual</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="recalque3d" role="img" aria-label="Prédio 3D de 6 pavimentos apoiado em quatro pilares em linha, P1 a P4, com recalques exagerados. Controles ajustam o recalque de P1 e de P2 e a distância entre eles. O painel da fachada entre P1 e P2 fica verde, amarelo, laranja ou vermelho conforme a distorção angular, e uma fissura diagonal aparece quando ela passa de 1/300."></div>
+        <div class="viz-lado">
+          <h3>Mexa nos pilares</h3>
+          <div data-controles></div>
+          <p class="mini">Recalques exagerados na cena. P3 e P4 seguem recalques menores, só para compor o prédio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Bjerrum -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Critério de dano</p>
+      <h2>Distorção angular: a escala de Bjerrum (1963)</h2>
+      <p><span class="formula">β = δ / L</span> — recalque diferencial entre dois pilares dividido pela distância entre eles.</p>
+      <div class="regua-b"></div>
+      <div class="bjerrum">
+        <div style="--c:#11A360"><b>1/750</b><span>dificuldades com máquinas sensíveis a recalques</span></div>
+        <div style="--c:#95DE68"><b>1/600</b><span>perigo para pórticos com diagonais</span></div>
+        <div style="--c:#F2CB0A"><b>1/500</b><span>limite de segurança para edifícios em que não se admitem fissuras</span></div>
+        <div style="--c:#FF8A1F"><b>1/300</b><span>primeiras fissuras em paredes de alvenaria; dificuldades com pontes rolantes</span></div>
+        <div style="--c:#ff5a3c"><b>1/250</b><span>inclinação de edifícios altos torna-se visível</span></div>
+        <div style="--c:#FF2B5F"><b>1/150</b><span>fissuração considerável em paredes de alvenaria e de tijolos; danos estruturais</span></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>A <strong>ABNT NBR 6122</strong> (fundações) torna obrigatório o monitoramento de recalques em alguns casos, como estruturas com carga variável significativa (silos, reservatórios), edifícios altos ou esbeltos e fundações não convencionais. Numa escavação ao lado de vizinhos, o monitoramento é boa prática — e defesa técnica.</p></div>
+    </div>
+  </section>
+
+  <!-- 14. Calc distorção angular -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>O vizinho já fissura?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"r1","label":"Recalque de P1","min":0,"max":40,"step":1,"value":18,"unit":"mm"},
+            {"id":"r2","label":"Recalque de P2","min":0,"max":40,"step":1,"value":6,"unit":"mm"},
+            {"id":"L","label":"Distância entre pilares","min":2,"max":12,"step":0.5,"value":6,"unit":"m"}
+          ],
+          "outputs": [
+            {"label":"Recalque diferencial δ","expr":"Math.abs(r1-r2)","unit":"mm"},
+            {"label":"Distorção angular β = δ/L","expr":"o1/(L*1000)","dec":4},
+            {"label":"Em fração","expr":"o2>0?&#39;1/&#39;+Math.round(1/o2).toLocaleString(&#39;pt-BR&#39;):&#39;sem distorção&#39;"},
+            {"label":"Classificação (Bjerrum)","expr":"o2<1/750-1e-12?&#39;abaixo de 1/750&#39;:(o2<1/500-1e-12?&#39;entre 1/750 e 1/500: atenção a equipamentos sensíveis&#39;:(o2<1/300-1e-12?&#39;de 1/500 a 1/300: limite para não fissurar atingido&#39;:(o2<1/150-1e-12?&#39;entre 1/300 e 1/150: fissuras em paredes&#39;:&#39;acima de 1/150: danos estruturais&#39;)))","destaque":true}
+          ],
+          "barras": [
+            {"label":"Sua β (×1000)","expr":"o2*1000","dec":2},
+            {"label":"1/500 (×1000)","expr":"2","dec":2},
+            {"label":"1/300 (×1000)","expr":"1000/300","dec":2}
+          ],
+          "nota": "Caso do texto: 18 e 6 mm a 6,0 m → δ = 12 mm e β = 12/6.000 = 1/500."
+        }' role="img" aria-label="Calculadora da distorção angular entre dois pilares com barras comparando a distorção calculada aos limites de 1/500 e 1/300"></div>
+        <div class="viz-lado">
+          <h3>Mova os recalques</h3>
+          <p><span class="formula">δ = |ρ<sub>1</sub> − ρ<sub>2</sub>|</span> &nbsp; <span class="formula">β = δ / L</span></p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Do manual ao IoT -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Rotina de leitura</p>
+      <h2>Do manual ao IoT: quando e como ler</h2>
+      <div class="timeline" style="--n:3">
+        <div class="etapa"><div class="ano">Antes</div><p><strong>Leitura zero</strong>, repetida 2 ou 3 vezes para estabelecer a referência e conhecer a dispersão do instrumento.</p></div>
+        <div class="etapa"><div class="ano">Durante a escavação</div><p>Leitura <strong>diária</strong> nos manuais ou <strong>automática a cada 15–60 min</strong> nos instrumentos críticos.</p></div>
+        <div class="etapa"><div class="ano">Após estabilizar</div><p>Frequência cai: <strong>semanal → mensal</strong>, até o fim do monitoramento previsto no plano.</p></div>
+      </div>
+      <div class="versus" style="margin-top:1.2rem">
+        <div class="lado"><h3>A cadeia IoT (Aula 3)</h3><p>Inclinômetro <em>in-place</em> + piezômetro de corda vibrante + prismas na estação total → <strong>datalogger LoRaWAN</strong> → gateway → <strong>plataforma</strong> com limites e alertas.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><h3>Redundância</h3><p>Dois instrumentos que se confirmam: o inclinômetro e o prisma no topo da cortina; o marco do vizinho e o clinômetro na parede. Um número sozinho pode ser defeito; dois que concordam são fato.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Instrumente a escavação de 10 m ao lado do prédio de Santos</h2>
+      <div class="versus">
+        <div class="lado">
+          <h3>Na planta</h3>
+          <ul>
+            <li>Posicione <strong>inclinômetros</strong> atrás da cortina (onde e até que profundidade?)</li>
+            <li>Posicione <strong>piezômetros</strong> (que tipo, considerando a argila mole?)</li>
+            <li>Posicione <strong>marcos de recalque</strong> no vizinho e a <strong>RN profunda</strong></li>
+          </ul>
+        </div>
+        <div class="vs">→</div>
+        <div class="lado novo">
+          <h3>No plano</h3>
+          <ul>
+            <li>Quando fazer a <strong>leitura zero</strong></li>
+            <li>A <strong>frequência</strong> de leitura em cada fase</li>
+            <li><strong>Atenção e alerta</strong> para cada grandeza (use β para o vizinho)</li>
+            <li>Qual instrumento <strong>confirma</strong> qual</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Dica: um prédio que já está inclinado tem <strong>menos folga</strong>. Pense no recalque diferencial que ele ainda aguenta, não no recalque total.</p></div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>O que levar desta aula</h2>
+      <div class="stat-grid compacto">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="0.5" data-dec="1" data-suf=" m">0</span><div class="legenda">entre rodas da sonda: um trecho por leitura</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="10" data-dec="1" data-suf=" mm">0</span><div class="legenda">no topo do tubo, somando L · Δ(sen θ)</div></div>
+        <div class="stat-card"><span class="numero-grande" data-pre="">1/500</span><div class="legenda">12 mm em 6 m: limite para não fissurar</div></div>
+      </div>
+      <ul class="pontos" style="margin-top:.9rem">
+        <li><strong>Método observacional</strong>: prever, combinar limites e plano de contingência <strong>antes</strong>, medir e agir.</li>
+        <li><strong>Inclinômetro</strong>: d = L · sen θ por trecho, somado de baixo para cima, sempre contra a leitura zero; olhe também a <strong>velocidade</strong>.</li>
+        <li><strong>Piezômetro</strong>: o tipo define o tempo de resposta; em argila, corda vibrante.</li>
+        <li><strong>Marcos de recalque</strong> só valem com <strong>RN estável</strong>; o dano vem da <strong>distorção angular</strong> β = δ/L (Bjerrum).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Monitoramento geotécnico</h1>
+      <p class="fim-texto">Você instrumentou o solo, a água e o vizinho. Agora é a vez da própria estrutura dizer o que está sentindo.</p>
+      <p class="fim-proxima">Próxima aula: Aula 10 — Monitoramento estrutural: extensômetros, acelerômetros, fissurômetros e maturidade do concreto.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 9 */
+(function () {
+  const { canvas2d, cena3d, loop, slider, hud, chip, botoes, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const novo = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+  const corEstado = (v, at, al) => (v >= al ? 0xFF2B5F : v >= at ? 0xF2CB0A : 0x11A360);
+
+  /* geotec3d — escavação em etapas: cortina flete, inclinômetro registra, marcos descem */
+  Obra.register('geotec3d', (host) => {
+    const h = hud(host);
+    const cP = chip(h, ''), cI = chip(h, ''), cM = chip(h, '');
+    let etapa = 0;
+    const ETAPAS = [0, 2.5, 5, 7.5, 10];
+    botoes(host, [['Escavar ▸', () => { etapa = Math.min(4, etapa + 1); }], ['↺ Reiniciar', () => { etapa = 0; }]]);
+    return cena3d(host, { r: 78, ph: 1.12, th: 0.5, alvo: [-2, -6, 4] }, ({ THREE, scene, rotulo }) => {
+      const solo = (w, hh, d, x, y, z, cor) => {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(w, hh, d), new THREE.MeshStandardMaterial({ color: cor, transparent: true, opacity: 0.38, depthWrite: false, roughness: 0.9 }));
+        m.position.set(x, y, z); scene.add(m);
+        const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: 0xc89b6d, transparent: true, opacity: 0.45 })); e.position.copy(m.position); scene.add(e);
+        return m;
+      };
+      solo(30, 22, 30, -15, -11, 0, 0x8a6f4d);           // solo atrás da cortina (x < 0)
+      solo(10, 22, 30, 21, -11, 0, 0x8a6f4d);            // solo do outro lado
+      const miolo = solo(16, 22, 30, 8, -11, 0, 0x7a5f3d); // solo dentro da escavação (encolhe)
+      const g1 = caixa(THREE, 30, 0.3, 30, 0x47703f); g1.position.set(-15, 0.15, 0); scene.add(g1);
+      // cortina de estacas em segmentos (flete conforme a etapa)
+      const NS = 15, segs = [];
+      for (let i = 0; i < NS; i++) { const s = caixa(THREE, 0.8, 1, 30, 0x9aa0a8); s.position.set(0, -0.5 - i, 0); scene.add(s); segs.push(s); }
+      // inclinômetro: tubo + perfil
+      const tubo = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 20, 8), new THREE.MeshBasicMaterial({ color: 0x95DE68, transparent: true, opacity: 0.55 }));
+      tubo.position.set(-2.5, -10, 9); scene.add(tubo);
+      const NP = 21, geoP = new THREE.BufferGeometry(), arr = new Float32Array(NP * 3);
+      geoP.setAttribute('position', new THREE.BufferAttribute(arr, 3));
+      const perfil = new THREE.Line(geoP, new THREE.LineBasicMaterial({ color: 0xF2CB0A })); scene.add(perfil);
+      const topoInc = new THREE.Object3D(); topoInc.position.set(-2.5, 1, 9); scene.add(topoInc);
+      rotulo(topoInc, 'Inclinômetro', 2);
+      // piezômetros
+      [[-6, -7, -6], [-6, -14, -6]].forEach(([x, y, z], k) => {
+        const p = new THREE.Mesh(new THREE.SphereGeometry(0.9, 12, 10), new THREE.MeshBasicMaterial({ color: 0x2BD9FE })); p.position.set(x, y, z); scene.add(p);
+        if (k === 0) rotulo(p, 'Piezômetros', 1.8);
+      });
+      // prédio vizinho
+      const pred = new THREE.Group(); pred.position.set(-17, 0, 0); scene.add(pred);
+      for (let i = 0; i < 6; i++) {
+        const a = caixa(THREE, 18, 3.2, 20, i % 2 ? 0xc9ccd2 : 0xbfc3ca); a.position.y = i * 3.5 + 1.8; pred.add(a);
+        for (let j = -3; j <= 3; j++) { const jan = caixa(THREE, 1.6, 1.4, 0.2, 0x335577, { metalness: 0.6, roughness: 0.2 }); jan.position.set(j * 2.4, i * 3.5 + 1.8, 10.05); pred.add(jan); }
+      }
+      // marcos de recalque no pé do prédio (x relativo ao prédio: +8, 0, -8)
+      const marcos = [8, 0, -8].map((x, k) => {
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 1, 12), new THREE.MeshBasicMaterial({ color: 0x11A360 }));
+        m.position.set(x, 0.6, 10.6); pred.add(m);
+        rotulo(m, ['M1', 'M2', 'M3'][k], 1.4);
+        return m;
+      });
+      let dA = 0;
+      const ATENCAO = 4, ALERTA = 8, EXAG = 0.35; // exagero visual: mm → unidades
+      return (t, dt) => {
+        const alvoD = ETAPAS[etapa]; dA += (alvoD - dA) * Math.min(1, dt * 2.5);
+        const f = dA / 10, topo = 10 * Math.pow(f, 1.5);                // mm no topo
+        const recM = [8 * Math.pow(f, 1.3), 4 * Math.pow(f, 1.3), 1.5 * Math.pow(f, 1.3)];
+        miolo.scale.y = Math.max(0.02, (22 - dA) / 22); miolo.position.y = -22 + (22 - dA) / 2;
+        // forma do perfil: máximo no topo, zero a ~3 m abaixo do fundo (exagerado na cena)
+        const desl = (z) => { const zf = Math.min(1, z / (dA + 3 + 1e-6)); return topo * Math.max(0, 1 - zf) ** 2; };
+        segs.forEach((s, i) => { s.position.x = desl(i + 0.5) * EXAG; });
+        for (let i = 0; i < NP; i++) { const z = i; arr[i * 3] = -2.5 + desl(z) * EXAG * 1.6; arr[i * 3 + 1] = -z; arr[i * 3 + 2] = 9; }
+        geoP.attributes.position.needsUpdate = true;
+        pred.position.y = -recM[1] * 0.05; pred.rotation.z = -(recM[0] - recM[2]) * 0.004;
+        marcos.forEach((m, k) => m.material.color.setHex(corEstado(recM[k] + 1e-9, ATENCAO, ALERTA)));
+        cP.innerHTML = 'Escavação: <b>' + fmt(dA, 1) + ' m</b>';
+        cI.innerHTML = 'Inclinômetro (topo): <b>' + fmt(topo, 1) + ' mm</b>';
+        cM.innerHTML = 'Marco M1: <b>' + fmt(recM[0], 1) + ' mm</b>';
+        cM.classList.toggle('alerta', recM[0] >= ALERTA - 0.05);
+        void t;
+      };
+    });
+  });
+
+  /* inclinometro — sonda descendo e perfil acumulado */
+  Obra.register('inclinometro', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cT = chip(h, ''), cV = chip(h, ''), cS = chip(h, '');
+    const SEG = [3.0, 2.5, 2.0, 1.5, 0.8, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // mm por trecho, do topo para baixo
+    const ACUM = SEG.map((_, i) => SEG.slice(i).reduce((a, b) => a + b, 0)); // no topo de cada trecho
+    let alvo = 1, fa = 0, modo = 2;
+    const btns = botoes(host, [
+      ['Referência (zero)', () => { alvo = 0; modo = 0; marca(0); }],
+      ['Há 7 dias', () => { alvo = 0.7; modo = 1; marca(1); }],
+      ['Hoje', () => { alvo = 1; modo = 2; marca(2); }, true]
+    ]);
+    const marca = (i) => btns.forEach((b, k) => b.classList.toggle('on', k === i));
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      fa += (alvo - fa) * Math.min(1, dt * 4);
+      ctx.clearRect(0, 0, W, H);
+      const top = 96, bot = H - 40, prof = 8, Y = (z) => top + (z / prof) * (bot - top);
+      // tubo
+      const tx = W * 0.12;
+      ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(tx - 40, top, 80, bot - top);
+      ctx.fillStyle = 'rgba(149,222,104,.25)'; ctx.fillRect(tx - 9, top - 6, 18, bot - top + 6);
+      ctx.strokeStyle = '#95DE68'; ctx.strokeRect(tx - 9, top - 6, 18, bot - top + 6);
+      const zS = (t * 0.9) % prof, zq = Math.floor(zS / 0.5) * 0.5;
+      ctx.fillStyle = '#F2CB0A'; ctx.fillRect(tx - 6, Y(zq) - 2, 12, Y(0.5) - Y(0) + 4);
+      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('tubo + sonda', tx, top - 14);
+      ctx.font = '11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.75)';
+      ctx.fillText('leitura a ' + fmt(zq, 1) + ' m', tx, bot + 18);
+      // eixos do perfil
+      const gx = W * 0.28, gw = W * 0.5, mx = 30, X = (v) => gx + (v / mx) * gw;
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, top); ctx.lineTo(gx, bot); ctx.lineTo(gx + gw, bot); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial';
+      for (let z = 0; z <= prof; z += 1) { ctx.textAlign = 'right'; ctx.fillText(z + ' m', gx - 6, Y(z) + 4); ctx.strokeStyle = 'rgba(255,255,255,.07)'; ctx.beginPath(); ctx.moveTo(gx, Y(z)); ctx.lineTo(gx + gw, Y(z)); ctx.stroke(); }
+      ctx.textAlign = 'center';
+      for (let v = 0; v <= mx; v += 5) ctx.fillText(v + ' mm', X(v), bot + 16);
+      ctx.fillText('deslocamento horizontal acumulado (mm)', gx + gw / 2, bot + 32 > H - 2 ? H - 4 : bot + 32);
+      // limites
+      [[15, '#F2CB0A', 'atenção 15 mm'], [25, '#FF2B5F', 'alerta 25 mm']].forEach(([v, c, txt]) => {
+        ctx.strokeStyle = c; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(X(v), top); ctx.lineTo(X(v), bot); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = c; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText(txt, X(v), top - 8);
+      });
+      // perfil de referência (zero) e atual
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.beginPath(); ctx.moveTo(X(0), Y(0)); ctx.lineTo(X(0), Y(prof)); ctx.stroke();
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 3; ctx.beginPath();
+      for (let i = 0; i <= 16; i++) { const v = (i < 16 ? ACUM[i] : 0) * fa, y = Y(i * 0.5); i ? ctx.lineTo(X(v), y) : ctx.moveTo(X(v), y); }
+      ctx.stroke(); ctx.lineWidth = 1;
+      for (let i = 0; i <= 16; i++) { const v = (i < 16 ? ACUM[i] : 0) * fa; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(v), Y(i * 0.5), 3, 0, 7); ctx.fill(); }
+      ctx.fillStyle = '#2BD9FE'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText(fmt(10 * fa, 1) + ' mm', X(10 * fa) + 8, Y(0) + 14);
+      const topo = 10 * fa;
+      cT.innerHTML = 'Topo: <b>' + fmt(topo, 1) + ' mm</b>';
+      cV.innerHTML = 'Velocidade: <b>' + (modo === 2 ? '0,43 mm/dia' : '—') + '</b>';
+      cS.innerHTML = 'Situação: <b>' + (topo >= 25 ? 'alerta' : topo >= 15 ? 'atenção' : 'normal') + '</b>';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* resposta — tempo de resposta: corda vibrante × Casagrande (Hvorslev) */
+  Obra.register('resposta', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cK = chip(h, ''), cT = chip(h, ''), c90 = chip(h, '');
+    const p = painel || novo('div');
+    const sK = slider(p, { id: 'k', label: 'Expoente de k (k = 10^x m/s)', min: -9, max: -5, step: 0.5, value: -8, dec: 1 });
+    const A = 2.8e-4, F = 0.77, T_VW = 120; // s (corda vibrante: ~2 min, ilustrativo)
+    const tMin = 60, tMax = 30 * 86400;
+    const durTxt = (s) => (s < 3600 ? fmt(s / 60, 0) + ' min' : s < 86400 * 2 ? fmt(s / 3600, 1) + ' h' : fmt(s / 86400, 1) + ' dias');
+    const sup = (x) => String(x).replace('-', '⁻').replace('.5', ',5').replace(/\d/g, (d) => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);
+    let Ta = 36000;
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      const k = Math.pow(10, +sK.value), T = A / (F * k);
+      Ta += (T - Ta) * Math.min(1, dt * 5);
+      ctx.clearRect(0, 0, W, H);
+      const gx = 60, gw = W - 90, gy = 112, gh = H - 170;
+      const X = (s) => gx + (Math.log10(s / tMin) / Math.log10(tMax / tMin)) * gw, Y = (f) => gy + gh - f * gh;
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
+      ctx.font = '11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.textAlign = 'center';
+      [[60, '1 min'], [600, '10 min'], [3600, '1 h'], [36000, '10 h'], [86400, '1 dia'], [7 * 86400, '7 dias'], [30 * 86400, '30 dias']].forEach(([s, l]) => {
+        ctx.fillText(l, X(s), gy + gh + 16); ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); ctx.moveTo(X(s), gy); ctx.lineTo(X(s), gy + gh); ctx.stroke();
+      });
+      ctx.fillText('tempo após a subida da poropressão (escala logarítmica)', gx + gw / 2, gy + gh + 34);
+      ctx.textAlign = 'right';
+      [0, 0.5, 0.9, 1].forEach((f) => ctx.fillText(fmt(f * 100) + '%', gx - 6, Y(f) + 4));
+      // poropressão real (degrau)
+      ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(gx, Y(1)); ctx.lineTo(gx + gw, Y(1)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.strokeStyle = 'rgba(242,203,10,.45)'; ctx.beginPath(); ctx.moveTo(gx, Y(0.9)); ctx.lineTo(gx + gw, Y(0.9)); ctx.stroke();
+      const curva = (TT, cor) => {
+        ctx.strokeStyle = cor; ctx.lineWidth = 3; ctx.beginPath();
+        for (let i = 0; i <= 300; i++) { const s = tMin * Math.pow(tMax / tMin, i / 300), f = 1 - Math.exp(-s / TT); i ? ctx.lineTo(X(s), Y(f)) : ctx.moveTo(X(s), Y(f)); }
+        ctx.stroke(); ctx.lineWidth = 1;
+      };
+      curva(T_VW, '#2BD9FE'); curva(Ta, '#FF8A1F');
+      // legenda
+      ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.fillText('— — poropressão real (degrau no instante 0)', gx + 8, gy - 30);
+      ctx.fillStyle = '#2BD9FE'; ctx.fillText('— corda vibrante (T ≈ 2 min)', gx + 8, gy - 14);
+      ctx.fillStyle = '#FF8A1F'; ctx.fillText('— Casagrande (T = A / F·k)', gx + 260, gy - 14);
+      ctx.fillStyle = 'rgba(242,203,10,.9)'; ctx.textAlign = 'right'; ctx.fillText('90%', gx + gw - 4, Y(0.9) + 15);
+      const t90 = 2.3 * T;
+      if (t90 < tMax) { ctx.fillStyle = '#FF8A1F'; ctx.beginPath(); ctx.arc(X(2.3 * Ta), Y(0.9), 6, 0, 7); ctx.fill(); }
+      cK.innerHTML = 'k = <b>1 × 10' + sup(+sK.value) + ' m/s</b>';
+      cT.innerHTML = 'T (Casagrande): <b>' + durTxt(T) + '</b>';
+      c90.innerHTML = '90%: <b>' + durTxt(t90) + '</b>';
+      void t;
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* recalque3d — prédio sobre 4 pilares com recalque diferencial (exagerado) */
+  Obra.register('recalque3d', (host, opts, painel) => {
+    const p = painel || novo('div');
+    const s1 = slider(p, { id: 'r1', label: 'Recalque de P1', min: 0, max: 30, step: 1, value: 18, unit: 'mm' });
+    const s2 = slider(p, { id: 'r2', label: 'Recalque de P2', min: 0, max: 30, step: 1, value: 6, unit: 'mm' });
+    const sL = slider(p, { id: 'L', label: 'Distância P1–P2', min: 3, max: 10, step: 0.5, value: 6, unit: 'm', dec: 1 });
+    const res = novo('div', 'resultado'); p.appendChild(res);
+    const h = hud(host); const cB = chip(h, '');
+    return cena3d(host, { r: 40, ph: 1.2, th: 0.3, alvo: [9, 8, 0], auto: false }, ({ THREE, scene, rotulo }) => {
+      const chao = new THREE.Mesh(new THREE.BoxGeometry(60, 0.4, 24), new THREE.MeshStandardMaterial({ color: 0x47703f })); chao.position.set(8, -0.2, 0); chao.receiveShadow = true; scene.add(chao);
+      const N = 4, H = 18, EX = 0.18; // exagero: mm → unidades
+      const pil = [], rots = [];
+      for (let i = 0; i < N; i++) { const c = caixa(THREE, 0.8, H, 0.8, 0x9aa0a8); scene.add(c); pil.push(c); rots.push(rotulo(c, 'P' + (i + 1), -H / 2 - 1.5)); }
+      // fachada: um quadrilátero por vão, vértices movidos à mão
+      const quad = () => { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(18), 3)); const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0xbfc3ca, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })); scene.add(m); return m; };
+      const vaos = [quad(), quad(), quad()];
+      const lajes = []; for (let k = 0; k <= 6; k++) { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(12), 3)); const l = new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0x002156 })); scene.add(l); lajes.push(l); }
+      const fis = new THREE.Line(new THREE.BufferGeometry().setAttribute('position', new THREE.BufferAttribute(new Float32Array(9), 3)), new THREE.LineBasicMaterial({ color: 0x111111 })); scene.add(fis);
+      const marcaB = new THREE.Object3D(); scene.add(marcaB); const rB = rotulo(marcaB, '', 0);
+      return () => {
+        const r1 = +s1.value, r2 = +s2.value, L = +sL.value;
+        const rec = [r1, r2, r2 * 0.5, 0], xs = [0, L, L + 6, L + 12];
+        for (let i = 0; i < N; i++) pil[i].position.set(xs[i], H / 2 - rec[i] * EX, 0.5);
+        const pt = (i, y) => [xs[i], y - rec[i] * EX, 0];
+        vaos.forEach((v, j) => {
+          const a = pt(j, 0), b = pt(j + 1, 0), c = pt(j + 1, H), d = pt(j, H);
+          v.geometry.attributes.position.array.set([...a, ...b, ...c, ...a, ...c, ...d]); v.geometry.attributes.position.needsUpdate = true; v.geometry.computeBoundingSphere();
+        });
+        lajes.forEach((l, k) => { const y = k * 3; const arr = l.geometry.attributes.position.array; for (let i = 0; i < 4; i++) { const q = pt(i, y); arr[i * 3] = q[0]; arr[i * 3 + 1] = q[1]; arr[i * 3 + 2] = 0.3; } l.geometry.attributes.position.needsUpdate = true; l.geometry.computeBoundingSphere(); });
+        const d = Math.abs(r1 - r2), b = d / (L * 1000), e = 1e-12;
+        const cor = b < 1 / 750 - e ? 0x11A360 : b < 1 / 500 - e ? 0xF2CB0A : b < 1 / 300 - e ? 0xFF8A1F : 0xFF2B5F;
+        vaos[0].material.color.setHex(cor);
+        const fa = fis.geometry.attributes.position.array, A = pt(0, 5), B = pt(1, 13);
+        fa.set([A[0] + L * 0.25, A[1] + 1, 0.4, (A[0] + B[0]) / 2, (A[1] + B[1]) / 2 - 1, 0.4, B[0] - L * 0.2, B[1] - 1, 0.4]); fis.geometry.attributes.position.needsUpdate = true; fis.geometry.computeBoundingSphere();
+        fis.visible = b >= 1 / 300 - e;
+        marcaB.position.set(L / 2, H + 2 - (r1 + r2) / 2 * EX, 0);
+        const frac = d > 0 ? '1/' + Math.round(1 / b).toLocaleString('pt-BR') : '0';
+        rB.textContent = 'β = ' + frac;
+        const cls = b < 1 / 750 - e ? 'abaixo de 1/750' : b < 1 / 500 - e ? 'entre 1/750 e 1/500: atenção a equipamentos sensíveis' : b < 1 / 300 - e ? 'de 1/500 a 1/300: limite para não fissurar atingido' : b < 1 / 150 - e ? 'entre 1/300 e 1/150: fissuras em paredes' : 'acima de 1/150: danos estruturais';
+        res.innerHTML = 'δ = |' + r1 + ' − ' + r2 + '| = <b>' + d + ' mm</b><br>β = ' + d + ' / ' + fmt(L * 1000) + ' = <span class="num">' + frac + '</span><br>' + cls;
+        cB.innerHTML = 'Distorção P1–P2: <b>' + frac + '</b>';
+      };
+    });
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

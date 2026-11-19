@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 16 — Projeto integrado de monitoramento de uma obra (fechamento da disciplina)</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .dupla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.92rem, 1.3vw, 1.14rem); margin-bottom: .5em; }
+  .fig-contain img { object-fit: contain; background: #fff; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; font-size: 1.25rem; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.92rem, 1.3vw, 1.15rem); }
+  .cards3 .card.ok { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .cards3 .card.duvida { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card.ruim { border-color: var(--magenta); background: rgba(255,43,95,.07); }
+  .cards3 .formula { font-size: 1.3rem; display: block; margin: .3em 0 .5em; color: #fff; }
+  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .versus p, .versus li { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin-bottom: .45em; }
+  .versus.fill { flex: 1 1 0; min-height: 0; }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.35rem; }
+  .timeline.cinco { --n: 5; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-bottom: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); line-height: 1.42; }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .6rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .galeria.legendas .figura figcaption { font-size: .95rem; }
+  .galeria .figura figcaption b { color: var(--amarelo); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  /* tipografia maior nos slides de texto (preencher o cartão) */
+  .versus.fill .lado li, .versus.fill .lado p { font-size: clamp(1.05rem, 1.65vw, 1.42rem); margin-bottom: .6em; }
+  .versus.fill .lado h3 { font-size: 1.45rem; }
+  .versus.fill .lado { display: flex; flex-direction: column; justify-content: center; }
+  .cards3.fill .card { justify-content: center; }
+  .cards3.fill .card p { font-size: clamp(1.05rem, 1.6vw, 1.38rem); }
+  .cards3.fill .card h3 { font-size: 1.6rem; }
+  .cards3.fill .formula { font-size: 1.7rem; margin: .4em 0 .7em; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; margin-bottom: .7em; }
+  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .timeline.grande { margin-top: auto !important; margin-bottom: auto; }
+  .timeline.grande .etapa p { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .timeline.grande .ano { font-size: 1.55rem; }
+  .pk div { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .tabela-industrial.xl td, .tabela-industrial.xl th { font-size: clamp(1.02rem, 1.5vw, 1.3rem) !important; padding: .8em 1em !important; }
+  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+</style>
+<style>
+  .quatro { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .quatro .card { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); border-radius: 12px; padding: 1rem 1.1rem; display: flex; flex-direction: column; justify-content: center; }
+  .quatro .card:nth-child(2) { border-top-color: var(--obra-ciano); }
+  .quatro .card:nth-child(3) { border-top-color: var(--obra-ok); }
+  .quatro .card:nth-child(4) { border-top-color: var(--obra-alerta); }
+  .quatro .card h3 { color: #fff; font-size: 1.3rem; margin: 0 0 .35em; }
+  .quatro .card p { font-size: clamp(1.02rem, 1.5vw, 1.3rem); margin: 0; }
+  .quatro .ico { font-size: 2.4rem; line-height: 1; margin-bottom: .5rem; }
+  .stat-grid.cinco { grid-template-columns: repeat(5, 1fr); margin-top: .4rem; }
+  .stat-grid.cinco .stat-card { padding: .9rem .6rem; }
+  .stat-grid.cinco .numero-grande { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
+  .stat-grid.cinco .legenda { font-size: 1.05rem; }
+  .versus .lado p { font-size: clamp(1.05rem, 1.55vw, 1.35rem); }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.95rem, 1.35vw, 1.18rem); padding: .55em .85em; }
+  .tabela-industrial td.verde { color: var(--verde-claro) !important; font-weight: 800; }
+  .tabela-industrial td.amarelo { color: var(--amarelo) !important; font-weight: 800; }
+  .tabela-industrial td.vermelho { color: var(--magenta) !important; font-weight: 800; }
+  .jornada .etapa p { font-size: clamp(.92rem, 1.3vw, 1.14rem) !important; }
+  .jornada .ano { font-size: 1.3rem !important; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 16 — Projeto integrado de monitoramento">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>Projeto integrado de monitoramento</h1>
+      <div class="subtitulo">Aula 16 — Do primeiro sensor ao último contrato (fechamento da disciplina)</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">Projeto integrado de monitoramento</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>O caso: Residencial Ipê</li>
+          <li>Riscos, grandezas e instrumentação</li>
+          <li>O voo de drone</li>
+          <li>Arquitetura IoT e plano de resposta</li>
+          <li>BIM, gêmeo e IA</li>
+          <li>Gestão: custo, LGPD, segurança e contrato</li>
+          <li>A jornada da disciplina</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg/1280px-Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg'); background-position: 65% 50%" role="img" aria-label="Edifício alto em construção, com a estrutura de concreto e as fachadas envidraçadas inacabadas nos últimos pavimentos e uma grua torre amarela e vermelha acima"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Lembra da atividade da Unidade 1?</p>
+      <h2>Naquela época você tinha os fundamentos. Hoje tem tudo.</h2>
+      <p>Drone, sensores, BIM, IA e gestão. Vamos projetar o monitoramento de uma obra <strong>de ponta a ponta</strong> e, ao fazer isso, revisar a disciplina inteira.</p>
+    </div>
+    <p class="credito">Foto: Gaf.arq — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 4. O caso -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O caso (fictício)</p>
+      <h2>Residencial Ipê: dois subsolos entre dois vizinhos</h2>
+      <div class="stat-grid cinco">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="2">0</span><div class="legenda">subsolos</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="7" data-suf=" m">0</span><div class="legenda">de escavação, cortina de estacas atirantada</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="2400" data-suf=" m²">0</span><div class="legenda">de terreno urbano</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="3" data-suf=" m">0</span><div class="legenda">da divisa: sobrado antigo, fundação rasa</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="4" data-suf=" m">0</span><div class="legenda">de profundidade do lençol; rebaixamento por poços</div></div>
+      </div>
+      <div class="versus" style="margin-top:1.1rem;flex:1 1 0;min-height:0">
+        <div class="lado"><h3>Do outro lado</h3><p>Prédio de <strong>8 pavimentos</strong>, com garagem junto à divisa.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><h3>E a construtora quer</h3><p>Medir <strong>avanço físico e volumes</strong> todo mês, com o BIM 4D contratado.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Canteiro 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>O canteiro do Residencial Ipê, conectado</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="canteiro3d" role="img" aria-label="Cena 3D de um canteiro de obras: um prédio sobe pavimento a pavimento, uma grua gira, sensores pulsam na escavação e no prédio, pacotes de dados viajam até um gateway e depois para a nuvem, e um drone voa em faixas paralelas cobrindo o terreno"></div>
+        <div class="viz-lado">
+          <h3>Tudo o que vimos, num só lugar</h3>
+          <ul>
+            <li><strong>Unidade 1:</strong> malha fechada, incerteza, IoT, regras de voo.</li>
+            <li><strong>Unidade 2:</strong> o drone em faixas: ortomosaico, volumes.</li>
+            <li><strong>Unidade 3:</strong> sensores na escavação e nos vizinhos.</li>
+            <li><strong>Unidade 4:</strong> BIM, IA e gestão amarrando tudo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Riscos e instrumentos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Etapas 1 e 2: riscos primeiro, equipamentos depois</p>
+      <h2>Risco → grandeza → instrumento → frequência</h2>
+      <table class="tabela-industrial grande">
+        <thead><tr><th>Risco</th><th>Grandeza</th><th>Instrumento e posição</th><th>Normal → em atenção</th></tr></thead>
+        <tbody>
+          <tr><td>Dano ao sobrado e ao prédio</td><td>recalque (mm)</td><td>marcos + prismas nos pilares</td><td>diária → a cada 2 h</td></tr>
+          <tr><td>Cortina se deslocando</td><td>deslocamento (mm)</td><td>4 inclinômetros + prismas no topo</td><td>diária → a cada 6 h</td></tr>
+          <tr><td>Água / ruptura de fundo</td><td>nível d'água (m)</td><td>piezômetros atrás da cortina</td><td>15 min → 5 min</td></tr>
+          <tr><td>Perda de carga</td><td>carga (kN)</td><td>células em 10% dos tirantes</td><td>horária</td></tr>
+          <tr><td>Vibração das estacas</td><td>velocidade (mm/s)</td><td>sismógrafo na fundação do sobrado</td><td>contínua na execução</td></tr>
+          <tr><td>Trincas existentes</td><td>abertura (mm)</td><td>fissurômetros + vistoria cautelar</td><td>diária</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p style="margin:0">A <strong>vistoria cautelar</strong>, com fotos datadas antes de qualquer serviço, é o marco zero de toda discussão futura sobre danos.</p></div>
+    </div>
+  </section>
+
+  <!-- 7. Drone -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Etapa 3: o voo</p>
+      <h2>Um voo por mês para volumes e avanço</h2>
+      <div class="cards3 fill">
+        <div class="card ok"><h3>Plano de voo</h3><p>Multirrotor com câmera RGB a <strong>60 m</strong>: GSD ≈ <strong>1,6 cm/px</strong>. Pontos de controle ou RTK. Ortomosaico, MDS e nuvem de pontos.</p></div>
+        <div class="card duvida"><h3>Usos</h3><p><strong>Volume escavado</strong> e avanço para o 4D; voos extras de inspeção de fachadas e coberturas vizinhas (térmica, se houver suspeita).</p></div>
+        <div class="card ruim"><h3>Regras</h3><p>RBAC nº 100, SISANT, SARPAS e, por ser mapeamento em faixas, <strong>aerolevantamento</strong>. Vizinhos: máscara de privacidade.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Arquitetura -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Etapa 4: arquitetura IoT</p>
+      <h2>Do piezômetro ao celular do engenheiro de plantão</h2>
+      <div class="timeline grande" style="--n:4">
+        <div class="etapa"><div class="ano">Percepção</div><p>Sensores e dataloggers a bateria, com amostragem adaptativa.</p></div>
+        <div class="etapa"><div class="ano">Rede</div><p><strong>LoRaWAN</strong> até um gateway com 4G e conexão de reserva.</p></div>
+        <div class="etapa"><div class="ano">Plataforma</div><p>Séries temporais, filtros, regras e limites na nuvem: a sombra digital.</p></div>
+        <div class="etapa"><div class="ano">Aplicação</div><p>Painel com valor, <strong>velocidade e tendência</strong>; alertas por mensagem.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0">A regra crítica do nível d'água roda também <strong>na borda</strong>: a bomba reserva liga mesmo sem internet.</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Malha da cortina -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A malha fechada da cortina</p>
+      <h2>Atenção em 10 mm, alerta em 14 mm</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="malha" data-opts='{"nome":"Deslocamento do topo da cortina","eixo":"deslocamento horizontal (mm)","atencao":10,"alerta":14,"taxa":0.05,"residual":0,"max":26,"rotFechada":"reforço executado","rotAberta":"reforço após o relatório semanal"}' role="img" aria-label="Gráfico animado do deslocamento do topo da cortina ao longo de 20 dias, com atenção em 10 mm e alerta em 14 mm. Em malha fechada, a leitura automática passa a atenção, o reforço é executado e a curva para de subir antes do alerta; em malha aberta, a leitura é semanal, o reforço só vem depois do relatório e a curva passa do alerta."></div>
+        <div class="viz-lado">
+          <h3>Compare os dois modos</h3>
+          <div data-controles></div>
+          <p>Limites do exemplo: alerta em 14 mm (0,2% da altura de 7 m) e atenção em 10 mm. Valores de projeto, não de norma.</p>
+          <p class="mini">Taxa ilustrativa de 1,2 mm/dia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. TARP -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Plano de resposta por cores</p>
+      <h2>Cada limite vira uma ação com dono e prazo</h2>
+      <table class="tabela-industrial grande xl">
+        <thead><tr><th>Nível</th><th>Topo da cortina (exemplo)</th><th>Resposta</th><th>Quem / prazo</th></tr></thead>
+        <tbody>
+          <tr><td class="verde">Verde</td><td>abaixo de 10 mm</td><td>rotina</td><td>equipe de monitoramento</td></tr>
+          <tr><td class="amarelo">Amarelo</td><td>10 a 14 mm</td><td>aumentar frequência, inspecionar, preparar reforço</td><td>engenheiro da obra, em 24 h</td></tr>
+          <tr><td class="vermelho">Vermelho</td><td>acima de 14 mm</td><td>parar a escavação na frente, executar reforço</td><td>projetista + responsável técnico, imediato</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p style="margin:0">O mesmo vale para recalque, nível d'água, carga e vibração. Sem nome e telefone ao lado de cada cor, o plano não funciona às 3h.</p></div>
+    </div>
+  </section>
+
+  <!-- 11. BIM e IA -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Etapas 5 e 6: BIM, gêmeo e IA</p>
+      <h2>O modelo amarra; a IA faz a triagem</h2>
+      <div class="versus fill">
+        <div class="lado">
+          <h3>BIM e sombra digital</h3>
+          <ul>
+            <li>Posição de cada instrumento associada ao <strong>GUID</strong></li>
+            <li><strong>4D</strong> da escavação e das contenções</li>
+            <li>Nuvem de cada voo: <strong>as-built × as-designed</strong></li>
+            <li>Elementos coloridos pelo nível de alerta</li>
+          </ul>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>IA</h3>
+          <ul>
+            <li>Triagem de fissuras novas no sobrado, com <strong>revocação alta</strong></li>
+            <li>O que ela marca, um engenheiro revisa</li>
+            <li>Trinca relevante ganha <strong>fissurômetro</strong></li>
+            <li>Avanço de escavação e estrutura no ortomosaico, direto no 4D</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Painel integrado -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O painel integrado</p>
+      <h2>Valor, velocidade e tendência de cada grandeza</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="painel" role="img" aria-label="Painel com seis quadros: recalque do sobrado, deslocamento da cortina, nível d'água abaixo do fundo, carga no tirante, vibração e volume escavado em relação ao previsto. Cada quadro tem o valor atual, a velocidade, um gráfico das últimas leituras e a cor do nível de resposta. O botão Chuva forte faz o nível d'água subir até a bomba ser acionada na borda e acelera o deslocamento da cortina, que passa para amarelo."></div>
+        <div class="viz-lado">
+          <h3>Simule a madrugada de chuva</h3>
+          <p>Clique em <strong>Chuva forte</strong>: o nível d'água sobe, a regra de borda liga a bomba e a cortina acelera.</p>
+          <p>Repare que a cortina fica <strong>amarela pela velocidade</strong>, antes de o valor chegar ao alerta: é o que permite agir a tempo.</p>
+          <p class="mini">Valores e limites ilustrativos do caso Residencial Ipê.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Calc integrado -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico integrado</p>
+      <h2>Velocidade, volume, GSD e custo</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"x","label":"Deslocamento atual do I-2","min":5,"max":14,"step":0.1,"value":11.5,"unit":"mm"},
+            {"id":"v","label":"Velocidade","min":0.1,"max":3,"step":0.1,"value":1.2,"unit":"mm/dia"},
+            {"id":"ve","label":"Volume escavado medido pelo drone","min":1500,"max":4000,"step":50,"value":3150,"unit":"m³"},
+            {"id":"H","label":"Altura do voo","min":30,"max":120,"step":5,"value":60,"unit":"m"},
+            {"id":"cm","label":"Custo do monitoramento","min":100,"max":1200,"step":10,"value":420,"unit":"R$ mil"}
+          ],
+          "outputs": [
+            {"label":"Dias até o alerta de 14 mm","expr":"x>=14?0:(14-x)/v","unit":"dias","dec":1,"destaque":true},
+            {"label":"Avanço do mês (previsto 3.500 m³)","expr":"ve/3500*100","unit":"%","dec":0},
+            {"label":"GSD do voo","expr":"13.2*H*1000/(8.8*5472)/10","unit":"cm/px","dec":2},
+            {"label":"Custo / obra de R$ 38 mi","expr":"cm/38000*100","unit":"%","dec":2}
+          ],
+          "barras": [{"label":"Atual","expr":"x","unit":"mm","dec":1},{"label":"Atenção","expr":"10","unit":"mm"},{"label":"Alerta","expr":"14","unit":"mm"}],
+          "nota":"11,5 mm a 1,2 mm/dia: (14 − 11,5)/1,2 ≈ 2,1 dias. 3.150/3.500 = 90%. A 60 m, GSD ≈ 1,6 cm/px: ótimo para volume, inútil para fissura. 420/38.000 ≈ 1,1%."
+        }' role="img" aria-label="Calculadora: com deslocamento de 11,5 milímetros subindo 1,2 por dia, o alerta de 14 milímetros chega em cerca de 2,1 dias; o volume escavado é 90 por cento do previsto; o GSD a 60 metros é de 1,6 centímetro por pixel; e o monitoramento custa cerca de 1,1 por cento da obra"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Gestão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Etapa 7: gestão</p>
+      <h2>Faz parte do projeto, não de um anexo esquecido</h2>
+      <div class="quatro">
+        <div class="card"><div class="ico" aria-hidden="true">💰</div><h3>Custo</h3><p>CAPEX, OPEX e horas de análise; justificativa pelo <strong>valor esperado da perda evitada</strong>.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">🛡️</div><h3>LGPD</h3><p>Inventário de dados pessoais, base legal, máscara, desfoque e retenção.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">🔐</div><h3>Segurança</h3><p>Credenciais trocadas, criptografia, contas individuais, logs e cópias.</p></div>
+        <div class="card"><div class="ico" aria-hidden="true">📄</div><h3>Contrato</h3><p>Plano como anexo, plano de resposta, SLA, dados em formato aberto e ART.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Jornada -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">A jornada da disciplina</p>
+      <h2>16 aulas, uma pergunta: a obra está como deveria estar?</h2>
+      <div class="timeline grande jornada" style="--n:4">
+        <div class="etapa"><div class="ano">Unidade 1</div><p>Fundamentos: por que monitorar, malha fechada, gêmeo digital, incerteza, IoT e regras de voo.</p></div>
+        <div class="etapa"><div class="ano">Unidade 2</div><p>O drone em ação: planejamento de voo, fotogrametria, volumes, LiDAR e termografia.</p></div>
+        <div class="etapa"><div class="ano">Unidade 3</div><p>Os sensores: geotécnicos, estruturais e ambientais; séries temporais e alertas.</p></div>
+        <div class="etapa"><div class="ano">Unidade 4</div><p>A integração: BIM e gêmeo, IA e gestão do monitoramento.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0;font-size:1.2rem">O fio que amarra tudo: <strong>medir → comparar com o limite → decidir → agir → medir de novo</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática: seu projeto integrado</p>
+      <h2>Escolha uma obra e entregue o plano em até 5 páginas</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <ol class="lista-num">
+            <li>Riscos e grandezas.</li>
+            <li>Tabela de instrumentação, com frequências.</li>
+            <li>Plano de voo (GSD, controle, regras).</li>
+            <li>Arquitetura e plano de resposta por cores.</li>
+            <li>Integração BIM (4D, as-built, sensores).</li>
+            <li>Uso de IA com métrica de avaliação.</li>
+            <li>Ficha de gestão: custo, LGPD, segurança e contrato.</li>
+          </ol>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Aerial_view_of_the_ELT_construction_site_%28DJI_0911%29.jpg/1280px-Aerial_view_of_the_ELT_construction_site_%28DJI_0911%29.jpg" alt="Vista aérea, feita por drone, de um grande canteiro de obras em terreno desértico avermelhado, com escavação, fundações, estruturas metálicas e uma grua" loading="lazy">
+          <figcaption>Escavação urbana, viaduto, barragem, retrofit hospitalar: o método é o mesmo.</figcaption>
+          <p class="credito">Foto: ESO / Guido Vecchia — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula (e da disciplina)</h2>
+      <div class="pk">
+        <div>Começa pelos <strong>riscos</strong> e termina numa <strong>resposta</strong>: grandeza → instrumento → frequência → limite → ação → responsável.</div>
+        <div>Drone dá <strong>cobertura</strong>; sensores dão <strong>frequência</strong>; topografia dá a <strong>referência</strong>.</div>
+        <div><strong>Valor, velocidade e tendência</strong> decidem juntos; o plano por cores define quem faz o quê.</div>
+        <div>BIM 4D, nuvem de pontos e IA formam a <strong>sombra digital</strong>; o engenheiro fecha a malha.</div>
+        <div>Custo, LGPD, segurança e contrato <strong>fazem parte do projeto</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Obrigado e boa obra!</h1>
+      <p class="fim-texto">Medir, comparar, decidir, agir e medir de novo. Leve a malha fechada para cada obra da sua carreira.</p>
+      <p class="fim-proxima">Fim da disciplina Drones e Sensores IoT no Monitoramento de Obras.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualização própria da Aula 16 */
+(function () {
+  const { canvas2d, loop, hud, chip, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+  /* painel — seis grandezas com valor, velocidade, tendência e nível de resposta */
+  Obra.register('painel', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cHora = chip(h, ''), cEv = chip(h, '');
+    let chuva = false, tChuva = 0, bomba = false;
+    const bt = botoes(host, [
+      ['Chuva forte', (b) => { chuva = true; tChuva = 0; bomba = false; b.classList.add('on'); bt[1].classList.remove('on'); }],
+      ['Condição normal', (b) => { chuva = false; bomba = false; b.classList.add('on'); bt[0].classList.remove('on'); }, true]
+    ]);
+    // inv: true = pior quando diminui (NA abaixo do fundo)
+    const G = [
+      { nome: 'Recalque do sobrado', un: 'mm', v: 4.2, at: 8, al: 12, dec: 1, base: 4.2 },
+      { nome: 'Topo da cortina (I-2)', un: 'mm', v: 7.5, at: 10, al: 14, dec: 1, base: 7.5 },
+      { nome: "NA abaixo do fundo", un: 'm', v: 2.6, at: 2.0, al: 1.0, dec: 2, inv: true, base: 2.6 },
+      { nome: 'Carga no tirante T-14', un: 'kN', v: 412, at: 460, al: 500, dec: 0, base: 412 },
+      { nome: 'Vibração no sobrado', un: 'mm/s', v: 1.1, at: 5, al: 10, dec: 1, base: 1.1 },
+      { nome: 'Volume escavado / previsto', un: '%', v: 90, at: 85, al: 75, dec: 0, inv: true, base: 90 }
+    ];
+    G.forEach((g) => { g.hist = Array.from({ length: 80 }, () => g.v); g.vel = 0; });
+    let acc = 0, hora = 0;
+    const nivel = (g) => {
+      const pior = g.inv ? (a, b) => a <= b : (a, b) => a >= b;
+      if (pior(g.v, g.al)) return 2;
+      if (pior(g.v, g.at)) return 1;
+      // amarelo pela velocidade: alerta em menos de 3 dias (72 h)
+      if (!g.inv && g.vel > 0 && (g.al - g.v) / g.vel < 72) return 1;
+      if (g.inv && g.vel < 0 && (g.v - g.al) / -g.vel < 72) return 1;
+      return 0;
+    };
+    const COR = ['#95DE68', '#F2CB0A', '#FF2B5F'], NOME = ['VERDE', 'AMARELO', 'VERMELHO'];
+    const lp = loop((t, dt) => {
+      acc += dt;
+      while (acc > 0.12) { // cada passo = 1 h de obra
+        acc -= 0.12; hora++;
+        if (chuva) tChuva++;
+        const dNA = chuva ? (bomba ? 0.05 : -0.035) : (G[2].v < G[2].base ? 0.01 : 0);
+        if (chuva && G[2].v < 1.6) bomba = true;
+        const passo = [
+          0.004 + (Math.random() - 0.5) * 0.02,
+          (chuva ? 0.06 : 0.008) * (bomba ? 0.6 : 1) + (Math.random() - 0.5) * 0.03,
+          dNA + (Math.random() - 0.5) * 0.01,
+          (chuva ? 0.5 : 0.05) + (Math.random() - 0.5) * 2,
+          (Math.random() - 0.5) * 0.3 + (G[4].base - G[4].v) * 0.2,
+          (Math.random() - 0.5) * 0.05
+        ];
+        G.forEach((g, k) => {
+          const novo = Math.max(0, g.v + passo[k]);
+          g.vel = g.vel * 0.85 + (novo - g.v) * 0.15; g.v = novo;
+          g.hist.push(g.v); g.hist.shift();
+        });
+        if (!chuva) { G[1].v = Math.max(G[1].base, G[1].v - 0.002); }
+      }
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const cols = 3, rows = 2, top = 86, gap = 12, tw = (W - gap * (cols + 1)) / cols, th = (H - top - gap * (rows + 1)) / rows;
+      G.forEach((g, k) => {
+        const x = gap + (k % cols) * (tw + gap), y = top + gap + Math.floor(k / cols) * (th + gap), n = nivel(g);
+        ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.strokeStyle = COR[n]; ctx.lineWidth = n ? 3 : 1.5;
+        ctx.beginPath(); ctx.roundRect(x, y, tw, th, 12); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText(g.nome, x + 12, y + 22);
+        ctx.fillStyle = COR[n]; ctx.font = '700 11px Montserrat, Arial'; ctx.textAlign = 'right'; ctx.fillText(NOME[n], x + tw - 12, y + 22);
+        ctx.fillStyle = '#fff'; ctx.font = '800 26px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText(fmt(g.v, g.dec) + ' ' + g.un, x + 12, y + 54);
+        const vd = g.vel * 24;
+        ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.8)';
+        ctx.fillText((vd >= 0 ? '▲ ' : '▼ ') + fmt(Math.abs(vd), g.dec) + ' ' + g.un + '/dia', x + 12, y + 74);
+        // sparkline
+        const sx = x + 12, sy = y + 84, sw = tw - 24, sh = th - 96;
+        if (sh > 10) {
+          const vals = g.hist.concat([g.at, g.al]), mn = Math.min(...vals), mx = Math.max(...vals), Y = (v) => sy + sh - (v - mn) / (mx - mn || 1) * sh;
+          [[g.at, '#F2CB0A'], [g.al, '#FF2B5F']].forEach(([lim, c]) => { ctx.strokeStyle = c; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(sx, Y(lim)); ctx.lineTo(sx + sw, Y(lim)); ctx.stroke(); ctx.setLineDash([]); });
+          ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath();
+          g.hist.forEach((v, i) => { const xx = sx + i / (g.hist.length - 1) * sw; i ? ctx.lineTo(xx, Y(v)) : ctx.moveTo(xx, Y(v)); }); ctx.stroke(); ctx.lineWidth = 1;
+        }
+      });
+      cHora.innerHTML = 'Hora de obra <b>' + hora + '</b> (1 h = 0,12 s)';
+      cEv.innerHTML = chuva ? (bomba ? 'Regra de borda: <b>bomba reserva LIGADA</b>' : 'Chuva forte: <b>NA subindo</b>') : 'Condição <b>normal</b>';
+      cEv.classList.toggle('alerta', chuva && !bomba);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

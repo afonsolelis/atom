@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 14 — IA e visão computacional: detecção de fissuras e medição de avanço físico</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .dupla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.92rem, 1.3vw, 1.14rem); margin-bottom: .5em; }
+  .fig-contain img { object-fit: contain; background: #fff; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; font-size: 1.25rem; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.92rem, 1.3vw, 1.15rem); }
+  .cards3 .card.ok { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .cards3 .card.duvida { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card.ruim { border-color: var(--magenta); background: rgba(255,43,95,.07); }
+  .cards3 .formula { font-size: 1.3rem; display: block; margin: .3em 0 .5em; color: #fff; }
+  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .versus p, .versus li { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin-bottom: .45em; }
+  .versus.fill { flex: 1 1 0; min-height: 0; }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.35rem; }
+  .timeline.cinco { --n: 5; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-bottom: .3rem; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); line-height: 1.42; }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .6rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .galeria.legendas .figura figcaption { font-size: .95rem; }
+  .galeria .figura figcaption b { color: var(--amarelo); }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  /* tipografia maior nos slides de texto (preencher o cartão) */
+  .versus.fill .lado li, .versus.fill .lado p { font-size: clamp(1.05rem, 1.65vw, 1.42rem); margin-bottom: .6em; }
+  .versus.fill .lado h3 { font-size: 1.45rem; }
+  .versus.fill .lado { display: flex; flex-direction: column; justify-content: center; }
+  .cards3.fill .card { justify-content: center; }
+  .cards3.fill .card p { font-size: clamp(1.05rem, 1.6vw, 1.38rem); }
+  .cards3.fill .card h3 { font-size: 1.6rem; }
+  .cards3.fill .formula { font-size: 1.7rem; margin: .4em 0 .7em; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; margin-bottom: .7em; }
+  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .timeline.grande { margin-top: auto !important; margin-bottom: auto; }
+  .timeline.grande .etapa p { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .timeline.grande .ano { font-size: 1.55rem; }
+  .pk div { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
+  .tabela-industrial.xl td, .tabela-industrial.xl th { font-size: clamp(1.02rem, 1.5vw, 1.3rem) !important; padding: .8em 1em !important; }
+  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+</style>
+<style>
+  /* matriz de confusão */
+  .matriz { display: grid; grid-template-columns: auto 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: .6rem; flex: 1 1 0; min-height: 0; }
+  .matriz .cab { font: 700 clamp(.85rem, 1.15vw, 1.05rem) var(--fonte); color: var(--amarelo); display: flex; align-items: center; justify-content: center; text-align: center; }
+  .matriz .cel { border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .5rem; }
+  .matriz .cel .numero-grande { font: 900 clamp(2.2rem, 4vw, 3.4rem) var(--fonte-titulo); line-height: 1; }
+  .matriz .cel p { margin: .2em 0 0; font-size: clamp(.85rem, 1.15vw, 1.05rem); }
+  .matriz .vp { background: rgba(149,222,104,.16); border: 2px solid var(--verde-claro); }
+  .matriz .vn { background: rgba(149,222,104,.08); border: 2px solid rgba(149,222,104,.5); }
+  .matriz .fp { background: rgba(242,203,10,.12); border: 2px solid var(--amarelo); }
+  .matriz .fn { background: rgba(255,43,95,.14); border: 2px solid var(--magenta); }
+  .matriz-lado { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; }
+  .metricas { display: flex; flex-direction: column; justify-content: center; gap: .7rem; }
+  .metricas .m { background: rgba(255,255,255,.06); border-left: 5px solid var(--obra-ciano); border-radius: 8px; padding: .65rem 1rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); }
+  .metricas .m .formula { font-size: 1.15em; }
+  .metricas .m.alerta { border-color: var(--magenta); }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(1rem, 1.45vw, 1.25rem); padding: .7em 1em; }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 14 — IA e visão computacional">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>IA e visão computacional na obra</h1>
+      <div class="subtitulo">Aula 14 — Detecção de fissuras e medição de avanço físico</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">IA e visão computacional na obra</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>Classificação, detecção e segmentação</li>
+          <li>Redes neurais convolucionais (CNN)</li>
+          <li>Treinar: dados antes de algoritmo</li>
+          <li>Matriz de confusão, precisão, revocação e F1</li>
+          <li>O limiar e o custo de cada erro</li>
+          <li>Da fissura ao milímetro: o GSD manda</li>
+          <li>Avanço físico com IA e o humano no laço</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Concrete_wall_cracking_as_steel_reinforcing_corrodes_and_swells_9058.jpg/1280px-Concrete_wall_cracking_as_steel_reinforcing_corrodes_and_swells_9058.jpg'); background-position: 60% 40%" role="img" aria-label="Muro de concreto revestido de placas claras com várias fissuras e lascamentos, causados pela corrosão e expansão da armadura, e uma pequena placa de aviso no centro"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">O drone voltou da inspeção</p>
+      <p class="big contador" data-ate="3200">0</p>
+      <h2>fotos de fachada. Quem vai olhar todas?</h2>
+      <p>Um inspetor leva dias e, cansado, deixa passar algo na foto 2.800. A IA revisa tudo em minutos.</p>
+      <p><strong>Mas quanto ela erra? Que tipo de erro? E dá para medir a fissura na foto?</strong></p>
+    </div>
+    <p class="credito">Foto: JonRichfield — Wikimedia Commons (CC BY-SA 3.0)</p>
+  </section>
+
+  <!-- 4. Três tarefas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Visão computacional: extrair informação de imagens</p>
+      <h2>Três tarefas que aparecem o tempo todo na obra</h2>
+      <div class="dupla" style="grid-template-columns:1.2fr 1fr">
+        <div class="slide-content-box">
+          <p><strong>Classificação:</strong> a foto inteira recebe um rótulo, "tem fissura" ou "não tem".</p>
+          <p><strong>Detecção:</strong> uma <em>caixa</em> em volta de cada objeto: capacete, caminhão, armadura exposta. Mede-se pela <strong>IoU</strong>: interseção ÷ união entre a caixa prevista e a de referência (≥ 0,5 costuma contar como acerto).</p>
+          <p><strong>Segmentação:</strong> cada <em>pixel</em> é rotulado (fissura ou concreto). É o que permite <strong>medir</strong> comprimento e largura.</p>
+        </div>
+        <figure class="figura fig-contain">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Intersection_over_Union_-_object_detection_bounding_boxes.jpg" alt="Placa de pare com duas caixas sobrepostas: em verde, a caixa de referência desenhada por uma pessoa; em vermelho, a caixa prevista pelo detector, quase coincidente" loading="lazy">
+          <figcaption>Verde: referência. Vermelho: previsão do detector. IoU alta = boa detecção.</figcaption>
+          <p class="credito">Imagem: Adrian Rosebrock — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CNN -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Rede neural convolucional (CNN)</p>
+      <h2>Um filtro varre a imagem e "acende" onde encontra o padrão</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="cnn" role="img" aria-label="Animação de convolução: à esquerda, um recorte de concreto em tons de cinza com uma fissura escura; uma janela de 3 por 3 pixels percorre a imagem, e à direita se forma o mapa de ativação, que acende ao longo da fissura. Botões trocam o filtro entre borda vertical, borda horizontal e detector de linha escura."></div>
+        <div class="viz-lado">
+          <h3>Troque o filtro</h3>
+          <ul>
+            <li>As primeiras camadas respondem a <strong>bordas</strong> e contrastes; as seguintes, a <strong>texturas</strong>; as últimas, a padrões como "fissura ramificada".</li>
+            <li>Ninguém programa os filtros: eles são <strong>aprendidos</strong> com fotos rotuladas (aprendizado supervisionado).</li>
+            <li>Para segmentar, redes do tipo <strong>U-Net</strong> devolvem a probabilidade de cada pixel ser fissura.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Treinar -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Treinar um modelo</p>
+      <h2>Dados antes de algoritmo</h2>
+      <div class="timeline grande cinco">
+        <div class="etapa"><div class="ano">Coletar</div><p>Concretos, luzes, sombras, manchas e sujeiras diferentes.</p></div>
+        <div class="etapa"><div class="ano">Rotular</div><p>Especialistas marcam o que é fissura (e o que só parece).</p></div>
+        <div class="etapa"><div class="ano">Separar</div><p>Treino, validação e <strong>teste</strong>, que nunca é visto no treino.</p></div>
+        <div class="etapa"><div class="ano">Aumentar</div><p><em>Data augmentation</em>: girar, espelhar, mudar brilho e contraste.</p></div>
+        <div class="etapa"><div class="ano">Testar</div><p>Métricas no conjunto de teste, com fotos novas.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0"><strong>Sobreajuste</strong> (<em>overfitting</em>): acerta tudo no treino e falha em fotos novas, porque decorou. <strong>Transferência de aprendizado</strong>: partir de uma rede treinada em milhões de imagens. Há bases públicas, como a de 40.000 recortes de concreto de Özgenel (2019).</p></div>
+    </div>
+  </section>
+
+  <!-- 7. Galeria -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que a IA vê em campo</p>
+      <h2>Fissuras, estruturas e a inspeção com drone</h2>
+      <div class="galeria legendas" style="--cols:3">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/df/Detail_of_vertical_crack_in_concrete_retaining_wall_at_Medway_Park_Sports_Centre%2C_Gillingham%2C_Kent%2C_England.jpg/1280px-Detail_of_vertical_crack_in_concrete_retaining_wall_at_Medway_Park_Sports_Centre%2C_Gillingham%2C_Kent%2C_England.jpg" alt="Trinca vertical irregular atravessando um muro de contenção de blocos de concreto, do topo até a base" loading="lazy">
+          <figcaption><b>Fissura:</b> fácil para nós, difícil de padronizar</figcaption>
+          <p class="credito">Foto: Sunolafjagtenben-hur — Wikimedia Commons (CC0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Drone_view_of_a_bridge_during_an_inspection.jpg/1280px-Drone_view_of_a_bridge_during_an_inspection.jpg" alt="Vista aérea, feita por drone, de uma ponte de concreto com pilares altos atravessando um vale arborizado" loading="lazy">
+          <figcaption><b>Drone:</b> milhares de fotos por inspeção</figcaption>
+          <p class="credito">Foto: FedericaGaspari — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Drone%27s_eye_view_of_the_inspection_%2849946750172%29.jpg/1280px-Drone%27s_eye_view_of_the_inspection_%2849946750172%29.jpg" alt="Vista de drone de uma longa ponte treliçada sobre um rio, com um caminhão de inspeção amarelo com braço articulado posicionado sob o tabuleiro" loading="lazy">
+          <figcaption><b>Inspeção:</b> o drone complementa o caminhão com braço</figcaption>
+          <p class="credito">Foto: Oregon Department of Transportation — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Matriz de confusão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (a): 1.000 fotos de teste, 80 com fissura</p>
+      <h2>Matriz de confusão: quatro caixas, quatro histórias</h2>
+      <div class="matriz-lado">
+        <div class="matriz">
+          <div></div><div class="cab">Tem fissura (real)</div><div class="cab">Não tem (real)</div>
+          <div class="cab" style="writing-mode:vertical-rl;transform:rotate(180deg)">IA: fissura</div>
+          <div class="cel vp"><span class="numero-grande contador" data-ate="72">0</span><p>VP: fissura detectada</p></div>
+          <div class="cel fp"><span class="numero-grande contador" data-ate="48">0</span><p>FP: mancha tomada por fissura</p></div>
+          <div class="cab" style="writing-mode:vertical-rl;transform:rotate(180deg)">IA: sem fissura</div>
+          <div class="cel fn"><span class="numero-grande contador" data-ate="8">0</span><p>FN: fissura perdida</p></div>
+          <div class="cel vn"><span class="numero-grande contador" data-ate="872">0</span><p>VN: concreto são</p></div>
+        </div>
+        <div class="metricas">
+          <div class="m"><b>Precisão</b> <span class="formula">P = VP/(VP+FP) = 72/120 = 0,60</span><br>dos alarmes, quantos eram fissura?</div>
+          <div class="m"><b>Revocação</b> <span class="formula">R = VP/(VP+FN) = 72/80 = 0,90</span><br>das fissuras, quantas foram achadas?</div>
+          <div class="m"><b>F1</b> <span class="formula">2PR/(P+R) = 0,72</span></div>
+          <div class="m alerta"><b>A armadilha:</b> acurácia de 94,4%. Mas dizer sempre "sem fissura" dá 92% sem achar nenhuma.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Limiar -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O limiar é escolha do engenheiro</p>
+      <h2>Mova o limiar e veja precisão e revocação trocarem de lugar</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="limiar" role="img" aria-label="Dois histogramas da nota que o modelo dá a cada foto: em vermelho, fotos com fissura, concentradas em notas altas; em verde, fotos sem fissura, concentradas em notas baixas, com sobreposição no meio. Uma linha vertical marca o limiar ajustável. Contadores mostram verdadeiros positivos, falsos positivos, falsos negativos, precisão, revocação e F1 para 1.000 fotos."></div>
+        <div class="viz-lado">
+          <h3>Ajuste o limiar</h3>
+          <div data-controles></div>
+          <p><strong>Limiar baixo:</strong> acha quase todas as fissuras (revocação alta), com mais alarmes falsos.</p>
+          <p><strong>Limiar alto:</strong> poucos alarmes falsos, mas fissuras perdidas.</p>
+          <p class="mini">1.000 fotos, 80 com fissura. Distribuição das notas ilustrativa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. FP x FN -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Nem todo erro custa igual</p>
+      <h2>Falso positivo × falso negativo</h2>
+      <div class="versus fill">
+        <div class="lado">
+          <h3>Falso positivo</h3>
+          <ul>
+            <li>Uma mancha, uma junta ou uma sombra vira "fissura"</li>
+            <li>Custo: <strong>minutos de revisão</strong> do engenheiro</li>
+            <li>Excesso de alarmes cansa a equipe, então não pode ser absurdo</li>
+          </ul>
+        </div>
+        <div class="vs">×</div>
+        <div class="lado novo" style="border-color:var(--magenta);background:rgba(255,43,95,.08)">
+          <h3>Falso negativo</h3>
+          <ul>
+            <li>Uma fissura real passa despercebida</li>
+            <li>Custo: <strong>dano que evolui sem resposta</strong></li>
+            <li>Em segurança estrutural, é o erro mais caro: priorize <strong>revocação</strong></li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;margin-bottom:.3rem;background:rgba(0,0,0,.25)"><p style="margin:0">Regra prática: <strong>limiar que dê revocação alta + revisão humana</strong> de tudo que a IA marcar.</p></div>
+    </div>
+  </section>
+
+  <!-- 11. GSD calc -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (b): detectar não é medir</p>
+      <h2>Quantos pixels cabem sobre a fissura?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"D","label":"Distância à fachada D","min":0.5,"max":10,"step":0.1,"value":5,"unit":"m"},
+            {"id":"f","label":"Distância focal real f","min":4,"max":100,"step":0.1,"value":8.8,"unit":"mm"},
+            {"id":"w","label":"Largura da fissura","min":0.1,"max":2,"step":0.05,"value":0.3,"unit":"mm"}
+          ],
+          "outputs": [
+            {"label":"GSD = S<sub>w</sub>·D/(f·W)","expr":"13.2*D*1000/(f*5472)","unit":"mm/px","dec":2},
+            {"label":"Pixels sobre a fissura","expr":"w/o1","unit":"px","dec":2},
+            {"label":"Resultado","expr":"o2>=2?\"MEDE a largura\":(o2>=0.3?\"talvez DETECTE, não mede\":\"não mede\")","destaque":true},
+            {"label":"Distância para 2 px (com este f)","expr":"(w/2)*f*5472/13.2/1000","unit":"m","dec":2}
+          ],
+          "barras": [{"label":"Pixels sobre a fissura","expr":"o2","unit":"px","dec":2},{"label":"Mínimo para medir","expr":"2","unit":"px"}],
+          "nota":"Sensor S<sub>w</sub> = 13,2 mm e W = 5.472 px. A 5 m e f = 8,8 mm: GSD ≈ 1,37 mm/px; 0,3 mm ocupa 0,22 px. Para 2 px: voar a ≈ 0,55 m ou usar f ≈ 80 mm a 5 m."
+        }' role="img" aria-label="Calculadora: com a câmera a 5 metros e distância focal de 8,8 milímetros, o GSD é de 1,37 milímetro por pixel e uma fissura de 0,3 milímetro ocupa 0,22 pixel, abaixo dos 2 pixels necessários para medir"></div>
+        <div class="viz-lado">
+          <h3>Mexa nos controles</h3>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. NBR 6118 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Por que submilímetro importa</p>
+      <h2>Abertura máxima de fissuras: ABNT NBR 6118 (concreto armado)</h2>
+      <table class="tabela-industrial grande xl">
+        <thead><tr><th>Classe de agressividade ambiental</th><th>Abertura característica limite w<sub>k</sub></th><th>GSD para medir (2 px)</th></tr></thead>
+        <tbody>
+          <tr><td>CAA I</td><td>≤ 0,4 mm</td><td>≤ 0,20 mm/px</td></tr>
+          <tr><td>CAA II e III</td><td>≤ 0,3 mm</td><td>≤ 0,15 mm/px</td></tr>
+          <tr><td>CAA IV</td><td>≤ 0,2 mm</td><td>≤ 0,10 mm/px</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p style="margin:0">Fissuras finas podem <strong>aparecer</strong> na foto pelo contraste da sombra, mas a largura não é confiável. A IA faz a <strong>triagem</strong>; o <strong>fissurômetro</strong> da Unidade 3 acompanha a abertura.</p></div>
+    </div>
+  </section>
+
+  <!-- 13. Foto avanço -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Livana_Colts_Neck_Under_Construction%2C_September_2025_%28Aerial%29.jpg/1280px-Livana_Colts_Neck_Under_Construction%2C_September_2025_%28Aerial%29.jpg'); background-position: 50% 55%" role="img" aria-label="Vista aérea de um condomínio residencial em construção, com cerca de vinte edifícios em estágios diferentes, alguns com cobertura pronta e outros só com estrutura, sobre terreno de terra cercado de mata e campos"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Avanço físico com visão computacional</p>
+      <h2>Cada prédio, um estágio diferente</h2>
+      <p>No ortomosaico ou em câmeras fixas, a IA reconhece <strong>formas, armaduras, lajes concretadas, alvenaria e cobertura</strong>.</p>
+      <p>Cruzando com o <strong>BIM 4D</strong> da Aula 13, o percentual executado sai por elemento, sem planilha preenchida à mão.</p>
+    </div>
+    <p class="credito">Foto: Szeremeta — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 14. Avanço viz -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">IA + 4D</p>
+      <h2>A IA classifica cada laje; o 4D diz o que era esperado</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="avanco" role="img" aria-label="Vista de cima de um pavimento dividido em 12 trechos de laje. Uma varredura da IA classifica cada trecho como fôrma, armação ou concretado, com cores e a confiança da classificação; contadores comparam o avanço medido pela IA com o previsto no 4D, semana a semana."></div>
+        <div class="viz-lado">
+          <h3>Como se calcula</h3>
+          <p>Cada estágio vale um peso: <strong>fôrma 30%</strong>, <strong>armação 60%</strong>, <strong>concretado 100%</strong>.</p>
+          <p>Avanço = média ponderada dos trechos, comparada ao previsto no 4D.</p>
+          <p>Trechos com <strong>confiança baixa</strong> vão para revisão humana.</p>
+          <p class="mini">Pesos e cronograma ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Humano no laço -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Limites da IA</p>
+      <h2>A IA faz a triagem; o engenheiro decide</h2>
+      <div class="cards3 fill">
+        <div class="card duvida"><h3>Dados enviesados</h3><p>Treinada só com concreto claro e sol, erra em fachada escura, molhada ou suja. O teste precisa parecer a obra.</p></div>
+        <div class="card ruim"><h3>Causa e gravidade</h3><p>Retração, recalque ou corrosão? Ativa ou estabilizada? Isso é diagnóstico de engenharia, com responsabilidade técnica.</p></div>
+        <div class="card ok"><h3>Pessoas na imagem</h3><p>Câmeras com IA que detectam capacete também filmam trabalhadores. Privacidade é assunto da Aula 15.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática</p>
+      <h2>Qual limiar usar na inspeção do viaduto?</h2>
+      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+        <div class="slide-content-box">
+          <p>Inspeção com IA em <strong>2.000 fotos</strong> de um viaduto:</p>
+          <ol class="lista-num">
+            <li><strong>Limiar 0,5:</strong> VP = 120, FP = 30, FN = 30.</li>
+            <li><strong>Limiar 0,3:</strong> VP = 141, FP = 94, FN = 9.</li>
+            <li>Calcule P, R e F1 das duas opções.</li>
+            <li>Decida qual usar numa inspeção de segurança e estime quantas fotos a equipe revisará em cada caso.</li>
+          </ol>
+        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Drone_view_of_a_bridge_during_an_inspection.jpg/1280px-Drone_view_of_a_bridge_during_an_inspection.jpg" alt="Vista aérea, feita por drone, de uma ponte de concreto com pilares altos atravessando um vale arborizado" loading="lazy">
+          <figcaption>Cada foto marcada pela IA passa por um engenheiro.</figcaption>
+          <p class="credito">Foto: FedericaGaspari — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="pk">
+        <div>Três tarefas: <strong>classificação</strong>, <strong>detecção</strong> (caixas, IoU) e <strong>segmentação</strong> (pixel a pixel, permite medir).</div>
+        <div>CNNs aprendem filtros com <strong>dados rotulados</strong>: separe treino, validação e teste; use <em>data augmentation</em>; evite <em>overfitting</em>.</div>
+        <div>Avalie com <strong>precisão, revocação e F1</strong>, não com acurácia; em segurança, o <strong>falso negativo</strong> custa mais.</div>
+        <div>Medir largura exige <strong>≥ 2 pixels</strong> sobre a fissura: o <strong>GSD</strong> decide.</div>
+        <div>IA faz <strong>triagem</strong> e mede avanço com o 4D; a decisão e a responsabilidade técnica são do engenheiro.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>IA e visão computacional na obra</h1>
+      <p class="fim-texto">Vale o que custa? Pode filmar? Está seguro? De quem são os dados?</p>
+      <p class="fim-proxima">Próxima aula: Aula 15 — Gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos.</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* Visualizações próprias da Aula 14 */
+(function () {
+  const { canvas2d, loop, slider, hud, chip, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const rng = (seed) => () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+
+  /* cnn — convolução 3×3 sobre um recorte de concreto com fissura */
+  Obra.register('cnn', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cF = chip(h, '');
+    const NX = 40, NY = 26, r = rng(7);
+    // imagem: concreto (ruído) + fissura escura sinuosa
+    const img = [];
+    for (let y = 0; y < NY; y++) { img.push([]); for (let x = 0; x < NX; x++) img[y].push(0.62 + (r() - 0.5) * 0.18); }
+    let cx = 6;
+    for (let y = 0; y < NY; y++) {
+      cx += Math.sin(y * 0.55) * 0.9 + (y > 13 ? 0.6 : 0.2);
+      const xi = Math.round(cx);
+      if (xi >= 0 && xi < NX) img[y][xi] = 0.12 + r() * 0.06;
+      if (xi + 1 < NX && y % 3 === 0) img[y][xi + 1] = 0.25;
+      if (y === 12) for (let k = 1; k < 9; k++) if (xi + k < NX) img[y + (k > 4 ? 1 : 0)][xi + k] = 0.18; // ramificação
+    }
+    const FILTROS = [
+      ['Borda vertical', [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]],
+      ['Borda horizontal', [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]],
+      ['Linha escura (fissura)', [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]].map((l) => l.map((v) => -v))]
+    ];
+    let fi = 2, t0 = 0;
+    const btns = botoes(host, FILTROS.map(([n], k) => [n, () => { fi = k; t0 = lp.t; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === fi]));
+    const conv = (k) => {
+      const out = [];
+      for (let y = 1; y < NY - 1; y++) { out.push([]); for (let x = 1; x < NX - 1; x++) { let s = 0; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) s += img[y + j][x + i] * k[j + 1][i + 1]; out[y - 1].push(Math.abs(s)); } }
+      return out;
+    };
+    const mapas = FILTROS.map(([, k]) => { const m = conv(k); const mx = Math.max(...m.flat()); return m.map((l) => l.map((v) => v / mx)); });
+    const lp = loop((t) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const cel = Math.min((W - 120) / (2 * NX), (H - 110) / NY), gx = (W - 2 * NX * cel - 60) / 2, gy = 60;
+      // imagem
+      for (let y = 0; y < NY; y++) for (let x = 0; x < NX; x++) { const v = Math.round(img[y][x] * 255); ctx.fillStyle = `rgb(${v},${v},${v})`; ctx.fillRect(gx + x * cel, gy + y * cel, cel, cel); }
+      const ox2 = gx + NX * cel + 60;
+      ctx.fillStyle = '#000'; ctx.fillRect(ox2, gy, NX * cel, NY * cel);
+      const tot = (NX - 2) * (NY - 2), n = Math.min(tot, Math.floor((t - t0) * 260));
+      const m = mapas[fi];
+      for (let k = 0; k < n; k++) { const y = Math.floor(k / (NX - 2)), x = k % (NX - 2); const v = m[y][x]; ctx.fillStyle = `rgba(242,203,10,${Math.min(1, v * 1.3)})`; ctx.fillRect(ox2 + (x + 1) * cel, gy + (y + 1) * cel, cel, cel); }
+      // janela 3x3
+      if (n < tot) { const y = Math.floor(n / (NX - 2)), x = n % (NX - 2); ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.strokeRect(gx + x * cel, gy + y * cel, 3 * cel, 3 * cel); ctx.strokeRect(ox2 + (x + 1) * cel, gy + (y + 1) * cel, cel, cel); ctx.lineWidth = 1; }
+      ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('Imagem (recorte de concreto)', gx + NX * cel / 2, gy + NY * cel + 22);
+      ctx.fillText('Mapa de ativação do filtro', ox2 + NX * cel / 2, gy + NY * cel + 22);
+      ctx.font = '700 22px Montserrat, Arial'; ctx.fillText('→', gx + NX * cel + 30, gy + NY * cel / 2);
+      const k = FILTROS[fi][1];
+      cF.innerHTML = 'Filtro <b>' + FILTROS[fi][0] + '</b>: [' + k.map((l) => l.join(' ')).join(' | ') + ']';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* limiar — histogramas das notas e métricas para 1.000 fotos (80 com fissura) */
+  Obra.register('limiar', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sL = slider(p, { id: 'l', label: 'Limiar de decisão', min: 0.05, max: 0.95, step: 0.01, value: 0.5, unit: '' });
+    const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+    const { ctx } = canvas2d(host);
+    const r = rng(42);
+    const normal = () => { let s = 0; for (let i = 0; i < 6; i++) s += r(); return (s - 3) / Math.sqrt(0.5); };
+    const clip = (v) => Math.max(0.005, Math.min(0.995, v));
+    const pos = Array.from({ length: 80 }, () => clip(0.72 + 0.16 * normal()));
+    const neg = Array.from({ length: 920 }, () => clip(0.22 + 0.15 * normal()));
+    const NB = 30;
+    const hist = (a) => { const hh = new Array(NB).fill(0); a.forEach((v) => hh[Math.min(NB - 1, Math.floor(v * NB))]++); return hh; };
+    const hp = hist(pos), hn = hist(neg);
+    let lAt = +sL.value;
+    const lp = loop((t, dt) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      lAt += (+sL.value - lAt) * Math.min(1, dt * 8);
+      const L = +sL.value;
+      const VP = pos.filter((v) => v >= L).length, FN = 80 - VP, FP = neg.filter((v) => v >= L).length, VN = 920 - FP;
+      const P = VP + FP ? VP / (VP + FP) : 0, R = VP / 80, F = P + R ? 2 * P * R / (P + R) : 0;
+      const ml = 50, mr = 20, mt = 30, mb = 150, gw = W - ml - mr, gh = H - mt - mb;
+      const mx = Math.max(...hn.map((v) => Math.sqrt(v)), ...hp.map((v) => Math.sqrt(v)));
+      const bw = gw / NB;
+      // escala raiz para os dois grupos aparecerem
+      for (let b = 0; b < NB; b++) {
+        const hN = Math.sqrt(hn[b]) / mx * gh, hP = Math.sqrt(hp[b]) / mx * gh;
+        ctx.fillStyle = 'rgba(149,222,104,.55)'; ctx.fillRect(ml + b * bw + 1, mt + gh - hN, bw - 2, hN);
+        ctx.fillStyle = 'rgba(255,43,95,.7)'; ctx.fillRect(ml + b * bw + bw * 0.25, mt + gh - hP, bw * 0.5, hP);
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(ml, mt + gh); ctx.lineTo(ml + gw, mt + gh); ctx.stroke();
+      ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'center';
+      for (let k = 0; k <= 10; k += 2) ctx.fillText(fmt(k / 10, 1), ml + gw * k / 10, mt + gh + 16);
+      ctx.fillText('nota do modelo (probabilidade de fissura)', ml + gw / 2, mt + gh + 32);
+      const xl = ml + gw * lAt;
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xl, mt - 8); ctx.lineTo(xl, mt + gh); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 13px Montserrat, Arial'; ctx.fillText('limiar ' + fmt(L, 2), xl, mt - 12);
+      ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(149,222,104,1)'; ctx.fillText('■ sem fissura (920)', ml + gw - 6, mt + 8);
+      ctx.fillStyle = '#FF2B5F'; ctx.fillText('■ com fissura (80)', ml + gw - 6, mt + 26); ctx.textAlign = 'left';
+      // mini matriz
+      const by = mt + gh + 50, cw = Math.min(150, gw / 4.4), ch = 70;
+      const cels = [['VP', VP, 'rgba(149,222,104,.25)', '#95DE68'], ['FP', FP, 'rgba(242,203,10,.2)', '#F2CB0A'], ['FN', FN, 'rgba(255,43,95,.25)', '#FF2B5F'], ['VN', VN, 'rgba(149,222,104,.1)', 'rgba(149,222,104,.6)']];
+      cels.forEach(([n, v, bg, bd], k) => {
+        const x = ml + k * (cw + 10);
+        ctx.fillStyle = bg; ctx.strokeStyle = bd; ctx.lineWidth = 2; ctx.beginPath(); ctx.roundRect(x, by, cw, ch, 10); ctx.fill(); ctx.stroke(); ctx.lineWidth = 1;
+        ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 13px Montserrat, Arial'; ctx.fillText(n, x + cw / 2, by + 22);
+        ctx.font = '800 26px Montserrat, Arial'; ctx.fillText(fmt(v), x + cw / 2, by + 55);
+      });
+      res.innerHTML = 'Precisão P: <b>' + fmt(P, 2) + '</b><br>Revocação R: <b>' + fmt(R, 2) + '</b><br>F1: <span class="num">' + fmt(F, 2) + '</span><br><small>Fotos a revisar: ' + fmt(VP + FP) + ' · fissuras perdidas: ' + FN + '</small>';
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* avanco — classificação de 12 trechos de laje pela IA × previsto no 4D */
+  Obra.register('avanco', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cIA = chip(h, ''), cPl = chip(h, ''), cRev = chip(h, '');
+    const EST = ['vazio', 'fôrma', 'armação', 'concretado'], PESO = [0, 0.3, 0.6, 1];
+    const COR = ['rgba(255,255,255,.08)', 'rgba(255,138,31,.75)', 'rgba(43,217,254,.75)', 'rgba(185,188,194,.95)'];
+    // semanas: estado real de cada trecho e previsto no 4D
+    const SEM = [
+      { nome: 'Semana 10', real: [3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0], prev: 0.62, conf: [.97, .95, .96, .93, .88, .91, .62, .9, .86, .93, .97, .98] },
+      { nome: 'Semana 11', real: [3, 3, 3, 3, 3, 3, 2, 2, 2, 1, 1, 0], prev: 0.78, conf: [.98, .97, .95, .96, .94, .9, .89, .58, .9, .92, .87, .97] },
+      { nome: 'Semana 12', real: [3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 1], prev: 0.92, conf: [.98, .97, .96, .97, .95, .96, .93, .94, .91, .55, .9, .92] }
+    ];
+    let s = 0, t0 = 0;
+    const btns = botoes(host, SEM.map((w, k) => [w.nome, () => { s = k; t0 = lp.t; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === 0]));
+    const lp = loop((t) => {
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const cols = 4, rows = 3, gw = Math.min(W - 80, (H - 150) * 1.6), cw = gw / cols, ch = (gw / 1.6) / rows, ox = (W - gw) / 2, oy = 70;
+      const w = SEM[s], prog = Math.min(1, (t - t0) * 0.45);
+      let soma = 0, rev = 0, vistos = 0;
+      w.real.forEach((e, k) => {
+        const x = ox + (k % cols) * cw, y = oy + Math.floor(k / cols) * ch;
+        ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(x + 3, y + 3, cw - 6, ch - 6);
+        const visto = (k + 1) / 12 <= prog + 1e-6;
+        if (visto) {
+          vistos++; soma += PESO[e];
+          ctx.fillStyle = COR[e]; ctx.fillRect(x + 3, y + 3, cw - 6, ch - 6);
+          if (e === 2) { ctx.strokeStyle = 'rgba(255,255,255,.5)'; for (let i = 8; i < cw - 6; i += 10) { ctx.beginPath(); ctx.moveTo(x + i, y + 4); ctx.lineTo(x + i, y + ch - 4); ctx.stroke(); } }
+          ctx.fillStyle = e === 3 ? '#002057' : '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center';
+          ctx.fillText(EST[e], x + cw / 2, y + ch / 2 - 2);
+          ctx.font = '12px Montserrat, Arial'; ctx.fillText('confiança ' + fmt(w.conf[k] * 100) + '%', x + cw / 2, y + ch / 2 + 16);
+          if (w.conf[k] < 0.7) { rev++; ctx.strokeStyle = '#FF2B5F'; ctx.lineWidth = 4; ctx.strokeRect(x + 5, y + 5, cw - 10, ch - 10); ctx.lineWidth = 1; }
+        }
+        ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.strokeRect(x + 3, y + 3, cw - 6, ch - 6);
+      });
+      if (prog < 1) { const xs = ox + gw * (prog % 1); ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(ox, oy + ch * rows * prog); ctx.lineTo(ox + gw, oy + ch * rows * prog); ctx.stroke(); ctx.lineWidth = 1; void xs; }
+      // legenda
+      ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      EST.slice(1).forEach((e, k) => { const x = ox + k * 150, y = oy + ch * rows + 26; ctx.fillStyle = COR[k + 1]; ctx.fillRect(x, y - 11, 14, 14); ctx.fillStyle = '#fff'; ctx.fillText(e + ' (' + fmt(PESO[k + 1] * 100) + '%)', x + 20, y); });
+      ctx.fillStyle = '#FF2B5F'; ctx.fillText('▢ confiança < 70%: revisão humana', ox, oy + ch * rows + 46);
+      const av = soma / 12;
+      cIA.innerHTML = 'Avanço medido pela IA <b>' + fmt(av * 100, 1) + '%</b>';
+      cPl.innerHTML = 'Previsto no 4D <b>' + fmt(w.prev * 100) + '%</b>';
+      cRev.innerHTML = 'Para revisar: <b>' + rev + '</b> trecho(s)';
+      cIA.classList.toggle('alerta', vistos === 12 && av < w.prev - 0.05);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>

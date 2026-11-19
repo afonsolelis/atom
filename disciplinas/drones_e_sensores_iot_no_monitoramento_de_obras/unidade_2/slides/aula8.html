@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 8 — LiDAR embarcado e termografia na inspeção de estruturas e fachadas</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../assets/deck.css">
+<link rel="stylesheet" href="../../assets/obra.css">
+<style>
+  /* extras desta aula */
+  .slide-foto > .credito { right: auto; left: .8rem; }
+  .foto-direita .slide-content { max-width: 46%; }
+  .galeria .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
+  .galeria.legendas .figura figcaption { font-size: .88rem; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.86rem, 1.15vw, 1.08rem); }
+  .cards3 .card.quente { border-color: var(--obra-laranja); background: rgba(255,138,31,.08); }
+  .cards3 .card.fria { border-color: var(--obra-ciano); background: rgba(43,217,254,.08); }
+  .cards3 .card.ponte { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
+  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .42em .8em; font-size: clamp(.82rem, 1.08vw, 1.02rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
+  .fecho .lado p, .fecho .pontos li { font-size: clamp(.9rem, 1.2vw, 1.12rem); margin-bottom: .45em; }
+  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
+  .timeline.grande .ano { font-size: 1.35rem; }
+  .stat-grid.quatro { grid-template-columns: repeat(4, 1fr); }
+  .stat-grid.quatro .stat-card { padding: .9rem .6rem; }
+  .stat-grid.quatro .numero-grande { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .stat-grid.quatro .legenda { font-size: .86rem; }
+  .texto-fotos { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; }
+  .texto-fotos .texto p, .texto-fotos .texto li { font-size: clamp(.86rem, 1.15vw, 1.08rem); }
+  .texto-fotos .figura { min-height: 0; }
+  .tab-rodape { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; margin-top: .8rem; }
+  .tab-rodape .callout-azul p { font-size: clamp(.86rem, 1.1vw, 1.04rem); }
+</style>
+</head>
+<body>
+<script src="../../assets/sprite.js"></script>
+
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 8 — LiDAR embarcado e termografia">
+
+  <!-- 1. Capa -->
+  <section class="slide slide-capa">
+    <div class="capa-canto capa-tl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-1"/></svg></div>
+    <div class="capa-canto capa-tr" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-2"/></svg></div>
+    <div class="capa-canto capa-bl" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-3"/></svg></div>
+    <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
+    <div class="slide-content">
+      <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+      <h1>LiDAR e termografia</h1>
+      <div class="subtitulo">Aula 8 — LiDAR embarcado e termografia na inspeção de estruturas e fachadas</div>
+      <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
+    </div>
+  </section>
+
+  <!-- 2. Sumário -->
+  <section class="slide slide-sumario">
+    <div class="sumario-grid">
+      <div class="sumario-lado-claro">
+        <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+        <h1 class="sumario-titulo">LiDAR e termografia</h1>
+      </div>
+      <div class="sumario-lado-escuro">
+        <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+        <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
+        <h2>Sumário</h2>
+        <ul>
+          <li>LiDAR: medir distância com luz</li>
+          <li>Múltiplos retornos e o chão sob a mata, em 3D</li>
+          <li>Densidade de pontos e exatidão</li>
+          <li>LiDAR × fotogrametria</li>
+          <li>Termografia: emissividade e reflexos</li>
+          <li>Descolamento, umidade e pontes térmicas</li>
+          <li>Distância, IFOV e o menor defeito visível</li>
+          <li>Fechamento da unidade e prévia da Unidade 3</li>
+        </ul>
+        <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Foto: dois pedidos -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Drone_with_Lidar.jpg/1280px-Drone_with_Lidar.jpg'); background-size: auto 100%; background-position: calc(100% + 160px) center; background-color: #0b1a33" role="img" aria-label="Drone quadricóptero cinza pousado sobre cascalho, com um sensor LiDAR cilíndrico azul e uma unidade de controle montados sob a fuselagem, com vegetação ao fundo"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Dois pedidos no mesmo dia</p>
+      <h2>Nenhum dos dois se resolve com a câmera RGB</h2>
+      <p><strong>1.</strong> Levantar o <strong>terreno natural</strong> de uma encosta coberta de mata, por onde vai passar o acesso da obra. A fotogrametria da semana passada só "viu" a copa das árvores.</p>
+      <p><strong>2.</strong> Um condomínio de 15 anos, com fachada em <strong>revestimento cerâmico</strong>, quer saber onde as placas estão <strong>descolando</strong> antes que uma caia na calçada.</p>
+      <p>As respostas: <strong>LiDAR embarcado</strong> e <strong>câmera térmica</strong>.</p>
+    </div>
+    <p class="credito">Foto: Jonte — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 4. LiDAR: princípio -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">LiDAR · <em>light detection and ranging</em></p>
+      <h2>Medir distância com luz: o tempo de ida e volta</h2>
+      <div class="stat-grid quatro">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="80" data-suf=" m">0</span><div class="legenda">distância do drone ao alvo</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="533" data-suf=" ns">0</span><div class="legenda">tempo de ida e volta do pulso</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="240" data-suf=" mil/s">0</span><div class="legenda">pulsos por segundo (PRR do exemplo)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="2" data-pre="÷ ">0</span><div class="legenda">o pulso vai e volta; não precisa de sol: voa à noite</div></div>
+      </div>
+      <div class="versus" style="margin-top:1rem">
+        <div class="lado">
+          <h3>A distância</h3>
+          <p><span class="formula">R = c · Δt / 2</span>, com <span class="formula">c ≈ 3 × 10⁸ m/s</span>. Divide-se por 2 porque o pulso vai e volta.</p>
+          <p>Alvo a 80 m: <span class="formula">Δt = 2 × 80 / 3 × 10⁸ ≈ 533 ns</span>.</p>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>A posição do ponto</h3>
+          <p>Distância + <strong>ângulo do feixe</strong> + <strong>posição</strong> do drone (GNSS RTK/PPK) + <strong>atitude</strong> do drone (IMU de alta qualidade) = um ponto <strong>X, Y, Z</strong> por pulso.</p>
+          <p class="mini">Ao contrário da fotogrametria, o LiDAR mede a distância diretamente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Múltiplos retornos (2D) -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Animação</p>
+      <h2>Um pulso, vários retornos</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="retornos" role="img" aria-label="Animação de um pulso de laser descendo de um drone a 80 metros de altura. Sobre solo exposto, volta um único eco, em 533 nanossegundos. Sobre uma árvore, o pulso devolve três ecos: da copa, de um galho e do chão, mostrados como picos num gráfico de intensidade em função do tempo, com a distância de cada um."></div>
+        <div class="viz-lado">
+          <h3>Troque o alvo nos botões</h3>
+          <p>O feixe chega ao alvo com alguns centímetros de diâmetro. Numa árvore, parte da energia volta da <strong>copa</strong>, parte de <strong>galhos</strong> e parte do <strong>chão</strong>.</p>
+          <p>O <strong>primeiro retorno</strong> descreve a superfície (MDS); o <strong>último</strong>, quando é solo, permite o <strong>MDT sob a vegetação</strong>.</p>
+          <p class="mini">Atenção: o laser <strong>não atravessa</strong> folhas. Ele passa pelos <strong>vãos</strong> entre elas; mata muito fechada deixa poucos pontos no chão.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LiDAR 3D -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Explore em 3D</p>
+      <h2>A encosta com mata, varrida pelo laser</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="lidar3d" role="img" aria-label="Cena 3D de uma encosta coberta de árvores. Um drone percorre a área emitindo um leque de feixes de laser, e os pontos medidos vão se acumulando. No modo primeiro retorno, os pontos desenham a copa das árvores, em verde; no modo último retorno, as árvores ficam transparentes e os pontos mostram o terreno, colorido por cota, com menos pontos sob as copas."></div>
+        <div class="viz-lado">
+          <h3>Primeiro × último retorno</h3>
+          <p>O drone varre a encosta num <strong>leque de ±35°</strong>. Cada ponto é um eco.</p>
+          <p><strong>Primeiro retorno (MDS):</strong> a nuvem desenha a copa, como a fotogrametria veria.</p>
+          <p><strong>Último retorno (MDT):</strong> as árvores somem e aparece o <strong>terreno natural</strong>, com menos pontos sob as copas mais fechadas.</p>
+          <p class="mini">Escala didática: a cena tem cerca de 120 × 70 m, e o drone foi ampliado para ser visto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. O que o LiDAR entrega -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O produto do LiDAR</p>
+      <h2>Nuvens de pontos de verdade</h2>
+      <div class="galeria legendas" style="--cols:2">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/BNF_Lidar_HD.png/1280px-BNF_Lidar_HD.png" alt="Nuvem de pontos LiDAR aérea colorida por altura, mostrando quatro torres em forma de L ao redor de um grande pátio retangular arborizado, com edifícios e ruas do entorno" loading="lazy">
+          <figcaption><b>Edificações e árvores</b>Nuvem LiDAR aérea colorida pela altura: as torres, o pátio arborizado e o entorno, ponto a ponto.</figcaption>
+          <p class="credito">Imagem: FuzzyGeo — Wikimedia Commons (CC BY 4.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Austin_Texas_LiDAR_Point_Cloud_%28Highway_183%29.png/1280px-Austin_Texas_LiDAR_Point_Cloud_%28Highway_183%29.png" alt="Nuvem de pontos LiDAR de um grande trevo rodoviário com alças e viadutos, cercado de vegetação e de quarteirões, vista de cima em tons de verde" loading="lazy">
+          <figcaption><b>Corredores de infraestrutura</b>Trevo rodoviário levantado por LiDAR: alças, viadutos e a vegetação do entorno.</figcaption>
+          <p class="credito">Imagem: Rebecca equator — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Densidade e exatidão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (a)</p>
+      <h2>Densidade de pontos e exatidão de um LiDAR embarcado</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"P","label":"Taxa de pulsos (PRR)","min":100,"max":500,"step":20,"value":240,"unit":"kHz"},
+            {"id":"H","label":"Altura de voo H","min":40,"max":120,"step":5,"value":80,"unit":"m"},
+            {"id":"F","label":"Campo de visão (FOV)","min":40,"max":90,"step":5,"value":70,"unit":"°"},
+            {"id":"v","label":"Velocidade v","min":4,"max":15,"step":1,"value":8,"unit":"m/s"},
+            {"id":"e","label":"Erro de atitude da IMU δθ","min":0.01,"max":0.1,"step":0.01,"value":0.05,"unit":"°"}
+          ],
+          "outputs": [
+            {"label":"Largura da faixa W = 2H·tan(FOV/2)","expr":"2*H*Math.tan(F/2*Math.PI/180)","unit":"m","dec":0},
+            {"label":"Densidade ρ ≈ PRR/(v·W)","expr":"P*1000/(v*o1)","unit":"pontos/m²","dec":0,"destaque":true},
+            {"label":"Distância na borda R = H/cos(FOV/2)","expr":"H/Math.cos(F/2*Math.PI/180)","unit":"m","dec":1},
+            {"label":"Erro na borda R·δθ","expr":"o3*e*Math.PI/180*100","unit":"cm","dec":1}
+          ],
+          "barras": [
+            {"label":"Erro no nadir (H·δθ)","expr":"H*e*Math.PI/180*100","unit":"cm","dec":1},
+            {"label":"Erro na borda (R·δθ)","expr":"o4","unit":"cm","dec":1}
+          ],
+          "nota": "Uma passada, um retorno por pulso."
+        }' role="img" aria-label="Calculadora da largura da faixa, da densidade de pontos e do erro causado pela atitude do drone, com barras comparando o erro no nadir e na borda da faixa"></div>
+        <div class="viz-lado">
+          <h3>Mova os controles</h3>
+          <p class="mini">Exemplo: W ≈ 112 m, ρ ≈ 268 pontos/m² e erro de ≈ 8,5 cm na borda.</p>
+          <div data-controles></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LiDAR x fotogrametria -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Qual sensor para qual obra?</p>
+      <h2>LiDAR × fotogrametria</h2>
+      <table class="tabela-industrial compacta">
+        <thead><tr><th>Critério</th><th>Fotogrametria (RGB)</th><th>LiDAR embarcado</th></tr></thead>
+        <tbody>
+          <tr><td><b>Solo sob vegetação</b></td><td>não vê (só MDS)</td><td>vê pelas frestas (MDT)</td></tr>
+          <tr><td><b>Superfície sem textura</b></td><td>falha</td><td>mede normalmente</td></tr>
+          <tr><td><b>Iluminação</b></td><td>precisa de luz e sombras curtas</td><td>independe</td></tr>
+          <tr><td><b>Cor e textura</b></td><td>sim (ortomosaico)</td><td>não, sem câmera auxiliar</td></tr>
+          <tr><td><b>Fios, cabos, estruturas finas</b></td><td>difícil</td><td>bom</td></tr>
+          <tr><td><b>Custo do equipamento</b></td><td>baixo a médio</td><td>alto</td></tr>
+        </tbody>
+      </table>
+      <div class="tab-rodape">
+        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Onde o LiDAR brilha:</strong> terreno natural com vegetação, linhas de transmissão, corredores de rodovia e ferrovia, estruturas metálicas e túneis (com LiDAR terrestre ou móvel).</p></div>
+        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Terraplenagem em solo exposto?</strong> A fotogrametria costuma bastar, e é mais barata. A conferência é a mesma da Aula 6: <strong>checkpoints e RMSE</strong>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Termografia: princípio -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Termografia</p>
+      <h2>Enxergar temperatura (e não se enganar com ela)</h2>
+      <div class="texto-fotos">
+        <div class="texto">
+          <p>Todo corpo acima do zero absoluto emite <strong>infravermelho</strong>. A câmera térmica (em geral um <strong>microbolômetro</strong>, de <strong>8 a 14 µm</strong>) converte essa radiação em <strong>temperatura aparente</strong>, em cores falsas: o <strong>termograma</strong>.</p>
+          <p>A conversão depende da <strong>emissividade</strong> do material, da <strong>temperatura refletida</strong> do entorno, da distância e da umidade do ar.</p>
+          <p>Metal polido e vidro têm <strong>baixa emissividade</strong> e <strong>refletem</strong> o calor de outros objetos: ali o termograma pode "mentir".</p>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Aqua_Tower_thermal_imaging.jpg" alt="Termograma de uma torre residencial com varandas de formas onduladas, feito em dia frio: as bordas das lajes das varandas aparecem em amarelo e laranja contra o fundo roxo e azul mais frio" loading="lazy">
+          <figcaption>Varandas em balanço num dia frio: as <b>lajes</b> perdem calor (pontes térmicas).</figcaption>
+          <p class="credito">Imagem: Jim D'Aloisio — Wikimedia Commons (CC0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Passivhaus_thermogram_gedaemmt_ungedaemmt.png" alt="Termograma de fachadas em cores falsas: um prédio com isolamento aparece em azul e outro sem isolamento aparece com janelas e paredes em amarelo e vermelho" loading="lazy" style="object-position:30% 50%">
+          <figcaption>Fachada isolada (azul) × sem isolamento (amarelo e vermelho).</figcaption>
+          <p class="credito">Imagem: Passivhaus Institut — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Três aplicações -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Termografia em fachadas e estruturas</p>
+      <h2>O que interessa é a <em>diferença</em> de temperatura</h2>
+      <div class="cards3">
+        <div class="card quente">
+          <span class="tag">mais quente sob sol</span>
+          <h3>Descolamento de revestimento</h3>
+          <p>A placa solta tem uma <strong>camada de ar</strong> atrás, que isola. Sob sol, ela <strong>aquece mais rápido</strong> que a aderida; à noite, <strong>esfria mais rápido</strong>.</p>
+        </div>
+        <div class="card fria">
+          <span class="tag">mais fria</span>
+          <h3>Umidade e infiltração</h3>
+          <p>A água evaporando <strong>resfria</strong> a superfície: manchas frias em lajes, platibandas e paredes indicam umidade.</p>
+        </div>
+        <div class="card ponte">
+          <span class="tag">perda de calor</span>
+          <h3>Pontes térmicas e instalações</h3>
+          <p>Perdas de calor por vigas, pilares e lajes; <strong>painéis elétricos</strong> e conexões aquecidos.</p>
+        </div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>A termografia de fachada é <strong>passiva</strong>: depende de <strong>fluxo de calor</strong>. Sem diferença de temperatura (dia nublado e sem vento, fachada sem insolação), <strong>nada aparece</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 12. Simulação da fachada -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação</p>
+      <h2>A fachada cerâmica ao longo do dia</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="termo" role="img" aria-label="Termograma simulado de uma fachada com revestimento cerâmico ensolarada no meio do dia. Um controle muda a hora do dia: de manhã e no começo da tarde, duas áreas de placas descoladas aparecem mais quentes; à noite, aparecem mais frias; perto das 7 h e das 16 h quase não há contraste. Uma mancha de umidade na base aparece sempre mais fria. Um botão revela os contornos dos defeitos reais."></div>
+        <div class="viz-lado">
+          <h3>Mude a hora do dia</h3>
+          <div data-controles></div>
+          <p class="mini">Modelo didático de uma fachada com sol entre 7 h e 17 h. A escala de cores se ajusta à cena, como numa câmera em modo automático.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Planejar a inspeção -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/b/b4/LERF_Timisoara_RO_night_IR_1.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Termograma noturno de um edifício de vários pavimentos em cores falsas, do roxo ao amarelo-claro, com a fachada mais quente que o céu e diferenças de temperatura entre paredes, janelas e cobertura"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Planejar a inspeção termográfica</p>
+      <h2>O termograma diz <em>onde</em> olhar</h2>
+      <p><strong>Horário</strong> pela orientação da fachada (fase de aquecimento ou de resfriamento); evite <strong>chuva recente</strong> e <strong>vento forte</strong>; ajuste a <strong>emissividade</strong>.</p>
+      <p>Apoia a inspeção predial da <strong>ABNT NBR 16747</strong>, mas <strong>não substitui</strong> o ensaio de <strong>percussão</strong> e o de <strong>arrancamento</strong> nas áreas suspeitas.</p>
+      <p>E lembre da Aula 4: voo junto a edifício habitado. Os <strong>30 m</strong> de pessoas não envolvidas e não anuentes, ou a barreira, definem a categoria da operação.</p>
+    </div>
+    <p class="credito">Imagem: Mihai-Cosmin Pascariu — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 14. IFOV -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (b)</p>
+      <h2>A que distância voar? IFOV e o menor defeito visível</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"D","label":"Distância à fachada","min":5,"max":40,"step":1,"value":10,"unit":"m"},
+            {"id":"p","label":"Pixel do sensor térmico","min":10,"max":17,"step":1,"value":12,"unit":"µm"},
+            {"id":"f","label":"Distância focal","min":9,"max":25,"step":1,"value":13,"unit":"mm"}
+          ],
+          "outputs": [
+            {"label":"IFOV = p/f","expr":"p/f","unit":"mrad","dec":2},
+            {"label":"Cada pixel cobre (D·IFOV)","expr":"D*o1","unit":"mm","dec":1},
+            {"label":"Menor defeito (3 × 3 pixels)","expr":"3*o2/10","unit":"cm","dec":1,"destaque":true},
+            {"label":"Largura do quadro (640 px)","expr":"640*o2/1000","unit":"m","dec":1}
+          ],
+          "barras": [
+            {"label":"Pixel na fachada","expr":"o2","unit":"mm","dec":1},
+            {"label":"Menor defeito","expr":"3*o2","unit":"mm","dec":0}
+          ],
+          "nota": "Câmera de 640 × 512 pixels. Regra prática: o defeito deve ocupar ao menos 3 × 3 pixels."
+        }' role="img" aria-label="Calculadora do campo de visão instantâneo de uma câmera térmica, do tamanho do pixel na fachada e do menor defeito detectável em função da distância de voo"></div>
+        <div class="viz-lado">
+          <h3>Leve a distância a 30 m</h3>
+          <p>12 µm e 13 mm: <strong>IFOV ≈ 0,92 mrad</strong>. A 10 m, cada pixel cobre <strong>9,2 mm</strong> e o menor defeito confiável é <strong>≈ 2,8 cm</strong>.</p>
+          <p>A 30 m, cada pixel cobre <strong>2,8 cm</strong> e o menor defeito passa a <strong>≈ 8,3 cm</strong>.</p>
+          <div data-controles></div>
+          <p class="mini">A distância de voo é decisão de engenharia e de segurança ao mesmo tempo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Atividade + pontos-chave -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade prática e pontos-chave</p>
+      <h2>Para levar desta aula</h2>
+      <div class="versus fecho">
+        <div class="lado">
+          <h3>Atividade prática</h3>
+          <p>Escolha uma fachada que você conhece e planeje uma <strong>inspeção termográfica com drone</strong>: orientação e horário do voo, distância à fachada e <strong>menor defeito detectável</strong>, condições meteorológicas e restrições de segurança para quem está na calçada.</p>
+          <p>Indique os <strong>ensaios complementares</strong> nas áreas suspeitas.</p>
+        </div>
+        <div class="vs">+</div>
+        <div class="lado novo">
+          <h3>Pontos-chave</h3>
+          <ul class="pontos">
+            <li><span class="formula">R = c · Δt / 2</span>; com GNSS e IMU, cada pulso vira um ponto 3D.</li>
+            <li><strong>Múltiplos retornos</strong> dão o MDT sob a vegetação: o laser passa pelas frestas.</li>
+            <li><span class="formula">ρ ≈ PRR / (v · W)</span>; a exatidão depende da <strong>trajetória</strong> e se confere por checkpoints.</li>
+            <li>Termografia mede <strong>diferenças</strong>: emissividade, reflexos e fluxo de calor importam.</li>
+            <li>O termograma <strong>localiza</strong>; a confirmação é por ensaio local (NBR 16747).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Foto: fechamento da unidade -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Lidar_3D_Model_of_London.jpg/1280px-Lidar_3D_Model_of_London.jpg'); background-position: 60% 50%" role="img" aria-label="Modelo 3D de Londres gerado por LiDAR aéreo, em tons de cinza-azulado: quarteirões, torres, pontes e o rio Tâmisa vistos em perspectiva"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Fechando a Unidade 2</p>
+      <h2>Do voo planejado ao modelo da cidade</h2>
+      <p>Você planejou o voo (GSD, sobreposição, altura), transformou fotos em 3D com <strong>SfM, pontos de controle e RTK/PPK</strong>, gerou <strong>ortomosaico, MDS/MDT e volumes</strong> e, hoje, somou o <strong>LiDAR</strong> e a <strong>termografia</strong>.</p>
+      <p>Em todos os casos, a mesma pergunta da Unidade 1: <strong>qual é a incerteza</strong> desse produto e <strong>que decisão</strong> ele sustenta?</p>
+    </div>
+    <p class="credito">Imagem: Environment Agency — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 17. Prévia da Unidade 3 -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que você verá na próxima unidade</p>
+      <h2>Unidade 3 — Sensores IoT no monitoramento de obras</h2>
+      <div class="timeline grande" style="--n:4">
+        <div class="etapa"><div class="ano">Geotécnico</div><p><strong>Inclinômetros</strong>, piezômetros e marcos de recalque.</p></div>
+        <div class="etapa"><div class="ano">Estrutural</div><p>Extensômetros, acelerômetros, fissurômetros e <strong>maturidade do concreto</strong>.</p></div>
+        <div class="etapa"><div class="ano">Segurança e ambiente</div><p>Vibração, ruído, poeira e rastreamento de equipamentos.</p></div>
+        <div class="etapa"><div class="ano">Dados</div><p><strong>Séries temporais</strong>, níveis de alerta e dashboards.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.6rem;background:rgba(0,0,0,.25)"><p>O drone mostra a obra <strong>por fora e em campanhas</strong>; os sensores contam o que acontece <strong>entre um voo e outro</strong>. A combinação dos dois fecha a malha.</p></div>
+      <div class="versus" style="margin-top:1.2rem">
+        <div class="lado"><p><strong>Da Unidade 2 você leva:</strong> o voo planejado, o modelo 3D com exatidão comprovada, os volumes, o LiDAR e a termografia.</p></div>
+        <div class="vs">→</div>
+        <div class="lado novo"><p><strong>Na Unidade 3 você aprende:</strong> a instrumentar o solo e a estrutura e a ler as séries de dados.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Fim -->
+  <section class="slide slide-fim">
+    <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
+    <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
+    <div class="slide-content">
+      <h1>Unidade 2 concluída</h1>
+      <p class="fim-texto">Você planeja o voo, processa as fotos, mede volumes e sabe quando chamar o LiDAR e a câmera térmica.</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 3 — Sensores IoT no Monitoramento de Obras (Aula 9).</p>
+      <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
+    </div>
+  </section>
+
+</div>
+
+<script src="../../assets/obra.js"></script>
+<script>
+/* retornos — um pulso de laser sobre solo exposto ou sobre uma árvore:
+   ecos da copa, do galho e do chão, com R = c·Δt/2. */
+Obra.register('retornos', (host) => {
+  const { ctx } = Obra.canvas2d(host);
+  let arvore = true;
+  const bts = Obra.botoes(host, [
+    ['Sobre solo exposto', () => { arvore = false; sel(0); }],
+    ['Sobre uma árvore', () => { arvore = true; sel(1); }, true]
+  ]);
+  const sel = (i) => bts.forEach((b, k) => b.classList.toggle('on', k === i));
+  const C = 3e8, H = 80;
+  // ecos: distância (m) e intensidade relativa
+  const ecosArvore = [{ r: 62, a: 0.55, nome: 'copa' }, { r: 70, a: 0.3, nome: 'galho' }, { r: 80, a: 0.45, nome: 'chão' }];
+  const ecosSolo = [{ r: 80, a: 1, nome: 'chão' }];
+  const lp = Obra.loop((t) => {
+    const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, Hc = ctx.canvas.height / dpr;
+    ctx.clearRect(0, 0, W, Hc);
+    const ecos = arvore ? ecosArvore : ecosSolo;
+    // painel esquerdo: cena
+    const xm = W * 0.2, yTop = 70, yChao = Hc - 50, esc = (yChao - yTop) / H;
+    const Y = (r) => yTop + r * esc;
+    ctx.fillStyle = 'rgba(138,111,77,.8)'; ctx.fillRect(16, yChao, W * 0.4 - 16, Hc - yChao - 14);
+    ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center';
+    if (arvore) {
+      ctx.fillStyle = '#6b4a2b'; ctx.fillRect(xm - 4, Y(66), 8, yChao - Y(66));
+      ctx.fillStyle = 'rgba(71,140,63,.9)';
+      ctx.beginPath(); ctx.ellipse(xm, Y(67), 44, Math.max(18, 5 * esc), 0, 0, 7); ctx.fill();
+      ctx.strokeStyle = '#6b4a2b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xm, Y(72)); ctx.lineTo(xm + 26, Y(69)); ctx.stroke(); ctx.lineWidth = 1;
+    }
+    // drone
+    ctx.fillStyle = '#e8ecf2'; ctx.fillRect(xm - 16, yTop - 14, 32, 10);
+    ctx.fillRect(xm - 30, yTop - 18, 60, 3);
+    ctx.fillStyle = '#fff'; ctx.fillText('drone a ' + H + ' m', xm, yTop - 26);
+    // pulso: desce e sobe em ciclo de 3,2 s
+    const T = 3.2, f = (t % T) / T;
+    const rMax = 80, ida = Math.min(1, f * 2) * rMax;
+    ctx.strokeStyle = 'rgba(255,43,95,.35)'; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(xm, yTop); ctx.lineTo(xm, yChao); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = '#FF2B5F'; ctx.beginPath(); ctx.arc(xm, Y(Math.min(ida, rMax)), 6, 0, 7); ctx.fill();
+    // ecos voltando
+    if (f > 0) ecos.forEach((e) => {
+      const tVolta = f * 2 * rMax - e.r; // distância percorrida após o eco
+      if (tVolta > 0 && tVolta < e.r) { ctx.fillStyle = 'rgba(43,217,254,' + (0.4 + e.a * 0.6) + ')'; ctx.beginPath(); ctx.arc(xm + 10, Y(e.r - tVolta), 4 + e.a * 4, 0, 7); ctx.fill(); }
+    });
+    // painel direito: forma de onda
+    const gx = W * 0.47, gw = W * 0.49, gy = 110, gh = Hc - 200;
+    ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.stroke();
+    const t0 = 380, t1 = 580; // ns
+    const X = (ns) => gx + (ns - t0) / (t1 - t0) * gw;
+    ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center';
+    for (let ns = 400; ns <= 560; ns += 40) { ctx.fillRect(X(ns), gy + gh, 1, 5); ctx.fillText(ns + ' ns', X(ns), gy + gh + 18); }
+    ctx.textAlign = 'left'; ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#fff';
+    ctx.fillText('Intensidade do eco × tempo de ida e volta', gx, 92);
+    // revela a curva até o tempo atual
+    const tAgora = f * 2 * rMax * 2 / C * 1e9;
+    ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2.5; ctx.beginPath();
+    for (let ns = t0; ns <= Math.min(t1, tAgora); ns += 0.5) {
+      let a = 0.02;
+      ecos.forEach((e) => { const te = 2 * e.r / C * 1e9; a += e.a * Math.exp(-0.5 * ((ns - te) / 5) ** 2); });
+      const y = gy + gh - a * (gh - 30);
+      ns === t0 ? ctx.moveTo(X(ns), y) : ctx.lineTo(X(ns), y);
+    }
+    ctx.stroke(); ctx.lineWidth = 1;
+    ecos.forEach((e, k) => {
+      const te = 2 * e.r / C * 1e9; if (tAgora < te) return;
+      const y = gy + gh - (e.a + 0.02) * (gh - 30);
+      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'center'; ctx.font = '700 12px Montserrat, Arial';
+      ctx.fillText(e.nome, X(te), y - 26);
+      ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = '#fff';
+      ctx.fillText(Obra.fmt(te, 0) + ' ns → ' + Obra.fmt(e.r) + ' m', X(te), y - 10);
+      void k;
+    });
+    ctx.textAlign = 'left'; ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#F2CB0A';
+    ctx.fillText(arvore ? '3 retornos: o 1º é a copa (MDS); o último é o chão (MDT)' : '1 retorno: R = c·Δt/2 = 3×10⁸ × 533 ns / 2 ≈ 80 m', gx, Hc - 30);
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+
+/* lidar3d — drone varrendo uma encosta com mata; pontos de primeiro
+   retorno (copa) e de último retorno (terreno). */
+Obra.register('lidar3d', (host) => {
+  const h = Obra.hud(host);
+  const cPts = Obra.chip(h, ''), cModo = Obra.chip(h, '');
+  let modo = 1; // 0 = primeiro retorno, 1 = último retorno
+  return Obra.cena3d(host, { r: 118, ph: 1.02, th: 0.75, alvo: [0, 14, 0], fogNear: 200, fogFar: 480 }, ({ THREE, scene, rotulo }) => {
+    const LX = 60, LZ = 35;
+    const terreno = (x, z) => 0.1 * x + 2.5 * Math.sin(z / 9) + 1.5 * Math.cos(x / 13) + 6;
+    // malha do terreno
+    const geo = new THREE.PlaneGeometry(LX * 2, LZ * 2, 60, 35); geo.rotateX(-Math.PI / 2);
+    const pos = geo.attributes.position;
+    for (let i = 0; i < pos.count; i++) pos.setY(i, terreno(pos.getX(i), pos.getZ(i)));
+    geo.computeVertexNormals();
+    const solo = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0x7a5f40, roughness: 0.95, transparent: true, opacity: 0.55 }));
+    scene.add(solo);
+    // árvores (densas)
+    const arvores = [], gArv = new THREE.Group(); scene.add(gArv);
+    let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let k = 0; k < 110; k++) {
+      const x = -LX + 4 + rnd() * (LX * 2 - 8), z = -LZ + 4 + rnd() * (LZ * 2 - 8);
+      if (x > -12 && x < 2) continue; // clareira
+      const ht = 7 + rnd() * 5, rc = 3 + rnd() * 2.5, y0 = terreno(x, z);
+      const tronco = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.5, ht, 6), new THREE.MeshStandardMaterial({ color: 0x5a3d22 }));
+      tronco.position.set(x, y0 + ht / 2, z);
+      const copa = new THREE.Mesh(new THREE.SphereGeometry(rc, 10, 8), new THREE.MeshStandardMaterial({ color: 0x3f7a3a, roughness: 0.9, transparent: true, opacity: 0.9 }));
+      copa.position.set(x, y0 + ht, z); copa.scale.y = 0.75;
+      gArv.add(tronco, copa);
+      arvores.push({ x, z, rc, top: y0 + ht + rc * 0.75, y0, copa });
+    }
+    const marcaClareira = new THREE.Object3D(); marcaClareira.position.set(-5, terreno(-5, 20) + 2, 20); scene.add(marcaClareira);
+    rotulo(marcaClareira, 'Clareira', 1);
+    // pontos
+    const MAX = 60000;
+    const pGeo = new THREE.BufferGeometry();
+    const pArr = new Float32Array(MAX * 3), cArr = new Float32Array(MAX * 3);
+    pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
+    pGeo.setAttribute('color', new THREE.BufferAttribute(cArr, 3));
+    pGeo.setDrawRange(0, 0);
+    const pts = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.7, vertexColors: true }));
+    scene.add(pts);
+    const primeiros = [], ultimos = []; // pontos [x,y,z,r,g,b]
+    const cor = new THREE.Color();
+    const corCota = (y) => { const f = Math.max(0, Math.min(1, (y + 2) / 20)); cor.setHSL(0.62 - f * 0.5, 0.85, 0.55); return [cor.r, cor.g, cor.b]; };
+    // drone
+    const dr = Obra.droneModelo(THREE, 1.6); scene.add(dr.g);
+    rotulo(dr.g, 'Drone com LiDAR', 3);
+    const HD = 40; // altura de voo da cena
+    const leque = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xff2b5f, transparent: true, opacity: 0.7 }));
+    scene.add(leque);
+    const bts = Obra.botoes(host, [
+      ['Primeiro retorno (MDS)', () => { modo = 0; troca(); }],
+      ['Último retorno (MDT)', () => { modo = 1; troca(); }, true],
+      ['Recomeçar voo', () => { primeiros.length = 0; ultimos.length = 0; xd = -LX; dir = 1; troca(); }]
+    ]);
+    function troca() {
+      bts[0].classList.toggle('on', modo === 0); bts[1].classList.toggle('on', modo === 1);
+      arvores.forEach((a) => { a.copa.material.opacity = modo ? 0.12 : 0.9; });
+      gArv.children.forEach((m) => { m.visible = true; });
+      solo.material.opacity = modo ? 0.25 : 0.55;
+      redesenha(true);
+    }
+    let feitos = 0; // pontos já copiados para o buffer no modo atual
+    function redesenha(tudo) {
+      const lista = modo ? ultimos : primeiros, n = Math.min(MAX, lista.length);
+      if (tudo) feitos = 0;
+      for (let i = feitos; i < n; i++) { const p = lista[i]; const j = i * 3; pArr[j] = p[0]; pArr[j + 1] = p[1]; pArr[j + 2] = p[2]; cArr[j] = p[3]; cArr[j + 1] = p[4]; cArr[j + 2] = p[5]; }
+      if (n !== feitos || tudo) { pGeo.attributes.position.needsUpdate = true; pGeo.attributes.color.needsUpdate = true; }
+      feitos = n; pGeo.setDrawRange(0, n);
+    }
+    let xd = -LX, dir = 1;
+    troca();
+    const segs = new Float32Array(14 * 6);
+    leque.geometry.setAttribute('position', new THREE.BufferAttribute(segs, 3));
+    return (t, dt) => {
+      xd += dir * dt * 9;
+      if (xd > LX) { xd = LX; dir = -1; } if (xd < -LX) { xd = -LX; dir = 1; }
+      const yd = HD;
+      dr.g.position.set(xd, yd, 0); dr.g.rotation.y = dir > 0 ? Math.PI / 2 : -Math.PI / 2;
+      dr.helices.forEach((hh, k) => (hh.rotation.y += (k % 2 ? 1 : -1) * 0.9));
+      // pulsos deste quadro
+      let li = 0;
+      if (primeiros.length < MAX && ultimos.length < MAX) {
+        for (let k = 0; k < 90; k++) {
+          const ang = (rnd() * 70 - 35) * Math.PI / 180;
+          const x = xd + (rnd() - 0.5) * 1.5;
+          const yg0 = terreno(x, 0);
+          const z = Math.tan(ang) * (yd - yg0);
+          if (Math.abs(z) > LZ) continue;
+          const yg = terreno(x, z);
+          let arv = null;
+          for (const a of arvores) { const dx = x - a.x, dz = z - a.z; if (dx * dx + dz * dz < a.rc * a.rc) { if (!arv || a.top > arv.top) arv = a; } }
+          let yFirst = yg, cFirst;
+          if (arv) {
+            const dx = x - arv.x, dz = z - arv.z, rr = Math.sqrt(dx * dx + dz * dz) / arv.rc;
+            yFirst = arv.top - (1 - Math.sqrt(Math.max(0, 1 - rr * rr))) * arv.rc * 0.75 - rnd() * 0.6;
+            cFirst = [0.35 + rnd() * 0.15, 0.75 + rnd() * 0.2, 0.3];
+            primeiros.push([x, yFirst, z, ...cFirst]);
+            if (rnd() < 0.3) ultimos.push([x, yg + 0.15, z, ...corCota(yg)]); // passou por um vão
+          } else {
+            primeiros.push([x, yg + 0.15, z, ...corCota(yg)]);
+            ultimos.push([x, yg + 0.15, z, ...corCota(yg)]);
+          }
+          if (li < 14 && k % 6 === 0) { segs.set([xd, yd - 1, 0, x, yFirst, z], li * 6); li++; }
+        }
+      }
+      for (let i = li; i < 14; i++) segs.set([xd, yd, 0, xd, yd, 0], i * 6);
+      leque.geometry.attributes.position.needsUpdate = true;
+      redesenha();
+      const n = modo ? ultimos.length : primeiros.length;
+      cPts.innerHTML = 'Pontos: <b>' + Obra.fmt(n) + '</b>';
+      cModo.innerHTML = modo ? 'Último retorno: <b>terreno (MDT)</b>' : 'Primeiro retorno: <b>copa (MDS)</b>';
+    };
+  });
+});
+
+/* termo — termograma simulado de uma fachada cerâmica ao longo do dia:
+   placas descoladas (aquecem e esfriam mais rápido) e umidade (mais fria). */
+Obra.register('termo', (host, opts, painel) => {
+  const { ctx } = Obra.canvas2d(host);
+  const p = painel || document.createElement('div');
+  const sH = Obra.slider(p, { id: 'h', label: 'Hora do dia', min: 0, max: 23.5, step: 0.5, value: 11, unit: 'h' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+  let revelar = false, animar = false;
+  const bts = Obra.botoes(host, [
+    ['Revelar defeitos reais', (b) => { revelar = !revelar; b.classList.toggle('on', revelar); }],
+    ['▶ Passar o dia', (b) => { animar = !animar; b.classList.toggle('on', animar); }]
+  ]);
+  void bts;
+  // modelo térmico de 1ª ordem: dT/dt = (Teq − T)/τ, periódico em 24 h
+  const S = (hh) => { hh = ((hh % 24) + 24) % 24; return hh >= 7 && hh <= 17 ? Math.max(0, Math.sin(Math.PI * (hh - 7) / 10)) : 0; };
+  const Ta = (hh) => 24 + 5 * Math.sin(2 * Math.PI * (hh - 9) / 24);
+  const MAT = { ad: [2.0, 12, 2.5, 0, 0], de: [0.6, 16, 3.5, 0, 0], mo: [2.0, 12, 2.5, 1.5, 4] };
+  const TAB = { ad: [], de: [], mo: [] }, T = { ad: 24, de: 24, mo: 24 }, dt = 0.01;
+  for (let i = 0; i <= 72 / dt; i++) {
+    const hh = i * dt;
+    for (const k in MAT) {
+      const [tau, ks, rad, e0, es] = MAT[k], s = S(hh);
+      const teq = Ta(hh) + ks * s - rad - (e0 + es * s);
+      T[k] += (teq - T[k]) / tau * dt;
+    }
+    if (hh >= 48 - 1e-9 && i % 10 === 0) for (const k in MAT) TAB[k].push(T[k]);
+  }
+  const temp = (k, hh) => { const v = hh * 10, i = Math.floor(v), f = v - i, a = TAB[k]; return a[i % 240] * (1 - f) + a[(i + 1) % 240] * f; };
+  // fachada: 16 × 11 placas; defeitos
+  const NC = 16, NL = 11;
+  const desc = [{ c0: 3, c1: 6, l0: 2, l1: 4 }, { c0: 10, c1: 13, l0: 5, l1: 6 }];
+  const umid = { c0: 6, c1: 10, l0: 9, l1: 10 };
+  const dentro = (r, c, l) => c >= r.c0 && c <= r.c1 && l >= r.l0 && l <= r.l1;
+  // ruído fixo por placa
+  let sd = 3; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+  const ruido = []; for (let i = 0; i < NC * NL; i++) ruido.push((rnd() - 0.5) * 0.5);
+  const paleta = (f) => { // iron: preto → roxo → vermelho → laranja → amarelo → branco
+    const st = [[0, 0, 0, 20], [0.2, 70, 0, 120], [0.45, 200, 30, 60], [0.7, 255, 130, 0], [0.9, 255, 220, 40], [1, 255, 255, 230]];
+    f = Math.max(0, Math.min(1, f));
+    for (let i = 1; i < st.length; i++) if (f <= st[i][0]) { const a = st[i - 1], b = st[i], g = (f - a[0]) / (b[0] - a[0]); return `rgb(${Math.round(a[1] + (b[1] - a[1]) * g)},${Math.round(a[2] + (b[2] - a[2]) * g)},${Math.round(a[3] + (b[3] - a[3]) * g)})`; }
+    return 'rgb(255,255,230)';
+  };
+  let hAnim = +sH.value;
+  const lp = Obra.loop((t, dts) => {
+    if (animar) { hAnim = (hAnim + dts * 1.6) % 24; sH.value = (Math.round(hAnim * 2) / 2) % 24; sH.dispatchEvent(new Event('input')); }
+    else hAnim = +sH.value;
+    const hh = animar ? hAnim : +sH.value;
+    const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, H = ctx.canvas.height / dpr;
+    ctx.clearRect(0, 0, W, H);
+    const tAd = temp('ad', hh), tDe = temp('de', hh), tMo = temp('mo', hh);
+    const vals = [];
+    for (let l = 0; l < NL; l++) for (let c = 0; c < NC; c++) {
+      let v = tAd;
+      if (desc.some((r) => dentro(r, c, l))) v = tDe; else if (dentro(umid, c, l)) v = tMo;
+      vals.push(v + ruido[l * NC + c]);
+    }
+    let mn = Math.min(...vals), mx = Math.max(...vals);
+    if (mx - mn < 4) { const m = (mx + mn) / 2; mn = m - 2; mx = m + 2; } // faixa mínima, como no modo automático
+    const gx = 40, gy = 56, gw = W - 210, gh = H - 100, cw = gw / NC, ch = gh / NL;
+    for (let l = 0; l < NL; l++) for (let c = 0; c < NC; c++) {
+      ctx.fillStyle = paleta((vals[l * NC + c] - mn) / (mx - mn));
+      ctx.fillRect(gx + c * cw + 1, gy + l * ch + 1, cw - 2, ch - 2);
+    }
+    // janelas (vidro reflete: não confiar)
+    ctx.fillStyle = 'rgba(20,30,60,.85)';
+    [[1, 1], [8, 1], [14, 1], [1, 7], [14, 7]].forEach(([c, l]) => ctx.fillRect(gx + c * cw + 3, gy + l * ch + 3, cw - 6, ch * 2 - 6));
+    if (revelar) {
+      ctx.lineWidth = 2.5; ctx.setLineDash([6, 4]);
+      ctx.strokeStyle = '#2BD9FE';
+      desc.forEach((r) => ctx.strokeRect(gx + r.c0 * cw, gy + r.l0 * ch, (r.c1 - r.c0 + 1) * cw, (r.l1 - r.l0 + 1) * ch));
+      ctx.strokeStyle = '#95DE68'; ctx.strokeRect(gx + umid.c0 * cw, gy + umid.l0 * ch, (umid.c1 - umid.c0 + 1) * cw, (umid.l1 - umid.l0 + 1) * ch);
+      ctx.setLineDash([]); ctx.lineWidth = 1;
+      ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillStyle = '#2BD9FE'; ctx.fillText('placas descoladas', gx + desc[0].c0 * cw + 4, gy + desc[0].l0 * ch - 6);
+      ctx.fillStyle = '#95DE68'; ctx.fillText('umidade', gx + umid.c0 * cw + 4, gy + umid.l0 * ch - 6);
+    }
+    // escala de cores
+    const bx = W - 140, by = gy + 90, bh = gh - 90;
+    for (let i = 0; i < bh; i++) { ctx.fillStyle = paleta(1 - i / bh); ctx.fillRect(bx, by + i, 16, 1); }
+    ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left';
+    ctx.fillText(Obra.fmt(mx, 1) + ' °C', bx + 22, by + 10); ctx.fillText(Obra.fmt(mn, 1) + ' °C', bx + 22, by + bh);
+    // título
+    const fase = S(hh) > 0 ? (hh < 13 ? 'aquecimento (sol na fachada)' : 'sol ainda na fachada, aquecimento perdendo força') : (hh >= 17 || hh < 1 ? 'resfriamento (fim da tarde e noite)' : 'madrugada');
+    ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#fff';
+    ctx.fillText('Termograma simulado · ' + Obra.fmt(hh, 1) + ' h · ' + fase, gx, 30);
+    const dD = tDe - tAd, dM = tMo - tAd;
+    const leitura = Math.abs(dD) < 1 ? '<b style="color:#F2CB0A">contraste insuficiente</b>: as placas descoladas quase não aparecem' : dD > 0 ? 'descoladas <b style="color:#FF8A1F">mais quentes</b> que as aderidas' : 'descoladas <b style="color:#2BD9FE">mais frias</b> que as aderidas';
+    res.innerHTML = `ΔT descolada − aderida: <span class="num">${dD >= 0 ? '+' : ''}${Obra.fmt(dD, 1)} °C</span><br>ΔT úmida − aderida: <b>${Obra.fmt(dM, 1)} °C</b><br>${leitura}`;
+  });
+  return { start: lp.start, stop: lp.stop };
+});
+</script>
+<script src="../../assets/deck.js"></script>
+</body>
+</html>
