@@ -736,17 +736,28 @@ def _fetch(url: str) -> bytes:
     cp = _IMG_CACHE / (hashlib.sha1(url.encode()).hexdigest()[:16] + ".bin")
     if cp.exists():
         return cp.read_bytes()
+    # O Commons limita (HTTP 429) downloads de originais; o thumbnail de 1280 px
+    # costuma responder normalmente e já basta para 5,5" no Word.
+    candidatos = []
+    m = re.match(r"https://upload\.wikimedia\.org/wikipedia/commons/([0-9a-f])/([0-9a-f]{2})/([^/?#]+)$", url)
+    if m:
+        nome = m.group(3)
+        suf = ".png" if nome.lower().endswith((".svg", ".tif", ".tiff")) else ""
+        candidatos.append(f"https://upload.wikimedia.org/wikipedia/commons/thumb/"
+                          f"{m.group(1)}/{m.group(2)}/{nome}/1280px-{nome}{suf}")
+    candidatos.append(url)
     last = None
-    for tent in range(5):
-        try:
-            with urllib.request.urlopen(urllib.request.Request(url, headers=_UA), timeout=60) as r:
-                data = r.read()
-            cp.write_bytes(data)
-            time.sleep(0.5)
-            return data
-        except Exception as e:  # noqa: BLE001
-            last = e
-            time.sleep(3 * (tent + 1))
+    for tent in range(4):
+        for cand in candidatos:
+            try:
+                with urllib.request.urlopen(urllib.request.Request(cand, headers=_UA), timeout=60) as r:
+                    data = r.read()
+                cp.write_bytes(data)
+                time.sleep(0.5)
+                return data
+            except Exception as e:  # noqa: BLE001
+                last = e
+        time.sleep(3 * (tent + 1))
     raise last
 
 

@@ -8,6 +8,10 @@
 
 > A gerenciadora pediu um levantamento do canteiro de 12 ha "com resolução de 2 cm". O piloto decola, sobe a 120 m — "quanto mais alto, mais rápido" — e volta com 90 fotos. No escritório, o software não consegue montar o modelo em metade da área e, onde monta, cada pixel cobre mais de 3 cm do terreno. Ninguém errou o voo: **errou-se o plano**. Nesta aula você vai aprender a fazer as contas que vêm antes da decolagem — **GSD, altura, área de cada foto, sobreposição, espaçamento entre faixas e intervalo entre fotos** — e vai descobrir de onde veio a faixa de 100 m da Aula 4.
 
+### O que você verá nesta unidade
+
+Nesta unidade, o drone deixa de ser um equipamento e passa a ser um instrumento de medição. Você vai aprender a planejar um voo de mapeamento — GSD, altura e sobreposições (Aula 5) —, entender como centenas de fotos se transformam em um modelo 3D de exatidão conhecida, com pontos de controle e RTK/PPK (Aula 6), extrair produtos cartográficos e calcular volumes de terraplenagem (Aula 7) e conhecer dois sensores que ampliam o que o drone enxerga: o LiDAR e a câmera térmica (Aula 8). O objetivo é que você consiga especificar um levantamento aéreo e julgar se o resultado atende à precisão exigida. Isso importa porque medições de volume e de avanço físico viram pagamento, e um erro de poucos centímetros no terreno pode virar milhares de reais na medição.
+
 ### O que é planejar um voo de mapeamento
 
 Um voo de **mapeamento** (diferente de um voo de inspeção, em que o piloto aponta a câmera para o que quer ver) é uma missão automática em que o drone percorre **faixas paralelas**, como um cortador de grama, tirando fotos em intervalos regulares. O objetivo é que **todo ponto do terreno apareça em várias fotos**, vistas de posições diferentes — é isso que a fotogrametria da Aula 6 vai precisar para reconstruir o 3D.
@@ -45,6 +49,8 @@ B = L\,(1 - s_f) \qquad d = W\,(1 - s_l)
 $
 
 $B$ é a **base** (distância entre fotos consecutivas) e $d$ é o **espaçamento entre faixas** — o mesmo $d$ da fórmula $A = v \cdot t_{útil} \cdot d$ da Aula 4. O intervalo entre disparos é $\Delta t = B / v$, que precisa ser maior que o tempo mínimo que a câmera leva para gravar uma foto.
+
+![Esquema em planta de três fotos aéreas sobrepostas, representadas por quadrados coloridos, ao longo de uma linha de voo verde: as cotas Lx e Ly indicam as dimensões da área coberta por cada foto, e px e py, o deslocamento entre fotos vizinhas, que define as sobreposições frontal e lateral. Imagem: Zhangmoon618, Wikimedia Commons, CC BY-SA 4.0](https://upload.wikimedia.org/wikipedia/commons/0/0e/Photo_overlap.jpg)
 
 ### Altura sobre o terreno, não sobre a decolagem
 
@@ -113,36 +119,31 @@ Escolha a câmera de um drone real (procure a ficha técnica: pixels, tamanho do
 - **OpenDroneMap — boas práticas de voo para mapeamento:** https://docs.opendronemap.org/flying/
 - **ArduPilot — documentação do Mission Planner:** https://ardupilot.org/planner/
 
-## Aula 5 — Roteiro da Videoaula 5: "Planejamento de voo: GSD, sobreposição, altura e plano de missão"
+## Aula 5 — Roteiro da Videoaula 5: "Quantos centímetros cabem em um pixel? Planejando o voo perfeito"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e o voo a 120 m que voltou com 90 fotos.
 
 > "A gerenciadora pediu resolução de 2 centímetros. O piloto subiu a 120 metros, porque mais alto é mais rápido, e voltou com 90 fotos. O software não montou metade do modelo e, onde montou, cada pixel cobre mais de 3 centímetros. Ninguém errou o voo: errou-se o plano. Hoje a gente faz as contas que vêm antes da decolagem."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–6 — as quatro escolhas do plano, o GSD interativo e a tabela de altura × GSD.
 
 > "No voo de mapeamento, o drone percorre faixas paralelas e dispara em intervalos regulares, para que cada ponto do terreno apareça em várias fotos. Planejar é escolher resolução, altura, sobreposições e traçado. A resolução é o GSD, o tamanho do pixel no terreno: altura vezes o pixel do sensor, dividido pela distância focal. Com a nossa câmera de 20 megapixels, a 70 metros, dá 1,92 centímetro. Dobrou a altura, dobrou o GSD. A 120 metros, o teto da categoria aberta, são 3,29 centímetros."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 7–10 — o mapa de sobreposição, a ficha histórica, o morro em 3D e a calculadora de arrasto.
 
 > "Cada foto cobre o número de pixels vezes o GSD: a 70 metros, 105 por 70 metros. Com 80% de sobreposição frontal e 70% de lateral, cada ponto aparece em umas 16 fotos; a base entre fotos é 14 metros e o espaçamento entre faixas, 31,5. Economizou na sobreposição? Aparecem os buracos. E atenção: a altura é sobre o terreno. Num morro de 20 metros, o drone fica a 50 metros do chão e a sobreposição lateral cai para 58%. Solução: acompanhar o relevo. E o arrasto: a 6 metros por segundo e um milésimo de segundo, 0,31 pixel; tem que ficar abaixo de meio."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 11–15 — o plano de missão, o aerolevantamento, a calculadora do canteiro de 12 ha, os resultados e o diagnóstico do gancho.
 
 > "O plano de missão registra polígono com margem, altura, GSD, sobreposições, direção das faixas, velocidade, baterias e meteorologia. E voo em faixas sobrepostas é aerolevantamento: empresa inscrita no Ministério da Defesa e SARPAS com 4 dias de antecedência. A conta completa: GSD de 2 centímetros exige no máximo 73 metros; a 70, são 11 faixas, 330 fotos, 4.715 metros e 13,1 minutos: uma bateria. E aqueles 105 metros de faixa são a faixa da Aula 4. O voo do gancho? Acima de 73 metros, não atendia ao contrato; e com 90 fotos, sobreposição de menos."
 
-### 5. Encerramento (3:15 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 16–18 — a ortofoto, atividade e pontos-chave, e encerramento.
 
 > "Plano bem feito vira mapa. Agora calcule o plano para uma câmera real e compare com um software de planejamento. Na próxima aula, a gente descobre como 330 fotos viram um modelo 3D — e como provar que ele está no lugar certo. Te espero na Aula 6!"
@@ -156,6 +157,8 @@ Escolha a câmera de um drone real (procure a ficha técnica: pixels, tamanho do
 ### Da foto ao 3D: o princípio da fotogrametria
 
 **Fotogrametria** é a ciência de obter medidas a partir de fotografias. O princípio é a **interseção de raios**: cada pixel define um raio que sai do centro da câmera e passa pelo ponto do terreno. Se o mesmo ponto aparece em duas ou mais fotos tiradas de posições conhecidas, os raios se cruzam no espaço — e o ponto fica determinado em 3D. A relação matemática entre ponto no terreno, centro da câmera e pixel na imagem são as **equações de colinearidade**. Daí a necessidade das sobreposições da Aula 5: sem que cada ponto apareça em várias fotos, não há interseção.
+
+![Esquema do princípio da sobreposição de fotos aéreas: duas aeronaves, em posições sucessivas da linha de voo, fotografam o terreno com cones de visada cujas áreas cobertas se cruzam; a faixa hachurada vista pelas duas fotos é a área de sobreposição, que permite a reconstrução estereoscópica. Imagem: VictorSo1031, Wikimedia Commons, CC BY-SA 4.0](https://upload.wikimedia.org/wikipedia/commons/e/e0/Overlapping_principle_of_aerial_images.jpg)
 
 ### Structure from Motion (SfM), passo a passo
 
@@ -245,36 +248,31 @@ Num levantamento de 20 ha, desenhe (em papel quadriculado ou num mapa) onde voc�
 - **LiDAR Magazine — *The ASPRS Positional Accuracy Standards, Edition 2* (resumo das mudanças de 2023):** https://lidarmag.com/2023/10/06/the-asprs-positional-accuracy-standards-edition-2/
 - **IBGE — Serviço on-line de pós-processamento de dados GNSS (IBGE-PPP):** https://www.ibge.gov.br/geociencias/informacoes-sobre-posicionamento-geodesico/servicos-para-posicionamento-geodesico/16334-servico-online-para-pos-processamento-de-dados-gnss-ibge-ppp.html
 
-## Aula 6 — Roteiro da Videoaula 6: "Fotogrametria com drones: SfM, pontos de controle, RTK/PPK e precisão"
+## Aula 6 — Roteiro da Videoaula 6: "Como centenas de fotos viram um modelo 3D com precisão de centímetros"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os 18 cm na cota de um marco.
 
 > "As 330 fotos do plano da aula passada viraram um modelo 3D lindo. Aí a topografia confere um marco no meio do canteiro: 18 centímetros de diferença na cota. O modelo está certo ou errado? Ele é preciso, mas não é exato. Hoje a gente vai entender como as fotos viram 3D e como provar, com números, que um levantamento está bom."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — interseção de raios, os 4 passos do SfM, o SfM animado e onde a correspondência tropeça.
 
 > "O princípio é a interseção de raios: cada pixel define um raio, e o mesmo ponto visto em várias fotos fica onde os raios se cruzam. Com erro aleatório nas câmeras, os raios não se encontram; com erro sistemático, se cruzam bem, mas no lugar errado. O Structure from Motion faz isso em quatro passos: detecta feições, encontra os pontos homólogos, faz o ajustamento por feixes, que dá as câmeras e a nuvem esparsa, e densifica. E tropeça em superfície sem textura, em máquina se movendo e sob vegetação."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — escala e georreferenciamento, o efeito de domo em 3D, GCP × checkpoint e a distribuição dos pontos de controle.
 
 > "Só com fotos, o SfM sabe a forma, mas não sabe onde ela está, e ainda pode embarrigar: é o efeito de domo, de James e Robson. A cena 3D mostra o modelo 18 centímetros acima do marco sem pontos de controle, e o domo sumindo com GCPs e fotos oblíquas. Os GCPs são alvos medidos em campo que entram no ajustamento; os checkpoints são medidos igual, mas não entram: servem para provar. Usar os mesmos pontos é corrigir a própria prova. E a distribuição importa: perímetro mais interior."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–16 — RTK × PPK, sincronismo e braço de alavanca, RMSE/ASPRS/PEC-PCD, a tabela dos 5 checkpoints e o viés no RMSE.
 
 > "O outro caminho é saber onde estava cada foto: RTK corrige em tempo real, por uma base ou rede NTRIP; PPK corrige depois do voo, por exemplo com a RBMC do IBGE. Reduzem os GCPs, não os checkpoints. Cuidado com o sincronismo: 20 milissegundos a 6 metros por segundo são 12 centímetros. A exatidão se prova pelo RMSE nos checkpoints; a ASPRS, desde 2023, pede no mínimo 30 para a avaliação completa, e no Brasil vale o PEC-PCD. No exemplo, RMSE horizontal de 1,69 centímetro, uns 0,9 GSD, e vertical de 2,56, uns 1,3 GSD, com média de 0,34: sem viés, atende aos 5 centímetros. Somando um viés de 18 centímetros, o RMSE vai a 18,5: reprovado."
 
-### 5. Encerramento (3:15 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 17–19 — atividade e pontos-chave, da nuvem densa aos produtos e encerramento.
 
 > "Modelo bonito não basta: modelo bom é o que tem a exatidão provada nos checkpoints. Na próxima aula, a nuvem densa vira ortomosaico, MDS, MDT e cálculo de volumes — e você vai ver quanto custa um viés de poucos centímetros. Te espero na Aula 7!"
@@ -298,6 +296,8 @@ A **nuvem de pontos** é um conjunto de milhões de pontos com coordenadas $X, Y
 ### Ortomosaico: a foto que vira mapa
 
 Uma foto aérea comum **não é um mapa**: por causa da perspectiva central, o topo de um prédio aparece deslocado em relação à base (**deslocamento devido ao relevo**), e a escala varia com a altura do terreno. O **ortomosaico** é o mosaico das fotos **ortorretificadas** — reprojetadas sobre o modelo de superfície como se cada ponto fosse visto na vertical. Resultado: uma imagem com **escala constante**, na qual se medem distâncias e áreas e sobre a qual se sobrepõe o projeto em CAD ou BIM. É o produto preferido para **avanço físico** e conferência de locação.
+
+![Vista aérea vertical, feita por drone, da obra de uma passagem inferior sob uma ferrovia em Hallstadt, Alemanha: no alto, o canteiro ao longo dos trilhos, com terraplenagem e máquinas; abaixo, o viário existente com uma rotatória, casas e vegetação, tudo em escala uniforme, como num ortomosaico. Foto: Reinhold Möller Ermell, Wikimedia Commons, CC BY-SA 4.0](https://upload.wikimedia.org/wikipedia/commons/d/d5/Hallstadt_Unterf%C3%BChrung_ABS_N%C3%BCrnberg-Ebensfeld-20210622-RM-153924.jpg)
 
 ### MDS e MDT: superfície × terreno
 
@@ -370,36 +370,31 @@ Pegue um ortomosaico e um MDS gratuitos (por exemplo, um conjunto de dados de ex
 - **Wikipedia — Nuvem de pontos:** https://pt.wikipedia.org/wiki/Nuvem_de_pontos
 - **OpenDroneMap — documentação (software livre de processamento, com conjuntos de dados de exemplo):** https://docs.opendronemap.org/
 
-## Aula 7 — Roteiro da Videoaula 7: "Produtos cartográficos: ortomosaico, MDS/MDT, nuvem de pontos e cálculo de volumes"
+## Aula 7 — Roteiro da Videoaula 7: "Quanto de terra saiu daqui? Volumes medidos do céu"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e as pilhas: 48.200 × 46.900 m³.
 
 > "Fim do mês na terraplenagem. A empreiteira mede 48.200 metros cúbicos com drone; a fiscalização, com outro voo, 46.900. São 1.300 metros cúbicos de diferença. Alguém errou? Antes de responder, você precisa saber o que cada produto do drone representa, como se calcula volume e quanta incerteza cabe nesse número."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–9 — os quatro produtos, a nuvem de pontos, o deslocamento devido ao relevo, o ortomosaico, MDS × MDT e o canteiro em 3D.
 
 > "Da nuvem densa saem quatro produtos. A nuvem de pontos: milhões de pontos X, Y, Z com cor, que dá para medir e classificar. O ortomosaico: as fotos ortorretificadas, sem o deslocamento devido ao relevo, com escala constante — o produto do avanço físico. O MDS, que é a primeira superfície vista de cima, com telhados, copas e máquinas. E o MDT, o solo nu. No 3D, o MDT apaga o prédio, as árvores e a máquina, mas mantém a pilha, porque ela é o que eu quero medir. MDS menos MDT mostra o que viraria volume falso."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 10–13 — volume como soma de prismas, os três cuidados, as oito células contra o greide e o empolamento.
 
 > "Volume é a soma de delta z vezes a área de cada célula, contra uma referência: o greide, o levantamento anterior ou um plano de base. Três cuidados: usar o MDT, o mesmo referencial e lembrar do empolamento. Oito células de 100 metros quadrados: 435 metros cúbicos de corte e 145 de aterro. Mandando o corte para o bota-fora com 25% de empolamento, são uns 543,8 metros cúbicos soltos, ou 46 viagens de caminhão de 12."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 14–15 — δV ≈ A · δz e a pausa para reflexão: quem está certo na medição?
 
 > "Erro aleatório se compensa; viés vira volume. Em 2 hectares, 3 centímetros de viés são 600 metros cúbicos. E a pausa para reflexão: em 4 hectares, 3 centímetros são 1.200 metros cúbicos — quase toda a diferença entre empreiteira e fiscalização. Talvez ninguém esteja errado. O que resolve é o contrato: mesma superfície de referência, MDT, checkpoints com RMSE e média dos resíduos, data do voo, tolerância e arbitragem."
 
-### 5. Encerramento (3:10 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 16–17 — atividade, pontos-chave e encerramento.
 
 > "Sua missão: calcular no QGIS o volume de uma pilha e ver quanto ele muda com 5 centímetros de viés. Hoje fomos das fotos aos metros cúbicos. Mas e debaixo da mata, onde a câmera não vê o chão? E a fachada descolando? Na próxima aula, LiDAR embarcado e termografia. Te espero na Aula 8!"
@@ -419,6 +414,8 @@ R = \frac{c \cdot \Delta t}{2}
 $
 
 com $c \approx 3 \times 10^8\,\mathrm{m/s}$. Um alvo a 80 m devolve o pulso em cerca de 533 nanossegundos. Combinando a distância com o **ângulo** do feixe e com a **posição e a atitude** do drone — dadas por **GNSS RTK/PPK** e por uma **IMU** de alta qualidade —, cada pulso vira um ponto $X, Y, Z$. Ao contrário da fotogrametria, o LiDAR **não precisa de textura nem de luz** (voa à noite) e mede a distância diretamente.
+
+![Drone multirrotor de uso profissional pousado sobre cascalho, com um sensor LiDAR compacto montado sob a fuselagem, no lugar da câmera, pronto para um levantamento a laser. Foto: Jonte, Wikimedia Commons, CC BY-SA 4.0](https://upload.wikimedia.org/wikipedia/commons/f/fa/Drone_with_Lidar.jpg)
 
 ### Múltiplos retornos: o chão sob a vegetação
 
@@ -511,36 +508,31 @@ Escolha uma fachada que você conhece. Planeje uma inspeção termográfica com 
 
 Na **Unidade 3 — Sensores IoT no Monitoramento de Obras**, o foco desce do céu para dentro do solo e da estrutura. Você vai estudar o **monitoramento geotécnico** (inclinômetros, piezômetros e marcos de recalque), o **monitoramento estrutural** (extensômetros, acelerômetros, fissurômetros e maturidade do concreto), os sensores de **segurança, ambiente e produtividade** (vibração, ruído, poeira e rastreamento de equipamentos) e, por fim, como transformar leituras em **séries temporais, níveis de alerta e dashboards**. O drone mostra a obra por fora e em campanhas; os sensores contam o que acontece **entre um voo e outro** — e é a combinação dos dois que fecha a malha.
 
-## Aula 8 — Roteiro da Videoaula 8: "LiDAR embarcado e termografia na inspeção de estruturas e fachadas"
+## Aula 8 — Roteiro da Videoaula 8: "Ver através das árvores e enxergar o calor: LiDAR e termografia"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os dois pedidos: a encosta com mata e a fachada cerâmica.
 
 > "Dois pedidos no mesmo dia: levantar o terreno de uma encosta coberta de mata, onde a fotogrametria só viu a copa das árvores, e descobrir onde as placas de uma fachada cerâmica estão descolando. Nenhum dos dois se resolve com a câmera RGB. Hoje, fechando a Unidade 2, você vai conhecer o LiDAR embarcado e a câmera térmica."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:30)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — o princípio do LiDAR, um pulso com vários retornos, a encosta em 3D e nuvens de pontos reais.
 
 > "O LiDAR emite pulsos de laser e mede o tempo de ida e volta: a distância é a velocidade da luz vezes o tempo, dividido por dois. A 80 metros, são uns 533 nanossegundos. Com o GNSS e a IMU, cada pulso vira um ponto 3D, e ele não precisa de luz nem de textura. Numa árvore, o mesmo pulso devolve vários ecos: da copa, de um galho e do chão. O primeiro retorno dá o MDS; o último, quando é solo, dá o MDT sob a vegetação. Atenção: o laser não atravessa as folhas — passa pelos vãos entre elas."
 
-### 3. Desenvolvimento — parte 2 (1:30 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–9 — densidade e exatidão e a comparação LiDAR × fotogrametria.
 
 > "A densidade é a taxa de pulsos dividida pela velocidade vezes a largura da faixa. Com 240 quilohertz, 80 metros, campo de visão de 70 graus e 8 metros por segundo, a faixa tem uns 112 metros e a densidade fica perto de 268 pontos por metro quadrado. E um erro de atitude de só 0,05 grau desloca o ponto da borda em uns 8,5 centímetros: a exatidão depende da trajetória. LiDAR brilha sob vegetação, em fios e em corredores; para terraplenagem em solo exposto, a fotogrametria costuma bastar e é mais barata."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:20)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 10–14 — termografia, as três aplicações em fachadas, a fachada simulada ao longo do dia, o planejamento da inspeção e a calculadora do IFOV.
 
 > "A câmera térmica mede infravermelho e mostra temperatura aparente, que depende da emissividade e dos reflexos. Em fachada, o que importa é a diferença: a placa descolada aquece mais rápido sob sol e esfria mais rápido à noite; a umidade aparece fria. Sem fluxo de calor, nada aparece — então o horário do voo é parte do método. O termograma diz onde olhar, mas não substitui a percussão e o arrancamento da NBR 16747. E a distância importa: com IFOV de 0,92 miliradiano, a 10 metros o menor defeito confiável tem uns 2,8 centímetros; a 30 metros, uns 8,3."
 
-### 5. Encerramento (3:20 – 3:50)
-
+### 5. Encerramento
 **[TELA]** Slides 15–18 — atividade e pontos-chave, fechamento da Unidade 2, prévia da Unidade 3 e encerramento.
 
 > "Com isso, você fecha a Unidade 2: do voo planejado ao modelo 3D, aos volumes, ao LiDAR e à termografia. Na Unidade 3, o foco desce para dentro do solo e da estrutura: sensores geotécnicos e estruturais, segurança e ambiente, e as séries de dados com alertas e dashboards. Te espero na Aula 9!"
@@ -553,12 +545,12 @@ Na **Unidade 3 — Sensores IoT no Monitoramento de Obras**, o foco desce do cé
 
 Um drone com câmera de pixel $p = 2{,}41\,\mathrm{\mu m}$ e distância focal $f = 8{,}8\,\mathrm{mm}$ mapeia um canteiro a $70\,\mathrm{m}$ acima do ponto de decolagem, com sobreposição lateral planejada de 70%. Parte do terreno é um morro 20 m mais alto que o ponto de decolagem. Sobre o que acontece sobre o morro, assinale a alternativa **correta**:
 
-- [ ] a. O GSD piora (aumenta), porque o drone fica mais longe do terreno, e a sobreposição lateral aumenta.
-- [x] b. A altura efetiva cai para 50 m: o GSD melhora (diminui), mas o *footprint* encolhe e a sobreposição lateral cai abaixo do planejado.
-- [ ] c. Nada muda, porque o GSD depende da altura em relação ao ponto de decolagem, que é a referência do plano de voo.
-- [ ] d. A sobreposição lateral não muda, porque o espaçamento entre faixas é proporcional à altura de voo em qualquer ponto.
+a) O GSD piora (aumenta), porque o drone fica mais longe do terreno, e a sobreposição lateral aumenta.
+b) A altura efetiva cai para 50 m: o GSD melhora (diminui), mas o *footprint* encolhe e a sobreposição lateral cai abaixo do planejado.
+c) Nada muda, porque o GSD depende da altura em relação ao ponto de decolagem, que é a referência do plano de voo.
+d) A sobreposição lateral não muda, porque o espaçamento entre faixas é proporcional à altura de voo em qualquer ponto.
 
-**Resposta correta:** `b`
+**Resposta correta:** b)
 
 **Feedback:** A alternativa (b) está correta: o $H$ da fórmula $GSD = H \cdot p / f$ é a altura **acima do terreno fotografado**. Sobre o morro, $H = 50\,\mathrm{m}$, o GSD cai de 1,92 para cerca de 1,37 cm, mas a largura da foto cai de 105 para 75 m; como o espaçamento entre faixas foi fixado em 31,5 m, a sobreposição lateral cai para $1 - 31{,}5/75 = 58\%$ — e aparecem falhas no modelo. A (a) inverte o efeito: mais perto do terreno, o GSD diminui. A (c) erra a referência da altura. A (d) é falsa: o espaçamento $d$ é fixo no plano; o que varia com o relevo é o *footprint*. A solução é o voo acompanhando o relevo ou o planejamento pelo ponto mais alto.
 
@@ -566,110 +558,48 @@ Um drone com câmera de pixel $p = 2{,}41\,\mathrm{\mu m}$ e distância focal $f
 
 Numa terraplenagem, o volume mensal escavado é obtido comparando o MDT do mês com o do mês anterior. Os checkpoints do levantamento atual mostram resíduos verticais (modelo − campo) de $+3$ a $+4\,\mathrm{cm}$, todos positivos, com média de $+3{,}2\,\mathrm{cm}$, numa frente de 3 ha. Assinale a alternativa **correta**:
 
-- [ ] a. Como o $RMSE_z$ fica abaixo de 5 cm, o levantamento é exato e o volume pode ser usado sem qualquer correção.
-- [ ] b. Erros de cota sempre se compensam em áreas grandes, de modo que o efeito sobre o volume é desprezível.
-- [ ] c. O problema se resolve trocando o MDT pelo MDS, que tem mais pontos e representa melhor a superfície do terreno.
-- [x] d. Há um viés vertical: em 3 ha, 3,2 cm equivalem a cerca de 960 m³, e a causa (GCPs, base RTK, altura de antena) deve ser investigada.
+a) Como o $RMSE_z$ fica abaixo de 5 cm, o levantamento é exato e o volume pode ser usado sem qualquer correção.
+b) Erros de cota sempre se compensam em áreas grandes, de modo que o efeito sobre o volume é desprezível.
+c) O problema se resolve trocando o MDT pelo MDS, que tem mais pontos e representa melhor a superfície do terreno.
+d) Há um viés vertical: em 3 ha, 3,2 cm equivalem a cerca de 960 m³, e a causa (GCPs, base RTK, altura de antena) deve ser investigada.
 
-**Resposta correta:** `d`
+**Resposta correta:** d)
 
 **Feedback:** A alternativa (d) está correta: resíduos todos de mesmo sinal, com média próxima do próprio RMSE, revelam **erro sistemático**, que não se compensa e vira volume diretamente: $\delta V \approx A \cdot \delta z = 30.000 \times 0{,}032 = 960\,\mathrm{m^3}$. A (a) confunde atender a um limite de RMSE com ausência de viés: o modelo é **preciso, mas com viés**. A (b) só vale para erros **aleatórios**. A (c) piora o problema: o MDS inclui máquinas e vegetação, que viram volume falso.
 
 ---
 
-## Atividade Verificadora (AAI — Atividade Avaliativa Individual)
-
-**Pergunta:**
-
-> Uma construtora executa a terraplenagem de um loteamento de $600 \times 300\,\mathrm{m}$ (18 ha), com uma **frente de corte de 3 ha** e, no extremo sul, uma **encosta de 2 ha coberta por mata**, onde será aberto um acesso. A gerenciadora exige **levantamento mensal** com GSD de no máximo $2{,}5\,\mathrm{cm}$ e $RMSE_z \le 5\,\mathrm{cm}$ nos checkpoints. O drone disponível é um multirrotor com RTK, câmera de $5.472 \times 3.648$ pixels, $p = 2{,}41\,\mathrm{\mu m}$ e $f = 8{,}8\,\mathrm{mm}$, voando a $8\,\mathrm{m/s}$, com 20 min úteis por bateria.
->
-> Estruture sua resposta em quatro partes:
->
-> 1. **Planejamento de voo** — calcule a altura máxima para o GSD exigido e adote $H = 90\,\mathrm{m}$. Para esse $H$, calcule o GSD, o *footprint*, a base e o espaçamento entre faixas (sobreposições de 80% frontal e 70% lateral), o intervalo entre fotos, o número aproximado de faixas e de fotos (faixas ao longo dos 600 m) e o tempo de voo. Cabe numa bateria? Que cuidado regulatório o voo exige por ser um mapeamento em faixas sobrepostas?
-> 2. **Controle e exatidão** — proponha a quantidade e a distribuição de GCPs e de checkpoints. No levantamento deste mês, os resíduos verticais dos 5 checkpoints foram $+3{,}1$; $+2{,}4$; $+4{,}0$; $+2{,}8$ e $+3{,}7\,\mathrm{cm}$. Calcule a média e o $RMSE_z$. O levantamento atende à especificação? Ele é preciso? É exato? O que você investigaria?
-> 3. **Volume** — o volume escavado no mês (MDT anterior − MDT atual) na frente de 3 ha resultou em $21.600\,\mathrm{m^3}$. Sabendo que o levantamento anterior foi validado sem viés, estime o efeito do viés do item 2 sobre esse volume e o volume corrigido. Explique por que se usa o MDT, e não o MDS.
-> 4. **Encosta com mata** — o drone com câmera RGB consegue gerar o MDT da encosta? Proponha o sensor adequado e estime a densidade de pontos de um LiDAR com $PRR = 240\,\mathrm{kHz}$ e campo de visão de $70°$, voando a $80\,\mathrm{m}$ e $8\,\mathrm{m/s}$. Como você verificaria a exatidão desse levantamento?
-
-**Resposta esperada:**
-
-> **Parte 1.** Altura máxima: $H_{máx} = GSD \cdot f / p = 0{,}025 \times 8{,}8 / 0{,}00241 \approx 91{,}3\,\mathrm{m}$. Com $H = 90\,\mathrm{m}$ (abaixo do teto de 120 m da categoria aberta):
->
-> $
-> GSD = \frac{90 \times 0{,}00241}{8{,}8} \approx 2{,}46\,\mathrm{cm}
-> \qquad
-> W \approx 5.472 \times 0{,}0246 \approx 135\,\mathrm{m}
-> \qquad
-> L \approx 3.648 \times 0{,}0246 \approx 90\,\mathrm{m}
-> $
->
-> $
-> B = 90 \times 0{,}2 = 18\,\mathrm{m}
-> \qquad
-> d = 135 \times 0{,}3 = 40{,}5\,\mathrm{m}
-> \qquad
-> \Delta t = 18/8 = 2{,}25\,\mathrm{s}
-> $
->
-> Faixas: $\lceil 300/40{,}5 \rceil + 1 = 9$; fotos por faixa: $\lceil 600/18 \rceil + 1 = 35$; total de cerca de **315 fotos**. Percurso: $9 \times 600 + 8 \times 40{,}5 = 5.724\,\mathrm{m}$, ou $5.724/8 \approx 716\,\mathrm{s} \approx 11{,}9\,\mathrm{min}$ — **cabe numa bateria** (a capacidade por bateria é $A = 8 \times 1.200 \times 40{,}5 \approx 38{,}9\,\mathrm{ha}$). Boa resposta comenta o relevo (a encosta reduz a altura efetiva e a sobreposição; usar voo acompanhando o terreno) e o arrasto. Regulação: mapeamento em faixas sobrepostas é **aerolevantamento** — empresa inscrita no Ministério da Defesa e pedido no **SARPAS com 4 dias corridos** de antecedência —, além do enquadramento no RBAC nº 100, SISANT, piloto, seguro e LGPD.
->
-> **Parte 2.** Espera-se algo como **5 a 8 GCPs** no perímetro e no interior (incluindo pontos altos e baixos) e **checkpoints independentes** (ao menos 5 para o controle de rotina; o padrão ASPRS 2023 pede 30 para conformidade plena), medidos com GNSS RTK ou estação total, sem uso no processamento. Cálculo:
->
-> $
-> \bar{\Delta z} = \frac{3{,}1 + 2{,}4 + 4{,}0 + 2{,}8 + 3{,}7}{5} = 3{,}2\,\mathrm{cm}
-> \qquad
-> RMSE_z = \sqrt{\frac{9{,}61 + 5{,}76 + 16{,}00 + 7{,}84 + 13{,}69}{5}} \approx 3{,}25\,\mathrm{cm}
-> $
->
-> Numericamente, $3{,}25 \le 5\,\mathrm{cm}$: **atende** à especificação. Mas todos os resíduos são positivos e a média é quase igual ao RMSE: a dispersão em torno da média é só $\sqrt{3{,}25^2 - 3{,}2^2} \approx 0{,}6\,\mathrm{cm}$. O modelo é **preciso, mas tem viés** — não é exato no sentido de veracidade (Aula 2). Investigar: altura da antena nos GCPs ou na base, coordenadas da base RTK, sistema de altitudes, calibração da câmera.
->
-> **Parte 3.** O MDT atual está, em média, 3,2 cm **acima** do real; como o volume escavado é MDT anterior − MDT atual, o volume está **subestimado** em $\delta V \approx A \cdot \delta z = 30.000 \times 0{,}032 = 960\,\mathrm{m^3}$. Volume corrigido: $21.600 + 960 = 22.560\,\mathrm{m^3}$ (diferença de cerca de 4,3%). O ideal é corrigir a causa e reprocessar, não apenas somar o valor. Usa-se o **MDT** porque o MDS inclui máquinas, caminhões, vegetação e pilhas temporárias, que viram volume falso.
->
-> **Parte 4.** Não: sob mata, a câmera vê a copa, e a fotogrametria gera só o MDS. O sensor adequado é o **LiDAR embarcado**, cujos **múltiplos retornos** passam pelas frestas da vegetação; com o último retorno classificado como solo, obtém-se o MDT. Densidade:
->
-> $
-> W = 2 \times 80 \times \tan 35° \approx 112\,\mathrm{m}
-> \qquad
-> \rho \approx \frac{240.000}{8 \times 112} \approx 268\,\mathrm{pontos/m^2}
-> $
->
-> (uma passada; sob a mata, só uma fração desses pontos chega ao solo). A exatidão se verifica com **checkpoints em clareiras e em áreas abertas** e com o RMSE, como na fotogrametria; a qualidade depende da trajetória (GNSS RTK/PPK + IMU). Resposta exemplar integra as quatro partes num procedimento mensal coerente, com método e tolerância definidos em contrato para a medição.
-
----
-
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual]_
 
 - **Nome do livro:** 
 - **Capítulo:** 
-- **Organizador:** 
-- **Editora:** 
-- **Link de acesso (BV):** 
-- **Aula em que entra:** 
+- **Link de acesso:** 
+- **Qual aula o material deverá entrar?** 
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Recomendo a **"Aula 1 — Fotogrametria e drones em geociências"**, do canal do SPAMLab (Instituto de Astronomia, Geofísica e Ciências Atmosféricas da USP), no YouTube: a primeira aula, gravada em português, de uma disciplina de pós-graduação sobre fotogrametria e drones aplicados às geociências. É uma aula longa (cerca de 1h20): assista acompanhando as Aulas 5 e 6 e anote onde aparecem GSD, sobreposição, pontos de controle e exatidão. Para praticar, use a documentação do OpenDroneMap, software livre de processamento, que traz boas práticas de voo e conjuntos de dados de exemplo.
 
-- **Link(s):** https://www.youtube.com/watch?v=_YEmntlFf7E · https://docs.opendronemap.org/
-- **Aula em que entra:** Aulas 5 e 6
+- **Links:** https://www.youtube.com/watch?v=_YEmntlFf7E · https://docs.opendronemap.org/
+- **Qual aula o material deverá entrar?** Aulas 5 e 6
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > No episódio #2 do **Nuvem Cast**, do canal Nuvem UAV, a pergunta é direta: **"Topografia com drones realmente funciona?"**. Os convidados são os professores Antonio Tommaselli e João Galera, referências brasileiras em fotogrametria e geodésia. Ouça com o olhar crítico desta unidade: em que condições a topografia com drone entrega exatidão de engenharia? Que papel têm os pontos de controle, o GNSS e a verificação independente? É o centro das Aulas 6 e 7. O episódio completo tem cerca de 1h14; para esta curadoria, ouça os **primeiros 45 minutos**.
 
-- **Nome do podcast/canal:** Nuvem Cast (canal Nuvem UAV, no YouTube)
-- **Tema recomendado:** Episódio #2 — Topografia com drones realmente funciona?
+- **NOME DO PODCAST:** Nuvem Cast (canal Nuvem UAV, no YouTube)
+- **NOME DO EPISÓDIO:** Episódio #2 — Topografia com drones realmente funciona?
 - **Link:** https://www.youtube.com/watch?v=xBgA7UZqNy8
-- **Aula em que entra:** Aulas 6 e 7
+- **Qual aula o material deverá entrar?** Aulas 6 e 7
 
 ### Artigo científico
 
 > Artigo de referência sobre o uso de drones no **levantamento de terraplenagem**. Os autores avaliam o desempenho de um sistema com drone construído para adquirir, de forma rápida e autônoma, dados de mapeamento 3D em grandes obras de movimentação de terra: descrevem o equipamento, o **planejamento dos voos fotogramétricos** e a geração de **nuvens de pontos**, e propõem um **modelo para estimar o erro de posição**, testado em canteiros reais de escavação e terraplenagem. É a ponte entre o planejamento da Aula 5, a exatidão da Aula 6 e os volumes da Aula 7.
 
 - **Link:** https://doi.org/10.1016/j.autcon.2014.01.004
-- **Aula em que entra:** Aulas 5, 6 e 7
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > SIEBERT, Sebastian; TEIZER, Jochen. Mobile 3D mapping for surveying earthwork projects using an Unmanned Aerial Vehicle (UAV) system. **Automation in Construction**, v. 41, p. 1-14, 2014. DOI: 10.1016/j.autcon.2014.01.004.
+- **Qual aula o material deverá entrar?** Aulas 5, 6 e 7
+- **Referência bibliográfica do artigo no formato ABNT:** SIEBERT, Sebastian; TEIZER, Jochen. Mobile 3D mapping for surveying earthwork projects using an Unmanned Aerial Vehicle (UAV) system. **Automation in Construction**, v. 41, p. 1-14, 2014. DOI: 10.1016/j.autcon.2014.01.004.

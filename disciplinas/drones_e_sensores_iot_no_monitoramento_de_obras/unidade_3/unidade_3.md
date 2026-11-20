@@ -8,6 +8,10 @@
 
 > Na orla de Santos (SP), dezenas de edifícios construídos entre as décadas de 1950 e 1970, com fundações rasas sobre camadas profundas de argila mole, estão visivelmente inclinados. Agora imagine a sua obra: uma escavação de 10 m para três subsolos, num solo parecido, ao lado de um prédio desses. Antes da primeira caçamba de terra sair, você precisa responder: **o que medir, com qual instrumento, onde instalar e com quais limites?** Nesta aula, você vai conhecer os três instrumentos clássicos do monitoramento geotécnico — **inclinômetro, piezômetro e marco de recalque** — e aprender a transformar as leituras deles em milímetros, em distorção angular e em decisão.
 
+### O que você verá nesta unidade
+
+Nesta unidade, os sensores vão para dentro da obra. Você vai estudar a instrumentação geotécnica — inclinômetros, piezômetros e marcos de recalque (Aula 9) —, a estrutural — extensômetros, acelerômetros, fissurômetros e maturidade do concreto (Aula 10) — e o monitoramento de segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos (Aula 11). Fechamos com o tratamento dos dados: séries temporais, níveis de alerta e dashboards (Aula 12). O objetivo é que você saiba escolher o instrumento certo para cada risco, definir níveis de atenção e de alerta e associar a cada um uma resposta. A justificativa é direta: é esse ciclo de medir, comparar e agir que evita danos a vizinhos, a estruturas e a pessoas.
+
 ### Instrumentar para decidir: o método observacional
 
 Na Unidade 1, você viu que monitorar é fechar a malha entre medição e ação. Na geotecnia, essa ideia tem nome e sobrenome: o **método observacional**, sistematizado por Peck (1969). Como o solo nunca é exatamente o da sondagem, o projetista adota as hipóteses mais prováveis, **prevê** o comportamento da obra, define **de antemão** os limites aceitáveis e um **plano de contingência** para o caso de os limites serem atingidos — e a obra é executada medindo e comparando. Instrumentação sem limites e sem plano de ação não é método observacional; é coleta de curiosidades.
@@ -61,6 +65,8 @@ O que fissura um prédio não é tanto o recalque **absoluto**, e sim o **difere
 
 A **ABNT NBR 6122** (projeto e execução de fundações) torna obrigatório o monitoramento de recalques em alguns casos — por exemplo, estruturas em que a carga variável é significativa (silos, reservatórios), edificações altas ou esbeltas e fundações não convencionais —, e o plano de monitoramento da obra deve fixar os limites de cada instrumento.
 
+![Dois edifícios residenciais altos na orla de Santos, SP, vistos da rua: o prédio da direita está visivelmente inclinado em relação ao da esquerda, efeito do recalque diferencial de fundações rasas sobre argila mole. Foto: Elgaard, Wikimedia Commons, CC BY-SA 3.0](https://upload.wikimedia.org/wikipedia/commons/7/78/SantosLeaningHouses2.JPG)
+
 ### Exemplo numérico
 
 **(a) Do ângulo ao milímetro.** Numa escavação, a sonda do inclinômetro ($L = 0{,}5\,\mathrm{m}$) registra, em relação à leitura zero, variações de $\sin\theta$ apenas nos seis trechos superiores: $6{,}0$; $5{,}0$; $4{,}0$; $3{,}0$; $1{,}6$ e $0{,}4 \times 10^{-3}$ (do topo para baixo). Os trechos abaixo não variaram — o pé está fixo. O deslocamento no topo é a soma:
@@ -99,36 +105,31 @@ Para a escavação de 10 m ao lado do prédio de Santos do gancho, desenhe uma p
 - **Wikipedia — Recalque:** https://pt.wikipedia.org/wiki/Recalque
 - **Wikipedia (inglês) — Inclinometer:** https://en.wikipedia.org/wiki/Inclinometer
 
-## Aula 9 — Roteiro da Videoaula 9: "Monitoramento geotécnico: inclinômetros, piezômetros e marcos de recalque"
+## Aula 9 — Roteiro da Videoaula 9: "O solo está se mexendo? Os instrumentos que escutam a escavação"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os prédios inclinados da orla de Santos.
 
 > "Olha esses prédios na orla de Santos: inclinados, à vista de todo mundo. Fundação rasa sobre argila mole. Agora imagina a sua obra: uma escavação de 10 metros ao lado de um prédio desses. Antes da primeira caçamba sair, você precisa saber o que medir, com qual instrumento, onde e com quais limites. É o assunto de hoje."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–8 — método observacional, a escavação instrumentada em 3D, como funciona o inclinômetro, o perfil de deslocamento e o exemplo do ângulo ao milímetro.
 
 > "Peck chamou isso de método observacional: prever o comportamento, fixar os limites e o plano de contingência antes, e medir durante a obra. Três perguntas, três instrumentos: a contenção está andando? Inclinômetro. A água está empurrando? Piezômetro. O vizinho está descendo? Marco de recalque. E tudo começa pela leitura zero. O inclinômetro é um tubo com ranhuras, com o pé fixo em solo que não se move; a sonda lê a inclinação a cada meio metro, e cada trecho desloca L vezes o seno do ângulo. Somando de baixo para cima: no nosso exemplo, 0,5 vezes 0,020 dá 10 milímetros no topo. Há uma semana eram 7: são 0,43 milímetro por dia."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:10)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–11 — tipos de piezômetro, o tempo de resposta em argila e os marcos de recalque com a referência de nível.
 
 > "O piezômetro mede a poropressão. O de Casagrande é um tubo aberto: barato, robusto e lento — em argila, o nível pode levar horas ou dias para se ajustar; mexa na permeabilidade e veja. O de corda vibrante responde em minutos e conversa com o datalogger. Já o recalque se mede em marcos nos pilares do vizinho, por nivelamento de precisão, a partir de uma referência de nível profunda, fora da influência da escavação. Se a referência mexer, tudo mente junto."
 
-### 4. Desenvolvimento — parte 3 (2:10 – 3:00)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–15 — o prédio que recalca em 3D, a escala de Bjerrum, a calculadora de distorção angular e do manual ao IoT.
 
 > "Prédio não fissura pelo recalque absoluto, e sim pelo diferencial. A medida é a distorção angular: recalque diferencial dividido pela distância entre os pilares. Dezoito e seis milímetros, a seis metros: 12 sobre 6.000, um quinhentos avos. Pela escala de Bjerrum, é o limite para edifícios em que não se admitem fissuras. Com um trezentos avos, aparecem as primeiras fissuras na alvenaria. E a frequência de leitura muda com a fase da obra: leitura zero, leitura intensa e automática durante a escavação, e espaçada depois que estabiliza."
 
-### 5. Encerramento (3:00 – 3:30)
-
+### 5. Encerramento
 **[TELA]** Slides 16–18 — atividade, pontos-chave e encerramento.
 
 > "Hoje você instrumentou o solo e os vizinhos. Na próxima aula, a gente sobe para a estrutura: extensômetros, acelerômetros, fissurômetros e a maturidade do concreto. Te espero na Aula 10!"
@@ -156,6 +157,8 @@ No regime elástico, a tensão vem da **lei de Hooke**, $\sigma = E\,\varepsilon
 Os **acelerômetros** medem a vibração. Os **MEMS** são baratos e de baixo consumo, ideais para IoT; os **piezoelétricos** têm mais sensibilidade e faixa de frequência. Toda estrutura tem **frequências naturais**: num modelo simples de massa e mola, $f = \frac{1}{2\pi}\sqrt{k/m}$. Se a rigidez $k$ cai — por fissuração, por dano numa ligação —, a frequência cai junto: $f_2/f_1 = \sqrt{k_2/k_1}$. Uma queda de 5% na frequência corresponde a cerca de 10% de perda de rigidez ($0{,}95^2 \approx 0{,}90$). Esse é o princípio do **monitoramento da saúde estrutural** (*structural health monitoring*, SHM) por identificação modal. Lembre-se de Nyquist (Aula 2): amostrar acima do dobro — na prática, de 5 a 10 vezes — a maior frequência de interesse.
 
 O caso clássico é o da **Millennium Bridge**, em Londres: inaugurada em junho de 2000, foi fechada dois dias depois por oscilações laterais provocadas pelo caminhar sincronizado dos pedestres e só reabriu em 2002, após a instalação de amortecedores. Medir aceleração e frequências faz parte do projeto e do comissionamento — não é luxo.
+
+![Passarela Millennium Bridge, em Londres, vista do tabuleiro: piso metálico estreito entre guarda-corpos curvos e os cabos laterais da suspensão, com pedestres caminhando em direção à Catedral de São Paulo, ao fundo. Foto: Telemaque MySon, Wikimedia Commons, CC BY-SA 3.0](https://upload.wikimedia.org/wikipedia/commons/9/96/Millennium_Bridge_London.jpg)
 
 ### Fissurômetros: a fissura está crescendo?
 
@@ -214,36 +217,31 @@ Para um edifício de 15 pavimentos com escavação escorada e um vizinho que já
 - **Wikipedia — Acelerômetro:** https://pt.wikipedia.org/wiki/Aceler%C3%B4metro
 - **Wikipedia — Frequência natural:** https://pt.wikipedia.org/wiki/Frequ%C3%AAncia_natural
 
-## Aula 10 — Roteiro da Videoaula 10: "Monitoramento estrutural: extensômetros, acelerômetros, fissurômetros e maturidade do concreto"
+## Aula 10 — Roteiro da Videoaula 10: "O que a estrutura está sentindo antes de dar o primeiro sinal"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e a laje concretada na quarta.
 
 > "Sexta, cinco da tarde. A laje foi concretada na quarta e o empreiteiro quer tirar o escoramento na segunda. Os corpos de prova ainda não foram rompidos. Ao lado, uma escora metálica parece ganhar carga no sol da tarde. Hoje a gente mede o que a estrutura está sentindo."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:30)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — quatro perguntas e quatro sensores, extensômetro elétrico × corda vibrante, a escora instrumentada e a instalação antes da concretagem.
 
 > "Deformação, vibração, fissura e maturidade: quatro perguntas, quatro sensores. O extensômetro de corda vibrante é o cavalo de batalha da obra: estável por anos, soldado na escora ou amarrado na armadura. Duzentos e cinquenta microdeformações vezes 200 gigapascals dão 50 megapascals; vezes 120 centímetros quadrados, 600 quilonewtons — 67% da carga de projeto. Mas cuidado: 15 graus de sol valem 180 microdeformações. Sem compensar a temperatura, o sol vira carga no seu relatório."
 
-### 3. Desenvolvimento — parte 2 (1:30 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–12 — acelerômetros e frequência natural, o prédio que oscila em 3D, a Millennium Bridge, fissurômetros e a série da fissura.
 
 > "Toda estrutura tem uma assinatura: a frequência natural. Se a rigidez cai, a frequência cai junto — 10% de rigidez a menos, uns 5% de frequência a menos. Foi medindo aceleração que se entendeu o balanço da Millennium Bridge, em Londres. E no fissurômetro, a fissura abre e fecha com o sol todo dia; o que importa é a tendência, que só aparece com leitura contínua."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 13–15 — o método da maturidade, a curva de 72 h e a calculadora da laje.
 
 > "Agora a laje. Maturidade é temperatura vezes tempo: soma de T menos T zero vezes delta t. Vinte e oito, 32 e 26 graus em blocos de 12 horas dão 1.032 grau-hora; pela curva calibrada da mistura, uns 22,8 megapascals. O alvo de 21 foi atingido por volta de 29 horas. No inverno, a 15 graus, seriam 56 horas. Libera — confirmando com corpo de prova e com o projetista."
 
-### 5. Encerramento (3:10 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 16–18 — atividade, pontos-chave e encerramento.
 
 > "Você instrumentou a estrutura. Na próxima aula, o monitoramento sai para o entorno: vibração nos vizinhos, ruído, poeira e o rastreamento de máquinas e pessoas. Te espero na Aula 11!"
@@ -332,36 +330,31 @@ Monte o plano de monitoramento ambiental e de segurança da cravação junto ao 
 - **Wikipedia — Decibel:** https://pt.wikipedia.org/wiki/Decibel
 - **Wikipedia — Material particulado:** https://pt.wikipedia.org/wiki/Material_particulado
 
-## Aula 11 — Roteiro da Videoaula 11: "Segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos"
+## Aula 11 — Roteiro da Videoaula 11: "Vibração, barulho e poeira: o canteiro também incomoda (e se mede)"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–4 — capa, sumário, as estacas junto ao casarão e as três frentes.
 
 > "Segunda, oito da manhã: estacas a 15 metros de um casarão tombado. Às nove, a casa treme; às dez, a reclamação de barulho e poeira; às onze, um caminhão passa a meio metro de um ajudante. Quatro problemas, uma mesma arquitetura IoT."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 5–7 — vibração e sismógrafo, a simulação de PPV × frequência e a curva da NBR 9653.
 
 > "Vibração se mede em velocidade de partícula de pico, em milímetros por segundo, com um sismógrafo no pé da edificação. E a frequência importa: a NBR 9653 parte de 15 milímetros por segundo em 4 hertz e chega a 50 acima de 40. Doze milímetros por segundo a 10 hertz é 68% do limite. Mas a norma é de desmonte com explosivos: para um casarão tombado, o plano fixa limites próprios, mais baixos."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — ruído e NBR 10151, a soma de decibéis, MP10 e MP2,5 e a simulação da poeira com aspersão.
 
 > "Decibel não se soma como metro. Sessenta e dois, 65 e 68 dão 70,4; desligar o gerador quase não muda nada; tratar o bate-estacas, sim. A NBR 10151 é a régua do ruído em área habitada. Poeira: MP10 e MP2,5, com sensores óticos que precisam de calibração. Os padrões da CONAMA 506 são de ar ambiente; na divisa da obra, o plano define o gatilho para ligar a aspersão."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–15 — rastreamento, a cerca virtual em 3D, a calculadora de utilização e a pausa para reflexão.
 
 > "Telemetria na máquina e etiquetas UWB nas pessoas permitem cercas virtuais: entrou na zona da escavadeira, os dois são avisados. E os mesmos dados mostram produtividade: 7,2 horas ligada, 2,1 em marcha lenta, utilização de 57%. Mas pare e pense: rastrear pessoas é segurança ou vigilância? Finalidade, mínimo necessário e transparência."
 
-### 5. Encerramento (3:10 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 16–18 — atividade, pontos-chave e encerramento.
 
 > "São muitos sensores gerando muitos dados. Como limpar, definir alertas que não enlouqueçam a equipe e montar um dashboard que leve à decisão? É a última aula da unidade. Te espero na Aula 12!"
@@ -375,6 +368,8 @@ Monte o plano de monitoramento ambiental e de segurança da cravação junto ao 
 ### Anatomia de uma leitura
 
 Cada ponto de uma série temporal é mais do que um número. Ele precisa de: **carimbo de tempo** (de preferência em UTC, com o fuso declarado); **identificação do sensor**; **valor bruto** (Hz, mA, dígitos); **valor de engenharia** (mm, kPa), obtido com a leitura zero e os fatores de calibração — que devem ser **versionados**; **unidade**; **marcas de qualidade**; e dados de saúde, como **bateria e intensidade do sinal**. Regra de ouro: **nunca sobrescreva o dado bruto**; a correção é sempre uma nova camada, rastreável. Esses dados vivem em **bancos de séries temporais**, otimizados para gravar e consultar por intervalo de tempo.
+
+![Datalogger compacto de plástico branco, com tampa de bateria e grade de ventilação, apoiado sobre uma régua graduada para dar a escala; é esse tipo de registrador que grava cada leitura com o seu carimbo de tempo. Foto: Cjp24, Wikimedia Commons, CC BY-SA 3.0](https://upload.wikimedia.org/wikipedia/commons/9/97/Data_logger.jpg)
 
 ### Cinco defeitos que todo dado de campo tem
 
@@ -409,6 +404,8 @@ Três boas práticas reduzem a fadiga de alarmes: gatilhos por **valor e por vel
 ### Dashboards que levam à decisão
 
 Um bom painel mostra: uma **planta da obra** com cada instrumento colorido pelo seu estado; **séries temporais com os limites desenhados** e a velocidade; a **saúde dos sensores** (bateria, hora da última leitura, sinal); e uma **lista de alarmes com reconhecimento** — quem viu, quando e o que fez. E evita: gráficos sem limites, eixos cortados que exageram variações, excesso de cores e, principalmente, **alarme sem dono**. Cada alerta precisa de um responsável, de um prazo e de uma ação.
+
+![Painel de monitoramento em tela escura do software livre Grafana, com indicadores numéricos no topo e vários gráficos de séries temporais, em linhas e barras coloridas, que mostram a evolução de cada variável ao longo do tempo. Imagem: Linux Screenshots, Wikimedia Commons, CC BY 2.0](https://upload.wikimedia.org/wikipedia/commons/0/04/Grafana_dashboard_%282016%29.png)
 
 ### Exemplo numérico
 
@@ -445,36 +442,31 @@ Pegue uma série real (por exemplo, dados abertos de uma estação meteorológic
 
 Na **Unidade 4 — Integração, Inteligência e Gestão do Monitoramento**, os dados dos drones e dos sensores vão se juntar. Você vai integrar o monitoramento ao **BIM** e ao **gêmeo digital** (4D e comparação *as-built* × *as-designed*), usar **inteligência artificial e visão computacional** para detectar fissuras e medir avanço físico, tratar da **gestão** do monitoramento — custo-benefício, **LGPD**, segurança da informação e contratos — e, para fechar, desenvolver o **projeto integrado** de monitoramento de uma obra.
 
-## Aula 12 — Roteiro da Videoaula 12: "Dados de sensores: séries temporais, níveis de alerta e dashboards"
+## Aula 12 — Roteiro da Videoaula 12: "Verde, amarelo ou vermelho? Quando a leitura vira alerta"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os 37 alarmes do fim de semana.
 
 > "Trinta e sete alarmes no fim de semana; trinta e cinco falsos. Na terceira semana, ninguém olhava mais o painel — e um dos alarmes era real. Hoje: como transformar séries de sensores em decisões confiáveis."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — anatomia de uma leitura, os cinco defeitos, a simulação de limpeza e as oito leituras do exemplo.
 
 > "Cada leitura tem tempo em UTC, sensor, valor bruto, valor de engenharia, qualidade e saúde — e o bruto nunca é sobrescrito. Todo dado de campo tem picos, lacunas, deriva, ciclo térmico e relógio errado. A mediana tira o pico; a média móvel suaviza, mas atrasa. No exemplo, o 10,6 do quinto dia vira 5,2 pela mediana, e a taxa recente é de 0,8 milímetro por dia."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — o TARP, a simulação de persistência, a calculadora de tempo até o alerta e a incerteza nos limiares.
 
 > "Os níveis viram um plano de ação: verde, amarelo, vermelho, cada um com ação, responsável e prazo. Gatilho por valor e por velocidade. Exigir duas leituras seguidas corta os alarmes falsos, mas atrasa a detecção do evento real — é um compromisso. No exemplo, 6,8 milímetros estão longe da atenção, mas a 0,8 por dia ela chega em 4 dias. A velocidade manda agir agora."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:00)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–14 — o que um bom dashboard mostra, o painel simulado e a ponte para o gêmeo digital.
 
 > "Um bom dashboard mostra a planta com status, as séries com os limites desenhados, a velocidade e a saúde dos sensores — e uma lista de alarmes com dono. Vamos simular um evento: o inclinômetro acelera, fica amarelo, entra no log, o engenheiro de plantão reconhece. E o próximo passo é levar esses números para dentro do modelo da obra: o gêmeo digital."
 
-### 5. Encerramento (3:00 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 15–19 — atividade, pontos-chave, fechamento da unidade, prévia da Unidade 4 e encerramento.
 
 > "Com esta aula, você fecha a unidade dos sensores: geotecnia, estrutura, entorno e dados. Na Unidade 4, drones e sensores se encontram no BIM e no gêmeo digital, com inteligência artificial, LGPD, contratos e um projeto integrado. Foi um prazer! Te espero lá."
@@ -487,12 +479,12 @@ Na **Unidade 4 — Integração, Inteligência e Gestão do Monitoramento**, os 
 
 Um inclinômetro instalado atrás de uma cortina de estacas, com o pé previsto em solo indeslocável, apresenta, em relação à leitura zero, deslocamento de 10 mm no topo e deslocamentos que diminuem gradualmente até zero a cerca de 3 m de profundidade, sem variação nos trechos inferiores. Há 7 dias, o topo indicava 7 mm. Com base nos conceitos da aula, assinale a alternativa **correta**:
 
-- [ ] a. O deslocamento no topo é obtido multiplicando-se o ângulo medido no trecho superior pela profundidade total do tubo, sem necessidade de leitura zero.
-- [x] b. O perfil é coerente com o pé fixo, e a velocidade de cerca de 0,43 mm/dia deve ser comparada aos limites do plano, além do valor absoluto.
-- [ ] c. Como o deslocamento é nulo nos trechos inferiores, o instrumento está com defeito e as leituras devem ser descartadas.
-- [ ] d. A segunda passada com a sonda girada 180° serve apenas para dobrar a resolução, e pode ser dispensada em campanhas rotineiras.
+a) O deslocamento no topo é obtido multiplicando-se o ângulo medido no trecho superior pela profundidade total do tubo, sem necessidade de leitura zero.
+b) O perfil é coerente com o pé fixo, e a velocidade de cerca de 0,43 mm/dia deve ser comparada aos limites do plano, além do valor absoluto.
+c) Como o deslocamento é nulo nos trechos inferiores, o instrumento está com defeito e as leituras devem ser descartadas.
+d) A segunda passada com a sonda girada 180° serve apenas para dobrar a resolução, e pode ser dispensada em campanhas rotineiras.
 
-**Resposta correta:** `b`
+**Resposta correta:** b)
 
 **Feedback:** A alternativa (b) está correta: o deslocamento acumula-se de baixo para cima a partir do pé fixo, de modo que trechos inferiores sem variação são exatamente o esperado; e a velocidade, $(10 - 7)/7 \approx 0{,}43\,\mathrm{mm/dia}$, é informação tão importante quanto o valor absoluto para os níveis de alerta. A (a) erra duas vezes: o deslocamento é a soma de $L\,\sin\theta$ trecho a trecho, e sempre em relação à leitura zero. A (c) inverte a lógica: deslocamento nulo no fundo confirma a premissa de pé indeslocável. A (d) é falsa: a passada a 180° cancela o viés do sensor, o que é essencial para a exatidão.
 
@@ -500,84 +492,48 @@ Um inclinômetro instalado atrás de uma cortina de estacas, com o pé previsto 
 
 O painel de monitoramento de uma escavação disparou dezenas de alarmes de atenção no último mês, quase todos causados por picos isolados de leitura, e a equipe começou a ignorá-los. O engenheiro quer reduzir os falsos alarmes **sem** perder a capacidade de detectar um deslocamento real que esteja acelerando. Assinale a alternativa **correta**:
 
-- [ ] a. Elevar o nível de atenção para o valor do nível de alerta, de modo que só eventos graves gerem mensagens.
-- [ ] b. Substituir as leituras por uma média móvel de 7 dias, que elimina os picos e não altera o momento de detecção de uma tendência.
-- [ ] c. Desligar os alarmes automáticos e passar a analisar os gráficos na reunião semanal, onde o contexto é discutido com calma.
-- [x] d. Aplicar filtro de mediana e regra de persistência (ou confirmação por outro instrumento) e incluir um gatilho por velocidade.
+a) Elevar o nível de atenção para o valor do nível de alerta, de modo que só eventos graves gerem mensagens.
+b) Substituir as leituras por uma média móvel de 7 dias, que elimina os picos e não altera o momento de detecção de uma tendência.
+c) Desligar os alarmes automáticos e passar a analisar os gráficos na reunião semanal, onde o contexto é discutido com calma.
+d) Aplicar filtro de mediana e regra de persistência (ou confirmação por outro instrumento) e incluir um gatilho por velocidade.
 
-**Resposta correta:** `d`
+**Resposta correta:** d)
 
 **Feedback:** A alternativa (d) está correta: a mediana remove picos isolados sem deslocar a tendência; a persistência (duas ou mais leituras consecutivas) ou a confirmação por um segundo instrumento evita disparos por uma única leitura espúria; e o gatilho por velocidade detecta a aceleração antes de o valor absoluto atingir o limite. A (a) elimina o nível de atenção, perdendo o tempo de reação. A (b) erra ao dizer que a média móvel não atrasa a detecção: quanto maior a janela, maior o atraso. A (c) volta à malha aberta da Unidade 1, com leitura que não é comparada a tempo.
 
 ---
 
-## Atividade Verificadora (AAI — Atividade Avaliativa Individual)
-
-**Pergunta:**
-
-> Uma construtora executa uma escavação de $10\,\mathrm{m}$ para três subsolos, contida por cortina de estacas atirantada, em área urbana. De um lado há um **edifício residencial de 6 pavimentos com fundação rasa**; do outro, um **casarão tombado** de alvenaria, a 15 m da linha de estacas-prancha que estão sendo cravadas para uma rampa. O plano de monitoramento já instalou inclinômetros, piezômetros de corda vibrante, marcos de recalque automatizados, um sismógrafo de engenharia no casarão e uma plataforma IoT com dashboard. Os níveis do plano (valores ilustrativos) são: inclinômetro — atenção 12 mm, alerta 20 mm; recalque — atenção 12 mm, alerta 20 mm, velocidade de atenção 0,5 mm/dia; distorção angular — alerta em 1/500; vibração no casarão — atenção 3 mm/s, alerta 5 mm/s.
->
-> Responda em quatro partes:
->
-> 1. **Instrumentação** — justifique a posição e a função de cada instrumento citado e indique a leitura zero e a frequência de leitura durante a escavação. Que instrumento você acrescentaria e por quê?
-> 2. **Cálculos** — (a) o inclinômetro ($L = 0{,}5\,\mathrm{m}$) registra variações de $\sin\theta$ de $8{,}0$; $6{,}0$; $4{,}0$; $2{,}0$ e $1{,}0 \times 10^{-3}$ nos cinco trechos superiores, sem variação abaixo: calcule o deslocamento no topo. (b) Os pilares P1 e P2 do edifício, a $4{,}0\,\mathrm{m}$ um do outro, recalcaram $17\,\mathrm{mm}$ e $5\,\mathrm{mm}$: calcule a distorção angular e classifique-a pela escala de Bjerrum. (c) O sismógrafo do casarão registrou PPV de $9\,\mathrm{mm/s}$ a $8\,\mathrm{Hz}$: compare com a NBR 9653 e com os limites do plano. (d) As três últimas leituras diárias do recalque de P1 foram $15{,}2$; $16{,}1$ e $17{,}0\,\mathrm{mm}$: calcule a velocidade e em quantos dias, mantido o ritmo, o nível de alerta seria atingido.
-> 3. **Níveis e dashboard** — classifique cada grandeza (verde, amarelo ou vermelho) e descreva o que o dashboard deve mostrar e quem deve ser avisado, com que prazo.
-> 4. **Decisão** — com base nos resultados, que ações você toma agora? O que pode ser automático e o que exige decisão humana?
-
-**Resposta esperada:**
-
-> **Parte 1.** Inclinômetros atrás da cortina, com o pé abaixo da zona de influência da escavação (deslocamento horizontal da contenção e do solo); piezômetros de corda vibrante atrás da cortina e junto aos poços de rebaixamento (poropressão, resposta rápida e leitura automática); marcos de recalque nos pilares do edifício e no casarão, referidos a uma referência de nível profunda fora da zona de influência (recalques e distorção angular); sismógrafo com geofone triaxial no pé do casarão (PPV e frequência durante a cravação). Leitura zero antes da escavação (repetida duas ou três vezes); durante a escavação, leituras automáticas de 15 a 60 min nos instrumentos críticos e eventos de vibração registrados por gatilho. Acréscimos pertinentes: **células de carga nos tirantes**, **fissurômetros** nas fissuras pré-existentes do casarão (mapeadas em vistoria cautelar), **clinômetros de parede**, sonômetro e sensor de MP10 na divisa.
->
-> **Parte 2.**
->
-> (a) $\delta_{topo} = 0{,}5 \times (8{,}0 + 6{,}0 + 4{,}0 + 2{,}0 + 1{,}0) \times 10^{-3} = 0{,}5 \times 0{,}021 = 0{,}0105\,\mathrm{m} = 10{,}5\,\mathrm{mm}$ → abaixo da atenção (12 mm).
->
-> (b) $\delta = 17 - 5 = 12\,\mathrm{mm}$; $\beta = 12/4.000 = 0{,}003 = 1/333$ → entre 1/500 (limite para edifícios em que não se admitem fissuras) e 1/300 (primeiras fissuras em alvenaria): **acima do alerta do plano** (1/500).
->
-> (c) Limite da NBR 9653 a 8 Hz: $15 + 5 \times (8 - 4)/11 \approx 16{,}8\,\mathrm{mm/s}$; $9/16{,}8 \approx 54\%$. Pela norma de desmonte, não haveria problema; mas o plano do casarão tombado fixou alerta em 5 mm/s, e **9 mm/s está acima do alerta do plano**. A boa resposta destaca que a NBR 9653 trata de explosivos e que edificações sensíveis pedem limites próprios.
->
-> (d) $v = (17{,}0 - 15{,}2)/2 = 0{,}9\,\mathrm{mm/dia}$ (acima da velocidade de atenção de 0,5 mm/dia); dias até o alerta de 20 mm: $(20 - 17{,}0)/0{,}9 \approx 3{,}3$ dias. O valor absoluto (17 mm) já está acima da atenção (12 mm).
->
-> **Parte 3.** Inclinômetro: **verde** (10,5 < 12 mm), mas deve-se acompanhar a velocidade. Recalque de P1: **amarelo** por valor e por velocidade, com projeção de alerta em cerca de 3 dias. Distorção angular: **vermelho** (1/333 > 1/500). Vibração no casarão: **vermelho** (9 > 5 mm/s). O dashboard deve mostrar a planta com os instrumentos coloridos por estado, as séries com os limites e a velocidade, a saúde dos sensores (bateria, última leitura) e a lista de alarmes com reconhecimento. Avisar de imediato o engenheiro responsável e o projetista (níveis vermelhos), com reunião técnica no mesmo dia; o nível amarelo dispara aumento de frequência e inspeção do edifício.
->
-> **Parte 4.** Ações: **interromper ou reduzir a energia da cravação** junto ao casarão e avaliar métodos alternativos (estacas escavadas ou prensadas, pré-furo), confirmando o efeito com novas leituras do sismógrafo; **vistoriar o edifício** e o casarão (fissuras novas?), confirmar a leitura de recalque com nivelamento manual ou segundo instrumento; acionar as medidas de contingência previstas para o recalque (por exemplo, reduzir a frente de escavação próxima a P1, antecipar tirantes, reavaliar o rebaixamento, se os piezômetros indicarem relação). Automático: aumentar a frequência de leitura, notificar a equipe, registrar o evento, eventualmente sinalizar ao operador da cravação para parar. Decisão humana: paralisar frentes, alterar o método executivo, reforçar a contenção, evacuar ou interditar áreas. Resposta exemplar articula as quatro partes, usa as unidades corretamente, distingue norma de referência e limite de projeto e fecha a malha: ação seguida de nova medição para verificar o efeito.
-
----
-
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual]_
 
 - **Nome do livro:** 
 - **Capítulo:** 
-- **Organizador:** 
-- **Editora:** 
-- **Link de acesso (BV):** 
-- **Aula em que entra:** 
+- **Link de acesso:** 
+- **Qual aula o material deverá entrar?** 
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Para ver a instrumentação geotécnica do ponto de vista de quem projeta e lê os instrumentos, assista à primeira aula do curso **"Instrumentação, Interpretação de Dados e Monitoramento de Estruturas Geotécnicas"**, da Effyía — Escola da Engenharia, no YouTube (cerca de 31 minutos). Para a maturidade do concreto, a palestra **"Método da maturidade do concreto"**, do canal Engenharia Civil Mackenzie (cerca de 57 minutos), mostra a calibração da curva e o uso de sensores embutidos em obra. Assista com as perguntas desta unidade em mente: qual é a leitura zero? Quais são os limites? Que ação cada leitura dispara?
 
-- **Link(s):** https://www.youtube.com/watch?v=5hwJUP5wIfY · https://www.youtube.com/watch?v=hmVx4cm7deM
-- **Aula em que entra:** Aulas 9 e 10
+- **Links:** https://www.youtube.com/watch?v=5hwJUP5wIfY · https://www.youtube.com/watch?v=hmVx4cm7deM
+- **Qual aula o material deverá entrar?** Aulas 9 e 10
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > No episódio 3 da 2ª temporada do **I&M Geotech Podcast**, canal brasileiro dedicado à instrumentação e ao monitoramento geotécnico, os convidados Roberto Collado Bermejo e David José Mendi Fernandez, da Geprode, falam da gestão da instrumentação nas obras da **Linha 6 do Metrô de São Paulo**: automação das leituras, volume de dados e resposta a alertas — tudo o que vimos nas Aulas 9 e 12. O episódio completo tem cerca de 73 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
 
-- **Nome do podcast/canal:** I&M Geotech: Instrumentação e Monitoramento Geotécnico (canal no YouTube)
-- **Tema recomendado:** T02 | EP03 — Instrumentação da Linha 6 do Metrô de São Paulo (Roberto Collado Bermejo e David José Mendi Fernandez)
+- **NOME DO PODCAST:** I&M Geotech: Instrumentação e Monitoramento Geotécnico (canal no YouTube)
+- **NOME DO EPISÓDIO:** T02 | EP03 — Instrumentação da Linha 6 do Metrô de São Paulo (Roberto Collado Bermejo e David José Mendi Fernandez)
 - **Link:** https://www.youtube.com/watch?v=jQpQFHHl_Zo
-- **Aula em que entra:** Aulas 9 e 12
+- **Qual aula o material deverá entrar?** Aulas 9 e 12
 
 ### Artigo científico
 
 > Revisão sobre o uso de **sistemas IoT sem fio no monitoramento da saúde estrutural** (SHM) de obras civis. Os autores reúnem estudos de caso em estruturas reais e investigações de laboratório, com aplicações como **controle de vibração e da qualidade da cura do concreto**, **detecção de fissuras** em edificações, avaliação da qualidade construtiva, diagnóstico de corrosão e avaliação de vulnerabilidade sísmica, e concluem que o SHM baseado em IoT pode aumentar a segurança das estruturas. É a fundamentação acadêmica da Aula 10 e conversa com o tratamento de dados da Aula 12 e com a arquitetura IoT da Aula 3.
 
 - **Link:** https://doi.org/10.1016/j.jobe.2021.103954
-- **Aula em que entra:** Aulas 10 e 12
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > MISHRA, Mayank; LOURENÇO, Paulo B.; RAMANA, G. V. Structural health monitoring of civil engineering structures by using the internet of things: a review. **Journal of Building Engineering**, v. 48, 103954, 2022. DOI: 10.1016/j.jobe.2021.103954.
+- **Qual aula o material deverá entrar?** Aulas 10 e 12
+- **Referência bibliográfica do artigo no formato ABNT:** MISHRA, Mayank; LOURENÇO, Paulo B.; RAMANA, G. V. Structural health monitoring of civil engineering structures by using the internet of things: a review. **Journal of Building Engineering**, v. 48, 103954, 2022. DOI: 10.1016/j.jobe.2021.103954.
