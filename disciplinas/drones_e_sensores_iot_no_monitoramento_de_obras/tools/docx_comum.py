@@ -736,6 +736,9 @@ def _fetch(url: str) -> bytes:
     cp = _IMG_CACHE / (hashlib.sha1(url.encode()).hexdigest()[:16] + ".bin")
     if cp.exists():
         return cp.read_bytes()
+    import os
+    if os.environ.get("DOCX_SO_CACHE"):
+        raise FileNotFoundError("fora do cache (DOCX_SO_CACHE=1)")
     # O Commons limita (HTTP 429) downloads de originais; o thumbnail de 1280 px
     # costuma responder normalmente e já basta para 5,5" no Word.
     candidatos = []
@@ -800,7 +803,8 @@ def add_image(container, alt, src, stats):
         _set_alt_text(run, alt)
         stats["imagens"] += 1
     except Exception as e:  # noqa: BLE001
-        style_run(p.add_run("[imagem não carregada]"), italic=True)
+        # Sem o arquivo, fica só a indicação [Imagem: ...] + link, como pede o template.
+        p._p.getparent().remove(p._p)
         stats["imagens_falha"].append(f"{src} ({e})")
     cap = new_para(container)
     cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
