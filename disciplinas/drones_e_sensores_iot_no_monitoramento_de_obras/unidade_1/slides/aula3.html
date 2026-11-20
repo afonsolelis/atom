@@ -3,43 +3,82 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 3 — Arquiteturas IoT para o canteiro: dispositivos, conectividade e nuvem</title>
+<title>Aula 3 — Regulamentação brasileira: ANAC, DECEA e Anatel</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
 <style>
-  /* extras desta aula */
-  .duas-fotos { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; }
-  .duas-fotos .texto p, .duas-fotos .texto li { font-size: clamp(.9rem, 1.2vw, 1.12rem); }
-  .duas-fotos .figura { min-height: 0; }
-  .camadas .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
-  .camadas .figura figcaption { font-size: .9rem; background: linear-gradient(transparent, rgba(0,20,50,.92) 35%, rgba(0,20,50,.96)); padding-top: 2.4em; }
-  .camadas .num-camada { position: absolute; left: .6rem; top: .5rem; z-index: 4; width: 2rem; height: 2rem; border-radius: 50%;
-    background: var(--amarelo); color: var(--azul-fecaf); font: 800 1rem/2rem var(--fonte-titulo); text-align: center; }
-  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .4em .7em; font-size: clamp(.78rem, 1vw, .98rem); }
-  .tabela-industrial td b { color: var(--obra-ciano); }
-  .regra { margin-top: .8rem; }
-  .regra p { margin: 0; }
-  .timeline.cinco .etapa p { font-size: clamp(.78rem, 1vw, .95rem); }
-  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem); color: rgba(255,255,255,.75); }
-  .viz-lado code, .slide code { font-family: Consolas, 'Courier New', monospace; font-size: .9em; color: var(--obra-ciano); background: rgba(0,0,0,.25); padding: 0 .3em; border-radius: 4px; }
-  .pontos li { font-size: clamp(1rem, 1.5vw, 1.3rem); margin-bottom: .55em; }
-  .stat-grid.compacto { margin-top: .4rem; }
-  .stat-grid.compacto .stat-card { padding: .8rem; }
-  .stat-grid.compacto .numero-grande { font-size: clamp(2rem, 3.2vw, 2.8rem); }
-  .stat-grid.compacto .legenda { font-size: .88rem; }
-  /* crédito das fotos em tela cheia fica à esquerda (a navegação ocupa o canto direito) */
+  /* extras desta aula (não altera os assets compartilhados) */
   .slide-foto > .credito { right: auto; left: .8rem; }
-  .mini-intro { margin: 0 !important; font-size: clamp(.85rem, 1.1vw, 1.02rem) !important; }
-  .tab-rodape { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; margin-top: .8rem; }
-  .tab-rodape .callout-azul { align-self: start; }
-  .tab-rodape .figura { min-height: 0; }
+  .foto-direita .slide-content { max-width: 44%; }
+  .mini, .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.78); }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.88rem, 1.18vw, 1.08rem); }
+  .cards3.grande .card p, .cards3.grande .card li { font-size: clamp(.92rem, 1.3vw, 1.2rem); }
+  .cards3 .card.aberta { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .cards3 .card.especifica { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card.certificada { border-color: var(--magenta); background: rgba(255,43,95,.07); }
+  .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
+  .orgaos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; flex: 1 1 0; min-height: 0; }
+  .orgaos .card { display: flex; flex-direction: column; justify-content: center; border-radius: 14px; padding: 1.1rem 1.3rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-top: 6px solid var(--obra-ciano); }
+  .orgaos .card:nth-child(2) { border-top-color: var(--amarelo); } .orgaos .card:nth-child(3) { border-top-color: var(--verde-claro); }
+  .orgaos .sigla { font: 900 clamp(2rem, 3.4vw, 3rem) var(--fonte); color: #fff; line-height: 1; }
+  .orgaos .nome { font-size: 1rem; color: rgba(255,255,255,.75); margin: .3em 0 .8em; }
+  .orgaos .pergunta { font-size: clamp(1.2rem, 1.9vw, 1.6rem); font-weight: 700; color: var(--amarelo); margin-bottom: .6em; }
+  .orgaos .card p { font-size: clamp(1.05rem, 1.55vw, 1.32rem); }
+  .somam { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+  .somam div { background: rgba(0,0,0,.25); border-left: 5px solid var(--magenta); border-radius: 8px; padding: .7rem 1rem; font-size: clamp(.92rem, 1.25vw, 1.1rem); }
+  .versus p, .versus li { font-size: clamp(.92rem, 1.25vw, 1.15rem); }
+  .stat-grid.cinco { grid-template-columns: repeat(5, 1fr); }
+  .stat-grid.cinco .stat-card { padding: .9rem .6rem; }
+  .stat-grid.cinco .numero-grande { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+  .stat-grid.cinco .legenda { font-size: .85rem; }
+  .dupla { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .dupla > .figura { height: 100%; min-height: 0; }
+  .dupla .painel { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 14px; padding: 1.1rem 1.3rem; display: flex; flex-direction: column; justify-content: center; }
+  .dupla .painel p, .dupla .painel li { font-size: clamp(.95rem, 1.32vw, 1.16rem); margin-bottom: .5em; }
+  .dupla .painel h3 { color: var(--amarelo); margin-bottom: .35em; }
+  .reflexao { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; }
+  .reflexao .cena { background: rgba(0,0,0,.28); border-left: 6px solid var(--amarelo); border-radius: 10px; padding: 1.1rem 1.4rem; }
+  .reflexao .cena .hora { font: 900 clamp(1.6rem, 2.6vw, 2.3rem) var(--fonte); color: var(--amarelo); }
+  .reflexao .cena p { font-size: clamp(1rem, 1.4vw, 1.22rem); margin-bottom: .55em; }
+  .reflexao .pesos { display: flex; flex-direction: column; gap: .8rem; }
+  .reflexao .pesos div { flex: 1 1 0; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 10px; padding: .8rem 1.1rem; font-size: clamp(1rem, 1.45vw, 1.26rem); }
+  .reflexao .pesos div b.t { display: block; color: var(--amarelo); font-size: 1.05em; margin-bottom: .2em; }
+  .reflexao .pesos div.saida { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .7rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
+  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1.1rem, 1.75vw, 1.45rem) !important; margin-bottom: 1em; }
+  .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1.2rem 1.3rem; font-size: clamp(1.05rem, 1.7vw, 1.42rem); line-height: 1.4; }
+  .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
+  /* checklist interativo */
+  .checklist { position: absolute; inset: 0; padding: .8rem 1.1rem; display: flex; flex-direction: column; gap: .38rem; overflow: auto; }
+  .checklist .item { display: flex; align-items: center; gap: .7rem; text-align: left; width: 100%; cursor: pointer;
+    font: 500 clamp(.9rem, 1.25vw, 1.12rem) var(--fonte); color: #fff; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+    border-radius: 10px; padding: .55rem .8rem; transition: background .25s, border-color .25s; }
+  .checklist .item .caixa { flex: 0 0 1.4rem; height: 1.4rem; border-radius: 6px; border: 2px solid rgba(255,255,255,.5); display: grid; place-items: center; font-weight: 800; color: var(--azul-fecaf); }
+  .checklist .item.ok { background: rgba(17,163,96,.22); border-color: var(--verde-escuro); }
+  .checklist .item.ok .caixa { background: var(--verde-claro); border-color: var(--verde-claro); }
+  .checklist .item.top3 { box-shadow: inset 4px 0 0 var(--magenta); }
+  .checklist .item b { color: var(--amarelo); }
+  .checklist .barra { height: 10px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; margin-top: .2rem; flex: 0 0 auto; }
+  .checklist .barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amarelo), var(--verde-claro)); transition: width .4s; }
+  .checklist .status { font: 700 clamp(.9rem, 1.2vw, 1.1rem) var(--fonte); color: var(--amarelo); }
+  .checklist .status.ok { color: var(--verde-claro); }
 </style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
 
-<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 3 — Arquiteturas IoT para o canteiro">
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 3 — Regulamentação brasileira: ANAC, DECEA e Anatel">
 
   <!-- 1. Capa -->
   <section class="slide slide-capa">
@@ -49,8 +88,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Arquiteturas IoT para o canteiro</h1>
-      <div class="subtitulo">Aula 3 — Dispositivos, conectividade e nuvem</div>
+      <h1>Pode voar aqui?</h1>
+      <div class="subtitulo">Aula 3 — Regulamentação brasileira: ANAC, DECEA e Anatel</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -60,350 +99,327 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Arquiteturas IoT para o canteiro</h1>
+        <h1 class="sumario-titulo">Regulamentação brasileira: ANAC, DECEA e Anatel</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>IoT no canteiro: as "coisas" que medem</li>
-          <li>As quatro camadas: percepção, rede, plataforma, aplicação</li>
-          <li>Conectividade: LoRaWAN, NB-IoT, 4G/5G e Wi-Fi</li>
-          <li>Borda × nuvem</li>
-          <li>MQTT: publicar e assinar</li>
-          <li>A malha fechada com IoT e o gêmeo digital</li>
-          <li>A bateria aguenta? Exemplo numérico</li>
-          <li>Pausa para reflexão: automático ou humano?</li>
+          <li>Três órgãos, três perguntas</li>
+          <li>ANAC: do RBAC-E nº 94 ao RBAC nº 100</li>
+          <li>DECEA, SARPAS e aerolevantamento</li>
+          <li>Anatel e LGPD</li>
+          <li>Quanto do canteiro dá para voar?</li>
+          <li>Pausa para reflexão</li>
+          <li>O checklist regulatório</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Foto de abertura: 2h da madrugada -->
+  <!-- 3. Foto: pode voar? -->
   <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Construction_site_night.JPG/1280px-Construction_site_night.JPG'); background-position: 50% 0%" role="img" aria-label="Canteiro de obras urbano fotografado do alto, à noite, com perfuratrizes de estacas iluminadas por refletores junto a prédios vizinhos e ruas iluminadas ao redor"></div>
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Drone_Pilot.jpg/1280px-Drone_Pilot.jpg'); background-position: 70% 40%" role="img" aria-label="Piloto remoto de colete refletivo, sobre uma laje, segura o controle de um drone com tela acoplada e observa a aeronave, com telhados de uma cidade ao fundo"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
-      <p class="kicker">Duas da manhã, depois de uma chuva forte</p>
-      <h2>Atrás da cortina de estacas, a água sobe. Ninguém está na obra.</h2>
-      <p>Uma escavação de <strong>9 m</strong> para um subsolo, ao lado de uma rua movimentada (na foto, um canteiro urbano à noite). Em <strong>malha aberta</strong>, alguém descobre o problema às 7h, talvez tarde demais.</p>
-      <p>Em um <strong>sistema IoT</strong> bem projetado, o piezômetro detecta a subida, o dado atravessa a cidade em segundos, a bomba liga e o engenheiro de plantão é avisado. Hoje vamos montar esse sistema, camada por camada.</p>
+      <p class="kicker">A construtora comprou um drone</p>
+      <h2>Tira da caixa, carrega a bateria e decola amanhã? Antes de tudo: pode voar?</h2>
+      <ul>
+        <li>A aeronave está <strong>cadastrada</strong>? O piloto está <strong>habilitado</strong>? Tem <strong>seguro</strong>?</li>
+        <li>O voo foi <strong>solicitado</strong> ao controle do espaço aéreo?</li>
+        <li>O rádio é <strong>homologado</strong>?</li>
+        <li>É ortomosaico? Então precisa do <strong>Ministério da Defesa</strong>?</li>
+      </ul>
+      <p>O arcabouço <strong>acabou de mudar</strong>. Você sai desta aula com um checklist na mão.</p>
     </div>
-    <p class="credito">Foto: MC — Wikimedia Commons (domínio público)</p>
+    <p class="credito">Foto: Amuzujoe — Wikimedia Commons (CC BY-SA 4.0)</p>
   </section>
 
-  <!-- 4. O que é IoT no canteiro -->
+  <!-- 4. Três órgãos -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Conceito</p>
-      <h2>IoT no canteiro: coisas que medem e conversam</h2>
-      <div class="duas-fotos">
-        <div class="texto">
-          <p><strong>Internet das Coisas (IoT)</strong> é a conexão de objetos físicos a redes de dados, para que enviem informações e recebam comandos <strong>sem intervenção humana a cada leitura</strong>.</p>
-          <p>No canteiro, as "coisas" são:</p>
-          <ul>
-            <li>piezômetros e inclinômetros</li>
-            <li>marcos de recalque automatizados</li>
-            <li>sensores de vibração e estações meteorológicas</li>
-            <li>gruas e caminhões rastreados</li>
-          </ul>
+      <p class="kicker">Quem regula o quê</p>
+      <h2>Três órgãos, três perguntas: todas as portas precisam estar abertas</h2>
+      <div class="orgaos">
+        <div class="card">
+          <span class="sigla">ANAC</span>
+          <span class="nome">Agência Nacional de Aviação Civil</span>
+          <p class="pergunta">A aeronave, o operador e o piloto podem voar?</p>
+          <p>Cadastro, categorias de operação, habilitação e seguro.</p>
         </div>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg/1280px-Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg" alt="Escavação profunda da Estação Brooklin do Metrô de São Paulo, vista de cima: paredes de contenção de concreto travadas por grandes estroncas horizontais, com operários no fundo" loading="lazy">
-          <figcaption>Escavação escorada em plena cidade (Estação Brooklin, São Paulo): o que vamos vigiar</figcaption>
-          <p class="credito">Foto: Diogo Moreira / Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Piezometer_for_groundwater.JPG/1280px-Piezometer_for_groundwater.JPG" alt="Medidor de nível d'água em carretel, montado sobre um pilar de concreto junto ao tubo azul de um poço de observação, com o cabo estendido em diagonal" loading="lazy">
-          <figcaption>Medidor em carretel: lê à mão o nível d'água num piezômetro (poço)</figcaption>
-          <p class="credito">Foto: Chixoy — Wikimedia Commons (CC BY-SA 3.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. As quatro camadas -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Arquitetura</p>
-      <h2>As quatro camadas de uma arquitetura IoT</h2>
-      <div class="galeria camadas" style="--cols:4">
-        <figure class="figura">
-          <span class="num-camada">1</span>
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg/1280px-LPMDL-110X_IoT_solar_level_monitoring_data_logger.jpg" alt="Datalogger IoT compacto com pequeno painel solar e cabo de sensor enrolado, apoiado sobre piso de concreto" loading="lazy" style="object-position:50% 35%">
-          <figcaption><b>Percepção</b>Sensor + datalogger (nó sensor): mede, digitaliza, guarda. Bateria, às vezes painel solar.</figcaption>
-          <p class="credito">Foto: Niau33 — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <span class="num-camada">2</span>
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/2021-09-17-SH-Netz-LoRaWAN-Gateway-Dagebuell.jpg/1280px-2021-09-17-SH-Netz-LoRaWAN-Gateway-Dagebuell.jpg" alt="Mastro treliçado metálico com antena de gateway LoRaWAN no topo, contra o céu claro" loading="lazy" style="object-position:50% 20%">
-          <figcaption><b>Rede</b>O gateway recebe o rádio dos nós e encaminha à internet (4G/5G, fibra ou satélite) até o servidor de rede.</figcaption>
-          <p class="credito">Foto: Fabian Horst — Wikimedia Commons (CC BY 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <span class="num-camada">3</span>
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/BalticServers_data_center.jpg/1280px-BalticServers_data_center.jpg" alt="Corredor de data center com fileiras de servidores iluminados por luzes azuis" loading="lazy">
-          <figcaption><b>Plataforma</b>Nuvem: guarda séries temporais, aplica regras, compara limites. Aqui vive o <b style="display:inline">gêmeo digital</b>.</figcaption>
-          <p class="credito">Foto: BalticServers.com — Wikimedia Commons (CC BY-SA 3.0)</p>
-        </figure>
-        <figure class="figura">
-          <span class="num-camada">4</span>
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Control_Room_DSC0038.jpg/1280px-Control_Room_DSC0038.jpg" alt="Operador em uma sala de controle diante de uma parede de monitores com painéis, gráficos e imagens de câmeras" loading="lazy">
-          <figcaption><b>Aplicação</b>Dashboards, relatórios, alertas por SMS/e-mail, integração com BIM e cronograma.</figcaption>
-          <p class="credito">Foto: Arielinson — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Canteiro 3D com as camadas -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Explore em 3D</p>
-      <h2>As camadas funcionando no canteiro</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="canteiro3d" data-opts='{"drone":false}' role="img" aria-label="Cena 3D de um canteiro com escavação escorada e prédio em construção. Sensores verdes no subsolo e no prédio pulsam e enviam pacotes amarelos a um gateway LoRaWAN no alto de um poste; o gateway repassa pacotes azuis a uma nuvem que representa a plataforma e o gêmeo digital."></div>
-        <div class="viz-lado">
-          <h3>Siga uma leitura</h3>
-          <ul>
-            <li><strong>1 · Percepção:</strong> o sensor verde (piezômetro, inclinômetro, extensômetro) mede e o nó envia.</li>
-            <li><strong>2 · Rede:</strong> o pacote amarelo voa por rádio até o <em>gateway LoRaWAN</em> no poste.</li>
-            <li><strong>3 · Plataforma:</strong> o gateway encaminha à nuvem (pacote azul), onde vive o gêmeo digital.</li>
-            <li><strong>4 · Aplicação:</strong> painel e alertas chegam ao engenheiro, onde ele estiver.</li>
-          </ul>
-          <p class="mini">Arraste para girar. Repare no contador de leituras recebidas.</p>
+        <div class="card">
+          <span class="sigla">DECEA</span>
+          <span class="nome">Departamento de Controle do Espaço Aéreo (Comando da Aeronáutica)</span>
+          <p class="pergunta">O espaço aéreo pode ser usado ali, naquela hora?</p>
+          <p>ICA 100-40 e pedido de acesso pelo SARPAS.</p>
+        </div>
+        <div class="card">
+          <span class="sigla">Anatel</span>
+          <span class="nome">Agência Nacional de Telecomunicações</span>
+          <p class="pergunta">O rádio do equipamento pode transmitir?</p>
+          <p>Homologação dos transmissores: enlace, vídeo, RTK.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- 7. Conectividade: tabela -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conectividade</p>
-      <h2>Não existe rede "melhor": existe a adequada</h2>
-      <table class="tabela-industrial compacta">
-        <thead><tr><th>Tecnologia</th><th>Alcance típico</th><th>Taxa de dados</th><th>Consumo</th><th>Uso típico no canteiro</th></tr></thead>
-        <tbody>
-          <tr><td><b>LoRaWAN</b></td><td>2–5 km (urbano) a mais de 10 km (aberto)</td><td>muito baixa (centenas de bit/s a dezenas de kbit/s)</td><td>muito baixo (anos de bateria)</td><td>piezômetros, inclinômetros, fissurômetros</td></tr>
-          <tr><td><b>NB-IoT / LTE-M</b></td><td>cobertura da operadora celular</td><td>baixa</td><td>baixo</td><td>nós isolados com cobertura celular, sem gateway próprio</td></tr>
-          <tr><td><b>4G/5G</b></td><td>cobertura da operadora</td><td>alta</td><td>alto</td><td>câmeras, gateways, imagens e vídeos</td></tr>
-          <tr><td><b>Wi-Fi</b></td><td>dezenas a centenas de metros</td><td>alta</td><td>alto</td><td>escritório de obra, áreas cobertas, equipamentos com energia</td></tr>
-        </tbody>
-      </table>
-      <div class="tab-rodape">
-        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Regra prática:</strong> leitura lenta e a bateria → LoRaWAN ou NB-IoT. Muito dado e energia disponível → 4G/5G ou Wi-Fi.</p><p style="margin-top:.6em">LoRaWAN opera em faixas de radiofrequência <strong>não licenciadas</strong>; mesmo assim, no Brasil, equipamento de radiocomunicação precisa de <strong>homologação da Anatel</strong>.</p></div>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Cell_tower_aerial.jpg/1280px-Cell_tower_aerial.jpg" alt="Vista aérea de uma torre de telefonia celular com antenas no topo, em meio a um terreno com vegetação rasteira" loading="lazy" style="object-position:50% 30%">
-          <figcaption>Torre da operadora: é por ela que passam NB-IoT, LTE-M e 4G/5G</figcaption>
-          <p class="credito">Foto: Wikideas1 — Wikimedia Commons (CC0)</p>
-        </figure>
+      <div class="somam">
+        <div><strong>+ Ministério da Defesa</strong>, quando o voo é <strong>aerolevantamento</strong>.</div>
+        <div><strong>+ LGPD</strong>, porque imagem de pessoa é <strong>dado pessoal</strong>.</div>
       </div>
     </div>
   </section>
 
-  <!-- 8. Rede: alcance -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Simulação</p>
-      <h2>Quem alcança quem? Alcance × consumo</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="rede" role="img" aria-label="Mapa de 4 por 4 quilômetros com o canteiro no centro e sete sensores espalhados. Botões trocam a tecnologia: Wi-Fi, com cerca de 200 metros ao ar livre, conecta só os dois sensores dentro do canteiro; LoRaWAN, com cerca de 3 quilômetros de alcance urbano, alcança todos os sensores do mapa a partir de um gateway no canteiro; NB-IoT e 4G usam a torre da operadora. Sensores conectados ficam verdes e enviam pacotes; os demais ficam vermelhos."></div>
-        <div class="viz-lado">
-          <h3>Troque a tecnologia</h3>
-          <p>Clique nos botões e veja quais sensores ficam <strong>verdes</strong> (conectados).</p>
-          <ul>
-            <li><strong>Wi-Fi:</strong> só o que está dentro do canteiro (≈ 200 m ao ar livre, com antena externa).</li>
-            <li><strong>LoRaWAN:</strong> um gateway próprio no canteiro cobre o mapa todo (2 a 5 km em área urbana), com anos de bateria.</li>
-            <li><strong>NB-IoT / 4G:</strong> usam a torre da operadora; dependem da cobertura e de plano de dados.</li>
-          </ul>
-          <p class="mini">Alcances ilustrativos: na prática dependem de relevo, prédios, antena e altura do gateway.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. Foto: gateway -->
-  <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg/1280px-2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg'); background-position: 70% 50%" role="img" aria-label="Gateway LoRaWAN com antena vertical e painel instalado no alto de um prédio, com vista para um porto, rio e a cidade ao fundo"></div>
-    <div class="foto-veu"></div>
-    <div class="slide-content">
-      <p class="kicker">Camada de rede</p>
-      <h2>O gateway: a ponte entre o rádio e a internet</h2>
-      <p>Um gateway LoRaWAN no alto de um prédio "escuta" sensores a quilômetros. <strong>Quanto mais alto e desobstruído</strong>, maior o alcance.</p>
-      <p>Por padrão, ele não decide nada: recebe o rádio e encaminha ao <strong>servidor de rede</strong> LoRaWAN, que entrega as mensagens à plataforma (por exemplo, via MQTT). Mas pode rodar regras simples <strong>na borda</strong>, como veremos agora.</p>
-    </div>
-    <p class="credito">Foto: Fabian Horst — Wikimedia Commons (CC BY-SA 4.0)</p>
-  </section>
-
-  <!-- 10. Borda x nuvem -->
+  <!-- 5. RBAC-E 94 x RBAC 100 -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Onde a decisão roda?</p>
-      <h2>Borda (<em>edge</em>) × nuvem (<em>cloud</em>)</h2>
+      <p class="kicker">ANAC</p>
+      <h2>Do peso da aeronave ao risco da operação</h2>
       <div class="versus">
         <div class="lado">
-          <h3>Na borda</h3>
-          <p>No próprio datalogger ou gateway.</p>
+          <h3>RBAC-E nº 94 (2017)</h3>
+          <p>Classificava a aeronave pelo <strong>peso máximo de decolagem</strong>:</p>
           <ul>
-            <li>Resposta rápida: ligar uma bomba em segundos</li>
-            <li>Funciona mesmo se o 4G cair</li>
-            <li>Regras simples e críticas</li>
+            <li><strong>Classe 1:</strong> acima de 150 kg</li>
+            <li><strong>Classe 2:</strong> acima de 25 kg até 150 kg</li>
+            <li><strong>Classe 3:</strong> até 25 kg</li>
           </ul>
+          <p class="mini">Está na bibliografia da disciplina, e você ainda vai encontrar essas classes em contratos e editais.</p>
         </div>
-        <div class="vs">×</div>
+        <div class="vs">→</div>
         <div class="lado novo">
-          <h3>Na nuvem</h3>
-          <p>Nos servidores da plataforma.</p>
+          <h3>RBAC nº 100 (jun/2026)</h3>
+          <p>Aprovado pela <strong>Resolução nº 805, de 15/06/2026</strong>, <strong>substituiu o RBAC-E nº 94</strong> e classifica as <strong>operações pelo risco</strong>:</p>
           <ul>
-            <li>Cruza muitos sensores e obras</li>
-            <li>Guarda o histórico completo</li>
-            <li>Roda modelos pesados e o gêmeo digital</li>
+            <li>categoria <strong>aberta</strong></li>
+            <li>categoria <strong>específica</strong></li>
+            <li>categoria <strong>certificada</strong></li>
           </ul>
+          <p class="mini">Atos emitidos sob o RBAC-E nº 94 seguem válidos até serem revistos; autorizações que não cabem na aberta têm 2 anos para ser renovadas.</p>
         </div>
       </div>
-      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Sistemas robustos fazem <strong>os dois</strong>: regra crítica na borda; análise e registro na nuvem.</p></div>
-      <div class="versus" style="margin-top:1rem">
-        <div class="lado"><p><strong>Na escavação, na borda:</strong> o gateway liga a bomba se o nível d'água passar do alerta, mesmo com a internet fora do ar.</p></div>
-        <div class="vs">+</div>
-        <div class="lado novo"><p><strong>Na escavação, na nuvem:</strong> a plataforma cruza o PZ-03 com a chuva, o recalque do vizinho e o cronograma da escavação.</p></div>
-      </div>
+      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Um drone de 5 kg sobre uma multidão é mais perigoso que um de 20 kg sobre um descampado. Quem define a categoria é a <strong>operação</strong>, não a balança.</p></div>
     </div>
   </section>
 
-  <!-- 11. MQTT -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Simulação · protocolo MQTT</p>
-      <h2>Publicar e assinar: o caminho de cada mensagem</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="mqtt" role="img" aria-label="Animação do protocolo MQTT. À esquerda, três sensores publicam mensagens em tópicos; no centro, o broker recebe cada mensagem e a reenvia apenas aos assinantes do tópico, à direita: painel, gêmeo digital, alerta por SMS e a bomba de rebaixamento. Com o botão de chuva forte, o nível d'água do piezômetro sobe; ao passar a atenção o gêmeo publica um alerta; ao passar o alerta, publica o comando de ligar a bomba, e o nível volta a cair."></div>
-        <div class="viz-lado">
-          <h3>Como funciona</h3>
-          <p>A leitura de cada sensor é <strong>publicada</strong> (pelo servidor de rede LoRaWAN) em um <strong>tópico</strong>, como <code>obra/escavacao/PZ-03/nivel</code>, no <strong>broker</strong>. Quem <strong>assina</strong> o tópico recebe.</p>
-          <p class="mini"><code>#</code> assina tudo abaixo; <code>+</code> vale um nível. Ex.: o painel assina <code>obra/#</code>.</p>
-          <p>Clique em <strong>Chuva forte</strong>: o gêmeo digital compara o nível com os limites e <strong>publica um comando</strong> em <code>obra/cmd/bomba</code>. É o mesmo protocolo no sentido contrário: isso <strong>fecha a malha</strong>.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12. Malha fechada em 5 passos -->
+  <!-- 6. As três categorias -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">A malha fechada com IoT</p>
-      <h2>Do piezômetro à bomba, e de volta ao piezômetro</h2>
-      <div class="timeline cinco" style="--n:5">
-        <div class="etapa"><div class="ano">1 · Medir</div><p>O piezômetro <strong>PZ-03</strong>, atrás da cortina, lê o nível d'água a cada 15 min.</p></div>
-        <div class="etapa"><div class="ano">2 · Transmitir</div><p>O nó envia por <strong>LoRaWAN</strong> ao gateway; o servidor de rede publica via <strong>MQTT</strong> na plataforma.</p></div>
-        <div class="etapa"><div class="ano">3 · Comparar</div><p>O <strong>gêmeo digital</strong> compara com os limites: <strong>atenção</strong> a 2,0 m abaixo do fundo da escavação; <strong>alerta</strong> a 1,0 m.</p></div>
-        <div class="etapa"><div class="ano">4 · Agir</div><p>Atenção: lê mais vezes e avisa o engenheiro. Alerta: <strong>liga a bomba</strong> e recomenda paralisar a frente próxima.</p></div>
-        <div class="etapa"><div class="ano">5 · Medir de novo</div><p>As leituras seguintes confirmam se o nível caiu. Se não caiu, a decisão sobe para a <strong>geotecnia</strong>.</p></div>
+      <p class="kicker">RBAC nº 100</p>
+      <h2>Três categorias de operação</h2>
+      <div class="cards3 grande">
+        <div class="card aberta">
+          <span class="tag">risco baixo</span>
+          <h3>Aberta</h3>
+          <ul>
+            <li>peso em voo até <strong>25 kg</strong></li>
+            <li>linha de visada visual (VLOS) ou estendida, com observador (EVLOS)</li>
+            <li>até <strong>120 m (400 pés)</strong> acima do solo</li>
+            <li>nunca a menos de <strong>30 m horizontais</strong> de pessoas não envolvidas e não anuentes, salvo barreira mecânica capaz de protegê-las</li>
+            <li>avaliação de risco operacional atualizada</li>
+          </ul>
+        </div>
+        <div class="card especifica">
+          <span class="tag">risco intermediário</span>
+          <h3>Específica</h3>
+          <p>Quando algum critério da aberta não é atendido: além da linha de visada (BVLOS), acima de 120 m, acima de 25 kg.</p>
+          <p>O operador demonstra a segurança por <strong>avaliação de risco</strong> (método aceito pela ANAC, como o <strong>SORA</strong>, do JARUS) ou por <strong>cenário padrão</strong>; conforme a complexidade, obtém o <strong>COE</strong>.</p>
+        </div>
+        <div class="card certificada">
+          <span class="tag">risco alto</span>
+          <h3>Certificada</h3>
+          <p>Operações de alto risco, como o <strong>transporte de artigos perigosos</strong>.</p>
+          <p>Exige certificação da <strong>aeronave</strong>, do <strong>operador</strong> e do <strong>piloto</strong>.</p>
+          <p class="mini">Para obra, você vai viver entre a aberta e a específica.</p>
+        </div>
       </div>
-      <div class="callout-azul" style="margin-top:1.2rem;background:rgba(0,0,0,.25)"><p>O laço <strong>não termina na tela</strong>: termina numa ação no canteiro e numa nova leitura que verifica a ação.</p></div>
-      <div class="stat-grid compacto" style="margin-top:1.1rem">
-        <div class="stat-card"><span class="numero-grande contador" data-ate="2" data-dec="1" data-suf=" m">0</span><div class="legenda">nível de <b style="color:#9a7400">atenção</b>, abaixo do fundo da escavação</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="1" data-dec="1" data-suf=" m">0</span><div class="legenda">nível de <b style="color:#c2185b">alerta</b>: liga a bomba</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="15" data-suf=" min">0</span><div class="legenda">entre leituras em condição normal</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="9" data-suf=" m">0</span><div class="legenda">de profundidade na escavação do caso</div></div>
-      </div>
+      <p class="mini" style="margin-top:.8rem">Na aberta, a avaliação de risco só fica facultativa se a operação estiver a mais de 150 m das pessoas não envolvidas ou protegida por barreira.</p>
     </div>
   </section>
 
-  <!-- 13. Malha viz -->
+  <!-- 7. Escala 3D -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Simulação</p>
-      <h2>Duas da manhã: o nível d'água sobe e a bomba liga</h2>
+      <p class="kicker">Explore em 3D · escala real</p>
+      <h2>Quanto é 120 m? E 30 m de distância?</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="malha" data-opts='{"nome":"NA do PZ-03","unidade":"m","eixo":"nível d&#39;água (m abaixo do fundo)","base":3.5,"atencao":2.0,"alerta":1.0,"taxa":0.5,"residual":-0.6,"horas":12,"vel":1,"acaoNo":"alerta","manual":6,"atrasoAberta":2,"atrasoFechada":0.05,"intMin":5,"intMax":120,"intPasso":5,"intIni":15,"intUnid":"min","rotFechada":"bomba ligada (automático)","rotAberta":"bomba ligada após a vistoria","dec":2}' role="img" aria-label="Gráfico animado de 12 horas do nível d'água atrás da cortina, em metros abaixo do fundo da escavação, com nível de atenção a 2,0 m e de alerta a 1,0 m, e um ciclo de etapas Obra, Sensor, Gateway, Plataforma, Decisão e Ação. Em malha fechada, com leitura a cada 15 minutos, a bomba liga logo depois que o nível cruza o alerta e a curva dobra para baixo; em malha aberta, com vistoria a cada 6 horas, a água chega ao fundo da escavação antes de a bomba ser ligada."></div>
+        <div class="viz" data-viz="escala3d" role="img" aria-label="Cena 3D em escala: um prédio de 40 pavimentos com cerca de 120 metros de altura, um plano amarelo translúcido marcando o teto de 120 metros da categoria aberta, um grupo de pessoas não envolvidas cercado por um círculo vermelho de 30 metros de raio e um círculo tracejado de 150 metros, e um drone cuja altura e distância horizontal às pessoas podem ser ajustadas. Um aviso indica se a operação fica dentro da categoria aberta."></div>
         <div class="viz-lado">
-          <h3>Malha fechada × aberta</h3>
-          <p>Chuva forte: o nível sobe 0,5 m/h. Com IoT (leitura a cada <strong>15 min</strong>), ao cruzar o <strong>alerta</strong> a plataforma liga a bomba e a curva dobra para baixo. Clique em <strong>Malha aberta</strong>: com vistoria a cada 6 h, a água chega ao fundo antes da ação.</p>
+          <h3>Leve o drone ao limite</h3>
+          <p>O prédio tem <strong>40 pavimentos de 3 m</strong>: o topo é o teto da categoria aberta.</p>
           <div data-controles></div>
-          <p class="mini">Valores ilustrativos. Leituras mais frequentes vigiam melhor, mas gastam mais bateria: é a conta do próximo slide.</p>
+          <p class="mini">No canteiro, "não envolvidos e não anuentes" são o pedestre, o vizinho, o motorista; os operários informados e de acordo são outra situação. Use o botão <strong>Barreira</strong> para ver a exceção. Os 30 m da câmera térmica da Aula 2 vêm daqui.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 14. Exemplo numérico: bateria -->
+  <!-- 8. Números da regra -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">RBAC nº 100 em números</p>
+      <h2>Os números que você precisa saber de cor</h2>
+      <div class="stat-grid cinco">
+        <div class="stat-card"><span class="numero-grande contador" data-ate="120" data-suf=" m">0</span><div class="legenda">altura máxima na categoria aberta (400 pés)</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="30" data-suf=" m">0</span><div class="legenda">horizontais de pessoas não envolvidas e não anuentes</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="25" data-suf=" kg">0</span><div class="legenda">peso máximo em voo na categoria aberta</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="24" data-suf=" meses">0</span><div class="legenda">validade do cadastro no SISANT</div></div>
+        <div class="stat-card"><span class="numero-grande contador" data-ate="250" data-suf=" g">0</span><div class="legenda">até 120 m e em linha de visada: fora do RBAC nº 100 (Res. nº 806)</div></div>
+      </div>
+      <div class="cards3 grande" style="margin-top:1.1rem">
+        <div class="card"><h3>SISANT</h3><p>Aeronaves das categorias aberta e específica são <strong>cadastradas</strong> (24 meses), com identificação na aeronave.</p></div>
+        <div class="card"><h3>Piloto</h3><p>Aprovação em <strong>exame de conhecimento teórico da ANAC</strong>, exigível a partir de <strong>1º/01/2027</strong>.</p></div>
+        <div class="card"><h3>Seguro</h3><p>Cobertura de <strong>danos a terceiros</strong> (o "RETA" do setor), com poucas exceções.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Atenção: é <strong>250 g</strong>, não 25 kg. E esses drones pequenos continuam sujeitos às regras do <strong>DECEA</strong>.</p></div>
+    </div>
+  </section>
+
+  <!-- 9. Foto: espaço aéreo -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Sedona_No_Drone_Zone_%2832311452360%29.jpg/1280px-Sedona_No_Drone_Zone_%2832311452360%29.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Placa vermelha de zona proibida para drones, com o desenho de um drone riscado, ao lado de um painel informativo, em área natural com rochas avermelhadas e céu azul"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">DECEA</p>
+      <h2>O espaço aéreo tem dono</h2>
+      <p>A ANAC cuida da aeronave e do operador. O espaço aéreo, inclusive o que está sobre o seu canteiro, é do <strong>DECEA</strong>.</p>
+      <p>A <strong>ICA 100-40</strong> (edição de 2026) manda solicitar o acesso pelo <strong>SARPAS</strong>, inclusive para o drone de <strong>250 g</strong>.</p>
+      <p>A antecedência cresce com o risco: voo além da linha de visada (BVLOS) pede <strong>8 dias</strong>.</p>
+      <p>Perto de <strong>aeroportos</strong>, <strong>helipontos</strong> de hospitais e prédios ou de áreas restritas, a análise é específica. Abra o mapa antes de prometer o voo.</p>
+      <p class="mini">Na foto, uma placa de zona proibida nos EUA; no Brasil, as restrições aparecem no SARPAS.</p>
+    </div>
+    <p class="credito">Foto: Coconino National Forest — Wikimedia Commons (domínio público)</p>
+  </section>
+
+  <!-- 10. Calendário do SARPAS / aerolevantamento -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">DECEA + Ministério da Defesa</p>
+      <h2>Aerolevantamento: voar na sexta exige pedir na segunda</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calendario" role="img" aria-label="Calendário de novembro de 2026. O voo de aerolevantamento está marcado na sexta-feira, dia 20, e o pedido no SARPAS na segunda-feira, dia 16, quatro dias corridos antes, com uma seta entre as duas datas. O botão BVLOS muda a antecedência para oito dias, e o pedido passa para a quinta-feira, dia 12. Clicar em outro dia muda a data do voo."></div>
+        <div class="viz-lado">
+          <h3>Ortomosaico é aerolevantamento</h3>
+          <p>Faixas sobrepostas para ortomosaico, modelo do terreno ou planta planialtimétrica (como os 39 mil m³ da Aula 1): <strong>aerolevantamento</strong>, pelo <strong>art. 8º da Portaria 3.703</strong> do Ministério da Defesa. Só por <strong>entidade inscrita</strong> no ministério.</p>
+          <p><strong>Art. 38:</strong> área em círculo de raio até <strong>2,2 km</strong> ou abaixo de <strong>15 km²</strong> fica pré-autorizada, se atendidas condições cumulativas. Não dispensa a inscrição nem o SARPAS com <strong>4 dias corridos</strong>.</p>
+          <p class="mini">Clique num dia para mudar a data do voo. Foto de inspeção ou vídeo de avanço, sem faixas sobrepostas, <strong>não</strong> é aerolevantamento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Anatel -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Anatel</p>
+      <h2>O drone é um rádio: precisa de homologação</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="espectro" role="img" aria-label="Faixa do espectro de rádio de 0,5 a 7 gigahertz, com as bandas usadas pelo drone destacadas: 2,4 gigahertz para comando e telemetria e 5,8 gigahertz para vídeo, além do celular para correções RTK. Ondas animadas ligam o controle ao drone. O botão Sensores IoT acende as faixas que voltarão na Unidade 3: LoRaWAN em 915 megahertz, Wi-Fi e celular. Ao lado, uma etiqueta de produto com o código de homologação, com número fictício."></div>
+        <div class="viz-lado">
+          <h3>Terceira porta</h3>
+          <p>O drone transmite o <strong>enlace de comando</strong>, o <strong>vídeo</strong> e, às vezes, as <strong>correções RTK</strong> pelo celular.</p>
+          <p>Todo transmissor vendido e usado no Brasil precisa de <strong>homologação da Anatel</strong>, que confere faixas e potências.</p>
+          <p>Na prática: confira o <strong>código de homologação</strong> no equipamento ou na embalagem e desconfie do importado "sem selo".</p>
+          <p class="mini">Na Unidade 3, a mesma exigência vale para os rádios dos sensores IoT: LoRaWAN, Wi-Fi, celular.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LGPD -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">LGPD · Lei nº 13.709/2018</p>
+      <h2>Imagem de pessoa é dado pessoal</h2>
+      <div class="dupla">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg/1280px-Obras_da_Esta%C3%A7%C3%A3o_Brooklin_da_Linha_5_%28Lil%C3%A1s%29_do_Metr%C3%B4_em_S%C3%A3o_Paulo_%28a%29.jpg" alt="Escavação profunda da Estação Brooklin do Metrô de São Paulo, vista de cima: paredes de contenção de concreto travadas por grandes estroncas horizontais, com operários no fundo" loading="lazy">
+          <figcaption>Vista de cima de uma obra urbana (Estação Brooklin, SP): operários, vizinhos e placas de veículos entram na imagem.</figcaption>
+          <p class="credito">Foto: Diogo Moreira / Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
+        </figure>
+        <div class="painel">
+          <h3>Quatro perguntas antes de voar</h3>
+          <ul>
+            <li><strong>Finalidade:</strong> para que serve este voo?</li>
+            <li><strong>Necessidade:</strong> capture só o necessário.</li>
+            <li><strong>Acesso:</strong> quem pode ver as imagens?</li>
+            <li><strong>Retenção:</strong> por quanto tempo vou guardar?</li>
+          </ul>
+          <p>Aprofundamos na <strong>Aula 16</strong>, que fecha a disciplina.</p>
+          <p><strong>Responsabilidade:</strong> cumprir as regras cabe ao <strong>operador</strong> e ao <strong>piloto remoto</strong>. Voo irregular gera sanções e pode <strong>invalidar o seguro</strong>, justamente quando você mais precisaria dele.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Faixa de 30 m no canteiro -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>A bateria aguenta? A taxa de leitura governa a autonomia</h2>
+      <h2>Quanto do canteiro dá para voar?</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="calc" data-opts='{
-          "inputs": [
-            {"id":"T","label":"Intervalo entre leituras","min":1,"max":60,"step":1,"value":15,"unit":"min"},
-            {"id":"C","label":"Bateria de lítio","min":5000,"max":38000,"step":1000,"value":19000,"unit":"mAh"}
-          ],
-          "outputs": [
-            {"label":"Carga por ciclo (2 s × 25 mA + 1 s × 120 mA + sono × 0,02 mA)","expr":"2*25+1*120+(T*60-3)*0.02","unit":"mA·s","dec":1},
-            {"label":"Corrente média","expr":"o1/(T*60)","unit":"mA","dec":3},
-            {"label":"Autonomia (80% da bateria utilizável)","expr":"0.8*C/o2/24","unit":"dias","dec":0},
-            {"label":"Em anos","expr":"o3/365","unit":"anos","dec":1,"destaque":true}
-          ],
-          "barras": [
-            {"label":"Seu intervalo","expr":"o3","unit":"dias"},
-            {"label":"15 min (normal)","expr":"0.8*C/((50+120+897*0.02)/900)/24","unit":"dias"},
-            {"label":"1 min (alerta)","expr":"0.8*C/((50+120+57*0.02)/60)/24","unit":"dias"}
-          ],
-          "nota": "Nó sensor de piezômetro do texto base. Com 15 min: ≈ 0,209 mA → ≈ 8,3 anos; com 1 min: ≈ 2,85 mA → ≈ 222 dias."
-        }' role="img" aria-label="Calculadora de autonomia de bateria de um nó sensor LoRa com barras animadas comparando o intervalo escolhido com leituras a cada 15 minutos e a cada 1 minuto"></div>
+        <div class="viz" data-viz="faixa30" role="img" aria-label="Planta de um canteiro retangular de 80 por 50 metros, com uma calçada movimentada ao longo do lado de 80 metros. Uma faixa vermelha de 30 metros a partir da linha de pedestres não pode ser sobrevoada; a área verde restante, de 80 por 20 metros, 1.600 metros quadrados, é 40 por cento do canteiro. Arrastar a linha de pedestres para longe aumenta a área voável; o botão Barreira libera todo o canteiro."></div>
         <div class="viz-lado">
-          <h3>Mova o intervalo</h3>
-          <p><span class="formula">Ī = Q<sub>ciclo</sub> / T<sub>ciclo</sub></span> &nbsp; <span class="formula">t = 0,8 · C / Ī</span></p>
+          <h3>Categoria aberta, sem barreira, a 60 m</h3>
+          <p>Canteiro de 80 × 50 m = <strong>4.000 m²</strong>. Faixa voável: 50 − 30 = <strong>20 m</strong>. Área: 80 × 20 = <strong>1.600 m²</strong> = <strong>40%</strong>.</p>
           <div data-controles></div>
-          <p class="mini">Moral: bons sistemas usam <strong>amostragem adaptativa</strong>: leem devagar no normal e aceleram só quando a malha entra em atenção.</p>
+          <p><strong>Alternativas:</strong> interditar a calçada (com a prefeitura, fora do pico); <strong>barreira</strong> capaz de proteger (tapume comum não serve); categoria <strong>específica</strong>.</p>
+          <p class="mini">É mapeamento: entra o aerolevantamento (empresa inscrita + SARPAS com 4 dias). Valores ilustrativos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 15. Pausa para reflexão -->
+  <!-- 14. Pausa para reflexão -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Pausa para reflexão</p>
+      <h2>O voo que "ninguém vai notar"</h2>
+      <div class="reflexao">
+        <div class="cena">
+          <p class="hora">Quinta-feira, 17h</p>
+          <p>O gerente liga: <em>"Preciso do ortomosaico amanhã às 9h para a reunião com o cliente. É um voo de 15 minutos, ninguém vai notar."</em></p>
+          <p>Você sabe que:</p>
+          <ul>
+            <li>o SARPAS para aerolevantamento exige <strong>4 dias</strong>;</li>
+            <li>às 8h a calçada estará <strong>cheia de pedestres</strong>;</li>
+            <li>o piloto ainda <strong>não fez o exame teórico</strong>.</li>
+          </ul>
+          <p><strong>O que você faz?</strong> Pause o vídeo e pense.</p>
+        </div>
+        <div class="pesos">
+          <div><b class="t">Custo de chegar sem o produto</b>Real: o cliente vai cobrar.</div>
+          <div><b class="t">Custo do voo irregular</b>Drone caindo sobre um pedestre; seguro que não cobre; autuação para a empresa, e para você.</div>
+          <div class="saida"><b class="t">Existe uma alternativa legal?</b>Fotos de inspeção, sem faixas sobrepostas, dentro da área voável. O último ortomosaico regular + a medição de campo da semana. E comunicar ao gerente com números e alternativas.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Checklist -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Pausa para reflexão · Desafio</p>
-      <h2>A malha deve agir sozinha ou chamar um humano?</h2>
-      <p class="mini-intro">Regra prática para testar: ações <strong>reversíveis, de baixo risco e urgentes</strong> podem ser automáticas; ações <strong>de alto impacto ou difíceis de reverter</strong> pedem um humano no laço.</p>
-      <div class="viz-grid inv">
+      <p class="kicker">Interativo</p>
+      <h2>O checklist regulatório em nove itens</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="checklist" role="group" aria-label="Checklist interativo com nove itens de conformidade para voar com drone em uma obra; ao marcar todos, a barra de progresso fica completa e o status indica que a operação está pronta."></div>
         <div class="viz-lado">
-          <h3>Teste dois casos</h3>
-          <p class="mini"><strong>Ligar a bomba:</strong> 2 · 4 · 5 · 2.<br><strong>Travar as máquinas da escavação:</strong> 5 · 3 · 2 · 1.</p>
-          <div data-controles></div>
+          <h3>Os três que mais pegam</h3>
+          <p>Marcados com a borda magenta: <strong>SARPAS</strong>, <strong>aerolevantamento</strong> quando é mapeamento e <strong>LGPD</strong>.</p>
+          <p><strong>Caso para treinar:</strong> multirrotor de <strong>9 kg</strong>, em linha de visada, a <strong>80 m</strong>, canteiro urbano isolado, 30 m respeitados, fazendo mapeamento.</p>
+          <p>Cabe na <strong>aberta</strong>? Cabe. Mas "aberta" não quer dizer "liberado": continuam SISANT, piloto, seguro, SARPAS, Anatel e, por ser mapeamento, o aerolevantamento.</p>
+          <p class="mini">Imprima e cole na tampa da maleta do drone.</p>
         </div>
-        <div class="viz" data-viz="calc" data-opts='{
-          "inputs": [
-            {"id":"I","label":"Consequência de agir errado (1 a 5)","min":1,"max":5,"step":1,"value":2},
-            {"id":"U","label":"Urgência: pouco tempo até o dano (1 a 5)","min":1,"max":5,"step":1,"value":4},
-            {"id":"R","label":"Reversibilidade da ação (1 a 5)","min":1,"max":5,"step":1,"value":5},
-            {"id":"S","label":"Confiança no sensor / redundância (1 a 3)","min":1,"max":3,"step":1,"value":2}
-          ],
-          "outputs": [
-            {"label":"A favor do automático","expr":"2*U+2*R+2*S","unit":"pts"},
-            {"label":"A favor do humano no laço","expr":"3*I+2*(6-R)+2*(3-S)","unit":"pts"},
-            {"label":"Sugestão","expr":"o1>o2+3?&#39;automática, com aviso ao engenheiro&#39;:(o2>o1+3?&#39;humano no laço: o sistema recomenda, o engenheiro decide&#39;:&#39;semiautomática: ação de baixo risco já, decisão maior com humano&#39;)"}
-          ],
-          "barras": [
-            {"label":"Automático","expr":"o1","unit":"pts"},
-            {"label":"Humano no laço","expr":"o2","unit":"pts"}
-          ],
-          "nota": "Pontuação ilustrativa, só para organizar o raciocínio."
-        }' role="img" aria-label="Balança interativa com duas barras, a favor da ação automática e a favor do humano no laço, que mudam conforme a consequência de agir errado, a urgência, a reversibilidade da ação e a confiança no sensor"></div>
       </div>
     </div>
   </section>
@@ -413,27 +429,22 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Atividade prática</p>
-      <h2>Desenhe a sua arquitetura IoT</h2>
-      <div class="versus">
-        <div class="lado">
-          <h3>Escolha um caso</h3>
-          <ul>
-            <li><strong>(a)</strong> Recalque de um edifício vizinho a uma escavação.</li>
-            <li><strong>(b)</strong> Vibração causada por cravação de estacas próxima a um casarão histórico.</li>
-          </ul>
+      <h2>O checklist regulatório de uma obra da sua cidade</h2>
+      <div class="dupla" style="grid-template-columns:1.35fr 1fr">
+        <div class="slide-content-box">
+          <ol class="lista-num">
+            <li>Escolha uma obra real da sua cidade.</li>
+            <li>Enquadre o voo no <strong>RBAC nº 100</strong> e verifique os <strong>30 m</strong> numa planta ou imagem de satélite.</li>
+            <li>Preencha: SISANT, piloto, seguro, avaliação de risco, <strong>SARPAS</strong> com a antecedência, <strong>aerolevantamento</strong> (sim ou não, e por quê), Anatel e LGPD.</li>
+            <li>Abra um mapa: há <strong>aeródromo</strong> ou <strong>heliponto</strong> por perto?</li>
+          </ol>
         </div>
-        <div class="vs">→</div>
-        <div class="lado novo">
-          <h3>Indique na folha</h3>
-          <ul>
-            <li>As <strong>quatro camadas</strong></li>
-            <li>A <strong>rede</strong> escolhida, justificada por alcance, taxa e consumo</li>
-            <li>Onde roda cada regra: <strong>borda ou nuvem</strong></li>
-            <li>A <strong>malha fechada</strong>: níveis de atenção e alerta e a ação de cada um</li>
-          </ul>
-        </div>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg/1280px-Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg" alt="Sala de controle de operações com um grande painel de vídeo formado por muitas telas, com mapas da cidade e imagens de câmeras, e operadores em estações de trabalho" loading="lazy">
+          <figcaption>Mapas na tela: helipontos e aeródromos costumam estar mais perto da obra do que parece.</figcaption>
+          <p class="credito">Foto: Jjsoares — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
       </div>
-      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Dica para o caso (b): vibração exige <strong>taxa de amostragem alta</strong> (lembre de Nyquist, Aula 2). Isso muda a escolha da rede e da energia.</p></div>
     </div>
   </section>
 
@@ -442,19 +453,14 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Pontos-chave</p>
-      <h2>O que levar desta aula</h2>
-      <div class="stat-grid compacto">
-        <div class="stat-card"><span class="numero-grande contador" data-ate="4">0</span><div class="legenda">camadas: percepção, rede, plataforma, aplicação</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="8.3" data-dec="1" data-suf=" anos">0</span><div class="legenda">de bateria lendo a cada 15 min</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="222" data-suf=" dias">0</span><div class="legenda">lendo a cada 1 min</div></div>
+      <h2>Para levar desta aula</h2>
+      <div class="pk">
+        <div><strong>ANAC</strong>: aeronave, operador e piloto. <strong>DECEA</strong>: espaço aéreo (ICA 100-40, SARPAS). <strong>Anatel</strong>: rádios.</div>
+        <div>O <strong>RBAC nº 100</strong> (2026) substituiu o RBAC-E nº 94: operações por risco, em aberta, específica e certificada.</div>
+        <div>Aberta: até <strong>25 kg</strong>, linha de visada, até <strong>120 m</strong> e nunca a menos de <strong>30 m</strong> de não anuentes.</div>
+        <div>Mapeamento em faixas sobrepostas é <strong>aerolevantamento</strong>: entidade inscrita + SARPAS com 4 dias.</div>
+        <div>Imagem de pessoa é <strong>dado pessoal</strong> (LGPD). E a responsabilidade é do operador e do piloto: segurança é uma decisão que o engenheiro toma, e assina.</div>
       </div>
-      <ul class="pontos" style="margin-top:.9rem">
-        <li>A rede se escolhe por <strong>alcance, taxa de dados e consumo</strong>: LoRaWAN e NB-IoT para leituras lentas a bateria; 4G/5G e Wi-Fi para muito dado.</li>
-        <li><strong>Borda</strong> para respostas rápidas e independentes da internet; <strong>nuvem</strong> para histórico, cruzamento e análise.</li>
-        <li>O <strong>MQTT</strong> leva leituras e comandos; o <strong>gêmeo digital</strong> vive na camada de plataforma.</li>
-        <li>A <strong>malha fechada IoT</strong> vai do sensor à ação no canteiro e volta ao sensor; a <strong>amostragem adaptativa</strong> equilibra vigilância e bateria.</li>
-      </ul>
-      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p>Automático ou humano? Ações <strong>reversíveis, de baixo risco e urgentes</strong> podem ser automáticas; ações <strong>de alto impacto ou difíceis de reverter</strong> pedem um humano no laço.</p></div>
     </div>
   </section>
 
@@ -464,9 +470,9 @@
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
-      <h1>Arquiteturas IoT para o canteiro</h1>
-      <p class="fim-texto">Você montou uma arquitetura IoT completa e fechou a malha do sensor até a ação no canteiro. Falta o outro protagonista: o drone.</p>
-      <p class="fim-proxima">Próxima aula: Aula 4 — Drones (RPA): tipos, componentes, cargas úteis e regulamentação brasileira.</p>
+      <h1>Você já sabe se pode voar</h1>
+      <p class="fim-texto">Falta saber como voar: a que altura, com quanta sobreposição, em qual aplicativo. E o vento, a chuva, a bateria no frio?</p>
+      <p class="fim-proxima">Próxima aula: Aula 4 — Planejamento de missão, condições meteorológicas e segurança.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -475,157 +481,331 @@
 
 <script src="../../assets/obra.js"></script>
 <script>
-/* mqtt — broker MQTT com publicadores, assinantes e pacotes animados.
-   O gêmeo digital assina as leituras, compara com os limites e publica
-   alertas e o comando da bomba: o mesmo protocolo fecha a malha. */
-Obra.register('mqtt', (host) => {
-  const { ctx } = Obra.canvas2d(host);
-  const h = Obra.hud(host);
-  const cNivel = Obra.chip(h, ''), cBomba = Obra.chip(h, ''), cMsg = Obra.chip(h, '');
-  const ATENCAO = 2.0, ALERTA = 1.0;
-  const PUBS = [
-    { id: 'p0', nome: 'PZ-03 · piezômetro', topico: 'obra/escavacao/PZ-03/nivel' },
-    { id: 'p1', nome: 'INC-01 · inclinômetro', topico: 'obra/escavacao/INC-01/desloc' },
-    { id: 'p2', nome: 'VIB-02 · vibração', topico: 'obra/vizinho/VIB-02/vel' }
-  ];
-  const SUBS = [
-    { id: 's0', nome: 'Painel (dashboard)', filtro: 'obra/#' },
-    { id: 's1', nome: 'Gêmeo digital (regras)', filtro: 'obra/escavacao/+/nivel' },
-    { id: 's2', nome: 'Alerta por SMS', filtro: 'obra/alerta/#' },
-    { id: 's3', nome: 'Bomba B-01 (atuador)', filtro: 'obra/cmd/bomba' }
-  ];
-  const casa = (filtro, topico) => {
-    const f = filtro.split('/'), t = topico.split('/');
-    for (let i = 0; i < f.length; i++) {
-      if (f[i] === '#') return true;
-      if (i >= t.length) return false;
-      if (f[i] !== '+' && f[i] !== t[i]) return false;
-    }
-    return f.length === t.length;
-  };
-  let st;
-  const reinicia = () => {
-    st = { nivel: 3.2, chuva: false, bomba: false, estado: 'normal', msgs: 0, pac: [], prox: [0.3, 1.0, 1.7], intervalo: 3, flash: {}, log: [] };
-  };
-  reinicia();
-  const btns = Obra.botoes(host, [
-    ['Chuva forte', (b) => { st.chuva = !st.chuva; b.classList.toggle('on', st.chuva); if (st.chuva) st.prox[0] = 0.2; }],
-    ['↺ Reiniciar', () => { reinicia(); btns[0].classList.remove('on'); }]
-  ]);
-  let W = 1, H = 1;
-  const pos = (id) => {
-    if (id === 'broker') return [W * 0.5, H * 0.55];
-    const k = +id.slice(1), lista = id[0] === 'p' ? PUBS : SUBS, n = lista.length;
-    const y = H * 0.2 + (H * 0.72) * (k + 0.5) / n;
-    return [id[0] === 'p' ? W * 0.15 : W * 0.85, y];
-  };
-  const envia = (de, para, topico, payload, cor, aoChegar) => {
-    st.pac.push({ de, para, topico, payload, cor, t: 0, dur: 0.7, aoChegar });
-  };
-  const publica = (de, topico, payload, cor) => {
-    st.msgs++;
-    envia(de, 'broker', topico, payload, cor, () => {
-      st.flash.broker = 1;
-      SUBS.forEach((s) => { if (casa(s.filtro, topico) && s.id !== de) envia('broker', s.id, topico, payload, cor, () => { st.flash[s.id] = 1; recebe(s, topico, payload); }); });
-    });
-  };
-  const fmtN = (v) => Obra.fmt(v, 2) + ' m';
-  const recebe = (s, topico, payload) => {
-    if (s.id === 's1') {
-      // gêmeo digital: compara com os limites
-      const v = st.nivel;
-      if (v <= ALERTA && !st.bomba && st.estado !== 'alerta') {
-        st.estado = 'alerta';
-        publica('s1', 'obra/alerta/PZ-03', 'ALERTA', '#FF2B5F');
-        publica('s1', 'obra/cmd/bomba', 'LIGAR', '#FF2B5F');
-      } else if (v <= ATENCAO && st.estado === 'normal') {
-        st.estado = 'atenção'; st.intervalo = 0.7;
-        publica('s1', 'obra/alerta/PZ-03', 'ATENÇÃO', '#F2CB0A');
-      } else if (v > ATENCAO && st.estado !== 'normal') {
-        st.estado = 'normal'; st.intervalo = 3;
-        if (st.bomba) publica('s1', 'obra/cmd/bomba', 'DESLIGAR', '#11A360');
+/* Visualizações próprias da Aula 3 */
+(function () {
+  const { canvas2d, loop, botoes, fmt } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+
+  /* escala3d — 120 m e 30 m em escala real (reaproveitada da versão anterior da aula). */
+  Obra.register('escala3d', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sH = Obra.slider(p, { id: 'h', label: 'Altura do drone acima do solo', min: 10, max: 160, step: 5, value: 100, unit: 'm' });
+    const sD = Obra.slider(p, { id: 'd', label: 'Distância horizontal às pessoas', min: 0, max: 100, step: 5, value: 45, unit: 'm' });
+    let barreira = false;
+    const h = Obra.hud(host);
+    const cVal = Obra.chip(h, ''), cCat = Obra.chip(h, '');
+    return Obra.cena3d(host, { r: 290, ph: 1.32, th: 0.22, alvo: [10, 58, 0], fogNear: 500, fogFar: 1400, auto: false }, ({ THREE, scene, rotulo }) => {
+      const M = (cor, extra = {}) => new THREE.MeshStandardMaterial({ color: cor, roughness: 0.85, metalness: 0.05, ...extra });
+      const chao = new THREE.Mesh(new THREE.PlaneGeometry(520, 520), M(0x4a6b45)); chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; scene.add(chao);
+      const grade = new THREE.GridHelper(520, 52, 0xffffff, 0xffffff); grade.material.opacity = 0.07; grade.material.transparent = true; grade.position.y = 0.05; scene.add(grade);
+      const PX = -70, PZ = -30;
+      for (let i = 0; i < 40; i++) {
+        const laje = Obra.caixa(THREE, 24, 2.9, 24, i % 2 ? 0xd7dae0 : 0x7f9bb8);
+        laje.position.set(PX, i * 3 + 1.45, PZ); scene.add(laje);
       }
-    }
-    if (s.id === 's3') st.bomba = payload === 'LIGAR';
-  };
-  const caixa = (x, y, w, hh, txt, sub, cor, brilho) => {
-    ctx.fillStyle = brilho > 0 ? `rgba(242,203,10,${0.25 + 0.5 * brilho})` : 'rgba(0,33,86,.85)';
-    ctx.strokeStyle = cor; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.roundRect(x - w / 2, y - hh / 2, w, hh, 8); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '600 13px Montserrat, Arial';
-    ctx.fillText(txt, x, y - 3);
-    ctx.font = '11.5px Consolas, monospace'; ctx.fillStyle = 'rgba(43,217,254,.95)'; ctx.fillText(sub, x, y + 13);
-  };
-  const lp = Obra.loop((t, dt) => {
-    const dpr = Math.min(2, window.devicePixelRatio || 1); W = ctx.canvas.width / dpr; H = ctx.canvas.height / dpr;
-    // física simples do nível d'água (m abaixo do fundo da escavação)
-    if (st.bomba) st.nivel = Math.min(3.2, st.nivel + dt * 0.18);
-    else if (st.chuva) st.nivel = Math.max(0.2, st.nivel - dt * 0.6);
-    // publicações periódicas
-    PUBS.forEach((p, k) => {
-      st.prox[k] -= dt;
-      if (st.prox[k] <= 0) {
-        st.prox[k] = k === 0 ? st.intervalo : 3.4 + k * 0.5;
-        const val = k === 0 ? Obra.fmt(st.nivel, 2) : k === 1 ? Obra.fmt(1.2 + Math.sin(t) * 0.1, 1) + ' mm' : Obra.fmt(0.8 + Math.random() * 0.3, 1) + ' mm/s';
-        publica(p.id, p.topico, val, k === 0 ? '#2BD9FE' : '#95DE68');
-        st.flash[p.id] = 1;
+      const topo = new THREE.Object3D(); topo.position.set(PX, 121, PZ); scene.add(topo);
+      rotulo(topo, 'Prédio de 40 pavimentos ≈ 120 m', 4);
+      const regua = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 150, 8), M(0xffffff)); regua.position.set(PX + 22, 75, PZ + 14); scene.add(regua);
+      [30, 60, 90].forEach((y) => { const o = new THREE.Object3D(); o.position.set(PX + 22, y, PZ + 14); scene.add(o); rotulo(o, y + ' m', 0); });
+      const teto = new THREE.Mesh(new THREE.PlaneGeometry(300, 260), new THREE.MeshBasicMaterial({ color: 0xF2CB0A, transparent: true, opacity: 0.09, side: THREE.DoubleSide, depthWrite: false }));
+      teto.rotation.x = -Math.PI / 2; teto.position.set(20, 120, 10); scene.add(teto);
+      const borda = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(300, 260)), new THREE.LineBasicMaterial({ color: 0xF2CB0A }));
+      borda.rotation.x = -Math.PI / 2; borda.position.copy(teto.position); scene.add(borda);
+      const tetoRot = new THREE.Object3D(); tetoRot.position.set(120, 120, 10); scene.add(tetoRot);
+      rotulo(tetoRot, 'Teto da categoria aberta: 120 m (400 pés)', 2);
+      const PC = new THREE.Vector3(70, 0, 40);
+      const pessoas = new THREE.Group(); pessoas.position.copy(PC); scene.add(pessoas);
+      for (let k = 0; k < 7; k++) {
+        const a = k * 0.9, r = 2 + (k % 3) * 1.5;
+        const corpo = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 1.3, 8), M(0xff5a3c)); corpo.position.set(Math.cos(a) * r, 0.65, Math.sin(a) * r);
+        const cab = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), M(0xf1c27d)); cab.position.set(corpo.position.x, 1.5, corpo.position.z);
+        pessoas.add(corpo, cab);
       }
+      const marco = new THREE.Mesh(new THREE.ConeGeometry(2.5, 6, 4), new THREE.MeshBasicMaterial({ color: 0xFF2B5F })); marco.position.set(0, 10, 0); marco.rotation.x = Math.PI; pessoas.add(marco);
+      rotulo(marco, 'Pessoas não envolvidas e não anuentes', 5);
+      const disco = new THREE.Mesh(new THREE.CircleGeometry(30, 72), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, transparent: true, opacity: 0.18, depthWrite: false }));
+      disco.rotation.x = -Math.PI / 2; disco.position.set(PC.x, 0.2, PC.z); scene.add(disco);
+      const anel = new THREE.Mesh(new THREE.RingGeometry(29.3, 30.7, 96), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, side: THREE.DoubleSide }));
+      anel.rotation.x = -Math.PI / 2; anel.position.set(PC.x, 0.25, PC.z); scene.add(anel);
+      const anelRot = new THREE.Object3D(); anelRot.position.set(PC.x + 30, 0.5, PC.z); scene.add(anelRot); rotulo(anelRot, 'raio de 30 m', 2);
+      const pts = []; for (let k = 0; k <= 160; k++) { const a = k / 160 * Math.PI * 2; pts.push(new THREE.Vector3(PC.x + 150 * Math.cos(a), 0.3, PC.z + 150 * Math.sin(a))); }
+      const c150 = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 6, gapSize: 6, transparent: true, opacity: 0.45 }));
+      c150.computeLineDistances(); scene.add(c150);
+      const r150 = new THREE.Object3D(); r150.position.set(PC.x, 0.5, PC.z + 150); scene.add(r150); rotulo(r150, '150 m', 1);
+      const muro = Obra.caixa(THREE, 1, 8, 50, 0x2BD9FE, { transparent: true, opacity: 0.55 }); muro.position.set(PC.x - 12, 4, PC.z); muro.visible = false; scene.add(muro);
+      const dr = Obra.droneModelo(THREE, 2.5); scene.add(dr.g);
+      const halo = new THREE.Mesh(new THREE.SphereGeometry(9, 20, 14), new THREE.MeshBasicMaterial({ color: 0x95DE68, transparent: true, opacity: 0.18, depthWrite: false })); dr.g.add(halo);
+      rotulo(dr.g, 'Drone (ampliado)', 6);
+      const linhaV = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 3, gapSize: 3 }));
+      const linhaH = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xF2CB0A }));
+      scene.add(linhaV, linhaH);
+      Obra.botoes(host, [['Barreira de proteção', (b) => { barreira = !barreira; b.classList.toggle('on', barreira); muro.visible = barreira; }]]);
+      let hAtual = +sH.value, dAtual = +sD.value;
+      return (t, dt) => {
+        hAtual += (+sH.value - hAtual) * Math.min(1, dt * 3);
+        dAtual += (+sD.value - dAtual) * Math.min(1, dt * 3);
+        const x = PC.x - dAtual, z = PC.z, y = hAtual + Math.sin(t * 1.5) * 0.6;
+        dr.g.position.set(x, y, z);
+        dr.helices.forEach((hh, k) => (hh.rotation.y += (k % 2 ? 1 : -1) * 0.9));
+        linhaV.geometry.setFromPoints([new THREE.Vector3(x, y, z), new THREE.Vector3(x, 0.3, z)]); linhaV.computeLineDistances();
+        linhaH.geometry.setFromPoints([new THREE.Vector3(x, 0.6, z), new THREE.Vector3(PC.x, 0.6, PC.z)]);
+        const H = +sH.value, D = +sD.value;
+        const acima = H > 120, perto = D < 30 && !barreira;
+        const ok = !acima && !perto;
+        halo.material.color.setHex(ok ? 0x95DE68 : 0xFF2B5F);
+        cVal.innerHTML = 'Altura <b>' + fmt(H) + ' m</b> · pessoas a <b>' + fmt(D) + ' m</b>' + (barreira ? ' · <b>barreira</b>' : '');
+        cCat.innerHTML = ok
+          ? 'Dentro da <b>categoria aberta</b> (altura e distância)'
+          : (acima ? 'Acima de 120 m' : 'A menos de 30 m, sem barreira') + ' → <b>categoria específica</b>';
+        cCat.classList.toggle('alerta', !ok);
+      };
     });
-    ctx.clearRect(0, 0, W, H);
-    // ligações
-    const [bx, by] = pos('broker');
-    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1;
-    [...PUBS, ...SUBS].forEach((n) => { const [x, y] = pos(n.id); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(bx, by); ctx.stroke(); });
-    // broker
-    const fb = st.flash.broker || 0;
-    const r = Math.min(W, H) * 0.11;
-    const g = ctx.createRadialGradient(bx, by, 0, bx, by, r * 1.6);
-    g.addColorStop(0, `rgba(43,217,254,${0.35 + fb * 0.4})`); g.addColorStop(1, 'rgba(43,217,254,0)');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, r * 1.6, 0, 7); ctx.fill();
-    ctx.fillStyle = '#0a2a5c'; ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(bx, by, r, 0, 7); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 15px Montserrat, Arial'; ctx.fillText('Broker', bx, by - 2);
-    ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fillText('MQTT (na nuvem)', bx, by + 15);
-    // títulos das colunas
-    ctx.font = '700 12px Montserrat, Arial'; ctx.fillStyle = '#F2CB0A';
-    ctx.fillText('PUBLICAM (gateway → servidor de rede)', W * 0.17, H * 0.16); ctx.fillText('ASSINAM', W * 0.85, H * 0.16);
-    // nós
-    const bw = Math.min(215, W * 0.29), bh = 42;
-    PUBS.forEach((p) => { const [x, y] = pos(p.id); caixa(x, y, bw, bh, p.nome, p.topico.replace('obra/', '…/'), '#2BD9FE', st.flash[p.id] || 0); });
-    SUBS.forEach((s) => {
-      const [x, y] = pos(s.id);
-      let nome = s.nome;
-      if (s.id === 's3') nome += st.bomba ? ' · LIGADA' : ' · desligada';
-      caixa(x, y, bw, bh, nome, 'assina ' + s.filtro, s.id === 's3' && st.bomba ? '#11A360' : '#F2CB0A', st.flash[s.id] || 0);
-    });
-    for (const k in st.flash) st.flash[k] = Math.max(0, st.flash[k] - dt * 2.5);
-    // pacotes
-    st.pac.forEach((pk) => {
-      pk.t += dt / pk.dur;
-      const [x0, y0] = pos(pk.de), [x1, y1] = pos(pk.para), f = Math.min(1, pk.t);
-      const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
-      ctx.fillStyle = pk.cor; ctx.beginPath(); ctx.arc(x, y, 6, 0, 7); ctx.fill();
-      ctx.font = '12px Consolas, monospace'; ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.textAlign = 'center';
-      // o rótulo some perto das pontas, para não empilhar texto sobre o broker
-      if (f > 0.12 && f < 0.88) ctx.fillText(pk.payload, x, y - 10);
-      if (pk.t >= 1 && pk.aoChegar && !pk.ok) { pk.ok = true; pk.aoChegar(); }
-    });
-    st.pac = st.pac.filter((pk) => pk.t < 1);
-    // régua do nível d'água
-    const rx = W * 0.5, ry0 = H * 0.08, rw = W * 0.26;
-    ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fillRect(rx - rw / 2, ry0, rw, 10);
-    const X = (m) => rx - rw / 2 + rw * (1 - m / 3.2);
-    ctx.fillStyle = 'rgba(242,203,10,.5)'; ctx.fillRect(X(ATENCAO), ry0, X(ALERTA) - X(ATENCAO), 10);
-    ctx.fillStyle = 'rgba(255,43,95,.55)'; ctx.fillRect(X(ALERTA), ry0, X(0) - X(ALERTA), 10);
-    ctx.fillStyle = '#2BD9FE'; ctx.beginPath(); ctx.arc(X(st.nivel), ry0 + 5, 7, 0, 7); ctx.fill();
-    ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.textAlign = 'center';
-    ctx.fillText('NA do PZ-03: distância ao fundo (atenção 2,0 m · alerta 1,0 m)', rx, ry0 + 26);
-    cNivel.innerHTML = 'PZ-03: <b>' + fmtN(st.nivel) + '</b> abaixo do fundo';
-    cNivel.classList.toggle('alerta', st.nivel <= ALERTA);
-    cBomba.innerHTML = 'Situação: <b>' + st.estado + '</b> · bomba <b>' + (st.bomba ? 'ligada' : 'desligada') + '</b>';
-    cMsg.innerHTML = 'Mensagens publicadas: <b>' + st.msgs + '</b>';
   });
-  return { start: lp.start, stop: lp.stop };
-});
+
+  /* calendario — novembro de 2026: voo de aerolevantamento na sexta 20,
+     pedido no SARPAS 4 dias corridos antes (segunda 16); BVLOS: 8 dias. */
+  Obra.register('calendario', (host) => {
+    const { ctx, cv: canvas } = canvas2d(host);
+    let N = 4, voo = 20;
+    const btns = botoes(host, [
+      ['Aerolevantamento: 4 dias', () => { N = 4; sel(0); }, true],
+      ['BVLOS: 8 dias', () => { N = 8; sel(1); }]
+    ]);
+    const sel = (i) => btns.forEach((b, k) => b.classList.toggle('on', k === i));
+    const DIAS = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+    const SEM = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+    const PRIMEIRO = 0; // 1º/11/2026 é domingo
+    let geo = null;
+    function pos(d) { const k = PRIMEIRO + d - 1; return { c: k % 7, r: Math.floor(k / 7) }; }
+    canvas.classList.add('no-nav');
+    canvas.addEventListener('pointerdown', (e) => {
+      if (!geo) return; e.stopPropagation();
+      const rc = canvas.getBoundingClientRect(), x = e.clientX - rc.left, y = e.clientY - rc.top;
+      const c = Math.floor((x - geo.x0) / geo.cw), r = Math.floor((y - geo.y0) / geo.ch);
+      if (c < 0 || c > 6 || r < 0) return;
+      const d = r * 7 + c - PRIMEIRO + 1;
+      if (d >= 1 && d <= 30) voo = d;
+    });
+    const lp = loop((t) => {
+      const W = canvas.width / dprOf(), H = canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const x0 = 30, y0 = 118, cw = (W - 60) / 7, ch = Math.min(64, (H - y0 - 90) / 5);
+      geo = { x0, y0, cw, ch };
+      ctx.fillStyle = '#fff'; ctx.font = '800 20px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('Novembro de 2026', x0, 62);
+      DIAS.forEach((d, c) => { ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(d, x0 + c * cw + cw / 2, y0 - 12); });
+      const ped = voo - N;
+      for (let d = 1; d <= 30; d++) {
+        const { c, r } = pos(d), x = x0 + c * cw, y = y0 + r * ch;
+        const entre = d > ped && d < voo;
+        ctx.fillStyle = d === voo ? 'rgba(242,203,10,.9)' : d === ped ? 'rgba(43,217,254,.9)' : entre ? 'rgba(43,217,254,.18)' : 'rgba(255,255,255,.05)';
+        ctx.strokeStyle = 'rgba(255,255,255,.15)';
+        ctx.beginPath(); ctx.roundRect(x + 3, y + 3, cw - 6, ch - 6, 8); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = (d === voo || d === ped) ? '#002057' : '#fff';
+        ctx.font = (d === voo || d === ped ? '800 ' : '600 ') + '17px Montserrat, Arial'; ctx.textAlign = 'left';
+        ctx.fillText(String(d), x + 11, y + 25);
+        if (d === voo) { ctx.font = '800 12px Montserrat, Arial'; ctx.fillText('VOO', x + 11, y + ch - 13); }
+        if (d === ped) { ctx.font = '800 12px Montserrat, Arial'; ctx.fillText('PEDIDO', x + 11, y + ch - 13); }
+      }
+      // seta do pedido ao voo
+      const pv = pos(voo), cx1 = x0 + pv.c * cw + cw / 2, cy1 = y0 + pv.r * ch + 6;
+      let cx0, cy0;
+      if (ped >= 1) { const pp = pos(ped); cx0 = x0 + pp.c * cw + cw / 2; cy0 = y0 + pp.r * ch + 6; }
+      else { cx0 = x0 + 8; cy0 = y0 - 30; }
+      const mx = (cx0 + cx1) / 2, my = Math.min(cy0, cy1) - 26 - 6 * Math.sin(t * 3);
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx0, cy0); ctx.quadraticCurveTo(mx, my, cx1, cy1); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.moveTo(cx1, cy1 + 2); ctx.lineTo(cx1 - 7, cy1 - 10); ctx.lineTo(cx1 + 7, cy1 - 10); ctx.fill();
+      // legenda
+      const yL = y0 + 5 * ch + 34;
+      const sv = SEM[(PRIMEIRO + voo - 1) % 7];
+      let txtP;
+      if (ped >= 1) txtP = SEM[(PRIMEIRO + ped - 1) % 7] + ', dia ' + ped;
+      else txtP = SEM[(PRIMEIRO + ped - 1 + 70) % 7] + ', ' + (31 + ped) + ' de outubro';
+      ctx.textAlign = 'left'; ctx.font = '700 16px Montserrat, Arial'; ctx.fillStyle = '#fff';
+      ctx.fillText('Voo: ' + sv + ', dia ' + voo + '  →  pedido no SARPAS até ' + txtP, x0, yL);
+      ctx.font = '13px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.75)';
+      ctx.fillText(N + ' dias corridos de antecedência' + (N === 4 ? ' (aerolevantamento)' : ' (voo além da linha de visada)') + ' · fim de semana conta', x0, yL + 22);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* espectro — faixas de rádio do drone (2,4 e 5,8 GHz, celular) e, para a
+     Unidade 3, as dos sensores IoT; etiqueta de homologação com número fictício. */
+  Obra.register('espectro', (host) => {
+    const { ctx, cv: canvas } = canvas2d(host);
+    let iot = false;
+    const btns = botoes(host, [
+      ['Rádios do drone', () => { iot = false; sel(0); }, true],
+      ['Sensores IoT (Unidade 3)', () => { iot = true; sel(1); }]
+    ]);
+    const sel = (i) => btns.forEach((b, k) => b.classList.toggle('on', k === i));
+    const BANDAS = [
+      { f0: 0.902, f1: 0.928, nome: 'LoRaWAN 915 MHz', cor: '#95DE68', drone: false, iot: true, lin: 2 },
+      { f0: 0.7, f1: 2.7, nome: 'celular 4G/5G (várias faixas)', cor: '#FF8A1F', drone: true, iot: true, lin: 0, fraco: true },
+      { f0: 2.4, f1: 2.4835, nome: '2,4 GHz: comando, telemetria, Wi-Fi', cor: '#F2CB0A', drone: true, iot: true, lin: 1 },
+      { f0: 5.725, f1: 5.85, nome: '5,8 GHz: vídeo, Wi-Fi', cor: '#2BD9FE', drone: true, iot: true, lin: 1 }
+    ];
+    const lp = loop((t) => {
+      const W = canvas.width / dprOf(), H = canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      // cena: controle e drone com ondas
+      const cy = 140, xc = 70, xd = W * 0.6;
+      ctx.fillStyle = '#30343c'; ctx.fillRect(xc - 26, cy - 10, 52, 30); ctx.fillStyle = '#2BD9FE'; ctx.fillRect(xc - 20, cy - 5, 40, 18);
+      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('controle', xc, cy + 38);
+      ctx.fillStyle = '#e8ecf2'; ctx.fillRect(xd - 16, cy - 6, 32, 12); ctx.fillStyle = '#30343c'; ctx.fillRect(xd - 44, cy - 9, 88, 4);
+      ctx.fillStyle = '#fff'; ctx.fillText('drone', xd, cy + 30);
+      for (let k = 0; k < 7; k++) {
+        const f = ((t * 0.5 + k / 7) % 1), x = xc + 34 + (xd - xc - 80) * f;
+        ctx.strokeStyle = k % 2 ? 'rgba(242,203,10,' + (1 - f) + ')' : 'rgba(43,217,254,' + (1 - f) + ')'; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.arc(x, cy + 4, 14, -0.7, 0.7); ctx.stroke();
+      }
+      ctx.lineWidth = 1;
+      // etiqueta de homologação (exemplo, número fictício)
+      const ex = W - 210, ey = 84, ew = 180, eh = 110;
+      ctx.fillStyle = '#f4f4f0'; ctx.beginPath(); ctx.roundRect(ex, ey, ew, eh, 8); ctx.fill();
+      ctx.fillStyle = '#1b1b1b'; ctx.font = '700 11px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('ETIQUETA DO PRODUTO', ex + 12, ey + 20);
+      ctx.font = '600 11px Montserrat, Arial'; ctx.fillText('Homologação Anatel', ex + 12, ey + 42);
+      ctx.font = '800 15px Consolas, monospace'; ctx.fillText('01234-26-05678', ex + 12, ey + 64);
+      ctx.font = '10px Montserrat, Arial'; ctx.fillStyle = '#555'; ctx.fillText('exemplo: número fictício', ex + 12, ey + 84);
+      ctx.fillText('confira na embalagem ou no app', ex + 12, ey + 98);
+      // eixo de frequências
+      const gx = 40, gw = W - 80, gy = H - 110;
+      const fmin = 0.5, fmax = 7, X = (f) => gx + (f - fmin) / (fmax - fmin) * gw;
+      ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx + gw, gy); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center';
+      for (let f = 1; f <= 7; f++) { ctx.fillRect(X(f), gy, 1, 6); ctx.fillText(f + ' GHz', X(f), gy + 20); }
+      ctx.textAlign = 'left'; ctx.font = '700 13px Montserrat, Arial'; ctx.fillStyle = '#fff';
+      ctx.fillText('Espectro de rádio (frequência)', gx, gy - 196);
+      BANDAS.forEach((b) => {
+        const ativo = iot ? b.iot : b.drone;
+        const x0 = X(b.f0), x1 = Math.max(X(b.f1), x0 + 8);
+        const a = ativo ? 1 : 0.18;
+        ctx.globalAlpha = a * (b.fraco ? 0.45 : 1);
+        ctx.fillStyle = b.cor;
+        const alt = b.fraco ? 26 : 90 + 8 * Math.sin(t * 4 + b.f0);
+        ctx.fillRect(x0, gy - alt, x1 - x0, alt);
+        ctx.globalAlpha = a;
+        ctx.font = '700 12px Montserrat, Arial'; ctx.fillStyle = b.cor; ctx.textAlign = b.f0 > 5 ? 'right' : 'left';
+        const ly = b.fraco ? gy - 34 : gy - 108 - b.lin * 18;
+        ctx.fillText(b.nome, b.f0 > 5 ? x1 : x0, ly);
+        ctx.globalAlpha = 1;
+      });
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText(iot ? 'Unidade 3: os rádios dos sensores IoT também precisam de homologação.' : 'Faixas e potências conferidas pela Anatel na homologação. Faixas aproximadas.', gx, gy + 46);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* faixa30 — planta do canteiro de 80 × 50 m, calçada no lado de 80 m;
+     faixa de 30 m a partir dos pedestres; área voável e porcentagem. */
+  Obra.register('faixa30', (host, opts, painel) => {
+    const { ctx, cv: canvas } = canvas2d(host);
+    const p = painel || document.createElement('div');
+    const sOff = Obra.slider(p, { id: 'off', label: 'Pedestres afastados da divisa', min: 0, max: 30, step: 1, value: 0, unit: 'm' });
+    let barreira = false;
+    const btns = botoes(host, [['Barreira de proteção', (b) => { barreira = !barreira; b.classList.toggle('on', barreira); }]]);
+    void btns;
+    const L = 80, B = 50;
+    let geo = null, arrastando = false;
+    canvas.classList.add('no-nav');
+    const offDeY = (y) => Math.max(0, Math.min(30, Math.round((y - geo.yDiv) / geo.esc)));
+    canvas.addEventListener('pointerdown', (e) => {
+      if (!geo) return; const rc = canvas.getBoundingClientRect(), y = e.clientY - rc.top;
+      if (y > geo.yDiv - 12) { arrastando = true; e.stopPropagation(); canvas.setPointerCapture(e.pointerId); sOff.value = offDeY(y); sOff.dispatchEvent(new Event('input', { bubbles: true })); }
+    });
+    canvas.addEventListener('pointermove', (e) => {
+      if (!arrastando) return; const rc = canvas.getBoundingClientRect();
+      sOff.value = offDeY(e.clientY - rc.top); sOff.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    canvas.addEventListener('pointerup', () => { arrastando = false; });
+    const lp = loop((t) => {
+      const W = canvas.width / dprOf(), H = canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const off = +sOff.value;
+      const esc = Math.min((W - 120) / L, (H - 210) / (B + 30));
+      const cw = L * esc, chh = B * esc, x0 = (W - cw) / 2, y0 = 70;
+      const yDiv = y0 + chh; // divisa com a calçada
+      geo = { yDiv, esc };
+      const yPed = yDiv + off * esc;
+      const proib = barreira ? 0 : Math.max(0, 30 - off); // faixa proibida dentro do canteiro
+      const larg = B - proib, area = L * larg, pct = area / (L * B) * 100;
+      // canteiro
+      ctx.fillStyle = 'rgba(149,222,104,.28)'; ctx.fillRect(x0, y0, cw, chh);
+      if (proib > 0) {
+        const yp = yDiv - proib * esc;
+        ctx.save(); ctx.beginPath(); ctx.rect(x0, yp, cw, proib * esc); ctx.clip();
+        ctx.fillStyle = 'rgba(255,43,95,.32)'; ctx.fillRect(x0, yp, cw, proib * esc);
+        ctx.strokeStyle = 'rgba(255,43,95,.55)'; ctx.lineWidth = 2;
+        for (let k = -chh; k < cw; k += 16) { ctx.beginPath(); ctx.moveTo(x0 + k, yp + proib * esc); ctx.lineTo(x0 + k + proib * esc, yp); ctx.stroke(); }
+        ctx.restore(); ctx.lineWidth = 1;
+        ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([8, 5]); ctx.beginPath(); ctx.moveTo(x0, yp); ctx.lineTo(x0 + cw, yp); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center';
+        ctx.fillText('não sobrevoar: ' + fmt(proib) + ' m', x0 + cw / 2, yp + proib * esc / 2 + 5);
+      }
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(x0, y0, cw, chh); ctx.lineWidth = 1;
+      ctx.fillStyle = '#95DE68'; ctx.font = '800 15px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('área voável: ' + fmt(L) + ' × ' + fmt(larg) + ' = ' + fmt(area) + ' m²', x0 + cw / 2, y0 + (larg * esc) / 2 + 2);
+      // cotas
+      ctx.fillStyle = 'rgba(255,255,255,.85)'; ctx.font = '12px Montserrat, Arial';
+      ctx.fillText('80 m', x0 + cw / 2, y0 - 10);
+      ctx.save(); ctx.translate(x0 - 14, y0 + chh / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('50 m', 0, 0); ctx.restore();
+      ctx.textAlign = 'left'; ctx.fillText('muros de lotes', x0 + cw + 10, y0 + chh / 2 - 8); ctx.fillText('vazios', x0 + cw + 10, y0 + chh / 2 + 8); ctx.textAlign = 'center';
+      // barreira
+      if (barreira) { ctx.fillStyle = '#2BD9FE'; ctx.fillRect(x0, yDiv - 4, cw, 6); ctx.fillStyle = '#2BD9FE'; ctx.font = '700 12px Montserrat, Arial'; ctx.fillText('barreira capaz de proteger os pedestres', x0 + cw / 2, yDiv - 10); }
+      // calçada e pedestres
+      ctx.fillStyle = 'rgba(200,200,200,.18)'; ctx.fillRect(x0 - 30, yDiv, cw + 60, 30 * esc + 14);
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0 - 30, yPed); ctx.lineTo(x0 + cw + 30, yPed); ctx.stroke(); ctx.lineWidth = 1;
+      for (let k = 0; k < 9; k++) {
+        const x = x0 - 20 + (((k * 0.13 + t * 0.04 * (k % 2 ? 1 : -1)) % 1 + 1) % 1) * (cw + 40);
+        ctx.fillStyle = '#ff8a1f'; ctx.beginPath(); ctx.arc(x, yPed, 5, 0, 7); ctx.fill();
+      }
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('pedestres (arraste)' + (off ? ' · afastados ' + fmt(off) + ' m' : ' · na calçada'), x0 - 28, yPed + 20);
+      // resultado
+      ctx.textAlign = 'left'; ctx.font = '800 18px Montserrat, Arial';
+      ctx.fillStyle = pct >= 99.9 ? '#95DE68' : '#F2CB0A';
+      ctx.fillText(fmt(pct, 0) + '% do canteiro pode ser sobrevoado', 24, H - 22);
+      ctx.font = '13px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.textAlign = 'right';
+      ctx.fillText(fmt(area) + ' ÷ 4.000 m²', W - 24, H - 24);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* checklist — os nove itens, na ordem da aula; os três que mais pegam em magenta. */
+  Obra.register('checklist', (host) => {
+    const ITENS = [
+      ['Categoria no <b>RBAC nº 100</b>, com a verificação dos <b>30 m</b> (ou barreira)', 0],
+      ['Aeronave <b>cadastrada no SISANT</b> (24 meses) e identificada', 0],
+      ['Piloto remoto aprovado no <b>exame teórico da ANAC</b> (a partir de 1º/01/2027)', 0],
+      ['<b>Seguro</b> com cobertura de danos a terceiros', 0],
+      ['<b>Avaliação de risco</b> operacional atualizada', 0],
+      ['Pedido no <b>SARPAS</b> (DECEA, ICA 100-40), com a antecedência certa', 1],
+      ['<b>Aerolevantamento</b>: sim ou não, e por quê (Portaria 3.703)', 1],
+      ['Rádios com <b>homologação da Anatel</b>', 0],
+      ['<b>LGPD</b>: finalidade, necessidade, acesso e retenção das imagens', 1]
+    ];
+    const box = document.createElement('div'); box.className = 'checklist'; host.appendChild(box);
+    const estado = ITENS.map(() => false);
+    const btns = ITENS.map(([txt, top], k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'item no-nav' + (top ? ' top3' : '');
+      b.innerHTML = '<span class="caixa"></span><span>' + txt + '</span>';
+      b.addEventListener('click', (e) => { e.stopPropagation(); estado[k] = !estado[k]; atualiza(); });
+      box.appendChild(b); return b;
+    });
+    const barra = document.createElement('div'); barra.className = 'barra'; barra.innerHTML = '<i></i>'; box.appendChild(barra);
+    const st = document.createElement('div'); st.className = 'status'; box.appendChild(st);
+    function atualiza() {
+      const n = estado.filter(Boolean).length;
+      btns.forEach((b, k) => { b.classList.toggle('ok', estado[k]); b.querySelector('.caixa').textContent = estado[k] ? '✓' : ''; });
+      barra.firstChild.style.width = (n / ITENS.length * 100) + '%';
+      st.classList.toggle('ok', n === ITENS.length);
+      st.innerHTML = n === ITENS.length ? 'Pronto para voar: todos os itens conferidos.' : n + ' de ' + ITENS.length + ' itens conferidos · ainda não decole';
+    }
+    atualiza();
+    return { start() {}, stop() {} };
+  });
+})();
 </script>
 <script src="../../assets/deck.js"></script>
 </body>

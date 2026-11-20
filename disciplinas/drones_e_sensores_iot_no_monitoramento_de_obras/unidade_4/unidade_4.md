@@ -1,530 +1,542 @@
-# Unidade 4 — Integração, Inteligência e Gestão do Monitoramento
+# Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos
 
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas desta unidade:** 13 a 16
 
-## Aula 13 — Integração com BIM e gêmeo digital: 4D e comparação as-built × as-designed
+## Aula 13 — Painéis de monitoramento, alertas e limites de alarme
 
-> Reunião mensal de obra. A gerenciadora apresenta: "avanço físico de 62%, conforme o cronograma". O drone voou ontem, a nuvem de pontos está pronta e os sensores enviam leituras a cada 15 minutos — mas cada dado mora num sistema diferente, e ninguém consegue responder a duas perguntas simples: **o que foi construído está onde o projeto mandou?** E **o que foi construído é o que deveria estar pronto nesta data?** Nesta aula, você vai ver como o **BIM** costura drones, sensores e cronograma num único modelo, o que são **4D** e **5D**, como se compara **as-built × as-designed** com tolerância e incerteza e em que ponto o modelo passa a ser, de fato, um **gêmeo digital**.
+### O que você verá nesta unidade
 
-### BIM: o modelo é informação, não desenho
+Nas três primeiras unidades, você aprendeu a planejar o voo, a processar as imagens e a instrumentar a obra com sensores que publicam leituras por MQTT num banco de séries temporais. Agora o dado precisa virar **decisão**. Nesta unidade, você vai montar **painéis** com limites e alertas que a equipe realmente leva a sério (Aula 13); integrar drones e sensores ao **BIM** e ao **planejamento e controle** da obra — cronograma, avanço físico e curva S (Aula 14); usar a tecnologia a favor da **segurança do trabalho**, à luz da **NR-18** (Aula 15); e proteger o sistema e as pessoas, com **LGPD** e **cibersegurança** em IoT (Aula 16), fechando a disciplina.
 
-**BIM** (*Building Information Modeling*, modelagem da informação da construção) é o processo de criar e gerir um modelo digital em que cada elemento — pilar, laje, estaca, tirante — é um **objeto com geometria, propriedades e relações**: material, fck, data de concretagem, fornecedor, fase da obra. A diferença para o CAD é essa: no CAD, uma linha é uma linha; no BIM, a linha é um "pilar P12, concreto C35, concretado em 14/03".
+### Do banco de séries ao painel
 
-Para que modelos de softwares diferentes conversem, existe o **openBIM**, baseado no **IFC** (*Industry Foundation Classes*), esquema aberto mantido pela buildingSMART e normalizado como ISO 16739. Cada objeto IFC tem um identificador global único (**GUID**), e há classes até para instrumentos — o `IfcSensor`. É esse GUID que permite pendurar no modelo uma leitura de sensor, uma foto de drone ou uma pendência.
+> Segunda-feira, 7h. A obra tem 60 sensores e gera milhares de leituras por dia. No fim de semana, o painel disparou **37 alarmes**. Trinta e cinco eram falsos: um pico de rádio, um sensor com bateria fraca, o sol batendo numa escora. Na terceira semana assim, a equipe passou a ignorar os alarmes — e um deles era real. Esse fenômeno tem nome: **fadiga de alarmes**.
 
-### 4D, 5D e as "dimensões" do BIM
+Na Aula 12, as leituras chegaram por MQTT, passaram pelo Node-RED e foram gravadas no **InfluxDB**. O **Grafana**, software de código aberto, é a camada de visualização: conecta-se ao banco como **fonte de dados** (*data source*), consulta um intervalo de tempo e desenha **painéis** (*panels*) reunidos num **dashboard**. Os tipos mais úteis no monitoramento de obras são:
 
-Quando cada elemento do modelo é ligado a uma atividade do cronograma, temos o **BIM 4D**: o modelo "cresce" no tempo, e é possível comparar o planejado com o executado. Ligando também quantidades e custos, temos o **BIM 5D** — orçamento, medição e fluxo de caixa extraídos do modelo.
+- **Séries temporais** (*time series*) — a curva de cada instrumento, com os limites desenhados como faixas coloridas (*thresholds*);
+- **Valor único e mostrador** (*stat*, *gauge*) — a última leitura, colorida pelo nível;
+- **Linha do tempo de estados** (*state timeline*) — quando cada sensor esteve verde, amarelo ou vermelho;
+- **Planta ou mapa** (*canvas*, *geomap*) — os instrumentos posicionados sobre a planta da obra ou sobre o ortomosaico do drone.
 
-![Quadro colorido com as seis "dimensões" do BIM lado a lado: 1D pesquisa e concepção, 2D desenhos, 3D forma e modelagem, 4D tempo e planejamento, 5D custo e quantitativos e 6D desempenho, cada uma com seus usos listados](https://upload.wikimedia.org/wikipedia/commons/6/68/6_BIM_DIMENSIONS.png)
+Variáveis de painel (por exemplo, "sensor" ou "frente de serviço") permitem trocar de instrumento sem duplicar telas, e as consultas devem **agregar** o dado (média horária, máximo diário) para que o painel não arraste milhões de pontos brutos.
 
-Cuidado com a numeração além do 5D: 6D e 7D aparecem na literatura ora como sustentabilidade, ora como operação e manutenção. O que importa é o **uso** que se faz do modelo, não o número.
+![Captura de tela de um dashboard do Grafana com fundo escuro: no alto, três números grandes coloridos; abaixo, gráficos de séries temporais em linhas e áreas empilhadas, um gráfico de barras e legendas com nomes das séries, todos com o eixo do tempo de 07:00 a 09:30](https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Grafana_dashboard_%282016%29.png/1280px-Grafana_dashboard_%282016%29.png)
 
-### BIM na administração pública e a ISO 19650
+### O que um bom painel mostra (e o que esconde)
 
-No Brasil, a **Estratégia BIM BR** (Decreto nº 9.983/2019) organiza a disseminação do BIM, e o **Decreto nº 10.306/2020** tornou seu uso obrigatório, em fases, nas obras da administração pública federal abrangidas: desde 2021, nos projetos (modelos das disciplinas, detecção de interferências, quantitativos); desde 2024, também na **execução** — orçamentação, planejamento e controle da obra e **atualização do modelo as-built**; a partir de 2028, também na gestão e manutenção pós-obra. A Lei nº 14.133/2021 (art. 19, § 3º) manda adotar o BIM **preferencialmente** nas licitações de obras e serviços de engenharia, sempre que adequado ao objeto.
+Um painel operacional de obra precisa responder, em dez segundos, a três perguntas: **algo está fora do normal? onde? está piorando?** Para isso, mostra: a **planta** com cada instrumento colorido pelo estado; **séries com os limites desenhados** e a **velocidade** (mm/dia); a **saúde dos sensores** — bateria, sinal e hora da última leitura, porque um sensor mudo não é um sensor "verde"; e a **lista de alertas com reconhecimento**: quem viu, quando e o que fez. O painel gerencial é outro: resume tendências, pendências e indicadores de avanço (Aula 14). Evite gráficos sem limites, eixos cortados que exageram variações, cores demais e, sobretudo, **alerta sem dono**.
 
-A série internacional **ISO 19650** trata da **gestão da informação** com BIM. Seu conceito central é o **ambiente comum de dados** (CDE, *common data environment*): um repositório único em que cada arquivo passa por estados controlados — **em elaboração, compartilhado, publicado e arquivado**. Para o monitoramento, a lição é direta: leitura de sensor e nuvem de pontos também são informação da obra e precisam de dono, versão e estado.
+### Limites de atenção, alerta e alarme
 
-### Realidade capturada: scan-to-BIM e scan-vs-BIM
+Os limites não são inventados no painel: vêm do **projeto** (deslocamentos e esforços previstos no cálculo), de normas, da retroanálise de obras semelhantes e da sensibilidade do vizinho. É comum escaloná-los em três níveis acima do normal:
 
-O drone (fotogrametria ou LiDAR, Unidade 2) e o laser scanner terrestre geram **nuvens de pontos** do que foi construído. Há dois usos bem diferentes:
+- **Atenção** — o comportamento saiu do esperado, mas está longe do limite de projeto;
+- **Alerta** — aproxima-se do valor admissível; medidas preventivas entram em curso;
+- **Alarme** — atingiu o valor que exige intervenção imediata, ainda com margem em relação ao estado-limite.
 
-- **Scan-to-BIM** — modelar a partir da nuvem: criar o **as-built** de uma estrutura existente ou recém-executada.
-- **Scan-vs-BIM** — comparar a nuvem com o modelo de projeto (**as-designed**) para responder "está no lugar certo?" e "já foi executado?".
+Cada nível é definido **por valor e por velocidade**: um recalque pequeno que acelera preocupa mais do que um grande que estabilizou. Os prédios inclinados da orla de Santos (SP), apoiados em fundações rasas sobre argila mole, são o lembrete clássico de que recalque diferencial evolui devagar — e de que só uma série longa, com limites claros, mostra a tendência a tempo.
 
-![Nuvem de pontos colorida da fachada de um edifício histórico de dois pavimentos com colunata, gerada por escaneamento a laser, em que cada ponto registra a posição e a cor da superfície](https://upload.wikimedia.org/wikipedia/commons/7/7e/Point_cloud_data_of_the_David_W._Dyer_Federal_Building_and_United_States_Courthouse_in_Florida.jpg)
+![Edifício residencial alto e estreito na orla de Santos, visivelmente inclinado em relação à vertical, ao lado de outros prédios e de uma avenida com ciclistas](https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/SantosTiltedBuildings.JPG/1280px-SantosTiltedBuildings.JPG)
 
-Antes de comparar, a nuvem precisa estar **registrada** (alinhada) no mesmo sistema de coordenadas do modelo, com pontos de controle. Um erro de registro de 2 cm transforma toda a obra em "fora de posição".
+### O plano de ação por gatilhos (TARP)
 
-### Comparação as-built × as-designed: desvio, tolerância e incerteza
+Limite sem ação é enfeite. Os níveis se organizam num **plano de ação por gatilhos** (*Trigger Action Response Plan*, TARP), anexo ao plano de monitoramento:
 
-Na comparação **nuvem-modelo** (*cloud-to-model*), calcula-se a distância de cada ponto à superfície correspondente do modelo e pinta-se o resultado num **mapa de calor**: verde dentro da tolerância, amarelo e vermelho fora dela. A **tolerância** é um valor de projeto, de norma ou de contrato (por exemplo, ±10 mm na posição de um pilar). E aqui volta a Aula 2: o desvio medido tem **incerteza**. A regra de decisão defensável é:
+| Nível | Gatilho (exemplo ilustrativo: topo de uma cortina) | Ação | Quem / prazo |
+| --- | --- | --- | --- |
+| **Verde — normal** | abaixo de 10 mm e menos de 0,5 mm/dia | leitura de rotina | equipe de instrumentação |
+| **Amarelo — atenção** | 10 mm **ou** 0,5 mm/dia | aumentar a frequência, inspecionar, avisar o projetista | engenheiro da obra, no mesmo dia |
+| **Laranja — alerta** | 14 mm **ou** 1,0 mm/dia | preparar e iniciar o reforço previsto, restringir a frente | engenheiro + projetista, em 24 h |
+| **Vermelho — alarme** | 18 mm | paralisar a escavação na frente, executar a contingência, isolar a área | responsável técnico, imediato |
 
-- desvio **+ U** abaixo da tolerância → **conforme**;
-- desvio **− U** acima da tolerância → **não conforme**;
-- tolerância dentro do intervalo → **inconclusivo**: medir de novo, com método mais exato.
+### Fadiga de alarmes: persistência, histerese e incerteza
 
-Cada não conformidade vira uma pendência rastreável, presa ao GUID do elemento — no openBIM, isso se faz com o **BCF** (*BIM Collaboration Format*).
+As normas de gestão de alarmes da indústria de processo (ANSI/ISA-18.2, equivalente à IEC 62682) partem de um princípio que vale para a obra: **todo alarme deve exigir uma ação**; se não exige, é ruído e deve sair. Quatro técnicas reduzem os falsos alarmes:
 
-### Do modelo ao gêmeo digital
+1. **Persistência** — exigir que a condição dure um tempo mínimo ou duas leituras seguidas (no Grafana, o *pending period*);
+2. **Histerese** — entrar no nível em 10,0 mm, mas só sair abaixo de 9,5 mm, para que o ruído em torno do limite não faça o alerta "piscar";
+3. **Confirmação** — um segundo instrumento ou uma leitura manual confirma antes do alarme máximo;
+4. **Incerteza** (Aula 9) — se $x + U$ alcança o limite, trate como atenção; se $x - U$ já passou dele, o nível está confirmado.
 
-Ligue ao modelo os sensores da Unidade 3: o ID de cada inclinômetro ou piezômetro associado ao GUID do elemento, as leituras chegando pela plataforma IoT e os elementos coloridos pelo nível de alerta. O modelo passa a ser uma **sombra digital**. Quando a decisão volta automaticamente à obra — por exemplo, a plataforma reprograma a frente de escavação no 4D e aciona a equipe —, temos o **gêmeo digital** de Kritzinger *et al.* (2018), da Aula 1. Na prática, o mais comum e útil é a sombra digital com um engenheiro fechando a malha.
+E o dado limpo (Aula 12) vem antes: um pico espúrio não pode acionar ninguém às 3h da manhã.
+
+### Alertas no Grafana: regra, avaliação e notificação
+
+No **Grafana Alerting**, uma **regra de alerta** tem uma consulta (por exemplo, o máximo dos últimos 15 min do inclinômetro I-2), uma **condição** (acima de 14 mm), um **intervalo de avaliação** e um **período pendente**. Rótulos como `severidade=alerta` e `frente=cortina-norte` direcionam a notificação, pelas **políticas de notificação**, ao **ponto de contato** certo (e-mail, aplicativo de mensagens, SMS ou plantão). **Silenciamentos** cobrem manutenções programadas — com prazo para acabar. Dois cuidados: a regra crítica (como ligar a bomba reserva) roda também **na borda** (Aula 10), porque o painel depende da internet; e o próprio sistema precisa avisar quando **para de receber dados**.
+
+![Sala de controle panorâmica do Centro de Operações Rio, com uma grande parede de telas exibindo mapas, câmeras e gráficos, e fileiras de estações de trabalho com operadores](https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg/1280px-Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg)
 
 ### Exemplo numérico
 
-**(a) Posição de um pilar.** A comparação nuvem-modelo do pilar P7 deu desvios de $\Delta x = 12\,\mathrm{mm}$ e $\Delta y = -9\,\mathrm{mm}$ em relação ao eixo de projeto. A incerteza expandida do levantamento (registro + nuvem) é $U = 3\,\mathrm{mm}$ e a tolerância contratual é $10\,\mathrm{mm}$.
+Valores **ilustrativos**, com os limites do TARP acima.
+
+**(a) Histerese.** O inclinômetro I-2 oscila em torno do nível de atenção, com ruído de cerca de ±0,3 mm: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1 mm. Sem histerese, cada cruzamento para cima gera uma notificação: **3 alertas e 3 "normalizações"** em seis leituras. Com histerese de 0,5 mm (entra em 10,0 mm, sai só abaixo de 9,5 mm), o sensor entra em atenção na leitura de 10,1 mm e permanece nela: **1 notificação**, que é o que a situação pede.
+
+**(b) Velocidade e tempo até o próximo nível.** O I-2 está em $11{,}5\,\mathrm{mm}$ e sobe $1{,}2\,\mathrm{mm/dia}$ — a velocidade já é de alerta, embora o valor seja de atenção. Mantida a tendência:
 
 $
-d = \sqrt{\Delta x^2 + \Delta y^2} = \sqrt{12^2 + (-9)^2} = \sqrt{225} = 15\,\mathrm{mm}
+t_{alerta} = \frac{14 - 11{,}5}{1{,}2} \approx 2{,}1\,\mathrm{dias}
 \qquad
-d - U = 15 - 3 = 12\,\mathrm{mm} > 10\,\mathrm{mm}
+t_{alarme} = \frac{18 - 11{,}5}{1{,}2} \approx 5{,}4\,\mathrm{dias}
 $
 
-Mesmo descontando a incerteza, o desvio supera a tolerância: o pilar está **não conforme**, e a pendência vai para o projetista estrutural avaliar a excentricidade adicional.
+O reforço é preparado **agora**, e a frequência de leitura passa para a cada 6 h.
 
-**(b) Laje inteira.** Da nuvem de uma laje, $48.000$ pontos foram comparados com o modelo, e $45.600$ ficaram dentro de $\pm 10\,\mathrm{mm}$: $45.600/48.000 = 0{,}95$, ou seja, 95% da superfície conforme. O mapa de calor mostra **onde** estão os 5% restantes.
-
-**(c) Avanço no 4D.** Até a data do voo, o 4D previa $420\,\mathrm{m^3}$ de concreto executado; a nuvem confirma os elementos que somam $378\,\mathrm{m^3}$:
+**(c) Quanto vale um alarme?** Dos 37 alarmes do fim de semana, 2 eram reais. A fração de alarmes verdadeiros é
 
 $
-I = \frac{378}{420} = 0{,}90
+\frac{2}{37} \approx 0{,}054 = 5{,}4\%
 $
 
-O avanço físico medido é 90% do planejado — e o "62% conforme o cronograma" da reunião precisa ser revisto.
+Em 19 de cada 20 vezes, o alarme não exigia ação — a receita da fadiga. Persistência e histerese atacam justamente esses 35.
 
 ### Atividade prática
 
-Pegue a planta de formas de um pavimento-tipo (pode ser de um projeto acadêmico). Escolha 6 pilares e invente, para cada um, desvios $\Delta x$ e $\Delta y$ de uma comparação nuvem-modelo. Com tolerância de 10 mm e $U = 3\,\mathrm{mm}$, classifique cada pilar como conforme, não conforme ou inconclusivo e redija a pendência (formato BCF: elemento, problema, responsável, prazo) do pior caso.
+No Grafana (instalação local ou a demonstração pública em play.grafana.org), monte um dashboard com: um painel de série temporal de um sensor (use dados simulados ou o InfluxDB da Aula 12) com faixas de atenção, alerta e alarme; um painel *stat* colorido pelo nível; e um painel com a hora da última leitura. Crie uma regra de alerta com período pendente e escreva a linha do TARP correspondente (gatilho, ação, responsável e prazo).
 
 ### Pontos-chave
 
-- **BIM** é modelo de **informação**: objetos com geometria, propriedades e relações; o **IFC** (openBIM) e o **GUID** permitem ligar sensores, fotos e pendências a cada elemento.
-- **4D** liga o modelo ao cronograma; **5D**, a custos e quantidades. O Decreto nº 10.306/2020 exige, desde 2024, o uso na execução e a atualização **as-built** nas obras federais abrangidas.
-- **Scan-to-BIM** modela o existente; **scan-vs-BIM** compara a nuvem registrada com o projeto e mede desvios num mapa de calor.
-- Conformidade se decide com **desvio, tolerância e incerteza** juntos; resultado inconclusivo pede nova medição.
-- Modelo com dados automáticos do canteiro é **sombra digital**; vira **gêmeo** quando a decisão volta à obra.
+- O **Grafana** consulta o banco de séries (InfluxDB) e organiza painéis: séries com limites, valor atual, linha do tempo de estados e planta com o status dos instrumentos.
+- Limites vêm do **projeto**, escalonados em **atenção, alerta e alarme**, definidos por **valor e por velocidade**.
+- O **TARP** liga cada nível a uma ação, um responsável e um prazo; alarme sem ação é ruído.
+- **Persistência, histerese, confirmação e incerteza** combatem a **fadiga de alarmes**; sensor mudo também é alarme.
+- A regra crítica roda também **na borda**: o painel não pode ser o único caminho até a ação.
 
 ### Para saber mais
 
-- **Wikipedia — BIM:** https://pt.wikipedia.org/wiki/BIM
-- **Planalto — Decreto nº 10.306/2020 (BIM na administração pública federal):** https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/decreto/D10306.htm
-- **MDIC — Estratégia BIM BR:** https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
-- **Wikipedia — Industry Foundation Classes (IFC):** https://en.wikipedia.org/wiki/Industry_Foundation_Classes
+- **Grafana — documentação de alertas (*Grafana Alerting*):** https://grafana.com/docs/grafana/latest/alerting/
+- **Grafana — painéis e visualizações:** https://grafana.com/docs/grafana/latest/panels-visualizations/
+- **Grafana Play — dashboards de demonstração:** https://play.grafana.org/
+- **Wikipedia — Fadiga de alarmes (*alarm fatigue*):** https://en.wikipedia.org/wiki/Alarm_fatigue
 
-## Aula 13 — Roteiro da Videoaula 13: "Integração com BIM e gêmeo digital: 4D e comparação as-built × as-designed"
+## Aula 13 — Roteiro da Videoaula 13: "37 alarmes num fim de semana: por que a equipe parou de ouvir o painel?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
 
 ### 1. Abertura (0:00 – 0:30)
 
-**[TELA]** Slides 1–3 — capa, sumário e a reunião de obra dos "62%".
+**[TELA]** Slides 1–3 — capa, o que você verá nesta unidade e a segunda-feira dos 37 alarmes.
 
-> "Reunião de obra: a gerenciadora diz que estamos com 62% de avanço, conforme o cronograma. O drone voou ontem, os sensores mandam leitura a cada 15 minutos, mas cada dado mora num sistema diferente. O que foi construído está onde o projeto mandou? E é o que deveria estar pronto hoje? Hoje o BIM vai costurar tudo isso."
+> "Segunda-feira, sete da manhã. O painel disparou 37 alarmes no fim de semana; 35 eram falsos. Na terceira semana assim, a equipe parou de olhar — e um deles era real. Hoje você vai aprender a montar painéis e alertas que a equipe leva a sério."
 
 ### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
 
-**[TELA]** Slides 4–7 — BIM é informação, as dimensões do BIM, BIM na lei e a ISO 19650.
+**[TELA]** Slides 4–7 — do InfluxDB ao Grafana, os tipos de painel, o que um bom painel mostra e o sensor mudo.
 
-> "BIM não é desenho 3D: é um modelo de informação. Cada pilar é um objeto, com material, data de concretagem e um identificador único, o GUID. O IFC, formato aberto, deixa softwares diferentes conversarem. Ligou o modelo ao cronograma? É 4D. Ligou a custos? 5D. E isso já é lei: o Decreto 10.306 exige, desde 2024, BIM na execução das obras federais abrangidas, inclusive o as-built. A ISO 19650 completa: toda informação mora num ambiente comum de dados, com estados controlados."
+> "O Grafana é a vitrine do banco de séries temporais da Aula 12. Série com os limites desenhados, valor atual colorido, linha do tempo de estados e a planta com cada instrumento pintado pelo nível. Um bom painel responde em dez segundos: algo está fora? Onde? Está piorando? E mostra a saúde dos sensores: sensor que não fala não está verde."
 
 ### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
 
-**[TELA]** Slides 8–12 — o 4D em 3D, a realidade capturada, scan-to-BIM × scan-vs-BIM, o mapa de desvios e o fluxo até a pendência.
+**[TELA]** Slides 8–10 — atenção, alerta e alarme; Santos; o TARP.
 
-> "Olha o 4D: arrasto a semana e o prédio planejado aparece em fantasma, o executado em sólido. Para saber o que foi executado, entra a realidade capturada: a nuvem de pontos do drone ou do laser scanner. Scan-to-BIM é modelar a partir da nuvem; scan-vs-BIM é comparar a nuvem com o projeto. Cada ponto ganha uma distância até o modelo, e o mapa de calor mostra onde está fora da tolerância. Mas lembra da Aula 2: o desvio tem incerteza. Desvio mais incerteza abaixo da tolerância, conforme; desvio menos incerteza acima, não conforme; no meio, inconclusivo."
+> "Os limites vêm do projeto e se escalonam em atenção, alerta e alarme, por valor e por velocidade. E cada nível tem uma ação, um responsável e um prazo: é o TARP. Os prédios inclinados de Santos lembram que recalque anda devagar; só a série longa, com limites, mostra a tendência a tempo. O I-2 está em 11,5 milímetros e sobe 1,2 por dia: alerta em uns dois dias. Preparo o reforço agora."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:05)
+### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
 
-**[TELA]** Slides 13–15 — a calculadora do pilar P7, o gêmeo com sensores e a atividade.
+**[TELA]** Slides 11–15 — gestão de alarmes, histerese animada, regra de alerta no Grafana, a regra na borda e a calculadora de velocidade.
 
-> "O pilar P7: 12 milímetros num eixo, menos 9 no outro. Pitágoras dá 15. Tirando a incerteza de 3, ainda sobram 12, acima da tolerância de 10: não conforme. E o avanço: 378 metros cúbicos medidos contra 420 planejados, 90%. Agora pendure os sensores da Unidade 3 no modelo, pelo GUID, e as leituras pintam os elementos: é a sombra digital. Quando a decisão volta sozinha à obra, é gêmeo."
+> "Olha o sensor oscilando em torno de 10 milímetros: sem histerese, três alertas e três normalizações em seis leituras. Com histerese de meio milímetro, um só. Somo persistência, confirmação e incerteza, e os 35 falsos somem. No Grafana, a regra tem consulta, condição, período pendente, rótulo de severidade e ponto de contato. E a regra crítica roda também na borda."
 
-### 5. Encerramento (3:05 – 3:30)
+### 5. Encerramento (3:10 – 3:35)
 
 **[TELA]** Slides 16–17 — pontos-chave e encerramento.
 
-> "Você viu como o BIM integra cronograma, drone e sensores e como decidir conformidade com tolerância e incerteza. Mas quem vai olhar as 3 mil fotos de fachada que o drone tirou? Na próxima aula, a inteligência artificial entra em campo. Te espero na Aula 14!"
+> "Painel bom leva à decisão, não ao cansaço. Mas o painel mostra o sensor; e o cronograma, o orçamento e o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento. Te espero na Aula 14!"
 
 ---
 
-## Aula 14 — IA e visão computacional: detecção de fissuras e medição de avanço físico
+## Aula 14 — Integração dos dados com BIM e com o planejamento e controle de obras
 
-> O drone inspecionou as quatro fachadas e a estrutura do estacionamento: **3.200 fotos** em alta resolução. Em algum lugar delas há fissuras — algumas inofensivas, outras não. Um inspetor experiente leva dias para revisar tudo, e, cansado, deixa passar coisas na foto 2.800. Um modelo de **inteligência artificial** revisa as 3.200 em minutos. Mas quanto ele erra? Que tipo de erro? E dá para **medir** a largura da fissura na foto? Nesta aula, você vai entender como funciona a visão computacional aplicada à obra, como avaliar um modelo com **precisão, revocação e F1** e onde estão os limites físicos e éticos da técnica.
+> Reunião mensal de obra. A gerenciadora apresenta: "avanço físico de 62%, conforme o cronograma". O drone voou ontem, a nuvem de pontos está pronta e os sensores enviam leituras a cada 15 minutos — mas cada dado mora num sistema diferente, e ninguém consegue responder a duas perguntas simples: **o que foi construído é o que deveria estar pronto nesta data?** E **quanto isso custou em relação ao que foi feito?** Nesta aula, você vai ver como o **BIM** costura drones, sensores e cronograma, como medir o **avanço físico** com dados de campo e como levar essa medição à **curva S** e ao **valor agregado** da Aula 1.
 
-### Visão computacional: três tarefas
+### BIM: o modelo é informação, não desenho
 
-**Visão computacional** é o ramo da IA que extrai informação de imagens. Em obra, três tarefas aparecem o tempo todo:
+**BIM** (*Building Information Modeling*, modelagem da informação da construção) é o processo de criar e gerir um modelo digital em que cada elemento — pilar, laje, estaca, tirante — é um **objeto com geometria, propriedades e relações**: material, fck, data de concretagem, fornecedor, fase da obra (EASTMAN *et al.*, 2014). No CAD, uma linha é uma linha; no BIM, é o "pilar P12, concreto C35, concretado em 14/03".
 
-- **Classificação** — a imagem inteira recebe um rótulo: "tem fissura" ou "não tem".
-- **Detecção** — o modelo desenha uma **caixa** em volta de cada objeto: um capacete, um caminhão, uma armadura exposta.
-- **Segmentação** — cada **pixel** é rotulado: este pixel é fissura, aquele é concreto. É a tarefa que permite medir comprimento e largura.
+Para que softwares diferentes conversem, existe o **openBIM**, baseado no **IFC** (*Industry Foundation Classes*), esquema aberto da buildingSMART normalizado como **ISO 16739-1**. Cada objeto IFC tem um identificador global único (**GUID**), e há classes até para instrumentos, como `IfcSensor`, e para atividades do cronograma, como `IfcTask`. É pelo GUID que se pendura no elemento uma leitura de sensor, uma foto de drone ou uma pendência.
 
-![Placa de pare fotografada na rua com duas caixas sobrepostas: em verde, a caixa de referência desenhada por uma pessoa; em vermelho, a caixa prevista por um detector de objetos, quase coincidente](https://upload.wikimedia.org/wikipedia/commons/2/2d/Intersection_over_Union_-_object_detection_bounding_boxes.jpg)
+![Modelo BIM tridimensional em perspectiva de uma edificação térrea com telhado azul, fachadas com colunas e janelas, estacionamento com carros, árvores e calçadas ao redor](https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Architectural_BIM_3D_Modeling.jpg/1280px-Architectural_BIM_3D_Modeling.jpg)
 
-Na detecção, a qualidade de cada caixa se mede pela **IoU** (*Intersection over Union*): a área da interseção entre a caixa prevista e a de referência dividida pela área da união. IoU acima de 0,5 costuma contar como acerto.
+### 4D, 5D e as "dimensões" do BIM
 
-### Redes neurais convolucionais (CNN)
+Ligando cada elemento a uma atividade do cronograma, temos o **BIM 4D**: o modelo "cresce" no tempo, e é possível ver o que deveria estar pronto em cada data. Ligando também quantidades e custos, temos o **BIM 5D** — orçamento, medição e fluxo de caixa extraídos do modelo. Depois do 5D, a numeração varia entre autores (sustentabilidade, operação e manutenção); importa o **uso** do modelo, não o número.
 
-O motor dessas tarefas é a **rede neural convolucional** (CNN). Ela aplica, em camadas, pequenos **filtros** que percorrem a imagem: as primeiras camadas respondem a bordas e contrastes; as seguintes, a texturas; as últimas, a padrões como "fissura ramificada". Ninguém programa esses filtros à mão: eles são **aprendidos** a partir de exemplos rotulados — é o **aprendizado supervisionado**. Para segmentação, arquiteturas do tipo codificador-decodificador (como a U-Net) devolvem um mapa do tamanho da imagem com a probabilidade de cada pixel ser fissura.
+![Quadro colorido com as seis "dimensões" do BIM lado a lado: 1D pesquisa e concepção, 2D desenhos, 3D forma e modelagem, 4D tempo e planejamento, 5D custo e quantitativos e 6D desempenho, cada uma com seus usos listados](https://upload.wikimedia.org/wikipedia/commons/6/68/6_BIM_DIMENSIONS.png)
 
-### Treinar um modelo: dados antes de algoritmo
+### BIM na administração pública e a ISO 19650
 
-A qualidade do modelo depende sobretudo dos **dados**. O fluxo típico é: coletar imagens representativas (concretos, iluminações, sujeiras e manchas diferentes); **rotular** com especialistas; separar em **treino, validação e teste** — o teste nunca é visto no treino; e aplicar **aumento de dados** (*data augmentation*: girar, espelhar, mudar brilho e contraste) para que o modelo não decore o conjunto. Um modelo que acerta tudo no treino e falha em fotos novas sofreu **sobreajuste** (*overfitting*). É comum partir de uma rede já treinada em milhões de imagens e ajustá-la ao problema (**transferência de aprendizado**). Existem bases públicas, como a de 40.000 recortes de concreto com e sem fissura de Özgenel (2019).
+No Brasil, a **Estratégia BIM BR** (Decreto nº 9.983/2019) organiza a disseminação do BIM, e o **Decreto nº 10.306/2020** tornou seu uso obrigatório, em fases, nas obras federais abrangidas: desde 2021, nos projetos; desde 2024, também na **execução** — orçamentação, **planejamento e controle** da obra e atualização do modelo **as-built**; a partir de 2028, na gestão pós-obra. A Lei nº 14.133/2021 (art. 19, § 3º) manda adotar o BIM preferencialmente nas licitações de obras, quando adequado ao objeto.
 
-### Avaliar: matriz de confusão, precisão, revocação e F1
+A série **ISO 19650** trata da gestão da informação com BIM e tem como conceito central o **ambiente comum de dados** (CDE): cada arquivo passa por estados controlados — em elaboração, compartilhado, publicado e arquivado. Leitura de sensor, ortomosaico e nuvem de pontos também são informação da obra: precisam de dono, versão e estado.
 
-Num conjunto de teste, cada imagem cai numa de quatro caixas: **verdadeiro positivo** (VP, fissura detectada), **falso positivo** (FP, mancha tomada por fissura), **falso negativo** (FN, fissura perdida) e **verdadeiro negativo** (VN). Daí saem:
+### Do canteiro ao modelo: drone e sensores ligados ao GUID
 
-$
-P = \frac{VP}{VP + FP}
-\qquad
-R = \frac{VP}{VP + FN}
-\qquad
-F_1 = \frac{2\,P\,R}{P + R}
-$
+A integração tem três fluxos:
 
-**Precisão** ($P$) responde "dos alarmes, quantos eram fissura?"; **revocação** ($R$, *recall*) responde "das fissuras, quantas o modelo achou?". O **F1** é a média harmônica das duas. A **acurácia** engana quando as fissuras são raras, como você verá no exemplo.
+- **Drone → modelo.** A nuvem de pontos registrada (Aula 7) é comparada ao modelo (Aula 8). Aqui o que interessa é a pergunta de **controle**: quais elementos já existem? Cada elemento confirmado recebe a data de execução.
+- **Sensores → modelo.** O ID de cada inclinômetro, piezômetro ou extensômetro (Aula 9) é associado ao GUID do elemento; o painel da Aula 13 passa a pintar o próprio modelo pelo nível de alerta.
+- **Pendências → modelo.** Cada desvio ou não conformidade vira um tópico **BCF** (*BIM Collaboration Format*) preso ao elemento, com responsável e prazo.
 
-O modelo devolve uma probabilidade, e o **limiar** de decisão é escolha do engenheiro: limiar baixo aumenta a revocação e os falsos positivos; limiar alto, o contrário. Em segurança estrutural, **falso negativo custa mais caro** — prefere-se revocação alta e revisão humana dos alarmes.
+![Nuvem de pontos em tons de cinza de uma casa de máquinas, obtida por escaneamento a laser, com as tubulações modeladas em BIM sobrepostas em azul-claro, mostrando o alinhamento entre o capturado e o modelado](https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Scan-to-BIM_Mechanical_Room.jpg/1280px-Scan-to-BIM_Mechanical_Room.jpg)
 
-### Da fissura ao milímetro: o GSD manda
+### Medição de avanço físico com dados de campo
 
-Detectar não é medir. A largura de uma fissura só pode ser medida se ela ocupar **alguns pixels** — na prática, pelo menos 2. O tamanho do pixel no objeto é o **GSD** da Unidade 2:
+O **avanço físico** é a porcentagem executada do total, por serviço e para a obra inteira. Como serviços diferentes não se somam em m³ e m², a obra pondera cada um por um **peso** — em geral, sua participação no orçamento (MATTOS, 2010). O modelo dá as **quantidades previstas**; o drone, a nuvem e as câmeras dão as **quantidades executadas**: volume de concreto dos elementos confirmados, área de laje concretada, metros de alvenaria visíveis no ortomosaico. A medição sai do campo, não da planilha preenchida de memória — e fica rastreável no CDE.
 
-$
-GSD = \frac{S_w \cdot D}{f \cdot W}
-$
+![Vista aérea de drone de um conjunto residencial em construção, com cerca de vinte blocos de três pavimentos em diferentes estágios, terreno de terra exposta, vias internas e a mata ao redor](https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Livana_Colts_Neck_Under_Construction%2C_September_2025_%28Aerial%29.jpg/1280px-Livana_Colts_Neck_Under_Construction%2C_September_2025_%28Aerial%29.jpg)
 
-com $S_w$ a largura do sensor, $D$ a distância ao objeto, $f$ a distância focal e $W$ a largura da imagem em pixels. Os limites de abertura de fissuras da ABNT NBR 6118 para concreto armado vão de 0,2 a 0,4 mm, conforme a classe de agressividade ambiental: medir isso exige GSD submilimétrico. Fissuras finas podem até **aparecer** na foto pelo contraste da sombra, mas sua largura não é confiável — e o fissurômetro da Unidade 3 continua sendo o instrumento de acompanhamento.
+### Curva S e valor agregado: do avanço à decisão
 
-### Avanço físico com visão computacional
+Na Aula 1, você viu a **curva S**: o avanço acumulado previsto ao longo do tempo. Com a medição de campo, desenha-se a curva **realizada** ao lado da prevista, e o **valor agregado** compara três grandezas na mesma data:
 
-A mesma técnica mede **avanço**: detectores e segmentadores aplicados ao ortomosaico ou a câmeras fixas reconhecem formas, armaduras, lajes concretadas e alvenaria. Cruzando o resultado com o **BIM 4D** da Aula 13, obtém-se o percentual executado por elemento, sem planilha preenchida à mão. Câmeras com IA também detectam ausência de capacete ou pessoas em área de risco — e aí entram questões de privacidade que a Aula 15 vai tratar.
+- **VP** (valor planejado) — custo orçado do que deveria estar pronto;
+- **VA** (valor agregado) — custo orçado do que **foi** executado = avanço físico × orçamento;
+- **CR** (custo real) — o que efetivamente se gastou.
 
-![Trinca vertical irregular atravessando um muro de contenção de blocos de concreto, do topo até a base, junto à calçada](https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Detail_of_vertical_crack_in_concrete_retaining_wall_at_Medway_Park_Sports_Centre%2C_Gillingham%2C_Kent%2C_England.jpg/1280px-Detail_of_vertical_crack_in_concrete_retaining_wall_at_Medway_Park_Sports_Centre%2C_Gillingham%2C_Kent%2C_England.jpg)
+Daí saem o **índice de desempenho de prazo**, $IDP = VA/VP$, e o **índice de desempenho de custo**, $IDC = VA/CR$. Abaixo de 1, a obra está atrasada ou gastando mais do que agrega.
 
-A IA faz a **triagem**; a classificação da causa (retração, recalque, corrosão) e a decisão continuam com o engenheiro, que é o responsável técnico.
+### Do modelo ao gêmeo digital: fechando a malha
+
+Modelo atualizado automaticamente pelo canteiro é uma **sombra digital**. Quando a decisão volta à obra — a plataforma reprograma a frente no 4D e aciona a equipe —, temos um **gêmeo digital**. Na prática, o mais comum e útil é a sombra digital com um engenheiro fechando a **malha** da Aula 1: medir, comparar com o planejado, decidir, agir e medir de novo.
 
 ### Exemplo numérico
 
-**(a) Avaliar o modelo.** Num teste com $1.000$ fotos de fachada, $80$ têm fissura. O modelo acertou $VP = 72$, perdeu $FN = 8$, deu $FP = 48$ alarmes falsos e $VN = 872$.
+Obra com orçamento de $\mathrm{R\$}\,20{,}0$ milhões; no mês 10, a curva S previa 45% de avanço. Valores **ilustrativos**.
+
+| Serviço | Peso | Executado (fonte) |
+| --- | --- | --- |
+| Fundações | 15% | 100% (as-built) |
+| Estrutura | 45% | 50% — nuvem confirma $2.250$ de $4.500\,\mathrm{m^3}$ |
+| Alvenaria | 25% | 10% (ortomosaico) |
+| Instalações | 15% | 5% (vistoria) |
 
 $
-P = \frac{72}{72 + 48} = 0{,}60
+AF = 0{,}15 \times 1 + 0{,}45 \times 0{,}50 + 0{,}25 \times 0{,}10 + 0{,}15 \times 0{,}05 = 0{,}4075 \approx 40{,}8\%
+$
+
+$
+VP = 0{,}45 \times 20{,}0 = 9{,}00
 \qquad
-R = \frac{72}{72 + 8} = 0{,}90
+VA = 0{,}4075 \times 20{,}0 = 8{,}15
 \qquad
-F_1 = \frac{2 \times 0{,}60 \times 0{,}90}{0{,}60 + 0{,}90} = 0{,}72
+CR = 8{,}60 \quad (\mathrm{R\$}\ \text{milhões})
 $
 
-A acurácia é $(72 + 872)/1.000 = 0{,}944$ — parece ótima, mas um "modelo" que sempre responde "sem fissura" teria $920/1.000 = 0{,}92$ sem achar nenhuma. A leitura correta: o modelo encontra 90% das fissuras, e 4 em cada 10 alarmes são falsos — aceitável para triagem com revisão humana.
-
-**(b) Dá para medir?** Câmera com $S_w = 13{,}2\,\mathrm{mm}$, $f = 8{,}8\,\mathrm{mm}$ e $W = 5.472\,\mathrm{px}$, a $D = 5\,\mathrm{m}$ da fachada:
-
 $
-GSD = \frac{13{,}2 \times 5.000}{8{,}8 \times 5.472} \approx 1{,}37\,\mathrm{mm/px}
+IDP = \frac{8{,}15}{9{,}00} \approx 0{,}91
+\qquad
+IDC = \frac{8{,}15}{8{,}60} \approx 0{,}95
 $
 
-Uma fissura de $0{,}3\,\mathrm{mm}$ ocupa $0{,}3/1{,}37 \approx 0{,}22$ pixel: impossível medir. Para 2 pixels, seria preciso $GSD \le 0{,}15\,\mathrm{mm/px}$, ou seja, voar a $D = 0{,}15 \times 8{,}8 \times 5.472/13{,}2 \approx 0{,}55\,\mathrm{m}$ — inviável com segurança — ou usar zoom com $f \approx 13{,}2 \times 5.000/(0{,}15 \times 5.472) \approx 80\,\mathrm{mm}$ a 5 m.
+A obra está atrasada (agregou 91% do planejado) e gasta 5% acima do que agrega. Mantido o desempenho, o custo final estimado é $20{,}0/0{,}95 \approx \mathrm{R\$}\,21{,}1$ milhões, e o 4D aponta onde está o atraso: a estrutura, que puxa a alvenaria.
 
 ### Atividade prática
 
-Uma inspeção com IA em 2.000 fotos de um viaduto tem duas opções de limiar. Limiar 0,5: $VP = 120$, $FP = 30$, $FN = 30$. Limiar 0,3: $VP = 141$, $FP = 94$, $FN = 9$. Calcule $P$, $R$ e $F_1$ das duas, decida qual usar numa inspeção de segurança e estime quantas fotos a equipe terá de revisar em cada caso.
+Pegue o cronograma de uma obra (pode ser acadêmico) com quatro ou cinco serviços e seus pesos. Para uma data, invente as quantidades medidas pelo drone e pelos sensores, calcule o avanço físico ponderado, o VP, o VA, um CR plausível, o IDP e o IDC, desenhe a curva S prevista e a realizada e escreva o tópico BCF da frente mais atrasada (elemento, problema, responsável e prazo).
 
 ### Pontos-chave
 
-- Visão computacional na obra: **classificação**, **detecção** (caixas, IoU) e **segmentação** (pixel a pixel, permite medir).
-- CNNs aprendem filtros a partir de **dados rotulados**; separar treino/validação/teste, usar *data augmentation* e evitar *overfitting*.
-- Avalie com **precisão, revocação e F1**, não com acurácia; o **limiar** troca falsos positivos por falsos negativos, e em segurança o falso negativo custa mais.
-- Medir largura exige ≥ 2 pixels sobre a fissura: o **GSD** decide se a foto mede ou só detecta.
-- IA faz **triagem** e mede avanço junto com o BIM 4D; a decisão e a responsabilidade técnica continuam com o engenheiro.
+- **BIM** é modelo de informação; o **IFC** (ISO 16739-1) e o **GUID** ligam leituras, nuvens e pendências (BCF) a cada elemento.
+- **4D** liga o modelo ao cronograma; **5D**, a custos. O Decreto nº 10.306/2020 exige, desde 2024, BIM no planejamento e controle da execução nas obras federais abrangidas.
+- O **avanço físico** é ponderado por pesos; o modelo dá o previsto, e drone, nuvem e sensores dão o executado.
+- **Curva S** e **valor agregado** ($IDP = VA/VP$, $IDC = VA/CR$) transformam a medição de campo em decisão de prazo e custo.
+- Modelo atualizado pelo canteiro é **sombra digital**; com a decisão voltando à obra, **gêmeo digital**.
 
 ### Para saber mais
 
-- **Wikipedia — Rede neural convolucional:** https://pt.wikipedia.org/wiki/Rede_neural_convolucional
-- **Wikipedia — Precisão e revocação:** https://pt.wikipedia.org/wiki/Precis%C3%A3o_e_revoca%C3%A7%C3%A3o
-- **ÖZGENEL, Ç. F. — *Concrete Crack Images for Classification* (Mendeley Data, 40.000 imagens):** https://doi.org/10.17632/5y9wdsg2zt.2
-- **CHA, Y.-J. et al. — *Deep Learning-Based Crack Damage Detection Using Convolutional Neural Networks* (2017):** https://doi.org/10.1111/mice.12263
+- **Planalto — Decreto nº 10.306/2020 (BIM na administração pública federal):** https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2020/decreto/D10306.htm
+- **MDIC — Estratégia BIM BR:** https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
+- **buildingSMART — Industry Foundation Classes (IFC):** https://www.buildingsmart.org/standards/bsi-standards/industry-foundation-classes/
+- **Wikipedia — Análise de valor agregado:** https://pt.wikipedia.org/wiki/An%C3%A1lise_de_valor_agregado
+- **Livros da bibliografia:** EASTMAN, C. *et al.* *Manual de BIM*. Porto Alegre: Bookman, 2014; MATTOS, A. D. *Planejamento e controle de obras*. São Paulo: Pini, 2010.
 
-## Aula 14 — Roteiro da Videoaula 14: "IA e visão computacional: detecção de fissuras e medição de avanço físico"
+## Aula 14 — Roteiro da Videoaula 14: "O drone diz 41%, a planilha diz 62%: quem está certo?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
 
 ### 1. Abertura (0:00 – 0:30)
 
-**[TELA]** Slides 1–3 — capa, sumário e as 3.200 fotos de fachada.
+**[TELA]** Slides 1–3 — capa, sumário e a reunião dos "62%".
 
-> "O drone voltou com 3.200 fotos das fachadas. Em algum lugar delas há fissuras. Um inspetor leva dias, e na foto 2.800 já está cansado. A inteligência artificial revisa tudo em minutos. Mas quanto ela erra, que tipo de erro comete e dá para medir a fissura na foto? É o assunto de hoje."
+> "Reunião de obra: a gerenciadora diz 62%, conforme o cronograma. O drone voou ontem, os sensores mandam leitura a cada 15 minutos, mas cada dado mora num sistema. O que foi construído é o que deveria estar pronto? E quanto custou? Hoje o BIM e o valor agregado respondem."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:25)
+### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
 
-**[TELA]** Slides 4–7 — as três tarefas, a convolução animada, o fluxo de treino e a galeria de inspeção.
+**[TELA]** Slides 4–7 — BIM é informação, IFC e GUID, as dimensões do BIM e a lei.
 
-> "Visão computacional tem três tarefas: classificar a foto inteira, detectar objetos com uma caixa — e medir a caixa pela IoU — e segmentar pixel a pixel, que é o que permite medir. O motor é a rede neural convolucional: filtros que varrem a imagem e respondem a bordas, texturas e padrões. Ninguém programa os filtros: a rede aprende com fotos rotuladas. Por isso, dado vem antes de algoritmo: coletar, rotular, separar treino, validação e teste, aumentar os dados e vigiar o sobreajuste."
+> "BIM não é desenho 3D: é modelo de informação. Cada pilar é um objeto com um identificador, o GUID; o IFC, aberto, deixa os softwares conversarem. Ligou ao cronograma, 4D; a custos, 5D. E desde 2024 o Decreto 10.306 exige BIM no planejamento e controle das obras federais abrangidas."
 
-### 3. Desenvolvimento — parte 2 (1:25 – 2:30)
+### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
 
-**[TELA]** Slides 8–10 — a matriz de confusão, o limiar interativo e falso positivo × falso negativo.
+**[TELA]** Slides 8–11 — os três fluxos (drone, sensores, pendências), o 4D em 3D e a medição de avanço.
 
-> "Mil fotos, oitenta com fissura. O modelo acertou 72, perdeu 8 e deu 48 alarmes falsos. Precisão: 72 sobre 120, 0,60. Revocação: 72 sobre 80, 0,90. F1, 0,72. E a acurácia de 94% engana: dizer sempre 'sem fissura' daria 92%. Agora mexo no limiar: baixo, acho quase todas as fissuras, com mais alarmes; alto, o contrário. Em segurança, perder uma fissura custa mais caro do que revisar um alarme."
+> "Três fluxos chegam ao modelo: a nuvem do drone confirma o que existe; os sensores, pelo GUID, pintam o elemento pelo nível de alerta; e cada problema vira um tópico BCF. Arrasto a semana no 4D: o fantasma é o planejado, o sólido é o executado. E o avanço físico se pondera por pesos: fundações, estrutura, alvenaria, instalações."
 
-### 4. Desenvolvimento — parte 3 (2:30 – 3:20)
+### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
 
-**[TELA]** Slides 11–16 — a calculadora de GSD, os limites da NBR 6118, a obra vista do alto, o avanço físico medido pela IA, o humano no laço e a atividade.
+**[TELA]** Slides 12–16 — curva S prevista × realizada, a calculadora de valor agregado, a rotina semanal de integração e a malha fechada.
 
-> "Detectar não é medir. A 5 metros, essa câmera tem pixel de 1,37 milímetro: uma fissura de 0,3 ocupa um quinto de pixel. Para medir, pelo menos 2 pixels: 0,15 milímetro por pixel, o que pede voar a meio metro ou usar zoom de uns 80 milímetros. A mesma IA mede avanço: reconhece laje, alvenaria, fachada e cruza com o 4D. Mas a IA faz triagem; quem classifica a causa e decide é o engenheiro."
+> "A conta: avanço ponderado de 40,8% contra 45% previstos. Valor planejado, 9 milhões; agregado, 8,15; custo real, 8,6. IDP de 0,91: atrasada. IDC de 0,95: gastando mais do que agrega. Os 62% da reunião não param em pé. Com o modelo atualizado pelo canteiro e o engenheiro decidindo, fechamos a malha."
 
-### 5. Encerramento (3:20 – 3:45)
+### 5. Encerramento (3:10 – 3:35)
 
-**[TELA]** Slides 17–18 — pontos-chave e encerramento.
+**[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
 
-> "Hoje você aprendeu a avaliar uma IA como engenheiro: precisão, revocação, limiar e GSD. Só que tudo isso custa dinheiro, filma pessoas e trafega dados pela internet. Vale a pena? Pode filmar? Está seguro? Quem é dono dos dados? Na próxima aula, a gestão do monitoramento. Te espero na Aula 15!"
+> "Agora o dado de campo chega ao cronograma e ao custo. Mas a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
 
 ---
 
-## Aula 15 — Gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos
+## Aula 15 — Segurança do trabalho, NR-18 e tecnologia para prevenção
 
-> O plano de monitoramento está pronto: inclinômetros, piezômetros, voo mensal de drone, câmeras com IA e uma plataforma na nuvem. Na reunião de aprovação, quatro pessoas fazem quatro perguntas. O diretor financeiro: **"vale o que custa?"**. A advogada: **"podemos filmar trabalhadores e a casa do vizinho?"**. O gerente de TI: **"e se alguém invadir o gateway e apagar as leituras?"**. O cliente: **"de quem são esses dados e quem responde se o alerta tocar às 3h?"**. Nesta aula, você vai aprender a responder às quatro — porque um sistema tecnicamente perfeito que não passa por essa reunião não sai do papel.
+> Terça-feira, 10h. O anemômetro da grua marca rajadas de 13 m/s, mas o operador não tem o número na cabine e continua içando fôrmas. Na rampa da escavação, um caminhão dá ré com o alarme sonoro desligado "porque incomodava a vizinhança" e passa a meio metro de um ajudante. No 9º pavimento, falta um trecho de guarda-corpo retirado para passar material. Nenhum desses riscos é novo — a **NR-18** trata de todos eles. O que mudou é que hoje temos sensores, câmeras e drones capazes de **ver o risco antes do acidente**. Nesta aula, você vai ligar a norma à tecnologia, sem esquecer os limites de cada uma.
 
-### Quanto custa monitorar
+### A NR-18 hoje: estrutura e o PGR
 
-O custo de um sistema de monitoramento tem duas partes. O **CAPEX** (investimento inicial): instrumentos, instalação, dataloggers, gateway, licenças e o drone. O **OPEX** (custo mensal): conectividade, plataforma, voos e processamento, manutenção e recalibração de sensores e — o item mais esquecido — as **horas de engenheiro** para analisar dados e responder alertas. Um sistema sem orçamento para análise é a malha aberta da Aula 1 com conta de luz.
+A **NR-18 — Segurança e Saúde no Trabalho na Indústria da Construção** teve a redação reformulada pela Portaria SEPRT nº 3.733/2020, em vigor desde 2021, com alterações posteriores. O texto vigente é organizado por temas: responsabilidades, **Programa de Gerenciamento de Riscos (PGR)**, áreas de vivência, instalações elétricas, etapas de obra, escadas e rampas, **proteção contra quedas de altura** (18.9), **máquinas, equipamentos e ferramentas** (18.10), movimentação de materiais e pessoas, andaimes, **sinalização** (18.13) e capacitação.
 
-### Custo-benefício: o valor esperado da perda evitada
+O **PGR** substituiu o antigo PCMAT. É obrigatório nos canteiros, contemplando os riscos ocupacionais e suas medidas de prevenção (item 18.4.1); é elaborado por profissional legalmente habilitado em segurança do trabalho (18.4.2) e, além do exigido pela NR-01, contém os projetos dos sistemas de proteção coletiva e, quando aplicável, dos sistemas de proteção individual contra quedas, e a relação dos EPI (18.4.3). E deve estar **atualizado conforme a etapa** da obra (18.4.3.1) — exatamente o que um sistema de monitoramento ajuda a manter.
 
-O benefício principal do monitoramento é **evitar perdas** — dano ao vizinho, colapso parcial, paralisação, retrabalho. Como elas são incertas, usa-se o **valor esperado**: probabilidade vezes consequência, $VE = p \cdot C$. O monitoramento atua nos dois fatores: reduz a **probabilidade** (o problema é corrigido no início) e a **consequência** (o dano é menor quando detectado cedo). O benefício é a diferença entre o $VE$ sem e com monitoramento, somada a ganhos diretos (medições por drone, menos retrabalho). Os números de probabilidade são estimativas — use faixas e teste a sensibilidade. E há o que não se monetiza: vidas, reputação e a responsabilidade técnica.
+### Riscos críticos e a hierarquia das medidas
 
-### LGPD: dado pessoal no canteiro
+Quedas de altura, soterramento em escavações, choque elétrico, atropelamento por máquinas e queda de materiais estão entre os riscos mais graves do canteiro. A NR-01 ordena as medidas de prevenção: primeiro **eliminar** o risco; depois, **proteção coletiva**; em seguida, medidas **administrativas** e de organização do trabalho; e, por fim, o **EPI**. Na NR-18, a proteção coletiva é obrigatória onde houver risco de queda de trabalhadores ou de projeção de materiais (18.9.1) e, na periferia da edificação, a partir dos serviços da primeira laje (18.9.4), com guarda-corpo de travessão superior a 1,2 m, intermediário a 0,7 m e rodapé de 0,15 m (18.9.4.2). Trabalho acima de 2 m com risco de queda segue também a NR-35.
 
-A **Lei Geral de Proteção de Dados** (Lei nº 13.709/2018) define dado pessoal como informação relacionada a pessoa natural **identificada ou identificável**. No monitoramento, isso inclui rostos em fotos de drone e câmeras, placas de veículos, o quintal do vizinho, a localização de trabalhadores rastreados e o registro de quem acessou o sistema. **Biometria** (como reconhecimento facial) é **dado sensível** (art. 5º, II), com regras mais restritas (art. 11).
+A tecnologia entra **dentro** dessa hierarquia: um sensor não substitui o guarda-corpo, mas avisa quando ele sumiu.
 
-Todo tratamento precisa de uma **base legal** (art. 7º): entre elas, cumprimento de obrigação legal, execução de contrato, proteção da vida e da incolumidade física e **legítimo interesse**. E precisa respeitar os **princípios** do art. 6º, sobretudo **finalidade** (para que serve), **necessidade** (o mínimo de dados) e **transparência** (avisar quem é filmado).
+![Fachada de um edifício alto em construção inteiramente envolvida por andaimes cobertos com tela verde de proteção, que retém materiais e reduz o risco de queda de objetos sobre a rua](https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/11_Scaffolding_safety_plastic_net_-_polyethylene_material_nets_at_construction_site_in_Makati_Manila.jpg/1280px-11_Scaffolding_safety_plastic_net_-_polyethylene_material_nets_at_construction_site_in_Makati_Manila.jpg)
 
-### Medidas práticas de privacidade
+### A NR-18 já exige sensores: máquinas e gruas
 
-- **Minimização**: enquadrar o voo e as câmeras no canteiro; aplicar **máscara de privacidade** sobre janelas e quintais vizinhos.
-- **Desfoque automático** de rostos e placas quando a identificação não é necessária.
-- **Retenção definida**: fotos de segurança guardadas por prazo certo e depois descartadas.
-- **Aviso** nos acessos e comunicação prévia aos vizinhos.
-- Para tratamentos de risco, **relatório de impacto** (RIPD); indicação do **encarregado**; e contrato que defina quem é **controlador** (decide) e quem é **operador** (trata em nome dele).
+Parte dos dispositivos que a norma pede já é sensoriamento. Máquinas autopropelidas devem ter retrovisores e **alarme sonoro acoplado ao câmbio** na marcha a ré (18.10.1.6, alínea f). Equipamentos de guindar têm **limitador de carga ou de momento** com alarme sonoro. E a **grua** deve dispor de **anemômetro** e de dispositivo automático com alarme sonoro que indique **ventos acima de 42 km/h** (18.10.1.33, j); acima desse valor, o trabalho exige análise de risco e permissão de trabalho, e **acima de 72 km/h a operação é proibida** (18.10.1.34). Conectados à plataforma IoT (Aulas 11 e 12), esses sinais deixam de ser locais: o anemômetro aparece no painel da Aula 13, com histórico e alerta ao encarregado.
 
-A fiscalização é da **ANPD**. Incidentes de segurança com risco relevante aos titulares devem ser comunicados à ANPD — o regulamento da autoridade (Resolução CD/ANPD nº 15/2024) fixa, como regra, **três dias úteis** — e as sanções incluem multa de até 2% do faturamento, limitada a R$ 50 milhões por infração (art. 52).
+![Mastro alaranjado de uma grua torre montado no poço de uma edificação em construção, visto de baixo, com trabalhadores de capacete e colete de alta visibilidade ao lado](https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg/1280px-Tower_crane_at_a_building_construction_site_in_Taichung_2023-05-13_01.jpg)
 
-![Câmera de vigilância do tipo domo, com movimento horizontal, vertical e zoom, presa por um braço curvo a um poste de iluminação pública, contra o céu](https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Security_Camera-07-PTZ_mounted_on_light_pole.jpg/1280px-Security_Camera-07-PTZ_mounted_on_light_pole.jpg)
+### Sensores vestíveis, gases e cercas virtuais
 
-### Segurança da informação: o dado de monitoramento também é estrutural
+Etiquetas **UWB** (precisão de decímetros) ou **BLE** (metros) em capacetes e crachás formam sistemas de **localização em tempo real** (RTLS) que criam **cercas virtuais**: entrar na zona de giro da escavadeira dispara aviso ao operador e ao trabalhador. **Detectores de gases** em escavações, poços e galerias (espaços confinados, NR-33) avisam antes da entrada. Sensores de inclinação em escoramentos, de vibração e de poeira (Aula 9) completam o quadro. Toda localização de pessoa, porém, é **dado pessoal** (Aula 16).
 
-Segurança da informação protege três propriedades: **confidencialidade**, **integridade** e **disponibilidade**. No monitoramento, a mais crítica é a **integridade**: uma leitura adulterada pode esconder um recalque. A referência de gestão é a **ISO/IEC 27001** (sistema de gestão de segurança da informação). Em IoT, os erros clássicos estão na lista do OWASP, que traz em primeiro lugar as **senhas fracas, padrão ou embutidas**. Boas práticas mínimas:
+### Visão computacional: EPI e zonas de risco
 
-- trocar **credenciais padrão** e usar autenticação forte no gateway e na plataforma;
-- **criptografar** o caminho do dado: o LoRaWAN cifra as mensagens com chaves AES-128; o MQTT deve rodar sobre **TLS**;
-- **segmentar** a rede do canteiro e dar a cada usuário só o acesso necessário;
-- **atualizar firmware**, manter **registro (log)** de acessos e **cópias de segurança** das séries;
-- conferir a **integridade** das séries (lacunas, saltos e alterações registradas).
+Câmeras com **detecção de objetos** reconhecem capacete, colete de alta visibilidade (exigido em áreas de movimentação de veículos, 18.13.2) e pessoas dentro de zonas de risco desenhadas na imagem. A qualidade de cada caixa detectada se mede pela **IoU** (interseção sobre união), e o modelo, por **precisão** ($P = VP/(VP+FP)$) e **revocação** ($R = VP/(VP+FN)$). Em segurança, o falso negativo — a pessoa sem capacete não detectada — custa mais caro; por isso, o limiar é ajustado para revocação alta, com revisão humana. E um projeto ético detecta o **EPI**, não a **pessoa**: sem reconhecimento facial e, de preferência, processando na borda.
 
-### Contratos: o monitoramento como obrigação
+![Placa de pare fotografada na rua com duas caixas sobrepostas: em verde, a caixa de referência desenhada por uma pessoa; em vermelho, a caixa prevista por um detector de objetos, quase coincidente](https://upload.wikimedia.org/wikipedia/commons/2/2d/Intersection_over_Union_-_object_detection_bounding_boxes.jpg)
 
-O plano de monitoramento deve ser **anexo do contrato**, e não um "extra". Cláusulas essenciais: **escopo** (grandezas, instrumentos, posições, frequências); **níveis de alerta e plano de resposta** — quem faz o quê, em quanto tempo, em cada nível (o TARP, *trigger-action-response plan*); **SLA** (*service level agreement*): disponibilidade da plataforma, tempo entre leitura e painel, prazo de reparo de sensor; **propriedade e acesso aos dados**, com entrega em **formatos abertos** (CSV, IFC) no fim da obra; **confidencialidade e LGPD**; e **responsabilidade técnica**, com ART do profissional responsável pelo monitoramento.
+### Drones na inspeção de segurança
 
-### Exemplo numérico
+O drone inspeciona **sem expor ninguém**: bandejas e redes de proteção, guarda-corpos da periferia, coberturas, taludes e escoramentos de escavação, ancoragens de andaimes. Um voo semanal com fotos georreferenciadas vira **evidência datada** para o PGR. Valem as regras das Aulas 3 e 4: operação segundo o RBAC nº 100 da ANAC, acesso ao espaço aéreo pelo DECEA, área de segurança e nada de sobrevoar trabalhadores sem a devida análise de risco.
 
-**(a) Custo-benefício.** Monitoramento de uma escavação ao lado de um prédio antigo, por 14 meses: CAPEX de R\$ 180.000 e OPEX de R\$ 12.000/mês.
-
-$
-C = 180.000 + 14 \times 12.000 = \mathrm{R\$}\,348.000
-$
-
-Sem monitoramento, estima-se probabilidade de dano relevante ao vizinho de 8%, com consequência de R\$ 5,0 milhões; com monitoramento, 2%, e o dano detectado cedo custaria R\$ 2,0 milhões.
-
-$
-VE_{sem} = 0{,}08 \times 5.000.000 = \mathrm{R\$}\,400.000
-\qquad
-VE_{com} = 0{,}02 \times 2.000.000 = \mathrm{R\$}\,40.000
-$
-
-Perda evitada: R\$ 360.000. Somando R\$ 90.000 de ganhos diretos (medições por drone, menos retrabalho), o benefício é $B = \mathrm{R\$}\,450.000$ e
-
-$
-ROI = \frac{B - C}{C} = \frac{450.000 - 348.000}{348.000} \approx 0{,}293 = 29{,}3\%
-$
-
-Valores **ilustrativos**: o método é o que importa, e as probabilidades devem ser testadas em faixas.
-
-**(b) SLA.** Disponibilidade de 99,5% num mês de 30 dias admite $30 \times 24 \times 0{,}005 = 3{,}6\,\mathrm{h}$ fora do ar. Se a escavação crítica exige alerta a qualquer hora, o contrato deve pedir mais disponibilidade **e** uma regra de borda que funcione sem a nuvem (Aula 3).
+![Vista aérea de drone de um viaduto de concreto sobre um vale arborizado, registrada durante uma inspeção, mostrando o tabuleiro e os pilares](https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Drone_view_of_a_bridge_during_an_inspection.jpg/1280px-Drone_view_of_a_bridge_during_an_inspection.jpg)
 
 ### Pausa para reflexão (Desafio)
 
-A construtora quer instalar câmeras com **reconhecimento facial** em todos os acessos e com IA que identifica, pelo rosto, quem está sem capacete, para aplicar advertências. O argumento é a segurança do trabalho — legítimo. Mas reconhecimento facial trata **dado biométrico, sensível**; há alternativas menos invasivas (crachá com RFID no acesso, detecção de capacete **sem** identificar a pessoa, com alerta ao encarregado da frente); e trabalhadores podem se sentir vigiados, o que afeta a confiança. **Onde termina a segurança e começa a vigilância?** Considere: a finalidade, a necessidade (dá para atingir o objetivo com menos dados?), a transparência, o prazo de guarda e quem terá acesso às imagens.
+A construtora quer instalar câmeras com **reconhecimento facial** em todos os acessos e frentes, para identificar quem está sem capacete e aplicar advertências. O crachá UWB que evita o atropelamento na rampa também registra, minuto a minuto, onde cada trabalhador esteve. O objetivo — segurança — é legítimo. Mas há alternativas menos invasivas: detectar o capacete **sem** identificar a pessoa e alertar o encarregado da frente; processar a proximidade com a máquina na borda, sem guardar o histórico nominal. **Onde termina a prevenção e começa a vigilância?** Considere a finalidade, a necessidade, a transparência, o prazo de guarda e quem terá acesso às imagens.
+
+### Exemplo numérico
+
+Valores **ilustrativos**.
+
+**(a) Vento na grua.** O anemômetro registra rajada de $13\,\mathrm{m/s}$:
+
+$
+13 \times 3{,}6 = 46{,}8\,\mathrm{km/h} > 42\,\mathrm{km/h}
+\qquad
+72\,\mathrm{km/h} \div 3{,}6 = 20\,\mathrm{m/s}
+$
+
+Exige análise de risco específica e permissão de trabalho; a 20 m/s, a operação está proibida. O alerta da plataforma deve disparar a 42 km/h, não depois.
+
+**(b) Detector de capacete.** Em 400 imagens de teste há 120 pessoas sem capacete. O modelo acertou $VP = 102$, perdeu $FN = 18$ e deu $FP = 34$ alarmes falsos:
+
+$
+P = \frac{102}{136} = 0{,}75
+\qquad
+R = \frac{102}{120} = 0{,}85
+\qquad
+F_1 = \frac{2 \times 0{,}75 \times 0{,}85}{0{,}75 + 0{,}85} \approx 0{,}80
+$
+
+Encontra 85% das situações de risco; 1 em cada 4 avisos é falso — aceitável para alertar o encarregado, nunca para punir automaticamente.
+
+**(c) Taxa de frequência.** A ABNT NBR 14280 mede a frequência de acidentes por milhão de horas-homem de exposição: $TF = N \times 10^6 / HHT$. Com 180 trabalhadores, 220 h/mês, em 12 meses ($HHT = 475.200\,\mathrm{h}$) e 4 acidentes com afastamento:
+
+$
+TF = \frac{4 \times 10^6}{475.200} \approx 8{,}4
+$
 
 ### Atividade prática
 
-Para a obra da Aula 16 (ou outra que você escolher), monte uma **ficha de gestão do monitoramento** com: (1) CAPEX e OPEX estimados e o cálculo do valor esperado da perda evitada; (2) inventário de dados pessoais tratados, com base legal e medida de minimização para cada um; (3) cinco controles de segurança da informação; (4) as cláusulas contratuais do monitoramento, com um SLA numérico.
+Para uma obra que você conheça, liste cinco riscos críticos do PGR e, para cada um, indique: a medida de proteção coletiva exigida pela NR-18; uma tecnologia que ajude a verificá-la (sensor, câmera ou drone), com o gatilho de alerta; o responsável pela resposta; e o cuidado de privacidade necessário.
 
 ### Pontos-chave
 
-- Custo = **CAPEX + OPEX**, incluindo as horas de análise; benefício = **perda evitada** ($VE = p \cdot C$, sem × com) + ganhos diretos.
-- Imagens de obra contêm **dados pessoais**; todo tratamento precisa de **base legal**, finalidade e minimização; biometria é **dado sensível**.
-- Em monitoramento, a **integridade** do dado é questão de segurança estrutural: credenciais padrão trocadas, criptografia (TLS, AES-128 no LoRaWAN), segmentação e logs.
-- O plano de monitoramento é **anexo contratual**: escopo, níveis e plano de resposta, **SLA**, propriedade dos dados em formato aberto e ART.
+- A **NR-18** vigente exige o **PGR** no canteiro, elaborado por profissional habilitado e atualizado conforme a etapa da obra.
+- Hierarquia: eliminar, **proteger coletivamente**, organizar e, por fim, o EPI; a tecnologia verifica as medidas, não as substitui.
+- A norma já pede sensores: alarme de ré, limitador de carga e **anemômetro da grua** (alarme acima de 42 km/h; operação proibida acima de 72 km/h).
+- Visão computacional detecta EPI e zonas de risco; avalie por **revocação e precisão**, detecte o EPI, não a pessoa.
+- Drones inspecionam proteções e taludes **sem expor trabalhadores**, gerando evidência datada para o PGR.
+
+### Para saber mais
+
+- **MTE — NR-18 (Segurança e Saúde no Trabalho na Indústria da Construção):** https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-18-nr-18
+- **Fundacentro — Segurança do trabalho na indústria da construção:** https://www.gov.br/fundacentro/pt-br
+- **Wikipedia — Sistema de localização em tempo real (RTLS):** https://en.wikipedia.org/wiki/Real-time_locating_system
+
+## Aula 15 — Roteiro da Videoaula 15: "Rajada de 46 km/h na grua: a tecnologia vê o risco antes do acidente?"
+
+**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+
+### 1. Abertura (0:00 – 0:30)
+
+**[TELA]** Slides 1–3 — capa, sumário e a terça-feira dos três riscos.
+
+> "Rajada de 13 metros por segundo na grua, e o operador sem o número na cabine. Um caminhão de ré com o alarme desligado. Um trecho de guarda-corpo retirado no nono pavimento. A NR-18 trata de todos. Hoje, a tecnologia que ajuda a ver o risco antes do acidente."
+
+### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
+
+**[TELA]** Slides 4–7 — a estrutura da NR-18, o PGR, a hierarquia das medidas e a proteção coletiva.
+
+> "A NR-18 vigente exige o PGR no canteiro, feito por profissional habilitado e atualizado a cada etapa. A ordem das medidas é eliminar, proteger coletivamente, organizar e, por último, o EPI. Guarda-corpo de 1,2 metro desde a primeira laje. A tecnologia não substitui o guarda-corpo: avisa quando ele sumiu."
+
+### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
+
+**[TELA]** Slides 8–10 — a norma que já pede sensores, o anemômetro da grua, as cercas virtuais e os detectores de gases.
+
+> "A norma já pede sensor: alarme de ré, limitador de carga, anemômetro na grua com alarme acima de 42 quilômetros por hora. Treze metros por segundo são 46,8: precisa de análise de risco e permissão de trabalho. Acima de 72, proibido. Ligue isso à plataforma IoT e o encarregado vê no painel. Somo as etiquetas UWB, com cercas virtuais em torno das máquinas, e os detectores de gases."
+
+### 4. Desenvolvimento — parte 3 (2:20 – 3:15)
+
+**[TELA]** Slides 11–16 — o detector de EPI, precisão e revocação, o drone na inspeção, o TARP de segurança, a calculadora e a pausa para reflexão.
+
+> "A câmera detecta capacete e colete e pessoas dentro da zona de risco. Revocação de 85%, precisão de 75%: bom para avisar o encarregado, nunca para punir sozinho. O drone inspeciona bandejas, guarda-corpos e taludes sem expor ninguém. E pense: reconhecimento facial para cobrar capacete é prevenção ou vigilância?"
+
+### 5. Encerramento (3:15 – 3:40)
+
+**[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
+
+> "Câmeras, crachás e sensores protegem pessoas, mas também coletam dados delas e abrem portas para invasores. Na última aula, LGPD e cibersegurança em IoT, e o fechamento da disciplina. Te espero na Aula 16!"
+
+---
+
+## Aula 16 — Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)
+
+> O sistema de monitoramento está no ar: 60 sensores, um gateway LoRaWAN com 4G, câmeras com IA nos acessos, voo semanal de drone e o painel no Grafana. Na reunião de aprovação, duas pessoas fazem as perguntas que faltavam. A advogada: **"podemos filmar trabalhadores e a casa do vizinho? Por quanto tempo guardamos isso?"**. O gerente de TI: **"a senha do gateway ainda é a de fábrica? E se alguém alterar as leituras do inclinômetro?"**. Nesta aula final, você vai aprender a responder às duas — porque um monitoramento que expõe pessoas ou aceita dados adulterados não protege ninguém.
+
+### LGPD: dado pessoal no canteiro
+
+A **Lei Geral de Proteção de Dados** (Lei nº 13.709/2018) define dado pessoal como informação relacionada a pessoa natural **identificada ou identificável** (art. 5º, I). No monitoramento, isso inclui rostos em fotos de drone e câmeras, placas de veículos, o quintal do vizinho, a localização de trabalhadores rastreados, registros de acesso ao canteiro e de quem acessou a plataforma. **Biometria** — como o reconhecimento facial — e dados de **saúde** são **dados sensíveis** (art. 5º, II), com regras mais restritas (art. 11).
+
+![Câmera de vigilância do tipo domo, com movimento horizontal, vertical e zoom, presa por um braço curvo a um poste de iluminação pública, contra o céu](https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Security_Camera-07-PTZ_mounted_on_light_pole.jpg/1280px-Security_Camera-07-PTZ_mounted_on_light_pole.jpg)
+
+### Bases legais, princípios e o trabalhador
+
+Todo tratamento precisa de uma **base legal** (art. 7º): entre elas, cumprimento de **obrigação legal** (por exemplo, registros exigidos pelas normas de segurança), execução de contrato, proteção da vida e da incolumidade física e **legítimo interesse**. Na relação de emprego, o **consentimento** é frágil — o trabalhador dificilmente se sente livre para recusar —, e por isso raramente é a melhor base. E todo tratamento respeita os **princípios** do art. 6º, sobretudo **finalidade** (para que serve), **necessidade** (o mínimo de dados), **transparência** (avisar quem é filmado) e **segurança**. A câmera instalada para detectar EPI não pode virar, sem aviso, ferramenta de avaliação de desempenho individual.
+
+### Privacidade desde a concepção e governança
+
+- **Minimização**: enquadrar voos e câmeras no canteiro; aplicar **máscara de privacidade** sobre janelas e quintais vizinhos; detectar o EPI, não identificar a pessoa.
+- **Desfoque automático** de rostos e placas quando a identificação não é necessária.
+- **Retenção definida**: imagens guardadas por prazo certo e depois descartadas.
+- **Aviso** nos acessos e comunicação prévia aos vizinhos.
+- **Papéis**: o **controlador** decide (em geral, a construtora); o **operador** trata em nome dele (a empresa de monitoramento); o **encarregado** é o canal com titulares e ANPD; e, para tratamentos de risco, o **relatório de impacto** (RIPD).
+
+A fiscalização é da **ANPD**. Incidente de segurança com risco ou dano relevante aos titulares deve ser comunicado à ANPD e aos titulares (art. 48) — pela Resolução CD/ANPD nº 15/2024, em regra em **três dias úteis** —, e as sanções incluem multa de até 2% do faturamento, limitada a R\$ 50 milhões por infração (art. 52). O art. 46 obriga os agentes a adotar medidas de **segurança** técnicas e administrativas: é aqui que a LGPD encontra a cibersegurança.
+
+### Por que um sistema IoT de obra é alvo
+
+Segurança da informação protege **confidencialidade**, **integridade** e **disponibilidade**. No monitoramento, a mais crítica é a **integridade**: uma leitura adulterada pode esconder um recalque, e um alerta apagado pode atrasar uma evacuação. Dispositivos IoT são alvos fáceis: ficam expostos no campo, raramente são atualizados e, muitas vezes, saem de fábrica com **credenciais padrão**. Foi assim que a *botnet* Mirai, em 2016, sequestrou centenas de milhares de câmeras e roteadores apenas testando senhas de fábrica. Senhas fracas, padrão ou embutidas lideram a lista **OWASP IoT Top 10**.
+
+![Gateway LoRaWAN instalado no alto de um mastro, com antena vertical e caixa de equipamentos, sobre a vista de uma cidade portuária com um canal e prédios ao fundo](https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg/1280px-2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg)
+
+### Controles mínimos de cibersegurança em IoT
+
+- **Credenciais**: trocar toda senha de fábrica no comissionamento; uma credencial por dispositivo; autenticação forte na plataforma e no Grafana. A Anatel, no Ato nº 77/2021, passou a exigir de roteadores e modems a troca da senha padrão e atualizações de segurança.
+- **Criptografia no caminho**: o LoRaWAN cifra as mensagens com chaves AES-128; o **MQTT** deve rodar sobre **TLS** (porta 8883, não a 1883 em texto puro), com usuário e senha ou certificado por dispositivo e **listas de controle de acesso por tópico** — o sensor I-2 só publica em `obra/cortina/I-2`.
+- **Segmentação de rede**: sensores, gateway e câmeras numa rede (VLAN) separada da rede administrativa e do Wi-Fi de visitantes, com *firewall* liberando só o necessário.
+- **Firmware**: inventário de dispositivos e versões, atualizações assinadas, preferencialmente remotas (OTA), e substituição do que não recebe mais correções.
+- **Rastreabilidade**: registro (*log*) de acessos e alterações, cópias de segurança das séries e conferência de lacunas e saltos.
+
+![Três switches de rede empilhados num rack, com cabos conectados e luzes indicando o estado de cada porta](https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Network_switches_arranged_in_a_server_rack_with_visible_LED_lights_indicating_connection_status_and_power_levels.jpg/1280px-Network_switches_arranged_in_a_server_rack_with_visible_LED_lights_indicating_connection_status_and_power_levels.jpg)
+
+### Exemplo numérico
+
+Valores **ilustrativos**.
+
+**(a) A senha do gateway.** Uma senha numérica de 6 dígitos tem $10^6$ combinações; a 100 tentativas por segundo, cai em no máximo $10^4\,\mathrm{s} \approx 2{,}8\,\mathrm{h}$. Uma senha aleatória de 12 caracteres entre 62 símbolos (letras maiúsculas, minúsculas e algarismos):
+
+$
+62^{12} \approx 3{,}2 \times 10^{21}
+\qquad
+\frac{3{,}2 \times 10^{21}}{10^{9}\,\mathrm{s^{-1}}} \approx 3{,}2 \times 10^{12}\,\mathrm{s} \approx 100\,000\ \text{anos}
+$
+
+E a senha de fábrica? **Uma** tentativa: ela está no manual, na internet.
+
+**(b) Teto da multa.** A multa simples é de até 2% do faturamento no Brasil no último exercício, limitada a R\$ 50 milhões por infração. Para faturamento de R\$ 900 milhões: $0{,}02 \times 900 = 18$ milhões. Para R\$ 3,5 bilhões: $0{,}02 \times 3.500 = 70$ milhões, limitados a **R\$ 50 milhões**.
+
+**(c) Prazo do incidente.** A construtora toma conhecimento, numa quinta-feira, de que as imagens das câmeras foram expostas. Em três dias úteis (sem feriados): sexta, segunda e terça — a comunicação à ANPD deve sair **até terça-feira**.
+
+### Atividade prática
+
+Para o sistema de monitoramento de uma obra que você escolher, monte uma **ficha de privacidade e segurança** com: (1) o inventário de dados pessoais (o quê, de quem, base legal, finalidade, prazo de guarda e medida de minimização); (2) a arquitetura da rede, com a segmentação e onde há TLS; (3) cinco controles de cibersegurança com o responsável por cada um; (4) o fluxo de resposta a incidente, até a comunicação à ANPD.
+
+### Pontos-chave
+
+- Imagens, localização e acessos de obra contêm **dados pessoais**; biometria e saúde são **sensíveis**. Todo tratamento precisa de **base legal**, finalidade, necessidade e transparência.
+- **Privacidade desde a concepção**: máscara, desfoque, retenção definida, detectar o EPI e não a pessoa; papéis de controlador, operador e encarregado.
+- Em monitoramento, a **integridade** do dado é questão de segurança estrutural.
+- Controles mínimos: **trocar credenciais padrão**, **MQTT sobre TLS** com ACL por tópico, **segmentação de rede**, **firmware atualizado** e logs.
+- Incidente relevante vai à **ANPD** em três dias úteis; multa de até 2% do faturamento, limitada a R\$ 50 milhões por infração.
 
 ### Para saber mais
 
 - **Planalto — Lei nº 13.709/2018 (LGPD):** https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm
 - **ANPD — Autoridade Nacional de Proteção de Dados:** https://www.gov.br/anpd/pt-br
 - **OWASP — Internet of Things Project (IoT Top 10):** https://owasp.org/www-project-internet-of-things/
-- **Wikipedia — ISO/IEC 27001:** https://pt.wikipedia.org/wiki/ISO/IEC_27001
-
-## Aula 15 — Roteiro da Videoaula 15: "Gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos"
-
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
-
-### 1. Abertura (0:00 – 0:30)
-
-**[TELA]** Slides 1–3 — capa, sumário e as quatro perguntas da reunião.
-
-> "O plano de monitoramento está pronto e vai para a reunião de aprovação. O financeiro pergunta se vale o que custa. A advogada, se pode filmar. O pessoal de TI, se alguém pode invadir o gateway. E o cliente, de quem são os dados e quem atende o alerta às 3 da manhã. Hoje você vai aprender a responder às quatro."
-
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
-**[TELA]** Slides 4–6 — CAPEX e OPEX, a calculadora do valor esperado e o que não se monetiza.
-
-> "Custo tem investimento inicial, o CAPEX, e custo mensal, o OPEX — e nele entram as horas de engenheiro para analisar. O benefício é a perda evitada, pelo valor esperado: probabilidade vezes consequência. Sem monitoramento, 8% de chance de um dano de 5 milhões: 400 mil. Com monitoramento, 2% de um dano menor, de 2 milhões: 40 mil. Evitei 360 mil; com 90 mil de ganhos diretos, 450 mil contra 348 mil de custo: retorno de uns 29%. Números ilustrativos — o método é o que vale."
-
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
-**[TELA]** Slides 7–10 — dados pessoais no canteiro, bases legais e princípios, a câmera com máscara de privacidade e a governança.
-
-> "Rosto, placa, quintal do vizinho, localização de trabalhador: tudo isso é dado pessoal. Biometria é dado sensível. Todo tratamento precisa de base legal — obrigação legal, contrato, proteção da vida, legítimo interesse — e de finalidade, necessidade e transparência. Na prática: máscara de privacidade, desfoque de rostos, prazo de guarda e aviso. E governança: controlador, operador, encarregado, relatório de impacto, incidente comunicado à ANPD, em regra, em três dias úteis."
-
-### 4. Desenvolvimento — parte 3 (2:15 – 3:20)
-
-**[TELA]** Slides 11–17 — confidencialidade, integridade e disponibilidade; a cadeia IoT com controles; o checklist mínimo; as cláusulas do contrato; a calculadora de SLA; os níveis de resposta e a pausa para reflexão.
-
-> "Na segurança da informação, a propriedade mais crítica aqui é a integridade: leitura adulterada esconde recalque. Troque a senha padrão, criptografe com TLS, segmente a rede, atualize firmware, guarde logs. E o contrato: plano de monitoramento como anexo, níveis de resposta com responsáveis e prazos, SLA, dados em formato aberto e ART. Um SLA de 99,5% admite 3,6 horas fora do ar por mês. E pense: reconhecimento facial para cobrar capacete é segurança ou vigilância?"
-
-### 5. Encerramento (3:20 – 3:45)
-
-**[TELA]** Slides 18–19 — atividade, pontos-chave e encerramento.
-
-> "Agora você sabe defender o monitoramento na reunião: custo, privacidade, segurança e contrato. Na próxima aula, a última da disciplina, a gente junta tudo num projeto integrado de uma obra real, do primeiro sensor ao último contrato. Te espero na Aula 16!"
-
----
-
-## Aula 16 — Projeto integrado de monitoramento de uma obra (fechamento da disciplina)
-
-> Lembra do edifício da atividade da Unidade 1? **Dois subsolos**, escavação de 7 m, terreno de 2.400 m², cortina de estacas atirantada, um **sobrado antigo com fundação rasa** a 3 m da divisa, um **prédio de 8 pavimentos** do outro lado, lençol freático a 4 m e rebaixamento por poços. Naquela época, você tinha os fundamentos. Agora tem o drone, os sensores, o BIM, a IA e a gestão. Nesta aula final, vamos projetar o monitoramento do **Residencial Ipê** (nome fictício) de ponta a ponta — e, ao fazer isso, revisar a disciplina inteira.
-
-### Etapa 1 — Riscos e grandezas
-
-Todo plano começa pelos **riscos**, não pelos equipamentos. No Residencial Ipê: recalque e fissuração do sobrado; deslocamento excessivo da cortina; subida do nível d'água e ruptura de fundo; perda de carga em tirantes; vibração durante a execução das estacas; e, do lado da gestão, desvio de prazo e de volumes. Cada risco vira uma **grandeza**: recalque (mm), deslocamento horizontal (mm), nível d'água (m), carga (kN), velocidade de vibração (mm/s), abertura de fissura (mm), volume (m³).
-
-Repare que nem todo risco pede sensor: o desvio de volume se mede com drone; o recalque do sobrado, com topografia de precisão e marcos; a fissura existente, com vistoria e fissurômetro. A pergunta de projeto é sempre a mesma da Aula 1: **o que, se não for medido a tempo, causa dano?** Riscos de consequência alta e evolução rápida pedem leitura automática e plano de resposta; riscos lentos ou de baixa consequência admitem campanhas manuais periódicas.
-
-### Etapa 2 — Plano de instrumentação
-
-| Grandeza | Instrumento | Onde | Frequência normal → em atenção |
-| --- | --- | --- | --- |
-| Recalque | marcos de recalque + prismas (estação total robótica) | pilares do sobrado e do prédio | diária → a cada 2 h |
-| Deslocamento da cortina | inclinômetros + prismas no topo | 4 verticais junto à cortina | diária → a cada 6 h |
-| Nível d'água | piezômetros (corda vibrante) | atrás da cortina e entre poços | 15 min → 5 min |
-| Carga em tirantes | células de carga | 10% dos tirantes, por nível | horária |
-| Vibração | sismógrafo de engenharia | fundação do sobrado | contínua na execução das estacas |
-| Fissuras | fissurômetros + vistoria cautelar | trincas existentes do sobrado | diária |
-
-A **vistoria cautelar** dos vizinhos, com fotos datadas, antes de qualquer serviço, é o marco zero de toda discussão futura sobre danos.
-
-### Etapa 3 — Drone
-
-Um voo **mensal** de multirrotor com câmera RGB, a 60 m de altura, gera ortomosaico, MDS e nuvem de pontos para medir **volume escavado** e **avanço**, com pontos de controle ou RTK (Unidade 2). Voos extras inspecionam fachadas e coberturas vizinhas (com térmica, se houver suspeita de infiltração). Regulamentação: RBAC nº 100, SISANT, SARPAS e — por ser mapeamento em faixas sobrepostas — **aerolevantamento** (Unidade 1). Imagens dos vizinhos: máscara de privacidade (Aula 15).
-
-![Edifício alto em construção, com a estrutura de concreto e as fachadas envidraçadas inacabadas nos últimos pavimentos e uma grua torre amarela e vermelha acima, contra o céu azul](https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg/1280px-Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg)
-
-### Etapa 4 — Arquitetura IoT e plano de resposta
-
-Sensores e dataloggers a bateria enviam por **LoRaWAN** a um gateway com 4G e conexão de reserva; a plataforma na nuvem guarda as séries, aplica filtros e regras e alimenta os painéis (Unidades 1 e 3). A regra crítica do nível d'água roda também **na borda**, para ligar a bomba reserva mesmo sem internet. Os limites viram um **plano de resposta** por cores:
-
-| Nível | Exemplo (topo da cortina) | Resposta | Quem / prazo |
-| --- | --- | --- | --- |
-| Verde | abaixo de 10 mm | rotina | equipe de monitoramento |
-| Amarelo (atenção) | 10 a 14 mm | aumentar frequência, inspecionar, preparar reforço | engenheiro da obra, em 24 h |
-| Vermelho (alerta) | acima de 14 mm | parar a escavação na frente, executar reforço | projetista + responsável técnico, imediato |
-
-O dashboard mostra **valor, velocidade e tendência**, não só o último número (Unidade 3).
-
-### Etapa 5 — BIM e gêmeo
-
-O modelo BIM recebe a **posição de cada instrumento** (associada ao GUID dos elementos), o **4D** da escavação e das contenções e, a cada voo, a nuvem de pontos para comparar **as-built × as-designed** (Aula 13). Os elementos são coloridos pelo nível de alerta: é a **sombra digital** da obra, com o engenheiro fechando a malha.
-
-### Etapa 6 — IA
-
-Nas fotos periódicas das fachadas do sobrado, um modelo de visão computacional faz a **triagem** de fissuras novas, regulado para **revocação alta**; o que ele marca, um engenheiro revisa, e as trincas relevantes ganham fissurômetro. No ortomosaico, a IA mede o avanço de escavação e estrutura e alimenta o 4D (Aula 14).
-
-### Etapa 7 — Gestão
-
-Orçamento com CAPEX, OPEX e horas de análise; justificativa por **valor esperado da perda evitada**; inventário de dados pessoais e medidas de minimização; credenciais, criptografia e logs; e o plano de monitoramento como **anexo contratual**, com TARP, SLA, entrega dos dados em formato aberto e ART (Aula 15).
-
-### Exemplo numérico
-
-**(a) Velocidade importa.** O inclinômetro I-2 mostra deslocamento no topo da cortina de $11{,}5\,\mathrm{mm}$ (já em amarelo), subindo $1{,}2\,\mathrm{mm/dia}$. Mantida a tendência, o alerta de $14\,\mathrm{mm}$ chega em
-
-$
-t = \frac{14 - 11{,}5}{1{,}2} \approx 2{,}1\,\mathrm{dias}
-$
-
-A frequência de leitura passa a cada 6 h e o reforço é preparado **agora**, não quando o vermelho acender.
-
-**(b) Avanço pelo drone.** O voo do mês mediu $3.150\,\mathrm{m^3}$ escavados, contra $3.500\,\mathrm{m^3}$ planejados no 4D: $3.150/3.500 = 0{,}90$, ou seja, 90% do previsto para o mês.
-
-**(c) GSD do voo.** Com a câmera da Aula 14 ($S_w = 13{,}2\,\mathrm{mm}$, $f = 8{,}8\,\mathrm{mm}$, $W = 5.472\,\mathrm{px}$) a 60 m:
-
-$
-GSD = \frac{13{,}2 \times 60.000}{8{,}8 \times 5.472} \approx 16{,}4\,\mathrm{mm/px} \approx 1{,}6\,\mathrm{cm/px}
-$
-
-Ótimo para volumes; inútil para medir fissura — que fica com o fissurômetro.
-
-**(d) Custo relativo.** Monitoramento de R\$ 420 mil numa obra de R\$ 38 milhões: $420/38.000 \approx 1{,}1\%$ do custo da obra.
-
-### Atividade prática
-
-Escolha uma obra real ou fictícia — uma escavação urbana, um viaduto, uma barragem de rejeitos, um retrofit hospitalar — e entregue um **plano integrado de monitoramento** em até 5 páginas, com as sete etapas desta aula: riscos e grandezas; tabela de instrumentação; plano de voo; arquitetura e plano de resposta por cores; integração BIM; uso de IA com métrica de avaliação; e ficha de gestão (custo, LGPD, segurança, contrato).
-
-### Pontos-chave
-
-- Um plano de monitoramento começa pelos **riscos** e termina numa **resposta**: grandeza → instrumento → frequência → limite → ação → responsável.
-- Drone dá **cobertura** (volumes, avanço, inspeção); sensores dão **frequência** (recalque, deslocamento, NA); topografia dá a **referência**.
-- **Valor, velocidade e tendência** decidem juntos; o plano de resposta por cores define quem faz o quê e em quanto tempo.
-- BIM 4D, nuvem de pontos e IA formam a **sombra digital** da obra; o engenheiro fecha a malha.
-- Custo, LGPD, segurança e contrato fazem parte do projeto, e não de um anexo esquecido.
-
-### Para saber mais
-
-- **SACKS, R. et al. — *Construction with digital twin information systems* (2020):** https://doi.org/10.1017/dce.2020.16
-- **ANAC — Drones:** https://www.gov.br/anac/pt-br/assuntos/drones
-- **SPENCER, B. F. et al. — *Advances in computer vision-based civil infrastructure inspection and monitoring* (2019):** https://doi.org/10.1016/j.eng.2018.11.030
+- **HiveMQ — MQTT Security Fundamentals (TLS e autenticação):** https://www.hivemq.com/blog/mqtt-security-fundamentals/
 
 ### Encerramento da disciplina
 
-Você começou esta disciplina com uma trinca na garagem do vizinho e uma pergunta: **a obra está como deveria estar?** Ao longo de 16 aulas, aprendeu a responder com método. Na Unidade 1, os fundamentos: por que monitorar, malha fechada, gêmeo digital, incerteza, IoT e regulamentação de drones. Na Unidade 2, o drone em ação: planejamento de voo, fotogrametria, volumes, LiDAR e termografia. Na Unidade 3, os sensores: geotécnicos, estruturais e ambientais, séries temporais e alertas. E nesta unidade, a integração: BIM, IA e gestão.
+Você começou esta disciplina com uma pergunta: **a obra está como deveria estar?** Ao longo de 16 aulas, aprendeu a responder com método. Na **Unidade 1**, os fundamentos: indicadores de controle de avanço e curva S, tipos de drones e sensores embarcados, a regulamentação de ANAC, DECEA e Anatel e o planejamento de uma missão segura. Na **Unidade 2**, o drone em ação: fotogrametria, GNSS e precisão, ortomosaicos, modelos de superfície e nuvens de pontos, volumes e a comparação entre projetado e executado. Na **Unidade 3**, os sensores: inclinômetros, extensômetros, acelerômetros, temperatura e poeira, plataformas embarcadas, redes LoRaWAN, Wi-Fi e celulares e o MQTT com séries temporais. E nesta unidade, a gestão: painéis e alertas, BIM e valor agregado, segurança do trabalho e proteção de dados.
 
-O fio que amarra tudo é a **malha fechada**: medir, comparar com um limite, decidir, agir e medir de novo. Tecnologia nenhuma substitui o engenheiro que conhece o solo, a estrutura e a obra — mas o engenheiro que domina essa tecnologia decide mais cedo, com mais confiança e com mais gente protegida. É esse profissional que o mercado procura, e é esse profissional que você está pronto para ser.
+![Edifício alto em construção, com a estrutura de concreto e as fachadas envidraçadas inacabadas nos últimos pavimentos e uma grua torre amarela e vermelha acima, contra o céu azul](https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg/1280px-Edif%C3%ADcio_em_constru%C3%A7%C3%A3o.jpg)
 
-## Aula 16 — Roteiro da Videoaula 16: "Projeto integrado de monitoramento de uma obra (fechamento da disciplina)"
+O fio que amarra tudo é a **malha fechada**: medir, comparar com um limite, decidir, agir e medir de novo — com segurança para quem trabalha e respeito a quem é medido. Tecnologia nenhuma substitui o engenheiro que conhece o solo, a estrutura e a obra; mas o engenheiro que domina essa tecnologia decide mais cedo, com mais confiança e com mais gente protegida. É esse profissional que o mercado procura, e é esse profissional que você está pronto para ser.
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+## Aula 16 — Roteiro da Videoaula 16: "A senha do gateway era 'admin': o elo mais fraco do monitoramento"
+
+**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
 
 ### 1. Abertura (0:00 – 0:25)
 
-**[TELA]** Slides 1–4 — capa, sumário, o edifício em obra e o caso do Residencial Ipê.
+**[TELA]** Slides 1–3 — capa, sumário e as duas perguntas da reunião.
 
-> "Lembra da atividade da Unidade 1? Dois subsolos, escavação de 7 metros, sobrado antigo a 3 metros da divisa, prédio de 8 pavimentos do outro lado, lençol a 4 metros. Naquela época você tinha os fundamentos. Hoje tem tudo. Vamos projetar o monitoramento do Residencial Ipê de ponta a ponta."
+> "O sistema está no ar. A advogada pergunta se podemos filmar trabalhadores e a casa do vizinho. O pessoal de TI pergunta se a senha do gateway ainda é a de fábrica. Hoje, as duas respostas — e o fechamento da disciplina."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:25)
+### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
 
-**[TELA]** Slides 5–8 — o canteiro em 3D, riscos e instrumentos, o voo de drone e a arquitetura em camadas.
+**[TELA]** Slides 4–7 — dados pessoais no canteiro, bases legais, o trabalhador e a câmera com máscara de privacidade.
 
-> "Primeiro os riscos, depois os equipamentos. Recalque do sobrado, deslocamento da cortina, nível d'água, carga nos tirantes, vibração, prazo. Cada risco vira grandeza e instrumento: marcos e prismas, inclinômetros, piezômetros, células de carga, sismógrafo, fissurômetros — e a vistoria cautelar como marco zero. O drone voa todo mês a 60 metros para volume e avanço, com aerolevantamento em dia. E tudo sobe por LoRaWAN até a nuvem, com a regra crítica também na borda."
+> "Rosto, placa, quintal do vizinho, localização do trabalhador: tudo é dado pessoal. Biometria é sensível. Todo tratamento precisa de base legal — obrigação legal, contrato, proteção da vida, legítimo interesse — e de finalidade, necessidade e transparência. Com trabalhador, consentimento é frágil. Na prática: máscara de privacidade, desfoque, prazo de guarda, aviso, e detectar o EPI, não a pessoa."
 
-### 3. Desenvolvimento — parte 2 (1:25 – 2:25)
+### 3. Desenvolvimento — parte 2 (1:20 – 2:25)
 
-**[TELA]** Slides 9–12 — a malha da cortina, o plano de resposta por cores, BIM e IA, e o painel integrado.
+**[TELA]** Slides 8–12 — confidencialidade, integridade e disponibilidade; a Mirai; a calculadora de senhas; MQTT com TLS; a rede segmentada.
 
-> "A cortina tem atenção em 10 milímetros e alerta em 14. Em malha fechada, o reforço vem a tempo. O plano de resposta diz quem faz o quê: amarelo, engenheiro da obra em 24 horas; vermelho, para a escavação na frente e reforça. O BIM recebe sensores, 4D e nuvem de pontos; a IA faz a triagem de fissuras do sobrado e mede avanço. E o painel junta tudo, com valor, velocidade e tendência."
+> "Aqui, a propriedade mais crítica é a integridade: leitura adulterada esconde recalque. Em 2016, a Mirai sequestrou centenas de milhares de câmeras testando senhas de fábrica. A senha de fábrica cai na primeira tentativa; uma senha aleatória de 12 caracteres levaria uns cem mil anos. MQTT sobre TLS na porta 8883, ACL por tópico, rede separada e firmware atualizado."
 
 ### 4. Desenvolvimento — parte 3 (2:25 – 3:10)
 
-**[TELA]** Slides 13–15 — a calculadora integrada, a gestão e a jornada da disciplina.
+**[TELA]** Slides 13–16 — resposta a incidentes e contrato, a calculadora (senha, multa e prazo), a jornada da disciplina e a malha fechada.
 
-> "Os números: o inclinômetro está em 11,5 e sobe 1,2 por dia, o alerta chega em uns 2 dias — preparar o reforço agora. O drone mediu 90% do volume previsto. A 60 metros, o pixel tem 1,6 centímetro: ótimo para volume, inútil para fissura. E o monitoramento custa cerca de 1,1% da obra, com LGPD, segurança e contrato no pacote."
+> "Controlador, operador, encarregado e relatório de impacto. Vazou? Três dias úteis para comunicar a ANPD: soube na quinta, comunica até terça. Multa de até 2% do faturamento, com teto de 50 milhões. E olha a jornada: voo, fotogrametria, sensores, redes, painéis, BIM, segurança e dados."
 
 ### 5. Encerramento (3:10 – 3:50)
 
-**[TELA]** Slides 16–18 — atividade, pontos-chave e encerramento da disciplina.
+**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento da disciplina.
 
-> "Começamos com uma trinca na garagem do vizinho e uma pergunta: a obra está como deveria estar? Hoje você sabe responder com método. Medir, comparar, decidir, agir e medir de novo. Foi um prazer enorme fazer esta jornada com você. Leve isso para a obra — e boa sorte na carreira!"
+> "Começamos com uma pergunta: a obra está como deveria estar? Hoje você sabe responder com método. Medir, comparar, decidir, agir e medir de novo — protegendo quem trabalha e respeitando quem é medido. Foi um prazer fazer esta jornada com você. Leve isso para a obra — e boa sorte na carreira!"
 
 ---
 
@@ -532,60 +544,29 @@ O fio que amarra tudo é a **malha fechada**: medir, comparar com um limite, dec
 
 ### Questão 1
 
-Na comparação nuvem-modelo de um pilar, o desvio de posição em relação ao projeto foi de $11\,\mathrm{mm}$, a incerteza expandida do levantamento é $U = 3\,\mathrm{mm}$ e a tolerância contratual é $10\,\mathrm{mm}$. Com base na regra de decisão estudada, assinale a alternativa **correta**:
+Um inclinômetro tem nível de atenção em $10\,\mathrm{mm}$. Suas leituras oscilam com ruído de cerca de $\pm 0{,}3\,\mathrm{mm}$ em torno desse valor (9,8; 10,1; 9,9; 10,2; 9,9; 10,1 mm), e a equipe recebe uma notificação a cada cruzamento. Assinale a alternativa **correta**:
 
-- [ ] a. O pilar é não conforme, porque o desvio medido de 11 mm é maior que a tolerância de 10 mm, e a incerteza não altera a decisão.
-- [ ] b. O pilar é conforme, porque, descontada a incerteza, o desvio pode ser de apenas 8 mm, abaixo da tolerância.
-- [x] c. O resultado é inconclusivo: o intervalo de 8 a 14 mm contém a tolerância, e é preciso medir de novo com método mais exato.
-- [ ] d. O pilar é conforme se o modelo BIM tiver sido exportado em IFC, pois o GUID garante a posição correta do elemento.
+- [ ] a. A solução é elevar o nível de atenção para 12 mm, pois limites próximos das leituras atuais sempre geram alarmes falsos.
+- [ ] b. A solução é desligar as notificações de atenção e manter apenas as de alarme, que são as únicas que exigem ação.
+- [x] c. Uma histerese (entrar em 10,0 mm e sair só abaixo de 9,5 mm), somada a um período de persistência, reduz as notificações a uma só, sem alterar o limite de projeto.
+- [ ] d. O problema é do Grafana, que não consegue representar limites; é preciso trocar a ferramenta de painel.
 
 **Resposta correta:** `c`
 
-**Feedback:** A alternativa (c) está correta: com $d = 11 \pm 3\,\mathrm{mm}$, o desvio pode estar entre 8 e 14 mm. Como $d - U = 8 < 10$, não se pode afirmar a não conformidade; como $d + U = 14 > 10$, também não se pode afirmar a conformidade — o resultado é **inconclusivo** e pede nova medição (por exemplo, com estação total). A (a) ignora a incerteza de medição, que é parte da decisão. A (b) erra ao usar só o limite inferior do intervalo: conformidade exige que **desvio + U** fique abaixo da tolerância. A (d) confunde interoperabilidade (IFC, GUID) com exatidão geométrica: o identificador liga a informação ao elemento, mas não diz nada sobre a posição executada.
+**Feedback:** A alternativa (c) está correta: com histerese de 0,5 mm, o sensor entra em atenção na leitura de 10,1 mm e só sai abaixo de 9,5 mm, de modo que o ruído em torno do limite não faz o alerta "piscar"; a persistência (o *pending period* do Grafana) exige que a condição dure antes de notificar. O limite continua o que o projeto definiu. A (a) muda o critério técnico para esconder um problema de ruído — o limite vem do projeto, não do incômodo. A (b) elimina o nível que serve justamente para agir **antes** do alarme. A (d) está errada: o Grafana representa limites (*thresholds*) e regras de alerta com período pendente; o problema é a configuração da regra.
 
 ### Questão 2
 
-Um modelo de IA para triagem de fissuras em fotos de fachada foi testado em 500 imagens, 50 delas com fissura. Ele acertou 45 fissuras, perdeu 5 e gerou 30 alarmes falsos. Considerando que a triagem será revisada por um engenheiro, assinale a alternativa **correta**:
+Uma construtora quer usar câmeras com **reconhecimento facial** em todas as frentes para identificar quem está sem capacete e aplicar advertências automáticas. Considerando a NR-18 e a LGPD, assinale a alternativa **correta**:
 
-- [ ] a. A precisão é 0,90 e a revocação é 0,60; o modelo deve ser descartado porque erra mais da metade dos alarmes.
-- [x] b. A revocação é 0,90 e a precisão é 0,60; o modelo é adequado para triagem, pois encontra 90% das fissuras e os alarmes falsos são revisados.
-- [ ] c. A acurácia de 93% basta para concluir que o modelo é adequado, e as métricas de precisão e revocação são dispensáveis.
-- [ ] d. O modelo deve usar limiar mais alto para zerar os falsos positivos, já que em segurança estrutural o alarme falso é o erro mais grave.
+- [ ] a. Como a finalidade é a segurança do trabalho, a LGPD não se aplica às imagens dos trabalhadores dentro do canteiro.
+- [x] b. Reconhecimento facial trata dado biométrico, sensível; como existe alternativa menos invasiva — detectar o capacete sem identificar a pessoa e alertar o encarregado —, os princípios da necessidade e da finalidade apontam para ela.
+- [ ] c. O uso de câmeras com IA dispensa a proteção coletiva exigida pela NR-18, pois o risco passa a ser controlado pela detecção automática.
+- [ ] d. Basta colher o consentimento dos trabalhadores na admissão, que é sempre a base legal mais adequada na relação de emprego.
 
 **Resposta correta:** `b`
 
-**Feedback:** A alternativa (b) está correta: $R = 45/(45 + 5) = 0{,}90$ e $P = 45/(45 + 30) = 0{,}60$. Para triagem com revisão humana, a revocação alta é o que importa: perder fissuras (falso negativo) é o erro mais grave, e os 30 alarmes falsos custam apenas tempo de revisão. A (a) inverte as duas métricas. A (c) se apoia na acurácia, $(45 + 420)/500 = 0{,}93$, que engana quando a classe é rara: dizer sempre "sem fissura" já daria 0,90. A (d) inverte a lógica: elevar o limiar reduz os falsos positivos às custas de mais **falsos negativos**, justamente o erro que mais pesa em segurança.
-
----
-
-## Atividade Verificadora (AAI — Atividade Avaliativa Individual)
-
-**Pergunta:**
-
-> Um hospital em funcionamento vai ganhar uma **nova torre de 12 pavimentos com um subsolo**, construída a 6 m do bloco cirúrgico existente. A obra pública segue o Decreto nº 10.306/2020 e foi contratada com modelo BIM 4D. O plano prevê inclinômetros e marcos de recalque no bloco existente, sismógrafo durante as fundações, voo mensal de drone, fotos periódicas das fachadas do bloco com triagem por IA e câmeras nos acessos do canteiro.
->
-> Responda em quatro partes:
->
-> 1. **BIM e as-built** — A comparação nuvem-modelo de um pilar da torre deu $\Delta x = 8\,\mathrm{mm}$ e $\Delta y = 6\,\mathrm{mm}$, com $U = 4\,\mathrm{mm}$ e tolerância de $12\,\mathrm{mm}$. Classifique o pilar e justifique. No mesmo mês, o 4D previa 60% das lajes concretadas e a nuvem confirmou 51%: calcule o índice de avanço e comente.
-> 2. **IA** — Em 2.000 fotos (150 com fissura), o limiar 0,5 dá $VP = 120$, $FP = 30$, $FN = 30$; o limiar 0,3 dá $VP = 141$, $FP = 94$, $FN = 9$. Calcule $P$, $R$ e $F_1$ das duas opções e escolha uma, justificando. Depois, verifique se uma câmera com $S_w = 13{,}2\,\mathrm{mm}$, $f = 8{,}8\,\mathrm{mm}$ e $W = 5.472\,\mathrm{px}$, a $3\,\mathrm{m}$ da fachada, mede uma fissura de $0{,}4\,\mathrm{mm}$ (critério: 2 pixels) e a que distância seria preciso fotografar.
-> 3. **Custo-benefício e SLA** — O sistema custa R\$ 290.000 no total. Sem monitoramento, estima-se 5% de chance de interdição do bloco cirúrgico com prejuízo de R\$ 8 milhões; com monitoramento, 1,5% de chance e prejuízo de R\$ 3 milhões. Calcule a perda evitada e a razão benefício/custo. O contrato pede disponibilidade de 99,9%: quantos minutos fora do ar isso admite num mês de 30 dias?
-> 4. **LGPD e contrato** — Liste os dados pessoais envolvidos (o hospital tem pacientes nas janelas!), as medidas de minimização e as cláusulas contratuais que você exigiria do fornecedor de monitoramento.
-
-**Resposta esperada:**
-
-> **Parte 1.** Desvio: $d = \sqrt{8^2 + 6^2} = 10\,\mathrm{mm}$. Com $U = 4\,\mathrm{mm}$, o intervalo vai de 6 a 14 mm. Como $d - U = 6 < 12$, não há não conformidade comprovada; como $d + U = 14 > 12$, também não se comprova a conformidade: o resultado é **inconclusivo** — nova medição, com estação total ou escaneamento de maior exatidão, antes de abrir pendência (BCF) ou liberar o pilar. Avanço: $I = 51/60 = 0{,}85$, ou seja, 85% do planejado; a diferença deve ser investigada no 4D (qual frente atrasou, por quê) e refletida no cronograma e na medição (5D). Resposta exemplar lembra que, desde 2024, o Decreto nº 10.306/2020 exige BIM no planejamento e controle da execução e a atualização do modelo as-built nas obras abrangidas.
->
-> **Parte 2.** Limiar 0,5: $P = 120/150 = 0{,}80$; $R = 120/150 = 0{,}80$; $F_1 = 0{,}80$. Limiar 0,3: $P = 141/235 = 0{,}60$; $R = 141/150 = 0{,}94$; $F_1 = 2 \times 0{,}60 \times 0{,}94/1{,}54 \approx 0{,}73$. Embora o F1 seja menor, deve-se escolher o **limiar 0,3**: numa triagem de segurança de um bloco hospitalar, o falso negativo (fissura perdida) é o erro mais grave; a revocação sobe de 80% para 94% (9 fissuras perdidas em vez de 30), ao custo de revisar 235 fotos em vez de 150 — trabalho perfeitamente viável. GSD a 3 m:
->
-> $
-> GSD = \frac{13{,}2 \times 3.000}{8{,}8 \times 5.472} \approx 0{,}82\,\mathrm{mm/px}
-> $
->
-> A fissura de 0,4 mm ocupa $0{,}4/0{,}82 \approx 0{,}49$ pixel: pode até aparecer, mas **não pode ser medida**. Para 2 pixels, $GSD \le 0{,}2\,\mathrm{mm/px}$, o que exige $D = 0{,}2 \times 8{,}8 \times 5.472/13{,}2 \approx 0{,}73\,\mathrm{m}$ — inviável com drone junto a um hospital; a medição fica com fissurômetros nas trincas indicadas pela triagem (ou com teleobjetiva).
->
-> **Parte 3.** $VE_{sem} = 0{,}05 \times 8.000.000 = \mathrm{R\$}\,400.000$; $VE_{com} = 0{,}015 \times 3.000.000 = \mathrm{R\$}\,45.000$; perda evitada de $\mathrm{R\$}\,355.000$; razão benefício/custo $355.000/290.000 \approx 1{,}22$ — viável mesmo sem contar ganhos diretos e o valor não monetizável (pacientes, cirurgias, reputação). Resposta exemplar comenta a sensibilidade às probabilidades estimadas. SLA: $30 \times 24 \times 60 \times 0{,}001 = 43{,}2\,\mathrm{min}$ por mês; mesmo assim, a regra crítica deve rodar também na borda.
->
-> **Parte 4.** Dados pessoais: rostos de pacientes, acompanhantes e profissionais nas janelas e áreas externas (que podem revelar dado de **saúde**, sensível), trabalhadores nas câmeras de acesso, placas de veículos, registros de acesso à plataforma. Minimização: plano de voo e enquadramento restritos ao canteiro, **máscara de privacidade** nas janelas do bloco existente, desfoque automático de rostos e placas, fotos de fachada em horários e ângulos que evitem o interior, retenção com prazo definido, aviso nos acessos, controle de acesso por crachá em vez de reconhecimento facial, RIPD e encarregado definidos. Cláusulas: plano de monitoramento como **anexo**; escopo (instrumentos, posições, frequências); **níveis de alerta e plano de resposta** com responsáveis e prazos (incluindo plantão 24 h); **SLA** (99,9% de disponibilidade, tempo leitura-painel, prazo de reparo de sensor); **propriedade dos dados** do contratante, com entrega em formatos abertos (CSV, IFC) e retenção definida; papéis de **controlador e operador** pela LGPD, confidencialidade e comunicação de incidentes; requisitos de **segurança da informação** (troca de credenciais padrão, criptografia, logs, cópias de segurança); e **ART** do responsável técnico. Resposta exemplar articula as quatro partes num plano coerente.
+**Feedback:** A alternativa (b) está correta: biometria é dado sensível (art. 5º, II, da LGPD), e os princípios da finalidade e da necessidade (art. 6º) pedem o mínimo de dados para o objetivo; detectar o EPI sem identificar a pessoa atinge a finalidade de segurança com muito menos risco. A (a) está errada: a LGPD se aplica a qualquer tratamento de dado pessoal, inclusive no ambiente de trabalho. A (c) inverte a hierarquia das medidas: a NR-01 e a NR-18 põem a proteção coletiva antes, e a tecnologia apenas verifica. A (d) ignora que, na relação de emprego, o consentimento é frágil, pois o trabalhador dificilmente se sente livre para recusar.
 
 ---
 
@@ -597,32 +578,30 @@ Um modelo de IA para triagem de fissuras em fotos de fachada foi testado em 500 
 
 - **Nome do livro:** 
 - **Capítulo:** 
-- **Organizador:** 
-- **Editora:** 
 - **Link de acesso (BV):** 
-- **Aula em que entra:** 
+- **Qual aula o material deverá entrar?** 
 
 ### Para mergulhar no assunto
 
-> Recomendo o webinar **"Digitalização BIM da SE Mirueira II: Scan-to-BIM e Gêmeos Digitais"**, do canal do BIM Fórum Brasil, no YouTube. Ele mostra um caso brasileiro real de captura da realidade de uma subestação de energia, da nuvem de pontos ao modelo BIM e ao gêmeo digital. Assista com o olhar da Aula 13: como a nuvem foi registrada? Que tolerância foi adotada? O modelo resultante é modelo, sombra ou gêmeo digital? Para conferir o enquadramento legal do BIM nas obras públicas, complemente com a página da Estratégia BIM BR, do MDIC.
+> Recomendo o webinar **"Digitalização BIM da SE Mirueira II: Scan-to-BIM e Gêmeos Digitais"**, do canal do BIM Fórum Brasil, no YouTube. Ele mostra um caso brasileiro real de captura da realidade de uma subestação de energia, da nuvem de pontos ao modelo BIM e ao gêmeo digital. Assista com o olhar da Aula 14: como a nuvem foi registrada? Que informação ficou presa a cada elemento? O resultado é modelo, sombra ou gêmeo digital? Para conferir o enquadramento legal do BIM nas obras públicas, complemente com a página da Estratégia BIM BR, do MDIC.
 
-- **Link(s):** https://www.youtube.com/watch?v=QFRG0KoirtI · https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
-- **Aula em que entra:** Aulas 13 e 16
+- **Links:** https://www.youtube.com/watch?v=QFRG0KoirtI · https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
+- **Qual aula o material deverá entrar?** Aula 14
 
 ### Podcast (curadoria, até 45 min)
 
-> No episódio 47 do **Podcast Em Construção**, o professor Fabiano Corrêa (USP) e a professora Tatiana Amaral (UFG) discutem as **aplicações dos gêmeos digitais na construção civil** — desafios e oportunidades para engenheiros, arquitetos e gestores. É o fechamento ideal da disciplina: retoma a distinção entre modelo, sombra e gêmeo digital da Aula 1 à luz da integração com BIM, sensores e dados desta unidade. O episódio tem cerca de 49 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
+> No episódio 47 do **Podcast Em Construção**, o professor Fabiano Corrêa (USP) e a professora Tatiana Amaral (UFG) discutem as **aplicações dos gêmeos digitais na construção civil** — desafios e oportunidades para engenheiros, arquitetos e gestores. Retoma a distinção entre modelo, sombra e gêmeo digital à luz da integração de BIM, sensores, painéis e planejamento desta unidade. O episódio tem cerca de 49 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
 
-- **Nome do podcast/canal:** Podcast Em Construção (canal no YouTube)
-- **Tema recomendado:** Episódio 47 — Aplicações dos gêmeos digitais na construção civil, com Fabiano Corrêa
+- **NOME DO PODCAST:** Podcast Em Construção (canal no YouTube)
+- **NOME DO EPISÓDIO:** Episódio 47 — Aplicações dos gêmeos digitais na construção civil, com Fabiano Corrêa
 - **Link:** https://www.youtube.com/watch?v=ww_-U1D9NFE
-- **Aula em que entra:** Aulas 13 e 16
+- **Qual aula o material deverá entrar?** Aulas 13 e 14
 
 ### Artigo científico
 
-> Artigo de revisão, de acesso aberto, sobre **visão computacional na inspeção e no monitoramento de infraestrutura civil**. Os autores organizam o campo em duas frentes — a **inspeção** (identificar componentes e detectar danos como fissuras, com classificação, detecção e segmentação por redes neurais) e o **monitoramento** (medir deslocamentos e deformações a partir de imagens) — e discutem os desafios de dados rotulados, de generalização e de integração com modelos da estrutura. É a fundamentação acadêmica da Aula 14 e da integração de dados da Aula 16.
+> Artigo de acesso aberto que propõe o **gêmeo digital da construção** como sistema de informação: o modelo do produto e do processo (BIM e cronograma) é alimentado continuamente por dados de monitoramento (drones, sensores, câmeras), e a comparação entre o planejado e o executado orienta o **planejamento e controle** da obra em ciclos fechados. É a fundamentação acadêmica das Aulas 13 e 14 e da ideia de malha fechada que atravessa toda a disciplina.
 
-- **Link:** https://doi.org/10.1016/j.eng.2018.11.030
-- **Aula em que entra:** Aulas 14 e 16
+- **Link:** https://doi.org/10.1017/dce.2020.16
+- **Qual aula o material deverá entrar?** Aulas 13 e 14
 - **Referência bibliográfica do artigo no formato ABNT:**
-  > SPENCER JR., Billie F.; HOSKERE, Vedhus; NARAZAKI, Yasutaka. Advances in computer vision-based civil infrastructure inspection and monitoring. **Engineering**, v. 5, n. 2, p. 199-222, 2019. DOI: 10.1016/j.eng.2018.11.030.
+  > SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.

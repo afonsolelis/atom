@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 13 — Integração com BIM e gêmeo digital: 4D e comparação as-built × as-designed</title>
+<title>Aula 13 — Painéis de monitoramento, alertas e limites de alarme</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
@@ -11,56 +11,59 @@
   /* extras desta aula */
   .dupla { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
   .dupla > .figura { height: 100%; min-height: 0; }
-  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; }
-  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.92rem, 1.3vw, 1.14rem); margin-bottom: .5em; }
-  .fig-contain img { object-fit: contain; background: #fff; }
-  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
-  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; font-size: 1.25rem; }
-  .cards3 .card p, .cards3 .card li { font-size: clamp(.92rem, 1.3vw, 1.15rem); }
-  .cards3 .card.ok { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
-  .cards3 .card.duvida { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
-  .cards3 .card.ruim { border-color: var(--magenta); background: rgba(255,43,95,.07); }
-  .cards3 .formula { font-size: 1.3rem; display: block; margin: .3em 0 .5em; color: #fff; }
-  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
-  .versus p, .versus li { font-size: clamp(.95rem, 1.35vw, 1.18rem); margin-bottom: .45em; }
-  .versus.fill { flex: 1 1 0; min-height: 0; }
-  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
-  .timeline.grande .ano { font-size: 1.35rem; }
-  .timeline.cinco { --n: 5; }
+  .dupla .slide-content-box { padding: 1.1em 1.4em !important; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(.98rem, 1.42vw, 1.24rem) !important; margin-bottom: .55em; }
+  .fig-contain img { object-fit: contain; }
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; justify-content: center; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .4em; font-size: 1.5rem; }
+  .cards3 .card p { font-size: clamp(1.02rem, 1.5vw, 1.3rem); }
+  .cards3 .card .n { font: 900 2.6rem var(--fonte-titulo); color: var(--obra-ciano); line-height: 1; margin-bottom: .2em; }
+  .cards4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .cards4 .card { border-radius: 12px; padding: 1rem 1.1rem; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.16); border-top: 5px solid var(--amarelo); display: flex; flex-direction: column; justify-content: center; }
+  .cards4 .card:nth-child(2) { border-top-color: var(--obra-ciano); } .cards4 .card:nth-child(3) { border-top-color: var(--obra-laranja); } .cards4 .card:nth-child(4) { border-top-color: var(--verde-claro); }
+  .cards4 .card h3 { color: #fff; font-size: 1.3rem; margin: 0 0 .4em; }
+  .cards4 .card p { font-size: clamp(1.04rem, 1.55vw, 1.32rem); margin: 0; }
+  .cards4 .card .n { font: 900 2rem var(--fonte-titulo); color: var(--amarelo); line-height: 1; margin-bottom: .3em; }
   .pk { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: .3rem; grid-auto-rows: 1fr; flex: 1 1 0; min-height: 0; margin-bottom: .3rem; }
-  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(.98rem, 1.4vw, 1.22rem); line-height: 1.42; }
+  .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: 1rem 1.3rem; font-size: clamp(1.1rem, 1.7vw, 1.45rem); line-height: 1.42; }
   .pk div:nth-child(2) { border-color: var(--obra-ciano); } .pk div:nth-child(3) { border-color: var(--amarelo); }
   .pk div:nth-child(4) { border-color: var(--obra-alerta); } .pk div:nth-child(5) { border-color: var(--obra-laranja); grid-column: span 2; }
   .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
-  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .6rem; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.4rem; margin-bottom: .7rem; }
   .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.7rem; height: 1.7rem; border-radius: 50%;
     background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .95rem; }
-  .galeria.legendas .figura figcaption { font-size: .95rem; }
-  .galeria .figura figcaption b { color: var(--amarelo); }
-  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
-  /* tipografia maior nos slides de texto (preencher o cartão) */
-  .versus.fill .lado li, .versus.fill .lado p { font-size: clamp(1.05rem, 1.65vw, 1.42rem); margin-bottom: .6em; }
-  .versus.fill .lado h3 { font-size: 1.45rem; }
-  .versus.fill .lado { display: flex; flex-direction: column; justify-content: center; }
-  .cards3.fill .card { justify-content: center; }
-  .cards3.fill .card p { font-size: clamp(1.05rem, 1.6vw, 1.38rem); }
-  .cards3.fill .card h3 { font-size: 1.6rem; }
-  .cards3.fill .formula { font-size: 1.7rem; margin: .4em 0 .7em; }
-  .dupla .slide-content-box li, .dupla .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.3rem) !important; margin-bottom: .7em; }
-  .dupla .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
   .timeline.grande { margin-top: auto !important; margin-bottom: auto; }
-  .timeline.grande .etapa p { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
-  .timeline.grande .ano { font-size: 1.55rem; }
-  .pk div { font-size: clamp(1.02rem, 1.55vw, 1.32rem); }
-  .tabela-industrial.xl td, .tabela-industrial.xl th { font-size: clamp(1.02rem, 1.5vw, 1.3rem) !important; padding: .8em 1em !important; }
-  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); }
+  .timeline.grande .etapa p { font-size: clamp(1rem, 1.45vw, 1.25rem); }
+  .timeline.grande .ano { font-size: 1.45rem; }
+  .callout-azul p { font-size: clamp(1rem, 1.4vw, 1.2rem); margin: 0; }
+  .callout-escuro { background: rgba(0,0,0,.25) !important; }
+  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .tabela-industrial.tarp td, .tabela-industrial.tarp th { font-size: clamp(1rem, 1.45vw, 1.25rem) !important; padding: .7em .9em !important; }
+  .tarp td:first-child { font-weight: 800; white-space: nowrap; }
+  .tarp tr.verde td:first-child { color: #95DE68; }
+  .tarp tr.amarelo td:first-child { color: #F2CB0A; }
+  .tarp tr.laranja td:first-child { color: #FF8A1F; }
+  .tarp tr.vermelho td:first-child { color: #FF5C7F; }
+  /* três níveis */
+  .niveis { display: flex; flex-direction: column; gap: .7rem; justify-content: center; }
+  .niveis .nv { border-radius: 12px; padding: .8rem 1.1rem; border-left: 8px solid; background: rgba(255,255,255,.06); }
+  .niveis .nv h3 { margin: 0 0 .2em; font-size: 1.3rem; }
+  .niveis .nv p { margin: 0; font-size: clamp(.98rem, 1.38vw, 1.2rem); }
+  .niveis .at { border-color: #F2CB0A; } .niveis .at h3 { color: #F2CB0A; }
+  .niveis .al { border-color: #FF8A1F; } .niveis .al h3 { color: #FF8A1F; }
+  .niveis .am { border-color: #FF5C7F; } .niveis .am h3 { color: #FF5C7F; }
+  /* fotos em retrato à direita */
+  .foto-direita .slide-content { max-width: 50%; }
+  .foto-direita .foto-veu { background: linear-gradient(90deg, rgba(0,21,48,.96) 0%, rgba(0,21,48,.9) 48%, rgba(0,21,48,.1) 66%); }
+  .slide-foto p { font-size: clamp(1.02rem, 1.5vw, 1.3rem); }
+  .slide-foto .regra { display: inline-block; margin: .3em 0; padding: .35em .8em; border-radius: 8px; background: rgba(242,203,10,.16); border-left: 4px solid var(--amarelo); }
 </style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
 
-<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 13 — Integração com BIM e gêmeo digital">
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 4|Aula 13 — Painéis, alertas e limites de alarme">
 
   <!-- 1. Capa -->
   <section class="slide slide-capa">
@@ -70,347 +73,339 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Integração com BIM e gêmeo digital</h1>
-      <div class="subtitulo">Aula 13 — 4D e comparação as-built × as-designed</div>
+      <h1>Painéis de monitoramento, alertas e limites de alarme</h1>
+      <div class="subtitulo">Aula 13 — Grafana, TARP e fadiga de alarmes</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
 
-  <!-- 2. Sumário -->
+  <!-- 2. O que você verá nesta unidade -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Integração com BIM e gêmeo digital</h1>
+        <h1 class="sumario-titulo">Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
-        <h2>Sumário</h2>
+        <h2>O que você verá nesta unidade</h2>
         <ul>
-          <li>BIM: o modelo é informação</li>
-          <li>4D, 5D e as "dimensões" do BIM</li>
-          <li>BIM na lei e a ISO 19650</li>
-          <li>Realidade capturada: scan-to-BIM e scan-vs-BIM</li>
-          <li>As-built × as-designed: desvio, tolerância e incerteza</li>
-          <li>Do modelo ao gêmeo digital</li>
-          <li>Exemplo numérico: o pilar P7 e o avanço no 4D</li>
+          <li><strong>Aula 13</strong> — painéis, alertas e limites de alarme</li>
+          <li><strong>Aula 14</strong> — drones e sensores no BIM e no planejamento e controle</li>
+          <li><strong>Aula 15</strong> — segurança do trabalho, NR-18 e tecnologia para prevenção</li>
+          <li><strong>Aula 16</strong> — LGPD, cibersegurança e o fechamento da disciplina</li>
+          <li>Um só fio: <strong>transformar medição em ação</strong></li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Gancho -->
+  <!-- 3. Gancho: 37 alarmes -->
   <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Building_in_construction%2C_Recife.jpg/1280px-Building_in_construction%2C_Recife.jpg'); background-position: 50% 40%" role="img" aria-label="Edifício alto em construção em Recife, com a estrutura de concreto à mostra nos pavimentos superiores e uma grua torre ao lado, contra o céu azul com nuvens"></div>
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Real-time_bus_tracking_control_room_in_Lebanon.jpg/1280px-Real-time_bus_tracking_control_room_in_Lebanon.jpg'); background-position: 70% 50%" role="img" aria-label="Sala de controle com uma parede de monitores exibindo mapas e painéis em tempo real, diante da qual um grupo de pessoas conversa em pé"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
-      <p class="kicker">Reunião mensal de obra</p>
-      <h2>"Avanço físico de 62%, conforme o cronograma."</h2>
-      <p>O drone voou ontem. Os sensores mandam leitura a cada 15 minutos. Mas cada dado mora num sistema diferente.</p>
-      <p><strong>O que foi construído está onde o projeto mandou?</strong> E é o que deveria estar pronto <strong>nesta data</strong>?</p>
+      <p class="kicker">Segunda-feira, 7h</p>
+      <p class="big"><span class="contador" data-ate="37">0</span> alarmes</p>
+      <h2>no fim de semana. 35 eram falsos.</h2>
+      <p>Um pico de rádio, uma bateria fraca, o sol dilatando uma escora metálica. Na terceira semana, a equipe passou a <strong>ignorar o celular</strong> à noite, e um dos alarmes era real.</p>
+      <p>Hoje: painéis que levam à <strong>decisão</strong>, e não ao cansaço da <strong>fadiga de alarmes</strong>.</p>
     </div>
-    <p class="credito">Foto: herval — Wikimedia Commons (CC BY 2.0)</p>
+    <p class="credito">Foto: UrusHyby — Wikimedia Commons (CC0)</p>
   </section>
 
-  <!-- 4. BIM é informação -->
+  <!-- 4. A pilha -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">BIM: o modelo é informação, não desenho</p>
-      <h2>No CAD, uma linha é uma linha. No BIM, é o "pilar P12"</h2>
-      <div class="versus fill">
-        <div class="lado">
-          <h3>CAD (desenho)</h3>
-          <ul>
-            <li>Linhas, arcos e textos</li>
-            <li>A planta não sabe que aquilo é um pilar</li>
-            <li>Mudou o projeto? Cada vista é corrigida à mão</li>
-          </ul>
-        </div>
-        <div class="vs">→</div>
-        <div class="lado novo">
-          <h3>BIM (objetos com informação)</h3>
-          <ul>
-            <li><strong>Geometria + propriedades + relações</strong>: material, fck, data de concretagem, fase</li>
-            <li><strong>IFC</strong> (openBIM, ISO 16739): formato aberto entre softwares</li>
-            <li>Cada objeto tem um <strong>GUID</strong>, identificador único: é nele que se penduram sensor, foto e pendência</li>
-          </ul>
-        </div>
+      <p class="kicker">Do banco de séries ao painel</p>
+      <h2>A pilha: sensor, MQTT, Node-RED, InfluxDB e Grafana</h2>
+      <div class="timeline grande" style="--n:5">
+        <div class="etapa"><div class="ano">Sensor</div><p>Mede: inclinômetro, piezômetro, extensômetro (Aula 9).</p></div>
+        <div class="etapa"><div class="ano">MQTT</div><p>O datalogger ou o ESP32 <strong>publica</strong> a leitura num tópico (Aula 12).</p></div>
+        <div class="etapa"><div class="ano">Node-RED</div><p>Trata, converte e encaminha.</p></div>
+        <div class="etapa"><div class="ano">InfluxDB</div><p>Guarda a <strong>série temporal</strong>: carimbo de tempo + valor.</p></div>
+        <div class="etapa"><div class="ano">Grafana</div><p><strong>Visualiza</strong>: painéis reunidos num dashboard.</p></div>
       </div>
-      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Existe até classe IFC para instrumento: <strong>IfcSensor</strong>. O monitoramento cabe dentro do modelo.</p></div>
+      <div class="callout-azul callout-escuro" style="margin-bottom:.4rem"><p>O Grafana <strong>não guarda o dado</strong>: conecta-se ao banco como <strong>fonte de dados</strong> (<em>data source</em>) e consulta um intervalo de tempo a cada atualização da tela. Por isso, a consulta precisa ser bem feita.</p></div>
     </div>
   </section>
 
-  <!-- 5. Dimensões -->
+  <!-- 5. Dashboard do Grafana e os quatro tipos de painel -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">4D, 5D e as "dimensões" do BIM</p>
-      <h2>Ligue o modelo ao cronograma e aos custos</h2>
-      <div class="dupla" style="grid-template-columns:1.25fr 1fr">
-        <figure class="figura fig-contain">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/68/6_BIM_DIMENSIONS.png" alt="Quadro colorido com as seis dimensões do BIM lado a lado: 1D pesquisa, 2D desenhos, 3D forma, 4D tempo, 5D custo e 6D desempenho, cada uma com seus usos" loading="lazy">
-          <p class="credito">Imagem: Fernando.morales.tosar — Wikimedia Commons (CC BY-SA 4.0)</p>
+      <p class="kicker">Grafana: quatro tipos de painel resolvem quase tudo</p>
+      <h2>Série, valor, estados e planta</h2>
+      <div class="dupla" style="grid-template-columns:1.15fr 1fr">
+        <figure class="figura fig-contain" style="background:#141619">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Grafana_dashboard_%282016%29.png/1280px-Grafana_dashboard_%282016%29.png" alt="Captura de tela de um dashboard do Grafana com fundo escuro: no alto, três números grandes coloridos; abaixo, gráficos de séries temporais em linhas e áreas, um gráfico de barras e legendas com nomes das séries, com o eixo do tempo de 07:00 a 09:30" loading="lazy">
+          <figcaption>Fundo escuro, números grandes no alto, séries embaixo.</figcaption>
+          <p class="credito">Imagem: Linux Screenshots from USA — Wikimedia Commons (CC BY 2.0)</p>
         </figure>
         <div class="slide-content-box">
-          <p><strong>3D:</strong> o modelo geométrico com informação.</p>
-          <p><strong>4D:</strong> cada elemento ligado a uma atividade do cronograma. O modelo "cresce" no tempo, e o planejado é comparado ao executado.</p>
-          <p><strong>5D:</strong> quantidades e custos: orçamento, medição e fluxo de caixa extraídos do modelo.</p>
-          <p><strong>6D, 7D…</strong> variam na literatura (sustentabilidade, operação). Importa o <strong>uso</strong>, não o número.</p>
+          <p><strong>1. Série temporal</strong> (<em>time series</em>): a curva de cada instrumento, com os limites como faixas coloridas (<em>thresholds</em>).</p>
+          <p><strong>2. Valor e mostrador</strong> (<em>stat</em>, <em>gauge</em>): a última leitura, pintada pelo nível.</p>
+          <p><strong>3. Linha do tempo de estados</strong> (<em>state timeline</em>): quando cada sensor esteve em cada nível.</p>
+          <p><strong>4. Planta ou mapa</strong>: instrumentos sobre a planta ou o ortomosaico do drone (Unidade 2).</p>
+          <p style="color:#4a5568"><strong>Variáveis</strong> ("sensor", "frente") trocam de instrumento sem duplicar telas; a consulta <strong>agrega</strong> (média horária, máximo diário) e o bruto fica no banco.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. BIM na lei -->
+  <!-- 6. As três perguntas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">BIM na administração pública</p>
-      <h2>Decreto nº 10.306/2020: implantação em fases</h2>
-      <div class="timeline grande cinco" style="margin-top:1.4rem">
-        <div class="etapa"><div class="ano">2019</div><p><strong>Decreto nº 9.983</strong>: institui a Estratégia BIM BR.</p></div>
-        <div class="etapa"><div class="ano">2020</div><p><strong>Decreto nº 10.306</strong>: BIM nas obras federais abrangidas, em três fases.</p></div>
-        <div class="etapa"><div class="ano">2021</div><p><strong>Fase 1 — projeto</strong>: modelos das disciplinas, interferências, quantitativos, pranchas.</p></div>
-        <div class="etapa"><div class="ano">2024</div><p><strong>Fase 2 — execução</strong>: orçamento, planejamento e controle da obra e <strong>modelo as-built</strong>.</p></div>
-        <div class="etapa"><div class="ano">2028</div><p><strong>Fase 3 — pós-obra</strong>: gestão e manutenção do ativo.</p></div>
+      <p class="kicker">O teste dos 10 segundos</p>
+      <h2>As três perguntas do painel operacional</h2>
+      <div class="cards3">
+        <div class="card"><div class="n">1</div><h3>Algo está fora do normal?</h3><p>Status de cada instrumento por cor e a <strong>lista de alertas</strong>, com reconhecimento: quem viu, quando viu e o que fez.</p></div>
+        <div class="card"><div class="n">2</div><h3>Onde?</h3><p>A <strong>planta</strong> da obra com cada instrumento posicionado e colorido pelo nível.</p></div>
+        <div class="card"><div class="n">3</div><h3>Está piorando?</h3><p><strong>Séries com os limites desenhados</strong> e a <strong>velocidade</strong>, em mm/dia, não só o valor.</p></div>
       </div>
-      <div class="callout-azul" style="margin-top:auto;margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0;font-size:1.12rem">Lei nº 14.133/2021, art. 19, § 3º: nas licitações de obras e serviços de engenharia, o BIM é adotado <strong>preferencialmente</strong>, sempre que adequado ao objeto. O monitoramento desta disciplina alimenta exatamente a <strong>fase 2</strong>.</p></div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem;margin-bottom:.3rem"><p>Se o engenheiro precisa abrir cinco abas e fazer conta de cabeça para responder, <strong>o painel falhou</strong>.</p></div>
     </div>
   </section>
 
-  <!-- 7. ISO 19650 -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">ISO 19650: gestão da informação com BIM</p>
-      <h2>Um ambiente comum de dados (CDE), com estados controlados</h2>
-      <div class="timeline grande" style="--n:4;margin-top:1.4rem">
-        <div class="etapa"><div class="ano">Em elaboração</div><p>A equipe produz: modelo, nuvem de pontos recém-processada, série de leituras ainda não validada.</p></div>
-        <div class="etapa"><div class="ano">Compartilhado</div><p>Liberado para as outras equipes coordenarem e verificarem.</p></div>
-        <div class="etapa"><div class="ano">Publicado</div><p>Aprovado para uso: é com ele que se constrói, mede e paga.</p></div>
-        <div class="etapa"><div class="ano">Arquivado</div><p>Histórico preservado: quem mudou o quê, quando e por quê.</p></div>
-      </div>
-      <div class="callout-azul" style="margin-top:auto;margin-bottom:.4rem;background:rgba(0,0,0,.25)"><p style="margin:0;font-size:1.12rem">Leitura de sensor e nuvem de pontos também são <strong>informação da obra</strong>: precisam de dono, versão e estado. Um gráfico solto num e-mail não é informação gerida.</p></div>
-    </div>
-  </section>
-
-  <!-- 8. BIM 4D 3D -->
+  <!-- 7. O sensor mudo -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Explore em 3D</p>
-      <h2>BIM 4D: o planejado em fantasma, o executado em sólido</h2>
+      <p class="kicker">Saúde dos instrumentos</p>
+      <h2>Sensor mudo não é sensor verde</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="bim4d" role="img" aria-label="Cena 3D de um edifício de 12 pavimentos. Um controle desliza a semana da obra: os pavimentos planejados até aquela semana aparecem em contorno azul-claro, os efetivamente executados aparecem sólidos, e os planejados mas não executados ficam em vermelho, mostrando o atraso."></div>
+        <div class="viz" data-viz="saude" role="img" aria-label="Painel escuro de monitoramento de uma obra fictícia: planta com seis instrumentos coloridos pelo estado, a série do inclinômetro INC-01, uma tabela de saúde com bateria, sinal e hora da última leitura de cada sensor e um registro de alarmes. O botão Romper o cabo faz o INC-01 parar de transmitir: sem a regra de sensor mudo, ele continua verde com a última leitura; com a regra ligada, após 30 minutos sem dados ele fica cinza-violeta como estado desconhecido e um alarme novo entra no registro."></div>
         <div class="viz-lado">
-          <h3>Arraste a semana</h3>
-          <div data-controles></div>
-          <ul>
-            <li><strong>Contorno azul:</strong> o que o cronograma previa.</li>
-            <li><strong>Sólido:</strong> o que a nuvem de pontos confirmou.</li>
-            <li><strong>Vermelho:</strong> previsto e não executado.</li>
-          </ul>
-          <p class="mini">Cronograma e atraso ilustrativos: a obra perde um pouco de ritmo a cada laje.</p>
+          <h3>Rompa o cabo do INC-01</h3>
+          <ol>
+            <li>Clique em <strong>Romper o cabo</strong>: a série para, mas o ponto continua <strong>verde</strong>.</li>
+            <li>Ligue a <strong>regra de sensor mudo</strong>: 30 min sem leitura viram <strong>estado desconhecido</strong> e alarme próprio.</li>
+          </ol>
+          <p><strong>Operacional × gerencial:</strong> o da instrumentação é detalhado e em tempo real; o da diretoria resume tendências, pendências e avanço (Aula 14).</p>
+          <p><strong>Evite:</strong> gráfico sem limite, eixo cortado, arco-íris de cores e <strong>alerta sem dono</strong>.</p>
+          <p class="mini">Relógio acelerado: 1 s = 10 min. Dados ilustrativos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 9. Realidade capturada -->
+  <!-- 8. Os três níveis -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Realidade capturada</p>
-      <h2>Como saber o que foi, de fato, construído</h2>
-      <div class="galeria legendas" style="--cols:3">
-        <figure class="figura">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/3D-Laserscanner_on_tripod.jpg" alt="Laser scanner terrestre cinza montado sobre tripé azul, com o espelho rotativo visível entre as duas carcaças" loading="lazy" style="object-fit:contain;background:#fff">
-          <figcaption><b>Laser scanner terrestre:</b> milímetros, de perto</figcaption>
-          <p class="credito">Foto: Dr. Schorsch — Wikimedia Commons (CC BY-SA 3.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Point_cloud_data_of_the_David_W._Dyer_Federal_Building_and_United_States_Courthouse_in_Florida.jpg/1280px-Point_cloud_data_of_the_David_W._Dyer_Federal_Building_and_United_States_Courthouse_in_Florida.jpg" alt="Nuvem de pontos colorida da fachada de um edifício histórico com colunata, gerada por escaneamento a laser" loading="lazy">
-          <figcaption><b>Nuvem de pontos:</b> milhões de pontos com posição e cor</figcaption>
-          <p class="credito">Imagem: autor desconhecido — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Scan-to-BIM_Mechanical_Room.jpg/1280px-Scan-to-BIM_Mechanical_Room.jpg" alt="Nuvem de pontos em tons de cinza de uma casa de máquinas, com as tubulações modeladas em verde-água sobrepostas a ela" loading="lazy">
-          <figcaption><b>Scan-to-BIM:</b> a nuvem vira modelo as-built</figcaption>
-          <p class="credito">Imagem: Oregon State University — Wikimedia Commons (CC BY-SA 2.0)</p>
-        </figure>
+      <p class="kicker">Limites de atenção, alerta e alarme</p>
+      <h2>Não é o painel que inventa o limite</h2>
+      <div class="dupla" style="grid-template-columns:1fr 1.15fr">
+        <div class="slide-content-box">
+          <p><strong>De onde vêm os limites:</strong></p>
+          <ul>
+            <li><strong>Projeto:</strong> quanto a cortina pode deslocar, quanto o vizinho pode recalcar, que esforço o tirante aguenta.</li>
+            <li><strong>Normas</strong> e <strong>retroanálise</strong> de obras parecidas.</li>
+            <li><strong>Sensibilidade do vizinho:</strong> um casarão tombado tolera muito menos que um galpão novo.</li>
+          </ul>
+        </div>
+        <div class="niveis">
+          <div class="nv at"><h3>Atenção</h3><p>Saiu do esperado, mas está longe do limite.</p></div>
+          <div class="nv al"><h3>Alerta</h3><p>Aproxima-se do admissível: medidas preventivas entram em curso.</p></div>
+          <div class="nv am"><h3>Alarme</h3><p>Exige intervenção imediata, ainda com margem em relação ao estado-limite.</p></div>
+        </div>
       </div>
-      <div class="callout-azul" style="margin-top:.9rem;background:rgba(0,0,0,.25)"><p style="margin:0">E o drone da Unidade 2: fotogrametria ou LiDAR geram a mesma nuvem, do canteiro inteiro, em um voo.</p></div>
+      <div class="callout-azul callout-escuro" style="margin-top:.9rem;margin-bottom:.3rem"><p>Cada degrau existe para <strong>dar tempo para o próximo</strong>.</p></div>
     </div>
   </section>
 
-  <!-- 10. scan-to-BIM x scan-vs-BIM -->
+  <!-- 9. Santos -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/SantosTiltedBuildings.JPG/1280px-SantosTiltedBuildings.JPG'); background-size: auto 100%; background-position: right 40%; background-repeat: no-repeat; background-color: #0b1a33" role="img" aria-label="Edifício residencial alto e estreito na orla de Santos, visivelmente inclinado em relação à vertical, ao lado de outros prédios e de uma avenida com ciclistas"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Valor e velocidade</p>
+      <h2>Os prédios inclinados de Santos</h2>
+      <p>Fundação rasa sobre argila mole: recalque <strong>diferencial</strong> ao longo de décadas. Uma leitura isolada não diz quase nada; a <strong>série longa, com limites</strong>, mostra a tendência.</p>
+      <p>Recalque pequeno que <strong>acelera</strong> preocupa mais do que recalque grande que <strong>estabilizou</strong>.</p>
+      <p class="regra">Atenção: <strong>10 mm</strong> <em>ou</em> <strong>0,5 mm/dia</strong> (exemplo)</p>
+    </div>
+    <p class="credito">Foto: Niels Elgaard Larsen — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 10. TARP -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Dois usos bem diferentes da mesma nuvem</p>
-      <h2>Scan-to-BIM × scan-vs-BIM</h2>
-      <div class="versus fill">
-        <div class="lado">
-          <h3>Scan-to-BIM</h3>
-          <p><strong>Modelar a partir da nuvem.</strong></p>
-          <ul>
-            <li>Cria o <strong>as-built</strong> de uma estrutura existente ou recém-executada</li>
-            <li>Exemplo: modelar o sobrado vizinho antes da escavação</li>
-          </ul>
-        </div>
-        <div class="vs">≠</div>
-        <div class="lado novo">
-          <h3>Scan-vs-BIM</h3>
-          <p><strong>Comparar a nuvem com o projeto (as-designed).</strong></p>
-          <ul>
-            <li>"Está no lugar certo?": desvio geométrico</li>
-            <li>"Já foi executado?": avanço no 4D</li>
-          </ul>
-        </div>
-      </div>
-      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p style="margin:0">Antes de tudo, <strong>registro</strong>: a nuvem precisa estar alinhada ao sistema de coordenadas do modelo, com pontos de controle. Um erro de registro de 2 cm põe a obra inteira "fora de posição".</p></div>
+      <p class="kicker">Limite sem ação é enfeite</p>
+      <h2>O plano de ação por gatilhos (TARP)</h2>
+      <table class="tabela-industrial tarp">
+        <thead><tr><th>Nível</th><th>Gatilho (topo de uma cortina)</th><th>Ação</th><th>Quem · prazo</th></tr></thead>
+        <tbody>
+          <tr class="verde"><td>Verde · normal</td><td>&lt; 10 mm e &lt; 0,5 mm/dia</td><td>leitura de rotina</td><td>equipe de instrumentação</td></tr>
+          <tr class="amarelo"><td>Amarelo · atenção</td><td>10 mm <strong>ou</strong> 0,5 mm/dia</td><td>aumentar a frequência, inspecionar, avisar o projetista</td><td>engenheiro da obra · mesmo dia</td></tr>
+          <tr class="laranja"><td>Laranja · alerta</td><td>14 mm <strong>ou</strong> 1,0 mm/dia</td><td>preparar e iniciar o reforço previsto, restringir a frente</td><td>engenheiro + projetista · 24 h</td></tr>
+          <tr class="vermelho"><td>Vermelho · alarme</td><td>18 mm</td><td>paralisar a escavação na frente, executar a contingência, isolar a área</td><td>responsável técnico · imediato</td></tr>
+        </tbody>
+      </table>
+      <div class="callout-azul callout-escuro" style="margin-top:.9rem"><p><em>Trigger Action Response Plan</em>, anexo do plano de monitoramento: cada linha tem <strong>nome e prazo</strong>. Às 3h da manhã, ninguém precisa decidir quem liga para quem. Valores ilustrativos.</p></div>
     </div>
   </section>
 
-  <!-- 11. Mapa de desvios -->
+  <!-- 11. Gestão de alarmes -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Gestão de alarmes: ANSI/ISA-18.2 · IEC 62682</p>
+      <h2>Todo alarme deve exigir uma ação. Se não exige, é ruído.</h2>
+      <div class="cards4">
+        <div class="card"><div class="n">1</div><h3>Persistência</h3><p>A condição precisa durar um tempo mínimo, ou duas leituras seguidas. No Grafana: <em>pending period</em>.</p></div>
+        <div class="card"><div class="n">2</div><h3>Histerese</h3><p>Entra no nível em 10,0 mm, mas só sai abaixo de 9,5 mm: o ruído não faz o alerta piscar.</p></div>
+        <div class="card"><div class="n">3</div><h3>Confirmação</h3><p>Antes do alarme máximo, um 2º instrumento ou uma leitura manual confirma.</p></div>
+        <div class="card"><div class="n">4</div><h3>Incerteza</h3><p>x + U alcança o limite: trate como atenção. x − U já passou: nível confirmado (Aula 9).</p></div>
+      </div>
+      <div class="callout-azul callout-escuro" style="margin-top:1rem;margin-bottom:.3rem"><p>E a <strong>limpeza da série</strong> vem antes (Aula 12): um pico espúrio que sobe 6 mm e volta no dia seguinte não pode acordar ninguém.</p></div>
+    </div>
+  </section>
+
+  <!-- 12. Histerese -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Comparação nuvem-modelo (cloud-to-model)</p>
-      <h2>O mapa de calor dos desvios de uma laje</h2>
+      <p class="kicker">Simulação</p>
+      <h2>Histerese: o mesmo ruído, muito menos notificações</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="desvio" role="img" aria-label="Planta de uma laje de 30 por 20 metros coberta por milhares de pontos coloridos pelo desvio em relação ao modelo: verdes dentro da tolerância, amarelos inconclusivos e vermelhos fora dela, concentrados numa região de flecha no meio do vão e numa borda deslocada. Controles ajustam a tolerância e a incerteza, e contadores mostram a porcentagem de pontos em cada classe."></div>
+        <div class="viz" data-viz="histerese" role="img" aria-label="Gráfico de seis leituras do inclinômetro I-2 oscilando em torno de 10 milímetros: 9,8; 10,1; 9,9; 10,2; 9,9 e 10,1. Uma linha amarela marca a entrada em atenção em 10,0 milímetros. Sem histerese, cada cruzamento gera uma notificação: alertas nas leituras 2, 4 e 6 e normalizações nas leituras 3 e 5. Com histerese, uma linha tracejada marca a saída em 9,5 milímetros; o sensor entra em atenção na leitura de 10,1 e permanece nela, com uma única notificação."></div>
         <div class="viz-lado">
-          <h3>Mexa na tolerância e na incerteza</h3>
-          <div data-controles></div>
-          <p><strong style="color:var(--verde-claro)">Verde:</strong> |d| + U ≤ tolerância.<br><strong style="color:var(--magenta)">Vermelho:</strong> |d| − U &gt; tolerância.<br><strong style="color:var(--amarelo)">Amarelo:</strong> inconclusivo.</p>
-          <p class="mini">Desvios ilustrativos: uma flecha no meio do vão e uma borda executada fora de posição.</p>
+          <h3>Compare os dois modos</h3>
+          <p>Clique em <strong>Sem histerese</strong> e depois em <strong>Com histerese</strong>.</p>
+          <ul>
+            <li><strong>Sem:</strong> entra e sai em 10,0 mm. Cada cruzamento é uma notificação: o celular do engenheiro não para.</li>
+            <li><strong>Com:</strong> entra em 10,0 mm, mas só sai abaixo de <strong>9,5 mm</strong>. Uma notificação só.</li>
+          </ul>
+          <p>O <strong>limite do projeto não mudou</strong>: mudou só a regra de saída.</p>
+          <p class="mini">Ruído de cerca de ±0,3 mm. Leituras ilustrativas.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 12. Regra de decisão e BCF -->
+  <!-- 13. Regra de alerta no Grafana -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Lembra da Aula 2? O desvio tem incerteza</p>
-      <h2>Conforme, não conforme ou inconclusivo</h2>
-      <div class="cards3 fill">
-        <div class="card ok"><h3>Conforme</h3><span class="formula">d + U ≤ tolerância</span><p>Mesmo no pior caso, o elemento está dentro. Liberar.</p></div>
-        <div class="card ruim"><h3>Não conforme</h3><span class="formula">d − U &gt; tolerância</span><p>Mesmo no melhor caso, está fora. Abrir pendência para o projetista.</p></div>
-        <div class="card duvida"><h3>Inconclusivo</h3><span class="formula">tolerância entre d − U e d + U</span><p>A medição não decide. Medir de novo, com método mais exato.</p></div>
+      <p class="kicker">Grafana Alerting</p>
+      <h2>Anatomia de uma regra de alerta</h2>
+      <div class="timeline grande" style="--n:5">
+        <div class="etapa"><div class="ano">Consulta</div><p>Máximo dos últimos 15 min do inclinômetro I-2.</p></div>
+        <div class="etapa"><div class="ano">Condição</div><p>Acima de <strong>14 mm</strong>.</p></div>
+        <div class="etapa"><div class="ano">Avaliação</div><p>Intervalo de avaliação: a cada 1 min.</p></div>
+        <div class="etapa"><div class="ano">Pendente</div><p>A condição se mantém por <strong>30 min</strong> antes de notificar.</p></div>
+        <div class="etapa"><div class="ano">Rótulos</div><p><code>severidade=alerta</code><br><code>frente=cortina-norte</code></p></div>
       </div>
-      <div class="callout-azul" style="margin-top:1rem;margin-bottom:.3rem;background:rgba(0,0,0,.25)"><p style="margin:0">Fluxo: nuvem → <strong>registro</strong> → distância de cada ponto ao modelo → <strong>mapa de calor</strong> → pendência presa ao GUID do elemento, no formato aberto <strong>BCF</strong> (BIM Collaboration Format) → decisão.</p></div>
+      <div class="callout-azul callout-escuro" style="margin-bottom:.4rem"><p>Os rótulos, pelas <strong>políticas de notificação</strong>, levam a mensagem ao <strong>ponto de contato</strong> certo: e-mail da equipe, aplicativo de mensagens, SMS, telefone de plantão. <strong>Silenciamento</strong> para manutenção programada, sempre com hora para acabar.</p></div>
     </div>
   </section>
 
-  <!-- 13. Exemplo numérico -->
+  <!-- 14. Sala de controle e a regra na borda -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg/1280px-Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg'); background-position: 60% 50%" role="img" aria-label="Sala de controle panorâmica do Centro de Operações Rio, com uma grande parede de telas exibindo mapas, câmeras e gráficos, e fileiras de estações de trabalho com operadores"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Centro de Operações Rio</p>
+      <h2>A tela não salva ninguém sozinha</h2>
+      <p><strong>1. A regra crítica roda na borda.</strong> Ligar a bomba reserva quando o nível d'água sobe é tarefa do controlador do canteiro (Aula 10). O painel depende da internet; a bomba não pode depender.</p>
+      <p><strong>2. O sistema avisa quando para de receber dados.</strong> No Grafana, a regra tem tratamento para ausência de dados: é o seu alerta de sensor mudo.</p>
+    </div>
+    <p class="credito">Foto: Jjsoares — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 15. Calculadora -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>O pilar P7 e o avanço medido no 4D</h2>
+      <h2>É a velocidade que manda</h2>
       <div class="viz-grid">
         <div class="viz" data-viz="calc" data-opts='{
           "inputs": [
-            {"id":"dx","label":"Desvio Δx do pilar","min":-20,"max":20,"step":1,"value":12,"unit":"mm"},
-            {"id":"dy","label":"Desvio Δy do pilar","min":-20,"max":20,"step":1,"value":-9,"unit":"mm"},
-            {"id":"U","label":"Incerteza expandida U","min":0,"max":6,"step":0.5,"value":3,"unit":"mm"},
-            {"id":"tol","label":"Tolerância contratual","min":5,"max":20,"step":1,"value":10,"unit":"mm"},
-            {"id":"vp","label":"Concreto previsto no 4D","min":100,"max":800,"step":10,"value":420,"unit":"m³"},
-            {"id":"ve","label":"Concreto confirmado pela nuvem","min":100,"max":800,"step":2,"value":378,"unit":"m³"}
+            {"id":"x","label":"Leitura atual do I-2","min":5,"max":18,"step":0.1,"value":11.5,"unit":"mm"},
+            {"id":"v","label":"Velocidade","min":0.1,"max":3,"step":0.1,"value":1.2,"unit":"mm/dia"},
+            {"id":"n","label":"Alarmes no fim de semana","min":1,"max":60,"step":1,"value":37},
+            {"id":"r","label":"Alarmes verdadeiros","min":0,"max":20,"step":1,"value":2}
           ],
           "outputs": [
-            {"label":"Desvio d = √(Δx² + Δy²)","expr":"Math.hypot(dx,dy)","unit":"mm","dec":1},
-            {"label":"Intervalo d ± U","expr":"(o1-U).toLocaleString(\"pt-BR\",{maximumFractionDigits:1})+\" a \"+(o1+U).toLocaleString(\"pt-BR\",{maximumFractionDigits:1})+\" mm\""},
-            {"label":"Pilar","expr":"o1+U<=tol?\"CONFORME\":(o1-U>tol?\"NÃO CONFORME\":\"INCONCLUSIVO\")","destaque":true},
-            {"label":"Índice de avanço I","expr":"ve/vp","dec":2}
+            {"label":"Pelo valor","expr":"x>=18?\"alarme\":(x>=14?\"alerta\":(x>=10?\"atenção\":\"normal\"))"},
+            {"label":"Pela velocidade","expr":"v>=1?\"alerta\":(v>=0.5?\"atenção\":\"normal\")"},
+            {"label":"Nível do I-2","expr":"(x>=18?\"ALARME\":((x>=14||v>=1)?\"ALERTA\":((x>=10||v>=0.5)?\"ATENÇÃO\":\"NORMAL\")))","destaque":true},
+            {"label":"Dias até 14 mm","expr":"x>=14?0:(14-x)/v","unit":"dias","dec":1},
+            {"label":"Dias até 18 mm","expr":"x>=18?0:(18-x)/v","unit":"dias","dec":1},
+            {"label":"Alarmes que exigiam ação","expr":"Math.min(r,n)/n*100","unit":"%","dec":1}
           ],
-          "barras": [{"label":"d − U","expr":"o1-U","unit":"mm","dec":1},{"label":"d","expr":"o1","unit":"mm","dec":1},{"label":"d + U","expr":"o1+U","unit":"mm","dec":1},{"label":"Tolerância","expr":"tol","unit":"mm"}],
-          "nota":"Com 12, −9, U = 3 e tolerância 10: d = 15 mm e d − U = 12 mm &gt; 10 mm → não conforme. 378/420 = 0,90 do previsto."
-        }' role="img" aria-label="Calculadora com barras: com desvios de 12 e menos 9 milímetros, incerteza de 3 e tolerância de 10, o desvio é de 15 milímetros, o intervalo vai de 12 a 18 e o pilar é não conforme; o índice de avanço com 378 de 420 metros cúbicos é 0,90"></div>
+          "barras": [{"label":"Dias até 14 mm","expr":"o4","unit":"dias","dec":1},{"label":"Dias até 18 mm","expr":"o5","unit":"dias","dec":1}],
+          "nota":"(14 − 11,5)/1,2 ≈ 2,1 dias; (18 − 11,5)/1,2 ≈ 5,4 dias. 2/37 ≈ 5,4%: em 19 de cada 20 vezes, o alarme era ruído. Valores ilustrativos."
+        }' role="img" aria-label="Calculadora com barras dos dias até 14 e até 18 milímetros: o inclinômetro I-2 está em 11,5 milímetros e sobe 1,2 milímetro por dia; pelo valor está em atenção, pela velocidade em alerta, e o nível final é alerta; faltam cerca de 2,1 dias até 14 milímetros e 5,4 dias até 18 milímetros; dos 37 alarmes do fim de semana, 2 eram verdadeiros, ou 5,4 por cento"></div>
         <div class="viz-lado">
-          <h3>Mexa nos controles</h3>
+          <h3>Mexa na velocidade</h3>
           <div data-controles></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 14. Gêmeo -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Do modelo ao gêmeo digital</p>
-      <h2>Sensores pendurados no modelo, pelo GUID</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="gemeo3d" role="img" aria-label="Cena 3D com um prédio real à esquerda e seu gêmeo digital em wireframe à direita, ligados por um fluxo de dados. Ao simular recalque, o prédio real inclina, o gêmeo acompanha e muda de cor de verde para amarelo e vermelho; em malha fechada, um fluxo vermelho de comando volta à obra e estabiliza a inclinação."></div>
-        <div class="viz-lado">
-          <h3>Modelo → sombra → gêmeo</h3>
-          <ul>
-            <li>ID de cada inclinômetro e piezômetro associado ao <strong>GUID</strong> do elemento.</li>
-            <li>Leituras chegam pela plataforma IoT e <strong>pintam o modelo</strong> pelo nível de alerta: <strong>sombra digital</strong>.</li>
-            <li>A decisão volta à obra automaticamente (reprograma o 4D, aciona a equipe): <strong>gêmeo digital</strong> (Kritzinger et al., 2018).</li>
-          </ul>
-          <p>Clique em <strong>Simular recalque</strong> e compare malha aberta e fechada.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 15. Atividade -->
+  <!-- 16. Atividade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Atividade prática</p>
-      <h2>Classifique seis pilares</h2>
-      <div class="dupla" style="grid-template-columns:1.3fr 1fr">
+      <p class="kicker">Atividade prática: mão na massa no Grafana</p>
+      <h2>Monte o painel e a regra do seu sensor</h2>
+      <div class="dupla" style="grid-template-columns:1.35fr 1fr">
         <div class="slide-content-box">
           <ol class="lista-num">
-            <li>Pegue a planta de formas de um pavimento-tipo (pode ser de um projeto acadêmico).</li>
-            <li>Escolha <strong>6 pilares</strong> e invente desvios Δx e Δy de uma comparação nuvem-modelo.</li>
-            <li>Com tolerância de <strong>10 mm</strong> e <strong>U = 3 mm</strong>, classifique cada um: conforme, não conforme ou inconclusivo.</li>
-            <li>Redija a pendência do pior caso, como no BCF: <strong>elemento, problema, responsável, prazo</strong>.</li>
+            <li>Abra o Grafana instalado no seu computador ou a demonstração pública <strong>play.grafana.org</strong>.</li>
+            <li>Série temporal de um sensor (simulado ou do InfluxDB da Aula 12) com as faixas de <strong>atenção, alerta e alarme</strong>.</li>
+            <li>Um painel de <strong>valor</strong> colorido pelo nível e um com a <strong>hora da última leitura</strong>.</li>
+            <li>Uma <strong>regra de alerta</strong> com período pendente.</li>
           </ol>
         </div>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Architectural_BIM_3D_Modeling.jpg/1280px-Architectural_BIM_3D_Modeling.jpg" alt="Modelo BIM 3D de um edifício térreo com telhado azul, estacionamento, árvores e calçadas, visto em perspectiva" loading="lazy">
-          <figcaption>Cada objeto do modelo pode receber uma pendência.</figcaption>
-          <p class="credito">Imagem: Archdraw — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
+        <div class="slide-content-box" style="border-left:5px solid var(--amarelo)">
+          <p><strong>Entregue também a linha do TARP:</strong></p>
+          <ul>
+            <li>gatilho (valor ou velocidade)</li>
+            <li>ação</li>
+            <li>responsável</li>
+            <li>prazo</li>
+          </ul>
+          <p style="color:#4a5568">Teste: o seu painel responde às três perguntas em 10 segundos?</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 16. Pontos-chave -->
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Pontos-chave</p>
       <h2>Para levar desta aula</h2>
       <div class="pk">
-        <div><strong>BIM</strong> é modelo de informação; <strong>IFC</strong> e <strong>GUID</strong> ligam sensores, fotos e pendências a cada elemento.</div>
-        <div><strong>4D</strong> = modelo + cronograma; <strong>5D</strong> = custos. Desde 2024, obras federais abrangidas usam BIM na execução e no <strong>as-built</strong>.</div>
-        <div><strong>Scan-to-BIM</strong> modela o existente; <strong>scan-vs-BIM</strong> compara a nuvem registrada com o projeto.</div>
-        <div>Conformidade = <strong>desvio + tolerância + incerteza</strong>; inconclusivo pede nova medição.</div>
-        <div>Dados automáticos no modelo = <strong>sombra digital</strong>; quando a decisão volta à obra, <strong>gêmeo digital</strong>.</div>
+        <div>O <strong>Grafana</strong> consulta o banco de séries e mostra séries com limites, valor atual, estados e a planta.</div>
+        <div>Os limites vêm do <strong>projeto</strong>: atenção, alerta e alarme, por <strong>valor e por velocidade</strong>.</div>
+        <div>O <strong>TARP</strong> dá a cada nível uma ação, um dono e um prazo.</div>
+        <div><strong>Persistência, histerese, confirmação e incerteza</strong> combatem a fadiga de alarmes; sensor mudo também é alarme.</div>
+        <div>A <strong>regra crítica roda na borda</strong>: o painel depende da internet, a bomba não pode depender.</div>
       </div>
     </div>
   </section>
 
-  <!-- 17. Fim -->
+  <!-- 18. Fim -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
-      <h1>Integração com BIM e gêmeo digital</h1>
-      <p class="fim-texto">E quem vai olhar as 3.200 fotos de fachada que o drone tirou?</p>
-      <p class="fim-proxima">Próxima aula: Aula 14 — IA e visão computacional: detecção de fissuras e medição de avanço físico.</p>
+      <h1>Painéis, alertas e limites de alarme</h1>
+      <p class="fim-texto">O painel mostra o sensor. E o cronograma, o orçamento e o modelo da obra?</p>
+      <p class="fim-proxima">Próxima aula: Aula 14 — Integração dos dados com BIM e com o planejamento e controle de obras.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -421,113 +416,218 @@
 <script>
 /* Visualizações próprias da Aula 13 */
 (function () {
-  const { canvas2d, cena3d, loop, slider, hud, chip, fmt, caixa } = Obra;
+  const { canvas2d, loop, hud, chip, botoes, fmt } = Obra;
   const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const dims = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  const rng = (seed) => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const gauss = (r) => { let s = 0; for (let i = 0; i < 6; i++) s += r(); return (s - 3) / Math.sqrt(0.5); };
+  const hhmm = (m) => String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(Math.floor(m % 60)).padStart(2, '0');
+  const dur = (m) => m < 60 ? fmt(m) + ' min' : Math.floor(m / 60) + ' h ' + String(Math.round(m % 60)).padStart(2, '0') + ' min';
 
-  /* bim4d — edifício de 12 pavimentos: planejado (contorno) × executado (sólido) por semana */
-  Obra.register('bim4d', (host, opts, painel) => {
-    const p = painel || document.createElement('div');
-    const sSem = slider(p, { id: 'sem', label: 'Semana da obra', min: 0, max: 40, step: 1, value: 22, unit: '' });
-    const h = hud(host);
-    const cPlan = chip(h, ''), cExec = chip(h, ''), cInd = chip(h, '');
-    const N = 12;
-    const plano = (i) => 4 + i * 2.5;            // semana prevista de conclusão do pavimento i (0..11)
-    const real = (i) => 4.5 + i * 2.9;           // execução real, perdendo ritmo
-    return cena3d(host, { r: 74, ph: 1.12, th: 0.7, alvo: [0, 17, 0] }, ({ THREE, scene, rotulo }) => {
-      const chao = new THREE.Mesh(new THREE.PlaneGeometry(160, 160), new THREE.MeshStandardMaterial({ color: 0x47703f, roughness: 0.95 }));
-      chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; scene.add(chao);
-      const canteiro = caixa(THREE, 44, 0.3, 34, 0x8a6f4d); canteiro.position.y = 0.15; scene.add(canteiro);
-      const pavs = [];
-      for (let i = 0; i < N; i++) {
-        const y = i * 3 + 1.8;
-        const solido = caixa(THREE, 22, 2.8, 16, i % 2 ? 0xc9ccd2 : 0xb9bcc2);
-        solido.position.set(0, y, 0); scene.add(solido);
-        const geo = new THREE.EdgesGeometry(new THREE.BoxGeometry(22, 2.8, 16));
-        const arame = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({ color: 0x2BD9FE, transparent: true, opacity: 0.9 }));
-        arame.position.set(0, y, 0); scene.add(arame);
-        const atraso = new THREE.Mesh(new THREE.BoxGeometry(22.2, 2.85, 16.2), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, transparent: true, opacity: 0.35, depthWrite: false }));
-        atraso.position.set(0, y, 0); scene.add(atraso);
-        pavs.push({ solido, arame, atraso });
-      }
-      // grua
-      const topo = new THREE.Object3D(); topo.position.set(0, 38, 0); scene.add(topo);
-      const rTopo = rotulo(topo, '', 0);
-      let semAtual = +sSem.value;
-      return (t, dt) => {
-        semAtual += (+sSem.value - semAtual) * Math.min(1, dt * 4);
-        const S = semAtual;
-        let nPlan = 0, nExec = 0;
-        pavs.forEach((pv, i) => {
-          const fp = Math.max(0, Math.min(1, (S - plano(i) + 2.5) / 2.5));
-          const fe = Math.max(0, Math.min(1, (S - real(i) + 2.9) / 2.9));
-          nPlan += fp; nExec += fe;
-          pv.arame.visible = fp > 0.02;
-          pv.solido.visible = fe > 0.02;
-          pv.solido.scale.y = Math.max(0.02, fe); pv.solido.position.y = i * 3 + 0.4 + 1.4 * fe;
-          pv.atraso.visible = fp > 0.98 && fe < 0.98;
-        });
-        const ind = nPlan > 0.05 ? nExec / nPlan : 1;
-        cPlan.innerHTML = 'Semana <b>' + fmt(+sSem.value) + '</b> · previsto <b>' + fmt(nPlan, 1) + '</b> pav.';
-        cExec.innerHTML = 'Executado <b>' + fmt(nExec, 1) + '</b> pav.';
-        cInd.innerHTML = 'Índice de avanço <b>' + fmt(ind, 2) + '</b>';
-        cInd.classList.toggle('alerta', ind < 0.85 && nPlan > 1);
-        rTopo.innerHTML = ind < 0.95 && nPlan > 1 ? 'Atraso: ' + fmt(nPlan - nExec, 1) + ' pavimento(s)' : 'Dentro do previsto';
-        topo.position.y = Math.max(6, nPlan * 3 + 4);
-      };
-    });
-  });
-
-  /* desvio — mapa de calor da comparação nuvem-modelo de uma laje 30 m × 20 m */
-  Obra.register('desvio', (host, opts, painel) => {
-    const p = painel || document.createElement('div');
-    const sTol = slider(p, { id: 'tol', label: 'Tolerância', min: 4, max: 20, step: 1, value: 10, unit: 'mm' });
-    const sU = slider(p, { id: 'U', label: 'Incerteza expandida U', min: 0, max: 6, step: 0.5, value: 3, unit: 'mm' });
+  /* saude — painel com planta, série, saúde dos sensores e registro; o sensor mudo */
+  Obra.register('saude', (host) => {
     const { ctx } = canvas2d(host);
     const h = hud(host);
-    const cOk = chip(h, ''), cDuv = chip(h, ''), cRuim = chip(h, '');
-    const LX = 30, LY = 20;
-    // desvio (mm) ilustrativo: flecha no meio do vão + borda deslocada + ruído
-    const desv = (x, y) => -18 * Math.exp(-(((x - 17) / 6) ** 2 + ((y - 10) / 4.5) ** 2))
-      + (x > 26 ? 16 * (x - 26) / 4 : 0) + 2.2 * Math.sin(x * 1.7 + y * 0.9) + 1.5 * Math.cos(y * 2.3);
-    const pts = [];
-    const ruido = (a, b) => { const v = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return v - Math.floor(v); };
-    for (let x = 0.15; x < LX; x += 0.3) for (let y = 0.15; y < LY; y += 0.3) {
-      const jx = x + (ruido(x, y) - 0.5) * 0.03, jy = y + (ruido(y, x) - 0.5) * 0.03;
-      pts.push([jx, jy, desv(jx, jy)]);
-    }
+    const cInc = chip(h, '');
+    const r = rng(11);
+    const INSTR = [
+      { id: 'INC-01', x: 0.30, y: 0.30, bat: 81, sinal: -104 },
+      { id: 'PZ-02', x: 0.72, y: 0.26, bat: 74, sinal: -98 },
+      { id: 'MR-03', x: 0.14, y: 0.76, bat: 92, sinal: -101 },
+      { id: 'VIB-04', x: 0.50, y: 0.84, bat: 66, sinal: -109 },
+      { id: 'FIS-05', x: 0.86, y: 0.72, bat: 18, sinal: -112 },
+      { id: 'MP10-06', x: 0.88, y: 0.12, bat: 88, sinal: -95 }
+    ];
+    let st, regra = false;
+    const reinicia = () => {
+      st = { min: 14 * 60, acum: 0, cabo: false, mudo: 0, alertou: false, inc: [], log: [{ hora: '06:10', sensor: 'FIS-05', nivel: 'bateria 18%', status: 'reconhecido · técnico' }] };
+      for (let k = 0; k < 48; k++) st.inc.push(4.3 + gauss(r) * 0.08);
+      INSTR.forEach((it) => { it.ult = 0; });
+    };
+    reinicia();
+    const btns = botoes(host, [
+      ['Romper o cabo', (b) => { st.cabo = true; b.classList.add('on'); }],
+      ['Regra de sensor mudo: desligada', (b) => { regra = !regra; b.classList.toggle('on', regra); b.textContent = 'Regra de sensor mudo: ' + (regra ? 'ligada' : 'desligada'); }],
+      ['↺', () => { reinicia(); btns[0].classList.remove('on'); }]
+    ]);
+    btns[0].parentElement.style.flexDirection = 'row';
+    const COR = { ok: '#11A360', atencao: '#F2CB0A', mudo: '#9B8CFF', manut: '#8a93a3' };
+    const status = (it) => {
+      if (it.id === 'INC-01' && st.cabo && regra && st.mudo >= 30) return 'mudo';
+      if (it.id === 'FIS-05') return 'manut';
+      return 'ok';
+    };
+    const caixaP = (x, y, w, hh, titulo) => {
+      ctx.fillStyle = 'rgba(255,255,255,.05)'; ctx.strokeStyle = 'rgba(255,255,255,.14)';
+      ctx.beginPath(); ctx.roundRect(x, y, w, hh, 8); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText(titulo, x + 10, y + 18);
+    };
+    const lp = loop((t, dt) => {
+      const [W, H] = dims(ctx);
+      st.min += dt * 10; st.acum += dt;
+      INSTR.forEach((it) => { it.ult += dt * 10; });
+      if (st.acum >= 1) { // nova leitura a cada 10 min simulados
+        st.acum = 0;
+        INSTR.forEach((it) => { if (!(it.id === 'INC-01' && st.cabo)) it.ult = 0; });
+        if (st.cabo) { st.inc.push(null); st.mudo += 10; } else st.inc.push(4.3 + gauss(r) * 0.08);
+        st.inc.shift();
+        if (st.cabo && regra && st.mudo >= 30 && !st.alertou) {
+          st.alertou = true;
+          st.log.unshift({ hora: hhmm(st.min), sensor: 'INC-01', nivel: 'SEM DADOS há ' + dur(st.mudo), status: 'NOVO · plantão avisado' });
+        }
+      }
+      ctx.clearRect(0, 0, W, H);
+      const top = 48, m = 10;
+      const pw = W * 0.44, ph = (H - top) * 0.56;
+      // planta
+      caixaP(m, top, pw, ph, 'Planta · status dos instrumentos');
+      const ax = m + 16, ay = top + 30, aw = pw - 32, ah = ph - 42;
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([4, 4]); ctx.strokeRect(ax, ay, aw, ah); ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(ax + aw * 0.22, ay + ah * 0.2, aw * 0.56, ah * 0.46);
+      ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('escavação', ax + aw * 0.5, ay + ah * 0.46);
+      INSTR.forEach((it) => {
+        const s = status(it), x = ax + it.x * aw, y = ay + it.y * ah;
+        const pul = s === 'mudo' ? 3 * Math.sin(t * 6) : 0;
+        ctx.fillStyle = COR[s]; ctx.beginPath(); ctx.arc(x, y, 8 + pul, 0, 7); ctx.fill();
+        if (s === 'mudo') { ctx.fillStyle = '#fff'; ctx.font = '800 11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('?', x, y + 4); }
+        ctx.fillStyle = '#fff'; ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText(it.id, x, y - 13);
+      });
+      // legenda da planta
+      ctx.font = '10px Montserrat, Arial'; ctx.textAlign = 'left';
+      [['ok', 'normal'], ['manut', 'manutenção'], ['mudo', 'sem dados']].forEach(([k, txt], i) => { const lx = ax + 4 + i * 92, ly = ay + ah - 8; ctx.fillStyle = COR[k]; ctx.beginPath(); ctx.arc(lx + 4, ly - 3, 4, 0, 7); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.fillText(txt, lx + 12, ly); });
+      // série do INC-01
+      const sx = m * 2 + pw, sw = W - sx - m;
+      caixaP(sx, top, sw, ph, 'INC-01 · deslocamento a 6,5 m (mm)');
+      const gx = sx + 40, gy = top + 30, gw = sw - 54, gh = ph - 46, vmin = 0, vmax = 12;
+      const Y = (v) => gy + gh - (v - vmin) / (vmax - vmin) * gh, X = (k) => gx + k / (st.inc.length - 1) * gw;
+      ctx.font = '10px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.textAlign = 'right';
+      [0, 5, 10].forEach((v) => ctx.fillText(fmt(v), gx - 5, Y(v) + 3));
+      ctx.strokeStyle = '#F2CB0A'; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(gx, Y(10)); ctx.lineTo(gx + gw, Y(10)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.fillText('atenção 10', gx + 4, Y(10) - 4);
+      ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath(); let up = true, ultK = 0;
+      st.inc.forEach((v, k) => { if (v == null) { up = true; return; } up ? ctx.moveTo(X(k), Y(v)) : ctx.lineTo(X(k), Y(v)); up = false; ultK = k; });
+      ctx.stroke(); ctx.lineWidth = 1;
+      if (st.cabo && ultK < st.inc.length - 1) {
+        ctx.fillStyle = 'rgba(155,140,255,.16)'; ctx.fillRect(X(ultK), gy, gx + gw - X(ultK), gh);
+        ctx.fillStyle = '#C9C0FF'; ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'center';
+        ctx.textAlign = 'right'; ctx.fillText('sem leituras', gx + gw - 4, gy + 14);
+      }
+      // saúde dos sensores
+      const by = top + ph + m, bh = H - by - m, tw = W * 0.5;
+      caixaP(m, by, tw, bh, 'Saúde dos sensores');
+      const cols = [m + 12, m + tw * 0.3, m + tw * 0.52, m + tw * 0.74];
+      ctx.font = '600 10px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.textAlign = 'left';
+      ['sensor', 'bateria', 'sinal', 'última leitura'].forEach((c, k) => ctx.fillText(c, cols[k], by + 34));
+      const lh = Math.min(17, (bh - 44) / INSTR.length);
+      INSTR.forEach((it, i) => {
+        const y = by + 50 + i * lh;
+        const atraso = it.ult >= 30 && regra;
+        ctx.font = '11px Montserrat, Arial';
+        ctx.fillStyle = '#fff'; ctx.fillText(it.id, cols[0], y);
+        ctx.fillStyle = it.bat < 20 ? '#FF8A1F' : '#fff'; ctx.fillText(it.bat + '%', cols[1], y);
+        ctx.fillStyle = '#fff'; ctx.fillText(it.sinal + ' dBm', cols[2], y);
+        ctx.fillStyle = atraso ? '#C9C0FF' : '#fff'; ctx.font = (atraso ? '700 ' : '') + '11px Montserrat, Arial';
+        ctx.fillText(it.ult < 10 ? 'agora' : 'há ' + dur(Math.floor(it.ult / 10) * 10), cols[3], y);
+      });
+      // registro de alarmes
+      const rx = m * 2 + tw, rw = W - rx - m;
+      caixaP(rx, by, rw, bh, 'Registro de alarmes');
+      ctx.font = '600 10px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.6)';
+      const rc = [rx + 12, rx + 58, rx + 118];
+      ['hora', 'sensor', 'nível · status'].forEach((c, k) => ctx.fillText(c, rc[k], by + 34));
+      st.log.slice(0, 3).forEach((e, k) => {
+        const y = by + 52 + k * 30, novo = e.status.startsWith('NOVO');
+        ctx.font = (novo ? '700 ' : '') + '11px Montserrat, Arial'; ctx.fillStyle = novo ? '#C9C0FF' : '#fff';
+        ctx.fillText(e.hora, rc[0], y); ctx.fillText(e.sensor, rc[1], y); ctx.fillText(e.nivel, rc[2], y);
+        ctx.font = '10px Montserrat, Arial'; ctx.fillStyle = novo ? '#C9C0FF' : 'rgba(255,255,255,.7)'; ctx.fillText(e.status, rc[2], y + 13);
+      });
+      const s1 = status(INSTR[0]);
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      ctx.fillText('Edifício Aurora (fictício) · ' + hhmm(st.min), W - m - 8, top + 18);
+      if (!st.cabo) cInc.innerHTML = 'INC-01: <b>verde</b>, transmitindo';
+      else if (s1 === 'mudo') cInc.innerHTML = 'INC-01: <b>SEM DADOS</b> · estado desconhecido';
+      else cInc.innerHTML = 'INC-01 no painel: <b>verde</b> · sem leitura há ' + dur(st.mudo);
+      cInc.classList.toggle('alerta', st.cabo && s1 !== 'mudo' && st.mudo >= 30);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* histerese — seis leituras em torno de 10 mm, com e sem histerese */
+  Obra.register('histerese', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host);
+    const cN = chip(h, ''), cE = chip(h, '');
+    const L = [9.8, 10.1, 9.9, 10.2, 9.9, 10.1];
+    const ENTRA = 10.0, SAI = 9.5;
+    let com = false, t0 = 0;
+    const btns = botoes(host, [
+      ['Sem histerese', () => { com = false; t0 = lp.t; btns.forEach((b, j) => b.classList.toggle('on', j === 0)); }, true],
+      ['Com histerese', () => { com = true; t0 = lp.t; btns.forEach((b, j) => b.classList.toggle('on', j === 1)); }]
+    ]);
+    // estados e notificações para n leituras
+    const simula = (n) => {
+      let at = false; const est = [], notif = [];
+      for (let i = 0; i < n; i++) {
+        const v = L[i];
+        if (!at && v >= ENTRA) { at = true; notif.push({ i, tipo: 'alerta' }); }
+        else if (at && (com ? v < SAI : v < ENTRA)) { at = false; notif.push({ i, tipo: 'normal' }); }
+        est.push(at);
+      }
+      return { est, notif };
+    };
     const lp = loop((t) => {
       const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
       ctx.clearRect(0, 0, W, H);
-      const esc = Math.min((W - 60) / LX, (H - 120) / LY), ox = (W - LX * esc) / 2, oy = 56;
-      ctx.fillStyle = 'rgba(185,188,194,.18)'; ctx.fillRect(ox, oy, LX * esc, LY * esc);
-      const tol = +sTol.value, U = +sU.value, prog = Math.min(1, t * 0.9), lado = Math.max(2, 0.3 * esc + 0.6);
-      let ok = 0, duv = 0, ruim = 0, n = 0;
-      for (const [x, y, d] of pts) {
-        if (x > LX * prog) continue;
-        n++;
-        const a = Math.abs(d);
-        let cor;
-        if (a + U <= tol) { ok++; cor = 'rgba(149,222,104,.9)'; }
-        else if (a - U > tol) { ruim++; cor = 'rgba(255,43,95,.95)'; }
-        else { duv++; cor = 'rgba(242,203,10,.95)'; }
-        ctx.fillStyle = cor; ctx.fillRect(ox + x * esc - lado / 2, oy + y * esc - lado / 2, lado, lado);
+      const tt = (t - t0) % 9.5;
+      const n = Math.max(1, Math.min(L.length, Math.floor(tt / 1.1) + 1));
+      const { est, notif } = simula(n);
+      const gx = 64, gy = 70, gw = W - gx - 40, gh = H - gy - 70, vmin = 9.2, vmax = 10.6;
+      const X = (i) => gx + (i + 0.5) / L.length * gw, Y = (v) => gy + gh - (v - vmin) / (vmax - vmin) * gh;
+      // faixas de estado por leitura
+      for (let i = 0; i < n; i++) {
+        ctx.fillStyle = est[i] ? 'rgba(242,203,10,.16)' : 'rgba(17,163,96,.12)';
+        ctx.fillRect(gx + i / L.length * gw + 1, gy, gw / L.length - 2, gh);
+        ctx.fillStyle = est[i] ? '#F2CB0A' : '#95DE68'; ctx.font = '700 11px Montserrat, Arial'; ctx.textAlign = 'center';
+        ctx.fillText(est[i] ? 'ATENÇÃO' : 'normal', X(i), gy + gh - 8);
       }
-      // pilares do modelo (contorno) e borda
-      ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.strokeRect(ox, oy, LX * esc, LY * esc);
-      for (const px of [0, 10, 20, 30]) for (const py of [0, 10, 20]) { ctx.strokeRect(ox + px * esc - 6, oy + py * esc - 6, 12, 12); }
-      ctx.lineWidth = 1;
-      ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center';
-      ctx.fillText('flecha no meio do vão', ox + 17 * esc, oy + 10 * esc + 4);
-      ctx.save(); ctx.translate(ox + 28.6 * esc, oy + 10 * esc); ctx.rotate(-Math.PI / 2); ctx.fillText('borda fora de posição', 0, 0); ctx.restore();
-      // escala
-      ctx.strokeStyle = '#fff'; ctx.beginPath(); ctx.moveTo(ox, oy + LY * esc + 16); ctx.lineTo(ox + 5 * esc, oy + LY * esc + 16); ctx.stroke();
-      ctx.textAlign = 'left'; ctx.font = '11px Montserrat, Arial'; ctx.fillText('5 m', ox, oy + LY * esc + 30);
-      const pct = (k) => n ? fmt(100 * k / n, 1) + '%' : '—';
-      cOk.innerHTML = 'Conforme <b>' + pct(ok) + '</b>';
-      cDuv.innerHTML = 'Inconclusivo <b>' + pct(duv) + '</b>';
-      cRuim.innerHTML = 'Não conforme <b>' + pct(ruim) + '</b>';
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.strokeRect(gx, gy, gw, gh);
+      // eixo
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      for (let v = 9.4; v <= 10.6; v += 0.2) { const yy = Y(v); ctx.fillText(fmt(v, 1), gx - 6, yy + 4); ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.beginPath(); ctx.moveTo(gx, yy); ctx.lineTo(gx + gw, yy); ctx.stroke(); }
+      ctx.save(); ctx.translate(16, gy + gh / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = 'center'; ctx.fillText('deslocamento do I-2 (mm)', 0, 0); ctx.restore();
+      ctx.textAlign = 'center'; for (let i = 0; i < L.length; i++) ctx.fillText('leitura ' + (i + 1), X(i), gy + gh + 18);
+      // limites
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(gx, Y(ENTRA)); ctx.lineTo(gx + gw, Y(ENTRA)); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.textAlign = 'left'; ctx.font = '700 12px Montserrat, Arial';
+      const etiqueta = (txt, y, cor) => { ctx.textAlign = 'left'; const w = ctx.measureText(txt).width, x0 = gx + 4; ctx.fillStyle = 'rgba(7,16,31,.85)'; ctx.fillRect(x0, y - 13, w + 10, 18); ctx.fillStyle = cor; ctx.fillText(txt, x0 + 5, y); };
+      if (com) {
+        ctx.strokeStyle = '#2BD9FE'; ctx.setLineDash([7, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(gx, Y(SAI)); ctx.lineTo(gx + gw, Y(SAI)); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+        etiqueta('só sai abaixo de 9,5', Y(SAI) - 7, '#2BD9FE');
+      }
+      // série
+      ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 2; ctx.beginPath();
+      for (let i = 0; i < n; i++) i ? ctx.lineTo(X(i), Y(L[i])) : ctx.moveTo(X(i), Y(L[i]));
+      ctx.stroke(); ctx.lineWidth = 1;
+      for (let i = 0; i < n; i++) {
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(X(i), Y(L[i]), 5, 0, 7); ctx.fill();
+        ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center';
+        ctx.fillText(fmt(L[i], 1), X(i), Y(L[i]) + (L[i] >= ENTRA ? -12 : 20));
+      }
+      etiqueta(com ? 'entra: 10,0 mm' : 'entra e sai: 10,0', Y(ENTRA) - 8, '#F2CB0A');
+      // notificações
+      notif.forEach((q) => {
+        const xx = X(q.i), yy = gy + 22, alerta = q.tipo === 'alerta';
+        ctx.fillStyle = alerta ? 'rgba(255,138,31,.95)' : 'rgba(17,163,96,.95)';
+        ctx.beginPath(); ctx.roundRect(xx - 46, yy - 15, 92, 22, 6); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '700 11px Montserrat, Arial'; ctx.textAlign = 'center';
+        ctx.fillText(alerta ? '🔔 alerta' : '✓ normalizado', xx, yy);
+      });
+      const na = notif.filter((q) => q.tipo === 'alerta').length, nn = notif.length - na;
+      cN.innerHTML = 'Notificações: <b>' + notif.length + '</b> (' + na + ' alerta' + (na === 1 ? '' : 's') + ', ' + nn + ' normaliza' + (nn === 1 ? 'ção' : 'ções') + ')';
+      cN.classList.toggle('alerta', notif.length > 2);
+      cE.innerHTML = 'Leituras: <b>' + n + ' de 6</b> · ' + (com ? 'com' : 'sem') + ' histerese';
     });
-    return { start: lp.start, stop: lp.stop };
+    return { start: () => { t0 = lp.t; lp.start(); }, stop: lp.stop };
   });
 })();
 </script>

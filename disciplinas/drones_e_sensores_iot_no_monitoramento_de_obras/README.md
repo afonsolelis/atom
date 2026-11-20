@@ -38,42 +38,58 @@ entrega_docx/                  ENTREGÁVEIS .docx (4 templates de unidade, Quest
 instrumentos_avaliativos/      avaliacao_final.md (30 objetivas + 10 discursivas) + entrega_trabalho.md (PBL)
 ```
 
-## Plano de aulas (validado com a coordenação)
+## Plano de aulas (realinhado à ementa oficial — Google Doc "Drones e Sensores IoT no Monitoramento de Obras", 19/11/2026)
 
-### Unidade 1 — Fundamentos do Monitoramento Digital de Obras
+> A ementa oficial (Ementa, Objetivos, Competências, Roteiro de Aprendizagem, Tecnologias sugeridas e Bibliografia) é a fonte de verdade da organização das unidades. O plano anterior (validado com o coordenador) foi reorganizado para bater 1:1 com o Roteiro de Aprendizagem da ementa.
 
-1. Monitoramento de obras na era digital: do diário de obra ao canteiro conectado
-2. Fundamentos de sensoriamento: grandezas, transdutores, incerteza e calibração
-3. Arquiteturas IoT para o canteiro: dispositivos, conectividade e nuvem
-4. Drones (RPA): tipos, componentes, cargas úteis e regulamentação brasileira
+### Unidade 1 — Fundamentos, Regulamentação e Planejamento de Voo
 
-### Unidade 2 — Drones: Aquisição e Processamento de Dados
+1. Monitoramento de obras e indicadores de controle de avanço
+2. Tipos de drones e sensores embarcados
+3. Regulamentação brasileira de aeronaves não tripuladas: ANAC, DECEA e ANATEL
+4. Planejamento de missão, condições meteorológicas e procedimentos de segurança
 
-5. Planejamento de voo: GSD, sobreposição, altura e plano de missão
-6. Fotogrametria com drones: SfM, pontos de controle, RTK/PPK e precisão
-7. Produtos cartográficos: ortomosaico, MDS/MDT, nuvem de pontos e cálculo de volumes
-8. LiDAR embarcado e termografia na inspeção de estruturas e fachadas
+### Unidade 2 — Aquisição e Processamento de Imagens
 
-### Unidade 3 — Sensores IoT no Monitoramento de Obras
+5. Fotogrametria digital: sobreposição, pontos de controle e georreferenciamento
+6. Posicionamento por GNSS e precisão dos produtos cartográficos
+7. Ortomosaicos, modelos digitais de superfície e nuvens de pontos
+8. Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado
 
-9. Monitoramento geotécnico: inclinômetros, piezômetros e marcos de recalque
-10. Monitoramento estrutural: extensômetros, acelerômetros, fissurômetros e maturidade do concreto
-11. Segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos
-12. Dados de sensores: séries temporais, níveis de alerta e dashboards
+### Unidade 3 — Sensores IoT e Redes de Comunicação
 
-### Unidade 4 — Integração, Inteligência e Gestão do Monitoramento
+9. Sensores para obras: inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira
+10. Plataformas embarcadas e coleta de dados em campo
+11. Redes de comunicação: LoRaWAN, Wi-Fi e redes celulares
+12. Protocolos e plataformas IoT: MQTT e armazenamento de séries temporais
 
-13. Integração com BIM e gêmeo digital: 4D e comparação as-built × as-designed
-14. IA e visão computacional: detecção de fissuras e medição de avanço físico
-15. Gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos
-16. Projeto integrado de monitoramento de uma obra (fechamento da disciplina)
+### Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos
+
+13. Painéis de monitoramento, alertas e limites de alarme
+14. Integração dos dados com BIM e com o planejamento e controle de obras
+15. Segurança do trabalho, NR-18 e tecnologia para prevenção
+16. Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)
+
+### Tecnologias sugeridas pela ementa (onde aparecem)
+
+- DJI Pilot / Pix4Dcapture — Aula 4 (planejamento e execução de missões)
+- OpenDroneMap / Agisoft Metashape — Aulas 5 e 7 (processamento fotogramétrico)
+- QGIS — Aulas 7 e 8 (análise geoespacial, volumes, curvas de nível)
+- Arduino / ESP32 com sensores e MQTT — Aulas 10 e 12 (protótipos)
+- Node-RED, InfluxDB e Grafana — Aulas 12 e 13 (coleta, séries temporais, painéis)
+
+### Bibliografia da ementa (onde é citada)
+
+- Básica: COELHO; BRITO, *Fotogrametria digital* (U2) · MAGRANI, *A internet das coisas* (U3) · MATTOS, *Planejamento e controle de obras* (U1, U4)
+- Complementar: EASTMAN et al., *Manual de BIM* (U4) · MONICO, *Posicionamento pelo GNSS* (U2) · GUBBI et al., 2013, *Future Generation Computer Systems* (U3) · ANAC, RBAC-E nº 94 (U1) · Lei 13.709/2018 — LGPD (U4)
 
 ## Pendências
 
 - [ ] Seção "Direto da fonte" (livro da Biblioteca Virtual) de cada unidade — escolher o livro e o capítulo na BV (acesso "BV professor", credenciais no próprio template do Drive)
 - [ ] Confirmar a gravação (estúdio ou casa) com o NEaD e agendar o estúdio
 - [ ] Subir os .docx de `entrega_docx/` na pasta do Drive (só quando autorizado)
-- [x] Plano de aulas validado com o coordenador
+- [x] Plano de aulas validado com o coordenador (versão anterior)
+- [x] Plano realinhado à ementa oficial (19/11/2026)
 - [x] Formato confirmado: Átomo 3.0 padrão (20 questões/unidade; avaliação final 30 + 10)
 - [x] Prazos (10/01/2027 e 25/01/2027)
 - [x] Adequação aos templates do Drive e geração dos .docx

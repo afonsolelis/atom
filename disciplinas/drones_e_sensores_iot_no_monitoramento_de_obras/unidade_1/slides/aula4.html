@@ -3,57 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 4 — Drones (RPA): tipos, componentes, cargas úteis e regulamentação brasileira</title>
+<title>Aula 4 — Planejamento de missão, condições meteorológicas e segurança</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
 <style>
-  /* extras desta aula */
+  /* extras desta aula (não altera os assets compartilhados) */
   .slide-foto > .credito { right: auto; left: .8rem; }
-  .galeria .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
-  .galeria.legendas .figura figcaption { font-size: .88rem; }
   .foto-direita .slide-content { max-width: 44%; }
-  .cartao-texto { border-radius: 14px; padding: 1rem 1.1rem; background: rgba(43,217,254,.08); border: 1px solid var(--obra-ciano); display: flex; flex-direction: column; justify-content: center; }
-  .cartao-texto h3 { color: var(--amarelo); margin-bottom: .3em; }
-  .cartao-texto p { font-size: clamp(.85rem, 1.1vw, 1.02rem); }
+  .mini, .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.78); }
+  .pontos li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .4em; }
   .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-  .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
-  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
-  .cards3 .card p, .cards3 .card li { font-size: clamp(.85rem, 1.12vw, 1.05rem); }
-  .cards3.grande .card p, .cards3.grande .card li { font-size: clamp(.92rem, 1.3vw, 1.2rem); }
-  .cards3 .card.aberta { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
-  .cards3 .card.especifica { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
-  .cards3 .card.certificada { border-color: var(--magenta); background: rgba(255,43,95,.07); }
-  .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
-  .versus p, .versus li { font-size: clamp(.88rem, 1.15vw, 1.08rem); }
-  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
-  .stat-grid.cinco { grid-template-columns: repeat(5, 1fr); }
-  .stat-grid.cinco .stat-card { padding: .9rem .6rem; }
-  .stat-grid.cinco .numero-grande { font-size: clamp(1.8rem, 3vw, 2.6rem); }
-  .stat-grid.cinco .legenda { font-size: .85rem; }
-  .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
-  .fecho .lado p, .fecho .pontos li { font-size: clamp(.95rem, 1.3vw, 1.18rem); margin-bottom: .5em; }
+  .cards3 .card { border-radius: 14px; padding: 1.1rem 1.3rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); display: flex; flex-direction: column; }
+  .cards3 .card h3 { color: var(--amarelo); margin-bottom: .4em; font-size: 1.35rem; }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(1rem, 1.45vw, 1.24rem); margin-bottom: .5em; }
+  .cards3.fill { flex: 1 1 0; min-height: 0; grid-auto-rows: 1fr; }
+  .cards3 .card .icone { font-size: 2.4rem; line-height: 1; margin-bottom: .3em; }
+  .cards3 .card.antes { border-top: 6px solid var(--obra-ciano); }
+  .cards3 .card.durante { border-top: 6px solid var(--amarelo); }
+  .cards3 .card.depois { border-top: 6px solid var(--verde-claro); }
+  .cards3.check .card li { font-size: clamp(1rem, 1.5vw, 1.28rem); margin-bottom: .45em; }
+  .dupla-fotos { display: grid; grid-template-columns: 1.3fr 1fr 1.15fr; gap: 1rem; flex: 1 1 0; min-height: 0; }
+  .dupla-fotos .figura { height: 100%; min-height: 0; }
+  .dupla-fotos .painel { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.15); border-radius: 14px; padding: 1rem 1.2rem; display: flex; flex-direction: column; justify-content: center; }
+  .dupla-fotos .painel p, .dupla-fotos .painel li { font-size: clamp(.95rem, 1.32vw, 1.16rem); margin-bottom: .55em; }
+  .dupla-fotos .painel h3 { color: var(--amarelo); margin-bottom: .3em; }
+  .viz-lado .figura.mini-foto { height: 8.5rem; margin: .2rem 0 .6rem; }
+  .fecho { display: grid; grid-template-columns: 1fr 1.15fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; }
+  .fecho .slide-content-box { padding: 1em 1.3em !important; overflow: hidden; }
+  .fecho .slide-content-box { display: flex; flex-direction: column; justify-content: center; }
+  .fecho .slide-content-box li, .fecho .slide-content-box p { font-size: clamp(1rem, 1.5vw, 1.28rem) !important; margin-bottom: .8em; }
+  .fecho .pk { display: grid; grid-template-columns: 1fr; gap: .55rem; }
+  .fecho .pk div { background: rgba(255,255,255,.07); border-left: 5px solid var(--verde-claro); border-radius: 8px; padding: .7rem 1rem; font-size: clamp(.98rem, 1.42vw, 1.22rem); line-height: 1.38; }
+  .fecho .pk div:nth-child(2) { border-color: var(--obra-ciano); } .fecho .pk div:nth-child(3) { border-color: var(--amarelo); }
+  .fecho .pk div:nth-child(4) { border-color: var(--obra-alerta); } .fecho .pk div:nth-child(5) { border-color: var(--obra-laranja); }
+  .fecho h3 { color: var(--amarelo); margin-bottom: .4em; }
+  .lista-num { counter-reset: n; list-style: none; padding: 0; margin: 0; }
+  .lista-num li { counter-increment: n; position: relative; padding-left: 2.2rem; }
+  .lista-num li::before { content: counter(n); position: absolute; left: 0; top: -.05rem; width: 1.55rem; height: 1.55rem; border-radius: 50%;
+    background: var(--amarelo); color: var(--azul-fecaf); font-weight: 800; display: flex; align-items: center; justify-content: center; font-size: .88rem; }
   .timeline.grande .etapa p { font-size: clamp(.98rem, 1.4vw, 1.22rem); }
-  .timeline.grande .ano { font-size: 1.5rem; }
-  /* checklist interativo */
-  .checklist { position: absolute; inset: 0; padding: .8rem 1.1rem; display: flex; flex-direction: column; gap: .38rem; overflow: auto; }
-  .checklist .item { display: flex; align-items: center; gap: .7rem; text-align: left; width: 100%; cursor: pointer;
-    font: 500 clamp(.82rem, 1.05vw, 1rem) var(--fonte); color: #fff; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
-    border-radius: 10px; padding: .42rem .8rem; transition: background .25s, border-color .25s; }
-  .checklist .item .caixa { flex: 0 0 1.4rem; height: 1.4rem; border-radius: 6px; border: 2px solid rgba(255,255,255,.5); display: grid; place-items: center; font-weight: 800; color: var(--azul-fecaf); }
-  .checklist .item.ok { background: rgba(17,163,96,.22); border-color: var(--verde-escuro); }
-  .checklist .item.ok .caixa { background: var(--verde-claro); border-color: var(--verde-claro); }
-  .checklist .item b { color: var(--amarelo); }
-  .checklist .barra { height: 10px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; margin-top: .2rem; }
-  .checklist .barra i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--amarelo), var(--verde-claro)); transition: width .4s; }
-  .checklist .status { font: 700 clamp(.9rem, 1.2vw, 1.1rem) var(--fonte); color: var(--amarelo); }
-  .checklist .status.ok { color: var(--verde-claro); }
+  .timeline.grande .ano { font-size: 1.35rem; }
 </style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
 
-<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 4 — Drones (RPA): tipos, componentes e regulamentação">
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 1|Aula 4 — Planejamento de missão, condições meteorológicas e segurança">
 
   <!-- 1. Capa -->
   <section class="slide slide-capa">
@@ -63,8 +59,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Drones (RPA) na obra</h1>
-      <div class="subtitulo">Aula 4 — Tipos, componentes, cargas úteis e regulamentação brasileira</div>
+      <h1>Vento fraco no chão, rajada a 70 m</h1>
+      <div class="subtitulo">Aula 4 — Planejamento de missão, condições meteorológicas e segurança</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -74,392 +70,439 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Drones (RPA) na obra</h1>
+        <h1 class="sumario-titulo">Planejamento de missão, meteorologia e segurança</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>RPA, UA, UAS e drone: os termos</li>
-          <li>Multirrotor, asa fixa e VTOL</li>
-          <li>Por dentro do drone, em 3D</li>
-          <li>Cargas úteis: RGB, multiespectral, térmica e LiDAR</li>
-          <li>RBAC nº 100: operações classificadas pelo risco</li>
-          <li>120 m e 30 m em escala real</li>
-          <li>DECEA, Anatel, seguro e LGPD</li>
-          <li>Quanto um drone cobre por voo?</li>
+          <li>Tipos de missão</li>
+          <li>GSD, altura e sobreposição</li>
+          <li>Aplicativos de missão</li>
+          <li>Vento, chuva, luz e bateria</li>
+          <li>Clima espacial e GNSS</li>
+          <li>Procedimentos e emergências</li>
+          <li>Três contas que conversam</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Foto: pode voar? -->
+  <!-- 3. Foto: o voo que voltou com 8% -->
   <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Drone_Pilot.jpg/1280px-Drone_Pilot.jpg'); background-position: 70% 40%" role="img" aria-label="Piloto remoto de colete refletivo, sobre uma laje, segura o controle de um drone com tela acoplada e observa a aeronave, com telhados de uma cidade ao fundo"></div>
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/DJI_Matrice_600_Pro_with_X_5_Camera_by_Don_Ramey_Logan.jpg/1280px-DJI_Matrice_600_Pro_with_X_5_Camera_by_Don_Ramey_Logan.jpg'); background-position: 60% 45%" role="img" aria-label="Drone hexacóptero preto em voo contra o céu azul, com as seis hélices girando e uma câmera em gimbal sob o corpo"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
-      <p class="kicker">A construtora comprou um drone</p>
-      <h2>Tira da caixa, carrega a bateria e decola amanhã? Antes de tudo: pode voar?</h2>
-      <p>"Drone" é o nome popular. A regulamentação fala em <strong>aeronave não tripulada (UA)</strong> e em <strong>sistema de aeronave não tripulada (UAS)</strong>: a aeronave, a estação de pilotagem remota e o enlace de comando. A literatura usa também <strong>RPA</strong> (<em>remotely piloted aircraft</em>).</p>
-      <p>Aqui tratamos do uso <strong>profissional</strong>; aeromodelos recreativos têm regras próprias.</p>
+      <p class="kicker">Ninguém quebrou regra nenhuma</p>
+      <h2>O voo que voltou com 8% de bateria</h2>
+      <ul>
+        <li>Canteiro de <strong>12 ha</strong>, SARPAS aceito. Decolagem às <strong>7h</strong>, vento fraco no chão.</li>
+        <li>A <strong>70 m</strong>, rajadas. A volta contra o vento consome a bateria.</li>
+        <li>Pouso com <strong>8%</strong>, a <strong>200 m</strong> do ponto previsto.</li>
+        <li>No escritório: metade das fotos <strong>tremida</strong>, modelo com <strong>buracos</strong>.</li>
+      </ul>
+      <p>O que faltou foi <strong>planejamento</strong>: missão, tempo e procedimentos.</p>
     </div>
-    <p class="credito">Foto: Amuzujoe — Wikimedia Commons (CC BY-SA 4.0)</p>
+    <p class="credito">Foto: WPPilot — Wikimedia Commons (CC BY-SA 4.0)</p>
   </section>
 
-  <!-- 4. Três famílias -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Tipos de drone</p>
-      <h2>Três famílias, três geometrias de obra</h2>
-      <div class="galeria legendas" style="--cols:3">
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/DJI_Matrice_600_Pro_with_X_5_Camera_by_Don_Ramey_Logan.jpg/1280px-DJI_Matrice_600_Pro_with_X_5_Camera_by_Don_Ramey_Logan.jpg" alt="Drone hexacóptero preto com seis braços e hélices girando, trem de pouso aberto e câmera em gimbal sob o corpo, voando contra o céu azul" loading="lazy">
-          <figcaption><b>Multirrotor</b>Decola na vertical, paira e manobra com precisão: fachadas, estruturas, áreas pequenas. Voa 20 a 45 min.</figcaption>
-          <p class="credito">Foto: WPPilot — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/USGS_Team_Flies_Drones_for_Oregon_BLM_Forestry_Research_%2814800833373%29.jpg/1280px-USGS_Team_Flies_Drones_for_Oregon_BLM_Forestry_Research_%2814800833373%29.jpg" alt="Técnico segura um pequeno drone de asa fixa branco, com marcações coloridas, pronto para o lançamento manual ao lado de um veículo de campo" loading="lazy">
-          <figcaption><b>Asa fixa</b>Voa como avião e cobre centenas de hectares: rodovias, ferrovias, grandes terraplenagens. Precisa de área de pouso; não paira.</figcaption>
-          <p class="credito">Foto: Bureau of Land Management Oregon and Washington — Wikimedia Commons (domínio público)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/WingtraOne_and_operators.jpg/1280px-WingtraOne_and_operators.jpg" alt="Dois operadores com equipamento de proteção preparam um drone VTOL laranja de asa fixa, pousado na vertical sobre o capim seco" loading="lazy">
-          <figcaption><b>VTOL</b>Decola e pousa na vertical e voa em cruzeiro como asa fixa: o melhor dos dois mundos.</figcaption>
-          <p class="credito">Foto: Emily Loosli — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Foto VTOL -->
-  <section class="slide slide-foto foto-direita">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/WingtraOne_in_use.jpg/1280px-WingtraOne_in_use.jpg'); background-size: auto 100%; background-position: calc(100% + 220px) center; background-color: #0b1a33" role="img" aria-label="Drone VTOL de asa fixa laranja, do tipo tail-sitter, pousado na vertical sobre gramado de montanha, com cordilheira e céu azul ao fundo, antes de um voo de mapeamento"></div>
-    <div class="foto-veu"></div>
-    <div class="slide-content">
-      <p class="kicker">VTOL · <em>vertical take-off and landing</em></p>
-      <h2>Decola como helicóptero, cruza como avião</h2>
-      <p>Este VTOL fica "em pé" no chão: sobe na vertical, deita e voa em cruzeiro com a eficiência de uma asa. Não precisa de pista nem de rede de captura.</p>
-      <p>Resultado: <strong>muito mais área por bateria</strong> que um multirrotor, sem abrir mão do pouso preciso. Guarde isso para o exemplo numérico.</p>
-    </div>
-    <p class="credito">Foto: Adyasha Dash — Wikimedia Commons (CC BY-SA 4.0)</p>
-  </section>
-
-  <!-- 6. Drone 3D -->
+  <!-- 4. Tipos de missão -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Explore em 3D</p>
-      <h2>Por dentro de um multirrotor</h2>
+      <p class="kicker">Tipos de missão</p>
+      <h2>A trajetória segue o objetivo</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="drone3d" role="img" aria-label="Quadricóptero 3D pairando, com hélices girando. O botão Vista explodida separa as peças e mostra rótulos: estrutura e controladora de voo, bateria LiPo, antena GNSS/RTK, IMU, rádio de telemetria e vídeo, motores sem escovas com ESC, hélices em pares de sentidos opostos e gimbal com câmera."></div>
+        <div class="viz" data-viz="missoes" role="img" aria-label="Vista de cima animada de um canteiro, com o drone desenhando a trajetória de cada tipo de missão escolhida nos botões: grade em faixas paralelas; grade dupla com faixas cruzadas e câmera inclinada; corredor ao longo de uma rodovia; órbita ao redor de um prédio com pontos de passagem; e voo manual perto da fachada, dentro do círculo de linha de visada do piloto."></div>
         <div class="viz-lado">
-          <h3>Clique em "Vista explodida"</h3>
-          <ul class="pontos">
-            <li><strong>Frame:</strong> fibra de carbono ou compósito, leve e rígido.</li>
-            <li><strong>Motores <em>brushless</em> + ESC</strong> (controladores eletrônicos de velocidade).</li>
-            <li><strong>Controladora de voo:</strong> o "cérebro"; estabiliza e executa missões.</li>
-            <li><strong>GNSS + RTK:</strong> posição das fotos em centímetros, menos pontos de controle.</li>
-            <li><strong>IMU:</strong> acelerômetros e giroscópios medem atitude e aceleração.</li>
-            <li><strong>Bateria LiPo,</strong> <strong>gimbal</strong> de até 3 eixos e <strong>rádio</strong> de comando e vídeo.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Componentes reais -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Do 3D para a mão</p>
-      <h2>Os componentes de verdade</h2>
-      <div class="galeria legendas" style="--cols:3">
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Quadshot_drone_brushless_motors_%288107827099%29.jpg/1280px-Quadshot_drone_brushless_motors_%288107827099%29.jpg" alt="Close de um motor elétrico sem escovas de drone, com bobinas de cobre visíveis e cabos saindo da base" loading="lazy">
-          <figcaption><b>Motor sem escovas (<em>brushless</em>)</b>Cada motor é acionado por um ESC; a controladora varia a rotação de cada um para estabilizar o voo.</figcaption>
-          <p class="credito">Foto: Ed Schipul — Wikimedia Commons (CC BY 2.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/DJI_Phantom_4Pro_04-2017_img2_flight_battery.jpg/1280px-DJI_Phantom_4Pro_04-2017_img2_flight_battery.jpg" alt="Bateria de voo branca de um drone, apoiada sobre uma superfície de madeira" loading="lazy" style="object-position:50% 45%">
-          <figcaption><b>Bateria LiPo</b>Alta densidade de energia, mas exige cuidado com carga, temperatura e armazenamento.</figcaption>
-          <p class="credito">Foto: A.Savin — Wikimedia Commons (Free Art License)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/DJI_M300_Matrice_300_RTK_%28FA39TN4A93%29_%284-12-2024%29.jpg/1280px-DJI_M300_Matrice_300_RTK_%28FA39TN4A93%29_%284-12-2024%29.jpg" alt="Drone quadricóptero profissional cinza exposto em feira, com braços em fibra de carbono, trem de pouso e gimbal com câmeras sob a fuselagem" loading="lazy">
-          <figcaption><b>Plataforma profissional com RTK</b>Braços em fibra de carbono, receptor GNSS com RTK e gimbal que aceita diferentes cargas úteis.</figcaption>
-          <p class="credito">Foto: ZLEA — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Cargas úteis -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Cargas úteis (<em>payloads</em>)</p>
-      <h2>O que o drone carrega define o que ele mede</h2>
-      <div class="galeria legendas" style="--cols:4">
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Drone_view_of_a_bridge_during_an_inspection.jpg/1280px-Drone_view_of_a_bridge_during_an_inspection.jpg" alt="Foto aérea feita por drone de um viaduto de concreto sobre um vale com vegetação, durante uma inspeção" loading="lazy">
-          <figcaption><b>Câmera RGB</b>A mais usada: fotogrametria (ortomosaico, modelo 3D, volumes) e avanço físico.</figcaption>
-          <p class="credito">Foto: FedericaGaspari — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Passivhaus_thermogram_gedaemmt_ungedaemmt.png" alt="Termograma de fachadas de edifícios em cores falsas: um prédio com isolamento aparece em azul e outro sem isolamento aparece com janelas e paredes em amarelo e vermelho" loading="lazy">
-          <figcaption><b>Térmica</b>Diferenças de temperatura (na imagem, fachada com e sem isolamento): infiltrações, descolamento de revestimento, painéis aquecidos.</figcaption>
-          <p class="credito">Imagem: Passivhaus Institut — Wikimedia Commons (CC BY-SA 3.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Drone_with_Lidar.jpg/1280px-Drone_with_Lidar.jpg" alt="Drone quadricóptero pousado sobre cascalho, com um sensor LiDAR montado sob a fuselagem" loading="lazy">
-          <figcaption><b>LiDAR</b>Laser que gera nuvem de pontos e alcança o terreno sob a vegetação, onde a fotogrametria falha.</figcaption>
-          <p class="credito">Foto: Jonte — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/7/77/DroneMapper_Processed_NDVI_4cm_GSD.png" alt="Mapa NDVI de uma área agrícola gerado com imagens multiespectrais de drone, em cores falsas do roxo ao verde, com escala de 0,28 a 0,60" loading="lazy">
-          <figcaption><b>Multiespectral</b>Bandas além do visível; o mapa NDVI mostra o vigor da vegetação: taludes revegetados, áreas de empréstimo, compensação ambiental.</figcaption>
-          <p class="credito">Imagem: Stoermerjp — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. RBAC-E 94 x RBAC 100 -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Regulamentação brasileira · ANAC</p>
-      <h2>Do peso da aeronave ao risco da operação</h2>
-      <div class="versus">
-        <div class="lado">
-          <h3>RBAC-E nº 94 (2017)</h3>
-          <p>Classificava a aeronave pelo <strong>peso máximo de decolagem</strong>:</p>
+          <h3>Escolha nos botões</h3>
           <ul>
-            <li><strong>Classe 1:</strong> acima de 150 kg</li>
-            <li><strong>Classe 2:</strong> acima de 25 kg até 150 kg</li>
-            <li><strong>Classe 3:</strong> até 25 kg</li>
+            <li><strong>Grade:</strong> faixas paralelas, câmera para baixo. Ortomosaico, terreno, volume.</li>
+            <li><strong>Grade dupla / oblíqua:</strong> faixas cruzadas, câmera inclinada. Modelo 3D com fachadas.</li>
+            <li><strong>Corredor:</strong> ao longo de um eixo: rodovia, ferrovia, adutora, linha de transmissão.</li>
+            <li><strong>Órbita / waypoints:</strong> o avanço sempre do mesmo ângulo, mês após mês.</li>
+            <li><strong>Manual:</strong> detalhes, sempre em linha de visada.</li>
           </ul>
-          <p class="mini">Você ainda vai encontrar essas classes em contratos, manuais e editais.</p>
-        </div>
-        <div class="vs">→</div>
-        <div class="lado novo">
-          <h3>RBAC nº 100 (jun/2026)</h3>
-          <p>Aprovado pela <strong>Resolução nº 805, de 15/06/2026</strong>, <strong>substituiu o RBAC-E nº 94</strong> e classifica as <strong>operações pelo risco</strong>:</p>
-          <ul>
-            <li>categoria <strong>aberta</strong></li>
-            <li>categoria <strong>específica</strong></li>
-            <li>categoria <strong>certificada</strong></li>
-          </ul>
-          <p class="mini">Atos emitidos sob o RBAC-E nº 94 seguem válidos até serem revistos pela ANAC; operações autorizadas até 15/06/2026 que não cabem na aberta têm 2 anos para obter nova autorização.</p>
         </div>
       </div>
-      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p><strong>O que muda na prática:</strong> antes, um drone de 9 kg era "Classe 3" em qualquer voo. Agora, o mesmo drone pode operar na categoria <strong>aberta</strong> (em linha de visada, até 120 m, longe de terceiros) ou na <strong>específica</strong> (além da linha de visada ou acima de 120 m). Quem define a categoria é a <strong>operação</strong>, não a balança.</p></div>
     </div>
   </section>
 
-  <!-- 10. As três categorias -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">RBAC nº 100</p>
-      <h2>Três categorias de operação</h2>
-      <div class="cards3 grande">
-        <div class="card aberta">
-          <span class="tag">risco baixo</span>
-          <h3>Aberta</h3>
-          <ul>
-            <li>peso em voo até <strong>25 kg</strong></li>
-            <li>linha de visada visual (VLOS) ou estendida, com observador (EVLOS)</li>
-            <li>até <strong>120 m (400 pés)</strong> acima do solo</li>
-            <li>nunca a menos de <strong>30 m horizontais</strong> de pessoas não envolvidas e não anuentes, salvo barreira mecânica capaz de protegê-las</li>
-            <li>avaliação de risco operacional atualizada</li>
-          </ul>
-        </div>
-        <div class="card especifica">
-          <span class="tag">risco intermediário</span>
-          <h3>Específica</h3>
-          <p>Quando algum critério da aberta não é atendido: além da linha de visada (BVLOS), acima de 120 m, acima de 25 kg etc.</p>
-          <p>O operador demonstra a segurança por <strong>avaliação de risco</strong> (a ANAC aceita o método <strong>SORA</strong>) ou por <strong>cenário padrão</strong>; conforme a complexidade, cadastra-se como operador (<strong>COE</strong>).</p>
-        </div>
-        <div class="card certificada">
-          <span class="tag">risco alto</span>
-          <h3>Certificada</h3>
-          <p>Operações de alto risco, como o <strong>transporte de artigos perigosos</strong>.</p>
-          <p>Exige certificação da <strong>aeronave</strong>, do <strong>operador</strong> e do <strong>piloto</strong>.</p>
-        </div>
-      </div>
-      <p class="mini" style="margin-top:.8rem">Na aberta, a avaliação de risco é facultativa se a operação estiver a mais de 150 m das pessoas não envolvidas ou protegida por barreira.</p>
-    </div>
-  </section>
-
-  <!-- 11. Escala 3D -->
+  <!-- 5. GSD -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Explore em 3D · escala real</p>
-      <h2>Quanto é 120 m? E 30 m de distância?</h2>
+      <p class="kicker">Parâmetro 1 · GSD</p>
+      <h2>O tamanho do pixel no terreno depende da altura</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="escala3d" role="img" aria-label="Cena 3D em escala: um prédio de 40 pavimentos com cerca de 120 metros de altura, um plano amarelo translúcido marcando o teto de 120 metros da categoria aberta, um grupo de pessoas não envolvidas cercado por um círculo vermelho de 30 metros de raio e um círculo tracejado de 150 metros, e um drone cuja altura e distância horizontal às pessoas podem ser ajustadas. Um aviso indica se a operação fica dentro da categoria aberta."></div>
+        <div class="viz" data-viz="gsd" role="img" aria-label="Vista lateral de um drone a uma altura ajustável sobre o terreno, com o cone de visão da câmera e a largura da faixa imageada no solo; à direita, um alvo xadrez de 60 cm mostrado com os pixels do GSD atual, que ficam mais grossos quanto mais alto o voo; uma linha tracejada marca o teto de 120 m."></div>
         <div class="viz-lado">
-          <h3>Leve o drone ao limite</h3>
-          <p>O prédio tem <strong>40 pavimentos de 3 m</strong>: o topo dele é o teto da categoria aberta.</p>
+          <h3>Semelhança de triângulos</h3>
+          <p><span class="formula">GSD = H · p / f</span></p>
+          <p class="mini">GSD (<em>ground sample distance</em>): o quadrado de terreno que um pixel "enxerga". Câmera de 20 MP: 5.472 × 3.648 px, p = 2,41 µm, f = 8,8 mm.</p>
           <div data-controles></div>
-          <p class="mini">Use o botão <strong>Barreira</strong> para ver a exceção da regra dos 30 m. O drone está ampliado para ser visto; o resto está em escala.</p>
+          <p class="mini">Arraste de 50 para 100 m: o pixel dobra. "Quanto mais alto, mais rápido" cobra em resolução.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 12. Números da regra -->
+  <!-- 6. Sobreposição -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Parâmetros 2 e 3 · faixa e sobreposição</p>
+      <h2>Quantas fotos enxergam cada ponto do terreno?</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="sobreposicao" role="img" aria-label="Vista de cima de um terreno coberto por fotos de 105 por 70 metros dispostas em faixas; um mapa de cores mostra em quantas fotos cada ponto aparece, e o drone percorre as faixas destacando a foto atual. Os controles mudam as sobreposições frontal e lateral."></div>
+        <div class="viz-lado">
+          <h3>Quatro fórmulas</h3>
+          <p><span class="formula">W = N<sub>x</sub> · GSD</span> &nbsp; <span class="formula">d = W · (1 − s<sub>l</sub>)</span></p>
+          <p><span class="formula">A = v · t · d</span> &nbsp; arrasto &lt; ½ pixel</p>
+          <div data-controles></div>
+          <p class="mini">Obra: <strong>75–80% frontal</strong> e <strong>65–75% lateral</strong>. A fotogrametria precisa ver cada ponto em várias fotos (teoria na Aula 5).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Aplicativos de missão -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/e/ee/Mission_Planner.png'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Tela do software livre Mission Planner: à esquerda, o painel de instrumentos com horizonte artificial, altitude e velocidade; à direita, a imagem de satélite da cidade de São Carlos (SP), onde o plano de voo é desenhado"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Aplicativos de missão</p>
+      <h2>O aplicativo calcula; quem responde é o engenheiro</h2>
+      <p><strong>DJI Pilot</strong>, <strong>PIX4Dcapture Pro</strong> e as opções abertas <strong>Mission Planner</strong> (na tela) e <strong>QGroundControl</strong>: polígono, GSD ou altura, sobreposições, velocidade e ação ao terminar.</p>
+      <ul class="pontos">
+        <li><strong>1. Altura sobre o terreno</strong>, não sobre a decolagem: morro de 20 m = GSD menor, faixa menor, buracos. Siga o relevo ou planeje pelo ponto mais alto.</li>
+        <li><strong>2. Obstáculos:</strong> grua, torre, fios.</li>
+        <li><strong>3. Polígono</strong> dentro do que foi autorizado no <strong>SARPAS</strong>.</li>
+        <li><strong>4. Altura de RTH</strong> (retorno automático).</li>
+      </ul>
+    </div>
+    <p class="credito">Imagem: Jesimar da Silva Arantes — Wikimedia Commons (CC BY-SA 4.0)</p>
+  </section>
+
+  <!-- 8. Perfil de vento -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Meteorologia · vento</p>
+      <h2>O vento cresce com a altura</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="perfilvento" role="img" aria-label="Perfil de vento animado de 10 a 120 metros de altura: setas horizontais que crescem com a altura e partículas de ar que correm mais rápido no alto. Um drone a 70 metros mostra o vento que ele enfrenta, comparado com o vento medido a 10 metros; uma linha marca o limite prático de 8 metros por segundo."></div>
+        <div class="viz-lado">
+          <h3>Guarde três coisas</h3>
+          <ul>
+            <li>O vento <strong>aumenta com a altura</strong>: o do tapume subestima o dos 70 m.</li>
+            <li>As <strong>rajadas</strong> mandam mais que a média.</li>
+            <li>Contra o vento, a bateria <strong>derrete</strong>, e a volta pode ser a parte mais cara.</li>
+          </ul>
+          <div data-controles></div>
+          <p class="mini">Lei de potência: v(z) = v<sub>10</sub> · (z/10)<sup>α</sup>; α ≈ 0,2 em terreno com obstáculos (ilustrativo).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Biruta e anemômetro -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">RBAC nº 100 em números</p>
-      <h2>Os números que você precisa saber de cor</h2>
-      <div class="stat-grid cinco">
-        <div class="stat-card"><span class="numero-grande contador" data-ate="120" data-suf=" m">0</span><div class="legenda">altura máxima na categoria aberta (400 pés)</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="30" data-suf=" m">0</span><div class="legenda">horizontais de pessoas não envolvidas e não anuentes</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="25" data-suf=" kg">0</span><div class="legenda">peso máximo em voo na categoria aberta</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="24" data-suf=" meses">0</span><div class="legenda">validade do cadastro no SISANT</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="250" data-suf=" g">0</span><div class="legenda">até 120 m e em VLOS/EVLOS: fora do RBAC nº 100 (Res. nº 806), mas via SARPAS</div></div>
-      </div>
-      <div class="cards3 grande" style="margin-top:1.1rem">
-        <div class="card"><h3>SISANT</h3><p>Aeronaves das categorias aberta e específica são <strong>cadastradas</strong>, com identificação na aeronave.</p></div>
-        <div class="card"><h3>Piloto</h3><p>Aprovação em <strong>exame de conhecimento teórico da ANAC</strong>, exigível a partir de <strong>1º/01/2027</strong> (dispensado até 31/12/2026).</p></div>
-        <div class="card"><h3>Seguro</h3><p>Cobertura de <strong>danos a terceiros</strong> (seguro de responsabilidade aeronáutica, o "RETA"), com poucas exceções.</p></div>
-      </div>
-      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>Drones de <strong>até 250 g</strong>, voando <strong>até 120 m</strong> e em <strong>VLOS/EVLOS</strong>, ficam <strong>fora</strong> do RBAC nº 100, sob a Resolução nº 806, mas o acesso ao espaço aéreo continua pelo <strong>SARPAS</strong>. Os drones de levantamento de obra, em geral, são bem mais pesados.</p></div>
-    </div>
-  </section>
-
-  <!-- 13. Foto: espaço aéreo -->
-  <section class="slide slide-foto foto-direita">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Sedona_No_Drone_Zone_%2832311452360%29.jpg/1280px-Sedona_No_Drone_Zone_%2832311452360%29.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Placa vermelha de zona proibida para drones, com o desenho de um drone riscado, ao lado de um painel informativo, em área natural com rochas avermelhadas e céu azul"></div>
-    <div class="foto-veu"></div>
-    <div class="slide-content">
-      <p class="kicker">DECEA, Anatel e o voo na prática</p>
-      <h2>O espaço aéreo tem dono</h2>
-      <p>A <strong>ANAC</strong> cuida da aeronave e do operador. O <strong>espaço aéreo</strong> é do <strong>DECEA</strong>: a <strong>ICA 100-40</strong> (2026) exige o pedido de acesso no <strong>SARPAS</strong>.</p>
-      <p>Mapeamento com faixas sobrepostas (ortomosaico, MDT) é <strong>aerolevantamento</strong> (Portaria GM-MD nº 3.703/2021, art. 8º): exige empresa inscrita no <strong>Ministério da Defesa</strong> e pedido com <strong>4 dias</strong> de antecedência no SARPAS. Áreas pequenas (círculo de raio até 2,2 km ou &lt; 15 km²) ficam pré-autorizadas, <strong>se atendidas condições cumulativas</strong> do art. 38, como não tocar áreas sujeitas a restrição.</p>
-      <p>Rádios com <strong>homologação da Anatel</strong>. E a <strong>LGPD</strong> vale no canteiro: imagens de pessoas são dados pessoais.</p>
-      <p class="mini">Na foto, uma placa de zona proibida nos EUA; no Brasil, as restrições aparecem no SARPAS.</p>
-    </div>
-    <p class="credito">Foto: Coconino National Forest — Wikimedia Commons (domínio público)</p>
-  </section>
-
-  <!-- 14. Checklist -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Interativo</p>
-      <h2>Checklist de conformidade para voar na obra</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="checklist" role="group" aria-label="Checklist interativo com nove itens de conformidade para voar com drone em uma obra; ao marcar todos, a barra de progresso fica completa e o status indica que a operação está pronta."></div>
-        <div class="viz-lado">
-          <h3>Resumo para a obra</h3>
-          <p>Aeronave <strong>cadastrada</strong> + piloto <strong>aprovado</strong> + <strong>seguro</strong> + autorização no <strong>SARPAS</strong> + equipamento <strong>homologado</strong> + <strong>avaliação de risco</strong> e, se for mapeamento, <strong>aerolevantamento</strong>.</p>
-          <p>Marque cada item à medida que conferir. Faltou um? Não decole.</p>
-          <p class="mini">Este checklist é a base da atividade prática desta aula.</p>
+      <p class="kicker">Como decidir</p>
+      <h2>Meça no local e consulte as fontes oficiais</h2>
+      <div class="dupla-fotos">
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Windsock_Hodenhagen_Aerodrome_2013.jpg/1280px-Windsock_Hodenhagen_Aerodrome_2013.jpg" alt="Biruta listrada de vermelho e branco, quase toda inflada pelo vento, no alto de um mastro em um aeródromo, com céu azul ao fundo" loading="lazy">
+          <figcaption>Biruta quase toda inflada: vento considerável.</figcaption>
+          <p class="credito">Foto: Olaf Oliviero Riemer — Wikimedia Commons (CC BY-SA 3.0)</p>
+        </figure>
+        <figure class="figura">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Digital_Handheld_Anemometer.jpg/1280px-Digital_Handheld_Anemometer.jpg" alt="Anemômetro digital portátil, com pequena hélice no topo e visor, segurado na mão" loading="lazy">
+          <figcaption>Anemômetro portátil: mede o vento no local.</figcaption>
+          <p class="credito">Foto: Tpdwkouaa — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+        <div class="painel">
+          <h3>A regra prática</h3>
+          <p>Não passe de <strong>⅔ do limite de resistência ao vento</strong> do fabricante.</p>
+          <p><strong>REDEMET</strong> (DECEA): <strong>METAR</strong>, o boletim, e <strong>TAF</strong>, a previsão dos aeródromos próximos.</p>
+          <p><strong>INMET</strong>: previsão do tempo.</p>
+          <p class="mini">E lembre: o anemômetro mede no chão. A conta para 70 m vem no slide 17.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 10. Chuva, visibilidade e luz -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Meteorologia · além do vento</p>
+      <h2>Chuva, visibilidade e luz</h2>
+      <div class="cards3 fill">
+        <div class="card">
+          <span class="icone" aria-hidden="true">🌧️</span>
+          <h3>Chuva e umidade</h3>
+          <p>Danificam <strong>motores</strong> e <strong>eletrônica</strong>.</p>
+          <p>Aeronave com grau de proteção <strong>IP</strong> tolera chuva leve, <strong>não temporal</strong>.</p>
+        </div>
+        <div class="card">
+          <span class="icone" aria-hidden="true">🌫️</span>
+          <h3>Visibilidade e teto</h3>
+          <p>Neblina e nuvens baixas condicionam a <strong>linha de visada</strong>, exigida na categoria aberta.</p>
+        </div>
+        <div class="card">
+          <span class="icone" aria-hidden="true">☀️</span>
+          <h3>Luz e sombras</h3>
+          <p>Prefira <strong>sol alto</strong> (sombras curtas) ou céu <strong>uniformemente nublado</strong>.</p>
+          <p>Manhã cedo e fim de tarde dão <strong>sombras longas</strong>, que confundem o processamento e escondem detalhes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Bateria LiPo -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Quanto um drone cobre por voo?</h2>
+      <p class="kicker">Temperatura e bateria</p>
+      <h2>A bateria LiPo no frio e no calor</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="lipo" role="img" aria-label="Curvas de tensão por célula de uma bateria LiPo em função da carga consumida, em três temperaturas. A 25 graus a curva cai devagar e atinge o alarme de 3,5 volts perto de 87 por cento da carga; no frio a tensão cai sob carga e o alarme toca perto de 63 por cento; no calor a curva é parecida com a de 25 graus, mas a bateria se degrada mais rápido. Um marcador percorre a curva escolhida."></div>
+        <div class="viz-lado">
+          <figure class="figura mini-foto">
+            <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/DJI_Phantom_4Pro_04-2017_img2_flight_battery.jpg/1280px-DJI_Phantom_4Pro_04-2017_img2_flight_battery.jpg" alt="Bateria de voo branca de um drone, apoiada sobre uma superfície de madeira" loading="lazy" style="object-position:50% 45%">
+            <p class="credito">Foto: A.Savin — Wikimedia Commons (Free Art License)</p>
+          </figure>
+          <p><strong>Frio:</strong> a resistência interna sobe, a tensão cai sob carga e o alarme toca <strong>antes</strong>. Aqueça as baterias antes de voar.</p>
+          <p><strong>Calor (&gt; 35 °C):</strong> bateria, motores e eletrônica aquecem; o ar menos denso pede mais potência; a bateria se degrada.</p>
+          <p class="mini">Consulte a faixa de operação do fabricante e reduza o tempo útil planejado nos extremos. Curvas ilustrativas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Kp e cintilação -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Clima espacial</p>
+      <h2>O "tempo" que pouca gente olha</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="kp" role="img" aria-label="Gráfico de barras do índice Kp, de 0 a 9, em intervalos de 3 horas ao longo de três dias, com uma linha no valor 5 que marca tempestade geomagnética; os botões alternam entre um período calmo e uma tempestade. Abaixo, uma faixa de 24 horas mostra o período depois do pôr do sol em que a cintilação ionosférica é comum no Brasil, com o estado do RTK mudando de fixo para flutuante."></div>
+        <div class="viz-lado">
+          <h3>Índice Kp (0 a 9)</h3>
+          <p>Mede a atividade geomagnética. A partir de <strong>Kp 5</strong>: tempestade, que pode degradar o <strong>GNSS</strong>.</p>
+          <p><strong>Particularidade brasileira:</strong> perto do <strong>equador magnético</strong>, a <strong>cintilação ionosférica</strong>, comum <strong>depois do pôr do sol</strong> em períodos de alta atividade solar, prejudica o RTK <strong>mesmo com Kp baixo</strong>.</p>
+          <p class="mini">RTK que não fixa no fim da tarde? Pode ser isso. Valores ilustrativos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Checklist antes / durante / depois -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Procedimentos de segurança</p>
+      <h2>Antes, durante e depois do voo</h2>
+      <div class="cards3 check fill">
+        <div class="card antes">
+          <h3>Antes</h3>
+          <ul>
+            <li><strong>Documentos:</strong> SISANT, habilitação, seguro, SARPAS, avaliação de risco.</li>
+            <li><strong>Meteorologia</strong> e Kp.</li>
+            <li><strong>Inspeção:</strong> hélices, braços, baterias carregadas e equilibradas, firmware.</li>
+            <li>Calibrar bússola e IMU quando o aplicativo pedir.</li>
+            <li>Configurar a <strong>altura de RTH</strong>.</li>
+            <li>Decolagem e pouso <strong>isolados</strong>; briefing com o observador.</li>
+          </ul>
+        </div>
+        <div class="card durante">
+          <h3>Durante</h3>
+          <ul>
+            <li>Manter a <strong>linha de visada</strong>.</li>
+            <li>Monitorar <strong>bateria</strong>, <strong>sinal</strong> e <strong>GNSS</strong>.</li>
+            <li>Guardar <strong>reserva</strong> para voltar com vento contrário.</li>
+            <li><strong>Interromper</strong> se uma pessoa não anuente entrar na área.</li>
+          </ul>
+        </div>
+        <div class="card depois">
+          <h3>Depois</h3>
+          <ul>
+            <li><strong>Registrar</strong> data, local, duração e ocorrências.</li>
+            <li>Inspecionar a aeronave.</li>
+            <li><strong>Conferir as fotos ainda em campo</strong>: o buraco descoberto no escritório custa um novo voo.</li>
+            <li>Baterias com <strong>carga de armazenamento</strong>, nunca cheias por semanas.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Emergências / RTH -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Simulação de emergências</p>
+      <h2>Quem decide bem é quem já decidiu antes</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="rth" role="img" aria-label="Vista lateral de um canteiro: ponto de decolagem à esquerda, uma grua de 55 metros no meio e o drone trabalhando a 20 metros de altura à direita. Com a altura de retorno em 30 metros, o botão Perda de enlace faz o drone subir a 30 metros e voltar em linha reta, colidindo com a grua; com o retorno acima de 55 metros, ele passa por cima. Outros botões simulam perda de GNSS, com deriva pelo vento, bateria crítica, com pouso no local alternativo, e aeronave tripulada, com descida e afastamento."></div>
+        <div class="viz-lado">
+          <h3>Clique em Perda de enlace</h3>
+          <div data-controles></div>
+          <ul>
+            <li><strong>Perda de enlace:</strong> RTH sobe à altura configurada e volta em linha reta.</li>
+            <li><strong>Perda de GNSS:</strong> modo atitude, deriva com o vento; o piloto assume no manual.</li>
+            <li><strong>Bateria crítica:</strong> pousar no local seguro mais próximo.</li>
+            <li><strong>Aeronave tripulada:</strong> descer e se afastar. Ela tem prioridade.</li>
+          </ul>
+          <p class="mini">Treine no simulador, repita o briefing e registre as ocorrências com o log de voo: a malha fechada da Aula 1 aplicada à segurança.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Conta 1: altura, faixa e espaçamento -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (a)</p>
+      <h2>Do contrato à altura: GSD de no máximo 2 cm</h2>
       <div class="viz-grid">
         <div class="viz" data-viz="calc" data-opts='{
           "inputs": [
-            {"id":"d","label":"Espaçamento entre faixas d","min":10,"max":60,"step":5,"value":30,"unit":"m"},
-            {"id":"u","label":"Fração útil da autonomia","min":50,"max":90,"step":5,"value":70,"unit":"%"},
-            {"id":"tM","label":"Autonomia do multirrotor (6 m/s)","min":15,"max":45,"step":1,"value":30,"unit":"min"},
-            {"id":"tV","label":"Autonomia do VTOL (16 m/s)","min":30,"max":90,"step":1,"value":59,"unit":"min"}
+            {"id":"g","label":"GSD exigido no contrato","min":1,"max":5,"step":0.1,"value":2,"unit":"cm"},
+            {"id":"H","label":"Altura adotada H","min":30,"max":120,"step":1,"value":70,"unit":"m"},
+            {"id":"sl","label":"Sobreposição lateral","min":50,"max":85,"step":5,"value":70,"unit":"%"}
           ],
           "outputs": [
-            {"label":"Multirrotor","expr":"6*(u/100)*tM*60*d/10000","unit":"ha","dec":1},
-            {"label":"VTOL","expr":"16*(u/100)*tV*60*d/10000","unit":"ha","dec":1,"destaque":true},
-            {"label":"Canteiro de 12 ha","expr":"Math.ceil(12/o1)+&#39; voo(s) do multirrotor&#39;"},
-            {"label":"Rodovia de 120 ha","expr":"Math.ceil(120/o2)+&#39; do VTOL ou &#39;+Math.ceil(120/o1)+&#39; do multirrotor&#39;"}
+            {"label":"Altura máxima = GSD · f / p","expr":"g/100*8.8/0.00241","unit":"m","dec":0,"destaque":true},
+            {"label":"GSD real na altura adotada","expr":"H*0.00241/8.8*100","unit":"cm","dec":2},
+            {"label":"Faixa W = 5.472 × GSD","expr":"5472*o2/100","unit":"m","dec":0},
+            {"label":"Espaçamento d = W · (1 − sl)","expr":"o3*(1-sl/100)","unit":"m","dec":1},
+            {"label":"Contrato","expr":"o2<=g?&#39;atende&#39;:&#39;NÃO atende: desça o drone&#39;"}
           ],
           "barras": [
-            {"label":"Multirrotor","expr":"o1","unit":"ha","dec":1},
-            {"label":"VTOL","expr":"o2","unit":"ha","dec":1}
+            {"label":"Altura máxima","expr":"o1","unit":"m","dec":0},
+            {"label":"Altura adotada","expr":"H","unit":"m","dec":0}
           ],
-          "nota": "d = 100 m × (1 − 0,7) = 30 m. Voos arredondados para cima (120/119 → 2)."
-        }' role="img" aria-label="Calculadora da área coberta por voo, A = v vezes tempo útil vezes espaçamento entre faixas, com barras animadas comparando multirrotor e VTOL"></div>
+          "nota": "Câmera de 20 MP: 5.472 × 3.648 px, p = 2,41 µm = 0,00241 mm, f = 8,8 mm. Valores ilustrativos."
+        }' role="img" aria-label="Calculadora: altura máxima de voo para o GSD do contrato, GSD real na altura adotada, largura da faixa e espaçamento entre faixas; com GSD de 2 cm, altura máxima de cerca de 73 m; adotando 70 m, GSD de 1,92 cm, faixa de 105 m e espaçamento de 31,5 m"></div>
         <div class="viz-lado">
-          <h3>Mova os controles</h3>
-          <p><span class="formula">A = v · t<sub>útil</sub> · d</span></p>
-          <p class="mini">Na rodovia, o VTOL (≈ 39,6 km por voo) sai da linha de visada: <strong>BVLOS = categoria específica</strong> (SARPAS 8 dias antes) ou blocos em VLOS.</p>
+          <h3>Conta por conta</h3>
+          <p>H<sub>máx</sub> = 0,02 × 8,8 / 0,00241 ≈ <strong>73 m</strong>. Adoto <strong>70 m</strong>, com folga para o relevo: GSD = <strong>1,92 cm</strong>.</p>
+          <p>W = 5.472 × 1,92 cm ≈ <strong>105 m</strong>; d = 105 × 0,3 = <strong>31,5 m</strong>.</p>
           <div data-controles></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 16. Cobertura -->
+  <!-- 16. Conta 2: área por voo -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Simulação</p>
-      <h2>O canteiro de 12 ha da Aula 1, voado em faixas</h2>
+      <p class="kicker">Exemplo numérico (b)</p>
+      <h2>Quanto um voo cobre? O canteiro de 12 ha cabe num voo</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="cobertura" data-opts='{"area":12,"v":6,"t":21,"d":30}' role="img" aria-label="Vista de cima de um canteiro de 12 hectares percorrido por um drone em faixas paralelas de ida e volta; cada cor de traço representa uma bateria, e o número de baterias muda conforme velocidade, tempo útil e espaçamento entre faixas."></div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"d","label":"Espaçamento entre faixas d","min":10,"max":60,"step":0.5,"value":31.5,"unit":"m"},
+            {"id":"aut","label":"Autonomia do multirrotor","min":15,"max":55,"step":1,"value":30,"unit":"min"},
+            {"id":"u","label":"Fração útil do voo","min":50,"max":90,"step":5,"value":70,"unit":"%"},
+            {"id":"v","label":"Velocidade do multirrotor","min":3,"max":12,"step":0.5,"value":6,"unit":"m/s"}
+          ],
+          "outputs": [
+            {"label":"Tempo útil","expr":"aut*60*u/100","unit":"s","dec":0},
+            {"label":"Multirrotor: A = v · t · d","expr":"v*o1*d/10000","unit":"ha","dec":1,"destaque":true},
+            {"label":"VTOL (16 m/s, 41 min úteis)","expr":"16*41*60*d/10000","unit":"ha","dec":0},
+            {"label":"Voos para o canteiro de 12 ha","expr":"Math.ceil(12/o2)","dec":0}
+          ],
+          "barras": [
+            {"label":"Multirrotor","expr":"o2","unit":"ha","dec":1},
+            {"label":"VTOL","expr":"o3","unit":"ha","dec":0},
+            {"label":"Canteiro","expr":"12","unit":"ha","dec":0}
+          ],
+          "nota": "30 min × 70% = 21 min = 1.260 s; 6 × 1.260 × 31,5 ≈ 238.000 m² ≈ 23,8 ha. Valores ilustrativos."
+        }' role="img" aria-label="Calculadora da área coberta por voo: com espaçamento de 31,5 metros, o multirrotor de 30 minutos, 70 por cento úteis e 6 metros por segundo cobre cerca de 23,8 hectares; um VTOL a 16 metros por segundo com 41 minutos úteis cobre cerca de 124 hectares; barras comparam com o canteiro de 12 hectares"></div>
         <div class="viz-lado">
-          <h3>Ajuste o voo</h3>
-          <p>Cada <strong>cor</strong> é uma bateria. Com os valores do exemplo (6 m/s, 21 min úteis, 30 m), o canteiro cabe em <strong>um único voo</strong> do multirrotor.</p>
+          <h3>Como o cortador de grama</h3>
+          <p>Velocidade × tempo × largura que avança a cada passada.</p>
           <div data-controles></div>
-          <p class="mini">O tipo de drone segue a geometria da obra.</p>
+          <p class="mini">O VTOL é a escolha da Aula 2 para rodovias.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 17. Atividade + pontos-chave -->
+  <!-- 17. Conta 3: vento na altura de voo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico (c)</p>
+      <h2>A conta de um minuto que teria salvado o piloto</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"v10","label":"Vento medido a 10 m","min":0,"max":14,"step":0.5,"value":6,"unit":"m/s"},
+            {"id":"H","label":"Altura de voo","min":10,"max":120,"step":5,"value":70,"unit":"m"},
+            {"id":"a","label":"Expoente α do terreno","min":0.1,"max":0.4,"step":0.01,"value":0.2,"dec":2},
+            {"id":"R","label":"Resistência ao vento (fabricante)","min":6,"max":15,"step":0.5,"value":12,"unit":"m/s"}
+          ],
+          "outputs": [
+            {"label":"Fator (H/10)^α","expr":"Math.pow(H/10,a)","dec":2},
+            {"label":"Vento na altura de voo","expr":"v10*o1","unit":"m/s","dec":1,"destaque":true},
+            {"label":"Limite prático (⅔ da resistência)","expr":"R*2/3","unit":"m/s","dec":1},
+            {"label":"Decisão","expr":"o2<=o3?&#39;voar&#39;:&#39;ADIAR ou voar mais baixo&#39;"}
+          ],
+          "barras": [
+            {"label":"Vento a 10 m","expr":"v10","unit":"m/s","dec":1},
+            {"label":"Vento na altura","expr":"o2","unit":"m/s","dec":1},
+            {"label":"Limite","expr":"o3","unit":"m/s","dec":1}
+          ],
+          "nota": "6 × 7^0,2 ≈ 6 × 1,48 ≈ 8,9 m/s, acima do limite de 8 m/s. Valores ilustrativos."
+        }' role="img" aria-label="Calculadora do vento na altura de voo pela lei de potência: com 6 metros por segundo a 10 metros e expoente 0,2, o vento a 70 metros é de cerca de 8,9 metros por segundo, acima do limite prático de 8 metros por segundo para uma resistência de 12; a decisão é adiar"></div>
+        <div class="viz-lado">
+          <h3>As três contas conversam</h3>
+          <div data-controles></div>
+          <p class="mini">Desça para 50 m: o vento cai, o GSD melhora para ≈ 1,4 cm, mas a faixa encolhe para ≈ 75 m, o espaçamento para ≈ 22 m e a área por voo cai junto. Talvez uma segunda bateria. O engenheiro fecha o conjunto antes de decolar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Atividade + pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Atividade prática e pontos-chave</p>
-      <h2>Para levar desta aula</h2>
-      <div class="versus fecho">
-        <div class="lado">
-          <h3>Atividade prática</h3>
-          <p>Escolha uma obra e monte um <strong>checklist de conformidade</strong> para voar sobre ela: categoria no RBAC nº 100, cadastro, piloto, seguro, SARPAS, aerolevantamento, Anatel, distância de terceiros e LGPD.</p>
-          <p>Depois indique o <strong>tipo de drone</strong> e a <strong>carga útil</strong> mais adequados, justificando pela geometria e pelo objetivo do levantamento.</p>
+      <h2>Planeje um voo, e decida se ele sai</h2>
+      <div class="fecho">
+        <div class="slide-content-box">
+          <ol class="lista-num">
+            <li>Use um aplicativo (DJI Pilot, PIX4Dcapture ou o gratuito <strong>Mission Planner</strong>) ou as fórmulas da aula.</li>
+            <li>Para uma obra à sua escolha: <strong>polígono</strong>, GSD, altura, sobreposições e velocidade.</li>
+            <li>Anote o número de <strong>faixas</strong>, de <strong>fotos</strong> e o <strong>tempo de voo</strong>.</li>
+            <li>Consulte <strong>REDEMET</strong> ou <strong>INMET</strong> e o <strong>Kp</strong> do dia: voa ou não voa, com justificativa.</li>
+            <li>Feche com o seu <strong>checklist pré-voo</strong>, em uma página.</li>
+          </ol>
         </div>
-        <div class="vs">+</div>
-        <div class="lado novo">
+        <div>
           <h3>Pontos-chave</h3>
-          <ul class="pontos">
-            <li><strong>Multirrotor</strong> paira e inspeciona; <strong>asa fixa</strong> cobre grandes áreas; <strong>VTOL</strong> une as duas coisas.</li>
-            <li>Componentes: frame, motores/ESC, controladora, <strong>GNSS/RTK</strong>, IMU, LiPo, gimbal e rádio. Cargas: RGB, multiespectral, térmica e LiDAR.</li>
-            <li>O <strong>RBAC nº 100</strong> (2026) substituiu o RBAC-E nº 94 e classifica operações por <strong>risco</strong>.</li>
-            <li>Para voar: <strong>SISANT, exame da ANAC, seguro, SARPAS e Anatel</strong>, com respeito à LGPD.</li>
-            <li><span class="formula">A = v · t<sub>útil</sub> · d</span>: o tipo de drone segue a geometria da obra.</li>
-          </ul>
+          <div class="pk">
+            <div>A <strong>trajetória</strong> segue o objetivo: grade, grade dupla, corredor, órbita ou manual.</div>
+            <div><strong>GSD = H · p / f</strong>; W = N<sub>x</sub> · GSD; d = W(1 − s<sub>l</sub>); A = v · t · d.</div>
+            <div>O vento <strong>cresce com a altura</strong>: no máximo ⅔ do limite do fabricante, na altura de voo.</div>
+            <div>Frio, calor e <strong>clima espacial</strong> também derrubam voos: bateria, GNSS e RTK.</div>
+            <div>A <strong>altura de RTH</strong> fica acima do maior obstáculo. Emergência se resolve no planejamento.</div>
+          </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- 18. Foto: geometria da obra -->
-  <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Obras_do_Rodoanel_Norte.jpg/1280px-Obras_do_Rodoanel_Norte.jpg'); background-position: 60% 50%" role="img" aria-label="Vista aérea das obras do Trecho Norte do Rodoanel Mário Covas, em São Paulo: um viaduto em construção atravessa a mata da serra, com a cidade ao fundo"></div>
-    <div class="foto-veu"></div>
-    <div class="slide-content">
-      <p class="kicker">Fechando os fundamentos</p>
-      <h2>Uma foto assim é só o começo</h2>
-      <p>Por que monitorar, como medir com confiança, como o dado viaja numa arquitetura IoT e o que é preciso para voar <strong>legalmente</strong>: esses são os fundamentos da Unidade 1.</p>
-      <p>Agora o drone vai para o ar de verdade, e centenas de fotos aéreas como esta, do Rodoanel Norte (SP), vão virar <strong>mapas, modelos 3D e volumes</strong>.</p>
-    </div>
-    <p class="credito">Foto: Governo do Estado de SP — Wikimedia Commons (CC BY 2.0)</p>
   </section>
 
   <!-- 19. Prévia da Unidade 2 -->
@@ -467,18 +510,18 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O que você verá na próxima unidade</p>
-      <h2>Unidade 2 — Drones: aquisição e processamento de dados</h2>
+      <h2>Unidade 2 — Aquisição e Processamento de Imagens</h2>
       <div class="timeline grande" style="--n:4">
-        <div class="etapa"><div class="ano">Planejar o voo</div><p><strong>GSD</strong>, altura, sobreposição e plano de missão.</p></div>
-        <div class="etapa"><div class="ano">Fotogrametria</div><p>Centenas de fotos viram um modelo 3D: <em>Structure from Motion</em>, pontos de controle, RTK/PPK.</p></div>
-        <div class="etapa"><div class="ano">Produtos</div><p><strong>Ortomosaico</strong>, MDS/MDT, nuvem de pontos e <strong>cálculo de volumes</strong>.</p></div>
-        <div class="etapa"><div class="ano">LiDAR e térmica</div><p><strong>LiDAR embarcado</strong> e <strong>termografia</strong> na inspeção de estruturas e fachadas.</p></div>
+        <div class="etapa"><div class="ano">Aula 5</div><p><strong>Fotogrametria digital:</strong> sobreposição, pontos de controle e georreferenciamento.</p></div>
+        <div class="etapa"><div class="ano">Aula 6</div><p><strong>GNSS</strong> e a precisão dos produtos cartográficos.</p></div>
+        <div class="etapa"><div class="ano">Aula 7</div><p><strong>Ortomosaico</strong>, modelos de superfície e <strong>nuvens de pontos</strong>.</p></div>
+        <div class="etapa"><div class="ano">Aula 8</div><p><strong>Volumes</strong>, curvas de nível e projetado × executado.</p></div>
       </div>
-      <div class="callout-azul" style="margin-top:1.6rem;background:rgba(0,0,0,.25)"><p>Malha fechada, incerteza e regulamentação vão se aplicar <strong>a cada voo</strong>.</p></div>
+      <div class="callout-azul" style="margin-top:1.6rem;background:rgba(0,0,0,.25)"><p style="margin:0">As fotos deste voo viram <strong>produto de engenharia</strong>, e o volume calculado volta direto para a <strong>curva S</strong> e o <strong>valor agregado</strong> da Aula 1.</p></div>
       <div class="versus" style="margin-top:1.2rem">
-        <div class="lado"><p><strong>Desta aula você leva:</strong> o tipo de drone, a carga útil e o checklist legal de cada voo.</p></div>
+        <div class="lado"><p><strong>Na Unidade 1 você viu:</strong> por que medir a obra, qual drone e sensor usar, o que a lei exige e como planejar um voo seguro.</p></div>
         <div class="vs">→</div>
-        <div class="lado novo"><p><strong>Na Unidade 2 você aprende:</strong> a planejar esse voo e a transformar as fotos em medidas de engenharia.</p></div>
+        <div class="lado novo"><p><strong>Na Unidade 2 você aprende:</strong> a transformar as fotos em medidas de engenharia.</p></div>
       </div>
     </div>
   </section>
@@ -489,9 +532,9 @@
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
-      <h1>Fundamentos concluídos</h1>
-      <p class="fim-texto">Você conhece o drone por dentro e as regras do jogo no Brasil. Na Unidade 2, ele vai para o ar.</p>
-      <p class="fim-proxima">Próxima unidade: Unidade 2 — Drones: aquisição e processamento de dados (Aula 5).</p>
+      <h1>Unidade 1 concluída</h1>
+      <p class="fim-texto">Os fundamentos estão construídos: medir, escolher, cumprir a lei e planejar. Na Unidade 2, as fotos viram engenharia.</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 2 — Aquisição e Processamento de Imagens (Aula 5).</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -500,124 +543,449 @@
 
 <script src="../../assets/obra.js"></script>
 <script>
-/* escala3d — 120 m e 30 m em escala real: prédio de 40 pavimentos,
-   teto da categoria aberta, pessoas não anuentes com raio de 30 m
-   (e o círculo de 150 m) e um drone com altura e distância ajustáveis. */
-Obra.register('escala3d', (host, opts, painel) => {
-  const p = painel || document.createElement('div');
-  const sH = Obra.slider(p, { id: 'h', label: 'Altura do drone acima do solo', min: 10, max: 160, step: 5, value: 100, unit: 'm' });
-  const sD = Obra.slider(p, { id: 'd', label: 'Distância horizontal às pessoas', min: 0, max: 100, step: 5, value: 45, unit: 'm' });
-  let barreira = false;
-  const h = Obra.hud(host);
-  const cVal = Obra.chip(h, ''), cCat = Obra.chip(h, '');
-  return Obra.cena3d(host, { r: 290, ph: 1.32, th: 0.22, alvo: [10, 58, 0], fogNear: 500, fogFar: 1400, auto: false }, ({ THREE, scene, rotulo }) => {
-    const M = (cor, extra = {}) => new THREE.MeshStandardMaterial({ color: cor, roughness: 0.85, metalness: 0.05, ...extra });
-    const chao = new THREE.Mesh(new THREE.PlaneGeometry(520, 520), M(0x4a6b45)); chao.rotation.x = -Math.PI / 2; chao.receiveShadow = true; scene.add(chao);
-    const grade = new THREE.GridHelper(520, 52, 0xffffff, 0xffffff); grade.material.opacity = 0.07; grade.material.transparent = true; grade.position.y = 0.05; scene.add(grade);
-    // prédio de 40 pavimentos × 3 m
-    const PX = -70, PZ = -30;
-    for (let i = 0; i < 40; i++) {
-      const laje = Obra.caixa(THREE, 24, 2.9, 24, i % 2 ? 0xd7dae0 : 0x7f9bb8);
-      laje.position.set(PX, i * 3 + 1.45, PZ); scene.add(laje);
-    }
-    const topo = new THREE.Object3D(); topo.position.set(PX, 121, PZ); scene.add(topo);
-    rotulo(topo, 'Prédio de 40 pavimentos ≈ 120 m', 4);
-    // régua de altura
-    const regua = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 150, 8), M(0xffffff)); regua.position.set(PX + 22, 75, PZ + 14); scene.add(regua);
-    [30, 60, 90].forEach((y) => { const o = new THREE.Object3D(); o.position.set(PX + 22, y, PZ + 14); scene.add(o); rotulo(o, y + ' m', 0); });
-    // teto de 120 m
-    const teto = new THREE.Mesh(new THREE.PlaneGeometry(300, 260), new THREE.MeshBasicMaterial({ color: 0xF2CB0A, transparent: true, opacity: 0.09, side: THREE.DoubleSide, depthWrite: false }));
-    teto.rotation.x = -Math.PI / 2; teto.position.set(20, 120, 10); scene.add(teto);
-    const borda = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(300, 260)), new THREE.LineBasicMaterial({ color: 0xF2CB0A }));
-    borda.rotation.x = -Math.PI / 2; borda.position.copy(teto.position); scene.add(borda);
-    const tetoRot = new THREE.Object3D(); tetoRot.position.set(120, 120, 10); scene.add(tetoRot);
-    rotulo(tetoRot, 'Teto da categoria aberta: 120 m (400 pés)', 2);
-    // pessoas não envolvidas
-    const PC = new THREE.Vector3(70, 0, 40);
-    const pessoas = new THREE.Group(); pessoas.position.copy(PC); scene.add(pessoas);
-    for (let k = 0; k < 7; k++) {
-      const a = k * 0.9, r = 2 + (k % 3) * 1.5;
-      const corpo = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.35, 1.3, 8), M(0xff5a3c)); corpo.position.set(Math.cos(a) * r, 0.65, Math.sin(a) * r);
-      const cab = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), M(0xf1c27d)); cab.position.set(corpo.position.x, 1.5, corpo.position.z);
-      pessoas.add(corpo, cab);
-    }
-    const marco = new THREE.Mesh(new THREE.ConeGeometry(2.5, 6, 4), new THREE.MeshBasicMaterial({ color: 0xFF2B5F })); marco.position.set(0, 10, 0); marco.rotation.x = Math.PI; pessoas.add(marco);
-    rotulo(marco, 'Pessoas não envolvidas e não anuentes', 5);
-    const disco = new THREE.Mesh(new THREE.CircleGeometry(30, 72), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, transparent: true, opacity: 0.18, depthWrite: false }));
-    disco.rotation.x = -Math.PI / 2; disco.position.set(PC.x, 0.2, PC.z); scene.add(disco);
-    const anel = new THREE.Mesh(new THREE.RingGeometry(29.3, 30.7, 96), new THREE.MeshBasicMaterial({ color: 0xFF2B5F, side: THREE.DoubleSide }));
-    anel.rotation.x = -Math.PI / 2; anel.position.set(PC.x, 0.25, PC.z); scene.add(anel);
-    const anelRot = new THREE.Object3D(); anelRot.position.set(PC.x + 30, 0.5, PC.z); scene.add(anelRot); rotulo(anelRot, 'raio de 30 m', 2);
-    const pts = []; for (let k = 0; k <= 160; k++) { const a = k / 160 * Math.PI * 2; pts.push(new THREE.Vector3(PC.x + 150 * Math.cos(a), 0.3, PC.z + 150 * Math.sin(a))); }
-    const c150 = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 6, gapSize: 6, transparent: true, opacity: 0.45 }));
-    c150.computeLineDistances(); scene.add(c150);
-    const r150 = new THREE.Object3D(); r150.position.set(PC.x, 0.5, PC.z + 150); scene.add(r150); rotulo(r150, '150 m', 1);
-    // barreira mecânica (rede/anteparo), entre as pessoas e o drone
-    const muro = Obra.caixa(THREE, 1, 8, 50, 0x2BD9FE, { transparent: true, opacity: 0.55 }); muro.position.set(PC.x - 12, 4, PC.z); muro.visible = false; scene.add(muro);
-    // drone (ampliado ×2,5 para ser visto)
-    const dr = Obra.droneModelo(THREE, 2.5); scene.add(dr.g);
-    const halo = new THREE.Mesh(new THREE.SphereGeometry(9, 20, 14), new THREE.MeshBasicMaterial({ color: 0x95DE68, transparent: true, opacity: 0.18, depthWrite: false })); dr.g.add(halo);
-    rotulo(dr.g, 'Drone (ampliado)', 6);
-    const linhaV = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineDashedMaterial({ color: 0xffffff, dashSize: 3, gapSize: 3 }));
-    const linhaH = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]), new THREE.LineBasicMaterial({ color: 0xF2CB0A }));
-    scene.add(linhaV, linhaH);
-    const bt = Obra.botoes(host, [['Barreira de proteção', (b) => { barreira = !barreira; b.classList.toggle('on', barreira); muro.visible = barreira; }]]);
-    void bt;
-    let hAtual = +sH.value, dAtual = +sD.value;
-    return (t, dt) => {
-      hAtual += (+sH.value - hAtual) * Math.min(1, dt * 3);
-      dAtual += (+sD.value - dAtual) * Math.min(1, dt * 3);
-      const x = PC.x - dAtual, z = PC.z, y = hAtual + Math.sin(t * 1.5) * 0.6;
-      dr.g.position.set(x, y, z);
-      dr.helices.forEach((hh, k) => (hh.rotation.y += (k % 2 ? 1 : -1) * 0.9));
-      linhaV.geometry.setFromPoints([new THREE.Vector3(x, y, z), new THREE.Vector3(x, 0.3, z)]); linhaV.computeLineDistances();
-      linhaH.geometry.setFromPoints([new THREE.Vector3(x, 0.6, z), new THREE.Vector3(PC.x, 0.6, PC.z)]);
-      const H = +sH.value, D = +sD.value;
-      const acima = H > 120, perto = D < 30 && !barreira;
-      const ok = !acima && !perto;
-      halo.material.color.setHex(ok ? 0x95DE68 : 0xFF2B5F);
-      cVal.innerHTML = 'Altura <b>' + Obra.fmt(H) + ' m</b> · pessoas a <b>' + Obra.fmt(D) + ' m</b>' + (barreira ? ' · <b>barreira</b>' : '');
-      cCat.innerHTML = ok
-        ? 'Dentro da <b>categoria aberta</b> (altura e distância)'
-        : (acima ? 'Acima de 120 m' : 'A menos de 30 m, sem barreira') + ' → <b>categoria específica</b>';
-      cCat.classList.toggle('alerta', !ok);
-    };
-  });
-});
-
-/* checklist — conformidade para voar na obra (RBAC nº 100, DECEA, Anatel, LGPD). */
-Obra.register('checklist', (host) => {
-  const ITENS = [
-    'Operação enquadrada no <b>RBAC nº 100</b>: aberta, específica (SORA ou cenário padrão) ou certificada',
-    'Aeronave <b>cadastrada no SISANT</b> (24 meses) e identificada',
-    'Piloto remoto aprovado no <b>exame teórico da ANAC</b> (exigível a partir de 1º/01/2027)',
-    '<b>Seguro</b> com cobertura de danos a terceiros (RETA)',
-    'Acesso ao espaço aéreo solicitado no <b>SARPAS</b> (DECEA, ICA 100-40)',
-    'Rádios do drone com <b>homologação da Anatel</b>',
-    '<b>Avaliação de risco</b> atualizada; <b>30 m</b> de pessoas não envolvidas e não anuentes, ou barreira',
-    'Mapeamento com faixas sobrepostas? <b>Aerolevantamento</b>: empresa inscrita no Ministério da Defesa',
-    '<b>LGPD</b>: tratamento das imagens de trabalhadores e vizinhos'
-  ];
-  const box = document.createElement('div'); box.className = 'checklist'; host.appendChild(box);
-  const estado = ITENS.map(() => false);
-  const btns = ITENS.map((txt, k) => {
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'item no-nav';
-    b.innerHTML = '<span class="caixa"></span><span>' + txt + '</span>';
-    b.addEventListener('click', (e) => { e.stopPropagation(); estado[k] = !estado[k]; atualiza(); });
-    box.appendChild(b); return b;
-  });
-  const barra = document.createElement('div'); barra.className = 'barra'; barra.innerHTML = '<i></i>'; box.appendChild(barra);
-  const st = document.createElement('div'); st.className = 'status'; box.appendChild(st);
-  function atualiza() {
-    const n = estado.filter(Boolean).length;
-    btns.forEach((b, k) => { b.classList.toggle('ok', estado[k]); b.querySelector('.caixa').textContent = estado[k] ? '✓' : ''; });
-    barra.firstChild.style.width = (n / ITENS.length * 100) + '%';
-    st.classList.toggle('ok', n === ITENS.length);
-    st.innerHTML = n === ITENS.length ? 'Pronto para voar: todos os itens conferidos.' : n + ' de ' + ITENS.length + ' itens conferidos · ainda não decole';
+/* Visualizações próprias da Aula 4 */
+(function () {
+  const { canvas2d, loop, botoes, fmt, slider } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  /* Câmera da aula: 5.472 × 3.648 px, pixel 2,41 µm, f = 8,8 mm. */
+  const CAM = { nx: 5472, ny: 3648, p: 0.00241, f: 8.8 };
+  const gsdDe = (H) => H * CAM.p / CAM.f; // m
+  function seta(ctx, x0, y0, x1, y1, cor, larg) {
+    ctx.strokeStyle = cor; ctx.fillStyle = cor; ctx.lineWidth = larg || 2;
+    ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(x1, y1); ctx.stroke();
+    const a = Math.atan2(y1 - y0, x1 - x0), k = 6 + (larg || 2) * 1.5;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 - k * Math.cos(a - 0.45), y1 - k * Math.sin(a - 0.45)); ctx.lineTo(x1 - k * Math.cos(a + 0.45), y1 - k * Math.sin(a + 0.45)); ctx.fill();
+    ctx.lineWidth = 1;
   }
-  atualiza();
-  return { start() {}, stop() {} };
-});
+  function droneLado(ctx, x, y, t, s) {
+    s = s || 1;
+    ctx.fillStyle = '#e8ecf2'; ctx.fillRect(x - 13 * s, y - 7 * s, 26 * s, 8 * s);
+    ctx.fillStyle = '#30343c'; ctx.fillRect(x - 28 * s, y - 9 * s, 56 * s, 3 * s);
+    ctx.fillStyle = 'rgba(255,255,255,.65)';
+    const g = (Math.abs(Math.sin(t * 30)) * 12 + 3) * s;
+    ctx.fillRect(x - 28 * s - g / 2, y - 12 * s, g, 2); ctx.fillRect(x + 28 * s - g / 2, y - 12 * s, g, 2);
+  }
+
+  /* missoes — vista de cima: o drone desenha a trajetória de cada tipo de missão. */
+  Obra.register('missoes', (host) => {
+    const { ctx, cv } = canvas2d(host);
+    let modo = 0, t0 = 0;
+    const NOMES = ['Grade', 'Grade dupla / oblíqua', 'Corredor', 'Órbita / waypoints', 'Manual'];
+    const btns = botoes(host, NOMES.map((n, i) => [n, () => { modo = i; t0 = lp.t; btns.forEach((b, k) => b.classList.toggle('on', k === i)); }, i === 0]));
+    function rota(m, W, H) {
+      const x0 = 50, y0 = 70, w = W * 0.58 - 70, h = H - 130, pts = [];
+      if (m === 0 || m === 1) {
+        const n = 7;
+        for (let i = 0; i < n; i++) { const x = x0 + w * i / (n - 1); if (i % 2) pts.push([x, y0 + h], [x, y0]); else pts.push([x, y0], [x, y0 + h]); }
+        if (m === 1) { const n2 = 5; for (let i = 0; i < n2; i++) { const y = y0 + h * i / (n2 - 1); if (i % 2) pts.push([x0 + w, y], [x0, y]); else pts.push([x0, y], [x0 + w, y]); } }
+      } else if (m === 2) {
+        const eixo = (s) => [x0 + w * s, y0 + h * (0.75 - 0.5 * s) + Math.sin(s * 5) * 26];
+        [-24, 0, 24].forEach((off, i) => {
+          const fx = [];
+          for (let k = 0; k <= 40; k++) { const s = k / 40; const [x, y] = eixo(s); fx.push([x, y + off]); }
+          if (i % 2) fx.reverse(); pts.push(...fx);
+        });
+      } else if (m === 3) {
+        const cx = x0 + w / 2, cy = y0 + h / 2, r = Math.min(w, h) * 0.38;
+        for (let k = 0; k <= 64; k++) { const a = k / 64 * Math.PI * 2; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); }
+      } else {
+        const cx = x0 + w * 0.55, cy = y0 + h * 0.45;
+        for (let k = 0; k <= 60; k++) { const s = k / 60; pts.push([cx - 80 + 160 * s + Math.sin(s * 19) * 18, cy - 50 + Math.sin(s * 7) * 40 + Math.cos(s * 13) * 12]); }
+      }
+      return { pts, x0, y0, w, h };
+    }
+    function percorre(pts, f) {
+      let tot = 0; const seg = [];
+      for (let i = 1; i < pts.length; i++) { const l = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); seg.push(l); tot += l; }
+      let alvo = f * tot, i = 0;
+      while (i < seg.length && alvo > seg[i]) { alvo -= seg[i]; i++; }
+      if (i >= seg.length) return { n: pts.length - 1, p: pts[pts.length - 1] };
+      const k = seg[i] ? alvo / seg[i] : 0;
+      return { n: i, p: [pts[i][0] + (pts[i + 1][0] - pts[i][0]) * k, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * k] };
+    }
+    const lp = loop((t) => {
+      const W = cv.width / dprOf(), H = cv.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const { pts, x0, y0, w, h } = rota(modo, W, H);
+      // fundo: canteiro
+      ctx.fillStyle = 'rgba(138,111,77,.35)'; ctx.fillRect(x0 - 20, y0 - 20, w + 40, h + 40);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([6, 5]); ctx.strokeRect(x0 - 20, y0 - 20, w + 40, h + 40); ctx.setLineDash([]);
+      if (modo === 2) {
+        ctx.strokeStyle = 'rgba(180,180,180,.55)'; ctx.lineWidth = 26; ctx.beginPath();
+        for (let k = 0; k <= 40; k++) { const s = k / 40, x = x0 + w * s, y = y0 + h * (0.75 - 0.5 * s) + Math.sin(s * 5) * 26; k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+        ctx.stroke(); ctx.lineWidth = 1;
+      }
+      if (modo === 1 || modo === 3) { // prédio
+        const bx = x0 + w / 2 - 34, by = y0 + h / 2 - 28; ctx.fillStyle = '#7f9bb8'; ctx.fillRect(bx, by, 68, 56); ctx.strokeStyle = '#fff'; ctx.strokeRect(bx, by, 68, 56);
+        ctx.fillStyle = '#fff'; ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('prédio', bx + 34, by + 32);
+      }
+      if (modo === 4) {
+        const px = x0 + w * 0.2, py = y0 + h * 0.8;
+        ctx.strokeStyle = 'rgba(149,222,104,.8)'; ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.arc(px, py, Math.min(w, h) * 0.75, -1.4, 0.2); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = '#ff8a1f'; ctx.beginPath(); ctx.arc(px, py, 7, 0, 7); ctx.fill();
+        ctx.fillStyle = '#95DE68'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('piloto: linha de visada', px + 12, py + 4);
+        ctx.fillStyle = '#7f9bb8'; ctx.fillRect(x0 + w * 0.55 - 90, y0 + h * 0.45 - 92, 180, 14);
+        ctx.fillStyle = '#fff'; ctx.fillText('fachada', x0 + w * 0.55 - 88, y0 + h * 0.45 - 98);
+      }
+      // trajetória progressiva
+      const f = Math.min(1, ((t - t0) % 9) / 7.5);
+      const { n, p } = percorre(pts, f);
+      ctx.strokeStyle = 'rgba(255,255,255,.18)'; ctx.lineWidth = 2; ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.stroke();
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 3; ctx.beginPath();
+      for (let i = 0; i <= n; i++) i ? ctx.lineTo(pts[i][0], pts[i][1]) : ctx.moveTo(pts[0][0], pts[0][1]);
+      ctx.lineTo(p[0], p[1]); ctx.stroke(); ctx.lineWidth = 1;
+      if (modo === 3) { for (let k = 0; k < 8; k++) { const q = pts[k * 8]; ctx.fillStyle = '#2BD9FE'; ctx.beginPath(); ctx.arc(q[0], q[1], 5, 0, 7); ctx.fill(); } }
+      // drone
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(p[0], p[1], 7, 0, 7); ctx.fill();
+      ctx.strokeStyle = '#fff'; [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, b]) => { ctx.beginPath(); ctx.arc(p[0] + a * 10, p[1] + b * 10, 5, 0, 7); ctx.stroke(); });
+      if (modo === 1) { ctx.fillStyle = 'rgba(43,217,254,.35)'; ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] + 40, p[1] - 26); ctx.lineTo(p[0] + 40, p[1] + 26); ctx.fill(); }
+      // painel de texto
+      const tx = W * 0.6 + 6;
+      const INFO = [
+        ['Grade', 'Faixas paralelas, como', 'um cortador de grama.', 'Câmera: para baixo (nadir).', 'Ortomosaico, terreno, volume.'],
+        ['Grade dupla / oblíqua', 'Faixas cruzadas.', 'Câmera: inclinada (oblíqua).', 'Modelo 3D com as fachadas.'],
+        ['Corredor', 'Faixas ao longo de um eixo.', 'Rodovia, ferrovia, adutora,', 'linha de transmissão.'],
+        ['Órbita / waypoints', 'Ao redor de uma estrutura ou', 'por pontos definidos (azul).', 'Mesmo ângulo, mês após mês.'],
+        ['Manual', 'Inspeção de detalhes.', 'Sempre com o piloto em', 'linha de visada.']
+      ][modo];
+      ctx.textAlign = 'left'; ctx.fillStyle = '#F2CB0A'; ctx.font = '800 18px Montserrat, Arial'; ctx.fillText(INFO[0], tx, H * 0.5);
+      ctx.fillStyle = '#fff'; ctx.font = '14px Montserrat, Arial';
+      INFO.slice(1).forEach((l, i) => ctx.fillText(l, tx, H * 0.5 + 28 + i * 22));
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* gsd — vista lateral + alvo xadrez de 60 cm pixelado (reaproveitada, altura inicial 50 m). */
+  Obra.register('gsd', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sH = slider(p, { id: 'H', label: 'Altura sobre o terreno H', min: 20, max: 150, step: 1, value: 50, unit: 'm' });
+    const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+    const { ctx } = canvas2d(host);
+    let Hs = +sH.value;
+    const lp = loop((t, dt) => {
+      const W = ctx.canvas.width / dprOf(), Hc = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, Hc);
+      Hs += (+sH.value - Hs) * Math.min(1, dt * 5);
+      const H = +sH.value, g = gsdDe(H), Wf = CAM.nx * g;
+      res.innerHTML = `GSD = ${fmt(H)} × 0,00241 / 8,8<br>GSD: <span class="num">${fmt(g * 100, 2)} cm</span><br>Faixa W = 5.472 × GSD ≈ <b>${fmt(Wf)} m</b>` +
+        (H > 120 ? '<br><b style="color:#FF2B5F">Acima de 120 m: fora da categoria aberta</b>' : '');
+      const LW = W * 0.62, base = Hc - 46, topo = 40;
+      const escY = (base - topo) / 160, escX = escY;
+      const cx = LW / 2 + 10;
+      ctx.fillStyle = 'rgba(138,111,77,.55)'; ctx.fillRect(0, base, LW + 20, Hc - base);
+      ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([6, 6]);
+      ctx.beginPath(); ctx.moveTo(10, base - 120 * escY); ctx.lineTo(LW + 10, base - 120 * escY); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('teto da categoria aberta: 120 m', 14, base - 120 * escY - 6);
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial';
+      [0, 40, 80].forEach((y) => { ctx.fillText(y + ' m', 14, base - y * escY - 3); ctx.fillRect(10, base - y * escY, 18, 1); });
+      const yD = base - Hs * escY, meia = Math.min(LW / 2 + 10, (CAM.nx * gsdDe(Hs) / 2) * escX);
+      const grad = ctx.createLinearGradient(0, yD, 0, base);
+      grad.addColorStop(0, 'rgba(43,217,254,.35)'); grad.addColorStop(1, 'rgba(43,217,254,.08)');
+      ctx.fillStyle = grad; ctx.beginPath(); ctx.moveTo(cx, yD); ctx.lineTo(cx - meia, base); ctx.lineTo(cx + meia, base); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#2BD9FE'; ctx.stroke();
+      ctx.fillStyle = '#F2CB0A'; ctx.fillRect(cx - meia, base - 3, 2 * meia, 6);
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 13px Montserrat, Arial';
+      ctx.fillText('W ≈ ' + fmt(CAM.nx * gsdDe(Hs)) + ' m', cx, base + 22);
+      ctx.strokeStyle = '#fff'; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(cx + 26, yD); ctx.lineTo(cx + 26, base); ctx.stroke(); ctx.setLineDash([]);
+      ctx.textAlign = 'left'; ctx.fillText('H = ' + fmt(Hs) + ' m', cx + 32, (yD + base) / 2);
+      droneLado(ctx, cx, yD, t);
+      const px = cx - meia - 22 > 34 ? cx - meia - 22 : 40;
+      ctx.fillStyle = '#ff8a1f'; ctx.fillRect(px - 2, base - 1.75 * escY, 4, 1.75 * escY);
+      const ax = LW + 40, aw = Math.min(W - ax - 20, Hc - 120), ay = 50;
+      ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('Alvo xadrez de 60 cm visto pela câmera', ax + aw / 2, ay - 14);
+      const alvo = 0.60, n = alvo / g, cel = aw / n;
+      const quad = (x, y) => ((x < alvo / 2) === (y < alvo / 2) ? 1 : 0);
+      for (let i = 0; i < Math.ceil(n); i++) for (let j = 0; j < Math.ceil(n); j++) {
+        let s = 0; const k = 4;
+        for (let a = 0; a < k; a++) for (let b = 0; b < k; b++) {
+          const x = Math.min(alvo - 1e-6, (i + (a + 0.5) / k) * g), y = Math.min(alvo - 1e-6, (j + (b + 0.5) / k) * g); s += quad(x, y);
+        }
+        const v = Math.round(255 - 235 * s / (k * k));
+        ctx.fillStyle = `rgb(${v},${v},${v})`;
+        ctx.fillRect(ax + i * cel, ay + j * cel, Math.min(cel + 0.5, aw - i * cel), Math.min(cel + 0.5, aw - j * cel));
+      }
+      ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.strokeRect(ax, ay, aw, aw);
+      ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial';
+      ctx.fillText(fmt(n, 1) + ' pixels de lado', ax + aw / 2, ay + aw + 18);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* sobreposicao — fotos de 105 × 70 m em faixas; mapa de quantas fotos veem cada ponto (reaproveitada). */
+  Obra.register('sobreposicao', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sF = slider(p, { id: 'sf', label: 'Sobreposição frontal s<sub>f</sub>', min: 40, max: 90, step: 5, value: 80, unit: '%' });
+    const sL = slider(p, { id: 'sl', label: 'Sobreposição lateral s<sub>l</sub>', min: 30, max: 85, step: 5, value: 70, unit: '%' });
+    const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+    const { ctx } = canvas2d(host);
+    const WF = 105, LF = 70, AX = 300, AY = 200, CEL = 2.5;
+    let mapa = null, chave = '', fotos = [];
+    const cores = ['#3b1f2b', '#FF2B5F', '#FF8A1F', '#F2CB0A', '#95DE68', '#2BD9FE', '#7b6bff'];
+    const corDe = (n) => (n <= 0 ? cores[0] : n === 1 ? cores[1] : n === 2 ? cores[2] : n < 5 ? cores[3] : n < 9 ? cores[4] : n < 16 ? cores[5] : cores[6]);
+    function calcula(sf, sl) {
+      const B = LF * (1 - sf), d = WF * (1 - sl);
+      fotos = [];
+      const nF = Math.ceil(AY / d) + 1, nP = Math.ceil(AX / B) + 1;
+      for (let i = 0; i < nF; i++) { const y = i * d; for (let j = 0; j < nP; j++) { const x = (i % 2 ? nP - 1 - j : j) * B; fotos.push([x, y]); } }
+      const nx = Math.round(AX / CEL), ny = Math.round(AY / CEL); mapa = new Uint16Array(nx * ny);
+      for (const [fx, fy] of fotos) {
+        const x0 = Math.max(0, Math.floor((fx - LF / 2) / CEL)), x1 = Math.min(nx - 1, Math.floor((fx + LF / 2) / CEL));
+        const y0 = Math.max(0, Math.floor((fy - WF / 2) / CEL)), y1 = Math.min(ny - 1, Math.floor((fy + WF / 2) / CEL));
+        for (let a = x0; a <= x1; a++) for (let b = y0; b <= y1; b++) mapa[b * nx + a]++;
+      }
+      let soma = 0; for (const v of mapa) soma += v;
+      res.innerHTML = `d = 105 × (1 − ${fmt(sl, 2)}) = <b>${fmt(d, 1)} m</b><br>Cada ponto aparece, em média, em <span class="num">${fmt(soma / mapa.length, 0)}</span> fotos.`;
+    }
+    const lp = loop((t) => {
+      const sf = +sF.value / 100, sl = +sL.value / 100, k = sf + '|' + sl;
+      if (k !== chave) { chave = k; calcula(sf, sl); }
+      const W = ctx.canvas.width / dprOf(), H = ctx.canvas.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const esc = Math.min((W - 40) / AX, (H - 90) / AY), ox = (W - AX * esc) / 2, oy = 34;
+      const nx = Math.round(AX / CEL);
+      for (let i = 0; i < mapa.length; i++) { const a = i % nx, b = Math.floor(i / nx); ctx.fillStyle = corDe(mapa[i]); ctx.fillRect(ox + a * CEL * esc, oy + b * CEL * esc, CEL * esc + 0.6, CEL * esc + 0.6); }
+      ctx.strokeStyle = 'rgba(255,255,255,.8)'; ctx.lineWidth = 1.5; ctx.strokeRect(ox, oy, AX * esc, AY * esc); ctx.lineWidth = 1;
+      ctx.save(); ctx.beginPath(); ctx.rect(ox, oy, AX * esc, AY * esc); ctx.clip();
+      ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.beginPath();
+      fotos.forEach(([x, y], i) => { const X = ox + x * esc, Y = oy + y * esc; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }); ctx.stroke();
+      const idx = Math.floor(t * 6) % fotos.length, [fx, fy] = fotos[idx];
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2.5; ctx.strokeRect(ox + (fx - LF / 2) * esc, oy + (fy - WF / 2) * esc, LF * esc, WF * esc); ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ox + fx * esc, oy + fy * esc, 5, 0, 7); ctx.fill();
+      ctx.restore();
+      const leg = [['0', cores[0]], ['1', cores[1]], ['2', cores[2]], ['3–4', cores[3]], ['5–8', cores[4]], ['9–15', cores[5]], ['16+', cores[6]]];
+      ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left';
+      let lx = ox; const ly = oy + AY * esc + 22;
+      ctx.fillStyle = '#fff'; ctx.fillText('fotos que veem o ponto:', lx, ly + 4); lx += 165;
+      leg.forEach(([txt, c]) => { ctx.fillStyle = c; ctx.fillRect(lx, ly - 7, 14, 14); ctx.fillStyle = '#fff'; ctx.fillText(txt, lx + 18, ly + 4); lx += 54; });
+      ctx.textAlign = 'center'; ctx.fillText('direção de voo →  (foto atual em branco: 70 m ao longo × 105 m entre faixas)', W / 2, 20);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* perfilvento — setas e partículas de 10 a 120 m; v(z) = v10 · (z/10)^α. */
+  Obra.register('perfilvento', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sV = slider(p, { id: 'v10', label: 'Vento medido a 10 m', min: 1, max: 12, step: 0.5, value: 6, unit: 'm/s', dec: 1 });
+    const sA = slider(p, { id: 'a', label: 'Expoente α', min: 0.1, max: 0.35, step: 0.01, value: 0.2, dec: 2 });
+    const { ctx, cv } = canvas2d(host);
+    const part = Array.from({ length: 70 }, () => ({ x: Math.random(), z: 5 + Math.random() * 118 }));
+    const lp = loop((t, dt) => {
+      const W = cv.width / dprOf(), H = cv.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const v10 = +sV.value, a = +sA.value, vz = (z) => v10 * Math.pow(Math.max(z, 1) / 10, a);
+      const gx = 70, base = H - 40, topo = 70, Y = (z) => base - (z / 125) * (base - topo);
+      const escV = (W - gx - 190) / 16; // px por m/s
+      // chão e eixo
+      ctx.fillStyle = 'rgba(138,111,77,.6)'; ctx.fillRect(0, base, W, H - base);
+      ctx.fillStyle = '#7f9bb8'; ctx.fillRect(gx - 50, Y(3), 14, base - Y(3)); ctx.fillStyle = '#fff'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('tapume', gx - 43, base + 14);
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, base); ctx.lineTo(gx, topo - 10); ctx.stroke();
+      // limite prático
+      const xl = gx + 8 * escV;
+      ctx.strokeStyle = 'rgba(255,43,95,.8)'; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(xl, topo - 10); ctx.lineTo(xl, base); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#FF2B5F'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('limite prático: 8 m/s', xl + 6, topo - 16);
+      // partículas
+      part.forEach((q) => {
+        q.x += vz(q.z) * dt * 0.02; if (q.x > 1) { q.x = 0; q.z = 5 + Math.random() * 118; }
+        const x = gx + q.x * (W - gx - 20), y = Y(q.z);
+        ctx.strokeStyle = 'rgba(43,217,254,.35)'; ctx.beginPath(); ctx.moveTo(x - vz(q.z) * 2.2, y); ctx.lineTo(x, y); ctx.stroke();
+      });
+      // setas
+      for (let z = 10; z <= 120; z += 10) {
+        const v = vz(z), y = Y(z), acima = v > 8;
+        seta(ctx, gx, y, gx + v * escV, y, acima ? '#FF8A1F' : '#F2CB0A', 3);
+        ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right'; ctx.fillText(z + ' m', gx - 6, y + 4);
+        ctx.textAlign = 'left'; ctx.fillStyle = acima ? '#FF8A1F' : '#fff'; ctx.font = '600 11px Montserrat, Arial'; ctx.fillText(fmt(v, 1), gx + v * escV + 10, y + 4);
+      }
+      // drone a 70 m
+      const yd = Y(70), xd = W - 120;
+      droneLado(ctx, xd, yd - 14 + Math.sin(t * 7) * (vz(70) > 8 ? 4 : 1), t);
+      ctx.fillStyle = vz(70) > 8 ? '#FF8A1F' : '#95DE68'; ctx.font = '800 15px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('a 70 m: ' + fmt(vz(70), 1) + ' m/s', xd, yd + 18);
+      ctx.fillStyle = '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('No chão (10 m): ' + fmt(v10, 1) + ' m/s · velocidade do vento (m/s) em cada altura', gx, 34);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* lipo — tensão por célula × carga consumida, em três temperaturas; alarme em 3,5 V. */
+  Obra.register('lipo', (host) => {
+    const { ctx, cv } = canvas2d(host);
+    let sel = 1;
+    const btns = botoes(host, [['Frio (0 °C)', () => escolhe(0)], ['25 °C', () => escolhe(1), true], ['Calor (40 °C)', () => escolhe(2)]]);
+    function escolhe(i) { sel = i; btns.forEach((b, k) => b.classList.toggle('on', k === i)); }
+    const base = (x) => 4.15 - 0.5 * x - 0.5 * Math.pow(x, 6);
+    const CURVAS = [
+      { nome: 'frio (0 °C)', cor: '#2BD9FE', V: (x) => base(Math.min(1, x / 0.85)) - 0.2 },
+      { nome: '25 °C', cor: '#95DE68', V: (x) => base(x) },
+      { nome: 'calor (40 °C)', cor: '#FF8A1F', V: (x) => base(x) + 0.03 }
+    ];
+    const ALARME = 3.5;
+    const cruza = (c) => { for (let x = 0; x <= 1; x += 0.002) if (c.V(x) <= ALARME) return x; return 1; };
+    const lp = loop((t) => {
+      const W = cv.width / dprOf(), H = cv.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const gx = 64, gy = 80, gw = W - gx - 30, gh = H - gy - 80;
+      const X = (x) => gx + x * gw, Y = (v) => gy + (4.25 - v) / (4.25 - 3.0) * gh;
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial';
+      for (let v = 3.0; v <= 4.21; v += 0.2) { ctx.textAlign = 'right'; ctx.fillText(fmt(v, 1) + ' V', gx - 6, Y(v) + 4); ctx.fillRect(gx - 3, Y(v), 3, 1); }
+      for (let x = 0; x <= 1.001; x += 0.25) { ctx.textAlign = 'center'; ctx.fillText(fmt(x * 100) + '%', X(x), gy + gh + 18); }
+      ctx.textAlign = 'center'; ctx.fillText('carga consumida', gx + gw / 2, gy + gh + 38);
+      ctx.textAlign = 'left'; ctx.font = '700 13px Montserrat, Arial'; ctx.fillStyle = '#fff'; ctx.fillText('Tensão por célula sob carga', gx, gy - 30);
+      // alarme
+      ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(gx, Y(ALARME)); ctx.lineTo(gx + gw, Y(ALARME)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#FF2B5F'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'right'; ctx.fillText('alarme de bateria baixa (3,5 V/célula)', gx + gw, Y(ALARME) - 8);
+      CURVAS.forEach((c, i) => {
+        const ativo = i === sel, xf = cruza(c);
+        ctx.globalAlpha = ativo ? 1 : 0.28; ctx.strokeStyle = c.cor; ctx.lineWidth = ativo ? 3.5 : 2; ctx.beginPath();
+        for (let x = 0; x <= 1.0001; x += 0.01) { const y = Y(Math.max(3.0, c.V(x))); x ? ctx.lineTo(X(x), y) : ctx.moveTo(X(x), y); }
+        ctx.stroke(); ctx.lineWidth = 1; ctx.globalAlpha = 1;
+        if (ativo) {
+          const f = Math.min(xf, ((t * 0.12) % 1.15)), y = Y(c.V(f));
+          ctx.fillStyle = c.cor; ctx.beginPath(); ctx.arc(X(f), y, 7, 0, 7); ctx.fill();
+          ctx.strokeStyle = c.cor; ctx.setLineDash([3, 4]); ctx.beginPath(); ctx.moveTo(X(xf), Y(ALARME)); ctx.lineTo(X(xf), gy + gh); ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = c.cor; ctx.font = '800 16px Montserrat, Arial'; ctx.textAlign = 'left';
+          ctx.fillText(c.nome + ': alarme com ' + fmt(xf * 100, 0) + '% da carga usada', gx + 12, gy - 8);
+        }
+      });
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText(sel === 2 ? 'No calor a curva é parecida, mas a bateria envelhece mais rápido e os motores esquentam.' : sel === 0 ? 'No frio, a mesma bateria entrega bem menos energia útil antes do alarme.' : 'Referência: temperatura de operação recomendada.', gx, H - 14);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* kp — barras do índice Kp (3 dias, 8 por dia) e faixa de 24 h com a cintilação após o pôr do sol. */
+  Obra.register('kp', (host) => {
+    const { ctx, cv } = canvas2d(host);
+    let tempestade = false;
+    const btns = botoes(host, [['Período calmo', () => { tempestade = false; s(0); }, true], ['Tempestade geomagnética', () => { tempestade = true; s(1); }]]);
+    const s = (i) => btns.forEach((b, k) => b.classList.toggle('on', k === i));
+    const CALMO = [1, 2, 1, 1, 2, 2, 3, 2, 2, 1, 1, 2, 3, 3, 2, 1, 1, 1, 2, 2, 3, 2, 2, 1];
+    const TEMP = [2, 2, 3, 4, 5, 6, 7, 6, 5, 6, 5, 4, 4, 3, 3, 2, 2, 3, 2, 2, 3, 2, 2, 1];
+    let atual = CALMO.slice();
+    const lp = loop((t, dt) => {
+      const W = cv.width / dprOf(), H = cv.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      const alvo = tempestade ? TEMP : CALMO;
+      atual = atual.map((v, i) => v + (alvo[i] - v) * Math.min(1, dt * 4));
+      const gx = 50, gy = 76, gw = W - gx - 24, gh = (H - gy) * 0.52;
+      const bw = gw / 24;
+      const Y = (k) => gy + gh - k / 9 * gh;
+      ctx.fillStyle = '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText('Índice Kp a cada 3 horas, em 3 dias', gx, gy - 24);
+      ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'right';
+      [0, 3, 5, 9].forEach((k) => { ctx.fillText(String(k), gx - 8, Y(k) + 4); });
+      atual.forEach((v, i) => {
+        const c = v >= 5 ? '#FF2B5F' : v >= 4 ? '#F2CB0A' : '#95DE68';
+        ctx.fillStyle = c; ctx.fillRect(gx + i * bw + 2, Y(v), bw - 4, gy + gh - Y(v));
+      });
+      ctx.strokeStyle = '#FF2B5F'; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.moveTo(gx, Y(5)); ctx.lineTo(gx + gw, Y(5)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = '#FF2B5F'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'right'; ctx.fillText('Kp 5: tempestade geomagnética', gx + gw, Y(5) - 6);
+      ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center';
+      ['dia 1', 'dia 2', 'dia 3'].forEach((d, i) => ctx.fillText(d, gx + (i * 8 + 4) * bw, gy + gh + 16));
+      // faixa de 24 h
+      const fy = gy + gh + 66, fh = 40;
+      ctx.fillStyle = '#fff'; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillText('Um dia no Brasil, perto do equador magnético (alta atividade solar)', gx, fy - 10);
+      const HX = (h) => gx + h / 24 * gw;
+      const grad = ctx.createLinearGradient(gx, 0, gx + gw, 0);
+      grad.addColorStop(0, '#0b1a33'); grad.addColorStop(0.25, '#1f5f8b'); grad.addColorStop(0.5, '#4f9fd6'); grad.addColorStop(0.75, '#1f5f8b'); grad.addColorStop(1, '#0b1a33');
+      ctx.fillStyle = grad; ctx.fillRect(gx, fy, gw, fh);
+      ctx.fillStyle = 'rgba(255,43,95,.45)'; ctx.fillRect(HX(19), fy, HX(24) - HX(19), fh); ctx.fillRect(HX(0), fy, HX(1) - HX(0), fh);
+      ctx.fillStyle = '#fff'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center';
+      ctx.fillText('cintilação', HX(21.5), fy + 19);
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial';
+      [0, 6, 12, 18, 24].forEach((h) => ctx.fillText(h === 18 ? '18h · pôr do sol' : h + 'h', HX(h), fy + fh + 15));
+      const hora = (t * 2) % 24, risco = hora >= 19 || hora < 1;
+      ctx.fillStyle = '#F2CB0A'; ctx.fillRect(HX(hora) - 1.5, fy - 4, 3, fh + 8);
+      const rtk = risco ? 'RTK: FLOAT (sem fixar)' : (tempestade && atual[12] >= 5 ? 'RTK: instável (Kp alto)' : 'RTK: FIX');
+      ctx.font = '800 15px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillStyle = risco || (tempestade && atual[12] >= 5) ? '#FF8A1F' : '#95DE68';
+      ctx.fillText(fmt(Math.floor(hora)) + 'h · ' + rtk, gx, fy + fh + 42);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+
+  /* rth — vista lateral com grua de 55 m; emergências: enlace, GNSS, bateria, aeronave tripulada. */
+  Obra.register('rth', (host, opts, painel) => {
+    const p = painel || document.createElement('div');
+    const sR = slider(p, { id: 'rth', label: 'Altura de RTH configurada', min: 20, max: 100, step: 5, value: 30, unit: 'm' });
+    const { ctx, cv } = canvas2d(host);
+    let ev = null, te = 0;
+    const btns = botoes(host, [
+      ['⚡ Perda de enlace', () => dispara('enlace', 0)],
+      ['Perda de GNSS', () => dispara('gnss', 1)],
+      ['Bateria crítica', () => dispara('bateria', 2)],
+      ['Aeronave tripulada', () => dispara('heli', 3)],
+      ['↺ Reiniciar', () => dispara(null, -1)]
+    ]);
+    function dispara(e, i) { ev = e; te = 0; btns.forEach((b, k) => b.classList.toggle('on', k === i)); }
+    const HOME = 15, OBRA = 230, GRUA = 120, HGRUA = 55, HTRAB = 20, ALT = 175; // m
+    const lp = loop((t, dt) => {
+      const W = cv.width / dprOf(), H = cv.height / dprOf();
+      ctx.clearRect(0, 0, W, H);
+      te += dt * 3; // simulação acelerada 3×
+      const gx = 30, base = H - 44, esc = Math.min((W - 60) / 250, (base - 70) / 105);
+      const X = (m) => gx + m * esc, Y = (m) => base - m * esc;
+      // chão
+      ctx.fillStyle = 'rgba(138,111,77,.6)'; ctx.fillRect(0, base, W, H - base);
+      // home
+      ctx.fillStyle = '#95DE68'; ctx.beginPath(); ctx.arc(X(HOME), base - 3, 8, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('H (decolagem)', X(HOME) + 20, base + 18);
+      // local alternativo
+      ctx.strokeStyle = '#2BD9FE'; ctx.strokeRect(X(ALT) - 14, base - 4, 28, 4);
+      ctx.fillStyle = '#2BD9FE'; ctx.font = '11px Montserrat, Arial'; ctx.fillText('pouso alternativo', X(ALT), base + 18);
+      // prédio em obra
+      ctx.fillStyle = '#7f9bb8'; ctx.fillRect(X(OBRA) - 6, Y(18), 30, 18 * esc);
+      // grua
+      const xg = X(GRUA);
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(xg, base); ctx.lineTo(xg, Y(HGRUA)); ctx.stroke();
+      ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xg - 30 * esc, Y(HGRUA - 2)); ctx.lineTo(xg + 45 * esc, Y(HGRUA - 2)); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.fillText('grua: 55 m', xg, Y(HGRUA) - 8);
+      // linha da altura de RTH
+      const R = +sR.value;
+      ctx.strokeStyle = R > HGRUA ? 'rgba(149,222,104,.8)' : 'rgba(255,43,95,.8)'; ctx.setLineDash([6, 5]);
+      ctx.beginPath(); ctx.moveTo(X(0), Y(R)); ctx.lineTo(X(250), Y(R)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = R > HGRUA ? '#95DE68' : '#FF2B5F'; ctx.textAlign = 'left'; ctx.font = '700 12px Montserrat, Arial';
+      ctx.fillText('RTH: ' + R + ' m', X(0) + 4, Y(R) - 6);
+      // estado do drone
+      let dx = OBRA - 25, dz = HTRAB, msg = 'Drone trabalhando a 20 m. Escolha uma emergência.', cor = '#fff', bateu = false;
+      const VS = 6, VH = 12; // m/s simulados
+      if (ev === 'enlace') {
+        const tSobe = Math.abs(R - HTRAB) / VS;
+        if (te < tSobe) { dz = HTRAB + Math.sign(R - HTRAB) * te * VS; msg = 'Sem enlace: RTH sobe a ' + R + ' m…'; }
+        else {
+          dz = R; const ida = (te - tSobe) * VH; dx = OBRA - 25 - ida;
+          const colide = R <= HGRUA + 2 && dx <= GRUA + 4;
+          if (colide) { dx = GRUA + 4; bateu = true; msg = 'Colisão com a grua! RTH abaixo do obstáculo.'; cor = '#FF2B5F'; }
+          else if (dx <= HOME) { dx = HOME; const tDesce = (te - tSobe - (OBRA - 25 - HOME) / VH); dz = Math.max(0, R - tDesce * VS); msg = dz > 0 ? 'Passou por cima da grua; descendo em H.' : 'Pousou em H: RTH acima da grua, com margem.'; cor = '#95DE68'; }
+          else msg = 'Volta em linha reta para casa a ' + R + ' m…';
+        }
+      } else if (ev === 'gnss') {
+        dx = OBRA - 25 - Math.min(te, 6) * 7; dz = HTRAB + Math.sin(te * 2) * 1.5;
+        msg = 'Modo atitude: deriva com o vento. Assuma no manual.'; cor = '#FF8A1F';
+        for (let k = 0; k < 3; k++) seta(ctx, X(OBRA + 10) - k * 40, Y(70 - k * 12), X(OBRA + 10) - k * 40 - 30, Y(70 - k * 12), 'rgba(43,217,254,.8)', 2);
+        ctx.fillStyle = '#2BD9FE'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('vento', X(OBRA - 10), Y(80));
+      } else if (ev === 'bateria') {
+        const f = Math.min(1, te / 4); dx = OBRA - 25 - (OBRA - 25 - ALT) * f; dz = HTRAB * (1 - Math.max(0, (te - 4) / 3));
+        dz = Math.max(0, dz); msg = 'Bateria crítica: pouso no local seguro.'; cor = '#2BD9FE';
+      } else if (ev === 'heli') {
+        const hx = W - ((te * 70) % (W + 200)) + 100, hy = Y(95);
+        ctx.fillStyle = '#e8ecf2'; ctx.beginPath(); ctx.ellipse(hx, hy, 26, 10, 0, 0, 7); ctx.fill(); ctx.fillRect(hx + 20, hy - 3, 34, 4);
+        ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(hx - 40, hy - 16, 80 * Math.abs(Math.sin(t * 20)) + 4, 2);
+        ctx.fillStyle = '#fff'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('helicóptero', hx, hy - 22);
+        dz = Math.max(5, HTRAB - te * 4); dx = OBRA - 25 - Math.min(te, 3) * 6;
+        msg = 'Aeronave tripulada: descer e se afastar.'; cor = '#F2CB0A';
+      }
+      droneLado(ctx, X(dx), Y(dz), t, 0.9);
+      if (bateu) { ctx.fillStyle = '#FF2B5F'; ctx.font = '900 30px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('✕', X(dx), Y(dz) + 10); }
+      ctx.textAlign = 'left'; ctx.font = '800 15px Montserrat, Arial'; ctx.fillStyle = cor; ctx.fillText(msg, gx, 34);
+    });
+    return { start: lp.start, stop: lp.stop };
+  });
+})();
 </script>
 <script src="../../assets/deck.js"></script>
 </body>

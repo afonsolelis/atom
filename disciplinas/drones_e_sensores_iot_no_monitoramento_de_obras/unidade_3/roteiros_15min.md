@@ -1,452 +1,503 @@
-# Roteiros Estendidos (17–19 minutos) — Unidade 3: Sensores IoT no Monitoramento de Obras
+# Roteiros Estendidos (15–19 minutos) — Unidade 3: Sensores IoT e Redes de Comunicação
 
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 9 a 12
-- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **17 a 19 minutos** por aula (cerca de 2.150 a 2.600 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_3.md` são só um guia da sequência.
+- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.200 a 2.600 palavras faladas, a uns 135–140 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_3.md` são só um guia da sequência.
 
 > **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
 
 ---
 
-## Roteiro da Videoaula 9 — "Monitoramento geotécnico: inclinômetros, piezômetros e marcos de recalque"
+## Roteiro da Videoaula 9 — "O que a obra sente e ninguém vê: seis sensores que contam tudo"
 
-**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
-
-### 1. Abertura (0:00 – 1:30)
-
-**[TELA]** Slide 1 — capa; Slide 2 — sumário.
-
-> "Olá! Eu sou o professor Afonso Brandão, e esta é a Aula 9 de Drones e Sensores IoT no Monitoramento de Obras. Começamos hoje a Unidade 3, a unidade dos sensores. Na Unidade 1, você aprendeu a linguagem: sensor, transdutor, incerteza, calibração, arquitetura IoT, malha fechada. Na Unidade 2, o drone foi para o ar. Agora a gente desce para o chão — ou melhor, para dentro do chão. Hoje o assunto é monitoramento geotécnico: inclinômetros, piezômetros e marcos de recalque."
-
-**[TELA]** Slide 3 — foto: prédios inclinados da orla de Santos.
-
-> "Olha essa foto. É a orla de Santos, no litoral de São Paulo. Repara no prédio: ele não está reto. E não é ilusão de ótica nem defeito da lente. Dezenas de edifícios construídos ali entre as décadas de 1950 e 1970, com fundações rasas sobre camadas profundas de argila mole, inclinaram ao longo dos anos, à vista de todo mundo. É o recalque diferencial que a cidade inteira enxerga."
-
-> "Agora eu quero que você imagine a sua obra. Uma escavação de 10 metros para três subsolos, num solo parecido, colada num prédio desses. Antes de a primeira caçamba de terra sair, você precisa responder a quatro perguntas: o que medir, com qual instrumento, onde instalar e com quais limites? É isso que a gente vai construir nesta aula."
-
-### 2. O método observacional (1:30 – 3:20)
-
-**[TELA]** Slide 4 — instrumentar para decidir: o método observacional.
-
-> "Na geotecnia, a ideia de malha fechada que você aprendeu na Unidade 1 tem nome e sobrenome: é o método observacional, sistematizado pelo engenheiro Ralph Peck em 1969. Qual é o raciocínio? O solo nunca é exatamente o da sondagem. Entre um furo e outro, a natureza faz o que quer. Então o projetista adota as hipóteses mais prováveis e prevê como a obra vai se comportar: quanto a contenção deve deslocar, quanto o vizinho pode recalcar. E, antes de começar, ele define duas coisas: os limites aceitáveis e um plano de contingência — o que fazer se os limites forem atingidos. Aí a obra é executada medindo e comparando."
-
-> "Repara no 'antes'. Instrumentação sem limites e sem plano de ação não é método observacional. É coleta de curiosidades. Você junta gráficos bonitos e não sabe o que fazer com eles."
-
-> "Numa escavação urbana, três perguntas resumem o risco geotécnico, e cada uma tem o seu instrumento. Primeira: a contenção e o solo estão se deslocando na horizontal? Quem responde é o inclinômetro. Segunda: a água no solo está empurrando mais do que o previsto? Quem responde é o piezômetro. Terceira: os vizinhos estão descendo? Quem responde são os marcos de recalque. E tudo isso começa por uma palavra que eu vou repetir muitas vezes hoje: leitura zero. É a leitura de referência, feita antes de a escavação começar, de preferência repetida duas ou três vezes para garantir que ela é estável. Sem leitura zero, não existe com o que comparar."
-
-### 3. A escavação instrumentada (3:20 – 4:40)
-
-**[TELA]** Slide 5 — cena 3D: a escavação instrumentada. Clique em Escavar a cada fala de etapa.
-
-> "Vamos ver isso funcionando. Na tela, uma escavação em corte, com a cortina de estacas, o prédio vizinho à esquerda e os instrumentos. Atrás da cortina, o tubo do inclinômetro, que desce bem abaixo do fundo da escavação. Os dois piezômetros, no solo. E, no pé do prédio, três marcos de recalque."
-
-> "Eu vou clicar em escavar. Primeira etapa: dois metros e meio. Quase nada acontece. Mais uma: cinco metros. Repara que a cortina começa a fletir para dentro da escavação — o desenho exagera, claro, para você enxergar. Sete e meio. Agora olha o perfil do inclinômetro: ele se curva, maior no topo e zero lá embaixo. E os marcos do prédio vizinho começam a descer e a mudar de cor. Dez metros: o deslocamento no topo chega perto de 10 milímetros, e o marco mais próximo da escavação é o que mais recalca. Esse é o filme que a instrumentação vai contar, em números, ao longo da obra."
-
-### 4. Como funciona o inclinômetro (4:40 – 7:10)
-
-**[TELA]** Slide 6 — como funciona o inclinômetro.
-
-> "Vamos abrir o inclinômetro. Ele mede o deslocamento horizontal ao longo da profundidade. Instala-se um tubo-guia, de plástico ou alumínio, com quatro ranhuras internas, num furo vertical atrás da contenção. O detalhe crucial: o pé do tubo tem que ficar engastado em solo ou rocha que não se mova — abaixo da zona de influência da escavação. Esse pé é o nosso ponto fixo."
-
-> "Para ler, baixa-se uma sonda com rodinhas que correm pelas ranhuras. Dentro da sonda, há acelerômetros, que medem a inclinação em relação à vertical — exatamente como o sensor do seu celular sabe se ele está em pé ou deitado. A sonda vai até o fundo e é puxada de volta, parando a cada meio metro, que é a distância entre as rodas. Em cada parada, ela mede o ângulo theta do trecho, e o desvio horizontal daquele trecho é L vezes o seno de theta."
-
-> "Dois cuidados fazem toda a diferença. Primeiro: faz-se uma segunda passada com a sonda girada 180 graus. Por quê? Porque, girando a sonda, o viés do sensor troca de sinal, e a média das duas passadas o cancela. É a veracidade da Aula 2 em ação. Segundo: o que interessa não é a inclinação absoluta do tubo, que nunca fica perfeitamente vertical. É a diferença em relação à leitura zero, trecho a trecho, acumulada de baixo para cima, a partir do pé fixo."
-
-> "E aqui entra a ponte com a Aula 3. Além da sonda manual, que exige um técnico em campo, existe o inclinômetro in-place: uma cadeia de sensores MEMS fixos dentro do tubo, lidos automaticamente por um datalogger, a cada 15 minutos ou a cada hora. É exatamente o tipo de instrumento que a arquitetura IoT conecta à nuvem: o deslocamento chega ao painel sem ninguém descer ao canteiro."
-
-**[TELA]** Slide 7 — simulação do perfil do inclinômetro. Clique em Referência, depois Há 7 dias e, por fim, Hoje.
-
-> "Na simulação, à esquerda, a sonda descendo de meio em meio metro; à direita, o perfil de deslocamento acumulado, com a linha de atenção em 15 milímetros e a de alerta em 25. Começo na referência: tudo zero, claro, é a leitura zero. Agora, há sete dias: o perfil se curva, e o topo marca 7 milímetros. Hoje: o topo marca 10. Repara no formato: grande em cima e se anulando nos trechos de baixo. Isso é um bom sinal: confirma que o pé está fixo."
-
-### 5. Exemplo numérico: do ângulo ao milímetro (7:10 – 8:50)
-
-**[TELA]** Slide 8 — exemplo numérico: tabela trecho a trecho.
-
-> "Vamos fazer a conta que a simulação fez. A sonda tem meio metro entre as rodas. Em relação à leitura zero, só os seis trechos superiores variaram. As variações do seno de theta, do topo para baixo, foram: 6, 5, 4, 3, 1,6 e 0,4 — tudo vezes dez elevado a menos três. Os trechos de baixo não variaram."
-
-> "Multiplicando cada uma por meio metro, os desvios dos trechos são 3; 2,5; 2; 1,5; 0,8 e 0,2 milímetro. Agora acumula de baixo para cima: 0,2; depois 1; depois 2,5; 4,5; 7; e, no topo, 10 milímetros. Em uma linha só: meio metro vezes a soma, que é 0,020, dá 0,010 metro. Dez milímetros."
-
-> "Mas o número sozinho não basta. Há sete dias, o topo estava em 7. Então a velocidade é 3 milímetros em 7 dias: uns 0,43 milímetro por dia. Com o nível de atenção em 15, mantido esse ritmo, a gente chega lá em cerca de 11,7 dias. Isso é tempo para decidir com calma — desde que a velocidade não aumente. E é por isso que, nos níveis de alerta, a gente vai olhar o valor e também a velocidade. Guarda essa ideia para a Aula 12."
-
-### 6. Piezômetros e o tempo de resposta (8:50 – 11:20)
-
-**[TELA]** Slide 9 — piezômetros: Casagrande, corda vibrante e pneumático.
-
-> "Segundo instrumento: o piezômetro. Ele mede a poropressão, que é a pressão da água nos vazios do solo. Lembra da Aula 2? A poropressão se converte em altura de água por u igual a gama da água vezes h. Ela é crítica em escavações com rebaixamento do lençol, em aterros sobre solo mole e em taludes: água empurrando é empuxo a mais na contenção e resistência a menos no solo."
-
-> "Existem três tipos principais. O de Casagrande, ou de tubo aberto: um tubo com uma ponta porosa lá embaixo; o nível d'água dentro do tubo é lido com um medidor elétrico, aquele de carretel que você viu na Unidade 1. É barato e robusto. O de corda vibrante, que está no desenho da tela: a água empurra um diafragma, que está ligado a um fio tensionado; quando a pressão muda, muda a frequência de vibração do fio, e as bobinas leem essa frequência. E o pneumático, lido com gás comprimido, ainda comum em barragens."
-
-**[TELA]** Slide 10 — simulação do tempo de resposta. Comece em k = 10⁻⁸ m/s e depois mova para 10⁻⁹.
-
-> "Agora, uma diferença que pouca gente percebe. No tubo aberto, para o nível dentro do tubo subir, um volume de água tem que entrar pelo solo. Em areia, isso é rápido. Em argila, é lento. A formulação clássica de Hvorslev diz que o tempo básico de resposta é a área do tubo dividida pelo fator de forma da ponta vezes a permeabilidade. Na tela, a pressão no solo sobe de repente no instante zero. A curva do piezômetro de corda vibrante sobe em minutos. A do Casagrande, com permeabilidade de dez à menos oito metros por segundo, leva da ordem de dez horas. Agora eu baixo a permeabilidade para dez à menos nove: vira dias."
-
-> "Pensa no que isso significa. Choveu forte de madrugada, o nível d'água no solo subiu, e o seu piezômetro de tubo aberto em argila só vai mostrar isso dias depois. Ele 'mente' por atraso. É por isso que, onde a resposta precisa ser rápida — escavação com rebaixamento, aterro sobre argila mole —, a escolha é corda vibrante, que ainda por cima conversa com o datalogger e entra na malha fechada. Só não esqueça: o de corda vibrante precisa de correção de temperatura e, se não for do tipo ventilado, de correção da pressão atmosférica."
-
-### 7. Marcos de recalque e a referência de nível (11:20 – 12:50)
-
-**[TELA]** Slide 11 — marcos de recalque e a referência que não pode se mexer.
-
-> "Terceiro instrumento: os marcos de recalque. São pinos metálicos fixados nos pilares ou na base da fachada do vizinho. Eles são lidos por nivelamento geométrico de precisão, com nível e mira, a partir de uma referência de nível, a RN. Na foto, uma referência de nível de precisão, com a mira apoiada em cima."
-
-> "E aqui está a regra mais importante: a referência não pode se mexer. Ela tem que ser profunda e ficar fora da zona de influência da escavação. Se a RN estiver dentro da área que recalca, ela desce junto com tudo, e as suas leituras mostram 'zero recalque' enquanto o prédio está descendo. Todas as leituras mentem juntas — e ninguém percebe."
-
-> "A automação também chegou aqui. Estações totais robóticas leem prismas fixados no vizinho a cada hora, sozinhas. Células de recalque por nível hidrostático usam o princípio dos vasos comunicantes com transdutores de pressão. E os clinômetros de parede, os tiltmeters, medem a rotação de um pilar ou de uma fachada. Tudo isso pode entrar na mesma rede LoRaWAN da Aula 3."
-
-### 8. Recalque diferencial e distorção angular (12:50 – 15:50)
-
-**[TELA]** Slide 12 — cena 3D: o prédio que recalca. Comece com 18 e 6 mm a 6 m; depois aumente o recalque de P1.
-
-> "Agora a pergunta de ouro: quando o recalque vira dano? Repara no prédio da tela, sobre quatro pilares. Se todos descerem igualzinho, o prédio desce inteiro, como um elevador. Ruim para as ligações de água e esgoto, mas a estrutura não distorce. O que fissura um prédio é o recalque diferencial: um pilar descendo mais que o vizinho."
-
-> "A medida usada é a distorção angular, beta: o recalque diferencial dividido pela distância entre os dois pilares. Na simulação, o pilar P1 recalcou 18 milímetros e o P2, 6, a 6 metros de distância. A diferença é 12 milímetros. Doze sobre seis mil milímetros: 0,002, ou um quinhentos avos. Olha a parede entre os dois pilares: ela já mudou de cor. Agora eu aumento o recalque de P1… Passou de um trezentos avos: aparece a fissura diagonal."
-
-**[TELA]** Slide 13 — a escala de Bjerrum (1963).
-
-> "Esses números vêm de uma escala proposta por Bjerrum em 1963, ainda muito usada como referência. Com um setecentos e cinquenta avos, começam dificuldades com máquinas sensíveis a recalques. Um quinhentos avos é o limite de segurança para edifícios em que não se admitem fissuras. Um trezentos avos: primeiras fissuras em paredes de alvenaria. Um duzentos e cinquenta avos: a inclinação de prédios altos fica visível — lembra de Santos? E um cento e cinquenta avos: fissuração considerável e danos estruturais."
-
-> "E tem a norma. A NBR 6122, de projeto e execução de fundações, torna obrigatório o monitoramento de recalques em alguns casos — por exemplo, estruturas em que a carga variável é significativa, como silos e reservatórios, edifícios altos ou esbeltos e fundações não convencionais. Mas, numa escavação ao lado de um vizinho sensível, ninguém precisa da norma mandar: o plano de monitoramento é que fixa os limites de cada instrumento."
-
-**[TELA]** Slide 14 — calculadora: o vizinho já fissura?
-
-> "Na calculadora, os mesmos números: 18 e 6 milímetros, 6 metros. Recalque diferencial de 12, distorção de um quinhentos avos. Classificação: no limite para edifícios em que não se admitem fissuras. O que fazer? Vistoriar o vizinho, aumentar a frequência de leitura e acionar o plano de contingência que já estava escrito. Teste aí: se os pilares estivessem a 4 metros um do outro, com os mesmos recalques, a distorção iria para um trezentos e trinta e três avos. A distância entre os pilares muda tudo."
-
-### 9. Do manual ao IoT, atividade e encerramento (15:50 – 18:00)
-
-**[TELA]** Slide 15 — do manual ao IoT: quando e como ler.
-
-> "Para fechar o raciocínio: a frequência de leitura muda com a fase da obra. Antes: leitura zero, repetida duas ou três vezes. Durante a escavação: leituras diárias, ou automáticas a cada 15 a 60 minutos nos instrumentos críticos. Depois que estabiliza: semanal, depois mensal. E sempre com redundância: dois instrumentos que contam a mesma história. Se o inclinômetro acusa deslocamento, o marco do vizinho deveria recalcar junto. Se só um deles mexe, desconfie do instrumento antes de desconfiar da obra."
-
-**[TELA]** Slide 16 — atividade prática.
-
-> "Sua missão: para a escavação de 10 metros ao lado do prédio de Santos, desenhe uma planta e um corte. Posicione os inclinômetros, dizendo até onde o pé deve descer; os piezômetros, dizendo de que tipo; os marcos de recalque e a referência de nível. Defina a leitura zero, a frequência de leitura em cada fase, os níveis de atenção e alerta de cada grandeza — incluindo a distorção angular. E diga qual instrumento confirma qual."
-
-**[TELA]** Slide 17 — pontos-chave; Slide 18 — encerramento.
-
-> "Resumindo. Método observacional: prever, fixar limites e plano antes, e medir durante. Inclinômetro: L vezes o seno do ângulo, acumulado de baixo para cima, sempre em relação à leitura zero. Piezômetro: o de tubo aberto é lento em argila; o de corda vibrante responde rápido e entra na malha. Marcos de recalque: só valem com uma referência estável, e o dano depende da distorção angular. Hoje você instrumentou o solo e os vizinhos. Na próxima aula, a gente sobe para a estrutura: extensômetros, acelerômetros, fissurômetros e a maturidade do concreto. Te espero na Aula 10!"
-
----
-
-## Roteiro da Videoaula 10 — "Monitoramento estrutural: extensômetros, acelerômetros, fissurômetros e maturidade do concreto"
-
-**Duração-alvo:** cerca de 17:40 (17 a 19 minutos).
-
-### 1. Abertura (0:00 – 1:30)
-
-**[TELA]** Slide 1 — capa; Slide 2 — sumário.
-
-> "Olá! Aqui é o professor Afonso Brandão, e esta é a Aula 10. Na aula passada, a gente instrumentou o solo e os vizinhos. Hoje a gente sobe para a estrutura: extensômetros, acelerômetros, fissurômetros e a maturidade do concreto."
-
-**[TELA]** Slide 3 — foto: a laje concretada na quarta.
-
-> "Sexta-feira, cinco da tarde. A laje do décimo segundo pavimento foi concretada na quarta. O empreiteiro chega e diz: 'Engenheiro, preciso tirar o escoramento na segunda para reaproveitar as formas no próximo andar'. Os corpos de prova só vão ser rompidos depois. Dá para liberar? Ao mesmo tempo, na escavação ao lado, alguém percebeu que uma escora metálica parece 'ganhar' carga à tarde, quando o sol bate. E o vizinho reclama de uma fissura que 'abre e fecha'."
-
-> "Três situações diferentes, a mesma resposta: medir o que a estrutura está sentindo. E, nas três, você vai ver que existe um vilão escondido, que engana quem não presta atenção: a temperatura. Vamos nessa."
-
-### 2. Quatro perguntas, quatro sensores (1:30 – 2:50)
-
-**[TELA]** Slide 4 — galeria: quatro perguntas, quatro sensores.
-
-> "O monitoramento estrutural responde a quatro perguntas típicas. Quanto esforço a peça está recebendo? Isso é deformação, e quem mede é o extensômetro. Como a estrutura vibra? Isso é aceleração, e quem mede é o acelerômetro. A fissura está crescendo? Quem responde é o fissurômetro. E o concreto já ganhou resistência? Isso a gente estima com a temperatura ao longo do tempo, com sensores de maturidade embutidos no concreto."
-
-> "E em todas elas vale a lição da Unidade 1: o sensor só tem utilidade com três coisas. Uma leitura zero, limites definidos e uma ação associada a cada limite. Sensor sem isso é enfeite caro."
-
-### 3. Extensômetros e a escora no sol (2:50 – 6:30)
-
-**[TELA]** Slide 5 — extensômetro elétrico × corda vibrante.
-
-> "Comecemos pelo extensômetro. Na Aula 2 você conheceu o elétrico de resistência: uma grade metálica colada na peça que muda de resistência quando a peça deforma — delta R sobre R igual ao fator do extensômetro vezes a deformação. Ele lê fenômenos rápidos, mas em monitoramentos de meses pode sofrer com umidade e deriva."
-
-> "Na obra, para o longo prazo, quem reina é o extensômetro de corda vibrante. É um fio de aço tensionado entre dois blocos presos à peça. Quando a peça deforma, a tensão no fio muda, e muda a frequência com que ele vibra — a deformação é proporcional ao quadrado da frequência. É como uma corda de violão: apertou, o som fica mais agudo. A vantagem é que frequência não se perde no cabo: ele é estável por anos e não liga para a resistência de cem metros de fio. Pode ser soldado numa escora metálica ou amarrado à armadura, para ficar embutido no concreto."
-
-> "E como deformação vira força? No regime elástico, pela lei de Hooke: sigma igual a E vezes épsilon. E a força é sigma vezes a área. A deformação é tão pequena que a gente a mede em microdeformações: um milionésimo. Para você ter uma ideia, uma barra de um metro que alonga um milésimo de milímetro sofreu uma microdeformação. Um extensômetro bom resolve isso com folga."
-
-> "E onde instalar? Na escora metálica, no meio do vão, longe das ligações, de preferência com dois sensores em lados opostos da seção, para separar a compressão da flexão. No concreto, nas regiões em que o projeto prevê os maiores esforços: meio do vão de uma viga de transição, base de um pilar muito carregado, a laje sobre um apoio. Sempre perguntando: que decisão esse número vai apoiar?"
-
-**[TELA]** Slide 6 — simulação da escora instrumentada. Comece com 250 µε e ΔT = 0; depois aumente a temperatura e alterne a compensação.
-
-> "Vamos fazer a conta com a escora da tela. Aço, módulo de 200 gigapascals, área de 120 centímetros quadrados. O extensômetro indica 250 microdeformações desde a leitura zero, já corrigidas para a temperatura. Sigma: 200 mil megapascals vezes 250 milionésimos, 50 megapascals. Força: 50 megapascals vezes 0,012 metro quadrado, 0,6 meganewton. Seiscentos quilonewtons. A carga de projeto é 900: a escora está a 67%."
-
-> "Agora o vilão. Eu aumento a temperatura em 15 graus, como entre a manhã e a tarde de sol. O aço tem coeficiente de dilatação de uns 12 milionésimos por grau. Quinze graus vezes 12: 180 microdeformações. Olha o tamanho disso perto dos 250 do sinal! Sem compensação, o painel mostraria uma escora quase no limite só porque o sol bateu nela. Agora eu ligo a compensação: o sistema usa o termistor que vem dentro do próprio extensômetro e separa a parcela térmica. É por isso que todo extensômetro de corda vibrante sério tem um termistor embutido — e é por isso que a leitura tem que ser corrigida antes de virar força. Detalhe importante: numa escora travada entre duas paredes, parte do efeito térmico pode virar força de verdade. Separar as duas coisas é trabalho do engenheiro, não do software."
-
-**[TELA]** Slide 7 — foto: extensômetros amarrados à armadura antes da concretagem.
-
-> "E uma dica de campo. Extensômetro embutido no concreto tem que ser instalado antes da concretagem: amarrado à armadura, como na foto, com o cabo protegido. A leitura zero é feita logo depois do lançamento. E saiba que é comum perder sensores na concretagem — o vibrador acerta um cabo, um sensor se solta. Por isso a regra é redundância: instale mais do que o mínimo. Depois não tem segunda chance."
-
-### 4. Acelerômetros e frequência natural (6:30 – 9:40)
-
-**[TELA]** Slide 8 — acelerômetros: a estrutura tem uma assinatura.
-
-> "Segundo sensor: o acelerômetro. Existem os MEMS, que são chips baratos e de baixo consumo, ótimos para IoT, e os piezoelétricos, mais sensíveis e com faixa de frequência maior. Na foto, um acelerômetro com nó sem fio, preso ao pendural de uma ponte em arco."
-
-> "Por que medir aceleração numa estrutura? Porque toda estrutura tem frequências naturais — o jeito como ela gosta de vibrar. No modelo mais simples, de massa e mola, a frequência natural é um sobre dois pi vezes a raiz de k sobre m: rigidez sobre massa. Agora repara: se a rigidez cai — por fissuração, por uma ligação danificada —, a frequência cai junto. E cai com a raiz quadrada. Dez por cento de rigidez a menos dá uns cinco por cento de frequência a menos, porque 0,95 ao quadrado é cerca de 0,90. A frequência é a assinatura da rigidez. Esse é o princípio do monitoramento da saúde estrutural, que você vai ver na literatura com a sigla em inglês SHM. E lembre de Nyquist: amostrar a mais do dobro — na prática, cinco a dez vezes — a maior frequência que interessa."
-
-**[TELA]** Slide 9 — cena 3D: o prédio que oscila. Comece em Rigidez original e depois clique em Após dano.
-
-> "Na cena 3D, um prédio esbelto oscilando no primeiro modo, com o acelerômetro amarelo no topo. No canto, o espectro: o pico está em 1,20 hertz — valor ilustrativo. Agora eu clico em 'após dano', com 10% a menos de rigidez. Repara: a oscilação fica um pouco mais lenta, e o pico do espectro anda para a esquerda, para uns 1,14 hertz. Cinco por cento de queda. Na prática, a temperatura, a umidade e até a ocupação mexem nessa frequência, então a mudança tem que ser persistente e explicada — mas é um alerta precioso, que nenhuma inspeção visual daria."
-
-**[TELA]** Slide 10 — foto: a Millennium Bridge, em Londres.
-
-> "E um caso famoso. Essa é a Millennium Bridge, uma passarela sobre o Tâmisa, em Londres. Inaugurada em junho de 2000, ela foi fechada dois dias depois: com a multidão, começou a balançar lateralmente, porque os pedestres, sem perceber, sincronizavam o passo com a oscilação da ponte. Ela só reabriu em 2002, depois da instalação de amortecedores. A lição: medir aceleração e frequências faz parte do projeto e do comissionamento. Não é luxo."
-
-### 5. Fissurômetros: a tendência importa (9:40 – 11:50)
-
-**[TELA]** Slide 11 — fissurômetros: a fissura está crescendo?
-
-> "Terceiro sensor: o fissurômetro. O mais simples é o tell-tale de acrílico: duas placas sobrepostas, uma com uma retícula, fixadas uma de cada lado da fissura. Você lê a olho, com resolução da ordem do milímetro. É barato e ótimo para vistoria. Já o fissurômetro elétrico, com potenciômetro ou LVDT, chega a centésimos de milímetro e manda o dado para o datalogger."
-
-> "E aqui a temperatura volta a atacar. A fissura abre e fecha todo dia — durante o dia o material dilata, à noite contrai — e também ao longo das estações. Aquele vizinho que diz que a fissura 'abre e fecha' está certo! O que interessa não é essa oscilação: é a tendência."
-
-**[TELA]** Slide 12 — simulação da série da fissura. Clique em Separar efeito térmico e depois em Leitura manual semanal.
-
-> "Olha a série de 30 dias. A linha sobe e desce todo dia: é o ciclo térmico. Eu clico em separar o efeito térmico: aparece a média diária, e agora dá para ver que, a partir do dia 15, a fissura começou a abrir um centésimo de milímetro por dia. Isso é sinal estrutural. Um centésimo por dia parece nada, mas são três décimos de milímetro por mês, e a fissura não para sozinha. Agora eu mostro o que um técnico veria com uma leitura manual por semana: quatro pontos. A tendência desaparece no meio da oscilação. Por isso a leitura contínua vale mais. E uma regra de ouro: mapeie e fotografe as fissuras do vizinho antes de a obra começar, numa vistoria cautelar. Sem isso, toda fissura vai ser 'culpa da obra'."
-
-### 6. Maturidade do concreto (11:50 – 14:30)
-
-**[TELA]** Slide 13 — o método da maturidade.
-
-> "Agora, a laje do gancho. A resistência do concreto nas primeiras idades depende da temperatura da cura. No calor, a hidratação do cimento é mais rápida; no frio, mais lenta. O método da maturidade, padronizado na ASTM C1074, traduz o histórico de temperatura num único número."
-
-> "Na função de Nurse-Saul, o fator temperatura-tempo é M igual à soma de T menos T zero, vezes delta t. T é a temperatura média do concreto em cada intervalo; T zero é a temperatura de referência, abaixo da qual se considera que o concreto não ganha resistência. A ASTM recomenda zero grau para cimento tipo I sem aditivos, com cura entre 0 e 40 graus — mas o ideal é determiná-la para a sua mistura. A unidade é grau Celsius vezes hora."
-
-> "Como se usa? Em laboratório, rompem-se corpos de prova da mesma mistura em várias idades, medindo também a maturidade deles, e ajusta-se uma curva de resistência em função de M. Na obra, sensores embutidos na laje registram a temperatura a cada 15 ou 30 minutos e mandam pela rede. Juntou os dois, você estima a resistência em tempo real. E atenção: isso apoia decisões de obra — desforma, retirada de escoramento, protensão. Não substitui o controle tecnológico de aceitação do concreto por corpos de prova."
-
-**[TELA]** Slide 14 — simulação: 72 horas de maturidade. Clique em Caso do exemplo e depois em Inverno.
-
-> "Na simulação, a curva de temperatura, o M acumulado e a resistência estimada pela curva de calibração, com a linha-alvo de 21 megapascals. Caso do exemplo: 28, 32 e 26 graus em blocos de 12 horas. O marcador mostra que o alvo é atingido por volta de 29 horas. Agora o inverno, a 15 graus constantes: o mesmo alvo só chega perto de 56 horas. Mesma laje, mesmo concreto, mais de um dia de diferença. É exatamente esse tipo de informação que o cronograma precisa."
-
-> "E repara num detalhe da curva de temperatura: logo depois da concretagem, ela sobe sozinha, mesmo com o tempo ameno. É o calor de hidratação do cimento. Em peças espessas, o concreto massa, esse calor é tão grande que a diferença entre o núcleo quente e a superfície fria pode fissurar a peça. Os mesmos sensores de temperatura servem para vigiar isso: dois sensores, um no centro e outro perto da face, e um limite para a diferença entre eles. É o sensor de maturidade fazendo dupla função."
-
-**[TELA]** Slide 15 — calculadora: pode liberar a laje?
-
-> "Vamos à conta do texto. A calibração da mistura deu f c igual a 9,2 vezes o logaritmo natural de M, menos 41 — valores ilustrativos. Maturidade: 12 vezes 28 mais 32 mais 26, que dá 12 vezes 86: 1.032 grau-hora. Resistência estimada: 9,2 vezes o logaritmo de 1.032, menos 41, uns 22,8 megapascals. Acima dos 21 exigidos. A maturidade necessária era de uns 845 grau-hora. Decisão: liberar, confirmando com corpos de prova e com o projetista da estrutura."
-
-### 7. Atividade, pontos-chave e encerramento (14:30 – 17:40)
-
-**[TELA]** Slide 16 — atividade prática.
-
-> "Sua missão: um edifício de 15 pavimentos, com escavação escorada e um vizinho que já tem fissuras. Monte uma tabela com a grandeza, o sensor, o local de instalação, o momento da leitura zero, a frequência de leitura, a forma de compensar a temperatura e a decisão que cada sensor apoia — reforçar uma escora, liberar uma laje, chamar o projetista. Inclua pelo menos um extensômetro, um fissurômetro e um sensor de maturidade. Pense em redundância: onde você instalaria dois sensores em vez de um?"
-
-> "E uma pergunta para você levar: se o seu sensor de maturidade fica no meio da laje, e a borda da laje, exposta ao vento, esfria mais rápido, onde está o ponto crítico? A resposta muda a posição do sensor. Instrumentar é sempre escolher onde a pergunta é mais difícil."
-
-**[TELA]** Slide 17 — pontos-chave.
-
-> "Resumindo. Extensômetro dá deformação; força vem de sigma igual a E épsilon e N igual a sigma A — depois de corrigir a temperatura, que pode valer 180 microdeformações numa escora ao sol. Acelerômetro: a frequência natural é a assinatura da rigidez; dez por cento a menos de rigidez, uns cinco por cento a menos de frequência. Fissurômetro: o que importa é a tendência, não a oscilação diária, e as fissuras do vizinho se mapeiam antes da obra. Maturidade: temperatura vezes tempo, com curva calibrada para a mistura, sem dispensar os corpos de prova."
-
-**[TELA]** Slide 18 — encerramento e gancho para a Aula 11.
-
-> "Repara que, nas três histórias de hoje, o vilão foi o mesmo: a temperatura. Na escora, ela fingia carga. Na fissura, ela fingia movimento. Na laje, ela era a própria informação. Saber separar o sinal do efeito térmico é o que distingue quem lê sensor de quem só olha gráfico. Na próxima aula, o monitoramento sai da estrutura e vai para o entorno: vibração nos vizinhos, ruído, poeira e o rastreamento de máquinas e pessoas. Te espero na Aula 11!"
-
----
-
-## Roteiro da Videoaula 11 — "Segurança, ambiente e produtividade: vibração, ruído, poeira e rastreamento de equipamentos"
-
-**Duração-alvo:** cerca de 17:50 (17 a 19 minutos).
+**Duração-alvo:** cerca de 17:30 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
 **[TELA]** Slide 1 — capa; Slide 2 — sumário.
 
-> "Olá! Aqui é o professor Afonso Brandão, e esta é a Aula 11. Até agora, nesta unidade, a gente olhou para dentro da obra: o solo, a contenção, a estrutura. Hoje a gente olha para fora, para o entorno e para a operação do canteiro: vibração, ruído, poeira e rastreamento de máquinas e pessoas."
+> "Olá! Eu sou o professor Afonso Brandão, e esta é a Aula 9 de Drones e Sensores IoT no Monitoramento de Obras. Hoje a gente começa a Unidade 3, a unidade dos sensores e das redes de comunicação. Na Unidade 2, o drone olhou a obra de cima: ortomosaico, modelo de superfície, nuvem de pontos, volumes. Agora o monitoramento muda de ponto de vista. Ele desce para dentro do solo, entra na estrutura e respira o ar do canteiro."
 
-**[TELA]** Slide 3 — foto: estacas cravadas ao lado de uma casa.
+**[TELA]** Slide 3 — a obra de três subsolos e as cinco perguntas.
 
-> "Segunda-feira, oito da manhã. Começa a cravação de estacas-prancha a 15 metros de um casarão tombado — parecido com o da foto, onde o bate-estacas trabalha rente à casa de tijolos. Às nove, o morador liga: 'a casa inteira treme'. Às dez, a vizinhança reclama do barulho e da poeira na prefeitura. Às onze, um caminhão de terra dá ré na rampa e passa a meio metro de um ajudante. Quatro problemas diferentes numa só manhã."
+> "Quero que você imagine uma segunda-feira, sete da manhã, numa obra de três subsolos em área urbana. A cortina de estacas está sendo escavada colada num prédio antigo. Uma escora metálica, ao sol da tarde, parece estar ganhando carga. A laje do térreo foi concretada no sábado, e o empreiteiro já quer desformar. A equipe de pintura quer começar a impermeabilização num dia úmido. E a vizinhança liga reclamando da poeira."
 
-### 2. Três frentes, uma arquitetura (1:40 – 2:50)
+> "Repara: são cinco perguntas completamente diferentes. A contenção está andando? A escora aguenta? A laje já pode ser desformada? Dá para impermeabilizar hoje? A poeira passou do aceitável? E todas elas têm a mesma resposta: medir. Mas medir o quê, com qual sensor, instalado onde, e com que cuidado? É isso que a gente vai construir hoje."
 
-**[TELA]** Slide 4 — três frentes, uma só arquitetura.
+### 2. O mapa da unidade (1:40 – 2:50)
 
-> "Repara que os quatro problemas se agrupam em três frentes. Segurança: vibração nos vizinhos e colisão entre máquina e pessoa. Ambiente: ruído e poeira. E uma terceira, que muita gente esquece: produtividade — as máquinas estão trabalhando ou só ligadas? A boa notícia é que a arquitetura é a mesma da Aula 3: sensor, rede, plataforma, ação. O que muda é a régua de comparação. Tem norma da ABNT, resolução do CONAMA, a legislação municipal — que costuma regular o ruído e o horário de obra — e a NR-18, que trata da segurança e saúde no trabalho na indústria da construção."
+**[TELA]** Slide 4 — o que você verá nesta unidade: do sensor ao banco de dados.
 
-### 3. Vibração: PPV e frequência (2:50 – 6:40)
+> "Antes de entrar nos sensores, deixa eu te mostrar o mapa da unidade, porque ela conta uma história só: o caminho completo de um dado. Hoje, na Aula 9, os sensores e as grandezas que eles medem. Na Aula 10, as plataformas embarcadas, como o Arduino, o ESP32 e os dataloggers, que transformam o sinal do sensor em número, guardam esse número e alimentam tudo isso no meio da obra. Na Aula 11, as redes que levam o dado para fora do canteiro: LoRaWAN, Wi-Fi e redes celulares. E, na Aula 12, os protocolos e as plataformas que recebem e guardam as leituras: MQTT, Node-RED e o banco de séries temporais InfluxDB."
 
-**[TELA]** Slide 5 — vibração: velocidade de partícula e frequência.
+> "O Eduardo Magrani, no livro A internet das coisas, que é bibliografia da nossa disciplina, descreve justamente isso: objetos do dia a dia que passam a coletar e trocar dados sem que alguém precise intervir a cada leitura. No nosso caso, os objetos são um tubo enterrado, uma escora, uma laje e uma caixinha pendurada no tapume. Vamos a eles."
 
-> "Vamos começar pela vibração. Para avaliar risco de dano numa edificação, a grandeza usada é a velocidade de vibração de partícula de pico, em milímetros por segundo — a sigla em inglês é PPV. Quem mede é o sismógrafo de engenharia, com um geofone triaxial apoiado no pé da edificação vizinha. Triaxial porque mede três componentes: vertical, longitudinal e transversal. E a NBR 9653 define a velocidade de pico como o maior dos três picos."
+### 3. Do fenômeno ao sensor (2:50 – 4:30)
 
-> "Mas o valor não basta. A frequência dominante também importa, e muito. As edificações são mais sensíveis às baixas frequências, que ficam perto das frequências naturais delas — lembra da aula passada? Uma vibração lenta, de poucos hertz, conversa com o prédio; uma vibração rápida, de 50 hertz, ele mal sente. Na foto, um sismógrafo com sensores no tripé, ao lado de uma obra. Ele fica ligado com um gatilho: quando a vibração passa de um limiar, registra o evento inteiro."
+**[TELA]** Slide 5 — do fenômeno ao sensor: escolher pelo mensurando.
 
-**[TELA]** Slide 6 — simulação: PPV × distância e frequência. Comece a 15 m e 10 Hz; depois aproxime a fonte e mude a frequência.
+> "Primeiro princípio: ninguém escolhe sensor pelo catálogo. Escolhe pelo mensurando. Mensurando é o valor específico que eu quero conhecer. Não é o movimento do solo, genericamente. É o deslocamento horizontal da cortina a três metros de profundidade, em relação à leitura de antes da escavação. Quanto mais preciso for o mensurando, mais fácil fica escolher o instrumento."
 
-> "Na simulação, à esquerda, a forma de onda: cada golpe do martelo gera uma rajada que se amortece. À direita, a curva-limite da NBR 9653 em função da frequência, com o nosso ponto. A 15 metros e 10 hertz, a PPV é de 12 milímetros por segundo — valores ilustrativos. Eu aproximo a fonte para 8 metros: a PPV sobe bastante, porque a vibração se atenua com a distância. Agora eu volto para 15 e subo a frequência para 30 hertz: a mesma PPV, mas o ponto fica bem mais longe da curva. A frequência mudou a avaliação."
+> "Com o mensurando definido, entram cinco critérios. A faixa de medição: o sensor mede até onde o fenômeno pode chegar? A resolução: qual é a menor variação que ele indica? A incerteza: quanto ele pode errar? E cuidado, porque resolução não é exatidão. Um visor com três casas decimais pode errar por um milímetro inteiro. Depois, a estabilidade a longo prazo, ou seja, a deriva: um monitoramento de obra dura meses, às vezes anos, e o sensor não pode andar sozinho. E, por fim, a robustez: lama, chuva, sol, impacto de máquina, cabo pisado por caminhão."
 
-**[TELA]** Slide 7 — a curva da NBR 9653 e os cuidados.
+> "E três regras valem para todos os sensores desta aula. Calibração rastreável. Leitura zero, feita antes de o fenômeno começar. E limites com ação definida antes de a obra começar. Sem essas três coisas, instrumentar vira colecionar curiosidades: gráficos bonitos que ninguém sabe o que fazer com eles."
 
-> "Os números da norma. De 4 a 15 hertz, o limite começa em 15 milímetros por segundo e aumenta linearmente até 20. De 15 a 40 hertz, sobe linearmente de 20 até 50. Acima de 40 hertz, 50. E abaixo de 4 hertz, a norma usa outro critério: deslocamento de partícula de pico de no máximo 0,6 milímetro. Ela também limita a pressão acústica de um desmonte a 100 pascals, que são 134 decibéis lineares de pico."
+### 4. Inclinômetros (4:30 – 6:30)
 
-> "Vamos ao exemplo. Doze milímetros por segundo a 10 hertz. O limite a 10 hertz é 15 mais 5 vezes, 10 menos 4, sobre 15 menos 4: uns 17,7. Doze sobre 17,7: 68% do limite. Se fosse a 30 hertz, o limite seria 38."
+**[TELA]** Slide 6 — o inclinômetro: deslocamento horizontal em profundidade.
 
-> "Agora, os dois cuidados que separam o engenheiro do aplicador de tabela. Primeiro: a NBR 9653 foi feita para desmonte de rocha com explosivos, em mineração perto de áreas urbanas. Para cravação de estacas, compactação vibratória e, principalmente, para uma edificação sensível como um casarão tombado, o plano de monitoramento costuma fixar limites próprios, bem mais baixos. Nesse caso, 12 milímetros por segundo provavelmente pediriam ação imediata. Segundo: o incômodo humano aparece muito antes de qualquer dano. O morador sente a casa tremer com valores que não trincam parede nenhuma — e isso também precisa de resposta, com comunicação e horário combinado."
+> "Vamos ao primeiro sensor: o inclinômetro. Ele responde à pergunta da contenção: o solo e a cortina estão andando na horizontal? Instala-se um tubo-guia, com quatro ranhuras internas, num furo vertical atrás da contenção. O detalhe crucial é o pé do tubo: ele tem que ficar engastado em solo ou rocha que não se mova, abaixo da zona de influência da escavação. Esse pé é o nosso ponto fixo, a nossa referência."
 
-> "E o que fazer quando a vibração passa do limite do plano? As alavancas são conhecidas: reduzir a energia do golpe, aumentar a distância — por exemplo, mudando a sequência de cravação —, fazer pré-furo, trocar estacas cravadas por escavadas ou prensadas, ou, numa compactação, trocar o rolo vibratório por um estático perto do vizinho. E, depois de cada mudança, medir de novo. Malha fechada, sempre. Uma dica de ouro: faça a vistoria cautelar do casarão antes da primeira estaca, com fotos datadas de todas as fissuras existentes. Sem ela, qualquer trinca vai ser atribuída à sua obra."
+> "Para ler, baixa-se uma sonda que corre pelas ranhuras. Dentro dela há acelerômetros, que medem a inclinação em relação à vertical, do mesmo jeito que o seu celular sabe se está em pé ou deitado. A sonda para a cada meio metro. Em cada parada, mede o ângulo theta daquele trecho, e o desvio horizontal do trecho é o comprimento, meio metro, vezes o seno de theta."
 
-### 4. Ruído: decibéis não se somam como metros (6:40 – 9:30)
+> "Dois cuidados. O que interessa é sempre a diferença em relação à leitura zero, acumulada de baixo para cima, a partir do pé fixo. E faz-se uma segunda passada com a sonda girada cento e oitenta graus, que cancela o viés do próprio sensor. Hoje também existe a versão automática: o inclinômetro in-place, uma cadeia de sensores MEMS fixos dentro do tubo, lidos por um datalogger a cada quinze minutos ou a cada hora. E, para a fachada do vizinho, existe o clinômetro de parede, o tiltmeter, que mede a rotação de um pilar ou de uma parede."
 
-**[TELA]** Slide 8 — ruído e a NBR 10151.
+### 5. Exemplo: do ângulo ao milímetro (6:30 – 7:40)
 
-> "Segunda frente: ruído. O nível de pressão sonora se mede em decibéis, uma escala logarítmica. A ponderação A, o dB(A), aproxima a sensibilidade do ouvido humano, que escuta mal os graves. E, como o ruído varia o tempo todo, usa-se o nível equivalente, o L A eq: o nível constante que teria a mesma energia no intervalo. Na foto, um sonômetro marcando 49,3 decibéis."
+**[TELA]** Slide 7 — exemplo numérico: do ângulo ao milímetro.
 
-> "A referência técnica é a NBR 10151, de 2019, que define como medir e avaliar o ruído em áreas habitadas, com limites por tipo de área e período. Por exemplo: 50 decibéis de dia e 45 à noite numa área estritamente residencial urbana ou de hospitais ou de escolas; 55 e 50 numa área mista predominantemente residencial. E a lei municipal pode trazer regras próprias, como os horários permitidos para obra."
+> "Vamos fazer a conta. A sonda, com meio metro entre as rodas, registrou variações do seno do ângulo, em relação à leitura zero, só nos seis trechos de cima: seis, cinco, quatro, três, um vírgula seis e zero vírgula quatro, tudo vezes dez elevado a menos três. Abaixo disso, nada mudou. Ótimo sinal: o pé está fixo."
 
-**[TELA]** Slide 9 — calculadora: somando três máquinas.
+> "Somando as variações, dá vinte vezes dez a menos três, ou seja, zero vírgula zero vinte. Vezes meio metro: zero vírgula zero dez metro. Dez milímetros no topo. Repara como o perfil é grande em cima e vai se anulando para baixo: é exatamente o formato que se espera de uma cortina que flete para dentro da escavação com o pé travado. Se os trechos de baixo também tivessem mexido, a primeira suspeita seria o pé do tubo, e não a cortina."
 
-> "Agora o que pega muita gente. Decibel não se soma como metro. Como a escala é logarítmica, a gente soma as energias: dez vezes o logaritmo da soma de dez elevado a L sobre dez. No receptor, um gerador sozinho dá 62, uma escavadeira, 65, e o bate-estacas, 68 decibéis. Total: não é 195! É uns 70,4. Agora a pergunta prática: o que adianta desligar? Eu tiro o gerador, o mais silencioso: cai para 69,8. Seis décimos. Quase nada. Eu trato o bate-estacas, o mais barulhento: cai para 66,8. A lição é simples: ataque a fonte dominante."
+### 6. Extensômetros (7:40 – 9:00)
 
-> "Duas regrinhas para guardar. Duas fontes iguais somam 3 decibéis: dois compressores de 70 dão 73, não 140. E, para uma fonte pontual ao ar livre, dobrar a distância tira uns 6 decibéis. Oitenta e cinco decibéis a 10 metros viram uns 67 a 80 metros. Mesmo assim, perto de uma referência de 55, ainda sobra excedente — e aí entram barreiras acústicas, enclausuramento, horários restritos e métodos menos ruidosos, como estacas escavadas no lugar das cravadas."
+**[TELA]** Slide 8 — extensômetros: elétrico de resistência × corda vibrante.
 
-### 5. Poeira: MP10 e MP2,5 (9:30 – 12:00)
+> "Segundo sensor: o extensômetro. Ele mede deformação específica, em microdeformações. Uma microdeformação é um milionésimo: um metro de aço que encolhe um milésimo de milímetro. Existem duas famílias. O extensômetro elétrico de resistência é uma grade metálica colada na peça. Quando a peça deforma, a grade estica ou encurta, e a resistência elétrica muda, na proporção do fator do extensômetro, que é cerca de dois. Ele é rápido, ótimo para ensaios, mas sofre com umidade e com deriva quando fica meses na obra."
 
-**[TELA]** Slide 10 — poeira: MP10 e MP2,5.
+> "Para o longo prazo, a obra usa o extensômetro de corda vibrante. É um fio de aço tensionado entre dois blocos presos à peça. Quando a peça deforma, a tensão do fio muda, e a frequência com que ele vibra muda junto: a deformação é proporcional ao quadrado da frequência. Por que a obra gosta tanto dele? Porque ele é estável por anos, e porque a informação está na frequência, não na tensão elétrica. Então o comprimento do cabo e a resistência do fio não atrapalham. Ele pode ser soldado numa escora metálica ou amarrado na armadura antes da concretagem, como nessa foto."
 
-> "Terceira frente: poeira. Ela é monitorada como material particulado: MP10, partículas de até 10 micrômetros, e MP2,5, de até 2,5 micrômetros, que entram fundo no sistema respiratório. Os sensores IoT mais comuns são óticos: um feixe de luz, uma câmara, e as partículas espalham a luz. São baratos e gastam pouca energia. Mas têm um defeito conhecido: com umidade alta, as partículas incham de água e o sensor superestima. Por isso eles precisam ser calibrados por colocalização: ficam um tempo ao lado de uma estação de referência, e você corrige a curva. É a calibração da Aula 2 aplicada ao ar."
+### 7. A escora no sol (9:00 – 10:20)
 
-> "E onde colocar o sensor? Na divisa, do lado de quem você quer proteger — a escola, as casas —, e de preferência com um segundo sensor do lado oposto, para medir a poeira que já chega de fora. Sem esse sensor de fundo, você pode ser culpado pela poeira da avenida. Junto, uma estação meteorológica simples, com direção e velocidade do vento: a mesma terraplenagem pode não incomodar ninguém com vento a favor e encher a escola de pó com vento contrário. A regra de aspersão fica muito mais inteligente quando cruza a poeira com o vento."
+**[TELA]** Slide 9 — simulação: a escora no sol. Comece com 250 µε e ΔT = 0; depois aumente a temperatura e alterne a correção térmica.
 
-> "E a régua? Os padrões nacionais de qualidade do ar estão na Resolução CONAMA número 506, de 2024, que substituiu a 491, de 2018. Ela entra em vigor por etapas; na etapa atual, a PI-2, em vigor desde janeiro de 2025, a média de 24 horas é de 100 microgramas por metro cúbico para MP10 e 50 para MP2,5. Mas atenção, que aqui muita gente erra: esses são padrões de qualidade do ar ambiente, da cidade, não limites de emissão de uma obra. O plano de monitoramento define os gatilhos próprios, medidos na divisa do canteiro, e a ação de cada um. Na foto, uma das ações clássicas: jato d'água sobre a demolição."
+> "Agora a nossa escora. O extensômetro de corda vibrante, já corrigido para a temperatura, indica duzentas e cinquenta microdeformações desde a leitura zero. O aço tem módulo de elasticidade de duzentos gigapascals. Pela lei de Hooke, tensão é módulo vezes deformação: duzentos mil megapascals vezes duzentos e cinquenta milionésimos dá cinquenta megapascals. A área da escora é de cento e vinte centímetros quadrados, ou zero vírgula zero doze metro quadrado. Força é tensão vezes área: seiscentos quilonewtons. Com carga de projeto de novecentos, a escora está a sessenta e sete por cento."
 
-**[TELA]** Slide 11 — simulação: MP10 na divisa, com aspersão. Comece em Malha fechada e depois clique em Malha aberta.
+> "Agora eu vou esquentar a escora na simulação. Olha o que acontece com a leitura sem correção. O aço dilata cerca de doze milionésimos por grau. Uma variação de quinze graus, da manhã fria para a tarde de sol, equivale a cento e oitenta microdeformações de dilatação livre. É da mesma ordem do sinal que a gente quer medir! Se ninguém corrige, o sol vira carga no relatório, e alguém manda reforçar uma escora que estava tranquila, ou pior, ignora um aumento real achando que é só o calor. Por isso, os extensômetros de corda vibrante trazem um termistor embutido, e a leitura é corrigida para a temperatura antes de virar força. Ligo a correção: a curva volta para o que interessa."
 
-> "Na simulação, o MP10 na divisa ao longo de um dia de terraplenagem, com níveis do plano — ilustrativos, não da CONAMA. Em malha fechada, com leitura a cada 15 minutos, cruzou a atenção, a aspersão liga e a curva cai. Em malha aberta, com uma vistoria a cada 6 horas, a poeira passa do alerta antes de alguém ligar o caminhão-pipa. É a mesma lição da Unidade 1, agora no ar que o vizinho respira. E não esqueça o trabalhador: a poeira com sílica cristalina, de corte de concreto e de rocha, é risco ocupacional sério, tratado pelas normas regulamentadoras."
+### 8. Acelerômetros (10:20 – 11:50)
 
-### 6. Rastreamento e produtividade (12:00 – 15:00)
+**[TELA]** Slide 10 — acelerômetros: vibração e assinatura dinâmica.
 
-**[TELA]** Slide 12 — rastreamento: máquinas, pessoas e cercas virtuais.
+> "Terceiro sensor: o acelerômetro. Os do tipo MEMS são microssistemas num chip, baratos e de baixo consumo: o mesmo tipo que está no seu celular, perfeito para IoT. Os piezoelétricos são mais sensíveis e alcançam frequências mais altas, para medições mais exigentes. Na foto, um acelerômetro com unidade sem fio, preso no pendural de uma ponte em arco."
 
-> "Quarta peça: o rastreamento. Nas máquinas, a telemetria com GNSS informa posição, horas de motor, tempo em marcha lenta e consumo. Nas pessoas, sistemas de localização em tempo real, o RTLS, com etiquetas UWB, que localizam com precisão de decímetros, ou BLE, de metros, presas no capacete ou no crachá. Com isso, você cria cercas virtuais: uma zona de exclusão em torno da escavadeira. Entrou, o operador e o trabalhador recebem um alerta sonoro."
+> "Na obra, o acelerômetro tem dois usos. O primeiro é medir a vibração que a própria obra provoca: cravação de estacas, compactação vibratória, tráfego de caminhões. Nas edificações vizinhas, essa vibração é avaliada pela velocidade de partícula de pico, em milímetros por segundo. O segundo uso é identificar as frequências naturais da estrutura, que são a assinatura dela. Num modelo de massa e mola, a frequência depende da raiz da rigidez sobre a massa. Se a rigidez cai, por fissuração ou dano numa ligação, a frequência cai junto. Cinco por cento a menos na frequência correspondem a cerca de dez por cento a menos na rigidez."
 
-**[TELA]** Slide 13 — cena 3D: a cerca virtual. Deixe rodar com a cerca ligada; depois desligue.
+> "E aqui volta uma regra que você não pode esquecer: Nyquist. Para registrar uma vibração, é preciso amostrar a mais que o dobro da maior frequência de interesse; na prática, de cinco a dez vezes. Se a cravação tem componentes de até cinquenta hertz, eu quero algumas centenas de amostras por segundo. Abaixo disso, a vibração aparece com uma frequência falsa."
 
-> "Na cena, a escavadeira gira, o caminhão vai e volta pela rota e três trabalhadores circulam. O disco vermelho é a zona de exclusão, de oito metros. Repara: um trabalhador entrou na zona — ele e a máquina piscam, e o contador de alertas sobe. Agora eu desligo a cerca virtual. A situação continua acontecendo, mas ninguém é avisado e nada fica registrado. O quase-acidente da rampa do nosso gancho, sem cerca, é só um susto que ninguém conta. Com cerca, vira dado: onde, quando, com qual máquina. É assim que se corrige um layout de canteiro antes do acidente."
+### 9. Temperatura (11:50 – 13:00)
 
-> "Pense na pirâmide clássica da segurança do trabalho: para cada acidente grave, existem muitos quase-acidentes que ninguém registrou. A cerca virtual transforma esses quase-acidentes em estatística. Se a mesma rampa gera dez alertas por dia, o problema não é o trabalhador desatento: é a rampa, o fluxo do caminhão, a falta de um sinaleiro. O dado aponta para a correção do processo, que é o que a NR-18 pede quando fala em planejar a circulação de máquinas e pessoas no canteiro."
+**[TELA]** Slide 11 — temperatura: o sensor que corrige todos os outros.
 
-**[TELA]** Slide 14 — calculadora: a escavadeira trabalha ou só fica ligada?
+> "Quarto sensor, e talvez o mais subestimado: a temperatura. Termistores NTC são baratos e sensíveis. Termorresistências, como a Pt100, são estáveis e exatas. Termopares cobrem faixas enormes, mas precisam de compensação da junta fria. E a temperatura tem três papéis na obra."
 
-> "E a mesma telemetria fala de produtividade. Turno de 9 horas. A escavadeira ficou 7,2 horas com o motor ligado, das quais 2,1 em marcha lenta, parada. Tempo produtivo: 5,1 horas. Utilização: 5,1 sobre 9, uns 57%. Ociosidade: 2,1 sobre 7,2, uns 29% do tempo ligado. A 4 litros por hora em marcha lenta, valor ilustrativo, são 8,4 litros de diesel por dia queimados para nada — em 22 dias, quase 185 litros. E o dado não serve para culpar o operador: em geral, a escavadeira espera porque o caminhão não chegou. O gargalo está no ciclo, e é o dado que mostra onde."
+> "Primeiro, corrigir os outros sensores, como você acabou de ver na escora: extensômetros, fissurômetros e piezômetros de corda vibrante dependem dela. Segundo, controlar a cura do concreto. Pelo método da maturidade, a gente soma, ao longo do tempo, a temperatura do concreto menos uma temperatura de referência, multiplicada pelo intervalo. É o fator de Nurse-Saul. Com uma curva calibrada em laboratório para a mesma mistura, esse número estima a resistência nas primeiras idades. Lembra da laje concretada no sábado? O sensor embutido diz se ela já chegou à resistência de desforma, sem substituir os corpos de prova, que continuam sendo o controle de aceitação. Terceiro, em concreto massa, como um bloco de fundação grande, vigiar a diferença entre o núcleo quente e a superfície fria, que pode fissurar a peça. O limite dessa diferença vem do projeto."
 
-### 7. Pausa para reflexão (15:00 – 16:30)
+### 10. Umidade e ponto de orvalho (13:00 – 14:40)
 
-**[TELA]** Slide 15 — Pausa para reflexão: rastrear pessoas é segurança ou vigilância?
+**[TELA]** Slide 12 — umidade e a calculadora do ponto de orvalho. Comece com 20 °C e 80%; depois mova a temperatura da laje para 18 °C e para 21 °C.
 
-> "Agora eu quero que você pause o vídeo e pense comigo. O crachá UWB que evitou o atropelamento na rampa é o mesmo que registra, minuto a minuto, onde cada trabalhador esteve. Pausas, idas ao banheiro, conversas, quanto tempo cada um ficou em cada frente. Rastrear pessoas é segurança ou vigilância?"
+> "Quinto sensor: umidade. A umidade relativa do ar é medida por sensores capacitivos: um polímero cuja propriedade elétrica muda conforme absorve vapor d'água. Quase sempre o chip mede temperatura junto, como essa plaquinha vermelha na foto. E por que a obra se importa? Por causa do ponto de orvalho: a temperatura em que o vapor começa a condensar. Se a superfície estiver abaixo dele, aparece água, e isso compromete pintura, impermeabilização e colagem de revestimento. Muitas especificações de pintura exigem a superfície pelo menos três graus acima do ponto de orvalho."
 
-> "Considere cinco perguntas. Qual é a finalidade declarada? Dá para minimizar o dado — por exemplo, processar só a proximidade com a máquina, na borda, sem guardar um histórico com nome? Por quanto tempo o dado fica guardado? Quem tem acesso? E os trabalhadores foram informados, com clareza? Uma regra para testar: coletar o mínimo necessário para a finalidade de segurança, informar com transparência e não reutilizar o dado para outra finalidade, como avaliar desempenho individual. Volte ao vídeo quando tiver a sua resposta. Esse tema volta, com a LGPD, na Unidade 4."
+> "Vamos à calculadora. O sensor marca vinte graus e oitenta por cento de umidade. Pela aproximação de Magnus, o ponto de orvalho dá cerca de dezesseis vírgula quatro graus. A laje está a dezoito graus: só um vírgula seis grau acima. Não atende a margem de três graus. A equipe de impermeabilização espera. Se a laje subir para vinte e um graus, aí a margem passa de quatro graus, e libera. Uma leitura de dois números evita um retrabalho inteiro."
 
-### 8. Atividade, pontos-chave e encerramento (16:30 – 17:50)
+> "E a umidade também se mede dentro dos materiais. Sondas de umidade relativa em furos na laje indicam quando o concreto está seco o bastante para receber piso, pelo método da norma ASTM F2170, com o limite dado pelo fabricante do revestimento. E sensores capacitivos, ou de TDR, medem a umidade do solo em aterros e taludes, onde a chuva reduz a resistência."
 
-**[TELA]** Slide 16 — atividade prática.
+### 11. Poeira (14:40 – 15:50)
 
-> "Sua missão: o plano de monitoramento ambiental e de segurança da cravação junto ao casarão. Onde ficam o sismógrafo, o sonômetro e o sensor de MP10? Quais são os níveis de atenção e de alerta do plano para cada grandeza, e qual ação corresponde a cada um — reduzir a energia de cravação, trocar o método, aspergir água, mudar o horário? Qual é a regra da cerca virtual? E o que vai no relatório para o vizinho e para a prefeitura?"
+**[TELA]** Slide 13 — poeira: MP10, MP2,5 e calibração por colocalização.
 
-**[TELA]** Slide 17 — pontos-chave; Slide 18 — encerramento.
+> "Sexto sensor: poeira. Ela é monitorada como material particulado: MP10, partículas até dez micrômetros, e MP2,5, até dois e meio, que entram fundo no sistema respiratório. Os sensores IoT mais comuns são óticos: o ar passa por um feixe de luz, e um fotodetector mede a luz espalhada pelas partículas. São baratos e consomem pouco, mas têm um defeito sério: com umidade alta, as partículas absorvem água, incham, e o sensor superestima a concentração. Por isso eles precisam ser calibrados por colocalização: fica um tempo ao lado de uma estação de referência, e a gente ajusta a curva."
 
-> "Resumindo. Vibração se avalia por PPV e frequência; a NBR 9653 é a régua do desmonte com explosivos, e edificações sensíveis pedem limites próprios. Ruído se soma em escala logarítmica: duas fontes iguais, mais 3 decibéis; ataque a fonte dominante. Poeira: sensores óticos precisam de calibração, e os padrões do CONAMA são do ar ambiente. Telemetria e RTLS dão segurança e produtividade, mas localização de pessoas é dado pessoal. E agora você tem dezenas de sensores gerando milhares de leituras por dia. Como limpar esses dados, como definir alertas que não enlouqueçam a equipe e como montar um painel que leve à decisão? É a última aula da unidade. Te espero na Aula 12!"
+> "A régua nacional é a Resolução CONAMA quinhentos e seis, de 2024. Na etapa em vigor desde 2025, a média de vinte e quatro horas é de cem microgramas por metro cúbico para MP10 e cinquenta para MP2,5. Mas atenção: são padrões de qualidade do ar ambiente, não limites de emissão de uma obra. O plano de monitoramento fixa gatilhos próprios na divisa e as ações: ligar a aspersão, como nessa foto da demolição, lavar as rodas dos caminhões, cobrir as caçambas."
 
----
+### 12. Os seis sensores, atividade e encerramento (15:50 – 17:30)
 
-## Roteiro da Videoaula 12 — "Dados de sensores: séries temporais, níveis de alerta e dashboards"
+**[TELA]** Slide 14 — tabela: os seis sensores, o que medem e onde enganam.
 
-**Duração-alvo:** cerca de 17:50 (17 a 19 minutos).
-
-### 1. Abertura (0:00 – 1:40)
-
-**[TELA]** Slide 1 — capa; Slide 2 — sumário.
-
-> "Olá! Aqui é o professor Afonso Brandão, e esta é a Aula 12, a última da Unidade 3. Nas três aulas anteriores, a gente instalou sensores no solo, na estrutura e no entorno da obra. Hoje a pergunta é: o que fazer com tanto dado? Séries temporais, níveis de alerta e dashboards."
-
-**[TELA]** Slide 3 — foto: a sala de monitoramento; 37 alarmes, 35 falsos.
-
-> "Segunda-feira, sete da manhã. A obra tem 60 sensores e gera milhares de leituras por dia. No fim de semana, o painel disparou 37 alarmes. Trinta e cinco eram falsos: um pico de rádio, um sensor com a bateria no fim, o sol batendo numa escora. Na terceira semana assim, a equipe fez o que qualquer ser humano faria: parou de olhar. E um dos alarmes era real."
-
-> "Esse fenômeno tem nome: fadiga de alarmes. É conhecido em hospitais, em aviação, em usinas — e chegou aos canteiros com a IoT. Um sistema que grita o tempo todo é tão perigoso quanto um sistema mudo. Hoje você vai aprender a tratar os dados, a desenhar alertas com um plano de ação e a montar painéis que levam à decisão, e não ao cansaço."
-
-### 2. Anatomia de uma leitura (1:40 – 3:10)
-
-**[TELA]** Slide 4 — anatomia de uma leitura.
-
-> "Primeiro, um ponto de uma série temporal não é só um número. Ele precisa de um carimbo de tempo, de preferência em UTC, o tempo universal, com o fuso declarado. Da identificação do sensor. Do valor bruto — em hertz, miliampères, dígitos. Do valor de engenharia, em milímetros ou quilopascals, calculado com a leitura zero e os fatores de calibração. Da unidade. De marcas de qualidade. E de dados de saúde: bateria e intensidade do sinal."
-
-> "E duas regras de ouro. Os fatores de calibração devem ser versionados: se o sensor foi recalibrado em março, você precisa saber qual fator valia em fevereiro. E nunca, jamais, sobrescreva o dado bruto. A correção é sempre uma nova camada, rastreável. Se um dia alguém perguntar 'de onde veio esse número?', você tem que conseguir refazer o caminho. Esses dados vivem em bancos de séries temporais, feitos para gravar e consultar por intervalo de tempo."
-
-> "E quanto dado é isso? Faça a conta comigo. Um piezômetro lido a cada 15 minutos gera 96 leituras por dia. Sessenta sensores assim: quase 6 mil pontos por dia, mais de 2 milhões por ano. E um sismógrafo, durante um evento de vibração, grava centenas de amostras por segundo. Por isso os sistemas maduros guardam o dado bruto completo, mas mostram no painel agregados: médias horárias, máximos diários. E usam a amostragem adaptativa da Aula 3: leitura lenta no normal, rápida quando a atenção é cruzada. Mais dado não é melhor dado. Melhor dado é a leitura certa, no momento certo, nas mãos de quem decide."
-
-### 3. Os cinco defeitos e a limpeza (3:10 – 6:40)
-
-**[TELA]** Slide 5 — cinco defeitos que todo dado de campo tem.
-
-> "Todo dado de campo tem defeito, e são sempre os mesmos cinco. Picos espúrios: um valor isolado e fisicamente impossível, por interferência ou falha de leitura. Lacunas: horas ou dias sem dado, porque a bateria acabou, o rádio caiu ou alguém passou com a retroescavadeira por cima do cabo. Deriva: o sensor anda devagar sem que a grandeza mude — lembra da Aula 2. Ciclos térmicos: a oscilação diária e sazonal que você viu na escora e na fissura, na Aula 10. E carimbo errado ou duplicado: o relógio do datalogger desacertado, confusão de fuso, horário de verão."
-
-**[TELA]** Slide 6 — simulação: limpeza da série. Ligue, em sequência, a mediana, a média móvel e a compensação térmica.
-
-> "Na simulação, 30 dias de recalque, em cinza, do jeito que chegam: com tendência, ciclo diário, ruído, três picos e uma lacuna de dois dias. Eu ligo o filtro de mediana. A mediana de três leituras pega o valor do meio; um pico isolado nunca é o do meio, então ele some — e a tendência fica no lugar. Olha o contador: três picos removidos. Agora a média móvel de 24 horas: a curva fica lisinha. Mas repara no marcador: ela atrasa. Ao suavizar, a média móvel responde a uma aceleração com atraso — quanto maior a janela, maior o atraso. E a compensação térmica usa a temperatura medida junto ao sensor para tirar a parcela do sol."
-
-> "Uma ferramenta a mais, talvez a mais importante: a taxa de variação, a velocidade em milímetros por dia. Um deslocamento pequeno que acelera preocupa mais do que um grande que estabilizou. E um aviso: toda limpeza tem que ficar registrada. Um pico 'removido' pode ser o primeiro sinal de um problema real. O filtro não decide sozinho: ele sinaliza, e alguém olha."
-
-### 4. Exemplo numérico: oito leituras (6:40 – 8:30)
-
-**[TELA]** Slide 7 — exemplo numérico: oito leituras diárias.
-
-> "Vamos ao exemplo. Um marco de recalque automatizado registrou, em oito dias: 4,0; 4,2; 4,3; 4,5; 10,6; 5,2; 5,9 e 6,8 milímetros. O plano diz: atenção em 10 milímetros, alerta em 15, e velocidade de atenção de 0,5 milímetro por dia."
-
-> "O dia 5 salta 6,1 milímetros e volta no dia seguinte. Prédio não sobe 6 milímetros de um dia para o outro: é espúrio. A mediana dos dias 4, 5 e 6 — 4,5, 10,6 e 5,2 — é 5,2. Esse valor entra na série tratada, com a marca 'corrigido', e o bruto fica guardado. E repara: se o sistema exigisse duas leituras seguidas acima de 10, esse pico nem teria disparado o alarme."
-
-> "Agora a média móvel de três dias no dia 8: 5,2 mais 5,9 mais 6,8, dividido por 3, uns 6,0. Abaixo do último valor, de 6,8: é o atraso da média móvel. E a velocidade recente: 6,8 menos 5,2, em dois dias, 0,8 milímetro por dia. Acima dos 0,5 do plano. O valor está longe da atenção, mas a velocidade dispara o amarelo. Guarda esse número."
-
-### 5. TARP e persistência (8:30 – 11:40)
-
-**[TELA]** Slide 8 — níveis de alerta e o plano de ação (TARP).
-
-> "Os limites não podem ficar soltos. Eles se organizam num plano de ação por gatilhos — em inglês, Trigger Action Response Plan, o TARP. Para cada nível, ele diz o que acontece, quem faz e em quanto tempo. Verde, normal: dentro do esperado, leitura na rotina, responsabilidade da equipe de instrumentação. Amarelo, atenção: o valor ou a velocidade passou do nível de atenção; aumenta-se a frequência, inspeciona-se o local e avisa-se o projetista no mesmo dia; quem responde é o engenheiro da obra. Vermelho, alerta: o nível de alerta foi confirmado; executam-se as medidas de contingência que já estavam previstas — reduzir ou paralisar a frente, reforçar —, com reunião técnica imediata entre o engenheiro responsável e o projetista."
-
-> "Repara em duas palavras: 'ou velocidade' e 'confirmado'. Gatilhos por valor e por velocidade. E confirmação: por uma segunda leitura ou por um segundo instrumento."
-
-**[TELA]** Slide 9 — simulação: persistência × atraso. Varie a persistência de 1 a 4 leituras e ligue o gatilho de velocidade.
-
-> "Na simulação, 40 dias de leituras a cada 6 horas, com ruído e picos aleatórios, e um deslocamento real que começa a crescer no dia 25. Com persistência de uma leitura — qualquer leitura acima do limite dispara —, olha a quantidade de alarmes falsos em vermelho antes do dia 25. Isso é a fadiga de alarmes. Agora eu exijo duas leituras seguidas: os falsos quase somem, e o evento real é detectado seis horas mais tarde. Com quatro leituras: zero falso, mas o atraso cresce. É um compromisso, não existe almoço grátis. E a escolha depende da velocidade do fenômeno: se o deslocamento real leva semanas para ficar perigoso, seis ou doze horas de atraso não fazem diferença, e a persistência compensa. Se o fenômeno é rápido — o nível d'água subindo depois de uma chuva forte, por exemplo —, o atraso pode custar caro, e a saída é ler mais vezes ou confirmar com um segundo instrumento, em vez de esperar a próxima leitura do mesmo sensor. Agora eu ligo o gatilho de velocidade: o evento real é pego mais cedo, porque a curva acelera antes de chegar ao limite. Persistência com gatilho de velocidade é a combinação que funciona."
-
-**[TELA]** Slide 10 — calculadora: quanto tempo até o alerta?
-
-> "De volta ao nosso marco. Leitura atual de 6,8, anterior de 5,2, dois dias entre elas: 0,8 milímetro por dia. Até a atenção, de 10: 3,2 milímetros, divididos por 0,8, são 4 dias. Até o alerta, de 15: uns 10,3 dias. A situação na tela: alerta de velocidade, valor abaixo da atenção, mas acelerando. Isso muda tudo na gestão: você não espera chegar a 10 para agir. Você tem quatro dias para vistoriar, conferir a leitura com nivelamento manual e conversar com o projetista."
-
-**[TELA]** Slide 11 — incerteza nos limiares.
-
-> "E não esqueça a incerteza da Aula 2. Se a leitura mais a incerteza expandida alcança o limite, trate como atenção: o limite pode ter sido atingido. Se a leitura menos a incerteza passa do limite, o alerta está confirmado. No nosso exemplo, 6,8 mais ou menos 1,5 fica abaixo de 10: o valor está seguro. Mas é a tendência que manda agir agora. E, antes de confiar em qualquer número, olhe a saúde do sensor: bateria, sinal e hora da última leitura."
-
-### 6. Dashboards (11:40 – 15:00)
-
-**[TELA]** Slide 12 — o que um bom dashboard mostra (e o que esconde).
-
-> "Agora o painel. Um bom dashboard de monitoramento mostra quatro coisas. Uma planta da obra com cada instrumento colorido pelo seu estado: verde, amarelo, vermelho — num relance, você sabe onde olhar. Séries temporais com os limites desenhados e a velocidade. A saúde dos sensores: bateria, hora da última leitura, sinal. E uma lista de alarmes com reconhecimento: quem viu, quando e o que fez."
-
-> "E ele evita quatro armadilhas. Gráfico sem limite: o número sobe, mas sobe até onde? Eixo cortado, que transforma meio milímetro numa montanha. Excesso de cores, que não diz nada. E, a pior de todas, alarme sem dono. O princípio é: cada alerta tem um responsável, um prazo e uma ação."
-
-> "E pense em quem vai olhar. O engenheiro de plantão, às duas da manhã, precisa de uma tela no celular que diga em cinco segundos: está tudo bem, ou não está, e onde. O projetista precisa de séries longas, com a obra sobreposta — que etapa de escavação estava acontecendo quando a curva acelerou? E o cliente, ou o vizinho, precisa de um relatório periódico, claro, com os limites e a interpretação. Um dashboard só não serve a todos. Projete a tela para a decisão de cada um."
-
-**[TELA]** Slide 13 — simulação: o painel. Clique em Simular evento; quando o alarme entrar no log, clique em Reconhecer.
-
-> "Olha o painel simulado. À esquerda, a planta com seis instrumentos: inclinômetro, piezômetro, marco de recalque, sismógrafo, fissurômetro e o sensor de MP10. À direita, as séries do inclinômetro e do piezômetro, ao vivo, com os limites. Embaixo, o log de alarmes e a saúde dos sensores. Eu clico em simular evento: o inclinômetro INC-01 acelera. O ponto na planta fica amarelo, a série se inclina e um alarme novo entra no log, com hora e nível. Agora o engenheiro de plantão clica em reconhecer: o status muda para 'reconhecido', com o nome de quem viu. Isso é rastreabilidade. Se alguém perguntar amanhã 'quem soube e o que fez?', a resposta está ali."
-
-**[TELA]** Slide 14 — cena 3D: do dashboard ao gêmeo digital.
-
-> "E o próximo passo. O dashboard mostra números. O gêmeo digital, que você vai estudar na Unidade 4, põe esses números dentro do modelo da obra e devolve decisões. Na cena, o prédio real e o gêmeo: o recalque aparece no modelo, a cor muda e, em malha fechada, o comando volta para a obra. É a malha fechada da Unidade 1, agora alimentada por tudo o que você instalou nesta unidade."
-
-> "E é aqui que a disciplina inteira começa a se juntar. O drone da Unidade 2 entrega a geometria: ortomosaico, nuvem de pontos, volumes. Os sensores desta unidade entregam o comportamento: deslocamentos, pressões, deformações, vibrações. O gêmeo digital é o lugar onde a geometria e o comportamento se encontram, no tempo certo, para alguém decidir."
-
-### 7. Atividade, pontos-chave, fechamento da unidade e encerramento (15:00 – 17:50)
+> "Vamos juntar tudo. Inclinômetro: deslocamento em profundidade, engana se o pé não estiver fixo. Extensômetro: deformação e força, engana com a temperatura. Acelerômetro: vibração e frequência natural, engana se a amostragem for baixa. Temperatura: corrige os outros e controla a cura. Umidade: ponto de orvalho e secagem. Poeira: MP10 e MP2,5, engana com ar úmido e sem calibração. Repara que cada sensor tem a sua armadilha. Conhecer a armadilha é metade do trabalho do engenheiro."
 
 **[TELA]** Slide 15 — atividade prática.
 
-> "Sua missão: pegue uma série real — dados abertos de uma estação meteorológica servem — ou simule 30 dias de leituras numa planilha, com tendência, ciclo diário, ruído e alguns picos. Aplique a mediana de três, a média móvel e calcule a velocidade. Depois defina níveis de atenção e de alerta, por valor e por velocidade, monte a tabela TARP e esboce três telas de dashboard: a planta com status, as séries com os limites e a lista de alarmes. Dica: teste a sua regra de persistência contando quantos alarmes falsos ela teria gerado. E escreva, ao lado de cada nível do TARP, o nome — ou pelo menos o cargo — de quem responde e o prazo. Se você não conseguir preencher essa coluna, o seu sistema ainda não fecha a malha."
+> "Sua atividade: para a obra do gancho, monte uma tabela com os seis sensores e as colunas mensurando, local de instalação, princípio de funcionamento, principal fonte de erro, forma de correção ou calibração e a decisão que a leitura apoia: reforçar a escora, liberar a laje, adiar a pintura, ligar a aspersão."
+
+**[TELA]** Slide 16 — pontos-chave; Slide 17 — encerramento.
+
+> "Recapitulando: sensor se escolhe pelo mensurando, com calibração, leitura zero e limites com ação. Inclinômetro e extensômetro contam como a contenção e a estrutura se comportam; acelerômetro e temperatura, como elas vibram e curam; umidade e poeira, como está o ar e o material."
+
+> "Mas um sensor sozinho só entrega um sinal elétrico, às vezes de poucos microvolts. Quem transforma isso em número confiável, carimba a hora, guarda na memória e funciona meses a bateria no meio da lama? As plataformas embarcadas: Arduino, ESP32 e datalogger. Te espero na Aula 10!"
+
+---
+
+## Roteiro da Videoaula 10 — "Por que o protótipo mentiu? O que acontece entre o sensor e o número"
+
+**Duração-alvo:** cerca de 17:20 (15 a 19 minutos).
+
+### 1. Abertura (0:00 – 1:30)
+
+**[TELA]** Slide 1 — capa; Slide 2 — sumário.
+
+> "Olá! Eu sou o professor Afonso Brandão, e esta é a Aula 10 de Drones e Sensores IoT no Monitoramento de Obras. Na aula passada, você conheceu os seis sensores da obra: inclinômetro, extensômetro, acelerômetro, temperatura, umidade e poeira. Hoje a gente abre a caixinha que fica entre o sensor e o dado: a plataforma embarcada."
+
+**[TELA]** Slide 3 — o protótipo que mostrava uma linha reta.
+
+> "Deixa eu te contar uma história que acontece toda hora. Um estagiário animado montou, num fim de semana, um protótipo: uma placa ESP32, um extensômetro colado numa escora e um rádio. Na segunda-feira, o gráfico mostrava uma linha perfeitamente reta. Pela tela, a escora não carregava absolutamente nada. Na terça, a bateria acabou. Na quarta, choveu e a água entrou na caixa."
+
+> "E o mais curioso: o sensor estava certo. O extensômetro funcionava. O que falhou foi tudo o que fica entre o sensor e o número: o condicionamento do sinal, a conversão analógico-digital, a energia e a instalação. Ao final desta aula, você vai saber explicar cada uma das três falhas, e, principalmente, como evitá-las."
+
+### 2. A cadeia de medição (1:30 – 2:40)
+
+**[TELA]** Slide 4 — a cadeia de medição embarcada.
+
+> "Pensa numa corrente com seis elos. O sensor responde à grandeza física. O condicionamento excita o sensor, amplifica, filtra e adapta o sinal. O conversor analógico-digital, o ADC, transforma tensão em número. O microcontrolador aplica a calibração, carimba a hora e decide quando ler e quando transmitir. A memória local guarda a leitura. E o rádio manda o dado embora. Por baixo de tudo, a energia, alimentando cada elo."
+
+> "Uma corrente arrebenta no elo mais fraco, e com dado é igual. Um sensor excelente, de milhares de reais, ligado a um conversor ruidoso, produz uma leitura ruim. Por isso, quem projeta monitoramento não pode olhar só para o sensor."
+
+### 3. Condicionamento e ponte de Wheatstone (2:40 – 4:10)
+
+**[TELA]** Slide 5 — condicionamento de sinal e a ponte de Wheatstone.
+
+> "Muitos sensores entregam sinais fracos demais, ou em formatos que o microcontrolador não lê direto. O caso clássico é o extensômetro elétrico. A variação de resistência dele é minúscula, então a gente o monta numa ponte de Wheatstone: quatro resistores em losango, alimentados por uma tensão de excitação. Quando a ponte está equilibrada, a saída é zero. Quando o extensômetro deforma, a ponte desequilibra e aparece uma tensão de saída."
+
+> "Com um único extensômetro ativo, o que se chama um quarto de ponte, a saída é aproximadamente a tensão de excitação vezes o fator do extensômetro vezes a deformação, tudo dividido por quatro. Guarde essa conta, porque daqui a pouco ela vai explicar a linha reta do estagiário. Já adianto: o resultado é da ordem de microvolts. E microvolts precisam de um amplificador de instrumentação antes de chegar ao conversor."
+
+> "O condicionamento também inclui o filtro anti-aliasing: um filtro passa-baixas antes do ADC, que impede que frequências acima da metade da taxa de amostragem apareçam como sinais falsos. É o Nyquist, que você viu na aula passada, agora protegido por hardware."
+
+### 4. O laço de corrente 4–20 mA (4:10 – 5:30)
+
+**[TELA]** Slide 6 — o laço de corrente 4–20 mA.
+
+> "Outro padrão que você vai encontrar muito em obra é o laço de corrente de quatro a vinte miliampères. Em vez de mandar o valor como tensão, o transdutor manda como corrente. Por que isso é bom? Porque a corrente é a mesma ao longo de todo o cabo, então cabos longos e ruído elétrico do canteiro atrapalham muito menos."
+
+> "E tem um detalhe genial: o zero vivo. O zero da escala não é zero miliampère, é quatro. Então, se a corrente cair a zero, eu sei que não é uma leitura nula: é cabo rompido ou sensor desligado. O sistema consegue diferenciar 'não tem pressão' de 'perdi o sensor'. Para o microcontrolador ler, um resistor de carga transforma corrente em tensão. Com cento e cinquenta ohms, quatro a vinte miliampères viram zero vírgula seis a três volts, dentro da faixa útil do ADC do ESP32."
+
+> "Os sensores de corda vibrante são um terceiro caso: eles precisam ser excitados e ter a frequência medida, o que exige uma interface específica. É comum em datalogger profissional, e raro em placa de protótipo."
+
+### 5. O ADC e os bits (5:30 – 6:50)
+
+**[TELA]** Slide 7 — simulação: quantos bits tem o seu ADC? Comece com 10 bits e depois passe para 12 e 16.
+
+> "Agora o conversor analógico-digital. Um ADC de n bits divide a faixa de entrada em dois elevado a n degraus. O menor degrau se chama LSB, e vale a tensão de referência dividida por dois elevado a n. Na simulação, eu tenho um sinal suave entrando. Com dez bits, como no Arduino Uno, que tem mil e vinte e quatro níveis em cinco volts, cada degrau vale uns quatro vírgula nove milivolts. Repara na escada no gráfico."
+
+> "Passo para doze bits, como no ESP32: quatro mil e noventa e seis níveis. A escada fica bem mais fina. Mas o ADC do ESP32 tem fama conhecida: não linearidade e desvio de uma placa para outra. Então ele precisa ser calibrado, ou substituído por um ADC externo. Passo para dezesseis bits, como num ADS1115: a escada quase some. E, para pontes de extensômetros e células de carga, existe o HX711, com vinte e quatro bits e ganho interno."
+
+### 6. Exemplo: os 165 microvolts (6:50 – 8:20)
+
+**[TELA]** Slide 8 — exemplo numérico: por que a linha ficou reta?
+
+> "Agora a gente resolve o mistério da linha reta. O extensômetro do estagiário tem fator dois, está num quarto de ponte excitado com três vírgula três volts e sofre cem microdeformações. Três vírgula três vezes dois vezes cem milionésimos, dividido por quatro, dá cento e sessenta e cinco microvolts de saída."
+
+> "E quanto vale um degrau do ADC do ESP32? Três vírgula três volts divididos por quatro mil e noventa e seis: uns oitocentos e seis microvolts. Percebeu? O sinal inteiro, de cento e sessenta e cinco microvolts, cabe dentro de um único degrau. O conversor nunca vê a mudança. A escora carregava, e a tela mostrava uma linha reta. O sensor não mentiu: quem mentiu foi a cadeia."
+
+> "A solução é amplificar. Com um amplificador de ganho quinhentos, a saída vai para oitenta e dois vírgula cinco milivolts: uns cem degraus do ADC. Aí cada degrau equivale a mais ou menos uma microdeformação. Os valores são ilustrativos, mas a lição é real: antes de confiar no gráfico, compare o tamanho do sinal com o tamanho do degrau."
+
+> "E, no caso do piezômetro de quatro a vinte miliampères com o resistor de cento e cinquenta ohms, um degrau do ADC vale uns cinco vírgula quatro microampères. Como a escala é de doze vírgula cinco quilopascals por miliampère, isso dá uns zero vírgula zero sessenta e sete quilopascal: cerca de sete milímetros de coluna d'água. Para nível d'água em escavação, é uma resolução perfeitamente utilizável."
+
+### 7. Arduino, ESP32 e datalogger (8:20 – 9:50)
+
+**[TELA]** Slide 9 — Arduino, ESP32 e o datalogger profissional.
+
+> "Vamos conhecer as plataformas. O Arduino é a porta de entrada: simples, com uma comunidade enorme, ótimo para aprender e prototipar. Mas ele não tem rádio nativo. O ESP32, da Espressif, é um microcontrolador de trinta e dois bits com Wi-Fi e Bluetooth integrados, modo de sono profundo e preço baixo. É a escolha natural para protótipos IoT, e você programa ele na mesma IDE do Arduino."
+
+> "E existe uma terceira categoria: o datalogger profissional. Ele tem entradas para corda vibrante e para pontes, multiplexadores para dezenas de canais, funciona numa faixa larga de temperatura, vem numa caixa com grau de proteção elevado, tem relógio estável, memória para meses e certificado de calibração."
+
+> "A regra prática é esta. Arduino e ESP32 são excelentes para protótipos, para ensino e para monitoramentos de baixa criticidade: temperatura, umidade, poeira, ocupação de áreas. Agora, se a leitura embasa uma decisão de segurança, como uma contenção ou um vizinho que recalca, usam-se instrumentos e dataloggers com calibração rastreável, instalados por equipe qualificada. Não é preconceito com a placa barata; é responsabilidade técnica."
+
+### 8. Barramentos digitais (9:50 – 10:50)
+
+**[TELA]** Slide 10 — sensores que já falam digital: I²C, SPI, UART, 1-Wire, SDI-12 e RS-485.
+
+> "Muitos sensores modernos já entregam o valor pronto, em digital, e aí o problema do ADC fica dentro do próprio sensor. Eles conversam com o microcontrolador por barramentos. I2C e SPI são de curta distância, na mesma placa, como o sensor de umidade da aula passada. UART é a serial clássica, usada por muitos sensores de poeira. 1-Wire é usado por termômetros como o DS18B20. SDI-12 é muito comum em sensores ambientais e dataloggers. E RS-485 com Modbus é o padrão industrial, que aguenta centenas de metros de cabo. Na obra, quando o cabo é longo e o ambiente é hostil, RS-485 e quatro a vinte miliampères são os seus melhores amigos."
+
+### 9. Amostragem, relógio e memória (10:50 – 12:10)
+
+**[TELA]** Slide 11 — amostragem, relógio e memória.
+
+> "O microcontrolador decide quando ler. E a taxa segue a velocidade do fenômeno. Um piezômetro pode ser lido a cada quinze minutos; a vibração de uma cravação exige centenas de amostras por segundo. Um truque barato: ler várias vezes seguidas e tirar a média. Isso se chama sobreamostragem, e reduz o ruído aleatório pela raiz do número de leituras. Dezesseis leituras, ruído quatro vezes menor."
+
+> "Toda leitura precisa de hora confiável, e em UTC, para não brigar com fuso e horário de verão. Para isso, usa-se um relógio de tempo real com bateria própria, sincronizado pela rede ou por GNSS. E a leitura fica guardada em memória local, cartão SD ou flash, até a confirmação de envio. Se a rede cair por um dia, nada se perde: quando ela volta, o nó manda tudo com a hora em que mediu, não a hora em que chegou."
+
+### 10. Energia: a bateria do estagiário (12:10 – 13:50)
+
+**[TELA]** Slide 12 — calculadora de autonomia. Comece com 0,15 mA em sono; depois mude para 10 mA.
+
+> "Agora a segunda falha do estagiário: a bateria. A conta é simples. O consumo médio é a carga gasta num ciclo dividida pela duração do ciclo. E a autonomia é a capacidade útil da bateria dividida pelo consumo médio."
+
+> "Nosso nó acorda a cada quinze minutos, ou seja, a cada novecentos segundos. Fica cinco segundos acordado a cento e vinte miliampères, lendo, conectando ao Wi-Fi e enviando, e dorme oitocentos e noventa e cinco segundos. Numa placa de baixo consumo, dormindo a zero vírgula quinze miliampère, a média dá uns zero vírgula oitenta e dois miliampère. Com sete mil e duzentos miliampères-hora úteis, são umas oito mil e oitocentas horas: cerca de um ano."
+
+> "Agora eu mudo só uma coisa: o consumo dormindo, para dez miliampères. É o que gasta uma placa de desenvolvimento comum, por causa do regulador de tensão e do conversor USB, mesmo com o chip ESP32 dormindo a uns dez microampères. A média sobe para dez vírgula seis miliampères, e a bateria dura umas seiscentas e oitenta horas: vinte e oito dias. Mesmo programa, mesma bateria. Quem decide a autonomia é o sono."
+
+> "Onde a demanda é maior, como num gateway ou numa câmera, entra o painel solar, com controlador de carga e uma bateria dimensionada para aguentar os dias nublados."
+
+### 11. Instalação em campo (13:50 – 15:10)
+
+**[TELA]** Slide 13 — instalação em campo: grau de proteção, surtos, ficha e comissionamento.
+
+> "E a terceira falha: a chuva na caixa. Instalação é engenharia, não detalhe. A caixa precisa de grau de proteção adequado, segundo a norma NBR IEC 60529: IP65 aguenta jatos d'água; IP67, imersão temporária. Prensa-cabos de verdade, nada de furo com fita isolante, e um saquinho de dessecante dentro. Proteção contra surtos e aterramento, principalmente com cabos longos e mastros, porque raio em canteiro não é raro. Cabos em eletroduto, longe do trajeto das máquinas. Antena fora da caixa metálica. E um acesso seguro para manutenção, sem expor ninguém a risco."
+
+> "Olha essa foto de uma estação de monitoramento em campo: a caixa do datalogger presa no mastro, o painel solar inclinado logo abaixo, o sensor com abrigo lá no alto, os cabos descendo organizados. Nada disso é enfeite. O mastro tira o equipamento do alcance da lama e das máquinas, o abrigo protege o sensor do sol direto, que falsearia a temperatura, e a caixa fechada guarda a eletrônica da chuva. Agora pensa no canteiro real: retroescavadeira passando, caminhão manobrando, servente lavando a betoneira ao lado. Um cabo solto no chão dura uma semana. Uma caixa sem identificação é arrancada na primeira limpeza da frente de serviço. Por isso, combine com a produção onde cada nó vai ficar, sinalize e inclua a instrumentação no planejamento da obra."
+
+> "Cada instalação gera uma ficha: identificação igual à do banco de dados, número de série, coordenadas, profundidade ou cota, foto, data e hora, fatores de calibração e leitura zero. E, antes de dizer que está pronto, o comissionamento: testar a alimentação, testar a comunicação e verificar se as primeiras leituras fazem sentido físico."
+
+### 12. Do protótipo à produção, atividade e encerramento (15:10 – 17:20)
+
+**[TELA]** Slide 14 — do protótipo à produção.
+
+> "Vamos voltar ao estagiário, agora com tudo o que você aprendeu. Linha reta: sinal de cento e sessenta e cinco microvolts num degrau de oitocentos; faltou amplificar. Bateria de dois dias: placa de desenvolvimento dormindo a miliampères; faltou escolher hardware de baixo consumo. Água na caixa: faltou grau de proteção e prensa-cabos. O protótipo foi útil, sim: ele ensinou onde estão as armadilhas. O passo seguinte é transformar o protótipo em produto de campo, ou reconhecer quando a aplicação pede um datalogger profissional."
+
+**[TELA]** Slide 15 — atividade prática no Wokwi.
+
+> "Sua atividade é no simulador gratuito Wokwi. Monte um ESP32 com um sensor de temperatura e umidade DHT22 e um potenciômetro que faça o papel de um transdutor analógico. Programe a leitura a cada dez segundos, converta o valor bruto do ADC para unidade de engenharia e imprima cada leitura com a hora. Depois, escreva a ficha de instalação desse nó numa obra real: caixa, grau de proteção, alimentação, autonomia estimada, local e leitura zero."
+
+**[TELA]** Slide 16 — pontos-chave; Slide 17 — encerramento.
+
+> "Recapitulando: a cadeia vai do sensor ao condicionamento, ao ADC, ao microcontrolador, à memória e ao rádio, e o dado tem a qualidade do elo mais fraco. Compare sempre o sinal com o degrau do ADC. O quatro a vinte miliampères é robusto e denuncia cabo rompido. Arduino e ESP32 para protótipo e baixa criticidade; datalogger calibrado para decisão de segurança. A autonomia é decidida pelo sono, e a instalação pede proteção, ficha, leitura zero e comissionamento."
+
+> "Agora o dado existe e está guardado no nó, lá no terceiro subsolo. Mas ele precisa sair dali e atravessar a cidade até o servidor. LoRaWAN, Wi-Fi ou rede celular? E por que o sinal some justamente no subsolo? Te espero na Aula 11!"
+
+
+---
+
+## Roteiro da Videoaula 11 — "Por que o sinal some no subsolo? A rede certa para cada sensor"
+
+**Duração-alvo:** cerca de 17:30 (15 a 19 minutos).
+
+### 1. Abertura (0:00 – 1:30)
+
+**[TELA]** Slide 1 — capa; Slide 2 — sumário.
+
+> "Olá! Eu sou o professor Afonso Brandão, e esta é a Aula 11 de Drones e Sensores IoT no Monitoramento de Obras. Até aqui, nesta unidade, você conheceu os sensores, na Aula 9, e as plataformas embarcadas que transformam o sinal do sensor em número, na Aula 10. O dado já existe e está guardado na memória do nó. Hoje a pergunta é outra: como esse dado sai do canteiro? Como ele sobe do terceiro subsolo, atravessa a cidade e chega ao servidor? O assunto é redes de comunicação: LoRaWAN, Wi-Fi e redes celulares."
+
+**[TELA]** Slide 3 — o primeiro dia da rede na obra.
+
+> "Deixa eu te contar o primeiro dia de uma obra que eu vou usar como exemplo a aula inteira. A construtora instalou piezômetros no terceiro subsolo, inclinômetros atrás da cortina de estacas, um sensor de poeira na divisa com a vizinhança e câmeras no alto da grua. E aí começaram os problemas. O Wi-Fi do escritório de obra, que funcionava muito bem para os notebooks, simplesmente não chegava ao subsolo. O sensor de poeira, que alguém resolveu ligar com um chip 4G comum, acabou com a bateria em uma semana. E as câmeras, mandando vídeo o dia inteiro, congestionaram a rede de todo mundo, inclusive a do escritório."
+
+> "Repara que nenhum desses problemas é defeito de equipamento. É escolha errada de rede. Cada tecnologia foi feita para um tipo de uso, e a gente usou a ferramenta certa no lugar errado."
+
+### 2. O triângulo de compromissos (1:30 – 3:00)
+
+**[TELA]** Slide 4 — o triângulo alcance × taxa × consumo.
+
+> "Toda escolha de rede sem fio equilibra três grandezas que puxam em sentidos opostos. A primeira é o alcance: até onde o sinal chega. A segunda é a taxa de dados: quanta informação passa por segundo. A terceira é o consumo de energia: quanto da bateria cada mensagem custa. E aqui vai a regra que eu quero que você leve desta aula: não dá para maximizar as três ao mesmo tempo."
+
+> "Redes de longo alcance e baixo consumo transmitem pouco, mensagens de poucas dezenas de bytes. Redes de alta taxa gastam muita energia ou alcançam pouco. E a esses três critérios se somam outros, bem práticos: o custo, tanto do equipamento quanto da mensalidade; a cobertura disponível naquele endereço; a latência, que é o tempo que a mensagem leva para chegar; e uma pergunta que quase ninguém faz no começo: quem opera essa rede? A própria obra ou uma operadora? Guarde essa pergunta, porque ela volta na pausa para reflexão."
+
+### 3. Propagação e orçamento de enlace (3:00 – 5:50)
+
+**[TELA]** Slide 5 — propagação no canteiro: distância, frequência e obstáculos.
+
+> "Antes de comparar as tecnologias, a gente precisa entender por que o sinal some. Um sinal de rádio enfraquece com a distância, mesmo no espaço livre, sem nenhum obstáculo. Essa perda tem uma fórmula: vinte vezes o logaritmo da distância em quilômetros, mais vinte vezes o logaritmo da frequência em megahertz, mais trinta e dois vírgula quarenta e quatro. O resultado sai em decibéis."
+
+> "Repara que a frequência está na fórmula. Quanto maior a frequência, maior a perda. Por isso as faixas abaixo de um gigahertz, como os 915 megahertz usados pela LoRaWAN no Brasil, chegam mais longe e atravessam melhor os obstáculos do que os 2,4 gigahertz do Wi-Fi. E no canteiro, obstáculo é o que não falta: paredes e lajes de concreto, armaduras, o próprio terreno, máquinas, contêineres. Cada parede de concreto pode tirar dez decibéis ou mais. E o subsolo é o pior caso: cercado de terra e concreto, ele pode bloquear o sinal quase por completo."
+
+**[TELA]** Slide 6 — calculadora do orçamento de enlace. Comece com o nó no subsolo a 1,5 km e em SF7; depois mude para SF12.
+
+> "Para saber se o sinal chega, a gente faz o orçamento de enlace, o link budget. A conta é simples: potência recebida é igual à potência transmitida, mais os ganhos das antenas, menos todas as perdas. O enlace funciona se essa potência recebida for maior que a sensibilidade do receptor, o menor sinal que ele consegue entender, com uma folga, que a gente chama de margem. Na prática, queremos dez decibéis de margem ou mais, porque o canal varia: chove, passa um caminhão, a grua gira."
+
+> "Vamos ao nosso piezômetro no subsolo. O nó transmite com 14 dBm, tem uma antena de 2 dBi, e o gateway, a um quilômetro e meio, tem antena de 3 dBi. A perda no espaço livre, a 915 megahertz e um quilômetro e meio, dá uns 95,2 decibéis. E eu vou somar 35 decibéis de perdas por obstáculos, lajes e cabos. Esse valor é ilustrativo, mas é da ordem de grandeza real de um subsolo. Resultado: catorze, mais dois, mais três, menos 95,2, menos 35: a potência recebida é de menos 111,2 dBm."
+
+> "Agora comparo com a sensibilidade. Em SF7, um rádio LoRa típico ouve até menos 123 dBm. A margem é de 11,8 decibéis: fecha, com folga. Vou mudar para SF12: a sensibilidade vai para menos 137 dBm, e a margem sobe para 25,8. Também fecha, com mais folga ainda. Então por que não usar sempre SF12? Segura essa pergunta, que a resposta vem daqui a pouco. E duas boas práticas que saem dessa conta: gateway e antenas no alto, no topo da grua ou na cobertura do canteiro, com visada para os sensores; e antena sempre fora da caixa metálica. Caixa metálica é uma gaiola de Faraday: ela engole o seu sinal."
+
+### 4. LoRaWAN (5:50 – 9:10)
+
+**[TELA]** Slide 7 — a arquitetura LoRaWAN: nó, gateway, servidor de rede e aplicação.
+
+> "Vamos à primeira tecnologia. Atenção aos nomes: LoRa é a modulação de rádio, uma técnica chamada espalhamento espectral por chirp, em que o sinal varre a frequência como um assobio que sobe. LoRaWAN é o protocolo de rede, mantido pela LoRa Alliance, que organiza quem fala com quem."
+
+> "A topologia é em estrela de estrelas. Na ponta, os dispositivos finais, os nossos nós sensores. Eles transmitem para qualquer gateway que estiver ao alcance, e pode ser mais de um. O gateway é um intermediário bem simples: ele não abre a mensagem, só a encaminha, pela internet, a um servidor de rede. O servidor de rede elimina as cópias repetidas que chegaram por gateways diferentes, controla a taxa de dados de cada nó e entrega a mensagem ao servidor de aplicação, onde ela vai ser usada. E tudo isso vai cifrado, com AES de 128 bits: o gateway encaminha o pacote sem conseguir ler o conteúdo."
+
+> "Na tela, uma montagem de demonstração: à esquerda, um nó numa caixinha preta, ligado a uma sonda de umidade do solo; à direita, um gateway em cima de um computador de placa única. É isso. A infraestrutura de uma rede LoRaWAN privada cabe numa mesa."
+
+**[TELA]** Slide 8 — fator de espalhamento × tempo no ar × energia.
+
+> "Agora a resposta da pergunta que ficou pendente. O parâmetro-chave da LoRa é o fator de espalhamento, o spreading factor, que vai de SF7 a SF12. Cada passo para cima ganha uns dois decibéis e meio de sensibilidade, ou seja, mais alcance. Mas praticamente dobra o tempo que a mensagem fica no ar. E tempo no ar é energia."
+
+> "Vamos às contas do texto. Uma mensagem com 12 bytes de dados, que viram 25 bytes no quadro LoRaWAN, numa largura de banda de 125 quilohertz, fica no ar cerca de 62 milissegundos em SF7. Em SF12, cerca de um segundo e quarenta e oito. Transmitindo a 120 miliampères, a mensagem em SF7 custa uns 7,4 miliampères-segundo; em SF12, uns 178. É cerca de vinte e quatro vezes mais energia por mensagem. E tem mais: enquanto um nó fala em SF12, ele ocupa o canal vinte e quatro vezes mais tempo, e os vizinhos esperam."
+
+> "Por isso existe a taxa de dados adaptativa, o ADR: o servidor de rede observa a qualidade com que cada nó chega e manda o nó usar o menor SF que garanta o enlace. No nosso subsolo, se o SF7 já dá quase 12 decibéis de margem, é ele. E um alerta: alguns planos de frequência limitam o tempo no ar por transmissão, o que pode até impedir os SF mais altos. Confira sempre o plano usado e a regulamentação vigente."
+
+> "Mais três detalhes. As mensagens são pequenas, dezenas de bytes, o que basta para uma leitura de piezômetro, mas não serve para foto. Os dispositivos classe A, os mais econômicos, só escutam a rede logo depois de transmitir: se você quiser mandar um comando para o nó, ele chega na próxima vez que o nó falar. E no Brasil a LoRaWAN opera na faixa de 915 a 928 megahertz, nos planos AU915 ou LA915, de uso não licenciado, mas com equipamentos que precisam de homologação da Anatel. A obra pode montar a própria rede, com gateway próprio, ou usar uma rede de terceiros."
+
+### 5. Wi-Fi (9:10 – 10:40)
+
+**[TELA]** Slide 9 — Wi-Fi: muita taxa, pouco alcance, muita energia.
+
+> "Segunda tecnologia: o Wi-Fi, a família IEEE 802.11, que você conhece de casa. Ele opera em 2,4 e 5 gigahertz e, nas versões mais recentes, em 6 gigahertz. Oferece dezenas a centenas de megabits por segundo. Perfeito para câmeras, para o escritório de obra, para os tablets da fiscalização e para equipamentos que têm tomada por perto."
+
+> "O alcance é de dezenas de metros em ambiente interno e algumas centenas ao ar livre, com antenas externas e visada. Na tela, um ponto de acesso externo num mastro sobre o telhado. Para ligar dois prédios distantes, usam-se enlaces ponto a ponto, com antenas direcionais apontadas uma para a outra."
+
+> "O preço é o consumo. Conectar-se ao ponto de acesso e manter a associação gasta muita energia, e isso não combina com um sensor a bateria lido a cada poucos minutos. Lembra da Aula 10? O nó que acorda, conecta no Wi-Fi e publica gasta uns 120 miliampères durante segundos. E um detalhe prático: o ESP32 clássico só fala em 2,4 gigahertz. Em canteiros grandes, uma boa solução é a rede em malha, o mesh, com vários pontos de acesso que se repetem e acompanham a obra conforme ela cresce. E segurança desde o começo: WPA2 ou WPA3 e a rede dos sensores separada da rede administrativa."
+
+### 6. Redes celulares (10:40 – 12:30)
+
+**[TELA]** Slide 10 — redes celulares: 4G, 5G, LTE-M e NB-IoT.
+
+> "Terceira família: as redes celulares. A grande vantagem é que a infraestrutura é da operadora. Você não monta gateway, não sobe antena na grua: põe um chip no equipamento e pronto. A desvantagem: tem mensalidade por chip e você depende da cobertura naquele endereço."
+
+> "O 4G e o 5G dão alta taxa e servem muito bem para gateways, câmeras e para mandar as imagens do drone. Mas, para sensor a bateria, eles gastam demais: foi o erro do nosso sensor de poeira. Para isso, a 3GPP, que padroniza as redes celulares, criou duas versões de baixa potência. O LTE-M, ou Cat-M1, com taxa de centenas de quilobits até um megabit por segundo e suporte a mobilidade: ótimo para um rastreador num caminhão ou numa máquina que se desloca. E o NB-IoT, com taxa menor, mas com cobertura profunda: ele atravessa melhor paredes e subsolos, e o consumo é muito baixo."
+
+> "Os dois têm modos de economia de energia, o PSM e o eDRX, em que o módulo dorme por longos períodos, mas sem perder o registro na rede. Ele acorda, manda a leitura e volta a dormir, sem refazer todo o processo de conexão. Duas recomendações antes de escolher: confirme com a operadora, por escrito, a cobertura de LTE-M ou NB-IoT no endereço da obra, de preferência com um teste no subsolo. E lembre que as redes 2G e 3G estão em desligamento gradual: não compre equipamento que dependa delas."
+
+### 7. Comparando e se protegendo das falhas (12:30 – 14:00)
+
+**[TELA]** Slide 11 — tabela comparativa das redes.
+
+> "Na tela, a tabela que resume tudo. Não vou ler linha por linha; quero que você enxergue o padrão. LoRaWAN: quilômetros, pouca taxa, anos de bateria, gateway próprio ou de terceiros. NB-IoT: cobertura da operadora com boa penetração, pouca taxa, consumo muito baixo. LTE-M: um pouco mais de taxa e mobilidade. 4G e 5G: alta taxa, alto consumo. Wi-Fi: alta taxa, curto alcance, alto consumo, infraestrutura própria."
+
+> "A regra prática: leitura lenta a bateria, LoRaWAN ou NB-IoT. Muito dado com energia disponível, Wi-Fi ou 4G e 5G. Voltando ao primeiro dia da obra: piezômetros e inclinômetros, LoRaWAN ou NB-IoT. Sensor de poeira, LoRaWAN, ou Wi-Fi se ele estiver junto à tomada do tapume. Câmeras da grua, 4G dedicado ou um enlace Wi-Fi ponto a ponto separado do escritório."
+
+**[TELA]** Slide 12 — armazenar e reenviar, e rota alternativa.
+
+> "E agora uma verdade incômoda: toda rede falha. O gateway reinicia, a operadora tem uma pane, alguém desliga o disjuntor do contêiner. Por isso, qualquer que seja a rede, o nó deve fazer armazenar e reenviar, o store-and-forward. Ele guarda cada leitura, com o carimbo de tempo da medição, não da chegada, e reenvia tudo quando a conexão volta. Assim, uma queda de doze horas vira um atraso de doze horas, e não um buraco de doze horas no gráfico."
+
+> "Para sensores críticos, vale ir além: ter uma rota alternativa. Dois gateways cobrindo a mesma área, ou um gateway com conexão 4G de reserva para o caso de a internet fixa cair. E um alerta que muita obra esquece: alguém precisa ser avisado quando um sensor para de transmitir. Silêncio não é sinal de que está tudo bem."
+
+### 8. Pausa para reflexão (14:00 – 15:20)
+
+**[TELA]** Slide 13 — pausa para reflexão: rede própria ou da operadora?
+
+> "Agora, pare o vídeo se precisar, e pense comigo. A construtora pode montar a própria rede LoRaWAN, com um gateway no topo da grua e um servidor de rede contratado. Ou pode usar chips NB-IoT de uma operadora."
+
+> "Na primeira opção, a obra controla tudo, não paga mensalidade por sensor e não depende da cobertura de terceiros. Mas alguém precisa manter o gateway funcionando às duas da manhã. E repara num detalhe: quando a grua for desmontada, a rede vai junto com ela. Na segunda opção, a operadora cuida da infraestrutura, mas a obra depende da cobertura no subsolo, paga por chip e fica sem dados se a operadora tiver uma falha."
+
+> "Então: quem deve operar a rede que transporta dados de segurança? Pense em três perguntas. O que acontece com os sensores que precisam continuar lendo depois da entrega da obra, por exemplo, o recalque do vizinho nos meses seguintes? Existe rota alternativa se a rede principal cair? E quem é avisado quando um sensor para de transmitir? Não existe resposta única. Mas existe resposta errada: não ter pensado nisso antes de comprar os equipamentos."
+
+### 9. Atividade, pontos-chave e encerramento (15:20 – 17:30)
+
+**[TELA]** Slide 14 — atividade prática.
+
+> "Sua atividade: pegue a obra do nosso exemplo, com piezômetros no terceiro subsolo, inclinômetros atrás da cortina, sensor de poeira na divisa e câmeras na grua. Escolha a rede de cada grupo de sensores e justifique por alcance, taxa, consumo, custo e cobertura. Desenhe a planta com a posição do gateway ou dos pontos de acesso. Faça o orçamento de enlace do sensor mais desfavorável, igual fizemos na calculadora. E defina o que acontece com os dados se a conexão cair por doze horas."
+
+**[TELA]** Slide 15 — pontos-chave.
+
+> "Vamos amarrar. Primeiro: a rede se escolhe pelo compromisso entre alcance, taxa e consumo, somado a custo, cobertura, latência e quem opera. Segundo: o orçamento de enlace compara a potência recebida com a sensibilidade, e subsolo e concreto cobram caro; queira dez decibéis de margem ou mais. Terceiro: LoRaWAN é longo alcance, baixíssimo consumo e mensagens pequenas, e SF maior dá mais alcance ao custo de mais tempo no ar e mais energia. Wi-Fi e 4G e 5G têm alta taxa e alto consumo; NB-IoT e LTE-M são os celulares de baixa potência, com cobertura a confirmar. Quarto: toda rede falha, então o nó armazena e reenvia, e sensor crítico merece rota alternativa."
+
+**[TELA]** Slide 16 — encerramento e gancho para a Aula 12.
+
+> "Hoje o dado saiu do subsolo e atravessou a cidade. Mas, quando ele chega do outro lado, quem recebe? Como mensagens de sessenta sensores, de fornecedores diferentes, chegam em ordem, sem se perder, e onde elas são guardadas para virar gráfico e alerta? Na próxima aula, você vai conhecer um carteiro chamado MQTT, o Node-RED e os bancos de séries temporais. Te espero na Aula 12!"
+
+---
+
+## Roteiro da Videoaula 12 — "Um carteiro chamado MQTT: como milhares de leituras chegam ao banco de dados sem se perder"
+
+**Duração-alvo:** cerca de 17:50 (15 a 19 minutos).
+
+### 1. Abertura (0:00 – 1:40)
+
+**[TELA]** Slide 1 — capa; Slide 2 — sumário.
+
+> "Olá! Eu sou o professor Afonso Brandão, e esta é a Aula 12 de Drones e Sensores IoT no Monitoramento de Obras, a última da Unidade 3. Até aqui, o dado nasceu no sensor, na Aula 9, virou número na plataforma embarcada, na Aula 10, e atravessou a rede, na Aula 11. Hoje ele chega ao destino. O assunto é protocolos e plataformas IoT: o MQTT, o Node-RED e o armazenamento em séries temporais, com o InfluxDB."
+
+**[TELA]** Slide 3 — três fornecedores, três portais, uma planilha.
+
+> "Imagina uma obra com sessenta sensores de três fornecedores diferentes. Cada fornecedor tem o seu portal, a sua senha, o seu formato de arquivo e, pior, o seu relógio: um grava no horário de Brasília, outro em UTC, outro no horário do datalogger, que ninguém acertou. Toda segunda-feira, o engenheiro baixa três planilhas, acerta os fusos à mão e cola tudo numa quarta planilha para ver se o recalque do vizinho acompanha a subida da água no solo. E quando um sensor para de transmitir, ninguém percebe por dias."
+
+> "O problema aqui não é sensor nem rede. Os dados estão chegando. O que falta é uma linguagem comum para as mensagens e um lugar comum para guardá-las. É isso que a gente vai construir hoje."
+
+### 2. A pilha IoT (1:40 – 3:00)
+
+**[TELA]** Slide 4 — a pilha IoT: percepção, rede, plataforma e aplicação.
+
+> "Gubbi e colegas, num artigo de 2013 que está na bibliografia da disciplina, descrevem a Internet das Coisas como a integração de sensores, redes, armazenamento e análise em nuvem, e visualização. Na nossa obra, isso vira quatro camadas. A percepção: sensores e nós, a Aula 10. A rede: LoRaWAN, Wi-Fi, celular, a Aula 11. A plataforma: quem recebe as mensagens, integra e guarda, que é a aula de hoje. E a aplicação: painéis, alertas e integração com o BIM, que é a Unidade 4."
+
+> "Entre a rede e a plataforma, as mensagens precisam de um protocolo de aplicação, um combinado sobre como conversar. O HTTP, o protocolo da web, funciona: o sensor faz uma requisição e o servidor responde. Mas ele é pesado para um dispositivo pequeno, cheio de cabeçalhos. Existe o CoAP, uma versão enxuta sobre UDP. E existe o MQTT, que virou o padrão de fato da IoT. É nele que a gente vai mergulhar."
+
+### 3. MQTT: publicar e assinar (3:00 – 5:00)
+
+**[TELA]** Slide 5 — publicar e assinar por meio de um broker.
+
+> "O MQTT é um protocolo leve de mensagens, padronizado pela OASIS nas versões 3.1.1 e 5.0, e funciona sobre TCP/IP. A grande sacada é que os dispositivos não conversam diretamente entre si. Todos se conectam a um servidor central, o broker. Pense no broker como uma agência dos correios com caixas postais etiquetadas."
+
+> "Um cliente publica uma mensagem num tópico, que é a etiqueta da caixa postal. O broker entrega essa mensagem a todos os clientes que assinaram aquele tópico. Na tela: à esquerda, o publicador; no centro, o broker; à direita, dois assinantes recebendo a mesma mensagem. Os brokers mais conhecidos são o Mosquitto, o EMQX e o HiveMQ."
+
+> "Repara no que isso resolve. O publicador e o assinante não se conhecem. O sensor não sabe quem vai usar a leitura, e o painel não precisa saber de onde ela veio. Se amanhã eu quiser acrescentar um novo consumidor, um painel novo, um registro de auditoria, um sistema de alertas, eu não mexo em nenhum sensor: só faço o novo cliente assinar o tópico. É isso que acaba com as três planilhas da segunda-feira."
+
+> "E de onde vêm as mensagens? Se o nó tem Wi-Fi ou 4G, como o ESP32 da Aula 10, ele publica diretamente no broker. Se a rede é LoRaWAN, quem publica normalmente é o servidor de rede, por meio da sua integração MQTT: o nó manda o pacote de rádio, o servidor decodifica e publica."
+
+### 4. Tópicos e curingas (5:00 – 6:40)
+
+**[TELA]** Slide 6 — simulação dos tópicos e curingas. Digite primeiro a assinatura com mais nos níveis de setor e sensor; depois a assinatura com cerquilha.
+
+> "Os tópicos são hierárquicos, com níveis separados por barra, como um endereço. No nosso exemplo: obra, barra, torre-a, barra, escavação, barra, piezômetro, barra, PZ-03, barra, nível. Um bom padrão segue a lógica obra, setor, tipo, sensor, grandeza. E evite espaços e acentos: escreva escavação sem cedilha e sem til."
+
+> "Agora vem a parte boa: os curingas, que o assinante usa. O sinal de mais substitui exatamente um nível. Vou assinar obra, torre-a, mais, piezômetro, mais, nível. Olha a simulação: chegam os níveis de todos os piezômetros, de todos os setores. O primeiro mais pegou o setor; o segundo, o sensor. Agora vou assinar obra, barra, torre-a, barra, cerquilha. A cerquilha substitui todos os níveis abaixo, e chega tudo da torre A: piezômetros, inclinômetros, poeira, status. Um detalhe que cai em prova: a cerquilha só pode ficar no final do tópico. Não dá para colocá-la no meio."
+
+### 5. QoS, mensagem retida e último desejo (6:40 – 8:40)
+
+**[TELA]** Slide 7 — QoS, mensagem retida e último desejo.
+
+> "Agora, a garantia de entrega. O MQTT tem três níveis de qualidade de serviço, o QoS, e eles valem em cada trecho: do publicador ao broker e do broker ao assinante. QoS zero: no máximo uma vez. A mensagem vai e ninguém confirma; se se perder, perdeu. QoS um: pelo menos uma vez. Há confirmação, e se ela não vier a mensagem é reenviada, então pode chegar duplicada. QoS dois: exatamente uma vez, com uma troca de quatro mensagens. É o mais seguro e o mais lento."
+
+> "Para leitura de sensor, o equilíbrio costuma ser QoS um, com cada leitura identificada pelo carimbo de tempo da medição. Se chegar uma duplicata, ela tem o mesmo instante e o mesmo valor: não cria dado falso, é só descartada ou sobrescrita por ela mesma."
+
+> "Mais três recursos muito úteis no canteiro. A mensagem retida, o retain: o broker guarda a última mensagem do tópico e entrega a quem assinar depois. Um painel que abre às oito da manhã já recebe o último estado de cada sensor, sem esperar a próxima leitura. O último desejo, o Last Will: quando o nó se conecta, ele deixa com o broker uma mensagem de testamento, por exemplo offline no tópico de status. Se o nó cair sem se despedir, o broker publica essa mensagem sozinho. Lembra do sensor que parou e ninguém percebeu por dias? Resolvido. E o keep alive, um sinal periódico que detecta conexões mortas."
+
+**[TELA]** Slide 8 — segurança do broker.
+
+> "E, já que é broker de obra, segurança desde o primeiro dia. O broker deve exigir autenticação, usuário e senha ou certificado para cada dispositivo. Deve usar TLS, a criptografia, na porta 8883, em vez da 1883, que trafega tudo em texto aberto. E cada dispositivo só pode publicar nos seus próprios tópicos. Um sensor de poeira não tem por que publicar no tópico do piezômetro. Esse tema volta com força na Aula 16, de cibersegurança."
+
+### 6. Node-RED (8:40 – 10:20)
+
+**[TELA]** Slide 9 — um fluxo no Node-RED.
+
+> "As mensagens estão chegando ao broker. Quem as pega, confere, converte e guarda? Uma opção muito usada é o Node-RED, uma ferramenta de código aberto, mantida pela OpenJS Foundation, em que você programa fluxos de dados ligando blocos num editor no navegador. Na tela, um exemplo simples do próprio projeto: entradas à esquerda, um filtro no meio, um atraso, e duas saídas, um bipe e um e-mail."
+
+> "No nosso monitoramento, o fluxo típico tem quatro blocos. Um nó mqtt in, que assina os tópicos dos sensores. Um nó function, escrito em JavaScript, que valida a mensagem, aplica a calibração e marca a qualidade da leitura: por exemplo, pega os 9,6 miliampères do piezômetro e transforma em 70 quilopascals, como fizemos na Aula 10. Um nó switch, que separa as leituras das mensagens de status. E um nó de saída que grava tudo no banco de séries temporais. O mesmo fluxo pode avisar a equipe quando um sensor deixa de publicar."
+
+> "E onde o Node-RED roda? Num computador da obra, num Raspberry Pi junto ao gateway, que é o processamento na borda, ou num servidor em nuvem. Na borda, ele continua funcionando mesmo se a internet cair."
+
+### 7. A anatomia de uma leitura (10:20 – 11:40)
+
+**[TELA]** Slide 10 — a anatomia de uma leitura.
+
+> "Antes de guardar, vamos olhar com lupa o que é uma leitura. Uma série temporal é uma sequência de valores ordenados no tempo. E cada ponto de uma série de sensor precisa de sete coisas. O carimbo de tempo, em UTC, o da medição, não o da chegada. A identificação do sensor. O valor bruto: hertz, miliampères, contagens do ADC. O valor de engenharia: milímetros, quilopascals, obtido com a leitura zero e os fatores de calibração, que devem ter versão. A unidade. A marca de qualidade. E a saúde do nó: tensão da bateria, intensidade do sinal."
+
+> "E a regra de ouro: nunca sobrescreva o dado bruto. Se a calibração mudar, se você descobrir que um fator estava errado, a correção é uma nova camada, rastreável. Todo dado de campo tem defeitos: picos espúrios, lacunas, deriva, ciclos térmicos, relógio desacertado. Só com o bruto preservado dá para tratar esses defeitos depois, e defender o seu número num laudo."
+
+### 8. InfluxDB e o line protocol (11:40 – 13:40)
+
+**[TELA]** Slide 11 — o modelo de dados do InfluxDB.
+
+> "Onde guardar? Em bancos de séries temporais, otimizados para gravar dados na ordem em que chegam, comprimir valores parecidos e consultar por intervalo de tempo: me dá o nível do PZ-03 da última semana. O mais conhecido é o InfluxDB. Nele, cada ponto tem quatro partes. A measurement, que é o tipo de dado, por exemplo piezômetro. As tags, pares chave e valor de texto que descrevem e indexam a série: obra, setor, sensor. Os fields, que são os valores medidos: nível em metros, corrente bruta, tensão da bateria. E o timestamp."
+
+> "A frase para guardar: tag é o que identifica a série; field é o que você mede."
+
+**[TELA]** Slide 12 — o line protocol.
+
+> "Os pontos são escritos num formato de texto chamado line protocol. Na tela, a nossa leitura. Primeiro, a measurement: piezômetro. Vírgula, as tags: obra igual a torre-a, sensor igual a PZ-03. Um espaço. Os fields: nível igual a 7.14, corrente bruta igual a 9.6, bateria igual a 3.61. Outro espaço. E o instante, um número enorme: nanossegundos desde primeiro de janeiro de 1970, em UTC. Aqui, dezenove de novembro de 2026, às cinco da manhã em UTC."
+
+> "Dois detalhes. O line protocol usa ponto como separador decimal, não vírgula: cuidado ao converter da planilha brasileira. E os dados ficam num bucket, ou banco de dados, que tem um período de retenção. As consultas usam InfluxQL ou Flux nas versões 1 e 2, e SQL ou InfluxQL na versão 3."
+
+### 9. Volume, cardinalidade e retenção (13:40 – 15:40)
+
+**[TELA]** Slide 13 — calculadora de volume e cardinalidade. Comece com 60 sensores a cada 15 min; depois ative o acelerômetro contínuo; por fim, ative a tag errada.
+
+> "Vamos fazer contas. Sessenta sensores, lidos a cada quinze minutos, são 96 leituras por dia cada um: 5.760 pontos por dia, uns 2,1 milhões por ano. Parece muito? A uns 100 bytes por linha, antes da compressão, são uns 576 quilobytes por dia. Isso cabe em qualquer lugar."
+
+> "Agora vou ligar um único acelerômetro triaxial, gravando continuamente a 500 hertz. Três eixos, vezes 500, vezes 86.400 segundos do dia: cerca de 130 milhões de valores por dia. Um único sensor de vibração contínuo produz mais de vinte mil vezes os valores de todos os outros juntos. É por isso que vibração se grava por evento."
+
+> "E agora o erro clássico. Com as tags obra e sensor, vinte piezômetros formam vinte séries, para sempre. Mas imagine que alguém pôs o identificador de cada leitura como tag. Cada ponto vira uma série nova: vinte vezes 96, 1.920 séries novas por dia, umas 700 mil por ano. Olha o contador disparando. Cada combinação de measurement e tags é uma série, e esse número é a cardinalidade. O índice cresce sem parar e as consultas ficam lentas. Identificador único e valor medido vão para os fields, nunca para as tags."
+
+**[TELA]** Slide 14 — retenção e agregação.
+
+> "Então como os sistemas maduros lidam com o volume? Guardam o dado bruto completo pelo prazo que o contrato e a responsabilidade técnica exigem. Mas os painéis mostram agregados, médias horárias, máximos diários, gerados por tarefas periódicas de subamostragem, o downsampling. Ninguém precisa desenhar dois milhões de pontos num gráfico de celular. E os registros de vibração são gravados por evento: o sensor guarda só as janelas em que um gatilho foi ultrapassado, mais um resumo periódico, como o pico de cada intervalo."
+
+### 10. Atividade, pontos-chave, próxima unidade e encerramento (15:40 – 17:50)
+
+**[TELA]** Slide 15 — atividade prática.
+
+> "Sua atividade fecha a unidade com a mão na massa. Monte num computador, ou com contêineres Docker, um broker Mosquitto, o Node-RED e o InfluxDB. No Wokwi, faça o ESP32 da Aula 10 publicar, a cada dez segundos, uma leitura em JSON num tópico do tipo obra, sua obra, teste, umidade, UR-01, leitura, com mensagem de último desejo no tópico de status. No Node-RED, assine o tópico, converta o valor, marque a qualidade e grave no InfluxDB com tags e fields bem escolhidos. Para testes rápidos, existe o broker público test.mosquitto.org. Mas atenção: nunca use broker público para dado real de obra."
 
 **[TELA]** Slide 16 — pontos-chave.
 
-> "Resumindo. Uma leitura é um registro completo: tempo em UTC, sensor, bruto, engenharia, unidade, qualidade e saúde — e o bruto nunca é sobrescrito. Mediana remove picos; média móvel suaviza, mas atrasa; a velocidade costuma avisar antes do valor. Os níveis de alerta formam um TARP, com gatilho, ação, responsável e prazo; persistência, redundância e incerteza combatem a fadiga de alarmes. E todo alarme tem dono."
+> "Pontos-chave. Um: MQTT é publicar e assinar por meio de um broker, com tópicos hierárquicos, curingas mais e cerquilha, QoS zero, um e dois, mensagem retida, último desejo e TLS com autenticação. Dois: o Node-RED liga os fluxos, assina, valida, calibra, marca a qualidade e grava, na borda ou na nuvem. Três: uma leitura é um registro completo, e o bruto nunca é sobrescrito. Quatro: no InfluxDB, measurement, tags, fields e timestamp; tag errada explode a cardinalidade, e retenção e agregação controlam o volume."
 
-**[TELA]** Slide 17 — fechamento da Unidade 3.
+**[TELA]** Slide 17 — o que você verá na próxima unidade.
 
-> "E, com isso, fechamos a Unidade 3. Na Aula 9, o solo e os vizinhos: inclinômetros, piezômetros, marcos de recalque e distorção angular. Na Aula 10, a estrutura: extensômetros, acelerômetros, fissurômetros e maturidade — e a temperatura como vilã e como informação. Na Aula 11, o entorno e a operação: vibração, ruído, poeira e rastreamento. E hoje, os dados: séries, alertas e painéis."
+> "Com esta aula, você fecha a Unidade 3: o sensor, a plataforma embarcada, a rede e o banco de dados. Os dados agora chegam organizados. Na Unidade 4, Painéis, Integração com BIM e Gestão de Riscos, eles viram decisão. Na Aula 13, painéis de monitoramento com alertas e limites de alarme, no Grafana. Na Aula 14, a integração dos dados de drones e sensores com o BIM e com o planejamento e controle da obra. Na Aula 15, a tecnologia a favor da segurança do trabalho, à luz da NR-18. E, na Aula 16, privacidade, LGPD e cibersegurança, incluindo a segurança dos brokers e dispositivos que você conheceu hoje."
 
-**[TELA]** Slide 18 — prévia da Unidade 4; Slide 19 — encerramento.
+**[TELA]** Slide 18 — encerramento.
 
-> "Na Unidade 4, drones e sensores finalmente se encontram. Você vai integrar o monitoramento ao BIM e ao gêmeo digital, com o 4D e a comparação entre o que foi construído e o que foi projetado. Vai usar inteligência artificial e visão computacional para detectar fissuras e medir o avanço físico. Vai tratar da gestão do monitoramento: custo-benefício, LGPD, segurança da informação e contratos. E, para fechar, vai desenvolver o projeto integrado de monitoramento de uma obra. Foi um prazer! Te espero lá."
+> "Foi um prazer acompanhar o seu dado do subsolo até o banco. Revise a atividade, faça o quiz e as questões da unidade, e a gente se vê na Unidade 4. Te espero na Aula 13!"

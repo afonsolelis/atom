@@ -3,42 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 6 — Fotogrametria com drones: SfM, pontos de controle, RTK/PPK e precisão</title>
+<title>Aula 6 — Posicionamento por GNSS e precisão dos produtos cartográficos</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
 <style>
-  /* extras desta aula */
+  /* extras das aulas da Unidade 2 */
+  .slide-foto > .credito { right: auto; left: .8rem; }
   .foto-direita .slide-content { max-width: 46%; }
   .galeria .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
+  .galeria.legendas .figura figcaption { font-size: .88rem; }
+  .galeria .figura.claro, .duas .figura.claro, .texto-figura .figura.claro { background: #fff; }
+  .galeria .figura.claro img { object-fit: contain; padding: .4rem .4rem 4.2rem; }
   .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
   .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
-  .cards3 .card p, .cards3 .card li { font-size: clamp(.88rem, 1.2vw, 1.1rem); }
+  .cards3 .card p, .cards3 .card li { font-size: clamp(.86rem, 1.15vw, 1.08rem); }
   .cards3 .card .ico { font-size: 2rem; line-height: 1; margin-bottom: .3em; }
-  .versus p, .versus li { font-size: clamp(.9rem, 1.2vw, 1.1rem); }
-  .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
-  .viz-lado .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; }
+  .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
+  .cards3 .card.corte { border-color: var(--obra-alerta); background: rgba(255,43,95,.07); }
+  .cards3 .card.ciano { border-color: var(--obra-ciano); background: rgba(43,217,254,.07); }
+  .cards3 .card.verde { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .versus p, .versus li { font-size: clamp(.88rem, 1.18vw, 1.08rem); }
+  .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
+  .viz-lado p, .viz-lado li { font-size: clamp(.84rem, 1.08vw, 1rem); }
+  .mini-intro { margin: 0 0 .4rem !important; font-size: clamp(.85rem, 1.1vw, 1.02rem) !important; }
   .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
-  .fecho .lado p, .fecho .pontos li { font-size: clamp(1rem, 1.45vw, 1.28rem); margin-bottom: .55em; }
-  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.3vw, 1.15rem); }
-  .timeline.grande .ano { font-size: 1.35rem; }
+  .fecho .lado p, .fecho .pontos li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .45em; }
+  .timeline.grande .etapa p { font-size: clamp(.9rem, 1.25vw, 1.12rem); }
+  .timeline.grande .ano { font-size: 1.25rem; }
   .duas { display: grid; grid-template-columns: 1.05fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; }
   .duas .figura { height: 100%; min-height: 0; }
-  .duas .texto p, .duas .texto li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .5em; }
+  .duas .texto p, .duas .texto li { font-size: clamp(.88rem, 1.18vw, 1.08rem); margin-bottom: .45em; }
   .duas .texto h3 { color: var(--amarelo); margin-bottom: .3em; }
-  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.95rem, 1.3vw, 1.18rem); padding: .5em 1em; text-align: center; }
+  .texto-figura { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .texto-figura .texto p, .texto-figura .texto li { font-size: clamp(.88rem, 1.18vw, 1.08rem); }
+  .texto-figura .figura { min-height: 0; }
+  .texto-figura .figura.claro img { object-fit: contain; padding: .5rem; }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.92rem, 1.25vw, 1.12rem); padding: .45em 1em; text-align: center; }
   .tabela-industrial.grande td:first-child, .tabela-industrial.grande th:first-child { text-align: left; color: var(--amarelo); font-weight: 700; }
   .tabela-industrial tr.total td { border-top: 2px solid var(--amarelo); font-weight: 700; color: var(--obra-ciano); }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .4em .8em; font-size: clamp(.82rem, 1.08vw, 1.02rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
   .stat-grid.tres { grid-template-columns: repeat(3, 1fr); }
   .stat-grid.tres .numero-grande { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
-  .formula-bloco { font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif; font-size: clamp(1.05rem, 1.6vw, 1.45rem); color: #dfe9ff; background: rgba(0,0,0,.25); border-radius: 10px; padding: .6rem 1rem; margin: .3rem 0 .6rem; text-align: center; }
+  .stat-grid.tres .legenda { font-size: .9rem; }
+  .formula-bloco { font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif; font-size: clamp(1rem, 1.5vw, 1.35rem); color: #dfe9ff; background: rgba(0,0,0,.25); border-radius: 10px; padding: .55rem 1rem; margin: .3rem 0 .6rem; text-align: center; }
+  .formula.grande { font-size: clamp(1.4rem, 2.4vw, 2.1rem); display: block; text-align: center; margin: .3em 0 .5em; color: #fff; }
+  .lista-contrato { margin: 0; padding-left: 1.1em; }
+  .lista-contrato li { font-size: clamp(.8rem, 1.02vw, .96rem) !important; margin-bottom: .2em; }
+  .compacto .ctrl { margin-bottom: .35rem; }
+  .compacto h3 { margin-bottom: .2em; }
+  .tab-mini { width: 100%; border-collapse: collapse; margin: .3rem 0 .5rem; }
+  .tab-mini td, .tab-mini th { font-size: clamp(.76rem, .98vw, .9rem); padding: .25em .4em; border-bottom: 1px solid rgba(255,255,255,.15); text-align: center; }
+  .tab-mini th { color: var(--amarelo); }
+  .col-viz { display: flex; flex-direction: column; gap: .6rem; min-height: 0; }
+  .col-viz > .viz { flex: 1 1 0; height: auto; }
+  .col-viz .rodape { display: grid; grid-template-columns: 1fr 1.3fr; gap: .9rem; align-items: center; height: 8.5rem; flex: 0 0 auto; }
+  .col-viz .rodape .fig-lado { height: 100%; margin: 0; }
+  .fig-lado { margin: .4rem 0 0; position: relative; border-radius: 10px; overflow: hidden; height: 9.5rem; }
+  .fig-lado img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fig-lado .credito { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; }
+  .ok { color: var(--verde-claro); font-weight: 700; } .nok { color: var(--obra-alerta); font-weight: 700; } .talvez { color: var(--amarelo); font-weight: 700; }
 </style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
 
-<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 6 — Fotogrametria com drones: SfM, controle e precisão">
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 6 — Posicionamento por GNSS e precisão dos produtos cartográficos">
 
   <!-- 1. Capa -->
   <section class="slide slide-capa">
@@ -48,8 +80,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Fotogrametria com drones</h1>
-      <div class="subtitulo">Aula 6 — SfM, pontos de controle, RTK/PPK e precisão</div>
+      <h1>GNSS e exatidão</h1>
+      <div class="subtitulo">Aula 6 — Posicionamento por GNSS e precisão dos produtos cartográficos</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -59,21 +91,21 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Fotogrametria com drones</h1>
+        <h1 class="sumario-titulo">GNSS e exatidão</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>Preciso, mas inexato: os 18 cm na cota</li>
-          <li>Interseção de raios: o princípio</li>
-          <li><em>Structure from Motion</em> em 4 passos</li>
-          <li>Escala, georreferenciamento e o efeito de domo (3D)</li>
-          <li>Pontos de controle × pontos de verificação</li>
-          <li>RTK e PPK: a posição de cada foto</li>
-          <li>RMSE, ASPRS e PEC-PCD</li>
-          <li>Exemplo: 5 checkpoints e o viés</li>
+          <li>"FIX" o voo inteiro, e a obra no lugar errado</li>
+          <li>Como o GNSS mede posição</li>
+          <li>Fontes de erro e geometria (PDOP)</li>
+          <li>RTK e PPK: o posicionamento relativo</li>
+          <li>O erro da base desloca tudo</li>
+          <li>SIRGAS2000, UTM e altitudes</li>
+          <li>RMSE e média dos resíduos</li>
+          <li>PEC-PCD: classificando o produto</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -82,296 +114,329 @@
 
   <!-- 3. Gancho -->
   <section class="slide slide-foto foto-direita">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Surveyor_Using_GNSS_Receiver_with_RTK_Solution.jpg/1280px-Surveyor_Using_GNSS_Receiver_with_RTK_Solution.jpg'); background-size: auto 100%; background-position: right 30%; background-color: #0b1a33" role="img" aria-label="Topógrafo de colete refletivo e boné segura um bastão com receptor GNSS no topo e consulta a coletora de dados, de pé sobre um pavimento, medindo a coordenada de um ponto com correção RTK"></div>
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Bamberg_Unterf%C3%BChrung_Moosstra%C3%9Fe_Orthophoto-20240728-RM-154546.jpg/1280px-Bamberg_Unterf%C3%BChrung_Moosstra%C3%9Fe_Orthophoto-20240728-RM-154546.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Ortofoto vertical feita por drone de uma obra de passagem inferior sob uma ferrovia em Bamberg, Alemanha: trilhos, a escavação da passagem, máquinas, ruas e telhados do entorno vistos de cima, com escala constante"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
-      <p class="kicker">O modelo ficou lindo. Mas está certo?</p>
-      <h2>18 cm de diferença na cota de um marco</h2>
-      <p>Texturas nítidas, prédios vizinhos perfeitos. A topografia confere um marco de concreto no meio do canteiro e encontra <strong>18 cm</strong> de diferença na cota.</p>
-      <p>O modelo é <strong>preciso</strong> (tudo coerente entre si), mas <strong>não é exato</strong>: está deslocado e levemente "embarrigado". Hoje: como fotos viram 3D e como <strong>provar</strong> a exatidão.</p>
+      <p class="kicker">O drone mostrou "FIX" o voo inteiro</p>
+      <h2>Ortomosaico impecável. E a obra 1,5 m ao lado.</h2>
+      <p>As distâncias medidas no ortomosaico batiam com a trena. Mas, sobreposto ao projeto, o levantamento estava <strong>1,5 m deslocado</strong> e quase <strong>3 m acima</strong> do lugar.</p>
+      <p>A base GNSS tinha sido instalada num ponto cujas coordenadas vieram do <strong>próprio receptor, em modo autônomo</strong>. O levantamento era <strong>preciso — e inexato</strong>.</p>
+      <p class="mini">Referência da aula: MONICO, J. F. G. <em>Posicionamento pelo GNSS</em>. 2. ed. São Paulo: Editora UNESP, 2008.</p>
     </div>
-    <p class="credito">Foto: SweetCanadianMullet — Wikimedia Commons (CC BY 4.0)</p>
+    <p class="credito">Foto: Reinhold Möller Ermell — Wikimedia Commons (CC BY-SA 4.0)</p>
   </section>
 
-  <!-- 4. Interseção de raios -->
+  <!-- 4. Constelações -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">GNSS · sistemas globais de navegação por satélite</p>
+      <h2>Quatro constelações no céu da obra</h2>
+      <div class="texto-figura">
+        <div class="texto">
+          <table class="tabela-industrial grande">
+            <thead><tr><th>Sistema</th><th>Origem</th></tr></thead>
+            <tbody>
+              <tr><td>GPS</td><td>Estados Unidos</td></tr>
+              <tr><td>GLONASS</td><td>Rússia</td></tr>
+              <tr><td>Galileo</td><td>União Europeia</td></tr>
+              <tr><td>BeiDou</td><td>China</td></tr>
+            </tbody>
+          </table>
+          <div class="callout-azul" style="margin-top:.9rem;background:rgba(0,0,0,.25)"><p>Um receptor de obra usa <strong>as quatro</strong>. Mais satélites = mais chance de <strong>boa geometria</strong> num canteiro cheio de obstruções.</p></div>
+        </div>
+        <figure class="figura">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/e/e2/GPS-constellation-3D-NOAA.jpg" alt="Representação tridimensional da constelação GPS: a Terra no centro, cercada pelos planos orbitais inclinados, com os satélites distribuídos ao longo deles" loading="lazy" style="object-fit:contain;background:#000">
+          <p class="credito">Imagem: governo dos EUA (NOAA) — Wikimedia Commons (domínio público)</p>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Pseudodistância -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">O princípio da fotogrametria</p>
-      <h2>Um ponto, várias fotos: os raios se cruzam</h2>
+      <p class="kicker">Como o receptor mede posição</p>
+      <h2>Pseudodistância: ρ = c · Δt, e um relógio barato</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="raios" role="img" aria-label="Corte vertical de um voo: câmeras alinhadas no alto lançam raios até um ponto do terreno. Sem erro, os raios se cruzam no ponto verdadeiro. Com erro aleatório na posição das câmeras, os raios não se encontram e o ponto calculado se afasta; com erro sistemático, os raios continuam se cruzando, mas num ponto deslocado: preciso, porém inexato."></div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"dt","label":"Erro do relógio do receptor δt","min":0,"max":2,"step":0.01,"value":1,"unit":"µs"}
+          ],
+          "outputs": [
+            {"label":"Erro na distância c · δt","expr":"dt*300","unit":"m","dec":0,"destaque":true},
+            {"label":"Em quilômetros","expr":"dt*0.3","unit":"km","dec":2},
+            {"label":"Incógnitas","expr":"&#39;X, Y, Z e o relógio: 4 satélites, no mínimo&#39;"}
+          ],
+          "barras": [
+            {"label":"c · δt","expr":"o1","unit":"m","dec":0}
+          ],
+          "nota": "c ≈ 300.000 km/s = 300 m por microssegundo. 1 µs × 300 m/µs = 300 m."
+        }' role="img" aria-label="Calculadora: o erro do relógio do receptor, em microssegundos, multiplicado pela velocidade da luz dá o erro na distância; um microssegundo corresponde a 300 metros"></div>
         <div class="viz-lado">
-          <h3>Mexa nos controles</h3>
-          <p>Cada pixel define um <strong>raio</strong> do centro da câmera ao terreno. Com o ponto em várias fotos, a <strong>interseção</strong> dá o 3D (equações de <strong>colinearidade</strong>).</p>
+          <h3>Código e fase</h3>
+          <p>Cada satélite transmite a <strong>hora</strong> de um relógio atômico e a sua <strong>órbita</strong>. O receptor mede o tempo de viagem e multiplica pela velocidade da luz.</p>
+          <p>"Pseudo" porque o relógio do receptor <strong>não está sincronizado</strong>: por isso, <strong>4 satélites</strong> (X, Y, Z e o relógio).</p>
           <div data-controles></div>
-          <p class="mini">Erro sistemático: os raios ainda se cruzam bem, mas no lugar errado. É o modelo do gancho. Escala exagerada para visualização.</p>
+          <p><strong>Fase da portadora:</strong> λ ≈ 19 cm, medida com resolução de milímetros. Mas o número inteiro de ciclos até a antena é desconhecido: a <strong>ambiguidade</strong>.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. SfM em 4 passos -->
+  <!-- 6. Fontes de erro -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker"><em>Structure from Motion</em> (SfM)</p>
-      <h2>Posição das câmeras e forma do terreno, ao mesmo tempo</h2>
-      <div class="timeline grande" style="--n:4">
-        <div class="etapa"><div class="ano">1. Detectar</div><p>Em cada foto, milhares de <strong>feições</strong> distintivas (cantos, texturas), com "assinaturas" como as do método <strong>SIFT</strong>.</p></div>
-        <div class="etapa"><div class="ano">2. Corresponder</div><p>As mesmas feições são reconhecidas em fotos diferentes: os <strong>pontos homólogos</strong>.</p></div>
-        <div class="etapa"><div class="ano">3. Ajustar</div><p><strong>Ajustamento por feixes</strong> (mínimos quadrados): posição e orientação das fotos, calibração da câmera e pontos 3D. Sai a <strong>nuvem esparsa</strong>.</p></div>
-        <div class="etapa"><div class="ano">4. Densificar</div><p><em>Multi-view stereo</em>: correspondência pixel a pixel, a <strong>nuvem densa</strong>, base dos produtos da Aula 7.</p></div>
+      <p class="kicker">Posicionamento autônomo: um receptor sozinho</p>
+      <h2>De onde vêm os metros de erro</h2>
+      <div class="cards3">
+        <div class="card"><span class="tag">satélite</span><h3>Órbita e relógio</h3><p>As efemérides transmitidas e o relógio de bordo têm pequenos erros, que viram metros na distância.</p></div>
+        <div class="card corte"><span class="tag">atmosfera · em geral, o maior</span><h3>Ionosfera</h3><p>A camada ionizada atrasa o sinal; o atraso varia com a hora, a estação e a atividade solar.</p></div>
+        <div class="card ciano"><span class="tag">atmosfera</span><h3>Troposfera</h3><p>Umidade, pressão e temperatura atrasam o sinal, mais ainda nos satélites baixos.</p></div>
+        <div class="card verde"><span class="tag">entorno</span><h3>Multicaminho</h3><p>Sinal refletido em parede, estrutura metálica, máquina ou água: caminho mais longo.</p></div>
+        <div class="card"><span class="tag">receptor</span><h3>Ruído e antena</h3><p>Ruído de medição e variação do <strong>centro de fase</strong> da antena.</p></div>
+        <div class="card"><span class="tag">resultado</span><h3>Metros</h3><p>É o GNSS do celular e da navegação do drone: serve para <strong>voar</strong>, não para <strong>medir</strong>.</p></div>
       </div>
-      <div class="callout-azul" style="margin-top:1.4rem;background:rgba(0,0,0,.25)"><p>As <strong>330 fotos</strong> do plano da Aula 5, com 80% e 70% de sobreposição, existem para isto: cada ponto do terreno precisa aparecer em <strong>várias</strong> fotos para que os raios se cruzem.</p></div>
     </div>
   </section>
 
-  <!-- 6. SfM animado -->
+  <!-- 7. PDOP -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Interativo</p>
-      <h2>O SfM passo a passo</h2>
+      <p class="kicker">Interativo · geometria dos satélites</p>
+      <h2>PDOP: a geometria multiplica o erro</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="sfm" role="img" aria-label="Animação em quatro etapas: duas fotos aéreas do mesmo galpão e de uma pilha recebem pontos característicos; linhas ligam os pontos correspondentes, e algumas correspondências erradas, em vermelho, são descartadas; depois aparecem as câmeras orientadas e uma nuvem esparsa; por fim, a nuvem densa preenche a forma do terreno."></div>
+        <div class="viz" data-viz="pdop" role="img" aria-label="Céu simulado visto de baixo, em projeção polar, com sete satélites de quatro constelações. Bem espalhados pelo céu, o PDOP fica perto de 2. Ao agrupar os satélites num canto, como acontece ao lado de um prédio alto que bloqueia metade do céu, o PDOP passa de 6 e o erro da posição cresce na mesma proporção."></div>
         <div class="viz-lado">
-          <h3>Clique nas etapas</h3>
-          <ul class="pontos">
-            <li><strong>1.</strong> Feições em cada foto.</li>
-            <li><strong>2.</strong> Pontos homólogos; correspondências erradas (em vermelho) são descartadas.</li>
-            <li><strong>3.</strong> Ajustamento por feixes: câmeras orientadas + nuvem esparsa.</li>
-            <li><strong>4.</strong> Densificação: a nuvem densa.</li>
-          </ul>
-          <p class="mini">Na vida real são milhares de feições por foto e centenas de fotos; aqui, só duas.</p>
+          <p style="margin-top:0"><span class="formula grande" style="font-size:1.25rem">σ<sub>posição</sub> ≈ PDOP · σ<sub>pseudodistância</sub></span></p>
+          <p>PDOP é a <strong>diluição da precisão</strong>: o quanto a geometria dos satélites amplifica o erro de cada pseudodistância.</p>
+          <div data-controles></div>
+          <p class="mini">PDOP 2 com 2 m por pseudodistância: <strong>≈ 4 m</strong> no modo autônomo. Valores ilustrativos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 7. Onde o SfM tropeça -->
+  <!-- 8. Cuidados brasileiros -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Limites do SfM</p>
-      <h2>Onde a correspondência tropeça</h2>
-      <div class="cards3">
-        <div class="card"><div class="ico">💧</div><h3>Sem textura</h3><p>Água, telhado metálico liso, concreto novo e uniforme: o algoritmo não acha feições distintivas. Resultado: <strong>buracos</strong> ou ruído no modelo.</p></div>
-        <div class="card"><div class="ico">🚜</div><h3>Em movimento</h3><p>Máquinas, caminhões e pessoas mudam de lugar entre uma foto e outra: as correspondências não fecham e a superfície fica <strong>"fantasma"</strong>.</p></div>
-        <div class="card"><div class="ico">🌳</div><h3>Sem ver o chão</h3><p>Sob vegetação densa, a câmera vê só a copa: sai o <strong>MDS</strong>, não o terreno. A resposta parcial é o <strong>LiDAR</strong> da Aula 8.</p></div>
-      </div>
-      <div class="callout-azul" style="margin-top:1.2rem;background:rgba(0,0,0,.25)"><p><strong>Dica de campo:</strong> voe com as máquinas paradas na área crítica, evite sol a pino sobre superfícies brilhantes e aumente a sobreposição sobre solo homogêneo.</p></div>
-    </div>
-  </section>
-
-  <!-- 8. Escala e georreferenciamento -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Escala e georreferenciamento</p>
-      <h2>O SfM puro reconstrói a forma, mas não sabe onde ela está</h2>
+      <p class="kicker">Dois cuidados bem brasileiros e bem de canteiro</p>
+      <h2>Ionosfera equatorial e um canteiro que reflete sinal</h2>
       <div class="versus">
         <div class="lado">
-          <h3>Só fotos + GNSS comum do drone</h3>
+          <h3>Anomalia equatorial de ionização</h3>
           <ul>
-            <li>Forma coerente, mas <strong>posição e escala</strong> com exatidão métrica.</li>
-            <li>Pequenos erros na calibração da lente geram o <strong>efeito de domo</strong> (<em>doming</em>): o modelo "embarriga".</li>
-            <li>Típico de blocos com fotos todas <strong>verticais e paralelas</strong> (James e Robson, 2014).</li>
+            <li>O Brasil fica sob a anomalia equatorial: em períodos de alta atividade solar, a <strong>cintilação ionosférica</strong> faz o receptor perder satélites e perder o RTK.</li>
+            <li>Mais comum entre o <strong>pôr do sol e a madrugada</strong>.</li>
+            <li>Planeje levantamentos críticos para o dia.</li>
           </ul>
         </div>
-        <div class="vs">→</div>
+        <div class="vs">+</div>
         <div class="lado novo">
-          <h3>Dois caminhos para amarrar</h3>
+          <h3>Multicaminho e obstrução</h3>
           <ul>
-            <li><strong>Pontos no terreno</strong>: alvos medidos em campo (GCPs).</li>
-            <li><strong>Posição exata de cada foto</strong>: GNSS RTK ou PPK no drone.</li>
-            <li>E, contra o domo: algumas <strong>fotos oblíquas</strong> e GCPs bem distribuídos.</li>
+            <li>Grua, fachada, fôrma metálica, contêiner: o canteiro <strong>reflete e bloqueia</strong> o sinal.</li>
+            <li><strong>Máscara de elevação de 10° a 15°</strong>: descarte os satélites muito baixos.</li>
+            <li>Base longe de superfícies refletoras, com <strong>céu aberto</strong>.</li>
           </ul>
         </div>
       </div>
-      <p class="mini" style="margin-top:.9rem">Referência: JAMES, M. R.; ROBSON, S. <em>Earth Surface Processes and Landforms</em>, v. 39, n. 10, p. 1413–1420, 2014. DOI: 10.1002/esp.3609.</p>
     </div>
   </section>
 
-  <!-- 9. Domo 3D -->
+  <!-- 9. Posicionamento relativo -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Explore em 3D</p>
-      <h2>O efeito de domo: terreno real × modelo</h2>
+      <p class="kicker">Posicionamento relativo · base + rover</p>
+      <h2>Erros parecidos se cancelam: FIX × FLOAT</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="domo3d" role="img" aria-label="Cena 3D de um canteiro de 200 por 140 metros: a superfície sólida é o terreno real medido pela topografia e a malha ciano é o modelo fotogramétrico. Sem pontos de controle, a malha fica deslocada e curvada para cima no centro, 18 centímetros acima do marco central; com pontos de controle, os alvos laranja aparecem e a malha se aproxima do terreno; com fotos oblíquas, a curvatura praticamente desaparece."></div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"D","label":"Distância do rover à base","min":0,"max":40,"step":1,"value":12,"unit":"km"}
+          ],
+          "outputs": [
+            {"label":"Horizontal: 8 mm + 1 ppm","expr":"8+D","unit":"mm","dec":0,"destaque":true},
+            {"label":"Vertical: 15 mm + 1 ppm","expr":"15+D","unit":"mm","dec":0,"destaque":true}
+          ],
+          "barras": [
+            {"label":"Horizontal","expr":"o1","unit":"mm"},
+            {"label":"Vertical","expr":"o2","unit":"mm"}
+          ],
+          "nota": "1 ppm = 1 mm por km. A 12 km: 8 + 12 = 20 mm (H) e 15 + 12 = 27 mm (V). Ficha técnica ilustrativa."
+        }' role="img" aria-label="Calculadora da precisão do RTK em função da distância à base: 8 milímetros mais 1 ppm na horizontal e 15 milímetros mais 1 ppm na vertical, com barras; a 12 quilômetros, 20 e 27 milímetros"></div>
         <div class="viz-lado">
-          <h3>Troque o cenário</h3>
-          <p><strong>Sem GCP:</strong> o modelo sobe 18 cm no marco central, como no gancho.</p>
-          <p><strong>Com GCP:</strong> os alvos (laranja) amarram o modelo ao terreno.</p>
-          <p><strong>GCP + oblíquas:</strong> as fotos inclinadas "travam" a calibração da lente e o domo some.</p>
-          <p class="mini">Desvios verticais exagerados 60 vezes para ficarem visíveis. Valores ilustrativos.</p>
+          <h3>Base em coordenadas conhecidas</h3>
+          <p>Base e rover (o drone ou o bastão) observam os <strong>mesmos satélites</strong>. Fazendo as diferenças, órbita, relógio e atmosfera <strong>quase se cancelam</strong>, e a <strong>ambiguidade</strong> da fase pode ser resolvida.</p>
+          <p><span class="ok">FIX</span>: ambiguidade resolvida, <strong>centímetros</strong>. <span class="talvez">FLOAT</span>: não resolvida, <strong>decímetros</strong>. Levantamento de engenharia se faz com FIX.</p>
+          <div data-controles></div>
+          <p class="mini">Longe da base, os erros ficam menos parecidos: a precisão piora com a distância.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 10. GCP × checkpoints -->
+  <!-- 10. RTK × PPK -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Pontos de controle e de verificação</p>
-      <h2>Um grupo amarra, o outro prova</h2>
-      <div class="duas">
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Ground_control_point_in_Iceland_%28GCP%29.jpg/1280px-Ground_control_point_in_Iceland_%28GCP%29.jpg" alt="Ponto de controle no terreno: alvo quadrado em laranja e branco fixado no chão de cascalho, ao lado de uma estação GNSS com painel solar e de um receptor em tripé, numa paisagem vulcânica da Islândia" loading="lazy" style="object-position: 30% 60%">
-          <p class="credito">Foto: Steinninn — Wikimedia Commons (CC BY 4.0)</p>
-        </figure>
-        <div class="texto">
-          <h3>GCP — ponto de controle</h3>
-          <p>Alvo bem visível nas fotos (xadrez, cruz pintada) medido em campo com <strong>GNSS RTK ou estação total</strong>. <strong>Entra</strong> no ajustamento e amarra o modelo ao <strong>SIRGAS2000</strong>.</p>
-          <h3>Checkpoint — ponto de verificação</h3>
-          <p>Medido do mesmo jeito, mas <strong>não entra</strong> no processamento: só serve para conferir. Usar os mesmos pontos para ajustar e verificar é o aluno <strong>corrigir a própria prova</strong>.</p>
-          <p class="mini">Boa prática: GCPs no perímetro e no interior, nos pontos altos e baixos; checkpoints independentes, espalhados.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. Distribuição de GCPs -->
-  <section class="slide slide-viz">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Interativo</p>
-      <h2>Onde colocar os pontos de controle?</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="gcp" role="img" aria-label="Vista de cima de uma área de 20 hectares com um mapa de cores do erro vertical esperado do modelo. Botões alternam a distribuição dos pontos de controle: só nos quatro cantos, o erro cresce no centro; concentrados num lado, o erro cresce no lado oposto; seis pontos no perímetro e no interior, o erro fica baixo em toda a área. Cinco pontos de verificação brancos mostram o erro lido em cada um."></div>
-        <div class="viz-lado">
-          <h3>Compare as distribuições</h3>
-          <p>Laranja = <strong>GCP</strong>; branco = <strong>checkpoint</strong>. A cor mostra o erro vertical esperado: o modelo é bem amarrado <strong>perto</strong> dos GCPs e "solto" longe deles.</p>
-          <p><strong>Perímetro + interior</strong> é a distribuição que você vai usar na atividade.</p>
-          <p class="mini">Modelo de erro ilustrativo (cresce com a distância ao GCP mais próximo), só para comparar distribuições.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12. RTK × PPK -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">GNSS de precisão no drone</p>
-      <h2>RTK e PPK: a posição exata de cada foto</h2>
-      <div class="duas" style="grid-template-columns: 1.4fr 1fr">
+      <p class="kicker">Dois jeitos de corrigir</p>
+      <h2>RTK em tempo real, PPK depois do voo</h2>
+      <div class="duas" style="grid-template-columns: 1.6fr 1fr">
         <div class="texto">
           <div class="versus">
             <div class="lado">
               <h3>RTK</h3>
-              <p><em>Real time kinematic</em>: o drone recebe <strong>durante o voo</strong> correções de uma base GNSS (própria ou de rede, via internet, por <strong>NTRIP</strong>).</p>
-              <p>Posição de cada foto com <strong>poucos centímetros</strong>, mas depende do enlace.</p>
+              <p>As correções chegam <strong>durante o voo</strong>: por rádio, de uma base local, ou pela internet, pelo protocolo <strong>NTRIP</strong>.</p>
+              <p>O IBGE oferece a <strong>RBMC-IP</strong>: dados de estações da Rede Brasileira de Monitoramento Contínuo em tempo real.</p>
+              <p class="mini">Vantagem: saber na hora. Limitação: o enlace precisa funcionar o tempo todo.</p>
             </div>
             <div class="vs">×</div>
             <div class="lado novo">
               <h3>PPK</h3>
-              <p><em>Post-processed kinematic</em>: o drone grava os dados brutos e a correção é feita <strong>depois do voo</strong>, com uma base — por exemplo, uma estação da <strong>RBMC</strong> do IBGE.</p>
-              <p>Não depende de rádio ou internet no voo.</p>
+              <p>O drone grava os <strong>dados brutos</strong>; a correção é calculada <strong>no escritório</strong>, com uma base local ou uma estação da <strong>RBMC</strong>.</p>
+              <p>Não depende de enlace e permite <strong>reprocessar</strong>.</p>
+              <p class="mini">A RBMC pode estar a dezenas de km: para drone, uma base no canteiro costuma ser melhor.</p>
             </div>
           </div>
-          <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>RTK/PPK <strong>reduz</strong> a necessidade de GCPs. <strong>Não dispensa</strong> os pontos de verificação.</p></div>
         </div>
         <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/RTK_GPS.jpg/1280px-RTK_GPS.jpg" alt="Mãos de um técnico segurando um bastão com receptor GNSS e um celular que exibe, num aplicativo de mapa, a trilha de pontos medidos com correção RTK" loading="lazy">
-          <p class="credito">Foto: OMDTZ — Wikimedia Commons (CC BY-SA 4.0)</p>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/SDFE_GNSS_reference_station_Esbjerg%2C_2020-09-12.jpg/1280px-SDFE_GNSS_reference_station_Esbjerg%2C_2020-09-12.jpg" alt="Estação de referência GNSS de operação contínua: uma antena geodésica sob cúpula no topo de um pilar alto, sobre um gramado com céu aberto, ao lado de uma edificação baixa — o tipo de estação que compõe redes como a RBMC" loading="lazy">
+          <p class="credito">Foto: Kirkgaard — Wikimedia Commons (CC BY-SA 4.0)</p>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 13. Sincronismo -->
+  <!-- 11. Erro da base -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Dois cuidados do RTK/PPK</p>
-      <h2>Sincronismo da foto e braço de alavanca</h2>
+      <p class="kicker">Interativo · a explicação do gancho</p>
+      <h2>O erro da base vira erro de todo o levantamento</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="calc" data-opts='{
-          "inputs": [
-            {"id":"v","label":"Velocidade do drone","min":2,"max":15,"step":1,"value":6,"unit":"m/s"},
-            {"id":"a","label":"Atraso entre foto e registro GNSS","min":0,"max":50,"step":1,"value":20,"unit":"ms"},
-            {"id":"g","label":"GSD do levantamento","min":1,"max":5,"step":0.1,"value":1.9,"unit":"cm"}
-          ],
-          "outputs": [
-            {"label":"Deslocamento da foto","expr":"v*a/10","unit":"cm","dec":1,"destaque":true},
-            {"label":"Em pixels (GSD)","expr":"o1/g","unit":"GSD","dec":1},
-            {"label":"Diagnóstico","expr":"o1<=g?&#39;dentro de 1 GSD&#39;:&#39;erro maior que o pixel: corrija o sincronismo&#39;"}
-          ],
-          "barras": [
-            {"label":"Deslocamento","expr":"o1","unit":"cm","dec":1},
-            {"label":"GSD","expr":"g","unit":"cm","dec":1}
-          ],
-          "nota": "Deslocamento = v × atraso. Ex.: 6 m/s × 0,020 s = 0,12 m = 12 cm."
-        }' role="img" aria-label="Calculadora: deslocamento da posição registrada da foto igual à velocidade vezes o atraso de sincronismo, comparado em barras com o GSD do levantamento"></div>
+        <div class="viz" data-viz="basegnss" role="img" aria-label="Planta de um canteiro com o projeto tracejado em branco e o levantamento em azul. Ao deslocar a coordenada da base GNSS, todos os pontos do levantamento se deslocam junto, na mesma direção e na mesma distância; a forma não muda e a distância medida entre dois cantos continua igual."></div>
         <div class="viz-lado">
-          <h3>Mova os controles</h3>
-          <p><span class="formula">deslocamento = v · Δt</span></p>
-          <p><strong>Sincronismo:</strong> o instante da foto tem de casar com o GNSS. A 6 m/s, 20 ms de atraso = <strong>12 cm</strong>.</p>
-          <p><strong>Braço de alavanca:</strong> a distância entre a antena e o centro da câmera precisa ser conhecida.</p>
+          <h3>Mova a base</h3>
           <div data-controles></div>
+          <p>A coordenada da base vem de um <strong>vértice conhecido</strong>, de pós-processamento com a <strong>RBMC</strong> ou do <strong>IBGE-PPP</strong> (gratuito; algumas horas de rastreio dão centímetros). <strong>Nunca do modo autônomo.</strong></p>
+          <p><strong>Sincronismo:</strong> 20 ms de atraso a 6 m/s deslocam a foto <strong>12 cm</strong>, mais de 6 GSD. <strong>Braço de alavanca:</strong> a distância antena–câmera, com a inclinação do drone, precisa ser descontada.</p>
+          <p class="mini">Por isso, mesmo com RTK, os checkpoints continuam obrigatórios.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 14. Como se expressa a exatidão -->
+  <!-- 12. SIRGAS2000 e UTM -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Exatidão em números</p>
-      <h2>RMSE nos checkpoints: o número que prova o modelo</h2>
-      <div class="formula-bloco">RMSE<sub>z</sub> = √[ (1/n) · Σ (z<sub>modelo</sub> − z<sub>campo</sub>)² ] &nbsp;&nbsp;·&nbsp;&nbsp; RMSE<sub>r</sub> = √( RMSE<sub>x</sub>² + RMSE<sub>y</sub>² )</div>
+      <p class="kicker">Coordenada certa no referencial certo</p>
+      <h2>SIRGAS2000, UTM e o fator de escala</h2>
       <div class="stat-grid tres">
-        <div class="stat-card"><span class="numero-grande contador" data-ate="30">0</span><div class="legenda">checkpoints, no mínimo, para a avaliação completa de um produto (ASPRS, 2ª edição, 2023)</div></div>
-        <div class="stat-card"><span class="numero-grande">1–2</span><div class="legenda">GSD: ordem de grandeza da exatidão horizontal de um bom levantamento</div></div>
-        <div class="stat-card"><span class="numero-grande">1,5–3</span><div class="legenda">GSD: ordem de grandeza da exatidão vertical</div></div>
+        <div class="stat-card"><span class="numero-grande">SIRGAS2000</span><div class="legenda">sistema geodésico oficial do Brasil</div></div>
+        <div class="stat-card"><span class="numero-grande">0,9996</span><div class="legenda">fator de escala da UTM no meridiano central (no Sudeste, em geral o fuso 23 Sul)</div></div>
+        <div class="stat-card"><span class="numero-grande">40 cm/km</span><div class="legenda">1 km no terreno aparece como 999,6 m na planta</div></div>
       </div>
-      <div class="versus" style="margin-top:1rem">
-        <div class="lado"><h3>ASPRS (EUA), 2ª ed. 2023</h3><p>Reporta a exatidão pelo próprio <strong>RMSE</strong>, deixando de usar o nível de 95% como medida principal.</p></div>
-        <div class="vs">+</div>
-        <div class="lado novo"><h3>Brasil: PEC-PCD</h3><p>Padrão de Exatidão Cartográfica dos Produtos Cartográficos Digitais: Decreto nº 89.817/1984 e especificação técnica da DSG (Exército).</p></div>
-      </div>
+      <div class="callout-azul" style="margin-top:1.2rem;background:rgba(0,0,0,.25)"><p>Em obras extensas — rodovias, ferrovias, loteamentos grandes —, usa-se um <strong>sistema topográfico local</strong>, como o da <strong>ABNT NBR 14166</strong>, para que a distância na planta seja a distância no terreno.</p></div>
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 13. Altitudes -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Exemplo numérico · voo da Aula 5 (GSD 1,92 cm, RTK + 6 GCPs)</p>
-      <h2>Cinco checkpoints, resíduos modelo − campo (cm)</h2>
-      <table class="tabela-industrial grande">
-        <thead><tr><th>Ponto</th><th>Δx</th><th>Δy</th><th>Δz</th></tr></thead>
-        <tbody>
-          <tr><td>CP1</td><td>+1,2</td><td>−0,8</td><td>+2,1</td></tr>
-          <tr><td>CP2</td><td>−0,9</td><td>+1,5</td><td>−3,0</td></tr>
-          <tr><td>CP3</td><td>+2,0</td><td>+0,4</td><td>+1,8</td></tr>
-          <tr><td>CP4</td><td>−1,1</td><td>−1,6</td><td>−2,4</td></tr>
-          <tr><td>CP5</td><td>+0,6</td><td>+0,9</td><td>+3,2</td></tr>
-          <tr class="total"><td>RMSE</td><td>1,25</td><td>1,13</td><td>2,56</td></tr>
-        </tbody>
-      </table>
-      <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>RMSE<sub>r</sub></strong> = √(1,25² + 1,13²) ≈ <strong>1,69 cm ≈ 0,9 GSD</strong> · <strong>RMSE<sub>z</sub> ≈ 2,56 cm ≈ 1,3 GSD</strong> · média de Δz = <strong>+0,34 cm</strong> (sem viés relevante). Especificação RMSE<sub>z</sub> ≤ 5 cm para volumes: <strong>atende</strong>. Ressalva: 5 checkpoints servem ao controle de rotina; para o ASPRS completo, 30.</p></div>
+      <p class="kicker">Altura elipsoidal × altitude</p>
+      <h2>O GNSS entrega h; o projeto usa H</h2>
+      <div class="texto-figura">
+        <div class="texto">
+          <p><span class="formula grande">H ≈ h − N</span></p>
+          <ul>
+            <li><strong>h</strong>: altura elipsoidal, sobre o elipsoide (superfície matemática lisa).</li>
+            <li><strong>H</strong>: altitude, ligada ao nível médio do mar (o geoide).</li>
+            <li><strong>N</strong>: ondulação geoidal, dos modelos do IBGE (MAPGEO2015, hgeoHNOR2020).</li>
+          </ul>
+          <div class="callout-azul" style="margin-top:.6rem;background:rgba(0,0,0,.25)"><p>h = 742,35 m e N = −5,20 m (ilustrativo): H = 742,35 − (−5,20) = <strong>747,55 m</strong>. Comparar h com o projeto inventa um "erro" de mais de 5 m. <strong>Confira o referencial vertical</strong> do aplicativo do drone.</p></div>
+        </div>
+        <figure class="figura" style="background:#fff">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Geoid_Equal_Earth_Map_Projection.png/1280px-Geoid_Equal_Earth_Map_Projection.png" alt="Mapa-múndi das ondulações do geoide em relação ao elipsoide, em escala de cores: regiões em que o geoide fica dezenas de metros acima do elipsoide e outras em que fica dezenas de metros abaixo" loading="lazy" style="object-fit:contain">
+          <p class="credito">Imagem: FCrameri — Wikimedia Commons (CC BY-SA 4.0)</p>
+        </figure>
+      </div>
     </div>
   </section>
 
-  <!-- 16. RMSE e viés -->
+  <!-- 14. Precisão, exatidão, RMSE -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Interativo</p>
-      <h2>O que um viés faz com o RMSE</h2>
+      <p class="kicker">Precisão × exatidão · interativo</p>
+      <h2>RMSE e média dos resíduos: um mede o tamanho, a outra denuncia o viés</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="rmse" role="img" aria-label="Gráfico de barras com os resíduos verticais dos cinco checkpoints do exemplo, em centímetros, com linhas da média e do limite de 5 centímetros. Um controle soma um viés a todos os resíduos: a média e o RMSE vertical crescem e, a partir de certo viés, o levantamento deixa de atender à especificação."></div>
+        <div class="viz" data-viz="rmse" role="img" aria-label="Gráfico de barras com os resíduos verticais dos cinco checkpoints do exemplo, em centímetros, com a linha da média e a faixa de 5 centímetros. Um controle soma um viés a todos os resíduos: a média e o RMSE vertical crescem juntos, e a partir de certo viés o levantamento deixa de atender à especificação."></div>
         <div class="viz-lado">
-          <h3>Some um viés ao modelo</h3>
-          <p>Viés é erro <strong>sistemático</strong>: desloca todos os pontos para o mesmo lado. A <strong>média</strong> dos resíduos denuncia o viés; o <strong>RMSE</strong> soma dispersão e viés.</p>
+          <p><strong>Precisão</strong> = dispersão de medidas repetidas. <strong>Exatidão</strong> = proximidade do valor verdadeiro, medida em <strong>checkpoints independentes</strong>.</p>
+          <p><span class="formula">RMSE = √[ Σ (modelo − campo)² / n ]</span></p>
           <div data-controles></div>
-          <p class="mini">Com viés de 18 cm, o do gancho, o modelo continua "bonito", mas reprova.</p>
+          <p class="mini">O RMSE soma dispersão e viés; é a <strong>média</strong> que denuncia o viés. No gancho, RMSE e média seriam quase iguais, de metros: assinatura de erro sistemático.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. PEC-PCD -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Decreto nº 89.817/1984 · ET-CQDG (Exército)</p>
+      <h2>PEC-PCD: dois limites para cada classe</h2>
+      <table class="tabela-industrial grande">
+        <thead><tr><th>Classe</th><th>Planimetria: PEC</th><th>Planimetria: EP</th><th>Altimetria: PEC</th><th>Altimetria: EP</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>0,28 mm</td><td>0,17 mm</td><td>0,27 Eq</td><td>1/6 Eq</td></tr>
+          <tr><td>B</td><td>0,50 mm</td><td>0,30 mm</td><td>0,50 Eq</td><td>1/3 Eq</td></tr>
+          <tr><td>C</td><td>0,80 mm</td><td>0,50 mm</td><td>0,60 Eq</td><td>2/5 Eq</td></tr>
+          <tr><td>D</td><td>1,00 mm</td><td>0,60 mm</td><td>0,75 Eq</td><td>1/2 Eq</td></tr>
+        </tbody>
+      </table>
+      <div class="versus" style="margin-top:.9rem">
+        <div class="lado"><p><strong>90% dos pontos</strong> com erro até o <strong>PEC</strong>, e o <strong>erro-padrão (RMSE)</strong> até o <strong>EP</strong>. Planimetria em mm <strong>na escala da carta</strong>; altimetria em fração da <strong>equidistância</strong> (Eq) das curvas.</p></div>
+        <div class="vs">+</div>
+        <div class="lado novo"><p><strong>ASPRS (EUA), 2ª ed., 2023:</strong> reporta pelo próprio <strong>RMSE</strong> e pede no mínimo <strong>30 checkpoints</strong> para a avaliação completa.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Exemplo: 5 checkpoints -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico · voo da Aula 4 (GSD 1,92 cm, RTK + 6 GCPs)</p>
+      <h2>Cinco checkpoints e a classificação</h2>
+      <div class="duas" style="grid-template-columns: 1fr 1.25fr">
+        <div class="texto">
+          <table class="tabela-industrial grande">
+            <thead><tr><th>cm</th><th>Δx</th><th>Δy</th><th>Δz</th></tr></thead>
+            <tbody>
+              <tr><td>CP1</td><td>+1,2</td><td>−0,8</td><td>+2,1</td></tr>
+              <tr><td>CP2</td><td>−0,9</td><td>+1,5</td><td>−3,0</td></tr>
+              <tr><td>CP3</td><td>+2,0</td><td>+0,4</td><td>+1,8</td></tr>
+              <tr><td>CP4</td><td>−1,1</td><td>−1,6</td><td>−2,4</td></tr>
+              <tr><td>CP5</td><td>+0,6</td><td>+0,9</td><td>+3,2</td></tr>
+              <tr class="total"><td>RMSE</td><td>1,25</td><td>1,13</td><td>2,56</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="texto">
+          <p><strong>RMSE<sub>r</sub></strong> = √(1,25² + 1,13²) ≈ <strong>1,69 cm ≈ 0,9 GSD</strong>.</p>
+          <p><strong>RMSE<sub>z</sub></strong> = √(32,65 / 5) ≈ <strong>2,56 cm ≈ 1,3 GSD</strong>; média de Δz = <strong>+0,34 cm</strong>: sem viés.</p>
+          <p><strong>Planimetria, 1:500, Classe A:</strong> EP = 0,17 × 500 = 85 mm; PEC = 140 mm. <span class="ok">Atende com folga.</span></p>
+          <p><strong>Altimetria, Classe A:</strong> RMSE<sub>z</sub> ≤ Eq/6 → Eq ≥ 6 × 2,56 = 15,4 cm → <strong>curvas de 20 cm</strong> (EP 3,3 cm; PEC 5,4 cm; todos os |Δz| abaixo). <span class="ok">Atende.</span></p>
+          <p class="mini">Ressalva: 5 pontos são ilustrativos; a classificação formal segue o tamanho de amostra da especificação. Os 20 cm voltam na Aula 8.</p>
         </div>
       </div>
     </div>
@@ -386,54 +451,33 @@
       <div class="versus fecho">
         <div class="lado">
           <h3>Atividade prática</h3>
-          <p>Num levantamento de <strong>20 ha</strong>, desenhe onde ficariam <strong>6 GCPs</strong> e <strong>5 checkpoints</strong>, justificando.</p>
-          <p>Para os resíduos verticais +4, +5, +3, +6 e +4 cm, calcule o <strong>RMSE<sub>z</sub></strong> e a <strong>média</strong>. O que a média revela? Que causa você investigaria primeiro?</p>
+          <p>No portal do IBGE, baixe um dia de dados de uma estação da <strong>RBMC</strong> próxima da sua cidade e submeta <strong>uma hora</strong> deles ao <strong>IBGE-PPP</strong>. Compare com a coordenada oficial da estação.</p>
+          <p>Depois, consulte a ondulação geoidal no <strong>MAPGEO2015</strong> para o mesmo ponto e converta a altura elipsoidal em <strong>altitude</strong>.</p>
         </div>
         <div class="vs">+</div>
         <div class="lado novo">
           <h3>Pontos-chave</h3>
           <ul class="pontos">
-            <li><strong>Interseção de raios</strong>; o SfM detecta, corresponde, ajusta (feixes) e densifica.</li>
-            <li>Sem amarração, o modelo pode ser <strong>preciso e inexato</strong>, com <strong>domo</strong>.</li>
-            <li><strong>GCPs</strong> amarram; <strong>checkpoints</strong> independentes provam.</li>
-            <li><strong>RTK</strong> (tempo real) e <strong>PPK</strong> (pós) reduzem GCPs, não checkpoints.</li>
-            <li>Exatidão = <strong>RMSE</strong> nos checkpoints (ASPRS 2023; PEC-PCD): 1–2 GSD H, 1,5–3 GSD V.</li>
+            <li>O GNSS mede <strong>pseudodistâncias e fase</strong>; com o <strong>PDOP</strong>, o modo autônomo fica em metros.</li>
+            <li><strong>RTK ou PPK</strong> com solução <strong>FIX</strong> chega ao centímetro.</li>
+            <li>O <strong>erro da base desloca tudo</strong>.</li>
+            <li><strong>Altitude não é altura elipsoidal</strong>: H ≈ h − N.</li>
+            <li>Exatidão se prova com <strong>RMSE e média</strong> nos checkpoints, classificada pelo <strong>PEC-PCD</strong>.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 18. Ponte para a Aula 7 -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Próximo passo</p>
-      <h2>Da nuvem densa aos produtos da obra</h2>
-      <div class="duas">
-        <figure class="figura" style="background:#fff">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Geo-Referenced_Point_Cloud.JPG" alt="Modelo 3D georreferenciado, com textura fotográfica, de uma área de rochas avermelhadas, estradas de terra e vegetação rasteira, gerado a partir de imagens aéreas de drone" loading="lazy" style="object-fit: contain">
-          <p class="credito">Imagem: Stoermerjp — Wikimedia Commons (CC BY-SA 3.0)</p>
-        </figure>
-        <div class="texto">
-          <h3>Agora o modelo é confiável</h3>
-          <p>Com o modelo amarrado e com a exatidão <strong>provada</strong> nos checkpoints, a nuvem densa vira produto de engenharia.</p>
-          <p>Na <strong>Aula 7</strong>: <strong>ortomosaico</strong>, <strong>MDS e MDT</strong>, nuvem de pontos e <strong>cálculo de volumes</strong> de corte e aterro.</p>
-          <p>E você vai ver por que o <strong>viés vertical</strong> de hoje é o maior inimigo de um volume.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19. Fim -->
+  <!-- 18. Fim -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
-      <h1>Fotogrametria com drones</h1>
-      <p class="fim-texto">Modelo bonito não basta: modelo bom é o que tem a exatidão provada nos checkpoints.</p>
-      <p class="fim-proxima">Próxima aula: Aula 7 — Produtos cartográficos: ortomosaico, MDS/MDT, nuvem de pontos e cálculo de volumes.</p>
+      <h1>GNSS e exatidão</h1>
+      <p class="fim-texto">Preciso não é exato: a coordenada da base e o referencial decidem onde o levantamento está.</p>
+      <p class="fim-proxima">Próxima aula: Aula 7 — Ortomosaicos, modelos digitais de superfície e nuvens de pontos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -442,270 +486,145 @@
 
 <script src="../../assets/obra.js"></script>
 <script>
-/* Visualizações próprias da Aula 6 */
+/* Visualizações próprias da Aula 6 (rmse vem do antigo deck da Aula 6) */
 (function () {
-  const { canvas2d, loop, hud, chip, botoes, slider, fmt } = Obra;
+  const { canvas2d, cena3d, loop, hud, chip, botoes, slider, fmt, caixa } = Obra;
   const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
   const tamanho = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
   // números pseudoaleatórios fixos (o desenho não "pisca")
   const rnd = (k) => { const x = Math.sin(k * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
 
-  /* raios — interseção de raios em corte vertical, com erro aleatório ou sistemático nas câmeras */
-  Obra.register('raios', (host, opts, painel) => {
+  /* pdop — céu simulado (projeção polar) com satélites espalhados ou agrupados; PDOP calculado da geometria */
+  Obra.register('pdop', (host, opts, painel) => {
     const { ctx } = canvas2d(host);
     const p = painel || document.createElement('div');
-    const sN = slider(p, { id: 'n', label: 'Fotos que veem o ponto', min: 2, max: 6, step: 1, value: 4 });
-    const sE = slider(p, { id: 'e', label: 'Erro na posição das câmeras', min: 0, max: 100, step: 5, value: 0, unit: 'cm' });
-    let sist = false;
-    const h = Obra.hud(host); const cInfo = chip(h, '');
+    const sU = slider(p, { id: 'u', label: 'Erro de cada pseudodistância', min: 1, max: 5, step: 0.5, value: 2, unit: 'm', dec: 1 });
+    const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+    // [azimute, elevação] em graus; nomes e cores por constelação
+    const ESP = [[15, 72], [80, 28], [140, 48], [200, 22], [255, 40], [320, 25], [35, 15]];
+    const AGR = [[35, 40], [55, 65], [75, 25], [95, 50], [115, 70], [60, 20], [120, 33]];
+    const NOMES = ['G05', 'E11', 'R07', 'C21', 'G18', 'E24', 'C08'];
+    const COR = { G: '#2BD9FE', E: '#F2CB0A', R: '#FF2B5F', C: '#95DE68' };
+    let alvo = 0, f = 0;
     const btns = botoes(host, [
-      ['Erro aleatório', () => { sist = false; btns[0].classList.add('on'); btns[1].classList.remove('on'); }, true],
-      ['Erro sistemático (viés)', () => { sist = true; btns[1].classList.add('on'); btns[0].classList.remove('on'); }]
+      ['Bem espalhados', () => { alvo = 0; btns[0].classList.add('on'); btns[1].classList.remove('on'); }, true],
+      ['Agrupados (ao lado de um prédio)', () => { alvo = 1; btns[1].classList.add('on'); btns[0].classList.remove('on'); }]
     ]);
-    // mundo em metros: voo a 70 m, base de 14 m, ponto alvo no solo
-    const terreno = (x) => 6 * Math.sin(x / 23) + 3 * Math.cos(x / 9);
-    const PX = 0, PZ = terreno(0);
-    const lp = loop((t) => {
-      const [W, H] = tamanho(ctx);
-      ctx.clearRect(0, 0, W, H);
-      const n = +sN.value, err = +sE.value / 100; // m
-      const xs = Array.from({ length: n }, (_, k) => (k - (n - 1) / 2) * 14);
-      const esc = Math.min((W - 60) / 120, (H - 90) / 85), ox = W / 2, oy = H - 40;
-      const X = (x) => ox + x * esc, Y = (z) => oy - (z + 8) * esc;
-      // exagero visual do erro (×12) para aparecer na tela
-      const EXG = 12;
-      // terreno
-      ctx.beginPath(); ctx.moveTo(X(-60), H);
-      for (let x = -60; x <= 60; x += 1) ctx.lineTo(X(x), Y(terreno(x)));
-      ctx.lineTo(X(60), H); ctx.closePath(); ctx.fillStyle = 'rgba(138,111,77,.6)'; ctx.fill();
-      ctx.strokeStyle = '#c9a77c'; ctx.lineWidth = 2; ctx.stroke(); ctx.lineWidth = 1;
-      // rotas e câmeras
-      ctx.setLineDash([6, 6]); ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.moveTo(X(-60), Y(70)); ctx.lineTo(X(60), Y(70)); ctx.stroke(); ctx.setLineDash([]);
-      // raios: direção medida na imagem = da câmera verdadeira ao ponto; origem = posição registrada (com erro)
-      const A = [[0, 0], [0, 0]], b = [0, 0];
-      const raios = xs.map((cx, k) => {
-        const ex = sist ? err : (rnd(k + 1) * 2 - 1) * err, ez = sist ? err * 0.6 : (rnd(k + 11) * 2 - 1) * err;
-        const o = [cx + ex * EXG, 70 + ez * EXG];
-        let d = [PX - cx, PZ - 70]; const L = Math.hypot(d[0], d[1]); d = [d[0] / L, d[1] / L];
-        const M = [[1 - d[0] * d[0], -d[0] * d[1]], [-d[0] * d[1], 1 - d[1] * d[1]]];
-        A[0][0] += M[0][0]; A[0][1] += M[0][1]; A[1][0] += M[1][0]; A[1][1] += M[1][1];
-        b[0] += M[0][0] * o[0] + M[0][1] * o[1]; b[1] += M[1][0] * o[0] + M[1][1] * o[1];
-        return { o, d, cx };
+    // PDOP = √(Q11 + Q22 + Q33), Q = (GᵀG)⁻¹, linhas de G = [cosE·senA, cosE·cosA, senE, 1]
+    const calcPDOP = (sats) => {
+      const N = Array.from({ length: 4 }, () => [0, 0, 0, 0]);
+      sats.forEach(([az, el]) => {
+        const a = az * Math.PI / 180, e = el * Math.PI / 180;
+        const g = [Math.cos(e) * Math.sin(a), Math.cos(e) * Math.cos(a), Math.sin(e), 1];
+        for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) N[i][j] += g[i] * g[j];
       });
-      const det = A[0][0] * A[1][1] - A[0][1] * A[1][0];
-      const sol = [(b[0] * A[1][1] - A[0][1] * b[1]) / det, (A[0][0] * b[1] - A[1][0] * b[0]) / det];
-      let res = 0;
-      raios.forEach(({ o, d }) => {
-        const v = [sol[0] - o[0], sol[1] - o[1]], pr = v[0] * d[0] + v[1] * d[1];
-        res = Math.max(res, Math.hypot(v[0] - pr * d[0], v[1] - pr * d[1]));
-        ctx.strokeStyle = 'rgba(242,203,10,.85)'; ctx.lineWidth = 1.6;
-        ctx.beginPath(); ctx.moveTo(X(o[0]), Y(o[1])); ctx.lineTo(X(o[0] + d[0] * 100), Y(o[1] + d[1] * 100)); ctx.stroke(); ctx.lineWidth = 1;
-      });
-      raios.forEach(({ o, cx }) => {
-        ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.arc(X(cx), Y(70), 4, 0, 7); ctx.fill();
-        ctx.save(); ctx.translate(X(o[0]), Y(o[1]));
-        ctx.fillStyle = '#e8ecf2'; ctx.fillRect(-11, -8, 22, 12); ctx.fillStyle = '#0a63a8'; ctx.beginPath(); ctx.moveTo(-5, 4); ctx.lineTo(5, 4); ctx.lineTo(0, 10); ctx.fill();
-        ctx.restore();
-      });
-      // ponto verdadeiro e calculado
-      ctx.fillStyle = '#95DE68'; ctx.beginPath(); ctx.arc(X(PX), Y(PZ), 7, 0, 7); ctx.fill();
-      ctx.strokeStyle = '#FF2B5F'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(X(sol[0]), Y(sol[1]), 10, 0, 7); ctx.stroke(); ctx.lineWidth = 1;
-      ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillStyle = '#95DE68'; ctx.fillText('ponto verdadeiro', X(PX) + 12, Y(PZ) + 22);
-      ctx.fillStyle = '#FF2B5F'; ctx.fillText('ponto calculado', X(sol[0]) + 14, Y(sol[1]) - 8);
-      ctx.fillStyle = '#fff'; ctx.textAlign = 'left'; ctx.fillText('rota de voo a 70 m', X(-60), Y(70) - 10);
-      const desl = Math.hypot(sol[0] - PX, sol[1] - PZ) / EXG * 100, disp = res / EXG * 100;
-      cInfo.innerHTML = err === 0 ? 'Sem erro: os raios se cruzam <b>no ponto verdadeiro</b>'
-        : sist ? 'Viés: raios se cruzam bem (dispersão <b>' + fmt(disp, 0) + ' cm</b>), mas deslocados <b>' + fmt(desl, 0) + ' cm</b>: preciso, inexato'
-        : 'Aleatório: raios não se encontram (até <b>' + fmt(disp, 0) + ' cm</b>), ponto a <b>' + fmt(desl, 0) + ' cm</b> do verdadeiro';
-    });
-    return { start: lp.start, stop: lp.stop };
-  });
-
-  /* sfm — as quatro etapas do Structure from Motion com duas fotos */
-  Obra.register('sfm', (host) => {
-    const { ctx } = canvas2d(host);
-    const h = Obra.hud(host); const cInfo = chip(h, '');
-    let etapa = 0, t0 = 0;
-    const NOMES = ['1. Detectar', '2. Corresponder', '3. Ajustar', '4. Densificar'];
-    const TXT = ['Feições detectadas em cada foto', 'Pontos homólogos ligados; os vermelhos são descartados', 'Câmeras orientadas e <b>nuvem esparsa</b>', '<b>Nuvem densa</b>: a forma do terreno'];
-    const btns = botoes(host, NOMES.map((nm, k) => [nm, () => { etapa = k; t0 = lp.t; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === 0]));
-    // cena: perfil com galpão e pilha, em coordenadas 0..1
-    const alt = (u) => { let z = 0.12 + 0.05 * Math.sin(u * 9); if (u > 0.18 && u < 0.42) z = 0.42; z += Math.max(0, 0.32 - Math.abs(u - 0.7) * 1.4); return z; };
-    const feat = Array.from({ length: 26 }, (_, k) => { const u = 0.04 + 0.92 * rnd(k + 3); return { u, v: rnd(k + 40) }; });
-    const lp = loop((t) => {
-      const [W, H] = tamanho(ctx);
-      ctx.clearRect(0, 0, W, H);
-      const prog = Math.min(1, (t - t0) * 0.8);
-      cInfo.innerHTML = TXT[etapa];
-      if (etapa <= 1) {
-        const fw = Math.min(W * 0.36, 340), fh = fw * 0.66, y0 = 70 + (H - 70 - fh) / 2 - 10;
-        const xs = [W / 2 - fw - 30, W / 2 + 30];
-        xs.forEach((x0, i) => {
-          // foto: vista de cima com galpão e pilha (deslocada entre as fotos)
-          const dx = i ? -fw * 0.16 : 0;
-          ctx.save(); ctx.beginPath(); ctx.rect(x0, y0, fw, fh); ctx.clip();
-          ctx.fillStyle = '#7a6a52'; ctx.fillRect(x0, y0, fw, fh);
-          ctx.fillStyle = '#9aa3ad'; ctx.fillRect(x0 + fw * 0.22 + dx, y0 + fh * 0.2, fw * 0.3, fh * 0.35);
-          ctx.fillStyle = '#b58b55'; ctx.beginPath(); ctx.ellipse(x0 + fw * 0.72 + dx, y0 + fh * 0.62, fw * 0.16, fh * 0.2, 0, 0, 7); ctx.fill();
-          ctx.strokeStyle = '#d9d2c3'; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x0 + dx, y0 + fh * 0.85); ctx.lineTo(x0 + fw * 1.3 + dx, y0 + fh * 0.75); ctx.stroke(); ctx.lineWidth = 1;
-          ctx.restore();
-          ctx.strokeStyle = '#fff'; ctx.strokeRect(x0, y0, fw, fh);
-          ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('Foto ' + (i + 1), x0 + fw / 2, y0 + fh + 20);
-          feat.forEach((f, k) => {
-            const px = x0 + (f.u + (i ? -0.16 : 0)) * fw, py = y0 + f.v * fh;
-            if (px < x0 + 3 || px > x0 + fw - 3) return;
-            if (etapa === 0 && k / feat.length > prog) return;
-            ctx.strokeStyle = '#2BD9FE'; ctx.beginPath(); ctx.arc(px, py, 4, 0, 7); ctx.stroke();
-          });
-        });
-        if (etapa === 1) {
-          feat.forEach((f, k) => {
-            if (k / feat.length > prog) return;
-            const p1 = [xs[0] + f.u * fw, y0 + f.v * fh];
-            const errado = k % 9 === 4;
-            const u2 = errado ? 0.1 + 0.8 * rnd(k + 90) : f.u - 0.16, v2 = errado ? rnd(k + 70) : f.v;
-            if (u2 < 0.01 || u2 > 0.99) return;
-            const p2 = [xs[1] + u2 * fw, y0 + v2 * fh];
-            ctx.strokeStyle = errado ? 'rgba(255,43,95,.9)' : 'rgba(149,222,104,.75)'; ctx.setLineDash(errado ? [4, 4] : []);
-            ctx.beginPath(); ctx.moveTo(p1[0], p1[1]); ctx.lineTo(p2[0], p2[1]); ctx.stroke(); ctx.setLineDash([]);
-          });
-        }
-      } else {
-        // corte: câmeras orientadas no alto e nuvem embaixo
-        const x0 = 50, x1 = W - 50, yb = H - 40, esc = (H - 160);
-        const X = (u) => x0 + u * (x1 - x0), Y = (z) => yb - z * esc * 0.75;
-        const nc = 7;
-        for (let k = 0; k < nc; k++) {
-          const u = 0.05 + k * 0.7 / (nc - 1), cx = X(u), cy = 90;
-          ctx.fillStyle = 'rgba(43,217,254,.15)'; ctx.strokeStyle = '#2BD9FE';
-          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - 26, cy + 30); ctx.lineTo(cx + 26, cy + 30); ctx.closePath(); ctx.fill(); ctx.stroke();
-        }
-        if (etapa === 2) {
-          feat.concat(feat.map((f) => ({ u: f.v, v: f.u }))).forEach((f, k) => {
-            if (k / 52 > prog) return;
-            ctx.fillStyle = '#F2CB0A'; ctx.beginPath(); ctx.arc(X(f.u), Y(alt(f.u)) - 2, 3.5, 0, 7); ctx.fill();
-          });
-        } else {
-          const N = 900;
-          for (let k = 0; k < N * prog; k++) {
-            const u = rnd(k + 500), z = alt(u) - rnd(k + 2000) * 0.03;
-            const c = Math.min(1, z / 0.45);
-            ctx.fillStyle = `hsl(${200 - c * 170},75%,${45 + c * 10}%)`;
-            ctx.fillRect(X(u), Y(z), 2.4, 2.4);
-          }
-        }
-        ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
-        ctx.fillText(etapa === 2 ? 'Câmeras orientadas (azul) + nuvem esparsa (amarelo) — galpão e pilha em corte' : 'Nuvem densa: milhares de pontos com cor — base do ortomosaico, MDS e MDT', W / 2, H - 12);
+      const M = N.map((l, i) => l.concat([0, 1, 2, 3].map((j) => (i === j ? 1 : 0))));
+      for (let c = 0; c < 4; c++) {
+        let piv = c; for (let r = c + 1; r < 4; r++) if (Math.abs(M[r][c]) > Math.abs(M[piv][c])) piv = r;
+        [M[c], M[piv]] = [M[piv], M[c]];
+        const d = M[c][c]; for (let k = 0; k < 8; k++) M[c][k] /= d;
+        for (let r = 0; r < 4; r++) if (r !== c) { const m = M[r][c]; for (let k = 0; k < 8; k++) M[r][k] -= m * M[c][k]; }
       }
+      return Math.sqrt(M[0][4] + M[1][5] + M[2][6]);
+    };
+    const lp = loop((t, dt) => {
+      const [W, H] = tamanho(ctx);
+      ctx.clearRect(0, 0, W, H);
+      f += (alvo - f) * Math.min(1, dt * 2.2);
+      const sats = ESP.map(([a, e], k) => [a + (AGR[k][0] - a) * f, e + (AGR[k][1] - e) * f]);
+      const pd = calcPDOP(sats), u = +sU.value, sig = pd * u;
+      const R = Math.min(W - 60, H - 70) / 2, cx = W / 2, cy = 40 + R;
+      const P = (az, el) => { const r = R * (90 - el) / 90, a = az * Math.PI / 180; return [cx + r * Math.sin(a), cy - r * Math.cos(a)]; };
+      // prédio bloqueando metade do céu
+      if (f > 0.02) {
+        ctx.fillStyle = `rgba(160,170,185,${0.32 * f})`; ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, R, (180 - 90) * Math.PI / 180, (360 - 90) * Math.PI / 180); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = `rgba(255,255,255,${0.85 * f})`; ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center';
+        const [bx, by] = P(270, 35); ctx.fillText('céu bloqueado pelo prédio', bx, by);
+      }
+      // anéis de elevação
+      ctx.strokeStyle = 'rgba(255,255,255,.28)'; ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'left';
+      [0, 30, 60].forEach((el) => { ctx.beginPath(); ctx.arc(cx, cy, R * (90 - el) / 90, 0, 7); ctx.stroke(); ctx.fillText(el + '°', cx + 4, cy - R * (90 - el) / 90 + 13); });
+      ctx.beginPath(); ctx.moveTo(cx - R, cy); ctx.lineTo(cx + R, cy); ctx.moveTo(cx, cy - R); ctx.lineTo(cx, cy + R); ctx.stroke();
+      ctx.font = '700 13px Montserrat, Arial'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center';
+      ctx.fillText('N', cx, cy - R - 8); ctx.fillText('S', cx, cy + R + 18); ctx.fillText('L', cx + R + 12, cy + 5); ctx.fillText('O', cx - R - 12, cy + 5);
+      // máscara de elevação de 10°
+      ctx.setLineDash([4, 5]); ctx.strokeStyle = 'rgba(242,203,10,.5)'; ctx.beginPath(); ctx.arc(cx, cy, R * 80 / 90, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      // linhas de visada e satélites
+      sats.forEach(([az, el], k) => {
+        const [x, y] = P(az, el), c = COR[NOMES[k][0]];
+        ctx.strokeStyle = 'rgba(255,255,255,.15)'; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke();
+        ctx.fillStyle = c; ctx.beginPath(); ctx.arc(x, y, 9, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.font = '700 11px Montserrat, Arial'; ctx.textAlign = 'left'; ctx.fillText(NOMES[k], x + 12, y + 4);
+      });
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(cx, cy, 5, 0, 7); ctx.fill();
+      // legenda
+      ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'left';
+      [['GPS', 'G'], ['Galileo', 'E'], ['GLONASS', 'R'], ['BeiDou', 'C']].forEach(([nm, k], i) => {
+        const y = H - 70 + i * 16; ctx.fillStyle = COR[k]; ctx.beginPath(); ctx.arc(20, y - 4, 5, 0, 7); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillText(nm, 30, y);
+      });
+      ctx.fillStyle = 'rgba(242,203,10,.85)'; ctx.textAlign = 'right'; ctx.fillText('tracejado: máscara de 10°', W - 14, H - 14);
+      res.innerHTML = `PDOP = <span class="num">${fmt(pd, 1)}</span><br>σ<sub>posição</sub> ≈ ${fmt(pd, 1)} × ${fmt(u, 1)} m = <b>${fmt(sig, 1)} m</b>` +
+        `<br><small>${pd < 3 ? 'Geometria boa: satélites em várias direções e alturas.' : 'Geometria ruim: as linhas de visada são quase paralelas.'}</small>`;
     });
     return { start: lp.start, stop: lp.stop };
   });
 
-  /* domo3d — terreno real × modelo fotogramétrico com efeito de domo */
-  Obra.register('domo3d', (host) => {
-    const h = Obra.hud(host);
-    const cCen = chip(h, ''), cDesv = chip(h, '');
-    const CEN = [
-      { nome: 'Sem GCP', dz: 0.08, domo: 0.10, gcp: false },
-      { nome: 'Com GCP', dz: 0.0, domo: 0.035, gcp: true },
-      { nome: 'GCP + oblíquas', dz: 0.0, domo: 0.008, gcp: true }
-    ];
-    let cen = 0;
-    const btns = botoes(host, CEN.map((c, k) => [c.nome, () => { cen = k; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === 0]));
-    return Obra.cena3d(host, { r: 230, ph: 1.05, th: 0.6, alvo: [0, 0, 0], fogNear: 400, fogFar: 900, auto: true }, ({ THREE, scene, rotulo }) => {
-      const LX = 200, LZ = 140, EXG = 60;
-      const z0 = (x, z) => 4 * Math.sin(x / 40) * Math.cos(z / 35) + 2 * Math.sin((x + z) / 25);
-      const geoT = new THREE.PlaneGeometry(LX, LZ, 50, 35); geoT.rotateX(-Math.PI / 2);
-      const pt = geoT.attributes.position;
-      for (let i = 0; i < pt.count; i++) pt.setY(i, z0(pt.getX(i), pt.getZ(i)));
-      geoT.computeVertexNormals();
-      const real = new THREE.Mesh(geoT, new THREE.MeshStandardMaterial({ color: 0x8a6f4d, roughness: 0.95, side: THREE.DoubleSide }));
-      real.receiveShadow = true; scene.add(real);
-      const geoM = new THREE.PlaneGeometry(LX, LZ, 25, 18); geoM.rotateX(-Math.PI / 2);
-      const pm = geoM.attributes.position;
-      const base = []; for (let i = 0; i < pm.count; i++) base.push([pm.getX(i), pm.getZ(i)]);
-      const modelo = new THREE.Mesh(geoM, new THREE.MeshBasicMaterial({ color: 0x2BD9FE, wireframe: true, transparent: true, opacity: 0.85 }));
-      scene.add(modelo);
-      // marco central
-      const marco = Obra.caixa(THREE, 2.5, 3, 2.5, 0xd7dae0); marco.position.set(0, z0(0, 0) + 1.5, 0); scene.add(marco);
-      rotulo(marco, 'Marco central (topografia)', 4);
-      const rotM = new THREE.Object3D(); scene.add(rotM); rotulo(rotM, 'Modelo SfM (malha)', 2);
-      const rotT = new THREE.Object3D(); rotT.position.set(LX / 2 - 10, z0(LX / 2 - 10, LZ / 2 - 10), LZ / 2 - 10); scene.add(rotT); rotulo(rotT, 'Terreno real', 1);
-      // GCPs: perímetro + interior
-      const posG = [[-90, -60], [90, -60], [-90, 60], [90, 60], [-30, 10], [40, -15]];
-      const gcps = posG.map(([x, z]) => {
-        const g = new THREE.Group();
-        g.add(Obra.caixa(THREE, 5, 0.6, 5, 0xFF8A1F)); const c = Obra.caixa(THREE, 2.5, 0.7, 2.5, 0xffffff); c.position.set(1.25, 0.05, 1.25); g.add(c);
-        const c2 = c.clone(); c2.position.set(-1.25, 0.05, -1.25); g.add(c2);
-        g.position.set(x, z0(x, z) + 0.4, z); scene.add(g); return g;
-      });
-      rotulo(gcps[0], 'GCP', 2);
-      let dzA = CEN[0].dz, domoA = CEN[0].domo;
-      return (t, dt) => {
-        const c = CEN[cen];
-        dzA += (c.dz - dzA) * Math.min(1, dt * 2.5); domoA += (c.domo - domoA) * Math.min(1, dt * 2.5);
-        const R2 = (LX / 2) ** 2 + (LZ / 2) ** 2;
-        for (let i = 0; i < pm.count; i++) {
-          const [x, z] = base[i];
-          const erro = dzA + domoA * (1 - (x * x + z * z) / R2) * 1.0; // m
-          pm.setY(i, z0(x, z) + 0.6 + erro * EXG);
-        }
-        pm.needsUpdate = true;
-        const eCen = (dzA + domoA) * 100, eBorda = dzA * 100;
-        rotM.position.set(-LX / 2 + 15, z0(-LX / 2 + 15, -LZ / 2 + 15) + 0.6 + (dzA + domoA * 0.3) * EXG + 2, -LZ / 2 + 15);
-        gcps.forEach((g) => { g.visible = c.gcp; });
-        cCen.innerHTML = 'Cenário: <b>' + c.nome + '</b>';
-        cDesv.innerHTML = 'Desvio no marco central: <b>' + fmt(eCen, 0) + ' cm</b> · nos cantos: <b>' + fmt(eBorda, 0) + ' cm</b>';
-        cDesv.classList.toggle('alerta', eCen > 10);
-      };
-    });
-  });
-
-  /* gcp — mapa de erro esperado para distribuições de pontos de controle (ilustrativo) */
-  Obra.register('gcp', (host) => {
+  /* basegnss — o erro na coordenada da base desloca todo o levantamento, sem mudar a forma */
+  Obra.register('basegnss', (host, opts, painel) => {
     const { ctx } = canvas2d(host);
-    const h = Obra.hud(host); const cInfo = chip(h, '');
-    const LX = 500, LY = 400; // 20 ha
-    const DIST = [
-      { nome: 'Só nos 4 cantos', g: [[30, 30], [470, 30], [30, 370], [470, 370]] },
-      { nome: 'Concentrados num lado', g: [[40, 40], [40, 200], [40, 360], [140, 120], [140, 280], [90, 200]] },
-      { nome: '6: perímetro + interior', g: [[30, 30], [470, 30], [30, 370], [470, 370], [180, 220], [340, 150]] }
-    ];
-    const CP = [[250, 200], [120, 300], [380, 290], [390, 90], [110, 90]];
-    let modo = 0;
-    const btns = botoes(host, DIST.map((d, k) => [d.nome, () => { modo = k; btns.forEach((b, j) => b.classList.toggle('on', j === k)); }, k === 0]));
-    const erro = (x, y, g) => { const dm = Math.min(...g.map(([a, b]) => Math.hypot(x - a, y - b))); return 1.5 + 14 * (dm / 250) ** 2; };
-    const cor = (e) => { const f = Math.max(0, Math.min(1, (e - 1.5) / 10)); return `hsl(${130 - f * 130},70%,${38 + f * 8}%)`; };
-    const lp = loop(() => {
+    const p = painel || document.createElement('div');
+    const sE = slider(p, { id: 'e', label: 'Erro na coordenada da base', min: 0, max: 3, step: 0.1, value: 0, unit: 'm', dec: 1 });
+    const h = hud(host); const cInfo = chip(h, ''), cTrena = chip(h, '');
+    const LX = 80, LY = 50, DIR = [0.8, -0.6];
+    const PLAT = [[8, 8], [62, 8], [62, 42], [8, 42]], PRED = [[20, 16], [40, 16], [40, 32], [20, 32]];
+    const BASE = [72, 40];
+    let e = 0;
+    const lp = loop((t, dt) => {
       const [W, H] = tamanho(ctx);
       ctx.clearRect(0, 0, W, H);
-      const g = DIST[modo].g;
-      const esc = Math.min((W - 40) / LX, (H - 100) / LY), ox = (W - LX * esc) / 2, oy = 54;
-      const passo = 10;
-      for (let x = 0; x < LX; x += passo) for (let y = 0; y < LY; y += passo) { ctx.fillStyle = cor(erro(x + 5, y + 5, g)); ctx.fillRect(ox + x * esc, oy + y * esc, passo * esc + 0.6, passo * esc + 0.6); }
-      ctx.strokeStyle = '#fff'; ctx.strokeRect(ox, oy, LX * esc, LY * esc);
-      g.forEach(([x, y]) => { ctx.fillStyle = '#FF8A1F'; ctx.fillRect(ox + x * esc - 7, oy + y * esc - 7, 14, 14); ctx.strokeStyle = '#fff'; ctx.strokeRect(ox + x * esc - 7, oy + y * esc - 7, 14, 14); });
-      let mx = 0;
-      CP.forEach(([x, y]) => {
-        const e = erro(x, y, g); mx = Math.max(mx, e);
-        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ox + x * esc, oy + y * esc, 6, 0, 7); ctx.fill();
-        ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillStyle = '#000'; ctx.fillRect(ox + x * esc - 22, oy + y * esc + 9, 44, 16);
-        ctx.fillStyle = '#fff'; ctx.fillText(fmt(e, 1) + ' cm', ox + x * esc, oy + y * esc + 21);
-      });
+      e += (+sE.value - e) * Math.min(1, dt * 5);
+      const esc = Math.min((W - 40) / LX, (H - 110) / LY), ox = (W - LX * esc) / 2, oy = 62;
+      const X = (x) => ox + x * esc, Y = (y) => oy + y * esc;
+      const d = [DIR[0] * e, DIR[1] * e];
+      ctx.fillStyle = 'rgba(111,138,74,.25)'; ctx.fillRect(X(0), Y(0), LX * esc, LY * esc);
+      ctx.strokeStyle = 'rgba(255,255,255,.3)'; ctx.strokeRect(X(0), Y(0), LX * esc, LY * esc);
+      const poli = (pts, dx, dy, fill, stroke, dash) => {
+        ctx.beginPath(); pts.forEach(([x, y], i) => (i ? ctx.lineTo(X(x + dx), Y(y + dy)) : ctx.moveTo(X(x + dx), Y(y + dy)))); ctx.closePath();
+        if (fill) { ctx.fillStyle = fill; ctx.fill(); }
+        ctx.setLineDash(dash || []); ctx.strokeStyle = stroke; ctx.lineWidth = 2; ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+      };
+      // levantamento (desloca com a base)
+      poli(PLAT, d[0], d[1], 'rgba(43,217,254,.18)', '#2BD9FE');
+      poli(PRED, d[0], d[1], 'rgba(43,217,254,.35)', '#2BD9FE');
+      // projeto (fixo)
+      poli(PLAT, 0, 0, null, '#fff', [7, 5]);
+      poli(PRED, 0, 0, null, '#fff', [7, 5]);
+      // trena entre dois cantos do prédio levantado
+      const a = [PRED[0][0] + d[0], PRED[0][1] + d[1]], b = [PRED[1][0] + d[0], PRED[1][1] + d[1]];
+      ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(a[0]), Y(a[1]) - 10); ctx.lineTo(X(b[0]), Y(b[1]) - 10); ctx.stroke(); ctx.lineWidth = 1;
+      ctx.fillStyle = '#F2CB0A'; ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'center'; ctx.fillText('20,00 m', X((a[0] + b[0]) / 2), Y(a[1]) - 16);
+      // base verdadeira × base usada
+      const tri = (x, y, cor, cheio) => { ctx.beginPath(); ctx.moveTo(X(x), Y(y) - 10); ctx.lineTo(X(x) + 9, Y(y) + 7); ctx.lineTo(X(x) - 9, Y(y) + 7); ctx.closePath(); ctx.strokeStyle = cor; ctx.lineWidth = 2; ctx.stroke(); if (cheio) { ctx.fillStyle = cor; ctx.fill(); } ctx.lineWidth = 1; };
+      tri(BASE[0], BASE[1], 'rgba(255,255,255,.7)', false);
+      tri(BASE[0] + d[0], BASE[1] + d[1], '#FF8A1F', true);
+      ctx.font = '600 11px Montserrat, Arial'; ctx.textAlign = 'left';
+      ctx.fillStyle = '#FF8A1F'; ctx.fillText('base (coordenada usada)', X(BASE[0] + d[0]) - 70, Y(BASE[1] + d[1]) + 22);
       // legenda
-      const lx = ox, ly = oy + LY * esc + 12, lw = Math.min(220, LX * esc * 0.5);
-      for (let k = 0; k < lw; k++) { ctx.fillStyle = cor(1.5 + 10 * k / lw); ctx.fillRect(lx + k, ly, 1.2, 10); }
-      ctx.fillStyle = '#fff'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'left';
-      ctx.fillText('erro vertical: 1,5 cm', lx, ly + 24); ctx.textAlign = 'right'; ctx.fillText('≥ 11,5 cm', lx + lw, ly + 24);
-      ctx.textAlign = 'right'; ctx.fillText('área de 500 × 400 m = 20 ha', ox + LX * esc, ly + 10);
-      cInfo.innerHTML = DIST[modo].nome + ' · pior checkpoint: <b>' + fmt(mx, 1) + ' cm</b>';
-      cInfo.classList.toggle('alerta', mx > 6);
+      const ly = Y(LY) + 22; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+      ctx.setLineDash([7, 5]); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(0), ly - 4); ctx.lineTo(X(0) + 26, ly - 4); ctx.stroke(); ctx.setLineDash([]); ctx.lineWidth = 1;
+      ctx.fillStyle = '#fff'; ctx.fillText('projeto', X(0) + 32, ly);
+      ctx.fillStyle = 'rgba(43,217,254,.6)'; ctx.fillRect(X(0) + 110, ly - 10, 26, 12); ctx.fillStyle = '#fff'; ctx.fillText('levantamento (ortomosaico)', X(0) + 142, ly);
+      ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillText('canteiro de 80 × 50 m', X(LX), ly);
+      cInfo.innerHTML = e < 0.05 ? 'Base em coordenada correta: levantamento <b>sobre o projeto</b>' : 'Todos os pontos deslocados <b>' + fmt(e, 1) + ' m</b>, na mesma direção';
+      cInfo.classList.toggle('alerta', e >= 0.05);
+      cTrena.innerHTML = 'Distância interna: <b>20,00 m</b> (não muda)';
     });
     return { start: lp.start, stop: lp.stop };
   });
 
   /* rmse — resíduos verticais dos 5 checkpoints + viés ajustável */
-  Obra.register('rmse', (host, opts, painel) => {
+    Obra.register('rmse', (host, opts, painel) => {
     const { ctx } = canvas2d(host);
     const p = painel || document.createElement('div');
     const sB = slider(p, { id: 'b', label: 'Viés somado a todos os pontos', min: -20, max: 20, step: 0.5, value: 0, unit: 'cm', dec: 1 });

@@ -11,27 +11,11 @@ Questões autorais e de banca
 
 ### Questão 1 (Asserção-Razão)
 
-> **Asserção I:** Na leitura de um inclinômetro, o deslocamento horizontal de cada profundidade é obtido acumulando-se os desvios dos trechos de baixo para cima, a partir do pé do tubo, que deve estar engastado em solo ou rocha indeslocável.
+> **Asserção I:** Antes de converter em força a leitura de um extensômetro de corda vibrante soldado numa escora metálica de escavação, deve-se corrigi-la para o efeito da temperatura.
 >
 > **porque**
 >
-> **Razão II:** Como o deslocamento máximo ocorre no topo do tubo, basta posicionar a sonda uma única vez, junto à superfície, para obter todo o perfil de deslocamentos.
-
-A respeito dessas asserções, assinale a opção correta:
-
-a) As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b) As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-*c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e) As asserções I e II são proposições falsas.
-
-### Questão 2 (Asserção-Razão)
-
-> **Asserção I:** Um piezômetro de tubo aberto (Casagrande) instalado em argila de baixa permeabilidade pode indicar, durante horas ou dias, uma poropressão diferente da real depois de uma variação rápida do nível d'água.
->
-> **porque**
->
-> **Razão II:** No piezômetro de tubo aberto, a água precisa entrar ou sair do tubo para que o nível se ajuste, e o tempo básico de resposta, $T = A/(F\,k)$, cresce à medida que a permeabilidade $k$ do solo diminui.
+> **Razão II:** Com coeficiente de dilatação do aço de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, uma variação de 15 °C ao longo do dia equivale a cerca de 180 µε de dilatação livre, da mesma ordem de grandeza do sinal de carga que se deseja medir.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -41,13 +25,29 @@ c) A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e) As asserções I e II são proposições falsas.
 
-### Questão 3 (Asserção-Razão)
+### Questão 2 (Asserção-Razão)
 
-> **Asserção I:** Recalques absolutos iguais em todos os pilares de um edifício são a principal causa de fissuras em paredes de alvenaria.
+> **Asserção I:** Sensores óticos de material particulado de baixo custo, usados na divisa de canteiros, precisam ser calibrados por colocalização com uma estação de referência.
 >
 > **porque**
 >
-> **Razão II:** A distorção angular é definida como o recalque absoluto do pilar mais carregado dividido pela altura total do edifício.
+> **Razão II:** Esses sensores medem a massa das partículas por pesagem de um filtro, princípio que os torna imunes à umidade relativa do ar.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a) As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b) As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e) As asserções I e II são proposições falsas.
+
+### Questão 3 (Asserção-Razão)
+
+> **Asserção I:** Na leitura de um inclinômetro de tubo-guia, o deslocamento horizontal é acumulado de cima para baixo, a partir do topo do tubo, que é tomado como ponto fixo de referência.
+>
+> **porque**
+>
+> **Razão II:** A segunda passada da sonda, girada 180°, tem como única finalidade dobrar a resolução da leitura, podendo ser dispensada sem prejuízo da exatidão.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -59,11 +59,11 @@ d) A asserção I é uma proposição falsa, e a II é uma proposição verdadei
 
 ### Questão 4 (Asserção-Razão)
 
-> **Asserção I:** Em monitoramentos de longa duração em obras, como a instrumentação de escoras e de peças de concreto ao longo de meses, os extensômetros de corda vibrante são frequentemente preferidos.
+> **Asserção I:** Num transdutor com saída em laço de corrente 4–20 mA, uma leitura de 0 mA indica, em geral, falha no circuito — como cabo rompido —, e não um valor nulo da grandeza medida.
 >
 > **porque**
 >
-> **Razão II:** Os extensômetros elétricos de resistência baseiam-se na variação da resistência elétrica de uma grade metálica com a deformação, segundo $\Delta R/R = GF\,\varepsilon$.
+> **Razão II:** O laço de corrente é pouco sensível à resistência de cabos longos e a ruídos elétricos, porque a informação é transmitida como corrente, e não como tensão.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -75,11 +75,11 @@ e) As asserções I e II são proposições falsas.
 
 ### Questão 5 (Asserção-Razão)
 
-> **Asserção I:** Em uma escora metálica de escavação, a variação de deformação lida pelo extensômetro pode ser convertida diretamente em variação de força, sem nenhuma correção, porque o aço trabalha em regime elástico.
+> **Asserção I:** Qualquer placa de desenvolvimento com ESP32, quando colocada em sono profundo, consome apenas cerca de 10 µA, o que garante anos de autonomia com uma bateria comum.
 >
 > **porque**
 >
-> **Razão II:** Uma variação de $15\,^\circ\mathrm{C}$ em uma escora de aço, com coeficiente de dilatação de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, corresponde a aproximadamente $180\,\mu\varepsilon$ de dilatação livre, valor da mesma ordem de grandeza dos sinais estruturais medidos.
+> **Razão II:** Num nó sensor que lê e transmite a cada 15 minutos, o período de sono ocupa quase todo o ciclo, de modo que o consumo durante o sono governa a autonomia da bateria.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -91,11 +91,11 @@ e) As asserções I e II são proposições falsas.
 
 ### Questão 6 (Asserção-Razão)
 
-> **Asserção I:** Uma queda persistente da primeira frequência natural de uma passarela, identificada por acelerômetros e não explicada por variações de temperatura ou de carga, pode indicar perda de rigidez da estrutura.
+> **Asserção I:** Numa rede LoRaWAN, passar um nó instalado num subsolo de SF7 para SF12 pode viabilizar a comunicação com o gateway quando o sinal recebido é fraco.
 >
 > **porque**
 >
-> **Razão II:** Em um modelo simples de massa e mola, $f = \frac{1}{2\pi}\sqrt{k/m}$; mantida a massa, a frequência natural varia com a raiz quadrada da rigidez.
+> **Razão II:** Cada aumento do fator de espalhamento melhora a sensibilidade do receptor em cerca de 2,5 dB, ao custo de um tempo no ar maior e, portanto, de mais energia por mensagem.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -107,27 +107,27 @@ e) As asserções I e II são proposições falsas.
 
 ### Questão 7 (Asserção-Razão)
 
-> **Asserção I:** Pela ABNT NBR 9653, o limite de velocidade de vibração de partícula de pico é o mesmo, $50\,\mathrm{mm/s}$, para qualquer frequência de vibração.
+> **Asserção I:** Para transmitir o vídeo de câmeras instaladas na grua de uma obra, redes Wi-Fi ou 4G/5G são mais adequadas que a LoRaWAN.
 >
 > **porque**
 >
-> **Razão II:** As edificações tendem a ser mais sensíveis a vibrações de baixa frequência, próximas de suas próprias frequências naturais.
+> **Razão II:** A LoRaWAN oferece taxas de dados elevadas, da ordem de centenas de Mbit/s, mas tem alcance limitado a poucas dezenas de metros.
 
 A respeito dessas asserções, assinale a opção correta:
 
 a) As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b) As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-*d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e) As asserções I e II são proposições falsas.
 
 ### Questão 8 (Asserção-Razão)
 
-> **Asserção I:** Em um receptor onde três equipamentos produzem, isoladamente, $62$, $65$ e $68\,\mathrm{dB(A)}$, desligar o equipamento mais silencioso reduz o nível total em menos de $1\,\mathrm{dB}$.
+> **Asserção I:** Num sistema de monitoramento baseado em MQTT, acrescentar um novo painel que consome as leituras dos sensores não exige reconfigurar os dispositivos que publicam os dados.
 >
 > **porque**
 >
-> **Razão II:** O decibel é uma unidade logarítmica usada não só em acústica, mas também em eletrônica e em telecomunicações.
+> **Razão II:** O MQTT permite configurar o nível de qualidade de serviço QoS 1, no qual cada mensagem é entregue pelo menos uma vez, podendo haver duplicatas.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -139,11 +139,27 @@ e) As asserções I e II são proposições falsas.
 
 ### Questão 9 (Asserção-Razão)
 
-> **Asserção I:** Os padrões de qualidade do ar da Resolução CONAMA nº 506/2024 são limites de emissão que devem ser medidos no escapamento de cada equipamento do canteiro.
+> **Asserção I:** Ao modelar as leituras de sensores no InfluxDB, o identificador único de cada leitura deve ser gravado como tag, para que as consultas por leitura fiquem mais rápidas.
 >
 > **porque**
 >
-> **Razão II:** Os sensores óticos de baixo custo para MP10 dispensam calibração, pois medem diretamente a massa das partículas, sem influência da umidade do ar.
+> **Razão II:** No InfluxDB, cada combinação única de measurement e conjunto de tags forma uma série, e tags com muitos valores distintos aumentam a cardinalidade e o tamanho do índice.
+
+A respeito dessas asserções, assinale a opção correta:
+
+a) As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b) As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+*d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e) As asserções I e II são proposições falsas.
+
+### Questão 10 (Asserção-Razão)
+
+> **Asserção I:** Ao identificar um pico espúrio numa série de recalques, a boa prática é sobrescrever o valor bruto armazenado pelo valor corrigido, para economizar espaço e evitar confusão.
+>
+> **porque**
+>
+> **Razão II:** O carimbo de tempo de uma leitura deve registrar o instante em que ela chegou ao servidor, e não o instante da medição, pois é o relógio do servidor que está sincronizado.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -153,161 +169,147 @@ c) A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e) As asserções I e II são proposições falsas.
 
-### Questão 10 (Asserção-Razão)
-
-> **Asserção I:** Em um sistema de alertas de monitoramento, exigir que duas leituras consecutivas ultrapassem o limite (regra de persistência) reduz os falsos alarmes causados por picos isolados.
->
-> **porque**
->
-> **Razão II:** A regra de persistência não tem custo para a segurança, pois não altera o tempo necessário para detectar um evento real.
-
-A respeito dessas asserções, assinale a opção correta:
-
-a) As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b) As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-*c) A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d) A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e) As asserções I e II são proposições falsas.
-
 ### Questão 11 (Interpretação)
 
 **Estímulo:**
 
-> Em uma escavação em Porto Alegre (RS), um inclinômetro com sonda de $L = 0{,}5\,\mathrm{m}$ entre rodas registrou, em relação à leitura zero, variações de $\sin\theta$ de $4{,}0$; $3{,}0$; $2{,}0$ e $1{,}0 \times 10^{-3}$ nos quatro trechos superiores (do topo para baixo). Os trechos inferiores não apresentaram variação, e o pé do tubo está em rocha.
+> Em Florianópolis (SC), a equipe vai aplicar uma manta de impermeabilização sobre uma laje. O sensor de umidade e temperatura instalado no local registra $T = 25\,^\circ\mathrm{C}$ e $UR = 70\%$, e a temperatura medida na superfície da laje é de $21\,^\circ\mathrm{C}$. A especificação exige a superfície pelo menos $3\,^\circ\mathrm{C}$ acima do ponto de orvalho. Pela aproximação de Magnus ($a = 17{,}62$; $b = 243{,}12\,^\circ\mathrm{C}$), $\gamma = \ln(UR/100) + a\,T/(b + T)$ e $T_{orv} = b\,\gamma/(a - \gamma)$.
 
-Com base nesses dados, o deslocamento horizontal no topo do tubo é:
+Com base nesses dados, assinale a alternativa correta:
 
-a) $10{,}0\,\mathrm{mm}$, pois o deslocamento é a soma das variações de $\sin\theta$, $10 \times 10^{-3}$, expressa diretamente em milímetros.
-*b) $5{,}0\,\mathrm{mm}$, pois $\delta = L\,\sum \Delta(\sin\theta) = 0{,}5 \times 0{,}010\,\mathrm{m}$.
-c) $2{,}0\,\mathrm{mm}$, pois só o trecho superior contribui para o deslocamento do topo: $0{,}5 \times 4{,}0 \times 10^{-3}\,\mathrm{m}$.
-d) $1{,}25\,\mathrm{mm}$, pois deve-se usar a média das quatro variações, $2{,}5 \times 10^{-3}$, multiplicada por $L$.
-e) $50\,\mathrm{mm}$, pois $\delta = 0{,}5 \times 10 \times 10^{-3}$ deve ser convertido de centímetros para milímetros.
+a) $T_{orv} \approx 25{,}0\,^\circ\mathrm{C}$, pois o ponto de orvalho é igual à temperatura do ar; a aplicação está proibida.
+*b) $T_{orv} \approx 19{,}1\,^\circ\mathrm{C}$; a laje está cerca de $1{,}9\,^\circ\mathrm{C}$ acima dele, abaixo da margem de $3\,^\circ\mathrm{C}$, e a aplicação deve esperar.
+c) $T_{orv} \approx 19{,}1\,^\circ\mathrm{C}$; como a laje está acima do ponto de orvalho, qualquer margem positiva autoriza a aplicação imediata.
+d) $T_{orv} \approx 17{,}5\,^\circ\mathrm{C}$; a laje está $3{,}5\,^\circ\mathrm{C}$ acima dele, e a aplicação está liberada.
+e) Não é possível calcular o ponto de orvalho sem medir a umidade dentro do concreto da laje.
 
 ### Questão 12 (Interpretação)
 
 **Estímulo:**
 
-> Durante a escavação de um subsolo em Belo Horizonte (MG), dois pilares vizinhos de um edifício residencial, distantes $5{,}0\,\mathrm{m}$ entre si, apresentaram recalques de $22\,\mathrm{mm}$ e $12\,\mathrm{mm}$ desde a leitura zero. O plano de monitoramento adota como nível de alerta a distorção angular de $1/500$, com base na escala de Bjerrum (1963).
+> Numa escavação em Curitiba (PR), um inclinômetro com sonda de $L = 0{,}5\,\mathrm{m}$ entre rodas registrou, em relação à leitura zero, variações de $\sin\theta$ de $5{,}0$; $4{,}0$; $2{,}0$ e $1{,}0 \times 10^{-3}$ nos quatro trechos superiores (do topo para baixo). Os trechos inferiores não apresentaram variação, e o pé do tubo está em rocha.
 
-A distorção angular e a interpretação correta são:
+Com base nesses dados, o deslocamento horizontal no topo do tubo é:
 
-a) $\beta = 22/5.000 \approx 1/227$, acima de $1/250$: a inclinação do edifício já se torna visível.
-b) $\beta = 10/22 \approx 0{,}45$, pois a distorção é o recalque diferencial dividido pelo recalque máximo.
-c) $\beta = 10/5.000 = 1/500$, valor muito abaixo de qualquer efeito descrito por Bjerrum, sem necessidade de ação.
-d) $\beta = 34/5.000 \approx 1/147$: fissuração considerável e danos estruturais, exigindo evacuação imediata.
-*e) $\beta = 10/5.000 = 1/500$: atinge o limite para edifícios em que não se admitem fissuras, o que exige acionar o plano de ação.
+a) $12{,}0\,\mathrm{mm}$, pois a soma das variações, $12 \times 10^{-3}$, já está expressa em milímetros.
+b) $2{,}5\,\mathrm{mm}$, pois só o trecho superior contribui: $0{,}5 \times 5{,}0 \times 10^{-3}\,\mathrm{m}$.
+c) $1{,}5\,\mathrm{mm}$, pois deve-se usar a média das quatro variações, $3{,}0 \times 10^{-3}$, multiplicada por $L$.
+*d) $6{,}0\,\mathrm{mm}$, pois $\delta = L\,\sum \Delta(\sin\theta) = 0{,}5 \times 0{,}012\,\mathrm{m}$.
+e) $60\,\mathrm{mm}$, pois o resultado de $0{,}5 \times 12 \times 10^{-3}$ deve ser convertido de centímetros para milímetros.
 
 ### Questão 13 (Interpretação)
 
 **Estímulo:**
 
-> Uma escora metálica de uma vala escorada em Recife (PE), com área de seção $A = 150\,\mathrm{cm^2}$ e $E = 200\,\mathrm{GPa}$, recebeu um extensômetro de corda vibrante com termistor. Após a correção de temperatura, a variação de deformação desde a leitura zero é de $300\,\mu\varepsilon$. A carga de projeto da escora é de $1.200\,\mathrm{kN}$.
+> Uma escora metálica de uma escavação em Belo Horizonte (MG) tem área de seção $A = 80\,\mathrm{cm^2}$ e módulo de elasticidade $E = 200\,\mathrm{GPa}$. O extensômetro de corda vibrante instalado nela indica, já corrigido para a temperatura, $\Delta\varepsilon = 300\,\mu\varepsilon$ em relação à leitura zero. A carga de projeto da escora é de $600\,\mathrm{kN}$ (valor ilustrativo).
 
-A tensão, a força na escora e a fração da carga de projeto são:
+Com base nesses dados, assinale a alternativa correta:
 
-*a) $60\,\mathrm{MPa}$, $900\,\mathrm{kN}$ e $75\%$, pois $\sigma = 200.000 \times 300 \times 10^{-6}$ e $N = 60 \times 0{,}015\,\mathrm{MN}$.
-b) $60\,\mathrm{MPa}$, $9.000\,\mathrm{kN}$ e $750\%$, pois a área deve ser usada como $0{,}15\,\mathrm{m^2}$.
-c) $600\,\mathrm{MPa}$, $9.000\,\mathrm{kN}$ e $750\%$, pois $300\,\mu\varepsilon$ equivalem a $3 \times 10^{-3}$.
-d) $6\,\mathrm{MPa}$, $90\,\mathrm{kN}$ e $7{,}5\%$, pois o módulo do aço deve ser usado como $20\,\mathrm{GPa}$.
-e) $60\,\mathrm{MPa}$, $900\,\mathrm{kN}$ e $75\%$, mas o resultado só seria válido se a leitura não tivesse sido corrigida para a temperatura.
+*a) $\sigma = 60\,\mathrm{MPa}$ e $N = 480\,\mathrm{kN}$, cerca de 80% da carga de projeto.
+b) $\sigma = 60\,\mathrm{MPa}$ e $N = 4.800\,\mathrm{kN}$, oito vezes a carga de projeto: a escora já rompeu.
+c) $\sigma = 600\,\mathrm{MPa}$ e $N = 4.800\,\mathrm{kN}$, pois a microdeformação deve ser multiplicada por $10^{-5}$.
+d) $\sigma = 6\,\mathrm{MPa}$ e $N = 48\,\mathrm{kN}$, cerca de 8% da carga de projeto.
+e) Não é possível calcular a força sem conhecer o comprimento da escora.
 
 ### Questão 14 (Interpretação)
 
 **Estímulo:**
 
-> Em um edifício em Curitiba (PR), a laje foi instrumentada com sensor de temperatura para aplicar o método da maturidade (Nurse-Saul, $T_0 = 0\,^\circ\mathrm{C}$). A calibração da mistura em laboratório resultou em $f_c = 9{,}2\,\ln M - 41$ (MPa, $M$ em °C·h), e a retirada do escoramento exige $f_c \ge 21\,\mathrm{MPa}$. Nas primeiras 36 h, as temperaturas médias do concreto foram de $20$, $24$ e $22\,^\circ\mathrm{C}$ em três blocos de $12\,\mathrm{h}$.
+> Um estudante liga um extensômetro elétrico em quarto de ponte de Wheatstone diretamente à entrada analógica de um Arduino Uno, cujo conversor analógico-digital (ADC) tem 10 bits e faixa de 0 a 5 V. Para a deformação esperada, a saída da ponte é de cerca de $200\,\mu\mathrm{V}$. Nos testes, a leitura do Arduino não varia, mesmo quando a peça é carregada.
 
-Com base nesses dados, assinale a alternativa correta:
+A explicação e a solução mais adequadas são:
 
-a) $M = 66\,^\circ\mathrm{C \cdot h}$ e $f_c$ muito baixo: a maturidade deve ser calculada somando apenas as temperaturas médias.
-b) $M = 792\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 20{,}4\,\mathrm{MPa}$; como o valor está próximo de 21 MPa, o escoramento pode ser retirado de imediato.
-c) $M = 792\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 20{,}4\,\mathrm{MPa}$; o método dispensa, a partir daí, o controle tecnológico por corpos de prova.
-*d) $M = 792\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 20{,}4\,\mathrm{MPa}$; ainda não se atingiu o alvo (cerca de $845\,^\circ\mathrm{C \cdot h}$), e a liberação deve aguardar algumas horas e ser confirmada.
-e) $M = 1.152\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 23{,}9\,\mathrm{MPa}$, pois deve-se usar a temperatura máxima ($32\,^\circ\mathrm{C}$) em todos os blocos, a favor da segurança.
+a) O extensômetro está com defeito, pois sensores elétricos de resistência não variam com a deformação.
+b) O problema é a taxa de amostragem: basta ler o ADC mil vezes por segundo para que a variação apareça.
+c) O ADC de 10 bits tem degrau de cerca de $0{,}2\,\mu\mathrm{V}$, menor que o sinal; o problema está no código do programa.
+d) A ponte de Wheatstone deve ser eliminada e o extensômetro ligado diretamente ao ADC, sem excitação.
+*e) O degrau do ADC é de cerca de $5/1.024 \approx 4{,}9\,\mathrm{mV}$, muito maior que o sinal de $200\,\mu\mathrm{V}$; é preciso amplificar o sinal ou usar um conversor dedicado de alta resolução, como o HX711.
 
 ### Questão 15 (Interpretação)
 
 **Estímulo:**
 
-> Durante a compactação vibratória de um aterro em Campinas (SP), um sismógrafo de engenharia instalado no pé de uma residência registrou velocidade de vibração de partícula de pico de $10\,\mathrm{mm/s}$, com frequência dominante de $20\,\mathrm{Hz}$. Pela ABNT NBR 9653, entre 15 e 40 Hz, o limite parte de $20\,\mathrm{mm/s}$ e aumenta linearmente até $50\,\mathrm{mm/s}$.
+> Um nó sensor ambiental com ESP32, instalado num canteiro em Goiânia (GO), trabalha em ciclos de 10 minutos (600 s): fica 4 s acordado, consumindo 100 mA (leitura e envio por Wi-Fi), e dorme os 596 s restantes, consumindo 0,05 mA. A bateria tem 3.000 mAh de capacidade útil.
 
-A interpretação mais adequada é:
+Com base nesses dados, a autonomia estimada do nó é de aproximadamente:
 
-a) O limite é de $15\,\mathrm{mm/s}$ para qualquer frequência; a leitura está a 67% dele e não há nada mais a considerar.
-b) O limite a 20 Hz é de $50\,\mathrm{mm/s}$; a leitura está a 20% dele e pode ser desconsiderada.
-*c) O limite a 20 Hz é de cerca de $26\,\mathrm{mm/s}$, e a leitura está a cerca de 38% dele; como a norma trata de desmonte com explosivos, o plano pode adotar limites próprios para a compactação e para edificações sensíveis.
-d) A leitura está acima do limite, pois a 20 Hz o limite é de $20\,\mathrm{mm/s}$ dividido por 2, por causa das três componentes.
-e) Como a frequência é superior a 4 Hz, deve-se aplicar o critério de deslocamento de partícula de pico de $0{,}6\,\mathrm{mm}$.
+a) 30 horas, pois a corrente média é igual à corrente no envio, 100 mA.
+b) 60.000 horas, pois a corrente média é igual à corrente em sono, 0,05 mA.
+*c) 175 dias, pois a carga por ciclo é $4 \times 100 + 596 \times 0{,}05 \approx 430\,\mathrm{mA \cdot s}$, a corrente média é $430/600 \approx 0{,}72\,\mathrm{mA}$ e $3.000/0{,}72 \approx 4.200\,\mathrm{h}$.
+d) 7 dias, pois a corrente média é a soma das correntes de envio e de sono dividida por dois.
+e) 2 anos, pois a autonomia não depende do tempo acordado, apenas da capacidade da bateria.
 
 ### Questão 16 (Interpretação)
 
 **Estímulo:**
 
-> Em um canteiro em Salvador (BA), dois compressores idênticos produzem, cada um isoladamente, $70\,\mathrm{dB(A)}$ na janela de uma escola vizinha. A equipe de meio ambiente precisa estimar o nível quando os dois funcionam juntos e comparar com a referência da ABNT NBR 10151:2019 para área de escolas, de 50 dB no período diurno.
+> Um nó LoRaWAN instalado no segundo subsolo de uma obra em Recife (PE) transmite a $14\,\mathrm{dBm}$, com antena de $2\,\mathrm{dBi}$, para um gateway com antena de $3\,\mathrm{dBi}$, a $2\,\mathrm{km}$ de distância, em $915\,\mathrm{MHz}$. As perdas por lajes, obstáculos e cabos somam $30\,\mathrm{dB}$ (valor ilustrativo). A perda no espaço livre é $FSPL = 20\,\log_{10}(d_{km}) + 20\,\log_{10}(f_{MHz}) + 32{,}44$, e a sensibilidade do receptor em SF7 é de $-123\,\mathrm{dBm}$.
 
-O nível combinado e a interpretação correta são:
+Com base nesses dados, assinale a alternativa correta:
 
-a) $140\,\mathrm{dB(A)}$, pois os níveis sonoros se somam aritmeticamente, como as distâncias.
-b) $70\,\mathrm{dB(A)}$, pois duas fontes iguais não alteram o nível sonoro no receptor.
-c) $76\,\mathrm{dB(A)}$, pois dobrar o número de fontes aumenta o nível em 6 dB, como dobrar a distância.
-d) $35\,\mathrm{dB(A)}$, pois o nível combinado é a média geométrica dos dois níveis, dividida por 2.
-*e) Cerca de $73\,\mathrm{dB(A)}$, pois $10\,\log_{10}(2 \times 10^{7}) \approx 73$; o nível supera muito a referência e exige medidas como barreiras, enclausuramento ou mudança de horário.
+*a) $FSPL \approx 97{,}7\,\mathrm{dB}$; a potência recebida é de cerca de $-108{,}7\,\mathrm{dBm}$, com margem de cerca de 14 dB em SF7, e o enlace fecha.
+b) $FSPL \approx 97{,}7\,\mathrm{dB}$; a potência recebida é de cerca de $-108{,}7\,\mathrm{dBm}$, abaixo da sensibilidade, e o enlace não fecha nem em SF12.
+c) $FSPL \approx 40\,\mathrm{dB}$; a potência recebida é de cerca de $-51\,\mathrm{dBm}$, e qualquer tecnologia funcionaria.
+d) A perda no espaço livre não depende da frequência; por isso, LoRaWAN em 915 MHz e Wi-Fi em 2,4 GHz teriam o mesmo alcance.
+e) Como o nó está num subsolo, a comunicação sem fio é impossível em qualquer configuração.
 
 ### Questão 17 (Interpretação)
 
 **Estímulo:**
 
-> Um fissurômetro elétrico instalado em um sobrado vizinho a uma obra em Fortaleza (CE) enviou cinco leituras diárias consecutivas da abertura de uma fissura, em relação à leitura zero: $0{,}31$; $0{,}32$; $0{,}98$; $0{,}33$ e $0{,}35\,\mathrm{mm}$. O nível de atenção do plano é de $0{,}50\,\mathrm{mm}$, e o datalogger registrou, no terceiro dia, forte interferência no rádio.
+> Uma construtora quer instalar rastreadores nos caminhões que levam terra da escavação a um bota-fora a 25 km, atravessando a cidade. Os rastreadores enviam a posição a cada minuto, são alimentados pela bateria do veículo, e a cidade tem boa cobertura celular, com LTE-M e NB-IoT oferecidos pela operadora. Não há gateway LoRaWAN fora do canteiro.
 
-O tratamento mais adequado para a terceira leitura é:
+A tecnologia de comunicação mais adequada é:
 
-a) Mantê-la e disparar o nível de atenção, pois toda leitura acima do limite deve gerar alarme imediatamente, sem análise.
-b) Apagá-la definitivamente do banco de dados, para que não apareça em nenhum relatório.
-*c) Marcá-la como espúria e substituí-la, na série tratada, pela mediana das leituras vizinhas ($0{,}33\,\mathrm{mm}$), preservando o dado bruto e o registro da correção.
-d) Substituir toda a série pela média das cinco leituras (cerca de $0{,}46\,\mathrm{mm}$), que representa melhor o comportamento da fissura.
-e) Concluir que a fissura abriu e fechou $0{,}65\,\mathrm{mm}$ por efeito térmico, o que é normal e não exige registro.
+a) Wi-Fi, usando o ponto de acesso do escritório de obra, pois oferece a maior taxa de dados.
+b) LoRaWAN com o gateway do canteiro, pois o alcance de 2 a 5 km em área urbana cobre todo o trajeto de 25 km.
+c) NB-IoT, porque é a única rede celular que suporta deslocamento contínuo em alta velocidade.
+*d) LTE-M, que usa a cobertura da operadora, tem baixo consumo e suporta mobilidade, adequado a equipamentos que se deslocam.
+e) Nenhuma rede sem fio, pois a posição deve ser baixada manualmente do rastreador ao fim do dia.
 
 ### Questão 18 (Interpretação)
 
 **Estímulo:**
 
-> Um marco de recalque automatizado em um edifício vizinho a uma obra em Goiânia (GO) indicava $8{,}0\,\mathrm{mm}$ há três dias e indica $9{,}5\,\mathrm{mm}$ hoje, com crescimento aproximadamente constante. O plano de monitoramento estabelece: atenção em $12\,\mathrm{mm}$, alerta em $18\,\mathrm{mm}$ e velocidade de atenção de $0{,}4\,\mathrm{mm/dia}$.
+> Os nós de uma obra publicam via MQTT em tópicos no padrão `obra/torre-a/<setor>/<tipo>/<sensor>/<grandeza>`, por exemplo `obra/torre-a/escavacao/inclinometro/INC-02/desloc` e `obra/torre-a/fachada/clinometro/CL-05/rotacao`. O engenheiro quer que um fluxo do Node-RED receba **apenas** o deslocamento de **todos os inclinômetros do setor escavacao**.
 
-A velocidade e a projeção corretas são:
+A assinatura correta é:
 
-a) $1{,}5\,\mathrm{mm/dia}$; a atenção será atingida em menos de 2 dias.
-*b) $0{,}5\,\mathrm{mm/dia}$, acima da velocidade de atenção; mantido o ritmo, a atenção é atingida em cerca de 5 dias e o alerta em cerca de 17 dias.
-c) $0{,}5\,\mathrm{mm/dia}$, mas, como o valor absoluto está abaixo de 12 mm, a situação é normal e não exige nenhuma providência.
-d) $3{,}2\,\mathrm{mm/dia}$, pois a velocidade é o valor atual dividido pelo número de dias.
-e) $0{,}5\,\mathrm{mm/dia}$; mantido o ritmo, o alerta será atingido em 5 dias.
+a) `obra/torre-a/escavacao/#/desloc`
+*b) `obra/torre-a/escavacao/inclinometro/+/desloc`
+c) `obra/torre-a/+/+/+/+`
+d) `obra/torre-a/escavacao/inclinometro/INC-02/desloc`
+e) `obra/#`
 
 ### Questão 19 (Interpretação)
 
 **Estímulo:**
 
-> No dashboard de uma obra em Florianópolis (SC), o piezômetro PZ-04 aparece em verde (normal) há dois dias. O painel de saúde dos sensores, porém, mostra para o PZ-04: bateria em 5% e última leitura recebida há 26 horas. Os demais piezômetros, na mesma região, registraram subida do nível d'água após uma chuva forte na noite anterior.
+> No painel de uma obra em Salvador (BA), um nó de piezômetro parou de publicar havia três dias, e ninguém percebeu: o gráfico simplesmente mostrava a última leitura. O responsável pela plataforma quer que o sistema indique automaticamente quando um nó perde a conexão, sem depender de alguém olhar os gráficos.
 
-A interpretação mais adequada é:
+A solução mais adequada, com os recursos do MQTT, é:
 
-*a) O status verde não é confiável, pois reflete a última leitura recebida; o sensor deve ser tratado como falha de comunicação, com verificação em campo, troca da bateria e leitura manual de confirmação.
-b) O PZ-04 está em verde e, portanto, a região dele não foi afetada pela chuva; os demais piezômetros devem estar descalibrados.
-c) A bateria em 5% não afeta a leitura, pois o datalogger só transmite quando há variação; a ausência de dados indica que o nível d'água ficou estável.
-d) Deve-se recalcular os níveis de atenção dos demais piezômetros para que também fiquem em verde, mantendo a coerência do painel.
-e) A situação só deve ser analisada na próxima reunião semanal, já que nenhum alarme foi disparado pelo PZ-04.
+a) Usar QoS 0, que avisa o broker quando uma mensagem não é entregue.
+b) Trocar o broker por um servidor HTTP, pois o MQTT não tem mecanismo para detectar clientes desconectados.
+c) Aumentar a frequência de leitura do piezômetro para cada minuto, o que impede a perda de conexão.
+d) Publicar as leituras com mensagem retida, que faz o broker apagar o tópico quando o nó cai.
+*e) Configurar, em cada nó, uma mensagem de último desejo (*Last Will*) com o valor `offline` num tópico de status, publicado pelo broker se o nó cair sem se despedir (detectado pelo *keep alive*), e fazer o painel assinar esse tópico.
 
 ### Questão 20 (Interpretação)
 
 **Estímulo:**
 
-> Uma construtora quer instalar etiquetas UWB nos capacetes dos trabalhadores para criar zonas de exclusão em torno de escavadeiras e caminhões, depois de um quase-atropelamento na rampa. O fornecedor oferece, no mesmo pacote, um relatório de "produtividade individual" com o histórico completo de localização de cada trabalhador ao longo do dia.
+> Um fluxo do Node-RED grava no InfluxDB a seguinte linha, em line protocol:
+>
+> `inclinometro,obra=torre-a,sensor=INC-02 desloc_mm=8.4,bat_v=3.58 1795068000000000000`
 
-À luz dos conceitos da aula, a decisão mais adequada é:
+Com base no modelo de dados do InfluxDB, assinale a alternativa correta:
 
-a) Contratar o pacote completo, pois os dados de localização de trabalhadores no canteiro não são dados pessoais.
-b) Desistir das etiquetas, pois qualquer rastreamento de pessoas é proibido em canteiros de obras.
-c) Contratar o pacote completo e usar o histórico para avaliar o desempenho individual, já que os dados foram coletados por motivo de segurança.
-*d) Implantar a cerca virtual com finalidade de segurança, minimizando os dados (por exemplo, processando a proximidade na borda, sem histórico nominal), informando os trabalhadores e não reutilizando os dados para outra finalidade.
-e) Implantar as etiquetas sem informar os trabalhadores, para que o comportamento deles não se altere e os dados sejam mais realistas.
+a) `obra` e `sensor` são fields, `desloc_mm` e `bat_v` são tags, e o número final é um identificador da leitura.
+b) `inclinometro` é uma tag; `desloc_mm` é a measurement; o número final é a temperatura do sensor.
+*c) `inclinometro` é a measurement; `obra` e `sensor` são tags que identificam a série; `desloc_mm` e `bat_v` são fields; o número final é o instante em nanossegundos desde 1/1/1970, em UTC.
+d) A linha está errada, porque o line protocol exige vírgula como separador decimal, como em `8,4`.
+e) Cada field cria uma measurement diferente, e as tags são opcionais apenas quando o timestamp é omitido.
 
 ---
 
@@ -315,160 +317,160 @@ e) Implantar as etiquetas sem informar os trabalhadores, para que o comportament
 
 ### 1. Feedback
 
-a) Incorreta. A Razão é falsa, portanto não pode justificar a Asserção.
-b) Incorreta. A Razão é falsa: o perfil exige leituras ao longo de todo o tubo.
-c) Correta! A Asserção é verdadeira: o deslocamento de cada trecho é $L\,\sin\theta$, acumulado de baixo para cima a partir do pé, que precisa estar em material indeslocável. A Razão é falsa: a sonda é lida a cada $0{,}5\,\mathrm{m}$ ao longo de todo o tubo (e em duas passadas, a 0° e a 180°); uma leitura isolada no topo não dá o perfil nem o deslocamento acumulado.
-d) Incorreta. A Asserção descreve corretamente o princípio do inclinômetro.
-e) Incorreta. A Asserção é verdadeira.
+a) Correta! A Asserção é verdadeira: a leitura do extensômetro mistura carga e efeito térmico, e a correção (com o termistor embutido) vem antes da conversão em força. A Razão é verdadeira e justifica: $12 \times 10^{-6} \times 15 = 180 \times 10^{-6}$, ou seja, 180 µε, da ordem do sinal de carga.
+b) Incorreta. A Razão é exatamente o motivo da correção térmica, logo justifica a Asserção.
+c) Incorreta. A Razão é verdadeira: o cálculo $12 \times 10^{-6}/^\circ\mathrm{C} \times 15\,^\circ\mathrm{C} = 180\,\mu\varepsilon$ está correto.
+d) Incorreta. A Asserção é verdadeira; sem a correção, o sol poderia ser confundido com carga.
+e) Incorreta. As duas proposições são verdadeiras.
 
 ### 2. Feedback
 
-a) Correta! Ambas são verdadeiras e a II justifica a I: no tubo aberto, um volume de água precisa fluir pelo solo para o nível se ajustar; pela formulação de Hvorslev, $T = A/(F\,k)$, e em argila ($k$ de $10^{-8}$ a $10^{-9}\,\mathrm{m/s}$) o tempo de resposta vai de horas a dias.
-b) Incorreta. A Razão explica exatamente o atraso descrito na Asserção.
-c) Incorreta. A Razão é verdadeira: o tempo de resposta é inversamente proporcional à permeabilidade.
-d) Incorreta. A Asserção é verdadeira; é por isso que se usa corda vibrante onde a resposta precisa ser rápida.
-e) Incorreta. Ambas as proposições são verdadeiras.
+a) Incorreta. A Razão é falsa, portanto não pode justificar a Asserção.
+b) Incorreta. A Razão é falsa: o princípio não é a pesagem de filtro.
+c) Correta! A Asserção é verdadeira: sensores óticos de baixo custo têm erros que dependem do tipo de poeira e das condições ambientais, e a colocalização com uma estação de referência permite ajustar a sua resposta. A Razão é falsa: eles medem a luz espalhada pelas partículas, não a massa num filtro, e tendem a superestimar a concentração com umidade alta.
+d) Incorreta. A Asserção é verdadeira; a calibração é necessária justamente pelas limitações do princípio ótico.
+e) Incorreta. A Asserção é verdadeira.
 
 ### 3. Feedback
 
-a) Incorreta. Ambas as proposições são falsas.
-b) Incorreta. Ambas as proposições são falsas.
-c) Incorreta. A Asserção é falsa: recalques uniformes não distorcem a estrutura; o que fissura a alvenaria é o recalque **diferencial**.
-d) Incorreta. A Razão é falsa: a distorção angular é o recalque diferencial entre dois pontos dividido pela distância **horizontal** entre eles, e não o recalque absoluto dividido pela altura.
-e) Correta! A Asserção é falsa, porque o dano está associado ao recalque diferencial; e a Razão é falsa, porque $\beta = \delta/L$, com $\delta$ = recalque diferencial e $L$ = distância entre os pilares.
+a) Incorreta. As duas proposições são falsas.
+b) Incorreta. As duas proposições são falsas.
+c) Incorreta. A Asserção é falsa: o ponto fixo é o pé do tubo, engastado em solo ou rocha indeslocável, e o deslocamento é acumulado de baixo para cima.
+d) Incorreta. A Razão é falsa: a passada a 180° cancela o viés do sensor, essencial à exatidão.
+e) Correta! A Asserção inverte o procedimento — o deslocamento é acumulado de baixo para cima, a partir do pé fixo, sempre em relação à leitura zero. A Razão também é falsa: a segunda passada, com a sonda girada 180°, serve para cancelar o viés (erro sistemático) do sensor, e não para dobrar a resolução.
 
 ### 4. Feedback
 
-a) Incorreta. A Razão é verdadeira, mas descreve o princípio do extensômetro **elétrico**, e não o motivo da preferência pelo de corda vibrante.
-b) Correta! Ambas são verdadeiras, mas a II não justifica a I. A preferência pelo extensômetro de corda vibrante em monitoramentos longos decorre da sua estabilidade ao longo de anos e de o sinal em frequência não ser afetado pela resistência do cabo; a Razão apenas descreve como funciona o extensômetro elétrico.
-c) Incorreta. A Razão é verdadeira: é a equação do extensômetro elétrico vista na Aula 2.
-d) Incorreta. A Asserção é verdadeira.
-e) Incorreta. Ambas as proposições são verdadeiras.
+a) Incorreta. Ambas são verdadeiras, mas a robustez a cabos longos não explica por que 0 mA indica falha.
+b) Correta! A Asserção é verdadeira: como o zero da escala corresponde a 4 mA ("zero vivo"), uma corrente de 0 mA indica circuito aberto, como cabo rompido. A Razão também é verdadeira — a corrente não se perde com a resistência do cabo —, mas o que justifica a Asserção é o zero vivo de 4 mA, não a imunidade a cabos longos.
+c) Incorreta. A Razão é verdadeira: o laço de corrente é robusto a cabos longos e a ruídos.
+d) Incorreta. A Asserção é verdadeira; detectar cabo rompido é uma das vantagens do padrão.
+e) Incorreta. As duas proposições são verdadeiras.
 
 ### 5. Feedback
 
-a) Incorreta. A Asserção é falsa.
+a) Incorreta. A Asserção é falsa: placas de desenvolvimento costumam consumir miliamperes em sono.
 b) Incorreta. A Asserção é falsa.
-c) Incorreta. A Asserção é falsa e a Razão, verdadeira.
-d) Correta! A Asserção é falsa: antes de converter deformação em força por $\sigma = E\,\varepsilon$ e $N = \sigma\,A$, é preciso corrigir o efeito da temperatura (os extensômetros de corda vibrante trazem termistor para isso). A Razão é verdadeira: $12 \times 10^{-6} \times 15 = 180 \times 10^{-6}$, ou seja, $180\,\mu\varepsilon$, da mesma ordem dos sinais estruturais — sem correção, o sol vira "carga" no relatório.
+c) Incorreta. A Asserção é falsa e a Razão é verdadeira.
+d) Correta! A Asserção é falsa: o chip ESP32 em sono profundo consome da ordem de 10 µA, mas placas de desenvolvimento comuns gastam miliamperes por causa do regulador de tensão e do conversor USB — e a autonomia cai de anos para semanas. A Razão é verdadeira: o sono ocupa quase todo o ciclo, e por isso é o consumo em sono que governa a autonomia.
 e) Incorreta. A Razão é verdadeira.
 
 ### 6. Feedback
 
-a) Correta! Ambas são verdadeiras e a II justifica a I: como $f \propto \sqrt{k}$ para massa constante, a perda de rigidez se manifesta como queda de frequência (por exemplo, 10% a menos em $k$ ≈ 5% a menos em $f$). Esse é o princípio do monitoramento da saúde estrutural por identificação modal.
-b) Incorreta. A Razão é exatamente o fundamento físico da Asserção.
+a) Correta! As duas são verdadeiras e a II justifica a I: o SF mais alto melhora a sensibilidade (cerca de 2,5 dB por passo, cerca de 12 a 14 dB de SF7 a SF12), o que pode fechar um enlace fraco — ao custo de um tempo no ar muito maior (cerca de 62 ms em SF7 contra 1,48 s em SF12, para uma mensagem pequena) e de mais energia.
+b) Incorreta. O ganho de sensibilidade é justamente o que explica o aumento do alcance.
 c) Incorreta. A Razão é verdadeira.
-d) Incorreta. A Asserção é verdadeira, desde que excluídos os efeitos ambientais e de carga, como diz o enunciado.
-e) Incorreta. Ambas as proposições são verdadeiras.
+d) Incorreta. A Asserção é verdadeira; é por isso que o ADR só aumenta o SF quando necessário.
+e) Incorreta. As duas proposições são verdadeiras.
 
 ### 7. Feedback
 
-a) Incorreta. A Asserção é falsa.
-b) Incorreta. A Asserção é falsa.
-c) Incorreta. A Asserção é falsa e a Razão, verdadeira.
-d) Correta! A Asserção é falsa: na NBR 9653 o limite varia com a frequência — de 15 mm/s em 4 Hz, crescendo linearmente até 20 mm/s em 15 Hz, até 50 mm/s em 40 Hz, e 50 mm/s acima disso; abaixo de 4 Hz usa-se um critério de deslocamento. A Razão é verdadeira e é justamente o motivo de os limites serem menores em baixas frequências.
-e) Incorreta. A Razão é verdadeira.
-
-### 8. Feedback
-
-a) Incorreta. A Razão é verdadeira, mas o uso do decibel em outras áreas não explica o resultado; a justificativa seria a soma logarítmica dominada pela fonte mais forte.
-b) Correta! Ambas são verdadeiras, mas a II não justifica a I. Com as três fontes, $L = 10\,\log_{10}(10^{6{,}2} + 10^{6{,}5} + 10^{6{,}8}) \approx 70{,}4\,\mathrm{dB(A)}$; sem a de 62 dB(A), $\approx 69{,}8\,\mathrm{dB(A)}$ — redução de cerca de 0,6 dB. O motivo é a soma de energias, dominada pela fonte mais forte, e não o fato de o decibel ser usado em outras áreas.
-c) Incorreta. A Razão é verdadeira.
-d) Incorreta. A Asserção é verdadeira, como mostra o cálculo.
-e) Incorreta. Ambas as proposições são verdadeiras.
-
-### 9. Feedback
-
-a) Incorreta. Ambas as proposições são falsas.
-b) Incorreta. Ambas as proposições são falsas.
-c) Incorreta. A Asserção é falsa.
-d) Incorreta. A Razão é falsa.
-e) Correta! A Asserção é falsa: os padrões da CONAMA nº 506/2024 são de **qualidade do ar ambiente** (por exemplo, médias de 24 h de MP10 e MP2,5), e não limites de emissão de cada equipamento; o plano de monitoramento define gatilhos próprios na divisa. A Razão é falsa: sensores óticos estimam a concentração a partir do espalhamento de luz, tendem a superestimar com umidade alta e precisam de calibração por colocalização com estação de referência.
-
-### 10. Feedback
-
-a) Incorreta. A Razão é falsa.
+a) Incorreta. A Razão é falsa, portanto não pode justificar a Asserção.
 b) Incorreta. A Razão é falsa.
-c) Correta! A Asserção é verdadeira: um pico isolado não dispara o alarme se for exigida uma segunda leitura acima do limite. A Razão é falsa: a persistência tem custo — o evento real só é confirmado na leitura seguinte, o que **atrasa** a detecção em um intervalo de leitura (ou mais). Por isso ela é combinada com intervalos curtos, gatilhos de velocidade e confirmação por outro instrumento.
+c) Correta! A Asserção é verdadeira: vídeo exige alta taxa de dados, oferecida pelo Wi-Fi e pelo 4G/5G. A Razão inverte as características da LoRaWAN: ela tem longo alcance (quilômetros) e taxa muito baixa (centenas de bit/s a dezenas de kbit/s).
 d) Incorreta. A Asserção é verdadeira.
 e) Incorreta. A Asserção é verdadeira.
 
+### 8. Feedback
+
+a) Incorreta. O QoS trata da garantia de entrega, não do desacoplamento entre publicadores e assinantes.
+b) Correta! A Asserção é verdadeira: no modelo publicar/assinar, o broker entrega as mensagens a quem assinar o tópico, e o publicador não precisa saber quem consome os dados. A Razão também é verdadeira, mas trata da garantia de entrega; o que justifica a Asserção é o desacoplamento promovido pelo broker.
+c) Incorreta. A Razão é verdadeira: QoS 1 é "pelo menos uma vez".
+d) Incorreta. A Asserção é verdadeira.
+e) Incorreta. As duas proposições são verdadeiras.
+
+### 9. Feedback
+
+a) Incorreta. A Asserção é falsa.
+b) Incorreta. A Asserção é falsa.
+c) Incorreta. A Asserção é falsa e a Razão é verdadeira.
+d) Correta! A Asserção é falsa: um identificador único como tag cria uma série nova a cada leitura, inchando o índice e deixando as consultas mais lentas; valores únicos e medidos devem ser fields. A Razão é verdadeira e descreve exatamente o problema da cardinalidade.
+e) Incorreta. A Razão é verdadeira.
+
+### 10. Feedback
+
+a) Incorreta. As duas proposições são falsas.
+b) Incorreta. As duas proposições são falsas.
+c) Incorreta. A Asserção é falsa: o dado bruto nunca deve ser sobrescrito.
+d) Incorreta. A Razão é falsa: o carimbo de tempo é o da medição.
+e) Correta! A Asserção é falsa: a correção é uma nova camada, rastreável, e o bruto é preservado — um pico "removido" pode ser o primeiro sinal de um problema real. A Razão também é falsa: o carimbo deve ser o instante da medição, em UTC, registrado pelo nó (com relógio sincronizado); leituras guardadas e reenviadas depois de uma falha de rede chegariam com o instante errado.
+
 ### 11. Feedback
 
-a) Incorreta. Esquece de multiplicar pelo comprimento $L = 0{,}5\,\mathrm{m}$; $\sin\theta$ é adimensional, não está em milímetros.
-b) Correta! $\sum \Delta(\sin\theta) = (4{,}0 + 3{,}0 + 2{,}0 + 1{,}0) \times 10^{-3} = 0{,}010$; $\delta = 0{,}5 \times 0{,}010 = 0{,}005\,\mathrm{m} = 5{,}0\,\mathrm{mm}$.
-c) Incorreta. O deslocamento do topo acumula todos os trechos abaixo dele, não só o superior.
-d) Incorreta. Usar a média dos trechos não tem sentido físico; o deslocamento é a **soma** dos desvios.
-e) Incorreta. Erro de unidade: $0{,}5 \times 0{,}010$ está em metros (0,005 m = 5 mm), não em centímetros.
+a) Incorreta. O ponto de orvalho só é igual à temperatura do ar com UR de 100%.
+b) Correta! $\gamma = \ln 0{,}70 + 17{,}62 \times 25/268{,}12 \approx -0{,}357 + 1{,}643 = 1{,}286$ e $T_{orv} = 243{,}12 \times 1{,}286/(17{,}62 - 1{,}286) \approx 19{,}1\,^\circ\mathrm{C}$. A laje, a 21 °C, está só cerca de 1,9 °C acima, abaixo da margem de 3 °C exigida.
+c) Incorreta. O ponto de orvalho está correto, mas a especificação exige margem de 3 °C, e não qualquer margem positiva.
+d) Incorreta. O ponto de orvalho foi calculado errado; o valor correto é cerca de 19,1 °C.
+e) Incorreta. O ponto de orvalho depende da temperatura e da umidade relativa do ar, que foram medidas.
 
 ### 12. Feedback
 
-a) Incorreta. Usa o recalque absoluto de um pilar, e não o diferencial.
-b) Incorreta. A distorção angular divide o recalque diferencial pela **distância** entre os pilares, não pelo recalque máximo.
-c) Incorreta. O cálculo está certo, mas a interpretação não: 1/500 é justamente o limite de Bjerrum para edifícios em que não se admitem fissuras, e o nível de alerta do plano.
-d) Incorreta. Soma os recalques em vez de subtraí-los.
-e) Correta! $\delta = 22 - 12 = 10\,\mathrm{mm}$; $\beta = 10/5.000 = 0{,}002 = 1/500$, o que atinge o alerta do plano e exige o plano de ação (vistoria, aumento de frequência, medidas de contingência).
+a) Incorreta. A soma das variações de $\sin\theta$ é adimensional e precisa ser multiplicada por $L$.
+b) Incorreta. Todos os trechos que variaram contribuem para o deslocamento do topo.
+c) Incorreta. O deslocamento é a soma, e não a média, das contribuições dos trechos.
+d) Correta! $\delta = 0{,}5 \times (5{,}0 + 4{,}0 + 2{,}0 + 1{,}0) \times 10^{-3} = 0{,}5 \times 0{,}012 = 0{,}006\,\mathrm{m} = 6{,}0\,\mathrm{mm}$.
+e) Incorreta. O produto já está em metros: $0{,}006\,\mathrm{m} = 6\,\mathrm{mm}$.
 
 ### 13. Feedback
 
-a) Correta! $\sigma = E\,\varepsilon = 200.000\,\mathrm{MPa} \times 300 \times 10^{-6} = 60\,\mathrm{MPa}$; $N = 60\,\mathrm{MPa} \times 0{,}015\,\mathrm{m^2} = 0{,}9\,\mathrm{MN} = 900\,\mathrm{kN}$; $900/1.200 = 75\%$.
-b) Incorreta. $150\,\mathrm{cm^2} = 0{,}015\,\mathrm{m^2}$, e não $0{,}15\,\mathrm{m^2}$.
-c) Incorreta. $300\,\mu\varepsilon = 3 \times 10^{-4}$, e não $3 \times 10^{-3}$.
-d) Incorreta. O módulo de elasticidade do aço é da ordem de 200 GPa.
-e) Incorreta. É o contrário: o resultado só é válido **depois** da correção de temperatura, como foi feito.
+a) Correta! $\sigma = E\,\varepsilon = 200.000\,\mathrm{MPa} \times 300 \times 10^{-6} = 60\,\mathrm{MPa}$ e $N = \sigma\,A = 60\,\mathrm{MPa} \times 0{,}008\,\mathrm{m^2} = 0{,}48\,\mathrm{MN} = 480\,\mathrm{kN}$, ou 80% de 600 kN.
+b) Incorreta. Erro na conversão da área: $80\,\mathrm{cm^2} = 0{,}008\,\mathrm{m^2}$, e não $0{,}08\,\mathrm{m^2}$.
+c) Incorreta. Uma microdeformação vale $10^{-6}$.
+d) Incorreta. A tensão foi dividida por dez indevidamente.
+e) Incorreta. No regime elástico, a força depende de $E$, $\varepsilon$ e $A$, não do comprimento.
 
 ### 14. Feedback
 
-a) Incorreta. A maturidade multiplica $(T - T_0)$ pela duração de cada intervalo: $12 \times (20 + 24 + 22)$.
-b) Incorreta. O cálculo está certo, mas 20,4 MPa ainda não atingem o requisito de 21 MPa; "estar próximo" não autoriza a liberação.
-c) Incorreta. O método da maturidade apoia decisões de obra, mas não substitui o controle tecnológico de aceitação por corpos de prova.
-d) Correta! $M = 12 \times 66 = 792\,^\circ\mathrm{C \cdot h}$; $f_c = 9{,}2 \ln 792 - 41 \approx 20{,}4\,\mathrm{MPa} < 21\,\mathrm{MPa}$. O alvo exige $M = e^{62/9{,}2} \approx 845\,^\circ\mathrm{C \cdot h}$; a cerca de 22 °C, faltam aproximadamente 2,4 h. A liberação deve aguardar e ser confirmada.
-e) Incorreta. A maturidade usa a temperatura média real de cada intervalo; usar a máxima superestima a resistência, contra a segurança.
+a) Incorreta. O extensômetro elétrico varia a resistência com a deformação ($\Delta R/R = GF\,\varepsilon$).
+b) Incorreta. Ler mais vezes não resolve um sinal menor que o degrau do ADC.
+c) Incorreta. O degrau de um ADC de 10 bits em 5 V é de cerca de 4,9 mV, e não de 0,2 µV.
+d) Incorreta. A ponte (com excitação) é o que converte a variação de resistência em tensão.
+e) Correta! O sinal de 200 µV é cerca de 25 vezes menor que um degrau do ADC (4,9 mV), por isso a leitura não muda. A solução é condicionar o sinal: amplificador de instrumentação ou um conversor dedicado de alta resolução para pontes, como o HX711.
 
 ### 15. Feedback
 
-a) Incorreta. O limite da NBR 9653 varia com a frequência; 15 mm/s vale em 4 Hz.
-b) Incorreta. 50 mm/s é o limite a partir de 40 Hz.
-c) Correta! $V_{lim} = 20 + 30 \times (20 - 15)/25 = 26\,\mathrm{mm/s}$; $10/26 \approx 38\%$. A ressalva é importante: a norma foi elaborada para desmonte com explosivos, e o plano de monitoramento pode fixar limites próprios para outras fontes e para edificações sensíveis.
-d) Incorreta. A PPV já é o maior dos três picos das componentes; não se divide o limite por nada.
-e) Incorreta. O critério de deslocamento de 0,6 mm vale **abaixo** de 4 Hz.
+a) Incorreta. O nó passa quase todo o tempo dormindo; a corrente média é muito menor que 100 mA.
+b) Incorreta. Ignora a carga gasta nos 4 s acordado, que domina o consumo.
+c) Correta! $Q = 4 \times 100 + 596 \times 0{,}05 = 429{,}8\,\mathrm{mA \cdot s}$; $\bar{I} = 429{,}8/600 \approx 0{,}72\,\mathrm{mA}$; $t = 3.000/0{,}72 \approx 4.200\,\mathrm{h} \approx 175\,\mathrm{dias}$.
+d) Incorreta. A média deve ser ponderada pelo tempo em cada estado.
+e) Incorreta. A autonomia depende do consumo médio, que depende do tempo acordado.
 
 ### 16. Feedback
 
-a) Incorreta. Decibéis não se somam aritmeticamente.
-b) Incorreta. Duas fontes dobram a energia sonora, o que acrescenta cerca de 3 dB.
-c) Incorreta. Dobrar a distância de uma fonte pontual reduz cerca de 6 dB; dobrar o número de fontes iguais acrescenta cerca de 3 dB.
-d) Incorreta. Não há base física para a média geométrica dividida por 2.
-e) Correta! $L = 10\,\log_{10}(10^{7} + 10^{7}) = 70 + 10\,\log_{10} 2 \approx 73\,\mathrm{dB(A)}$, muito acima da referência de 50 dB para área de escolas, o que exige medidas de controle.
+a) Correta! $FSPL = 20\,\log_{10} 2 + 20\,\log_{10} 915 + 32{,}44 \approx 6{,}0 + 59{,}2 + 32{,}4 = 97{,}7\,\mathrm{dB}$; $P_{rx} = 14 + 2 + 3 - 97{,}7 - 30 = -108{,}7\,\mathrm{dBm}$; margem $= -108{,}7 - (-123) \approx 14\,\mathrm{dB}$ em SF7, acima da margem usual de 10 dB.
+b) Incorreta. $-108{,}7\,\mathrm{dBm}$ é maior (mais forte) que $-123\,\mathrm{dBm}$: o sinal está acima da sensibilidade.
+c) Incorreta. A perda no espaço livre a 2 km em 915 MHz é de quase 98 dB.
+d) Incorreta. A perda cresce com a frequência; por isso, faixas sub-GHz alcançam mais longe que 2,4 GHz.
+e) Incorreta. Subsolos atenuam muito o sinal, mas o orçamento de enlace mostra que a comunicação é possível nesse caso.
 
 ### 17. Feedback
 
-a) Incorreta. Um valor isolado, que salta e volta, coincidente com interferência no rádio, deve ser analisado antes de disparar alarme; esse é o papel da persistência e dos filtros.
-b) Incorreta. O dado bruto nunca deve ser apagado; a correção é uma nova camada rastreável.
-c) Correta! A leitura de 0,98 mm é um pico espúrio típico (salto e retorno, com interferência registrada). A mediana de $(0{,}32;\,0{,}98;\,0{,}33)$ é $0{,}33\,\mathrm{mm}$; a série tratada usa esse valor, com marca de "corrigido", e o bruto fica preservado.
-d) Incorreta. A média é contaminada pelo pico e apagaria a tendência real da série.
-e) Incorreta. Efeitos térmicos diários são da ordem de centésimos de milímetro e não produzem um salto isolado de 0,65 mm.
+a) Incorreta. O Wi-Fi do escritório alcança dezenas a centenas de metros, não 25 km de trajeto.
+b) Incorreta. O alcance urbano típico da LoRaWAN (2 a 5 km) não cobre o trajeto, e não há outros gateways.
+c) Incorreta. É o LTE-M, e não o NB-IoT, a versão de baixa potência pensada para mobilidade.
+d) Correta! O LTE-M usa a cobertura da operadora em todo o trajeto, tem baixo consumo e suporta mobilidade (troca de células com o veículo em movimento).
+e) Incorreta. O envio a cada minuto exige comunicação contínua, e há rede celular adequada disponível.
 
 ### 18. Feedback
 
-a) Incorreta. Esquece de dividir a variação de 1,5 mm pelos 3 dias.
-b) Correta! $v = (9{,}5 - 8{,}0)/3 = 0{,}5\,\mathrm{mm/dia} > 0{,}4\,\mathrm{mm/dia}$ (aciona atenção por velocidade); até a atenção: $(12 - 9{,}5)/0{,}5 = 5$ dias; até o alerta: $(18 - 9{,}5)/0{,}5 = 17$ dias.
-c) Incorreta. O gatilho por velocidade foi ultrapassado; a situação é de atenção.
-d) Incorreta. Velocidade é variação dividida pelo tempo, não o valor atual dividido pelos dias.
-e) Incorreta. Em 5 dias atinge-se a atenção (12 mm), não o alerta (18 mm).
+a) Incorreta. O curinga `#` só pode ser usado no último nível do tópico.
+b) Correta! O `+` substitui exatamente um nível (o identificador do sensor), restringindo a assinatura ao setor escavacao, ao tipo inclinometro e à grandeza desloc.
+c) Incorreta. Essa assinatura recebe todas as grandezas de todos os sensores de todos os setores.
+d) Incorreta. Recebe apenas o inclinômetro INC-02.
+e) Incorreta. Recebe todas as mensagens de todas as obras.
 
 ### 19. Feedback
 
-a) Correta! A cor do painel reflete a última leitura recebida; com bateria crítica e 26 h sem dados — justamente após uma chuva que fez subir o nível nos piezômetros vizinhos —, o "verde" é enganoso. A saúde do sensor deve fazer parte do status, e a falha exige verificação em campo e leitura manual.
-b) Incorreta. Não se pode concluir que a região não foi afetada a partir de um sensor sem dados recentes.
-c) Incorreta. A ausência de leitura não significa estabilidade; é uma lacuna.
-d) Incorreta. Ajustar limites para "esverdear" o painel destrói o sentido do monitoramento.
-e) Incorreta. Esperar a reunião semanal é operar em malha aberta.
+a) Incorreta. QoS 0 não tem confirmação nem aviso de falha.
+b) Incorreta. O MQTT tem mecanismos próprios para isso: keep alive e último desejo.
+c) Incorreta. Ler com mais frequência não impede falhas de conexão e gasta mais bateria.
+d) Incorreta. A mensagem retida guarda o último valor do tópico; ela não apaga o tópico nem detecta desconexões.
+e) Correta! O último desejo é registrado no broker quando o nó se conecta; se o nó cair sem se desconectar normalmente (o broker percebe pelo keep alive), o broker publica `offline` no tópico de status, e o painel pode alertar a equipe.
 
 ### 20. Feedback
 
-a) Incorreta. Localização de trabalhadores identificáveis é dado pessoal (LGPD).
-b) Incorreta. Não há proibição geral; o rastreamento pode ser legítimo para segurança, com finalidade definida e cuidados adequados.
-c) Incorreta. Reutilizar o dado coletado para segurança para avaliar desempenho individual desvia a finalidade.
-d) Correta! Atende à finalidade de segurança com o mínimo de dados necessário, transparência para os trabalhadores e sem desvio de finalidade — princípios que serão aprofundados na Unidade 4.
-e) Incorreta. Ocultar o rastreamento viola a transparência e a confiança da equipe.
+a) Incorreta. Inverte tags e fields, e o número final é o timestamp.
+b) Incorreta. O primeiro elemento, antes da primeira vírgula, é a measurement.
+c) Correta! No line protocol, vêm a measurement (`inclinometro`), as tags separadas por vírgulas (`obra`, `sensor`), um espaço, os fields (`desloc_mm`, `bat_v`), outro espaço e o timestamp em nanossegundos desde a época Unix, em UTC (aqui, 19/11/2026 às 6h UTC).
+d) Incorreta. O line protocol usa ponto como separador decimal.
+e) Incorreta. Uma measurement pode ter vários fields; as tags são opcionais, independentemente do timestamp.

@@ -20,7 +20,33 @@ import re
 import subprocess
 from pathlib import Path
 
-import cairosvg
+try:  # cairosvg precisa da libcairo nativa; no Windows ela costuma faltar
+    import cairosvg
+except (ImportError, OSError):
+    cairosvg = None
+
+_pw = None  # (playwright, browser, page) do fallback, criado sob demanda
+
+
+def _png_via_chrome(svg: str, destino: Path, w_px: int, h_px: int) -> None:
+    """Fallback sem libcairo: rasteriza o SVG no Chrome headless (Playwright)."""
+    global _pw
+    if _pw is None:
+        import atexit
+        from playwright.sync_api import sync_playwright
+        p = sync_playwright().start()
+        try:
+            nav = p.chromium.launch(channel="chrome")
+        except Exception:
+            nav = p.chromium.launch()
+        _pw = (p, nav, nav.new_page())
+        atexit.register(lambda: (nav.close(), p.stop()))
+    page = _pw[2]
+    page.set_viewport_size({"width": w_px, "height": h_px})
+    page.set_content(
+        "<html><body style='margin:0;background:transparent'>" + svg + "</body></html>")
+    page.screenshot(path=str(destino), omit_background=True,
+                    clip={"x": 0, "y": 0, "width": w_px, "height": h_px})
 
 TOOLS = Path(__file__).resolve().parent
 CACHE = TOOLS / "_cache_formulas"
@@ -102,7 +128,10 @@ def _svg_para_png(svg: str, destino: Path) -> None:
     svg = re.sub(r'height="[\d.]+ex"', f'height="{h_px}px"', svg, count=1)
     if "xmlns=" not in svg:
         svg = svg.replace("<svg", '<svg xmlns="http://www.w3.org/2000/svg"', 1)
-    cairosvg.svg2png(bytestring=svg.encode("utf-8"), write_to=str(destino))
+    if cairosvg is not None:
+        cairosvg.svg2png(bytestring=svg.encode("utf-8"), write_to=str(destino))
+    else:
+        _png_via_chrome(svg, destino, w_px, h_px)
 
 
 def renderizar(formulas: list[tuple[str, bool]], verboso: bool = True) -> dict:

@@ -3,46 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 8 — LiDAR embarcado e termografia na inspeção de estruturas e fachadas</title>
+<title>Aula 8 — Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
 <style>
-  /* extras desta aula */
+  /* extras das aulas da Unidade 2 */
   .slide-foto > .credito { right: auto; left: .8rem; }
   .foto-direita .slide-content { max-width: 46%; }
   .galeria .figura figcaption b { color: var(--amarelo); display: block; font-size: 1.05em; }
   .galeria.legendas .figura figcaption { font-size: .88rem; }
+  .galeria .figura.claro, .duas .figura.claro, .texto-figura .figura.claro { background: #fff; }
+  .galeria .figura.claro img { object-fit: contain; padding: .4rem .4rem 4.2rem; }
   .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .cards3 .card { border-radius: 14px; padding: 1rem 1.2rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); }
   .cards3 .card h3 { color: var(--amarelo); margin-bottom: .35em; }
   .cards3 .card p, .cards3 .card li { font-size: clamp(.86rem, 1.15vw, 1.08rem); }
-  .cards3 .card.quente { border-color: var(--obra-laranja); background: rgba(255,138,31,.08); }
-  .cards3 .card.fria { border-color: var(--obra-ciano); background: rgba(43,217,254,.08); }
-  .cards3 .card.ponte { border-color: var(--amarelo); background: rgba(242,203,10,.07); }
+  .cards3 .card .ico { font-size: 2rem; line-height: 1; margin-bottom: .3em; }
   .cards3 .tag { display: inline-block; font: 700 .72rem var(--fonte); padding: .2em .6em; border-radius: 99px; background: rgba(0,0,0,.3); color: #fff; margin-bottom: .5em; }
+  .cards3 .card.corte { border-color: var(--obra-alerta); background: rgba(255,43,95,.07); }
+  .cards3 .card.ciano { border-color: var(--obra-ciano); background: rgba(43,217,254,.07); }
+  .cards3 .card.verde { border-color: var(--verde-claro); background: rgba(149,222,104,.08); }
+  .versus p, .versus li { font-size: clamp(.88rem, 1.18vw, 1.08rem); }
   .viz-lado .mini, .mini { font-size: clamp(.78rem, 1vw, .92rem) !important; color: rgba(255,255,255,.75); }
-  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .42em .8em; font-size: clamp(.82rem, 1.08vw, 1.02rem); }
-  .tabela-industrial td b { color: var(--obra-ciano); }
+  .viz-lado p, .viz-lado li { font-size: clamp(.84rem, 1.08vw, 1rem); }
+  .mini-intro { margin: 0 0 .4rem !important; font-size: clamp(.85rem, 1.1vw, 1.02rem) !important; }
   .pontos li { font-size: clamp(.86rem, 1.1vw, 1.04rem); margin-bottom: .35em; }
-  .fecho .lado p, .fecho .pontos li { font-size: clamp(.9rem, 1.2vw, 1.12rem); margin-bottom: .45em; }
-  .timeline.grande .etapa p { font-size: clamp(.95rem, 1.35vw, 1.18rem); }
-  .timeline.grande .ano { font-size: 1.35rem; }
-  .stat-grid.quatro { grid-template-columns: repeat(4, 1fr); }
-  .stat-grid.quatro .stat-card { padding: .9rem .6rem; }
-  .stat-grid.quatro .numero-grande { font-size: clamp(1.8rem, 3vw, 2.6rem); }
-  .stat-grid.quatro .legenda { font-size: .86rem; }
-  .texto-fotos { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 1rem; flex: 1 1 0; min-height: 0; }
-  .texto-fotos .texto p, .texto-fotos .texto li { font-size: clamp(.86rem, 1.15vw, 1.08rem); }
-  .texto-fotos .figura { min-height: 0; }
-  .tab-rodape { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; margin-top: .8rem; }
-  .tab-rodape .callout-azul p { font-size: clamp(.86rem, 1.1vw, 1.04rem); }
+  .fecho .lado p, .fecho .pontos li { font-size: clamp(.9rem, 1.2vw, 1.1rem); margin-bottom: .45em; }
+  .timeline.grande .etapa p { font-size: clamp(.9rem, 1.25vw, 1.12rem); }
+  .timeline.grande .ano { font-size: 1.25rem; }
+  .duas { display: grid; grid-template-columns: 1.05fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; }
+  .duas .figura { height: 100%; min-height: 0; }
+  .duas .texto p, .duas .texto li { font-size: clamp(.88rem, 1.18vw, 1.08rem); margin-bottom: .45em; }
+  .duas .texto h3 { color: var(--amarelo); margin-bottom: .3em; }
+  .texto-figura { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.2rem; flex: 1 1 0; min-height: 0; align-items: stretch; }
+  .texto-figura .texto p, .texto-figura .texto li { font-size: clamp(.88rem, 1.18vw, 1.08rem); }
+  .texto-figura .figura { min-height: 0; }
+  .texto-figura .figura.claro img { object-fit: contain; padding: .5rem; }
+  .tabela-industrial.grande td, .tabela-industrial.grande th { font-size: clamp(.92rem, 1.25vw, 1.12rem); padding: .45em 1em; text-align: center; }
+  .tabela-industrial.grande td:first-child, .tabela-industrial.grande th:first-child { text-align: left; color: var(--amarelo); font-weight: 700; }
+  .tabela-industrial tr.total td { border-top: 2px solid var(--amarelo); font-weight: 700; color: var(--obra-ciano); }
+  .tabela-industrial.compacta td, .tabela-industrial.compacta th { padding: .4em .8em; font-size: clamp(.82rem, 1.08vw, 1.02rem); }
+  .tabela-industrial td b { color: var(--obra-ciano); }
+  .stat-grid.tres { grid-template-columns: repeat(3, 1fr); }
+  .stat-grid.tres .numero-grande { font-size: clamp(1.9rem, 3.2vw, 2.8rem); }
+  .stat-grid.tres .legenda { font-size: .9rem; }
+  .formula-bloco { font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif; font-size: clamp(1rem, 1.5vw, 1.35rem); color: #dfe9ff; background: rgba(0,0,0,.25); border-radius: 10px; padding: .55rem 1rem; margin: .3rem 0 .6rem; text-align: center; }
+  .formula.grande { font-size: clamp(1.4rem, 2.4vw, 2.1rem); display: block; text-align: center; margin: .3em 0 .5em; color: #fff; }
+  .lista-contrato { margin: 0; padding-left: 1.1em; }
+  .lista-contrato li { font-size: clamp(.8rem, 1.02vw, .96rem) !important; margin-bottom: .2em; }
+  .compacto .ctrl { margin-bottom: .35rem; }
+  .compacto h3 { margin-bottom: .2em; }
+  .tab-mini { width: 100%; border-collapse: collapse; margin: .3rem 0 .5rem; }
+  .tab-mini td, .tab-mini th { font-size: clamp(.76rem, .98vw, .9rem); padding: .25em .4em; border-bottom: 1px solid rgba(255,255,255,.15); text-align: center; }
+  .tab-mini th { color: var(--amarelo); }
+  .col-viz { display: flex; flex-direction: column; gap: .6rem; min-height: 0; }
+  .col-viz > .viz { flex: 1 1 0; height: auto; }
+  .col-viz .rodape { display: grid; grid-template-columns: 1fr 1.3fr; gap: .9rem; align-items: center; height: 8.5rem; flex: 0 0 auto; }
+  .col-viz .rodape .fig-lado { height: 100%; margin: 0; }
+  .fig-lado { margin: .4rem 0 0; position: relative; border-radius: 10px; overflow: hidden; height: 9.5rem; }
+  .fig-lado img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fig-lado .credito { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; }
+  .ok { color: var(--verde-claro); font-weight: 700; } .nok { color: var(--obra-alerta); font-weight: 700; } .talvez { color: var(--amarelo); font-weight: 700; }
 </style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
 
-<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 8 — LiDAR embarcado e termografia">
+<div class="deck" id="deck" data-footer="Drones e Sensores IoT no Monitoramento de Obras · Unidade 2|Aula 8 — Volumes, curvas de nível e projetado × executado">
 
   <!-- 1. Capa -->
   <section class="slide slide-capa">
@@ -52,8 +80,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>LiDAR e termografia</h1>
-      <div class="subtitulo">Aula 8 — LiDAR embarcado e termografia na inspeção de estruturas e fachadas</div>
+      <h1>Da foto ao número de engenharia</h1>
+      <div class="subtitulo">Aula 8 — Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -63,303 +91,320 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">LiDAR e termografia</h1>
+        <h1 class="sumario-titulo">Da foto ao número de engenharia</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>LiDAR: medir distância com luz</li>
-          <li>Múltiplos retornos e o chão sob a mata, em 3D</li>
-          <li>Densidade de pontos e exatidão</li>
-          <li>LiDAR × fotogrametria</li>
-          <li>Termografia: emissividade e reflexos</li>
-          <li>Descolamento, umidade e pontes térmicas</li>
-          <li>Distância, IFOV e o menor defeito visível</li>
-          <li>Fechamento da unidade e prévia da Unidade 3</li>
+          <li>48.200 ou 46.900 m³?</li>
+          <li>Volume entre duas superfícies</li>
+          <li>Pilhas, empolamento e viagens</li>
+          <li>Incerteza do volume: δV ≈ A · δz</li>
+          <li>Curvas de nível e equidistância</li>
+          <li>Projetado × executado: mapa de desvios</li>
+          <li>Conforme, inconclusivo ou não conforme</li>
+          <li>QGIS e a medição de pagamento</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Foto: dois pedidos -->
-  <section class="slide slide-foto foto-direita">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Drone_with_Lidar.jpg/1280px-Drone_with_Lidar.jpg'); background-size: auto 100%; background-position: calc(100% + 160px) center; background-color: #0b1a33" role="img" aria-label="Drone quadricóptero cinza pousado sobre cascalho, com um sensor LiDAR cilíndrico azul e uma unidade de controle montados sob a fuselagem, com vegetação ao fundo"></div>
+  <!-- 3. Gancho -->
+  <section class="slide slide-foto">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Wimmelburg_stockpiles_2020_germany.jpg/1280px-Wimmelburg_stockpiles_2020_germany.jpg'); background-position: 60% 50%" role="img" aria-label="Vista aérea de drone com duas grandes pilhas de material, uma escura à esquerda e outra clara à direita, separadas por uma rodovia, com galpões, pátio de veículos e faixas de vegetação no entorno, em Wimmelburg, Alemanha"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
-      <p class="kicker">Dois pedidos no mesmo dia</p>
-      <h2>Nenhum dos dois se resolve com a câmera RGB</h2>
-      <p><strong>1.</strong> Levantar o <strong>terreno natural</strong> de uma encosta coberta de mata, por onde vai passar o acesso da obra. A fotogrametria da semana passada só "viu" a copa das árvores.</p>
-      <p><strong>2.</strong> Um condomínio de 15 anos, com fachada em <strong>revestimento cerâmico</strong>, quer saber onde as placas estão <strong>descolando</strong> antes que uma caia na calçada.</p>
-      <p>As respostas: <strong>LiDAR embarcado</strong> e <strong>câmera térmica</strong>.</p>
+      <p class="kicker">Fim do mês na terraplenagem</p>
+      <h2>Empreiteira: 48.200 m³. Fiscalização: 46.900 m³. E a plataforma está no greide?</h2>
+      <p>Dois voos de drone, <strong>1.300 m³</strong> de diferença: algumas dezenas de milhares de reais na medição. Na mesma reunião, a projetista pergunta se a plataforma do galpão já está no <strong>greide</strong>, dentro da tolerância.</p>
+      <p>Quem errou? E como responder à projetista com segurança?</p>
     </div>
-    <p class="credito">Foto: Jonte — Wikimedia Commons (CC BY-SA 4.0)</p>
+    <p class="credito">Foto: Thuringius — Wikimedia Commons (CC0)</p>
   </section>
 
-  <!-- 4. LiDAR: princípio -->
+  <!-- 4. Volume entre superfícies -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">LiDAR · <em>light detection and ranging</em></p>
-      <h2>Medir distância com luz: o tempo de ida e volta</h2>
-      <div class="stat-grid quatro">
-        <div class="stat-card"><span class="numero-grande contador" data-ate="80" data-suf=" m">0</span><div class="legenda">distância do drone ao alvo</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="533" data-suf=" ns">0</span><div class="legenda">tempo de ida e volta do pulso</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="240" data-suf=" mil/s">0</span><div class="legenda">pulsos por segundo (PRR do exemplo)</div></div>
-        <div class="stat-card"><span class="numero-grande contador" data-ate="2" data-pre="÷ ">0</span><div class="legenda">o pulso vai e volta; não precisa de sol: voa à noite</div></div>
+      <p class="kicker">Volume entre duas superfícies</p>
+      <h2>Volume é soma de prismas: diferença de cota × área</h2>
+      <p><span class="formula grande">V = Σ Δz<sub>i</sub> · A<sub>c</sub></span></p>
+      <p style="text-align:center">Em cada célula de área A<sub>c</sub>, Δz = cota medida − cota de referência. <strong style="color:var(--obra-alerta)">Δz &gt; 0: corte</strong> · <strong style="color:var(--obra-ciano)">Δz &lt; 0: aterro</strong>, calculados <strong>separados</strong> (serviços e preços diferentes).</p>
+      <div class="cards3" style="margin-top:.8rem">
+        <div class="card ciano"><span class="tag">referência 1</span><h3>Greide de projeto</h3><p>Quanto <strong>ainda falta</strong> escavar ou aterrar.</p></div>
+        <div class="card"><span class="tag">referência 2</span><h3>Levantamento anterior</h3><p>Quanto <strong>se movimentou no mês</strong>: a base da medição de pagamento.</p></div>
+        <div class="card verde"><span class="tag">referência 3</span><h3>Plano de base</h3><p>O volume de uma <strong>pilha</strong>.</p></div>
       </div>
-      <div class="versus" style="margin-top:1rem">
-        <div class="lado">
-          <h3>A distância</h3>
-          <p><span class="formula">R = c · Δt / 2</span>, com <span class="formula">c ≈ 3 × 10⁸ m/s</span>. Divide-se por 2 porque o pulso vai e volta.</p>
-          <p>Alvo a 80 m: <span class="formula">Δt = 2 × 80 / 3 × 10⁸ ≈ 533 ns</span>.</p>
-        </div>
-        <div class="vs">+</div>
-        <div class="lado novo">
-          <h3>A posição do ponto</h3>
-          <p>Distância + <strong>ângulo do feixe</strong> + <strong>posição</strong> do drone (GNSS RTK/PPK) + <strong>atitude</strong> do drone (IMU de alta qualidade) = um ponto <strong>X, Y, Z</strong> por pulso.</p>
-          <p class="mini">Ao contrário da fotogrametria, o LiDAR mede a distância diretamente.</p>
-        </div>
-      </div>
+      <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>O software soma <strong>milhões de células</strong> (ou prismas sobre uma triangulação). A conta é simples; o que exige engenharia é escolher <strong>as duas superfícies</strong>.</p></div>
     </div>
   </section>
 
-  <!-- 5. Múltiplos retornos (2D) -->
+  <!-- 5. Volume interativo -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Animação</p>
-      <h2>Um pulso, vários retornos</h2>
+      <p class="kicker">Exemplo numérico · interativo</p>
+      <h2>Oito células de 10 × 10 m contra o greide</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="retornos" role="img" aria-label="Animação de um pulso de laser descendo de um drone a 80 metros de altura. Sobre solo exposto, volta um único eco, em 533 nanossegundos. Sobre uma árvore, o pulso devolve três ecos: da copa, de um galho e do chão, mostrados como picos num gráfico de intensidade em função do tempo, com a distância de cada um."></div>
+        <div class="viz" data-viz="volume" role="img" aria-label="Malha de oito células de 10 por 10 metros, coloridas em vermelho para corte e azul para aterro, com o valor de delta z de cada uma, e abaixo um perfil de barras acima e abaixo da linha do greide. Corte de 435 metros cúbicos e aterro de 145. Um controle de viés soma o mesmo erro de cota a todas as células."></div>
         <div class="viz-lado">
-          <h3>Troque o alvo nos botões</h3>
-          <p>O feixe chega ao alvo com alguns centímetros de diâmetro. Numa árvore, parte da energia volta da <strong>copa</strong>, parte de <strong>galhos</strong> e parte do <strong>chão</strong>.</p>
-          <p>O <strong>primeiro retorno</strong> descreve a superfície (MDS); o <strong>último</strong>, quando é solo, permite o <strong>MDT sob a vegetação</strong>.</p>
-          <p class="mini">Atenção: o laser <strong>não atravessa</strong> folhas. Ele passa pelos <strong>vãos</strong> entre elas; mata muito fechada deixa poucos pontos no chão.</p>
+          <p style="margin-top:0"><span class="formula grande" style="font-size:1.25rem">Δz = z<sub>levantado</sub> − z<sub>projeto</sub></span></p>
+          <p class="mini">+1,40 · +0,90 · +0,35 · −0,20 · +1,10 · +0,60 · −0,45 · −0,80 m</p>
+          <p>Corte: 4,35 × 100 = <strong>435 m³</strong>. Aterro: 1,45 × 100 = <strong>145 m³</strong>.</p>
+          <div data-controles></div>
+          <p class="mini"><strong>Tamanho da célula:</strong> grande demais suaviza e erra nas cristas; pequena demais só aumenta o processamento. Na medição mensal, use <strong>o mesmo método e a mesma resolução</strong> nas duas superfícies.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. LiDAR 3D -->
+  <!-- 6. Pilhas: a base -->
+  <section class="slide slide-foto foto-direita">
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Recycled_aggregate_stockpiles_%286256993200%29.jpg/1280px-Recycled_aggregate_stockpiles_%286256993200%29.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Pátio de estocagem com pilhas de agregado reciclado de diferentes granulometrias, depositadas sobre um terreno de terra"></div>
+    <div class="foto-veu"></div>
+    <div class="slide-content">
+      <p class="kicker">Volume de pilha</p>
+      <h2>A referência é a base. E a base também se combina.</h2>
+      <p>Três jeitos de definir a base da pilha:</p>
+      <ul>
+        <li><strong>Plano horizontal</strong> pelo ponto mais baixo do pé da pilha.</li>
+        <li><strong>Plano inclinado</strong> ajustado aos pontos do pé.</li>
+        <li><strong>Superfície triangulada</strong> pelos pontos do pé.</li>
+      </ul>
+      <p>Num pátio com caimento, cada escolha dá um <strong>volume diferente</strong>.</p>
+    </div>
+    <p class="credito">Foto: Peter Craven — Wikimedia Commons (CC BY 2.0)</p>
+  </section>
+
+  <!-- 7. Três cuidados + empolamento -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Explore em 3D</p>
-      <h2>A encosta com mata, varrida pelo laser</h2>
-      <div class="viz-grid">
-        <div class="viz" data-viz="lidar3d" role="img" aria-label="Cena 3D de uma encosta coberta de árvores. Um drone percorre a área emitindo um leque de feixes de laser, e os pontos medidos vão se acumulando. No modo primeiro retorno, os pontos desenham a copa das árvores, em verde; no modo último retorno, as árvores ficam transparentes e os pontos mostram o terreno, colorido por cota, com menos pontos sob as copas."></div>
-        <div class="viz-lado">
-          <h3>Primeiro × último retorno</h3>
-          <p>O drone varre a encosta num <strong>leque de ±35°</strong>. Cada ponto é um eco.</p>
-          <p><strong>Primeiro retorno (MDS):</strong> a nuvem desenha a copa, como a fotogrametria veria.</p>
-          <p><strong>Último retorno (MDT):</strong> as árvores somem e aparece o <strong>terreno natural</strong>, com menos pontos sob as copas mais fechadas.</p>
-          <p class="mini">Escala didática: a cena tem cerca de 120 × 70 m, e o drone foi ampliado para ser visto.</p>
+      <p class="kicker">Três cuidados para qualquer volume</p>
+      <h2>MDT, mesmo referencial e empolamento</h2>
+      <div class="viz-grid inv">
+        <div class="viz-lado compacto">
+          <ul class="pontos">
+            <li><strong>1. MDT, nunca MDS:</strong> a máquina parada vira terra que ninguém escavou.</li>
+            <li><strong>2. Mesmo referencial</strong> horizontal e vertical: altura elipsoidal × altitude (Aula 6) vira volume inteiro.</li>
+            <li><strong>3. Empolamento:</strong> o drone mede <strong>in situ</strong>; escavado, o solo se solta.</li>
+          </ul>
+          <div data-controles></div>
         </div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"V","label":"Volume de corte (in situ)","min":100,"max":2000,"step":5,"value":435,"unit":"m³"},
+            {"id":"e","label":"Empolamento","min":10,"max":50,"step":1,"value":25,"unit":"%"},
+            {"id":"c","label":"Capacidade do caminhão","min":6,"max":20,"step":1,"value":12,"unit":"m³"}
+          ],
+          "outputs": [
+            {"label":"Volume solto","expr":"V*(1+e/100)","unit":"m³","dec":1},
+            {"label":"Viagens (para cima)","expr":"Math.ceil(o1/c)","unit":"viagens","destaque":true}
+          ],
+          "barras": [
+            {"label":"In situ (medido)","expr":"V","unit":"m³","dec":0},
+            {"label":"Solto (no caminhão)","expr":"Math.round(o1*10)/10+0.002","unit":"m³","dec":1}
+          ],
+          "nota": "435 × 1,25 ≈ 543,8 m³; 543,8 / 12 = 45,3 → 46 viagens."
+        }' role="img" aria-label="Calculadora de empolamento: volume de corte in situ, porcentagem de empolamento e capacidade do caminhão resultam no volume solto e no número de viagens, com barras comparando volume in situ e solto"></div>
       </div>
     </div>
   </section>
 
-  <!-- 7. O que o LiDAR entrega -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">O produto do LiDAR</p>
-      <h2>Nuvens de pontos de verdade</h2>
-      <div class="galeria legendas" style="--cols:2">
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8d/BNF_Lidar_HD.png/1280px-BNF_Lidar_HD.png" alt="Nuvem de pontos LiDAR aérea colorida por altura, mostrando quatro torres em forma de L ao redor de um grande pátio retangular arborizado, com edifícios e ruas do entorno" loading="lazy">
-          <figcaption><b>Edificações e árvores</b>Nuvem LiDAR aérea colorida pela altura: as torres, o pátio arborizado e o entorno, ponto a ponto.</figcaption>
-          <p class="credito">Imagem: FuzzyGeo — Wikimedia Commons (CC BY 4.0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Austin_Texas_LiDAR_Point_Cloud_%28Highway_183%29.png/1280px-Austin_Texas_LiDAR_Point_Cloud_%28Highway_183%29.png" alt="Nuvem de pontos LiDAR de um grande trevo rodoviário com alças e viadutos, cercado de vegetação e de quarteirões, vista de cima em tons de verde" loading="lazy">
-          <figcaption><b>Corredores de infraestrutura</b>Trevo rodoviário levantado por LiDAR: alças, viadutos e a vegetação do entorno.</figcaption>
-          <p class="credito">Imagem: Rebecca equator — Wikimedia Commons (CC BY-SA 4.0)</p>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. Densidade e exatidão -->
+  <!-- 8. Incerteza do volume -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Exemplo numérico (a)</p>
-      <h2>Densidade de pontos e exatidão de um LiDAR embarcado</h2>
+      <p class="kicker">Incerteza do volume · para quem assina a medição</p>
+      <h2>Erro aleatório se compensa; viés vira volume</h2>
       <div class="viz-grid">
         <div class="viz" data-viz="calc" data-opts='{
           "inputs": [
-            {"id":"P","label":"Taxa de pulsos (PRR)","min":100,"max":500,"step":20,"value":240,"unit":"kHz"},
-            {"id":"H","label":"Altura de voo H","min":40,"max":120,"step":5,"value":80,"unit":"m"},
-            {"id":"F","label":"Campo de visão (FOV)","min":40,"max":90,"step":5,"value":70,"unit":"°"},
-            {"id":"v","label":"Velocidade v","min":4,"max":15,"step":1,"value":8,"unit":"m/s"},
-            {"id":"e","label":"Erro de atitude da IMU δθ","min":0.01,"max":0.1,"step":0.01,"value":0.05,"unit":"°"}
+            {"id":"A","label":"Área","min":800,"max":40000,"step":800,"value":800,"unit":"m²"},
+            {"id":"dz","label":"Viés vertical do modelo δz","min":0,"max":10,"step":0.5,"value":0,"unit":"cm"}
           ],
           "outputs": [
-            {"label":"Largura da faixa W = 2H·tan(FOV/2)","expr":"2*H*Math.tan(F/2*Math.PI/180)","unit":"m","dec":0},
-            {"label":"Densidade ρ ≈ PRR/(v·W)","expr":"P*1000/(v*o1)","unit":"pontos/m²","dec":0,"destaque":true},
-            {"label":"Distância na borda R = H/cos(FOV/2)","expr":"H/Math.cos(F/2*Math.PI/180)","unit":"m","dec":1},
-            {"label":"Erro na borda R·δθ","expr":"o3*e*Math.PI/180*100","unit":"cm","dec":1}
+            {"label":"δV ≈ A · δz","expr":"A*dz/100","unit":"m³","dec":0,"destaque":true},
+            {"label":"Em caminhões de 12 m³","expr":"Math.round(o1/12)","unit":"viagens"},
+            {"label":"Na malha de 8 células","expr":"A==800?(o1/435*100).toFixed(1).replace(&#39;.&#39;,&#39;,&#39;)+&#39; % do corte de 435 m³&#39;:&#39;—&#39;"}
           ],
           "barras": [
-            {"label":"Erro no nadir (H·δθ)","expr":"H*e*Math.PI/180*100","unit":"cm","dec":1},
-            {"label":"Erro na borda (R·δθ)","expr":"o4","unit":"cm","dec":1}
+            {"label":"Viés de 1 cm","expr":"A*0.01","unit":"m³"},
+            {"label":"Viés escolhido","expr":"o1","unit":"m³"}
           ],
-          "nota": "Uma passada, um retorno por pulso."
-        }' role="img" aria-label="Calculadora da largura da faixa, da densidade de pontos e do erro causado pela atitude do drone, com barras comparando o erro no nadir e na borda da faixa"></div>
+          "nota": "Malha: 800 m² × 0,03 m = 24 m³. Pátio de 2 ha: 20.000 m² × 0,03 m = 600 m³ ≈ 50 caminhões."
+        }' role="img" aria-label="Calculadora da incerteza de volume por viés vertical: a área em metros quadrados e o viés em centímetros resultam no erro de volume delta V igual a área vezes delta z, com barras comparando o efeito de 1 centímetro e do viés escolhido"></div>
         <div class="viz-lado">
-          <h3>Mova os controles</h3>
-          <p class="mini">Exemplo: W ≈ 112 m, ρ ≈ 268 pontos/m² e erro de ≈ 8,5 cm na borda.</p>
+          <p><span class="formula grande" style="font-size:1.4rem">δV ≈ A · δz</span></p>
+          <p>Erros <strong>aleatórios</strong> de cota, célula a célula, tendem a se compensar. Um <strong>viés</strong> que afeta o modelo inteiro não se compensa.</p>
           <div data-controles></div>
+          <p class="mini">Leve o viés a <strong>3 cm</strong> na malha (800 m²); depois, a área a <strong>2 ha</strong>. Por isso a <strong>média</strong> dos resíduos nos checkpoints importa tanto quanto o RMSE.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 9. LiDAR x fotogrametria -->
+  <!-- 9. Curvas de nível -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Qual sensor para qual obra?</p>
-      <h2>LiDAR × fotogrametria</h2>
-      <table class="tabela-industrial compacta">
-        <thead><tr><th>Critério</th><th>Fotogrametria (RGB)</th><th>LiDAR embarcado</th></tr></thead>
-        <tbody>
-          <tr><td><b>Solo sob vegetação</b></td><td>não vê (só MDS)</td><td>vê pelas frestas (MDT)</td></tr>
-          <tr><td><b>Superfície sem textura</b></td><td>falha</td><td>mede normalmente</td></tr>
-          <tr><td><b>Iluminação</b></td><td>precisa de luz e sombras curtas</td><td>independe</td></tr>
-          <tr><td><b>Cor e textura</b></td><td>sim (ortomosaico)</td><td>não, sem câmera auxiliar</td></tr>
-          <tr><td><b>Fios, cabos, estruturas finas</b></td><td>difícil</td><td>bom</td></tr>
-          <tr><td><b>Custo do equipamento</b></td><td>baixo a médio</td><td>alto</td></tr>
-        </tbody>
-      </table>
-      <div class="tab-rodape">
-        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Onde o LiDAR brilha:</strong> terreno natural com vegetação, linhas de transmissão, corredores de rodovia e ferrovia, estruturas metálicas e túneis (com LiDAR terrestre ou móvel).</p></div>
-        <div class="callout-azul" style="background:rgba(0,0,0,.25)"><p><strong>Terraplenagem em solo exposto?</strong> A fotogrametria costuma bastar, e é mais barata. A conferência é a mesma da Aula 6: <strong>checkpoints e RMSE</strong>.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. Termografia: princípio -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Termografia</p>
-      <h2>Enxergar temperatura (e não se enganar com ela)</h2>
-      <div class="texto-fotos">
+      <p class="kicker">O segundo produto da aula</p>
+      <h2>Curvas de nível: linhas de mesma altitude, geradas do MDT</h2>
+      <div class="texto-figura" style="grid-template-columns: 1.25fr 1fr">
         <div class="texto">
-          <p>Todo corpo acima do zero absoluto emite <strong>infravermelho</strong>. A câmera térmica (em geral um <strong>microbolômetro</strong>, de <strong>8 a 14 µm</strong>) converte essa radiação em <strong>temperatura aparente</strong>, em cores falsas: o <strong>termograma</strong>.</p>
-          <p>A conversão depende da <strong>emissividade</strong> do material, da <strong>temperatura refletida</strong> do entorno, da distância e da umidade do ar.</p>
-          <p>Metal polido e vidro têm <strong>baixa emissividade</strong> e <strong>refletem</strong> o calor de outros objetos: ali o termograma pode "mentir".</p>
+          <ul>
+            <li><strong>Equidistância</strong> constante entre uma curva e a seguinte.</li>
+            <li>A cada cinco curvas, uma <strong>mestra</strong>: mais grossa e cotada.</li>
+            <li>Declividade = equidistância ÷ distância horizontal: curvas <strong>próximas</strong>, terreno íngreme; <strong>afastadas</strong>, suave.</li>
+          </ul>
+          <div class="callout-azul" style="margin-top:.5rem;background:rgba(0,0,0,.25)"><p>Curvas de 0,5 m a 4 m em planta: 0,5 ÷ 4 = <strong>12,5%</strong> de declividade.</p></div>
+          <p class="mini" style="margin-top:.6rem"><strong>Leitura:</strong> V apontando para as cotas mais altas = <strong>vale</strong> (a água escoa); V para as mais baixas = <strong>crista</strong>; curvas fechadas = morro ou depressão. Daí saem a drenagem provisória, a bacia de sedimentação e o acesso das máquinas — atualizados a cada voo.</p>
         </div>
-        <figure class="figura">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/8c/Aqua_Tower_thermal_imaging.jpg" alt="Termograma de uma torre residencial com varandas de formas onduladas, feito em dia frio: as bordas das lajes das varandas aparecem em amarelo e laranja contra o fundo roxo e azul mais frio" loading="lazy">
-          <figcaption>Varandas em balanço num dia frio: as <b>lajes</b> perdem calor (pontes térmicas).</figcaption>
-          <p class="credito">Imagem: Jim D'Aloisio — Wikimedia Commons (CC0)</p>
-        </figure>
-        <figure class="figura">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Passivhaus_thermogram_gedaemmt_ungedaemmt.png" alt="Termograma de fachadas em cores falsas: um prédio com isolamento aparece em azul e outro sem isolamento aparece com janelas e paredes em amarelo e vermelho" loading="lazy" style="object-position:30% 50%">
-          <figcaption>Fachada isolada (azul) × sem isolamento (amarelo e vermelho).</figcaption>
-          <p class="credito">Imagem: Passivhaus Institut — Wikimedia Commons (CC BY-SA 3.0)</p>
+        <figure class="figura claro">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Topographic_map_example.png" alt="Trecho de carta topográfica do Serviço Geológico dos Estados Unidos com curvas de nível marrons, mais densas nas encostas íngremes e afastadas nos vales, além de rio, estradas, a cidade de Stowe e cotas de morros" loading="lazy" style="object-fit:contain">
+          <p class="credito">Imagem: USGS — Wikimedia Commons (domínio público)</p>
         </figure>
       </div>
     </div>
   </section>
 
-  <!-- 11. Três aplicações -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Termografia em fachadas e estruturas</p>
-      <h2>O que interessa é a <em>diferença</em> de temperatura</h2>
-      <div class="cards3">
-        <div class="card quente">
-          <span class="tag">mais quente sob sol</span>
-          <h3>Descolamento de revestimento</h3>
-          <p>A placa solta tem uma <strong>camada de ar</strong> atrás, que isola. Sob sol, ela <strong>aquece mais rápido</strong> que a aderida; à noite, <strong>esfria mais rápido</strong>.</p>
-        </div>
-        <div class="card fria">
-          <span class="tag">mais fria</span>
-          <h3>Umidade e infiltração</h3>
-          <p>A água evaporando <strong>resfria</strong> a superfície: manchas frias em lajes, platibandas e paredes indicam umidade.</p>
-        </div>
-        <div class="card ponte">
-          <span class="tag">perda de calor</span>
-          <h3>Pontes térmicas e instalações</h3>
-          <p>Perdas de calor por vigas, pilares e lajes; <strong>painéis elétricos</strong> e conexões aquecidos.</p>
-        </div>
-      </div>
-      <div class="callout-azul" style="margin-top:1.1rem;background:rgba(0,0,0,.25)"><p>A termografia de fachada é <strong>passiva</strong>: depende de <strong>fluxo de calor</strong>. Sem diferença de temperatura (dia nublado e sem vento, fachada sem insolação), <strong>nada aparece</strong>.</p></div>
-    </div>
-  </section>
-
-  <!-- 12. Simulação da fachada -->
+  <!-- 10. Curvas interativas -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Simulação</p>
-      <h2>A fachada cerâmica ao longo do dia</h2>
+      <p class="kicker">Interativo · a Aula 6 volta com tudo</p>
+      <h2>Curva de nível com equidistância menor que a exatidão é desenhar ruído</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="termo" role="img" aria-label="Termograma simulado de uma fachada com revestimento cerâmico ensolarada no meio do dia. Um controle muda a hora do dia: de manhã e no começo da tarde, duas áreas de placas descoladas aparecem mais quentes; à noite, aparecem mais frias; perto das 7 h e das 16 h quase não há contraste. Uma mancha de umidade na base aparece sempre mais fria. Um botão revela os contornos dos defeitos reais."></div>
+        <div class="viz" data-viz="curvas" role="img" aria-label="Planta de um MDT de 80 por 50 metros com uma plataforma quase plana à esquerda e uma encosta com um vale à direita, colorido por cota e com curvas de nível marrons. Com equidistância de 0,20 metro, as curvas são limpas. Com 0,10 metro, aparecem curvas serrilhadas e pequenas ilhas sobre a plataforma: é o ruído do modelo desenhado como terreno. Com a suavização ligada, as curvas ficam contínuas."></div>
         <div class="viz-lado">
-          <h3>Mude a hora do dia</h3>
-          <div data-controles></div>
-          <p class="mini">Modelo didático de uma fachada com sol entre 7 h e 17 h. A escala de cores se ajusta à cena, como numa câmera em modo automático.</p>
+          <h3>Classe A do PEC-PCD</h3>
+          <p>RMSE<sub>z</sub> ≤ Eq/6 → com RMSE<sub>z</sub> = 2,56 cm, <strong>Eq ≥ 15,4 cm</strong>: curvas de <strong>20 cm</strong>.</p>
+          <p>Comece em <strong>0,20 m</strong>; baixe para <strong>0,10 m</strong> e veja as ilhas e o serrilhado. Depois, ligue <strong>Suavizar</strong>.</p>
+          <p class="mini">Suavizar demais apaga feições reais, como a crista de um talude: mais uma decisão de engenharia. MDT ilustrativo, com ruído de 2,56 cm.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 13. Planejar a inspeção -->
-  <section class="slide slide-foto foto-direita">
-    <div class="foto-bg" style="background-image:url('https://upload.wikimedia.org/wikipedia/commons/b/b4/LERF_Timisoara_RO_night_IR_1.jpg'); background-size: auto 100%; background-position: right center; background-color: #0b1a33" role="img" aria-label="Termograma noturno de um edifício de vários pavimentos em cores falsas, do roxo ao amarelo-claro, com a fachada mais quente que o céu e diferenças de temperatura entre paredes, janelas e cobertura"></div>
-    <div class="foto-veu"></div>
-    <div class="slide-content">
-      <p class="kicker">Planejar a inspeção termográfica</p>
-      <h2>O termograma diz <em>onde</em> olhar</h2>
-      <p><strong>Horário</strong> pela orientação da fachada (fase de aquecimento ou de resfriamento); evite <strong>chuva recente</strong> e <strong>vento forte</strong>; ajuste a <strong>emissividade</strong>.</p>
-      <p>Apoia a inspeção predial da <strong>ABNT NBR 16747</strong>, mas <strong>não substitui</strong> o ensaio de <strong>percussão</strong> e o de <strong>arrancamento</strong> nas áreas suspeitas.</p>
-      <p>E lembre da Aula 4: voo junto a edifício habitado. Os <strong>30 m</strong> de pessoas não envolvidas e não anuentes, ou a barreira, definem a categoria da operação.</p>
-    </div>
-    <p class="credito">Imagem: Mihai-Cosmin Pascariu — Wikimedia Commons (CC BY-SA 4.0)</p>
-  </section>
-
-  <!-- 14. IFOV -->
+  <!-- 11. Mapa de desvios -->
   <section class="slide slide-viz">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Exemplo numérico (b)</p>
-      <h2>A que distância voar? IFOV e o menor defeito visível</h2>
+      <p class="kicker">Projetado × executado</p>
+      <h2>Mapa de desvios: MDT levantado − superfície de projeto</h2>
+      <div class="viz-grid">
+        <div class="viz" data-viz="desvios" role="img" aria-label="Planta de uma plataforma de 60 por 30 metros dividida em três trechos, colorida pelo desvio entre o MDT levantado e o greide de projeto: verde dentro da tolerância, vermelho acima do greide, onde ainda falta cortar, e azul abaixo, onde falta aterrar. O trecho 1 é quase todo verde, o trecho 2 mistura verde e vermelho e o trecho 3 é quase todo vermelho. Um controle muda a tolerância."></div>
+        <div class="viz-lado">
+          <h3>Num relance</h3>
+          <p><span class="ok">Verde</span>: dentro da tolerância. <span class="nok">Vermelho</span>: acima do greide, <strong>falta cortar</strong>. <span style="color:var(--obra-ciano);font-weight:700">Azul</span>: abaixo, <strong>falta aterrar</strong>.</p>
+          <div data-controles></div>
+          <p class="mini">Para estruturas (pilar, laje, contenção): comparação <strong>nuvem-modelo</strong>, a distância de cada ponto ao modelo de projeto, no <strong>CloudCompare</strong> (livre). É a ponte para o BIM da <strong>Aula 14</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Regra de decisão -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que separa a engenharia do palpite</p>
+      <h2>Conforme, inconclusivo ou não conforme</h2>
       <div class="viz-grid">
         <div class="viz" data-viz="calc" data-opts='{
           "inputs": [
-            {"id":"D","label":"Distância à fachada","min":5,"max":40,"step":1,"value":10,"unit":"m"},
-            {"id":"p","label":"Pixel do sensor térmico","min":10,"max":17,"step":1,"value":12,"unit":"µm"},
-            {"id":"f","label":"Distância focal","min":9,"max":25,"step":1,"value":13,"unit":"mm"}
+            {"id":"d","label":"Desvio médio medido","min":0,"max":15,"step":0.5,"value":7,"unit":"cm"},
+            {"id":"T","label":"Tolerância","min":2,"max":10,"step":0.5,"value":5,"unit":"cm"},
+            {"id":"U","label":"Incerteza da medição","min":0.5,"max":6,"step":0.5,"value":3,"unit":"cm"}
           ],
           "outputs": [
-            {"label":"IFOV = p/f","expr":"p/f","unit":"mrad","dec":2},
-            {"label":"Cada pixel cobre (D·IFOV)","expr":"D*o1","unit":"mm","dec":1},
-            {"label":"Menor defeito (3 × 3 pixels)","expr":"3*o2/10","unit":"cm","dec":1,"destaque":true},
-            {"label":"Largura do quadro (640 px)","expr":"640*o2/1000","unit":"m","dec":1}
+            {"label":"Desvio − incerteza","expr":"d-U","unit":"cm","dec":1},
+            {"label":"Desvio + incerteza","expr":"d+U","unit":"cm","dec":1},
+            {"label":"Decisão","expr":"d+U<=T?&#39;conforme&#39;:(d-U>T?&#39;não conforme: a máquina volta&#39;:&#39;inconclusivo: medir de novo&#39;)","destaque":true}
           ],
           "barras": [
-            {"label":"Pixel na fachada","expr":"o2","unit":"mm","dec":1},
-            {"label":"Menor defeito","expr":"3*o2","unit":"mm","dec":0}
+            {"label":"Desvio − U","expr":"Math.max(0,d-U)","unit":"cm","dec":1},
+            {"label":"Desvio","expr":"d","unit":"cm","dec":1},
+            {"label":"Desvio + U","expr":"d+U","unit":"cm","dec":1},
+            {"label":"Tolerância","expr":"T","unit":"cm","dec":1}
           ],
-          "nota": "Câmera de 640 × 512 pixels. Regra prática: o defeito deve ocupar ao menos 3 × 3 pixels."
-        }' role="img" aria-label="Calculadora do campo de visão instantâneo de uma câmera térmica, do tamanho do pixel na fachada e do menor defeito detectável em função da distância de voo"></div>
-        <div class="viz-lado">
-          <h3>Leve a distância a 30 m</h3>
-          <p>12 µm e 13 mm: <strong>IFOV ≈ 0,92 mrad</strong>. A 10 m, cada pixel cobre <strong>9,2 mm</strong> e o menor defeito confiável é <strong>≈ 2,8 cm</strong>.</p>
-          <p>A 30 m, cada pixel cobre <strong>2,8 cm</strong> e o menor defeito passa a <strong>≈ 8,3 cm</strong>.</p>
+          "nota": "Valores ilustrativos: a tolerância real vem do projeto, da especificação de serviço ou do contrato."
+        }' role="img" aria-label="Calculadora da regra de decisão: o desvio medido, a tolerância e a incerteza resultam em conforme, quando o desvio mais a incerteza cabe na tolerância; não conforme, quando o desvio menos a incerteza passa dela; e inconclusivo no meio. Barras comparam desvio menos incerteza, desvio, desvio mais incerteza e tolerância."></div>
+        <div class="viz-lado compacto">
+          <table class="tab-mini">
+            <tr><th>Trecho</th><th>d</th><th>d − U</th><th>d + U</th><th>Decisão</th></tr>
+            <tr><td>1</td><td>2</td><td>−1</td><td>5</td><td class="ok">conforme</td></tr>
+            <tr><td>2</td><td>7</td><td>4</td><td>10</td><td class="talvez">inconclusivo</td></tr>
+            <tr><td>3</td><td>12</td><td>9</td><td>15</td><td class="nok">não conforme</td></tr>
+          </table>
+          <p class="mini">T = 5 cm, U = 3 cm. Inconclusivo <strong>não é aprovar por pouco</strong>: é medir de novo, com nivelamento ou estação total.</p>
           <div data-controles></div>
-          <p class="mini">A distância de voo é decisão de engenharia e de segurança ao mesmo tempo.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. QGIS -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Tudo isso cabe no QGIS</p>
+      <h2>Quatro ferramentas e três conselhos de quem já apanhou</h2>
+      <div class="timeline grande" style="--n:4">
+        <div class="etapa"><div class="ano">Calculadora raster</div><p>Δz = MDT atual − anterior, ou − projeto. Com rampa divergente, vira o <strong>mapa de desvios</strong>.</p></div>
+        <div class="etapa"><div class="ano">Volume de superfície raster</div><p>Corte e aterro em relação a um <strong>plano</strong> (ou somando as células de Δz).</p></div>
+        <div class="etapa"><div class="ano">Contorno (GDAL)</div><p>Gera as <strong>curvas de nível</strong> do MDT.</p></div>
+        <div class="etapa"><div class="ano">Perfil de elevação</div><p>Traça as <strong>seções transversais</strong>.</p></div>
+      </div>
+      <div class="cards3" style="margin-top:1.2rem">
+        <div class="card"><span class="tag">1</span><h3>Grades alinhadas</h3><p>Mesmo sistema de referência e <strong>mesma resolução</strong> de célula nas duas superfícies.</p></div>
+        <div class="card"><span class="tag">2</span><h3>Mesmo polígono</h3><p>Recorte as duas pelo <strong>mesmo polígono</strong> da frente de serviço: borda sem dados vira volume.</p></div>
+        <div class="card"><span class="tag">3</span><h3>Guarde o método</h3><p>Polígono, superfícies e parâmetros <strong>junto com o relatório</strong>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. Quem está certo -->
+  <section class="slide slide-viz">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao gancho</p>
+      <h2>48.200 × 46.900 m³: quem está certo?</h2>
+      <p class="mini-intro">Frente de <strong>4 ha</strong>; diferença de <strong>1.300 m³</strong> (≈ 2,8%). Um viés de <strong>3 cm</strong> em 4 ha vale <strong>1.200 m³</strong>; dois voos, cada um com seu viés: ≈ 1.700 m³ (raiz da soma dos quadrados). Talvez ninguém esteja errado.</p>
+      <div class="viz-grid inv">
+        <div class="viz-lado compacto">
+          <h3>O que exigir antes da 1ª medição</h3>
+          <ul class="lista-contrato">
+            <li><strong>Mesma referência</strong> (o primitivo)</li>
+            <li><strong>MDT</strong>, e não MDS</li>
+            <li><strong>Checkpoints</strong> independentes: RMSE<sub>z</sub> e <strong>média</strong></li>
+            <li><strong>Data e hora</strong> do voo</li>
+            <li><strong>Tolerância</strong> de volume e <strong>arbitragem</strong></li>
+          </ul>
+          <div data-controles></div>
+        </div>
+        <div class="viz" data-viz="calc" data-opts='{
+          "inputs": [
+            {"id":"A","label":"Área da frente","min":1,"max":10,"step":0.5,"value":4,"unit":"ha"},
+            {"id":"dz","label":"Viés vertical plausível","min":0,"max":8,"step":0.5,"value":3,"unit":"cm"},
+            {"id":"D","label":"Diferença entre as medições","min":0,"max":3000,"step":50,"value":1300,"unit":"m³"}
+          ],
+          "outputs": [
+            {"label":"Diferença relativa","expr":"D/46900*100","unit":"%","dec":1},
+            {"label":"Viés δz em A","expr":"A*10000*dz/100","unit":"m³","destaque":true},
+            {"label":"Dois voos (√2 · δV)","expr":"o2*Math.SQRT2","unit":"m³"},
+            {"label":"Leitura","expr":"D<=o3?&#39;cabe na incerteza: combine o método&#39;:&#39;excede o viés plausível: investigar&#39;"}
+          ],
+          "barras": [
+            {"label":"Diferença medida","expr":"D","unit":"m³"},
+            {"label":"Viés em um voo","expr":"o2","unit":"m³"},
+            {"label":"Dois voos (√2)","expr":"o3","unit":"m³"}
+          ],
+          "nota": ""
+        }' role="img" aria-label="Calculadora comparando a diferença entre as duas medições de volume com o volume equivalente a um viés vertical na área da frente, para um e para dois voos, com barras e uma leitura indicando se a diferença cabe na incerteza"></div>
       </div>
     </div>
   </section>
@@ -373,33 +418,33 @@
       <div class="versus fecho">
         <div class="lado">
           <h3>Atividade prática</h3>
-          <p>Escolha uma fachada que você conhece e planeje uma <strong>inspeção termográfica com drone</strong>: orientação e horário do voo, distância à fachada e <strong>menor defeito detectável</strong>, condições meteorológicas e restrições de segurança para quem está na calçada.</p>
-          <p>Indique os <strong>ensaios complementares</strong> nas áreas suspeitas.</p>
+          <p>No <strong>QGIS</strong>, com um MDT de exemplo, gere curvas de <strong>0,5 m</strong> e de <strong>0,1 m</strong> e decida qual é compatível com a exatidão do levantamento.</p>
+          <p>Crie um plano horizontal como greide, calcule o <strong>mapa de desvios</strong> e o volume de corte e aterro; repita deslocando o plano <strong>5 cm</strong>. Quanto mudou o volume? Compare com <span class="formula">A · δz</span>.</p>
         </div>
         <div class="vs">+</div>
         <div class="lado novo">
           <h3>Pontos-chave</h3>
           <ul class="pontos">
-            <li><span class="formula">R = c · Δt / 2</span>; com GNSS e IMU, cada pulso vira um ponto 3D.</li>
-            <li><strong>Múltiplos retornos</strong> dão o MDT sob a vegetação: o laser passa pelas frestas.</li>
-            <li><span class="formula">ρ ≈ PRR / (v · W)</span>; a exatidão depende da <strong>trajetória</strong> e se confere por checkpoints.</li>
-            <li>Termografia mede <strong>diferenças</strong>: emissividade, reflexos e fluxo de calor importam.</li>
-            <li>O termograma <strong>localiza</strong>; a confirmação é por ensaio local (NBR 16747).</li>
+            <li><span class="formula">V = Σ Δz · A<sub>c</sub></span>: o que exige engenharia é escolher as <strong>duas superfícies</strong>.</li>
+            <li><strong>MDT</strong>, mesmo referencial e <strong>empolamento</strong>.</li>
+            <li>Viés vira volume: <span class="formula">δV ≈ A · δz</span>.</li>
+            <li>Equidistância compatível com a exatidão: <strong>Eq ≥ 6 · RMSE<sub>z</sub></strong> (Classe A).</li>
+            <li>Conformidade com incerteza: <strong>conforme, inconclusivo ou não conforme</strong>.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 16. Foto: fechamento da unidade -->
+  <!-- 16. Fechamento da unidade -->
   <section class="slide slide-foto">
-    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Lidar_3D_Model_of_London.jpg/1280px-Lidar_3D_Model_of_London.jpg'); background-position: 60% 50%" role="img" aria-label="Modelo 3D de Londres gerado por LiDAR aéreo, em tons de cinza-azulado: quarteirões, torres, pontes e o rio Tâmisa vistos em perspectiva"></div>
+    <div class="foto-bg" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Lidar_3D_Model_of_London.jpg/1280px-Lidar_3D_Model_of_London.jpg'); background-size: 118% auto; background-position: 60% 0%" role="img" aria-label="Modelo 3D de Londres gerado por LiDAR aéreo, em tons de cinza-azulado: quarteirões, torres, pontes e o rio Tâmisa vistos em perspectiva"></div>
     <div class="foto-veu"></div>
     <div class="slide-content">
       <p class="kicker">Fechando a Unidade 2</p>
-      <h2>Do voo planejado ao modelo da cidade</h2>
-      <p>Você planejou o voo (GSD, sobreposição, altura), transformou fotos em 3D com <strong>SfM, pontos de controle e RTK/PPK</strong>, gerou <strong>ortomosaico, MDS/MDT e volumes</strong> e, hoje, somou o <strong>LiDAR</strong> e a <strong>termografia</strong>.</p>
-      <p>Em todos os casos, a mesma pergunta da Unidade 1: <strong>qual é a incerteza</strong> desse produto e <strong>que decisão</strong> ele sustenta?</p>
+      <h2>Da foto ao número de engenharia</h2>
+      <p><strong>Fotogrametria</strong>: fotos sobrepostas viram um modelo 3D. <strong>GNSS</strong>: o modelo no lugar certo, com a exatidão provada por <strong>RMSE e PEC-PCD</strong>. <strong>Produtos</strong>: ortomosaico, MDS, MDT, nuvem e LiDAR. <strong>Decisões</strong>: volumes, curvas de nível e conformidade.</p>
+      <p>Em todos os casos, a mesma pergunta: <strong>quanto eu posso confiar neste produto, e que decisão ele sustenta?</strong></p>
     </div>
     <p class="credito">Imagem: Environment Agency — Wikimedia Commons (CC BY-SA 4.0)</p>
   </section>
@@ -409,19 +454,14 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O que você verá na próxima unidade</p>
-      <h2>Unidade 3 — Sensores IoT no monitoramento de obras</h2>
+      <h2>Unidade 3 — Sensores IoT e redes de comunicação</h2>
       <div class="timeline grande" style="--n:4">
-        <div class="etapa"><div class="ano">Geotécnico</div><p><strong>Inclinômetros</strong>, piezômetros e marcos de recalque.</p></div>
-        <div class="etapa"><div class="ano">Estrutural</div><p>Extensômetros, acelerômetros, fissurômetros e <strong>maturidade do concreto</strong>.</p></div>
-        <div class="etapa"><div class="ano">Segurança e ambiente</div><p>Vibração, ruído, poeira e rastreamento de equipamentos.</p></div>
-        <div class="etapa"><div class="ano">Dados</div><p><strong>Séries temporais</strong>, níveis de alerta e dashboards.</p></div>
+        <div class="etapa"><div class="ano">Aula 9</div><p><strong>Sensores para obras</strong>: inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira.</p></div>
+        <div class="etapa"><div class="ano">Aula 10</div><p><strong>Plataformas embarcadas</strong> (Arduino, ESP32) e coleta de dados em campo.</p></div>
+        <div class="etapa"><div class="ano">Aula 11</div><p><strong>Redes</strong>: LoRaWAN, Wi-Fi e redes celulares.</p></div>
+        <div class="etapa"><div class="ano">Aula 12</div><p><strong>MQTT</strong> e armazenamento de <strong>séries temporais</strong>.</p></div>
       </div>
-      <div class="callout-azul" style="margin-top:1.6rem;background:rgba(0,0,0,.25)"><p>O drone mostra a obra <strong>por fora e em campanhas</strong>; os sensores contam o que acontece <strong>entre um voo e outro</strong>. A combinação dos dois fecha a malha.</p></div>
-      <div class="versus" style="margin-top:1.2rem">
-        <div class="lado"><p><strong>Da Unidade 2 você leva:</strong> o voo planejado, o modelo 3D com exatidão comprovada, os volumes, o LiDAR e a termografia.</p></div>
-        <div class="vs">→</div>
-        <div class="lado novo"><p><strong>Na Unidade 3 você aprende:</strong> a instrumentar o solo e a estrutura e a ler as séries de dados.</p></div>
-      </div>
+      <div class="callout-azul" style="margin-top:1.5rem;background:rgba(0,0,0,.25)"><p>O drone mostra a obra <strong>por fora e em campanhas</strong>; os sensores contam o que acontece <strong>entre um voo e outro</strong>: no solo, na estrutura e no ar do canteiro.</p></div>
     </div>
   </section>
 
@@ -432,8 +472,8 @@
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Unidade 2 concluída</h1>
-      <p class="fim-texto">Você planeja o voo, processa as fotos, mede volumes e sabe quando chamar o LiDAR e a câmera térmica.</p>
-      <p class="fim-proxima">Próxima unidade: Unidade 3 — Sensores IoT no Monitoramento de Obras (Aula 9).</p>
+      <p class="fim-texto">Você transforma fotos em modelos no lugar certo, mede volumes e decide a conformidade sabendo quanta incerteza cabe em cada número.</p>
+      <p class="fim-proxima">Próxima unidade: Unidade 3 — Sensores IoT e Redes de Comunicação (Aula 9).</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -442,290 +482,220 @@
 
 <script src="../../assets/obra.js"></script>
 <script>
-/* retornos — um pulso de laser sobre solo exposto ou sobre uma árvore:
-   ecos da copa, do galho e do chão, com R = c·Δt/2. */
-Obra.register('retornos', (host) => {
+/* Visualizações próprias da Aula 8 (volume vem do antigo deck da Aula 7) */
+(function () {
+  const { canvas2d, cena3d, loop, hud, chip, botoes, slider, fmt, caixa } = Obra;
+  const dprOf = () => Math.min(2, window.devicePixelRatio || 1);
+  const tamanho = (ctx) => [ctx.canvas.width / dprOf(), ctx.canvas.height / dprOf()];
+  // números pseudoaleatórios fixos (o desenho não "pisca")
+  const rnd = (k) => { const x = Math.sin(k * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+
+/* volume — 8 células de 10 × 10 m contra o greide, com viés vertical ajustável */
+Obra.register('volume', (host, opts, painel) => {
+  const DZ = [1.40, 0.90, 0.35, -0.20, 1.10, 0.60, -0.45, -0.80], AC = 100;
+  const p = painel || document.createElement('div');
+  const sB = Obra.slider(p, { id: 'b', label: 'Viés vertical do modelo', min: -10, max: 10, step: 0.5, value: 0, unit: 'cm' });
+  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
   const { ctx } = Obra.canvas2d(host);
-  let arvore = true;
-  const bts = Obra.botoes(host, [
-    ['Sobre solo exposto', () => { arvore = false; sel(0); }],
-    ['Sobre uma árvore', () => { arvore = true; sel(1); }, true]
-  ]);
-  const sel = (i) => bts.forEach((b, k) => b.classList.toggle('on', k === i));
-  const C = 3e8, H = 80;
-  // ecos: distância (m) e intensidade relativa
-  const ecosArvore = [{ r: 62, a: 0.55, nome: 'copa' }, { r: 70, a: 0.3, nome: 'galho' }, { r: 80, a: 0.45, nome: 'chão' }];
-  const ecosSolo = [{ r: 80, a: 1, nome: 'chão' }];
-  const lp = Obra.loop((t) => {
+  const soma = (b) => { let c = 0, a = 0; DZ.forEach((v) => { const d = v + b; if (d > 0) c += d * AC; else a -= d * AC; }); return [c, a]; };
+  const [c0, a0] = soma(0);
+  let bAnim = 0;
+  const lp = Obra.loop((t, dt) => {
+    const b = +sB.value / 100;
+    bAnim += (b - bAnim) * Math.min(1, dt * 5);
+    const [c, a] = soma(b);
+    const dl = (c - a) - (c0 - a0);
+    res.innerHTML = `Corte: <b>${Obra.fmt(c, 0)} m³</b> · Aterro: <b>${Obra.fmt(a, 0)} m³</b><br>` +
+      `Variação do volume líquido: <span class="num">${dl >= 0 ? '+' : '−'}${Obra.fmt(Math.abs(dl), 0)} m³</span>` +
+      `<br><small>= 800 m² × ${Obra.fmt(Math.abs(b) * 100, 1)} cm${c0 ? ' · ' + Obra.fmt(Math.abs(dl) / c0 * 100, 1) + '% do corte sem viés (435 m³)' : ''}</small>`;
     const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, Hc = ctx.canvas.height / dpr;
     ctx.clearRect(0, 0, W, Hc);
-    const ecos = arvore ? ecosArvore : ecosSolo;
-    // painel esquerdo: cena
-    const xm = W * 0.2, yTop = 70, yChao = Hc - 50, esc = (yChao - yTop) / H;
-    const Y = (r) => yTop + r * esc;
-    ctx.fillStyle = 'rgba(138,111,77,.8)'; ctx.fillRect(16, yChao, W * 0.4 - 16, Hc - yChao - 14);
-    ctx.fillStyle = '#fff'; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'center';
-    if (arvore) {
-      ctx.fillStyle = '#6b4a2b'; ctx.fillRect(xm - 4, Y(66), 8, yChao - Y(66));
-      ctx.fillStyle = 'rgba(71,140,63,.9)';
-      ctx.beginPath(); ctx.ellipse(xm, Y(67), 44, Math.max(18, 5 * esc), 0, 0, 7); ctx.fill();
-      ctx.strokeStyle = '#6b4a2b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(xm, Y(72)); ctx.lineTo(xm + 26, Y(69)); ctx.stroke(); ctx.lineWidth = 1;
-    }
-    // drone
-    ctx.fillStyle = '#e8ecf2'; ctx.fillRect(xm - 16, yTop - 14, 32, 10);
-    ctx.fillRect(xm - 30, yTop - 18, 60, 3);
-    ctx.fillStyle = '#fff'; ctx.fillText('drone a ' + H + ' m', xm, yTop - 26);
-    // pulso: desce e sobe em ciclo de 3,2 s
-    const T = 3.2, f = (t % T) / T;
-    const rMax = 80, ida = Math.min(1, f * 2) * rMax;
-    ctx.strokeStyle = 'rgba(255,43,95,.35)'; ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.moveTo(xm, yTop); ctx.lineTo(xm, yChao); ctx.stroke(); ctx.setLineDash([]);
-    ctx.fillStyle = '#FF2B5F'; ctx.beginPath(); ctx.arc(xm, Y(Math.min(ida, rMax)), 6, 0, 7); ctx.fill();
-    // ecos voltando
-    if (f > 0) ecos.forEach((e) => {
-      const tVolta = f * 2 * rMax - e.r; // distância percorrida após o eco
-      if (tVolta > 0 && tVolta < e.r) { ctx.fillStyle = 'rgba(43,217,254,' + (0.4 + e.a * 0.6) + ')'; ctx.beginPath(); ctx.arc(xm + 10, Y(e.r - tVolta), 4 + e.a * 4, 0, 7); ctx.fill(); }
+    // malha 4 × 2 (vista de cima)
+    const gTop = 36, gH = Hc * 0.42, cw = Math.min((W - 60) / 4, gH / 2 * 1.0), gx = (W - cw * 4) / 2;
+    ctx.fillStyle = '#fff'; ctx.font = '600 13px Montserrat, Arial'; ctx.textAlign = 'center';
+    ctx.fillText('Malha vista de cima · células de 10 × 10 m (100 m²)', W / 2, 22);
+    DZ.forEach((v, k) => {
+      const d = v + bAnim, col = k % 4, lin = Math.floor(k / 4);
+      const x = gx + col * cw, y = gTop + lin * cw;
+      const intens = Math.min(1, Math.abs(d) / 1.5) * 0.75 + 0.15;
+      ctx.fillStyle = d > 0 ? `rgba(255,43,95,${intens})` : `rgba(43,217,254,${intens})`;
+      ctx.fillRect(x + 2, y + 2, cw - 4, cw - 4);
+      ctx.fillStyle = '#fff'; ctx.font = '700 15px Montserrat, Arial';
+      ctx.fillText((d >= 0 ? '+' : '−') + Obra.fmt(Math.abs(d), 2) + ' m', x + cw / 2, y + cw / 2 + 2);
+      ctx.font = '600 11px Montserrat, Arial'; ctx.fillStyle = 'rgba(255,255,255,.85)';
+      ctx.fillText(d > 0 ? 'corte' : 'aterro', x + cw / 2, y + cw / 2 + 20);
     });
-    // painel direito: forma de onda
-    const gx = W * 0.47, gw = W * 0.49, gy = 110, gh = Hc - 200;
-    ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.beginPath(); ctx.moveTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.stroke();
-    const t0 = 380, t1 = 580; // ns
-    const X = (ns) => gx + (ns - t0) / (t1 - t0) * gw;
-    ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.font = '11px Montserrat, Arial'; ctx.textAlign = 'center';
-    for (let ns = 400; ns <= 560; ns += 40) { ctx.fillRect(X(ns), gy + gh, 1, 5); ctx.fillText(ns + ' ns', X(ns), gy + gh + 18); }
-    ctx.textAlign = 'left'; ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#fff';
-    ctx.fillText('Intensidade do eco × tempo de ida e volta', gx, 92);
-    // revela a curva até o tempo atual
-    const tAgora = f * 2 * rMax * 2 / C * 1e9;
-    ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2.5; ctx.beginPath();
-    for (let ns = t0; ns <= Math.min(t1, tAgora); ns += 0.5) {
-      let a = 0.02;
-      ecos.forEach((e) => { const te = 2 * e.r / C * 1e9; a += e.a * Math.exp(-0.5 * ((ns - te) / 5) ** 2); });
-      const y = gy + gh - a * (gh - 30);
-      ns === t0 ? ctx.moveTo(X(ns), y) : ctx.lineTo(X(ns), y);
-    }
-    ctx.stroke(); ctx.lineWidth = 1;
-    ecos.forEach((e, k) => {
-      const te = 2 * e.r / C * 1e9; if (tAgora < te) return;
-      const y = gy + gh - (e.a + 0.02) * (gh - 30);
-      ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'center'; ctx.font = '700 12px Montserrat, Arial';
-      ctx.fillText(e.nome, X(te), y - 26);
-      ctx.font = '12px Montserrat, Arial'; ctx.fillStyle = '#fff';
-      ctx.fillText(Obra.fmt(te, 0) + ' ns → ' + Obra.fmt(e.r) + ' m', X(te), y - 10);
-      void k;
+    // perfil de barras (Δz em relação ao greide)
+    const pTop = gTop + 2 * cw + 30, pH = Hc - pTop - 20, zero = pTop + pH * 0.55, ez = (pH * 0.42) / 1.5;
+    const bw = (W - 80) / 8;
+    ctx.strokeStyle = '#F2CB0A'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(30, zero); ctx.lineTo(W - 30, zero); ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = '#F2CB0A'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial';
+    ctx.fillText('greide de projeto', 32, zero + 16);
+    DZ.forEach((v, k) => {
+      const d = v + bAnim, x = 40 + k * bw + bw * 0.15, w = bw * 0.7, hh = d * ez;
+      ctx.fillStyle = d > 0 ? 'rgba(255,43,95,.85)' : 'rgba(43,217,254,.85)';
+      ctx.fillRect(x, d > 0 ? zero - hh : zero, w, Math.abs(hh));
     });
-    ctx.textAlign = 'left'; ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#F2CB0A';
-    ctx.fillText(arvore ? '3 retornos: o 1º é a copa (MDS); o último é o chão (MDT)' : '1 retorno: R = c·Δt/2 = 3×10⁸ × 533 ns / 2 ≈ 80 m', gx, Hc - 30);
+    ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.setLineDash([5, 4]); ctx.beginPath();
+    ctx.moveTo(30, zero - bAnim * ez); ctx.lineTo(W - 30, zero - bAnim * ez); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.textAlign = 'right';
+    ctx.fillText('perfil das 8 células (barras = Δz)', W - 32, Hc - 6);
   });
   return { start: lp.start, stop: lp.stop };
 });
 
-/* lidar3d — drone varrendo uma encosta com mata; pontos de primeiro
-   retorno (copa) e de último retorno (terreno). */
-Obra.register('lidar3d', (host) => {
-  const h = Obra.hud(host);
-  const cPts = Obra.chip(h, ''), cModo = Obra.chip(h, '');
-  let modo = 1; // 0 = primeiro retorno, 1 = último retorno
-  return Obra.cena3d(host, { r: 118, ph: 1.02, th: 0.75, alvo: [0, 14, 0], fogNear: 200, fogFar: 480 }, ({ THREE, scene, rotulo }) => {
-    const LX = 60, LZ = 35;
-    const terreno = (x, z) => 0.1 * x + 2.5 * Math.sin(z / 9) + 1.5 * Math.cos(x / 13) + 6;
-    // malha do terreno
-    const geo = new THREE.PlaneGeometry(LX * 2, LZ * 2, 60, 35); geo.rotateX(-Math.PI / 2);
-    const pos = geo.attributes.position;
-    for (let i = 0; i < pos.count; i++) pos.setY(i, terreno(pos.getX(i), pos.getZ(i)));
-    geo.computeVertexNormals();
-    const solo = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0x7a5f40, roughness: 0.95, transparent: true, opacity: 0.55 }));
-    scene.add(solo);
-    // árvores (densas)
-    const arvores = [], gArv = new THREE.Group(); scene.add(gArv);
-    let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
-    for (let k = 0; k < 110; k++) {
-      const x = -LX + 4 + rnd() * (LX * 2 - 8), z = -LZ + 4 + rnd() * (LZ * 2 - 8);
-      if (x > -12 && x < 2) continue; // clareira
-      const ht = 7 + rnd() * 5, rc = 3 + rnd() * 2.5, y0 = terreno(x, z);
-      const tronco = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.5, ht, 6), new THREE.MeshStandardMaterial({ color: 0x5a3d22 }));
-      tronco.position.set(x, y0 + ht / 2, z);
-      const copa = new THREE.Mesh(new THREE.SphereGeometry(rc, 10, 8), new THREE.MeshStandardMaterial({ color: 0x3f7a3a, roughness: 0.9, transparent: true, opacity: 0.9 }));
-      copa.position.set(x, y0 + ht, z); copa.scale.y = 0.75;
-      gArv.add(tronco, copa);
-      arvores.push({ x, z, rc, top: y0 + ht + rc * 0.75, y0, copa });
+  /* curvas — curvas de nível de um MDT com ruído: equidistância 0,10 / 0,20 / 0,50 m e suavização */
+  Obra.register('curvas', (host) => {
+    const { ctx } = canvas2d(host);
+    const h = hud(host); const cEq = chip(h, ''), cRuido = chip(h, '');
+    const NX = 161, NY = 101, CEL = 0.5, RMSE = 0.0256;   // 80 × 50 m
+    let sd = 12345; const u = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+    const borra = (a) => {
+      const b = new Float32Array(a.length);
+      for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+        let s = 0, n = 0;
+        for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+          const jj = j + dj, ii = i + di; if (jj < 0 || jj >= NY || ii < 0 || ii >= NX) continue; s += a[jj * NX + ii]; n++;
+        }
+        b[j * NX + i] = s / n;
+      }
+      return b;
+    };
+    const dp = (a) => { let m = 0; a.forEach((v) => { m += v; }); m /= a.length; let s = 0; a.forEach((v) => { s += (v - m) * (v - m); }); return Math.sqrt(s / a.length); };
+    // terreno: plataforma quase plana (x < 28 m) e encosta com um vale à direita
+    const terreno = (x, y) => {
+      const t = Math.max(0, Math.min(1, (x - 28) / 42)), s = t * t * (3 - 2 * t);
+      return 100.14 + 2.6 * s + 0.35 * s * Math.sin(y / 8 + x / 25) - 0.9 * s * Math.exp(-(((y - 25) / 7) ** 2));
+    };
+    let ruido = new Float32Array(NX * NY);
+    for (let k = 0; k < ruido.length; k++) ruido[k] = (u() + u() + u() + u() - 2) * Math.sqrt(3);
+    ruido = borra(borra(ruido));
+    // normaliza e corta as caudas (±2,2 σ): ruído ilustrativo com RMSE de 2,56 cm
+    for (let r = 0; r < 3; r++) { const f = RMSE / dp(ruido); for (let k = 0; k < ruido.length; k++) ruido[k] = Math.max(-2.2 * RMSE, Math.min(2.2 * RMSE, ruido[k] * f)); }
+    const T = new Float32Array(NX * NY);
+    for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) T[j * NX + i] = terreno(i * CEL, j * CEL);
+    const bruto = T.map((v, k) => v + ruido[k]);
+    let suave = bruto; for (let r = 0; r < 4; r++) suave = borra(suave);
+    const sigSuave = dp(suave.map((v, k) => v - T[k]));
+    // fundo hipsométrico (uma vez)
+    const off = document.createElement('canvas'); off.width = NX; off.height = NY;
+    const oc = off.getContext('2d'), img = oc.createImageData(NX, NY);
+    for (let k = 0; k < NX * NY; k++) {
+      const tt = Math.max(0, Math.min(1, (T[k] - 100) / 2.8));
+      img.data[k * 4] = 214 + 30 * tt; img.data[k * 4 + 1] = 232 - 22 * tt; img.data[k * 4 + 2] = 196 - 60 * tt; img.data[k * 4 + 3] = 255;
     }
-    const marcaClareira = new THREE.Object3D(); marcaClareira.position.set(-5, terreno(-5, 20) + 2, 20); scene.add(marcaClareira);
-    rotulo(marcaClareira, 'Clareira', 1);
-    // pontos
-    const MAX = 60000;
-    const pGeo = new THREE.BufferGeometry();
-    const pArr = new Float32Array(MAX * 3), cArr = new Float32Array(MAX * 3);
-    pGeo.setAttribute('position', new THREE.BufferAttribute(pArr, 3));
-    pGeo.setAttribute('color', new THREE.BufferAttribute(cArr, 3));
-    pGeo.setDrawRange(0, 0);
-    const pts = new THREE.Points(pGeo, new THREE.PointsMaterial({ size: 0.7, vertexColors: true }));
-    scene.add(pts);
-    const primeiros = [], ultimos = []; // pontos [x,y,z,r,g,b]
-    const cor = new THREE.Color();
-    const corCota = (y) => { const f = Math.max(0, Math.min(1, (y + 2) / 20)); cor.setHSL(0.62 - f * 0.5, 0.85, 0.55); return [cor.r, cor.g, cor.b]; };
-    // drone
-    const dr = Obra.droneModelo(THREE, 1.6); scene.add(dr.g);
-    rotulo(dr.g, 'Drone com LiDAR', 3);
-    const HD = 40; // altura de voo da cena
-    const leque = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: 0xff2b5f, transparent: true, opacity: 0.7 }));
-    scene.add(leque);
-    const bts = Obra.botoes(host, [
-      ['Primeiro retorno (MDS)', () => { modo = 0; troca(); }],
-      ['Último retorno (MDT)', () => { modo = 1; troca(); }, true],
-      ['Recomeçar voo', () => { primeiros.length = 0; ultimos.length = 0; xd = -LX; dir = 1; troca(); }]
-    ]);
-    function troca() {
-      bts[0].classList.toggle('on', modo === 0); bts[1].classList.toggle('on', modo === 1);
-      arvores.forEach((a) => { a.copa.material.opacity = modo ? 0.12 : 0.9; });
-      gArv.children.forEach((m) => { m.visible = true; });
-      solo.material.opacity = modo ? 0.25 : 0.55;
-      redesenha(true);
-    }
-    let feitos = 0; // pontos já copiados para o buffer no modo atual
-    function redesenha(tudo) {
-      const lista = modo ? ultimos : primeiros, n = Math.min(MAX, lista.length);
-      if (tudo) feitos = 0;
-      for (let i = feitos; i < n; i++) { const p = lista[i]; const j = i * 3; pArr[j] = p[0]; pArr[j + 1] = p[1]; pArr[j + 2] = p[2]; cArr[j] = p[3]; cArr[j + 1] = p[4]; cArr[j + 2] = p[5]; }
-      if (n !== feitos || tudo) { pGeo.attributes.position.needsUpdate = true; pGeo.attributes.color.needsUpdate = true; }
-      feitos = n; pGeo.setDrawRange(0, n);
-    }
-    let xd = -LX, dir = 1;
-    troca();
-    const segs = new Float32Array(14 * 6);
-    leque.geometry.setAttribute('position', new THREE.BufferAttribute(segs, 3));
-    return (t, dt) => {
-      xd += dir * dt * 9;
-      if (xd > LX) { xd = LX; dir = -1; } if (xd < -LX) { xd = -LX; dir = 1; }
-      const yd = HD;
-      dr.g.position.set(xd, yd, 0); dr.g.rotation.y = dir > 0 ? Math.PI / 2 : -Math.PI / 2;
-      dr.helices.forEach((hh, k) => (hh.rotation.y += (k % 2 ? 1 : -1) * 0.9));
-      // pulsos deste quadro
-      let li = 0;
-      if (primeiros.length < MAX && ultimos.length < MAX) {
-        for (let k = 0; k < 90; k++) {
-          const ang = (rnd() * 70 - 35) * Math.PI / 180;
-          const x = xd + (rnd() - 0.5) * 1.5;
-          const yg0 = terreno(x, 0);
-          const z = Math.tan(ang) * (yd - yg0);
-          if (Math.abs(z) > LZ) continue;
-          const yg = terreno(x, z);
-          let arv = null;
-          for (const a of arvores) { const dx = x - a.x, dz = z - a.z; if (dx * dx + dz * dz < a.rc * a.rc) { if (!arv || a.top > arv.top) arv = a; } }
-          let yFirst = yg, cFirst;
-          if (arv) {
-            const dx = x - arv.x, dz = z - arv.z, rr = Math.sqrt(dx * dx + dz * dz) / arv.rc;
-            yFirst = arv.top - (1 - Math.sqrt(Math.max(0, 1 - rr * rr))) * arv.rc * 0.75 - rnd() * 0.6;
-            cFirst = [0.35 + rnd() * 0.15, 0.75 + rnd() * 0.2, 0.3];
-            primeiros.push([x, yFirst, z, ...cFirst]);
-            if (rnd() < 0.3) ultimos.push([x, yg + 0.15, z, ...corCota(yg)]); // passou por um vão
-          } else {
-            primeiros.push([x, yg + 0.15, z, ...corCota(yg)]);
-            ultimos.push([x, yg + 0.15, z, ...corCota(yg)]);
-          }
-          if (li < 14 && k % 6 === 0) { segs.set([xd, yd - 1, 0, x, yFirst, z], li * 6); li++; }
+    oc.putImageData(img, 0, 0);
+    // curvas por marching squares
+    const curvas = (Z, eq) => {
+      let mn = Infinity, mx = -Infinity; Z.forEach((v) => { if (v < mn) mn = v; if (v > mx) mx = v; });
+      const out = [];
+      for (let k = Math.ceil(mn / eq - 1e-9); k * eq <= mx; k++) {
+        const L = k * eq, mestra = Math.round(k) % 5 === 0 ? 1 : 0;
+        for (let j = 0; j < NY - 1; j++) for (let i = 0; i < NX - 1; i++) {
+          const a = Z[j * NX + i], b = Z[j * NX + i + 1], c = Z[(j + 1) * NX + i + 1], d = Z[(j + 1) * NX + i];
+          const p = [];
+          if ((a < L) !== (b < L)) p.push(i + (L - a) / (b - a), j);
+          if ((b < L) !== (c < L)) p.push(i + 1, j + (L - b) / (c - b));
+          if ((d < L) !== (c < L)) p.push(i + (L - d) / (c - d), j + 1);
+          if ((a < L) !== (d < L)) p.push(i, j + (L - a) / (d - a));
+          if (p.length === 4) out.push(p[0], p[1], p[2], p[3], mestra);
+          else if (p.length === 8) out.push(p[0], p[1], p[2], p[3], mestra, p[4], p[5], p[6], p[7], mestra);
         }
       }
-      for (let i = li; i < 14; i++) segs.set([xd, yd, 0, xd, yd, 0], i * 6);
-      leque.geometry.attributes.position.needsUpdate = true;
-      redesenha();
-      const n = modo ? ultimos.length : primeiros.length;
-      cPts.innerHTML = 'Pontos: <b>' + Obra.fmt(n) + '</b>';
-      cModo.innerHTML = modo ? 'Último retorno: <b>terreno (MDT)</b>' : 'Primeiro retorno: <b>copa (MDS)</b>';
+      return out;
     };
+    let eq = 0.2, liso = false, cache = null, chave = '';
+    const btns = botoes(host, [
+      ['0,10 m', () => sel(0.1)], ['0,20 m', () => sel(0.2), true], ['0,50 m', () => sel(0.5)],
+      ['Suavizar MDT', (b) => { liso = !liso; b.classList.toggle('on', liso); }]
+    ]);
+    const sel = (v) => { eq = v; btns.slice(0, 3).forEach((b, k) => b.classList.toggle('on', [0.1, 0.2, 0.5][k] === v)); };
+    const lp = loop(() => {
+      const k = eq + '|' + liso;
+      if (k !== chave) { chave = k; cache = curvas(liso ? suave : bruto, eq); }
+      const [W, H] = tamanho(ctx);
+      ctx.clearRect(0, 0, W, H);
+      const esc = Math.min((W - 30) / (NX - 1), (H - 96) / (NY - 1)), ox = (W - (NX - 1) * esc) / 2, oy = 52;
+      ctx.imageSmoothingEnabled = true; ctx.drawImage(off, ox, oy, (NX - 1) * esc, (NY - 1) * esc);
+      ctx.save(); ctx.beginPath(); ctx.rect(ox, oy, (NX - 1) * esc, (NY - 1) * esc); ctx.clip();
+      [0, 1].forEach((m) => {
+        ctx.strokeStyle = m ? 'rgba(110,52,14,.95)' : 'rgba(150,80,30,.85)'; ctx.lineWidth = m ? 2.2 : 1; ctx.beginPath();
+        for (let q = 0; q < cache.length; q += 5) {
+          if (cache[q + 4] !== m) continue;
+          ctx.moveTo(ox + cache[q] * esc, oy + cache[q + 1] * esc); ctx.lineTo(ox + cache[q + 2] * esc, oy + cache[q + 3] * esc);
+        }
+        ctx.stroke();
+      });
+      ctx.restore(); ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.strokeRect(ox, oy, (NX - 1) * esc, (NY - 1) * esc);
+      ctx.font = '600 12px Montserrat, Arial'; ctx.fillStyle = '#fff'; ctx.textAlign = 'left';
+      ctx.fillText('plataforma quase plana', ox + 8, oy + (NY - 1) * esc + 18);
+      ctx.textAlign = 'right'; ctx.fillText('encosta com um vale →', ox + (NX - 1) * esc - 6, oy + (NY - 1) * esc + 18);
+      ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(255,255,255,.8)';
+      ctx.fillText('MDT de 80 × 50 m · curva mestra (grossa) a cada 5 curvas', W / 2, oy + (NY - 1) * esc + 36);
+      const ok = eq * 100 >= 15.4 - 1e-6;
+      cEq.innerHTML = 'Eq = <b>' + fmt(eq, 2) + ' m</b> ' + (ok ? '≥ 15,4 cm: compatível com a Classe A' : '&lt; 15,4 cm: <b>desenha ruído</b>');
+      cEq.classList.toggle('alerta', !ok);
+      cRuido.innerHTML = liso ? 'MDT suavizado: ruído ≈ <b>' + fmt(sigSuave * 100, 1) + ' cm</b>' : 'MDT bruto: ruído ≈ <b>2,6 cm</b>';
+    });
+    return { start: lp.start, stop: lp.stop };
   });
-});
 
-/* termo — termograma simulado de uma fachada cerâmica ao longo do dia:
-   placas descoladas (aquecem e esfriam mais rápido) e umidade (mais fria). */
-Obra.register('termo', (host, opts, painel) => {
-  const { ctx } = Obra.canvas2d(host);
-  const p = painel || document.createElement('div');
-  const sH = Obra.slider(p, { id: 'h', label: 'Hora do dia', min: 0, max: 23.5, step: 0.5, value: 11, unit: 'h' });
-  const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
-  let revelar = false, animar = false;
-  const bts = Obra.botoes(host, [
-    ['Revelar defeitos reais', (b) => { revelar = !revelar; b.classList.toggle('on', revelar); }],
-    ['▶ Passar o dia', (b) => { animar = !animar; b.classList.toggle('on', animar); }]
-  ]);
-  void bts;
-  // modelo térmico de 1ª ordem: dT/dt = (Teq − T)/τ, periódico em 24 h
-  const S = (hh) => { hh = ((hh % 24) + 24) % 24; return hh >= 7 && hh <= 17 ? Math.max(0, Math.sin(Math.PI * (hh - 7) / 10)) : 0; };
-  const Ta = (hh) => 24 + 5 * Math.sin(2 * Math.PI * (hh - 9) / 24);
-  const MAT = { ad: [2.0, 12, 2.5, 0, 0], de: [0.6, 16, 3.5, 0, 0], mo: [2.0, 12, 2.5, 1.5, 4] };
-  const TAB = { ad: [], de: [], mo: [] }, T = { ad: 24, de: 24, mo: 24 }, dt = 0.01;
-  for (let i = 0; i <= 72 / dt; i++) {
-    const hh = i * dt;
-    for (const k in MAT) {
-      const [tau, ks, rad, e0, es] = MAT[k], s = S(hh);
-      const teq = Ta(hh) + ks * s - rad - (e0 + es * s);
-      T[k] += (teq - T[k]) / tau * dt;
+  /* desvios — mapa de desvios (MDT − projeto) de uma plataforma em três trechos, com tolerância ajustável */
+  Obra.register('desvios', (host, opts, painel) => {
+    const { ctx } = canvas2d(host);
+    const p = painel || document.createElement('div');
+    const sT = slider(p, { id: 't', label: 'Tolerância', min: 2, max: 10, step: 0.5, value: 5, unit: 'cm', dec: 1 });
+    const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
+    const NX = 120, NY = 60, CEL = 0.5, MEDIAS = [2, 7, 12];   // 60 × 30 m; desvios em cm
+    let sd = 777; const u = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+    const DZ = new Float32Array(NX * NY);
+    for (let j = 0; j < NY; j++) for (let i = 0; i < NX; i++) {
+      const x = i * CEL, y = j * CEL, tr = Math.min(2, Math.floor(x / 20));
+      DZ[j * NX + i] = MEDIAS[tr] + 2.6 * Math.sin(x / 4.3) * Math.cos(y / 5.1) + (u() - 0.5) * 1.6 - 9 * Math.exp(-((x - 6) ** 2 + (y - 24) ** 2) / 14);
     }
-    if (hh >= 48 - 1e-9 && i % 10 === 0) for (const k in MAT) TAB[k].push(T[k]);
-  }
-  const temp = (k, hh) => { const v = hh * 10, i = Math.floor(v), f = v - i, a = TAB[k]; return a[i % 240] * (1 - f) + a[(i + 1) % 240] * f; };
-  // fachada: 16 × 11 placas; defeitos
-  const NC = 16, NL = 11;
-  const desc = [{ c0: 3, c1: 6, l0: 2, l1: 4 }, { c0: 10, c1: 13, l0: 5, l1: 6 }];
-  const umid = { c0: 6, c1: 10, l0: 9, l1: 10 };
-  const dentro = (r, c, l) => c >= r.c0 && c <= r.c1 && l >= r.l0 && l <= r.l1;
-  // ruído fixo por placa
-  let sd = 3; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
-  const ruido = []; for (let i = 0; i < NC * NL; i++) ruido.push((rnd() - 0.5) * 0.5);
-  const paleta = (f) => { // iron: preto → roxo → vermelho → laranja → amarelo → branco
-    const st = [[0, 0, 0, 20], [0.2, 70, 0, 120], [0.45, 200, 30, 60], [0.7, 255, 130, 0], [0.9, 255, 220, 40], [1, 255, 255, 230]];
-    f = Math.max(0, Math.min(1, f));
-    for (let i = 1; i < st.length; i++) if (f <= st[i][0]) { const a = st[i - 1], b = st[i], g = (f - a[0]) / (b[0] - a[0]); return `rgb(${Math.round(a[1] + (b[1] - a[1]) * g)},${Math.round(a[2] + (b[2] - a[2]) * g)},${Math.round(a[3] + (b[3] - a[3]) * g)})`; }
-    return 'rgb(255,255,230)';
-  };
-  let hAnim = +sH.value;
-  const lp = Obra.loop((t, dts) => {
-    if (animar) { hAnim = (hAnim + dts * 1.6) % 24; sH.value = (Math.round(hAnim * 2) / 2) % 24; sH.dispatchEvent(new Event('input')); }
-    else hAnim = +sH.value;
-    const hh = animar ? hAnim : +sH.value;
-    const dpr = Math.min(2, window.devicePixelRatio || 1), W = ctx.canvas.width / dpr, H = ctx.canvas.height / dpr;
-    ctx.clearRect(0, 0, W, H);
-    const tAd = temp('ad', hh), tDe = temp('de', hh), tMo = temp('mo', hh);
-    const vals = [];
-    for (let l = 0; l < NL; l++) for (let c = 0; c < NC; c++) {
-      let v = tAd;
-      if (desc.some((r) => dentro(r, c, l))) v = tDe; else if (dentro(umid, c, l)) v = tMo;
-      vals.push(v + ruido[l * NC + c]);
-    }
-    let mn = Math.min(...vals), mx = Math.max(...vals);
-    if (mx - mn < 4) { const m = (mx + mn) / 2; mn = m - 2; mx = m + 2; } // faixa mínima, como no modo automático
-    const gx = 40, gy = 56, gw = W - 210, gh = H - 100, cw = gw / NC, ch = gh / NL;
-    for (let l = 0; l < NL; l++) for (let c = 0; c < NC; c++) {
-      ctx.fillStyle = paleta((vals[l * NC + c] - mn) / (mx - mn));
-      ctx.fillRect(gx + c * cw + 1, gy + l * ch + 1, cw - 2, ch - 2);
-    }
-    // janelas (vidro reflete: não confiar)
-    ctx.fillStyle = 'rgba(20,30,60,.85)';
-    [[1, 1], [8, 1], [14, 1], [1, 7], [14, 7]].forEach(([c, l]) => ctx.fillRect(gx + c * cw + 3, gy + l * ch + 3, cw - 6, ch * 2 - 6));
-    if (revelar) {
-      ctx.lineWidth = 2.5; ctx.setLineDash([6, 4]);
-      ctx.strokeStyle = '#2BD9FE';
-      desc.forEach((r) => ctx.strokeRect(gx + r.c0 * cw, gy + r.l0 * ch, (r.c1 - r.c0 + 1) * cw, (r.l1 - r.l0 + 1) * ch));
-      ctx.strokeStyle = '#95DE68'; ctx.strokeRect(gx + umid.c0 * cw, gy + umid.l0 * ch, (umid.c1 - umid.c0 + 1) * cw, (umid.l1 - umid.l0 + 1) * ch);
+    const off = document.createElement('canvas'); off.width = NX; off.height = NY;
+    const oc = off.getContext('2d'); let tolDe = -1;
+    const pinta = (T) => {
+      const img = oc.createImageData(NX, NY); let v = 0, r = 0, a = 0;
+      for (let k = 0; k < NX * NY; k++) {
+        const d = DZ[k]; let c;
+        if (Math.abs(d) <= T) { c = [80, 190, 90]; v++; }
+        else if (d > T) { const q = Math.min(1, (d - T) / 8); c = [255, 120 - 80 * q, 120 - 60 * q]; r++; }
+        else { const q = Math.min(1, (-d - T) / 8); c = [80 - 40 * q, 170, 255]; a++; }
+        img.data.set([c[0], c[1], c[2], 255], k * 4);
+      }
+      oc.putImageData(img, 0, 0);
+      const n = NX * NY;
+      res.innerHTML = `<span class="ok">Dentro: ${fmt(v / n * 100, 0)}%</span> · <span class="nok">falta cortar: ${fmt(r / n * 100, 0)}%</span> · <span style="color:var(--obra-ciano);font-weight:700">falta aterrar: ${fmt(a / n * 100, 0)}%</span>` +
+        `<br><small>Desvio = MDT levantado − greide de projeto. Valores ilustrativos.</small>`;
+    };
+    const lp = loop(() => {
+      const T = +sT.value; if (T !== tolDe) { tolDe = T; pinta(T); }
+      const [W, H] = tamanho(ctx);
+      ctx.clearRect(0, 0, W, H);
+      const esc = Math.min((W - 40) / NX, (H - 110) / NY), ox = (W - NX * esc) / 2, oy = 58;
+      ctx.imageSmoothingEnabled = false; ctx.drawImage(off, ox, oy, NX * esc, NY * esc);
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeRect(ox, oy, NX * esc, NY * esc);
+      ctx.setLineDash([8, 6]);
+      [1, 2].forEach((k) => { const x = ox + k * 40 * esc; ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x, oy + NY * esc); ctx.stroke(); });
       ctx.setLineDash([]); ctx.lineWidth = 1;
-      ctx.font = '700 12px Montserrat, Arial'; ctx.textAlign = 'left';
-      ctx.fillStyle = '#2BD9FE'; ctx.fillText('placas descoladas', gx + desc[0].c0 * cw + 4, gy + desc[0].l0 * ch - 6);
-      ctx.fillStyle = '#95DE68'; ctx.fillText('umidade', gx + umid.c0 * cw + 4, gy + umid.l0 * ch - 6);
-    }
-    // escala de cores
-    const bx = W - 140, by = gy + 90, bh = gh - 90;
-    for (let i = 0; i < bh; i++) { ctx.fillStyle = paleta(1 - i / bh); ctx.fillRect(bx, by + i, 16, 1); }
-    ctx.fillStyle = '#fff'; ctx.font = '12px Montserrat, Arial'; ctx.textAlign = 'left';
-    ctx.fillText(Obra.fmt(mx, 1) + ' °C', bx + 22, by + 10); ctx.fillText(Obra.fmt(mn, 1) + ' °C', bx + 22, by + bh);
-    // título
-    const fase = S(hh) > 0 ? (hh < 13 ? 'aquecimento (sol na fachada)' : 'sol ainda na fachada, aquecimento perdendo força') : (hh >= 17 || hh < 1 ? 'resfriamento (fim da tarde e noite)' : 'madrugada');
-    ctx.font = '600 13px Montserrat, Arial'; ctx.fillStyle = '#fff';
-    ctx.fillText('Termograma simulado · ' + Obra.fmt(hh, 1) + ' h · ' + fase, gx, 30);
-    const dD = tDe - tAd, dM = tMo - tAd;
-    const leitura = Math.abs(dD) < 1 ? '<b style="color:#F2CB0A">contraste insuficiente</b>: as placas descoladas quase não aparecem' : dD > 0 ? 'descoladas <b style="color:#FF8A1F">mais quentes</b> que as aderidas' : 'descoladas <b style="color:#2BD9FE">mais frias</b> que as aderidas';
-    res.innerHTML = `ΔT descolada − aderida: <span class="num">${dD >= 0 ? '+' : ''}${Obra.fmt(dD, 1)} °C</span><br>ΔT úmida − aderida: <b>${Obra.fmt(dM, 1)} °C</b><br>${leitura}`;
+      ctx.font = '700 13px Montserrat, Arial'; ctx.textAlign = 'center';
+      MEDIAS.forEach((m, k) => {
+        const x = ox + (k + 0.5) * 40 * esc, y = oy - 12;
+        ctx.fillStyle = '#fff'; ctx.fillText('Trecho ' + (k + 1) + ' · desvio médio +' + m + ' cm', x, y);
+      });
+      // legenda
+      const ly = oy + NY * esc + 24; ctx.font = '600 12px Montserrat, Arial'; ctx.textAlign = 'left';
+      let lx = ox;
+      [['dentro da tolerância', 'rgb(80,190,90)'], ['acima do greide: falta cortar', 'rgb(255,80,70)'], ['abaixo: falta aterrar', 'rgb(50,170,255)']].forEach(([t, c]) => {
+        ctx.fillStyle = c; ctx.fillRect(lx, ly - 10, 14, 14); ctx.fillStyle = '#fff'; ctx.fillText(t, lx + 20, ly + 2); lx += ctx.measureText(t).width + 44;
+      });
+      ctx.textAlign = 'right'; ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.fillText('plataforma de 60 × 30 m', ox + NX * esc, ly + 22);
+    });
+    return { start: lp.start, stop: lp.stop };
   });
-  return { start: lp.start, stop: lp.stop };
-});
+})();
 </script>
 <script src="../../assets/deck.js"></script>
 </body>
