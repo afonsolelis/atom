@@ -3,21 +3,42 @@
 - **Professor-conteudista:** Afonso Cesar Lelis Brandão
 - **Layout:** Átomo 3.0 (mesmo padrão de `disciplinas/portos_aeroportos_e_ferrovias/`)
 - **Escopo de commit:** `drones_iot`
-- **Status:** disciplina completa sobre o plano proposto — Unidades 1–4 (texto, roteiros, questões, decks aula0–aula16), portal `index.html` e instrumentos avaliativos (avaliação final e PBL). Pendentes: reconciliar com o material da coordenação (ementa, plano de aprendizagem, contrato, prazos) e preencher "Direto da fonte" quando houver acesso à Biblioteca Virtual.
+- **Status:** disciplina completa e **adequada aos templates da pasta do Google Drive** enviada pelo NEaD (e-mail de Carolina Bastos, 20/11/2026). Plano de aulas validado com o coordenador (Osvaldo). Entrega em **.docx** gerada em `entrega_docx/` a partir dos templates originais; apresentações em **HTML** (`unidade_N/slides/`). Pendente apenas: "Direto da fonte" (livro da Biblioteca Virtual) das 4 unidades.
+
+## Fonte de verdade: pasta do Google Drive (NEaD)
+
+- Pasta da disciplina: `Originais - Átomo 3.0/` → `Unidade 1–4/` (TEMPLATE de unidade + Questões UNI*N* + pasta de videoaulas com o documento de validação) e `Instrumentos Avaliativos/` (Avaliação final 30 + 10 e TEMPLATE ENTREGA DE TRABALHO).
+- Os templates foram baixados **sem alteração** para `tools/_templates_pristine/` (mesmos tamanhos em bytes do Drive). O `.docx` final é sempre gerado a partir deles.
+- **Pacote contratado:** 4 templates + 80 questões + 1 vídeo introdutório + 16 videoaulas + 1 trabalho + 1 avaliação final (30 objetivas + 10 discursivas).
+- **Prazos:** 10/01/2027 — Unidades 1 e 2 (template + 20 questões cada), vídeo introdutório, videoaulas 1–8 e Trabalho; 25/01/2027 — Unidades 3 e 4, videoaulas 9–16 e Avaliação final.
+- **Gravação:** obrigatoriamente em estúdio ou laboratório da faculdade (em casa só com autorização e aula-teste aprovada).
+
+### Regras do template do Drive aplicadas (diferenças em relação ao Átomo 3.0 antigo)
+
+- **Sem AAI** — o template atual da unidade não tem a caixa "Atividade Verificadora / AAI" (removida das 4 unidades).
+- **3 a 5 imagens por aula**, com direitos que permitam reprodução (Wikimedia Commons/CC), indicadas entre colchetes com link de referência e texto alternativo.
+- Aula 1 da unidade abre com **"O que você verá nesta unidade"**; Aula 3 tem **"Pausa para reflexão"**; Aula 4 traz **"O que você verá na próxima unidade"** (na Unidade 4, o encerramento da disciplina).
+- Roteiro de videoaula **sintético**, com **título que gere curiosidade**; o texto base fica com a teoria e o vídeo, com a aplicação prática.
+- Quiz: 2 questões + resposta com explicação. Material complementar com os campos do template (Nome do livro / Capítulo / Link de acesso; Links; NOME DO PODCAST / NOME DO EPISÓDIO / Link; Link + Referência ABNT) e **"Qual aula o material deverá entrar?"** em cada um.
+- Questões: alternativas `a)`–`e)`, correta com `*`, e **feedback para cada alternativa** ao final (`N. Feedback`).
+- Avaliação final: 15 AR + 15 interpretação + 10 discursivas (no fim); os feedbacks — inclusive a resposta esperada das discursivas — ficam **ao final**.
+- Trabalho (PBL): só as caixas do template — Título, Desafio, Fonte de pesquisa (≥ 4 fontes + aulas), 5. Entregável e distribuição da pontuação, 6. Solução. (O antigo "Roteiro do Estudante" não existe no template e saiu.)
+- Formatação no .docx: Times New Roman 12, espaçamento 1,15, alinhado à esquerda, sem recuo.
 
 ## Estrutura
 
 ```
-unidade_N/unidade_N.md        texto base + roteiros (10 min) + quiz + AAI + material complementar
-unidade_N/roteiros_15min.md    roteiros estendidos (15–20 min) das 4 videoaulas
+unidade_N/unidade_N.md        texto base + roteiros sintéticos + quiz + material complementar
+unidade_N/roteiros_15min.md    roteiros estendidos (fala integral, apoio à gravação)
 unidade_N/questoes_uniN.md     20 questões (10 AR + 10 interpretação) + feedbacks
 unidade_N/slides/aulaN.html    decks UniFECAF (aula0 + aula1–aula16, numeração contínua)
 assets/                        deck.css, deck.js, sprite.js (padrão UniFECAF) + obra.css/obra.js (fotos, 3D, simulações) — ver assets/README_DECKS.md
-tools/                         wikimedia.py (fotos), capturar_slides.py (PNG por slide; rodar com `uv run --with playwright python …`), validar.py N (checagem estrutural)
+tools/                         gerar_docx.py (preenche os templates do Drive → entrega_docx/), wikimedia.py (fotos), capturar_slides.py (PNG por slide), validar.py N (checagem estrutural)
+entrega_docx/                  ENTREGÁVEIS .docx (4 templates de unidade, Questões UNI1–4, Avaliação final, Entrega de trabalho)
 instrumentos_avaliativos/      avaliacao_final.md (30 objetivas + 10 discursivas) + entrega_trabalho.md (PBL)
 ```
 
-## Plano de aulas (PROPOSTA — substituir pela ementa oficial quando chegar)
+## Plano de aulas (validado com a coordenação)
 
 ### Unidade 1 — Fundamentos do Monitoramento Digital de Obras
 
@@ -49,14 +70,23 @@ instrumentos_avaliativos/      avaliacao_final.md (30 objetivas + 10 discursivas
 
 ## Pendências
 
-- [ ] Receber ementa / plano de aprendizagem e reconciliar com a proposta acima
-- [ ] Confirmar se o contrato segue o Átomo 3.0 padrão (20 questões/unidade, 40 na avaliação final) ou a variante TECH (40 questões/unidade, 10 discursivas)
-- [ ] Confirmar duração das videoaulas (10 min + roteiro estendido de 15–20 min, como em Portos)
-- [ ] Prazos de entrega
-- [ ] Bibliografia da Biblioteca Virtual disponível para a disciplina
-- [ ] Seção "Direto da fonte" (livro da BV) de cada unidade — aguardando acesso
+- [ ] Seção "Direto da fonte" (livro da Biblioteca Virtual) de cada unidade — escolher o livro e o capítulo na BV (acesso "BV professor", credenciais no próprio template do Drive)
+- [ ] Confirmar a gravação (estúdio ou casa) com o NEaD e agendar o estúdio
+- [ ] Subir os .docx de `entrega_docx/` na pasta do Drive (só quando autorizado)
+- [x] Plano de aulas validado com o coordenador
+- [x] Formato confirmado: Átomo 3.0 padrão (20 questões/unidade; avaliação final 30 + 10)
+- [x] Prazos (10/01/2027 e 25/01/2027)
+- [x] Adequação aos templates do Drive e geração dos .docx
 - [x] Decks aula0–aula16 e `index.html` do portal
-- [x] Unidades 2–4 e instrumentos avaliativos (`avaliacao_final.md`, `entrega_trabalho.md`)
+
+## Como gerar os .docx
+
+```bash
+cd disciplinas/drones_e_sensores_iot_no_monitoramento_de_obras
+(cd tools && npm install)        # mathjax-full, para as fórmulas (uma vez)
+pip install python-docx pillow cairosvg
+python3 tools/gerar_docx.py      # ou: unidades | questoes | avaliacao | trabalho
+```
 
 ## Referências normativas a considerar (validar na produção)
 

@@ -3,8 +3,10 @@
 Uso: python tools/validar.py 1        (número da unidade)
 
 Confere: marcadores pendentes, palavras do texto base por aula, subseções,
-imagens, pontos-chave, quiz, AAI, material complementar, questões (20, 10 AR +
-10 interpretação, 5 alternativas, 1 correta, rotação a–e), roteiros estendidos e
+imagens (3–5 por aula, como pede o template do Drive), pontos-chave, quiz,
+material complementar (sem AAI: o template do Drive não a tem), questões (20,
+10 AR + 10 interpretação, 5 alternativas a)–e), 1 correta, rotação a–e,
+feedback por alternativa), "O que você verá nesta unidade", roteiros estendidos e
 decks (scripts, créditos de foto, sintaxe JS dos <script> inline via node --check).
 """
 import pathlib
@@ -56,8 +58,8 @@ for b in blocos:
         avisos.append(f"Aula {n}: {total} palavras na aula (alvo 700–1200 de texto base)")
     if not 6 <= subs <= 14:
         avisos.append(f"Aula {n}: {subs} subseções")
-    if not 1 <= imgs <= 3:
-        erros.append(f"Aula {n}: {imgs} imagens (esperado 1–3)")
+    if not 3 <= imgs <= 5:
+        erros.append(f"Aula {n}: {imgs} imagens (template do Drive: 3 a 5)")
     if not 3 <= npk <= 5:
         erros.append(f"Aula {n}: {npk} pontos-chave (esperado 3–5)")
     if not 2 <= nl <= 4:
@@ -66,7 +68,11 @@ for b in blocos:
         erros.append(f"Aula {n}: sem Exemplo numérico")
     if int(n) % 4 == 3 and "Pausa para reflexão" not in corpo:
         erros.append(f"Aula {n}: Aula 3 da unidade sem Pausa para reflexão")
-for sec in ["## Quiz não avaliativo", "## Atividade Verificadora", "## Material complementar", "### Para mergulhar", "### Podcast", "### Artigo científico"]:
+if "Atividade Verificadora" in md or "AAI" in md:
+    erros.append(f"unidade_{u}.md: AAI não faz parte do template do Drive")
+if "### O que você verá nesta unidade" not in md:
+    erros.append(f"unidade_{u}.md: falta 'O que você verá nesta unidade' na 1ª aula")
+for sec in ["## Quiz não avaliativo", "## Material complementar", "### Para mergulhar", "### Podcast", "### Artigo científico"]:
     if sec not in md:
         erros.append(f"unidade_{u}.md: falta seção '{sec}'")
 rot = len(re.findall(r"(?m)^## Aula \d+ — Roteiro da Videoaula", md))
@@ -89,7 +95,7 @@ if tipos.count("Asserção-Razão") != 10 or tipos.count("Interpretação") != 1
     erros.append(f"questões: tipos {tipos.count('Asserção-Razão')} AR / {tipos.count('Interpretação')} interpretação")
 letras = []
 for i, bq in enumerate(qs, 1):
-    alts = re.findall(r"(?m)^(\*?)([a-e])\. ", bq)
+    alts = re.findall(r"(?m)^(\*?)([a-e])\) ", bq)
     if [a[1] for a in alts] != list("abcde"):
         erros.append(f"Questão {i}: alternativas {[a[1] for a in alts]}")
     corr = [a[1] for a in alts if a[0]]
@@ -101,8 +107,12 @@ for l in "abcde":
     if letras.count(l) != 4:
         avisos.append(f"letra {l} correta {letras.count(l)}x (esperado 4)")
 fb = q.split("## Feedbacks")[1] if "## Feedbacks" in q else ""
-if len(re.findall(r"(?m)^### Questão \d+", fb)) != 20:
-    erros.append("questões: feedbacks ≠ 20")
+fbs = re.split(r"(?m)^### \d+\. Feedback", fb)[1:]
+if len(fbs) != 20:
+    erros.append(f"questões: {len(fbs)} feedbacks (esperado 20)")
+for i, bf in enumerate(fbs, 1):
+    if re.findall(r"(?m)^([a-e])\) ", bf) != list("abcde"):
+        erros.append(f"Feedback {i}: não tem uma explicação por alternativa a)–e)")
 
 # ---------- roteiros estendidos ----------
 r = (d / "roteiros_15min.md").read_text(encoding="utf-8")

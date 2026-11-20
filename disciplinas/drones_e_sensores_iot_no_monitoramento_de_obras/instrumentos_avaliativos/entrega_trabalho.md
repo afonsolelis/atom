@@ -9,13 +9,13 @@
 
 ---
 
-## 1. Título
+## Título
 
 **Corredor Leste de Vale Verde — Plano Integrado de Monitoramento por Drones e Sensores IoT de uma Trincheira e um Viaduto Urbanos ao Lado de uma Estação Ferroviária Tombada e de uma APP**
 
 ---
 
-## 2. Desafio
+## Desafio
 
 > **O quê?** A prefeitura de uma cidade média precisa de um **plano integrado de monitoramento** para uma obra viária linear em área urbana consolidada. São duas estruturas principais: uma **trincheira** (passagem inferior) escavada junto a edificações sensíveis e um **viaduto** que atravessa um córrego com mata ciliar. O plano deve juntar **drones** (mapeamento, volumes, LiDAR e termografia), **sensores IoT** (geotécnicos, estruturais e de vibração), **BIM 4D**, **inteligência artificial** e **gestão** (custo, LGPD, segurança da informação, contrato e regulamentação).
 >
@@ -64,7 +64,11 @@
 
 ---
 
-## 3. Fontes de pesquisa
+## Fonte de pesquisa
+
+O ESTUDANTE deverá pesquisar um exemplo de como outros profissionais ou empresas já resolveram esse desafio.
+
+**Fontes de pesquisa primária:**
 
 Pesquise como o setor planeja, executa e contrata o monitoramento de obras urbanas com drones e sensores:
 
@@ -92,7 +96,7 @@ Pesquise como o setor planeja, executa e contrata o monitoramento de obras urban
 
 ---
 
-## 4. Entregável e distribuição da pontuação
+## 5. Entregável e distribuição da pontuação
 
 Sua entrega final da disciplina **Drones e Sensores IoT no Monitoramento de Obras** tem **3 entregáveis obrigatórios**. O objetivo é elaborar o **plano integrado de monitoramento do Corredor Leste**. Nele, você deve mostrar que sabe:
 
@@ -217,7 +221,7 @@ Publique o vídeo no **YouTube (modo não listado)** ou em outra plataforma de h
 
 ---
 
-## 5. Solução
+## 6. Solução (esse item será removido antes do case ser disponibilizado ao aluno)
 
 > **Remover antes de entregar ao aluno.**
 >
@@ -620,62 +624,3 @@ Medidas de minimização e governança:
 - IA tratada como medição;
 - ROI sem sensibilidade;
 - LGPD reduzida a uma frase.
-
----
-
-## Roteiro do Estudante
-
-### 1. Leia o desafio
-
-Comece entendendo o problema antes de pensar em equipamentos. Leia o cenário do **Corredor Leste** e responda para você mesmo:
-
-- **Quem** contrata, quem decide e quem pode ser prejudicado (prefeitura, Conselho do Patrimônio, órgão ambiental, moradores do edifício, trabalhadores, pedestres)?
-- **O que pode dar errado**, e com que velocidade? (Um NA que sobe em horas é diferente de um recalque que evolui em semanas.)
-- **Quais restrições** você tem: GSD no fundo da trincheira, 20 min por bateria, 30 m de pessoas não anuentes, APP, bem tombado, 26 meses e o orçamento do monitoramento?
-- **Que dados** o case já entrega (resíduos, volumes, leituras da semana crítica, IA, custos)? Cada um corresponde a um cálculo do memorial.
-
-Faça uma **tabela de riscos** antes de qualquer outra coisa: risco → grandeza → consequência → velocidade de evolução. Ela será o esqueleto do seu plano.
-
-### 2. Fontes de Pesquisa
-
-Antes de propor, ancore suas escolhas:
-
-- **Releia** a Aula 16, que é o modelo de plano integrado, e depois as aulas de cada etapa: 5 a 7 (voo, exatidão, volumes), 8 (LiDAR e termografia), 9 a 12 (instrumentos, TARP, dashboard) e 13 a 15 (BIM, IA, gestão).
-- **Consulte** o RBAC nº 100 e a ICA 100-40 para decidir a **categoria** de cada operação. Pergunte-se: há pessoas não anuentes a menos de 30 m? Consulte também a página de aerolevantamento do Ministério da Defesa para saber quem pode executar o mapeamento.
-- **Leia** os arts. 3º, 4º e 8º do Código Florestal para tratar a APP, e os arts. 6º, 7º e 23 da LGPD para a base legal de um órgão público.
-- **Estude** os métodos que vai aplicar à mão: GSD e *footprint*, sobreposições e nº de faixas, RMSE e média dos resíduos, $\delta V \approx A\,\delta z$, densidade do LiDAR, IFOV da câmera térmica, inclinômetro acumulado, incerteza combinada, distorção angular, PPV × frequência, autonomia de bateria, maturidade, desvio com incerteza, precisão, revocação e F1, valor esperado.
-- **Pesquise** um caso real de monitoramento de obra urbana junto a patrimônio ou a vizinhos sensíveis (metrô, trincheiras, escavações profundas) e use-o como referência.
-
-### 3. Entrega
-
-Estruture o **relatório técnico (PDF, 16 a 24 páginas)** assim:
-
-1. **Capa e sumário executivo** (1 página) — a recomendação central em 5 linhas.
-2. **Riscos e grandezas** (2 páginas) — tabela de riscos e prioridades.
-3. **Regulamentação e licenciamento** (1 a 2 páginas) — categoria de cada operação, requisitos, aerolevantamento, APP.
-4. **Drone: plano de voo, controle, volumes, LiDAR e termografia** (4 a 5 páginas) — com croqui dos blocos, das faixas e dos GCPs.
-5. **Instrumentação IoT** (3 a 4 páginas) — tabela completa, planta e corte com instrumentos, leituras da semana crítica classificadas por cores.
-6. **Arquitetura, malha fechada, TARP e dashboard** (2 a 3 páginas) — diagrama em camadas, autonomia, esboço das telas.
-7. **BIM 4D, sombra digital e IA** (2 páginas).
-8. **Gestão: custo-benefício, LGPD, segurança e contrato** (2 a 3 páginas).
-9. **Referências** (ABNT).
-
-Anexe o **memorial de cálculo**. Cada conta deve ter **fórmula, substituição dos dados do case e resultado com unidade**, passo a passo e legível. Os resultados precisam aparecer e ser discutidos no relatório. Fique atento a três armadilhas:
-
-- a **altura acima do terreno** no fundo da trincheira;
-- o **número de voos**;
-- a diferença entre **norma de referência** e **limite do plano** na Estação.
-
-Para o **vídeo pitch (até 4 minutos)**:
-
-- Abra com o problema e a sua recomendação central em uma frase.
-- Mostre a lógica **risco → grandeza → instrumento → limite → resposta** com 2 ou 3 números fortes.
-- Conte a malha fechada em ação: o PZ-2 subindo às 23h ou os três amarelos da Estação, e o que o seu plano faz em cada caso.
-- Feche com custo-benefício (com a sensibilidade), garantias legais e o pedido de aprovação.
-- Publique no **YouTube (modo não listado)** e cole o **link ao final do PDF**. Confira se o link está acessível.
-
-**Dica final:** uma comissão com engenheiros, conselheiros do patrimônio e procuradores não aprova lista de equipamentos. Ela aprova um plano em que **cada leitura tem um limite, cada limite tem uma ação e cada ação tem um responsável**. Seus números provam que o plano funciona; a sua honestidade sobre as incertezas prova que você é confiável.
-
-Esse projeto é seu **portfólio final**, o tipo de documento que se anexa a um edital de obra pública real. **Capricha**.
-
-Boa entrega!
