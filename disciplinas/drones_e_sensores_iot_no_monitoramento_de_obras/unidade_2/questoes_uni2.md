@@ -257,7 +257,7 @@ e) $RMSE_z \approx 2{,}4\,\mathrm{cm}$, obtido pela média dos valores absolutos
 
 **Estímulo:**
 
-> Numa foto vertical tirada a $H = 80\,\mathrm{m}$ acima do terreno, numa obra em Curitiba (PR), o topo de uma torre de caixa-d'água de $h = 20\,\mathrm{m}$ está a uma distância radial de $R = 50\,\mathrm{m}$ do nadir. Adote $\delta = R \cdot h/(H - h)$.
+> Numa foto vertical tirada a $H = 80\,\mathrm{m}$ acima do terreno, numa obra em Curitiba (PR), a base de uma torre de caixa-d'água de $h = 20\,\mathrm{m}$ está a uma distância radial de $R = 50\,\mathrm{m}$ do nadir. Adote $\delta = R \cdot h/(H - h)$.
 
 O deslocamento devido ao relevo do topo da torre, no terreno, e a conclusão correta são:
 

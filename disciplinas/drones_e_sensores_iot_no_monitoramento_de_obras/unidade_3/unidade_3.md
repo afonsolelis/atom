@@ -26,7 +26,7 @@ O **extensômetro** mede deformação específica, em **microdeformações** ($1
 
 ![Duas mãos amarram, com abraçadeiras plásticas brancas, um extensômetro com fios vermelhos a barras de armadura e cordoalhas de uma viga, antes da concretagem; ao fundo, outras barras verticais da armação. Foto: Federal Highway Administration, Wikimedia Commons, domínio público](https://upload.wikimedia.org/wikipedia/commons/6/60/Strain_Gauge_Installation_in_SCC_Beams-2_SC_%288496265082%29.jpg)
 
-No regime elástico, a tensão vem da lei de Hooke, $\sigma = E\,\varepsilon$, e a força, de $N = \sigma\,A$. A armadilha é a **temperatura**: o aço tem coeficiente de dilatação de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, e uma variação de 15 °C entre a manhã e a tarde equivale a 180 µε de dilatação livre — da mesma ordem do sinal procurado. Por isso, os extensômetros de corda vibrante trazem um **termistor** embutido, e a leitura é **corrigida para a temperatura** antes de virar força.
+No regime elástico, a tensão vem da lei de Hooke, $\sigma = E\,\varepsilon$, e a força, de $N = \sigma\,A$. A armadilha é a **temperatura**: o aço dilata cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, e 15 °C de variação diária dão cerca de 180 µε, da ordem do sinal. Numa escora travada, parte dessa dilatação é impedida e vira **força térmica real**; outra parte vem da diferença entre fio e peça. Por isso, o extensômetro de corda vibrante traz um **termistor**, e a fórmula do fabricante **separa a parcela térmica** da causada pela escavação.
 
 ### Acelerômetros: vibração e assinatura dinâmica
 
@@ -115,7 +115,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 ### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–10 — extensômetros, a escora no sol e os acelerômetros.
 
-> "O extensômetro de corda vibrante é o cavalo de batalha da obra. Duzentas e cinquenta microdeformações dão 600 quilonewtons na escora — mas 15 graus de sol valem 180 microdeformações. Sem correção térmica, o sol vira carga no relatório. O acelerômetro mede vibração e a assinatura da estrutura: se a rigidez cai, a frequência cai junto."
+> "O extensômetro de corda vibrante é o cavalo de batalha da obra. Duzentas e cinquenta microdeformações dão 600 quilonewtons na escora — mas 15 graus de sol valem 180 microdeformações. Sem separar a parcela térmica, a variação do dia é confundida com efeito da escavação. O acelerômetro mede vibração e a assinatura da estrutura: se a rigidez cai, a frequência cai junto."
 
 ### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 11–14 — temperatura e maturidade, umidade e a calculadora do ponto de orvalho, poeira e a tabela dos seis sensores.
@@ -142,7 +142,7 @@ Entre a grandeza física e o dado na rede há uma cadeia: **sensor** (responde �
 Muitos sensores entregam sinais fracos ou em formatos que o microcontrolador não lê diretamente. Os casos típicos são:
 
 - **Ponte de Wheatstone** — o extensômetro elétrico é montado numa ponte de quatro resistores excitada por uma tensão $V_{ex}$. Com um único extensômetro ativo (um quarto de ponte), a saída é $V_o \approx V_{ex}\,GF\,\varepsilon/4$: microvolts, que exigem **amplificador de instrumentação** antes do ADC.
-- **Laço de corrente 4–20 mA** — padrão industrial imune a ruído e à resistência de cabos longos. O "zero vivo" de 4 mA permite distinguir leitura nula de **cabo rompido** (0 mA). Um resistor de carga converte corrente em tensão: com 150 Ω, 4–20 mA viram 0,6–3,0 V, dentro da faixa útil do ADC do ESP32.
+- **Laço de corrente 4–20 mA** — padrão industrial imune a ruído e à resistência de cabos longos. O "zero vivo" de 4 mA permite distinguir leitura nula de **cabo rompido** (0 mA). Um resistor de carga converte corrente em tensão: com 120 Ω, 4–20 mA viram 0,48–2,40 V, dentro da faixa de medição precisa do ADC do ESP32.
 - **Corda vibrante** — o sensor precisa ser excitado e ter a sua **frequência** medida, o que exige uma interface específica, comum em dataloggers profissionais.
 - **Filtro anti-aliasing** — um filtro passa-baixas antes do ADC impede que frequências acima da metade da taxa de amostragem apareçam como sinais falsos.
 
@@ -150,7 +150,7 @@ Muitos sensores entregam sinais fracos ou em formatos que o microcontrolador nã
 
 ### Conversão analógico-digital
 
-Um ADC de $n$ bits divide a faixa de entrada em $2^n$ níveis; o menor degrau, o **LSB**, vale $V_{ref}/2^n$. O **Arduino Uno** (microcontrolador ATmega328P) tem ADC de 10 bits em 0–5 V: $5/1.024 \approx 4{,}9\,\mathrm{mV}$ por nível. O **ESP32** tem ADC de 12 bits (0 a 4.095), com faixa útil próxima de 0–3,1 V conforme a atenuação configurada, mas é conhecido por **não linearidade e desvio** de uma placa para outra — por isso, deve ser calibrado ou substituído por um ADC externo: o **ADS1115** (16 bits) para tensões em geral e o **HX711** (24 bits, com ganho interno) para pontes de extensômetros e células de carga. Muitos sensores modernos já entregam o valor **digital**, por barramentos como **I²C** e **SPI** (curta distância, na mesma placa), **UART**, **1-Wire** (termômetros DS18B20), **SDI-12** (sensores ambientais) e **RS-485/Modbus** (equipamentos industriais, centenas de metros de cabo).
+Um ADC de $n$ bits divide a faixa de entrada em $2^n$ níveis; o menor degrau, o **LSB**, vale $V_{ref}/2^n$. O **Arduino Uno** (microcontrolador ATmega328P) tem ADC de 10 bits em 0–5 V: $5/1.024 \approx 4{,}9\,\mathrm{mV}$ por nível. O **ESP32** tem ADC de 12 bits (0 a 4.095), com faixa de medição precisa de cerca de 0,15–2,45 V na atenuação de 11 dB (fora dela, a resposta deixa de ser linear), mas é conhecido por **não linearidade e desvio** de uma placa para outra — por isso, deve ser calibrado ou substituído por um ADC externo: o **ADS1115** (16 bits) para tensões em geral e o **HX711** (24 bits, com ganho interno) para pontes de extensômetros e células de carga. Muitos sensores modernos já entregam o valor **digital**, por barramentos como **I²C** e **SPI** (curta distância, na mesma placa), **UART**, **1-Wire** (termômetros DS18B20), **SDI-12** (sensores ambientais) e **RS-485/Modbus** (equipamentos industriais, centenas de metros de cabo).
 
 ### Arduino, ESP32 e o datalogger profissional
 
@@ -190,7 +190,7 @@ $
 
 O sinal é menor que um degrau do ADC: a leitura não muda. Com um amplificador de ganho 500, a saída vai a $82{,}5\,\mathrm{mV}$, cerca de 100 níveis — aproximadamente $1\,\mu\varepsilon$ por nível (valores ilustrativos).
 
-**(b) Um piezômetro 4–20 mA no ESP32.** O transdutor de 0–200 kPa, com resistor de 150 Ω, fornece 9,6 mA: $V = 9{,}6 \times 10^{-3} \times 150 \approx 1{,}44\,\mathrm{V}$, e a pressão é $p = (9{,}6 - 4) \times 200/16 = 70\,\mathrm{kPa}$. Um nível do ADC equivale a $806\,\mu\mathrm{V}/150\,\Omega \approx 5{,}4\,\mu\mathrm{A}$; como $200/16 = 12{,}5\,\mathrm{kPa/mA}$, isso vale $0{,}0054 \times 12{,}5 \approx 0{,}067\,\mathrm{kPa}$ — cerca de 7 mm de coluna d'água.
+**(b) Um piezômetro 4–20 mA no ESP32.** O transdutor de 0–200 kPa, com resistor de 120 Ω, fornece 9,6 mA: $V = 9{,}6 \times 10^{-3} \times 120 \approx 1{,}15\,\mathrm{V}$, e a pressão é $p = (9{,}6 - 4) \times 200/16 = 70\,\mathrm{kPa}$. Um nível do ADC equivale a $806\,\mu\mathrm{V}/120\,\Omega \approx 6{,}7\,\mu\mathrm{A}$; como $200/16 = 12{,}5\,\mathrm{kPa/mA}$, isso vale $0{,}0067 \times 12{,}5 \approx 0{,}084\,\mathrm{kPa}$ — cerca de 9 mm de coluna d'água.
 
 **(c) Quanto dura a bateria?** A cada 15 min (900 s), o nó acorda 5 s a 120 mA (leitura, Wi-Fi e envio) e dorme 895 s. Com 7.200 mAh úteis:
 
@@ -202,7 +202,7 @@ $
 \bar{I}_{dev} = \frac{5 \times 120 + 895 \times 10}{900} \approx 10{,}6\,\mathrm{mA} \Rightarrow t \approx 680\,\mathrm{h} \approx 28\,\mathrm{dias}
 $
 
-A mesma lógica, numa placa de desenvolvimento que consome 10 mA dormindo, dura menos de um mês: é o sono que decide.
+A mesma lógica, numa placa de desenvolvimento que consome 10 mA dormindo, dura menos de um mês: é o sono que decide. O protótipo do estagiário era ainda pior: placa de desenvolvimento e uma bateria pequena, de cerca de 500 mAh — $500/10{,}6 \approx 47\,\mathrm{h}$, uns dois dias. Por isso a bateria acabou na terça.
 
 ### Atividade prática
 
@@ -536,7 +536,7 @@ d) Com QoS 0, o broker garante que cada leitura seja entregue exatamente uma vez
 - **Nome do livro:** 
 - **Capítulo:** 
 - **Link de acesso:** 
-- **Qual aula o material deverá entrar?** 
+- **Qual aula o material deverá entrar?** Aulas 9 e 12
 
 ### Para mergulhar no assunto (saiba mais)
 

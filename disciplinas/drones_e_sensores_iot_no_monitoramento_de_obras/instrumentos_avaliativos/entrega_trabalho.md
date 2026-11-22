@@ -401,7 +401,7 @@ $
 N = 42 \times 0{,}015 = 0{,}63\,\mathrm{MN} = 630\,\mathrm{kN}
 $
 
-São $70\%$ da carga de projeto: **amarelo** (atenção). Sem a correção térmica, a força pareceria de $1.170\,\mathrm{kN}$ (130%), um falso **vermelho**.
+São $70\%$ da carga de projeto: **amarelo** (atenção). Sem separar a parcela térmica (termistor + fórmula do fabricante), a força atribuída à escavação pareceria de $1.170\,\mathrm{kN}$ (130%), um falso **vermelho**. A parcela térmica não é carga fictícia: numa estronca travada, parte dela é força térmica real, cíclica, acompanhada à parte; o erro é confundi-la com o efeito da escavação.
 
 - **PZ-2 (piezômetro):** o NA está a 1,6 m do fundo, entre a atenção (2,0 m) e o alerta (1,5 m): **amarelo**. A $0{,}15\,\mathrm{m/h}$, o alerta chega em $(1{,}6 - 1{,}5)/0{,}15 \approx 0{,}7\,\mathrm{h}$ (cerca de 40 min) e o alarme em $(1{,}6 - 1{,}0)/0{,}15 = 4{,}0\,\mathrm{h}$, por volta das 3h. A regra de ligar a bomba reserva ao cruzar o alerta roda **na borda**, sem depender da internet.
 - **Vibração:** $2{,}4\,\mathrm{mm/s}$ está entre a atenção (2,0) e o alerta (3,0): **amarelo**. Com componentes até 50 Hz, amostrar de 250 a 500 Hz (Nyquist), gravando por evento.

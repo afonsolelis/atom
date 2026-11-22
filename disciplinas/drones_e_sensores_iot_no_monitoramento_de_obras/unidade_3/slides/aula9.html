@@ -54,7 +54,7 @@
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
       <h1>Sensores para obras</h1>
-      <div class="subtitulo">Aula 9 — Inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira</div>
+      <div class="subtitulo">Aula 9 — inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -64,7 +64,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Sensores para obras</h1>
+        <h1 class="sumario-titulo">Sensores para obras: inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -240,7 +240,7 @@
           <h3>Mova a deformação e o sol</h3>
           <p><span class="formula">σ = E · ε</span> &nbsp; <span class="formula">N = σ · A</span><br><small>E = 200 GPa · A = 120 cm² · projeto 900 kN</small></p>
           <div data-controles></div>
-          <p class="mini">Aço: α ≈ 12 × 10⁻⁶/°C; 15 °C ≈ 180 µε de dilatação livre, da ordem do sinal. Atenção 70% e alerta 90%: limites ilustrativos.</p>
+          <p class="mini">Aço: α ≈ 12 × 10⁻⁶/°C; 15 °C ≈ 180 µε, da ordem do sinal: o termistor separa a parcela térmica da causada pela escavação. Atenção 70% e alerta 90%: limites ilustrativos.</p>
         </div>
       </div>
     </div>
@@ -555,7 +555,7 @@
       Na += (N - Na) * Math.min(1, dt * 5);
       res.innerHTML = (dT ? 'Leitura bruta: ' + fmt(epsBruta) + ' µε (térmica ' + (term > 0 ? '+' : '') + fmt(term) + ' µε)<br>' : '') +
         'σ = 200 GPa × ' + fmt(epsUsada) + ' µε = <b>' + fmt(sig, 0) + ' MPa</b><br>N = σ · A = <span class="num">' + fmt(N, 0) + ' kN</span> · ' + fmt(u * 100, 0) + '% do projeto' +
-        (!cb.checked && dT ? '<br><small>Sem correção, o sol vira "carga" no relatório.</small>' : '');
+        (!cb.checked && dT ? '<br><small>Sem separar a parcela térmica, o calor do dia parece efeito da escavação.</small>' : '');
       ctx.clearRect(0, 0, W, H);
       const top = 60, bot = H - 80, xL = W * 0.12, xR = W * 0.88, ww = 26;
       ctx.fillStyle = 'rgba(138,111,77,.45)'; ctx.fillRect(0, top, xL - ww / 2, bot - top); ctx.fillRect(xR + ww / 2, top, W - xR, bot - top);

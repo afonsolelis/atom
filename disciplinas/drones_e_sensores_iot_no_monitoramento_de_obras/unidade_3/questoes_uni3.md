@@ -15,7 +15,7 @@ Questões autorais e de banca
 >
 > **porque**
 >
-> **Razão II:** Com coeficiente de dilatação do aço de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, uma variação de 15 °C ao longo do dia equivale a cerca de 180 µε de dilatação livre, da mesma ordem de grandeza do sinal de carga que se deseja medir.
+> **Razão II:** Com coeficiente de dilatação do aço de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, uma variação de 15 °C ao longo do dia equivale a cerca de 180 µε de deformação térmica potencial, da mesma ordem de grandeza do sinal de carga que se deseja medir.
 
 A respeito dessas asserções, assinale a opção correta:
 
@@ -236,7 +236,7 @@ Com base nesses dados, a autonomia estimada do nó é de aproximadamente:
 a) 30 horas, pois a corrente média é igual à corrente no envio, 100 mA.
 b) 60.000 horas, pois a corrente média é igual à corrente em sono, 0,05 mA.
 *c) 175 dias, pois a carga por ciclo é $4 \times 100 + 596 \times 0{,}05 \approx 430\,\mathrm{mA \cdot s}$, a corrente média é $430/600 \approx 0{,}72\,\mathrm{mA}$ e $3.000/0{,}72 \approx 4.200\,\mathrm{h}$.
-d) 7 dias, pois a corrente média é a soma das correntes de envio e de sono dividida por dois.
+d) 2,5 dias, pois a corrente média é a soma das correntes de envio e de sono dividida por dois.
 e) 2 anos, pois a autonomia não depende do tempo acordado, apenas da capacidade da bateria.
 
 ### Questão 16 (Interpretação)
@@ -317,10 +317,10 @@ e) Cada field cria uma measurement diferente, e as tags são opcionais apenas qu
 
 ### 1. Feedback
 
-a) Correta! A Asserção é verdadeira: a leitura do extensômetro mistura carga e efeito térmico, e a correção (com o termistor embutido) vem antes da conversão em força. A Razão é verdadeira e justifica: $12 \times 10^{-6} \times 15 = 180 \times 10^{-6}$, ou seja, 180 µε, da ordem do sinal de carga.
+a) Correta! A Asserção é verdadeira: a leitura do extensômetro mistura o efeito da escavação e o efeito térmico, e a correção (com o termistor embutido) separa a parcela térmica antes da conversão em força. A Razão é verdadeira e justifica: $12 \times 10^{-6} \times 15 = 180 \times 10^{-6}$, ou seja, 180 µε, da ordem do sinal de carga.
 b) Incorreta. A Razão é exatamente o motivo da correção térmica, logo justifica a Asserção.
 c) Incorreta. A Razão é verdadeira: o cálculo $12 \times 10^{-6}/^\circ\mathrm{C} \times 15\,^\circ\mathrm{C} = 180\,\mu\varepsilon$ está correto.
-d) Incorreta. A Asserção é verdadeira; sem a correção, o sol poderia ser confundido com carga.
+d) Incorreta. A Asserção é verdadeira; sem a correção, a variação térmica do dia poderia ser confundida com efeito da escavação.
 e) Incorreta. As duas proposições são verdadeiras.
 
 ### 2. Feedback
@@ -432,7 +432,7 @@ e) Correta! O sinal de 200 µV é cerca de 25 vezes menor que um degrau do ADC (
 a) Incorreta. O nó passa quase todo o tempo dormindo; a corrente média é muito menor que 100 mA.
 b) Incorreta. Ignora a carga gasta nos 4 s acordado, que domina o consumo.
 c) Correta! $Q = 4 \times 100 + 596 \times 0{,}05 = 429{,}8\,\mathrm{mA \cdot s}$; $\bar{I} = 429{,}8/600 \approx 0{,}72\,\mathrm{mA}$; $t = 3.000/0{,}72 \approx 4.200\,\mathrm{h} \approx 175\,\mathrm{dias}$.
-d) Incorreta. A média deve ser ponderada pelo tempo em cada estado.
+d) Incorreta. A média simples, $(100 + 0{,}05)/2 \approx 50\,\mathrm{mA}$, daria cerca de 60 h; mas a média deve ser ponderada pelo tempo em cada estado.
 e) Incorreta. A autonomia depende do consumo médio, que depende do tempo acordado.
 
 ### 16. Feedback

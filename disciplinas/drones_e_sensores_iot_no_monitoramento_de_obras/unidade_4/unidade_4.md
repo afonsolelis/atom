@@ -59,13 +59,13 @@ As normas de gestão de alarmes da indústria de processo (ANSI/ISA-18.2, equiva
 1. **Persistência** — exigir que a condição dure um tempo mínimo ou duas leituras seguidas (no Grafana, o *pending period*);
 2. **Histerese** — entrar no nível em 10,0 mm, mas só sair abaixo de 9,5 mm, para que o ruído em torno do limite não faça o alerta "piscar";
 3. **Confirmação** — um segundo instrumento ou uma leitura manual confirma antes do alarme máximo;
-4. **Incerteza** (Aula 9) — se $x + U$ alcança o limite, trate como atenção; se $x - U$ já passou dele, o nível está confirmado.
+4. **Incerteza** (Aulas 8 e 9) — se $x + U$ alcança o limite, trate como atenção; se $x - U$ já passou dele, o nível está confirmado.
 
 E o dado limpo (Aula 12) vem antes: um pico espúrio não pode acionar ninguém às 3h da manhã.
 
 ### Alertas no Grafana: regra, avaliação e notificação
 
-No **Grafana Alerting**, uma **regra de alerta** tem uma consulta (por exemplo, o máximo dos últimos 15 min do inclinômetro I-2), uma **condição** (acima de 14 mm), um **intervalo de avaliação** e um **período pendente**. Rótulos como `severidade=alerta` e `frente=cortina-norte` direcionam a notificação, pelas **políticas de notificação**, ao **ponto de contato** certo (e-mail, aplicativo de mensagens, SMS ou plantão). **Silenciamentos** cobrem manutenções programadas — com prazo para acabar. Dois cuidados: a regra crítica (como ligar a bomba reserva) roda também **na borda** (Aula 10), porque o painel depende da internet; e o próprio sistema precisa avisar quando **para de receber dados**.
+No **Grafana Alerting**, uma **regra de alerta** tem uma consulta (por exemplo, o máximo dos últimos 15 min do inclinômetro I-2), uma **condição** (acima de 14 mm), um **intervalo de avaliação** e um **período pendente**. Rótulos como `severidade=alerta` e `frente=cortina-norte` direcionam a notificação, pelas **políticas de notificação**, ao **ponto de contato** certo (e-mail, aplicativo de mensagens, SMS ou plantão). **Silenciamentos** cobrem manutenções programadas — com prazo para acabar. Dois cuidados: a regra crítica (como ligar a bomba reserva) roda também **na borda** (Aulas 10 e 12), porque o painel depende da internet; e o próprio sistema precisa avisar quando **para de receber dados**.
 
 ![Sala de controle panorâmica do Centro de Operações Rio, com uma grande parede de telas exibindo mapas, câmeras e gráficos, e fileiras de estações de trabalho com operadores](https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg/1280px-Sala_de_Controle_do_Centro_de_Opera%C3%A7%C3%B5es_Rio.jpg)
 
@@ -73,17 +73,17 @@ No **Grafana Alerting**, uma **regra de alerta** tem uma consulta (por exemplo, 
 
 Valores **ilustrativos**, com os limites do TARP acima.
 
-**(a) Histerese.** O inclinômetro I-2 oscila em torno do nível de atenção, com ruído de cerca de ±0,3 mm: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1 mm. Sem histerese, cada cruzamento para cima gera uma notificação: **3 alertas e 3 "normalizações"** em seis leituras. Com histerese de 0,5 mm (entra em 10,0 mm, sai só abaixo de 9,5 mm), o sensor entra em atenção na leitura de 10,1 mm e permanece nela: **1 notificação**, que é o que a situação pede.
+**(a) Histerese.** O inclinômetro I-2 oscila em torno do nível de atenção, com ruído de cerca de ±0,3 mm: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1 mm. Sem histerese, cada cruzamento do limite gera uma notificação: **3 alertas** (leituras 2, 4 e 6) **e 2 "normalizações"** (leituras 3 e 5) — **5 notificações** em seis leituras. Com histerese de 0,5 mm (entra em 10,0 mm, sai só abaixo de 9,5 mm), o sensor entra em atenção na leitura de 10,1 mm e permanece nela: **1 notificação**, que é o que a situação pede.
 
-**(b) Velocidade e tempo até o próximo nível.** O I-2 está em $11{,}5\,\mathrm{mm}$ e sobe $1{,}2\,\mathrm{mm/dia}$ — a velocidade já é de alerta, embora o valor seja de atenção. Mantida a tendência:
+**(b) Velocidade e tempo até o próximo nível.** O I-2 está em $11{,}5\,\mathrm{mm}$ (atenção, pelo valor), mas sobe $1{,}2\,\mathrm{mm/dia}$ — acima do alerta por velocidade ($1{,}0\,\mathrm{mm/dia}$): **o I-2 já está em alerta**, com a resposta de 24 h do TARP. Mantida a tendência, os tempos até os limites **por valor** são:
 
 $
-t_{alerta} = \frac{14 - 11{,}5}{1{,}2} \approx 2{,}1\,\mathrm{dias}
+t_{14\,\mathrm{mm}} = \frac{14 - 11{,}5}{1{,}2} \approx 2{,}1\,\mathrm{dias}
 \qquad
-t_{alarme} = \frac{18 - 11{,}5}{1{,}2} \approx 5{,}4\,\mathrm{dias}
+t_{18\,\mathrm{mm}} = \frac{18 - 11{,}5}{1{,}2} \approx 5{,}4\,\mathrm{dias}
 $
 
-O reforço é preparado **agora**, e a frequência de leitura passa para a cada 6 h.
+O alerta por valor (14 mm) chegaria em cerca de 2,1 dias e o alarme (18 mm), em cerca de 5,4 dias — mas, como a velocidade já é de alerta, o reforço é preparado **agora**, e a frequência de leitura passa para a cada 6 h.
 
 **(c) Quanto vale um alarme?** Dos 37 alarmes do fim de semana, 2 eram reais. A fração de alarmes verdadeiros é
 
@@ -118,31 +118,31 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 1. Abertura
 
-**[TELA]** Slides 1–3 — capa, o que você verá nesta unidade e a segunda-feira dos 37 alarmes.
+**[TELA]** Slides 1–4 — capa, sumário, o que você verá nesta unidade e a segunda-feira dos 37 alarmes.
 
 > "Segunda-feira, sete da manhã. O painel disparou 37 alarmes no fim de semana; 35 eram falsos. Na terceira semana assim, a equipe parou de olhar — e um deles era real. Hoje você vai aprender a montar painéis e alertas que a equipe leva a sério."
 
 ### 2. Desenvolvimento — parte 1
 
-**[TELA]** Slides 4–7 — do InfluxDB ao Grafana, os tipos de painel, o que um bom painel mostra e o sensor mudo.
+**[TELA]** Slides 5–8 — do InfluxDB ao Grafana, os tipos de painel, o que um bom painel mostra e o sensor mudo.
 
 > "O Grafana é a vitrine do banco de séries temporais da Aula 12. Série com os limites desenhados, valor atual colorido, linha do tempo de estados e a planta com cada instrumento pintado pelo nível. Um bom painel responde em dez segundos: algo está fora? Onde? Está piorando? E mostra a saúde dos sensores: sensor que não fala não está verde."
 
 ### 3. Desenvolvimento — parte 2
 
-**[TELA]** Slides 8–10 — atenção, alerta e alarme; Santos; o TARP.
+**[TELA]** Slides 9–11 — atenção, alerta e alarme; Santos; o TARP.
 
-> "Os limites vêm do projeto e se escalonam em atenção, alerta e alarme, por valor e por velocidade. E cada nível tem uma ação, um responsável e um prazo: é o TARP. Os prédios inclinados de Santos lembram que recalque anda devagar; só a série longa, com limites, mostra a tendência a tempo. O I-2 está em 11,5 milímetros e sobe 1,2 por dia: alerta em uns dois dias. Preparo o reforço agora."
+> "Os limites vêm do projeto e se escalonam em atenção, alerta e alarme, por valor e por velocidade. E cada nível tem uma ação, um responsável e um prazo: é o TARP. Os prédios inclinados de Santos lembram que recalque anda devagar; só a série longa, com limites, mostra a tendência a tempo. O I-2 está em 11,5 milímetros e sobe 1,2 por dia: pela velocidade, já está em alerta; pelo valor, chega aos 14 milímetros em uns dois dias. Preparo o reforço agora."
 
 ### 4. Desenvolvimento — parte 3
 
-**[TELA]** Slides 11–15 — gestão de alarmes, histerese animada, regra de alerta no Grafana, a regra na borda e a calculadora de velocidade.
+**[TELA]** Slides 12–16 — gestão de alarmes, histerese animada, regra de alerta no Grafana, a regra na borda e a calculadora de velocidade.
 
-> "Olha o sensor oscilando em torno de 10 milímetros: sem histerese, três alertas e três normalizações em seis leituras. Com histerese de meio milímetro, um só. Somo persistência, confirmação e incerteza, e os 35 falsos somem. No Grafana, a regra tem consulta, condição, período pendente, rótulo de severidade e ponto de contato. E a regra crítica roda também na borda."
+> "Olha o sensor oscilando em torno de 10 milímetros: sem histerese, três alertas e duas normalizações: cinco notificações em seis leituras. Com histerese de meio milímetro, um só. Somo persistência, confirmação e incerteza, e os 35 falsos somem. No Grafana, a regra tem consulta, condição, período pendente, rótulo de severidade e ponto de contato. E a regra crítica roda também na borda."
 
 ### 5. Encerramento
 
-**[TELA]** Slides 16–17 — pontos-chave e encerramento.
+**[TELA]** Slides 17–19 — atividade prática, pontos-chave e encerramento.
 
 > "Painel bom leva à decisão, não ao cansaço. Mas o painel mostra o sensor; e o cronograma, o orçamento e o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento. Te espero na Aula 14!"
 
@@ -271,19 +271,19 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 3. Desenvolvimento — parte 2
 
-**[TELA]** Slides 8–11 — os três fluxos (drone, sensores, pendências), o 4D em 3D e a medição de avanço.
+**[TELA]** Slides 8–11 — os três fluxos (drone, sensores, pendências), a nuvem sobre o modelo (scan-to-BIM), o 4D em 3D e a medição de avanço.
 
 > "Três fluxos chegam ao modelo: a nuvem do drone confirma o que existe; os sensores, pelo GUID, pintam o elemento pelo nível de alerta; e cada problema vira um tópico BCF. Arrasto a semana no 4D: o fantasma é o planejado, o sólido é o executado. E o avanço físico se pondera por pesos: fundações, estrutura, alvenaria, instalações."
 
 ### 4. Desenvolvimento — parte 3
 
-**[TELA]** Slides 12–16 — curva S prevista × realizada, a calculadora de valor agregado, a rotina semanal de integração e a malha fechada.
+**[TELA]** Slides 12–16 — curva S prevista × realizada, as grandezas do valor agregado (VP, VA, CR, IDP e IDC), a calculadora, a rotina semanal de integração e a malha fechada.
 
 > "A conta: avanço ponderado de 40,8% contra 45% previstos. Valor planejado, 9 milhões; agregado, 8,15; custo real, 8,6. IDP de 0,91: atrasada. IDC de 0,95: gastando mais do que agrega. Os 62% da reunião não param em pé. Com o modelo atualizado pelo canteiro e o engenheiro decidindo, fechamos a malha."
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento.
 
 > "Agora o dado de campo chega ao cronograma e ao custo. Mas a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
 
@@ -383,7 +383,7 @@ Para uma obra que você conheça, liste cinco riscos críticos do PGR e, para ca
 - **Fundacentro — Segurança do trabalho na indústria da construção:** https://www.gov.br/fundacentro/pt-br
 - **Wikipedia — Sistema de localização em tempo real (RTLS):** https://en.wikipedia.org/wiki/Real-time_locating_system
 
-## Aula 15 — Roteiro da Videoaula 15: "Rajada de 46 km/h na grua: a tecnologia vê o risco antes do acidente?"
+## Aula 15 — Roteiro da Videoaula 15: "Rajada de quase 47 km/h na grua: a tecnologia vê o risco antes do acidente?"
 
 Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
@@ -403,7 +403,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 **[TELA]** Slides 8–10 — a norma que já pede sensores, o anemômetro da grua, as cercas virtuais e os detectores de gases.
 
-> "A norma já pede sensor: alarme de ré, limitador de carga, anemômetro na grua com alarme acima de 42 quilômetros por hora. Treze metros por segundo são 46,8: precisa de análise de risco e permissão de trabalho. Acima de 72, proibido. Ligue isso à plataforma IoT e o encarregado vê no painel. Somo as etiquetas UWB, com cercas virtuais em torno das máquinas, e os detectores de gases."
+> "A norma já pede sensor: alarme de ré, limitador de carga, anemômetro na grua com alarme acima de 42 quilômetros por hora. Treze metros por segundo são 46,8, quase 47: precisa de análise de risco e permissão de trabalho. Acima de 72, proibido. Ligue isso à plataforma IoT e o encarregado vê no painel. Somo as etiquetas UWB, com cercas virtuais em torno das máquinas, e os detectores de gases."
 
 ### 4. Desenvolvimento — parte 3
 
@@ -413,7 +413,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento.
 
 > "Câmeras, crachás e sensores protegem pessoas, mas também coletam dados delas e abrem portas para invasores. Na última aula, LGPD e cibersegurança em IoT, e o fechamento da disciplina. Te espero na Aula 16!"
 
@@ -463,7 +463,7 @@ Segurança da informação protege **confidencialidade**, **integridade** e **di
 
 Valores **ilustrativos**.
 
-**(a) A senha do gateway.** Uma senha numérica de 6 dígitos tem $10^6$ combinações; a 100 tentativas por segundo, cai em no máximo $10^4\,\mathrm{s} \approx 2{,}8\,\mathrm{h}$. Uma senha aleatória de 12 caracteres entre 62 símbolos (letras maiúsculas, minúsculas e algarismos):
+**(a) A senha do gateway.** Uma senha numérica de 6 dígitos tem $10^6$ combinações; a 100 tentativas por segundo (ataque **online**, contra a interface do gateway), cai em no máximo $10^4\,\mathrm{s} \approx 2{,}8\,\mathrm{h}$. Uma senha aleatória de 12 caracteres entre 62 símbolos (letras maiúsculas, minúsculas e algarismos), mesmo num ataque **offline** — contra um hash de senha vazado, testado com GPU a $10^9$ tentativas por segundo:
 
 $
 62^{12} \approx 3{,}2 \times 10^{21}
@@ -516,21 +516,21 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 2. Desenvolvimento — parte 1
 
-**[TELA]** Slides 4–7 — dados pessoais no canteiro, bases legais, o trabalhador e a câmera com máscara de privacidade.
+**[TELA]** Slides 4–7 — dados pessoais no canteiro, bases legais e princípios, a câmera com máscara de privacidade e a governança (controlador, operador, encarregado e ANPD).
 
 > "Rosto, placa, quintal do vizinho, localização do trabalhador: tudo é dado pessoal. Biometria é sensível. Todo tratamento precisa de base legal — obrigação legal, contrato, proteção da vida, legítimo interesse — e de finalidade, necessidade e transparência. Com trabalhador, consentimento é frágil. Na prática: máscara de privacidade, desfoque, prazo de guarda, aviso, e detectar o EPI, não a pessoa."
 
 ### 3. Desenvolvimento — parte 2
 
-**[TELA]** Slides 8–12 — confidencialidade, integridade e disponibilidade; a Mirai; a calculadora de senhas; MQTT com TLS; a rede segmentada.
+**[TELA]** Slides 8–12 — confidencialidade, integridade e disponibilidade; a Mirai; credenciais únicas e o Ato nº 77/2021 da Anatel; o caminho do dado com AES-128, TLS e ACL; a rede segmentada.
 
-> "Aqui, a propriedade mais crítica é a integridade: leitura adulterada esconde recalque. Em 2016, a Mirai sequestrou centenas de milhares de câmeras testando senhas de fábrica. A senha de fábrica cai na primeira tentativa; uma senha aleatória de 12 caracteres levaria uns cem mil anos. MQTT sobre TLS na porta 8883, ACL por tópico, rede separada e firmware atualizado."
+> "Aqui, a propriedade mais crítica é a integridade: leitura adulterada esconde recalque. Em 2016, a Mirai sequestrou centenas de milhares de câmeras testando senhas de fábrica. Senha de fábrica não sobrevive ao comissionamento: credencial única por dispositivo. MQTT sobre TLS na porta 8883, ACL por tópico, rede separada e firmware atualizado."
 
 ### 4. Desenvolvimento — parte 3
 
 **[TELA]** Slides 13–16 — resposta a incidentes e contrato, a calculadora (senha, multa e prazo), a jornada da disciplina e a malha fechada.
 
-> "Controlador, operador, encarregado e relatório de impacto. Vazou? Três dias úteis para comunicar a ANPD: soube na quinta, comunica até terça. Multa de até 2% do faturamento, com teto de 50 milhões. E olha a jornada: voo, fotogrametria, sensores, redes, painéis, BIM, segurança e dados."
+> "Plano de resposta a incidentes e cláusulas no contrato. Na calculadora: a senha de fábrica cai na primeira tentativa; uma senha aleatória de 12 caracteres, mesmo num ataque offline a um bilhão de tentativas por segundo, levaria uns cem mil anos. Vazou? Três dias úteis para comunicar a ANPD: soube na quinta, comunica até terça. Multa de até 2% do faturamento, com teto de 50 milhões. E olha a jornada: voo, fotogrametria, sensores, redes, painéis, BIM, segurança e dados."
 
 ### 5. Encerramento
 
@@ -574,19 +574,19 @@ d) Basta colher o consentimento dos trabalhadores na admissão, que é sempre a 
 
 ### Direto da fonte (livro da Biblioteca Virtual)
 
-> _[PENDENTE — aguardando acesso à Biblioteca Virtual]_
+> _[PENDENTE — aguardando acesso à Biblioteca Virtual]_ Sugestão a confirmar na BV: EASTMAN, Chuck et al. *Manual de BIM* (Bookman), capítulos sobre BIM para construtores (4D, 5D e IFC), e MATTOS, Aldo Dórea. *Planejamento e controle de obras* (Pini), capítulo de controle por valor agregado — bibliografia da ementa para esta unidade.
 
 - **Nome do livro:** 
 - **Capítulo:** 
 - **Link de acesso:** 
-- **Qual aula o material deverá entrar?** 
+- **Qual aula o material deverá entrar?** Aula 14
 
 ### Para mergulhar no assunto (saiba mais)
 
-> Recomendo o webinar **"Digitalização BIM da SE Mirueira II: Scan-to-BIM e Gêmeos Digitais"**, do canal do BIM Fórum Brasil, no YouTube. Ele mostra um caso brasileiro real de captura da realidade de uma subestação de energia, da nuvem de pontos ao modelo BIM e ao gêmeo digital. Assista com o olhar da Aula 14: como a nuvem foi registrada? Que informação ficou presa a cada elemento? O resultado é modelo, sombra ou gêmeo digital? Para conferir o enquadramento legal do BIM nas obras públicas, complemente com a página da Estratégia BIM BR, do MDIC.
+> Recomendo o webinar **"Digitalização BIM da SE Mirueira II: Scan-to-BIM e Gêmeos Digitais"**, do canal do BIM Fórum Brasil, no YouTube. Ele mostra um caso brasileiro real de captura da realidade de uma subestação de energia, da nuvem de pontos ao modelo BIM e ao gêmeo digital. Assista com o olhar da Aula 14: como a nuvem foi registrada? Que informação ficou presa a cada elemento? O resultado é modelo, sombra ou gêmeo digital? Para conferir o enquadramento legal do BIM nas obras públicas, complemente com a página da Estratégia BIM BR, do MDIC. E, para as Aulas 15 e 16, vá direto às fontes: o texto vigente da **NR-18**, no portal do Ministério do Trabalho e Emprego — procure os itens que já exigem sensores, como o anemômetro da grua —, e o portal da **ANPD**, com os guias orientativos sobre tratamento de dados pessoais e comunicação de incidentes de segurança.
 
-- **Links:** https://www.youtube.com/watch?v=QFRG0KoirtI · https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
-- **Qual aula o material deverá entrar?** Aula 14
+- **Links:** https://www.youtube.com/watch?v=QFRG0KoirtI · https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim · https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora/normas-regulamentadoras-vigentes/norma-regulamentadora-no-18-nr-18 · https://www.gov.br/anpd/pt-br
+- **Qual aula o material deverá entrar?** Aulas 14, 15 e 16
 
 ### Podcast (curadoria | até 45 min)
 
@@ -599,8 +599,8 @@ d) Basta colher o consentimento dos trabalhadores na admissão, que é sempre a 
 
 ### Artigo científico
 
-> Artigo de acesso aberto que propõe o **gêmeo digital da construção** como sistema de informação: o modelo do produto e do processo (BIM e cronograma) é alimentado continuamente por dados de monitoramento (drones, sensores, câmeras), e a comparação entre o planejado e o executado orienta o **planejamento e controle** da obra em ciclos fechados. É a fundamentação acadêmica das Aulas 13 e 14 e da ideia de malha fechada que atravessa toda a disciplina.
+> Uma câmera de canteiro consegue mesmo dizer se o trabalhador está sem capacete ou dentro da zona de giro da escavadeira? Neste artigo de revisão, Fang e colegas organizam as pesquisas sobre **visão computacional aplicada à segurança na construção**: detecção de pessoas, de equipamentos e do uso de EPI, reconhecimento de atos inseguros e monitoramento de zonas de risco. Os autores também apontam os limites que você discutiu nas Aulas 15 e 16 — oclusão, iluminação, falsos negativos e a **privacidade** de quem é filmado. Leia perguntando: em que ponto o detector deixa de prevenir acidentes e passa a vigiar pessoas?
 
-- **Link:** https://doi.org/10.1017/dce.2020.16
-- **Qual aula o material deverá entrar?** Aulas 13 e 14
-- **Referência bibliográfica do artigo no formato ABNT:** SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.
+- **Link:** https://doi.org/10.1016/j.autcon.2019.103013
+- **Qual aula o material deverá entrar?** Aulas 15 e 16
+- **Referência bibliográfica do artigo no formato ABNT:** FANG, Weili; DING, Lieyun; LOVE, Peter E. D.; LUO, Hanbin; LI, Heng; PEÑA-MORA, Feniosky; ZHONG, Botao; ZHOU, Cheng. Computer vision applications in construction safety assurance. **Automation in Construction**, Amsterdam, v. 110, 103013, fev. 2020. DOI: 10.1016/j.autcon.2019.103013.

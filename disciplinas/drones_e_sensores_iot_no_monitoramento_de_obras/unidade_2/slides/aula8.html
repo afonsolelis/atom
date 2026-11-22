@@ -91,7 +91,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Da foto ao número de engenharia</h1>
+        <h1 class="sumario-titulo">Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -132,10 +132,10 @@
       <p class="kicker">Volume entre duas superfícies</p>
       <h2>Volume é soma de prismas: diferença de cota × área</h2>
       <p><span class="formula grande">V = Σ Δz<sub>i</sub> · A<sub>c</sub></span></p>
-      <p style="text-align:center">Em cada célula de área A<sub>c</sub>, Δz = cota medida − cota de referência. <strong style="color:var(--obra-alerta)">Δz &gt; 0: corte</strong> · <strong style="color:var(--obra-ciano)">Δz &lt; 0: aterro</strong>, calculados <strong>separados</strong> (serviços e preços diferentes).</p>
+      <p style="text-align:center">Contra o greide, Δz = z<sub>terreno</sub> − z<sub>greide</sub>: <strong style="color:var(--obra-alerta)">Δz &gt; 0: corte a executar</strong> · <strong style="color:var(--obra-ciano)">Δz &lt; 0: aterro a executar</strong>, calculados <strong>separados</strong> (serviços e preços diferentes).</p>
       <div class="cards3" style="margin-top:.8rem">
         <div class="card ciano"><span class="tag">referência 1</span><h3>Greide de projeto</h3><p>Quanto <strong>ainda falta</strong> escavar ou aterrar.</p></div>
-        <div class="card"><span class="tag">referência 2</span><h3>Levantamento anterior</h3><p>Quanto <strong>se movimentou no mês</strong>: a base da medição de pagamento.</p></div>
+        <div class="card"><span class="tag">referência 2</span><h3>Levantamento anterior</h3><p>Quanto <strong>se movimentou no mês</strong>: a base da medição. Aqui Δz = z<sub>anterior</sub> − z<sub>atual</sub> (&gt; 0: corte executado).</p></div>
         <div class="card verde"><span class="tag">referência 3</span><h3>Plano de base</h3><p>O volume de uma <strong>pilha</strong>.</p></div>
       </div>
       <div class="callout-azul" style="margin-top:1rem;background:rgba(0,0,0,.25)"><p>O software soma <strong>milhões de células</strong> (ou prismas sobre uma triangulação). A conta é simples; o que exige engenharia é escolher <strong>as duas superfícies</strong>.</p></div>
@@ -354,7 +354,7 @@
       <p class="kicker">Tudo isso cabe no QGIS</p>
       <h2>Quatro ferramentas e três conselhos de quem já apanhou</h2>
       <div class="timeline grande" style="--n:4">
-        <div class="etapa"><div class="ano">Calculadora raster</div><p>Δz = MDT atual − anterior, ou − projeto. Com rampa divergente, vira o <strong>mapa de desvios</strong>.</p></div>
+        <div class="etapa"><div class="ano">Calculadora raster</div><p>Δz = MDT anterior − atual, ou MDT atual − projeto. Com rampa divergente, vira o <strong>mapa de desvios</strong>.</p></div>
         <div class="etapa"><div class="ano">Volume de superfície raster</div><p>Corte e aterro em relação a um <strong>plano</strong> (ou somando as células de Δz).</p></div>
         <div class="etapa"><div class="ano">Contorno (GDAL)</div><p>Gera as <strong>curvas de nível</strong> do MDT.</p></div>
         <div class="etapa"><div class="ano">Perfil de elevação</div><p>Traça as <strong>seções transversais</strong>.</p></div>

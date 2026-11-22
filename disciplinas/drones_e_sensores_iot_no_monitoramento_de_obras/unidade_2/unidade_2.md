@@ -243,7 +243,7 @@ Baixe, no portal do IBGE, os dados de um dia de uma estação da RBMC próxima d
 - **Wikipedia — Real-time kinematic positioning:** https://en.wikipedia.org/wiki/Real-time_kinematic_positioning
 - **LiDAR Magazine — *The ASPRS Positional Accuracy Standards, Edition 2* (resumo das mudanças de 2023):** https://lidarmag.com/2023/10/06/the-asprs-positional-accuracy-standards-edition-2/
 
-## Aula 6 — Roteiro da Videoaula 6: "O drone dizia 'FIX', mas a obra inteira estava 2 metros ao lado: o que o GNSS não te conta"
+## Aula 6 — Roteiro da Videoaula 6: "O drone dizia 'FIX', mas a obra inteira estava 1,5 metro ao lado: o que o GNSS não te conta"
 
 Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
@@ -253,14 +253,14 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "O drone mostrou FIX o voo inteiro, o ortomosaico ficou impecável e as distâncias batiam com a trena. Mas a obra inteira estava um metro e meio ao lado e quase três metros acima. Hoje a gente abre a caixa-preta do GNSS e aprende a provar, com números, que um produto está no lugar certo."
 
 ### 2. Desenvolvimento — parte 1
-**[TELA]** Slides 4–7 — pseudodistância e os 4 satélites, as fontes de erro, o PDOP no céu simulado e a ionosfera no Brasil.
+**[TELA]** Slides 4–7 — as quatro constelações, a pseudodistância e os 4 satélites, as fontes de erro e o PDOP no céu simulado.
 
-> "O receptor mede pseudodistâncias: tempo de propagação vezes a velocidade da luz. Um microssegundo de erro no relógio são 300 metros — por isso, quatro satélites. Somam-se órbitas, relógios, ionosfera, troposfera e multicaminho, multiplicados pela geometria, o PDOP. Resultado: metros. E no Brasil a ionosfera pesa mais, por causa da anomalia equatorial; no canteiro, grua e fachada geram multicaminho."
+> "O receptor mede pseudodistâncias: tempo de propagação vezes a velocidade da luz. Um microssegundo de erro no relógio são 300 metros — por isso, quatro satélites. Somam-se órbitas, relógios, ionosfera, troposfera e multicaminho, multiplicados pela geometria, o PDOP. Resultado: metros."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 8–11 — posicionamento relativo, FIX × FLOAT, RTK × PPK (NTRIP, RBMC) e o erro da base que desloca tudo.
+**[TELA]** Slides 8–11 — a ionosfera equatorial e o multicaminho no canteiro, posicionamento relativo (FIX × FLOAT), RTK × PPK (NTRIP, RBMC) e o erro da base que desloca tudo.
 
-> "No posicionamento relativo, base e rover veem os mesmos satélites e os erros comuns se cancelam. Resolvida a ambiguidade da fase, a solução é fixa, de centímetros. O RTK corrige em tempo real, por rádio ou NTRIP; o PPK corrige depois, com uma base local ou a RBMC. Mas o rover é calculado em relação à base: base errada, levantamento inteiro errado. Foi o gancho."
+> "No Brasil a ionosfera pesa mais, por causa da anomalia equatorial; no canteiro, grua e fachada geram multicaminho. No posicionamento relativo, base e rover veem os mesmos satélites e os erros comuns se cancelam. Resolvida a ambiguidade da fase, a solução é fixa, de centímetros. O RTK corrige em tempo real, por rádio ou NTRIP; o PPK corrige depois, com uma base local ou a RBMC. Mas o rover é calculado em relação à base: base errada, levantamento inteiro errado. Foi o gancho."
 
 ### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–16 — SIRGAS2000 e UTM, altura elipsoidal × altitude, RMSE e média, PEC-PCD e a tabela dos 5 checkpoints.
@@ -290,7 +290,7 @@ A **nuvem de pontos** é um conjunto de milhões de pontos com coordenadas $X, Y
 
 ### Ortomosaico: a foto que vira mapa
 
-Uma foto aérea **não é um mapa**. Na perspectiva central, um objeto com altura $h$, a uma distância radial $R$ do nadir, tem o topo projetado para fora da base (**deslocamento devido ao relevo**):
+Uma foto aérea **não é um mapa**. Na perspectiva central, um objeto com altura $h$, com a base a uma distância radial $R$ do nadir (medida no terreno), tem o topo projetado para fora da base (**deslocamento devido ao relevo**):
 
 $
 \delta = \frac{R \cdot h}{H - h}
@@ -395,17 +395,17 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Da nuvem densa saem quatro produtos. A nuvem de pontos, com classes como solo, vegetação e edificação. O ortomosaico: uma foto crua não é mapa, porque o topo de um prédio de 30 metros, a 40 do nadir, sai 17 metros deslocado. Ortorretificada, a imagem ganha escala constante — é o produto do avanço físico."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 8–11 — MDS × MDT, o canteiro em 3D com a pilha que fica e a máquina que sai, e o LiDAR com múltiplos retornos.
+**[TELA]** Slides 8–11 — MDS × MDT, o canteiro em 3D com a pilha que fica e a máquina que sai, o pulso com múltiplos retornos e a encosta com mata varrida pelo laser em 3D.
 
-> "O MDS é a primeira superfície; o MDT, o solo nu. MDS menos MDT é a altura dos objetos. Filtrar não é apagar o que é alto: a pilha fica, a máquina sai. E debaixo da mata a câmera não vê o chão: o LiDAR, com múltiplos retornos, passa pelas frestas. A 80 metros, 240 quilohertz e 8 metros por segundo, uns 268 pontos por metro quadrado."
+> "O MDS é a primeira superfície; o MDT, o solo nu. MDS menos MDT é a altura dos objetos. Filtrar não é apagar o que é alto: a pilha fica, a máquina sai. E debaixo da mata a câmera não vê o chão: o LiDAR, com múltiplos retornos, passa pelas frestas."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 12–14 — LiDAR × fotogrametria, os produtos no QGIS e a pausa para reflexão.
+**[TELA]** Slides 12–15 — o exemplo numérico do LiDAR embarcado (faixa, densidade e erro na borda), LiDAR × fotogrametria, os produtos no QGIS e a pausa para reflexão.
 
-> "LiDAR não é sempre melhor: não tem cor e custa mais. No QGIS, tudo no mesmo projeto: SRC, sombreamento, perfil e calculadora raster. E a pausa para reflexão: para os três pedidos, que produto, que sensor e que erro custaria mais caro?"
+> "A 80 metros, 240 quilohertz e 8 metros por segundo, a faixa tem uns 112 metros e a densidade, uns 268 pontos por metro quadrado; na borda, um erro de atitude de 0,05 grau desloca o ponto em 8,5 centímetros. Mas LiDAR não é sempre melhor: não tem cor e custa mais. No QGIS, tudo no mesmo projeto: SRC, sombreamento, perfil e calculadora raster. E a pausa para reflexão: para os três pedidos, que produto, que sensor e que erro custaria mais caro?"
 
 ### 5. Encerramento
-**[TELA]** Slides 15–16 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 16–17 — atividade e pontos-chave, e encerramento.
 
 > "Abra um conjunto de exemplo no QGIS e gere o seu primeiro MDS menos MDT. Na próxima aula, esses modelos viram metros cúbicos, curvas de nível e a resposta à pergunta mais cara da obra: o executado bate com o projeto? Te espero na Aula 8!"
 
@@ -423,7 +423,7 @@ $
 V = \sum_{i} \Delta z_i \cdot A_c
 $
 
-Com $\Delta z > 0$, há **corte** (material acima da referência); com $\Delta z < 0$, **aterro**. Corte e aterro se calculam **separados**: são serviços diferentes. A referência pode ser o **greide de projeto** (quanto falta), o **levantamento anterior** (quanto se movimentou no mês — a base da medição) ou um **plano de base** (pilhas).
+Corte e aterro se calculam **separados**: são serviços diferentes. A referência pode ser o **greide de projeto** (quanto falta), o **levantamento anterior** (quanto se movimentou no mês — a base da medição) ou um **plano de base** (pilhas), e o sinal de $\Delta z$ depende dela. Contra o **greide de projeto**, com $\Delta z = z_{terreno} - z_{greide}$: $\Delta z > 0$ é **corte a executar** (material acima do greide) e $\Delta z < 0$, **aterro a executar**. Contra o **levantamento anterior**, com $\Delta z = z_{anterior} - z_{atual}$: $\Delta z > 0$ é **corte executado** no período e $\Delta z < 0$, **aterro executado**. Contra um plano de base, a pilha é o material acima do plano.
 
 ![Foto aérea de drone com duas grandes pilhas de material — uma escura, de rejeito, à esquerda, e outra cinza, de cascalho, à direita — separadas por uma rodovia, um pátio de veículos e faixas de vegetação](https://upload.wikimedia.org/wikipedia/commons/8/86/Wimmelburg_stockpiles_2020_germany.jpg)
 
@@ -459,7 +459,7 @@ Subtraindo a superfície de projeto do MDT levantado ($\Delta z = z_{exec} - z_{
 
 ### Tudo isso no QGIS
 
-No QGIS: **calculadora raster** para $\Delta z$ (MDT atual − MDT anterior, ou − superfície de projeto), com uma rampa de cores divergente para o mapa de desvios; o algoritmo **Volume de superfície raster** (*Raster surface volume*) para corte e aterro em relação a um plano ou, somando as células do $\Delta z$, entre duas superfícies; **Contorno** (GDAL) para as curvas de nível; e o **perfil de elevação** para seções transversais. A superfície de projeto vem do software de projeto viário ou de terraplenagem, exportada como raster ou triangulação.
+No QGIS: **calculadora raster** para $\Delta z$ (MDT anterior − MDT atual, para o movimentado no mês, ou MDT atual − superfície de projeto), com uma rampa de cores divergente para o mapa de desvios; o algoritmo **Volume de superfície raster** (*Raster surface volume*) para corte e aterro em relação a um plano ou, somando as células do $\Delta z$, entre duas superfícies; **Contorno** (GDAL) para as curvas de nível; e o **perfil de elevação** para seções transversais. A superfície de projeto vem do software de projeto viário ou de terraplenagem, exportada como raster ou triangulação.
 
 ### Medição de pagamento: quem está certo?
 
@@ -519,17 +519,17 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Volume é a soma de delta z vezes a área de cada célula, contra uma referência: o greide, o levantamento anterior ou um plano de base. Corte e aterro separados. Oito células de 100 metros quadrados: 435 de corte e 145 de aterro. Com 25% de empolamento, 543,8 soltos, ou 46 viagens de caminhão."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 8–11 — δV ≈ A · δz, curvas de nível, equidistância × exatidão e declividade.
+**[TELA]** Slides 8–11 — δV ≈ A · δz, curvas de nível, equidistância × exatidão e o mapa de desvios.
 
-> "Erro aleatório se compensa; viés vira volume: 3 centímetros em 2 hectares são 600 metros cúbicos. As curvas de nível saem do MDT, e a equidistância tem que caber na exatidão: com RMSE de 2,56 centímetros, curvas de 20. Curvas de 10 centímetros seriam desenhar ruído."
+> "Erro aleatório se compensa; viés vira volume: 3 centímetros em 2 hectares são 600 metros cúbicos. As curvas de nível saem do MDT, e a equidistância tem que caber na exatidão: com RMSE de 2,56 centímetros, curvas de 20. Curvas de 10 centímetros seriam desenhar ruído. E o mapa de desvios é o MDT menos o projeto, em cores."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 12–15 — mapa de desvios, a regra conforme/inconclusivo/não conforme, o fluxo no QGIS e quem está certo na medição.
+**[TELA]** Slides 12–14 — a regra conforme/inconclusivo/não conforme, o fluxo no QGIS e quem está certo na medição.
 
-> "O mapa de desvios é o MDT menos o projeto, em cores. Com tolerância de 5 e incerteza de 3 centímetros: desvio de 2, conforme; de 7, inconclusivo; de 12, não conforme. E a briga do começo: 3 centímetros em 4 hectares são 1.200 metros cúbicos. Talvez ninguém esteja errado. Resolve o contrato: mesma referência, MDT, checkpoints, tolerância e arbitragem."
+> "Com tolerância de 5 e incerteza de 3 centímetros: desvio de 2, conforme; de 7, inconclusivo; de 12, não conforme. E a briga do começo: 3 centímetros em 4 hectares são 1.200 metros cúbicos. Talvez ninguém esteja errado. Resolve o contrato: mesma referência, MDT, checkpoints, tolerância e arbitragem."
 
 ### 5. Encerramento
-**[TELA]** Slides 16–18 — atividade e pontos-chave, fechamento da Unidade 2, prévia da Unidade 3 e encerramento.
+**[TELA]** Slides 15–18 — atividade e pontos-chave (15), fechamento da Unidade 2 (16), prévia da Unidade 3 (17) e encerramento (18).
 
 > "Com isso, você fecha a Unidade 2: da foto ao modelo georreferenciado, à exatidão provada, aos produtos e aos metros cúbicos. Na Unidade 3, os sensores IoT e as redes que trazem os dados do canteiro. Te espero na Aula 9!"
 

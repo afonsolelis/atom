@@ -91,7 +91,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Fotogrametria digital</h1>
+        <h1 class="sumario-titulo">Fotogrametria digital: sobreposição, pontos de controle e georreferenciamento</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -164,8 +164,10 @@
     <div class="slide-content">
       <p class="kicker">Coelho e Brito, <em>Fotogrametria digital</em></p>
       <h2>Equações de colinearidade: ponto, centro da câmera e pixel na mesma reta</h2>
-      <div class="formula-bloco">x = x<sub>0</sub> − f · [r<sub>11</sub>(X−X<sub>0</sub>) + r<sub>12</sub>(Y−Y<sub>0</sub>) + r<sub>13</sub>(Z−Z<sub>0</sub>)] / [r<sub>31</sub>(X−X<sub>0</sub>) + r<sub>32</sub>(Y−Y<sub>0</sub>) + r<sub>33</sub>(Z−Z<sub>0</sub>)] &nbsp;·&nbsp; (idem para y)</div>
-      <p class="mini" style="text-align:center;margin-top:-.2rem">Os r<sub>ij</sub> formam a matriz de rotação, que depende dos ângulos ω, φ e κ. Não é preciso decorar: importa o que entra nela.</p>
+      <div class="formula-bloco" style="font-size:1.3rem;display:flex;align-items:center;justify-content:center;gap:.45em;flex-wrap:wrap"><span>x = x<sub>0</sub> − f ·</span>
+        <span style="display:inline-flex;flex-direction:column;align-items:center;line-height:1.5"><span style="border-bottom:2px solid currentColor;padding:0 .3em">r<sub>11</sub>(X−X<sub>0</sub>) + r<sub>12</sub>(Y−Y<sub>0</sub>) + r<sub>13</sub>(Z−Z<sub>0</sub>)</span><span style="padding:0 .3em">r<sub>31</sub>(X−X<sub>0</sub>) + r<sub>32</sub>(Y−Y<sub>0</sub>) + r<sub>33</sub>(Z−Z<sub>0</sub>)</span></span>
+        <span style="font-size:.8em;opacity:.85">(idem para y)</span></div>
+      <p style="text-align:center;margin-top:.2rem;font-size:1rem">Os r<sub>ij</sub> formam a matriz de rotação, que depende dos ângulos ω, φ e κ. Não é preciso decorar: importa o que entra nela.</p>
       <div class="versus" style="margin-top:.6rem">
         <div class="lado">
           <h3>Orientação exterior (de cada foto)</h3>
@@ -523,7 +525,7 @@
   const sL = Obra.slider(p, { id: 'sl', label: 'Sobreposição lateral s<sub>l</sub>', min: 30, max: 85, step: 5, value: 70, unit: '%' });
   const res = document.createElement('div'); res.className = 'resultado'; p.appendChild(res);
   const { ctx } = Obra.canvas2d(host);
-  const WF = 105, LF = 70, AX = 300, AY = 200, CEL = 2.5;   // área de 300 × 200 m
+  const WF = 105, LF = 70, AX = 400, AY = 300, CEL = 2.5;   // canteiro de 12 ha: 400 × 300 m
   let mapa = null, chave = '', fotos = [];
   const cores = ['#3b1f2b', '#FF2B5F', '#FF8A1F', '#F2CB0A', '#95DE68', '#2BD9FE', '#7b6bff'];
   const corDe = (n) => (n <= 0 ? cores[0] : n === 1 ? cores[1] : n === 2 ? cores[2] : n < 5 ? cores[3] : n < 9 ? cores[4] : n < 16 ? cores[5] : cores[6]);
@@ -543,7 +545,7 @@
     }
     let soma = 0, min = 1e9; for (const v of mapa) { soma += v; min = Math.min(min, v); }
     res.innerHTML = `B = 70 × (1 − ${Obra.fmt(sf, 2)}) = <b>${Obra.fmt(B, 1)} m</b> · d = 105 × (1 − ${Obra.fmt(sl, 2)}) = <b>${Obra.fmt(d, 1)} m</b><br>` +
-      `Cada ponto aparece, em média, em <span class="num">${Obra.fmt(soma / mapa.length, 0)}</span> fotos (mínimo ${min}); ≈ 1 / [(1 − s<sub>f</sub>)(1 − s<sub>l</sub>)] = ${Obra.fmt(1 / ((1 - sf) * (1 - sl)), 1)}.<br><small>Área de 300 × 200 m; ${fotos.length} fotos.</small>`;
+      `Cada ponto aparece, em média, em <span class="num">${Obra.fmt(soma / mapa.length, 0)}</span> fotos (mínimo ${min}); ≈ 1 / [(1 − s<sub>f</sub>)(1 − s<sub>l</sub>)] = ${Obra.fmt(1 / ((1 - sf) * (1 - sl)), 1)}.<br><small>Canteiro de 12 ha (400 × 300 m): ${fotos.length} fotos.</small>`;
   }
   const lp = Obra.loop((t) => {
     const sf = +sF.value / 100, sl = +sL.value / 100, k = sf + '|' + sl;

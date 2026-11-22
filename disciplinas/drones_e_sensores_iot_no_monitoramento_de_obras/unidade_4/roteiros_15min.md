@@ -1,9 +1,9 @@
-# Roteiros Estendidos (15–18 minutos) — Unidade 4: Painéis, Integração com BIM e Gestão de Riscos
+# Roteiros Estendidos (15–19 minutos) — Unidade 4: Painéis, Integração com BIM e Gestão de Riscos
 
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 13 a 16
-- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 18 minutos** por aula (cerca de 2.100 a 2.400 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_4.md` são só um guia da sequência.
+- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.000 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_4.md` são só um guia da sequência.
 
 > **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
 
@@ -11,25 +11,27 @@
 
 ## Roteiro da Videoaula 13 — "37 alarmes num fim de semana: por que a equipe parou de ouvir o painel?"
 
-**Duração-alvo:** cerca de 16:00 (15 a 18 minutos).
+**Aula 13 — Painéis de monitoramento, alertas e limites de alarme**
+
+**Duração-alvo:** cerca de 16:10 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 2:00)
 
-**[TELA]** Slide 1 — capa; Slide 2 — o que você verá nesta unidade.
+**[TELA]** Slide 1 — capa; Slide 2 — sumário da aula; Slide 3 — o que você verá nesta unidade.
 
 > "Olá! Eu sou o professor Afonso Brandão, e seja muito bem-vindo, muito bem-vinda à Unidade 4, a última da disciplina Drones e Sensores IoT no Monitoramento de Obras. Até aqui, você planejou o voo, processou as imagens, instalou sensores e fez as leituras chegarem por MQTT a um banco de séries temporais. Agora o dado precisa virar decisão. Nesta unidade, a gente vai montar painéis e alertas, integrar drones e sensores ao BIM e ao planejamento da obra, usar a tecnologia a favor da segurança do trabalho, com a NR-18, e, para fechar, proteger o sistema e as pessoas, com LGPD e cibersegurança. Quatro aulas, um mesmo fio: transformar medição em ação."
 
-**[TELA]** Slide 3 — segunda-feira, 7h: 37 alarmes no fim de semana.
+**[TELA]** Slide 4 — segunda-feira, 7h: 37 alarmes no fim de semana.
 
 > "E eu começo com uma cena que acontece mais do que se imagina. Segunda-feira, sete da manhã. A obra tem sessenta sensores e gera milhares de leituras por dia. No fim de semana, o painel disparou 37 alarmes. O engenheiro de plantão foi acordado várias vezes. Na segunda, a equipe analisa: 35 eram falsos. Um pico de interferência de rádio, um sensor com bateria fraca mandando lixo, o sol da tarde batendo numa escora metálica e dilatando o aço. Na primeira semana, todo mundo corre. Na segunda semana, corre menos. Na terceira semana, a equipe passa a ignorar o celular à noite. E é exatamente aí que um dos alarmes é real. Esse fenômeno tem nome: fadiga de alarmes. Ele é bem conhecido em hospitais e na indústria de processo, e chega às obras junto com a IoT. Hoje você vai aprender a montar painéis que levam à decisão, e não ao cansaço."
 
 ### 2. Do banco de séries ao painel (2:00 – 4:30)
 
-**[TELA]** Slide 4 — a pilha: sensor, MQTT, Node-RED, InfluxDB e Grafana.
+**[TELA]** Slide 5 — a pilha: sensor, MQTT, Node-RED, InfluxDB e Grafana.
 
 > "Vamos lembrar onde paramos na Aula 12. O sensor mede, o datalogger ou o ESP32 publica a leitura por MQTT, o Node-RED trata e encaminha, e o InfluxDB guarda a série temporal. Falta a última camada: a visualização. E a ferramenta mais usada para isso, em obras e em muitos outros setores, é o Grafana. O Grafana é um software de código aberto que se conecta ao banco como uma fonte de dados, em inglês data source, faz a consulta de um intervalo de tempo e desenha painéis. Um conjunto de painéis forma um dashboard. Repare numa coisa importante: o Grafana não guarda o dado. Ele pergunta ao banco toda vez que a tela é atualizada. Por isso, a consulta precisa ser bem feita."
 
-**[TELA]** Slide 5 — captura de um dashboard do Grafana e os quatro tipos de painel.
+**[TELA]** Slide 6 — captura de um dashboard do Grafana e os quatro tipos de painel.
 
 > "Olha na tela um dashboard típico do Grafana, com fundo escuro, números grandes no alto e gráficos de série temporal embaixo. Para o monitoramento de obras, quatro tipos de painel resolvem quase tudo. Primeiro, a série temporal: a curva de cada instrumento ao longo do tempo, com os limites desenhados como faixas coloridas — no Grafana, os thresholds. Segundo, o valor único ou o mostrador, o stat e o gauge: a última leitura, pintada de verde, amarelo, laranja ou vermelho. Terceiro, a linha do tempo de estados, a state timeline: em que horários cada sensor esteve em cada nível. E quarto, a planta ou o mapa: os instrumentos posicionados sobre a planta da obra, ou até sobre o ortomosaico que o drone gerou na Unidade 2, cada um colorido pelo seu estado."
 
@@ -37,11 +39,11 @@
 
 ### 3. O que um bom painel mostra (4:30 – 6:20)
 
-**[TELA]** Slide 6 — as três perguntas do painel operacional.
+**[TELA]** Slide 7 — as três perguntas do painel operacional.
 
 > "Agora, o que faz um painel ser bom? Eu uso um teste simples: em dez segundos, o painel precisa responder a três perguntas. Algo está fora do normal? Onde? E está piorando? Se o engenheiro precisa abrir cinco abas e fazer conta de cabeça para responder, o painel falhou. Para responder às três, ele mostra a planta com o status de cada instrumento, as séries com os limites desenhados e a velocidade — em milímetros por dia, por exemplo —, e uma lista de alertas com reconhecimento: quem viu, quando viu e o que fez."
 
-**[TELA]** Slide 7 — o sensor mudo: saúde dos instrumentos.
+**[TELA]** Slide 8 — o sensor mudo: saúde dos instrumentos.
 
 > "E tem um item que quase todo painel esquece: a saúde dos sensores. Bateria, intensidade do sinal e, principalmente, a hora da última leitura. Pense no inclinômetro que parou de mandar dados ontem à tarde. Se o painel mostra a última leitura recebida, ele continua verde. Só que ninguém sabe o que está acontecendo com aquela parede. Sensor mudo não é sensor verde. É um estado desconhecido, e precisa de alerta próprio. Às vezes, o sensor parou justamente porque a estrutura se moveu e rompeu o cabo."
 
@@ -49,17 +51,17 @@
 
 ### 4. Limites de atenção, alerta e alarme (6:20 – 8:00)
 
-**[TELA]** Slide 8 — de onde vêm os limites; os três níveis.
+**[TELA]** Slide 9 — de onde vêm os limites; os três níveis.
 
 > "Vamos falar dos limites. Primeiro, de onde eles vêm. Não é o painel que inventa o limite. Ele vem do projeto: o projetista calculou quanto a cortina pode deslocar, quanto o edifício vizinho pode recalcar, que esforço o tirante aguenta. Vem também de normas, da retroanálise de obras parecidas e da sensibilidade de quem está ao lado — um casarão tombado tolera muito menos que um galpão novo. Com esse valor admissível na mão, a prática é escalonar três níveis acima do normal. Atenção: o comportamento saiu do esperado, mas está longe do limite. Alerta: aproxima-se do admissível, e as medidas preventivas entram em curso. Alarme: chegou ao valor que exige intervenção imediata, ainda com margem em relação ao estado-limite. A ideia é que cada degrau dê tempo para o próximo."
 
-**[TELA]** Slide 9 — foto: os prédios inclinados de Santos.
+**[TELA]** Slide 10 — foto: os prédios inclinados de Santos.
 
 > "E cada nível se define por valor e por velocidade. Olha essa foto: é um dos prédios inclinados da orla de Santos, no litoral paulista. São edifícios com fundação rasa sobre camadas de argila mole, que recalcaram de forma diferencial ao longo de décadas. O recalque diferencial é lento. Uma leitura isolada não diz quase nada; é a série longa, com limites claros, que mostra a tendência. E repare: um recalque pequeno que está acelerando preocupa mais do que um recalque grande que já estabilizou. Por isso o nível de atenção tem dois gatilhos: um valor, em milímetros, e uma velocidade, em milímetros por dia."
 
 ### 5. O plano de ação por gatilhos (8:00 – 9:20)
 
-**[TELA]** Slide 10 — a tabela TARP: nível, gatilho, ação, quem e prazo.
+**[TELA]** Slide 11 — a tabela TARP: nível, gatilho, ação, quem e prazo.
 
 > "Agora a frase mais importante da aula: limite sem ação é enfeite. Os níveis se organizam num plano de ação por gatilhos, em inglês trigger action response plan, o TARP. Ele é um anexo do plano de monitoramento, e diz, para cada nível, o que acontece, quem faz e em quanto tempo. Olha o exemplo na tela, para o topo de uma cortina de contenção, com valores ilustrativos. Verde, abaixo de 10 milímetros e menos de meio milímetro por dia: rotina. Amarelo, atenção, a partir de 10 milímetros ou de meio milímetro por dia: aumentar a frequência de leitura, inspecionar e avisar o projetista, no mesmo dia. Laranja, alerta, a partir de 14 milímetros ou de um milímetro por dia: preparar e iniciar o reforço previsto e restringir a frente, em 24 horas. Vermelho, alarme, 18 milímetros: paralisar a escavação na frente, executar a contingência e isolar a área, imediatamente, sob o responsável técnico."
 
@@ -67,49 +69,55 @@
 
 ### 6. Fadiga de alarmes: persistência, histerese e incerteza (9:20 – 11:40)
 
-**[TELA]** Slide 11 — o princípio da gestão de alarmes: todo alarme exige uma ação.
+**[TELA]** Slide 12 — o princípio da gestão de alarmes: todo alarme exige uma ação.
 
 > "Voltemos aos 37 alarmes. A indústria de processo, as refinarias e as plantas químicas, enfrentou esse problema há décadas e criou normas de gestão de alarmes, como a ANSI/ISA-18.2, equivalente à IEC 62682. O princípio central serve direitinho para a obra: todo alarme deve exigir uma ação. Se não exige, é ruído e deve sair. Com esse princípio, quatro técnicas resolvem a maior parte dos falsos alarmes."
 
-**[TELA]** Slide 12 — simulação: histerese ligada e desligada. Clique em "sem histerese" e depois em "com histerese".
+**[TELA]** Slide 13 — simulação: histerese ligada e desligada. Clique em "sem histerese" e depois em "com histerese".
 
-> "A primeira é a persistência: exigir que a condição dure um tempo mínimo, ou duas leituras seguidas, antes de notificar. No Grafana, isso se chama pending period. A segunda é a histerese, e olha a simulação. O inclinômetro oscila em torno de 10 milímetros, com um ruído de uns três décimos: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1. Sem histerese, clico aqui: cada vez que a leitura cruza os 10 para cima, sai uma notificação, e cada vez que volta, outra de normalização. Três alertas e três normalizações em seis leituras. O celular do engenheiro não para. Agora clico em com histerese: o nível entra em 10,0, mas só sai abaixo de 9,5. Olha a diferença: o sensor entra em atenção na leitura de 10,1 e fica em atenção. Uma notificação só. E repare que o limite do projeto não mudou: mudou só a regra de saída."
+> "A primeira é a persistência: exigir que a condição dure um tempo mínimo, ou duas leituras seguidas, antes de notificar. No Grafana, isso se chama pending period. A segunda é a histerese, e olha a simulação. O inclinômetro oscila em torno de 10 milímetros, com um ruído de uns três décimos: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1. Sem histerese, clico aqui: cada vez que a leitura cruza os 10 para cima, sai uma notificação de alerta, e cada vez que volta para baixo, outra de normalização. Alertas nas leituras 2, 4 e 6; normalizações nas leituras 3 e 5. Três alertas e duas normalizações: cinco notificações em seis leituras. O celular do engenheiro não para. Agora clico em com histerese: o nível entra em 10,0, mas só sai abaixo de 9,5. Olha a diferença: o sensor entra em atenção na leitura de 10,1 e fica em atenção. Uma notificação só. E repare que o limite do projeto não mudou: mudou só a regra de saída."
 
-> "A terceira técnica é a confirmação: antes do alarme máximo, um segundo instrumento ou uma leitura manual confirma. E a quarta é a incerteza, que você viu na Aula 9. Se a leitura mais a incerteza alcança o limite, trate como atenção; se a leitura menos a incerteza já passou do limite, o nível está confirmado. E não se esqueça da limpeza da série, da Aula 12: um pico espúrio que sobe seis milímetros e volta no dia seguinte não pode acordar ninguém."
+> "A terceira técnica é a confirmação: antes do alarme máximo, um segundo instrumento ou uma leitura manual confirma. E a quarta é a incerteza, a mesma regra de decisão da Aula 8, aplicada aos sensores da Aula 9. Se a leitura mais a incerteza alcança o limite, trate como atenção; se a leitura menos a incerteza já passou do limite, o nível está confirmado. E não se esqueça da limpeza da série, da Aula 12: um pico espúrio que sobe seis milímetros e volta no dia seguinte não pode acordar ninguém."
 
 ### 7. Alertas no Grafana (11:40 – 13:20)
 
-**[TELA]** Slide 13 — anatomia de uma regra de alerta no Grafana.
+**[TELA]** Slide 14 — anatomia de uma regra de alerta no Grafana.
 
 > "Como isso se configura na prática? No Grafana Alerting, uma regra de alerta tem cinco partes. A consulta: por exemplo, o máximo dos últimos 15 minutos do inclinômetro I-2. A condição: acima de 14 milímetros. O intervalo de avaliação: a cada minuto, digamos. O período pendente: a condição tem de se manter, por exemplo, por 30 minutos. E os rótulos, como severidade igual a alerta e frente igual a cortina norte. São os rótulos que, pelas políticas de notificação, levam a mensagem ao ponto de contato certo: o e-mail da equipe, um aplicativo de mensagens, um SMS, o telefone de plantão. E existe o silenciamento, para manutenção programada — sempre com hora para acabar, senão vira esquecimento."
 
-**[TELA]** Slide 14 — foto: sala de controle do Centro de Operações Rio; a regra crítica na borda.
+**[TELA]** Slide 15 — foto: sala de controle do Centro de Operações Rio; a regra crítica na borda.
 
-> "Olha essa sala de controle, do Centro de Operações do Rio, com a parede de telas. É bonito, mas não se iluda: a tela não salva ninguém sozinha. Dois cuidados. Primeiro, a regra crítica — por exemplo, ligar a bomba reserva se o nível d'água subir — roda também na borda, no próprio controlador do canteiro, como você viu na Aula 10. O painel depende da internet; a bomba não pode depender. Segundo, o sistema precisa avisar quando para de receber dados. No Grafana, há tratamento para ausência de dados na regra. Configure isso; é o seu alerta de sensor mudo."
+> "Olha essa sala de controle, do Centro de Operações do Rio, com a parede de telas. É bonito, mas não se iluda: a tela não salva ninguém sozinha. Dois cuidados. Primeiro, a regra crítica — por exemplo, ligar a bomba reserva se o nível d'água subir — roda também na borda, no controlador do canteiro ou no Node-RED junto ao gateway, como você viu nas Aulas 10 e 12. O painel depende da internet; a bomba não pode depender. Segundo, o sistema precisa avisar quando para de receber dados. No Grafana, há tratamento para ausência de dados na regra. Configure isso; é o seu alerta de sensor mudo."
 
 ### 8. Exemplo numérico (13:20 – 14:40)
 
-**[TELA]** Slide 15 — calculadora: velocidade e tempo até o próximo nível.
+**[TELA]** Slide 16 — calculadora: velocidade e tempo até o próximo nível.
 
-> "Vamos às contas. O inclinômetro I-2 está em 11,5 milímetros e sobe 1,2 milímetro por dia. Pelo valor, ele está em atenção, entre 10 e 14. Pela velocidade, 1,2 é maior que 1: ele já está em alerta. Quanto tempo até o alerta por valor? Quatorze menos 11,5 dá 2,5, dividido por 1,2: uns 2,1 dias. E até o alarme? Dezoito menos 11,5 dá 6,5, dividido por 1,2: 5,4 dias. Conclusão: o reforço é preparado agora, e a frequência de leitura passa para a cada seis horas. Mexo aqui na velocidade: se ela cair para 0,3, a previsão se alonga, e o nível volta a ser só atenção. É a velocidade que manda."
+> "Vamos às contas. O inclinômetro I-2 está em 11,5 milímetros e sobe 1,2 milímetro por dia. Pelo valor, ele está em atenção, entre 10 e 14. Pela velocidade, 1,2 é maior que 1: ele já está em alerta. Quanto tempo até o alerta por valor? Quatorze menos 11,5 dá 2,5, dividido por 1,2: uns 2,1 dias. E até o alarme? Dezoito menos 11,5 dá 6,5, dividido por 1,2: 5,4 dias. Conclusão: pela velocidade, o I-2 já está em alerta, e o reforço é preparado agora, e a frequência de leitura passa para a cada seis horas. Mexo aqui na velocidade: se ela cair para 0,3, a previsão se alonga, e o nível volta a ser só atenção. É a velocidade que manda."
 
 > "E a última conta, a dos 37 alarmes. Dois eram verdadeiros. Dois divididos por 37 dá 0,054: 5,4% dos alarmes exigiam ação. Em 19 de cada 20 vezes, o alarme era ruído. É a receita da fadiga. E são exatamente esses 35 que a persistência, a histerese e o alerta de saúde do sensor eliminam."
 
 ### 9. Atividade e encerramento (14:40 – 16:00)
 
-**[TELA]** Slide 16 — atividade prática no Grafana.
+**[TELA]** Slide 17 — atividade prática no Grafana.
 
 > "A atividade de hoje é mão na massa. Abra o Grafana, instalado no seu computador ou na demonstração pública, em play.grafana.org. Monte um dashboard com três painéis: uma série temporal de um sensor, que pode ser simulado ou vir do InfluxDB da Aula 12, com as faixas de atenção, alerta e alarme; um painel de valor colorido pelo nível; e um painel com a hora da última leitura. Depois, crie uma regra de alerta com período pendente e escreva a linha do TARP correspondente: gatilho, ação, responsável e prazo."
 
-**[TELA]** Slide 17 — pontos-chave e encerramento.
+**[TELA]** Slide 18 — pontos-chave.
 
-> "Recapitulando: o Grafana consulta o banco de séries e mostra séries com limites, valor atual, estados e a planta. Os limites vêm do projeto, em atenção, alerta e alarme, por valor e por velocidade. O TARP dá a cada nível uma ação, um dono e um prazo. Persistência, histerese, confirmação e incerteza combatem a fadiga de alarmes, e sensor mudo também é alarme. E a regra crítica roda na borda. Mas o painel mostra o sensor. E o cronograma, o orçamento, o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento e controle. Te espero na Aula 14!"
+> "Recapitulando: o Grafana consulta o banco de séries e mostra séries com limites, valor atual, estados e a planta. Os limites vêm do projeto, em atenção, alerta e alarme, por valor e por velocidade. O TARP dá a cada nível uma ação, um dono e um prazo. Persistência, histerese, confirmação e incerteza combatem a fadiga de alarmes, e sensor mudo também é alarme. E a regra crítica roda na borda."
+
+**[TELA]** Slide 19 — encerramento.
+
+> "Mas o painel mostra o sensor. E o cronograma, o orçamento, o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento e controle. Te espero na Aula 14!"
 
 ---
 
 ## Roteiro da Videoaula 14 — "O drone diz 41%, a planilha diz 62%: quem está certo?"
 
-**Duração-alvo:** cerca de 15:40 (15 a 18 minutos).
+**Aula 14 — Integração dos dados com BIM e com o planejamento e controle de obras**
+
+**Duração-alvo:** cerca de 15:30 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:20)
 
@@ -201,15 +209,21 @@
 
 > "A atividade: pegue o cronograma de uma obra, pode ser acadêmico, com quatro ou cinco serviços e seus pesos. Para uma data, invente as quantidades que o drone e os sensores mediram. Calcule o avanço físico ponderado, o VP, o VA, um custo real plausível, o IDP e o IDC. Desenhe a curva S prevista e a realizada. E escreva o tópico BCF da frente mais atrasada: elemento, problema, responsável e prazo."
 
-**[TELA]** Slide 18 — pontos-chave e encerramento.
+**[TELA]** Slide 18 — pontos-chave.
 
-> "Recapitulando: BIM é modelo de informação, e o IFC com o GUID liga sensores, nuvens e pendências a cada elemento. 4D é modelo mais cronograma; 5D, mais custos; e, desde 2024, as obras federais abrangidas usam BIM no planejamento e controle. O avanço físico é ponderado; o modelo dá o previsto, e o campo dá o executado. Curva S e valor agregado transformam medição em decisão. Agora, a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas e sob a lança de uma grua. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
+> "Recapitulando: BIM é modelo de informação, e o IFC com o GUID liga sensores, nuvens e pendências a cada elemento. 4D é modelo mais cronograma; 5D, mais custos; e, desde 2024, as obras federais abrangidas usam BIM no planejamento e controle. O avanço físico é ponderado; o modelo dá o previsto, e o campo dá o executado. Curva S e valor agregado transformam medição em decisão."
+
+**[TELA]** Slide 19 — encerramento.
+
+> "Agora, a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas e sob a lança de uma grua. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
 
 ---
 
-## Roteiro da Videoaula 15 — "Rajada de 46 km/h na grua: a tecnologia vê o risco antes do acidente?"
+## Roteiro da Videoaula 15 — "Rajada de quase 47 km/h na grua: a tecnologia vê o risco antes do acidente?"
 
-**Duração-alvo:** cerca de 15:40 (15 a 18 minutos).
+**Aula 15 — Segurança do trabalho, NR-18 e tecnologia para prevenção**
+
+**Duração-alvo:** cerca de 15:20 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:30)
 
@@ -287,7 +301,7 @@
 
 **[TELA]** Slide 15 — calculadora: vento, detector e taxa de frequência.
 
-> "Vamos às contas. Primeira: o vento. Rajada de 13 metros por segundo. Para passar para quilômetros por hora, multiplico por 3,6: 46,8 quilômetros por hora. Acima de 42: precisa de análise de risco e permissão de trabalho. E o limite de 72 quilômetros por hora, dividido por 3,6, dá 20 metros por segundo: aí, proibido. O alerta da plataforma deve disparar nos 42, não depois."
+> "Vamos às contas. Primeira: o vento. Rajada de 13 metros por segundo. Para passar para quilômetros por hora, multiplico por 3,6: 46,8, quase 47 quilômetros por hora. Acima de 42: precisa de análise de risco e permissão de trabalho. E o limite de 72 quilômetros por hora, dividido por 3,6, dá 20 metros por segundo: aí, proibido. O alerta da plataforma deve disparar nos 42, não depois."
 
 > "Segunda: o detector de capacete. Em 400 imagens de teste, há 120 pessoas sem capacete. O modelo acertou 102, perdeu 18 e deu 34 avisos falsos. Precisão: 102 sobre 136, 0,75. Revocação: 102 sobre 120, 0,85. F1, perto de 0,80. Leitura: o modelo encontra 85% das situações de risco, e um em cada quatro avisos é falso. Ótimo para chamar o encarregado; nunca para punir alguém automaticamente."
 
@@ -301,15 +315,25 @@
 
 ### 11. Atividade e encerramento (14:40 – 15:40)
 
-**[TELA]** Slide 17 — atividade; Slide 18 — pontos-chave e encerramento.
+**[TELA]** Slide 17 — atividade prática.
 
-> "A atividade: para uma obra que você conheça, liste cinco riscos críticos do PGR e, para cada um, indique a proteção coletiva exigida pela NR-18, uma tecnologia que ajude a verificá-la, com o gatilho de alerta, o responsável pela resposta e o cuidado de privacidade necessário. Recapitulando: a NR-18 exige o PGR, atualizado conforme a etapa. A ordem é eliminar, proteger coletivamente, organizar e, por último, o EPI. A norma já pede sensores, como o alarme de ré e o anemômetro da grua, com 42 e 72 quilômetros por hora. Visão computacional detecta EPI com revocação alta e sem identificar pessoas. E o drone inspeciona sem expor ninguém. Só que câmeras, crachás e sensores coletam dados de gente e abrem portas para invasores. Na última aula, LGPD, cibersegurança e o fechamento da disciplina. Te espero na Aula 16!"
+> "A atividade: para uma obra que você conheça, liste cinco riscos críticos do PGR e, para cada um, indique a proteção coletiva exigida pela NR-18, uma tecnologia que ajude a verificá-la, com o gatilho de alerta, o responsável pela resposta e o cuidado de privacidade necessário."
+
+**[TELA]** Slide 18 — pontos-chave.
+
+> "Recapitulando: a NR-18 exige o PGR, atualizado conforme a etapa. A ordem é eliminar, proteger coletivamente, organizar e, por último, o EPI. A norma já pede sensores, como o alarme de ré e o anemômetro da grua, com 42 e 72 quilômetros por hora. Visão computacional detecta EPI com revocação alta e sem identificar pessoas. E o drone inspeciona sem expor ninguém."
+
+**[TELA]** Slide 19 — encerramento.
+
+> "Só que câmeras, crachás e sensores coletam dados de gente e abrem portas para invasores. Na última aula, LGPD, cibersegurança e o fechamento da disciplina. Te espero na Aula 16!"
 
 ---
 
 ## Roteiro da Videoaula 16 — "A senha do gateway era 'admin': o elo mais fraco do monitoramento"
 
-**Duração-alvo:** cerca de 15:30 (15 a 18 minutos).
+**Aula 16 — Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)**
+
+**Duração-alvo:** cerca de 15:40 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:10)
 
@@ -383,7 +407,7 @@
 
 **[TELA]** Slide 14 — calculadora de senhas, teto da multa e prazo do incidente.
 
-> "Vamos às contas. Primeira, a senha do gateway. Uma senha numérica de seis dígitos tem um milhão de combinações. A cem tentativas por segundo, cai em no máximo dez mil segundos, umas 2,8 horas. Agora, uma senha aleatória de 12 caracteres, escolhidos entre 62 símbolos — maiúsculas, minúsculas e algarismos. São 62 elevado a 12, cerca de 3,2 vezes 10 elevado a 21 combinações. Mesmo a um bilhão de tentativas por segundo, seriam uns cem mil anos. E a senha de fábrica? Uma tentativa. Ela está no manual, que está na internet."
+> "Vamos às contas. Primeira, a senha do gateway. Uma senha numérica de seis dígitos tem um milhão de combinações. A cem tentativas por segundo, que é um ataque online, direto na tela de login do gateway, cai em no máximo dez mil segundos, umas 2,8 horas. Agora, uma senha aleatória de 12 caracteres, escolhidos entre 62 símbolos — maiúsculas, minúsculas e algarismos. São 62 elevado a 12, cerca de 3,2 vezes 10 elevado a 21 combinações. Mesmo num ataque offline, em que o invasor já roubou o arquivo com o hash da senha e testa com placa de vídeo a um bilhão de tentativas por segundo, seriam uns cem mil anos. E a senha de fábrica? Uma tentativa. Ela está no manual, que está na internet."
 
 > "Segunda, o teto da multa. Até 2% do faturamento no Brasil no último exercício, limitada a 50 milhões por infração. Faturamento de 900 milhões: 2% dá 18 milhões. Faturamento de 3,5 bilhões: 2% daria 70 milhões, mas o teto limita a 50. Terceira, o prazo. A construtora descobre na quinta-feira que as imagens das câmeras foram expostas. Três dias úteis, sem feriados: sexta, segunda e terça. A comunicação à ANPD sai até terça-feira. E isso só é possível se o plano de resposta a incidentes já estiver escrito antes."
 

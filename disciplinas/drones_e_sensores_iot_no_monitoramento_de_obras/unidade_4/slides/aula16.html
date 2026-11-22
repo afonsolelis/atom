@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 16 — LGPD, cibersegurança IoT e fechamento da disciplina</title>
+<title>Aula 16 — Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)</title>
 <link rel="icon" href="../../assets/favicon.svg">
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/obra.css">
@@ -110,8 +110,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>LGPD, cibersegurança IoT e fechamento da disciplina</h1>
-      <div class="subtitulo">Aula 16 — A senha do gateway era "admin": o elo mais fraco do monitoramento</div>
+      <h1>Privacidade, LGPD e cibersegurança em sistemas IoT de obras</h1>
+      <div class="subtitulo">Aula 16 — Fechamento da disciplina</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -121,7 +121,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Proteção de dados, cibersegurança e fechamento</h1>
+        <h1 class="sumario-titulo">Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -441,9 +441,9 @@
           </ol>
         </div>
         <figure class="figura">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg/1280px-2018-08-31_-_LoRaWan_Gateway_HoernCampus_Kiel.jpg" alt="Antena e caixa branca de um gateway LoRaWAN presos a um mastro no alto de um prédio, com a cidade ao fundo" loading="lazy" style="object-position:95% 30%">
-          <figcaption>Comece pelo elo mais exposto.</figcaption>
-          <p class="credito">Foto: Fabian Horst — Wikimedia Commons (CC BY-SA 4.0)</p>
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/IFacility-cctv-warning-sign.jpg/1280px-IFacility-cctv-warning-sign.jpg" alt="Placa presa a uma grade metálica avisando, em inglês, que há monitoramento por câmeras 24 horas, que as imagens são gravadas e indicando um contato para proteção de dados; ao fundo, trabalhadores de colete refletivo" loading="lazy" style="object-position:45% 50%">
+          <figcaption>Aviso, finalidade e contato: transparência também é controle.</figcaption>
+          <p class="credito">Foto: RickySpanish — Wikimedia Commons (CC BY-SA 4.0)</p>
         </figure>
       </div>
     </div>
@@ -655,8 +655,8 @@
     const sR = slider(grupos[0].g, { id: 'r', label: 'Tentativas por segundo = 10 elevado a', min: 1, max: 12, step: 1, value: 2, unit: '' });
     let fabrica = false;
     const setV = (inp, v) => { inp.value = v; inp.dispatchEvent(new Event('input', { bubbles: true })); };
-    [['6 dígitos, 100/s', () => { fabrica = false; setV(sN, 6); setV(sA, 10); setV(sR, 2); }],
-     ['12 de 62 símbolos, 10⁹/s', () => { fabrica = false; setV(sN, 12); setV(sA, 62); setV(sR, 9); }],
+    [['6 dígitos, 100/s (online)', () => { fabrica = false; setV(sN, 6); setV(sA, 10); setV(sR, 2); }],
+     ['12 de 62 símbolos, 10⁹/s (offline)', () => { fabrica = false; setV(sN, 12); setV(sA, 62); setV(sR, 9); }],
      ['Senha de fábrica', () => { fabrica = true; }]].forEach(([txt, fn]) => {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'btn-viz'; b.textContent = txt;
       b.addEventListener('click', (e) => { e.stopPropagation(); fn(); }); pre.appendChild(b);
@@ -700,6 +700,7 @@
         const ex = (z) => String(z).split('').map((c) => sup[c]).join('');
         txt('Combinações = ' + A + ex(n) + ' ≈ ' + cient(comb), x0, 88, '700 20px Montserrat, Arial', '#fff');
         txt('Tempo máximo = combinações ÷ 10' + ex(k) + ' tentativas por segundo', x0, 124, '600 16px Montserrat, Arial', 'rgba(255,255,255,.85)');
+        txt(k <= 4 ? 'Ataque online: tentativas contra a interface do gateway.' : 'Ataque offline: hash de senha vazado, testado com GPU.', x0, 232 + 120, '600 14px Montserrat, Arial', 'rgba(255,255,255,.75)');
         txt(tempo(seg), x0, 180, '900 38px Montserrat, Arial', seg < 86400 * 30 ? '#FF2B5F' : '#95DE68');
         // régua logarítmica de tempo
         const gy = 230, ref = [[1, '1 s'], [3600, '1 h'], [86400, '1 dia'], [3.156e7, '1 ano'], [3.156e10, '1.000 anos'], [3.156e13, '1 milhão de anos']];

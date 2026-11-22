@@ -65,8 +65,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Plataformas embarcadas</h1>
-      <div class="subtitulo">Aula 10 — Arduino, ESP32, datalogger e a coleta de dados em campo</div>
+      <h1>Plataformas embarcadas e coleta de dados em campo</h1>
+      <div class="subtitulo">Aula 10 — Arduino, ESP32 e datalogger no canteiro</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -76,7 +76,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Plataformas embarcadas</h1>
+        <h1 class="sumario-titulo">Plataformas embarcadas e coleta de dados em campo</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -162,7 +162,7 @@
       <p class="kicker">Condicionamento de sinal</p>
       <h2>O laço de corrente 4–20 mA e o "zero vivo"</h2>
       <div class="viz-grid">
-        <div class="viz" data-viz="laco420" role="img" aria-label="Circuito de um piezômetro de 0 a 200 quilopascals com saída de 4 a 20 miliampères, um cabo longo e um resistor de carga de 150 ohms na entrada do ESP32. Um mostrador indica a corrente; a faixa de 0 a 4 miliampères é a zona de falha. Com 70 quilopascals, a corrente é 9,6 miliampères e a tensão no resistor, 1,44 volt. Ao romper o cabo, a corrente cai a zero e o sistema acusa cabo rompido, e não pressão nula."></div>
+        <div class="viz" data-viz="laco420" role="img" aria-label="Circuito de um piezômetro de 0 a 200 quilopascals com saída de 4 a 20 miliampères, um cabo longo e um resistor de carga de 120 ohms na entrada do ESP32. Um mostrador indica a corrente; a faixa de 0 a 4 miliampères é a zona de falha. Com 70 quilopascals, a corrente é 9,6 miliampères e a tensão no resistor, 1,15 volt. Ao romper o cabo, a corrente cai a zero e o sistema acusa cabo rompido, e não pressão nula."></div>
         <div class="viz-lado">
           <h3>Mova a pressão e rompa o cabo</h3>
           <p>A corrente é a <strong>mesma em todo o cabo</strong>: cabo longo e ruído do canteiro atrapalham pouco.</p>
@@ -209,7 +209,7 @@
           <p><span class="formula">V<sub>o</sub> = 3,3 × 2 × 100 × 10⁻⁶ / 4 = 165 µV</span><br><span class="formula">LSB = 3,3 / 4.096 ≈ 806 µV</span></p>
           <p>O sinal inteiro cabe <strong>dentro de um degrau</strong>: o ADC nunca vê a mudança. Ganho 500 → 82,5 mV ≈ 100 degraus ≈ 1 µε por degrau.</p>
           <div data-controles></div>
-          <p class="mini">Piezômetro 4–20 mA com 150 Ω: 1 degrau ≈ 5,4 µA × 12,5 kPa/mA ≈ 0,067 kPa ≈ 7 mm de coluna d'água. Valores ilustrativos.</p>
+          <p class="mini">Piezômetro 4–20 mA com 120 Ω: 1 degrau ≈ 6,7 µA × 12,5 kPa/mA ≈ 0,084 kPa ≈ 9 mm de coluna d'água. Valores ilustrativos.</p>
         </div>
       </div>
     </div>
@@ -307,7 +307,7 @@
             {"label":"Acordado (mA·s/ciclo)","expr":"ta*Ia","unit":"mA·s"},
             {"label":"Dormindo (mA·s/ciclo)","expr":"(T*60-ta)*Is","unit":"mA·s"}
           ],
-          "nota": "0,15 mA dormindo → ≈ 0,82 mA, ≈ 8.800 h (cerca de 1 ano). 10 mA (placa de desenvolvimento) → ≈ 10,6 mA, ≈ 680 h (28 dias)."
+          "nota": "0,15 mA dormindo → ≈ 0,82 mA, ≈ 8.800 h (cerca de 1 ano). 10 mA (placa de desenvolvimento) → ≈ 10,6 mA, ≈ 680 h (28 dias). O protótipo, com ~500 mAh: ≈ 47 h (2 dias)."
         }' role="img" aria-label="Calculadora de autonomia de um nó que acorda a cada 15 minutos, fica 5 segundos acordado a 120 miliampères e dorme o resto do ciclo, com bateria de 7.200 miliampères-hora. Barras comparam a carga gasta acordado e dormindo em cada ciclo. Dormindo a 0,15 miliampère, o consumo médio é cerca de 0,82 miliampère e a bateria dura cerca de 8.800 horas, um ano; dormindo a 10 miliampères, a média sobe a 10,6 e a bateria dura cerca de 28 dias."></div>
         <div class="viz-lado">
           <h3>Mude só o consumo dormindo</h3>
@@ -354,7 +354,7 @@
         <thead><tr><th>Sintoma</th><th>Causa</th><th>Solução</th></tr></thead>
         <tbody>
           <tr><td class="ruim">Linha reta no gráfico</td><td>165 µV de sinal num degrau de 806 µV</td><td class="bom">amplificar (ou HX711) e comparar sinal × LSB</td></tr>
-          <tr><td class="ruim">Bateria de dois dias</td><td>placa de desenvolvimento dormindo a miliampères</td><td class="bom">hardware de baixo consumo e orçamento de energia</td></tr>
+          <tr><td class="ruim">Bateria de dois dias</td><td>placa de desenvolvimento dormindo a 10 mA e bateria de ~500 mAh (≈ 47 h)</td><td class="bom">hardware de baixo consumo e orçamento de energia</td></tr>
           <tr><td class="ruim">Água na caixa</td><td>sem grau de proteção nem prensa-cabos</td><td class="bom">caixa IP65/IP67, prensa-cabos, dessecante</td></tr>
         </tbody>
       </table>
@@ -492,7 +492,7 @@
     return { start: lp.start, stop: lp.stop };
   });
 
-  /* laco420 — piezômetro 0–200 kPa, 4–20 mA, resistor de 150 Ω, cabo rompido */
+  /* laco420 — piezômetro 0–200 kPa, 4–20 mA, resistor de 120 Ω, cabo rompido */
   Obra.register('laco420', (host, opts, painel) => {
     const { ctx } = canvas2d(host);
     const p = painel || novo('div');
@@ -503,11 +503,11 @@
     let Ia = 9.6;
     const lp = loop((t, dt) => {
       const [W, H] = dims(ctx);
-      const pk = +sP.value, roto = cb.checked, I = roto ? 0 : 4 + pk * 16 / 200, V = I * 150 / 1000;
+      const pk = +sP.value, roto = cb.checked, I = roto ? 0 : 4 + pk * 16 / 200, V = I * 120 / 1000;
       Ia += (I - Ia) * Math.min(1, dt * 5);
       res.innerHTML = roto
         ? '<b>I = 0 mA &lt; 4 mA</b><br><span class="num" style="color:#FF5C7F">cabo rompido</span><br><small>Não é "pressão zero": é falha. O sistema sabe a diferença.</small>'
-        : 'I = 4 + p × 16 / 200 = <b>' + fmt(I, 2) + ' mA</b><br>V = I × 150 Ω = <b>' + fmt(V, 2) + ' V</b><br>p = (I − 4) × 12,5 = <span class="num">' + fmt(pk) + ' kPa</span>';
+        : 'I = 4 + p × 16 / 200 = <b>' + fmt(I, 2) + ' mA</b><br>V = I × 120 Ω = <b>' + fmt(V, 2) + ' V</b><br>p = (I − 4) × 12,5 = <span class="num">' + fmt(pk) + ' kPa</span>';
       ctx.clearRect(0, 0, W, H);
       // transdutor
       const tx = W * 0.12, ty = H * 0.42;
@@ -539,13 +539,13 @@
       ctx.strokeStyle = '#2BD9FE'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(rx, y1);
       for (let k = 0; k < 6; k++) ctx.lineTo(rx + (k % 2 ? -8 : 8), y1 + 6 + k * (y2 - y1 - 12) / 5);
       ctx.lineTo(rx, y2); ctx.stroke(); ctx.lineWidth = 1;
-      ctx.fillStyle = '#fff'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('150 Ω', rx + 14, ty + 4);
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'left'; ctx.font = '600 12px Montserrat, Arial'; ctx.fillText('120 Ω', rx + 14, ty + 4);
       // ESP32
       const ex = W * 0.84;
       ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(rx, y1); ctx.lineTo(ex - 34, y1); ctx.moveTo(rx, y2); ctx.lineTo(ex - 34, y2); ctx.stroke(); ctx.setLineDash([]);
       ctx.fillStyle = '#0a2a5c'; ctx.strokeStyle = '#2BD9FE'; ctx.beginPath(); ctx.roundRect(ex - 34, y1 - 14, 68, y2 - y1 + 28, 8); ctx.fill(); ctx.stroke();
       ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = '700 12px Montserrat, Arial'; ctx.fillText('ESP32', ex, ty - 4); ctx.font = '11px Montserrat, Arial'; ctx.fillText('ADC', ex, ty + 12);
-      ctx.fillStyle = '#95DE68'; ctx.font = '700 13px Consolas, monospace'; ctx.fillText(fmt(Ia * 0.15, 2) + ' V', ex, y2 + 34);
+      ctx.fillStyle = '#95DE68'; ctx.font = '700 13px Consolas, monospace'; ctx.fillText(fmt(Ia * 0.12, 2) + ' V', ex, y2 + 34);
       // mostrador de corrente
       const gx0 = W * 0.08, gx1 = W * 0.92, gy = H - 58, X = (i) => gx0 + (i / 24) * (gx1 - gx0);
       ctx.fillStyle = 'rgba(255,43,95,.35)'; ctx.fillRect(X(0), gy, X(4) - X(0), 14);

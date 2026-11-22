@@ -1,9 +1,9 @@
-# Roteiros Estendidos (16–18 minutos) — Unidade 2: Aquisição e Processamento de Imagens
+# Roteiros Estendidos (15–19 minutos) — Unidade 2: Aquisição e Processamento de Imagens
 
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 5 a 8
-- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **16 a 18 minutos** por aula (cerca de 2.050 a 2.300 palavras faladas, a uns 130 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_2.md` são só um guia da sequência.
+- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.000 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_2.md` são só um guia da sequência.
 
 > **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
 
@@ -11,7 +11,9 @@
 
 ## Roteiro da Videoaula 5 — "Como 330 fotos viram um modelo 3D — e por que ele pode estar 18 cm fora do lugar?"
 
-**Duração-alvo:** cerca de 18:00 (16 a 18 minutos).
+**Aula 5 — Fotogrametria digital: sobreposição, pontos de controle e georreferenciamento**
+
+**Duração-alvo:** cerca de 16:50 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 2:00)
 
@@ -117,9 +119,11 @@
 
 ---
 
-## Roteiro da Videoaula 6 — "O drone dizia 'FIX', mas a obra inteira estava 2 metros ao lado: o que o GNSS não te conta"
+## Roteiro da Videoaula 6 — "O drone dizia 'FIX', mas a obra inteira estava 1,5 metro ao lado: o que o GNSS não te conta"
 
-**Duração-alvo:** cerca de 18:00 (16 a 18 minutos).
+**Aula 6 — Posicionamento por GNSS e precisão dos produtos cartográficos**
+
+**Duração-alvo:** cerca de 15:50 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -225,7 +229,9 @@
 
 ## Roteiro da Videoaula 7 — "Uma foto aérea não é um mapa: ortomosaico, MDS, MDT e o laser que enxerga o chão sob a mata"
 
-**Duração-alvo:** cerca de 18:00 (16 a 18 minutos).
+**Aula 7 — Ortomosaicos, modelos digitais de superfície e nuvens de pontos**
+
+**Duração-alvo:** cerca de 15:40 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -329,7 +335,9 @@
 
 ## Roteiro da Videoaula 8 — "48.200 ou 46.900 m³? Quem tem razão na medição de terraplenagem por drone"
 
-**Duração-alvo:** cerca de 18:20 (16 a 18 minutos).
+**Aula 8 — Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado**
+
+**Duração-alvo:** cerca de 15:30 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -345,9 +353,9 @@
 
 **[TELA]** Slide 4 — volume como soma de prismas e as três superfícies de referência.
 
-> "O cálculo de volume tem uma ideia simples: dividir o terreno numa malha de células e, em cada célula, multiplicar a diferença de cota pela área. Volume é a soma de delta z vezes a área da célula. Na prática, o software faz isso com milhões de células, ou com prismas sobre uma triangulação. Onde delta z é positivo, a superfície medida está acima da referência: é corte. Onde é negativo, está abaixo: é aterro. E corte e aterro se calculam separados, porque são serviços diferentes, com preços diferentes."
+> "O cálculo de volume tem uma ideia simples: dividir o terreno numa malha de células e, em cada célula, multiplicar a diferença de cota pela área. Volume é a soma de delta z vezes a área da célula. Na prática, o software faz isso com milhões de células, ou com prismas sobre uma triangulação. Contra o greide de projeto, onde o terreno está acima do greide, delta z é positivo: é corte a executar. Onde está abaixo, é aterro a executar. Contra o levantamento do mês anterior, a lógica se inverte: onde o terreno baixou, houve corte executado; onde subiu, aterro executado. E corte e aterro se calculam separados, porque são serviços diferentes, com preços diferentes."
 
-> "A conta é simples. O que exige engenharia é escolher as duas superfícies. A referência pode ser o greide de projeto, quando você quer saber quanto ainda falta. O levantamento anterior, quando você quer saber quanto se movimentou no mês — a base da medição de pagamento. Ou um plano de base, para o volume de uma pilha."
+> "A conta é simples. O que exige engenharia é escolher as duas superfícies. A referência pode ser o greide de projeto, quando você quer saber quanto ainda falta. O levantamento anterior, quando você quer saber quanto se movimentou no mês — a base da medição de pagamento; aí o delta z é anterior menos atual. Ou um plano de base, para o volume de uma pilha."
 
 **[TELA]** Slide 5 — malha interativa de oito células contra o greide.
 
@@ -407,7 +415,7 @@
 
 **[TELA]** Slide 13 — o fluxo no QGIS: calculadora raster, Volume de superfície raster, Contorno e perfil de elevação.
 
-> "E tudo isso cabe no QGIS. A calculadora raster faz o delta z: MDT atual menos MDT anterior, ou menos a superfície de projeto; com uma rampa de cores divergente, vira o mapa de desvios. O algoritmo Volume de superfície raster calcula corte e aterro em relação a um plano — ou, somando as células do delta z, entre duas superfícies. O algoritmo Contorno, do GDAL, gera as curvas de nível. E o perfil de elevação traça as seções transversais. A superfície de projeto vem do software de projeto viário ou de terraplenagem, exportada como raster ou como triangulação."
+> "E tudo isso cabe no QGIS. A calculadora raster faz o delta z: MDT anterior menos MDT atual, para o que se movimentou no mês, ou MDT atual menos a superfície de projeto; com uma rampa de cores divergente, vira o mapa de desvios. O algoritmo Volume de superfície raster calcula corte e aterro em relação a um plano — ou, somando as células do delta z, entre duas superfícies. O algoritmo Contorno, do GDAL, gera as curvas de nível. E o perfil de elevação traça as seções transversais. A superfície de projeto vem do software de projeto viário ou de terraplenagem, exportada como raster ou como triangulação."
 
 > "Três conselhos práticos de quem já apanhou disso. Primeiro: antes de qualquer conta, confira se as duas superfícies estão no mesmo sistema de referência e com a mesma resolução de célula; o QGIS reprojeta em tempo real na tela, mas a calculadora raster precisa das grades alinhadas. Segundo: recorte as duas superfícies pelo mesmo polígono da frente de serviço, senão uma borda com dados faltando vira volume. Terceiro: guarde o polígono, as superfícies e os parâmetros junto com o relatório. Na hora da discussão, quem tem o método documentado ganha a conversa."
 

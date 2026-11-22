@@ -84,21 +84,38 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos</h1>
+        <h1 class="sumario-titulo">Painéis de monitoramento, alertas e limites de alarme</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
-        <h2>O que você verá nesta unidade</h2>
+        <h2>Sumário</h2>
         <ul>
-          <li><strong>Aula 13</strong> — painéis, alertas e limites de alarme</li>
-          <li><strong>Aula 14</strong> — drones e sensores no BIM e no planejamento e controle</li>
-          <li><strong>Aula 15</strong> — segurança do trabalho, NR-18 e tecnologia para prevenção</li>
-          <li><strong>Aula 16</strong> — LGPD, cibersegurança e o fechamento da disciplina</li>
-          <li>Um só fio: <strong>transformar medição em ação</strong></li>
+          <li>O que você verá nesta unidade</li>
+          <li>Do banco de séries ao painel no Grafana</li>
+          <li>O que um bom painel mostra e o sensor mudo</li>
+          <li>Atenção, alerta e alarme: valor e velocidade</li>
+          <li>O plano de ação por gatilhos (TARP)</li>
+          <li>Fadiga de alarmes e histerese</li>
+          <li>Regras de alerta no Grafana</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Unidade 4 · Painéis, integração com BIM e gestão de riscos</p>
+      <h2>O que você verá nesta unidade</h2>
+      <div class="timeline grande" style="--n:4">
+        <div class="etapa"><div class="ano">Aula 13</div><p><strong>Painéis</strong> de monitoramento, alertas e limites de alarme.</p></div>
+        <div class="etapa"><div class="ano">Aula 14</div><p>Integração dos dados com o <strong>BIM</strong> e com o <strong>planejamento e controle</strong> de obras.</p></div>
+        <div class="etapa"><div class="ano">Aula 15</div><p><strong>Segurança do trabalho</strong>, NR&#8209;18 e tecnologia para prevenção.</p></div>
+        <div class="etapa"><div class="ano">Aula 16</div><p><strong>Privacidade, LGPD</strong> e <strong>cibersegurança</strong> em sistemas IoT — e o fechamento da disciplina.</p></div>
+      </div>
+      <div class="callout-azul" style="margin-top:1.4rem;background:rgba(0,0,0,.25)"><p><strong>O fio condutor:</strong> transformar medição em ação — com responsável, prazo e proteção das pessoas e dos dados.</p></div>
     </div>
   </section>
 
@@ -261,7 +278,7 @@
         <div class="card"><div class="n">1</div><h3>Persistência</h3><p>A condição precisa durar um tempo mínimo, ou duas leituras seguidas. No Grafana: <em>pending period</em>.</p></div>
         <div class="card"><div class="n">2</div><h3>Histerese</h3><p>Entra no nível em 10,0 mm, mas só sai abaixo de 9,5 mm: o ruído não faz o alerta piscar.</p></div>
         <div class="card"><div class="n">3</div><h3>Confirmação</h3><p>Antes do alarme máximo, um 2º instrumento ou uma leitura manual confirma.</p></div>
-        <div class="card"><div class="n">4</div><h3>Incerteza</h3><p>x + U alcança o limite: trate como atenção. x − U já passou: nível confirmado (Aula 9).</p></div>
+        <div class="card"><div class="n">4</div><h3>Incerteza</h3><p>x + U alcança o limite: trate como atenção. x − U já passou: nível confirmado (Aulas 8 e 9).</p></div>
       </div>
       <div class="callout-azul callout-escuro" style="margin-top:1rem;margin-bottom:.3rem"><p>E a <strong>limpeza da série</strong> vem antes (Aula 12): um pico espúrio que sobe 6 mm e volta no dia seguinte não pode acordar ninguém.</p></div>
     </div>
@@ -313,7 +330,7 @@
     <div class="slide-content">
       <p class="kicker">Centro de Operações Rio</p>
       <h2>A tela não salva ninguém sozinha</h2>
-      <p><strong>1. A regra crítica roda na borda.</strong> Ligar a bomba reserva quando o nível d'água sobe é tarefa do controlador do canteiro (Aula 10). O painel depende da internet; a bomba não pode depender.</p>
+      <p><strong>1. A regra crítica roda na borda.</strong> Ligar a bomba reserva quando o nível d'água sobe é tarefa do controlador do canteiro ou do Node-RED junto ao gateway (Aulas 10 e 12). O painel depende da internet; a bomba não pode depender.</p>
       <p><strong>2. O sistema avisa quando para de receber dados.</strong> No Grafana, a regra tem tratamento para ausência de dados: é o seu alerta de sensor mudo.</p>
     </div>
     <p class="credito">Foto: Jjsoares — Wikimedia Commons (CC BY-SA 4.0)</p>

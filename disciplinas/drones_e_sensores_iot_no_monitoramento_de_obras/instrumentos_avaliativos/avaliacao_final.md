@@ -275,7 +275,7 @@ a) A área sobrevoável é $120 \times (60 - 30) = 3.600\,\mathrm{m^2}$ ($50\%$)
 b) A área sobrevoável é de $2.700\,\mathrm{m^2}$ ($37{,}5\%$), mas, como a aeronave tem menos de $25\,\mathrm{kg}$, a distância de $30\,\mathrm{m}$ pode ser dispensada sobre o canteiro da própria construtora.
 *c) A área sobrevoável é $(120 - 30) \times (60 - 30) = 2.700\,\mathrm{m^2}$, ou $37{,}5\%$ do canteiro; o restante exige interdição autorizada da calçada, barreira capaz de proteger as pessoas ou a categoria específica; e, por ser aerolevantamento, o pedido no SARPAS deve sair com 4 dias corridos de antecedência, até a quinta-feira, dia 19.
 d) A área sobrevoável é de $2.700\,\mathrm{m^2}$; por ser inferior a $15\,\mathrm{km^2}$, o mapeamento não é aerolevantamento e dispensa a entidade inscrita no Ministério da Defesa e o pedido no SARPAS.
-e) A área sobrevoável é de $2.700\,\mathrm{m^2}$; o aerolevantamento exige pedido no SARPAS com 8 dias de antecedência, até a quarta-feira, dia 15, pois é o prazo de qualquer mapeamento.
+e) A área sobrevoável é de $2.700\,\mathrm{m^2}$; o aerolevantamento exige pedido no SARPAS com 8 dias de antecedência, até o domingo, dia 15, pois é o prazo de qualquer mapeamento.
 
 ### Questão 18 (Interpretação)
 
@@ -359,7 +359,7 @@ Ao fim das $36\,\mathrm{h}$, a decisão tecnicamente correta é:
 b) $M = 804\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 20{,}5\,\mathrm{MPa}$; como o valor é próximo do exigido e o método da maturidade substitui os corpos de prova, pode-se liberar a laje.
 c) Usando a temperatura máxima nas $36\,\mathrm{h}$, $M = 36 \times 25 = 900\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 21{,}6\,\mathrm{MPa}$; a laje pode ser liberada.
 d) Convertendo para °C·dia, $M = 804/24 \approx 33{,}5$ e $f_c \approx -8{,}7\,\mathrm{MPa}$; o concreto ainda não ganhou resistência alguma.
-e) $M = 22 + 25 + 20 = 67\,^\circ\mathrm{C \cdot h}$ e $f_c \approx 2{,}3\,\mathrm{MPa}$; o sensor está com defeito e deve ser substituído.
+e) $M = 22 + 25 + 20 = 67\,^\circ\mathrm{C \cdot h}$ e $f_c \approx -2{,}3\,\mathrm{MPa}$; o sensor está com defeito e deve ser substituído.
 
 ### Questão 24 (Interpretação)
 
@@ -706,12 +706,12 @@ a) Correta! $M = 804\,^\circ\mathrm{C \cdot h}$; $f_c = 9{,}2 \ln 804 - 41 \appr
 b) Incorreta. $20{,}5 < 21\,\mathrm{MPa}$, e o método da maturidade não substitui os corpos de prova.
 c) Incorreta. Usar a temperatura máxima superestima a maturidade; usa-se a média de cada intervalo.
 d) Incorreta. A curva foi calibrada com $M$ em °C·h; trocar a unidade invalida o resultado.
-e) Incorreta. A maturidade soma $(T - T_0)\,\Delta t$: falta multiplicar cada temperatura pelas 12 h do intervalo.
+e) Incorreta. A maturidade soma $(T - T_0)\,\Delta t$: falta multiplicar cada temperatura pelas 12 h do intervalo; o valor negativo de $f_c$ denuncia o uso da curva fora da faixa calibrada, não defeito do sensor.
 
 ### 24. Feedback
 
 a) Incorreta. O laço tem "zero vivo" em 4 mA: a faixa útil é de 16 mA, e $p = (I - 4) \times 500/16$.
-b) Incorreta. $1{,}80\,\mathrm{V}$ está dentro da faixa útil do ESP32 (próxima de 0 a 3,1 V, conforme a atenuação).
+b) Incorreta. $1{,}80\,\mathrm{V}$ está dentro da faixa útil do ESP32 (cerca de 0,15 a 2,45 V de faixa precisa, com atenuação de 11 dB).
 c) Incorreta. O degrau de tensão precisa ser convertido em corrente ($806\,\mathrm{\mu V}/150\,\Omega$) e depois em pressão ($31{,}25\,\mathrm{kPa/mA}$): $\approx 0{,}17\,\mathrm{kPa}$.
 d) Incorreta. Pressão nula corresponde a 4 mA; 0 mA indica falha do circuito, como cabo rompido.
 e) Correta! $V = 1{,}80\,\mathrm{V}$; $p = 250\,\mathrm{kPa}$; um degrau do ADC $\approx 5{,}4\,\mathrm{\mu A} \times 31{,}25\,\mathrm{kPa/mA} \approx 0{,}17\,\mathrm{kPa}$. O zero vivo distingue leitura nula de cabo rompido, e o ADC do ESP32 tem não linearidade conhecida (Aula 10).
@@ -838,7 +838,7 @@ e) Incorreta. A multa simples é de até 2% do faturamento no Brasil, limitada a
 
 (a) O deslocamento é a diferença em relação à leitura zero, acumulada **de baixo para cima** a partir do **pé fixo** (engastado em solo ou rocha que não se move). Com $d = L \sin\theta$, o perfil acumulado do pé ao topo é $0{,}2$; $0{,}7$; $1{,}8$; $3{,}5$; $5{,}6$ e $8{,}0\,\mathrm{mm}$: $\delta_{topo} = 0{,}5 \times 16{,}0 \times 10^{-3} = 8{,}0\,\mathrm{mm}$. Velocidade: $(8{,}0 - 5{,}6)/6 = 0{,}4\,\mathrm{mm/dia}$; atenção em $(10 - 8{,}0)/0{,}4 = 5$ dias, se a velocidade não aumentar. A segunda passada, com a sonda girada 180°, cancela o viés do sensor.
 
-(b) $\Delta\varepsilon_{corr} = 410 - 180 = 230\,\mu\varepsilon$; $\sigma = 200.000 \times 230 \times 10^{-6} = 46\,\mathrm{MPa}$; $N = 46 \times 0{,}014 = 0{,}644\,\mathrm{MN} = 644\,\mathrm{kN}$, cerca de $70\%$ dos 920 kN. Sem a correção, a força pareceria de $1.148\,\mathrm{kN}$, acima da carga de projeto: com dilatação de cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, 15 °C equivalem a 180 µε, da ordem do sinal — daí o termistor embutido e a correção antes de converter em força.
+(b) $\Delta\varepsilon_{corr} = 410 - 180 = 230\,\mu\varepsilon$; $\sigma = 200.000 \times 230 \times 10^{-6} = 46\,\mathrm{MPa}$; $N = 46 \times 0{,}014 = 0{,}644\,\mathrm{MN} = 644\,\mathrm{kN}$, cerca de $70\%$ dos 920 kN. Sem separar a parcela térmica, a força atribuída à escavação pareceria de $1.148\,\mathrm{kN}$, acima da carga de projeto: com o aço dilatando cerca de $12 \times 10^{-6}/^\circ\mathrm{C}$, 15 °C correspondem a cerca de 180 µε de deformação térmica potencial, da ordem do sinal. Numa escora travada, parte dessa dilatação é impedida e vira força térmica real (acompanhada à parte); outra parte vem da diferença entre o fio e a peça. Por isso o termistor embutido e a fórmula do fabricante, que **separa a parcela térmica** da parcela causada pela escavação antes de converter em força.
 
 (c) $f_2/f_1 = 3{,}04/3{,}20 = 0{,}95$; $k_2/k_1 = 0{,}95^2 \approx 0{,}90$: perda de cerca de $10\%$ da rigidez, a investigar (inspeção da passarela, comparação com a variação térmica). Pelo critério de Nyquist, amostrar a mais de $2 \times 20 = 40\,\mathrm{Hz}$ — na prática, de 100 a 200 Hz —, com filtro anti-aliasing.
 

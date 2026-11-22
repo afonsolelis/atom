@@ -3,7 +3,7 @@
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 9 a 12
-- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.200 a 2.600 palavras faladas, a uns 135–140 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_3.md` são só um guia da sequência.
+- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.000 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_3.md` são só um guia da sequência.
 
 > **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
 
@@ -11,7 +11,9 @@
 
 ## Roteiro da Videoaula 9 — "O que a obra sente e ninguém vê: seis sensores que contam tudo"
 
-**Duração-alvo:** cerca de 17:30 (15 a 19 minutos).
+**Aula 9 — Sensores para obras: inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira**
+
+**Duração-alvo:** cerca de 18:00 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -75,7 +77,7 @@
 
 > "Agora a nossa escora. O extensômetro de corda vibrante, já corrigido para a temperatura, indica duzentas e cinquenta microdeformações desde a leitura zero. O aço tem módulo de elasticidade de duzentos gigapascals. Pela lei de Hooke, tensão é módulo vezes deformação: duzentos mil megapascals vezes duzentos e cinquenta milionésimos dá cinquenta megapascals. A área da escora é de cento e vinte centímetros quadrados, ou zero vírgula zero doze metro quadrado. Força é tensão vezes área: seiscentos quilonewtons. Com carga de projeto de novecentos, a escora está a sessenta e sete por cento."
 
-> "Agora eu vou esquentar a escora na simulação. Olha o que acontece com a leitura sem correção. O aço dilata cerca de doze milionésimos por grau. Uma variação de quinze graus, da manhã fria para a tarde de sol, equivale a cento e oitenta microdeformações de dilatação livre. É da mesma ordem do sinal que a gente quer medir! Se ninguém corrige, o sol vira carga no relatório, e alguém manda reforçar uma escora que estava tranquila, ou pior, ignora um aumento real achando que é só o calor. Por isso, os extensômetros de corda vibrante trazem um termistor embutido, e a leitura é corrigida para a temperatura antes de virar força. Ligo a correção: a curva volta para o que interessa."
+> "Agora eu vou esquentar a escora na simulação. Olha o que acontece com a leitura sem correção. O aço dilata cerca de doze milionésimos por grau. Uma variação de quinze graus, da manhã fria para a tarde de sol, corresponde a cerca de cento e oitenta microdeformações. É da mesma ordem do sinal que a gente quer medir! Numa escora travada entre as paredes, parte dessa dilatação é impedida e vira força térmica de verdade; outra parte é só a diferença entre o fio e a peça. Se ninguém separa a parcela térmica, a variação do dia é confundida com efeito da escavação, e alguém manda reforçar uma escora que estava tranquila, ou pior, ignora um aumento real achando que é só o calor. Por isso, os extensômetros de corda vibrante trazem um termistor embutido, e a fórmula do fabricante separa a parcela térmica da parcela causada pela escavação antes de virar força. Ligo a correção: a curva volta para o que interessa."
 
 ### 8. Acelerômetros (10:20 – 11:50)
 
@@ -123,9 +125,11 @@
 
 > "Sua atividade: para a obra do gancho, monte uma tabela com os seis sensores e as colunas mensurando, local de instalação, princípio de funcionamento, principal fonte de erro, forma de correção ou calibração e a decisão que a leitura apoia: reforçar a escora, liberar a laje, adiar a pintura, ligar a aspersão."
 
-**[TELA]** Slide 16 — pontos-chave; Slide 17 — encerramento.
+**[TELA]** Slide 16 — pontos-chave.
 
 > "Recapitulando: sensor se escolhe pelo mensurando, com calibração, leitura zero e limites com ação. Inclinômetro e extensômetro contam como a contenção e a estrutura se comportam; acelerômetro e temperatura, como elas vibram e curam; umidade e poeira, como está o ar e o material."
+
+**[TELA]** Slide 17 — encerramento e gancho para a Aula 10.
 
 > "Mas um sensor sozinho só entrega um sinal elétrico, às vezes de poucos microvolts. Quem transforma isso em número confiável, carimba a hora, guarda na memória e funciona meses a bateria no meio da lama? As plataformas embarcadas: Arduino, ESP32 e datalogger. Te espero na Aula 10!"
 
@@ -133,7 +137,9 @@
 
 ## Roteiro da Videoaula 10 — "Por que o protótipo mentiu? O que acontece entre o sensor e o número"
 
-**Duração-alvo:** cerca de 17:20 (15 a 19 minutos).
+**Aula 10 — Plataformas embarcadas e coleta de dados em campo**
+
+**Duração-alvo:** cerca de 17:30 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:30)
 
@@ -171,7 +177,7 @@
 
 > "Outro padrão que você vai encontrar muito em obra é o laço de corrente de quatro a vinte miliampères. Em vez de mandar o valor como tensão, o transdutor manda como corrente. Por que isso é bom? Porque a corrente é a mesma ao longo de todo o cabo, então cabos longos e ruído elétrico do canteiro atrapalham muito menos."
 
-> "E tem um detalhe genial: o zero vivo. O zero da escala não é zero miliampère, é quatro. Então, se a corrente cair a zero, eu sei que não é uma leitura nula: é cabo rompido ou sensor desligado. O sistema consegue diferenciar 'não tem pressão' de 'perdi o sensor'. Para o microcontrolador ler, um resistor de carga transforma corrente em tensão. Com cento e cinquenta ohms, quatro a vinte miliampères viram zero vírgula seis a três volts, dentro da faixa útil do ADC do ESP32."
+> "E tem um detalhe genial: o zero vivo. O zero da escala não é zero miliampère, é quatro. Então, se a corrente cair a zero, eu sei que não é uma leitura nula: é cabo rompido ou sensor desligado. O sistema consegue diferenciar 'não tem pressão' de 'perdi o sensor'. Para o microcontrolador ler, um resistor de carga transforma corrente em tensão. Com cento e vinte ohms, quatro a vinte miliampères viram zero vírgula quarenta e oito a dois vírgula quatro volts, dentro da faixa em que o ADC do ESP32 mede com precisão, que vai até uns dois vírgula quatro volts. Na tela, o piezômetro de zero a duzentos quilopascals com setenta quilopascals: a corrente é quatro mais setenta vezes dezesseis sobre duzentos, nove vírgula seis miliampères. E o caminho de volta, que o sistema faz a cada leitura: pressão é a corrente menos quatro, vezes doze vírgula cinco. Nove vírgula seis menos quatro dá cinco vírgula seis; vezes doze vírgula cinco, setenta quilopascals."
 
 > "Os sensores de corda vibrante são um terceiro caso: eles precisam ser excitados e ter a frequência medida, o que exige uma interface específica. É comum em datalogger profissional, e raro em placa de protótipo."
 
@@ -193,7 +199,7 @@
 
 > "A solução é amplificar. Com um amplificador de ganho quinhentos, a saída vai para oitenta e dois vírgula cinco milivolts: uns cem degraus do ADC. Aí cada degrau equivale a mais ou menos uma microdeformação. Os valores são ilustrativos, mas a lição é real: antes de confiar no gráfico, compare o tamanho do sinal com o tamanho do degrau."
 
-> "E, no caso do piezômetro de quatro a vinte miliampères com o resistor de cento e cinquenta ohms, um degrau do ADC vale uns cinco vírgula quatro microampères. Como a escala é de doze vírgula cinco quilopascals por miliampère, isso dá uns zero vírgula zero sessenta e sete quilopascal: cerca de sete milímetros de coluna d'água. Para nível d'água em escavação, é uma resolução perfeitamente utilizável."
+> "E, no caso do piezômetro de quatro a vinte miliampères com o resistor de cento e vinte ohms, um degrau do ADC vale uns seis vírgula sete microampères. Como a escala é de doze vírgula cinco quilopascals por miliampère, isso dá uns zero vírgula zero oitenta e quatro quilopascal: cerca de nove milímetros de coluna d'água. Para nível d'água em escavação, é uma resolução perfeitamente utilizável."
 
 ### 7. Arduino, ESP32 e datalogger (8:20 – 9:50)
 
@@ -227,7 +233,7 @@
 
 > "Nosso nó acorda a cada quinze minutos, ou seja, a cada novecentos segundos. Fica cinco segundos acordado a cento e vinte miliampères, lendo, conectando ao Wi-Fi e enviando, e dorme oitocentos e noventa e cinco segundos. Numa placa de baixo consumo, dormindo a zero vírgula quinze miliampère, a média dá uns zero vírgula oitenta e dois miliampère. Com sete mil e duzentos miliampères-hora úteis, são umas oito mil e oitocentas horas: cerca de um ano."
 
-> "Agora eu mudo só uma coisa: o consumo dormindo, para dez miliampères. É o que gasta uma placa de desenvolvimento comum, por causa do regulador de tensão e do conversor USB, mesmo com o chip ESP32 dormindo a uns dez microampères. A média sobe para dez vírgula seis miliampères, e a bateria dura umas seiscentas e oitenta horas: vinte e oito dias. Mesmo programa, mesma bateria. Quem decide a autonomia é o sono."
+> "Agora eu mudo só uma coisa: o consumo dormindo, para dez miliampères. É o que gasta uma placa de desenvolvimento comum, por causa do regulador de tensão e do conversor USB, mesmo com o chip ESP32 dormindo a uns dez microampères. A média sobe para dez vírgula seis miliampères, e a bateria dura umas seiscentas e oitenta horas: vinte e oito dias. Mesmo programa, mesma bateria. Quem decide a autonomia é o sono. E o protótipo do estagiário? Placa de desenvolvimento e uma bateria pequena, de uns quinhentos miliampères-hora: quinhentos dividido por dez vírgula seis dá umas quarenta e sete horas. Dois dias. Por isso a bateria acabou na terça."
 
 > "Onde a demanda é maior, como num gateway ou numa câmera, entra o painel solar, com controlador de carga e uma bateria dimensionada para aguentar os dias nublados."
 
@@ -251,9 +257,11 @@
 
 > "Sua atividade é no simulador gratuito Wokwi. Monte um ESP32 com um sensor de temperatura e umidade DHT22 e um potenciômetro que faça o papel de um transdutor analógico. Programe a leitura a cada dez segundos, converta o valor bruto do ADC para unidade de engenharia e imprima cada leitura com a hora. Depois, escreva a ficha de instalação desse nó numa obra real: caixa, grau de proteção, alimentação, autonomia estimada, local e leitura zero."
 
-**[TELA]** Slide 16 — pontos-chave; Slide 17 — encerramento.
+**[TELA]** Slide 16 — pontos-chave.
 
 > "Recapitulando: a cadeia vai do sensor ao condicionamento, ao ADC, ao microcontrolador, à memória e ao rádio, e o dado tem a qualidade do elo mais fraco. Compare sempre o sinal com o degrau do ADC. O quatro a vinte miliampères é robusto e denuncia cabo rompido. Arduino e ESP32 para protótipo e baixa criticidade; datalogger calibrado para decisão de segurança. A autonomia é decidida pelo sono, e a instalação pede proteção, ficha, leitura zero e comissionamento."
+
+**[TELA]** Slide 17 — encerramento e gancho para a Aula 11.
 
 > "Agora o dado existe e está guardado no nó, lá no terceiro subsolo. Mas ele precisa sair dali e atravessar a cidade até o servidor. LoRaWAN, Wi-Fi ou rede celular? E por que o sinal some justamente no subsolo? Te espero na Aula 11!"
 
@@ -262,7 +270,9 @@
 
 ## Roteiro da Videoaula 11 — "Por que o sinal some no subsolo? A rede certa para cada sensor"
 
-**Duração-alvo:** cerca de 17:30 (15 a 19 minutos).
+**Aula 11 — Redes de comunicação: LoRaWAN, Wi-Fi e redes celulares**
+
+**Duração-alvo:** cerca de 18:50 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:30)
 
@@ -272,7 +282,7 @@
 
 **[TELA]** Slide 3 — o primeiro dia da rede na obra.
 
-> "Deixa eu te contar o primeiro dia de uma obra que eu vou usar como exemplo a aula inteira. A construtora instalou piezômetros no terceiro subsolo, inclinômetros atrás da cortina de estacas, um sensor de poeira na divisa com a vizinhança e câmeras no alto da grua. E aí começaram os problemas. O Wi-Fi do escritório de obra, que funcionava muito bem para os notebooks, simplesmente não chegava ao subsolo. O sensor de poeira, que alguém resolveu ligar com um chip 4G comum, acabou com a bateria em uma semana. E as câmeras, mandando vídeo o dia inteiro, congestionaram a rede de todo mundo, inclusive a do escritório."
+> "Deixa eu te contar o primeiro dia de uma obra que eu vou usar como exemplo a aula inteira. A construtora instalou piezômetros no terceiro subsolo, inclinômetros atrás da cortina de estacas, um sensor de poeira na divisa com a vizinhança e câmeras no alto da grua. E aí começaram os problemas. O Wi-Fi do escritório de obra, que funcionava muito bem para os notebooks, não chegava ao subsolo. O sensor de poeira, que alguém resolveu ligar com um chip 4G comum, acabou com a bateria em uma semana. E as câmeras, mandando vídeo o dia inteiro, congestionaram a rede de todo mundo, inclusive a do escritório."
 
 > "Repara que nenhum desses problemas é defeito de equipamento. É escolha errada de rede. Cada tecnologia foi feita para um tipo de uso, e a gente usou a ferramenta certa no lugar errado."
 
@@ -344,7 +354,7 @@
 
 **[TELA]** Slide 11 — tabela comparativa das redes.
 
-> "Na tela, a tabela que resume tudo. Não vou ler linha por linha; quero que você enxergue o padrão. LoRaWAN: quilômetros, pouca taxa, anos de bateria, gateway próprio ou de terceiros. NB-IoT: cobertura da operadora com boa penetração, pouca taxa, consumo muito baixo. LTE-M: um pouco mais de taxa e mobilidade. 4G e 5G: alta taxa, alto consumo. Wi-Fi: alta taxa, curto alcance, alto consumo, infraestrutura própria."
+> "Na tela, a tabela que resume tudo. Não vou ler linha por linha: veja o padrão. LoRaWAN: quilômetros, pouca taxa, anos de bateria, gateway próprio ou de terceiros. NB-IoT: cobertura da operadora com boa penetração, pouca taxa, consumo muito baixo. LTE-M: um pouco mais de taxa e mobilidade. 4G e 5G: alta taxa, alto consumo. Wi-Fi: alta taxa, curto alcance, alto consumo, infraestrutura própria."
 
 > "A regra prática: leitura lenta a bateria, LoRaWAN ou NB-IoT. Muito dado com energia disponível, Wi-Fi ou 4G e 5G. Voltando ao primeiro dia da obra: piezômetros e inclinômetros, LoRaWAN ou NB-IoT. Sensor de poeira, LoRaWAN, ou Wi-Fi se ele estiver junto à tomada do tapume. Câmeras da grua, 4G dedicado ou um enlace Wi-Fi ponto a ponto separado do escritório."
 
@@ -382,7 +392,9 @@
 
 ## Roteiro da Videoaula 12 — "Um carteiro chamado MQTT: como milhares de leituras chegam ao banco de dados sem se perder"
 
-**Duração-alvo:** cerca de 17:50 (15 a 19 minutos).
+**Aula 12 — Protocolos e plataformas IoT: MQTT e armazenamento de séries temporais**
+
+**Duração-alvo:** cerca de 16:50 (15 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
