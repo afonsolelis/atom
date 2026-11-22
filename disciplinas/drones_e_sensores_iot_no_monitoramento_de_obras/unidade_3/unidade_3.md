@@ -100,34 +100,29 @@ Para a obra do gancho, monte uma tabela com os seis sensores da aula e as coluna
 
 ## Aula 9 — Roteiro da Videoaula 9: "O que a obra sente e ninguém vê: seis sensores que contam tudo"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–4 — capa, sumário, a obra de três subsolos com cinco perguntas e o mapa da unidade.
 
 > "Uma escavação ao lado de um prédio antigo, uma escora no sol, uma laje recém-concretada, a pintura num dia úmido e a poeira na vizinhança. Cinco perguntas, uma resposta: medir. Nesta unidade, você vai seguir o dado do sensor até o banco de dados. E hoje começamos pelo começo: os sensores."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 5–7 — do fenômeno ao sensor, o inclinômetro e o exemplo do ângulo ao milímetro.
 
 > "Sensor se escolhe pelo mensurando: faixa, resolução, incerteza, deriva e robustez. E todo sensor começa com uma leitura zero. O inclinômetro mede o deslocamento em profundidade: L vezes o seno do ângulo, trecho a trecho, de baixo para cima. No exemplo, meio metro vezes 0,020 dá 10 milímetros no topo."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:10)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–10 — extensômetros, a escora no sol e os acelerômetros.
 
 > "O extensômetro de corda vibrante é o cavalo de batalha da obra. Duzentas e cinquenta microdeformações dão 600 quilonewtons na escora — mas 15 graus de sol valem 180 microdeformações. Sem correção térmica, o sol vira carga no relatório. O acelerômetro mede vibração e a assinatura da estrutura: se a rigidez cai, a frequência cai junto."
 
-### 4. Desenvolvimento — parte 3 (2:10 – 3:00)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 11–14 — temperatura e maturidade, umidade e a calculadora do ponto de orvalho, poeira e a tabela dos seis sensores.
 
 > "A temperatura corrige os outros sensores e diz quando a laje pode ser desformada. A umidade diz se dá para impermeabilizar: 20 graus e 80% dão ponto de orvalho de 16,4 graus; laje a 18 graus, espera. E o sensor de poeira é barato, mas superestima com o ar úmido: calibre ao lado de uma estação de referência."
 
-### 5. Encerramento (3:00 – 3:30)
-
+### 5. Encerramento
 **[TELA]** Slides 15–17 — atividade, pontos-chave e encerramento.
 
 > "Você conheceu os seis sensores. Mas um sensor sozinho só dá um sinal elétrico fraquinho. Quem transforma isso em número, guarda e alimenta tudo no meio da obra? As plataformas embarcadas: Arduino, ESP32 e datalogger. Te espero na Aula 10!"
@@ -229,34 +224,29 @@ No simulador gratuito **Wokwi** (wokwi.com), monte um ESP32 com um sensor de tem
 
 ## Aula 10 — Roteiro da Videoaula 10: "Por que o protótipo mentiu? O que acontece entre o sensor e o número"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e o protótipo que mostrava uma linha reta.
 
 > "Segunda: a linha do gráfico, perfeitamente reta. Terça: a bateria acabou. Quarta: a chuva entrou na caixa. O sensor estava certo — o que falhou foi tudo o que fica entre o sensor e o número. Hoje a gente abre essa caixa."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:30)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–8 — a cadeia de medição, condicionamento e ponte de Wheatstone, o laço 4–20 mA, a simulação dos bits do ADC e o exemplo dos 165 microvolts.
 
 > "Sensor, condicionamento, conversor, microcontrolador, memória e rádio. O extensômetro numa ponte dá 165 microvolts; o degrau do ADC do ESP32 é de 806. O sinal cabe dentro de um degrau: a linha fica reta. Com um amplificador, aparece a carga. E o 4 a 20 miliampères é robusto: se a corrente vai a zero, é cabo rompido, não leitura nula."
 
-### 3. Desenvolvimento — parte 2 (1:30 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–11 — Arduino, ESP32 e datalogger, barramentos digitais e amostragem, relógio e memória.
 
 > "Arduino para aprender, ESP32 para prototipar IoT com Wi-Fi integrado, datalogger profissional para o que embasa decisões de segurança. Muitos sensores já falam digital, por I2C, SDI-12 ou Modbus. E toda leitura precisa de hora certa, em UTC, e de memória local: se a rede cair, nada se perde."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–14 — a calculadora de autonomia, a instalação em campo e do protótipo à produção.
 
 > "Bateria: o mesmo programa dura um ano numa placa de baixo consumo e 28 dias numa placa de desenvolvimento que gasta 10 miliampères dormindo. É o sono que decide. Na instalação: caixa IP67, proteção contra surtos, antena fora da caixa, ficha com leitura zero e comissionamento."
 
-### 5. Encerramento (3:10 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 15–17 — atividade no Wokwi, pontos-chave e encerramento.
 
 > "Agora o dado existe e está guardado no nó. Mas ele precisa sair do subsolo e atravessar a cidade. LoRaWAN, Wi-Fi ou rede celular? Te espero na Aula 11!"
@@ -363,34 +353,29 @@ Para a obra do gancho, escolha a rede de cada grupo de sensores e justifique por
 
 ## Aula 11 — Roteiro da Videoaula 11: "Por que o sinal some no subsolo? A rede certa para cada sensor"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–4 — capa, sumário, o primeiro dia da rede na obra e o triângulo alcance × taxa × consumo.
 
 > "Primeiro dia: o Wi-Fi não chega ao subsolo, o chip 4G do sensor de poeira acaba com a bateria em uma semana e as câmeras entopem a rede. Nenhuma rede é a melhor para tudo. Alcance, taxa e consumo: escolha dois."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 5–6 — propagação no canteiro e a calculadora do orçamento de enlace.
 
 > "O sinal perde força com a distância e com o concreto. A conta é o orçamento de enlace: potência, mais ganhos, menos perdas. Um nó no subsolo a 1,5 quilômetro chega com menos 111 dBm. Em SF7, a margem é de quase 12 dB: fecha. Gateway no alto e antena fora da caixa metálica."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 7–10 — a arquitetura LoRaWAN, SF × tempo no ar × energia, Wi-Fi e redes celulares.
 
 > "LoRaWAN: nó, gateway, servidor de rede, aplicação. Quilômetros de alcance e anos de bateria, com mensagens pequenas. Cada passo de SF dá mais alcance e dobra o tempo no ar: o SF12 gasta 24 vezes mais energia que o SF7. Wi-Fi é para câmera e escritório; 4G e 5G, para muito dado. Para sensores a bateria, a operadora oferece LTE-M e NB-IoT — confirme a cobertura no endereço da obra."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:05)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 11–13 — a tabela comparativa, armazenar e reenviar e a pausa para reflexão.
 
 > "Regra prática: leitura lenta a bateria, LoRaWAN ou NB-IoT; muito dado com energia, Wi-Fi ou 4G. Toda rede cai: o nó guarda e reenvia com a hora da medição. E pare para pensar: rede própria ou da operadora? Quem mantém o gateway às duas da manhã — e depois que a grua for embora?"
 
-### 5. Encerramento (3:05 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 14–16 — atividade, pontos-chave e encerramento.
 
 > "O dado saiu do canteiro. Mas como ele chega, em ordem e sem se perder, ao banco de dados — e de que forma deve ser guardado? MQTT, Node-RED e séries temporais. Te espero na Aula 12!"
@@ -483,34 +468,29 @@ Na **Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos**, os dado
 
 ## Aula 12 — Roteiro da Videoaula 12: "Um carteiro chamado MQTT: como milhares de leituras chegam ao banco de dados sem se perder"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–4 — capa, sumário, três fornecedores e três portais e a pilha IoT.
 
 > "Sessenta sensores, três fornecedores, três portais, três relógios e uma planilha montada à mão toda segunda-feira. Falta uma linguagem comum para as mensagens e um lugar comum para guardá-las. Hoje: MQTT, Node-RED e séries temporais."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:30)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 5–8 — publicar e assinar, a simulação dos tópicos e curingas, QoS, mensagem retida e último desejo, e segurança do broker.
 
 > "No MQTT, ninguém conversa direto: o sensor publica num tópico, o broker entrega a quem assinou. Tópico é endereço: obra, setor, tipo, sensor, grandeza. Com o curinga mais, eu recebo todos os piezômetros. QoS 1 garante a entrega, com possível duplicata. O último desejo avisa quando um nó cai. E broker de obra tem senha e TLS."
 
-### 3. Desenvolvimento — parte 2 (1:30 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–10 — o fluxo no Node-RED e a anatomia de uma leitura.
 
 > "No Node-RED, o fluxo assina, valida, converte miliampère em quilopascal, marca a qualidade e grava. E cada leitura leva hora em UTC, sensor, bruto, engenharia, unidade, qualidade e bateria. O bruto nunca é sobrescrito."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 11–14 — o modelo do InfluxDB, o line protocol, a calculadora de volume e cardinalidade e retenção e agregação.
 
 > "No InfluxDB: measurement, tags, fields e timestamp. Tag é o que identifica a série; field é o que você mede. Sessenta sensores geram 5.760 pontos por dia; um acelerômetro contínuo gera 130 milhões de valores. E se o identificador da leitura virar tag, nascem 700 mil séries por ano. Grave vibração por evento e agregue para o painel."
 
-### 5. Encerramento (3:10 – 3:45)
-
+### 5. Encerramento
 **[TELA]** Slides 15–18 — atividade, pontos-chave, prévia da Unidade 4 e encerramento.
 
 > "Você fechou a unidade: sensor, plataforma, rede e banco de dados. Na Unidade 4, esses dados viram painéis com alertas, entram no BIM e no planejamento, apoiam a segurança do trabalho e enfrentam a LGPD e a cibersegurança. Te espero lá!"
@@ -523,12 +503,12 @@ Na **Unidade 4 — Painéis, Integração com BIM e Gestão de Riscos**, os dado
 
 Uma construtora precisa monitorar 12 piezômetros instalados no terceiro subsolo de uma obra, lidos a cada 30 minutos, alimentados a bateria e sem energia elétrica disponível no local. O escritório de obra tem Wi-Fi, e a operadora local oferece NB-IoT no endereço. Com base nos conceitos da aula, assinale a alternativa **correta**:
 
-- [ ] a. O Wi-Fi do escritório é a melhor escolha, porque oferece a maior taxa de dados e, portanto, o menor consumo de energia por leitura.
-- [ ] b. Câmeras e piezômetros devem usar a mesma rede 4G, pois a taxa de dados é o único critério relevante na escolha da tecnologia.
-- [x] c. LoRaWAN, com gateway em posição elevada, ou NB-IoT são adequados, desde que o orçamento de enlace (ou a cobertura) seja confirmado no subsolo e os nós armazenem e reenviem as leituras.
-- [ ] d. Qualquer rede serve, porque o fator de espalhamento SF12 garante alcance ilimitado sem aumento do consumo de energia.
+a) O Wi-Fi do escritório é a melhor escolha, porque oferece a maior taxa de dados e, portanto, o menor consumo de energia por leitura.
+b) Câmeras e piezômetros devem usar a mesma rede 4G, pois a taxa de dados é o único critério relevante na escolha da tecnologia.
+c) LoRaWAN, com gateway em posição elevada, ou NB-IoT são adequados, desde que o orçamento de enlace (ou a cobertura) seja confirmado no subsolo e os nós armazenem e reenviem as leituras.
+d) Qualquer rede serve, porque o fator de espalhamento SF12 garante alcance ilimitado sem aumento do consumo de energia.
 
-**Resposta correta:** `c`
+**Resposta correta:** c)
 
 **Feedback:** A alternativa (c) está correta: leituras lentas, a bateria e em local de difícil acesso pedem redes de baixa potência e longo alcance (LoRaWAN) ou de cobertura profunda (NB-IoT); como subsolos impõem grandes perdas, é preciso verificar o orçamento de enlace ou a cobertura, e o *store-and-forward* protege contra falhas de conexão. A (a) erra: o Wi-Fi tem alto consumo e alcance curto, sobretudo através de lajes. A (b) ignora o compromisso entre alcance, taxa e consumo. A (d) é falsa: o SF12 aumenta o alcance, mas multiplica o tempo no ar e a energia por mensagem.
 
@@ -536,12 +516,12 @@ Uma construtora precisa monitorar 12 piezômetros instalados no terceiro subsolo
 
 Um engenheiro configura o sistema de monitoramento de uma escavação: os nós publicam via MQTT no tópico `obra/torre-a/escavacao/piezometro/PZ-03/nivel`, e o Node-RED grava as leituras no InfluxDB. Assinale a alternativa **correta**:
 
-- [ ] a. Para receber o nível de todos os piezômetros de todos os setores, o Node-RED deve assinar `obra/torre-a/#/piezometro/nivel`, pois o curinga `#` pode ficar no meio do tópico.
-- [x] b. A assinatura `obra/torre-a/+/piezometro/+/nivel` recebe o nível de todos os piezômetros de todos os setores; no InfluxDB, o identificador do sensor deve ser tag, e os valores medidos, fields.
-- [ ] c. O identificador único de cada leitura deve ser gravado como tag no InfluxDB, para que cada ponto tenha a sua própria série e as consultas fiquem mais rápidas.
-- [ ] d. Com QoS 0, o broker garante que cada leitura seja entregue exatamente uma vez, sem necessidade de confirmação.
+a) Para receber o nível de todos os piezômetros de todos os setores, o Node-RED deve assinar `obra/torre-a/#/piezometro/nivel`, pois o curinga `#` pode ficar no meio do tópico.
+b) A assinatura `obra/torre-a/+/piezometro/+/nivel` recebe o nível de todos os piezômetros de todos os setores; no InfluxDB, o identificador do sensor deve ser tag, e os valores medidos, fields.
+c) O identificador único de cada leitura deve ser gravado como tag no InfluxDB, para que cada ponto tenha a sua própria série e as consultas fiquem mais rápidas.
+d) Com QoS 0, o broker garante que cada leitura seja entregue exatamente uma vez, sem necessidade de confirmação.
 
-**Resposta correta:** `b`
+**Resposta correta:** b)
 
 **Feedback:** A alternativa (b) está correta: o curinga `+` substitui exatamente um nível do tópico (aqui, o setor e o sensor), e, no InfluxDB, tags identificam e indexam as séries (sensor, setor), enquanto os fields guardam os valores medidos. A (a) erra porque `#` só pode ser usado no último nível. A (c) descreve a explosão de cardinalidade: cada leitura viraria uma série nova, inchando o índice e deixando as consultas mais lentas. A (d) confunde os níveis: QoS 0 é "no máximo uma vez", sem confirmação; "exatamente uma vez" é o QoS 2.
 
@@ -549,7 +529,7 @@ Um engenheiro configura o sistema de monitoramento de uma escavação: os nós p
 
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual]_ Sugestão a confirmar na BV: MAGRANI, Eduardo. *A internet das coisas*. Rio de Janeiro: FGV Editora, 2018 (bibliografia básica da ementa), capítulo de conceitos e aplicações da IoT. Consultar a fonte original ajuda o aluno a enxergar além da técnica: o livro discute o que muda quando objetos passam a coletar e trocar dados sozinhos, incluindo riscos e responsabilidades que voltam na Unidade 4.
 
@@ -558,19 +538,19 @@ Um engenheiro configura o sistema de monitoramento de uma escavação: os nós p
 - **Link de acesso:** 
 - **Qual aula o material deverá entrar?** 
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Para ver os sensores da Aula 9 do ponto de vista de quem projeta e lê a instrumentação, assista ao primeiro bloco do curso **"Instrumentação, Interpretação de Dados e Monitoramento de Estruturas Geotécnicas"**, da Effyía — Escola da Engenharia, no YouTube. Depois, ponha a mão na massa com o vídeo **"Publicando Dados via MQTT e Criando um Dashboard no Node-RED com ESP32 no Simulador Wokwi"**, do canal Clube da Eletrônica: sem comprar nenhum componente, você vê um ESP32 publicar leituras num broker MQTT e o Node-RED recebê-las — exatamente a cadeia das Aulas 10 e 12. Assista com as perguntas da unidade em mente: qual é a leitura zero? Quem garante que a mensagem chegou? Onde o dado bruto fica guardado?
 
 - **Links:** https://www.youtube.com/watch?v=5hwJUP5wIfY · https://www.youtube.com/watch?v=34W3yUgXWTQ
 - **Qual aula o material deverá entrar?** Aulas 9, 10 e 12
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > Como é a instrumentação de uma obra gigante quando as leituras deixam de ser manuais? No episódio 3 da 2ª temporada do **I&M Geotech Podcast**, canal brasileiro dedicado à instrumentação e ao monitoramento geotécnico, Roberto Collado Bermejo e David José Mendi Fernandez, da Geprode, contam como foi a gestão da instrumentação nas obras da **Linha 6 do Metrô de São Paulo**: sensores automatizados, transmissão e volume de dados — o caminho completo desta unidade, do sensor ao banco de dados. O episódio completo tem cerca de 73 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
 
-- **Nome do podcast:** I&M Geotech: Instrumentação e Monitoramento Geotécnico (canal no YouTube)
-- **Nome do episódio:** T02 | EP03 — Roberto Collado Bermejo e David José Mendi Fernandez (instrumentação da Linha 6 do Metrô de São Paulo)
+- **NOME DO PODCAST:** I&M Geotech: Instrumentação e Monitoramento Geotécnico (canal no YouTube)
+- **NOME DO EPISÓDIO:** T02 | EP03 — Roberto Collado Bermejo e David José Mendi Fernandez (instrumentação da Linha 6 do Metrô de São Paulo)
 - **Link:** https://www.youtube.com/watch?v=jQpQFHHl_Zo
 - **Qual aula o material deverá entrar?** Aulas 9 e 12
 
@@ -580,5 +560,4 @@ Um engenheiro configura o sistema de monitoramento de uma escavação: os nós p
 
 - **Link:** https://doi.org/10.1016/j.future.2013.01.010
 - **Qual aula o material deverá entrar?** Aulas 11 e 12
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > GUBBI, Jayavardhana; BUYYA, Rajkumar; MARUSIC, Slaven; PALANISWAMI, Marimuthu. Internet of Things (IoT): a vision, architectural elements, and future directions. **Future Generation Computer Systems**, Amsterdam, v. 29, n. 7, p. 1645-1660, set. 2013. DOI: 10.1016/j.future.2013.01.010.
+- **Referência bibliográfica do artigo no formato ABNT:** GUBBI, Jayavardhana; BUYYA, Rajkumar; MARUSIC, Slaven; PALANISWAMI, Marimuthu. Internet of Things (IoT): a vision, architectural elements, and future directions. **Future Generation Computer Systems**, Amsterdam, v. 29, n. 7, p. 1645-1660, set. 2013. DOI: 10.1016/j.future.2013.01.010.

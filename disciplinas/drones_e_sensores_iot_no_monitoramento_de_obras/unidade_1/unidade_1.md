@@ -16,7 +16,7 @@ Ao final, você será capaz de planejar e executar o monitoramento de uma obra r
 
 ### Roteiro do vídeo introdutório (até 2 min)
 
-*Acompanha o deck `slides/aula0.html`. Cada bloco indica a tela correspondente.*
+*As marcações [TELA] indicam os slides da apresentação do vídeo introdutório.*
 
 **Abertura (0:00 – 0:20):**
 [TELA: Slide 1 — capa; Slide 2 — audiodescrição; Slide 3 — Sobre o professor]
@@ -165,34 +165,29 @@ Escolha uma obra que você conhece (pode ser uma obra pública noticiada na sua 
 
 ## Aula 1 — Roteiro da Videoaula 1: "A obra está atrasada? Como o drone transforma medição em resposta"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e a reunião com o cliente: "Estamos atrasados?".
 
 > "Reunião mensal com o cliente. O cronograma diz 37 e meio por cento. O mestre acha que está mais ou menos em dia. O financeiro diz que já foi 1 milhão e 450 mil. E o cliente pergunta: afinal, estamos atrasados? Estamos gastando demais? Hoje você vai aprender a responder isso com números — e a ver onde o drone entra nessa conta."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:10)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — as quatro dimensões, as fragilidades do jeito tradicional, o canteiro conectado e o ciclo medir → agir.
 
 > "Monitorar é medir de forma sistemática, ao longo do tempo, se a obra está se comportando como o previsto: em prazo, custo, segurança e qualidade. O jeito tradicional — diário de obra, vistoria, foto de celular — é lento, pouco frequente e subjetivo. O drone cobre o canteiro inteiro num voo e entrega volumes e áreas medidos. Mas dado sozinho não salva obra: ele precisa ser comparado com uma referência, virar decisão e virar ação. E depois, medir de novo. Isso é malha fechada — é o PDCA do Mattos."
 
-### 3. Desenvolvimento — parte 2 (1:10 – 2:00)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — avanço físico ponderado, curva S previsto × realizado, VP, VA e CR, e os índices IDP e IDC.
 
 > "Como medir o avanço de uma obra com serviços tão diferentes? Pesando cada serviço pelo custo dele no orçamento. Acumulando o previsto no tempo, nasce a curva S: suave no começo, íngreme no meio, suave no fim. E o valor agregado junta prazo e custo: valor planejado, o que deveria estar feito; valor agregado, o que foi feito, em reais do orçamento; custo real, o que se gastou. IDP é VA sobre VP; IDC é VA sobre CR. Abaixo de 1, problema."
 
-### 4. Desenvolvimento — parte 3 (2:00 – 2:50)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–15 — a calculadora do exemplo, a sensibilidade ao erro de volume e a atividade.
 
 > "Vamos à conta. O drone mediu 39 mil metros cúbicos de 60 mil: 65% da terraplenagem. Somando os pesos, o avanço físico dá 32,5%, e o VA, 1,3 milhão. O previsto era 1,5: IDP de 0,87, obra atrasada. Gastou-se 1,45: IDC de 0,90, cada real agrega 90 centavos. Projeção: uns 460 mil acima do orçamento. E repare: um erro de 3 mil metros cúbicos no volume muda o VA em 60 mil reais. A exatidão do drone é dinheiro."
 
-### 5. Encerramento (2:50 – 3:20)
-
+### 5. Encerramento
 **[TELA]** Slides 16–17 — pontos-chave e encerramento.
 
 > "Hoje você viu por que monitorar, o ciclo do controle, a curva S e o valor agregado. Mas qual drone faz essa medição — e com qual sensor? Uma câmera comum basta, ou eu preciso de térmica, LiDAR, multiespectral? É o assunto da próxima aula. Te espero na Aula 2!"
@@ -299,34 +294,29 @@ Escolha duas obras bem diferentes (por exemplo, a reforma de fachada de um edif�
 
 ## Aula 2 — Roteiro da Videoaula 2: "Um drone serve para tudo? O sensor certo para cada pergunta da obra"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os dois pedidos: loteamento de 120 ha e fachada descolando.
 
 > "Dois pedidos no mesmo dia: o volume de um loteamento de 120 hectares e as placas descolando numa fachada. A construtora tem um drone pequeno com câmera comum. Serve para os dois? Não. Hoje você vai conhecer os drones por dentro e, principalmente, os sensores que eles carregam."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:15)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — UA, UAS e RPA; as três famílias; o VTOL; o drone em 3D com vista explodida.
 
 > "Drone é o nome popular; a norma fala em aeronave não tripulada e em sistema — porque o enlace de comando faz parte. São três famílias: o multirrotor paira, ótimo para fachada; a asa fixa voa como avião e cobre centenas de hectares; e o VTOL decola na vertical e cruza como asa fixa. Por dentro: frame, motores com ESC, controladora, GNSS — com RTK chega a centímetros —, IMU, bateria LiPo, gimbal e rádio."
 
-### 3. Desenvolvimento — parte 2 (1:15 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–12 — câmera RGB e obturador; NDVI; termograma; LiDAR e múltiplos retornos; a tabela de escolha.
 
 > "Agora, os sensores. A câmera RGB faz a fotogrametria: ortomosaico, modelo 3D e volumes — e aqui vale mais o tamanho do sensor e o obturador do que os megapixels. A multiespectral calcula índices de vegetação, como o NDVI. A térmica mostra diferenças de temperatura: placa descolada, infiltração, painel aquecido — mas cuidado com a emissividade e os reflexos. E o LiDAR mede distância com laser e, pelos múltiplos retornos, enxerga o chão debaixo da mata. A regra: a pergunta define o sensor, a geometria define a aeronave."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:00)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 13–15 — tempo de voo do pulso LiDAR, o pixel térmico na fachada e a atividade.
 
 > "Duas contas. Um alvo a 80 metros devolve o pulso do LiDAR em 533 nanossegundos — e 1 nanossegundo de erro já são 15 centímetros. Na térmica, com pixel de 12 micrômetros e focal de 13 milímetros, a 10 metros cada pixel cobre 9 milímetros, e o menor defeito confiável tem uns 2,8 centímetros. A 30 metros, passa de 8 centímetros. A distância de voo é decisão de engenharia."
 
-### 5. Encerramento (3:00 – 3:25)
-
+### 5. Encerramento
 **[TELA]** Slides 16–17 — pontos-chave e encerramento.
 
 > "Você já sabe escolher a aeronave e o sensor. Mas pode voar? Quem autoriza, quem cadastra, quem homologa? Na próxima aula, as regras do jogo: ANAC, DECEA e Anatel. Te espero na Aula 3!"
@@ -425,34 +415,29 @@ Escolha uma obra da sua cidade e monte o **checklist regulatório** para voar so
 
 ## Aula 3 — Roteiro da Videoaula 3: "Pode voar aqui? O que ANAC, DECEA e Anatel exigem antes da decolagem"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e "Antes de tudo: pode voar?".
 
 > "A construtora comprou um drone e quer voar amanhã cedo. Tira da caixa, carrega a bateria e decola? Não. Cadastro, piloto habilitado, seguro, autorização do espaço aéreo, rádio homologado — e, se for mapeamento, Ministério da Defesa. Hoje você vai aprender quem manda em quê."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:30)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–8 — os três órgãos; do RBAC-E 94 ao RBAC 100; as três categorias; a escala dos 120 m e dos 30 m em 3D; SISANT, exame e seguro.
 
 > "Três perguntas, três donos: a ANAC cuida da aeronave, do operador e do piloto; o DECEA, do espaço aéreo; a Anatel, do rádio. Na ANAC, durante anos valeu o RBAC-E 94, com classes por peso. Em junho de 2026, o RBAC 100 substituiu o 94 e passou a olhar o risco. Categoria aberta: até 25 quilos, linha de visada, até 120 metros e nunca a menos de 30 metros de pessoas não envolvidas e não anuentes, salvo barreira. Saiu disso, categoria específica, com avaliação de risco. Risco alto, certificada. E mais: SISANT, exame teórico a partir de 2027 e seguro contra terceiros."
 
-### 3. Desenvolvimento — parte 2 (1:30 – 2:30)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–12 — SARPAS e ICA 100-40; aerolevantamento; selo Anatel; LGPD.
 
 > "O espaço aéreo é do DECEA: pela ICA 100-40, todo voo passa pelo SARPAS — até o de 250 gramas. Além da linha de visada, 8 dias de antecedência. Mapeamento em faixas sobrepostas é aerolevantamento: empresa inscrita no Ministério da Defesa e pedido com 4 dias corridos; foto de inspeção não é. O rádio precisa de homologação da Anatel: procure o selo. E imagem de pessoa é dado pessoal: LGPD."
 
-### 4. Desenvolvimento — parte 3 (2:30 – 3:20)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 13–15 — o canteiro de 80 × 50 m com a faixa de 30 m; o calendário do SARPAS; a pausa para reflexão.
 
 > "Um canteiro de 80 por 50 metros com calçada movimentada num lado. Mantendo 30 metros dos pedestres, sobra uma faixa de 80 por 20: só 40% do terreno. Para mapear tudo, voo sem pedestres, barreira ou categoria específica. E, para voar na sexta, o pedido sai até segunda. Agora, a reflexão: o gerente quer o ortomosaico amanhã e diz que ninguém vai notar. O que você faz?"
 
-### 5. Encerramento (3:20 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 16–17 — pontos-chave e encerramento.
 
 > "Você já sabe se pode voar. Falta saber como voar: altura, sobreposição, aplicativo de missão, vento, bateria e checklist. É a próxima aula, que fecha a unidade. Te espero na Aula 4!"
@@ -567,34 +552,29 @@ Na **Unidade 2 — Aquisição e Processamento de Imagens**, as fotos do voo que
 
 ## Aula 4 — Roteiro da Videoaula 4: "Vento fraco no chão, rajada a 70 metros: o voo seguro começa antes da decolagem"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 17 a 19 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e o voo que voltou com 8% de bateria.
 
 > "Voo autorizado, SARPAS aceito. Vento fraco no chão. A 70 metros, rajadas; o drone volta com 8% de bateria, metade das fotos tremidas. Ninguém quebrou regra: faltou planejamento. Hoje, fechando a unidade, a gente planeja a missão, lê o tempo e segue o checklist."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–8 — tipos de missão; GSD e faixa; sobreposição; área por voo; DJI Pilot e Pix4Dcapture.
 
 > "Primeiro, o tipo de missão: grade para ortomosaico, oblíqua para fachada, corredor para rodovia, órbita para inspeção. Depois, os parâmetros: GSD é altura vezes pixel sobre focal; a faixa é o número de pixels vezes o GSD; o espaçamento entre faixas desconta a sobreposição lateral. No DJI Pilot ou no Pix4Dcapture, você desenha o polígono e o aplicativo calcula a rota. Mas quem responde é você: relevo, grua, polígono autorizado e altura de retorno."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–12 — vento e rajadas; biruta e anemômetro; bateria e temperatura; Kp e cintilação.
 
 > "Agora o tempo. O vento cresce com a altura, e a rajada manda mais que a média. Use no máximo uns dois terços do limite do fabricante. Chuva estraga motor e eletrônica. Frio derruba a bateria; calor de verão brasileiro esquenta tudo. E olhe para o céu de cima: índice Kp a partir de 5 e a cintilação ionosférica do começo da noite podem bagunçar o GNSS e o RTK. Consulte REDEMET, INMET e meça o vento no local."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 13–16 — checklist antes, durante e depois; emergências; a calculadora de altura, cobertura e vento; a atividade.
 
 > "Segurança é procedimento: documentos, aeronave, área de segurança, altura de retorno acima do maior obstáculo. Durante, linha de visada e reserva de bateria. Perdeu o link? Retorno automático. Perdeu o GNSS? Assuma manual. Avião à vista? Desça. As contas: GSD de 2 centímetros pede no máximo 73 metros; a 70, a faixa tem 105 metros e um multirrotor cobre uns 24 hectares por voo. E o vento de 6 metros por segundo no chão vira quase 9 a 70 metros: acima do limite prático de 8. Não voa."
 
-### 5. Encerramento (3:15 – 3:45)
-
+### 5. Encerramento
 **[TELA]** Slides 17–19 — pontos-chave, prévia da Unidade 2 e encerramento.
 
 > "Você fechou a Unidade 1: sabe por que e como medir o avanço da obra, qual drone e sensor usar, o que a lei exige e como planejar um voo seguro. Na Unidade 2, essas fotos viram ortomosaico, nuvem de pontos e volume — e o volume volta para a curva S. Te espero lá!"
@@ -607,12 +587,12 @@ Na **Unidade 2 — Aquisição e Processamento de Imagens**, as fotos do voo que
 
 Na medição do mês 6 de uma obra, a equipe obteve, com apoio de levantamento por drone: valor planejado $VP = 2{,}0$ milhões de reais, valor agregado $VA = 2{,}2$ milhões de reais e custo real $CR = 2{,}5$ milhões de reais. Com base na análise de valor agregado, assinale a alternativa **correta**:
 
-- [ ] a. A obra está atrasada e abaixo do custo, pois o custo real supera o valor planejado.
-- [x] b. A obra está adiantada ($IDP = 1{,}10$), mas acima do custo ($IDC = 0{,}88$): agregou mais do que o previsto, gastando mais do que agregou.
-- [ ] c. A obra está em dia e dentro do custo, pois o valor agregado está entre o valor planejado e o custo real.
-- [ ] d. Não é possível avaliar o prazo, porque o IDP só pode ser calculado ao final da obra, com o custo total conhecido.
+a) A obra está atrasada e abaixo do custo, pois o custo real supera o valor planejado.
+b) A obra está adiantada ($IDP = 1{,}10$), mas acima do custo ($IDC = 0{,}88$): agregou mais do que o previsto, gastando mais do que agregou.
+c) A obra está em dia e dentro do custo, pois o valor agregado está entre o valor planejado e o custo real.
+d) Não é possível avaliar o prazo, porque o IDP só pode ser calculado ao final da obra, com o custo total conhecido.
 
-**Resposta correta:** `b`
+**Resposta correta:** b)
 
 **Feedback:** A alternativa (b) está correta: $IDP = VA/VP = 2{,}2/2{,}0 = 1{,}10 > 1$ indica que se executou mais do que o cronograma previa até a data (adiantamento), e $IDC = VA/CR = 2{,}2/2{,}5 = 0{,}88 < 1$ indica que cada real gasto agregou 88 centavos (estouro de custo). A (a) erra porque o prazo se avalia comparando VA com VP, e não CR com VP; e IDC < 1 significa custo acima, não abaixo. A (c) não tem fundamento: a posição relativa dos três valores não substitui o cálculo dos índices. A (d) é falsa: IDP e IDC são calculados a cada medição, justamente para corrigir o rumo durante a obra.
 
@@ -620,12 +600,12 @@ Na medição do mês 6 de uma obra, a equipe obteve, com apoio de levantamento p
 
 Um engenheiro planeja voar um multirrotor de 9 kg, em linha de visada, a 80 m de altura, sobre um canteiro urbano, mantendo a área sob o voo isolada e a pelo menos 30 m dos pedestres. O voo é um mapeamento em faixas sobrepostas para gerar ortomosaico. Considerando a regulamentação vigente, assinale a alternativa **correta**:
 
-- [ ] a. Como o drone tem menos de 25 kg, a operação fica dispensada do cadastro da aeronave, do seguro contra danos a terceiros e do pedido de acesso ao espaço aéreo.
-- [ ] b. A operação deve seguir as classes por peso do RBAC-E nº 94 (Classe 3, até 25 kg), que continua sendo a norma aplicável a todas as novas operações.
-- [x] c. Pode caber na categoria aberta do RBAC nº 100, com SISANT, piloto habilitado e seguro; por ser aerolevantamento, exige entidade inscrita no Ministério da Defesa e pedido no SARPAS com 4 dias corridos.
-- [ ] d. Por ser um voo dentro do canteiro da própria construtora, a autorização do DECEA é dispensada, bastando o aviso aos vizinhos.
+a) Como o drone tem menos de 25 kg, a operação fica dispensada do cadastro da aeronave, do seguro contra danos a terceiros e do pedido de acesso ao espaço aéreo.
+b) A operação deve seguir as classes por peso do RBAC-E nº 94 (Classe 3, até 25 kg), que continua sendo a norma aplicável a todas as novas operações.
+c) Pode caber na categoria aberta do RBAC nº 100, com SISANT, piloto habilitado e seguro; por ser aerolevantamento, exige entidade inscrita no Ministério da Defesa e pedido no SARPAS com 4 dias corridos.
+d) Por ser um voo dentro do canteiro da própria construtora, a autorização do DECEA é dispensada, bastando o aviso aos vizinhos.
 
-**Resposta correta:** `c`
+**Resposta correta:** c)
 
 **Feedback:** A alternativa (c) está correta: 9 kg, linha de visada, 80 m de altura e 30 m de distância de pessoas não envolvidas e não anuentes atendem aos critérios da categoria aberta do **RBAC nº 100**, que exige cadastro no SISANT, piloto habilitado (exame teórico exigível a partir de 1º/01/2027) e seguro; como o voo gera ortomosaico a partir de faixas sobrepostas, é **aerolevantamento** (Portaria GM-MD nº 3.703/2021, art. 8º), executado por entidade inscrita no Ministério da Defesa, com pedido no SARPAS 4 dias corridos antes (ICA 100-40). A (a) é falsa: a exclusão do RBAC nº 100 vale para aeronaves de até **250 g** (até 120 m, em VLOS/EVLOS), não até 25 kg — e mesmo essas pedem acesso ao espaço aéreo. A (b) erra: o RBAC-E nº 94 foi substituído pelo RBAC nº 100 em junho de 2026. A (d) é falsa: o espaço aéreo sobre o canteiro não pertence à construtora; o acesso é sempre solicitado ao DECEA pelo SARPAS.
 
@@ -633,7 +613,7 @@ Um engenheiro planeja voar um multirrotor de 9 kg, em linha de visada, a 80 m de
 
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual. Sugestão a confirmar na BV: um livro de planejamento e controle de obras (curva S e valor agregado, Aula 1) ou de topografia/aerofotogrametria com drones (Aula 4).]_
 
@@ -642,14 +622,14 @@ Um engenheiro planeja voar um multirrotor de 9 kg, em linha de visada, a 80 m de
 - **Link de acesso:** 
 - **Qual aula o material deverá entrar?** 
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Recomendo o vídeo **"Acompanhamento de obra com DRONE na Prática"**, do canal Continental Drones, no YouTube, que mostra em campo como se faz um acompanhamento de obra com drone — equipamento, planejamento e captação das imagens. Assista com o olhar crítico desta unidade: o voo segue um plano de missão? Que cuidados de segurança aparecem? Em que ponto o levantamento vira medição de avanço — e quem compara o resultado com o planejado? Para conferir as regras de voo, complemente com o portal de drones da ANAC.
 
 - **Links:** https://www.youtube.com/watch?v=k4_NHrCXs0U · https://www.gov.br/anac/pt-br/assuntos/drones
 - **Qual aula o material deverá entrar?** Aulas 1, 3 e 4
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > No episódio #107 do podcast de **André Choma**, voltado à gestão de obras e à construção civil, o tema são os **gêmeos digitais e o uso da tecnologia na construção**. A conversa ajuda a separar o conceito do marketing e a enxergar a tecnologia como apoio ao **controle da obra** — o ciclo medir, comparar, decidir e agir da Aula 1 —, antecipando o que você verá na Unidade 4. O episódio completo tem cerca de 66 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
 
@@ -664,5 +644,4 @@ Um engenheiro planeja voar um multirrotor de 9 kg, em linha de visada, a 80 m de
 
 - **Link:** https://doi.org/10.1017/dce.2020.16
 - **Qual aula o material deverá entrar?** Aula 1
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.
+- **Referência bibliográfica do artigo no formato ABNT:** SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.

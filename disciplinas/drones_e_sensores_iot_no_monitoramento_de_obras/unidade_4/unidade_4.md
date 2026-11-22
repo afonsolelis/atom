@@ -114,33 +114,33 @@ No Grafana (instalação local ou a demonstração pública em play.grafana.org)
 
 ## Aula 13 — Roteiro da Videoaula 13: "37 alarmes num fim de semana: por que a equipe parou de ouvir o painel?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
+### 1. Abertura
 
 **[TELA]** Slides 1–3 — capa, o que você verá nesta unidade e a segunda-feira dos 37 alarmes.
 
 > "Segunda-feira, sete da manhã. O painel disparou 37 alarmes no fim de semana; 35 eram falsos. Na terceira semana assim, a equipe parou de olhar — e um deles era real. Hoje você vai aprender a montar painéis e alertas que a equipe leva a sério."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
+### 2. Desenvolvimento — parte 1
 
 **[TELA]** Slides 4–7 — do InfluxDB ao Grafana, os tipos de painel, o que um bom painel mostra e o sensor mudo.
 
 > "O Grafana é a vitrine do banco de séries temporais da Aula 12. Série com os limites desenhados, valor atual colorido, linha do tempo de estados e a planta com cada instrumento pintado pelo nível. Um bom painel responde em dez segundos: algo está fora? Onde? Está piorando? E mostra a saúde dos sensores: sensor que não fala não está verde."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
+### 3. Desenvolvimento — parte 2
 
 **[TELA]** Slides 8–10 — atenção, alerta e alarme; Santos; o TARP.
 
 > "Os limites vêm do projeto e se escalonam em atenção, alerta e alarme, por valor e por velocidade. E cada nível tem uma ação, um responsável e um prazo: é o TARP. Os prédios inclinados de Santos lembram que recalque anda devagar; só a série longa, com limites, mostra a tendência a tempo. O I-2 está em 11,5 milímetros e sobe 1,2 por dia: alerta em uns dois dias. Preparo o reforço agora."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
+### 4. Desenvolvimento — parte 3
 
 **[TELA]** Slides 11–15 — gestão de alarmes, histerese animada, regra de alerta no Grafana, a regra na borda e a calculadora de velocidade.
 
 > "Olha o sensor oscilando em torno de 10 milímetros: sem histerese, três alertas e três normalizações em seis leituras. Com histerese de meio milímetro, um só. Somo persistência, confirmação e incerteza, e os 35 falsos somem. No Grafana, a regra tem consulta, condição, período pendente, rótulo de severidade e ponto de contato. E a regra crítica roda também na borda."
 
-### 5. Encerramento (3:10 – 3:35)
+### 5. Encerramento
 
 **[TELA]** Slides 16–17 — pontos-chave e encerramento.
 
@@ -255,33 +255,33 @@ Pegue o cronograma de uma obra (pode ser acadêmico) com quatro ou cinco serviç
 
 ## Aula 14 — Roteiro da Videoaula 14: "O drone diz 41%, a planilha diz 62%: quem está certo?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
+### 1. Abertura
 
 **[TELA]** Slides 1–3 — capa, sumário e a reunião dos "62%".
 
 > "Reunião de obra: a gerenciadora diz 62%, conforme o cronograma. O drone voou ontem, os sensores mandam leitura a cada 15 minutos, mas cada dado mora num sistema. O que foi construído é o que deveria estar pronto? E quanto custou? Hoje o BIM e o valor agregado respondem."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
+### 2. Desenvolvimento — parte 1
 
 **[TELA]** Slides 4–7 — BIM é informação, IFC e GUID, as dimensões do BIM e a lei.
 
 > "BIM não é desenho 3D: é modelo de informação. Cada pilar é um objeto com um identificador, o GUID; o IFC, aberto, deixa os softwares conversarem. Ligou ao cronograma, 4D; a custos, 5D. E desde 2024 o Decreto 10.306 exige BIM no planejamento e controle das obras federais abrangidas."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
+### 3. Desenvolvimento — parte 2
 
 **[TELA]** Slides 8–11 — os três fluxos (drone, sensores, pendências), o 4D em 3D e a medição de avanço.
 
 > "Três fluxos chegam ao modelo: a nuvem do drone confirma o que existe; os sensores, pelo GUID, pintam o elemento pelo nível de alerta; e cada problema vira um tópico BCF. Arrasto a semana no 4D: o fantasma é o planejado, o sólido é o executado. E o avanço físico se pondera por pesos: fundações, estrutura, alvenaria, instalações."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
+### 4. Desenvolvimento — parte 3
 
 **[TELA]** Slides 12–16 — curva S prevista × realizada, a calculadora de valor agregado, a rotina semanal de integração e a malha fechada.
 
 > "A conta: avanço ponderado de 40,8% contra 45% previstos. Valor planejado, 9 milhões; agregado, 8,15; custo real, 8,6. IDP de 0,91: atrasada. IDC de 0,95: gastando mais do que agrega. Os 62% da reunião não param em pé. Com o modelo atualizado pelo canteiro e o engenheiro decidindo, fechamos a malha."
 
-### 5. Encerramento (3:10 – 3:35)
+### 5. Encerramento
 
 **[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
 
@@ -385,33 +385,33 @@ Para uma obra que você conheça, liste cinco riscos críticos do PGR e, para ca
 
 ## Aula 15 — Roteiro da Videoaula 15: "Rajada de 46 km/h na grua: a tecnologia vê o risco antes do acidente?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
+### 1. Abertura
 
 **[TELA]** Slides 1–3 — capa, sumário e a terça-feira dos três riscos.
 
 > "Rajada de 13 metros por segundo na grua, e o operador sem o número na cabine. Um caminhão de ré com o alarme desligado. Um trecho de guarda-corpo retirado no nono pavimento. A NR-18 trata de todos. Hoje, a tecnologia que ajuda a ver o risco antes do acidente."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
+### 2. Desenvolvimento — parte 1
 
 **[TELA]** Slides 4–7 — a estrutura da NR-18, o PGR, a hierarquia das medidas e a proteção coletiva.
 
 > "A NR-18 vigente exige o PGR no canteiro, feito por profissional habilitado e atualizado a cada etapa. A ordem das medidas é eliminar, proteger coletivamente, organizar e, por último, o EPI. Guarda-corpo de 1,2 metro desde a primeira laje. A tecnologia não substitui o guarda-corpo: avisa quando ele sumiu."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
+### 3. Desenvolvimento — parte 2
 
 **[TELA]** Slides 8–10 — a norma que já pede sensores, o anemômetro da grua, as cercas virtuais e os detectores de gases.
 
 > "A norma já pede sensor: alarme de ré, limitador de carga, anemômetro na grua com alarme acima de 42 quilômetros por hora. Treze metros por segundo são 46,8: precisa de análise de risco e permissão de trabalho. Acima de 72, proibido. Ligue isso à plataforma IoT e o encarregado vê no painel. Somo as etiquetas UWB, com cercas virtuais em torno das máquinas, e os detectores de gases."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:15)
+### 4. Desenvolvimento — parte 3
 
 **[TELA]** Slides 11–16 — o detector de EPI, precisão e revocação, o drone na inspeção, o TARP de segurança, a calculadora e a pausa para reflexão.
 
 > "A câmera detecta capacete e colete e pessoas dentro da zona de risco. Revocação de 85%, precisão de 75%: bom para avisar o encarregado, nunca para punir sozinho. O drone inspeciona bandejas, guarda-corpos e taludes sem expor ninguém. E pense: reconhecimento facial para cobrar capacete é prevenção ou vigilância?"
 
-### 5. Encerramento (3:15 – 3:40)
+### 5. Encerramento
 
 **[TELA]** Slides 17–18 — atividade, pontos-chave e encerramento.
 
@@ -506,33 +506,33 @@ O fio que amarra tudo é a **malha fechada**: medir, comparar com um limite, dec
 
 ## Aula 16 — Roteiro da Videoaula 16: "A senha do gateway era 'admin': o elo mais fraco do monitoramento"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 15 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
+### 1. Abertura
 
 **[TELA]** Slides 1–3 — capa, sumário e as duas perguntas da reunião.
 
 > "O sistema está no ar. A advogada pergunta se podemos filmar trabalhadores e a casa do vizinho. O pessoal de TI pergunta se a senha do gateway ainda é a de fábrica. Hoje, as duas respostas — e o fechamento da disciplina."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
+### 2. Desenvolvimento — parte 1
 
 **[TELA]** Slides 4–7 — dados pessoais no canteiro, bases legais, o trabalhador e a câmera com máscara de privacidade.
 
 > "Rosto, placa, quintal do vizinho, localização do trabalhador: tudo é dado pessoal. Biometria é sensível. Todo tratamento precisa de base legal — obrigação legal, contrato, proteção da vida, legítimo interesse — e de finalidade, necessidade e transparência. Com trabalhador, consentimento é frágil. Na prática: máscara de privacidade, desfoque, prazo de guarda, aviso, e detectar o EPI, não a pessoa."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:25)
+### 3. Desenvolvimento — parte 2
 
 **[TELA]** Slides 8–12 — confidencialidade, integridade e disponibilidade; a Mirai; a calculadora de senhas; MQTT com TLS; a rede segmentada.
 
 > "Aqui, a propriedade mais crítica é a integridade: leitura adulterada esconde recalque. Em 2016, a Mirai sequestrou centenas de milhares de câmeras testando senhas de fábrica. A senha de fábrica cai na primeira tentativa; uma senha aleatória de 12 caracteres levaria uns cem mil anos. MQTT sobre TLS na porta 8883, ACL por tópico, rede separada e firmware atualizado."
 
-### 4. Desenvolvimento — parte 3 (2:25 – 3:10)
+### 4. Desenvolvimento — parte 3
 
 **[TELA]** Slides 13–16 — resposta a incidentes e contrato, a calculadora (senha, multa e prazo), a jornada da disciplina e a malha fechada.
 
 > "Controlador, operador, encarregado e relatório de impacto. Vazou? Três dias úteis para comunicar a ANPD: soube na quinta, comunica até terça. Multa de até 2% do faturamento, com teto de 50 milhões. E olha a jornada: voo, fotogrametria, sensores, redes, painéis, BIM, segurança e dados."
 
-### 5. Encerramento (3:10 – 3:50)
+### 5. Encerramento
 
 **[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento da disciplina.
 
@@ -546,12 +546,12 @@ O fio que amarra tudo é a **malha fechada**: medir, comparar com um limite, dec
 
 Um inclinômetro tem nível de atenção em $10\,\mathrm{mm}$. Suas leituras oscilam com ruído de cerca de $\pm 0{,}3\,\mathrm{mm}$ em torno desse valor (9,8; 10,1; 9,9; 10,2; 9,9; 10,1 mm), e a equipe recebe uma notificação a cada cruzamento. Assinale a alternativa **correta**:
 
-- [ ] a. A solução é elevar o nível de atenção para 12 mm, pois limites próximos das leituras atuais sempre geram alarmes falsos.
-- [ ] b. A solução é desligar as notificações de atenção e manter apenas as de alarme, que são as únicas que exigem ação.
-- [x] c. Uma histerese (entrar em 10,0 mm e sair só abaixo de 9,5 mm), somada a um período de persistência, reduz as notificações a uma só, sem alterar o limite de projeto.
-- [ ] d. O problema é do Grafana, que não consegue representar limites; é preciso trocar a ferramenta de painel.
+a) A solução é elevar o nível de atenção para 12 mm, pois limites próximos das leituras atuais sempre geram alarmes falsos.
+b) A solução é desligar as notificações de atenção e manter apenas as de alarme, que são as únicas que exigem ação.
+c) Uma histerese (entrar em 10,0 mm e sair só abaixo de 9,5 mm), somada a um período de persistência, reduz as notificações a uma só, sem alterar o limite de projeto.
+d) O problema é do Grafana, que não consegue representar limites; é preciso trocar a ferramenta de painel.
 
-**Resposta correta:** `c`
+**Resposta correta:** c)
 
 **Feedback:** A alternativa (c) está correta: com histerese de 0,5 mm, o sensor entra em atenção na leitura de 10,1 mm e só sai abaixo de 9,5 mm, de modo que o ruído em torno do limite não faz o alerta "piscar"; a persistência (o *pending period* do Grafana) exige que a condição dure antes de notificar. O limite continua o que o projeto definiu. A (a) muda o critério técnico para esconder um problema de ruído — o limite vem do projeto, não do incômodo. A (b) elimina o nível que serve justamente para agir **antes** do alarme. A (d) está errada: o Grafana representa limites (*thresholds*) e regras de alerta com período pendente; o problema é a configuração da regra.
 
@@ -559,12 +559,12 @@ Um inclinômetro tem nível de atenção em $10\,\mathrm{mm}$. Suas leituras osc
 
 Uma construtora quer usar câmeras com **reconhecimento facial** em todas as frentes para identificar quem está sem capacete e aplicar advertências automáticas. Considerando a NR-18 e a LGPD, assinale a alternativa **correta**:
 
-- [ ] a. Como a finalidade é a segurança do trabalho, a LGPD não se aplica às imagens dos trabalhadores dentro do canteiro.
-- [x] b. Reconhecimento facial trata dado biométrico, sensível; como existe alternativa menos invasiva — detectar o capacete sem identificar a pessoa e alertar o encarregado —, os princípios da necessidade e da finalidade apontam para ela.
-- [ ] c. O uso de câmeras com IA dispensa a proteção coletiva exigida pela NR-18, pois o risco passa a ser controlado pela detecção automática.
-- [ ] d. Basta colher o consentimento dos trabalhadores na admissão, que é sempre a base legal mais adequada na relação de emprego.
+a) Como a finalidade é a segurança do trabalho, a LGPD não se aplica às imagens dos trabalhadores dentro do canteiro.
+b) Reconhecimento facial trata dado biométrico, sensível; como existe alternativa menos invasiva — detectar o capacete sem identificar a pessoa e alertar o encarregado —, os princípios da necessidade e da finalidade apontam para ela.
+c) O uso de câmeras com IA dispensa a proteção coletiva exigida pela NR-18, pois o risco passa a ser controlado pela detecção automática.
+d) Basta colher o consentimento dos trabalhadores na admissão, que é sempre a base legal mais adequada na relação de emprego.
 
-**Resposta correta:** `b`
+**Resposta correta:** b)
 
 **Feedback:** A alternativa (b) está correta: biometria é dado sensível (art. 5º, II, da LGPD), e os princípios da finalidade e da necessidade (art. 6º) pedem o mínimo de dados para o objetivo; detectar o EPI sem identificar a pessoa atinge a finalidade de segurança com muito menos risco. A (a) está errada: a LGPD se aplica a qualquer tratamento de dado pessoal, inclusive no ambiente de trabalho. A (c) inverte a hierarquia das medidas: a NR-01 e a NR-18 põem a proteção coletiva antes, e a tecnologia apenas verifica. A (d) ignora que, na relação de emprego, o consentimento é frágil, pois o trabalhador dificilmente se sente livre para recusar.
 
@@ -572,23 +572,23 @@ Uma construtora quer usar câmeras com **reconhecimento facial** em todas as fre
 
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual]_
 
 - **Nome do livro:** 
 - **Capítulo:** 
-- **Link de acesso (BV):** 
+- **Link de acesso:** 
 - **Qual aula o material deverá entrar?** 
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Recomendo o webinar **"Digitalização BIM da SE Mirueira II: Scan-to-BIM e Gêmeos Digitais"**, do canal do BIM Fórum Brasil, no YouTube. Ele mostra um caso brasileiro real de captura da realidade de uma subestação de energia, da nuvem de pontos ao modelo BIM e ao gêmeo digital. Assista com o olhar da Aula 14: como a nuvem foi registrada? Que informação ficou presa a cada elemento? O resultado é modelo, sombra ou gêmeo digital? Para conferir o enquadramento legal do BIM nas obras públicas, complemente com a página da Estratégia BIM BR, do MDIC.
 
 - **Links:** https://www.youtube.com/watch?v=QFRG0KoirtI · https://www.gov.br/mdic/pt-br/assuntos/sdic/building-information-modelling-bim
 - **Qual aula o material deverá entrar?** Aula 14
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > No episódio 47 do **Podcast Em Construção**, o professor Fabiano Corrêa (USP) e a professora Tatiana Amaral (UFG) discutem as **aplicações dos gêmeos digitais na construção civil** — desafios e oportunidades para engenheiros, arquitetos e gestores. Retoma a distinção entre modelo, sombra e gêmeo digital à luz da integração de BIM, sensores, painéis e planejamento desta unidade. O episódio tem cerca de 49 minutos; para esta curadoria, ouça os **primeiros 45 minutos**.
 
@@ -603,5 +603,4 @@ Uma construtora quer usar câmeras com **reconhecimento facial** em todas as fre
 
 - **Link:** https://doi.org/10.1017/dce.2020.16
 - **Qual aula o material deverá entrar?** Aulas 13 e 14
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.
+- **Referência bibliográfica do artigo no formato ABNT:** SACKS, Rafael; BRILAKIS, Ioannis; PIKAS, Ergo; XIE, Haiyan Sally; GIROLAMI, Mark. Construction with digital twin information systems. **Data-Centric Engineering**, v. 1, e14, 2020. DOI: 10.1017/dce.2020.16.

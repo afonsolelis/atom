@@ -116,34 +116,29 @@ Baixe um conjunto de dados de exemplo do OpenDroneMap que traga arquivo de GCPs.
 
 ## Aula 5 — Roteiro da Videoaula 5: "Como 330 fotos viram um modelo 3D — e por que ele pode estar 18 cm fora do lugar?"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 16 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–4 — capa, sumário, "o que você verá nesta unidade" e os 18 cm na cota de um marco.
 
 > "As 330 fotos do plano da Aula 4 viraram um modelo 3D lindo. Aí a topografia confere um marco no meio do canteiro: 18 centímetros de diferença na cota. O modelo está certo ou errado? Hoje a gente vai entender como fotos sobrepostas viram 3D e como amarrar esse modelo ao terreno de um jeito que dá para provar."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 5–8 — interseção de raios, colinearidade, multiplicidade e a base efetiva.
 
 > "O princípio é a interseção de raios: cada pixel define um raio, e o mesmo ponto visto em várias fotos fica onde os raios se cruzam. A matemática são as equações de colinearidade, com a orientação exterior de cada foto e a calibração da câmera. E é aqui que a sobreposição da Aula 4 se justifica: com 80 e 70%, cada ponto aparece em umas 16 fotos. Com um par vizinho, a precisão vertical seria de uns 4,8 centímetros; com as fotos mais distantes da faixa, cai para 1,2."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 9–12 — os 4 passos do SfM, onde ele tropeça, georreferenciamento indireto × direto e o efeito de domo em 3D.
 
 > "O Structure from Motion detecta feições, encontra os pontos homólogos, faz o ajustamento por feixes — que calcula câmeras, calibração e a nuvem esparsa — e densifica. Mas só com as fotos ele não sabe onde o modelo está, e ainda pode embarrigar: é o efeito de domo. Para amarrar, dois caminhos: pontos de controle no terreno, o georreferenciamento indireto, ou a posição exata de cada foto por RTK ou PPK, o direto."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 13–16 — GCP × checkpoint, a distribuição dos alvos, o fluxo no OpenDroneMap e no Metashape e o relatório de qualidade.
 
 > "Os GCPs são alvos medidos em campo que entram no ajustamento; os checkpoints são medidos igual, mas não entram: servem para provar. Usar os mesmos pontos é corrigir a própria prova. No OpenDroneMap ou no Metashape, o fluxo é importar, alinhar, marcar os alvos, gerar os produtos e ler o relatório. E no relatório, o número que manda é o erro nos checkpoints, não o erro de reprojeção."
 
-### 5. Encerramento (3:15 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 17–18 — atividade e pontos-chave, e encerramento.
 
 > "Processe um conjunto de exemplo com e sem pontos de controle e compare os checkpoints. Na próxima aula, a gente abre a caixa-preta do GNSS: de onde vêm os erros, RTK ou PPK, e como provar, com RMSE e PEC-PCD, a exatidão de um produto. Te espero na Aula 6!"
@@ -250,34 +245,29 @@ Baixe, no portal do IBGE, os dados de um dia de uma estação da RBMC próxima d
 
 ## Aula 6 — Roteiro da Videoaula 6: "O drone dizia 'FIX', mas a obra inteira estava 2 metros ao lado: o que o GNSS não te conta"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 16 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:30)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e o ortomosaico perfeito, 1,5 m ao lado e 2,8 m acima do projeto.
 
 > "O drone mostrou FIX o voo inteiro, o ortomosaico ficou impecável e as distâncias batiam com a trena. Mas a obra inteira estava um metro e meio ao lado e quase três metros acima. Hoje a gente abre a caixa-preta do GNSS e aprende a provar, com números, que um produto está no lugar certo."
 
-### 2. Desenvolvimento — parte 1 (0:30 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — pseudodistância e os 4 satélites, as fontes de erro, o PDOP no céu simulado e a ionosfera no Brasil.
 
 > "O receptor mede pseudodistâncias: tempo de propagação vezes a velocidade da luz. Um microssegundo de erro no relógio são 300 metros — por isso, quatro satélites. Somam-se órbitas, relógios, ionosfera, troposfera e multicaminho, multiplicados pela geometria, o PDOP. Resultado: metros. E no Brasil a ionosfera pesa mais, por causa da anomalia equatorial; no canteiro, grua e fachada geram multicaminho."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — posicionamento relativo, FIX × FLOAT, RTK × PPK (NTRIP, RBMC) e o erro da base que desloca tudo.
 
 > "No posicionamento relativo, base e rover veem os mesmos satélites e os erros comuns se cancelam. Resolvida a ambiguidade da fase, a solução é fixa, de centímetros. O RTK corrige em tempo real, por rádio ou NTRIP; o PPK corrige depois, com uma base local ou a RBMC. Mas o rover é calculado em relação à base: base errada, levantamento inteiro errado. Foi o gancho."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–16 — SIRGAS2000 e UTM, altura elipsoidal × altitude, RMSE e média, PEC-PCD e a tabela dos 5 checkpoints.
 
 > "O referencial é o SIRGAS2000; a altitude do projeto não é a altura elipsoidal do GNSS: a diferença é a ondulação geoidal, que no Brasil chega a dezenas de metros. A exatidão se prova nos checkpoints, com RMSE e média. No exemplo, 1,69 centímetro na horizontal e 2,56 na vertical, sem viés: Classe A do PEC-PCD na escala 1:500 e curvas de nível de 20 centímetros."
 
-### 5. Encerramento (3:15 – 3:40)
-
+### 5. Encerramento
 **[TELA]** Slides 17–18 — atividade e pontos-chave, e encerramento.
 
 > "Submeta dados da RBMC ao IBGE-PPP e converta uma altura elipsoidal em altitude. Na próxima aula, com o modelo no lugar certo, a gente gera ortomosaico, MDS, MDT e nuvem de pontos — e vê o laser que enxerga o chão debaixo da mata. Te espero na Aula 7!"
@@ -392,34 +382,29 @@ Baixe um conjunto de dados de exemplo do OpenDroneMap já processado (ortomosaic
 
 ## Aula 7 — Roteiro da Videoaula 7: "Uma foto aérea não é um mapa: ortomosaico, MDS, MDT e o laser que enxerga o chão sob a mata"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 16 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e os três pedidos: área executada, pilha de brita e encosta com mata.
 
 > "Três pedidos na segunda-feira: a área executada no mês, o volume da pilha de brita e o terreno de uma encosta coberta de mata. Todos dizem 'me manda o levantamento do drone'. Mas qual produto? Hoje você vai aprender o que sai do processamento e o que cada produto responde."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — os quatro produtos, a nuvem e suas classes, o deslocamento devido ao relevo e o ortomosaico.
 
 > "Da nuvem densa saem quatro produtos. A nuvem de pontos, com classes como solo, vegetação e edificação. O ortomosaico: uma foto crua não é mapa, porque o topo de um prédio de 30 metros, a 40 do nadir, sai 17 metros deslocado. Ortorretificada, a imagem ganha escala constante — é o produto do avanço físico."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:20)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — MDS × MDT, o canteiro em 3D com a pilha que fica e a máquina que sai, e o LiDAR com múltiplos retornos.
 
 > "O MDS é a primeira superfície; o MDT, o solo nu. MDS menos MDT é a altura dos objetos. Filtrar não é apagar o que é alto: a pilha fica, a máquina sai. E debaixo da mata a câmera não vê o chão: o LiDAR, com múltiplos retornos, passa pelas frestas. A 80 metros, 240 quilohertz e 8 metros por segundo, uns 268 pontos por metro quadrado."
 
-### 4. Desenvolvimento — parte 3 (2:20 – 3:10)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–14 — LiDAR × fotogrametria, os produtos no QGIS e a pausa para reflexão.
 
 > "LiDAR não é sempre melhor: não tem cor e custa mais. No QGIS, tudo no mesmo projeto: SRC, sombreamento, perfil e calculadora raster. E a pausa para reflexão: para os três pedidos, que produto, que sensor e que erro custaria mais caro?"
 
-### 5. Encerramento (3:10 – 3:35)
-
+### 5. Encerramento
 **[TELA]** Slides 15–16 — atividade, pontos-chave e encerramento.
 
 > "Abra um conjunto de exemplo no QGIS e gere o seu primeiro MDS menos MDT. Na próxima aula, esses modelos viram metros cúbicos, curvas de nível e a resposta à pergunta mais cara da obra: o executado bate com o projeto? Te espero na Aula 8!"
@@ -521,34 +506,29 @@ Na **Unidade 3 — Sensores IoT e Redes de Comunicação**, o foco desce do céu
 
 ## Aula 8 — Roteiro da Videoaula 8: "48.200 ou 46.900 m³? Quem tem razão na medição de terraplenagem por drone"
 
-**Duração: 3 a 4 minutos** (versão-guia resumida, para orientar a sequência dos slides). **A versão a gravar é a fala integral de `roteiros_15min.md`, com 16 a 18 minutos.** As marcações **[TELA]** indicam os slides de `slides/aulaN.html`.
+Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicação prática (o texto base traz a fundamentação teórica). As marcações **[TELA]** indicam os slides da apresentação da aula.
 
-### 1. Abertura (0:00 – 0:25)
-
+### 1. Abertura
 **[TELA]** Slides 1–3 — capa, sumário e as pilhas: 48.200 × 46.900 m³ e a plataforma no greide?
 
 > "A empreiteira mede 48.200 metros cúbicos com drone; a fiscalização, 46.900. E a projetista quer saber se a plataforma já está no greide. Hoje a gente calcula volume, gera curvas de nível e compara o projetado com o executado — sempre com a incerteza na mesma tela."
 
-### 2. Desenvolvimento — parte 1 (0:25 – 1:20)
-
+### 2. Desenvolvimento — parte 1
 **[TELA]** Slides 4–7 — volume como soma de prismas, as oito células contra o greide, a pilha e o empolamento.
 
 > "Volume é a soma de delta z vezes a área de cada célula, contra uma referência: o greide, o levantamento anterior ou um plano de base. Corte e aterro separados. Oito células de 100 metros quadrados: 435 de corte e 145 de aterro. Com 25% de empolamento, 543,8 soltos, ou 46 viagens de caminhão."
 
-### 3. Desenvolvimento — parte 2 (1:20 – 2:15)
-
+### 3. Desenvolvimento — parte 2
 **[TELA]** Slides 8–11 — δV ≈ A · δz, curvas de nível, equidistância × exatidão e declividade.
 
 > "Erro aleatório se compensa; viés vira volume: 3 centímetros em 2 hectares são 600 metros cúbicos. As curvas de nível saem do MDT, e a equidistância tem que caber na exatidão: com RMSE de 2,56 centímetros, curvas de 20. Curvas de 10 centímetros seriam desenhar ruído."
 
-### 4. Desenvolvimento — parte 3 (2:15 – 3:15)
-
+### 4. Desenvolvimento — parte 3
 **[TELA]** Slides 12–15 — mapa de desvios, a regra conforme/inconclusivo/não conforme, o fluxo no QGIS e quem está certo na medição.
 
 > "O mapa de desvios é o MDT menos o projeto, em cores. Com tolerância de 5 e incerteza de 3 centímetros: desvio de 2, conforme; de 7, inconclusivo; de 12, não conforme. E a briga do começo: 3 centímetros em 4 hectares são 1.200 metros cúbicos. Talvez ninguém esteja errado. Resolve o contrato: mesma referência, MDT, checkpoints, tolerância e arbitragem."
 
-### 5. Encerramento (3:15 – 3:45)
-
+### 5. Encerramento
 **[TELA]** Slides 16–18 — atividade e pontos-chave, fechamento da Unidade 2, prévia da Unidade 3 e encerramento.
 
 > "Com isso, você fecha a Unidade 2: da foto ao modelo georreferenciado, à exatidão provada, aos produtos e aos metros cúbicos. Na Unidade 3, os sensores IoT e as redes que trazem os dados do canteiro. Te espero na Aula 9!"
@@ -561,12 +541,12 @@ Na **Unidade 3 — Sensores IoT e Redes de Comunicação**, o foco desce do céu
 
 Num levantamento com drone RTK, todos os cinco checkpoints apresentaram resíduos (modelo − campo) muito parecidos: cerca de $+1{,}5\,\mathrm{m}$ em $X$ e $+2{,}8\,\mathrm{m}$ em $Z$, com variação de apenas 2 cm entre eles. O drone registrou solução fixa o voo inteiro, e a base foi instalada sobre um ponto cujas coordenadas vieram do próprio receptor, em modo autônomo. Assinale a alternativa **correta**:
 
-- [ ] a. O levantamento é impreciso, porque a solução RTK fixa não alcança exatidão melhor que alguns metros.
-- [ ] b. Como a dispersão entre os checkpoints é de só 2 cm, o levantamento é exato e pode ser usado sem correção.
-- [x] c. O levantamento é preciso, mas tem viés: o erro da coordenada da base se transmitiu a todo o levantamento, e a base deve ser recalculada (por exemplo, com IBGE-PPP ou RBMC).
-- [ ] d. O problema é o multicaminho no drone, que só se resolve aumentando o número de pontos de controle no processamento.
+a) O levantamento é impreciso, porque a solução RTK fixa não alcança exatidão melhor que alguns metros.
+b) Como a dispersão entre os checkpoints é de só 2 cm, o levantamento é exato e pode ser usado sem correção.
+c) O levantamento é preciso, mas tem viés: o erro da coordenada da base se transmitiu a todo o levantamento, e a base deve ser recalculada (por exemplo, com IBGE-PPP ou RBMC).
+d) O problema é o multicaminho no drone, que só se resolve aumentando o número de pontos de controle no processamento.
 
-**Resposta correta:** `c`
+**Resposta correta:** c)
 
 **Feedback:** A alternativa (c) está correta: no posicionamento relativo, o rover é calculado **em relação à base**; se a base estiver numa coordenada autônoma, com erro de metros, todo o levantamento se desloca do mesmo valor — os resíduos são grandes, mas quase iguais entre si: **preciso, mas com viés**. A solução é obter a coordenada correta da base (vértice conhecido, pós-processamento com a RBMC ou IBGE-PPP) e reprocessar. A (a) erra: a solução fixa dá centímetros **em relação à base**. A (b) confunde precisão (dispersão) com exatidão (proximidade do valor verdadeiro). A (d) é falsa: o multicaminho gera erros variáveis, não um deslocamento idêntico em todos os pontos, e a causa aqui é a coordenada da base.
 
@@ -574,12 +554,12 @@ Num levantamento com drone RTK, todos os cinco checkpoints apresentaram resíduo
 
 Numa terraplenagem, o volume mensal escavado é obtido comparando o MDT do mês com o do mês anterior. Os checkpoints do levantamento atual mostram resíduos verticais (modelo − campo) de $+3$ a $+4\,\mathrm{cm}$, todos positivos, com média de $+3{,}2\,\mathrm{cm}$, numa frente de 3 ha. Assinale a alternativa **correta**:
 
-- [ ] a. Como o $RMSE_z$ fica abaixo de 5 cm, o levantamento é exato e o volume pode ser usado sem qualquer correção.
-- [ ] b. Erros de cota sempre se compensam em áreas grandes, de modo que o efeito sobre o volume é desprezível.
-- [ ] c. O problema se resolve trocando o MDT pelo MDS, que tem mais pontos e representa melhor a superfície do terreno.
-- [x] d. Há um viés vertical: em 3 ha, 3,2 cm equivalem a cerca de 960 m³, e a causa (GCPs, base RTK, altura de antena, referencial de altitude) deve ser investigada.
+a) Como o $RMSE_z$ fica abaixo de 5 cm, o levantamento é exato e o volume pode ser usado sem qualquer correção.
+b) Erros de cota sempre se compensam em áreas grandes, de modo que o efeito sobre o volume é desprezível.
+c) O problema se resolve trocando o MDT pelo MDS, que tem mais pontos e representa melhor a superfície do terreno.
+d) Há um viés vertical: em 3 ha, 3,2 cm equivalem a cerca de 960 m³, e a causa (GCPs, base RTK, altura de antena, referencial de altitude) deve ser investigada.
 
-**Resposta correta:** `d`
+**Resposta correta:** d)
 
 **Feedback:** A alternativa (d) está correta: resíduos todos de mesmo sinal, com média próxima do próprio RMSE, revelam **erro sistemático**, que não se compensa e vira volume diretamente: $\delta V \approx A \cdot \delta z = 30.000 \times 0{,}032 = 960\,\mathrm{m^3}$. A (a) confunde atender a um limite de RMSE com ausência de viés. A (b) só vale para erros **aleatórios**. A (c) piora o problema: o MDS inclui máquinas e vegetação, que viram volume falso.
 
@@ -587,7 +567,7 @@ Numa terraplenagem, o volume mensal escavado é obtido comparando o MDT do mês 
 
 ## Material complementar
 
-### Direto da fonte — livro da Biblioteca Virtual
+### Direto da fonte (livro da Biblioteca Virtual)
 
 > _[PENDENTE — aguardando acesso à Biblioteca Virtual]_ Sugestão: verificar na BV a disponibilidade de COELHO e BRITO, *Fotogrametria digital* (EdUERJ), ou de MONICO, *Posicionamento pelo GNSS* (Editora UNESP), bibliografia da ementa para esta unidade.
 
@@ -596,14 +576,14 @@ Numa terraplenagem, o volume mensal escavado é obtido comparando o MDT do mês 
 - **Link de acesso:** 
 - **Qual aula o material deverá entrar?** Aulas 5 e 6
 
-### Para mergulhar no assunto
+### Para mergulhar no assunto (saiba mais)
 
 > Recomendo a **"Aula 1 — Fotogrametria e drones em geociências"**, do canal do SPAMLab (Instituto de Astronomia, Geofísica e Ciências Atmosféricas da USP), no YouTube: a primeira aula, gravada em português, de uma disciplina de pós-graduação sobre fotogrametria e drones aplicados às geociências. É uma aula longa (cerca de 1h20): assista acompanhando as Aulas 5 e 7 e anote onde aparecem sobreposição, pontos de controle, georreferenciamento e os produtos do processamento. Para praticar, use a documentação do OpenDroneMap, software livre de processamento sugerido na ementa, que traz conjuntos de dados de exemplo.
 
 - **Links:** https://www.youtube.com/watch?v=_YEmntlFf7E · https://docs.opendronemap.org/
 - **Qual aula o material deverá entrar?** Aulas 5 e 7
 
-### Podcast (curadoria, até 45 min)
+### Podcast (curadoria | até 45 min)
 
 > No episódio #2 do **Nuvem Cast**, do canal Nuvem UAV, a pergunta é direta: **"Topografia com drones realmente funciona?"**. Os convidados são os professores Antonio Tommaselli e João Francisco Galera Monico — este último, autor do livro *Posicionamento pelo GNSS*, da bibliografia desta unidade. Ouça com o olhar crítico das Aulas 5 e 6: em que condições a topografia com drone entrega exatidão de engenharia? Que papel têm os pontos de controle, o GNSS e a verificação independente? O episódio completo tem cerca de 1h14; para esta curadoria, ouça os **primeiros 45 minutos**.
 
@@ -618,5 +598,4 @@ Numa terraplenagem, o volume mensal escavado é obtido comparando o MDT do mês 
 
 - **Link:** https://doi.org/10.1016/j.autcon.2014.01.004
 - **Qual aula o material deverá entrar?** Aulas 5, 7 e 8
-- **Referência bibliográfica do artigo no formato ABNT:**
-  > SIEBERT, Sebastian; TEIZER, Jochen. Mobile 3D mapping for surveying earthwork projects using an Unmanned Aerial Vehicle (UAV) system. **Automation in Construction**, Amsterdam, v. 41, p. 1-14, maio 2014. DOI: 10.1016/j.autcon.2014.01.004.
+- **Referência bibliográfica do artigo no formato ABNT:** SIEBERT, Sebastian; TEIZER, Jochen. Mobile 3D mapping for surveying earthwork projects using an Unmanned Aerial Vehicle (UAV) system. **Automation in Construction**, Amsterdam, v. 41, p. 1-14, maio 2014. DOI: 10.1016/j.autcon.2014.01.004.
