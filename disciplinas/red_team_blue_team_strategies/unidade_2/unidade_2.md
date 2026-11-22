@@ -1,924 +1,884 @@
-# Unidade 2 — Red Team: operações ofensivas controladas
+# Unidade 2 — Técnicas Ofensivas em Ambiente Controlado
 
 Disciplina: Red Team & Blue Team Strategies  
 Professor-conteudista: Afonso Cesar Lelis Brandão  
 Prazo de entrega: 02/12/2026  
 Template de origem: `documentos/Unidade 2/TEMPLATE - Unidade 2_nome da disciplina.docx`
 
-> Versão de trabalho baseada na **ementa proposta** (`EMENTA.md`); ajustar quando o plano de aprendizagem oficial chegar.
+> Versão alinhada à **ementa oficial** enviada pela coordenação em 18/11/2026 (`EMENTA.md`).
 > Recursos visuais indicados entre colchetes, como pede o template; a equipe de produção substitui pelas imagens finais.
+> Todos os laboratórios acontecem contra a plataforma fictícia Rede Tatame, dentro do escopo da carta de autorização do exercício. Nenhum trecho traz código de exploração, *payload* ou comando real de evasão.
 
-## Aula 5 — Reconhecimento e OSINT
+## Aula 5 — Reconhecimento e enumeração de serviços e usuários
 
 ### O que você verá nesta unidade
 
-Nesta unidade, você vai vestir a camisa vermelha — sempre dentro de um engajamento autorizado. Vamos percorrer, em nível conceitual, as etapas de uma operação ofensiva controlada: o reconhecimento e a inteligência de fontes abertas (OSINT), que revelam o que a organização expõe sem perceber; a varredura, a enumeração e a gestão de vulnerabilidades, com a priorização por risco usando CVSS, EPSS e o catálogo KEV; a engenharia social e as simulações de *phishing* voltadas à conscientização; e a pós-exploração, a movimentação lateral e o relatório de Red Team. O objetivo é que você compreenda como um adversário avança e, principalmente, que rastro cada passo deixa para o Blue Team. A justificativa é simples: ninguém detecta bem aquilo que não entende, e é o Red Team que transforma a ameaça abstrata em evidência concreta para a defesa.
+Nesta unidade, você acompanha por dentro um exercício autorizado de Red Team contra a Rede Tatame, a plataforma fictícia da disciplina, sempre em laboratório e dentro do escopo assinado. Vamos percorrer as técnicas ofensivas na ordem em que um adversário as usaria: o reconhecimento e a enumeração de serviços e usuários; a exploração de vulnerabilidades e a obtenção de acesso inicial, com a priorização por CVSS, EPSS e KEV, a verificação controlada no Metasploit e o *phishing* como vetor; a escalada de privilégios, a movimentação lateral e a persistência; e, por fim, a evasão básica de defesas e a limpeza de rastros, estudadas pelo rastro que deixam para o defensor, junto com o relatório da operação. O objetivo é que você saiba planejar e executar cada etapa em ambiente controlado e, principalmente, reconhecer que evidência cada passo produz para o Blue Team. A justificativa é direta: só detecta bem quem entende como o adversário avança, e é o exercício ofensivo autorizado que transforma uma ameaça abstrata em evidência concreta para a defesa.
 
 ### Texto base
 
-Antes de enviar um único pacote para a rede de uma empresa, um adversário competente já sabe muito sobre ela: quais domínios possui, quais tecnologias usa, quem trabalha no financeiro, qual é o formato dos endereços de *e-mail* e quais serviços estão expostos na internet. Essa fase é o **reconhecimento**, a primeira etapa da Cyber Kill Chain e a tática TA0043 (*Reconnaissance*) da matriz MITRE ATT&CK, estudadas na Unidade 1. Em uma operação de Red Team, ela define o caminho de todo o restante do trabalho.
+Antes de enviar um único pacote para a rede de uma empresa, um adversário competente já sabe muito sobre ela: quais domínios possui, quais tecnologias usa, quem trabalha na TI, qual é o formato dos endereços de *e-mail* e quais serviços estão expostos na internet. Essa fase é o **reconhecimento**, a tática TA0043 (*Reconnaissance*) da matriz MITRE ATT&CK estudada na Unidade 1. Na Rede Tatame, ela abre o exercício autorizado de novembro de 2026, conduzido pelo Red Team de Bruno Sato com carta assinada pela CISO, Marina Prado.
 
 #### Reconhecimento passivo e ativo
 
-O reconhecimento pode ser **passivo** ou **ativo**. No passivo, a equipe consulta apenas fontes de terceiros — buscadores, registros públicos, redes sociais, bases de certificados — sem interagir diretamente com os sistemas do alvo. No ativo, há interação: consultas aos servidores DNS da empresa, visitas ao *site*, varreduras de portas (técnica T1595 — *Active Scanning*). A diferença é importante por dois motivos. O primeiro é jurídico: o reconhecimento ativo toca ativos que precisam estar no escopo autorizado. O segundo é defensivo: o passivo praticamente não deixa rastro no ambiente do alvo, enquanto o ativo pode ser registrado.
+No reconhecimento **passivo**, a equipe consulta apenas fontes de terceiros, sem interagir com os sistemas do alvo. É o território da OSINT (*Open Source Intelligence*), a inteligência de fontes abertas:
+
+| Fonte | O que revela | Técnica ATT&CK |
+|---|---|---|
+| Transparência de certificados, DNS público, WHOIS | Subdomínios, servidores de *e-mail*, provedores | T1596 — *Search Open Technical Databases* |
+| *Sites*, vagas e redes sociais | Organograma, cargos, tecnologias usadas | T1593 — *Search Open Websites/Domains*; T1591 — *Gather Victim Org Information* |
+| Endereços de *e-mail* e nomes | Padrão de *e-mail*, pessoas-alvo | T1589 — *Gather Victim Identity Information* |
+
+No reconhecimento **ativo**, há interação: consultas ao DNS da empresa, visitas ao *site* e varreduras de portas (T1595 — *Active Scanning*). A diferença pesa duas vezes. Juridicamente, o ativo toca ativos que precisam constar da autorização. Para a defesa, o passivo praticamente não deixa rastro no ambiente do alvo, enquanto o ativo pode ser registrado.
 
 [Imagem 1 — Ilustração de uma lupa sobre um mapa de rede com ícones de domínios, pessoas e servidores. Texto alternativo: "Lupa sobre um mapa com domínios, pessoas e servidores de uma empresa, representando o reconhecimento". Sugestão de busca no Envato: "magnifying glass network map cyber".]
 
-#### OSINT: a inteligência que está à vista de todos
+#### Kali Linux: a bancada do laboratório
 
-**OSINT** (*Open Source Intelligence*) é a coleta e a análise de informações disponíveis publicamente para produzir conhecimento útil. Para um Red Team, as principais fontes são:
+O **Kali Linux**, mantido pela OffSec, é uma distribuição baseada no Debian que reúne centenas de ferramentas de teste de segurança. Em um exercício, ele roda em uma máquina dedicada da equipe, cujo endereço de origem consta da autorização; na Tatame, a máquina virtual `lab-tatame`. A ferramenta não legitima nada: o que torna a ação legítima é o documento que define redes, janela de horário e origem.
 
-| Fonte | O que revela | Exemplo de ferramenta ou serviço | Técnica ATT&CK relacionada |
-|---|---|---|---|
-| DNS e registros de domínio | Subdomínios, servidores de *e-mail*, provedores | Consultas WHOIS e DNS | T1596 — *Search Open Technical Databases* |
-| Transparência de certificados | Subdomínios que receberam certificados TLS | crt.sh | T1596 |
-| Buscadores de dispositivos | Serviços e versões expostos na internet | Shodan, Censys | T1596 |
-| *Sites* e redes sociais | Organograma, cargos, tecnologias citadas em vagas | LinkedIn, *site* institucional | T1593 — *Search Open Websites/Domains*; T1591 — *Gather Victim Org Information* |
-| Endereços de *e-mail* e nomes | Padrão de *e-mail*, alvos para engenharia social | theHarvester | T1589 — *Gather Victim Identity Information* |
-| Repositórios de código | Configurações, nomes de servidores, segredos esquecidos | Buscas em repositórios públicos | T1593 |
+#### Varredura e descoberta de serviços
 
-Ferramentas como o **Maltego** ajudam a relacionar essas informações em grafos, mostrando, por exemplo, que um subdomínio esquecido aponta para um servidor de homologação mantido por um fornecedor.
+O **Nmap** é a ferramenta clássica de varredura. A opção `-sn` apenas descobre quais *hosts* estão ativos. A varredura **SYN** (`-sS`, padrão quando o Nmap roda com privilégio de administrador) envia um pacote SYN a cada porta e não completa o *handshake* TCP: se volta SYN/ACK, a porta está **aberta** (*open*); se volta RST, está **fechada** (*closed*); se nada volta, um *firewall* descartou o pacote e a porta aparece como **filtrada** (*filtered*). A varredura *connect* (`-sT`) completa a conexão e, por isso, aparece mais nos registros das aplicações. A opção `-sV` conversa com cada serviço aberto para identificar o programa e a versão.
 
-[Imagem 2 — Grafo de relacionamento com o domínio da empresa no centro, ligado a subdomínios, endereços IP, pessoas e tecnologias. Texto alternativo: "Grafo de OSINT ligando domínio, subdomínios, IPs, funcionários e tecnologias". Sugestão de busca no Envato: "link analysis graph network nodes".]
+Feita de fora, a varredura é T1595. Feita de dentro da rede, pertence à tática Descoberta (TA0007), como T1046 — *Network Service Discovery*.
 
-#### Superfície de ataque e *shadow IT*
+[Imagem 2 — Diagrama comparando o *handshake* TCP completo (SYN, SYN/ACK, ACK) com a varredura de meia abertura (SYN, SYN/ACK, RST) e com a porta fechada (SYN, RST/ACK). Texto alternativo: "Três sequências de pacotes TCP mostrando porta aberta, porta fechada e a varredura SYN". Pode ser recriado pela equipe de produção.]
 
-O produto do reconhecimento é um retrato da **superfície de ataque externa**: tudo o que um adversário poderia tentar atingir. É comum que esse retrato revele ativos que a própria área de TI desconhece — um painel de administração publicado por uma agência de *marketing*, um ambiente de testes antigo em nuvem, um serviço de acesso remoto sem segundo fator. Esse fenômeno é chamado de *shadow IT*, e encontrá-lo é, muitas vezes, o resultado mais valioso da fase de reconhecimento. Lembre-se da função Identificar do NIST CSF 2.0: não se protege nem se monitora um ativo que ninguém sabe que existe.
+#### Enumeração de serviços e de usuários
 
-#### Limites éticos e legais do OSINT
+A **enumeração** aprofunda a varredura e extrai dos serviços informações como versões, nomes de domínio, compartilhamentos e contas. Um servidor LDAP, por exemplo, informa a qualquer cliente o nome do domínio do Active Directory e seu nível funcional.
 
-"Informação pública" não significa "informação sem regras". Mesmo em um engajamento autorizado, as regras de engajamento devem dizer se a equipe pode coletar dados de perfis pessoais de funcionários, até que ponto e como esses dados serão protegidos e descartados. Nomes, cargos e *e-mails* são dados pessoais e estão sujeitos à LGPD. Também é preciso cuidado com bases de vazamentos: consultar se credenciais corporativas aparecem em vazamentos conhecidos pode ser útil para medir risco, mas usar senhas vazadas para acessar sistemas só é aceitável se estiver explicitamente previsto no escopo. E acessar sistemas fora do escopo — por exemplo, o servidor de um fornecedor encontrado no reconhecimento — pode configurar o crime do art. 154-A do Código Penal.
+A enumeração de **usuários** costuma começar na OSINT: *e-mails* públicos revelam o formato dos logins, como nome.sobrenome (T1589.002 e T1589.003). Depois, ela pode explorar falhas de projeto. Se a página de login responde "senha incorreta" para contas que existem e "usuário não encontrado" para as que não existem, ou se o tempo de resposta muda, a página confirma quais contas são válidas. O guia de testes da OWASP (WSTG) trata o caso no teste WSTG-IDNT-04. Já dentro da rede, listar contas e grupos do diretório corresponde a T1087.002 (*Account Discovery: Domain Account*), tema da Aula 7. Nas regras de engajamento da Tatame, a enumeração no login fica limitada a uma tentativa por conta, sempre com senha sabidamente errada e sem nenhum teste de senha.
 
 #### Que rastro isso deixa para o Blue Team?
 
-O reconhecimento passivo quase não deixa rastros no ambiente do alvo, e por isso a defesa aqui é sobretudo **preventiva**: reduzir o que se expõe. O ativo, por sua vez, aparece em registros de *firewall*, de servidores *web* e de DNS — muitas requisições sequenciais, varreduras de portas, consultas a subdomínios inexistentes. Um Blue Team maduro também faz o próprio "reconhecimento defensivo", monitorando continuamente sua superfície de ataque externa e verificando se surgem novos certificados com o nome da empresa.
+Uma captura de pacotes no **Wireshark** torna a varredura evidente: centenas de SYN da mesma origem e da mesma porta de origem para portas diferentes, em fração de segundo, seguidos de RST. *Firewall*, WAF e sensores de rede (como o Zeek) registram o padrão. A enumeração de usuários aparece como falhas de login para muitas contas diferentes, várias inexistentes; a enumeração interna, como consultas volumosas ao diretório. A condição é coletar a fonte certa: um servidor fora do WAF e do inventário, como a homologação esquecida da Tatame, recebe a varredura sem que o SOC veja nada.
 
-[Imagem 3 — Painel de monitoramento com um alerta de varredura de portas vinda de um endereço externo. Texto alternativo: "Tela de monitoramento de segurança exibindo alerta de varredura de portas". Sugestão de busca no Envato: "security dashboard alert port scan".]
+[Imagem 3 — Captura de tela do Wireshark com uma sequência de pacotes SYN destacados e respostas RST em vermelho. Texto alternativo: "Lista de pacotes no Wireshark mostrando uma varredura de portas". Sugestão: captura de tela do Wireshark disponível no Wikimedia Commons ("Wireshark screenshot"), licença GPL.]
+
+#### Limites éticos, legais e de escopo
+
+Informação pública também está sujeita a regras. Nomes, cargos e *e-mails* são dados pessoais sujeitos à LGPD, e as regras de engajamento devem dizer o que pode ser coletado, como será protegido e quando será descartado. Varreduras só alcançam redes e horários da carta; um subdomínio com o nome da empresa hospedado por uma agência de *marketing* entra no relatório, mas não é tocado, e acessar sistema de terceiro pode configurar o crime do art. 154-A do Código Penal. Se a equipe encontrar fichas de alunos menores em um servidor exposto, registra a evidência mínima e avisa a CISO, sem copiar os dados.
 
 #### Exemplo numérico: quanto a empresa expõe sem saber
 
-Em um engajamento autorizado, o Red Team identifica 180 subdomínios na transparência de certificados de uma empresa. Destes, 120 ainda respondem na internet. Ao comparar com o inventário oficial, a equipe constata que 15 não constavam em nenhum registro da TI. A taxa de ativos desconhecidos é de 15 ÷ 120 = **12,5%** da superfície ativa. Além disso, a empresa tem 400 funcionários, e a equipe encontrou 260 endereços de *e-mail* válidos em fontes públicas, ou seja, 260 ÷ 400 = **65%** do quadro já está exposto como possível alvo de *phishing*. Esses dois números orientam recomendações concretas: atualizar o inventário de ativos e priorizar o treinamento de quem está mais exposto.
+O Red Team identifica 180 subdomínios da Tatame na transparência de certificados. Destes, 120 respondem na internet e 15 não constam do inventário da TI: 15 ÷ 120 = **12,5%** da superfície ativa é desconhecida. A Tatame tem 400 pessoas com *e-mail* corporativo, e 260 endereços aparecem em fontes públicas: 260 ÷ 400 = **65%** do quadro exposto. Dos 260, 243 seguem o formato nome.sobrenome, ou 243 ÷ 260 ≈ **93,5%**, o que basta para prever o login da maioria. Na varredura das 100 portas mais comuns da homologação, a captura registrou 203 pacotes: 100 SYN, 3 SYN/ACK das portas abertas, 97 RST/ACK das fechadas e 3 RST enviados pelo próprio Kali.
 
 #### Pontos-chave
 
-- O reconhecimento (TA0043) define o caminho de toda a operação ofensiva.
-- O reconhecimento passivo quase não deixa rastro; o ativo pode ser registrado e precisa estar no escopo.
-- OSINT revela a superfície de ataque externa, incluindo ativos de *shadow IT*.
-- Dados de funcionários são dados pessoais: LGPD e regras de engajamento se aplicam também ao OSINT.
+- O reconhecimento (TA0043) pode ser passivo, quase sem rastro, ou ativo, que exige escopo e aparece nos registros.
+- O Nmap descobre *hosts*, portas e versões: T1595 quando feito de fora, T1046 quando feito de dentro.
+- A enumeração de usuários explora o padrão de *e-mail* e respostas de login diferentes para contas existentes e inexistentes.
+- Cada passo ativo deixa rastro, mas o Blue Team só o vê se coletar a fonte daquele ativo.
 
 ### Referências da aula
 
-BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). *Diário Oficial da União*, Brasília, DF, 15 ago. 2018.
+LYON, Gordon Fyodor. *Nmap network scanning*: the official Nmap project guide to network discovery and security scanning. Sunnyvale: Insecure.Com, 2009.
 
-MITRE. *Reconnaissance (TA0043)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0043/>. Acesso em: 13 nov. 2026.
+MITRE. *Reconnaissance (TA0043)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0043/>. Acesso em: 22 nov. 2026.
 
-NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *SP 800-115: technical guide to information security testing and assessment*. Gaithersburg: NIST, 2008.
+NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *SP 800-115*: technical guide to information security testing and assessment. Gaithersburg: NIST, 2008.
 
-OWASP FOUNDATION. *OWASP web security testing guide*. Versão 4.2. 2020. Disponível em: <https://owasp.org/www-project-web-security-testing-guide/>. Acesso em: 13 nov. 2026.
+OWASP FOUNDATION. *OWASP web security testing guide*. Versão 4.2. 2020. Disponível em: <https://owasp.org/www-project-web-security-testing-guide/>. Acesso em: 22 nov. 2026.
 
-### Roteiro da Videoaula 5 — "O que a Rede Tatame mostra para quem procura?"
+WEIDMAN, Georgia. *Testes de invasão*: uma introdução prática ao hacking. São Paulo: Novatec, 2014.
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula5.html (24 slides).
+### Roteiro da Videoaula 5 — "Antes de entrar: o que a Rede Tatame entrega a quem procura?"
+
+Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula5.html (22 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:25)**
-Fala: "Olá! Esta é a Aula 5, a primeira da Unidade 2, em que vestimos a camisa vermelha. Hoje vamos estudar o reconhecimento e a coleta de informações em fontes abertas, sempre sobre a Rede Tatame, a nossa rede fictícia de academias."
+Fala: "Olá! Esta é a Aula 5, a primeira da Unidade 2, em que acompanhamos por dentro o exercício autorizado do Red Team contra a Rede Tatame. Hoje o tema é reconhecimento e enumeração de serviços e usuários: tudo o que um adversário descobre antes de entrar."
 [Câmera: professor em plano médio.]
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:25–1:45)**
-Fala: "Comece pela história. Bruno Sato lidera o Red Team interno da Tatame, e a CISO Marina Prado autorizou um levantamento externo antes do exercício de *ransomware* do semestre. A reunião travou numa pergunta simples: quantos endereços da Tatame existem na internet? O inventário da TI lista 105, mas ninguém sabe se um adversário acharia outros. Repare no mapa à direita: a borda vista da internet, e em vermelho a homologação `hml-gestao`, que ninguém inventariou e que guarda uma cópia do banco de alunos, 30% deles menores. A pergunta que vamos responder até o fim da aula está no quadro amarelo: o que a Rede Tatame expõe na internet sem saber, e como descobrir isso antes do adversário?"
+**Slide 3 — O problema de hoje na Rede Tatame (0:25–1:35)**
+Fala: "Começa o exercício de novembro. De 16 a 27, o Red Team de Bruno Sato emula o Grupo Cobalto Austral, com a carta assinada por Marina Prado no chamado APR-2291. O inventário da TI lista 105 endereços na internet, mas ninguém sabe se há outros, que serviços respondem neles nem que contas um atacante conseguiria adivinhar. Repare no mapa à direita: a borda vista da internet e, em vermelho, a homologação `hml-gestao`, fora do inventário e do WAF, com uma cópia do banco de alunos. A pergunta da aula está no quadro amarelo: o que a Tatame expõe e quais serviços e usuários um adversário consegue enumerar antes de entrar?"
 [Take de apoio: pessoa digitando em notebook com mapa de rede ao fundo — Envato, "network map laptop".]
 
-**Slide 4 — O que você verá nesta unidade (1:45–2:15)**
-Fala: "Esta tabela é o mapa da unidade. Cada aula responde a uma pergunta: o que a organização expõe, o que está vulnerável e o que corrigir primeiro, se as pessoas reconhecem a isca e até onde o adversário chegaria. Em todas elas, vamos perguntar também que rastro cada passo deixa para o Blue Team."
+**Slide 4 — O que você verá nesta unidade (1:35–2:15)**
+Fala: "Esta tabela é o mapa da unidade, na ordem em que um adversário agiria. Hoje, reconhecimento e enumeração. Na Aula 6, a falha ou a pessoa que abre a porta, verificada sem causar dano. Na 7, até onde o adversário chega depois de entrar. Na 8, como o defensor percebe quem tenta se esconder e como o exercício termina. Em todas, a mesma pergunta: que rastro esse passo deixa para o Blue Team?"
 
-**Slide 5 — Antes do primeiro pacote, o adversário pesquisa (2:15–2:55)**
-Fala: "Um adversário competente já sabe muito sobre a empresa antes de tocar a rede dela. Essa fase é o reconhecimento, a tática TA0043 do MITRE ATT&CK. A coleta em fontes abertas tem nome: OSINT, inteligência de fontes abertas. Pense no ladrão que observa a casa por dias. Olhar da calçada é reconhecimento passivo; tocar a campainha já é reconhecimento ativo."
-[Take de apoio: rua residencial vista de longe, câmera de segurança no portão — Envato, "burglar watching house".]
+**Slide 5 — Reconhecimento passivo e reconhecimento ativo (2:15–3:00)**
+Fala: "Reconhecimento é a tática TA0043 do ATT&CK. No passivo, a equipe só consulta fontes de terceiros: certificados, buscadores, registro do domínio, vagas e perfis. As técnicas são T1596, T1593, T1591 e T1589. No ativo, ela interage com o alvo: consulta o DNS da empresa ou varre portas, a técnica T1595. Olhar da calçada é passivo; tocar a campainha é ativo. Por isso o ativo precisa estar na autorização e aparece nos registros."
 
-**Slide 6 — Laboratório: o que a própria empresa publica (2:55–4:55)**
-Objetivo: responder à primeira parte da pergunta, mostrando o que a própria Tatame publica, sem tocar a rede dela.
+**Slide 6 — Laboratório: o que a própria empresa publica (3:00–4:40)**
+Objetivo: mostrar o que a própria Tatame publica, incluindo o formato de usuário, sem tocar a rede dela.
 Na tela:
-1. Na aba *Vaga de emprego*, clicar em "migração da VPN NetGuard 9.1 para a versão 10".
-2. Clicar em "Active Directory em Windows Server 2012 R2", "ERP financeiro em servidor próprio da sede", "ambiente de homologação do portal das academias, criado em 2024" e "caio.mendes@tatame.com.br".
-3. Clicar na aba *Perfil profissional* e nos trechos "Administrador de TI na Rede Tatame", "troca dos 120 notebooks da sede", "vpn.tatame.com.br", "O segundo fator ainda não chegou às contas da TI" e "foto da recepção com a tela da catraca facial".
-4. Clicar na aba *Buscador de dispositivos* e nos três resultados: a VPN em 203.0.113.30, a `hml-gestao` em 203.0.113.45 e o `promo-hml` em 198.51.100.23.
-5. Conferir o contador no canto superior direito: "13 de 13 pistas".
-Fala: "Cada trecho amarelo, quando clicado, mostra na faixa escura de baixo o que ele revela. A vaga entrega o fabricante e a versão da VPN e o padrão de *e-mail* nome.sobrenome. O perfil de Caio Mendes confirma o endereço da VPN e admite que as contas da TI ainda entram sem segundo fator, a informação mais grave da página. O buscador de dispositivos confirma a mesma versão da VPN por um serviço público e mostra a `hml-gestao` sem WAF, o filtro de ataques da borda. Repare que nenhuma dessas consultas tocou a rede da Tatame."
-Atenção: as páginas são fictícias e usam domínios example.com. O terceiro resultado do buscador é da agência de *marketing*: ele entra no relatório, mas não pode ser acessado.
-Conclusão: "Sem enviar um pacote, o Red Team já tem alvo, versão e pessoa. Essa é a primeira parte do que a Tatame expõe sem saber."
+1. Na aba "Vaga de emprego", clicar em "migração da VPN NetGuard 9.1 para a versão 10", "Active Directory em Windows Server 2012 R2", "ERP financeiro em servidor próprio da sede", "ambiente de homologação do portal das academias, criado em 2024" e "caio.mendes@tatame.com.br".
+2. Clicar na aba "Perfil profissional" e nos trechos "Administrador de TI na Rede Tatame", "troca dos 120 notebooks da sede", "vpn.tatame.com.br", "O segundo fator ainda não chegou às contas da TI" e "foto da recepção com a tela da catraca facial".
+3. Clicar na aba "Buscador de dispositivos" e nos três resultados: VPN em 203.0.113.30, `hml-gestao` em 203.0.113.45 e `promo-hml` em 198.51.100.23.
+4. Conferir o contador no canto superior direito: "13 de 13 pistas".
+Fala: "Cada trecho amarelo, quando clicado, mostra na faixa escura de baixo o que revela. A vaga entrega o fabricante e a versão da VPN e o endereço de Caio Mendes, que mostra o padrão nome.sobrenome; esse padrão costuma ser também o formato do login. O perfil confirma o endereço da VPN e admite que as contas da TI entram sem segundo fator, a informação mais grave da página. O buscador confirma a versão da VPN e mostra a `hml-gestao` sem WAF. Nenhuma dessas consultas tocou a rede da Tatame."
+Atenção: as páginas são fictícias e usam domínios example.com. O terceiro resultado do buscador pertence à agência de *marketing*: entra no relatório e não pode ser acessado.
+Conclusão: "Sem enviar um pacote, o Red Team já tem alvo, versão e formato de usuário."
 [Tela: gravação do laboratório do slide 6.]
 
-**Slide 7 — Reconhecimento passivo e reconhecimento ativo (4:55–5:30)**
-Fala: "A tabela compara as duas formas. O passivo consulta só fontes de terceiros e quase não deixa rastro. O ativo interage com o alvo, por exemplo consultando o DNS da empresa, o serviço que traduz nomes em endereços IP, ou varrendo portas. Por isso ele precisa estar no escopo autorizado e pode aparecer nos registros de *firewall*, de servidores *web* e de DNS."
-
-**Slide 8 — Laboratório: da calçada à campainha (5:30–7:00)**
-Objetivo: ver quais consultas deixam rastro na Tatame e, portanto, o que o SOC tem chance de enxergar.
+**Slide 7 — Laboratório: da calçada à campainha (4:40–6:10)**
+Objetivo: ver quais consultas deixam rastro e quais chegam ao SOC.
 Na tela:
-1. Ao abrir o slide, o passo "Passivo · Transparência de certificados" já está na tela; ler esse passo antes de clicar.
-2. Avançar para "Passivo · Buscadores, redes sociais e WHOIS" e "Passivo · O que o SIEM viu até aqui".
-3. Avançar para "Ativo · Consultas ao DNS da empresa" e "Ativo · Varredura de portas".
-4. Avançar para o último passo, "Escopo · O servidor da agência".
-Fala: "Nos dois primeiros passos, as setas vermelhas saem do Red Team e vão para serviços de terceiros: logs de certificados, buscadores e o registro do domínio. No terceiro passo, o nó SIEM fica sozinho, porque não viu nada. Nos passos ativos, a seta atravessa o DNS da Tatame ou a CDN e o WAF, e uma seta azul leva os registros até o SIEM. O DNS registra perguntas por nomes inexistentes, as respostas NXDOMAIN; a borda registra conexões sequenciais para muitas portas, a técnica T1595. No último passo, o servidor da agência fica com contorno vermelho, ligado ao Red Team por uma linha tracejada em âmbar: interagir com ele seria reconhecimento ativo sobre um terceiro sem autorização."
-Atenção: o botão *Auto* toca a sequência sozinho; para gravar, prefira *Avançar* e espere a animação dos pacotes, cerca de dois segundos por passo.
-Conclusão: "O passivo não deixa rastro, então a defesa contra ele é reduzir o que se publica. O ativo deixa rastro, e é aí que o SOC pode agir."
-[Tela: gravação do laboratório do slide 8.]
+1. Ler o passo "Passivo · Transparência de certificados", que abre o laboratório.
+2. Clicar em "▶ Avançar" até "Passivo · Buscadores, vagas e WHOIS" e "Passivo · O que o SIEM viu até aqui".
+3. Avançar para "Ativo · Consultas ao DNS da empresa" e "Ativo · Varredura da borda".
+4. Avançar para "Ativo · Varredura da hml-gestao" e "Escopo · O servidor da agência".
+Fala: "À esquerda está o Kali da equipe, a `lab-tatame`, com o endereço 192.0.2.66. Nos passos passivos, as setas vermelhas vão para serviços de terceiros e o SIEM fica sozinho: não viu nada. Nos ativos, a seta chega ao DNS ou ao WAF da Tatame, e uma seta azul leva os registros ao SIEM. Agora observe o sexto passo: a mesma varredura contra a `hml-gestao` não passa pelo WAF, e o nó fica em âmbar. O rastro existe no servidor, mas não chega ao SOC. No último passo, o servidor da agência fica com contorno vermelho: tocar nele seria agir sobre um terceiro sem autorização."
+Atenção: o botão "⏯ Auto" toca a sequência sozinho; para gravar, prefira "▶ Avançar" e espere cerca de dois segundos por passo.
+Conclusão: "O passivo se combate publicando menos; o ativo deixa rastro, desde que alguém colete a fonte."
+[Tela: gravação do laboratório do slide 7.]
 
-**Slide 9 — Fontes de OSINT e técnicas ATT&CK (7:00–7:35)**
-Fala: "Aqui estão as fontes que usamos e as técnicas do ATT&CK correspondentes. O WHOIS é o registro público do dono do domínio. A transparência de certificados, ou CT, lista os certificados TLS, aqueles que habilitam o cadeado do HTTPS. Buscadores de dispositivos, redes sociais e repositórios de código completam o quadro. As técnicas T1596, T1593, T1591 e T1589 estão traduzidas no rodapé."
+**Slide 8 — Kali Linux e Nmap: quem responde e o quê (6:10–7:10)**
+Fala: "As duas primeiras ferramentas da ementa entram aqui. O Kali Linux, mantido pela OffSec, é uma distribuição Debian com centenas de ferramentas de teste; no exercício, ele roda na máquina virtual `lab-tatame`. O Nmap descobre *hosts* com `-sn`, faz a varredura SYN com `-sS`, que não completa a conexão, a varredura *connect* com `-sT`, que completa, e identifica versões com `-sV`. Guarde os três estados de porta: *open* responde SYN/ACK, *closed* responde RST, *filtered* não responde. De fora, isso é T1595; de dentro, T1046, na tática Descoberta. E o quadro azul lembra: quem autoriza é a carta, com redes, horário e a origem 192.0.2.66."
+[Take de apoio: tela de terminal com texto verde rolando — Envato, "terminal code green".]
 
-**Slide 10 — Laboratório: registro, DNS e transparência de certificados (7:35–9:35)**
-Objetivo: listar todos os nomes da Tatame que existem na internet, inclusive os que a TI esqueceu.
+**Slide 9 — Laboratório: do certificado ao serviço (7:10–9:40)**
+Objetivo: descobrir que serviços e versões a Tatame expõe, dentro da carta.
 Na tela:
-1. Clicar em *Próximo comando*: consulta WHOIS de `tatame.com.br`.
-2. *Próximo comando*: consulta DNS dos registros MX e TXT.
-3. *Próximo comando*: consulta à base pública de certificados, que grava os nomes em `ct.txt` e conta as linhas.
-4. *Próximo comando*: filtro dos nomes que contêm hml, teste, dev, old ou tmp.
-5. *Próximo comando*: resolução de `hml-gestao` e `promo-hml`.
-Fala: "O primeiro comando mostra o titular do domínio e o contato técnico, CAMEN7, que é Caio Mendes: a mesma pessoa da vaga e do perfil. O segundo mostra o servidor de *e-mail*, mx1, e os registros TXT: a política SPF autoriza a agência de *marketing* a enviar em nome da Tatame, e há verificações da PagaFácil e de uma página de status, que são terceiros fora do escopo. O terceiro comando consulta a base de certificados e devolve 180 subdomínios distintos, sem tocar a empresa. O quarto filtra os nomes com cara de teste ou de ambiente antigo e devolve oito, entre eles `hml-gestao` e `promo-hml`. O quinto já é uma consulta ativa, permitida pelas regras do exercício: `hml-gestao` resolve para 203.0.113.45, um endereço da Tatame; `promo-hml` aponta para a agência, em 198.51.100.23, e a linha vermelha diz fora do escopo."
-Atenção: as linhas em amarelo e vermelho na saída são comentários didáticos do laboratório, não saída real dos programas. O botão *Executar tudo* roda os cinco comandos de uma vez, mas para a aula é melhor ir um a um e ler a nota de rodapé de cada comando. O terminal é simulado: avise que ninguém deve repetir esses comandos em um terminal de verdade, porque o nome `tatame.com.br` é usado aqui como exemplo didático e consultas reais atingiriam um domínio de terceiros.
-Conclusão: "Bases públicas revelam nomes que a TI esqueceu. Agora sabemos quais nomes existem; falta medir o tamanho do problema."
+1. Clicar em "▶ Próximo comando": consulta à base de certificados, que grava `ct.txt` e conta 180 linhas.
+2. "▶ Próximo comando": `dig` de `hml-gestao` e `promo-hml`.
+3. "▶ Próximo comando": `nmap -sn` na borda 203.0.113.0/24.
+4. "▶ Próximo comando": `nmap -sS -sV --top-ports 100` na VPN e na `hml-gestao`.
+5. "▶ Próximo comando": `nmap -sV` com o script `ldap-rootdse` no SRV-AD-01.
+Fala: "O primeiro comando ainda é passivo: lê a base pública de certificados e devolve 180 nomes. O segundo já toca o DNS da Tatame, como a RoE permite: `hml-gestao` resolve para 203.0.113.45, um endereço da casa, e `promo-hml` aponta para a agência, e a linha vermelha diz fora do escopo. O terceiro só descobre quem está no ar: 18 *hosts*, 6 do inventário e 12 que a TI não lista. O quarto é a varredura de serviços. Leia a saída por *host*. Na VPN, 99 portas aparecem como *filtered*, porque há um *firewall* na frente, e só a 443 responde, com o NetGuard 9.1. Na homologação, 97 portas aparecem como *closed*, ou seja, o servidor responde RST a cada uma, e três estão abertas: SSH na 22 e Apache 2.4.49 na 80 e na 443. Essa versão vai ser importante na próxima aula. O último comando simula a fase de acesso presumido, com a VM no segmento do laboratório da sede: o LDAP do controlador de domínio informa o domínio `corp.tatame.local`, e o nível funcional 6 corresponde ao Windows Server 2012 R2, o mesmo da vaga."
+Atenção: as linhas coloridas que começam com comentário são notas didáticas do laboratório, não saída real dos programas. O terminal é simulado; avise que ninguém deve repetir esses comandos contra domínios reais, porque `tatame.com.br` é usado apenas como exemplo didático. Use "▶ Próximo comando" um a um e leia a nota de rodapé de cada passo.
+Conclusão: "Varredura e enumeração dizem onde procurar falhas: a `hml-gestao`, com Apache 2.4.49, sobe para o topo da lista."
+[Tela: gravação do laboratório do slide 9.]
+
+**Slide 10 — Laboratório: a varredura vista no fio (9:40–11:30)**
+Objetivo: ver, pacote a pacote, o rastro da varredura SYN, como um analista veria.
+Na tela:
+1. Com "Sem filtro" ativo, mostrar a lista e a barra de baixo: "Pacotes: 203 · Exibidos: 203 (100,0%)".
+2. Clicar em "SYN enviados": a caixa de filtro mostra `tcp.flags.syn == 1 && tcp.flags.ack == 0` e 100 pacotes.
+3. Clicar em "SYN/ACK": 3 pacotes, das portas 80, 443 e 22.
+4. Clicar em "RST": 100 pacotes.
+5. Clicar em uma linha vermelha que sai de 192.0.2.66 e ler o painel de detalhes.
+Fala: "Este é o Wireshark, a terceira ferramenta da ementa, com a captura da varredura na `hml-gestao`. Cada linha é um pacote: número, tempo em segundos, origem, destino, protocolo, tamanho e o resumo na coluna *Info*. Repare que todos os 203 pacotes acontecem em cerca de um décimo de segundo e que a porta de origem, 41322, nunca muda: assinatura de varredura. O filtro de SYN mostra 100 pedidos, um por porta, fora da ordem numérica. O de SYN/ACK mostra só três respostas: são as portas abertas que o Nmap listou. O de RST mostra 100 pacotes: 97 são a homologação dizendo porta fechada e 3 são o próprio Kali derrubando a conexão logo depois do SYN/ACK. No painel de detalhes, as *flags* aparecem em hexadecimal, 0x004 para RST. Como o *handshake* nunca termina, a aplicação quase não registra nada; quem vê é a rede."
+Atenção: a captura é simulada e mostra só a fase de descoberta de portas. A faixa amarela abaixo dos detalhes explica cada filtro; leia-a ao gravar.
+Conclusão: "Para quem captura o tráfego, a varredura é barulhenta. O problema da Tatame é que ninguém captura o tráfego da homologação."
 [Tela: gravação do laboratório do slide 10.]
 
-**Slide 11 — Relacionar informações em grafos (9:35–10:05)**
-Fala: "Isolados, os achados dizem pouco. Ferramentas como o Maltego ligam domínios, endereços, pessoas e tecnologias em um grafo. No nosso caso, o grafo liga Caio Mendes à vaga, a vaga à versão da VPN e a VPN ao padrão de *e-mail*. Na próxima tela, a superfície inteira aparece em 3D."
+**Slide 11 — Enumerar serviços e usuários (11:30–12:10)**
+Fala: "Enumerar é extrair dos serviços o que eles contam: versões, domínio, compartilhamentos, contas. Para usuários, o caminho começa na OSINT, com o formato nome.sobrenome. Depois, uma falha de projeto comum: o login responder de um jeito para quem existe e de outro para quem não existe. A OWASP descreve esse teste como WSTG-IDNT-04. Dentro da rede, listar contas do AD é T1087.002, que retomaremos na Aula 7. E o limite da RoE: uma tentativa por conta, com senha sabidamente errada."
 
-**Slide 12 — Laboratório: a superfície de ataque externa em 3D (10:05–11:25)**
-Objetivo: medir o tamanho real da exposição em comparação com o inventário.
+**Slide 12 — Laboratório: um login que entrega quem existe (12:10–13:30)**
+Objetivo: verificar se o portal confirma quais contas existem, e como a produção evita isso.
 Na tela:
-1. Arrastar a cena para girar e usar a roda do *mouse* para aproximar.
-2. Clicar em *Só shadow IT*.
-3. Clicar em *Só pessoas*.
-4. Clicar em *Tudo* para voltar.
-Fala: "No centro está o domínio `tatame.com.br`. Ao redor, os 180 subdomínios: em azul, os 105 que estão no inventário; em cinza, os 60 que não respondem; em vermelho, pulsando, os 15 que respondem e a TI desconhece. Um deles tem o rótulo `hml-gestao`. Ao clicar em *Só shadow IT*, ficam só os vermelhos e o cubo amarelo da agência, ligado por linhas tracejadas a três subdomínios: é o terceiro que fica fora do escopo. Em *Só pessoas*, aparece o anel de 40 pontos acima do domínio. Cada ponto vale 10 pessoas; os amarelos são os 260 *e-mails* expostos entre 400 pessoas."
-Atenção: a distribuição das esferas é ilustrativa; os números da legenda são os que valem.
-Conclusão: "A superfície real é maior do que o inventário: 15 ativos a mais e mais da metade das pessoas com *e-mail* exposto."
+1. O laboratório abre na tentativa "1. hml-gestao · caio.mendes".
+2. Clicar em "2. hml-gestao · joao.inexistente".
+3. Clicar em "3. produção · caio.mendes".
+4. Clicar em "4. produção · joao.inexistente" e ler a tabela.
+Fala: "À esquerda está o formulário; à direita, as tentativas e a tabela que registra mensagem e tempo. Na homologação, a conta de Caio Mendes recebe 'Senha incorreta para caio.mendes.' em 212 milissegundos, e a conta que não existe recebe 'Usuário não encontrado.' em 31. A mensagem e o tempo entregam quem existe. No portal de produção, as duas tentativas recebem a mesma frase, 'Usuário ou senha inválidos.', em cerca de 200 milissegundos. Não dá para distinguir."
+Atenção: o laboratório não testa senhas; cada conta recebe uma única tentativa com senha sabidamente errada, como manda a RoE.
+Conclusão: "Resposta genérica e tempo constante impedem a enumeração. É a recomendação que vai para o relatório da `hml-gestao`."
 [Tela: gravação do laboratório do slide 12.]
 
-**Slide 13 — Superfície de ataque externa e *shadow IT* (11:25–12:05)**
-Fala: "O retrato que acabamos de ver é a superfície de ataque externa. Os ativos que a TI desconhece têm nome: *shadow IT*. Encontrar esses ativos é a função Identificar do NIST CSF 2.0, o guia de cibersegurança do instituto de padrões dos Estados Unidos. Repare nos dois tratamentos do quadro azul: a `hml-gestao` é da Tatame, entra no escopo e vira prioridade; o `promo-hml` é da agência, entra no relatório, mas ninguém da equipe o acessa."
-
-**Slide 14 — Laboratório: o reconhecimento na plataforma Rede Tatame (12:05–14:15)**
-Objetivo: ver o que o SOC, o centro de operações de segurança, enxerga do levantamento e o que muda com o monitor de certificados.
+**Slide 13 — Laboratório: o reconhecimento na plataforma Rede Tatame (13:30–15:30)**
+Objetivo: ver o que o SOC enxerga do reconhecimento e o que muda com o monitor de certificados.
 Na tela:
-1. Conferir que a plataforma abriu na aba *Cenários*. Deixar a velocidade em "1 s = 15 s".
-2. No cartão *Reconhecimento externo*, clicar em *Iniciar cenário* e acompanhar a lista de cinco passos até o último terminar.
-3. Abrir a aba *Telemetria* e ligar a fonte *Monitor de certificados (CT)*.
-4. Abrir a aba *Regras do CEP* e ligar a R12, "Certificado novo para subdomínio fora do inventário".
-5. Voltar a *Cenários* e clicar de novo em *Iniciar cenário* no mesmo cartão.
-6. Abrir a aba *Superfície* e localizar a linha de `hml-gestao.tatame.com.br`.
-Fala: "Na primeira rodada, olhe o ícone de cada passo. A consulta a certificados e a resolução de 180 nomes aparecem como não detectadas, porque acontecem em serviços de terceiros. A varredura contra 203.0.113.0/24 é detectada pela regra R4, que conta excesso de respostas 403 e 404 por endereço. Os passos quatro e cinco, contra a `hml-gestao`, também passam sem alerta, porque a homologação não fica atrás do WAF e ninguém coleta os registros dela. Depois de ligar a fonte CT e a R12, rode o cenário de novo: agora o primeiro passo vira detectado. Na aba *Superfície*, a linha da `hml-gestao` mostra que ela está fora do inventário e sem WAF, com um risco alto que vamos estudar na próxima aula."
-Atenção: clicar de novo em *Iniciar cenário* reinicia o cenário e mantém as fontes e regras ligadas; o botão *Reiniciar* do topo volta tudo ao padrão, então não use esse botão entre as duas rodadas. Dois alertas extras aparecem no contador da aba *SOC* e não fazem parte do cenário: o da R11 sobre a conta `svc-backup`, cerca de 30 segundos depois de a simulação começar, e, mais adiante, um da R4 vindo do monitor de disponibilidade contratado. Os dois são benignos. O cenário leva cerca de 30 segundos na velocidade padrão.
-Conclusão: "Monitorar certificados mostra ao SOC o mesmo nome que o Red Team achou. A defesa pode ver o reconhecimento passivo, desde que olhe para as mesmas fontes."
-[Tela: gravação do laboratório do slide 14.]
+1. Conferir que a plataforma abriu na aba "Cenários", com a velocidade "1 s = 15 s".
+2. No cartão "Reconhecimento externo", clicar em "Iniciar cenário" e esperar os cinco passos terminarem (cerca de 30 segundos).
+3. Abrir a aba "Telemetria" e ligar "Monitor de certificados (CT)".
+4. Abrir "Regras do CEP" e ligar a "R12 · Certificado novo para subdomínio fora do inventário".
+5. Voltar a "Cenários" e clicar em "Repetir com as fontes e regras atuais".
+6. Abrir a aba "Superfície" e localizar a linha de `hml-gestao.tatame.com.br`.
+Fala: "Na primeira rodada, os indicadores mostram 1 de 5 passos detectado: só a varredura da borda, pela R4, que conta excesso de respostas 403 e 404 por endereço. A consulta a certificados, a resolução de 180 nomes e a varredura da `hml-gestao` passam sem alerta. Depois de ligar a fonte CT e a R12, a segunda rodada mostra 2 detectados: o certificado da homologação vira alerta logo no início. A varredura na `hml-gestao` continua com o ícone de não detectado, porque ninguém coleta os registros dela. Na aba Superfície, a linha mostra a homologação fora do inventário e sem WAF, com o Apache vulnerável que estudaremos na próxima aula."
+Atenção: use "Repetir com as fontes e regras atuais"; o botão "Reiniciar" do topo volta tudo ao padrão e apagaria os ajustes. Cada rodada leva cerca de 30 segundos na velocidade padrão; se quiser encurtar, troque para "1 s = 1 min".
+Conclusão: "Monitorar certificados mostra ao SOC o mesmo nome que o Red Team achou, mas só a coleta da homologação revelaria a varredura."
+[Tela: gravação do laboratório do slide 13.]
 
-**Slide 15 — Informação pública também tem regras (14:15–14:55)**
-Fala: "Mesmo pública, a informação tem regras. Nomes, cargos e *e-mails* são dados pessoais e estão sujeitos à LGPD, a Lei Geral de Proteção de Dados. Consultar vazamentos ajuda a medir risco, mas usar senhas vazadas só é aceitável se estiver previsto no escopo. Acessar o servidor da agência ou a API da PagaFácil pode configurar o crime do art. 154-A do Código Penal. E, se a equipe achar fichas de alunos menores na `hml-gestao`, registra a evidência mínima e avisa a CISO, sem copiar os dados."
+**Slide 14 — Informação pública e varredura também têm regras (15:30–16:10)**
+Fala: "Nomes, cargos e *e-mails* são dados pessoais e estão sujeitos à LGPD. A varredura só alcança as redes e os horários da carta, a partir da origem registrada. O servidor da agência e a API da PagaFácil não são tocados, porque acessar sistema de terceiro pode configurar o crime do art. 154-A do Código Penal. E, se aparecerem fichas de alunos menores na `hml-gestao`, a equipe registra a evidência mínima e avisa a CISO, sem copiar nada."
 
-**Slide 16 — Antes do código: onde achar e como instalar (14:55–15:20)**
-Fala: "Antes de rodar o código, veja o que precisa estar instalado: o Visual Studio Code com a extensão Python da Microsoft, o Python 3.12, baixado de python.org, e o módulo `venv`, que já vem com ele. Os quatro módulos que o script importa são da biblioteca padrão, e isso se confere em docs.python.org. Não há pacote de terceiros para baixar, e cada pacote a menos é um fornecedor a menos para vigiar."
+**Slide 15 — Antes do código: onde achar e como instalar (16:10–16:35)**
+Fala: "Para o próximo laboratório, você precisa do Visual Studio Code com a extensão Python da Microsoft, do Python 3.12, de python.org, e do módulo `venv`, que já vem com ele. No Kali, o Python já está instalado. Os quatro módulos que o script importa são da biblioteca padrão; confira em docs.python.org. Não há pacote de terceiros para baixar."
 
-**Slide 17 — Laboratório: do achado solto ao relatório de exposição (15:20–17:15)**
-Objetivo: transformar os achados soltos em números para a diretoria, respeitando o escopo.
+**Slide 16 — Laboratório: do achado solto ao relatório de exposição (16:35–18:45)**
+Objetivo: transformar os achados em números para a diretoria, respeitando o escopo.
 Na tela:
-1. O VS Code ocupa o slide inteiro. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
+1. O VS Code ocupa o slide inteiro. O roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
 2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
 3. No explorador, abrir `escopo.json`.
-4. Voltar a `consolidar_osint.py` e mostrar as linhas destacadas.
-5. Clicar em *Executar*.
-Fala: "O editor agora ocupa a tela inteira, como no meu computador. Antes de executar, preparo o ambiente, e quatro comandos passam pelo terminal. O `python3 --version` confirma o Python 3.12. O segundo comando cria o ambiente virtual, uma pasta `.venv` com uma cópia isolada do Python só para este projeto, de modo que nada instalado aqui se mistura ao sistema. O terceiro ativa esse ambiente, e o *prompt* passa a começar com `(.venv)`. O `pip list` mostra os pacotes instalados: só o `pip`, porque o script usa apenas a biblioteca padrão. Agora os arquivos. O `escopo.json` diz que a Tatame tem 400 pessoas com *e-mail* e lista as hospedagens fora do escopo: a agência de *marketing*, a página de status terceirizada e a PagaFácil. No script, o primeiro bloco lê os quatro arquivos da pasta `dados`: os subdomínios dos certificados, os que respondem, o inventário da TI e os *e-mails* públicos. A linha que decide o principal resultado é a que monta `desconhecidos`: são os *hosts* que respondem e não estão no inventário. Depois, o laço marca cada desconhecido; se a hospedagem estiver na lista do escopo, a ação é não acessar e avisar o cliente. Na saída, leia de cima para baixo: 180 nomes nos certificados, 120 respondem, 15 fora do inventário, ou seja, 12,5%, e 260 de 400 *e-mails*, ou 65%. Na lista, três linhas vermelhas são de terceiros, e a `hml-gestao` aparece em amarelo. No fim, a exposição por área: academias com 132 *e-mails*, atendimento com 46 e financeiro com 31."
-Atenção: os arquivos de dados mostram só as primeiras linhas, como amostra; a saída usa a base completa. Os *e-mails* estão pseudonimizados. A preparação do ambiente é simulada e leva cerca de 10 segundos; espere o botão mostrar "Ambiente pronto" antes de executar.
+4. Voltar a `consolidar_recon.py` e mostrar as três linhas destacadas.
+5. Clicar em "Executar".
+Fala: "O editor ocupa a tela inteira, como no meu computador. Na preparação, `python3 --version` confirma o Python 3.12; o segundo comando cria o ambiente virtual `.venv`, isolado do sistema; o terceiro o ativa, e o *prompt* passa a começar com `(.venv)`; o `pip list` mostra só o `pip`, porque o script usa apenas a biblioteca padrão. O `escopo.json` diz que a Tatame tem 400 pessoas com *e-mail* e lista três hospedagens fora do escopo: a agência, a página de status e a PagaFácil. No script, o primeiro bloco lê os quatro arquivos da pasta `dados`. A primeira linha destacada monta `desconhecidos`: *hosts* que respondem e não estão no inventário. A segunda decide a ação: se a hospedagem estiver na lista de terceiros, não acessar e avisar o cliente. A terceira conta o formato de *e-mail* mais comum. Na saída: 180 nomes, 120 respondem, 15 fora do inventário, 12,5%, e 260 de 400 *e-mails*, 65%. Na lista, três linhas vermelhas são de terceiros e a `hml-gestao` aparece em amarelo. Depois, o formato nome.sobrenome em 243 de 260, 93,5%. No fim, a exposição por área: academias com 132, atendimento com 46 e financeiro com 31."
+Atenção: ao abrir o slide, o código de `consolidar_recon.py` é digitado sozinho no editor; o botão "Digitar ao vivo" repete a digitação, se quiser mostrar de novo. Os arquivos de dados mostram só as primeiras linhas, e a saída usa a base completa. Os *e-mails* estão pseudonimizados. A preparação do ambiente leva cerca de 10 segundos; espere "✓ Ambiente pronto" antes de executar.
 Conclusão: "O relatório mostra o tamanho do problema e onde agir primeiro: inventário, terceiros e treinamento das academias."
-[Tela: gravação do laboratório do slide 17.]
+[Tela: gravação do laboratório do slide 16.]
 
-**Slide 18 — Que rastro o reconhecimento deixa (17:15–17:40)**
-Fala: "Do lado da defesa, o passivo quase não deixa rastro, e a proteção é preventiva. O ativo aparece nos registros. E o Blue Team maduro faz reconhecimento defensivo: monitora a própria superfície e os certificados novos com o nome da empresa."
+**Slide 17 — Que rastro o reconhecimento e a enumeração deixam (18:45–19:15)**
+Fala: "Do lado da defesa: o passivo quase não deixa rastro, e a proteção é publicar menos e monitorar certificados. A varredura aparece no *firewall*, no WAF e na captura de pacotes, como vimos no Wireshark. A enumeração de usuários aparece como falhas de login para muitas contas, várias inexistentes. A enumeração interna, como consultas volumosas ao AD, que na plataforma é a regra R13, desligada no padrão. E a lição da `hml-gestao`: quem não coleta o tráfego de um ativo não vê a varredura contra ele."
 
-**Slide 19 — Laboratório: o SOC da Tatame olha para fora (17:40–19:00)**
-Objetivo: ver o reconhecimento pelo lado do Blue Team e mostrar que a defesa pode chegar primeiro.
-Na tela:
-1. Clicar na busca salva "1. Varredura de portas".
-2. Clicar em "2. Nomes inexistentes no DNS".
-3. Clicar em "3. Certificado novo com o nosso nome".
-4. Clicar em "4. Exposto e fora do inventário".
-Fala: "Luiza Ferraz, do SOC, revisa a semana no SIEM, a central que reúne os registros. A busca 1 filtra os bloqueios do WAF e conta portas distintas por origem: 198.51.100.200 testou 1.000 portas em quatro minutos, uma varredura barulhenta; 192.0.2.250 testou 62 portas da VPN em nove horas, lenta e seletiva. A busca 2 conta respostas NXDOMAIN por origem: 2.840 perguntas por nomes inexistentes em dez minutos, tentativa de adivinhar subdomínios. Nada aparece sobre a `hml-gestao`. A busca 3 lê o monitor de certificados: um ambiente novo da agência e um domínio que imita o app do aluno, possível preparação de *phishing*. A busca 4 cruza a superfície externa com o inventário e devolve os mesmos 15 ativos do Red Team, com a `hml-gestao` como crítica."
-Atenção: o reconhecimento passivo do Red Team não aparece em nenhuma busca, e isso é o esperado.
-Conclusão: "A defesa pode usar as mesmas fontes do adversário e achar o problema primeiro."
-[Tela: gravação do laboratório do slide 19.]
+**Slide 18 — Exemplo numérico: quanto a Tatame expõe sem saber (19:15–19:35)**
+Fala: "Juntando: 15 dividido por 120 dá 12,5% da superfície ativa desconhecida. 260 dividido por 400 dá 65% das pessoas expostas. 243 dividido por 260 dá 93,5% dos *e-mails* no formato dominante. E a varredura da homologação: 203 pacotes, três portas abertas em cem."
 
-**Slide 20 — Exemplo numérico: quanto a empresa expõe sem saber (19:00–19:20)**
-Fala: "Juntando tudo: 180 subdomínios, 120 ativos, 15 desconhecidos. 15 dividido por 120 dá 12,5% da superfície ativa desconhecida. E 260 dividido por 400 dá 65% das pessoas expostas como alvo de *phishing*."
+**Slide 19 — De volta ao problema (19:35–19:55)**
+Fala: "Voltemos à pergunta. A Tatame expõe 15 ativos fora do inventário, serviços com versões identificáveis e um portal de homologação que confirma contas. O Red Team descobriu isso dentro do escopo. A defesa fecha a lacuna com inventário atualizado, monitor de certificados, mensagem de login genérica e coleta do tráfego da homologação."
 
-**Slide 21 — De volta ao problema (19:20–19:50)**
-Fala: "Voltemos à pergunta da aula. A vaga, o perfil e o buscador mostraram o que a Tatame publica. Os certificados revelaram 15 nomes fora do inventário, com a `hml-gestao` no topo. O script mediu 12,5% e 65%. E a plataforma mostrou que, com o monitor de certificados e a R12, o SOC vê o subdomínio novo pela mesma fonte do Red Team. A resposta, então: a Tatame expõe 15 ativos que a TI não conhecia e 260 *e-mails*, descobre isso com OSINT autorizado e se mantém à frente com inventário atualizado e monitor de certificados."
-
-**Slides 22 a 24 — Pontos-chave, referências e encerramento (19:50–20:00)**
-Fala: "Na próxima aula, vamos descobrir quais desses serviços expostos estão vulneráveis e qual corrigir primeiro. Até lá!"
+**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:55–20:00)**
+Fala: "Na próxima aula, os serviços que encontramos hoje viram candidatos a vulnerabilidade e porta de entrada. Até lá!"
 [Slides: pontos-chave e referências ficam disponíveis no material. Envato: "digital footprint data".]
 
-## Aula 6 — Varredura, enumeração e gestão de vulnerabilidades
+## Aula 6 — Exploração de vulnerabilidades e obtenção de acesso inicial
 
 ### Texto base
 
-Concluído o reconhecimento, o Red Team sabe **onde** procurar. A etapa seguinte responde a outra pergunta: **o que está aberto e o que está vulnerável?** É aqui que entram a varredura, a enumeração e — do lado de quem defende — a gestão de vulnerabilidades, que transforma uma lista enorme de falhas em um plano de correção viável.
+Concluídos o reconhecimento e a enumeração, o Red Team tem nas mãos uma lista de serviços, versões e, em geral, centenas de achados de um *scanner* de vulnerabilidades. A pergunta agora é outra: **quais desses achados dariam a um adversário real o primeiro ponto de apoio no ambiente, e como provar isso sem causar dano?** É a tática TA0001 (*Initial Access*) da matriz MITRE ATT&CK, estudada na Unidade 1.
 
-#### Varredura e enumeração
+#### Da vulnerabilidade à exploração controlada
 
-A **varredura** identifica quais *hosts* estão ativos, quais portas estão abertas e quais serviços e versões respondem nelas. O **Nmap** é a ferramenta clássica para isso. A **enumeração** aprofunda o resultado: extrai dos serviços encontrados informações como nomes de usuários, compartilhamentos de rede, versões de aplicações e configurações. No ATT&CK, essas atividades aparecem tanto no reconhecimento (T1595 — *Active Scanning*), quando feitas de fora, quanto na tática de Descoberta (TA0007), quando feitas de dentro da rede, por exemplo T1046 — *Network Service Discovery*.
+**Vulnerabilidade** é uma fraqueza conhecida em um *software*, em uma configuração ou em um processo. **Exploração** é o uso dessa fraqueza para obter algo que não deveria ser possível, como ler arquivos protegidos ou executar comandos. Entre uma e outra há uma distância importante: o *scanner* deduz muitas falhas apenas pelo número de versão anunciado pelo serviço, gera falsos positivos e não comprova que a falha pode ser explorada naquele ambiente.
 
-Em seguida, *scanners* de vulnerabilidades como OpenVAS, Nessus ou Qualys comparam os serviços e versões identificados com bases de falhas conhecidas. Como visto na Unidade 1, esse resultado precisa ser validado: *scanners* geram falsos positivos e não comprovam a explorabilidade.
+Em um exercício autorizado, a validação segue o princípio de **demonstrar, e não executar**: confirmar a falha com o teste menos invasivo disponível, registrar a evidência mínima (código de resposta, versão, horário) e parar. Ler dados pessoais, instalar programas no alvo ou derrubar um serviço ficam fora das regras de engajamento, salvo previsão expressa e justificada.
 
-[Imagem 1 — Fluxo em quatro blocos: descoberta de *hosts* → portas e serviços → enumeração → identificação de vulnerabilidades. Texto alternativo: "Fluxograma das etapas de varredura, enumeração e identificação de vulnerabilidades". Pode ser recriado pela equipe de produção.]
+#### CVE e CVSS: nome e gravidade
 
-#### CVE: dando nome às falhas
+Cada vulnerabilidade conhecida recebe um identificador **CVE** (*Common Vulnerabilities and Exposures*), no formato CVE-ano-número, coordenado pela MITRE; a NVD, mantida pelo NIST, acrescenta severidade e produtos afetados. Um exemplo é a CVE-2021-41773, falha de travessia de diretório (*path traversal*) no servidor Apache HTTP 2.4.49. O **CVSS** (*Common Vulnerability Scoring System*), mantido pelo FIRST, atribui a cada falha uma nota de 0 a 10 a partir do vetor de ataque, da complexidade, dos privilégios e da interação exigidos e do impacto. A versão 4.0 foi publicada em 2023, mas a 3.1 ainda é a mais usada. As faixas são: 0,1 a 3,9, baixa; 4,0 a 6,9, média; 7,0 a 8,9, alta; 9,0 a 10,0, crítica. A nota-base mede **severidade técnica**, e não **risco**.
 
-Cada vulnerabilidade conhecida recebe um identificador **CVE** (*Common Vulnerabilities and Exposures*), no formato CVE-ano-número — por exemplo, CVE-2021-44228, a falha na biblioteca Log4j conhecida como Log4Shell. O programa CVE é coordenado pela MITRE, e a NVD (*National Vulnerability Database*), mantida pelo NIST, enriquece os registros com informações de severidade e produtos afetados. O identificador comum permite que *scanner*, fornecedor, Red Team e Blue Team falem da mesma falha sem ambiguidade.
+#### EPSS e KEV: o que o adversário usaria primeiro
 
-#### CVSS: quão grave é a falha?
+O **EPSS** (*Exploit Prediction Scoring System*), também do FIRST, estima a probabilidade de exploração de uma falha nos 30 dias seguintes. O catálogo **KEV** (*Known Exploited Vulnerabilities*), da agência norte-americana CISA, lista falhas com exploração confirmada. Para o Blue Team, essas referências ordenam a correção; para o Red Team, ordenam o teste, porque um adversário emulado tende a usar primeiro o que já funciona contra outras vítimas. Somadas à exposição e à criticidade do ativo, elas dizem por onde começar.
 
-O **CVSS** (*Common Vulnerability Scoring System*), mantido pelo FIRST, atribui uma nota de 0 a 10 a uma vulnerabilidade, considerando fatores como o vetor de ataque (rede, local, físico), a complexidade, a necessidade de privilégios ou de interação do usuário e o impacto sobre confidencialidade, integridade e disponibilidade. A versão 4.0 foi publicada em 2023, mas a 3.1 ainda é amplamente usada. As faixas qualitativas são:
+[Imagem 1 — Matriz de prioridade com o eixo horizontal "severidade (CVSS)" e o eixo vertical "probabilidade de exploração (EPSS)", destacando o quadrante superior direito como "testar e corrigir primeiro". Texto alternativo: "Gráfico de dispersão de vulnerabilidades com CVSS no eixo x e EPSS no eixo y, com a região de prioridade destacada". Pode ser recriado pela equipe de produção.]
 
-| Nota CVSS | Severidade |
-|---|---|
-| 0,0 | Nenhuma |
-| 0,1–3,9 | Baixa |
-| 4,0–6,9 | Média |
-| 7,0–8,9 | Alta |
-| 9,0–10,0 | Crítica |
+#### Metasploit Framework em ambiente controlado
 
-O ponto de atenção é que a nota-base do CVSS mede **severidade técnica**, e não **risco**. Ela não diz se a falha está sendo explorada no mundo real nem se o ativo afetado é crítico para o negócio.
+O **Metasploit Framework** é um projeto de código aberto mantido pela Rapid7 e incluído no Kali Linux. Ele organiza os testes em **módulos**: *auxiliary* (varredura, enumeração e verificação, sem abrir acesso), *exploit* (exploração de uma falha específica), *payload* (o código que roda no alvo depois da exploração) e *post* (ações após o acesso), entre outros. No console `msfconsole`, o comando `search` localiza módulos por produto ou CVE, `info` descreve o que o módulo faz e quais opções exige, `use` e `set` escolhem e configuram o módulo, e `run` executa um `auxiliary/scanner`. Muitos módulos de exploração oferecem ainda o comando `check`, que pergunta se o alvo parece vulnerável sem explorá-lo. As respostas distinguem evidência direta (*vulnerable*) de evidência indireta (*appears*), que pode vir só da versão.
 
-#### EPSS e KEV: a falha está sendo explorada?
+Em um engajamento, a regra de engajamento define quais tipos de módulo são permitidos. Neste curso, os laboratórios usam apenas `search`, `info`, módulos *auxiliary* e `check`, sempre contra *hosts* fictícios dentro do escopo.
 
-Para complementar o CVSS, surgiram duas referências públicas. O **EPSS** (*Exploit Prediction Scoring System*), também do FIRST, estima a **probabilidade** de que uma vulnerabilidade seja explorada nos 30 dias seguintes, com base em dados observados de atividade de exploração. O catálogo **KEV** (*Known Exploited Vulnerabilities*), da agência norte-americana CISA, lista vulnerabilidades com **exploração confirmada**; para órgãos federais dos Estados Unidos, a correção dessas falhas tem prazos obrigatórios, e muitas empresas privadas adotam o catálogo como critério de prioridade.
+[Imagem 2 — Tela de terminal escuro com uma sessão de console de testes mostrando uma lista de módulos e a mensagem "The target appears to be vulnerable". Texto alternativo: "Terminal com sessão de verificação de vulnerabilidade, sem exploração". Pode ser recriado pela equipe de produção a partir do laboratório da aula.]
 
-[Imagem 2 — Matriz de prioridade com o eixo horizontal "severidade (CVSS)" e o eixo vertical "probabilidade de exploração (EPSS)", destacando o quadrante superior direito como "corrigir já". Texto alternativo: "Gráfico de dispersão de vulnerabilidades com CVSS no eixo x e EPSS no eixo y". Pode ser recriado pela equipe de produção.]
+#### Os vetores de acesso inicial
 
-#### Gestão de vulnerabilidades como processo
+| Técnica ATT&CK | Como o adversário entra | O que a RoE costuma permitir |
+|---|---|---|
+| T1190 — *Exploit Public-Facing Application* | Falha em aplicação exposta à internet | Verificar a falha; não ler dados reais |
+| T1133 — *External Remote Services* | VPN, RDP ou portal remoto exposto | Verificação de versão e comportamento |
+| T1078 — *Valid Accounts* | Conta legítima obtida por vazamento ou reuso de senha | Só contas de teste criadas para o exercício |
+| T1566 — *Phishing* (.001 anexo, .002 *link*) | Mensagem que leva a pessoa a agir | Campanha educativa, sem guardar senhas |
 
-A gestão de vulnerabilidades é um **ciclo contínuo**: inventariar ativos, identificar falhas, priorizar, corrigir ou mitigar, verificar a correção e reportar. Uma boa priorização combina quatro perguntas: a falha é grave (CVSS)? É provável que seja explorada (EPSS)? Já está sendo explorada (KEV)? O ativo é exposto à internet ou crítico para o negócio? A partir disso, a organização define **SLAs de correção** — por exemplo, 7 dias para falhas no KEV em ativos expostos, 30 dias para altas e 90 para médias. O NIST SP 800-40 Rev. 4 trata a aplicação de correções (*patch management*) como manutenção preventiva, que precisa ser planejada, e não como reação a cada alerta.
+Nem todo acesso inicial depende de CVE. Contas válidas e falhas de lógica, como a autorização por objeto mal implementada em uma API, não aparecem no relatório do *scanner* e só são reveladas por teste.
 
-[Imagem 3 — Ciclo circular com seis etapas: inventariar, identificar, priorizar, corrigir, verificar e reportar. Texto alternativo: "Ciclo contínuo da gestão de vulnerabilidades". Sugestão de busca no Envato: "continuous cycle infographic six steps".]
+[Imagem 3 — Diagrama com quatro portas de entrada de uma empresa: servidor exposto, VPN, aplicativo com login e caixa de *e-mail*, todas convergindo para a rede interna. Texto alternativo: "Diagrama dos quatro vetores de acesso inicial convergindo para a rede da empresa". Sugestão de busca no Envato: "network entry points diagram".]
+
+#### *Phishing* como vetor autorizado
+
+Muitos adversários preferem uma pessoa a uma falha técnica. Uma simulação de *phishing* autorizada exige aval formal da liderança, com RH, jurídico e encarregado de dados cientes; finalidade educativa, com orientação imediata para quem clica, e não punição; proteção de dados, sem armazenar senhas e com acesso restrito aos resultados individuais, conforme a LGPD; e limites de pretexto, vetando temas como demissões ou saúde. A métrica mais útil para a defesa é a **taxa de reporte**: um aviso rápido permite ao SOC bloquear a mensagem para todos.
 
 #### Que rastro isso deixa para o Blue Team?
 
-Varreduras são ruidosas: muitas conexões em sequência para portas diferentes, a partir da mesma origem, geram registros em *firewalls*, sistemas de detecção de intrusão e servidores. A enumeração interna gera consultas incomuns ao diretório e tentativas de autenticação. Por isso, em operações de Red Team que testam a detecção, a varredura é feita de forma mais lenta e seletiva — e a pergunta para o Blue Team passa a ser "nossa detecção percebe varreduras discretas, ou só as barulhentas?".
+Verificações de falhas *web* deixam linhas incomuns no log do servidor, como caminhos com sequências codificadas e muitas respostas de erro. Tentativas em serviços remotos aparecem nos registros da VPN e da auditoria de identidade; o uso de contas válidas aparece como sequências de falhas seguidas de sucesso; o *phishing* passa pelo *gateway* de *e-mail*, pelo DNS e pelo *proxy*. Um ativo que não envia logs a ninguém, porém, não deixa rastro útil, por mais ruidoso que seja o teste. Por isso o Red Team registra hora e origem de cada verificação, para que o relatório compare o que foi feito com o que o SOC viu.
+
+[Imagem 4 — Painel de monitoramento com alertas de login suspeito e de requisições anômalas a um servidor *web*. Texto alternativo: "Tela de monitoramento de segurança com alertas gerados por tentativas de acesso inicial". Sugestão de busca no Envato: "security operations center dashboard alerts".]
 
 #### Exemplo numérico: CVSS ou EPSS?
 
-Uma equipe com capacidade de corrigir 150 vulnerabilidades por semana recebe um relatório com 1.200 achados. Se priorizar tudo com CVSS ≥ 7,0 (480 achados), levará 480 ÷ 150 = **3,2 semanas** só para essa fila. Considere três casos com valores ilustrativos:
+Uma equipe que corrige 150 vulnerabilidades por semana recebe um relatório com 1.200 achados. Se priorizar tudo com CVSS ≥ 7,0 (480 achados), levará 480 ÷ 150 = **3,2 semanas** só nessa fila. Considere três casos com valores ilustrativos:
 
 | Vulnerabilidade | CVSS | EPSS | No KEV? | Ativo |
 |---|---|---|---|---|
 | A | 9,8 | 0,02 (2%) | Não | Servidor interno isolado |
-| B | 7,5 | 0,94 (94%) | Sim | Portal exposto à internet |
-| C | 5,3 | 0,40 (40%) | Não | VPN corporativa |
+| B | 7,5 | 0,94 (94%) | Sim | Portal de homologação exposto à internet |
+| C | 5,3 | 0,40 (40%) | Não | Serviço de acesso remoto exposto |
 
-Pelo CVSS, A viria primeiro. Pelo risco, **B é a prioridade**: está sendo explorada, tem alta probabilidade de exploração e está exposta. Se a empresa filtrar apenas KEV ou EPSS ≥ 10% em ativos expostos e restarem 60 achados, essa fila crítica será tratada em 60 ÷ 150 = **0,4 semana**, cerca de dois dias úteis.
+Pelo CVSS, A viria primeiro. Pelo risco, **B é a prioridade**, de teste e de correção: tem exploração confirmada, alta probabilidade e está exposta. Se a fila crítica incluir apenas KEV ou EPSS ≥ 10% em ativos expostos e restarem 60 achados, ela será tratada em 60 ÷ 150 = **0,4 semana**, cerca de dois dias úteis.
 
 #### Pontos-chave
 
-- Varredura descobre serviços; enumeração extrai detalhes deles; ambas são ruidosas.
-- CVE identifica a falha; CVSS mede a severidade técnica, não o risco.
-- EPSS estima a probabilidade de exploração; o KEV confirma exploração real.
-- Priorizar por risco reduz drasticamente o tempo de exposição às falhas que importam.
+- CVE identifica a falha; CVSS mede a severidade técnica; EPSS e KEV indicam a probabilidade e a confirmação de exploração.
+- Em exercício autorizado, a exploração é demonstrada com o teste menos invasivo, como `check` e módulos *auxiliary* do Metasploit.
+- O acesso inicial (TA0001) inclui aplicações expostas, serviços remotos, contas válidas e *phishing*.
+- Cada vetor tem limites próprios na RoE e deixa rastros que o Blue Team pode aprender a detectar.
 
 ### Referências da aula
 
-CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. *Known exploited vulnerabilities catalog*. Disponível em: <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>. Acesso em: 13 nov. 2026.
+CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. *Known exploited vulnerabilities catalog*. Disponível em: <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>. Acesso em: 22 nov. 2026.
 
-FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. *Common vulnerability scoring system version 4.0: specification document*. 2023. Disponível em: <https://www.first.org/cvss/>. Acesso em: 13 nov. 2026.
+FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. *Common vulnerability scoring system version 4.0*: specification document. 2023. Disponível em: <https://www.first.org/cvss/>. Acesso em: 22 nov. 2026.
 
-FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. *Exploit prediction scoring system (EPSS)*. Disponível em: <https://www.first.org/epss/>. Acesso em: 13 nov. 2026.
+FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. *Exploit prediction scoring system (EPSS)*. Disponível em: <https://www.first.org/epss/>. Acesso em: 22 nov. 2026.
 
-JACOBS, Jay *et al*. Exploit prediction scoring system (EPSS). *Digital Threats: Research and Practice*, v. 2, n. 3, 2021.
+MITRE. *Initial access (TA0001)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0001/>. Acesso em: 22 nov. 2026.
 
-SOUPPAYA, Murugiah; SCARFONE, Karen. *SP 800-40 Rev. 4: guide to enterprise patch management planning: preventive maintenance for technology*. Gaithersburg: NIST, 2022.
+RAPID7. *Metasploit documentation*. Disponível em: <https://docs.metasploit.com/>. Acesso em: 22 nov. 2026.
 
-### Roteiro da Videoaula 6 — "1.200 achados e uma semana: o que a Tatame corrige primeiro?"
+WEIDMAN, Georgia. *Testes de invasão*: uma introdução prática ao hacking. São Paulo: Novatec, 2014.
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula6.html (24 slides).
+### Roteiro da Videoaula 6 — "Como provar que a porta está aberta sem atravessá-la?"
+
+Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula6.html (22 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Esta é a Aula 6 da Unidade 2. Na aula passada, descobrimos o que a Rede Tatame expõe na internet. Hoje vamos varrer esses ativos, encontrar as falhas e decidir qual delas corrigir primeiro."
-[Câmera: professor em plano médio. Slide 2 na tela ao fim da fala.]
+Fala: "Olá! Esta é a Aula 6. Na aula passada, o Red Team descobriu o que a Rede Tatame expõe. Hoje vamos escolher, entre centenas de falhas, as que serviriam de porta de entrada para um adversário, e provar cada uma sem atravessá-la. No sumário, você vê o caminho: referências de vulnerabilidade, Metasploit no Kali, os vetores de acesso inicial e o rastro que tudo isso deixa."
+[Câmera: professor em plano médio.]
 
 **Slide 3 — O problema de hoje na Rede Tatame (0:30–1:50)**
-Fala: "Conheça o Caio Mendes, que administra a TI da sede da Tatame. O Red Team de Bruno Sato terminou a varredura autorizada e o *scanner* devolveu 1.200 achados. Só que a equipe do Caio corrige no máximo 150 por semana, e só os achados de gravidade alta já levariam 3,2 semanas. No mapa, em vermelho, está a `hml-gestao`, aquela homologação esquecida da Aula 5, que guarda fichas de alunos. A pergunta de hoje é esta: com 1.200 achados e capacidade para 150 correções por semana, o que a Tatame deve corrigir primeiro? Guarde essa pergunta, porque cada laboratório vai responder uma parte dela."
-[Take de apoio: equipe de TI diante de uma lista longa de alertas — Envato: "IT team overwhelmed alerts".]
+Fala: "O *scanner* devolveu 1.200 achados sobre a borda e a sede da Tatame. Bruno Sato, do Red Team, tem até 27 de novembro para mostrar à CISO, Marina Prado, por onde o Grupo Cobalto Austral entraria, e Caio Mendes, da TI, só consegue corrigir 150 falhas por semana. Olhe o mapa à direita: em vermelho está a `hml-gestao`, sem WAF e com cópia do banco de alunos. A regra do exercício é provar o risco sem derrubar nada e sem tocar em dado pessoal. A pergunta da aula está no quadro amarelo: entre 1.200 achados, quais dão acesso inicial, e como provar isso sem causar dano?"
+[Take de apoio: porta entreaberta em corredor escuro — Envato, "door ajar dark corridor".]
 
-**Slide 4 — Varredura, enumeração e *scanners* (1:50–2:35)**
-Fala: "Primeiro, os conceitos. A varredura descobre quais máquinas respondem, quais portas estão abertas e que serviço roda em cada uma. A enumeração vai mais fundo e extrai nomes de usuários, compartilhamentos e configurações. Os *scanners* de vulnerabilidades comparam essas versões com bases de falhas conhecidas. Repare no destaque: o *scanner* gera falsos positivos, então todo resultado precisa ser validado."
+**Slide 4 — Da vulnerabilidade ao acesso inicial (1:50–2:40)**
+Fala: "Vulnerabilidade é a fraqueza; exploração é usar essa fraqueza para obter o que não deveria ser possível. O *scanner* fica no meio do caminho: ele deduz a falha pela versão, erra às vezes e não prova nada. O primeiro ponto de apoio do adversário é a tática TA0001 do ATT&CK, o acesso inicial. E, num exercício autorizado, a regra é demonstrar, e não executar: o teste menos invasivo, a evidência mínima e parar."
 
-**Slide 5 — Laboratório: da descoberta de *hosts* à lista de vulnerabilidades (2:35–3:45)**
-Objetivo: mostrar de onde vêm os 1.200 achados e que rastro cada etapa deixa.
+**Slide 5 — CVE dá o nome; CVSS mede a gravidade técnica (2:40–3:20)**
+Fala: "Cada falha conhecida ganha um CVE, um nome comum, coordenado pela MITRE, e a NVD acrescenta a severidade. O CVSS, do FIRST, dá a nota de 0 a 10. Leia a tabela à direita: de 7,0 a 8,9 é alta; de 9,0 em diante, crítica. Guarde o quadro azul: essa nota mede gravidade técnica, e não risco."
+
+**Slide 6 — EPSS e KEV: a falha está sendo explorada? (3:20–4:00)**
+Fala: "Duas referências completam o quadro. O EPSS estima a probabilidade de exploração nos próximos 30 dias. O KEV, da CISA, lista o que já está sendo explorado. Para o Blue Team, isso ordena a correção. Para o Red Team, ordena o teste, porque o adversário que estamos emulando usaria primeiro o que já funciona contra outras vítimas."
+
+**Slide 7 — Laboratório: a falha da `hml-gestao` em três fontes (4:00–5:30)**
+Objetivo: ler uma falha real, a da `hml-gestao`, pelas três referências e decidir se ela merece teste.
 Na tela:
-1. Ao abrir o slide, o passo "1 · Descoberta de hosts" já está na tela: 7 de 512 endereços respondem.
-2. *Avançar* para "2 · Portas e serviços".
-3. *Avançar* para "Rastro · O firewall registra": acendem *Firewall e IDS* e *SIEM*, em azul.
-4. *Avançar* para "3 · Enumeração" e depois "Rastro · O diretório registra".
-5. *Avançar* para "4 · Identificação de vulnerabilidades" (1.200 achados), "5 · Validação" e "6 · Priorização".
-Fala: "Cada caixa da linha de cima é uma etapa do Red Team, e cada caixa azul é um lugar onde a defesa pode ver essa etapa. Quando a varredura bate em muitas portas, o *firewall* e o IDS, que é o sistema de detecção de intrusão, registram e mandam para o SIEM. Notem um detalhe no texto do rastro: a `hml-gestao` está fora do WAF, então não registra nada. No fim, o *scanner* gera os 1.200 achados, mas eles ainda passam pela validação e pela priorização."
-Atenção: o botão *Auto* avança sozinho; para narrar com calma, prefira *Avançar*. São 8 passos.
-Conclusão: "Os 1.200 achados são o começo do trabalho. Ainda falta separar o que é real do que é ruído."
-[Tela: gravação do laboratório do slide 5.]
+1. Na aba "Registro e CVSS", clicar em cada parte do vetor: AV:N, AC:L, PR:N, UI:N, S:U, C:H, I:N e A:N.
+2. Clicar na aba "EPSS".
+3. Clicar na aba "KEV".
+4. Clicar na aba "Na Rede Tatame".
+Fala: "A varredura encontrou Apache 2.4.49 na `hml-gestao`, e essa versão tem a CVE-2021-41773, uma travessia de diretório: pedir arquivos fora da pasta publicada. Cada clique no vetor explica uma sigla na faixa escura. Rede, complexidade baixa, nenhum privilégio, nenhum clique de usuário: qualquer pessoa na internet consegue tentar. O impacto é alto só na confidencialidade, por isso a nota fica em 7,5, alta, e não crítica. Na aba EPSS, a probabilidade é muito alta; a planilha do exercício registrou 0,94 no dia da coleta. Na aba KEV, a resposta é sim, desde a primeira versão do catálogo, em novembro de 2021. A última aba mostra o que a RoE permite: verificar a travessia, sem copiar ou baixar arquivos e sem executar comando."
+Atenção: o valor do EPSS muda todos os dias; o 0,94 é o da planilha fictícia do exercício. A página é de estudo e usa domínio `example.com`.
+Conclusão: "Uma falha 'só' alta, mas explorada e exposta, vai para o topo da lista de teste."
+[Tela: gravação do laboratório do slide 7.]
 
-**Slide 6 — Laboratório: varredura autorizada na borda e na sede (3:45–5:25)**
-Objetivo: gerar a lista de achados da Tatame e ver um falso positivo sendo descartado.
-Na tela:
-1. Clicar em *Próximo comando*: roda `inventario-rede descobrir 203.0.113.0/24 10.10.1.0/24`.
-2. Clicar em *Próximo comando*: roda `inventario-rede enumerar 10.10.1.20`.
-3. Clicar em *Próximo comando*: roda `scanner-vuln resumo varredura-2026-11.json`.
-4. Clicar em *Próximo comando*: roda `scanner-vuln validar TAT-2026-014`.
-Fala: "Este utilitário é fictício, feito para a aula. O primeiro comando confere a autorização TAT-2611, assinada pela Marina Prado, e mostra o que ficou fora: a PagaFácil e a rede de pagamentos. Depois lista 7 *hosts* ativos, com porta, serviço e versão. Olhem a linha da `hml-gestao`: Apache 2.4.49, sem WAF. O segundo comando enumera o servidor de arquivos com uma conta de teste sem privilégios e acha duas pastas legíveis por todos: FINANCEIRO e EXPORT-ALUNOS, com fichas inclusive de menores. A equipe registra o achado e não abre nenhum arquivo. O terceiro mostra o relatório por severidade: 95 críticos, 385 altos, 520 médios e 200 baixos, total de 1.200. Os de CVSS maior ou igual a 7 somam 480, e 480 dividido por 150 dá 3,2 semanas. O quarto valida o achado TAT-2026-014 no SRV-ERP-01: o *scanner* deduziu a falha só pelo número de versão, mas a correção já estava aplicada. É um falso positivo."
-Atenção: os comandos e as saídas são simulados. O botão *Executar tudo* roda os quatro de uma vez; use-o só se o tempo apertar.
-Conclusão: "O *scanner* aponta suspeitas, e quem confirma é a validação. Agora temos a lista, mas ainda não sabemos por onde começar."
-[Tela: gravação do laboratório do slide 6.]
-
-**Slides 7 a 9 — CVE, CVSS, EPSS e KEV (5:25–6:45)**
-Fala: "Para ordenar a lista, precisamos de três referências. A CVE é o nome da falha, como a CVE-2021-44228, o Log4Shell. O CVSS, mantido pelo FIRST, dá uma nota de 0 a 10 para a gravidade técnica, com as faixas da tabela. Mas o CVSS não diz se a falha está sendo explorada nem se o ativo importa. Para isso existe o EPSS, que estima a probabilidade de exploração nos 30 dias seguintes, e o KEV, o catálogo da CISA com as falhas de exploração confirmada. Em resumo: o CVSS diz quão grave é, o EPSS diz quão provável é a exploração e o KEV diz que ela já acontece."
-[Take de apoio: tela com tabela de vulnerabilidades — Envato: "vulnerability scan report screen".]
-
-**Slide 10 — Laboratório: uma CVE consultada em três fontes (6:45–8:05)**
-Objetivo: ler a mesma falha pelas três referências.
-Na tela:
-1. Na aba *Registro e CVSS*, clicar em cada parte do vetor: AV:N, AC:L, PR:N, UI:N, S:C, C:H, I:H, A:H.
-2. Clicar na aba *EPSS*.
-3. Clicar na aba *KEV*.
-[Tela de apoio: abrir o *site* do FIRST e mostrar o EPSS do dia da CVE-2021-44228.]
-Fala: "O vetor CVSS é uma frase em código. AV:N quer dizer que o ataque vem pela rede; AC:L, complexidade baixa; PR:N, nenhum privilégio; UI:N, ninguém precisa clicar. Por isso a nota chega a 10. Na aba EPSS, o valor é muito alto, entre os maiores da base, e muda todo dia. Vou abrir o *site* do FIRST para lermos o número de hoje. Comparem com o EPSS de 0,02 da vulnerabilidade A que veremos no exemplo. Na aba KEV, a falha consta do catálogo desde dezembro de 2021. O resumo da triagem está no fim da página: CVSS crítico, EPSS muito alto e KEV. Se o ativo estiver exposto, é a primeira da fila."
-Atenção: a página é ilustrativa; o valor exato do EPSS deve ser lido no *site* no dia da gravação.
-Conclusão: "O CVSS mede a gravidade; o EPSS e o KEV dizem se alguém está explorando."
-[Tela: gravação do laboratório do slide 10.]
-
-**Slide 11 — Laboratório: o cubo de risco (8:05–9:15)**
+**Slide 8 — Laboratório: o cubo de risco (5:30–6:40)**
 Objetivo: ver gravidade, probabilidade e importância do ativo ao mesmo tempo.
 Na tela:
-1. Arrastar com o mouse para girar o cubo de lado.
-2. Apontar a esfera B, dentro da caixa vermelha "corrigir já".
-3. Apontar a esfera C e a esfera A, com o rótulo "A · CVSS 9,8 · EPSS 2%".
-Fala: "Cada esfera é um achado. O eixo CVSS mede a gravidade, o eixo EPSS a probabilidade, e a profundidade é a criticidade do ativo. A caixa vermelha é a região de prioridade: CVSS a partir de 7, EPSS a partir de 10% e ativo importante. Os anéis amarelos marcam falhas do KEV. A tem CVSS 9,8, o maior do exemplo, mas EPSS de 2% em um servidor isolado, então fica fora da caixa. B tem CVSS 7,5, EPSS de 94%, está no KEV e mora na `hml-gestao`, exposta à internet. B está dentro da caixa."
-Atenção: as esferas pequenas sem rótulo são achados ilustrativos de fundo; só A a G vêm do exemplo da aula.
-Conclusão: "CVSS alto não quer dizer risco alto."
-[Tela: gravação do laboratório do slide 11.]
+1. Arrastar a cena para girar o cubo de lado.
+2. Localizar a esfera 003 (VPN) e a 002 (`hml-gestao`), no alto e dentro da caixa vermelha.
+3. Localizar a esfera 001 (SRV-LEGADO-07), embaixo, fora da caixa.
+Fala: "O eixo da frente é o CVSS, o vertical é o EPSS e a profundidade é a criticidade do ativo. A caixa vermelha, com o rótulo 'testar primeiro', é a região de CVSS alto, probabilidade alta e ativo importante. Os anéis amarelos marcam o que está no KEV. A VPN, 003, e a `hml-gestao`, 002, estão dentro dela. Já a 001 tem CVSS 9,8, quase o máximo, mas EPSS de 2% e fica num servidor isolado: está longe da caixa."
+Atenção: as esferas pequenas são achados ilustrativos de fundo; os números que valem são os rótulos. A cena precisa de internet para carregar o three.js.
+Conclusão: "CVSS alto não quer dizer porta de entrada provável."
+[Tela: gravação do laboratório do slide 8.]
 
-**Slide 12 — Gestão de vulnerabilidades como ciclo contínuo (9:15–9:55)**
-Fala: "Priorizar é uma etapa de um ciclo: inventariar, identificar, priorizar, corrigir, verificar e reportar. A tabela junta as quatro perguntas da priorização. Os SLAs, prazos máximos combinados, ficam assim no exemplo: 7 dias para falhas no KEV em ativos expostos, 30 para altas e 90 para médias."
+**Slide 9 — Metasploit Framework: uma biblioteca de módulos (6:40–7:30)**
+Fala: "O Metasploit, mantido pela Rapid7, já vem no Kali. Cada teste é um módulo. Os *auxiliary* varrem e verificam sem abrir acesso; os *exploit* exploram uma falha, e muitos têm o comando `check`; os *payloads* são o que rodaria no alvo; e os *post* agem depois da entrada, assunto da próxima aula. Na Tatame, a RoE libera só *auxiliary* e `check`. Os comandos de hoje estão no quadro azul: `search`, `info`, `use`, `set`, `run` e `check`."
 
-**Slide 13 — Antes do código: onde achar e como instalar (9:55–10:20)**
-Fala: "Antes do código, de onde vem cada programa. O Visual Studio Code e o Python 3.12 saem dos *sites* dos próprios projetos, e vale ler o endereço letra por letra. Quando o projeto publica o *hash* SHA-256 do instalador, compare com o do arquivo baixado. Os dois scripts só usam o módulo `csv`, da biblioteca padrão. E todo programa instalado entra no inventário e passa a precisar de correções."
+**Slide 10 — Laboratório: Metasploit com `check`, dentro do escopo (7:30–10:30)**
+Objetivo: confirmar as duas portas de entrada mais prováveis, a `hml-gestao` e a VPN, sem explorar nenhuma.
+Na tela (um clique em "▶ Próximo comando" para cada comando):
+1. `cat roe/escopo-externo.txt`.
+2. `msfconsole -q`.
+3. `search cve:2021-41773`.
+4. `info auxiliary/scanner/http/apache_normalize_path`.
+5. `use auxiliary/scanner/http/apache_normalize_path`, `set RHOSTS 203.0.113.45`, `set ACTION CHECK_TRAVERSAL` e `set CVE CVE-2021-41773`.
+6. `run`.
+7. `search netguard`, `use auxiliary/scanner/http/netguard_sslvpn_check` e `set RHOSTS 203.0.113.30`.
+8. `check`.
+9. `vulns`.
+Fala: "Estamos na VM `lab-tatame` do Red Team, no Kali, em 18 de novembro. Antes de abrir o Metasploit, leio o escopo do dia: em verde, os dois alvos, o teste permitido em cada um e a autorização explícita da verificação de travessia, sem guardar conteúdo; em vermelho, o que está proibido, como *payload* e cópia de arquivos, e o que está fora do escopo. O `msfconsole -q` abre o console sem o banner, e o *prompt* vira `msf6`. A busca pela CVE devolve dois módulos: o de exploração, em cinza, que não vamos usar, e o *scanner* auxiliar, destacado. O `info` mostra que o *scanner* tem três ações; a seta marca a padrão, `CHECK_TRAVERSAL`, a única que a RoE libera. A linha de opções mostra que o módulo cobre duas CVEs e que o padrão é a CVE-2021-42013, a da versão 2.4.50. Repare que o *prompt* muda com o `use`, e cada `set` responde com o valor gravado; no último, escolho a CVE-2021-41773, porque o servidor é o 2.4.49. O `run` pede um arquivo-padrão do sistema pelo caminho de travessia e só confere se a resposta tem a assinatura esperada, sem exibir nem guardar o conteúdo, uma verificação que a RoE autoriza de forma explícita: a linha com o sinal de mais diz que o alvo é vulnerável à CVE-2021-41773. Depois passamos à VPN. O módulo do NetGuard é fictício, criado para o laboratório, e só tem verificação. O `check` detecta a versão 9.1 e responde *appears to be vulnerable*, parece vulnerável: a evidência é indireta, vem da versão e do comportamento. Por fim, o `vulns` lista o que ficou registrado no banco do Metasploit, com data e hora, e a linha verde confirma: nenhum *payload*, nenhuma sessão."
+Atenção: a sessão é simulada e as linhas coloridas são realces didáticos. O NetGuard e a CVE-2026-0000 são fictícios. Avise que esses comandos só podem ser usados em laboratório autorizado. O botão "⏭ Executar tudo" roda a sequência de uma vez; para gravar, vá um a um e leia a nota de rodapé de cada passo.
+Conclusão: "Duas portas de entrada confirmadas, duas evidências com hora para o relatório e nenhum dano."
+[Tela: gravação do laboratório do slide 10.]
 
-**Slide 14 — Laboratório: priorização por risco em Python (10:20–12:25)**
-Objetivo: ordenar os sete achados da Tatame por risco e medir o tamanho das filas.
+**Slide 11 — As portas de entrada e a regra para cada uma (10:30–11:15)**
+Fala: "Falha em *software* não é a única porta. A tabela traz quatro técnicas da TA0001. T1190 é a aplicação exposta, como a `hml-gestao` e o BOLA da API. T1133 é o serviço remoto, como a VPN. T1078 são as contas válidas: a senha certa basta. T1566 é o *phishing*. Na última coluna, a regra de engajamento de cada uma: verificar sem ler dados, só `check`, só contas de teste e campanha educativa sem guardar senha."
+
+**Slide 12 — *Phishing* como vetor autorizado (11:15–11:50)**
+Fala: "O Cobalto Austral gosta de entrar por pessoas, e por isso o *phishing* entra no exercício. Mas com quatro cuidados: autorização formal com RH, jurídico e DPO; finalidade educativa, sem punição; nenhuma senha guardada; e pretextos que não machuquem ninguém. A métrica que mais ajuda o Blue Team é a taxa de reporte."
+
+**Slide 13 — Laboratório: quatro portas de entrada, uma semana de exercício (11:50–13:20)**
+Objetivo: ver as quatro portas testadas e o que cada teste provou, inclusive o que o SOC não viu.
 Na tela:
-1. O VS Code ocupa o slide inteiro. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
+1. Ler o passo "O ponto de partida".
+2. Clicar em "▶ Avançar" para "T1133 · Serviço remoto exposto" e para "T1190 · Aplicação exposta".
+3. Avançar para "Rastro · Ninguém viu a hml-gestao".
+4. Avançar para "T1078 · Contas válidas" e para "T1566.002 · Phishing simulado".
+5. Avançar para "O que vai para o relatório".
+Fala: "À esquerda, o Red Team, saindo do endereço 192.0.2.66, registrado na carta de autorização. As duas primeiras setas roxas levam a VPN e a `hml-gestao` ao relatório: são os testes do laboratório anterior. No passo de rastro, a linha tracejada âmbar vai da homologação para 'Sem alerta', porque ela não passa pelo WAF e ninguém coleta os logs dela. No app, as contas de teste mostram que basta a senha, já que não há MFA, e a seta azul indica que a regra R2 avisou o SOC. No *phishing* da Aula 1, Carla Dias clicou, mas o MFA da VPN bloqueou a senha e a R1 alertou. O último passo resume: quatro portas, duas falhas confirmadas, uma entrada por conta válida e um *phishing* contido."
+Atenção: o botão "⏯ Auto" toca a sequência sozinho; para gravar, prefira "▶ Avançar" e espere cerca de dois segundos por passo.
+Conclusão: "Cada porta tem uma prova diferente, e cada prova tem hora e origem para comparar com o SOC."
+[Tela: gravação do laboratório do slide 13.]
+
+**Slide 14 — Antes do código: onde achar e como instalar (13:20–13:45)**
+Fala: "Antes do código, o que precisa estar instalado: o VS Code com a extensão Python da Microsoft, o Python 3.12 de python.org e o módulo `venv`, que já vem com ele. O script só usa o módulo `csv` da biblioteca padrão, então não há pacote de terceiros para baixar. Se um dia houver, confira o nome no PyPI letra por letra."
+
+**Slide 15 — Laboratório: priorizar por risco e decidir como validar (13:45–16:00)**
+Objetivo: ordenar sete achados por risco e decidir, para cada um, se o Red Team valida, só reporta ou deixa para a correção.
+Na tela:
+1. O VS Code ocupa o slide inteiro. O roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar o painel fechado durante a gravação.
 2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
-3. Mostrar `priorizar.py` e destacar as funções `probabilidade`, `risco` e `sla`.
-4. Abrir `achados.csv` no explorador e mostrar as linhas A, B e C.
-5. Clicar em *Priorizar*.
-6. Clicar em *Calcular filas*.
-Fala: "O editor ocupa a tela inteira e digita o `priorizar.py` ao abrir o slide. Antes de executar, preparo o ambiente. O terminal confere a versão do Python, cria o ambiente virtual `.venv`, que isola este projeto do resto do sistema, e o ativa; repare no `(.venv)` no começo do *prompt*. O `pip list` mostra só o `pip`: os dois scripts usam apenas a biblioteca padrão, então não há pacote para instalar. O código tem três funções. A `probabilidade` devolve 1,0 se a falha está no KEV e, se não estiver, usa o EPSS. A `risco` multiplica o CVSS pela probabilidade, pelo peso da exposição, que é 1,0 na internet, 0,6 na rede interna e 0,3 em segmento isolado, e por 1,5 se o ativo for crítico. Essa é a linha que decide a ordem. A `sla` dá 7 dias para KEV na internet. O arquivo `achados.csv` traz os sete achados. Ao rodar, a primeira linha mostra a ordem por CVSS: A, D, F, B, G, E, C. Logo abaixo vem a ordem por risco, e tudo muda. B, a `hml-gestao`, fica em primeiro com risco 11,25: 7,5 vezes 1,0 do KEV, vezes 1,0 da internet, vezes 1,5 de ativo crítico. A cai para sexto, com 0,06. Agora o `fila.py`: 480 achados levam 3,2 semanas; a fila crítica, KEV ou EPSS de pelo menos 10% em ativo exposto, tem 60 achados e leva 0,4 semana, dois dias úteis."
-Atenção: o *Digitar ao vivo* repete a digitação do código; não é necessário para a gravação. A preparação do ambiente é simulada e leva cerca de 10 segundos; espere o botão mostrar "Ambiente pronto" antes de executar.
-Conclusão: "A fórmula de risco encurta a fila sem esquecer o que importa."
-[Tela: gravação do laboratório do slide 14.]
+3. No explorador, abrir `achados.csv` e voltar a `priorizar.py`.
+4. Clicar em "Priorizar".
+5. Clicar em "Calcular filas".
+Fala: "O editor está em tela cheia, como no meu computador. A preparação roda quatro comandos: a versão do Python, a criação do ambiente virtual `.venv`, a ativação, que põe `(.venv)` no *prompt*, e o `pip list`, que mostra só o `pip`. No `achados.csv`, cada linha é um achado validado, com CVSS, EPSS, KEV, exposição, criticidade e o efeito da falha; as linhas destacadas são a `hml-gestao`, a VPN e o portal `gestao`. No script, a função `risco` multiplica o CVSS pela probabilidade, que vale 1 se a falha está no KEV ou o próprio EPSS se não está, pelo peso da exposição e por 1,5 se o ativo é crítico. A coluna final sai da função `validacao`: se o efeito está em `PROIBIDO_NA_ROE`, a negação de serviço, o achado só é reportado; se o risco passa de 5, vai para o `check`; senão, para a fila de correção. Na saída, a primeira linha é a ordem pelo CVSS, em que a 001 aparece em segundo lugar. Na tabela por risco, a VPN tem 10 vezes 1 vezes 1 vezes 1,5, ou seja, 15; a `hml-gestao`, 7,5 vezes 1,5, ou 11,25. As duas vão para o `check`. O `gestao` tem o mesmo risco, mas a falha é de negação de serviço e fica só no relatório. A 001 cai para o sexto lugar, com 0,06. O `fila.py` fecha a conta: 480 achados pela fila de CVSS dão 3,2 semanas; os 60 da fila crítica, 0,4 semana, cerca de dois dias úteis."
+Atenção: a saída mostrada é a que o código produz de verdade; os decimais aparecem com ponto, como no Python. A preparação é simulada e leva cerca de 10 segundos.
+Conclusão: "O código cruza risco e RoE antes de qualquer teste."
+[Tela: gravação do laboratório do slide 15.]
 
-**Slide 15 — Varreduras fazem barulho (12:25–12:55)**
-Fala: "Agora o outro lado. Muitas conexões em sequência, para portas diferentes, geram registros no *firewall* e no IDS. A enumeração interna gera consultas incomuns ao diretório. Em exercícios que testam a detecção, o Red Team varre devagar. A pergunta para o Blue Team é se a detecção percebe a varredura discreta."
+**Slide 16 — Exemplo numérico: CVSS ou EPSS? (16:00–16:30)**
+Fala: "O texto base traz a mesma conta com três casos. A, com 9,8, num servidor isolado e EPSS de 2%. B, com 7,5, no KEV e exposta. C, com 5,3 e EPSS de 40%. Pelo CVSS, A viria primeiro; pelo risco, B. E a fila crítica de 60 achados cabe em 0,4 semana, contra 3,2 semanas da fila por CVSS."
 
-**Slide 16 — Laboratório: varredura barulhenta e varredura discreta (12:55–14:15)**
-Objetivo: ver a varredura pelo lado do SOC e achar uma lacuna de detecção.
+**Slide 17 — Laboratório: superfície e acesso inicial pelo app (16:30–18:30)**
+Objetivo: ver a fila de risco na plataforma e uma entrada por contas válidas que nenhum *scanner* acha.
 Na tela:
-1. Clicar em "1. Regra padrão (5 min)".
-2. Clicar em "2. A varredura lenta passou?".
-3. Clicar em "3. Janela de 24 horas".
-4. Clicar em "4. Consultas volumosas ao diretório".
-Fala: "A primeira busca conta quantas portas distintas cada origem tocou em janelas de 5 minutos e alerta acima de 50. A origem 10.10.99.5 tocou mil portas em quatro servidores às 10h05: alerta alto. Na plataforma, a regra equivalente para a borda é a R4. A segunda busca aplica a mesma regra à origem 10.10.99.6 e volta vazia: ela testou uma porta a cada 5 minutos o dia todo e nunca passou do limite. A terceira muda a janela para 24 horas e acha as duas origens; a lenta aparece com 288 portas. A quarta olha o AD: a conta de teste `teste.red01` fez 4.310 consultas LDAP a partir do NB-TI-009, algo que um usuário comum não faz. É a regra R13 da plataforma, que veremos na Aula 8."
-Atenção: o vazio da busca 2 é o resultado esperado. Explique que ele vai para o relatório como lacuna.
-Conclusão: "Uma regra só para varredura rápida deixa passar a discreta, por isso a proposta é manter as duas."
-[Tela: gravação do laboratório do slide 16.]
+1. Conferir que a plataforma abriu na aba "Superfície", com "ordenar por risco" marcado, e ler as duas primeiras linhas.
+2. Abrir a aba "Cenários" e, no cartão "Abuso da API do app", clicar em "Iniciar cenário". Esperar os quatro passos, cerca de 30 segundos na velocidade "1 s = 15 s".
+3. Abrir a aba "Regras do CEP" e ligar a R3, "Token lendo fichas de muitos alunos diferentes (BOLA)".
+4. Voltar a "Cenários" e clicar em "Repetir com as fontes e regras atuais".
+Fala: "Na Superfície, a coluna de risco põe a VPN em primeiro, com 43,8, e a `hml-gestao` em segundo, com 32,4: a mesma ordem do script, com a fórmula didática que aparece embaixo da tabela. Agora o app. Na primeira rodada do cenário, o primeiro passo, as 2.000 tentativas com senhas vazadas, vira 'detectado' pela R2. Mas os 14 logins que dão certo e a leitura das fichas de outros alunos, trocando o número na URL, aparecem em amarelo, 'visto nos logs, sem alerta'. Nos indicadores, um detectado e três vistos sem alerta. Depois de ligar a R3 e repetir, os dois passos de leitura viram detectados: três de quatro. Só o login com conta válida continua sem regra."
+Atenção: não use o botão "Reiniciar" do topo entre as rodadas, porque ele volta as regras ao padrão. Os alertas novos aparecem na aba "SOC". Se aparecer o alerta da R11 sobre a conta `svc-backup`, ele é benigno e não faz parte do cenário.
+Conclusão: "Conta válida e falha de lógica entram sem CVE. Só o teste as revela, e só uma regra própria as detecta."
+[Tela: gravação do laboratório do slide 17.]
 
-**Slide 17 — Exemplo numérico: CVSS ou EPSS? (14:15–14:55)**
-Fala: "Vamos fechar as contas com o exemplo do texto. Tudo com CVSS a partir de 7 soma 480 achados: 3,2 semanas. Na tabela, A tem CVSS 9,8 e EPSS de 2% num servidor isolado. B tem CVSS 7,5, EPSS de 94%, está no KEV e fica exposta. C tem CVSS 5,3 e EPSS de 40% na VPN. Pelo risco, B é a prioridade. Filtrando KEV ou EPSS de pelo menos 10% em ativos expostos, restam 60 achados: 0,4 semana, cerca de dois dias úteis."
+**Slide 18 — Que rastro o acesso inicial deixa? (18:30–19:05)**
+Fala: "Do lado da defesa, cada vetor tem a sua fonte: log do servidor *web* para a aplicação exposta, log da VPN e auditoria de identidade para o serviço remoto, falhas seguidas de sucesso para as contas válidas e o *gateway* de *e-mail* para o *phishing*. A exceção é a `hml-gestao`, sem coleta. E cada `check` do Red Team tem hora e origem, para comparar com o que o SOC viu."
 
-**Slide 18 — Laboratório: console de gestão de vulnerabilidades (14:55–15:55)**
-Objetivo: montar a fila de correção desta semana.
-Na tela:
-1. Com *Ordenar por CVSS* ativo, mostrar A no topo.
-2. Clicar em *Ordenar por risco*.
-3. Clicar em *Só a fila crítica*.
-4. Arrastar o controle *Capacidade da equipe* de 150 para 100 e depois de volta para 150.
-Fala: "Este console é o que a equipe do Caio usaria no dia a dia. Ordenando por CVSS, A está em primeiro. Ao ordenar por risco, B sobe para o topo e A desce. Quando ligo *Só a fila crítica*, ficam destacados os achados expostos à internet que estão no KEV ou têm EPSS de pelo menos 10%: B, C e E. C tem CVSS de só 5,3, mas está na VPN exposta e tem EPSS de 40%. Embaixo, os dois cartões mostram o tempo de cada fila. Se a capacidade cai para 100, as duas filas crescem; a crítica continua cabendo em poucos dias."
-Conclusão: "Os 60 achados críticos cabem em dois dias úteis."
-[Tela: gravação do laboratório do slide 18.]
+**Slide 19 — De volta ao problema (19:05–19:35)**
+Fala: "Voltemos à pergunta. CVSS, EPSS, KEV e criticidade puseram a VPN e a `hml-gestao` no topo. O Metasploit confirmou as duas com *scanner* e `check`, sem *payload*. O código separou o que se valida do que só se reporta. E a plataforma mostrou as entradas sem CVE. A resposta: as portas reais são a VPN, a `hml-gestao`, as contas sem MFA e o *phishing*, e o Red Team prova cada uma com o teste menos invasivo que a RoE permite."
 
-**Slide 19 — Laboratório: priorização e abuso de API na plataforma Rede Tatame (15:55–17:35)**
-Objetivo: ver a priorização na plataforma e uma falha que o *scanner* não encontra.
-Na tela:
-1. O simulador abre na aba *Superfície*. Mostrar a tabela *Ativos expostos* com "ordenar por risco" marcado e comparar as colunas CVSS e RISCO.
-2. Abrir a aba *Cenários* e clicar em *Iniciar cenário* no cartão *Abuso da API do app*.
-3. Acompanhar os quatro passos do cenário. O primeiro, das tentativas de *login*, fica como "detectado" pela R2; os outros três ficam como "visto nos logs, sem alerta": a entrada das 14 contas e as duas leituras de fichas.
-4. Abrir *Regras do CEP*, ligar a R3 e voltar a *Cenários* para clicar de novo em *Iniciar cenário*.
-Fala: "Esta é a plataforma da disciplina. Na aba *Superfície*, cada linha é um ativo exposto, com CVE, CVSS, EPSS, KEV, criticidade e uma coluna de risco. Olhem o `www`: CVSS 10 e KEV, mas fica só em quarto lugar, porque tem WAF e criticidade baixa. A VPN e a `hml-gestao` vêm antes. Agora o cenário *Abuso da API do app*: senhas vazadas de outros *sites* são testadas no app, e depois alguém lê a ficha de outro aluno trocando o número na URL. Esse tipo de falha se chama BOLA, autorização quebrada no nível do objeto. Ela não tem CVE, então nenhum *scanner* a encontra. Na primeira rodada, a leitura indevida fica sem alerta. Depois de ligar a R3, rodo de novo, e a mesma leitura vira alerta."
-Atenção: Iniciar o cenário de novo mantém as regras ligadas; *Reiniciar* volta tudo ao padrão e desliga a R3. Se o tempo apertar, aumente a velocidade no seletor ao lado de *Iniciar*. Na aba *Requisições*, as linhas do ataque só aparecem com o cenário rodando. Na aba *Superfície*, a VPN aparece com outra falha, crítica e presente no KEV, e por isso fica à frente da `hml-gestao`; o achado C do exemplo da aula é uma falha diferente, de CVSS 5,3, no mesmo ativo. Se um aluno perguntar, explique que um ativo pode ter vários achados.
-Conclusão: "Falha de lógica só aparece em teste e precisa de regra própria."
-[Tela: gravação do laboratório do slide 19, com o simulador em tela cheia.]
+**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:35–20:00)**
+Fala: "Na próxima aula, vamos ver o que o adversário faz depois de entrar: escalada de privilégios, movimentação lateral e persistência. Até lá!"
+[Slides: pontos-chave e referências ficam disponíveis no material. Envato: "open door light network".]
 
-**Slide 20 — Caso real: Log4Shell, dezembro de 2021 (17:35–18:15)**
-Fala: "Um caso real. Quando a CVE-2021-44228 veio a público, a correção já existia. O difícil foi responder onde a biblioteca Log4j estava, porque vinha embutida em aplicações e produtos de fornecedores. Quem tinha inventário foi direto aos ativos expostos. Na Tatame, o `www` foi corrigido assim; a `hml-gestao`, fora do inventário, ficou para trás. É o mesmo recado da Aula 5 sobre *shadow IT*."
-[Take de apoio: manchetes de dezembro de 2021 sobre o Log4Shell, sem logotipos de veículos — Envato: "breaking news cyber attack".]
-
-**Slide 21 — De volta ao problema (18:15–19:05)**
-Fala: "Voltemos ao Caio. No fluxo e no terminal, vimos de onde vêm os 1.200 achados e descartamos um falso positivo. No cubo, A tinha CVSS 9,8 e mesmo assim ficou fora da região de prioridade. O script e o console colocaram B, a `hml-gestao`, no topo. E a plataforma mostrou uma falha da API que nenhum *scanner* vê. A resposta à pergunta da aula: a Tatame corrige primeiro o que está no KEV ou tem EPSS de pelo menos 10% em ativo exposto, a começar pela `hml-gestao`. São 60 achados, cerca de dois dias úteis, em vez de 3,2 semanas pela fila de CVSS."
-
-**Slides 22 a 24 — Pontos-chave, referências e encerramento (19:05–19:50)**
-Fala: "Para levar: varredura e enumeração descobrem serviços e são ruidosas; a CVE dá nome à falha; o CVSS mede a severidade técnica, e o risco depende também do ativo e da exploração; o EPSS e o KEV mostram exploração; priorizar por risco reduz o tempo de exposição. As referências estão no slide. Corrigir falhas técnicas é essencial, mas o adversário também pode simplesmente pedir a senha a alguém do financeiro. Na próxima aula, vamos estudar engenharia social e simulação de *phishing*. Até lá!"
-[Câmera: professor em plano médio para o fechamento.]
-
-## Aula 7 — Engenharia social e simulação de *phishing*
+## Aula 7 — Escalada de privilégios, movimentação lateral e persistência
 
 ### Texto base
 
-Nem todo ataque começa por uma falha técnica. Muitas vezes, o caminho mais curto até os dados de uma empresa passa por uma pessoa: alguém que abre um anexo, informa uma senha por telefone ou segura a porta para um "técnico" sem crachá. Relatórios anuais como o *Data Breach Investigations Report* (DBIR), da Verizon, apontam de forma recorrente que o elemento humano está presente na maioria das violações analisadas. Por isso, a engenharia social é parte essencial de muitas operações de Red Team — sempre com autorização e com finalidade educativa.
+O acesso inicial raramente é o objetivo final. Um *e-mail* clicado dá ao adversário uma única máquina, quase sempre com um usuário sem privilégios. O que transforma esse ponto de apoio em incidente grave é a **pós-exploração**, um ciclo que se repete a cada máquina nova: descobrir o ambiente (TA0007, *Discovery*), obter permissões mais altas (TA0004, *Privilege Escalation*), saltar para outra máquina (TA0008, *Lateral Movement*) e garantir a volta (TA0003, *Persistence*). Muitos exercícios começam direto nessa fase, em um cenário de **acesso presumido** (*assumed breach*): a organização entrega ao Red Team uma conta comum, como se o *phishing* tivesse funcionado, e mede o que acontece depois. Nesta aula, cada técnica é tratada em nível conceitual e sempre acompanhada do rastro que deixa para o Blue Team.
 
-#### O que é engenharia social
+#### Descoberta: o mapa antes do salto
 
-**Engenharia social** é a manipulação psicológica de pessoas para que realizem ações ou revelem informações que favoreçam o atacante. Ela explora características humanas, e não falhas de *software*. Os princípios de persuasão descritos pelo psicólogo Robert Cialdini ajudam a entender por que ela funciona:
+Dentro da rede, o adversário precisa saber onde estão os servidores, quais serviços respondem e quem pertence a quais grupos. A descoberta de serviços (T1046, *Network Service Discovery*) usa varreduras internas, e a descoberta de contas e grupos do domínio (T1087.002 e T1069.002) usa consultas LDAP ao Active Directory (AD). No Kali Linux, o Nmap e os módulos *auxiliary* do Metasploit, como o `smb_version`, cumprem esse papel. O rastro são muitas conexões a partir de uma única estação e consultas volumosas ao diretório feitas por uma conta comum.
 
-| Princípio | Como aparece em um golpe | Exemplo |
+#### Escalada de privilégios
+
+| Caminho | Técnica | Rastro típico |
 |---|---|---|
-| Autoridade | O atacante se passa por alguém com poder | "Aqui é o diretor financeiro, preciso disso agora" |
-| Urgência e escassez | Prazo curto para agir | "Sua conta será bloqueada em 1 hora" |
-| Aprovação social | "Todos já fizeram" | "Falta só você atualizar o cadastro" |
-| Reciprocidade | Oferece algo antes de pedir | Brinde ou ajuda técnica não solicitada |
-| Afeição | Simpatia e semelhança | Conversa amigável antes do pedido |
-| Compromisso e coerência | Pequenos "sins" levam a um grande "sim" | Pedidos que crescem aos poucos |
+| Falha sem correção no sistema ou em um serviço | T1068 | Processo com privilégio de sistema criado por usuário comum (evento 4688, Sysmon 1) |
+| Desvio do controle de conta de usuário (UAC) | T1548.002 | Processo elevado sem tela de confirmação |
+| Grupo amplo com administração local ou senha de administrador reaproveitada | T1078.002 e T1078.003 | *Logon* (4624) seguido de privilégios especiais (4672) fora do padrão da conta |
+| Senha esquecida em *script* | T1552.001 | Leitura do arquivo por quem não o usa (4663, se auditado) |
 
-[Imagem 1 — Ilustração de uma pessoa ao telefone diante de um computador, com balões de fala indicando urgência e autoridade. Texto alternativo: "Funcionário atendendo telefonema que usa urgência e autoridade para pressioná-lo". Sugestão de busca no Envato: "social engineering phone call office".]
+Repare que dois dos quatro caminhos não exploram nenhuma falha de *software*: bastam uma configuração fraca e uma credencial válida. Por isso, separar contas administrativas das de uso diário e restringir a administração local está entre as recomendações mais frequentes dos relatórios. Em seguida vem o acesso a credenciais (TA0006): um administrador com sessão aberta em uma máquina deixa material de autenticação na memória do processo LSASS, e o acesso a essa memória (T1003.001) é um dos comportamentos mais vigiados pelo EDR (Sysmon 10).
 
-#### Vetores mais comuns
+[Imagem 1 — Escada com degraus rotulados "usuário comum", "administrador local", "suporte" e "administrador do domínio". Texto alternativo: "Escada representando a escalada de privilégios do usuário comum ao administrador do domínio". Sugestão de busca no Envato: "stairs levels access hierarchy".]
 
-No ATT&CK, o *phishing* aparece como técnica de acesso inicial (T1566), com subtécnicas como anexo malicioso (T1566.001) e *link* malicioso (T1566.002), e também como coleta de informações (T1598 — *Phishing for Information*). Outros vetores incluem o *vishing* (por voz), o *smishing* (por SMS), o *pretexting* (uma história inventada para justificar o pedido) e a engenharia social física, como entrar em um prédio seguindo um funcionário (*tailgating*). Uma variante de alto impacto é a fraude do *e-mail* corporativo comprometido (*Business Email Compromise*), em que o golpista se passa por um executivo ou fornecedor para desviar pagamentos.
+#### Movimentação lateral
 
-#### Simulações de *phishing* autorizadas
+Com uma conta mais forte, o adversário salta. Pelo RDP (T1021.001), o *logon* aparece como evento 4624 do tipo 10, remoto interativo; pelos compartilhamentos administrativos via SMB (T1021.002), como 4624 do tipo 3, de rede, acompanhado dos eventos 5140 e 5145; no reuso de *hash* (T1550.002), surge autenticação NTLM onde o normal seria Kerberos. O sinal raramente é o evento em si, que administradores geram todos os dias, e sim a combinação incomum: uma conta do suporte abrindo RDP a partir do notebook da recepção.
 
-As simulações de *phishing* são campanhas controladas, enviadas aos próprios colaboradores, para medir e melhorar a capacidade de reconhecer e **reportar** mensagens suspeitas. Plataformas como o **GoPhish**, de código aberto, permitem criar campanhas, enviar mensagens e coletar métricas. Uma simulação ética precisa de:
+[Imagem 2 — Diagrama de uma rede corporativa com uma estação comprometida e setas indicando saltos sucessivos até um controlador de domínio. Texto alternativo: "Diagrama de movimentação lateral de uma estação de trabalho até o controlador de domínio". Sugestão de busca no Envato: "network diagram lateral movement".]
 
-- **autorização formal** da liderança e alinhamento com RH, jurídico e encarregado de dados (DPO);
-- **finalidade educativa**: quem clica recebe orientação imediata, e não punição;
-- **proteção de dados**: nenhuma senha real é armazenada, e os resultados individuais têm acesso restrito, conforme a LGPD;
-- **limites de pretexto**: temas como demissões, saúde, salários ou tragédias podem causar dano real e costumam ser vetados nas regras de engajamento.
+#### Persistência
 
-A dificuldade da mensagem também importa: uma isca muito fácil gera números enganosamente bons. O NIST propôs a *Phish Scale*, um método para classificar a dificuldade de uma mensagem de *phishing* conforme as pistas que ela contém e o quanto o contexto se aproxima da rotina do público.
+| Técnica | Mecanismo | Rastro típico |
+|---|---|---|
+| T1053.005 | Tarefa agendada | Evento 4698, se a auditoria *Other Object Access Events* estiver ligada |
+| T1543.003 | Serviço do Windows | Evento 7045 (log *System*) e 4697 |
+| T1136.001 e T1136.002 | Conta local ou de domínio criada | Evento 4720 e inclusão em grupo |
+| T1547.001 | Chave de registro *Run* | Sysmon 13 |
 
-[Imagem 2 — Painel de uma campanha de simulação com indicadores de enviados, abertos, clicados, dados submetidos e reportados. Texto alternativo: "Painel com as métricas de uma campanha de simulação de *phishing*". Sugestão de busca no Envato: "email campaign dashboard metrics".]
+#### Caminhos de ataque em grafos
 
-#### Métricas que importam
+No AD, as permissões formam uma rede: o usuário A administra a máquina B, onde o administrador C faz *logon*, e C pertence a um grupo que controla o domínio. O **BloodHound** representa essas relações como um **grafo** e calcula **caminhos de ataque** até o grupo *Domain Admins*. A defesa usa a mesma visão: eliminar uma relação mal configurada pode cortar dezenas de caminhos. Vale a frase atribuída a John Lambert, da Microsoft: os defensores pensam em listas, os atacantes pensam em grafos.
 
-As métricas mais usadas são a **taxa de clique**, a **taxa de submissão de dados** e a **taxa de reporte**. A taxa de reporte, frequentemente esquecida, é a que mais interessa ao Blue Team: um único reporte rápido permite que o SOC bloqueie a mensagem para toda a empresa. Por isso, além do "quem clicou", vale medir o **tempo até o primeiro reporte** e a razão entre reportes e cliques.
+[Imagem 3 — Grafo com nós de usuários, computadores e grupos, destacando em vermelho o caminho mais curto até o grupo de administradores do domínio. Texto alternativo: "Grafo de caminhos de ataque no Active Directory com o caminho crítico destacado". Pode ser recriado pela equipe de produção.]
 
-#### Que rastro isso deixa para o Blue Team?
+#### Limites no engajamento
 
-A engenharia social deixa rastros técnicos: cabeçalhos de *e-mail*, domínios recém-registrados e parecidos com o da empresa, falhas nas verificações de autenticação de *e-mail* (SPF, DKIM e DMARC), cliques registrados no *proxy* e acessos a páginas falsas. E deixa um rastro humano: o reporte do colaborador. Em uma organização madura, cada pessoa funciona como um sensor.
+As regras de engajamento dizem até onde a equipe vai. O impacto é **demonstrado, e não executado**: em vez de copiar fichas de alunos, registra-se a evidência mínima de acesso. Credenciais obtidas são protegidas e trocadas ao final. Persistência só é aceita com **marca** (nome que cita o chamado do exercício), programa inofensivo, registro de hora, máquina e *hash*, e remoção conferida até o último dia da janela. Módulos *post* do Metasploit, criação de contas no domínio e redes fora do escopo ficam vetados quando a autorização não os prevê.
 
-#### Exemplo numérico: lendo uma campanha
-
-Uma campanha autorizada envia 1.000 mensagens. Resultado: 180 cliques (**18%**), 60 submissões de dados no formulário simulado (**6%**) e 120 reportes (**12%**), com o primeiro reporte em 9 minutos. A razão reporte/clique é 120 ÷ 180 ≈ **0,67**. Após três meses de treinamentos curtos e de um botão de reporte no cliente de *e-mail*, uma nova campanha de dificuldade equivalente mostra 90 cliques (9%), 25 submissões (2,5%) e 300 reportes (30%). A razão sobe para 300 ÷ 90 ≈ **3,3**: agora há mais de três reportes para cada clique — sinal de uma cultura que detecta.
-
-[Imagem 3 — Gráfico de barras comparando as campanhas 1 e 2 em cliques, submissões e reportes. Texto alternativo: "Gráfico de barras mostrando queda de cliques e aumento de reportes entre duas campanhas de simulação". Pode ser recriado pela equipe com os dados do exemplo.]
-
-#### Pausa para reflexão
-
-> Um hospital com 2.500 colaboradores pede ao Red Team uma simulação de *phishing* com o tema "resultado de exames de colaboradores com covid". A diretoria também quer receber a lista nominal de quem clicou para aplicar advertências.
->
-> 1. Que riscos éticos e legais esse pedido apresenta, considerando a LGPD e o bem-estar dos colaboradores?
-> 2. Que tema alternativo, plausível para o ambiente hospitalar, você proporia?
-> 3. Quais métricas você apresentaria à diretoria no lugar da lista nominal, e por quê?
->
-> **Desafio prático:** elabore um plano de campanha de uma página com objetivo, público, pretexto, métricas (clique, submissão, reporte e tempo até o primeiro reporte), tratamento dos dados e ação educativa para quem clicar.
-
-#### Pontos-chave
-
-- A engenharia social explora princípios de persuasão, como autoridade e urgência.
-- *Phishing* (T1566) é um dos vetores de acesso inicial mais usados por adversários reais.
-- Simulações autorizadas têm finalidade educativa, protegem os dados e evitam pretextos danosos.
-- A taxa de reporte e o tempo até o primeiro reporte medem a capacidade de detecção humana.
-
-### Referências da aula
-
-CIALDINI, Robert B. *As armas da persuasão*. Rio de Janeiro: Sextante, 2012.
-
-MITNICK, Kevin D.; SIMON, William L. *A arte de enganar*. São Paulo: Pearson Education, 2003.
-
-MITRE. *Phishing (T1566)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1566/>. Acesso em: 13 nov. 2026.
-
-STEVES, Michelle; GREENE, Kristen; THEOFANOS, Mary. Categorizing human phishing difficulty: a Phish Scale. *Journal of Cybersecurity*, v. 6, n. 1, tyaa009, 2020. DOI: 10.1093/cybsec/tyaa009.
-
-VERIZON. *Data breach investigations report*. [S. l.]: Verizon, 2025.
-
-### Roteiro da Videoaula 7 — "Quem clicou? Essa é a pergunta errada"
-
-Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula7.html (23 slides).
-
-**Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Nesta aula vamos falar de engenharia social e de simulação de *phishing*. Vamos acompanhar uma campanha autorizada na Rede Tatame, da caixa de entrada até o SOC, e terminar planejando uma campanha para um hospital. No caminho, você vai ver sete laboratórios."
-[Take de apoio: pessoa lendo *e-mails* no notebook em um escritório — Envato]
-
-**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:40)**
-Fala: "Comece pela Carla Dias, analista do financeiro da Rede Tatame. Em março, ela e outras 999 pessoas receberam um *e-mail* de 'benefícios do RH'. Era uma campanha simulada, autorizada pela CISO Marina Prado. A Carla clicou no *link* e preencheu o formulário simulado. Outras pessoas apagaram a mensagem, e algumas usaram o botão de reporte, que avisa o SOC, o centro de operações de segurança. O financeiro paga fornecedores e acessa a VPN. Num ataque real, esse formulário entregaria a senha dela ao adversário. Só o aviso rápido de alguém e o segundo fator de *login* impediriam o uso dessa senha. A pergunta da aula está em amarelo: quando um *e-mail* falso chega, as pessoas da Tatame percebem e avisam o SOC a tempo? No mapa à direita, o caminho em vermelho vai da internet ao servidor de correio e dali ao notebook do financeiro."
-[Tela: slide 3 com o cursor seguindo o caminho em vermelho do mini-mapa]
-
-**Slide 4 — O elemento humano nas violações (1:40–2:25)**
-Fala: "Nem todo ataque começa por uma falha técnica. Muitas vezes o caminho mais curto passa por uma pessoa que abre um anexo, informa uma senha por telefone ou segura a porta para um 'técnico' sem crachá. Relatórios anuais como o *Data Breach Investigations Report*, da Verizon, mostram de forma recorrente que o elemento humano está presente na maioria das violações. Por isso a engenharia social entra em muitas operações de Red Team, sempre com autorização e finalidade educativa."
-
-**Slides 5 e 6 — Princípios de persuasão e vetores (2:25–3:35)**
-Fala: "Engenharia social é manipular pessoas para que façam algo ou revelem informações. Os princípios de Robert Cialdini ajudam a entender por que funciona: autoridade, urgência e escassez, aprovação social, reciprocidade, afeição, compromisso e coerência. Leia os exemplos da terceira coluna: 'Aqui é o diretor financeiro', 'Sua conta será bloqueada em 1 hora'. No slide seguinte estão os vetores. O *phishing* é a técnica T1566 do ATT&CK; o *vishing* e o *smishing* repetem o golpe por voz e por SMS; o *pretexting* inventa uma história; o *tailgating* é a versão física; e o *Business Email Compromise* desvia pagamentos fingindo ser um executivo ou fornecedor. Guarde esse último, porque o financeiro da Carla é o alvo típico."
-[Take de apoio: telefone tocando com "número desconhecido" na tela — Envato]
-
-**Slide 7 — Laboratório: encontre as pistas e reporte a mensagem (3:35–5:25)**
-Objetivo: mostrar que a isca tem pistas reconhecíveis e que o reporte é o primeiro passo da defesa. Responde à parte "as pessoas percebem?" da pergunta.
-Na tela:
-1. Mostrar a caixa de entrada à esquerda, com a mensagem "RH Tatame · URGENTE: seu benefício será bloqueado" selecionada. Ler o contador "0 de 7 pistas" no alto.
-2. Clicar no remetente "RH Tatame <rh@portal-rh-beneficios.example>". Ler a explicação na barra inferior.
-3. Clicar no assunto "URGENTE: seu acesso ao portal de benefícios será bloqueado em 1 hora".
-4. Clicar na saudação "Prezado(a) colaborador(a)".
-5. Clicar em "92% do seu setor já atualizou os dados, falta só você."
-6. Clicar no botão azul "Acessar o portal Tatame". Aparece o endereço real, http://portal-rh-beneficios.example/login.
-7. Clicar na assinatura "Diretoria de Pessoas e Benefícios".
-8. Clicar em "Detalhes técnicos" e depois na linha "spf=pass ... dkim=none; dmarc=none". O contador chega a "7 de 7 pistas".
-9. Clicar em "⚑ Reportar phishing".
-Fala: "Cada trecho clicado acende e a barra embaixo explica a pista. O remetente diz RH Tatame, mas o domínio é portal-rh-beneficios.example, registrado há 2 dias; o da empresa é tatame.com.br. O assunto usa urgência: uma hora para agir antes de pensar. A saudação é genérica, e o RH de verdade sabe o seu nome. '92% do seu setor já atualizou' é aprovação social. A assinatura da diretoria, com ameaça de suspender o benefício, é autoridade. O botão diz portal Tatame, mas leva ao mesmo domínio novo. Nos detalhes técnicos, veja que o SPF passa. Isso surpreende muita gente: o SPF só confirma que o servidor pode enviar por aquele domínio, e o domínio é do próprio golpista. Os sinais estão no domínio externo de 2 dias, sem DKIM e sem DMARC. Agora clico em Reportar. A mensagem de retorno diz que o reporte foi recebido às 09:09 e que, no SOC, ele abre um caso."
-Atenção: a mensagem é fictícia e inofensiva. Clique em ordem para o contador subir de forma visível; se pular a pista técnica, o contador para em 6.
-Conclusão: "Quase todas as pistas usam um princípio de Cialdini, e quem as reconhece reporta. Esse reporte é o que aciona o SOC."
-[Tela: gravação do laboratório do slide 7]
-
-**Slide 8 — O que uma simulação ética de *phishing* exige (5:25–6:15)**
-Fala: "Simular *phishing* dentro da empresa exige quatro cuidados. Autorização formal da liderança, com RH, jurídico e o encarregado de dados, o DPO. Finalidade educativa: quem clica recebe orientação, e não punição. Proteção de dados: nenhuma senha real é armazenada, e os resultados individuais têm acesso restrito, conforme a LGPD, a Lei Geral de Proteção de Dados. E limites de pretexto: demissões, saúde, salários e tragédias ficam de fora. Repare no quadro azul: uma isca muito fácil gera números enganosamente bons. Por isso o NIST propôs a *Phish Scale*, que classifica a dificuldade da mensagem."
-
-**Slide 9 — Laboratório: uma campanha autorizada, do envio ao bloqueio (6:15–7:45)**
-Objetivo: acompanhar a campanha de março do envio ao bloqueio e ver onde entra o reporte.
-Na tela:
-1. São sete etapas; a primeira já está na tela ao abrir o slide. Clicar em "▶ Avançar" para passar a cada etapa seguinte, lendo o título e o texto na barra inferior.
-2. Etapa "09h00 · Envio" (a que abre na tela): Plataforma e Gateway acendem.
-3. Etapa "09h00 · O gateway avalia": o pacote segue até "1.000 caixas".
-4. Etapa "Os cliques" e etapa "A orientação imediata": "180 cliques" e "Página educativa".
-5. Etapa "09h09 · O primeiro reporte": "120 reportes, 1º em 9 min".
-6. Etapa "O SOC age": SOC Tatame, Bloqueio geral e a seta tracejada de volta às caixas.
-7. Etapa "A leitura da campanha": nó Métricas, "reporte/clique 0,67".
-Fala: "A plataforma dispara 1.000 mensagens com o pretexto aprovado, coberto pela autorização da Marina Prado. O *gateway* de *e-mail* vê que o domínio passa no SPF, mas tem 2 dias e não publica DMARC; marca a mensagem como externa e entrega. Então vêm os cliques: 180 pessoas, 18%, e 60 chegam a enviar o formulário simulado, 6%. Quem clica cai na página educativa. Às 09h09, nove minutos depois do envio, alguém reporta; ao todo serão 120 reportes, 12%. O reporte abre um caso, a Luiza Ferraz confirma a campanha e aplica o bloqueio, e a mensagem some das caixas de quem ainda não abriu. Na última etapa, a conta: 120 dividido por 180 dá cerca de 0,67 reporte por clique."
-Atenção: cada etapa leva alguns segundos de animação; espere os pacotes chegarem antes de avançar. O botão "Auto" percorre tudo sozinho, mas para gravar é melhor avançar manualmente.
-Conclusão: "O reporte rápido é o que permite ao SOC limpar as caixas antes que mais gente clique."
-[Tela: gravação do laboratório do slide 9]
-
-**Slide 10 — Laboratório: bastidores de uma campanha autorizada (7:45–9:05)**
-Objetivo: mostrar como se planeja e se mede uma campanha sem guardar senhas nem expor pessoas.
-Na tela:
-1. Na aba "Planejamento", percorrer as linhas: Objetivo, Público, Pretexto aprovado, Pretextos vetados, Dificuldade, Aprovações, Dados e Quem clicar.
-2. Clicar em "Resultados" e ler os cinco indicadores.
-3. Clicar em "Página educativa".
-Fala: "Esta é uma plataforma fictícia, com o mesmo fluxo de ferramentas como o GoPhish. Nenhuma mensagem real sai daqui. No planejamento, o público são 1.000 contas: o *e-mail* da sede e o portal de gestão das 240 academias. O pretexto aprovado é a atualização de cadastro. Os vetados aparecem riscados: demissões, saúde, salários, tragédias e alunos menores. A dificuldade é moderada pela *Phish Scale*. As aprovações têm CISO, RH, jurídico e DPO. Nos dados, senhas não são armazenadas e o resultado individual só é visível à equipe do programa, com descarte em 90 dias. Em Resultados: 1.000 enviados, 180 cliques, 60 submissões, 120 reportes e primeiro reporte em 9 minutos. A diretoria recebe só números agregados. Na página educativa, quem clicou lê que participou de uma simulação, que nada foi guardado, quais eram as pistas e como reportar da próxima vez."
-Atenção: a "submissão" é apenas um evento registrado; a página educativa não tem campo de senha. Não mostre nem descreva como montar páginas que coletam credenciais.
-Conclusão: "Dá para medir o risco humano com rigor e, ao mesmo tempo, proteger as pessoas que participaram."
-[Tela: gravação do laboratório do slide 10]
-
-**Slide 11 — Métricas que importam (9:05–9:40)**
-Fala: "Cinco métricas aparecem na tabela: taxa de clique, taxa de submissão de dados, taxa de reporte, tempo até o primeiro reporte e razão reporte/clique. A taxa de reporte costuma ser esquecida, mas é a que mais interessa ao Blue Team. Um único reporte rápido permite bloquear a mensagem para a empresa inteira. Por isso, além de perguntar quem clicou, medimos quanto tempo levou o primeiro aviso."
-
-**Slide 12 — Antes do código: onde achar e como instalar (9:40–10:05)**
-Fala: "Este laboratório usa dois programas. O Python 3.12 roda o script, que só precisa da biblioteca padrão. A consulta SQL é enviada pelo `psql`, o cliente de linha de comando do PostgreSQL, instalado pelo repositório oficial da distribuição, que entrega pacotes assinados. E desconfie de tutorial que manda colar no terminal um comando com `sudo`: a pressa de quem copia é a mesma que as iscas desta aula exploram."
-
-**Slide 13 — Laboratório: métricas de campanha em Python e SQL (10:05–12:20)**
-Objetivo: comparar a campanha de março com a de junho e calcular o tempo até o primeiro reporte sem identificar ninguém.
-Na tela:
-1. O VS Code ocupa o slide inteiro. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
-2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
-3. Mostrar o arquivo `campanhas.json` no explorador: duas campanhas de 1.000 envios.
-4. Voltar a `metricas.py` e destacar as linhas marcadas.
-5. Clicar em "▶ python metricas.py" e esperar a saída no terminal.
-6. Abrir `primeiro_reporte.sql`.
-7. Clicar em "▶ Consulta SQL".
-Fala: "O editor ocupa a tela inteira. Começo pela preparação do ambiente. O terminal confere o Python, cria e ativa o ambiente virtual `.venv`, que isola este projeto, e o *prompt* ganha o prefixo `(.venv)`. Depois vem `sudo apt install -y postgresql-client`: o `apt` é o gerenciador de pacotes do Ubuntu, o `sudo` pede permissão de administrador e o `-y` confirma a instalação. A saída lista os pacotes novos, e o `psql --version` confirma o cliente na versão 16. Agora os arquivos. O JSON tem só totais agregados: março com 180 cliques, 60 submissões e 120 reportes; junho, depois de três meses de treinamentos curtos e de um botão de reporte, com 90, 25 e 300. No `metricas.py`, as duas funções no topo formatam porcentagem e decimal com vírgula. O laço percorre as campanhas e divide cada total pelos enviados; a linha que decide a métrica principal é `razao = c["reportes"] / c["cliques"]`. Depois, o segundo laço calcula a variação entre março e junho, e o `if` final testa se há mais reportes que cliques. Na saída, março aparece em vermelho: 18% de clique, 6% de submissão, 12% de reporte e razão 0,67. Junho aparece em verde: 9%, 2,5%, 30% e 3,33. As variações são de menos 50% nos cliques, menos 58% nas submissões e mais 150% nos reportes, e a última linha diz que as pessoas funcionam como sensores. Agora a consulta SQL. O `MIN` com `CASE` pega o primeiro evento do tipo reporte e subtrai a hora do envio; os dois `COUNT(DISTINCT ...)` contam pessoas, sem trazê-las para o resultado. A saída é uma linha: 00:09:00 até o primeiro reporte, 180 cliques e 120 reportes."
-Atenção: o código é ilustrativo e a saída é pré-gravada; o editor digita o código ao abrir o slide, então espere a digitação terminar antes de clicar. A preparação do ambiente é simulada e leva cerca de 10 segundos; espere o botão mostrar "Ambiente pronto" antes de executar.
-Conclusão: "A razão reporte/clique foi de 0,67 para 3,3: a segunda campanha mostra uma equipe que percebe e avisa."
-[Tela: gravação do laboratório do slide 13]
-
-**Slide 14 — O rastro técnico e o rastro humano (12:20–13:00)**
-Fala: "Do lado técnico, o Blue Team olha cabeçalhos de *e-mail*, domínios recém-registrados e parecidos com o da empresa, falhas no SPF, que diz quais servidores podem enviar pelo domínio, no DKIM, que assina a mensagem, e no DMARC, que diz o que fazer quando os dois falham. Olha também cliques no *proxy*, o intermediário que registra o acesso à web. Do lado humano, o rastro é o reporte do colaborador. O SIEM junta as duas coisas: o reporte confirma o que os registros sugerem."
-
-**Slide 15 — Laboratório: o SOC acompanha a campanha de março (13:00–14:30)**
-Objetivo: medir quanto tempo a isca ficou circulando, do envio ao bloqueio.
-Na tela:
-1. Clicar na busca salva "1. Autenticação de e-mail".
-2. Clicar em "2. Cliques no proxy".
-3. Clicar em "3. Reportes recebidos".
-4. Clicar em "4. Do reporte ao bloqueio".
-Fala: "O SOC trata a campanha autorizada como um ataque real, e assim o exercício também mede a defesa. A primeira consulta filtra os *logs* de *e-mail* pelo domínio portal-rh-beneficios.example e conta as mensagens por resultado de SPF, DKIM e DMARC: 1.000 mensagens, SPF *pass*, DKIM e DMARC *none*, domínio de 2 dias. Na plataforma da disciplina, é a regra R1 que liga esse domínio novo ao clique. A segunda consulta conta usuários distintos no *proxy* em janelas de 10 minutos: 62 só entre 09:00 e 09:10, e 180 no acumulado. A maior parte dos cliques acontece nos primeiros minutos. A terceira conta os reportes: o primeiro às 09:09 e 120 no total. A quarta mostra o caso SIM-2026-03: primeiro reporte às 09:09, triagem às 09:14 e bloqueio geral às 09:21, removendo a mensagem de todas as caixas não abertas."
-Atenção: a linguagem das consultas é KQL ilustrativa. Leia sempre a nota amarela no rodapé de cada busca.
-Conclusão: "Entre o primeiro reporte e o bloqueio passaram 12 minutos. Cada minuto a menos protege quem ainda não abriu a mensagem."
-[Tela: gravação do laboratório do slide 15]
-
-**Slide 16 — Laboratório: a campanha vista pelo SOC da plataforma (14:30–16:20)**
-Objetivo: ver o que aconteceria num ataque real depois que a Carla digita a senha e medir o tempo de reação do SOC.
-Na tela:
-1. A plataforma abre na aba "Cenários". No cartão "Phishing simulado no financeiro", clicar em "Iniciar cenário".
-2. Acompanhar os passos do cenário: as 40 mensagens, o clique da Carla e a tentativa de *login* na VPN. Se quiser acelerar, trocar a velocidade no seletor do alto (por exemplo, de "1 s = 15 s" para uma mais rápida).
-3. Esperar o alerta da R1 aparecer e o terceiro passo ficar como "bloqueado pelo controle". Só então abrir a aba "SOC", clicar em "Investigar" no alerta da R1 e depois em "Conter". Ler os indicadores "MTTD médio" e "MTTR médio" no topo.
-4. Esperar o alerta da R11 sobre `svc-backup`, investigar e marcar "Falso positivo".
-Fala: "Agora estamos no simulador da disciplina. O cenário reproduz a campanha contra o financeiro: 40 mensagens e o clique da Carla. O clique vira alerta pela regra R1, que liga o domínio recém-criado ao acesso. Em seguida, a senha digitada é testada na VPN, e o MFA, o segundo fator de *login*, bloqueia a entrada. Na aba SOC, investigo o alerta da R1 e contenho. Repare nos dois indicadores: MTTD é o tempo médio até detectar, e MTTR é o tempo médio até responder. Logo depois aparece um alerta da R11 sobre a conta `svc-backup`. Ao investigar, vemos que é rotina de *backup*, então marcamos como falso positivo. Esse também é um trabalho do SOC: separar o que é ataque do que é ruído."
-Atenção: o simulador mede o SOC; cliques e reportes da campanha vêm da plataforma de simulação do slide 10. Conter um alerta cancela os passos pendentes do cenário, então, se o alerta da R1 for contido antes da tentativa de *login* na VPN, o bloqueio pelo MFA não aparece; se quiser repetir, clique de novo em "Iniciar cenário". O botão "Reiniciar" volta regras e fontes ao padrão.
-Conclusão: "A senha vazou, mas o MFA e o SOC seguraram o ataque."
-[Tela: gravação do laboratório do slide 16]
-
-**Slide 17 — Exemplo numérico: lendo duas campanhas de 1.000 mensagens (16:20–16:50)**
-Fala: "Juntando tudo na tabela: cliques de 180 para 90, submissões de 60 para 25 e reportes de 120 para 300. A razão reporte/clique vai de 120 dividido por 180, cerca de 0,67, para 300 dividido por 90, cerca de 3,3. No gráfico, as barras vermelhas mostram a queda e a verde mostra a alta dos reportes: há mais de três reportes para cada clique."
-
-**Slide 18 — Pausa para reflexão: o pedido do hospital (16:50–17:20)**
-Fala: "Agora um caso fora da Tatame. Um hospital com 2.500 colaboradores pede uma simulação com o tema 'resultado de exames de colaboradores com covid' e quer a lista nominal de quem clicou para aplicar advertências. Pause o vídeo e pense: que riscos éticos e legais esse pedido traz, considerando a LGPD e o bem-estar das pessoas? Que tema você proporia? E que métricas apresentaria no lugar da lista?"
-[Take de apoio: corredor de hospital com profissionais de saúde — Envato]
-
-**Slide 19 — Laboratório: planejador de campanha para o hospital (17:20–18:20)**
-Objetivo: montar um plano de uma página que respeite as regras de engajamento.
-Na tela:
-1. Em "Pretexto", clicar primeiro em "Resultado de exames de colaboradores com covid" e ler a avaliação no plano à direita. Depois trocar para "Nova escala de plantões publicada no sistema de RH".
-2. Em "O que a diretoria recebe", clicar em "Lista nominal de quem clicou", ler o ✗, e trocar para "Métricas agregadas por área: clique, submissão, reporte e tempo até o 1º reporte".
-3. Em "Quem clicar", escolher "Vê a página educativa na hora e faz um microtreinamento".
-4. Em "Dados digitados no formulário", escolher "Registrar só o evento de submissão; nada do que foi digitado é guardado". O indicador chega a "4 de 4".
-Fala: "Cada escolha aparece no plano com um ✓ ou um ✗ e a justificativa. O tema de saúde causa angústia real e envolve dado sensível; a escala de plantões é plausível e faz parte da rotina. A lista nominal expõe resultado individual sem necessidade e desestimula o reporte; as métricas agregadas mostram a capacidade de detecção sem expor ninguém. Advertência formal gera medo de reportar; a página educativa ensina no momento do erro. E guardar o que foi digitado é risco grave, desnecessário para a métrica."
-Atenção: mostre primeiro uma escolha errada em pelo menos duas decisões, para o aluno ver a avaliação negativa.
-Conclusão: "Punir quem clica faz as pessoas pararem de reportar, e o SOC perde o sensor mais rápido que tem."
-[Tela: gravação do laboratório do slide 19]
-
-**Slide 20 — De volta ao problema (18:20–19:10)**
-Fala: "Voltemos à pergunta da aula: quando um *e-mail* falso chega, as pessoas da Tatame percebem e avisam o SOC a tempo? Os laboratórios responderam por partes. A caixa de entrada mostrou 7 pistas, quase todas de autoridade ou urgência. A plataforma de simulação mediu cliques e submissões sem guardar senhas. No SIEM, o primeiro reporte chegou 9 minutos após o envio, e o bloqueio veio 12 minutos depois. E o script mostrou que os reportes foram de 12% para 30%, com 3,3 reportes por clique; no simulador, que reproduz o ataque real, o MFA barrou a senha na VPN. A resposta, então, é sim, e cada vez mais: na campanha de março, 120 pessoas avisaram e o SOC removeu a isca 12 minutos após o primeiro reporte. Três meses depois, há mais de três reportes para cada clique."
-
-**Slides 21 a 23 — Pontos-chave, referências e encerramento (19:10–19:50)**
-Fala: "Para levar: a engenharia social explora princípios de persuasão como autoridade e urgência; o *phishing*, T1566, é um dos vetores de acesso inicial mais usados; simulações autorizadas são educativas, protegem os dados e evitam pretextos danosos; e a taxa de reporte e o tempo até o primeiro reporte medem a detecção humana. O clique é só o começo. Na próxima aula, veremos o que o Grupo Cobalto Austral faria depois de entrar na sede da Tatame e como o Red Team conta essa história no relatório."
-[Slides: referências exibidas por 5 segundos, sem leitura em voz alta.]
-
-## Aula 8 — Pós-exploração, movimentação lateral e relatório de Red Team
-
-### Texto base
-
-O acesso inicial raramente é o objetivo final. Um *e-mail* clicado ou um servidor vulnerável dá ao adversário um ponto de apoio em uma única máquina, muitas vezes com privilégios limitados. O que transforma esse ponto de apoio em um incidente grave é a **pós-exploração**: tudo o que acontece depois da entrada, até que o objetivo — dados, controle do domínio, interrupção do negócio — seja alcançado. Nesta aula, tratamos essa fase de forma conceitual, como o Red Team a documenta e como o Blue Team a enxerga.
-
-#### As etapas da pós-exploração
-
-Na matriz ATT&CK, a pós-exploração abrange várias táticas que costumam se repetir em ciclos:
-
-| Tática ATT&CK | Objetivo do adversário | Exemplo de técnica | Rastro típico para o Blue Team |
-|---|---|---|---|
-| Persistência (TA0003) | Manter o acesso após reinicializações | T1053 — *Scheduled Task/Job* | Criação de tarefas agendadas incomuns |
-| Escalada de privilégios (TA0004) | Obter permissões mais altas | T1068 — *Exploitation for Privilege Escalation* | Processos com privilégio elevado a partir de usuário comum |
-| Acesso a credenciais (TA0006) | Obter senhas, *hashes* e tíquetes | T1003.001 — *LSASS Memory*; T1558.003 — *Kerberoasting* | Acessos ao processo LSASS; pedidos anômalos de tíquetes Kerberos |
-| Descoberta (TA0007) | Mapear usuários, grupos e servidores | T1087 — *Account Discovery* | Consultas volumosas ao diretório |
-| Movimentação lateral (TA0008) | Saltar para outras máquinas | T1021 — *Remote Services*; T1550.002 — *Pass the Hash* | *Logons* remotos fora do padrão |
-| Comando e controle (TA0011) | Manter comunicação com o operador | T1071 — *Application Layer Protocol* | Conexões periódicas (*beaconing*) a domínios raros |
-
-Ferramentas conhecidas, catalogadas no próprio ATT&CK, ilustram essas táticas. O **Mimikatz** (S0002) tornou-se símbolo do acesso a credenciais em ambientes Windows, e sua presença é um dos comportamentos mais monitorados por soluções de EDR. *Frameworks* de comando e controle, comerciais ou de código aberto, oferecem aos operadores um canal para coordenar a operação. Conhecer esses nomes ajuda o defensor a reconhecê-los em relatórios de inteligência.
-
-[Imagem 1 — Diagrama de uma rede corporativa com uma estação comprometida e setas indicando saltos sucessivos até um controlador de domínio. Texto alternativo: "Diagrama de movimentação lateral de uma estação de trabalho até o controlador de domínio". Sugestão de busca no Envato: "network diagram lateral movement".]
-
-#### Credenciais válidas: o atalho preferido
-
-Muitos adversários modernos evitam *malware* sofisticado e preferem usar **contas válidas** (T1078 — *Valid Accounts*): com uma credencial legítima, suas ações se misturam às dos administradores. Por isso, a proteção de contas privilegiadas — segundo fator, separação entre contas administrativas e de uso diário, acesso privilegiado sob demanda — é uma das recomendações mais frequentes em relatórios de Red Team.
-
-#### Caminhos de ataque e o pensamento em grafos
-
-Em ambientes Active Directory, as permissões formam uma rede de relações: o usuário A administra a máquina B, onde o administrador C costuma fazer *logon*, e C pertence a um grupo com controle sobre o domínio. O **BloodHound** representa essas relações como um **grafo** e calcula **caminhos de ataque** até ativos críticos, como o grupo *Domain Admins*. A mesma visão serve à defesa: eliminar uma única relação mal configurada pode cortar dezenas de caminhos de uma só vez. Vale aqui a frase atribuída a John Lambert, da Microsoft: os defensores pensam em listas, os atacantes pensam em grafos.
-
-[Imagem 2 — Grafo com nós de usuários, computadores e grupos, destacando em vermelho o caminho mais curto até o grupo de administradores do domínio. Texto alternativo: "Grafo de caminhos de ataque no Active Directory com o caminho crítico destacado". Pode ser recriado pela equipe de produção.]
-
-#### Limites da pós-exploração em um engajamento
-
-As regras de engajamento definem até onde a equipe pode ir: em geral, o **impacto é demonstrado, e não executado**. Em vez de exfiltrar a base de clientes, o Red Team registra uma evidência de que teria acesso a ela, como uma captura de tela da estrutura da tabela; em vez de criptografar servidores, documenta que tinha os privilégios para isso. Credenciais obtidas são protegidas e invalidadas ao final, e dados pessoais encontrados são tratados conforme a LGPD. Persistências e contas criadas devem ser **removidas** na limpeza pós-operação, com registro do que foi feito.
-
-#### O relatório de Red Team
-
-O relatório é o principal entregável e precisa servir a dois públicos. Uma estrutura comum inclui: **sumário executivo**, com objetivos, resultado e riscos em linguagem de negócio; **narrativa do ataque**, com a linha do tempo de cada etapa; **achados**, com evidências, severidade e técnica ATT&CK correspondente; **análise de detecção e resposta**, indicando o que foi detectado, quando e o que passou despercebido; e **recomendações priorizadas**. A linha do tempo detalhada permite ao Blue Team comparar, minuto a minuto, o que o Red Team fez com o que os registros mostram — base para o *purple teaming* da Unidade 4.
-
-[Imagem 3 — Linha do tempo de uma operação com marcos de acesso inicial, escalada, movimentação lateral e objetivo, e ícones indicando quais etapas foram detectadas. Texto alternativo: "Linha do tempo de uma operação de Red Team com etapas detectadas e não detectadas". Sugestão de busca no Envato: "timeline infographic red green".]
+[Imagem 4 — Etiqueta amarela presa a um cabo de servidor com a inscrição "teste autorizado, remover até 27/11". Texto alternativo: "Etiqueta de identificação em equipamento, representando o artefato de teste marcado e com prazo de remoção". Sugestão de busca no Envato: "server cable tag label".]
 
 #### Exemplo numérico: cortando caminhos
 
-Em um domínio com 5.000 contas de usuário, a análise de grafo mostra que 1.200 delas (**24%**) têm algum caminho até o grupo de administradores do domínio. Quase todos esses caminhos passam por dois servidores em que administradores fazem *logon* rotineiramente e por um grupo de suporte com permissões excessivas. Após corrigir esses três pontos, restam 40 contas com caminho, isto é, 40 ÷ 5.000 = **0,8%** — uma redução de 1.160 ÷ 1.200 ≈ **97%** dos caminhos. Na mesma operação, das 12 técnicas executadas, o SOC detectou 4, uma taxa de detecção de 4 ÷ 12 ≈ **33%**: um número que o relatório deve destacar como ponto de partida para a melhoria.
+Em um domínio com 5.000 contas, a análise de grafo mostra que 1.200 delas (**24%**) têm algum caminho até os administradores do domínio. Quase todos passam por dois servidores em que administradores fazem *logon* rotineiramente e por um grupo de suporte com permissões excessivas. Corrigidos esses três pontos, restam 40 contas com caminho: 40 ÷ 5.000 = **0,8%**, uma redução de 1.160 ÷ 1.200 ≈ **97%** dos caminhos.
 
-#### O que você verá na próxima unidade
+#### Pausa para reflexão
 
-Na Unidade 3, vamos trocar a camisa vermelha pela azul. Cada rastro que mencionamos nesta unidade — varreduras nos registros de *firewall*, cliques no *proxy*, acessos ao LSASS, *logons* remotos fora do padrão — vira matéria-prima da defesa. Você vai estudar telemetria, registros e SIEM; a engenharia de detecção e o EDR; o *threat hunting* apoiado por inteligência de ameaças; e a resposta a incidentes, do primeiro alerta às lições aprendidas.
+> No último dia de um exercício autorizado, o administrador de TI da organização pede ao Red Team que não remova a tarefa agendada marcada que ficou em um servidor de arquivos: "deixe ligada mais 30 dias, para ver se o SOC acha sozinho".
+>
+> 1. O Red Team pode atender ao pedido? Considere a janela de execução, a carta de autorização e quem a assinou.
+> 2. Que risco um artefato de persistência esquecido cria para a organização?
+> 3. Que alternativa testa a detecção de persistência sem deixar nada para trás?
+>
+> **Desafio prático:** redija o item "Persistência" das regras de engajamento: técnicas permitidas, marcação, registro, prazo de remoção e quem confere a limpeza.
 
 #### Pontos-chave
 
-- A pós-exploração transforma um ponto de apoio em impacto real, em ciclos de descoberta, credenciais e movimentação.
-- Contas válidas (T1078) permitem que o adversário se misture aos usuários legítimos.
-- Pensar em grafos revela caminhos de ataque e mostra onde uma correção corta muitos deles.
-- O relatório de Red Team narra o ataque, mapeia técnicas ATT&CK e mede o que a defesa detectou.
+- Descoberta, escalada, movimentação lateral e persistência formam um ciclo que se repete a cada máquina.
+- Contas válidas e configurações fracas escalam privilégio sem nenhuma falha de *software*.
+- Cada técnica deixa um evento conhecido; sem regra que o observe, ninguém é avisado.
+- Em engajamento, o impacto é demonstrado e a persistência é marcada, registrada e removida.
 
 ### Referências da aula
 
-LAMBERT, John. *Defenders think in lists. Attackers think in graphs. As long as this is true, attackers win*. 2015. Disponível em: <https://github.com/JohnLaTwC/Shared/blob/master/Defenders%20think%20in%20lists.%20Attackers%20think%20in%20graphs.%20As%20long%20as%20this%20is%20true%2C%20attackers%20win.md>. Acesso em: 13 nov. 2026.
+LAMBERT, John. *Defenders think in lists. Attackers think in graphs. As long as this is true, attackers win*. 2015. Disponível em: <https://github.com/JohnLaTwC/Shared/blob/master/Defenders%20think%20in%20lists.%20Attackers%20think%20in%20graphs.%20As%20long%20as%20this%20is%20true%2C%20attackers%20win.md>. Acesso em: 22 nov. 2026.
 
-MITRE. *Lateral movement (TA0008)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0008/>. Acesso em: 13 nov. 2026.
+MITRE. *Lateral movement (TA0008)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0008/>. Acesso em: 22 nov. 2026.
 
-MITRE. *Valid accounts (T1078)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1078/>. Acesso em: 13 nov. 2026.
+MITRE. *Persistence (TA0003)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0003/>. Acesso em: 22 nov. 2026.
 
-NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *SP 800-115: technical guide to information security testing and assessment*. Gaithersburg: NIST, 2008.
+MITRE. *Privilege escalation (TA0004)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0004/>. Acesso em: 22 nov. 2026.
 
-WEIDMAN, Georgia. *Testes de invasão: uma introdução prática ao hacking*. São Paulo: Novatec, 2014.
+SANTOS, Joas Antonio dos. *Introdução ao Red Team Operations 2.0*: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024. *E-book*.
 
-### Roteiro da Videoaula 8 — "Da recepção ao controlador de domínio: até onde o adversário chega"
+WEIDMAN, Georgia. *Testes de invasão*: uma introdução prática ao hacking. São Paulo: Novatec, 2014.
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula8.html (24 slides).
+### Roteiro da Videoaula 7 — "Da recepção ao administrador do domínio: quantos passos o SOC enxerga?"
+
+Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula7.html (22 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Esta é a última aula da Unidade 2, e hoje vamos acompanhar o adversário depois que ele já entrou. Vamos ver o caminho que ele percorre dentro da rede, o rastro que deixa e como o Red Team transforma tudo isso em um relatório. Como sempre, tudo acontece na Rede Tatame, a nossa rede fictícia de academias."
+Fala: "Olá! Esta é a Aula 7, e hoje vamos acompanhar o adversário depois que ele já entrou. Vamos ver como ele descobre o domínio, aumenta os próprios privilégios, salta entre máquinas e tenta ficar, e que rastro cada passo deixa para o Blue Team. Como sempre, tudo acontece na Rede Tatame, a nossa rede fictícia de academias, dentro de um exercício autorizado."
 [Câmera: professor em plano médio.]
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:35)**
-Fala: "A CISO Marina Prado pediu ao Red Team de Bruno Sato uma emulação do Grupo Cobalto Austral, o adversário fictício dos nossos exercícios. O ponto de partida combinado foi o notebook da recepção da sede, o NB-REC-001, como se um *e-mail* falso tivesse funcionado. A pergunta da aula está em amarelo: até onde um adversário chega a partir da recepção, e quanto disso o SOC, o centro de operações de segurança da Tatame, enxerga? No mapa à direita, o caminho em vermelho vai de um notebook da sede ao servidor de arquivos e dali ao controlador do Active Directory, o AD, que é o diretório onde ficam as contas e as permissões. O mapa desenha um único notebook, com o nome NB-FIN-031; o da recepção fica na mesma rede. Quem controla o domínio controla o SRV-ARQ-01, com fichas de alunos menores, e o ERP financeiro."
-[Take de apoio: recepção de academia com computador no balcão — Envato.]
+**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:40)**
+Fala: "Estamos na fase 2 do exercício de novembro. A CISO Marina Prado autorizou um cenário de acesso presumido: o Red Team de Bruno Sato recebeu uma conta de teste com os mesmos direitos de um usuário da recepção e uma máquina virtual Kali no segmento do laboratório, como se um *e-mail* falso tivesse funcionado. A pergunta da aula está no quadro amarelo: a partir de um usuário comum da recepção, até onde o adversário chega no domínio, e que rastro cada passo deixa para o SOC? No mapa à direita, o caminho em vermelho vai de um notebook da sede ao servidor de arquivos e dali ao controlador do Active Directory, o diretório que guarda contas e permissões. O mapa desenha o NB-FIN-031; o notebook da recepção, o NB-REC-001, fica na mesma rede. Quem controla o domínio controla o SRV-ARQ-01, com fichas de alunos menores, e o ERP financeiro."
+[Take de apoio: recepção de academia com computador no balcão — Envato, "gym reception computer".]
 
-**Slide 4 — Do ponto de apoio ao impacto (1:35–2:20)**
-Fala: "O acesso inicial raramente é o objetivo final. Um clique dá ao adversário uma única máquina, muitas vezes com um usuário sem privilégios. O que transforma esse ponto de apoio em incidente grave é a pós-exploração: tudo o que acontece depois da entrada até o objetivo, seja ele dados, controle do domínio ou interrupção do negócio. Pense em um molho de chaves: quem tem a chave da sala onde está guardada a chave-mestra não precisa arrombar nada. Nesta aula tratamos essa fase de forma conceitual, olhando como o Red Team a documenta e como o Blue Team a enxerga."
+**Slide 4 — Do ponto de apoio ao domínio: um ciclo (1:40–2:25)**
+Fala: "O acesso inicial dá ao adversário uma máquina e um usuário comum. A partir daí, ele entra em um ciclo de quatro táticas do MITRE ATT&CK: descoberta, para mapear usuários, grupos e servidores; escalada de privilégios, para ganhar permissões mais altas; movimentação lateral, para saltar para outra máquina; e persistência, para garantir a volta depois de uma reinicialização ou de uma troca de senha. Em cada máquina nova, o ciclo recomeça. E em cada etapa vamos perguntar: que evento isso gera para o defensor?"
 
-**Slide 5 — As táticas da pós-exploração no ATT&CK (2:20–3:05)**
-Fala: "Esta tabela organiza a pós-exploração pelas táticas do MITRE ATT&CK. Leia sempre a última coluna: é o rastro típico que cada tática deixa para o Blue Team. Persistência deixa tarefas agendadas incomuns. Acesso a credenciais deixa acessos ao processo LSASS, que é o processo do Windows que guarda credenciais na memória, e pedidos anômalos de tíquetes de serviço Kerberos. Descoberta deixa consultas volumosas ao diretório. Movimentação lateral deixa *logons* remotos fora do padrão. E comando e controle deixa conexões periódicas, o chamado *beaconing*. Repare que essas táticas se repetem em ciclos: descobrir, obter credenciais, mover-se e descobrir de novo."
+**Slide 5 — Escalada de privilégios: quatro caminhos comuns (2:25–3:20)**
+Fala: "A tabela mostra quatro caminhos de escalada e o rastro de cada um. O primeiro explora uma falha sem correção, a T1068, e aparece como um processo com privilégio de sistema criado por um usuário comum. O segundo desvia o controle de conta de usuário do Windows, a tela que pede confirmação, e é a T1548.002. Agora repare nos dois últimos: nenhum explora falha de *software*. Um grupo amplo com administração local, ou uma senha de administrador reaproveitada, já basta; o rastro é um *logon*, o evento 4624, seguido do 4672, que registra privilégios especiais. E uma senha esquecida em um *script* é a T1552.001. Na Tatame, os dois últimos acontecem juntos no notebook da recepção."
 
-**Slide 6 — Ferramentas conhecidas e contas válidas (3:05–3:40)**
-Fala: "Alguns nomes de ferramentas aparecem tanto em relatórios de inteligência que o defensor precisa reconhecê-los, e as soluções de EDR, que vigiam processos e memória nas máquinas, monitoram justamente esses comportamentos. Mas muitos adversários preferem algo mais simples: contas válidas, a técnica T1078. Com uma credencial legítima, as ações se misturam às dos administradores. Por isso os relatórios recomendam segundo fator, contas administrativas separadas das de uso diário e acesso privilegiado sob demanda."
-
-**Slide 7 — Laboratório: da recepção ao controlador de domínio (3:40–5:40)**
-Objetivo: mostrar o caminho completo do adversário na sede e o rastro esperado em cada etapa, o primeiro pedaço da resposta sobre até onde ele chega.
+**Slide 6 — Laboratório: da recepção ao controlador de domínio (3:20–5:40)**
+Objetivo: mostrar o caminho completo na sede e o rastro esperado em cada etapa, a primeira parte da resposta à pergunta da aula.
 Na tela:
-1. Mostrar o diagrama parado: na linha de cima, NB-REC-001, Diretório, SRV-ARQ-01 e SRV-AD-01; embaixo, Operador, EDR, SIEM e Revisão purple.
-2. Clicar em "Avançar" para o passo 1, "Ponto de apoio": acende só o NB-REC-001.
-3. "Avançar" para o passo 2, "Descoberta (TA0007)": a seta vermelha vai do notebook ao Diretório.
-4. "Avançar" para o passo 3, "Credenciais (TA0006)": acende só o NB-REC-001, sem ligação com a defesa.
-5. "Avançar" para o passo 4, "Movimentação lateral (TA0008)": seta vermelha até o SRV-ARQ-01 e uma linha tracejada em âmbar do servidor até o SIEM, que fica com contorno vermelho, sem alerta.
-6. "Avançar" pelos passos 5, "Credenciais de novo", 6, "Contas válidas (T1078)", e 7, "Comando e controle (TA0011)".
-7. Terminar no passo 8, "Revisão purple", com o contador em 8/8.
-Fala: "Leia a legenda de cada passo embaixo do diagrama. No passo 1, um *e-mail* clicado dá ao adversário uma sessão no NB-REC-001 com um usuário comum. No passo 2 ele mapeia usuários, grupos e servidores de corp.tatame.local; o rastro esperado são consultas volumosas ao AD a partir de uma estação comum, a regra R13 na plataforma. No passo 3, o adversário acha nessa máquina um *script* de manutenção em que o suporte deixou a senha da própria conta; não havia regra nem registro para isso, e ninguém viu. No passo 4, com a conta do suporte, o adversário faz *logon* remoto no SRV-ARQ-01. O suporte nunca faz isso a partir da recepção, e mesmo assim ninguém viu: a linha até o SIEM fica âmbar, e o SIEM, com contorno vermelho. No passo 5, um administrador do domínio faz *logon* rotineiramente nesse servidor; o adversário lê a memória do LSASS e obtém a credencial dele, a chave-mestra, e aqui o EDR alertou, às 14:05. Mais tarde, uma técnica diferente, o pedido em massa de tíquetes de serviço Kerberos, gerou alerta no SIEM, às 16:00. Por isso as duas linhas desse passo são azuis. No passo 6, o acesso ao SRV-AD-01 parece trabalho normal. No passo 7, a estação conversou com o operador em intervalos regulares o dia todo, e isso estava nos registros sem regra. No passo 8, Red e Blue comparam tudo: 4 de 12 técnicas detectadas."
-Atenção: o diagrama é conceitual e não mostra como executar nenhuma técnica. O botão "Auto" avança sozinho; na gravação, prefira "Avançar" para controlar o tempo da fala. Nas linhas, azul significa alerta e âmbar significa evento registrado sem alerta; o contorno vermelho no SIEM (passo 4) e no Operador (passo 7) marca onde a defesa não reagiu.
-Conclusão: "Da recepção ao controlador de domínio são poucas etapas, e em duas delas a defesa tinha o evento, mas não tinha a regra."
-[Tela: gravação do laboratório do slide 7.]
+1. Mostrar o diagrama parado: na linha de cima, NB-REC-001, Diretório, SRV-ARQ-01 e SRV-AD-01; embaixo, Persistência, EDR, SIEM e Revisão purple.
+2. Clicar em "▶ Avançar" para o passo 1, "Ponto de apoio (acesso presumido)".
+3. "▶ Avançar" para o passo 2, "Descoberta (TA0007) · 10h02": seta vermelha do notebook ao Diretório.
+4. "▶ Avançar" para o passo 3, "Escalada local (TA0004) · 11h40": acende só o NB-REC-001.
+5. "▶ Avançar" para o passo 4, "Movimentação lateral (TA0008) · 13h20": seta vermelha até o SRV-ARQ-01 e linha âmbar até o SIEM, que fica com contorno vermelho.
+6. "▶ Avançar" para o passo 5, "Credenciais (TA0006) · 14h05": linha azul até o EDR.
+7. "▶ Avançar" pelos passos 6, "Contas válidas (T1078) · 15h10", e 7, "Persistência (TA0003) · 15h30".
+8. Terminar no passo 8, "Revisão purple", com o contador em 8/8.
+Fala: "Leia a legenda de cada passo embaixo do diagrama. No passo 2, às 10h02, a equipe lista serviços e grupos do domínio a partir do Kali; o rastro esperado são consultas volumosas ao AD, a regra R13 da plataforma, que vem desligada. No passo 3, a escalada: o grupo TODOS-SEDE, do qual todo mundo faz parte, é administrador do notebook da recepção. Então a conta comum já tem privilégio local, e ali existe um *script* de manutenção com a senha do sup.heitor, do suporte. No passo 4, com a conta do suporte, a equipe abre RDP do notebook para o SRV-ARQ-01. O evento 4624 do tipo 10 estava lá, mas sem regra: por isso a linha é âmbar e o SIEM fica com contorno vermelho. No passo 5, um administrador do domínio, o adm.caio, tem sessão aberta nesse servidor. A equipe emula o acesso à memória do LSASS, o processo do Windows que guarda credenciais, e o EDR alerta: linha azul. No passo 6, com a conta do administrador, o acesso ao controlador de domínio parece trabalho normal, e a equipe só grava o arquivo-marca combinado. No passo 7, duas persistências marcadas com o código do chamado, uma tarefa agendada e uma chave Run. No passo 8, Red e Blue comparam: quase tudo deixou evento, e só uma etapa virou alerta."
+Atenção: o diagrama é conceitual e não mostra como executar nenhuma técnica. O botão "⏯ Auto" avança sozinho; na gravação, prefira "▶ Avançar". Nas linhas, azul é alerta e âmbar é evento registrado sem alerta; o contorno vermelho marca onde a defesa não reagiu.
+Conclusão: "Da recepção ao administrador do domínio são poucos saltos, e quase todos deixaram evento. O problema é que só um virou alerta."
+[Tela: gravação do laboratório do slide 6.]
 
-**Slide 8 — Defensores pensam em listas, atacantes em grafos (5:40–6:15)**
-Fala: "No Active Directory, as permissões formam uma rede de relações: o usuário A administra a máquina B, onde o administrador C costuma fazer *logon*, e C pertence a um grupo que controla o domínio. O BloodHound representa essas relações como um grafo e calcula caminhos de ataque até ativos críticos, como o grupo *Domain Admins*. A defesa pode usar a mesma visão: eliminar uma única relação mal configurada pode cortar dezenas de caminhos de uma vez."
-[Take de apoio: quadro de investigação com fios ligando fotos — Envato.]
+**Slide 7 — Descoberta e movimentação lateral (5:40–6:30)**
+Fala: "Agora o detalhe de duas táticas. Na descoberta, a T1046 lista serviços da rede interna e a T1087.002 lista contas e grupos do domínio. Na movimentação lateral, cada protocolo deixa uma assinatura diferente: o RDP gera *logon* do tipo 10; o acesso aos compartilhamentos administrativos, como C$ e ADMIN$, gera *logon* do tipo 3 e os eventos 5140 e 5145; e o reuso de *hash* aparece como autenticação NTLM onde o normal seria Kerberos. No quadro azul, um ponto importante: o Metasploit, que vem no Kali, tem módulos *auxiliary*, de descoberta, e módulos *post*, de pós-exploração. As regras de engajamento da Tatame autorizaram só os primeiros."
 
-**Slide 9 — Laboratório: o grafo do diretório e o caminho até *Domain Admins* (6:15–7:55)**
+**Slide 8 — Laboratório: descoberta do domínio no Kali Linux (6:30–8:50)**
+Objetivo: mapear serviços e grupos do domínio dentro do que a fase 2 autoriza, e perceber que cada consulta deixa rastro.
+Na tela:
+1. Clicar em "▶ Próximo comando": `cat escopo/fase2_acesso_presumido.txt`.
+2. "▶ Próximo comando": `nmap -sV -Pn -p 88,135,389,445,3389` contra os três servidores.
+3. "▶ Próximo comando": `msfconsole` com o módulo `auxiliary/scanner/smb/smb_version`.
+4. "▶ Próximo comando": `ldapsearch` com a conta de teste.
+5. "▶ Próximo comando": `sha256sum` da evidência, gravado no `registro.log`.
+6. Ler a nota de rodapé de cada comando antes de avançar.
+Fala: "O *prompt* mostra kali@lab-tatame, a máquina virtual do Red Team. O primeiro comando não ataca nada: relê o escopo da fase 2. Origem autorizada 10.10.250.66, conta de teste tst.redteam01, três servidores como alvo, Metasploit só com módulos de descoberta, e a linha amarela lembra que persistência só com a marca RT-APR2291. O segundo comando é o Nmap com `-sV`, que identifica o serviço e a versão em cada porta. Leia a primeira tabela: o SRV-AD-01 responde em 88, que é o Kerberos, em 389, o LDAP do Active Directory, e em 445 e 3389, SMB e área de trabalho remota. Os outros dois servidores não têm Kerberos nem LDAP, o que confirma que o controlador de domínio é só o primeiro. O terceiro comando abre o Metasploit em modo silencioso e roda o módulo `smb_version`. Ele só pergunta a cada servidor que versão de SMB fala e se exige assinatura. As linhas com sinal de mais mostram Windows Server 2012 R2 nos três, e a linha amarela traz o achado: o SRV-ARQ-01 ainda aceita SMB 1, e dois servidores não exigem assinatura. O quarto comando consulta o AD com a conta de teste; a senha é digitada e não aparece. A resposta lista os membros de três grupos: adm.caio em Domain Admins, sup.heitor e sup.iris no SUPORTE-N1, e atd.elisa no LEGADO-ERP. Guarde esses nomes, porque eles voltam no grafo. E repare na nota: essa consulta é exatamente o que a regra R13 detecta. O último comando calcula o *hash* do arquivo de evidência e o grava no registro da operação."
+Atenção: o terminal é simulado; os servidores, endereços e contas são fictícios. Comente que, no mundo real, esses comandos só podem ser usados contra ambientes com autorização escrita. A saída do Nmap foi resumida para os dois últimos servidores. O comando do Metasploit é longo e quebra em duas linhas no terminal.
+Conclusão: "A descoberta já aponta o caminho: grupos, servidores e uma configuração fraca. E cada consulta ao AD deixa rastro para quem tiver a regra."
+[Tela: gravação do laboratório do slide 8.]
+
+**Slide 9 — Defensores pensam em listas, atacantes em grafos (8:50–9:25)**
+Fala: "No Active Directory, as permissões formam uma rede de relações: o usuário A administra a máquina B, onde o administrador C costuma fazer *logon*, e C pertence a um grupo que controla o domínio. O BloodHound representa essas relações como um grafo e calcula caminhos de ataque até o grupo Domain Admins. E a defesa pode usar a mesma visão: eliminar uma relação mal configurada corta dezenas de caminhos de uma vez. É o sentido da frase de John Lambert, no quadro azul."
+[Take de apoio: quadro de investigação com fios ligando fotos — Envato, "investigation board strings".]
+
+**Slide 10 — Laboratório: o grafo do diretório em 3D (9:25–11:00)**
 Objetivo: descobrir quais relações, se cortadas, eliminam mais caminhos até o topo.
 Na tela:
-1. Mostrar a cena parada: embaixo os usuários, no meio grupos e computadores, no topo o losango amarelo de *Domain Admins*. No painel do canto, "10 de 11 usuários comuns com caminho" e "rec.ana: 7 saltos".
-2. Arrastar para girar a cena e seguir as arestas vermelhas de rec.ana: TODOS-SEDE, NB-REC-001, sup.heitor, SUPORTE-N1, SRV-ARQ-01, adm.caio e *Domain Admins* (na cena, o rótulo é "DOMAIN ADMINS").
-3. Clicar em "Cortar sessão no SRV-ARQ-01". O painel passa para 3 de 11, e rec.ana fica sem caminho.
-4. Clicar em "Cortar sessão no SRV-ERP-01". O painel cai para 1 de 11.
-5. Clicar em "Cortar admin do NB-REC-001". O painel continua em 1 de 11.
+1. Mostrar a cena parada: embaixo os usuários, no meio grupos e computadores, no topo o losango amarelo "DOMAIN ADMINS". No painel, "10 de 11 usuários comuns com caminho" e "rec.ana: 7 saltos".
+2. Arrastar para girar a cena e seguir as arestas vermelhas de rec.ana.
+3. Clicar em "Cortar sessão no SRV-ARQ-01": o painel vai para 3 de 11 e rec.ana fica sem caminho.
+4. Clicar em "Cortar sessão no SRV-ERP-01": o painel cai para 1 de 11.
+5. Clicar em "Cortar admin do NB-REC-001": o painel continua em 1 de 11.
 6. Clicar em "Restaurar" e voltar aos 10 de 11.
-Fala: "Cada esfera vermelha é um usuário comum que tem algum caminho até o topo; azul é quem não tem. São 11 usuários comuns, porque o adm.caio já está no grupo de administradores e não entra na conta. O caminho de rec.ana, a recepcionista, tem 7 saltos e passa por uma sessão do adm.caio no SRV-ARQ-01. Quando eu corto essa sessão, sete usuários perdem o caminho de uma vez. Quando corto a sessão no SRV-ERP-01, caem os dois desenvolvedores. O terceiro corte tira do grupo TODOS-SEDE o acesso administrativo ao notebook da recepção. Ele não muda o número agora, porque os outros cortes já isolaram esses usuários, mas fecha a porta de entrada por outro lado. Sobra um usuário, a atd.elisa, que chega ao topo por um grupo antigo chamado LEGADO-ERP."
-Atenção: nenhuma técnica de ataque é executada; a cena apenas lê relações de permissão e calcula caminhos. Os rótulos de trás ficam menores por causa da perspectiva; gire a cena antes de ler um nome.
+Fala: "Esfera vermelha é um usuário comum com algum caminho até o topo; azul é quem não tem. São 11 usuários comuns, porque o adm.caio já é administrador e não entra na conta. O caminho da rec.ana, a recepcionista, tem 7 saltos: TODOS-SEDE, NB-REC-001, a sessão do sup.heitor, SUPORTE-N1, SRV-ARQ-01, a sessão do adm.caio e o topo. É o mesmo caminho do fluxo e dos grupos que o Kali listou. Quando corto a sessão do administrador no SRV-ARQ-01, sete usuários perdem o caminho de uma vez. A sessão no SRV-ERP-01 derruba os dois desenvolvedores. O terceiro corte tira do TODOS-SEDE a administração do notebook da recepção; o número não muda agora, mas fecha a escalada local por outro lado. Sobra a atd.elisa, pelo grupo antigo LEGADO-ERP."
+Atenção: nenhuma técnica de ataque é executada; a cena só lê relações de permissão. Os rótulos do fundo ficam menores pela perspectiva; gire a cena antes de ler um nome. A cena precisa de internet para carregar o three.js.
 Conclusão: "Poucas correções bem escolhidas cortam quase todos os caminhos da recepção ao domínio."
-[Tela: gravação do laboratório do slide 9.]
+[Tela: gravação do laboratório do slide 10.]
 
-**Slide 10 — Antes do código: onde achar e como instalar (7:55–8:15)**
-Fala: "Antes do código, o que ele exige: o Visual Studio Code, o Python 3.8 ou mais novo, por causa do operador `:=`, e só módulos da biblioteca padrão. O BloodHound, citado no comentário do código, não é instalado. O laboratório reproduz apenas a ideia do grafo, sobre um diretório fictício."
+**Slide 11 — Antes do código: onde achar e como instalar (11:00–11:20)**
+Fala: "Antes do código, o que ele exige: o Visual Studio Code com a extensão Python da Microsoft, o Python 3.8 ou mais novo, por causa do operador dois-pontos-igual, e só módulos da biblioteca padrão. O BloodHound, citado no comentário, não é instalado: o laboratório reproduz apenas a ideia do grafo, sobre um diretório fictício."
 
-**Slide 11 — Laboratório: menor caminho por busca em largura (8:15–10:25)**
-Objetivo: contar, com código, quantos usuários chegam a *Domain Admins* antes e depois das correções.
+**Slide 12 — Laboratório: menor caminho por busca em largura (11:20–13:20)**
+Objetivo: contar, com código, quantos usuários chegam a Domain Admins antes e depois das correções.
 Na tela:
-1. O VS Code ocupa o slide inteiro. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
+1. O VS Code ocupa o slide inteiro. O roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
 2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
-3. Com caminhos.py aberto, destacar a função menor_caminho.
-4. Abrir grafo.json no explorador e mostrar a lista "arestas".
-5. Clicar em "Antes das correções" e esperar a saída no terminal.
-6. Abrir correcoes.json, com as três relações removidas.
+3. Com `caminhos.py` aberto, destacar a função `menor_caminho`.
+4. Abrir `grafo.json` no explorador e mostrar a lista "arestas".
+5. Clicar em "Antes das correções" e esperar a saída.
+6. Abrir `correcoes.json`.
 7. Clicar em "Depois das correções" e ler a saída.
-Fala: "O editor ocupa a tela inteira. Primeiro, o ambiente: o terminal confere a versão do Python, cria o ambiente virtual `.venv`, uma cópia isolada do Python só para este projeto, e o ativa, o que aparece no `(.venv)` do *prompt*. O `pip list` mostra só o `pip`, porque o script usa apenas a biblioteca padrão. O grafo da cena 3D está agora em JSON. Cada aresta tem três partes: origem, relação e destino, como 'rec.ana, MemberOf, TODOS-SEDE'. As relações são quatro: MemberOf é ser membro de um grupo, AdminTo é ser administrador de uma máquina, HasSession é ter uma sessão aberta nela e GenericAll é ter controle total sobre um objeto. No código, o primeiro bloco lê o grafo e, se eu passar um arquivo na linha de comando, lê também as arestas removidas. O laço seguinte monta a lista de vizinhos e pula as removidas: é essa linha que faz a correção ter efeito. A função menor_caminho é uma busca em largura, a BFS. Ela usa uma fila: visita primeiro os vizinhos a um salto, depois a dois, e assim por diante. Por isso o primeiro caminho que encontra até o alvo é sempre o mais curto. Na saída de antes, o terminal mostra 10 de 11, ou 91%: a atd.elisa com 3 saltos, os dois do suporte e os dois desenvolvedores com 4, e cinco usuários com 7 saltos, entre eles a rec.ana. Depois das correções, com 3 arestas removidas, sobra 1 de 11, ou 9%, e o próprio script avisa que a próxima correção é o grupo LEGADO-ERP."
-Atenção: o terminal é simulado e mostra uma saída já gravada; o código é real e pode ser rodado em casa com os mesmos arquivos. É o mesmo grafo da cena 3D, por isso os números batem. A preparação do ambiente é simulada e leva cerca de 10 segundos; espere o botão mostrar "Ambiente pronto" antes de executar.
+Fala: "O editor ocupa a tela inteira, como no meu computador. Primeiro, o ambiente: o terminal confere o Python 3.12, cria o ambiente virtual `.venv`, uma cópia isolada do Python só para este projeto, e o ativa, o que aparece no `(.venv)` do *prompt*. O `pip list` mostra só o `pip`, porque o script usa apenas a biblioteca padrão. No `grafo.json`, cada aresta tem origem, relação e destino. MemberOf é ser membro de um grupo, AdminTo é administrar uma máquina, HasSession é ter sessão aberta nela e GenericAll é ter controle total sobre um objeto. No código, o primeiro bloco lê o grafo e, se eu passar um arquivo na linha de comando, as arestas removidas. O laço que monta `vizinhos` pula as removidas: é essa linha que faz a correção ter efeito. A função `menor_caminho` é uma busca em largura: com uma fila, visita primeiro os vizinhos a um salto, depois a dois, e assim por diante; por isso o primeiro caminho que encontra é o mais curto. Na saída de antes: 10 de 11, ou 91%. A atd.elisa chega em 3 saltos, os dois do suporte e os dois desenvolvedores em 4, e cinco usuários em 7, entre eles a rec.ana. Depois das 3 correções do `correcoes.json`: 1 de 11, ou 9%. Sobra só a atd.elisa pelo LEGADO-ERP, que é a próxima correção a propor."
+Atenção: o terminal é simulado e mostra a saída que o código produz de verdade; o código pode ser rodado em casa com os mesmos arquivos. É o mesmo grafo da cena 3D, por isso os números batem. A preparação do ambiente leva cerca de 10 segundos.
 Conclusão: "Com o cálculo, a Tatame mostra o efeito de cada correção antes de aplicá-la."
-[Tela: gravação do laboratório do slide 11, com zoom na função menor_caminho.]
+[Tela: gravação do laboratório do slide 12, com zoom na função `menor_caminho`.]
 
-**Slide 12 — Laboratório: que evento deveria existir em cada etapa (10:25–11:55)**
-Objetivo: separar as etapas que viraram alerta das que ficaram só nos registros, a parte da pergunta sobre o que o SOC enxerga.
+**Slide 13 — Persistência: ficar depois da reinicialização (13:20–14:10)**
+Fala: "A última tática do ciclo é a persistência. Uma tarefa agendada, a T1053.005, gera o evento 4698, desde que a auditoria de objetos esteja ligada. Um serviço novo, a T1543.003, gera o 7045 no log de sistema. Uma conta criada pelo adversário gera o 4720. E uma chave Run, que executa um programa a cada *logon*, aparece no Sysmon como evento 13. No quadro azul está a regra do exercício: persistência só com marca, com o código do chamado no nome, programa inofensivo, registro de hora, máquina e *hash*, e remoção conferida no último dia da janela."
+
+**Slide 14 — Laboratório: que evento existe em cada etapa (14:10–15:50)**
+Objetivo: separar o que virou alerta do que ficou só nos registros, a parte da pergunta sobre o que o SOC enxerga.
 Na tela:
 1. Clicar na busca salva "1. Logon remoto atípico".
 2. Clicar em "2. Acesso à memória do LSASS".
-3. Clicar em "3. Pedido anômalo de tíquetes".
-4. Clicar em "4. Conexões periódicas".
-Fala: "O SOC revisa o dia da operação no SIEM, a central que reúne os registros, com a linha do tempo do Red Team em mãos. A busca 1 filtra *logons* do tipo 10, que é o remoto interativo, com origem em máquinas da recepção e destino em servidores. Aparece um evento às 13:20:44: sup.heitor, do NB-REC-001 para o SRV-ARQ-01, e a coluna 'alerta?' diz 'não'. O evento estava lá, mas não havia regra; na plataforma, essa regra é a R5 e vem desligada. A busca 2 procura processos fora de uma lista aprovada abrindo a memória do LSASS: às 14:05:12, um atualizador.exe rodando de uma pasta pública, com severidade crítica. Esse o EDR pegou. A busca 3 conta quantos serviços diferentes uma conta pediu em dez minutos, com criptografia antiga: sup.heitor pediu 27, com RC4, e o SIEM alertou. A busca 4 procura um padrão regular de conexões: 540 conexões para cdn-atualiza.example.org, uma a cada 60 segundos, com desvio de 2 segundos. Repare no histograma, todo igual. Estava nos registros, sem regra."
-Atenção: as consultas estão escritas em uma linguagem parecida com KQL só para ilustrar o filtro; o professor não precisa explicar a sintaxe, apenas o que cada linha seleciona.
-Conclusão: "Duas etapas viraram alerta e duas ficaram guardadas nos registros sem que ninguém fosse avisado."
-[Tela: gravação do laboratório do slide 12.]
+3. Clicar em "3. Tarefa agendada criada".
+4. Clicar em "4. Inicialização automática alterada".
+Fala: "Luiza Ferraz revisa o dia 18 no SIEM, com a linha do tempo do Red Team em mãos. A busca 1 filtra *logons* do tipo 10 que saem de notebooks da recepção para servidores: um evento, às 13:20:44, sup.heitor do NB-REC-001 para o SRV-ARQ-01, e a coluna 'alerta?' diz não. A busca 2 procura processos fora de uma lista aprovada abrindo a memória do LSASS: às 14:05:12, um `atualizador.exe` rodando de uma pasta pública, severidade crítica. É o único alerta do dia. A busca 3 lista os eventos 4698: a tarefa de *backup* do svc-backup, que é aprovada, e a tarefa RT-APR2291-marca, criada às 15:31 no SRV-ARQ-01, sem alerta. A busca 4 lê o Sysmon 13 em chaves Run: a marca do Red Team no notebook da recepção, às 15:44, também sem alerta."
+Atenção: as consultas estão em uma sintaxe parecida com KQL só para ilustrar o filtro; explique o que cada linha seleciona, sem entrar na sintaxe. Lembre que as duas persistências são marcadas e constam da planilha do Red Team.
+Conclusão: "O SOC tinha o evento de quase tudo, mas só foi avisado do LSASS. Evento sem regra fica guardado e ninguém é avisado."
+[Tela: gravação do laboratório do slide 14.]
 
-**Slide 13 — Laboratório: a movimentação lateral na plataforma (11:55–13:55)**
+**Slide 15 — Laboratório: a movimentação lateral na plataforma (15:50–17:40)**
 Objetivo: ver a emulação inteira na plataforma e medir o que muda com duas regras novas.
 Na tela:
-1. Na aba "Cenários", clicar em "Iniciar cenário" no cartão "Emulação do Grupo Cobalto Austral". Deixar a velocidade em "1 s = 15 s"; a cadeia leva cerca de um minuto até o impacto.
-2. Acompanhar os passos: login na VPN com a senha vazada de caio.mendes, sem MFA; consulta em massa ao AD; RDP para o SRV-ARQ-01; leitura da memória do LSASS; RDP para o SRV-ERP-01; cópia de 4,2 GB de exportações de fichas; exclusão das cópias de sombra; impacto nos servidores da sede.
-3. Abrir "Regras do CEP" e ligar a R5 e a R13. Voltar a "Cenários" e clicar de novo em "Iniciar cenário".
-4. Abrir a última aba, "Cobertura ATT&CK", e conferir T1021.001 e T1087.002.
-5. Iniciar o cenário mais uma vez. Na aba "SOC", assim que surgir o alerta novo de caio.mendes, investigar e clicar em "Conter".
-Fala: "Na primeira rodada, a consulta ao AD e os dois RDPs aparecem como 'visto nos logs, sem alerta', porque a R13 e a R5 estão desligadas. O CEP, o motor que correlaciona eventos, simplesmente não tinha regra para eles. Quando ligo as duas regras e repito, esses passos passam a gerar alerta, e na aba de cobertura as técnicas T1021.001, RDP, uma subtécnica de serviços remotos, e T1087.002, de descoberta de contas do domínio, passam a comprovadas. Na terceira rodada, eu contenho o alerta de caio.mendes logo que ele aparece. Quando o SOC contém um alerta, os passos seguintes do cenário são cancelados, e o impacto não acontece."
-Atenção: na plataforma, a emulação entra por outra porta, a VPN com a senha vazada de caio.mendes, e não pelo *e-mail* da recepção; as etapas internas são as mesmas da operação. "Iniciar cenário" mantém as regras que você ligou; o botão "Reiniciar" volta tudo ao padrão e desliga a R5 e a R13. Se quiser encurtar a gravação, troque a velocidade para "1 s = 1 min", mas na terceira rodada volte para "1 s = 15 s" para dar tempo de conter. Na aba "SOC", os alertas das rodadas anteriores aparecem como "execução anterior"; continuam como "novo" dois alertas benignos que não fazem parte do cenário, o da R11 sobre `svc-backup` e o da R4 do monitor de disponibilidade. O alerta a conter é o da R11 que cita caio.mendes. Em telas pequenas, a aba "Cobertura ATT&CK" fica no fim da barra de abas.
-Conclusão: "Com duas regras a mais e uma contenção rápida, a emulação para antes de chegar ao impacto."
-[Tela: gravação do laboratório do slide 13, com as três rodadas.]
+1. Conferir que a plataforma abriu na aba "Cenários". No topo, trocar a "Velocidade" para "1 s = 1 min".
+2. No cartão "Emulação do Grupo Cobalto Austral", clicar em "Iniciar cenário" e esperar cerca de 15 segundos, até o passo do impacto.
+3. Ler os indicadores abaixo da linha do tempo: 3 detectados, 2 não detectados, 3 vistos sem alerta.
+4. Abrir "Regras do CEP" e ligar a R5, "RDP de estação de trabalho para servidor", e a R13, "Consulta em massa ao AD".
+5. Voltar a "Cenários" e clicar em "Repetir com as fontes e regras atuais". Esperar o fim e ler: 6 detectados, 0 vistos sem alerta.
+6. Abrir "Cobertura ATT&CK" e localizar T1021.001 e T1087.002 como "comprovada".
+Fala: "Na plataforma, a emulação entra pela VPN, com a senha vazada de caio.mendes, mas as etapas internas são as mesmas: consulta em massa ao AD, RDP para o SRV-ARQ-01, LSASS, RDP para o SRV-ERP-01, cópia de fichas, exclusão das cópias de sombra e impacto. Na primeira rodada, a consulta ao AD e os dois RDPs aparecem com o ícone amarelo, 'visto nos logs, sem alerta': o evento chegou, mas o CEP, o motor que correlaciona eventos, não tinha regra ligada. Ligo a R5 e a R13 e repito com as mesmas fontes. Agora são 6 detectados e nenhum visto sem alerta, e na cobertura as duas técnicas passam a comprovadas. Os dois passos que continuam sem detecção dependem de outra fonte, a de saída de rede, que fica para a Unidade 3."
+Atenção: não use o botão "Reiniciar" do topo entre as rodadas, porque ele volta as regras ao padrão; o "Repetir com as fontes e regras atuais" mantém a R5 e a R13. Na aba "SOC" aparece também um alerta benigno da R11 sobre a conta `svc-backup`, que não faz parte do cenário. Se quiser mostrar a contenção, volte a velocidade para "1 s = 15 s", repita o cenário e, no "SOC", clique em "Conter" no alerta da R11 que cita caio.mendes: o cenário para em 1 de 8 passos.
+Conclusão: "O evento já existia. Faltava a regra, e com ela o SOC passa a ver a movimentação lateral."
+[Tela: gravação do laboratório do slide 15, com as duas rodadas.]
 
-**Slide 14 — Limites da pós-exploração em um engajamento (13:55–14:35)**
-Fala: "As regras de engajamento definem até onde a equipe vai, e em geral o impacto é demonstrado, e não executado. Em vez de exfiltrar as fichas de alunos, o Red Team registra evidência de que teria acesso a elas. Em vez de criptografar servidores, documenta que tinha os privilégios para isso. Credenciais obtidas são protegidas e invalidadas no fim, e tudo o que foi criado é removido na limpeza. As fichas de alunos menores do SRV-ARQ-01 são tratadas conforme a LGPD, e a PagaFácil fica fora do escopo."
+**Slide 16 — Impacto demonstrado, e não executado (17:40–18:15)**
+Fala: "As regras de engajamento definem até onde a equipe vai. Em vez de copiar fichas de alunos do SRV-ARQ-01, o Red Team registra a evidência mínima de que teria acesso. Em vez de alterar o domínio, grava um arquivo-marca combinado. Credenciais são protegidas e trocadas no fim, e persistências marcadas são removidas no último dia, com registro. Módulos *post*, criação de contas no domínio e a rede de pagamentos ficaram fora da autorização, e a palavra de parada 'LARANJA' interrompe qualquer etapa."
 
-**Slide 15 — O relatório de Red Team serve a dois públicos (14:35–15:00)**
-Fala: "O relatório tem cinco seções: sumário executivo em uma página para a diretoria, narrativa do ataque, achados com técnica ATT&CK, detecção e resposta e recomendações priorizadas. A linha do tempo detalhada é o que permite ao Blue Team comparar, minuto a minuto, o que o Red Team fez com o que os registros mostram."
+**Slide 17 — Pausa para reflexão (18:15–18:45)**
+Fala: "Agora pense comigo. No último dia, Caio Mendes pede a Bruno que deixe a tarefa agendada ligada mais 30 dias, para ver se o SOC acha sozinho. O Red Team pode atender? Quem assinou a autorização, e até quando ela vale? Que risco um artefato esquecido cria? E que alternativa testa a detecção de persistência sem deixar nada para trás? Pause o vídeo, responda e faça o desafio: escrever o item 'Persistência' das regras de engajamento."
+[Câmera: professor em plano fechado.]
 
-**Slide 16 — Antes do código: o que falta instalar para gerar o relatório (15:00–15:20)**
-Fala: "O segundo laboratório precisa de um pacote de terceiros, o PyYAML. Repare que o código diz `import yaml`, mas o pacote se chama PyYAML. O nome certo se confere na documentação do projeto e no PyPI, o índice oficial, nunca por palpite, porque pacote falso de nome parecido é um golpe conhecido."
+**Slide 18 — Exemplo numérico: cortando caminhos em escala (18:45–19:10)**
+Fala: "Em escala maior: em um domínio com 5.000 contas, 1.200 têm caminho até os administradores do domínio, 24%. Corrigidos dois servidores com *logon* rotineiro de administradores e um grupo de suporte com permissões excessivas, restam 40 contas, 0,8%. São 97% dos caminhos cortados com três correções."
 
-**Slide 17 — Laboratório: do registro da operação ao relatório (15:20–16:45)**
-Objetivo: gerar o rascunho do relatório e calcular a taxa de detecção a partir do próprio registro.
+**Slide 19 — De volta ao problema (19:10–19:40)**
+Fala: "Voltemos à pergunta: a partir de um usuário comum da recepção, até onde o adversário chega, e que rastro deixa? O fluxo e o Kali mostraram a rota até a sessão do administrador do domínio. O grafo e o código calcularam 10 de 11 usuários com caminho, e 1 depois de três correções. O SIEM mostrou que quase tudo deixou evento, mas só o LSASS virou alerta. E a plataforma mostrou que a R5 e a R13 transformam esses eventos em detecção."
+
+**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:40–19:58)**
+Fala: "Para levar: o ciclo se repete a cada máquina, contas válidas escalam sem falha de *software*, cada técnica deixa um evento conhecido e, em engajamento, a persistência é marcada e removida. Na próxima aula, o adversário tenta apagar esses rastros, e vamos ver como o defensor percebe isso. Até lá!"
+[Envato: "keychain master key", "security operations center screens".]
+
+## Aula 8 — Evasão básica de defesas e limpeza de rastros em laboratório
+
+### Texto base
+
+Um adversário que chegou aos servidores de uma empresa tem um novo problema: continuar lá sem ser notado. Cada minuto a mais dentro do ambiente aumenta as chances de alcançar o objetivo, e cada alerta disparado aumenta as chances de ser expulso. Por isso, grupos reais investem em técnicas para se esconder, cegar os controles e apagar o que deixaram para trás. Nesta aula, estudamos essas técnicas como o defensor as enxerga: pelo rastro que cada uma produz. Encerramos com a outra face do tema, a limpeza legítima que o Red Team faz ao final de um exercício, e com o relatório que fecha a operação.
+
+#### Furtividade e enfraquecimento de defesas
+
+No MITRE ATT&CK atual, a evasão de defesas ocupa duas táticas. A **Furtividade** (*Stealth*, TA0005) reúne o que o adversário faz para se esconder: apagar arquivos usados (T1070.004 — *File Deletion*), alterar as datas de um arquivo para que ele pareça antigo (T1070.006 — *Timestomp*), disfarçar um programa com o nome de outro legítimo (T1036 — *Masquerading*) e ofuscar conteúdo (T1027 — *Obfuscated Files or Information*). O **Enfraquecimento de defesas** (*Defense Impairment*, TA0112) reúne o que ele faz para cegar os controles: parar ou modificar o antivírus e o agente EDR (T1685 — *Disable or Modify Tools*), desativar o log de eventos do Windows (T1685.001) e apagar logs já gravados (T1685.005 — *Clear Windows Event Logs*). Materiais anteriores a 2026 chamam tudo de *Defense Evasion* (TA0005) e usam T1562 (*Impair Defenses*) para os controles desligados.
+
+[Imagem 1 — Ilustração de uma silhueta apagando pegadas na areia enquanto uma câmera de segurança registra a cena. Texto alternativo: "Pessoa tentando apagar pegadas observada por uma câmera, representando a remoção de indicadores que ainda deixa rastro". Sugestão de busca no Envato: "erasing footprints security camera".]
+
+#### Toda técnica de evasão deixa um rastro próprio
+
+Essas técnicas, porém, também geram evidências. Ao apagar o log de Segurança, o próprio Windows grava o evento **1102** (*The audit log was cleared*), com a conta que fez a limpeza; quando outro log é apagado, aparece o evento **104** no log de Sistema. Parar o agente EDR gera, no log de Sistema, o evento **7036** (serviço entrou no estado parado) e, se o tipo de início for alterado, o **7040**; um serviço novo instalado aparece como **7045**. No console do EDR, o agente parado deixa de enviar o sinal periódico de vida, o *heartbeat*, e abre uma **lacuna de telemetria**. O Sysmon, ferramenta gratuita da Microsoft que detalha a atividade do Windows, registra a mudança de data de criação de um arquivo (evento **2**), arquivos apagados (eventos **23** e **26**) e processos criados (evento **1**), o que revela um `svchost.exe` rodando fora da pasta `C:\Windows\System32`.
+
+[Imagem 2 — Tabela visual com quatro colunas ligando técnica, evento gerado, log de origem e o que o analista procura. Texto alternativo: "Quadro que associa técnicas de evasão aos eventos 1102, 7036, 7040 e Sysmon 2 que elas geram". Pode ser recriado pela equipe de produção.]
+
+#### Duas defesas que tornam a evasão cara
+
+O rastro só ajuda se sobreviver. A primeira defesa é **encaminhar os logs para fora da máquina** assim que são gerados, pelo *Windows Event Forwarding* (WEF) ou pelo agente do SIEM, como o Wazuh. Assim, apagar o log local leva só uma cópia; a central continua íntegra e ainda recebe o 1102. A segunda é a **proteção contra adulteração** (*tamper protection*) do EDR, que impede que o agente seja parado ou desinstalado sem autorização central e avisa o SOC da tentativa. Há ainda uma terceira, de processo: tratar o silêncio como sinal. Um servidor que para de enviar *heartbeat* no meio do expediente, sem reinício planejado, merece investigação.
+
+[Imagem 3 — Diagrama com um servidor enviando eventos ao SIEM em tempo real e uma cópia local sendo apagada, enquanto a cópia central permanece. Texto alternativo: "Fluxo de encaminhamento de logs mostrando que apagar a cópia local não apaga a cópia central". Pode ser recriado pela equipe de produção.]
+
+#### Evasão em um exercício autorizado
+
+Em um engajamento, a evasão só entra para **medir a detecção**. As regras de engajamento listam cada técnica, os servidores em que ela pode ser emulada e a janela, sempre combinadas com o White Team, que controla o exercício. Desligar uma defesa de produção exige autorização expressa e prazo para religar; limpar um log só é aceitável depois de confirmar que ele foi encaminhado ao SIEM, porque a cópia central é evidência que o exercício precisa preservar. Na Rede Tatame, a carta assinada por Marina Prado permitiu parar o agente EDR em dois servidores por até 40 minutos e limpar o log de Segurança do `SRV-ARQ-01` depois de conferido o encaminhamento.
+
+#### Limpeza legítima de rastros
+
+No fim do exercício, "limpar rastros" ganha outro sentido. O Red Team **remove tudo o que criou** (contas, tarefas agendadas, serviços, chaves de registro, arquivos de teste, regras de *firewall*) e entrega um **inventário de artefatos**, marcados com o código do exercício (na Tatame, `RT-APR2291`), ao Blue Team, que confere cada item com uma varredura própria. Nenhum registro de auditoria é apagado. Se o Blue Team encontrar um artefato que não consta do inventário, ele deixa de ser assunto do exercício e passa a ser tratado como suspeita de incidente real. As credenciais usadas também são trocadas ao final.
+
+#### O relatório de Red Team
+
+O relatório serve a dois públicos. Uma estrutura comum inclui **sumário executivo**, com resultado e riscos em linguagem de negócio; **narrativa do ataque**, com a linha do tempo de cada etapa; **achados**, com evidências, severidade e técnica ATT&CK; **análise de detecção e resposta**, com o que foi visto, quando e o que passou despercebido; a situação da **limpeza**; e **recomendações priorizadas**. A linha do tempo permite ao Blue Team comparar, minuto a minuto, o que o Red Team fez com o que os registros mostram.
+
+[Imagem 4 — Capa estilizada de relatório técnico com seções numeradas e uma linha do tempo com marcos verdes e vermelhos. Texto alternativo: "Estrutura de um relatório de Red Team com linha do tempo de técnicas detectadas e não detectadas". Sugestão de busca no Envato: "report timeline infographic".]
+
+#### Exemplo numérico: a fase de evasão da Rede Tatame
+
+Na tarde de 25/11/2026, o Red Team emulou seis técnicas de evasão. Duas viraram alerta em tempo real: a tentativa de parar o EDR do `SRV-ARQ-01`, barrada pela proteção contra adulteração, e a limpeza do log de Segurança, vista pelo evento 1102 no SIEM. A taxa de detecção foi de 2 ÷ 6 ≈ **33%**. No `SRV-ERP-01`, sem proteção contra adulteração, o agente ficou parado das 14h48 às 15h26: uma lacuna de **38 minutos**. Uma regra "agente sem *heartbeat* por mais de 10 minutos" teria disparado às 14h58, reduzindo o tempo cego em 28 ÷ 38 ≈ **74%**. Na limpeza, dos 12 artefatos inventariados, o Blue Team conferiu 11 (11 ÷ 12 ≈ **92%**); a conta local `tst.local01` continuava no `SRV-ERP-01` e voltou para o Red Team remover.
+
+#### O que você verá na próxima unidade
+
+Na Unidade 3 — Defesa, Monitoramento e Detecção, trocamos de lado. Os rastros desta unidade, da varredura no WAF ao log apagado e ao agente em silêncio, viram matéria-prima da defesa. Você vai estudar a arquitetura de monitoramento, com logs, SIEM e telemetria de *endpoints* (Aula 9); a detecção baseada em assinaturas, comportamento e regras (Aula 10); a caça a ameaças com hipóteses, consultas e análise de anomalias (Aula 11); e o *hardening* de sistemas e a redução da superfície de ataque (Aula 12).
+
+#### Pontos-chave
+
+- A evasão de defesas ocupa hoje duas táticas do ATT&CK: Furtividade (TA0005) e Enfraquecimento de defesas (TA0112).
+- Cada técnica deixa rastro próprio: eventos 1102 e 104, 7036 e 7040, Sysmon 2 e 23 e a ausência de *heartbeat*.
+- Logs encaminhados na hora e proteção contra adulteração do EDR tornam a evasão cara e visível.
+- Limpeza legítima é remover os próprios artefatos e provar a remoção; o relatório mostra também o que a defesa não viu.
+
+### Referências da aula
+
+MICROSOFT. *Sysmon v15*. In: Microsoft Learn: Sysinternals. Disponível em: <https://learn.microsoft.com/sysinternals/downloads/sysmon>. Acesso em: 22 nov. 2026.
+
+MITRE. *Defense impairment (TA0112)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0112/>. Acesso em: 22 nov. 2026.
+
+MITRE. *Stealth (TA0005)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/tactics/TA0005/>. Acesso em: 22 nov. 2026.
+
+MITRE. *Indicator removal (T1070)*. In: MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1070/>. Acesso em: 22 nov. 2026.
+
+SANTOS, Joas Antonio dos. *Introdução ao Red Team Operations 2.0*: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024.
+
+WEIDMAN, Georgia. *Testes de invasão*: uma introdução prática ao hacking. São Paulo: Novatec, 2014.
+
+### Roteiro da Videoaula 8 — "38 minutos de silêncio: o que o adversário apaga e o que fica"
+
+Duração-alvo: 15 a 20 minutos. Deck: unidade_2/slides/aula8.html (21 slides).
+
+**Slides 1 e 2 — Capa e sumário (0:00–0:30)**
+Fala: "Olá! Esta é a Aula 8, a última da Unidade 2. Hoje vamos ver como um adversário tenta se esconder e apagar os próprios rastros, e como o defensor enxerga cada uma dessas tentativas. No fim, vamos fechar o exercício da Rede Tatame do jeito certo: com a limpeza comprovada e o relatório."
+[Câmera: professor em plano médio.]
+
+**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:45)**
+Fala: "Estamos no último dia útil do exercício autorizado, 25 de novembro. O Red Team de Bruno Sato emulou a fase de evasão do Grupo Cobalto Austral, como previam as regras de engajamento. Na revisão, Luiza Ferraz, do SOC, encontrou duas coisas estranhas: o agente EDR do `SRV-ERP-01` ficou calado das 14h48 às 15h26, e o log de Segurança do `SRV-ARQ-01` foi apagado às 14h10. No mapa, os dois servidores da sede aparecem destacados, junto com o console do EDR e o SIEM. A pergunta da aula está no quadro amarelo: como o Blue Team enxerga um adversário que tenta se esconder, e como o Red Team encerra o exercício com o ambiente limpo e comprovado?"
+[Take de apoio: sala de monitoramento com telas escuras e uma tela sem sinal — Envato, "security operations center screens".]
+
+**Slide 4 — Evasão de defesas: continuar no ambiente sem ser visto (1:45–2:45)**
+Fala: "No ATT&CK atual, a evasão de defesas ocupa duas táticas. A Furtividade, TA0005, reúne o que o adversário faz para se esconder: apagar arquivos, alterar datas, disfarçar um programa com o nome de outro. O Enfraquecimento de defesas, TA0112, reúne o que ele faz para cegar os controles: parar o agente EDR, a técnica T1685, desativar o log do Windows, T1685.001, ou apagar logs já gravados, T1685.005. Se você ler um material anterior a 2026, vai encontrar tudo isso sob o nome *Defense Evasion*, TA0005, e a técnica T1562 para os controles desligados."
+Atenção: os IDs estão no slide; leia só as duas táticas e a técnica T1685, para não transformar o slide numa lista falada.
+
+**Slide 5 — Laboratório: onde o rastro sobrevive (2:45–5:00)**
+Objetivo: mostrar, técnica por técnica, o que a evasão apaga e o que ela deixa para o defensor.
 Na tela:
-1. O VS Code ocupa o slide inteiro. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
-2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto"; durante a instalação, o editor mostra o requirements.txt.
-3. Voltar a operacao.yaml no explorador e mostrar o código OP-2026-11-TATAME e a lista linha_do_tempo.
-4. Abrir gerar_relatorio.py e destacar as linhas de detectadas e taxa.
-5. Clicar em "Gerar relatório".
-6. Ler a saída no terminal e mostrar o relatorio.md que abre em seguida.
-Fala: "Preparo o ambiente desta segunda pasta. O terminal cria e ativa um `.venv` novo, e o `pip install -r requirements.txt` lê o arquivo de requisitos, aberto no editor, baixa o PyYAML na versão fixada, a 6.0.3, e instala. A linha verde confirma a instalação, e o `pip list` mostra o pacote. Agora o registro. Durante a operação, cada técnica foi registrada com hora, tática, identificador ATT&CK e um campo 'detectada', verdadeiro ou falso. O script lê esse arquivo, separa as técnicas detectadas e divide pelo total. Essa linha decide o número que vai para o sumário executivo. A saída mostra 12 técnicas executadas, 4 detectadas e taxa de 33%, e lista as oito lacunas, como o RDP para o SRV-ARQ-01 às 13:20 e as conexões periódicas às 16:45. O relatorio.md traz o sumário, a tabela com 'sim' ou 'NÃO' em cada linha e as quatro recomendações priorizadas, começando por remover as sessões de administradores do domínio dos servidores comuns."
-Atenção: o registro e o relatório são fictícios. A linha da coleta às 17:30 diz "evidência", porque o impacto foi demonstrado e não executado. A preparação do ambiente é simulada e leva cerca de 10 segundos; espere o botão mostrar "Ambiente pronto" antes de executar.
-Conclusão: "O relatório conta o ataque e mostra, com números, o que a defesa perdeu."
-[Tela: gravação do laboratório do slide 17.]
+1. Ler o primeiro passo, "Antes · Cada evento sai da máquina em segundos", que já abre na tela.
+2. Clicar em "▶ Avançar" para "14h02 · Tentar parar o EDR no SRV-ARQ-01 (T1685)".
+3. "▶ Avançar" para "14h10 · Limpar o log de Segurança (T1685.005)".
+4. "▶ Avançar" para "E se o log não saísse da máquina?".
+5. "▶ Avançar" para "14h48 · Parar o EDR no SRV-ERP-01 (T1685)".
+6. "▶ Avançar" para "15h05 e 15h20 · Data alterada e arquivo apagado (T1070.006, T1070.004)".
+7. "▶ Avançar" para o último passo, "15h26 · Fim da janela: o Red Team religa o agente".
+Fala: "No primeiro passo, repare nas setas azuis: cada servidor manda os eventos para o encaminhador, o agente do Wazuh, que os entrega ao SIEM em segundos. E o agente EDR manda um sinal de vida, o *heartbeat*, ao console. Às 14h02, a tentativa de parar o EDR no `SRV-ARQ-01` esbarra na proteção contra adulteração, e a seta verde mostra o aviso chegando à Luiza. Às 14h10, o log local é apagado, mas veja a seta azul: o encaminhador já tinha enviado tudo, e o próprio ato de apagar gera o evento 1102. No passo seguinte, o cenário contrário: sem encaminhamento, a linha tracejada leva à caixa 'Evidência perdida'. Às 14h48, no `SRV-ERP-01`, a proteção estava desligada por uma exceção antiga, e o console do EDR fica vermelho: acabou o *heartbeat*. As setas âmbar mostram que os eventos 7040 e 7036 continuam chegando ao SIEM, mas sem regra. O mesmo vale para a data alterada e o arquivo apagado. No último passo, o balanço: dois alertas, quatro rastros sem alerta e 38 minutos sem EDR."
+Atenção: o botão "⏯ Auto" toca a sequência sozinho; para gravar, use "▶ Avançar" e espere a animação de cerca de dois segundos em cada passo.
+Conclusão: "A evasão tira cópias e sinais de vida, mas não alcança o que já saiu da máquina."
+[Tela: gravação do laboratório do slide 5.]
 
-**Slide 18 — Laboratório: 12 técnicas, 4 detecções (16:45–17:35)**
-Objetivo: localizar as lacunas de detecção na linha do tempo da operação.
+**Slide 6 — Toda técnica de evasão deixa um rastro próprio (5:00–5:50)**
+Fala: "Esta tabela é a cola do defensor. Log apagado gera o 1102, ou o 104 quando é outro log. EDR parado gera ausência de *heartbeat* e, no log de Sistema, o 7036 e o 7040. Serviço novo gera o 7045. O Sysmon, ferramenta gratuita da Microsoft, mostra a data de criação alterada no evento 2, o arquivo apagado no 23 e no 26 e o `svchost.exe` fora da pasta System32. O quadro azul resume as duas defesas que tornam tudo isso caro: encaminhar os logs na hora e ligar a proteção contra adulteração."
+
+**Slide 7 — Laboratório: a caça aos rastros no Wazuh (5:50–8:20)**
+Objetivo: encontrar no SIEM o rastro de cada técnica de evasão do exercício.
 Na tela:
-1. Clicar no marco 6, das 13:20, e ler o rastro que poderia ter sido usado.
-2. Clicar no marco 7, das 14:05, que está verde.
-3. Clicar no filtro "Só não detectadas".
-4. Clicar em "Todas" para voltar.
-Fala: "Verde é técnica detectada e vermelho é técnica que passou despercebida. No marco 6, o rastro que poderia ter sido usado é o *logon* remoto do tipo 10 do suporte a partir da recepção, o mesmo evento da busca 1 do SIEM. O marco 7 é o LSASS que o EDR detectou. Com o filtro, sobram os oito pontos vermelhos. Os indicadores embaixo resumem a operação: 12 técnicas executadas, 4 detectadas, 33%."
-Conclusão: "Cada ponto vermelho é uma regra a criar na Unidade 3."
-[Tela: gravação do laboratório do slide 18.]
+1. Ao abrir o slide, a busca "1. Log de auditoria apagado (1102)" já roda sozinha; ler o resultado.
+2. Clicar em "2. Agente EDR sem heartbeat".
+3. Clicar em "3. Serviço de segurança parado (7036)".
+4. Clicar em "4. Data de criação alterada (Sysmon 2)".
+5. Clicar em "5. SRV-ERP-01, 14h40 – 15h30".
+Fala: "Este console imita o Wazuh, o SIEM de código aberto que vamos estudar na Unidade 3. A consulta, no alto, está em DQL e filtra pelo canal e pelo número do evento. A busca 1 devolve um único evento: 1102, às 14h10, no `SRV-ARQ-01`, com a conta que fez a limpeza e nível alto. Esta tinha regra e virou alerta. A busca 2 lista as lacunas de *heartbeat*: o `NB-FIN-031` ficou 55 minutos fora, mas a coluna 'explicação' mostra um reinício planejado, o evento 1074; o `SRV-ERP-01` ficou 38 minutos fora sem explicação. A busca 3 mostra o 7040, alguém mudando o início do agente para desabilitado, o 7036 do agente parado e, às 15h26, o 7036 dele voltando. A busca 4 é ruidosa: instaladores mudam datas o tempo todo, como o `msiexec.exe` da primeira linha. O que destoa é a segunda: um programa da pasta pública recuando para 2024 a data de um arquivo criado hoje. A busca 5 junta tudo numa linha do tempo, e a coluna 'alerta?' diz 'não' quatro vezes."
+Atenção: os dados são fictícios e o Wazuh é simulado; a nota escura abaixo de cada tabela resume a leitura e pode ser lida em voz alta.
+Conclusão: "Os rastros estavam no SIEM o tempo todo. Só dois tinham regra."
+[Tela: gravação do laboratório do slide 7.]
 
-**Slide 19 — Exemplo numérico: cortando caminhos e medindo a detecção (17:35–18:10)**
-Fala: "Agora em escala maior. Em um domínio com 5.000 contas, 1.200 têm algum caminho até os administradores do domínio: 24%. Quase todos passam por dois servidores com *logon* rotineiro de administradores e por um grupo de suporte com permissões excessivas. Corrigidos esses três pontos, restam 40 contas com caminho, 0,8%, e 97% dos caminhos foram cortados. E a taxa de detecção de 33% entra no relatório como ponto de partida para a melhoria."
+**Slide 8 — Laboratório: sem o EDR, o SOC fica cego (8:20–10:20)**
+Objetivo: medir, na plataforma, o que deixa de ser visto quando o agente EDR para.
+Na tela:
+1. A plataforma abre na aba *Telemetria*, já reiniciada. Desmarcar "EDR dos notebooks e servidores".
+2. No topo, trocar a velocidade para "1 s = 1 min".
+3. Abrir *Cenários* e, no cartão "Emulação do Grupo Cobalto Austral", clicar em "Iniciar cenário". Esperar o último passo, cerca de 15 segundos.
+4. Ler os indicadores abaixo da linha do tempo: 1 detectado, 4 não detectados, 3 vistos sem alerta.
+5. Voltar a *Telemetria* e marcar de novo "EDR dos notebooks e servidores".
+6. Em *Cenários*, clicar em "Repetir com as fontes e regras atuais" e esperar o fim.
+Fala: "Desmarcar a fonte EDR é a forma de simular, na plataforma, a técnica T1685: o agente parou. Na primeira rodada, olhe os ícones. O login na VPN é detectado pela R11, que usa a auditoria de identidade. Mas a leitura da memória do LSASS e a exclusão das cópias de sombra aparecem com o X vermelho, 'não detectado', porque as regras R6 e R7 dependem do EDR. O último passo é o impacto consumado. Agora religo o EDR e repito com as mesmas regras. As duas linhas viram 'detectado', e o contador passa para 3 detectados e 2 não detectados."
+Atenção: não use o botão "Reiniciar" do topo entre as duas rodadas, porque ele volta as fontes ao padrão. Os alertas levam alguns segundos para aparecer depois do passo; espere o ícone mudar da lupa para ✅. Se o SOC mostrar um alerta da R11 sobre a conta `svc-backup`, ele é benigno e não faz parte do cenário.
+Conclusão: "Com o agente parado, o que vem depois deixa de ser visto. Por isso a ausência de *heartbeat* precisa virar alerta."
+[Tela: gravação do laboratório do slide 8.]
 
-**Slide 20 — Unidade 3: da camisa vermelha para a azul (18:10–18:35)**
-Fala: "Cada rastro desta unidade vira matéria-prima da defesa: varreduras nos registros de *firewall*, cliques no *proxy*, acessos ao LSASS e *logons* remotos fora do padrão. Na Unidade 3 vamos ver telemetria e SIEM, engenharia de detecção e EDR, *threat hunting* e resposta a incidentes."
+**Slide 9 — O que vale em evasão num exercício autorizado (10:20–11:00)**
+Fala: "Tudo isso aconteceu num exercício, então tinha regras. A evasão só entra para medir a detecção, técnica por técnica, combinada com o White Team, que controla o exercício. Na Tatame, a carta assinada por Marina Prado permitia parar o EDR em dois servidores por até 40 minutos, e o Red Team religou às 15h26. O log só podia ser limpo depois de confirmado o encaminhamento ao SIEM. E a palavra 'LARANJA' interrompe tudo se houver risco real. O quadro azul traz o ponto central: no fim do exercício, limpar rastros quer dizer remover o que o Red Team criou; nenhum registro de auditoria é apagado."
 
-**Slide 21 — De volta ao problema (18:35–19:25)**
-Fala: "Voltemos à pergunta da aula: até onde um adversário chega a partir da recepção, e quanto disso o SOC enxerga? O diagrama e o grafo mostraram a rota até o controlador de domínio, com 7 saltos no caminho de rec.ana. O script mostrou que três correções levam de 10 para 1 usuário com caminho. O relatório e a linha do tempo mostraram que o SOC viu 4 de 12 técnicas, 33%. E na plataforma, com a R5 e a R13 ligadas e o alerta contido a tempo, o impacto não aconteceu. A resposta, então: a partir da recepção, o adversário chega ao controlador de domínio, e o SOC viu só um terço do caminho. Cortar três relações no AD e criar regras para as lacunas fecham a maior parte dele."
+**Slide 10 — Antes do código: onde achar e como instalar (11:00–11:25)**
+Fala: "Para o próximo laboratório, você precisa do VS Code com a extensão Python da Microsoft e do Python 3.12, baixado de python.org. O script usa só os módulos `csv` e `json`, que já vêm com o Python. Se algum tutorial mandar instalar 'csv' pelo `pip`, desconfie: pacote com nome de módulo padrão é golpe conhecido."
 
-**Slides 22 a 24 — Pontos-chave, referências e encerramento (19:25–19:55)**
-Fala: "Para levar desta aula: a pós-exploração transforma um ponto de apoio em impacto; contas válidas misturam o adversário aos usuários legítimos; pensar em grafos mostra onde uma correção corta muitos caminhos; e o relatório mede o que a defesa detectou. Com isso fechamos a Unidade 2. Na Unidade 3, vamos vestir a camisa azul, começando pela Aula 9, sobre telemetria, registros e SIEM. Até lá!"
-[Câmera: professor em plano médio para o fechamento. Envato: "keychain master key", "security operations center blue screens".]
+**Slide 11 — Laboratório: lacunas de telemetria e sinais de evasão (11:25–13:45)**
+Objetivo: achar, com um script de caça, o silêncio do EDR e os sinais de evasão que nenhuma regra mostrou.
+Na tela:
+1. O VS Code ocupa o slide inteiro, como no meu computador. O roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar fechado durante a gravação.
+2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
+3. No explorador, abrir `sessoes_edr.csv` e depois `eventos.jsonl`.
+4. Voltar a `lacunas.py` e mostrar as linhas destacadas.
+5. Clicar em "▶ Procurar lacunas".
+Fala: "A preparação roda quatro comandos: a versão do Python, a criação do ambiente virtual `.venv`, a ativação, que põe `(.venv)` no início do *prompt*, e o `pip list`, que mostra só o `pip`, porque não há o que instalar. O `sessoes_edr.csv` é a exportação do console do EDR: cada linha é um período em que o agente esteve conectado. Repare que o `SRV-ERP-01` tem duas linhas, uma até 14h48 e outra a partir de 15h26. O `eventos.jsonl` traz os eventos que o Wazuh recebeu, um por linha. No script, o dicionário `SINAIS` liga cada canal e número de evento a uma técnica. O primeiro laço compara o fim de uma sessão com o início da seguinte; a linha que decide é a do `gap`. Se a lacuna passa de 10 minutos, o script procura um evento 1074, de reinício planejado, até cinco minutos antes. O segundo laço marca os eventos da tabela e um caso especial: `svchost.exe` fora da System32, a técnica T1036.005. Na saída, leia de cima para baixo: o notebook do financeiro tem lacuna explicada; o `SRV-ERP-01` tem 38 minutos sem explicação. Depois vêm oito sinais, em dois servidores; os amarelos são os que nenhuma regra transformou em alerta. A última linha, das 15h26, é o agente voltando, o que fecha a lacuna."
+Atenção: a preparação do ambiente é simulada e leva cerca de 10 segundos. O botão "⌨ Digitar ao vivo" redigita o arquivo aberto, se quiser mostrar o código sendo escrito.
+Conclusão: "A lacuna sem explicação é o achado que nenhuma regra mostrou, e ela vira regra na Unidade 3."
+[Tela: gravação do laboratório do slide 11.]
+
+**Slide 12 — Limpeza legítima: remover o que criou e provar que removeu (13:45–14:25)**
+Fala: "Agora, o outro sentido de limpar rastros. Durante toda a operação, o Red Team mantém um inventário de cada conta, tarefa, serviço, chave de registro e arquivo que criou, todos marcados com o código do exercício, `RT-APR2291`. No fim da janela, remove tudo e registra como. O Blue Team confere item a item com uma varredura própria, e o White Team só fecha o exercício quando as pendências zeram e as credenciais usadas foram trocadas. Repare na frase de baixo: se aparecer um artefato fora do inventário, ele deixa de ser assunto do exercício e vira suspeita de incidente real."
+
+**Slide 13 — O relatório de Red Team serve a dois públicos (14:25–14:55)**
+Fala: "O relatório tem seis partes: sumário executivo para a diretoria, narrativa do ataque da Aula 5 à Aula 8, achados com a técnica ATT&CK, a análise do que foi e do que não foi detectado, a situação da limpeza e as recomendações com dono. A linha do tempo é o que permite ao Blue Team comparar, minuto a minuto, o ataque com os registros."
+
+**Slide 14 — Antes do código: o que falta instalar para gerar o relatório (14:55–15:15)**
+Fala: "O segundo laboratório lê um arquivo YAML, então precisa do pacote PyYAML. Atenção: no código está escrito `import yaml`, mas o pacote se chama PyYAML, e quem confirma isso é a documentação do projeto. A versão fica fixada no `requirements.txt` com dois sinais de igual."
+
+**Slide 15 — Laboratório: relatório da evasão e conferência da limpeza (15:15–17:05)**
+Objetivo: gerar a seção de evasão e limpeza do relatório a partir do registro da operação.
+Na tela:
+1. Clicar em "⬇ Preparar o ambiente" e esperar "✓ Ambiente pronto".
+2. Com o `operacao.yaml` aberto, mostrar as linhas destacadas.
+3. Abrir `gerar_relatorio.py`.
+4. Clicar em "▶ Gerar relatório"; ao terminar, o editor abre o `relatorio.md`.
+Fala: "Desta vez a preparação instala de verdade um pacote: o `pip` baixa o PyYAML 6.0.3 e o `pip list` confirma. O `operacao.yaml` tem duas listas. Em `evasao`, as seis técnicas da tarde, cada uma com hora, ID, nome e se foi detectada; a linha destacada é a parada do EDR no `SRV-ERP-01`, com `detectada: false`. Em `artefatos`, os 12 itens do inventário; a linha destacada é a conta `tst.local01`, removida segundo o Red Team, mas com `conferido: false`. No script, três linhas fazem o trabalho: `detectadas` filtra as técnicas vistas, `taxa` divide pelo total e `pendentes` separa os artefatos que não foram removidos e conferidos. Na saída: seis técnicas, duas detectadas, 33%; as quatro lacunas em vermelho; 11 de 12 artefatos conferidos; e a pendência da conta `tst.local01`, que volta ao White Team. O `relatorio.md` traz a mesma informação em tabela, pronta para o documento final."
+Atenção: o relatório gerado é o rascunho de uma seção; o documento completo da operação junta as quatro aulas da unidade.
+Conclusão: "O exercício só termina quando a pendência zera, e o relatório já mostra o que a defesa não viu."
+[Tela: gravação do laboratório do slide 15.]
+
+**Slide 16 — Exemplo numérico (17:05–17:35)**
+Fala: "Os números da tarde: 15h26 menos 14h48 dá 38 minutos de lacuna. Com uma regra de 10 minutos sem *heartbeat*, o alerta sairia às 14h58, e o tempo cego cairia 28 de 38 minutos, cerca de 74%. A detecção da evasão foi de 2 em 6, 33%. E a limpeza conferida, 11 de 12, cerca de 92%."
+
+**Slide 17 — O que você verá na próxima unidade (17:35–18:05)**
+Fala: "Na Unidade 3, trocamos a camisa vermelha pela azul. Cada rastro desta unidade vira matéria-prima da defesa. Começamos pela arquitetura de monitoramento, com logs, SIEM e telemetria de *endpoints*; depois, a detecção por assinaturas, comportamento e regras; a caça a ameaças; e o *hardening* para reduzir a superfície de ataque."
+[Take de apoio: analista diante de painéis de monitoramento — Envato, "cyber security analyst dashboard".]
+
+**Slide 18 — De volta ao problema (18:05–18:45)**
+Fala: "Voltemos à pergunta. O fluxo e o Wazuh mostraram que o 1102, o 7036 e o Sysmon 2 chegaram ao SIEM, porque os logs saem da máquina na hora. A plataforma e o script mostraram o que some sem o EDR e acharam os 38 minutos sem explicação. O relatório conferiu 11 dos 12 artefatos. A resposta, então: o Blue Team enxerga a evasão pelo rastro que ela mesma gera, desde que os logs sejam encaminhados e alguém procure o silêncio; e o Red Team encerra o exercício removendo o que criou e entregando o inventário para conferência, sem apagar nenhum registro."
+
+**Slides 19 a 21 — Pontos-chave, referências e encerramento (18:45–19:15)**
+Fala: "Fechamos aqui a Unidade 2 e a parte ofensiva da disciplina. Na próxima aula, a Aula 9, começamos a montar a arquitetura de monitoramento da Rede Tatame. Até lá!"
+[Slides: pontos-chave e referências ficam disponíveis no material.]
 
 ## Quiz não avaliativo
 
 ### Questão 1 (verdadeiro ou falso)
 
-Uma vulnerabilidade com nota CVSS 9,8 deve sempre ser corrigida antes de uma vulnerabilidade com nota CVSS 7,5, pois a nota CVSS expressa o risco que cada falha representa para a organização.
+Uma vulnerabilidade com nota CVSS 9,8 deve sempre ser testada e corrigida antes de uma vulnerabilidade com nota CVSS 7,5, pois a nota CVSS expressa o risco que cada falha representa para a organização.
 
 ( ) Verdadeiro  
 (X) Falso
 
 ### Questão 2 (múltipla escolha)
 
-Uma empresa realizou duas simulações autorizadas de *phishing* com dificuldade equivalente. Qual indicador mostra melhor a evolução da capacidade da organização de **detectar** a ameaça?
+Durante um exercício autorizado, o SIEM recebe, às 14h05, um evento 1102 do log de Segurança do servidor SRV-ARQ-01. Até as 14h04, o servidor enviava eventos normalmente. O que esse registro indica e por que o SOC ainda consegue vê-lo?
 
-a) O número total de mensagens enviadas em cada campanha.  
-b) A taxa de abertura das mensagens.  
-*c) A taxa de reporte e o tempo até o primeiro reporte.  
-d) A lista nominal dos colaboradores que clicaram.
+a) Indica uma falha de disco, e o SOC só o vê porque o servidor foi reiniciado.  
+b) Indica um *login* bem-sucedido de administrador, registrado normalmente pelo Windows.  
+*c) Indica que o log de auditoria foi apagado (técnica T1685.005, *Clear Windows Event Logs*), e o SOC o vê porque os eventos já tinham sido encaminhados para fora da máquina.  
+d) Indica que o antivírus foi atualizado, e o SOC o vê porque o EDR gera o evento 1102 a cada atualização.
 
 ### Feedback
 
-**Questão 1 — Falso.** A nota-base do CVSS mede a severidade técnica da falha, e não o risco. A priorização por risco também considera a probabilidade de exploração (EPSS), a existência de exploração confirmada (catálogo KEV da CISA) e a exposição e a criticidade do ativo. Uma falha 7,5 em um portal exposto à internet, presente no KEV e com EPSS alto, pode ser muito mais urgente do que uma falha 9,8 em um servidor interno isolado.
+**Questão 1 — Falso.** A nota-base do CVSS mede a severidade técnica da falha, e não o risco. A priorização por risco também considera a probabilidade de exploração (EPSS), a exploração confirmada (catálogo KEV da CISA) e a exposição e a criticidade do ativo. Uma falha 7,5 em um portal exposto à internet, presente no KEV e com EPSS alto, pode ser muito mais urgente do que uma falha 9,8 em um servidor interno isolado.
 
-**Questão 2 — Alternativa c.** A taxa de reporte e o tempo até o primeiro reporte medem a capacidade de as pessoas perceberem a mensagem suspeita e acionarem a defesa — um único reporte rápido permite ao SOC bloquear a mensagem para toda a empresa. O volume enviado não mede desempenho, a taxa de abertura é imprecisa e pouco informativa, e a lista nominal para punição, além de levantar questões de proteção de dados, tende a desestimular o reporte.
+**Questão 2 — Alternativa c.** O evento 1102 ("*The audit log was cleared*") é gerado pelo próprio Windows quando alguém apaga o log de Segurança, técnica que, desde a versão 19 do ATT&CK (abril de 2026), fica na tática Enfraquecimento de defesas (*Defense Impairment*, TA0112) como T1685.005; materiais anteriores a classificam como T1070.001, na antiga *Defense Evasion*. Apagar o log local não apaga o que já foi encaminhado ao SIEM, por isso o encaminhamento dos registros para fora da máquina é uma das defesas mais simples contra essa técnica. As demais alternativas atribuem ao evento significados que ele não tem.
 
 ## Material complementar
 
 ### Direto da fonte (livro da Biblioteca Virtual)
 
-- **Texto provocativo:** Por que um invasor gastaria semanas procurando uma falha técnica se pode simplesmente pedir a senha a alguém? Escrito por profissionais brasileiros de segurança ofensiva, o capítulo indicado mostra como pretexto, urgência e autoridade são explorados em ataques de engenharia social — e como um *red team* autorizado reproduz essas técnicas de forma ética para medir a resiliência das pessoas e dos processos. É leitura essencial para quem vai planejar simulações de *phishing* com responsabilidade.
+- **Texto provocativo:** Por que um invasor gastaria semanas procurando uma falha técnica se pode simplesmente pedir a senha a alguém? Escrito por profissionais brasileiros de segurança ofensiva, o capítulo indicado mostra como pretexto, urgência e autoridade são explorados em ataques de engenharia social, e como um *red team* autorizado reproduz essas técnicas de forma ética para medir a resiliência das pessoas e dos processos. É leitura essencial para entender o *phishing* como vetor de acesso inicial e planejar simulações com responsabilidade.
 - **Nome do livro:** SOARES, Cleber; FRANCO, Deivison Pinheiro; SANTOS, Joas Antonio dos. *Introdução à segurança ofensiva*: uma abordagem para pentesters e red teams. Rio de Janeiro: Brasport, 2023. *E-book*.
 - **Capítulo:** 3 — Técnicas de engenharia social
 - **Link de acesso:** <https://plataforma.bvirtual.com.br/Acervo/Publicacao/213767>
-- **Aula em que entra:** Aula 7
+- **Aula em que entra:** Aula 6
 
 ### Para mergulhar no assunto (saiba mais)
 
 - **Texto provocativo:** Em 2016, três pesquisadores subiram ao palco da DEF CON e mostraram que, em muitas empresas, o caminho de um usuário comum até o controle total do domínio é uma questão de teoria dos grafos. A palestra apresentou o BloodHound e mudou a forma como Red Teams e Blue Teams enxergam o Active Directory. Assista e pense: quantos caminhos desses existem na rede em que você trabalha?
 - **Indicação:** ROBBINS, Andy; VAZARKAR, Rohan; SCHROEDER, Will. *Six degrees of domain admin*: using graph theory to accelerate red team operations. Palestra apresentada na DEF CON 24, Las Vegas, 6 ago. 2016. Vídeo gratuito no canal oficial da DEF CON no YouTube: <https://www.youtube.com/watch?v=wP8ZCczC1OU>.
-- **Link complementar:** catálogo KEV da CISA — <https://www.cisa.gov/known-exploited-vulnerabilities-catalog>
-- **Aula em que entra:** Aula 8 (link complementar: Aula 6)
+- **Links complementares:** guia de referência do Nmap, do próprio projeto — <https://nmap.org/book/man.html> (Aula 5); catálogo KEV da CISA — <https://www.cisa.gov/known-exploited-vulnerabilities-catalog> (Aula 6); táticas Furtividade (*Stealth*, TA0005) e Enfraquecimento de defesas (*Defense Impairment*, TA0112) no MITRE ATT&CK, que substituíram a antiga *Defense Evasion* na versão 19 — <https://attack.mitre.org/tactics/TA0005/> e <https://attack.mitre.org/tactics/TA0112/> (Aula 8).
+- **Aula em que entra:** Aula 7 (links complementares: Aulas 5, 6 e 8)
 
 ### Podcast (curadoria, até 45 min)
 
-- **Texto provocativo:** Se uma voz idêntica à do seu diretor ligasse pedindo um Pix urgente, você desconfiaria? Neste episódio de cerca de 20 minutos, o pesquisador Daniel Barbosa, da ESET Brasil, mostra como a inteligência artificial tornou a engenharia social mais convincente, com vozes e vídeos falsos, e por que urgência e autoridade continuam sendo os gatilhos centrais dos golpes. Ouça pensando nas pistas da Aula 7: quais delas ainda funcionam quando a isca é quase perfeita?
+- **Texto provocativo:** Se uma voz idêntica à do seu diretor ligasse pedindo um Pix urgente, você desconfiaria? Neste episódio de cerca de 20 minutos, o pesquisador Daniel Barbosa, da ESET Brasil, mostra como a inteligência artificial tornou a engenharia social mais convincente, com vozes e vídeos falsos, e por que urgência e autoridade continuam sendo os gatilhos centrais dos golpes. Ouça pensando no *phishing* como vetor de acesso inicial da Aula 6: quais pistas ainda funcionam quando a isca é quase perfeita?
 - **Nome do podcast:** Podcast Canaltech
 - **Nome do episódio:** Golpes com IA e fraudes no Pix: como funcionam os crimes digitais em 2026 (7 jan. 2026)
 - **Link:** <https://canaltech.com.br/podcast/podcast-canaltech/golpes-com-ia-e-fraudes-no-pix-como-funcionam-os-crimes-digitais-em-2026-6287/> (também no Spotify, Apple Podcasts e Deezer)
-- **Aula em que entra:** Aula 7
+- **Aula em que entra:** Aula 6
 
 ### Artigo científico
 
-- **Texto provocativo:** Se a sua simulação de *phishing* teve 2% de cliques, isso é uma boa notícia — ou apenas sinal de que a isca era fácil demais? Pesquisadoras do NIST propõem um método para classificar a dificuldade de uma mensagem de *phishing* a partir das pistas que ela contém e do quanto o pretexto se encaixa na rotina do público. O artigo ajuda a interpretar as métricas de campanha com mais honestidade.
+- **Texto provocativo:** Se a sua simulação de *phishing* teve 2% de cliques, isso é uma boa notícia ou apenas sinal de que a isca era fácil demais? Pesquisadoras do NIST propõem um método para classificar a dificuldade de uma mensagem de *phishing* a partir das pistas que ela contém e do quanto o pretexto se encaixa na rotina do público. O artigo ajuda a interpretar com mais honestidade o resultado de um teste de acesso inicial por engenharia social.
 - **Link:** <https://academic.oup.com/cybersecurity/article/6/1/tyaa009/5905453> (acesso aberto; DOI: <https://doi.org/10.1093/cybsec/tyaa009>)
-- **Aula em que entra:** Aula 7
+- **Aula em que entra:** Aula 6
 - **Referência ABNT:** STEVES, Michelle; GREENE, Kristen; THEOFANOS, Mary. Categorizing human phishing difficulty: a Phish Scale. *Journal of Cybersecurity*, v. 6, n. 1, tyaa009, 2020. DOI: 10.1093/cybsec/tyaa009.

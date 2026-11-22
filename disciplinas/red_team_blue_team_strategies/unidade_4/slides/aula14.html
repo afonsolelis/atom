@@ -3,25 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 14 — Métricas de detecção e resposta e cobertura ATT&amp;CK</title>
+<title>Aula 14 — Coleta de evidências e linha do tempo do incidente</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .vd-list { display: grid; gap: .5rem; overflow: auto; min-height: 0; }
-  .vd-item { display: grid; grid-template-columns: 1fr auto; gap: .3rem .8rem; align-items: center; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .55em .8em; }
-  .vd-item p { margin: 0; color: #fff; font: 600 .95rem var(--fonte); }
-  .vd-item .bt { display: flex; gap: .35rem; }
-  .vd-item .fb { grid-column: 1 / -1; font: .85rem/1.4 var(--fonte); color: #C9D4E5; display: none; }
-  .vd-item.ok { border-color: #3FD47A; } .vd-item.ok .fb { display: block; }
-  .vd-item.bad { border-color: #FF5C7A; } .vd-item.bad .fb { display: block; }
-  .hm { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 6px; flex: 1; min-height: 0; align-content: start; }
-  .hm h5 { margin: 0; hyphens: auto; overflow-wrap: break-word; letter-spacing: 0 !important; font: 700 max(11px, .82vw) var(--fonte); color: #9FB0C8; text-transform: uppercase; letter-spacing: .03em; min-height: 2.6em; }
-  .hm .col { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
-  .hm button { overflow-wrap: break-word; hyphens: manual; text-align: left; border: 1px solid transparent; border-radius: 6px; padding: 6px 7px; font: 600 max(12px, 1vw)/1.25 var(--fonte); color: #06121F; cursor: pointer; min-height: 52px; transition: background .4s; }
-  .hm button small { display: block; font-weight: 500; font-size: max(11px, .86vw); opacity: .85; }
-  .hm button.g { background: #3FD47A; } .hm button.y { background: #F2CB0A; } .hm button.n { background: #3A4560; color: #C9D4E5; }
-  .hm button.sel { outline: 2px solid #fff; }
-  .hm-det { font: max(13px, 1vw)/1.45 var(--fonte); color: #DCE3EE; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: 8px 12px; min-height: 4.6em; }
+  /* Wireshark simulado (laboratório do slide 14) */
+  .wsk { flex: 1 1 auto; min-height: 0; height: 100%; display: flex; flex-direction: column; background: #FFFFFF; color: #1E1E1E; border: 1px solid #9AA4B2; border-radius: 8px; overflow: hidden; font: 12px/1.35 "Segoe UI", Arial, sans-serif; }
+  .wsk-title { background: #E9EDF2; padding: 4px 10px; font-weight: 600; color: #333; border-bottom: 1px solid #C9D1DB; }
+  .wsk-menu { display: flex; gap: 14px; padding: 3px 10px; background: #F6F7F9; border-bottom: 1px solid #D5DBE3; color: #333; }
+  .wsk-menu b { font-weight: 400; }
+  .wsk-menu b.on { background: #D6E4F5; border-radius: 3px; padding: 0 4px; }
+  .wsk-bar { display: flex; gap: 6px; align-items: center; padding: 5px 8px; background: #F6F7F9; border-bottom: 1px solid #D5DBE3; }
+  .wsk-bar .flt { flex: 1; font: 12px Consolas, "Courier New", monospace; padding: 3px 7px; border: 1px solid #7FB46F; background: #E7F6E2; border-radius: 3px; color: #111; min-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .wsk-bar .flt.vazio { border-color: #C9D1DB; background: #fff; color: #888; }
+  .wsk-pre { display: flex; flex-wrap: wrap; gap: 5px; padding: 5px 8px; background: #EEF1F5; border-bottom: 1px solid #D5DBE3; }
+  .wsk-pre button { font: 600 11.5px "Segoe UI", Arial, sans-serif; border: 1px solid #9AA4B2; background: #fff; border-radius: 4px; padding: 3px 9px; cursor: pointer; color: #1E1E1E; }
+  .wsk-pre button.on { background: #1F5FAD; color: #fff; border-color: #1F5FAD; }
+  .wsk-list { flex: 1 1 55%; min-height: 0; overflow: auto; }
+  .wsk-list table { width: 100%; border-collapse: collapse; font: 11.5px Consolas, "Courier New", monospace; }
+  .wsk-list th { position: sticky; top: 0; background: #E9EDF2; text-align: left; font: 600 11.5px "Segoe UI", Arial, sans-serif; padding: 3px 6px; border-bottom: 1px solid #C9D1DB; }
+  .wsk-list td { padding: 2px 6px; white-space: nowrap; border-bottom: 1px solid #F0F2F5; }
+  .wsk-list tr.tls td { background: #E4F1FB; }
+  .wsk-list tr.tcp td { background: #F3F0FA; }
+  .wsk-list tr.big td { background: #FDE8EC; }
+  .wsk-list tr.sel td { background: #1F5FAD !important; color: #fff; }
+  .wsk-list tr { cursor: pointer; }
+  .wsk-det { flex: 0 0 auto; max-height: 30%; overflow: auto; border-top: 1px solid #C9D1DB; padding: 5px 10px; font: 11.5px Consolas, "Courier New", monospace; background: #FBFCFD; color: #222; }
+  .wsk-det div { padding: 1px 0; }
+  .wsk-det .nota { font: 12px "Segoe UI", Arial, sans-serif; color: #7A2E00; background: #FFF4D6; border-left: 3px solid #E0A100; padding: 4px 8px; margin-top: 4px; }
+  .wsk-st { display: flex; gap: 18px; padding: 3px 10px; background: #E9EDF2; border-top: 1px solid #C9D1DB; color: #333; font-size: 11.5px; }
+  .wsk-conv h5 { margin: 6px 8px 2px; font: 700 12px "Segoe UI", Arial, sans-serif; color: #1F5FAD; }
 </style>
 </head>
 <body>
@@ -37,35 +48,31 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 14 — Métricas de detecção e resposta e cobertura ATT&amp;CK</h1>
-      <div class="subtitulo">Unidade 4 — Purple Team e estratégia de segurança</div>
+      <h1>Aula 14 — Coleta de evidências e linha do tempo do incidente</h1>
+      <div class="subtitulo">Unidade 4 — Resposta a Incidentes e Purple Team</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
-
 
   <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Métricas de detecção e resposta e cobertura ATT&amp;CK</h1>
+        <h1 class="sumario-titulo">Coleta de evidências e linha do tempo do incidente</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje na Rede Tatame</li>
-          <li>Métrica de vaidade e métrica de decisão</li>
-          <li>Métricas de tempo: MTTD, MTTR e <em>dwell time</em></li>
-          <li>Laboratório: média e mediana em Python</li>
-          <li>Métricas de qualidade da detecção</li>
-          <li>Cobertura ATT&amp;CK e suas armadilhas</li>
-          <li>Modelos de maturidade, em 3D</li>
-          <li>Do número à decisão</li>
-          <li>Exemplo numérico no SIEM: antes e depois</li>
-          <li>Plataforma Rede Tatame: as métricas no SOC</li>
+          <li>O SRV-ERP-01 isolado e uma pergunta: o que aconteceu?</li>
+          <li>Evidência digital e a ordem de volatilidade (RFC 3227)</li>
+          <li>Laboratório: do alerta ao lacre</li>
+          <li>Cadeia de custódia e <em>hash</em> SHA-256</li>
+          <li>Laboratório: a linha do tempo no VS Code</li>
+          <li>Laboratório: o tráfego no Wireshark</li>
+          <li>Laboratório: o incidente na plataforma Rede Tatame</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -77,57 +84,125 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>"Bloqueamos 2 milhões de ataques este ano"</h2>
+      <h2>O servidor está isolado. E agora, como provar o que houve?</h2>
       <div class="problema">
         <div class="historia">
-          <p><strong>Marina Prado</strong> é a CISO (diretora de segurança da informação) da Rede Tatame. Todo trimestre ela leva um relatório de segurança à diretoria.</p>
-          <p>O último relatório abria com "bloqueamos 2 milhões de ataques". Um diretor perguntou: "Estamos melhorando? Onde investir? Qual risco ainda aceitamos?". O número não respondia a nenhuma das três.</p>
-          <p>O que está em jogo: o orçamento do próximo ano e a confiança da diretoria no SOC (centro de operações de segurança) de Luiza Ferraz.</p>
-          <div class="pergunta">Quais números mostram à diretoria se a detecção e a resposta da Rede Tatame estão melhorando?</div>
-          <div class="papeis"><span><b>CISO</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Pergunta</b> a diretoria</span></div>
+          <p>Às 03h41 de 02/12, Luiza Ferraz isolou o SRV-ERP-01 pelo EDR e fechou a porta do incidente INC-2026-1202-01: uma ferramenta de acesso remoto não aprovada, o ConectaJá, e uma saída de dados para 198.51.100.77.</p>
+          <p>A CISO Marina Prado precisa explicar à diretoria, ao jurídico e talvez à ANPD por onde o invasor entrou, o que levou e quando. A perita externa M. Teixeira vai analisar o material e avisa: evidência sem registro de custódia pode ser contestada.</p>
+          <div class="pergunta">Como reconstruir o que aconteceu no SRV-ERP-01, em ordem e com provas que resistam a uma contestação?</div>
+          <div class="papeis"><span><b>Coleta</b> Luiza Ferraz</span><span><b>Perícia</b> M. Teixeira</span><span><b>Conta usada</b> caio.mendes</span><span><b>Decide</b> Marina Prado</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. LAB vaidade x decisão -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Classificação</p><h2>Vaidade ou decisão?</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Separar os números que impressionam dos que ajudam a decidir.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Leia cada indicador do relatório de Marina Prado.</p><p>2. Clique em "Vaidade" ou "Decisão" e leia a explicação.</p></div>
-            <div class="rl obs"><b>Observe</b><p>Pergunte: se este número piorar, alguém muda alguma coisa? Indicadores de decisão têm meta, dono e consequência.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Só três dos seis indicadores ajudam a diretoria a decidir.</p></div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-vaidade"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Métricas de tempo -->
+  <!-- 4. Evidência digital -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Velocidade</p>
-      <h2>Métricas de tempo: MTTD, MTTR e <em>dwell time</em></h2>
+      <p class="kicker">Conceitos</p>
+      <h2>O que conta como evidência digital</h2>
       <div class="slide-content-box">
+        <p>Evidência digital é qualquer informação armazenada ou transmitida em forma digital que ajude a provar ou refutar um fato: a memória de um servidor, uma imagem de disco, um registro da VPN, uma captura de tráfego.</p>
         <ul>
-          <li><strong>MTTD</strong> (<em>mean time to detect</em>): tempo médio entre o início de uma atividade maliciosa e sua detecção.</li>
-          <li><strong>MTTR</strong> (<em>mean time to respond</em>): tempo médio entre a detecção e a contenção.</li>
-          <li><strong><em>Dwell time</em></strong> (tempo de permanência): período em que o atacante fica no ambiente sem ser descoberto. Os relatórios M-Trends, da Mandiant, mostram que a mediana global caiu de centenas de dias, no início da década de 2010, para cerca de dez dias em 2023, evidência de que investir em detecção funciona.</li>
+          <li>A <strong>ABNT NBR ISO/IEC 27037:2013</strong> organiza o trabalho em quatro etapas: <strong>identificação</strong>, <strong>coleta</strong>, <strong>aquisição</strong> e <strong>preservação</strong>.</li>
+          <li>Três exigências atravessam todas elas: o método precisa ser <strong>repetível</strong>, a evidência precisa ser <strong>íntegra</strong> e cada ação precisa ficar <strong>documentada</strong>.</li>
+          <li>No Brasil, o Código de Processo Penal define a <strong>cadeia de custódia</strong> nos arts. 158-A a 158-F, incluídos pela Lei nº 13.964/2019.</li>
         </ul>
-        <div class="callout-azul"><p>Dois cuidados. Médias são sensíveis a valores extremos: um único incidente esquecido por 90 dias distorce a média do trimestre, por isso acompanhe também a <strong>mediana</strong>. E defina com precisão os marcos de início e fim; se cada analista marca o "momento da detecção" de um jeito, a métrica deixa de ser comparável.</p></div>
+        <div class="callout-azul"><p>Coletar evidência começa na contenção: isolar o servidor pela rede, sem desligá-lo, preserva o que está na memória.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Antes do código: onde achar e como instalar -->
+  <!-- 5. Ordem de volatilidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">RFC 3227</p>
+      <h2>Do mais volátil para o menos volátil</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Ordem</th><th>O que coletar</th><th>No SRV-ERP-01</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1</strong></td><td>Registradores e cache</td><td>Na prática, perdidos em nanossegundos</td></tr>
+            <tr><td><strong>2</strong></td><td>Tabela de rotas, cache ARP, tabela de processos, estatísticas do núcleo, memória</td><td>Processo do ConectaJá, conexões com 198.51.100.77, RAM de 32 GB</td></tr>
+            <tr><td><strong>3</strong></td><td>Sistemas de arquivos temporários</td><td>Pasta temporária com o instalador</td></tr>
+            <tr><td><strong>4</strong></td><td>Disco</td><td>Imagem forense do volume de 512 GB</td></tr>
+            <tr><td><strong>5</strong></td><td>Registros e monitoramento remotos</td><td>SIEM, VPN, AD, EDR e o sensor de rede</td></tr>
+            <tr><td><strong>6</strong></td><td>Configuração física e topologia</td><td>Diagrama da rede da sede</td></tr>
+            <tr><td><strong>7</strong></td><td>Mídias de arquivamento</td><td><em>Backup</em> de 01/12, 20h00</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LAB flow: do alerta ao lacre -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: seguir a ordem certa da coleta no SRV-ERP-01</p><h2>Do alerta ao lacre</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 7. Cadeia de custódia e hash -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Integridade</p>
+      <h2>Cadeia de custódia e <em>hash</em> SHA-256</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>O formulário de custódia registra, para cada item: <strong>o quê</strong> (descrição e identificador), <strong>quem</strong> coletou, <strong>quando</strong>, <strong>como</strong> (método e ferramenta), <strong>onde</strong> ficou guardado e cada <strong>transferência</strong> de mãos.</li>
+          <li>Mídia física vai em embalagem com <strong>lacre numerado</strong>; o número entra no formulário.</li>
+          <li>O <strong><em>hash</em> SHA-256</strong> é uma impressão digital de 256 bits do arquivo. Qualquer alteração, de um único bit, produz outro valor.</li>
+          <li>Calcula-se o <em>hash</em> na coleta e confere-se de novo a cada entrega e antes da análise. A análise trabalha sobre uma <strong>cópia</strong>; o original fica guardado.</li>
+        </ul>
+        <div class="callout-azul"><p>O formulário conta a história da evidência; o <em>hash</em> prova que ela não mudou no caminho.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB terminal: hashes e entrega -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Cinco evidências, cinco <em>hashes</em> e uma entrega</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Garantir que as evidências entregues à perita M. Teixeira são as mesmas que foram coletadas.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim do roteiro.</div>
+            <div class="rl obs"><b>Observe</b>A ordem dos horários na pasta, os cinco <em>hashes</em>, o formulário de custódia e o teste em que um só caractere muda o <em>hash</em> inteiro.</div>
+            <div class="rl conc"><b>Conclusão</b>Na entrega, os cinco arquivos dão "OK": a integridade está comprovada.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Linha do tempo -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Análise</p>
+      <h2>Linha do tempo e <em>super timeline</em></h2>
+      <div class="slide-content-box">
+        <p>A linha do tempo junta, em uma só sequência, os registros de várias fontes. A <strong><em>super timeline</em></strong> leva a ideia ao limite: todos os carimbos de tempo de um disco e dos registros, ordenados juntos. A ferramenta livre mais conhecida para isso é o <strong>plaso</strong> (comando <code>log2timeline</code>).</p>
+        <ul>
+          <li><strong>Normalize para UTC.</strong> A VPN NetGuard registra em UTC; o AD e o SOC, em horário de Brasília (-03:00); o <em>proxy</em> grava sem fuso.</li>
+          <li><strong>Confira os relógios.</strong> Um servidor com o relógio adiantado desloca todos os seus eventos.</li>
+          <li><strong>Desconfie de ordem impossível.</strong> Um acesso que vem da VPN não pode acontecer antes do login na VPN.</li>
+          <li><strong>Marque cada linha com a fonte.</strong> É o que permite voltar ao registro original.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -137,29 +212,29 @@
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é lido e executado</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>metricas.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td>Módulo <strong>venv</strong></td><td>Cria o ambiente virtual <code>.venv</code>, separado do Python do sistema</td><td>Biblioteca padrão: <code>docs.python.org/3/library/venv.html</code></td><td><code>python3 -m venv .venv</code></td></tr>
-            <tr><td>Módulos <strong>csv</strong>, <strong>datetime</strong> e <strong>statistics</strong></td><td>Leem o CSV, subtraem horários e calculam média e mediana</td><td>Biblioteca padrão: <code>docs.python.org/3/library</code></td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Roda o <code>linha_do_tempo.py</code>; <code>csv</code>, <code>json</code>, <code>datetime</code> e <code>zoneinfo</code> já vêm com ele</td><td><code>python.org/downloads</code></td><td>Instalador do site ou gerenciador do sistema</td></tr>
+            <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração no editor</td><td>Aba Extensões, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>tzdata</strong></td><td>Base de fusos horários da IANA para o <code>zoneinfo</code>, necessária no Windows</td><td><code>pypi.org/project/tzdata</code></td><td><code>pip install -r requirements.txt</code></td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> antes de qualquer <code>pip install</code>, procure o nome do módulo em <code>docs.python.org/3/library</code>. Se ele está na biblioteca padrão, não há o que instalar. O cuidado importa: existe no PyPI um pacote chamado <code>statistics</code>, um porte antigo para Python 2, com última versão de 2017, que não é o módulo oficial. Instalar por reflexo traria para a máquina do SOC um código de terceiros sem necessidade.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> no PyPI, confira o nome <code>tzdata</code> letra por letra, o <em>link</em> do projeto (mantido pela equipe do Python) e a data da última versão. O Linux e o macOS já trazem a base de fusos; o pacote garante o mesmo resultado em qualquer sistema. Instale dentro de um ambiente virtual (<code>.venv</code>).</div>
       </div>
     </div>
   </section>
 
-  <!-- 7. LAB VS Code: média x mediana -->
+  <!-- 11. LAB VS Code: linha do tempo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Média e mediana de dez incidentes</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Seis fontes, uma linha do tempo</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Medir o tempo de detecção e de resposta sem ser enganado por um caso extremo.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Abra <code>marcos.yaml</code>: o que conta como início, detecção e contenção.</p><p>3. Rode <code>metricas.py</code> sobre os dez incidentes do trimestre.</p></div>
-            <div class="rl obs"><b>Observe</b><p>O MTTR médio é 217,8 h; a mediana é 2 h. O INC-07, esquecido por 90 dias, puxa a média.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Reporte média e mediana, e trate o caso extremo à parte.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Juntar seis fontes em uma linha do tempo em UTC e medir os intervalos do incidente.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente".<br>2. Abra as fontes na pasta <code>fontes</code>, começando pela <code>vpn_netguard.csv</code>.<br>3. Rode "Montar a linha do tempo", depois "Sem o fuso (erro comum)" e, por fim, "Calcular intervalos".</div>
+            <div class="rl obs"><b>Observe</b>Sem o fuso, o login na VPN cai às 01:58 de 02/12, depois do RDP, e o código acusa a ordem impossível. Com o fuso certo: MTTD de 4:21:50 e MTTR de 0:21:00.</div>
+            <div class="rl conc"><b>Conclusão</b>A linha do tempo só é prova quando todas as fontes falam o mesmo fuso.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -167,200 +242,101 @@
     </div>
   </section>
 
-  <!-- 8. Qualidade -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Qualidade</p>
-      <h2>Métricas de qualidade da detecção</h2>
-      <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Métrica</th><th>Fórmula ou definição</th><th>O que revela</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Precisão dos alertas</strong></td><td>verdadeiros positivos ÷ total de alertas</td><td>Quanto do trabalho do SOC é útil</td></tr>
-            <tr><td><strong>Taxa de falsos positivos</strong></td><td>falsos positivos ÷ total de alertas</td><td>Ruído e risco de fadiga de alertas</td></tr>
-            <tr><td><strong>Cobertura ATT&amp;CK testada</strong></td><td>técnicas com detecção validada ÷ técnicas priorizadas</td><td>Lacunas frente às ameaças relevantes</td></tr>
-            <tr><td><strong>Visibilidade</strong></td><td>técnicas com telemetria disponível ÷ técnicas priorizadas</td><td>Se há dados para detectar</td></tr>
-            <tr><td><strong>Taxa de reteste</strong></td><td>ações de melhoria retestadas ÷ ações concluídas</td><td>Se as correções foram comprovadas</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.7em">A <strong>fadiga de alertas</strong> é um risco real: quando a maior parte dos alertas é falsa, os analistas passam a fechá-los rapidamente e acabam ignorando o verdadeiro. Reduzir ruído é uma melhoria de segurança, e não apenas de produtividade.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. Cobertura ATT&CK -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Cobertura</p>
-      <h2>Cobertura ATT&amp;CK e suas três armadilhas</h2>
-      <div class="slide-content-box">
-        <p>Mapear as detecções na matriz ATT&amp;CK com o ATT&amp;CK Navigator gera um mapa de calor muito comunicativo, desde que bem interpretado.</p>
-        <ol>
-          <li><strong>Contar a técnica como coberta porque existe uma regra</strong>, sem nunca tê-la testado. O indicador relevante é a cobertura <strong>testada</strong>, alimentada pelos ciclos de <em>purple teaming</em>.</li>
-          <li><strong>Tratar todas as técnicas como iguais.</strong> Uma técnica pode ser executada de muitas formas (procedimentos), e uma regra pode detectar apenas uma delas.</li>
-          <li><strong>Buscar 100% da matriz.</strong> O objetivo é cobrir as técnicas priorizadas pela inteligência de ameaças, e não todas as existentes.</li>
-        </ol>
-        <div class="callout-azul"><p>Frameworks abertos tornam a avaliação mais rigorosa. O DeTT&amp;CT propõe pontuar separadamente a <strong>visibilidade</strong> (qualidade das fontes de dados) e a <strong>detecção</strong> de cada técnica, em níveis, em vez de usar apenas "coberto ou não coberto".</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. LAB heatmap -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Mapa de calor</p><h2>A <em>layer</em> toda verde</h2></div><span class="lab-badge purple">ATT&amp;CK</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ver se a cobertura ATT&amp;CK mede detecção de verdade ou só a existência de regras.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Troque a visão para "Cobertura testada".</p><p>2. Clique em uma técnica para ver visibilidade (0 a 4) e detecção (0 a 5).</p></div>
-            <div class="rl obs"><b>Observe</b><p>As 20 técnicas têm regra, mas só 10 foram testadas: a cobertura cai de 100% para 50%.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Regra nunca testada é hipótese, não cobertura.</p></div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-heat"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. Maturidade -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Capacidade</p>
-      <h2>Modelos de maturidade</h2>
-      <div class="slide-content-box">
-        <p>Métricas operacionais mostram o desempenho; <strong>modelos de maturidade</strong> mostram a capacidade da organização de sustentá-lo.</p>
-        <ul>
-          <li>O <strong>NIST CSF 2.0</strong> descreve quatro níveis (<em>tiers</em>) para o rigor da governança e da gestão de riscos cibernéticos: <strong>Parcial</strong>, <strong>Informado por riscos</strong>, <strong>Repetível</strong> e <strong>Adaptativo</strong>.</li>
-          <li>Na operação de SOC, modelos como o <strong>SOC-CMM</strong> avaliam pessoas, processos, tecnologia e serviços.</li>
-        </ul>
-        <div class="callout-azul"><p>O valor de um modelo de maturidade está menos na nota e mais no diálogo que ele provoca sobre <strong>onde a organização quer chegar</strong> e o que falta para isso.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12. LAB 3D escada -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A escada dos <em>tiers</em> do CSF 2.0</h2></div><span class="lab-badge">Governança</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Mostrar à diretoria onde a Rede Tatame está e aonde quer chegar.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Hoje" e em "Meta em 18 meses".</p><p>2. Compare as quatro colunas do SOC-CMM (modelo de maturidade de SOC, de 1 a 5).</p></div>
-            <div class="rl obs"><b>Observe</b><p>Hoje a Rede Tatame está no <em>tier</em> 2 do NIST CSF 2.0; a meta é o 3. Processos é a coluna mais baixa.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>A coluna mais baixa indica por onde começar.</p></div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-3d"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13. Do número à decisão -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Comunicação</p>
-      <h2>Do número à decisão</h2>
-      <div class="slide-content-box">
-        <p>Um bom painel tem poucos indicadores, cada um com <strong>dono, meta, fonte de dados e periodicidade</strong>. Exemplo fictício:</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Indicador</th><th>Dono</th><th>Meta</th><th>Fonte</th><th>Periodicidade</th></tr></thead>
-          <tbody>
-            <tr><td>MTTD mediano</td><td>Coordenação do SOC</td><td>≤ 6 h</td><td>Sistema de casos</td><td>Mensal</td></tr>
-            <tr><td>Precisão dos alertas</td><td>Engenharia de detecção</td><td>≥ 25%</td><td>SIEM</td><td>Mensal</td></tr>
-            <tr><td>Cobertura testada das técnicas priorizadas</td><td>Líder <em>purple</em></td><td>≥ 70%</td><td><em>Layers</em> do Navigator</td><td>Por ciclo</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.6em">Para a diretoria, interessam tendências e risco: "a cobertura das técnicas mais usadas contra o nosso setor subiu de 45% para 72% no semestre" comunica mais do que qualquer número de alertas.</p>
-        <div class="callout-azul"><p><strong>Lei de Goodhart</strong>: quando uma métrica vira meta, ela tende a deixar de ser uma boa métrica. Se o SOC for cobrado apenas por MTTR, pode fechar incidentes cedo demais.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 14. Exemplo numérico -->
+  <!-- 12. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>Antes e depois do <em>purple teaming</em></h2>
+      <h2>O que a linha do tempo mede</h2>
       <div class="slide-content-box">
         <table class="tabela-industrial">
-          <thead><tr><th>Indicador</th><th>Janeiro</th><th>Após três ciclos</th><th>Cálculo</th></tr></thead>
+          <thead><tr><th>Intervalo</th><th>De</th><th>Até</th><th>Duração</th></tr></thead>
           <tbody>
-            <tr><td><strong>Alertas por mês</strong></td><td>1.200</td><td>600</td><td></td></tr>
-            <tr><td><strong>Verdadeiros positivos</strong></td><td>180</td><td>150</td><td></td></tr>
-            <tr><td><strong>Precisão</strong></td><td>15%</td><td>25%</td><td>180 ÷ 1.200 e 150 ÷ 600</td></tr>
-            <tr><td><strong>MTTD mediano</strong></td><td>18 h</td><td>4 h</td><td>(18 − 4) ÷ 18 ≈ 78% de redução</td></tr>
-            <tr><td><strong>MTTR</strong></td><td>9 h</td><td>3 h</td><td>(9 − 3) ÷ 9 ≈ 67% de redução</td></tr>
+            <tr><td>Login na VPN até o RDP</td><td>22:58:10</td><td>23:06:42</td><td>8 min 32 s</td></tr>
+            <tr><td>Alerta R8 até a triagem</td><td>23:14:40</td><td>03:20:00</td><td><strong>4 h 05 min 20 s</strong></td></tr>
+            <tr><td>MTTD: primeiro evento até o caso aberto</td><td>22:58:10</td><td>03:20:00</td><td><strong>4 h 21 min 50 s</strong></td></tr>
+            <tr><td>MTTR: caso aberto até a contenção</td><td>03:20:00</td><td>03:41:00</td><td>21 min</td></tr>
+            <tr><td>Saída de dados (2,8 GB)</td><td>02:37:00</td><td>03:05:00</td><td>28 min, cerca de 1,67 MB/s</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.7em">A melhora veio do ajuste de regras e da automação da triagem. E por que os verdadeiros positivos caíram de 180 para 150? Parte dos "positivos" anteriores eram duplicados de um mesmo incidente, consolidados pela nova correlação. Toda métrica precisa de contexto.</p>
+        <div class="callout-azul" style="margin-top:.7rem"><p>Das 4 h 21 min até a abertura do caso, 4 h 05 min foram de alerta parado na fila. A saída de 2,8 GB começou e terminou nesse intervalo.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 15. LAB SIEM -->
+  <!-- 13. Tráfego como evidência -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Rede</p>
+      <h2>O tráfego também é evidência</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>O <strong>sensor de rede</strong> da sede grava a captura completa (<em>pcap</em>) por alguns dias e gera registros de conexão no estilo do <strong>Zeek</strong>, guardados por mais tempo.</li>
+          <li>O <strong>Wireshark</strong> abre o <em>pcap</em> e filtra com filtros de exibição, como <code>ip.addr == 198.51.100.77</code>.</li>
+          <li>Com TLS, o conteúdo vem cifrado. Mesmo assim, os <strong>metadados</strong> contam muito: quem falou com quem, quando, com que regularidade e quanto foi enviado.</li>
+          <li>Um <em>beacon</em> é a conexão periódica de um programa com o seu servidor de controle. Intervalo fixo, como 300 s, é a assinatura dele.</li>
+        </ul>
+        <div class="callout-azul"><p>No incidente, a fonte "buckets e saída de rede" estava desligada no SIEM. Só o sensor de rede viu os 2,8 GB saindo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB Wireshark -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>A conta na tela, regra por regra</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Wireshark</p><h2>O <em>beacon</em> e os 2,8 GB no <em>pcap</em> do sensor</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Provar com dados que três ciclos <em>purple</em> melhoraram a detecção.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique nas buscas salvas, à esquerda, na ordem.</p><p>2. Some a coluna de alertas: 1.200 em janeiro, 600 depois.</p></div>
-            <div class="rl obs"><b>Observe</b><p>A precisão sobe de 15% para 25% e o MTTD mediano cai de 18 h para 4 h. Os verdadeiros positivos caem porque duplicados foram agrupados.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Toda métrica precisa de contexto antes de ir à diretoria.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Confirmar no tráfego o <em>beacon</em> e a saída de dados que o SIEM não viu.</div>
+            <div class="rl"><b>Faça</b>Clique nos quatro botões, na ordem, e depois em uma linha da lista para ver os detalhes do pacote.</div>
+            <div class="rl obs"><b>Observe</b>Os 20 <em>Client Hello</em>, quase todos a 300 s um do outro; o fluxo <code>tcp.stream eq 6</code>, que dura 1.680 s; e as conversas, com 2,93 GB de 10.10.1.30 para 198.51.100.77.</div>
+            <div class="rl conc"><b>Conclusão</b>O conteúdo é cifrado, mas o volume, o destino e o horário confirmam a linha do tempo.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-siem"></div>
+        <div class="lab-area" id="lab-wsk"></div>
       </div>
     </div>
   </section>
 
-  <!-- 16. PLATAFORMA REDE TATAME -->
+  <!-- 15. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>As métricas no painel do SOC</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>O que o SIEM viu e o que só o sensor viu</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
       <div class="lab-split plat">
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ler MTTD, MTTR e falsos positivos no painel do SOC.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Em <strong>Cenários</strong>, com "1 s = 1 min", inicie a <em>Emulação do Grupo Cobalto Austral</em>.</p><p>2. Em <strong>SOC</strong>, assim que surgir o R11 de <code>caio.mendes</code>: "Investigar" e "Conter".</p><p>3. Quando chegar o R11 do <code>svc-backup</code> (exceção documentada), marque "Falso positivo".</p></div>
-            <div class="rl obs"><b>Observe</b><p>O MTTD médio aparece logo; o MTTR, depois da contenção. Em <strong>Cobertura ATT&amp;CK</strong>, só 1 técnica está comprovada.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Regra sem teste não é cobertura.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ver quais passos do incidente deixaram registro no SIEM.</div>
+            <div class="rl"><b>Faça</b>1. Troque a velocidade para <strong>1 s = 1 min</strong>.<br>2. Em <strong>Cenários</strong>, inicie <em>Acesso remoto não aprovado e saída de dados</em> e espere os três passos.<br>3. No <strong>SOC</strong>, na linha da R8 (SRV-ERP-01), clique em <strong>Investigar</strong> e depois em <strong>Conter</strong>. A R11 do svc-backup é exceção conhecida.<br>4. Na <strong>Arquitetura</strong>, clique no SRV-ERP-01.</div>
+            <div class="rl obs"><b>Observe</b>Um passo detectado (R8), um visto sem alerta (conexões) e um não detectado (2,8 GB, fonte desligada).</div>
+            <div class="rl conc"><b>Conclusão</b>A lacuna do SIEM é preenchida pelo <em>pcap</em> do sensor.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 17. De volta ao problema -->
+  <!-- 16. Problema resolvido -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>Agora o relatório responde à diretoria</h2>
+      <h2>Agora a história do SRV-ERP-01 tem provas</h2>
       <div class="resolvido">
-        <div class="ev"><b>Cortar a vaidade</b>Saem os "2 milhões de ataques"; ficam indicadores com meta, dono e consequência.</div>
-        <div class="ev"><b>Tempo com mediana</b>MTTD e MTTR com média e mediana: um caso esquecido não esconde o trimestre.</div>
-        <div class="ev"><b>Cobertura testada</b>Das 20 técnicas com regra, só 10 foram testadas: a cobertura real é 50%.</div>
-        <div class="ev"><b>Antes e depois</b>Precisão de 15% para 25% e MTTD mediano de 18 h para 4 h após três ciclos.</div>
-        <div class="resposta">Resposta à pergunta da aula: MTTD e MTTR com mediana, precisão dos alertas e cobertura ATT&amp;CK testada, comparados ao longo do tempo e explicados com contexto.</div>
+        <div class="ev"><b>Coletar na ordem certa</b>Servidor isolado e ligado; voláteis e memória antes do disco; registros remotos e <em>pcap</em> por último.</div>
+        <div class="ev"><b>Provar a integridade</b>Cinco <em>hashes</em> SHA-256 no formulário de custódia, lacre 0457 e conferência "OK" na entrega a M. Teixeira.</div>
+        <div class="ev"><b>Montar a linha do tempo</b>Seis fontes em UTC: login às 22:58:10, ConectaJá às 23:14:05, caso às 03:20, MTTD de 4 h 21 min 50 s.</div>
+        <div class="ev"><b>Fechar a lacuna</b>O SIEM não viu a saída; o Wireshark mostra 2,93 GB em um fluxo de 28 minutos para 198.51.100.77.</div>
+        <div class="resposta">Resposta à pergunta da aula: coletando da evidência mais volátil para a menos volátil, documentando cada item na cadeia de custódia com <em>hash</em> SHA-256 e montando uma linha do tempo normalizada em UTC, confirmada pelo tráfego de rede.</div>
       </div>
     </div>
   </section>
 
-  <!-- 18. Pontos-chave -->
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -368,40 +344,42 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Métricas devem apoiar decisões, e não apenas contar eventos.</li>
-          <li>MTTD, MTTR e <em>dwell time</em> medem velocidade; precisão e taxa de falsos positivos medem qualidade.</li>
-          <li>Cobertura ATT&amp;CK só tem valor quando é <strong>testada</strong> e focada nas técnicas priorizadas.</li>
-          <li>Modelos de maturidade, como os <em>tiers</em> do NIST CSF 2.0, orientam a evolução da capacidade.</li>
+          <li>A coleta segue a ordem de volatilidade da RFC 3227: memória antes do disco.</li>
+          <li>Isolar pela rede preserva evidências que desligar apagaria.</li>
+          <li>Cadeia de custódia e <em>hash</em> SHA-256 tornam a evidência confiável e verificável.</li>
+          <li>A linha do tempo exige normalizar todos os carimbos de tempo para UTC.</li>
+          <li>O tráfego de rede preenche as lacunas do SIEM, mesmo com conteúdo cifrado.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 19. Referências -->
+  <!-- 18. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>HUBBARD, Douglas W.; SEIERSEN, Richard. <em>How to measure anything in cybersecurity risk</em>. Hoboken: Wiley, 2016.</p>
-        <p>MANDIANT. <em>M-Trends 2024</em>: special report. Reston: Mandiant, 2024.</p>
-        <p>MITRE. <em>ATT&amp;CK Navigator</em>. Disponível em: &lt;https://mitre-attack.github.io/attack-navigator/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>The NIST cybersecurity framework (CSF) 2.0</em>. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.</p>
-        <p>RABOBANK CYBER DEFENCE CENTRE. <em>DeTT&amp;CT</em>: detect tactics, techniques &amp; combat threats. Disponível em: &lt;https://github.com/rabobank-cdc/DeTTECT&gt;. Acesso em: 13 nov. 2026.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <em>ABNT NBR ISO/IEC 27037</em>: tecnologia da informação: técnicas de segurança: diretrizes para identificação, coleta, aquisição e preservação de evidência digital. Rio de Janeiro: ABNT, 2013.</p>
+        <p>BEJTLICH, Richard. <em>The practice of network security monitoring</em>. San Francisco: No Starch Press, 2013.</p>
+        <p>BRASIL. Lei nº 13.964, de 24 de dezembro de 2019. Aperfeiçoa a legislação penal e processual penal. <em>Diário Oficial da União</em>, Brasília, DF, 24 dez. 2019.</p>
+        <p>BREZINSKI, Dominique; KILLALEA, Tom. <em>RFC 3227</em>: guidelines for evidence collection and archiving. [<em>S. l.</em>]: IETF, 2002.</p>
+        <p>KENT, Karen <em>et al</em>. <em>SP 800-86</em>: guide to integrating forensic techniques into incident response. Gaithersburg: NIST, 2006.</p>
+        <p>SANDERS, Chris; SMITH, Jason. <em>Applied network security monitoring</em>. Waltham: Syngress, 2013.</p>
       </div>
     </div>
   </section>
 
-  <!-- 20. Encerramento -->
+  <!-- 19. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Métricas mostram se o SOC melhora. Mas e as pessoas e as decisões em uma crise? Na próxima aula, vamos treinar com simulações.</p>
-      <p class="fim-proxima">Próxima aula: Aula 15 — Exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em>.</p>
+      <p class="fim-texto">Você já sabe coletar evidências na ordem de volatilidade, protegê-las com cadeia de custódia e <em>hash</em> e montar a linha do tempo de um incidente a partir de várias fontes.</p>
+      <p class="fim-proxima">Próxima aula: Aula 15 — Exercícios <em>purple team</em>: validação de detecções contra técnicas emuladas.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -411,258 +389,333 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- 3. Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['kafka', 'cep', 'edr', 'ident', 'lake'], alvo: 'siem', caminho: ['kafka', 'cep', 'siem'],
-  legenda: 'Onde a aula acontece: o SIEM do SOC (em vermelho), que recebe os alertas do motor CEP e do EDR. É dali que saem os números do relatório.' });
+/* ---------- 3. Mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'ad', 'edr', 'siem'], alvo: 'erp', caminho: ['net', 'vpn', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: a VPN, o AD e o SRV-ERP-01 (em vermelho), de onde os dados saíram, e o SOC que reúne as evidências.' });
 
-/* ---------- 4. Vaidade ou decisão ---------- */
-Labs.register('#lab-vaidade', (el) => {
-  const I = [
-    { t: '2 milhões de ataques bloqueados no ano', r: 'v', fb: 'Vaidade. Conta tentativas automatizadas que qualquer filtro barra e não diz nada sobre um adversário competente.' },
-    { t: 'MTTD mediano dos incidentes confirmados: 4 h (meta: até 6 h)', r: 'd', fb: 'Decisão. Tem meta, usa a mediana e, se piorar, leva a revisar regras, turnos ou automação da triagem.' },
-    { t: '1.450 regras de detecção ativas no SIEM', r: 'v', fb: 'Vaidade. Mais regras podem significar mais ruído. O que importa é quantas foram testadas contra técnicas priorizadas.' },
-    { t: 'Precisão dos alertas por regra, com as 5 piores destacadas', r: 'd', fb: 'Decisão. Aponta quais regras ajustar primeiro e combate a fadiga de alertas.' },
-    { t: '38 mil e-mails filtrados por dia no mx1.tatame.com.br', r: 'v', fb: 'Vaidade. Volume de filtragem descreve o tráfego, não a capacidade de detectar o e-mail que passou.' },
-    { t: 'Cobertura testada das técnicas priorizadas pela CTI: 72%', r: 'd', fb: 'Decisão. Liga a defesa às ameaças relevantes e mostra quais lacunas entram no próximo ciclo purple.' }
-  ];
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
-    <h4>Relatório trimestral de segurança · Rede Tatame · 6 indicadores</h4>
-    <div class="vd-list">${I.map((x, i) => `<div class="vd-item" data-i="${i}"><p>${x.t}</p><div class="bt"><button class="lab-btn ghost" data-a="v">Vaidade</button><button class="lab-btn blue" data-a="d">Decisão</button></div><div class="fb"></div></div>`).join('')}</div>
-    <div class="lab-grid2"><div class="lab-kpi green"><small>Acertos</small><b id="k-ok">0 de 6</b></div><div class="lab-kpi amber"><small>Indicadores de decisão no relatório</small><b>3 de 6</b></div></div>
-  </div>`;
-  let ok = 0;
-  el.querySelectorAll('.vd-item').forEach((card) => {
-    card.addEventListener('click', (e) => {
-      const b = e.target.closest('button'); if (!b || card.dataset.done) return;
-      const x = I[+card.dataset.i], certo = b.dataset.a === x.r;
-      card.dataset.done = 1; card.classList.add(certo ? 'ok' : 'bad');
-      card.querySelector('.fb').textContent = (certo ? 'Correto. ' : 'Não exatamente. ') + x.fb;
-      card.querySelectorAll('button').forEach((bb) => (bb.disabled = true));
-      if (certo) ok++;
-      el.querySelector('#k-ok').textContent = ok + ' de 6';
-    });
-  });
+/* ---------- 6. Fluxo: do alerta ao lacre ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'soc', x: 110, y: 80, label: 'Caso aberto', sub: '03:20 · Luiza Ferraz', icon: '🛡️', k: 'blue' },
+    { id: 'iso', x: 330, y: 80, label: 'Isolar pelo EDR', sub: '03:41 · segue ligado', icon: '🔒', k: 'green' },
+    { id: 'vol', x: 560, y: 80, label: 'Voláteis', sub: 'processos, conexões', icon: '⚡' },
+    { id: 'mem', x: 790, y: 80, label: 'Memória RAM', sub: '32 GB · 03:58', icon: '🧠' },
+    { id: 'disco', x: 1005, y: 80, label: 'Disco', sub: 'imagem E01 · 05:30', icon: '💽' },
+    { id: 'logs', x: 1005, y: 240, label: 'Registros remotos', sub: 'SIEM e sensor · 06:12', icon: '📡', w: 180 },
+    { id: 'hash', x: 790, y: 240, label: 'Hash SHA-256', sub: 'de cada arquivo', icon: '#️⃣', k: 'purple' },
+    { id: 'cust', x: 560, y: 240, label: 'Cadeia de custódia', sub: 'formulário · lacre 0457', icon: '📋', k: 'purple', w: 190 },
+    { id: 'perita', x: 330, y: 240, label: 'M. Teixeira', sub: 'perita · 09:10', icon: '🔬', k: 'green' },
+    { id: 'desl', x: 110, y: 370, label: 'Desligar', sub: 'o atalho errado', icon: '🔌', k: 'amber' }
+  ],
+  links: [
+    { from: 'soc', to: 'iso' }, { from: 'iso', to: 'vol' }, { from: 'vol', to: 'mem' }, { from: 'mem', to: 'disco' },
+    { from: 'disco', to: 'logs' }, { from: 'logs', to: 'hash' }, { from: 'hash', to: 'cust' }, { from: 'cust', to: 'perita' },
+    { from: 'soc', to: 'desl', dashed: true }
+  ],
+  steps: [
+    { title: '03:20 · O caso é aberto', text: 'Luiza Ferraz confirma o alerta da R8: o ConectaJá foi instalado no SRV-ERP-01 com a conta caio.mendes. O incidente INC-2026-1202-01 é declarado e a primeira decisão é como parar o dano sem perder a prova.', on: ['soc'] },
+    { title: 'O atalho errado · Desligar da tomada', text: 'Desligar o servidor interrompe a saída de dados, mas apaga a memória: o processo do ConectaJá, as conexões abertas com 198.51.100.77 e as chaves de sessão somem. Por isso o playbook manda isolar, e não desligar.', on: ['soc', 'desl'], bad: ['desl'], links: [['soc', 'desl', 'amber']], dim: true },
+    { title: '03:41 · Isolar pela rede', text: 'O EDR corta todas as conexões do SRV-ERP-01, menos o canal com o próprio console. O servidor continua ligado, e a memória continua lá.', on: ['soc', 'iso'], links: [['soc', 'iso', 'green']] },
+    { title: '03:46 · Primeiro o mais volátil', text: 'Pelo canal do EDR, Luiza coleta a lista de processos, as conexões de rede, a tabela de rotas e o cache ARP. São os dados que mudam a cada segundo (nível 2 da RFC 3227).', on: ['iso', 'vol'], links: [['iso', 'vol', 'blue']] },
+    { title: '03:58 · Memória RAM', text: 'A cópia dos 32 GB de memória termina às 03:58. Nela podem estar o processo do ConectaJá, os endereços que ele usava e trechos de comandos.', on: ['vol', 'mem'], links: [['vol', 'mem', 'blue']] },
+    { title: '05:30 · Imagem do disco', text: 'Só depois vem a imagem forense do volume de 512 GB, no formato E01, que guarda o conteúdo e metadados de aquisição. O disco muda devagar e pode esperar a memória.', on: ['mem', 'disco'], links: [['mem', 'disco', 'blue']] },
+    { title: '06:12 · Registros remotos', text: 'A exportação dos registros do SIEM, da VPN, do AD e do EDR, e o pcap do sensor de rede com o tráfego para 198.51.100.77. Estão fora do servidor, por isso não se perdem com ele.', on: ['disco', 'logs'], links: [['disco', 'logs', 'blue']] },
+    { title: 'Hash de cada arquivo', text: 'Cada arquivo recebe o seu hash SHA-256 no momento da coleta. Esse valor vai para o formulário e será conferido de novo em cada entrega.', on: ['logs', 'hash'], links: [['logs', 'hash', 'purple']] },
+    { title: 'Cadeia de custódia', text: 'O formulário registra o quê, quem, quando, como e onde de cada item. O disco externo com as cópias vai em embalagem com o lacre 0457.', on: ['hash', 'cust'], links: [['hash', 'cust', 'purple']] },
+    { title: '09:10 · Entrega à perita', text: 'M. Teixeira recebe o lacre 0457 intacto, confere os cinco hashes e assina a transferência. A partir daqui, a análise trabalha sobre cópias.', on: ['cust', 'perita'], links: [['cust', 'perita', 'green']] }
+  ]
 });
 
-/* ---------- 6. VS Code: média x mediana ---------- */
+/* ---------- 8. Terminal: hashes e cadeia de custódia ---------- */
+Labs.terminal('#lab-term', {
+  title: 'luiza.ferraz@NB-SOC-004: ~/INC-2026-1202-01', prompt: 'luiza.ferraz@NB-SOC-004:~/INC-2026-1202-01$ ',
+  steps: [
+    { cmd: 'ls -l evidencias/', note: 'Os horários mostram a ordem de volatilidade: voláteis e memória primeiro, disco depois, registros remotos por último.', out: [
+      'total 243681548',
+      '-r--r----- 1 luiza.ferraz ir      1284331 dez  2 03:46 01_volateis_SRV-ERP-01.txt',
+      '-r--r----- 1 luiza.ferraz ir  34359738368 dez  2 03:58 02_memoria_SRV-ERP-01.raw',
+      '-r--r----- 1 luiza.ferraz ir 211839447040 dez  2 05:30 03_disco_SRV-ERP-01.E01',
+      '-r--r----- 1 luiza.ferraz ir   3104553812 dez  2 06:05 04_sensor_2026-12-02.pcap',
+      '-r--r----- 1 luiza.ferraz ir     48213990 dez  2 06:12 05_registros_siem_vpn_ad_edr.zip' ] },
+    { cmd: 'sha256sum evidencias/* | tee evidencias.sha256', note: 'O hash de cada arquivo é calculado e guardado em um arquivo próprio, que vai junto com o formulário.', out: [
+      '3d5a5d7b348c0a0eb0510ff4b12ea0b22002b9654032ab438aedcf0d38d10c7d  evidencias/01_volateis_SRV-ERP-01.txt',
+      '2f97a5f0bfd9a835ae49eb04350a28b992eac188d1cdebf88db02e2117947e16  evidencias/02_memoria_SRV-ERP-01.raw',
+      '6515d18a2239067d6eedb0f0f37721f5d9823cf056fe75e1cb496921e5608a42  evidencias/03_disco_SRV-ERP-01.E01',
+      '982a7a63d79ad01cfc7d18c087f82ada790b361cae5a414cfbdce24b7e7ff11f  evidencias/04_sensor_2026-12-02.pcap',
+      '0a665d1a033515f2859042488b5199f05441dd9694ab0ed91641a2d200934e75  evidencias/05_registros_siem_vpn_ad_edr.zip' ] },
+    { cmd: 'column -s, -t cadeia_custodia.csv', note: 'O formulário de custódia: o quê, quem, quando e como, com o hash abreviado. Onde: todos no disco externo com o lacre 0457.', out: [
+      'item  descricao            quem      data_hora         metodo            sha256',
+      'EV-1  volateis SRV-ERP-01  L.Ferraz  2026-12-02 03:46  coleta via EDR    3d5a5d7b…38d10c7d',
+      'EV-2  memoria RAM 32 GB    L.Ferraz  2026-12-02 03:58  coleta via EDR    2f97a5f0…17947e16',
+      'EV-3  disco 512 GB (E01)   L.Ferraz  2026-12-02 05:30  imagem forense    6515d18a…e5608a42',
+      'EV-4  pcap do sensor       L.Ferraz  2026-12-02 06:05  export. sensor    982a7a63…7e7ff11f',
+      'EV-5  registros SIEM       L.Ferraz  2026-12-02 06:12  export. SIEM      0a665d1a…00934e75' ] },
+    { cmd: "printf 'INC-2026-1202-01' | sha256sum", note: 'Um teste para ver o hash funcionando: o texto com o número do caso.', out: [
+      '63812a9387dac748923fc4355fd8b361a0f09385794a36b52ba6c5cfdc79b9c6  -' ] },
+    { cmd: "printf 'INC-2026-1202-02' | sha256sum", note: 'Só o último caractere mudou, e o hash é completamente outro.', out: [
+      'ad69f2c9f99c5eebb94fb8a7105e3febe56b4d7e3ca943b72294920826b868ea  -',
+      '[warn]Um caractere diferente produz outro hash: qualquer alteração na evidência aparece na conferência.' ] },
+    { cmd: 'echo "EV-1..EV-5,entregue a M. Teixeira,2026-12-02 09:10,lacre 0457 intacto" >> cadeia_custodia.csv', note: 'A transferência vira uma linha nova no formulário. Nada é apagado ou sobrescrito.', out: [] },
+    { cmd: 'sha256sum -c evidencias.sha256', note: 'Na entrega, a perita recalcula os hashes e compara com os da coleta.', out: [
+      '[ok]evidencias/01_volateis_SRV-ERP-01.txt: OK', '[ok]evidencias/02_memoria_SRV-ERP-01.raw: OK', '[ok]evidencias/03_disco_SRV-ERP-01.E01: OK',
+      '[ok]evidencias/04_sensor_2026-12-02.pcap: OK', '[ok]evidencias/05_registros_siem_vpn_ad_edr.zip: OK' ] }
+  ],
+  done: 'Roteiro concluído: as cinco evidências entregues são idênticas às coletadas.'
+});
+
+/* ---------- 11. VS Code: linha do tempo ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'metricas-soc', team: 'blue', status: 'Python 3.12', open: 'metricas.py', typeOnEnter: true,
+  folder: 'INC-2026-1202-01', team: 'blue', status: 'Python 3.12', open: 'fontes/vpn_netguard.csv', panelHeight: '42%',
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
     { cmd: 'source .venv/bin/activate', out: [], venv: true },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting tzdata==2026.6 (from -r requirements.txt (line 2))',
+      '  Downloading tzdata-2026.6-py2.py3-none-any.whl (348 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 348.2/348.2 kB 6.1 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: tzdata',
+      '[ok] Successfully installed tzdata-2026.6' ] },
     { cmd: 'pip list', out: [
       'Package Version',
       '------- -------',
-      'pip     24.2' ] },
-    { cmd: 'python -c "import sys; print(\'statistics\' in sys.stdlib_module_names)"', out: ['[ok] True'] }
+      'pip     24.2',
+      'tzdata  2026.6' ] }
   ],
   files: [
-    { path: 'marcos.yaml', code:
-`# Definição dos marcos: todos os analistas registram do mesmo jeito
-inicio_atividade: primeiro evento malicioso confirmado na investigação
-deteccao: abertura do caso no sistema de casos (não o horário do alerta bruto)
-contencao: host isolado ou conta bloqueada, registrado no caso
-unidade: horas
-revisao: cada caso é conferido pela coordenação antes de entrar no painel`},
-    { path: 'dados/incidentes_2026T2.csv', hl: [8], code:
-`id,inicio_atividade,deteccao,contencao,resumo
-INC-01,2026-04-03 08:10,2026-04-03 12:10,2026-04-03 14:10,phishing com link para o financeiro
-INC-02,2026-04-11 14:25,2026-04-11 17:25,2026-04-11 19:25,credential stuffing no app.tatame.com.br
-INC-03,2026-04-19 09:40,2026-04-19 14:40,2026-04-19 16:40,leitura de fichas de outros alunos na API (BOLA)
-INC-04,2026-04-28 22:05,2026-04-29 00:05,2026-04-29 02:05,catraca da academia 117 com firmware não assinado
-INC-05,2026-05-06 10:30,2026-05-06 16:30,2026-05-06 18:30,login sem MFA na VPN com senha vazada
-INC-06,2026-05-14 16:50,2026-05-14 20:50,2026-05-14 22:50,acesso a domínio recém-registrado após e-mail
-INC-07,2026-05-22 07:15,2026-05-22 10:15,2026-08-20 10:15,conta de filiado no portal de gestão (caso esquecido)
-INC-08,2026-06-02 13:00,2026-06-02 18:00,2026-06-02 20:00,varredura no hml-gestao fora do inventário
-INC-09,2026-06-15 11:20,2026-06-15 15:20,2026-06-15 17:20,ferramenta de acesso remoto não aprovada em NB-FIN-031
-INC-10,2026-06-24 18:45,2026-06-24 22:45,2026-06-25 00:45,consulta em massa ao AD fora da janela de manutenção`},
-    { path: 'metricas.py', hl: [16, 17, 21, 22], code:
-`"""MTTD e MTTR do trimestre: média e mediana, lado a lado."""
+    { path: 'requirements.txt', code:
+`# Pacotes de terceiros (csv, json, datetime e zoneinfo vêm com o Python)
+tzdata==2026.6`},
+    { path: 'fontes/vpn_netguard.csv', hl: [2], code:
+`data_hora_utc,usuario,ip_origem,evento,detalhe
+2026-12-02T01:58:10Z,caio.mendes,198.51.100.77,login_ok,MFA por push aprovado na 6ª solicitação`},
+    { path: 'fontes/ad_4624.json', hl: [2], code:
+`[
+  {"TimeCreated": "2026-12-01T23:06:42-03:00", "EventID": 4624, "LogonType": 10,
+   "TargetUserName": "caio.mendes", "Computer": "SRV-ERP-01", "IpAddress": "10.10.200.15"}
+]`},
+    { path: 'fontes/edr_srv-erp-01.jsonl', code:
+`{"ts": "2026-12-02T02:14:05Z", "host": "SRV-ERP-01", "evento": "processo_criado", "detalhe": "ConectaJa_setup.exe por caio.mendes"}
+{"ts": "2026-12-02T02:14:40Z", "host": "SRV-ERP-01", "evento": "alerta", "detalhe": "R8 ferramenta de acesso remoto não aprovada (alta)"}
+{"ts": "2026-12-02T06:41:00Z", "host": "SRV-ERP-01", "evento": "host_isolado", "detalhe": "isolado pela rede, ligado (luiza.ferraz)"}`},
+    { path: 'fontes/proxy_dns.csv', hl: [1], code:
+`data_hora_local,host,destino,porta
+2026-12-02 02:10:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:15:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:20:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:25:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:30:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:35:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:40:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:45:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:50:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 02:55:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:00:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:05:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:10:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:15:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:20:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:25:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:30:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:35:00,SRV-ERP-01,198.51.100.77,443
+2026-12-02 03:40:00,SRV-ERP-01,198.51.100.77,443`},
+    { path: 'fontes/sensor_conn.log', hl: [2], code:
+`#fields\tts\tid.orig_h\tid.resp_h\tid.resp_p\tduration\torig_bytes
+1796189820\t10.10.1.30\t198.51.100.77\t443\t1680\t2800000000`},
+    { path: 'fontes/soc_casos.csv', code:
+`data_hora,caso,evento,responsavel
+2026-12-02T03:20:00-03:00,INC-2026-1202-01,caso_aberto,luiza.ferraz`},
+    { path: 'linha_do_tempo.py', hl: [11, 12, 13, 14, 15, 16, 20, 21], code:
+`"""Monta a linha do tempo do INC-2026-1202-01 a partir de seis fontes, tudo em UTC."""
 import csv
+import json
 import sys
-from datetime import datetime
-from statistics import mean, median
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
-FMT = "%Y-%m-%d %H:%M"
-arquivo = sys.argv[1] if len(sys.argv) > 1 else "dados/incidentes_2026T2.csv"
+BRT = ZoneInfo("America/Sao_Paulo")
+SEM_FUSO = "--sem-fuso" in sys.argv          # simula o erro comum: ler a VPN como hora local
 
-def horas(inicio, fim):
-    delta = datetime.strptime(fim, FMT) - datetime.strptime(inicio, FMT)
-    return delta.total_seconds() / 3600
+def utc(texto: str, fuso_padrao=BRT) -> datetime:
+    """Converte qualquer carimbo de tempo para UTC; sem fuso explícito, usa o da fonte."""
+    dt = datetime.fromisoformat(texto.replace("Z", "+00:00"))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=fuso_padrao)
+    return dt.astimezone(timezone.utc)
 
-ttd, ttr = [], []
-for inc in csv.DictReader(open(arquivo, encoding="utf-8")):
-    ttd.append(horas(inc["inicio_atividade"], inc["deteccao"]))  # marco: início -> detecção
-    ttr.append(horas(inc["deteccao"], inc["contencao"]))         # marco: detecção -> contenção
-    print(f"{inc['id']}  detectar {ttd[-1]:6.1f} h   conter {ttr[-1]:7.1f} h")
+eventos = []                                   # (instante UTC, fonte, descrição)
+for r in csv.DictReader(open("fontes/vpn_netguard.csv", encoding="utf-8")):
+    ts = r["data_hora_utc"].replace("Z", "") if SEM_FUSO else r["data_hora_utc"]
+    eventos.append((utc(ts), "vpn", f"{r['evento']} {r['usuario']} de {r['ip_origem']} ({r['detalhe']})"))
+for r in json.load(open("fontes/ad_4624.json", encoding="utf-8")):
+    eventos.append((utc(r["TimeCreated"]), "ad", f"{r['EventID']} tipo {r['LogonType']} {r['TargetUserName']} -> {r['Computer']}"))
+for linha in open("fontes/edr_srv-erp-01.jsonl", encoding="utf-8"):
+    r = json.loads(linha)
+    eventos.append((utc(r["ts"]), "edr", f"{r['evento']}: {r['detalhe']}"))
+conexoes = [utc(r["data_hora_local"]) for r in csv.DictReader(open("fontes/proxy_dns.csv", encoding="utf-8"))]
+passo = {int((b - a).total_seconds()) for a, b in zip(conexoes, conexoes[1:])}
+eventos.append((conexoes[0], "proxy", f"{len(conexoes)} conexões a 198.51.100.77:443 até "
+                f"{conexoes[-1].astimezone(BRT):%H:%M}, a cada {passo.pop()} s"))
+for linha in open("fontes/sensor_conn.log", encoding="utf-8"):
+    if linha.startswith("#"):
+        continue
+    ts, orig, resp, porta, dur, nbytes = linha.split("\\t")
+    saida_ini, saida_dur, saida_gb = datetime.fromtimestamp(int(ts), timezone.utc), int(dur), int(nbytes) / 1e9
+    eventos.append((saida_ini, "sensor", f"{orig} -> {resp}:{porta} enviou {saida_gb:.2f} GB em {saida_dur} s"))
+for r in csv.DictReader(open("fontes/soc_casos.csv", encoding="utf-8")):
+    eventos.append((utc(r["data_hora"]), "soc", f"{r['evento']} {r['caso']} ({r['responsavel']})"))
 
-print(f"\\n{len(ttd)} incidentes")
-print(f"MTTD  média {mean(ttd):6.1f} h   mediana {median(ttd):5.1f} h")
-print(f"MTTR  média {mean(ttr):6.1f} h   mediana {median(ttr):5.1f} h")
-pior = max(ttr)
-print(f"Maior tempo de contenção: {pior:.0f} h ({pior / 24:.0f} dias)")`}
+eventos.sort()
+print(f"{'Brasília':<16}{'UTC':<22}{'fonte':<8}evento")
+for t, fonte, txt in eventos:
+    print(f"{t.astimezone(BRT):%d/%m %H:%M:%S}  {t:%Y-%m-%d %H:%M:%SZ}  {fonte:<7} {txt}")
+
+quando = {f: t for t, f, _ in reversed(eventos)}  # primeiro registro de cada fonte
+if quando["vpn"] > quando["ad"]:
+    print("[ALERTA] o RDP vindo da VPN aparece antes do login na VPN: confira o fuso das fontes")
+if "--intervalos" in sys.argv:
+    alerta = next(t for t, f, x in eventos if x.startswith("alerta"))
+    isolado = next(t for t, f, x in eventos if x.startswith("host_isolado"))
+    linha = lambda rotulo, d: print(f"{rotulo:<36}{str(d):>8}")
+    linha("login VPN -> RDP no SRV-ERP-01", quando["ad"] - quando["vpn"])
+    linha("login VPN -> ConectaJá instalado", quando["edr"] - quando["vpn"])
+    linha("alerta R8 -> triagem (caso aberto)", quando["soc"] - alerta)
+    linha("MTTD: 1º evento -> caso aberto", quando["soc"] - eventos[0][0])
+    linha("MTTR: caso aberto -> contenção", isolado - quando["soc"])
+    print(f"saída de dados: {saida_gb:.1f} GB em {timedelta(seconds=saida_dur)} = "
+          f"{saida_gb * 1000 / saida_dur:.2f} MB/s")`}
   ],
   run: [
-    { label: 'Calcular o trimestre', kind: 'blue', cmd: 'python metricas.py', file: 'metricas.py', out: [
-      'INC-01  detectar    4.0 h   conter     2.0 h',
-      'INC-02  detectar    3.0 h   conter     2.0 h',
-      'INC-03  detectar    5.0 h   conter     2.0 h',
-      'INC-04  detectar    2.0 h   conter     2.0 h',
-      'INC-05  detectar    6.0 h   conter     2.0 h',
-      'INC-06  detectar    4.0 h   conter     2.0 h',
-      '[err] INC-07  detectar    3.0 h   conter  2160.0 h',
-      'INC-08  detectar    5.0 h   conter     2.0 h',
-      'INC-09  detectar    4.0 h   conter     2.0 h',
-      'INC-10  detectar    4.0 h   conter     2.0 h',
-      '', '10 incidentes',
-      '[ok] MTTD  média    4.0 h   mediana   4.0 h',
-      '[warn] MTTR  média  217.8 h   mediana   2.0 h',
-      '[err] Maior tempo de contenção: 2160 h (90 dias)',
-      '[info] Sem valor extremo, média e mediana coincidem (MTTD). Com um caso de 90 dias, a média do MTTR vai a 217,8 h: (9 × 2 + 2160) ÷ 10.',
-      '[info] Reporte as duas e trate o INC-07 à parte: por que ele ficou esquecido?' ] }
+    { label: 'Montar a linha do tempo', cmd: 'python linha_do_tempo.py', file: 'linha_do_tempo.py', out: [
+      '[hi]Brasília        UTC                   fonte   evento',
+      '01/12 22:58:10  2026-12-02 01:58:10Z  vpn     login_ok caio.mendes de 198.51.100.77 (MFA por push aprovado na 6ª solicitação)',
+      '01/12 23:06:42  2026-12-02 02:06:42Z  ad      4624 tipo 10 caio.mendes -> SRV-ERP-01',
+      '01/12 23:14:05  2026-12-02 02:14:05Z  edr     processo_criado: ConectaJa_setup.exe por caio.mendes',
+      '[warn]01/12 23:14:40  2026-12-02 02:14:40Z  edr     alerta: R8 ferramenta de acesso remoto não aprovada (alta)',
+      '02/12 02:10:00  2026-12-02 05:10:00Z  proxy   19 conexões a 198.51.100.77:443 até 03:40, a cada 300 s',
+      '[err]02/12 02:37:00  2026-12-02 05:37:00Z  sensor  10.10.1.30 -> 198.51.100.77:443 enviou 2.80 GB em 1680 s',
+      '02/12 03:20:00  2026-12-02 06:20:00Z  soc     caso_aberto INC-2026-1202-01 (luiza.ferraz)',
+      '[ok]02/12 03:41:00  2026-12-02 06:41:00Z  edr     host_isolado: isolado pela rede, ligado (luiza.ferraz)' ] },
+    { label: 'Sem o fuso (erro comum)', kind: 'red', cmd: 'python linha_do_tempo.py --sem-fuso', file: 'fontes/vpn_netguard.csv', out: [
+      '[hi]Brasília        UTC                   fonte   evento',
+      '01/12 23:06:42  2026-12-02 02:06:42Z  ad      4624 tipo 10 caio.mendes -> SRV-ERP-01',
+      '01/12 23:14:05  2026-12-02 02:14:05Z  edr     processo_criado: ConectaJa_setup.exe por caio.mendes',
+      '01/12 23:14:40  2026-12-02 02:14:40Z  edr     alerta: R8 ferramenta de acesso remoto não aprovada (alta)',
+      '[err]02/12 01:58:10  2026-12-02 04:58:10Z  vpn     login_ok caio.mendes de 198.51.100.77 (MFA por push aprovado na 6ª solicitação)',
+      '02/12 02:10:00  2026-12-02 05:10:00Z  proxy   19 conexões a 198.51.100.77:443 até 03:40, a cada 300 s',
+      '02/12 02:37:00  2026-12-02 05:37:00Z  sensor  10.10.1.30 -> 198.51.100.77:443 enviou 2.80 GB em 1680 s',
+      '02/12 03:20:00  2026-12-02 06:20:00Z  soc     caso_aberto INC-2026-1202-01 (luiza.ferraz)',
+      '02/12 03:41:00  2026-12-02 06:41:00Z  edr     host_isolado: isolado pela rede, ligado (luiza.ferraz)',
+      '[err][ALERTA] o RDP vindo da VPN aparece antes do login na VPN: confira o fuso das fontes' ] },
+    { label: 'Calcular intervalos', kind: 'blue', cmd: 'python linha_do_tempo.py --intervalos', file: 'linha_do_tempo.py', out: [
+      '[mute](as 9 linhas da linha do tempo, iguais às da primeira execução)',
+      'login VPN -> RDP no SRV-ERP-01       0:08:32',
+      'login VPN -> ConectaJá instalado     0:15:55',
+      '[warn]alerta R8 -> triagem (caso aberto)   4:05:20',
+      '[hi]MTTD: 1º evento -> caso aberto       4:21:50',
+      '[hi]MTTR: caso aberto -> contenção       0:21:00',
+      'saída de dados: 2.8 GB em 0:28:00 = 1.67 MB/s' ] }
   ]
 });
 
-/* ---------- 9. Mapa de calor ATT&CK ---------- */
-Labs.register('#lab-heat', (el) => {
-  const COLS = [
-    ['Acesso inicial', [['T1566.001', 'Anexo de spear-phishing', 0, 3], ['T1566.002', 'Link de spear-phishing', 1, 3, 3, '1 de 2 procedimentos'], ['T1078', 'Contas válidas', 1, 3, 4, '1 de 2 procedimentos'], ['T1133', 'Serviços remotos externos', 0, 2]]],
-    ['Execução', [['T1059.001', 'PowerShell', 1, 4, 3, '2 de 3 procedimentos'], ['T1204.002', 'Arquivo malicioso', 0, 3]]],
-    ['Persis&shy;tência', [['T1053.005', 'Tarefa agendada', 1, 4, 4, '2 de 2 procedimentos'], ['T1547.001', 'Chaves Run do registro', 0, 3]]],
-    ['Credenciais', [['T1110.003', 'Pulverização de senhas', 1, 3, 3, '1 de 1 procedimento']]],
-    ['Enfraq. de defe&shy;sas', [['T1685', 'Desativar ou modificar ferramentas', 0, 2], ['T1685.005', 'Limpar logs de eventos', 0, 3]]],
-    ['Descoberta', [['T1082', 'Informações do sistema', 0, 1], ['T1087.002', 'Contas de domínio', 1, 3, 2, '1 de 3 procedimentos'], ['T1018', 'Sistemas remotos', 0, 2]]],
-    ['Mov. lateral', [['T1021.001', 'RDP', 1, 4, 4, '1 de 1 procedimento'], ['T1021.002', 'Compartilh. admin.', 0, 3]]],
-    ['Exfiltração', [['T1567.002', 'Para armaze&shy;namento em nuvem', 1, 2, 2, '1 de 2 procedimentos'], ['T1048', 'Protocolo alternativo', 0, 1]]],
-    ['Impacto', [['T1490', 'Inibir recuperação', 1, 3, 4, '2 de 2 procedimentos'], ['T1486', 'Criptografia para impacto', 1, 4, 4, '1 de 1 procedimento']]]
-  ];
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
-    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap"><h4 style="margin:0;flex:1">Layer: técnicas priorizadas · Rede Tatame</h4>
-      <div class="lab-chiprow"><button class="lab-chip is-on" data-v="regra">Existe regra</button><button class="lab-chip" data-v="teste">Cobertura testada</button></div></div>
-    <div class="hm">${COLS.map(([tat, ts], c) => `<div class="col"><h5>${tat}</h5>${ts.map((t, r) => `<button data-c="${c}" data-r="${r}">${t[0]}<small>${t[1]}</small></button>`).join('')}</div>`).join('')}</div>
-    <div class="hm-det">Clique em uma técnica para ver os detalhes.</div>
-    <div class="lab-grid3"><div class="lab-kpi green"><small>Cobertura exibida</small><b id="k-cob">20/20 = 100%</b></div><div class="lab-kpi"><small>Técnicas priorizadas</small><b>20</b></div><div class="lab-kpi amber"><small>Hipóteses (nunca testadas)</small><b id="k-hip">?</b></div></div>
-  </div>`;
-  let view = 'regra';
-  const btns = [...el.querySelectorAll('.hm button')], det = el.querySelector('.hm-det');
-  function paint() {
-    let ok = 0;
-    btns.forEach((b) => {
-      const t = COLS[+b.dataset.c][1][+b.dataset.r];
-      const cls = view === 'regra' ? 'g' : t[2] ? 'g' : 'n';
-      b.className = cls + (b.classList.contains('sel') ? ' sel' : '');
-      if (cls === 'g') ok++;
-    });
-    el.querySelector('#k-cob').textContent = ok + '/20 = ' + Math.round(ok / 20 * 100) + '%';
-    el.querySelector('#k-hip').textContent = view === 'regra' ? '?' : String(20 - ok);
-    el.querySelectorAll('.lab-chip').forEach((c) => c.classList.toggle('is-on', c.dataset.v === view));
+/* ---------- 14. Wireshark simulado ---------- */
+Labs.register('#lab-wsk', (el) => {
+  const pad = (n) => String(n).padStart(2, '0');
+  // 19 beacons a cada 300 s (05:10Z a 06:40Z) e o Client Hello do fluxo 6 às 05:37Z
+  const hello = [];
+  for (let k = 0; k < 19; k++) {
+    const m = 10 + k * 5;
+    // o número do pacote segue a ordem da captura: durante o fluxo 6 (05:37 a 06:05) passam ~2,9 milhões de pacotes
+    const n = m < 37 ? 18231 + 1903 * k : m < 65 ? 79931 + Math.round((m - 37) * 60 / 1680 * 2900560) + 3 * k : 2980600 + 1903 * (m - 65) / 5;
+    hello.push({ t: pad(5 + Math.floor(m / 60)) + ':' + pad(m % 60) + ':00.412', n, p: k < 6 ? 52101 + 16 * k : 52197 + 16 * (k - 6), d: k === 0 ? '0.000000' : '300.000000' });
   }
-  el.querySelectorAll('.lab-chip').forEach((c) => c.addEventListener('click', () => { view = c.dataset.v; paint(); }));
-  btns.forEach((b) => b.addEventListener('click', () => {
-    btns.forEach((x) => x.classList.remove('sel')); b.classList.add('sel');
-    const [id, nome, testada, vis, dt, proc] = COLS[+b.dataset.c][1][+b.dataset.r];
-    det.innerHTML = `<b>${id} · ${nome}</b><br>Regra no SIEM: sim · Visibilidade: ${vis}/4 · ` +
-      (testada ? `Detecção validada em ciclo purple: ${dt}/5 · Procedimentos detectados: ${proc}.` : `<span style="color:#F2CB0A">Nunca testada: a detecção é uma hipótese.</span> Entra na fila do próximo ciclo.`);
-    paint();
-  }));
-  paint();
+  hello.splice(6, 0, { t: '05:37:00.207', n: 79931, p: 52190, d: '119.795000', big: true });
+  hello[7].d = '180.205000';
+  const V = {
+    a: { f: 'ip.addr == 198.51.100.77', exib: '2,900,829', rows: [
+      ['18228', '05:10:00.391', '10.10.1.30', '198.51.100.77', 'TCP', '74', '52101 → 443 [SYN] Seq=0 Win=64240 Len=0', 'tcp'],
+      ['18229', '05:10:00.402', '198.51.100.77', '10.10.1.30', 'TCP', '74', '443 → 52101 [SYN, ACK] Seq=0 Ack=1 Win=65160 Len=0', 'tcp'],
+      ['18230', '05:10:00.402', '10.10.1.30', '198.51.100.77', 'TCP', '66', '52101 → 443 [ACK] Seq=1 Ack=1 Win=64256 Len=0', 'tcp'],
+      ['18231', '05:10:00.412', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '583', 'Client Hello', 'tls'],
+      ['18232', '05:10:00.424', '198.51.100.77', '10.10.1.30', 'TLSv1.3', '1514', 'Server Hello, Change Cipher Spec, Application Data', 'tls'],
+      ['18236', '05:10:00.437', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '412', 'Application Data', 'tls'],
+      ['18237', '05:10:00.449', '198.51.100.77', '10.10.1.30', 'TLSv1.3', '157', 'Application Data', 'tls'],
+      ['18240', '05:10:00.463', '10.10.1.30', '198.51.100.77', 'TCP', '66', '52101 → 443 [FIN, ACK] Seq=1872 Ack=2310 Len=0', 'tcp'],
+      ['20131', '05:15:00.388', '10.10.1.30', '198.51.100.77', 'TCP', '74', '52117 → 443 [SYN] Seq=0 Win=64240 Len=0', 'tcp'],
+      ['20134', '05:15:00.409', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '583', 'Client Hello', 'tls'],
+      ['…', '', '', '', '', '', '(o mesmo padrão a cada 5 minutos)', ''],
+      ['79931', '05:37:00.207', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '583', 'Client Hello', 'big'],
+      ['79937', '05:37:00.251', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '1514', 'Application Data', 'big'],
+      ['79938', '05:37:00.251', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '1514', 'Application Data', 'big'],
+      ['…', '', '', '', '', '', '(mais 1.933.698 pacotes de 1514 bytes nos 28 minutos seguintes)', '']
+    ], note: 'Toda a conversa com 198.51.100.77: 2.900.829 pacotes de 4.812.337 da captura. As primeiras linhas mostram um ciclo curto do beacon (abre, troca poucos bytes, fecha); às 05:37Z começa algo diferente.' },
+    b: { f: 'ip.addr == 198.51.100.77 && tls.handshake.type == 1', exib: '20', cols: 'delta', note: 'Só os Client Hello, com a coluna personalizada "Delta" (tempo desde o pacote exibido anterior). Quase todos chegam a 300 s um do outro: o beacon do ConectaJá. A linha em vermelho, às 05:37Z, abre o fluxo 6, fora do ritmo.' },
+    c: { f: 'tcp.stream eq 6', exib: '2,900,563', rows: [
+      ['79928', '05:37:00.181', '10.10.1.30', '198.51.100.77', 'TCP', '74', '52190 → 443 [SYN] Seq=0 Win=64240 Len=0', 'tcp'],
+      ['79929', '05:37:00.193', '198.51.100.77', '10.10.1.30', 'TCP', '74', '443 → 52190 [SYN, ACK] Seq=0 Ack=1 Win=65160 Len=0', 'tcp'],
+      ['79931', '05:37:00.207', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '583', 'Client Hello', 'tls'],
+      ['79937', '05:37:00.251', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '1514', 'Application Data', 'big'],
+      ['79938', '05:37:00.251', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '1514', 'Application Data', 'big'],
+      ['79939', '05:37:00.263', '198.51.100.77', '10.10.1.30', 'TCP', '66', '443 → 52190 [ACK] Seq=4135 Ack=3473 Len=0', 'tcp'],
+      ['…', '', '', '', '', '', '(1.933.702 pacotes de dados e 966.851 confirmações)', ''],
+      ['2980488', '06:05:00.144', '10.10.1.30', '198.51.100.77', 'TLSv1.3', '1514', 'Application Data', 'big'],
+      ['2980491', '06:05:00.161', '10.10.1.30', '198.51.100.77', 'TCP', '66', '52190 → 443 [FIN, ACK]', 'tcp']
+    ], note: 'O fluxo 6 começa às 05:37:00Z (02:37 em Brasília) e termina às 06:05:00Z (03:05): 1.680 s. Quase só pacotes cheios saindo de 10.10.1.30, o SRV-ERP-01. É a saída de dados.' },
+    d: { f: '(Statistics › Conversations)', conv: true, note: 'O Wireshark conta os quadros inteiros, com cabeçalhos: 2,93 GB. O registro do Zeek no VS Code conta só os dados da aplicação: 2,80 GB. Os dois números descrevem a mesma saída.' }
+  };
+  el.innerHTML = '<div class="wsk"><div class="wsk-title">04_sensor_2026-12-02.pcap — Wireshark</div>' +
+    '<div class="wsk-menu"><b>File</b><b>Edit</b><b>View</b><b>Go</b><b>Capture</b><b>Analyze</b><b class="st">Statistics</b><b>Help</b></div>' +
+    '<div class="wsk-bar"><span class="flt vazio">Apply a display filter … &lt;Ctrl-/&gt;</span></div>' +
+    '<div class="wsk-pre"><button data-v="a">1. Conversa com 198.51.100.77</button><button data-v="b">2. Só os Client Hello</button><button data-v="c">3. tcp.stream eq 6</button><button data-v="d">4. Statistics › Conversations</button></div>' +
+    '<div class="wsk-list"></div><div class="wsk-det">Escolha um filtro acima. Hora exibida em UTC (View › Time Display Format › UTC).</div>' +
+    '<div class="wsk-st"><span>Packets: 4,812,337</span><span class="ex">Displayed: 4,812,337</span><span>Profile: Default</span></div></div>';
+  const flt = el.querySelector('.flt'), list = el.querySelector('.wsk-list'), det = el.querySelector('.wsk-det'), ex = el.querySelector('.ex'), st = el.querySelector('.st');
+  const tabela = (cab, linhas) => '<table><thead><tr>' + cab.map((c) => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>' + linhas + '</tbody></table>';
+  function detalhe(r) {
+    if (!r[1]) return;
+    const sai = r[2] === '10.10.1.30';
+    det.innerHTML = '<div>▸ Frame ' + r[0] + ': ' + r[5] + ' bytes on wire, ' + r[5] + ' bytes captured</div>' +
+      '<div>▸ Ethernet II</div><div>▸ Internet Protocol Version 4, Src: ' + r[2] + ', Dst: ' + r[3] + '</div>' +
+      '<div>▸ Transmission Control Protocol, Src Port: ' + (sai ? (r[7] || (r[6].match(/^\d+/) || ['52190'])[0]) : '443') + ', Dst Port: ' + (sai ? '443' : (r[6].match(/→ (\d+)/) || [0, '52190'])[1]) + '</div>' +
+      (r[4].startsWith('TLS') ? '<div>▸ Transport Layer Security: ' + r[6] + (r[6] === 'Application Data' ? ' (encrypted application data)' : '') + '</div>' : '') +
+      '<div class="nota">' + (r[4].startsWith('TLS') && r[6] === 'Application Data' ? 'Conteúdo cifrado: não se lê o que foi enviado, mas se sabe quem enviou, para onde, quando e quanto.' : 'Cabeçalhos legíveis: endereços, portas, tamanhos e horários são os metadados que viram evidência.') + '</div>';
+  }
+  function show(k) {
+    const v = V[k];
+    el.querySelectorAll('.wsk-pre button').forEach((b) => b.classList.toggle('on', b.dataset.v === k));
+    st.classList.toggle('on', !!v.conv);
+    flt.classList.toggle('vazio', !!v.conv); flt.textContent = v.conv ? 'Apply a display filter … <Ctrl-/>' : v.f;
+    if (v.conv) {
+      ex.textContent = 'Displayed: 4,812,337';
+      list.innerHTML = '<div class="wsk-conv"><h5>Statistics › Conversations · IPv4</h5>' + tabela(['Address A', 'Address B', 'Packets', 'Bytes', 'Packets A → B', 'Bytes A → B', 'Packets B → A', 'Bytes B → A', 'Rel Start', 'Duration'],
+        '<tr class="big"><td>10.10.1.30</td><td>198.51.100.77</td><td>2,900,829</td><td>2.99 GB</td><td>1,933,840</td><td>2.93 GB</td><td>966,989</td><td>63.85 MB</td><td>600.391</td><td>5400.9</td></tr>' +
+        '<tr><td>10.10.1.30</td><td>10.10.1.10</td><td>48,112</td><td>21.40 MB</td><td>23,904</td><td>9.12 MB</td><td>24,208</td><td>12.28 MB</td><td>0.000</td><td>6299.8</td></tr>') +
+        '<h5>Statistics › Conversations · TCP (198.51.100.77)</h5>' + tabela(['Stream', 'Address A', 'Port A', 'Address B', 'Port B', 'Bytes A → B', 'Rel Start', 'Duration'],
+        '<tr class="big"><td>6</td><td>10.10.1.30</td><td>52190</td><td>198.51.100.77</td><td>443</td><td>2.93 GB</td><td>2220.181</td><td>1680.0</td></tr>' +
+        '<tr><td>0</td><td>10.10.1.30</td><td>52101</td><td>198.51.100.77</td><td>443</td><td>2.31 kB</td><td>600.391</td><td>0.1</td></tr>' +
+        '<tr><td>1</td><td>10.10.1.30</td><td>52117</td><td>198.51.100.77</td><td>443</td><td>2.31 kB</td><td>900.388</td><td>0.1</td></tr>' +
+        '<tr><td>…</td><td colspan="7">mais 17 fluxos do beacon, de 2,3 kB cada</td></tr>') + '</div>';
+    } else if (v.cols === 'delta') {
+      ex.textContent = 'Displayed: ' + v.exib;
+      list.innerHTML = tabela(['No.', 'Time (UTC)', 'Delta', 'Source', 'Destination', 'Protocol', 'Length', 'Info'],
+        hello.map((h) => '<tr class="' + (h.big ? 'big' : 'tls') + '" data-r="' + [h.n, h.t, '10.10.1.30', '198.51.100.77', 'TLSv1.3', '583', 'Client Hello', h.p].join('|') + '"><td>' + h.n + '</td><td>' + h.t + '</td><td>' + h.d + '</td><td>10.10.1.30</td><td>198.51.100.77</td><td>TLSv1.3</td><td>583</td><td>Client Hello' + (h.big ? ' (tcp.stream 6)' : '') + '</td></tr>').join(''));
+    } else {
+      ex.textContent = 'Displayed: ' + v.exib;
+      list.innerHTML = tabela(['No.', 'Time (UTC)', 'Source', 'Destination', 'Protocol', 'Length', 'Info'],
+        v.rows.map((r) => '<tr class="' + r[7] + '" data-r="' + r.slice(0, 7).join('|') + '">' + r.slice(0, 7).map((c) => '<td>' + c + '</td>').join('') + '</tr>').join(''));
+    }
+    det.innerHTML = '<div class="nota">' + v.note + '</div>';
+    list.querySelectorAll('tr[data-r]').forEach((tr) => tr.addEventListener('click', () => {
+      list.querySelectorAll('tr').forEach((x) => x.classList.remove('sel')); tr.classList.add('sel'); detalhe(tr.dataset.r.split('|'));
+    }));
+  }
+  el.querySelectorAll('.wsk-pre button').forEach((b) => b.addEventListener('click', () => show(b.dataset.v)));
+  return {};
 });
 
-/* ---------- 11. Cena 3D: escada dos tiers ---------- */
-Labs.scene3d('#lab-3d', (c) => {
-  const { THREE, root } = c;
-  root.position.y = -0.7; // abaixa a cena para as colunas não ficarem sob a legenda em 1280x720
-  const TIERS = ['1 · Parcial', '2 · Informado por riscos', '3 · Repetível', '4 · Adaptativo'];
-  const cores = [0xff2b5f, 0xf2cb0a, 0x00b1d2, 0x3fd47a];
-  TIERS.forEach((t, i) => {
-    const h = 0.8 * (i + 1);
-    const m = new THREE.Mesh(new THREE.BoxGeometry(1.9, h, 3), new THREE.MeshStandardMaterial({ color: cores[i], emissive: cores[i], emissiveIntensity: 0.18, roughness: 0.5 }));
-    m.position.set(-5.6 + i * 1.95, h / 2, 0); root.add(m);
-    const l = c.label(t, { size: 32, scale: 1.3 }); l.position.set(-5.6 + i * 1.95, h + 0.5, 1.6); root.add(l);
-  });
-  const pos = (tier) => new THREE.Vector3(-5.6 + (tier - 1) * 1.95, 0.8 * tier + 0.45, -0.6);
-  const hoje = new THREE.Mesh(new THREE.SphereGeometry(0.38, 24, 24), new THREE.MeshStandardMaterial({ color: 0xf2cb0a, emissive: 0xf2cb0a, emissiveIntensity: 0.5 }));
-  const meta = new THREE.Mesh(new THREE.SphereGeometry(0.38, 24, 24), new THREE.MeshStandardMaterial({ color: 0x9b6bff, emissive: 0x6a3df0, emissiveIntensity: 0.6, transparent: true, opacity: 0.85 }));
-  hoje.position.copy(pos(2)); meta.position.copy(pos(3)); root.add(hoje, meta);
-  // colunas no estilo SOC-CMM (autoavaliação fictícia, 1 a 5)
-  const DIM = [['Pessoas', 2.5, 3.5], ['Processos', 1.8, 3.2], ['Tecnologia', 3.4, 3.8], ['Serviços', 2.6, 3.4]];
-  const cols = DIM.map(([n, v], i) => {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 1, 28), new THREE.MeshStandardMaterial({ color: 0x58c4e8, emissive: 0x0b6e8a, emissiveIntensity: 0.4 }));
-    m.position.set(2.6 + i * 1.25, 0, 0.4); m.userData = { h: v, alvo: v }; root.add(m);
-    const l = c.label(n, { size: 30, scale: 1.15, depthTest: false }); l.position.set(m.position.x, i % 2 ? -1.05 : -0.45, m.position.z + 1.1); root.add(l);
-    return m;
-  });
-  const leg = c.legend('');
-  const ctl = c.controls('<button class="lab-chip is-on" data-m="0">Hoje</button><button class="lab-chip" data-m="1">Meta em 18 meses</button>');
-  let alvoEsfera = pos(2);
-  function modo(m) {
-    ctl.querySelectorAll('button').forEach((b) => b.classList.toggle('is-on', +b.dataset.m === m));
-    alvoEsfera = pos(m ? 3 : 2);
-    cols.forEach((col, i) => (col.userData.alvo = DIM[i][m ? 2 : 1]));
-    leg.innerHTML = (m ? '<b>Meta: tier 3 · Repetível</b>' : '<b>Hoje: tier 2 · Informado por riscos</b>') + '<br>SOC-CMM (fictício, 1 a 5):<br>' +
-      DIM.map((d) => `${d[0]}: ${(m ? d[2] : d[1]).toFixed(1).replace('.', ',')}`).join('<br>') +
-      (m ? '' : '<br><span style="color:#F2CB0A">Processos é a dimensão mais baixa</span>');
-  }
-  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => modo(+b.dataset.m)));
-  modo(0);
-  c.onFrame((t) => {
-    hoje.position.lerp(alvoEsfera, 0.06); hoje.position.y += Math.sin(t * 3) * 0.01;
-    meta.rotation.y = t;
-    cols.forEach((m) => { m.userData.h += (m.userData.alvo - m.userData.h) * 0.07; m.scale.y = m.userData.h; m.position.y = m.userData.h / 2; });
-  });
-}, { camera: [0, 5.5, 15.5] });
-
-/* ---------- 14. SIEM: antes e depois ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: 'Jan/2026 e set/2026', lang: 'SPL', index: 'index=tatame_seguranca',
-  searches: [
-    { group: 'Janeiro', name: '1. Alertas por regra', q: 'index=tatame_seguranca mes=2026-01 | stats count as alertas sum(vp) as vp by regra | eval precisao=round(vp/alertas*100)',
-      cols: ['regra', 'alertas', 'verdadeiros positivos', 'falsos positivos', 'precisão'], total: 1200, unit: 'alertas',
-      hist: [38, 41, 40, 44, 36, 39, 42, 37, 40, 43, 38, 41, 39, 40, 42, 38, 37, 40], hot: [3, 10],
-      rows: [
-        ['Login falho em massa', '420', '21', '399', '5%'],
-        ['Execução de script incomum', '260', '39', '221', '15%'],
-        ['Acesso a domínio recém-registrado', '210', '42', '168', '20%'],
-        ['Processo filho do Office', '120', '36', '84', '30%'],
-        ['Renomeação em massa de arquivos', '100', '15', '85', '15%'],
-        ['Tarefa agendada fora do horário', '90', '27', '63', '30%'],
-        ['TOTAL', '1.200', '180', '1.020', '15%']
-      ], note: 'Precisão geral: 180 ÷ 1.200 = 15%. Só a regra de login falho gera 35% dos alertas com 5% de precisão: é a primeira candidata a ajuste.' },
-    { group: 'Após três ciclos', name: '2. Alertas por regra', q: 'index=tatame_seguranca mes=2026-09 | stats count as alertas sum(vp) as vp by regra | eval precisao=round(vp/alertas*100)',
-      cols: ['regra', 'alertas', 'verdadeiros positivos', 'falsos positivos', 'precisão'], total: 600, unit: 'alertas',
-      hist: [19, 21, 20, 18, 22, 20, 19, 21, 20, 18, 21, 20, 19, 22, 20, 19, 21, 20], hot: [4],
-      rows: [
-        ['Execução de script incomum', '140', '35', '105', '25%'],
-        ['Acesso a domínio recém-registrado', '120', '36', '84', '30%'],
-        ['Processo filho do Office', '110', '33', '77', '30%'],
-        ['Login falho em massa', '90', '9', '81', '10%'],
-        ['Renomeação em massa de arquivos', '80', '13', '67', '16%'],
-        ['Tarefa agendada fora do horário', '60', '24', '36', '40%'],
-        ['TOTAL', '600', '150', '450', '25%']
-      ], note: 'Precisão geral: 150 ÷ 600 = 25%. A regra de login falho caiu de 420 para 90 alertas depois do ajuste de limiar e da lista de contas de serviço com exceção documentada, como a svc-backup.' },
-    { group: 'Comparação', name: '3. Resumo antes e depois', q: 'index=painel_soc | table periodo alertas vp precisao mttd_mediano mttr',
-      cols: ['período', 'alertas', 'VP', 'precisão', 'MTTD mediano', 'MTTR'], total: 3, unit: 'linhas',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      rows: [
-        ['janeiro', '1.200', '180', '15%', '18 h', '9 h'],
-        ['após 3 ciclos', '600', '150', '25%', '4 h', '3 h'],
-        ['variação', '−50%', '−17%', '+10 p.p.', '−78%', '−67%']
-      ], note: 'MTTD: (18 − 4) ÷ 18 ≈ 78%. MTTR: (9 − 3) ÷ 9 ≈ 67%. Os verdadeiros positivos caíram 17%: veja a próxima busca antes de concluir que a detecção piorou.' },
-    { group: 'Comparação', name: '4. Duplicados de janeiro', q: 'index=tatame_seguranca mes=2026-01 vp=1 caso="INC-2026-0117" | table _time regra host caso',
-      cols: ['horário', 'regra', 'host', 'caso', 'severidade'], sevCol: 4, total: 4, unit: 'alertas do mesmo caso',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [8],
-      rows: [
-        ['14/01 09:12:03', 'Processo filho do Office', 'NB-FIN-044', 'INC-2026-0117', 'high'],
-        ['14/01 09:12:41', 'Execução de script incomum', 'NB-FIN-044', 'INC-2026-0117', 'high'],
-        ['14/01 09:13:10', 'Execução de script incomum', 'NB-FIN-044', 'INC-2026-0117', 'high'],
-        ['14/01 09:15:22', 'Acesso a domínio recém-registrado', 'NB-FIN-044', 'INC-2026-0117', 'medium']
-      ], note: 'Em janeiro, um único incidente gerava vários alertas verdadeiros. A nova correlação agrupa alertas do mesmo host e da mesma janela em um só. Por isso os VP caíram: toda métrica precisa de contexto.' }
-  ]
-});
-
-/* ---------- 14b. Plataforma Rede Tatame ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'soc' });
+/* ---------- 15. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios', reiniciar: true, regras: { R8: true } });
 </script>
 </body>
 </html>

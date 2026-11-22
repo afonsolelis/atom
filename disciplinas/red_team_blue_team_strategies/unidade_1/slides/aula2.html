@@ -3,43 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 2 — Pensar como o adversário: Cyber Kill Chain e MITRE ATT&amp;CK</title>
+<title>Aula 2 — Regras de engajamento, escopo, autorização e aspectos legais</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .fases7 { columns: 2; column-gap: 2.2rem; margin: 0 0 .6em; }
-  .fases7 li { break-inside: avoid; margin-bottom: .35em !important; font-size: clamp(.95rem, 1.25vw, 1.2rem) !important; }
-  .nv { flex: 1; display: flex; flex-direction: column; gap: .6rem; min-height: 0; }
-  .nv-grid { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: repeat(15, minmax(62px, 1fr)); gap: 4px; align-content: start; }
-  .nv-th { font: 700 10.5px/1.2 var(--fonte); color: #F2CB0A; background: #0B1424; border: 1px solid #22314F; border-radius: 6px; padding: 6px 4px; min-height: 40px; display: flex; align-items: center; justify-content: center; text-align: center; }
-  .nv-col { display: flex; flex-direction: column; gap: 4px; }
-  .nv-c { font: 10.5px/1.25 var(--fonte); color: #DCE3EE; background: #13213D; border: 1px solid #2F3B55; border-radius: 5px; padding: 5px 4px; cursor: pointer; text-align: left; min-height: 46px; }
-  .nv-c b { display: block; font: 700 10px var(--mono); color: #9FB0C8; }
-  .nv-c.s1 { background: #5A1026; border-color: #FF2B5F; } .nv-c.s2 { background: #4A3D06; border-color: #F2CB0A; } .nv-c.s3 { background: #0E3F25; border-color: #3FD47A; }
-  .nv-c.s1 b, .nv-c.s2 b, .nv-c.s3 b { color: #fff; }
-  .nv-bar { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
-  .nv-bar .lab-kpi { padding: .35em .7em; } .nv-bar .lab-kpi b { font-size: 1.15rem; }
-  .nv-json { position: absolute; inset: 8% 10%; background: #0D1117; border: 1px solid #30363D; border-radius: 10px; padding: 12px 16px; overflow: auto; font: 12.5px/1.5 var(--mono); color: #D4D4D4; white-space: pre; box-shadow: 0 20px 50px rgba(0,0,0,.6); }
-  .brw-page h1 { color: #1F2A44 !important; font-size: 22px !important; margin: 0 0 4px !important; }
-  .brw-page em { color: inherit !important; font-weight: inherit !important; }
-  .brw-page b, .brw-page strong { color: inherit !important; }
-  .att { font-family: var(--fonte); color: #1A1A1A; }
-  .att-top { background: #1F2A44; color: #fff; padding: 10px 22px; display: flex; gap: 18px; align-items: center; font-size: 13px; }
-  .att-top b { font-size: 16px; letter-spacing: .02em; }
-  .att-body { padding: 14px 24px 22px; }
-  .att h1 { font: 800 24px var(--fonte-titulo, inherit); color: #1F2A44; margin: 0 0 4px; }
-  .att .meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 12px; }
-  .att .meta span { background: #EEF1F7; border-radius: 4px; padding: 4px 8px; font-size: 12.5px; color: #333; }
-  .att-tabs { display: flex; gap: 4px; border-bottom: 2px solid #D9DEE8; margin-bottom: 12px; flex-wrap: wrap; }
-  .att-tabs button { border: 0; background: none; padding: 8px 12px; font: 600 13.5px var(--fonte); color: #555; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; }
-  .att-tabs button.on { color: #B3123F; border-bottom-color: #B3123F; }
-  .att table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
-  .att th { background: #1F2A44; color: #fff; text-align: left; padding: 6px 8px; font-weight: 600; }
-  .att td { border-bottom: 1px solid #E3E7EF; padding: 6px 8px; vertical-align: top; color: #222; }
-  .att .rb { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .att .rb div { border-radius: 8px; padding: 10px 14px; font-size: 13.5px; line-height: 1.45; }
-  .att .rb .r { background: #FFF1F4; border-left: 5px solid #B3123F; } .att .rb .b { background: #EAF7FB; border-left: 5px solid #0B6E8A; }
-  .att .foot { margin-top: 14px; font-size: 11.5px; color: #777; }
+  .roe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .45rem 1.4rem; margin: 0; padding: 0; list-style: none; counter-reset: roe; }
+  .roe-grid li { counter-increment: roe; position: relative; padding-left: 2rem; line-height: 1.35; }
+  .roe-grid li::before { content: counter(roe); position: absolute; left: 0; top: .05em; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: #F0CE29; color: #002057; font-weight: 800; font-size: .8em; display: flex; align-items: center; justify-content: center; }
+  .tabela-industrial.compacta th, .tabela-industrial.compacta td { font-size: clamp(.8rem, 1vw, 1rem); }
 </style>
 </head>
 <body>
@@ -55,8 +26,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 2 — Pensar como o adversário: Cyber Kill Chain e MITRE ATT&amp;CK</h1>
-      <div class="subtitulo">Unidade 1 — Fundamentos: ataque e defesa como estratégia</div>
+      <h1>Aula 2 — Regras de engajamento, escopo, autorização e aspectos legais</h1>
+      <div class="subtitulo">Unidade 1 — Planejamento de Operações e Emulação de Adversário</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -66,23 +37,22 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Pensar como o adversário: Cyber Kill Chain e MITRE ATT&amp;CK</h1>
+        <h1 class="sumario-titulo">Regras de engajamento, escopo, autorização e aspectos legais</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje: onde parar o Cobalto Austral</li>
-          <li>As sete fases da Cyber Kill Chain, em 3D</li>
-          <li>Laboratório: um <em>ransomware</em> na Rede Tatame, fase a fase</li>
-          <li>Limitações do modelo linear</li>
-          <li>MITRE ATT&amp;CK: táticas, técnicas e procedimentos</li>
-          <li>Laboratório: a técnica T1566 na base ATT&amp;CK</li>
-          <li>Laboratório: uma camada de cobertura no Navigator</li>
-          <li>Kill Chain e ATT&amp;CK no mesmo relatório</li>
-          <li>Laboratório: o Grupo Cobalto Austral na plataforma</li>
-          <li>Laboratório: medindo a cobertura com Python</li>
+          <li>O que separa um teste de um crime</li>
+          <li>A LGPD durante o exercício</li>
+          <li>Varredura, <em>pentest</em> e Red Team, em 3D</li>
+          <li>Os dez itens das regras de engajamento</li>
+          <li>Laboratório: a carta de autorização é a versão assinada?</li>
+          <li>Laboratório: <em>deconfliction</em> passo a passo</li>
+          <li>Laboratório: a RoE conferida em Python</li>
+          <li>Laboratório: escopo e alertas na plataforma Rede Tatame</li>
+          <li>A janela e o escopo em números</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -94,250 +64,166 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>Onde parar o Grupo Cobalto Austral?</h2>
+      <h2>A operação de novembro ainda não pode começar</h2>
       <div class="problema">
         <div class="historia">
-          <p>Rafael Tavares é engenheiro de detecção da Rede Tatame: escreve as regras que transformam registros em alertas para o SOC (centro de operações de segurança).</p>
-          <p>Um boletim de inteligência avisa que o Grupo Cobalto Austral, grupo fictício de <em>ransomware</em>, atacou outras redes de academias. Ele entra com senha vazada ou por <em>phishing</em>, anda pelos servidores da sede e cifra tudo.</p>
-          <p>O que está em jogo: os servidores da sede e as exportações de fichas de alunos guardadas no SRV-ARQ-01.</p>
-          <div class="pergunta">Em que pontos a Rede Tatame consegue interromper esse ataque, e que passos dele ainda passariam sem alerta?</div>
-          <div class="papeis"><span><b>Detecção</b> Rafael Tavares</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Emula o grupo</b> Bruno Sato</span><span><b>Adversário</b> Cobalto Austral</span></div>
+          <p>Bruno Sato, líder do Red Team interno, tem uma operação marcada para 16 de novembro. O objetivo é chegar às exportações de fichas de alunos no <code>SRV-ARQ-01</code>.</p>
+          <p>Da diretoria chegou só um <em>e-mail</em>: "pentest completo, sem mexer nos dados". A lista de alvos sugeridos inclui a rede de pagamentos e o parceiro PagaFácil.</p>
+          <p>Ninguém definiu janela, quem pode parar o teste nem como o SOC vai separar o exercício de um ataque de verdade.</p>
+          <div class="pergunta">O que precisa estar escrito e assinado antes de o Red Team tocar no primeiro sistema da Rede Tatame?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>White Team</b> Marina Prado</span><span><b>Trusted agent</b> Caio Mendes</span><span><b>SOC</b> Luiza Ferraz</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Kill Chain -->
+  <!-- 4. Teste ou crime -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>As sete fases da Cyber Kill Chain</h2>
+      <p class="kicker">Aspectos legais</p>
+      <h2>O que separa um teste de um crime</h2>
       <div class="slide-content-box">
-        <p>Em 2011, pesquisadores da Lockheed Martin aplicaram às intrusões em redes o conceito militar de "cadeia de abate".</p>
-        <ol class="fases7">
-          <li><strong>Reconhecimento</strong>: pessoas, domínios e tecnologias do alvo.</li>
-          <li><strong>Armamento</strong> (<em>weaponization</em>): preparo da carga maliciosa, como um documento com macro.</li>
-          <li><strong>Entrega</strong>: por <em>e-mail</em>, <em>site</em> comprometido ou mídia removível.</li>
-          <li><strong>Exploração</strong>: o código roda por uma vulnerabilidade ou pela ação do usuário.</li>
-          <li><strong>Instalação</strong>: persistência no sistema comprometido.</li>
-          <li><strong>Comando e controle (C2)</strong>: canal entre o atacante e a máquina.</li>
-          <li><strong>Ações sobre os objetivos</strong>: roubo de dados, criptografia para extorsão, sabotagem.</li>
-        </ol>
-        <div class="callout-azul"><p>A grande contribuição do modelo: o defensor não precisa vencer em todas as fases. Basta interromper a cadeia em uma delas.</p></div>
+        <p>A Lei nº 12.737/2012 incluiu no Código Penal o <strong>art. 154-A</strong>, que tipifica a invasão de dispositivo informático alheio; a Lei nº 14.155/2021 agravou as penas. O que afasta o crime é a <strong>autorização expressa</strong> de quem tem poder sobre o dispositivo e os dados. Daí saem três consequências práticas:</p>
+        <ul>
+          <li><strong>Quem assina precisa ter autoridade real</strong> sobre os ativos: um gerente de TI não autoriza o teste do sistema de um parceiro.</li>
+          <li><strong>Serviços de terceiros ficam fora</strong>, como o PagaFácil ou a página de status terceirizada, salvo autorização do próprio terceiro.</li>
+          <li><strong>A autorização vale só para o que está escrito</strong>: o que não foi previsto não foi autorizado.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- 5. LAB 3D Kill Chain -->
+  <!-- 5. LGPD -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Aspectos legais</p>
+      <h2>A LGPD continua valendo durante o exercício</h2>
+      <div class="slide-content-box">
+        <p>Fichas de alunos, atestados e biometria facial são dados pessoais, alguns sensíveis e de crianças: cerca de 30% dos 36 mil alunos são menores de idade. A Lei nº 13.709/2018 exige que as regras do exercício prevejam:</p>
+        <ul>
+          <li><strong>Minimização</strong>: coletar só a evidência necessária, por exemplo a contagem de registros acessíveis, nunca uma cópia da base.</li>
+          <li><strong>Segurança das evidências</strong> (art. 46): guardar o que foi coletado com controle de acesso e criptografia.</li>
+          <li><strong>Descarte</strong> ao final, com prazo definido no próprio documento.</li>
+        </ul>
+        <div class="callout-azul"><p>Se o teste revelar um vazamento real, a organização avalia a comunicação à ANPD e aos titulares (art. 48). O exercício não suspende essa obrigação.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Tipos de avaliação e caixas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Que tipo de avaliação está sendo autorizado?</p>
+      <h2>Varredura, <em>pentest</em> e Red Team</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial compacta">
+          <thead><tr><th>Critério</th><th>Varredura</th><th><em>Pentest</em></th><th>Red Team</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Pergunta</strong></td><td>Quais falhas conhecidas existem?</td><td>O que pode ser explorado?</td><td>Detectamos e respondemos?</td></tr>
+            <tr><td><strong>Escopo</strong></td><td>Amplo</td><td>Delimitado</td><td>Orientado a objetivos</td></tr>
+            <tr><td><strong>Furtividade</strong></td><td>Nenhuma</td><td>Baixa</td><td>Alta</td></tr>
+            <tr><td><strong>Blue Team avisado?</strong></td><td>Sim</td><td>Normalmente sim</td><td>Normalmente não (só o White Team sabe)</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.6rem">O nível de informação também muda: na <strong>caixa-preta</strong>, a equipe recebe só o nome da empresa; na <strong>caixa-cinza</strong>, informações parciais, como uma conta de colaborador; na <strong>caixa-branca</strong>, diagramas, código e configurações. A operação de novembro será em caixa-cinza.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB 3D: pirâmide -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A cadeia e o ponto de corte</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A pirâmide das avaliações</h2></div><span class="lab-badge purple">Tipo de avaliação</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver que basta cortar uma fase para o ataque falhar.</div>
-            <div class="rl"><b>Faça</b>1. Clique em um número, no canto da cena, para pôr uma defesa naquela fase.<br>2. Compare cortar na fase 3 (entrega) com cortar na fase 6 (C2, comando e controle).</div>
-            <div class="rl obs"><b>Observe</b>O escudo azul aparece, as fases seguintes se apagam e a legenda mostra o controle que corta a cadeia ali.</div>
-            <div class="rl conc"><b>Conclusão</b>Nos dois cortes o objetivo falha, mas na fase 6 o atacante já está dentro da rede.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver por que o tipo de avaliação muda o que a autorização precisa dizer.</div>
+            <div class="rl"><b>Faça</b>Clique em Varredura, <em>Pentest</em> e Red Team, no canto da cena, e gire a pirâmide.</div>
+            <div class="rl obs"><b>Observe</b>Quanto mais alto o andar, mais estreito e furtivo o teste, e menos gente sabe dele. No topo, só o White Team.</div>
+            <div class="rl conc"><b>Conclusão</b>Quanto menos o Blue Team sabe, mais o documento precisa prever: parada, contatos e <em>deconfliction</em>.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-kc3d"></div>
+        <div class="lab-area" id="lab-3d"></div>
       </div>
     </div>
   </section>
 
-  <!-- 6. LAB flow ransomware -->
+  <!-- 8. Regras de engajamento -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Regras de engajamento (<em>Rules of Engagement</em>, RoE)</p>
+      <h2>Os dez itens que traduzem a autorização em limites</h2>
+      <div class="slide-content-box">
+        <ol class="roe-grid">
+          <li><strong>Objetivo</strong> e perguntas da operação</li>
+          <li><strong>Escopo</strong>, com os <strong>excluídos</strong> por escrito</li>
+          <li><strong>Modelo</strong> (caixa-preta, cinza ou branca) e contas de teste</li>
+          <li><strong>Janelas</strong> de execução: datas e horários</li>
+          <li><strong>Técnicas permitidas e proibidas</strong></li>
+          <li>Tratamento de <strong>dados sensíveis</strong>, coleta mínima e descarte</li>
+          <li><strong>Critérios de parada</strong> e <strong>palavra de parada</strong></li>
+          <li><strong>White Team</strong>, <em>trusted agents</em> e contatos 24 horas</li>
+          <li><em>Deconfliction</em> e <strong>registro de ações</strong> do operador</li>
+          <li>Forma e prazo do <strong>relatório</strong> e destruição das evidências</li>
+        </ol>
+        <div class="callout-azul" style="margin-top:.7rem"><p>O NIST SP 800-115 e o PTES colocam essa etapa, o pré-engajamento, antes de qualquer ação técnica.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Carta de autorização -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Autorização</p>
+      <h2>A carta que o operador leva consigo</h2>
+      <div class="slide-content-box">
+        <p>A <strong>carta de autorização</strong> é o documento curto que o operador apresenta se for questionado. Ela identifica:</p>
+        <ul>
+          <li>quem autoriza e com que autoridade (na Rede Tatame, a CISO Marina Prado);</li>
+          <li>a equipe, o escopo resumido e o período;</li>
+          <li>os contatos de verificação e o número do chamado de aprovação (APR-2291).</li>
+        </ul>
+        <div class="callout-azul"><p>Como a carta protege o Red Team e a empresa, a <strong>integridade</strong> importa: guarda-se a versão assinada, com o <em>hash</em> SHA-256 registrado no chamado e, de preferência, uma assinatura digital. Uma cópia alterada depois da assinatura não autoriza nada.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. LAB terminal: integridade da carta -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: achar, fase a fase, onde a defesa poderia agir</p><h2>Um <em>ransomware</em> na Rede Tatame, fase a fase</h2></div><span class="lab-badge purple">Leitura do ataque</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>A carta de autorização é a versão assinada?</h2></div><span class="lab-badge purple">Governança</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Confirmar que a carta que Bruno Sato leva é a versão assinada por Marina Prado.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim do roteiro.</div>
+            <div class="rl obs"><b>Observe</b>O <em>hash</em> SHA-256, uma impressão digital do arquivo, confere com o chamado APR-2291 e a assinatura é válida. A cópia que chegou por <em>e-mail</em> tem outro <em>hash</em>.</div>
+            <div class="rl conc"><b>Conclusão</b>Só a versão assinada autoriza o exercício.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. LAB flow: deconfliction -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: separar o exercício de um incidente real</p><h2><em>Deconfliction</em> passo a passo</h2></div><span class="lab-badge purple">White Team</span></div>
       <div class="lab-area" id="lab-flow"></div>
     </div>
   </section>
 
-  <!-- 7. Limitações -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Limitações</p>
-      <h2>Onde a Kill Chain não alcança</h2>
-      <div class="slide-content-box">
-        <p>O modelo é <strong>linear</strong> e foi pensado para intrusões que começam com <em>malware</em> entregue de fora para dentro. Ataques modernos nem sempre seguem esse caminho:</p>
-        <ul>
-          <li>usam <strong>credenciais válidas</strong> roubadas, sem nenhum arquivo malicioso;</li>
-          <li>abusam de <strong>serviços em nuvem</strong> legítimos;</li>
-          <li>partem de um <strong>usuário interno</strong>, que já está do lado de dentro;</li>
-          <li>pulam fases ou voltam a fases anteriores.</li>
-        </ul>
-        <div class="callout-azul"><p>A Kill Chain é ótima para comunicar a lógica geral de um ataque, mas é pouco detalhada para orientar a detecção. Para isso, precisamos de um vocabulário mais fino.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. ATT&CK -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>MITRE ATT&amp;CK em três níveis</h2>
-      <div class="slide-content-box">
-        <p>O <strong>ATT&amp;CK</strong> (<em>Adversarial Tactics, Techniques, and Common Knowledge</em>) é uma base pública mantida pela MITRE, organização sem fins lucrativos, construída a partir de observações de ataques reais.</p>
-        <ul>
-          <li><strong>Táticas</strong>, o "porquê": o objetivo do atacante naquele momento. A matriz Enterprise tem 15 táticas, de Reconhecimento (<em>Reconnaissance</em>) a Impacto (<em>Impact</em>). Desde a versão 19 (abril de 2026), a antiga Evasão de defesas foi dividida em Furtividade (<em>Stealth</em>) e Enfraquecimento de defesas (<em>Defense Impairment</em>).</li>
-          <li><strong>Técnicas e subtécnicas</strong>, o "como": a forma de alcançar o objetivo. Exemplo: T1566, <em>Phishing</em>; T1566.001, <em>Spearphishing Attachment</em>.</li>
-          <li><strong>Procedimentos</strong>: a implementação concreta usada por um grupo ou <em>malware</em> específico.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. Tabela -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Tática, técnica e detecção</p>
-      <h2>Do objetivo do atacante ao rastro que fica</h2>
-      <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Tática (objetivo)</th><th>Exemplo de técnica</th><th>Exemplo de detecção</th></tr></thead>
-          <tbody>
-            <tr><td>Acesso inicial</td><td>T1566 · <em>Phishing</em></td><td>Análise de anexos e cliques em <em>links</em> suspeitos</td></tr>
-            <tr><td>Execução</td><td>T1059 · Interpretador de comandos e <em>scripts</em></td><td>Monitorar PowerShell com parâmetros ofuscados</td></tr>
-            <tr><td>Acesso a credenciais</td><td>T1003 · Extração de credenciais do sistema</td><td>Alertar acessos ao processo LSASS</td></tr>
-            <tr><td>Movimentação lateral</td><td>T1021 · Serviços remotos</td><td><em>Logons</em> remotos fora do padrão</td></tr>
-            <tr><td>Impacto</td><td>T1486 · Dados criptografados para impacto</td><td>Muitos arquivos renomeados em pouco tempo</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- 10. LAB browser T1566 -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>A técnica T1566 na base ATT&amp;CK</h2></div><span class="lab-badge purple">Red x Blue</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ler uma técnica do ATT&amp;CK pelos olhos do Red e do Blue Team.</div>
-            <div class="rl"><b>Faça</b>Navegue pelas abas desta reprodução simplificada da página T1566 (<em>Phishing</em>).</div>
-            <div class="rl obs"><b>Observe</b>Subtécnicas (anexo, <em>link</em>, serviço de terceiros, voz), mitigações, detecção e a aba Red x Blue.</div>
-            <div class="rl conc"><b>Conclusão</b>A mesma página diz ao Red Team o que emular e ao Blue Team o que procurar.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-brw"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. Red e Blue usam ATT&CK -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Uso prático</p>
-      <h2>Cardápio para o Red, mapa para o Blue</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li><strong>Red Team</strong>: o ATT&amp;CK é um <strong>cardápio de comportamentos</strong> a emular. Em vez de testar "qualquer coisa", a equipe escolhe as técnicas dos grupos que de fato ameaçam aquele setor.</li>
-          <li><strong>Blue Team</strong>: é um <strong>mapa de cobertura</strong>. Para cada técnica relevante, a pergunta é "temos telemetria e uma regra capaz de detectá-la?".</li>
-          <li><strong>ATT&amp;CK Navigator</strong>: ferramenta que colore as técnicas cobertas e deixa as lacunas à vista: verde para detectada, amarelo para parcial, vermelho para sem cobertura.</li>
-        </ul>
-        <div class="callout-azul"><p>No próximo laboratório, você monta uma camada simples com cinco técnicas e pinta cada uma conforme a cobertura de detecção.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12. LAB Navigator -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: pintar o que a Rede Tatame detecta e o que não detecta</p><h2>Uma camada de cobertura no estilo Navigator</h2></div><span class="lab-badge blue">Mapa de cobertura</span></div>
-      <div class="lab-area" id="lab-nav"></div>
-    </div>
-  </section>
-
-  <!-- 13. Complementares -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Os dois modelos juntos</p>
-      <h2>Kill Chain e ATT&amp;CK são complementares</h2>
-      <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th></th><th>Cyber Kill Chain</th><th>MITRE ATT&amp;CK</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Nível</strong></td><td>Visão de alto nível, 7 fases</td><td>Detalhe operacional: 15 táticas, técnicas e procedimentos</td></tr>
-            <tr><td><strong>Público</strong></td><td>Diretoria: em que ponto o ataque foi interrompido</td><td>Analista que escreve a regra; operador que planeja a simulação</td></tr>
-            <tr><td><strong>No relatório</strong></td><td>As fases organizam a narrativa do incidente</td><td>Dentro de cada fase, as técnicas observadas</td></tr>
-          </tbody>
-        </table>
-        <div class="callout-azul"><p>Com o mesmo vocabulário, o relatório conversa ao mesmo tempo com o público executivo e o técnico, e as lições aprendidas podem ser comparadas entre incidentes diferentes.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 14. LAB SIEM -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>Um incidente descrito por fases e técnicas</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>O SOC interrompeu o ataque do diagrama no C2. Agora Luiza Ferraz precisa registrá-lo.</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Registrar o incidente para três leitores diferentes.</div>
-            <div class="rl"><b>Faça</b>Clique nas três buscas salvas: linha do tempo, técnicas por tática e visão executiva.</div>
-            <div class="rl obs"><b>Observe</b>Execução e persistência deixaram rastro no EDR (agente de segurança das máquinas), mas não geraram alerta.</div>
-            <div class="rl conc"><b>Conclusão</b>O ataque do diagrama parou na fase 6 de 7. Duas técnicas entram no plano de melhoria.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-siem"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 15. PLATAFORMA REDE TATAME: ransomware e cobertura -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>O Grupo Cobalto Austral na plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
-      <div class="lab-split plat">
-        <div class="lab-area" id="lab-tatame"></div>
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Descobrir onde a defesa atual para o grupo e onde fica cega.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Emulação do Grupo Cobalto Austral</em>. No primeiro alerta (R11), abra o <strong>SOC</strong> e clique em <strong>Conter</strong>.<br>2. Clique em <strong>Reiniciar</strong> e rode de novo, sem conter.<br>3. Abra <strong>Cobertura ATT&amp;CK</strong>.</div>
-            <div class="rl obs"><b>Observe</b>Em que passo a cadeia parou; quais passos ficam amarelos (vistos, sem alerta); quais técnicas aparecem como parciais ou cegas.</div>
-            <div class="rl conc"><b>Conclusão</b>A entrada por senha vazada não tem "armamento" nem "instalação": é a limitação do modelo linear.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 16. Exemplo numérico -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Medindo a cobertura de detecção</h2>
-      <div class="slide-content-box">
-        <p>Uma equipe de defesa levantou <strong>40 técnicas</strong> ATT&amp;CK associadas aos grupos que ameaçam a Rede Tatame, como o Cobalto Austral.</p>
-        <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">18</span><span class="legenda">com regra de detecção testada</span></div>
-          <div class="stat-card"><span class="numero-grande">10</span><span class="legenda">com telemetria, mas nenhuma regra</span></div>
-          <div class="stat-card"><span class="numero-grande">12</span><span class="legenda">sem os registros necessários</span></div>
-        </div>
-        <p style="margin-top:1em">Cobertura atual: 18 ÷ 40 = <strong>45%</strong>. O plano começa pelas 10 técnicas que já têm telemetria, porque criar regras é mais barato do que implantar novas fontes de dados. Com elas, a cobertura sobe para 28 ÷ 40 = <strong>70%</strong>.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 17. Antes do código: onde achar e como instalar -->
+  <!-- 12. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -347,29 +233,29 @@
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é escrito e executado, com realce e depuração</td><td><code>code.visualstudio.com</code> e a aba Extensões do editor</td><td>Instalador do site e <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>cobertura.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td>Módulos <strong>csv</strong> e <strong>collections</strong></td><td>Leem o <code>tecnicas_tatame.csv</code> e contam as técnicas por situação</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: já vêm com o Python</td></tr>
-            <tr><td><strong>Ambiente virtual</strong> (<code>venv</code>)</td><td>Pasta <code>.venv</code> que isola os pacotes deste projeto</td><td><code>docs.python.org/3/library/venv.html</code></td><td><code>python3 -m venv .venv</code></td></tr>
+            <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site (Windows, macOS e Linux)</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>validar_roe.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração dentro do editor</td><td>Aba Extensões do VS Code, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o arquivo de regras em YAML (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> antes de rodar <code>pip install</code>, procure o nome do módulo importado na lista da biblioteca padrão (<code>docs.python.org/3/library</code>). Se ele estiver lá, como <code>csv</code> e <code>collections</code>, não há o que instalar. Só o que não estiver nessa lista é buscado no PyPI. Instalar "por garantia" um pacote de nome parecido com o de um módulo é uma forma conhecida de trazer código malicioso para a máquina.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> busque o nome do pacote no PyPI (<code>pypi.org</code>), o índice oficial de pacotes Python, e confira o nome letra por letra, o <em>link</em> para o repositório do projeto e a data da última versão. Pacote com nome quase igual ao verdadeiro é um golpe conhecido (<em>typosquatting</em>). Os módulos <code>ipaddress</code>, <code>sys</code> e <code>datetime</code> já vêm com o Python. Instale sempre dentro de um ambiente virtual (<code>.venv</code>).</div>
       </div>
     </div>
   </section>
 
-  <!-- 18. LAB VS Code -->
+  <!-- 13. LAB VS Code: a RoE conferida em Python -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>A cobertura calculada em Python</h2></div><span class="lab-badge blue">Engenharia de detecção</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>A RoE conferida antes do primeiro pacote</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Decidir por onde começar as regras novas.</div>
-            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Abra <code>tecnicas_tatame.csv</code>: 40 técnicas com a situação de cada uma.<br>3. Clique em "Executar cobertura.py".</div>
-            <div class="rl obs"><b>Observe</b>Cobertura atual de 18 ÷ 40 = 45%. Com regras para as 10 técnicas que já têm telemetria, 28 ÷ 40 = 70%.</div>
-            <div class="rl conc"><b>Conclusão</b>Criar regra onde o registro já existe é o caminho mais barato.</div>
+            <div class="rl obj"><b>Objetivo</b>Conferir, antes de qualquer ação, se a RoE tem os dez itens, se agora é horário da janela e quais alvos estão no escopo.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>roe_rascunho.yaml</code>, <code>roe_tatame.yaml</code> e <code>alvos.txt</code>.<br>3. Rode "Rascunho da diretoria", "Versão final às 10h15" e "Versão final às 21h40".</div>
+            <div class="rl obs"><b>Observe</b>No rascunho faltam 3 de 10 itens. Na versão final: 99 h de janela, folga de 19 h (19%) e 4 de 7 alvos bloqueados (57%). Às 21h40, o script manda parar.</div>
+            <div class="rl conc"><b>Conclusão</b>A RoE vira uma verificação que roda antes de cada sessão.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -377,23 +263,63 @@
     </div>
   </section>
 
-  <!-- 19. De volta ao problema -->
-  <section class="slide">
+  <!-- 14. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">De volta ao problema</p>
-      <h2>Agora Rafael sabe onde agir</h2>
-      <div class="resolvido">
-        <div class="ev"><b>A cadeia tem pontos de corte</b>Na Kill Chain, basta interromper uma fase. Quanto mais cedo, menos o atacante avança.</div>
-        <div class="ev"><b>O incidente parou no C2</b>No caso por <em>phishing</em>, o SOC isolou o NB-FIN-027 na fase 6 de 7, antes da cópia e da criptografia.</div>
-        <div class="ev"><b>A plataforma mostrou as lacunas</b>A regra R11 pega o login sem MFA na VPN. A descoberta no AD, o RDP entre servidores e a cópia para fora passam sem alerta.</div>
-        <div class="ev"><b>A ordem do trabalho</b>Cobertura de 45%. Regras para as técnicas que já têm telemetria levam a 70%.</div>
-        <div class="resposta">Resposta: a Rede Tatame consegue parar o Cobalto Austral na entrada (login sem MFA) e na fase de credenciais e cópias de sombra. Ainda passariam sem alerta a descoberta no AD, o acesso remoto entre servidores e a saída de dados, que são as próximas regras a escrever.</div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>O escopo e os alertas na plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver o escopo na superfície exposta e praticar a <em>deconfliction</em> com alertas reais da plataforma.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Superfície</strong>, deixe marcado "ordenar por risco" e procure <code>hml-gestao</code> e <code>promo-hml</code>.<br>2. Em <strong>Cenários</strong>, clique em <strong>Iniciar cenário</strong> no card <em>Reconhecimento externo</em>.<br>3. No <strong>SOC</strong>, clique em <strong>Investigar</strong> em cada alerta.</div>
+            <div class="rl obs"><b>Observe</b>O <code>promo-hml</code> é da agência: fora do escopo. O alerta R4 da varredura bate com o exercício; os da R11 (<code>svc-backup</code>) e o R4 do monitor de disponibilidade não são do exercício.</div>
+            <div class="rl conc"><b>Conclusão</b>O alerta que não bate com o registro do operador é tratado pelo SOC como qualquer outro.</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 20. Pontos-chave -->
+  <!-- 15. Exemplo numérico -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Exemplo numérico</p>
+      <h2>A janela e o escopo em números</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial compacta">
+          <thead><tr><th>Conta</th><th>Cálculo</th><th>Resultado</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Dias úteis da janela</strong></td><td>16 a 27/11/2026: 10 dias úteis, menos o feriado de 20/11 (Dia Nacional de Zumbi e da Consciência Negra)</td><td>9 dias</td></tr>
+            <tr><td><strong>Horas de janela</strong></td><td>9 dias × 11 h (9h às 20h)</td><td>99 h</td></tr>
+            <tr><td><strong>Folga</strong></td><td>99 h − 80 h planejadas = 19 h; 19 ÷ 99</td><td>≈ 19%</td></tr>
+            <tr><td><strong>Alvos bloqueados</strong></td><td>7 sugeridos: 3 no escopo; 4 fora (rede PCI, PagaFácil, página de status, <code>promo-hml</code>); 4 ÷ 7</td><td>≈ 57%</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.6rem"><p>A folga existe para as pausas de <em>deconfliction</em>: cada alerta escalado pode parar o Red Team por alguns minutos ou horas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. De volta ao problema -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">De volta ao problema</p>
+      <h2>Agora Bruno Sato pode começar</h2>
+      <div class="resolvido">
+        <div class="ev"><b>Autorização</b>Carta assinada por Marina Prado, que tem autoridade sobre os ativos, com o <em>hash</em> conferido no chamado APR-2291.</div>
+        <div class="ev"><b>Escopo e janela</b>Sede e nuvem dentro; PCI, PagaFácil, status e <code>promo-hml</code> fora. 99 h de janela, com 19 h de folga.</div>
+        <div class="ev"><b>Controle</b>White Team, <em>trusted agent</em> Caio Mendes, contatos 24 horas e a palavra de parada QUIMONO.</div>
+        <div class="ev"><b>Dados e alertas</b>Coleta mínima pela LGPD e registro de ações em NB-RED-002 para a <em>deconfliction</em>.</div>
+        <div class="resposta">Resposta à pergunta da aula: antes do primeiro sistema, precisam estar escritas e assinadas a autorização de quem tem autoridade e as regras de engajamento completas, com objetivo, escopo e exclusões, janela, técnicas proibidas, dados sensíveis, parada, White Team, <em>deconfliction</em> e relatório.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -401,38 +327,40 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>A Cyber Kill Chain mostra que interromper uma fase basta para frustrar o ataque.</li>
-          <li>O MITRE ATT&amp;CK detalha táticas, técnicas e procedimentos observados em ataques reais.</li>
-          <li>O Red Team usa o ATT&amp;CK para escolher o que emular; o Blue Team, para medir o que detecta.</li>
-          <li>Os dois modelos juntos permitem um relatório que serve à diretoria e ao analista.</li>
+          <li>Sem autorização expressa de quem tem autoridade sobre os ativos, o teste pode configurar o crime do art. 154-A.</li>
+          <li>A RoE define objetivo, escopo e exclusões, janelas, técnicas proibidas, dados sensíveis, critérios de parada, White Team e contatos.</li>
+          <li>A carta de autorização precisa ser a versão assinada, com integridade verificável.</li>
+          <li>A <em>deconfliction</em> separa o exercício de um incidente real; a LGPD vale durante todo o teste.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 21. Referências -->
+  <!-- 18. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>HUTCHINS, Eric M.; CLOPPERT, Michael J.; AMIN, Rohan M. Intelligence-driven computer network defense informed by analysis of adversary campaigns and intrusion kill chains. <em>Leading Issues in Information Warfare &amp; Security Research</em>, v. 1, p. 80-106, 2011.</p>
-        <p>MITRE. <em>MITRE ATT&amp;CK</em>. Disponível em: &lt;https://attack.mitre.org/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>STROM, Blake E. <em>et al</em>. <em>MITRE ATT&amp;CK: design and philosophy</em>. McLean: The MITRE Corporation, 2018.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>BRASIL. Lei nº 12.737, de 30 de novembro de 2012. Dispõe sobre a tipificação criminal de delitos informáticos. <em>Diário Oficial da União</em>, Brasília, DF, 3 dez. 2012.</p>
+        <p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <em>Diário Oficial da União</em>, Brasília, DF, 15 ago. 2018.</p>
+        <p>BRASIL. Lei nº 14.155, de 27 de maio de 2021. Altera o Código Penal para tornar mais graves os crimes de violação de dispositivo informático, furto e estelionato cometidos de forma eletrônica. <em>Diário Oficial da União</em>, Brasília, DF, 28 maio 2021.</p>
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>SP 800-115</em>: technical guide to information security testing and assessment. Gaithersburg: NIST, 2008.</p>
+        <p>PTES. <em>The penetration testing execution standard</em>. Disponível em: http://www.pentest-standard.org/. Acesso em: 22 nov. 2026.</p>
       </div>
     </div>
   </section>
 
-  <!-- 22. Encerramento -->
+  <!-- 19. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já lê um ataque pelas fases da Kill Chain, descreve cada passo com o vocabulário do ATT&amp;CK e sabe medir a cobertura de detecção. Explore a matriz e escolha uma técnica para estudar.</p>
-      <p class="fim-proxima">Próxima aula: Aula 3 — Avaliações de segurança: varredura, pentest e Red Team.</p>
+      <p class="fim-texto">Você já sabe o que precisa estar escrito e assinado antes de uma operação de Red Team: autorização, regras de engajamento, escopo e os cuidados legais e de <em>deconfliction</em>.</p>
+      <p class="fim-proxima">Próxima aula: Aula 3 — MITRE ATT&amp;CK: táticas, técnicas e planos de emulação.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -442,348 +370,300 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- 6. Cena 3D: a Kill Chain e o ponto de corte ---------- */
-Labs.scene3d('#lab-kc3d', (c) => {
+/* ---------- 3. Problema de hoje: mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'ad', 'arq', 'pay', 'hml', 'siem'], alvo: 'arq', caminho: ['nb', 'ad', 'arq'],
+  legenda: 'O alvo da operação, o <code>SRV-ARQ-01</code> (em vermelho), e o que não pode ser tocado sem estar escrito: pagamentos, homologação e serviços de terceiros.' });
+
+/* ---------- 7. Cena 3D: pirâmide das avaliações ---------- */
+Labs.scene3d('#lab-3d', (c) => {
   const { THREE, root } = c;
-  const F = ['Reconhecimento', 'Armamento', 'Entrega', 'Exploração', 'Instalação', 'Comando e controle', 'Ações nos objetivos'];
-  const D = ['reduzir a exposição pública e vigiar domínios parecidos com tatame.com.br',
-    'inteligência de ameaças sobre campanhas que miram o setor',
-    'filtro de e-mail com sandbox de anexos',
-    'bloqueio de macros em arquivos vindos da internet e alerta do EDR',
-    'EDR vigiando tarefas agendadas e chaves de inicialização',
-    'DNS e proxy revelando contato periódico com domínio recém-registrado',
-    'backups offline e alerta de muitos arquivos renomeados'];
-  const pts = F.map((f, i) => new THREE.Vector3(-6.3 + i * 2.1, Math.sin(i * 1.1) * 1.1, -Math.cos((i / 6) * Math.PI) * 1.4));
-  const curve = new THREE.CatmullRomCurve3(pts);
-  root.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 200, 0.05, 8, false), new THREE.MeshBasicMaterial({ color: 0x3a5a8c })));
-  const boxes = pts.map((p, i) => {
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), new THREE.MeshStandardMaterial({ color: 0xff2b5f, emissive: 0xff2b5f, emissiveIntensity: 0.25 }));
-    m.position.copy(p); root.add(m);
-    const l = c.label((i + 1) + '. ' + F[i], { size: 32 });
-    l.position.set(p.x, p.y + (i % 2 ? -1.05 : 1.05), p.z); root.add(l);
+  const N = [
+    { n: 'Varredura', cor: 0x00b1d2, css: '#58C4E8', rb: 4.3, rt: 3.0, h: 1.5, y: -1.6,
+      t: 'Pergunta: quais falhas conhecidas existem?<br>Escopo amplo · sem furtividade · horas<br>Blue Team avisado: sim<br><i>A autorização cobre a lista de ativos e o horário.</i>' },
+    { n: 'Pentest', cor: 0xf2cb0a, css: '#F2CB0A', rb: 2.85, rt: 1.55, h: 1.5, y: 0.0,
+      t: 'Pergunta: o que pode ser explorado?<br>Escopo delimitado · furtividade baixa · dias a semanas<br>Blue Team avisado: normalmente sim<br><i>A autorização acrescenta técnicas permitidas e proibidas.</i>' },
+    { n: 'Red Team', cor: 0xff2b5f, css: '#FF5C7A', rb: 1.4, rt: 0.05, h: 1.7, y: 1.7,
+      t: 'Pergunta: detectamos e respondemos?<br>Orientado a objetivos · furtividade alta · semanas<br>Blue Team avisado: normalmente não (só o White Team sabe)<br><i>A RoE precisa de parada, contatos 24 h e deconfliction.</i>' }
+  ];
+  const meshes = N.map((a, i) => {
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(a.rt, a.rb, a.h, 4, 1), new THREE.MeshStandardMaterial({ color: a.cor, emissive: a.cor, emissiveIntensity: 0.15, transparent: true, opacity: 0.88, flatShading: true }));
+    m.rotation.y = Math.PI / 4; m.position.y = a.y; root.add(m);
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(m.geometry), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 }));
+    m.add(e);
+    const l = c.label(a.n, { color: a.css, size: 40 }); l.position.set(0, a.y + (i === 2 ? 0.2 : 0), a.rb + 0.6); root.add(l);
     return m;
   });
-  const shield = new THREE.Mesh(new THREE.TorusGeometry(0.75, 0.09, 12, 48), new THREE.MeshBasicMaterial({ color: 0x00b1d2 }));
-  shield.visible = false; root.add(shield);
-  const atk = new THREE.Mesh(new THREE.SphereGeometry(0.22, 20, 20), new THREE.MeshBasicMaterial({ color: 0xffffff }));
-  root.add(atk);
-  const leg = c.legend('');
-  leg.style.maxWidth = '300px';
-  const ctl = c.controls('<span style="color:#9FB0C8;font:600 12px var(--fonte);align-self:center">Cortar na fase</span>' +
-    F.map((f, i) => '<button class="lab-btn ghost" data-i="' + i + '" title="' + f + '">' + (i + 1) + '</button>').join('') +
-    '<button class="lab-btn red" data-i="-1">Sem defesa</button>');
+  const up = c.label('menos gente sabe do teste', { size: 28, color: '#FF9DB3' }); up.position.set(-4.6, 2.6, 0); root.add(up);
+  const dn = c.label('mais amplo e frequente', { size: 28, color: '#9FE6F5' }); dn.position.set(-4.6, -2.7, 0); root.add(dn);
+  const leg = c.legend(''); leg.style.maxWidth = '330px';
+  const ctl = c.controls(N.map((a, i) => '<button class="lab-btn ghost" data-i="' + i + '">' + a.n + '</button>').join('') + '<button class="lab-btn ghost" data-i="-1">Pirâmide inteira</button>');
   ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
-  let corte = -1, u = 0;
+  let sel = -1;
   function set(i) {
-    corte = i; u = 0;
+    sel = i;
     ctl.querySelectorAll('button').forEach((b) => b.classList.toggle('ghost', +b.dataset.i !== i));
-    shield.visible = i >= 0;
-    if (i >= 0) shield.position.copy(pts[i]);
-    boxes.forEach((b, k) => {
-      const ativa = i < 0 || k <= i;
-      b.material.color.setHex(ativa ? 0xff2b5f : 0x334155);
-      b.material.emissive.setHex(ativa ? 0xff2b5f : 0x000000);
-    });
-    leg.innerHTML = i < 0
-      ? '<b>Sem defesa</b><br>O ataque percorre as sete fases e chega ao objetivo.'
-      : '<b>Cadeia cortada na fase ' + (i + 1) + '</b><br>' + F[i] + ': ' + D[i] + '.<br>As fases seguintes não acontecem.';
+    meshes.forEach((m, k) => { m.material.opacity = i < 0 || k === i ? 0.9 : 0.25; m.material.emissiveIntensity = k === i ? 0.55 : 0.15; });
+    leg.innerHTML = i < 0 ? '<b>Três andares, três autorizações</b><br>Clique em um andar para ver os critérios.' : '<b style="color:' + N[i].css + '">' + N[i].n + '</b><br>' + N[i].t;
   }
   ctl.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) set(+b.dataset.i); });
   set(-1);
-  c.onFrame((t, dt) => {
-    const fim = corte < 0 ? 1 : corte / 6;
-    u = Math.max(0, u + Math.max(0, dt) * 0.11);   // o primeiro dt pode vir negativo
-    if (u > fim + 0.2) u = 0;
-    atk.position.copy(curve.getPoint(Math.min(u, fim)));
-    atk.material.color.setHex(corte >= 0 && u >= fim ? 0x00b1d2 : 0xffffff);
-    shield.rotation.y = t * 2;
-    boxes.forEach((b, k) => { b.rotation.y = t * 0.5 + k; });
+  c.onFrame((t) => {
+    meshes.forEach((m, k) => {
+      const alvo = k === sel ? 1.4 : 0;
+      m.position.z += (alvo - m.position.z) * 0.08;
+      m.position.y = N[k].y + (k === sel ? Math.sin(t * 3) * 0.06 : 0);
+    });
   });
-}, { camera: [0, 3, 16], spin: 0.08 });
+}, { camera: [0, 3.5, 13], spin: 0.12 });
 
-/* ---------- 4. Problema de hoje: mini-mapa ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'ad', 'erp', 'edr', 'siem'], alvo: 'arq', caminho: ['net', 'vpn', 'ad', 'arq'],
-  legenda: 'Onde a aula acontece: a sede. O grupo entra pela VPN, consulta o AD e chega ao servidor de arquivos SRV-ARQ-01 (em vermelho).' });
+/* ---------- 10. Terminal: integridade da carta de autorização ---------- */
+Labs.terminal('#lab-term', {
+  title: 'bruno.sato@NB-RED-002: ~/tatame-exercicio-2026-11', prompt: 'bruno.sato@NB-RED-002:~/tatame-exercicio-2026-11$ ',
+  steps: [
+    { cmd: 'ls -l autorizacao/', note: 'A pasta tem a carta, a assinatura destacada (.asc), o hash registrado no chamado e uma cópia que chegou por e-mail.', out: [
+      'total 404',
+      '-rw-r--r-- 1 bruno.sato redteam     96 nov 13 08:50 APR-2291.sha256',
+      '-rw-r--r-- 1 bruno.sato redteam 201344 nov 13 08:51 carta_autorizacao_2026-11.pdf',
+      '-rw-r--r-- 1 bruno.sato redteam    566 nov 13 08:51 carta_autorizacao_2026-11.pdf.asc',
+      '-rw-r--r-- 1 bruno.sato redteam 201377 nov 13 09:40 carta_autorizacao_copia_email.pdf' ] },
+    { cmd: 'cat autorizacao/APR-2291.sha256', note: 'É o hash que Marina Prado registrou no chamado de aprovação no momento da assinatura.', out: [
+      '0a4a8184a14a48a27654dfb5a16a64b20d95c726b2450aa6fcff38bc920b9465  carta_autorizacao_2026-11.pdf' ] },
+    { cmd: 'cd autorizacao && sha256sum -c APR-2291.sha256 && cd ..', note: 'O sha256sum recalcula o hash do arquivo e compara com o registrado. OK quer dizer que nenhum byte mudou.', out: [
+      '[ok] carta_autorizacao_2026-11.pdf: OK' ] },
+    { cmd: 'gpg --verify autorizacao/carta_autorizacao_2026-11.pdf.asc autorizacao/carta_autorizacao_2026-11.pdf', note: 'A assinatura digital prova quem aprovou e que o arquivo não mudou desde então.', out: [
+      'gpg: Signature made Thu Nov 12 18:02:11 2026 -03',
+      'gpg:                using RSA key 5D2E9A41C07B3F68E1A4D9C2B70F3E5A8C61D4F0',
+      '[ok] gpg: Good signature from "Marina Prado (CISO) <marina.prado@tatame.com.br>" [full]' ] },
+    { cmd: 'sha256sum autorizacao/carta_autorizacao_copia_email.pdf', note: 'A cópia do e-mail tem 33 bytes a mais e outro hash: não é o documento aprovado no APR-2291.', out: [
+      '[err] 595a7e5e7055ac5c10faabbc5b973edba6d45d451eb2b3e21713e5b245f0eac9  autorizacao/carta_autorizacao_copia_email.pdf' ] }
+  ],
+  done: 'Roteiro concluído: só a versão assinada autoriza o exercício. A cópia divergente é comunicada a Marina Prado.'
+});
 
-/* ---------- 7. Fluxo: ransomware fictício fase a fase ---------- */
+/* ---------- 11. Fluxo: deconfliction ---------- */
 Labs.flow('#lab-flow', {
   w: 1100, h: 440,
   nodes: [
-    { id: 'rec', x: 150, y: 80, label: 'Reconhecimento', sub: 'perfis do financeiro', icon: '🔎', k: 'red', w: 220 },
-    { id: 'arm', x: 410, y: 80, label: 'Armamento', sub: 'planilha com macro', icon: '⚙️', k: 'red', w: 220 },
-    { id: 'ent', x: 670, y: 80, label: 'Entrega', sub: 'e-mail "Repasse das academias"', icon: '✉️', k: 'red', w: 220 },
-    { id: 'exp', x: 930, y: 80, label: 'Exploração', sub: 'macro habilitada', icon: '💥', k: 'red', w: 220 },
-    { id: 'ins', x: 930, y: 230, label: 'Instalação', sub: 'tarefa agendada', icon: '📌', k: 'red', w: 220 },
-    { id: 'c2', x: 670, y: 230, label: 'Comando e controle', sub: 'contato periódico', icon: '📡', k: 'red', w: 230 },
-    { id: 'obj', x: 410, y: 230, label: 'Ações nos objetivos', sub: 'cópia e criptografia', icon: '🔐', k: 'red', w: 230 },
-    { id: 'fim', x: 150, y: 230, label: 'Objetivo frustrado', sub: 'cadeia interrompida', icon: '🏁', k: 'green', w: 220 },
-    { id: 'def', x: 540, y: 375, label: 'Blue Team', sub: 'controles e SOC', icon: '🛡️', k: 'blue', w: 220 }
+    { id: 'red', x: 130, y: 80, label: 'Bruno Sato', sub: 'Red Team · NB-RED-002', icon: '🎯', k: 'red', w: 220 },
+    { id: 'reg', x: 130, y: 230, label: 'Registro de ações', sub: 'o quê, de onde, quando', icon: '📒', k: 'red', w: 220 },
+    { id: 'soc', x: 420, y: 80, label: 'Luiza Ferraz', sub: 'SOC · alerta escalado', icon: '🛡️', k: 'blue', w: 220 },
+    { id: 'ta', x: 420, y: 230, label: 'Caio Mendes', sub: 'trusted agent', icon: '⚖️', k: 'amber', w: 220 },
+    { id: 'ok', x: 730, y: 110, label: 'Bate com o registro', sub: 'exercício segue · conta como detecção', icon: '✅', k: 'green', w: 270 },
+    { id: 'real', x: 730, y: 290, label: 'Não bate', sub: 'possível incidente real', icon: '🚨', k: 'red', w: 270 },
+    { id: 'stop', x: 970, y: 380, label: 'Palavra de parada', sub: 'QUIMONO · Marina Prado', icon: '⛔', k: 'amber', w: 220 },
+    { id: 'ir', x: 420, y: 380, label: 'Resposta a incidente', sub: 'SOC trata como real', icon: '🔒', k: 'blue', w: 230 }
   ],
   links: [
-    { from: 'rec', to: 'arm' }, { from: 'arm', to: 'ent' }, { from: 'ent', to: 'exp' }, { from: 'exp', to: 'ins' },
-    { from: 'ins', to: 'c2' }, { from: 'c2', to: 'obj' },
-    { from: 'def', to: 'ent', dashed: true }, { from: 'def', to: 'c2', dashed: true }, { from: 'def', to: 'obj', dashed: true }, { from: 'def', to: 'fim', dashed: true, curve: 40 }
+    { from: 'red', to: 'reg', label: 'anota' }, { from: 'red', to: 'soc', label: 'ação gera alerta', dashed: true },
+    { from: 'soc', to: 'ta', label: 'escala' }, { from: 'reg', to: 'ta', label: 'consulta' },
+    { from: 'ta', to: 'ok' }, { from: 'ta', to: 'real' },
+    { from: 'real', to: 'stop' }, { from: 'stop', to: 'red', dashed: true, curve: -80, label: 'para tudo' }, { from: 'real', to: 'ir' }
   ],
   steps: [
-    { title: 'Rede Tatame e Grupo Cobalto Austral (fictícios)', text: 'O grupo de ransomware escolhe a Rede Tatame como alvo e, nesta versão, entra por phishing no financeiro da sede. Vamos seguir o ataque fase a fase e marcar, em cada uma, onde a defesa poderia agir.', on: ['rec', 'arm', 'ent', 'exp', 'ins', 'c2', 'obj'] },
-    { title: '1 · Reconhecimento', text: 'O atacante lista nomes e cargos do financeiro da sede em redes profissionais e em www.tatame.com.br. Defesa possível: reduzir a exposição pública e monitorar domínios parecidos com tatame.com.br.', on: ['rec'], dim: true },
-    { title: '2 · Armamento', text: 'Prepara uma planilha com macro, longe da vista da vítima. Defesa possível: há pouca visibilidade direta; a inteligência de ameaças sobre campanhas do setor ajuda a antecipar.', on: ['arm'], links: [['rec', 'arm', 'red']], dim: true },
-    { title: '3 · Entrega', text: 'O e-mail "Repasse das academias" chega a 12 pessoas do financeiro. Defesa possível: filtro de e-mail com sandbox de anexos e atenção a remetentes recém-criados.', on: ['ent', 'def'], links: [['arm', 'ent', 'red'], ['def', 'ent', 'blue']], dim: true },
-    { title: '4 · Exploração', text: 'Outra analista do financeiro (não é a Carla Dias) abre a planilha no notebook dela, o NB-FIN-027, e habilita o conteúdo. Defesa possível: política que bloqueia macros em arquivos vindos da internet; o EDR alerta quando o Excel cria outros processos.', on: ['exp'], links: [['ent', 'exp', 'red']], dim: true },
-    { title: '5 · Instalação', text: 'O programa cria uma tarefa agendada para sobreviver ao reinício. Defesa possível: EDR e SIEM vigiam tarefas novas criadas por usuários comuns.', on: ['ins'], links: [['exp', 'ins', 'red']], dim: true },
-    { title: '6 · Comando e controle', text: 'A máquina passa a contatar um servidor externo em intervalos regulares. Defesa possível: DNS e proxy revelam a comunicação periódica com um domínio registrado há poucos dias.', on: ['c2', 'def'], links: [['ins', 'c2', 'red'], ['def', 'c2', 'blue']], dim: true },
-    { title: '7 · Ações sobre os objetivos', text: 'Cópia das exportações de fichas de alunos do SRV-ARQ-01, inclusive de menores, e criptografia dos servidores da sede. Defesa possível: backups offline e alerta de muitos arquivos renomeados em pouco tempo (T1486).', on: ['obj', 'def'], bad: ['obj'], links: [['c2', 'obj', 'red'], ['def', 'obj', 'blue']], dim: true },
-    { title: 'Basta interromper uma fase', text: 'Se o filtro barrasse a entrega, ou se o SOC percebesse o canal de C2, as fases seguintes não aconteceriam. O defensor não precisa vencer em todas.', on: ['def', 'fim', 'ent', 'c2'], bad: ['obj'], links: [['def', 'fim', 'green']], dim: true }
+    { title: 'Quem participa', text: 'O Red Team de Bruno Sato age e anota cada ação. O SOC de Luiza Ferraz não sabe do exercício. Caio Mendes, trusted agent do White Team, sabe e tem acesso ao registro.', on: ['red', 'reg', 'soc', 'ta'] },
+    { title: '10h20 · A ação e o registro', text: 'Bruno enumera compartilhamentos no SRV-ARQ-01 a partir do NB-RED-002 e anota no registro: técnica, origem, alvo e horário. Sem esse registro, ninguém conseguiria separar o exercício de um ataque.', on: ['red', 'reg'], links: [['red', 'reg', 'red']], dim: true },
+    { title: '10h24 · O alerta chega', text: 'O EDR gera um alerta. Luiza Ferraz abre o caso e escala como faria com qualquer incidente: ela está sendo medida e não pode ser avisada.', on: ['red', 'soc'], links: [['red', 'soc', 'blue']], dim: true },
+    { title: '10h26 · O trusted agent confere', text: 'Caio Mendes recebe a escalada e compara com o registro: mesma origem (NB-RED-002), mesmo horário, mesma técnica?', on: ['soc', 'ta', 'reg'], links: [['soc', 'ta', 'amber'], ['reg', 'ta', 'amber']], dim: true },
+    { title: 'Desfecho A · Bate', text: 'Tudo confere. O exercício segue e o alerta conta como detecção, com MTTD de 4 minutos. A resposta do SOC continua, porque ela também está sendo medida.', on: ['ta', 'ok'], links: [['ta', 'ok', 'green']], dim: true },
+    { title: 'Desfecho B · Não bate', text: '10h41: outro alerta mostra um login no SRV-ERP-01 com uma conta que não está no registro, vindo de uma origem que não é o NB-RED-002. Pode ser um ataque real acontecendo em paralelo.', on: ['ta', 'real'], bad: ['real'], links: [['ta', 'real', 'red']], dim: true },
+    { title: 'Palavra de parada', text: 'É um critério de parada da RoE. Marina Prado diz a palavra QUIMONO: Bruno interrompe todas as ações na hora, anota o horário e preserva o registro. O SOC trata o caso como incidente real.', on: ['real', 'stop', 'red', 'ir'], links: [['real', 'stop', 'amber'], ['stop', 'red', 'amber'], ['real', 'ir', 'blue']], dim: true },
+    { title: 'Retomada', text: 'O exercício só volta quando o White Team decide, depois de esclarecido o incidente. O tempo parado sai da folga da janela, calculada no exemplo numérico.', on: ['ta', 'stop', 'red'], dim: true }
   ]
 });
 
-/* ---------- 11. Navegador: a técnica T1566 ---------- */
-Labs.browser('#lab-brw', {
-  url: 'https://attack.mitre.org/techniques/T1566/',
-  html: `<div class="att">
-  <div class="att-top"><b>MITRE | ATT&amp;CK</b><span>Matrizes</span><span>Táticas</span><span>Técnicas</span><span>Mitigações</span><span style="margin-left:auto;opacity:.7">reprodução didática simplificada</span></div>
-  <div class="att-body">
-    <h1>Phishing</h1>
-    <div class="meta"><span>ID: T1566</span><span>Tática: Acesso inicial</span><span>Plataformas: Linux, macOS, Windows, SaaS, Office Suite, Identity Provider</span></div>
-    <div class="att-tabs"><button data-tab="d" class="on">Descrição</button><button data-tab="s">Subtécnicas</button><button data-tab="m">Mitigações</button><button data-tab="x">Detecção</button><button data-tab="rb">Red x Blue</button></div>
-    <div data-pane="d"><p>Adversários enviam mensagens fraudulentas para obter acesso aos sistemas da vítima. Em geral, a mensagem traz um anexo ou um <em>link</em> e usa engenharia social para que o destinatário abra o arquivo ou acesse a página.</p><p>Pode ser direcionado a uma pessoa, a uma empresa ou a um setor inteiro (<em>spearphishing</em>), ou enviado em massa.</p><p>Na página real, a seção <em>Procedure Examples</em> lista dezenas de grupos e campanhas que já usaram a técnica, cada um com o relatório público de origem.</p></div>
-    <div data-pane="s" hidden><table><tr><th>ID</th><th>Subtécnica</th><th>Em uma frase</th></tr>
-      <tr><td>T1566.001</td><td>Spearphishing Attachment</td><td>Arquivo malicioso anexado à mensagem</td></tr>
-      <tr><td>T1566.002</td><td>Spearphishing Link</td><td><em>Link</em> para página ou arquivo controlado pelo adversário</td></tr>
-      <tr><td>T1566.003</td><td>Spearphishing via Service</td><td>Mensagem por rede social ou serviço de terceiros, fora do <em>e-mail</em> corporativo</td></tr>
-      <tr><td>T1566.004</td><td>Spearphishing Voice</td><td>Ligação telefônica que induz a vítima a agir</td></tr></table></div>
-    <div data-pane="m" hidden><table><tr><th>ID</th><th>Mitigação</th><th>Exemplo</th></tr>
-      <tr><td>M1049</td><td>Antivirus/Antimalware</td><td>Varredura de anexos antes da entrega</td></tr>
-      <tr><td>M1047</td><td>Audit</td><td>Revisar configurações de autenticação de <em>e-mail</em> (SPF, DKIM, DMARC)</td></tr>
-      <tr><td>M1031</td><td>Network Intrusion Prevention</td><td>Bloquear anexos e <em>links</em> conhecidos no gateway</td></tr>
-      <tr><td>M1021</td><td>Restrict Web-Based Content</td><td>Bloquear tipos de arquivo que não são usados no negócio</td></tr>
-      <tr><td>M1054</td><td>Software Configuration</td><td>Políticas anti-<em>spoofing</em> no servidor de <em>e-mail</em></td></tr>
-      <tr><td>M1017</td><td>User Training</td><td>Treinar usuários a reconhecer e reportar mensagens suspeitas</td></tr></table></div>
-    <div data-pane="x" hidden><table><tr><th>Fonte de dados</th><th>O que observar</th></tr>
-      <tr><td>Registros do gateway de <em>e-mail</em></td><td>Remetente recém-criado, domínio parecido com tatame.com.br, anexo com macro</td></tr>
-      <tr><td>Tráfego de rede e <em>proxy</em></td><td>Acesso a domínio registrado há poucos dias logo após a mensagem chegar</td></tr>
-      <tr><td>Arquivos e processos (EDR)</td><td>Anexo salvo e aberto; aplicativo de escritório criando outros processos</td></tr></table></div>
-    <div data-pane="rb" hidden><div class="rb">
-      <div class="r"><b>Visão do Red Team</b><br>Objetivo: conseguir o primeiro acesso por meio de uma pessoa.<br>Perguntas do planejamento: quem é o público-alvo? que tema seria crível? o exercício está previsto na carta de autorização?<br>Entregável: taxa de cliques e tempo até a primeira denúncia.</div>
-      <div class="b"><b>Visão do Blue Team</b><br>Rastros: entrega no gateway, clique no <em>proxy</em>, processos no EDR, <em>login</em> no provedor de identidade.<br>Perguntas: temos esses registros no SIEM? alguma regra liga a mensagem ao clique?<br>Entregável: tempo até detectar e caixas de entrada limpas.</div>
-    </div></div>
-    <p class="foot">Conteúdo baseado no MITRE ATT&amp;CK®, de uso livre mediante atribuição. Consulte o <em>site</em> oficial para a versão completa e atualizada.</p>
-  </div></div>`,
-  onReady(page) {
-    page.querySelectorAll('[data-tab]').forEach((b) => b.addEventListener('click', () => {
-      page.querySelectorAll('[data-tab]').forEach((x) => x.classList.toggle('on', x === b));
-      page.querySelectorAll('[data-pane]').forEach((p) => { p.hidden = p.dataset.pane !== b.dataset.tab; });
-    }));
-  }
-});
-
-/* ---------- 13. Matriz no estilo ATT&CK Navigator ---------- */
-Labs.register('#lab-nav', (el) => {
-  const M = [
-    ['Reconheci­mento', [['T1595', 'Varredura ativa'], ['T1589', 'Identidades da vítima'], ['T1593', 'Sites abertos']]],
-    ['Desenv. de recursos', [['T1583', 'Adquirir infraestrutura'], ['T1585', 'Criar contas'], ['T1588', 'Obter capacidades']]],
-    ['Acesso inicial', [['T1566', 'Phishing'], ['T1078', 'Contas válidas'], ['T1190', 'App exposta'], ['T1133', 'Serviço remoto externo']]],
-    ['Execução', [['T1059', 'Interpretador de comandos'], ['T1204', 'Execução pelo usuário'], ['T1053', 'Tarefa agendada']]],
-    ['Persistência', [['T1547', 'Autoexecução no logon'], ['T1136', 'Criar conta'], ['T1098', 'Manipular conta']]],
-    ['Escalona­mento de privilégios', [['T1068', 'Explorar falha local'], ['T1548', 'Abuso de elevação'], ['T1134', 'Manipular token']]],
-    ['Furtividade', [['T1070', 'Remover indicadores'], ['T1027', 'Ofuscação'], ['T1036', 'Mascaramento']]],
-    ['Enfraqueci­mento de defesas', [['T1685', 'Desativar ferramentas'], ['T1112', 'Modificar registro'], ['T1556', 'Modificar autenticação']]],
-    ['Acesso a credenciais', [['T1003', 'Extração de credenciais'], ['T1110', 'Força bruta'], ['T1555', 'Cofres de senha']]],
-    ['Descoberta', [['T1087', 'Descobrir contas'], ['T1018', 'Sistemas remotos'], ['T1046', 'Serviços de rede']]],
-    ['Movimen­tação lateral', [['T1021', 'Serviços remotos'], ['T1570', 'Transferência lateral'], ['T1550', 'Material de autenticação']]],
-    ['Coleta', [['T1005', 'Dados locais'], ['T1039', 'Comparti­lhamentos'], ['T1560', 'Compactar dados']]],
-    ['Comando e controle', [['T1071', 'Protocolo de aplicação'], ['T1105', 'Transferir ferramentas'], ['T1572', 'Tunelamento']]],
-    ['Exfiltração', [['T1041', 'Pelo canal de C2'], ['T1567', 'Por serviço web'], ['T1048', 'Protocolo alternativo']]],
-    ['Impacto', [['T1486', 'Criptografia de dados'], ['T1490', 'Inibir recuperação'], ['T1489', 'Parar serviços']]]
-  ];
-  const AULA = { T1566: 3, T1059: 2, T1003: 3, T1021: 1, T1486: 2 };
-  const COR = ['', '#FF2B5F', '#F2CB0A', '#3FD47A'];
-  const NOME = ['não avaliada', 'sem cobertura', 'parcial', 'detectada'];
-  let st = {};
-  el.innerHTML = '<div class="lab-panel nv" style="position:relative">' +
-    '<div class="nv-bar"><button class="lab-btn" data-a="aula">Camada da aula (5 técnicas)</button><button class="lab-btn ghost" data-a="limpar">Limpar</button><button class="lab-btn blue" data-a="json">Exportar layer JSON</button>' +
-    '<span style="flex:1;color:#9FB0C8;font:12.5px var(--fonte)">Clique em uma técnica: cinza, vermelho, amarelo, verde.</span>' +
-    '<div class="lab-kpi"><small>Avaliadas</small><b id="nv-n">0</b></div><div class="lab-kpi green"><small>Detectadas</small><b id="nv-g">0</b></div><div class="lab-kpi amber"><small>Parciais</small><b id="nv-y">0</b></div><div class="lab-kpi red"><small>Sem cobertura</small><b id="nv-r">0</b></div><div class="lab-kpi blue"><small>Cobertura</small><b id="nv-p">–</b></div></div>' +
-    '<div class="nv-grid">' + M.map(([t, ts]) => '<div class="nv-col"><div class="nv-th">' + t + '</div>' +
-      ts.map(([id, n]) => '<button class="nv-c" data-id="' + id + '"><b>' + id + '</b>' + n + '</button>').join('') + '</div>').join('') + '</div>' +
-    '<div class="nv-json" hidden></div></div>';
-  const q = (s) => el.querySelector(s);
-  function paint() {
-    el.querySelectorAll('.nv-c').forEach((b) => { b.className = 'nv-c' + (st[b.dataset.id] ? ' s' + st[b.dataset.id] : ''); b.title = NOME[st[b.dataset.id] || 0]; });
-    const v = Object.values(st).filter(Boolean);
-    const g = v.filter((x) => x === 3).length, y = v.filter((x) => x === 2).length, r = v.filter((x) => x === 1).length;
-    q('#nv-n').textContent = v.length; q('#nv-g').textContent = g; q('#nv-y').textContent = y; q('#nv-r').textContent = r;
-    q('#nv-p').textContent = v.length ? Math.round((g / v.length) * 100) + '%' : '–';
-  }
-  el.querySelector('.nv-grid').addEventListener('click', (e) => {
-    const b = e.target.closest('.nv-c'); if (!b) return;
-    st[b.dataset.id] = ((st[b.dataset.id] || 0) + 1) % 4; paint();
-  });
-  const box = q('.nv-json');
-  el.querySelector('.nv-bar').addEventListener('click', (e) => {
-    const a = e.target.closest('[data-a]'); if (!a) return;
-    if (a.dataset.a === 'aula') { st = Object.assign({}, AULA); box.hidden = true; }
-    if (a.dataset.a === 'limpar') { st = {}; box.hidden = true; }
-    if (a.dataset.a === 'json') {
-      if (!box.hidden) { box.hidden = true; return; }
-      const layer = { name: 'Cobertura de detecção · Rede Tatame', domain: 'enterprise-attack', versions: { layer: '4.5' },
-        techniques: Object.entries(st).filter(([, s]) => s).map(([id, s]) => ({ techniqueID: id, color: COR[s], comment: NOME[s] })) };
-      box.innerHTML = Labs.highlight(JSON.stringify(layer, null, 2), 'json').join('\n') + '\n\n<span class="tk-c">// clique em "Exportar layer JSON" de novo para fechar</span>';
-      box.hidden = false;
-    }
-    paint();
-  });
-  paint();
-});
-
-/* ---------- 15. SIEM: o incidente por fases e técnicas ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: 'Incidente INC-0412', lang: 'KQL', index: 'IncidentTimeline',
-  searches: [
-    { group: 'Incidente INC-0412', name: '1. Linha do tempo por fase', q: 'IncidentTimeline | where IncidentId == "INC-0412" | project TimeGenerated, KillChainPhase, Technique, Event, Source | sort by TimeGenerated asc',
-      cols: ['quando', 'fase (Kill Chain)', 'técnica (ATT&CK)', 'evento', 'fonte'], total: 8, unit: 'eventos',
-      hist: [1, 0, 0, 1, 0, 0, 0, 2, 3, 6, 4, 1], hot: [7, 8, 9],
-      rows: [
-        ['D-12', 'Reconhecimento', 'T1593 · Sites abertos', '37 acessos à página "Quem somos" de www.tatame.com.br', 'servidor web'],
-        ['D-3', 'Armamento', 'T1583.001 · Domínios', 'Domínio parecido com tatame.com.br registrado', 'inteligência'],
-        ['D0 08:41', 'Entrega', 'T1566.001 · Anexo', '12 e-mails "Repasse das academias" com planilha', 'gateway de e-mail'],
-        ['D0 09:02', 'Exploração', 'T1204.002 · Execução pelo usuário', 'EXCEL.EXE cria processo filho em NB-FIN-027', 'EDR'],
-        ['D0 09:03', 'Instalação', 'T1053.005 · Tarefa agendada', 'Tarefa "AtualizaRepasse" criada', 'EDR'],
-        ['D0 09:05', 'Comando e controle', 'T1071.001 · Protocolos web', 'HTTPS a cada 60 s para domínio de 3 dias', 'proxy e DNS'],
-        ['D0 09:26', '(Blue Team)', '', 'Alerta alto: comunicação periódica com domínio novo', 'SIEM'],
-        ['D0 09:41', '(Blue Team)', '', 'NB-FIN-027 isolado pelo EDR; cadeia interrompida no C2', 'SOC']
-      ], note: 'A Kill Chain organiza a narrativa do incidente; o ATT&amp;CK registra o detalhe de cada passo.' },
-    { group: 'Incidente INC-0412', name: '2. Técnicas por tática', q: 'IncidentTimeline | where IncidentId == "INC-0412" and isnotempty(Technique) | summarize Eventos = count() by Tactic, Technique, Detection',
-      cols: ['tática ATT&CK', 'técnica', 'eventos', 'situação da detecção'], total: 6, unit: 'técnicas',
-      hist: [1, 1, 12, 1, 1, 21], hot: [3, 4],
-      rows: [
-        ['Reconhecimento', 'T1593', '37', 'fora da visibilidade do SOC'],
-        ['Desenv. de recursos', 'T1583.001', '1', 'só por inteligência externa'],
-        ['Acesso inicial', 'T1566.001', '12', 'entregue: filtro não barrou'],
-        ['Execução', 'T1204.002', '1', 'telemetria, sem regra'],
-        ['Persistência', 'T1053.005', '1', 'telemetria, sem regra'],
-        ['Comando e controle', 'T1071.001', '21', 'detectada (alerta às 09:26)']
-      ], note: 'Execução e persistência deixaram rastro no EDR, mas nenhuma regra disparou. São as próximas detecções a escrever.' },
-    { group: 'Relatório', name: '3. Visão executiva', q: 'IncidentTimeline | where IncidentId == "INC-0412" | summarize Entrega = min(TimeGenerated), Alerta = minif(TimeGenerated, Type == "Alert"), Contencao = max(TimeGenerated)',
-      cols: ['incidente', 'interrompido em', 'entrega', 'alerta', 'contenção', 'dados afetados', 'severidade'], sevCol: 6, total: 1, unit: 'incidente',
-      hist: [0, 0, 1, 0, 0, 0], hot: [2],
-      rows: [['INC-0412', 'Comando e controle (fase 6 de 7)', '08:41', '09:26', '09:41', 'nenhum', 'alta']],
-      note: 'Para a diretoria, uma frase: o ataque foi interrompido na fase 6 de 7, antes da cópia e da criptografia dos dados.' }
-  ]
-});
-
-/* ---------- 15b. Plataforma Rede Tatame: ransomware ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'ransomware' });
-
-/* ---------- 17. VS Code: cobertura de detecção ---------- */
+/* ---------- 13. VS Code: a RoE conferida em Python ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'cobertura-attack', team: 'blue', status: 'Python 3.12', open: 'cobertura.py', typeOnEnter: true,
+  folder: 'tatame-exercicio-2026-11', team: 'red', status: 'Python 3.12', open: 'validar_roe.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
     { cmd: 'source .venv/bin/activate', out: [], venv: true },
-    { cmd: 'python -c "import csv, collections; print(csv.__name__, collections.__name__)"', out: ['[ok] csv collections'] },
+    { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
+      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: PyYAML',
+      '[ok] Successfully installed PyYAML-6.0.3' ] },
     { cmd: 'pip list', out: [
       'Package Version',
       '------- -------',
       'pip     24.2',
-      '[mute] Só o pip: este laboratório usa apenas a biblioteca padrão do Python.' ] }
+      'PyYAML  6.0.3' ] }
   ],
   files: [
-    { path: 'cobertura.py', hl: [14, 15], code:
-`"""Mede a cobertura de detecção das técnicas ATT&CK priorizadas para a Rede Tatame."""
-import csv
-from collections import Counter
+    { path: 'requirements.txt', code:
+`# Pacote de terceiros que o validar_roe.py importa (ipaddress, sys e datetime vêm com o Python)
+PyYAML==6.0.3`},
+    { path: 'roe_rascunho.yaml', code:
+`# Rascunho que chegou da diretoria, antes do pré-engajamento
+objetivo: "pentest completo"
+escopo:
+  redes: ["10.10.0.0/16"]
+  excluidos:
+    redes: ["10.40.99.0/24"]
+modelo: caixa-preta
+janela:
+  inicio: 2026-11-16
+  fim: 2026-11-27
+  horario: ["09:00", "20:00"]
+tecnicas_proibidas: [negacao_de_servico]
+dados_sensiveis: "não copiar dados de alunos"
+relatorio: "a combinar"`},
+    { path: 'roe_tatame.yaml', hl: [24, 25, 26, 27, 28, 29, 30, 31, 32, 33], code:
+`# Regras de engajamento · Rede Tatame (fictícia) · operação de Red Team de novembro
+objetivo: >
+  Verificar se o SOC detecta e responde a um ataque que parte de uma conta
+  do financeiro e busca as exportações de fichas no SRV-ARQ-01.
+escopo:
+  redes: ["10.10.0.0/16", "10.40.0.0/16"]      # sede e nuvem
+  dominios: ["tatame.com.br"]
+  excluidos:
+    redes: ["10.40.99.0/24"]                   # pagamentos (PCI)
+    dominios: ["status.tatame.com.br",         # página de status terceirizada
+               "promo-hml.tatame.com.br",      # site da agência
+               "api.pagafacil.example"]        # parceiro de pagamentos
+modelo: caixa-cinza (uma conta de colaborador da sede)
+janela:
+  inicio: 2026-11-16
+  fim: 2026-11-27
+  horario: ["09:00", "20:00"]
+  feriados: [2026-11-20]                       # Consciência Negra
+  horas_planejadas: 80
+tecnicas_proibidas: [negacao_de_servico, alterar_dados_de_alunos, mexer_nas_catracas]
+dados_sensiveis: >
+  Fichas, atestados e biometria (LGPD): registrar só a evidência mínima,
+  sem copiar registros, e descartar ao final.
+parada:
+  criterios: [incidente real em paralelo, impacto no check-in ou nas catracas]
+  palavra: QUIMONO
+white_team:
+  lider: Marina Prado (CISO)
+  trusted_agents: [Caio Mendes (TI da sede)]
+  contatos_emergencia: ["Marina Prado, 24 h", "Caio Mendes, 24 h"]
+deconfliction:
+  registro: registro_operador.csv             # o quê, de onde, quando
+  estacao: NB-RED-002                         # única origem das ações
+relatorio: entrega em 2026-12-04; evidências destruídas em 30 dias`},
+    { path: 'alvos.txt', code:
+`10.10.1.20
+10.10.1.10
+gestao.tatame.com.br
+10.40.99.14
+api.pagafacil.example
+status.tatame.com.br
+promo-hml.tatame.com.br`},
+    { path: 'validar_roe.py', hl: [8, 9, 38, 39, 49, 51, 52], code:
+`"""Confere as regras de engajamento antes de qualquer ação do Red Team."""
+import ipaddress
+import sys
+from datetime import date, datetime, timedelta
 
-with open("tecnicas_tatame.csv", encoding="utf-8") as f:
-    tecnicas = list(csv.DictReader(f))
+import yaml
 
-total = len(tecnicas)
-status = Counter(t["status"] for t in tecnicas)
-print(f"Técnicas priorizadas: {total}")
-for s in ("regra", "telemetria", "nenhuma"):
-    print(f"  {s:<11}{status[s]:>3}")
+ITENS = ["objetivo", "escopo", "modelo", "janela", "tecnicas_proibidas",
+         "dados_sensiveis", "parada", "white_team", "deconfliction", "relatorio"]
 
-atual = status["regra"] / total
-alvo = (status["regra"] + status["telemetria"]) / total
-print(f"\\nCobertura atual: {status['regra']}/{total} = {atual:.0%}")
-print(f"Com regras para as que já têm telemetria: "
-      f"{status['regra'] + status['telemetria']}/{total} = {alvo:.0%}")
 
-print("\\nPróximas regras (a telemetria já existe):")
-for t in tecnicas:
-    if t["status"] == "telemetria":
-        print(f"  {t['id']:<10}{t['tatica']:<22}{t['nome']}")` },
-    { path: 'tecnicas_tatame.csv', code:
-`id,nome,tatica,status
-T1595,Varredura ativa,Reconhecimento,nenhuma
-T1589,Coleta de identidades da vítima,Reconhecimento,nenhuma
-T1583.001,Aquisição de domínios,Desenv. de recursos,nenhuma
-T1585,Criação de contas,Desenv. de recursos,nenhuma
-T1566.001,Anexo de spearphishing,Acesso inicial,regra
-T1566.002,Link de spearphishing,Acesso inicial,regra
-T1078,Contas válidas,Acesso inicial,regra
-T1190,Exploração de aplicação exposta,Acesso inicial,regra
-T1133,Serviços remotos externos,Acesso inicial,regra
-T1059.001,PowerShell,Execução,regra
-T1204.002,Execução de arquivo malicioso,Execução,telemetria
-T1053.005,Tarefa agendada,Persistência,telemetria
-T1547.001,Chaves Run do registro,Persistência,regra
-T1136.001,Criação de conta local,Persistência,regra
-T1098,Manipulação de conta,Persistência,regra
-T1685,Desativar ou modificar ferramentas,Enfraquecimento de defesas,regra
-T1685.005,Limpeza de logs de eventos,Enfraquecimento de defesas,regra
-T1027,Arquivos ofuscados,Furtividade,nenhuma
-T1003.001,Memória do LSASS,Acesso a credenciais,regra
-T1110.003,Password spraying,Acesso a credenciais,regra
-T1539,Roubo de cookie de sessão,Acesso a credenciais,nenhuma
-T1557,Adversário no meio,Acesso a credenciais,nenhuma
-T1555.003,Credenciais de navegadores,Acesso a credenciais,nenhuma
-T1087.002,Descoberta de contas de domínio,Descoberta,telemetria
-T1018,Descoberta de sistemas remotos,Descoberta,telemetria
-T1046,Descoberta de serviços de rede,Descoberta,telemetria
-T1021.001,RDP,Movimentação lateral,telemetria
-T1021.002,Compartilhamentos administrativos,Movimentação lateral,regra
-T1039,Dados de compartilhamento de rede,Coleta,telemetria
-T1560.001,Compactação com utilitário,Coleta,telemetria
-T1071.001,Protocolos web,Comando e controle,regra
-T1105,Transferência de ferramentas,Comando e controle,regra
-T1572,Tunelamento de protocolo,Comando e controle,nenhuma
-T1567.002,Exfiltração para nuvem,Exfiltração,telemetria
-T1048,Exfiltração por protocolo alternativo,Exfiltração,nenhuma
-T1486,Dados criptografados para impacto,Impacto,regra
-T1490,Inibir recuperação do sistema,Impacto,regra
-T1489,Parada de serviços,Impacto,telemetria
-T1657,Roubo financeiro,Impacto,nenhuma
-T1565.001,Manipulação de dados armazenados,Impacto,nenhuma` },
-    { path: 'deteccoes/T1486_renomeacao.kql', hl: [6, 7, 8], code:
-`// T1486 · Muitos arquivos renomeados em pouco tempo (possível criptografia)
-// Alvos prováveis na sede: SRV-ARQ-01 e SRV-ERP-01
-DeviceFileEvents
-| where Timestamp > ago(1h)
-| where ActionType == "FileRenamed"
-| summarize Arquivos = dcount(FileName), Pastas = dcount(FolderPath)
-    by DeviceName, InitiatingProcessFileName, bin(Timestamp, 5m)
-| where Arquivos > 200
-| project Timestamp, DeviceName, InitiatingProcessFileName, Arquivos, Pastas` }
+def no_escopo(esc: dict, alvo: str) -> bool:
+    exc = esc.get("excluidos", {})
+    try:
+        ip = ipaddress.ip_address(alvo)
+    except ValueError:  # é um nome, não um IP
+        if alvo in exc.get("dominios", []):
+            return False
+        return any(alvo == d or alvo.endswith("." + d) for d in esc.get("dominios", []))
+    if any(ip in ipaddress.ip_network(r) for r in exc.get("redes", [])):
+        return False
+    return any(ip in ipaddress.ip_network(r) for r in esc["redes"])
+
+
+def dias_uteis(jan: dict) -> list[date]:
+    dia, dias = jan["inicio"], []
+    while dia <= jan["fim"]:
+        if dia.weekday() < 5 and dia not in jan.get("feriados", []):
+            dias.append(dia)
+        dia += timedelta(days=1)
+    return dias
+
+
+roe = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))
+faltam = [i for i in ITENS if not roe.get(i)]
+for item in ITENS:
+    print(("  ✗ " if item in faltam else "  ✓ ") + item)
+if faltam:
+    sys.exit(f"RoE incompleta: faltam {len(faltam)} de {len(ITENS)} itens. Nada começa.")
+
+jan = roe["janela"]
+ini, fim = (datetime.strptime(h, "%H:%M") for h in jan["horario"])
+horas = len(dias_uteis(jan)) * (fim - ini).seconds // 3600
+folga = horas - jan["horas_planejadas"]
+print(f"Janela: {len(dias_uteis(jan))} dias úteis × {(fim - ini).seconds // 3600} h = {horas} h; "
+      f"plano de {jan['horas_planejadas']} h; folga de {folga} h ({folga / horas:.0%})")
+
+agora = datetime.strptime(sys.argv[2], "%Y-%m-%d %H:%M")
+na_janela = agora.date() in dias_uteis(jan) and jan["horario"][0] <= agora.strftime("%H:%M") < jan["horario"][1]
+print(f"Agora ({sys.argv[2]}): " + ("dentro da janela" if na_janela else "FORA DA JANELA: pare e registre"))
+if not na_janela:
+    sys.exit(1)
+
+alvos = open("alvos.txt", encoding="utf-8").read().split()
+fora = [a for a in alvos if not no_escopo(roe["escopo"], a)]
+for alvo in alvos:
+    print(f"  {alvo:<24} " + ("FORA DO ESCOPO: bloqueado" if alvo in fora else "dentro do escopo"))
+print(f"Bloqueados: {len(fora)} de {len(alvos)} ({len(fora) / len(alvos):.0%})")`}
   ],
   run: [
-    { label: 'Executar cobertura.py', kind: 'blue', cmd: 'python cobertura.py', file: 'cobertura.py', out: [
-      'Técnicas priorizadas: 40', '  regra       18', '  telemetria  10', '  nenhuma     12', '',
-      '[warn] Cobertura atual: 18/40 = 45%', '[ok] Com regras para as que já têm telemetria: 28/40 = 70%', '',
-      '[hi] Próximas regras (a telemetria já existe):',
-      '  T1204.002 Execução              Execução de arquivo malicioso',
-      '  T1053.005 Persistência          Tarefa agendada',
-      '  T1087.002 Descoberta            Descoberta de contas de domínio',
-      '  T1018     Descoberta            Descoberta de sistemas remotos',
-      '  T1046     Descoberta            Descoberta de serviços de rede',
-      '  T1021.001 Movimentação lateral  RDP',
-      '  T1039     Coleta                Dados de compartilhamento de rede',
-      '  T1560.001 Coleta                Compactação com utilitário',
-      '  T1567.002 Exfiltração           Exfiltração para nuvem',
-      '  T1489     Impacto               Parada de serviços' ] }
+    { label: 'Rascunho da diretoria', kind: 'red', cmd: 'python validar_roe.py roe_rascunho.yaml "2026-11-18 10:15"', file: 'roe_rascunho.yaml', out: [
+      '[ok]   ✓ objetivo',
+      '[ok]   ✓ escopo',
+      '[ok]   ✓ modelo',
+      '[ok]   ✓ janela',
+      '[ok]   ✓ tecnicas_proibidas',
+      '[ok]   ✓ dados_sensiveis',
+      '[err]   ✗ parada',
+      '[err]   ✗ white_team',
+      '[err]   ✗ deconfliction',
+      '[ok]   ✓ relatorio',
+      '[err] RoE incompleta: faltam 3 de 10 itens. Nada começa.' ] },
+    { label: 'Versão final às 10h15', cmd: 'python validar_roe.py roe_tatame.yaml "2026-11-18 10:15"', file: 'roe_tatame.yaml', out: [
+      '[ok]   ✓ objetivo',
+      '[ok]   ✓ escopo',
+      '[ok]   ✓ modelo',
+      '[ok]   ✓ janela',
+      '[ok]   ✓ tecnicas_proibidas',
+      '[ok]   ✓ dados_sensiveis',
+      '[ok]   ✓ parada',
+      '[ok]   ✓ white_team',
+      '[ok]   ✓ deconfliction',
+      '[ok]   ✓ relatorio',
+      '[hi] Janela: 9 dias úteis × 11 h = 99 h; plano de 80 h; folga de 19 h (19%)',
+      '[ok] Agora (2026-11-18 10:15): dentro da janela',
+      '[ok]   10.10.1.20               dentro do escopo',
+      '[ok]   10.10.1.10               dentro do escopo',
+      '[ok]   gestao.tatame.com.br     dentro do escopo',
+      '[err]   10.40.99.14              FORA DO ESCOPO: bloqueado',
+      '[err]   api.pagafacil.example    FORA DO ESCOPO: bloqueado',
+      '[err]   status.tatame.com.br     FORA DO ESCOPO: bloqueado',
+      '[err]   promo-hml.tatame.com.br  FORA DO ESCOPO: bloqueado',
+      '[hi] Bloqueados: 4 de 7 (57%)' ] },
+    { label: 'Versão final às 21h40', kind: 'red', cmd: 'python validar_roe.py roe_tatame.yaml "2026-11-18 21:40"', file: 'validar_roe.py', out: [
+      '[ok]   ✓ objetivo',
+      '[ok]   ✓ escopo',
+      '[ok]   ✓ modelo',
+      '[ok]   ✓ janela',
+      '[ok]   ✓ tecnicas_proibidas',
+      '[ok]   ✓ dados_sensiveis',
+      '[ok]   ✓ parada',
+      '[ok]   ✓ white_team',
+      '[ok]   ✓ deconfliction',
+      '[ok]   ✓ relatorio',
+      '[hi] Janela: 9 dias úteis × 11 h = 99 h; plano de 80 h; folga de 19 h (19%)',
+      '[err] Agora (2026-11-18 21:40): FORA DA JANELA: pare e registre' ] }
   ]
 });
+
+/* ---------- 14. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'superficie' });
 </script>
 </body>
 </html>

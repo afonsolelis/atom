@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 5 — Reconhecimento e OSINT</title>
+<title>Aula 5 — Reconhecimento e enumeração de serviços e usuários</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
@@ -21,6 +21,41 @@
   .os-card { border: 1px solid #DDE2EA; border-radius: 10px; padding: 10px 14px; margin-bottom: 10px; background: #fff; }
   .os-card .ip { font: 700 13px var(--mono); color: #0B6E8A; }
   .os-card .tag { display: inline-block; font: 700 11px var(--fonte); padding: 2px 7px; border-radius: 4px; background: #EEF1F7; color: #234; margin-right: 4px; }
+  /* login da homologação x produção */
+  .lg-wrap { display: grid; grid-template-columns: 270px 1fr; gap: 16px; padding: 16px 20px; }
+  .lg-box { border: 1px solid #DDE2EA; border-radius: 10px; padding: 14px; background: #fff; }
+  .lg-box h4 { margin: 0 0 8px; font: 800 15px var(--fonte-titulo, sans-serif); color: #0B2A5B; }
+  .lg-box label { display: block; font: 600 12px var(--fonte); color: #445; margin: 6px 0 2px; }
+  .lg-box .in { border: 1px solid #C9CED8; border-radius: 6px; padding: 6px 8px; font: 13px var(--mono); color: #234; background: #F7F8FB; }
+  .lg-msg { margin-top: 10px; padding: 8px 10px; border-radius: 6px; font: 600 13px var(--fonte); min-height: 2.2em; background: #F2F4F8; color: #234; }
+  .lg-msg.warn { background: #FFF3BF; color: #6B4E00; } .lg-msg.ok { background: #DDF5E6; color: #145A32; }
+  .lg-acts { display: flex; flex-direction: column; gap: 6px; }
+  .lg-acts button { text-align: left; font: 600 12.5px var(--fonte); border: 1px solid #C9CED8; background: #fff; color: #234; padding: 7px 10px; border-radius: 8px; cursor: pointer; }
+  .lg-acts button.on { background: #002057; color: #fff; border-color: #002057; }
+  .lg-tab { width: 100%; border-collapse: collapse; font: 12.5px var(--fonte); margin-top: 8px; color: #234; }
+  .lg-tab th, .lg-tab td { border-bottom: 1px solid #E3E7EE; padding: 5px 6px; text-align: left; }
+  .lg-tab th { background: #F2F4F8; font-weight: 700; }
+  .lg-why { margin-top: 8px; background: #0F1B33; color: #DCE3EE; border-left: 4px solid #F2CB0A; padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13px; min-height: 2.4em; }
+  /* Wireshark simulado */
+  .ws { display: flex; flex-direction: column; height: 100%; min-height: 0; background: #fff; border: 1px solid #22314F; border-radius: 10px; overflow: hidden; font: 12px var(--mono); color: #1d2330; }
+  .ws-title { background: #2B3A52; color: #DCE3EE; padding: 6px 12px; font: 600 12px var(--fonte); display: flex; gap: 10px; align-items: center; }
+  .ws-title b { color: #7FC8FF; }
+  .ws-filter { display: flex; gap: 6px; align-items: center; padding: 6px 8px; background: #EDF1F6; border-bottom: 1px solid #C9D2DE; flex-wrap: wrap; }
+  .ws-filter .box { flex: 1 1 260px; min-width: 0; background: #fff; border: 1px solid #9BB0C9; border-radius: 4px; padding: 4px 8px; color: #0B4F8A; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ws-filter .box.ok { background: #E3F7E6; border-color: #5DBB72; }
+  .ws-filter button { font: 600 11.5px var(--fonte); border: 1px solid #9BB0C9; background: #fff; color: #234; padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+  .ws-filter button.on { background: #0B4F8A; color: #fff; border-color: #0B4F8A; }
+  .ws-list { flex: 1 1 50%; min-height: 0; overflow: auto; border-bottom: 4px solid #C9D2DE; }
+  .ws-list table { width: 100%; border-collapse: collapse; }
+  .ws-list th { position: sticky; top: 0; background: #F4F6F9; text-align: left; font: 700 11.5px var(--fonte); padding: 3px 6px; border-bottom: 1px solid #C9D2DE; }
+  .ws-list td { padding: 1px 6px; white-space: nowrap; }
+  .ws-list tr { cursor: pointer; }
+  .ws-list tr.syn td { background: #E7E6FF; } .ws-list tr.sa td { background: #D9F5DD; } .ws-list tr.rst td { background: #A40000; color: #FFFC9C; }
+  .ws-list tr.sel td { background: #3874D8 !important; color: #fff !important; }
+  .ws-det { flex: 0 0 26%; min-height: 0; overflow: auto; padding: 4px 8px; background: #fff; }
+  .ws-det div { padding: 1px 0; } .ws-det .k { padding-left: 18px; color: #334; }
+  .ws-why { background: #0F1B33; color: #DCE3EE; border-left: 4px solid #F2CB0A; padding: 6px 10px; font: 500 12.5px var(--fonte); }
+  .ws-status { background: #EDF1F6; border-top: 1px solid #C9D2DE; padding: 3px 10px; font: 600 11.5px var(--fonte); color: #234; display: flex; gap: 14px; }
 </style>
 </head>
 <body>
@@ -36,8 +71,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 5 — Reconhecimento e OSINT</h1>
-      <div class="subtitulo">Unidade 2 — Red Team: operações ofensivas controladas</div>
+      <h1>Aula 5 — Reconhecimento e enumeração de serviços e usuários</h1>
+      <div class="subtitulo">Unidade 2 — Técnicas Ofensivas em Ambiente Controlado</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -47,23 +82,22 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Reconhecimento e OSINT</h1>
+        <h1 class="sumario-titulo">Reconhecimento e enumeração de serviços e usuários</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O que você verá nesta unidade</li>
-          <li>O problema de hoje na Rede Tatame</li>
-          <li>Reconhecimento: a primeira etapa (TA0043)</li>
+          <li>O problema de hoje e o mapa da unidade</li>
           <li>Reconhecimento passivo e ativo</li>
-          <li>Fontes de OSINT e o grafo de relacionamentos</li>
-          <li>Superfície de ataque e <em>shadow IT</em></li>
-          <li>O reconhecimento na plataforma Rede Tatame</li>
-          <li>Limites éticos e legais do OSINT</li>
-          <li>O rastro para o Blue Team</li>
-          <li>Exemplo numérico: quanto a empresa expõe</li>
+          <li>Laboratórios: o que a Tatame publica e onde fica o rastro</li>
+          <li>Kali Linux e Nmap: descoberta de serviços</li>
+          <li>Laboratório: a varredura vista no Wireshark</li>
+          <li>Enumeração de usuários</li>
+          <li>Laboratório: o reconhecimento na plataforma Rede Tatame</li>
+          <li>Limites éticos e legais</li>
+          <li>Laboratório: o relatório de exposição em Python</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -75,13 +109,13 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>O que a Tatame mostra para quem procura?</h2>
+      <h2>Antes de entrar, o que dá para descobrir?</h2>
       <div class="problema">
         <div class="historia">
-          <p>Bruno Sato lidera o Red Team interno da <strong>Rede Tatame</strong>. A CISO Marina Prado autorizou um levantamento externo antes do exercício de <em>ransomware</em> do semestre.</p>
-          <p>A reunião travou numa pergunta simples: quantos endereços da Tatame existem na internet? O inventário da TI lista 105. Ninguém sabe se um adversário acharia outros, nem quem da equipe aparece em vagas e redes sociais.</p>
-          <p>O que está em jogo: um servidor esquecido com cópia do banco de alunos (30% são menores) ou a senha de VPN de alguém da TI basta para começar um ataque.</p>
-          <div class="pergunta">O que a Rede Tatame expõe na internet sem saber, e como descobrir isso antes do adversário?</div>
+          <p>Começa o exercício autorizado de novembro: de 16 a 27/11, o Red Team de Bruno Sato emula o Grupo Cobalto Austral contra a <strong>Rede Tatame</strong>, com carta assinada pela CISO Marina Prado (chamado APR-2291).</p>
+          <p>O primeiro passo de qualquer adversário é olhar antes de agir. O inventário da TI lista 105 endereços na internet. Ninguém sabe se há outros, que serviços e versões respondem neles, nem quais contas um atacante conseguiria adivinhar.</p>
+          <p>O que está em jogo: uma homologação esquecida com cópia do banco de alunos (30% menores) ou o login de alguém da TI basta para começar um ataque.</p>
+          <div class="pergunta">O que a Rede Tatame expõe e quais serviços e usuários um adversário consegue enumerar antes de entrar?</div>
           <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Autoriza</b> Marina Prado</span><span><b>Exposto</b> Caio Mendes, TI</span><span><b>Blue Team</b> Luiza Ferraz</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
@@ -96,36 +130,38 @@
       <p class="kicker">Abertura da Unidade 2</p>
       <h2>O que você verá nesta unidade</h2>
       <div class="slide-content-box">
-        <p>Nesta unidade você veste a camisa vermelha, sempre dentro de um engajamento autorizado, e percorre em nível conceitual as etapas de uma operação ofensiva controlada.</p>
+        <p>Nesta unidade você acompanha, etapa por etapa, o exercício autorizado do Red Team contra a Rede Tatame, sempre em laboratório e dentro do escopo assinado.</p>
         <table class="tabela-industrial">
           <thead><tr><th>Aula</th><th>Tema</th><th>Pergunta que responde</th></tr></thead>
           <tbody>
-            <tr><td><strong>5</strong></td><td>Reconhecimento e OSINT</td><td>O que a organização expõe sem perceber?</td></tr>
-            <tr><td><strong>6</strong></td><td>Varredura, enumeração e gestão de vulnerabilidades</td><td>O que está aberto, o que está vulnerável e o que corrigir primeiro (CVSS, EPSS, KEV)?</td></tr>
-            <tr><td><strong>7</strong></td><td>Engenharia social e simulação de <em>phishing</em></td><td>As pessoas reconhecem e reportam a isca?</td></tr>
-            <tr><td><strong>8</strong></td><td>Pós-exploração, movimentação lateral e relatório</td><td>Até onde o adversário chegaria e como contar essa história?</td></tr>
+            <tr><td><strong>5</strong></td><td>Reconhecimento e enumeração de serviços e usuários</td><td>O que a organização expõe e o que dá para descobrir antes de entrar?</td></tr>
+            <tr><td><strong>6</strong></td><td>Exploração de vulnerabilidades e obtenção de acesso inicial</td><td>Qual falha ou pessoa abre a porta, e como verificar isso sem causar dano?</td></tr>
+            <tr><td><strong>7</strong></td><td>Escalada de privilégios, movimentação lateral e persistência</td><td>Até onde o adversário chega depois de entrar?</td></tr>
+            <tr><td><strong>8</strong></td><td>Evasão básica de defesas e limpeza de rastros em laboratório</td><td>Como o defensor percebe quem tenta se esconder, e como fechar o exercício?</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul"><p>O objetivo é entender como um adversário avança e, principalmente, que rastro cada passo deixa para o Blue Team. Ninguém detecta bem aquilo que não entende.</p></div>
+        <div class="callout-azul"><p>Em cada aula, a mesma pergunta acompanha a técnica: que rastro esse passo deixa para o Blue Team?</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Reconhecimento -->
+  <!-- 5. Reconhecimento passivo e ativo -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
-      <h2>Antes do primeiro pacote, o adversário pesquisa</h2>
-      <div class="slide-content-box">
-        <p>Um adversário competente já sabe muito sobre a empresa antes de tocar a rede dela: quais domínios possui, quais tecnologias usa, quem trabalha no financeiro, qual é o formato dos endereços de <em>e-mail</em> e quais serviços estão expostos na internet.</p>
-        <ul>
-          <li>Essa fase é o <strong>reconhecimento</strong>: primeira etapa da Cyber Kill Chain e tática <strong>TA0043</strong> (<em>Reconnaissance</em>) do MITRE ATT&amp;CK, a base pública de táticas e técnicas de adversários vista na Unidade 1.</li>
-          <li>Em uma operação de Red Team, ela define o caminho do restante do trabalho.</li>
-          <li>A coleta em fontes abertas tem nome: OSINT (<em>Open Source Intelligence</em>, inteligência de fontes abertas).</li>
-          <li>Boa parte do que o adversário precisa saber foi publicada pela própria empresa: vagas de emprego, perfis profissionais, registros de domínio.</li>
-        </ul>
-        <div class="callout-azul"><p>Pense no ladrão que observa a casa durante dias, anotando o horário de saída, as câmeras e o portão, antes de agir. Olhar da calçada é reconhecimento passivo; tocar a campainha já é reconhecimento ativo.</p></div>
+      <h2>Reconhecimento passivo e reconhecimento ativo</h2>
+      <div class="slide-content-box" style="font-size:.93em">
+        <p>O <strong>reconhecimento</strong> é a tática <strong>TA0043</strong> do MITRE ATT&amp;CK. A coleta em fontes abertas chama-se OSINT (<em>Open Source Intelligence</em>).</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Aspecto</th><th>Passivo</th><th>Ativo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Como funciona</strong></td><td>Consulta só fontes de terceiros: certificados, buscadores, registros de domínio, vagas e perfis</td><td>Interage com o alvo: DNS da empresa, visitas ao <em>site</em>, varreduras de portas</td></tr>
+            <tr><td><strong>Técnicas</strong></td><td>T1596 (bases técnicas abertas), T1593 (<em>sites</em> e domínios), T1591 (dados da organização), T1589 (dados de identidade)</td><td>T1595 (<em>Active Scanning</em>)</td></tr>
+            <tr><td><strong>Escopo</strong></td><td>Não toca ativos do alvo</td><td>Só contra ativos listados na autorização</td></tr>
+            <tr><td><strong>Rastro</strong></td><td>Quase nenhum no ambiente do alvo</td><td>Registros de <em>firewall</em>, WAF, servidores <em>web</em> e DNS</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -140,8 +176,8 @@
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Descobrir o que a própria Tatame publica, sem tocar a rede dela.</div>
             <div class="rl"><b>Faça</b>1. Clique em cada trecho amarelo.<br>2. Troque de aba: vaga, perfil e buscador de dispositivos.</div>
-            <div class="rl obs"><b>Observe</b>A versão da VPN (rede privada virtual da sede), a TI sem segundo fator e a <code>hml-gestao</code> sem WAF (o filtro de ataques da borda).</div>
-            <div class="rl conc"><b>Conclusão</b>Sem enviar um pacote, o Red Team já tem alvo, versão e pessoa.</div>
+            <div class="rl obs"><b>Observe</b>A versão da VPN, o padrão de <em>e-mail</em> nome.sobrenome, a TI sem segundo fator e a <code>hml-gestao</code> sem WAF.</div>
+            <div class="rl conc"><b>Conclusão</b>Sem enviar um pacote, o Red Team já tem alvo, versão e formato de usuário.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-brw"></div>
@@ -149,27 +185,7 @@
     </div>
   </section>
 
-  <!-- 7. Passivo e ativo -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>Reconhecimento passivo e reconhecimento ativo</h2>
-      <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Aspecto</th><th>Passivo</th><th>Ativo</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Como funciona</strong></td><td>Consulta apenas fontes de terceiros: buscadores, registros públicos, redes sociais, bases de certificados</td><td>Interage com o alvo: consultas aos servidores DNS (o serviço que traduz nomes em endereços IP) da empresa, visitas ao <em>site</em>, varreduras de portas (T1595, <em>Active Scanning</em>)</td></tr>
-            <tr><td><strong>Questão jurídica</strong></td><td>Não toca ativos do alvo</td><td>Toca ativos que precisam estar no escopo autorizado</td></tr>
-            <tr><td><strong>Questão defensiva</strong></td><td>Praticamente não deixa rastro no ambiente do alvo</td><td>Pode ser registrado em <em>firewall</em>, servidores <em>web</em> e DNS</td></tr>
-          </tbody>
-        </table>
-        <div class="callout-azul"><p>A diferença importa duas vezes: define o que precisa de autorização e define o que o Blue Team tem chance de ver.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. LAB flow: passivo x ativo -->
+  <!-- 7. LAB flow: passivo x ativo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -178,42 +194,37 @@
     </div>
   </section>
 
-  <!-- 9. Fontes de OSINT -->
+  <!-- 8. Kali Linux e Nmap -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">OSINT</p>
-      <h2>Fontes de OSINT e técnicas ATT&amp;CK</h2>
-      <div class="slide-content-box" style="font-size:.92em">
-        <p><strong>OSINT</strong> (<em>Open Source Intelligence</em>) é a coleta e a análise de informações disponíveis publicamente para produzir conhecimento útil.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Fonte</th><th>O que revela</th><th>Ferramenta ou serviço</th><th>Técnica ATT&amp;CK</th></tr></thead>
-          <tbody>
-            <tr><td>DNS e registros de domínio</td><td>Subdomínios, servidores de <em>e-mail</em>, provedores</td><td>Consultas WHOIS (registro público do dono do domínio) e DNS</td><td>T1596</td></tr>
-            <tr><td>Transparência de certificados (CT)</td><td>Subdomínios que receberam certificados TLS, os que habilitam o cadeado do HTTPS</td><td>crt.sh</td><td>T1596</td></tr>
-            <tr><td>Buscadores de dispositivos</td><td>Serviços e versões expostos na internet</td><td>Shodan, Censys</td><td>T1596</td></tr>
-            <tr><td><em>Sites</em> e redes sociais</td><td>Organograma, cargos, tecnologias citadas em vagas</td><td>LinkedIn, <em>site</em> institucional</td><td>T1593; T1591</td></tr>
-            <tr><td><em>E-mails</em> e nomes</td><td>Padrão de <em>e-mail</em>, alvos para engenharia social</td><td>theHarvester</td><td>T1589</td></tr>
-            <tr><td>Repositórios de código</td><td>Configurações, nomes de servidores, segredos esquecidos</td><td>Buscas em repositórios públicos</td><td>T1593</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.5em">T1596: <em>Search Open Technical Databases</em> · T1593: <em>Search Open Websites/Domains</em> · T1591: <em>Gather Victim Org Information</em> · T1589: <em>Gather Victim Identity Information</em>.</p>
+      <p class="kicker">Ferramentas da ementa</p>
+      <h2>Kali Linux e Nmap: quem responde e o quê</h2>
+      <div class="slide-content-box" style="font-size:.93em">
+        <ul>
+          <li><strong>Kali Linux</strong> (<code>kali.org</code>, mantido pela OffSec): distribuição baseada no Debian com centenas de ferramentas de teste. No exercício, roda numa máquina virtual do Red Team, a <code>lab-tatame</code>, cujo endereço consta da autorização.</li>
+          <li><strong>Nmap</strong> (<code>nmap.org</code>): <code>-sn</code> descobre <em>hosts</em> ativos; <code>-sS</code> (padrão com privilégio de administrador) envia SYN e não completa o <em>handshake</em>; <code>-sT</code> completa a conexão; <code>-sV</code> pergunta ao serviço qual programa e versão ele roda.</li>
+          <li>Estados de porta: <strong>open</strong> (responde SYN/ACK), <strong>closed</strong> (responde RST), <strong>filtered</strong> (nada volta, um <em>firewall</em> descartou).</li>
+          <li>De fora da rede, a varredura é T1595. De dentro, é a tática Descoberta (TA0007), técnica <strong>T1046</strong> (<em>Network Service Discovery</em>).</li>
+        </ul>
+        <div class="callout-azul"><p>Ferramenta ofensiva não autoriza nada. O que torna a varredura legítima é a carta: redes, janela de horário e origem da varredura (192.0.2.66, a <code>lab-tatame</code>).</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 10. LAB terminal: whois, dig, CT -->
+  <!-- 9. LAB terminal Kali: nmap -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Registro, DNS e transparência de certificados</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Kali Linux</p><h2>Do certificado ao serviço: varredura autorizada</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
+          <p>Alvos da carta: borda <code>203.0.113.0/24</code> e, no cenário de acesso presumido, a sede <code>10.10.1.0/24</code>. Tudo simulado.</p>
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Listar todos os nomes da Tatame que existem na internet.</div>
-            <div class="rl"><b>Faça</b>1. Rode os cinco comandos, em ordem.<br>2. Leia a nota de cada um antes de seguir.</div>
-            <div class="rl obs"><b>Observe</b>180 subdomínios nos certificados. A <code>hml-gestao</code> é da Tatame; o <code>promo-hml</code> é da agência e fica fora do escopo.</div>
-            <div class="rl conc"><b>Conclusão</b>Bases públicas revelam nomes que a TI esqueceu.</div>
+            <div class="rl obj"><b>Objetivo</b>Descobrir que serviços e versões a Tatame expõe.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" cinco vezes e leia a nota de cada passo.</div>
+            <div class="rl obs"><b>Observe</b>180 nomes, 18 <em>hosts</em> ativos na borda, Apache 2.4.49 na <code>hml-gestao</code> e o domínio <code>corp.tatame.local</code> revelado pelo LDAP.</div>
+            <div class="rl conc"><b>Conclusão</b>Varredura e enumeração dizem onde procurar falhas na Aula 6.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-term"></div>
@@ -221,62 +232,63 @@
     </div>
   </section>
 
-  <!-- 11. Maltego e grafo -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">OSINT</p>
-      <h2>Relacionar informações em grafos</h2>
-      <div class="slide-content-box">
-        <p>Isolados, os achados dizem pouco. Ferramentas como o <strong>Maltego</strong> relacionam domínios, subdomínios, endereços IP, pessoas e tecnologias em um grafo.</p>
-        <ul>
-          <li>O grafo mostra, por exemplo, que um subdomínio esquecido aponta para um servidor de homologação mantido por um fornecedor.</li>
-          <li>Ele também mostra quem está exposto: o administrador de TI da sede, ligado a uma vaga que cita a versão da VPN, ligado ao padrão de <em>e-mail</em> da empresa.</li>
-          <li>Na próxima tela, a superfície de ataque da Rede Tatame aparece em 3D, com o domínio no centro.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12. LAB 3D: superfície de ataque -->
+  <!-- 10. LAB Wireshark -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>A superfície de ataque externa da Rede Tatame</h2></div><span class="lab-badge purple">Red e Blue</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Wireshark</p><h2>A varredura vista no fio</h2></div><span class="lab-badge purple">Red e Blue</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Medir o tamanho real da exposição.</div>
-            <div class="rl"><b>Faça</b>1. Gire a cena com o mouse.<br>2. Clique em <em>Só shadow IT</em> e depois em <em>Só pessoas</em>.</div>
-            <div class="rl obs"><b>Observe</b>Azul: 105 no inventário. Vermelho: 15 desconhecidos. Cinza: 60 que não respondem. Amarelo: <em>e-mails</em> expostos (1 ponto = 10 pessoas).</div>
-            <div class="rl conc"><b>Conclusão</b>A superfície real é maior do que o inventário.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver, pacote a pacote, o que a varredura SYN deixa na rede.</div>
+            <div class="rl"><b>Faça</b>1. Aplique os quatro filtros, em ordem.<br>2. Clique numa linha para abrir os detalhes do pacote.</div>
+            <div class="rl obs"><b>Observe</b>100 SYN da mesma origem, 3 SYN/ACK (portas 22, 80 e 443), 97 RST/ACK e o RST do Kali que nunca completa a conexão.</div>
+            <div class="rl conc"><b>Conclusão</b>A varredura é barulhenta para quem captura o tráfego.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-3d"></div>
+        <div class="lab-area" id="lab-ws"></div>
       </div>
     </div>
   </section>
 
-  <!-- 13. Shadow IT -->
+  <!-- 11. Enumeração de usuários -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Superfície de ataque</p>
-      <h2>Superfície de ataque externa e <em>shadow IT</em></h2>
+      <p class="kicker">Enumeração</p>
+      <h2>Enumerar serviços e usuários</h2>
       <div class="slide-content-box">
-        <p>O produto do reconhecimento é um retrato da <strong>superfície de ataque externa</strong>: tudo o que um adversário poderia tentar atingir. Esse retrato costuma revelar ativos que a própria TI desconhece.</p>
+        <p>A <strong>enumeração</strong> aprofunda a varredura: extrai dos serviços versões, nomes de domínio, compartilhamentos e contas.</p>
         <ul>
-          <li>A homologação do portal das academias (<code>hml-gestao</code>), criada em 2024, sem WAF e com uma cópia antiga do banco de alunos.</li>
-          <li>Páginas de matrícula publicadas pela agência de <em>marketing</em> com o nome da Tatame.</li>
-          <li>Contas da TI que entram na VPN sem segundo fator.</li>
+          <li><strong>Formato de usuário por OSINT</strong>: <em>e-mails</em> públicos revelam o padrão nome.sobrenome (T1589.002 e T1589.003).</li>
+          <li><strong>Mensagens de erro diferentes</strong>: se o login responde "senha incorreta" para quem existe e "usuário não encontrado" para quem não existe, a página confirma contas. O OWASP WSTG trata o caso no teste WSTG-IDNT-04.</li>
+          <li><strong>Consultas ao diretório</strong>: já dentro da rede, listar contas e grupos do AD é T1087.002 (<em>Domain Account</em>), conceito que volta na Aula 7.</li>
         </ul>
-        <p>Esse fenômeno é o <em>shadow IT</em>, e encontrá-lo é, muitas vezes, o resultado mais valioso do reconhecimento. É a função Identificar do NIST CSF 2.0 (o guia de cibersegurança do instituto de padrões dos EUA): não se protege nem se monitora um ativo que ninguém sabe que existe.</p>
-        <div class="callout-azul"><p>Dois achados, dois tratamentos. A <code>hml-gestao</code> é da Tatame e entra no escopo; como guarda fichas reais, inclusive de alunos menores, vira prioridade. O <code>promo-hml</code> aponta para um servidor da agência: entra no relatório como <em>shadow IT</em>, mas a equipe não pode acessá-lo, porque pertence a um terceiro.</p></div>
+        <div class="callout-azul"><p>A RoE do exercício limita a enumeração no login a uma tentativa por conta, sempre com senha sabidamente errada. Nada de testar senhas.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 14. PLATAFORMA REDE TATAME -->
+  <!-- 12. LAB browser: login que entrega quem existe -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>Um login que entrega quem existe</h2></div><span class="lab-badge red">Red Team · enumeração</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Verificar se o portal confirma quais contas existem.</div>
+            <div class="rl"><b>Faça</b>Clique nas quatro tentativas, em ordem: duas na <code>hml-gestao</code>, duas no portal de produção.</div>
+            <div class="rl obs"><b>Observe</b>Na homologação, a mensagem e o tempo mudam conforme a conta existe. Na produção, a resposta é a mesma.</div>
+            <div class="rl conc"><b>Conclusão</b>Resposta genérica e tempo constante impedem a enumeração.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-login"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -285,36 +297,35 @@
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver o que o SOC (centro de operações de segurança) enxerga do levantamento.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Reconhecimento externo</em>.<br>2. Ligue a fonte <em>Monitor de certificados</em> em <strong>Telemetria</strong> e a R12 em <strong>Regras do CEP</strong>.<br>3. Inicie o cenário de novo.<br>4. Em <strong>Superfície</strong>, ache a <code>hml-gestao</code>.</div>
-            <div class="rl obs"><b>Observe</b>Na primeira rodada, só a varredura da borda vira alerta (R4). Na segunda, o certificado novo também.</div>
-            <div class="rl conc"><b>Conclusão</b>Monitorar certificados mostra ao SOC o mesmo nome que o Red Team achou.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver o que o SOC enxerga do reconhecimento.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, clique em <em>Iniciar cenário</em> no cartão <em>Reconhecimento externo</em>.<br>2. Em <strong>Telemetria</strong>, ligue <em>Monitor de certificados (CT)</em>.<br>3. Em <strong>Regras do CEP</strong>, ligue a R12.<br>4. Em <strong>Cenários</strong>, clique em <em>Repetir com as fontes e regras atuais</em>.<br>5. Em <strong>Superfície</strong>, ache a <code>hml-gestao</code>.</div>
+            <div class="rl obs"><b>Observe</b>Rodada 1: 1 de 5 passos detectado (R4). Rodada 2: 2 de 5, com a R12.</div>
+            <div class="rl conc"><b>Conclusão</b>A varredura na <code>hml-gestao</code> continua invisível.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 15. Limites -->
+  <!-- 14. Limites -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Ética e legalidade</p>
-      <h2>Informação pública também tem regras</h2>
+      <h2>Informação pública e varredura também têm regras</h2>
       <div class="slide-content-box">
         <ul>
-          <li>As regras de engajamento dizem se a equipe pode coletar dados de perfis pessoais de funcionários, até que ponto e como esses dados serão protegidos e descartados.</li>
-          <li>Nomes, cargos e <em>e-mails</em> são <strong>dados pessoais</strong> e estão sujeitos à LGPD (Lei Geral de Proteção de Dados).</li>
-          <li>Consultar se credenciais corporativas aparecem em vazamentos conhecidos ajuda a medir risco. <strong>Usar</strong> senhas vazadas para acessar sistemas só é aceitável se estiver explicitamente previsto no escopo.</li>
-          <li>Acessar sistemas fora do escopo, como o servidor da agência ou a API da PagaFácil, pode configurar o crime do <strong>art. 154-A</strong> do Código Penal.</li>
-          <li>Achou fichas de alunos menores na <code>hml-gestao</code>? A equipe registra a evidência mínima e avisa a CISO; não baixa nem copia os dados.</li>
+          <li>Nomes, cargos e <em>e-mails</em> são <strong>dados pessoais</strong> (LGPD): a RoE diz o que pode ser coletado, como é protegido e quando é descartado.</li>
+          <li>Varredura só contra redes e horários da carta, a partir da origem registrada. Um endereço fora da lista, como o servidor da agência de <em>marketing</em> ou a API da PagaFácil, não é tocado.</li>
+          <li>Acessar sistema de terceiro sem autorização pode configurar o crime do <strong>art. 154-A</strong> do Código Penal.</li>
+          <li>Achou fichas de alunos menores na <code>hml-gestao</code>? Registre a evidência mínima e avise a CISO, sem copiar os dados.</li>
         </ul>
         <div class="callout-azul"><p>No laboratório a seguir, o programa que consolida os achados marca sozinho os ativos de terceiros como "fora do escopo" e trabalha com <em>e-mails</em> pseudonimizados.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 16. Antes do código: onde achar e como instalar -->
+  <!-- 15. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -325,17 +336,17 @@
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
             <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>consolidar_osint.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
-            <tr><td><strong><code>csv</code>, <code>json</code>, <code>collections</code>, <code>pathlib</code></strong></td><td>Ler os arquivos de achados e contar por área</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>consolidar_recon.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site; no Kali, já vem instalado</td></tr>
+            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Debian e no Kali, <code>sudo apt install python3-venv</code></td></tr>
+            <tr><td><strong><code>csv</code>, <code>json</code>, <code>collections</code>, <code>pathlib</code></strong></td><td>Ler os arquivos de achados e contar</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> para cada <code>import</code> do código, veja primeiro se o módulo está na lista da biblioteca padrão, em <code>docs.python.org/3/library</code>. Neste laboratório todos estão, então não há pacote para baixar. Quando o módulo não estiver lá, aí sim busque o nome no PyPI (<code>pypi.org</code>), o índice oficial de pacotes Python. Cada pacote de terceiros que se deixa de instalar é um fornecedor a menos para vigiar.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> para cada <code>import</code> do código, veja se o módulo está na lista da biblioteca padrão, em <code>docs.python.org/3/library</code>. Neste laboratório todos estão, então não há pacote para baixar. Quando não estiver, busque o nome exato no PyPI (<code>pypi.org</code>) e confira o repositório do projeto: pacote com nome quase igual ao verdadeiro é golpe conhecido (<em>typosquatting</em>).</div>
       </div>
     </div>
   </section>
 
-  <!-- 17. LAB VS Code: consolidar OSINT -->
+  <!-- 16. LAB VS Code: consolidar o reconhecimento -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -344,8 +355,8 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Transformar os achados soltos em números para a diretoria.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Abra <code>escopo.json</code> e veja os terceiros fora do escopo.<br>3. Clique em <em>Executar</em>.</div>
-            <div class="rl obs"><b>Observe</b>12,5% da superfície ativa é desconhecida e 65% das pessoas têm <em>e-mail</em> exposto. Terceiros saem marcados para não acessar.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "⬇ Preparar o ambiente" e espere "✓ Ambiente pronto".<br>2. Abra <code>escopo.json</code> e veja os terceiros fora do escopo.<br>3. Clique em "Executar".</div>
+            <div class="rl obs"><b>Observe</b>12,5% da superfície ativa é desconhecida, 65% das pessoas têm <em>e-mail</em> exposto e 93,5% dos <em>e-mails</em> seguem nome.sobrenome.</div>
             <div class="rl conc"><b>Conclusão</b>O relatório mostra o tamanho do problema e onde agir primeiro.</div>
           </div>
         </div>
@@ -354,77 +365,59 @@
     </div>
   </section>
 
-  <!-- 18. Rastro para o Blue Team -->
+  <!-- 17. Rastro para o Blue Team -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Visão do Blue Team</p>
-      <h2>Que rastro o reconhecimento deixa</h2>
+      <h2>Que rastro o reconhecimento e a enumeração deixam</h2>
       <div class="slide-content-box">
         <ul>
-          <li><strong>Passivo</strong>: quase nenhum rastro no ambiente do alvo. A defesa é sobretudo <strong>preventiva</strong>: reduzir o que se expõe.</li>
-          <li><strong>Ativo</strong>: aparece em registros de <em>firewall</em>, de servidores <em>web</em> e de DNS. Muitas requisições sequenciais, varreduras de portas, consultas a subdomínios inexistentes.</li>
-          <li><strong>Reconhecimento defensivo</strong>: um Blue Team maduro monitora continuamente a própria superfície de ataque externa e verifica se surgem novos certificados com o nome da empresa.</li>
+          <li><strong>Passivo</strong>: quase nenhum rastro. A defesa é <strong>preventiva</strong>: publicar menos e monitorar certificados novos com o nome da empresa.</li>
+          <li><strong>Varredura</strong>: muitas tentativas da mesma origem para portas diferentes, em segundos. Aparece no <em>firewall</em>, no WAF e numa captura de pacotes (Wireshark, Zeek). A <code>-sS</code> quase não chega ao log da aplicação, porque a conexão nunca se completa.</li>
+          <li><strong>Enumeração de usuários</strong>: falhas de login para muitas contas diferentes, muitas delas inexistentes.</li>
+          <li><strong>Enumeração interna</strong>: consultas LDAP volumosas ao AD (regra R13 da plataforma, desligada no padrão).</li>
         </ul>
-        <div class="callout-azul"><p>O Blue Team pode usar exatamente as mesmas fontes do Red Team. Se a defesa descobre o subdomínio esquecido primeiro, o adversário encontra uma porta a menos.</p></div>
+        <div class="callout-azul"><p>Quem não coleta o tráfego de um ativo não vê a varredura contra ele. Foi o que aconteceu com a <code>hml-gestao</code>, fora do WAF e do inventário.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 19. LAB SIEM -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>O SOC da Tatame olha para fora</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>Luiza Ferraz, analista do SOC, revisa a semana no SIEM (a central que reúne os registros).</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver o reconhecimento pelo lado do Blue Team.</div>
-            <div class="rl"><b>Faça</b>1. Clique nas quatro buscas salvas, em ordem.</div>
-            <div class="rl obs"><b>Observe</b>As buscas 1 e 2 mostram o reconhecimento ativo. Nada do passivo aparece. A busca 4 lista os mesmos 15 ativos do Red Team.</div>
-            <div class="rl conc"><b>Conclusão</b>A defesa pode usar as mesmas fontes e achar o problema primeiro.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-siem"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 20. Exemplo numérico -->
+  <!-- 18. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>Quanto a empresa expõe sem saber</h2>
+      <h2>Quanto a Tatame expõe sem saber</h2>
       <div class="slide-content-box">
-        <p>Em um engajamento autorizado, o Red Team identifica <strong>180</strong> subdomínios na transparência de certificados. Destes, <strong>120</strong> ainda respondem na internet, e <strong>15</strong> não constavam em nenhum registro da TI. A empresa tem <strong>400</strong> pessoas com <em>e-mail</em> corporativo (a sede e as equipes das academias), e a equipe encontrou <strong>260</strong> <em>e-mails</em> válidos em fontes públicas.</p>
+        <p>Os certificados listam <strong>180</strong> subdomínios; <strong>120</strong> respondem e <strong>15</strong> não estão no inventário. Das <strong>400</strong> pessoas com <em>e-mail</em>, <strong>260</strong> aparecem em fontes públicas, e <strong>243</strong> desses endereços seguem nome.sobrenome.</p>
         <div class="stat-grid">
           <div class="stat-card"><span class="numero-grande">12,5%</span><span class="legenda">da superfície ativa é desconhecida: 15 ÷ 120</span></div>
-          <div class="stat-card"><span class="numero-grande">65%</span><span class="legenda">das pessoas expostas como alvo de <em>phishing</em>: 260 ÷ 400</span></div>
+          <div class="stat-card"><span class="numero-grande">65%</span><span class="legenda">das pessoas expostas: 260 ÷ 400</span></div>
+          <div class="stat-card"><span class="numero-grande">93,5%</span><span class="legenda">dos <em>e-mails</em> no formato dominante: 243 ÷ 260</span></div>
         </div>
-        <div class="callout-azul" style="margin-top:1rem"><p>Na Rede Tatame, o cenário vale como exemplo: entre os 15 desconhecidos está a <code>hml-gestao</code>. Recomendações concretas: atualizar o inventário, ligar o monitor de certificados e priorizar o treinamento de quem está mais exposto, a começar pelas equipes das academias.</p></div>
+        <div class="callout-azul" style="margin-top:1rem"><p>Na varredura da <code>hml-gestao</code>, 100 portas testadas geraram 203 pacotes: 100 SYN, 3 SYN/ACK, 97 RST/ACK e 3 RST do Kali. Três portas abertas em cem, todas em segundos.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 21. De volta ao problema -->
+  <!-- 19. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
       <h2>Agora a Tatame sabe o que expõe</h2>
       <div class="resolvido">
-        <div class="ev"><b>O que ela publica</b>Vaga, perfil e buscador entregaram a versão da VPN, a TI sem segundo fator e o nome de Caio Mendes.</div>
-        <div class="ev"><b>Nomes esquecidos</b>Os certificados listaram 180 nomes. Quinze respondem e não estavam no inventário, entre eles a <code>hml-gestao</code>.</div>
-        <div class="ev"><b>Quanto ela expõe</b>O script mediu 12,5% da superfície ativa desconhecida e 65% das pessoas com <em>e-mail</em> exposto.</div>
-        <div class="ev"><b>Ver antes do adversário</b>Com o monitor de certificados e a regra R12, o SOC vê o subdomínio novo pela mesma fonte do Red Team.</div>
-        <div class="resposta">Resposta à pergunta da aula: a Tatame expõe 15 ativos que a TI não conhecia, com a <code>hml-gestao</code> no topo, e 260 <em>e-mails</em>. Ela descobre isso com OSINT autorizado, usando as fontes do adversário, e se mantém à frente com inventário atualizado e monitor de certificados.</div>
+        <div class="ev"><b>O que ela publica</b>Vaga, perfil e buscador entregaram a versão da VPN, o padrão de <em>e-mail</em> e a TI sem segundo fator.</div>
+        <div class="ev"><b>Que serviços respondem</b>O Nmap no Kali achou 18 <em>hosts</em> na borda, o Apache 2.4.49 da <code>hml-gestao</code> e o domínio interno pelo LDAP.</div>
+        <div class="ev"><b>Que usuários existem</b>A homologação confirma contas pela mensagem de erro; 93,5% dos <em>e-mails</em> seguem nome.sobrenome.</div>
+        <div class="ev"><b>O que o SOC vê</b>O Wireshark e o WAF mostram a varredura; a R12 mostra o certificado. A <code>hml-gestao</code> segue invisível.</div>
+        <div class="resposta">Resposta à pergunta da aula: a Tatame expõe 15 ativos fora do inventário, serviços com versões identificáveis e um portal que confirma contas. O Red Team descobre isso dentro do escopo, e a defesa fecha a lacuna com inventário, monitor de certificados, mensagem de login genérica e coleta de tráfego da homologação.</div>
       </div>
     </div>
   </section>
 
-  <!-- 22. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -432,39 +425,40 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>O reconhecimento (TA0043) define o caminho de toda a operação ofensiva.</li>
-          <li>O reconhecimento passivo quase não deixa rastro; o ativo pode ser registrado e precisa estar no escopo.</li>
-          <li>OSINT revela a superfície de ataque externa, incluindo ativos de <em>shadow IT</em>.</li>
-          <li>Dados de funcionários são dados pessoais: LGPD e regras de engajamento se aplicam também ao OSINT.</li>
+          <li>O reconhecimento (TA0043) pode ser passivo, quase sem rastro, ou ativo, que precisa de escopo e aparece nos registros.</li>
+          <li>Com o Nmap, a varredura descobre <em>hosts</em>, portas e versões: T1595 de fora, T1046 de dentro.</li>
+          <li>A enumeração de usuários explora o padrão de <em>e-mail</em> e mensagens de erro diferentes no login.</li>
+          <li>Cada passo ativo deixa rastro que o Blue Team só vê se coletar aquele ativo.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 23. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <em>Diário Oficial da União</em>, Brasília, DF, 15 ago. 2018.</p>
-        <p>MITRE. <em>Reconnaissance (TA0043)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0043/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>SP 800-115: technical guide to information security testing and assessment</em>. Gaithersburg: NIST, 2008.</p>
-        <p>OWASP FOUNDATION. <em>OWASP web security testing guide</em>. Versão 4.2. 2020. Disponível em: &lt;https://owasp.org/www-project-web-security-testing-guide/&gt;. Acesso em: 13 nov. 2026.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>LYON, Gordon Fyodor. <em>Nmap network scanning</em>: the official Nmap project guide to network discovery and security scanning. Sunnyvale: Insecure.Com, 2009.</p>
+        <p>MITRE. <em>Reconnaissance (TA0043)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0043/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>SP 800-115</em>: technical guide to information security testing and assessment. Gaithersburg: NIST, 2008.</p>
+        <p>OWASP FOUNDATION. <em>OWASP web security testing guide</em>. Versão 4.2. 2020. Disponível em: &lt;https://owasp.org/www-project-web-security-testing-guide/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>WEIDMAN, Georgia. <em>Testes de invasão</em>: uma introdução prática ao hacking. São Paulo: Novatec, 2014.</p>
       </div>
     </div>
   </section>
 
-  <!-- 24. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe o que a internet revela sobre uma empresa, distingue reconhecimento passivo de ativo e conhece os limites legais do OSINT. Na próxima aula, vamos descobrir quais dos serviços expostos da Rede Tatame estão vulneráveis e qual corrigir primeiro.</p>
-      <p class="fim-proxima">Próxima aula: Aula 6 — Varredura, enumeração e gestão de vulnerabilidades.</p>
+      <p class="fim-texto">Você já distingue reconhecimento passivo de ativo, lê uma varredura no Nmap e no Wireshark e sabe como um portal entrega quais contas existem. Na próxima aula, os serviços encontrados viram candidatos a vulnerabilidade e porta de entrada.</p>
+      <p class="fim-proxima">Próxima aula: Aula 6 — Exploração de vulnerabilidades e obtenção de acesso inicial.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -474,9 +468,9 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['net', 'waf', 'vpn', 'mail'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
-  legenda: 'Onde a aula acontece: a borda da Tatame vista da internet. Em vermelho, a homologação <code>hml-gestao</code>, que ninguém inventariou e que guarda uma cópia do banco de alunos.' });
+/* ---------- 3. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['net', 'waf', 'vpn', 'mail', 'ad'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
+  legenda: 'Onde a aula acontece: a borda da Tatame vista da internet. Em vermelho, a homologação <code>hml-gestao</code>, fora do inventário e do WAF, com uma cópia do banco de alunos.' });
 
 /* ---------- 6. Navegador: vaga, perfil e buscador ---------- */
 (function () {
@@ -487,10 +481,10 @@ Labs.miniMapa('#mapa-problema', { destaque: ['net', 'waf', 'vpn', 'mail'], alvo:
     { url: 'vagas.example.com/rede-tatame/analista-de-infraestrutura-pleno', html: nav(0) + '<div class="os-pg"><h3>Analista de Infraestrutura Pleno</h3><div class="meta">Rede Tatame · sede administrativa, São Paulo, SP · publicada há 3 dias</div>' +
       '<p>Buscamos profissional para apoiar a ' + f('migração da VPN NetGuard 9.1 para a versão 10', 'Revela o fabricante e a versão da VPN da sede. O adversário já sabe que existe uma VPN exposta e qual base de falhas consultar.') + ' e a sustentação do ambiente da sede.</p>' +
       '<ul><li>Experiência com ' + f('Active Directory em Windows Server 2012 R2', 'Versão de sistema antiga e sem suporte do fabricante. Indica que pode haver servidores sem atualização.') + '</li>' +
-      '<li>Administração do ' + f('ERP financeiro em servidor próprio da sede', 'Informa que o ERP roda dentro de casa, na rede da sede, e não em nuvem. É um alvo típico de ransomware.') + '</li>' +
+      '<li>Administração do ' + f('ERP financeiro em servidor próprio da sede', 'Informa que o ERP roda na rede da sede, e não em nuvem. É um alvo típico de ransomware.') + '</li>' +
       '<li>Desejável experiência com o ' + f('ambiente de homologação do portal das academias, criado em 2024', 'Confirma que existe uma homologação do portal de gestão. Pista para o subdomínio hml-gestao, que a TI esqueceu.') + '</li></ul>' +
-      '<p>Envie seu currículo para ' + f('caio.mendes@tatame.com.br', 'Revela o padrão de e-mail (nome.sobrenome) e o nome de quem administra a TI da sede: um alvo provável de engenharia social.') + '.</p>' + why + '</div>' },
-    { url: 'conecta.example.com/in/caio-mendes-ti', html: nav(1) + '<div class="os-pg"><h3>Caio Mendes</h3><div class="meta">' + f('Administrador de TI na Rede Tatame', 'Cargo e empresa confirmam a pessoa da vaga. Adversários montam o organograma de TI com perfis assim.') + ' · 500+ conexões</div>' +
+      '<p>Envie seu currículo para ' + f('caio.mendes@tatame.com.br', 'Revela o padrão de e-mail (nome.sobrenome), que costuma ser também o formato do usuário de login, e o nome de quem administra a TI da sede.') + '.</p>' + why + '</div>' },
+    { url: 'conecta.example.com/in/caio-mendes-ti', html: nav(1) + '<div class="os-pg"><h3>Caio Mendes</h3><div class="meta">' + f('Administrador de TI na Rede Tatame', 'Cargo e empresa confirmam a pessoa da vaga. Adversários montam o organograma de TI com perfis assim (T1591).') + ' · 500+ conexões</div>' +
       '<div class="os-card"><p>Orgulho do time! Concluímos a ' + f('troca dos 120 notebooks da sede', 'Dá o tamanho aproximado da equipe administrativa, útil para estimar alvos de phishing.') + ' e agora a equipe acessa tudo pelo ' + f('vpn.tatame.com.br', 'Nome exato do serviço de acesso remoto. Combinado com a vaga, o adversário sabe que é uma VPN NetGuard.') + '. ' + f('O segundo fator ainda não chegou às contas da TI', 'O post admite que contas administrativas entram na VPN sem segundo fator. Esta é a informação mais grave da página.') + '.</p></div>' +
       '<div class="os-card"><p>Visita à academia 117: ' + f('foto da recepção com a tela da catraca facial', 'Mostra o modelo do leitor facial das catracas. Biometria de alunos, inclusive menores, é dado sensível na LGPD.') + '.</p></div>' + why + '</div>' },
     { url: 'buscador-dispositivos.example.com/busca?q=org:"Rede Tatame"', html: nav(2) + '<div class="os-pg"><h3>3 resultados para org:"Rede Tatame"</h3><div class="meta">Base indexada por um serviço público, sem nenhum contato com a empresa nesta consulta</div>' +
@@ -517,122 +511,168 @@ Labs.miniMapa('#mapa-problema', { destaque: ['net', 'waf', 'vpn', 'mail'], alvo:
   });
 })();
 
-/* ---------- 8. Fluxo: passivo x ativo ---------- */
+/* ---------- 7. Fluxo: passivo x ativo ---------- */
 Labs.flow('#lab-flow', {
   w: 1100, h: 430,
   nodes: [
-    { id: 'red', x: 110, y: 215, label: 'Red Team', sub: 'exercício autorizado', icon: '🎯', k: 'red' },
-    { id: 'ct', x: 360, y: 60, label: 'Logs de CT', sub: 'certificados públicos', icon: '📜' },
-    { id: 'busca', x: 360, y: 160, label: 'Buscadores', sub: 'e redes sociais', icon: '🔎' },
-    { id: 'whois', x: 360, y: 260, label: 'Registro do domínio', sub: 'WHOIS', icon: '🗂️', w: 220 },
-    { id: 'ag', x: 360, y: 375, label: 'Servidor da agência', sub: 'terceiro, fora do escopo', icon: '⛔', k: 'amber', w: 200 },
-    { id: 'dns', x: 680, y: 110, label: 'DNS da Tatame', sub: 'registra consultas', icon: '🌐' },
-    { id: 'fw', x: 680, y: 290, label: 'CDN / WAF', sub: 'registra conexões', icon: '🧱' },
-    { id: 'siem', x: 960, y: 200, label: 'SIEM', sub: 'SOC da Tatame', icon: '📊', k: 'blue' }
+    { id: 'red', x: 110, y: 215, label: 'Kali lab-tatame', sub: 'Red Team · 192.0.2.66', icon: '🎯', k: 'red', w: 190 },
+    { id: 'ct', x: 380, y: 60, label: 'Logs de CT', sub: 'certificados públicos', icon: '📜' },
+    { id: 'busca', x: 380, y: 160, label: 'Buscadores', sub: 'vagas e perfis', icon: '🔎' },
+    { id: 'whois', x: 380, y: 260, label: 'Registro do domínio', sub: 'WHOIS', icon: '🗂️', w: 220 },
+    { id: 'ag', x: 380, y: 375, label: 'Servidor da agência', sub: 'terceiro, fora do escopo', icon: '⛔', k: 'amber', w: 200 },
+    { id: 'dns', x: 690, y: 90, label: 'DNS da Tatame', sub: 'registra consultas', icon: '🌐' },
+    { id: 'fw', x: 690, y: 230, label: 'CDN / WAF', sub: 'registra conexões', icon: '🧱' },
+    { id: 'hml', x: 690, y: 360, label: 'hml-gestao', sub: 'sem WAF, sem coleta', icon: '🕳️', k: 'amber' },
+    { id: 'siem', x: 975, y: 160, label: 'SIEM', sub: 'SOC da Tatame', icon: '📊', k: 'blue' }
   ],
   links: [
     { from: 'red', to: 'ct' }, { from: 'red', to: 'busca' }, { from: 'red', to: 'whois' }, { from: 'red', to: 'ag', dashed: true },
-    { from: 'red', to: 'dns', curve: 40, label: 'consultas diretas' }, { from: 'red', to: 'fw', curve: -30, label: 'varredura (T1595)', dy: 40 },
-    { from: 'dns', to: 'siem', label: 'logs' }, { from: 'fw', to: 'siem', label: 'logs' }
+    { from: 'red', to: 'dns', curve: 40 }, { from: 'red', to: 'fw', curve: -20 }, { from: 'red', to: 'hml', curve: -40 },
+    { from: 'dns', to: 'siem', label: 'logs' }, { from: 'fw', to: 'siem', label: 'logs' }, { from: 'hml', to: 'siem', dashed: true }
   ],
   steps: [
     { title: 'Passivo · Transparência de certificados', text: 'A equipe consulta bases públicas de certificados TLS. A consulta vai para um serviço de terceiro, e a Tatame não recebe nenhum pacote.', on: ['red', 'ct'], links: [['red', 'ct', 'red']] },
-    { title: 'Passivo · Buscadores, redes sociais e WHOIS', text: 'Vagas, perfis profissionais e o registro do domínio são lidos de servidores que não pertencem ao alvo. Olhar da calçada.', on: ['red', 'busca', 'whois'], links: [['red', 'busca', 'red'], ['red', 'whois', 'red']] },
-    { title: 'Passivo · O que o SIEM viu até aqui', text: 'Nada. Por isso a defesa contra o reconhecimento passivo é preventiva: reduzir o que se publica.', on: ['siem'], dim: true },
-    { title: 'Ativo · Consultas ao DNS da empresa', text: 'A equipe pergunta diretamente ao DNS da Tatame por dezenas de nomes. Os que não existem geram respostas NXDOMAIN, e tudo fica registrado.', on: ['red', 'dns', 'siem'], links: [['red', 'dns', 'red'], ['dns', 'siem', 'blue']] },
-    { title: 'Ativo · Varredura de portas', text: 'Conexões sequenciais para muitas portas, da mesma origem, chegam à borda (203.0.113.0/24). Tocar a campainha: o morador pode perceber.', on: ['red', 'fw', 'siem'], links: [['red', 'fw', 'red'], ['fw', 'siem', 'blue']] },
+    { title: 'Passivo · Buscadores, vagas e WHOIS', text: 'Vagas, perfis profissionais e o registro do domínio são lidos de servidores que não pertencem ao alvo. Olhar da calçada.', on: ['red', 'busca', 'whois'], links: [['red', 'busca', 'red'], ['red', 'whois', 'red']] },
+    { title: 'Passivo · O que o SIEM viu até aqui', text: 'Nada. Por isso a defesa contra o reconhecimento passivo é preventiva: reduzir o que se publica e monitorar certificados novos.', on: ['siem'], dim: true },
+    { title: 'Ativo · Consultas ao DNS da empresa', text: 'A equipe pergunta diretamente ao DNS da Tatame pelos nomes encontrados. Os que não existem geram respostas NXDOMAIN, e tudo fica registrado.', on: ['red', 'dns', 'siem'], links: [['red', 'dns', 'red'], ['dns', 'siem', 'blue']] },
+    { title: 'Ativo · Varredura da borda', text: 'O Nmap testa portas em 203.0.113.0/24. Muitas tentativas da mesma origem chegam ao WAF, que registra e envia ao SIEM. Tocar a campainha: o morador pode perceber.', on: ['red', 'fw', 'siem'], links: [['red', 'fw', 'red'], ['fw', 'siem', 'blue']] },
+    { title: 'Ativo · Varredura da hml-gestao', text: 'A mesma varredura contra a homologação não passa pelo WAF e ninguém coleta os registros dela. O rastro existe no servidor, mas não chega ao SOC.', on: ['red', 'hml'], bad: ['hml'], links: [['red', 'hml', 'red']] },
     { title: 'Escopo · O servidor da agência', text: 'O subdomínio promo-hml aponta para um servidor da agência de marketing. Interagir com ele seria reconhecimento ativo sobre um terceiro sem autorização. A equipe registra o achado e não toca o servidor.', on: ['red'], bad: ['ag'], links: [['red', 'ag', 'amber']], dim: true }
   ]
 });
 
-/* ---------- 10. Terminal: whois, dig e CT ---------- */
+/* ---------- 9. Terminal Kali: CT, DNS e Nmap ---------- */
 Labs.terminal('#lab-term', {
-  title: 'red@lab-osint: ~/tatame', prompt: 'red@lab-osint:~/tatame$ ',
+  title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: 'kali@lab-tatame:~/exercicio-2026-11$ ',
   steps: [
-    { cmd: 'whois tatame.com.br', note: 'Registro do domínio: titular, contatos e servidores de nome. Fonte de terceiro (registro .br).', out: [
-      'domain:      tatame.com.br', 'owner:       Rede Tatame Academias Ltda.', 'owner-c:     CAMEN7', 'tech-c:      CAMEN7',
-      'nserver:     ns1.provedor-dns.example.com', 'nserver:     ns2.provedor-dns.example.com', 'created:     20140611', 'changed:     20260902',
-      '', 'nic-hdl-br:  CAMEN7', 'person:      Caio Mendes', 'e-mail:      caio.mendes@tatame.com.br',
-      '[warn] O contato técnico é a mesma pessoa da vaga e do perfil profissional.' ] },
-    { cmd: 'dig +short MX tatame.com.br; dig +short TXT tatame.com.br', note: 'MX e TXT mostram o servidor de e-mail, a política contra falsificação e os serviços que pediram verificação do domínio.', out: [
-      '10 mx1.tatame.com.br.',
-      '"v=spf1 ip4:203.0.113.40 include:envios.agencia-marketing.example ~all"',
-      '"pagafacil-verificacao=8f3a1c77e2"', '"status-page-verification=Qk7xR2"',
-      '[info] A agência de marketing pode enviar e-mails em nome da Tatame; a PagaFácil e a página de status são serviços de terceiros.',
-      '[warn] PagaFácil e status.tatame.com.br ficam fora do escopo: só entram no relatório como dependências.' ] },
-    { cmd: 'curl -s "https://crt.sh/?q=%25.tatame.com.br&output=json" | jq -r ".[].name_value" | sort -u > ct.txt; wc -l < ct.txt', note: 'Toda emissão de certificado público fica registrada em logs de transparência. Consultar a base não toca a empresa.', out: [
+    { cmd: 'curl -s "https://crt.sh/?q=%25.tatame.com.br&output=json" | jq -r ".[].name_value" | sort -u > ct.txt; wc -l < ct.txt', note: 'Passivo: a base pública de transparência de certificados lista os nomes que receberam certificado TLS. Nenhum pacote vai para a Tatame.', out: [
       '180', '[ok] 180 subdomínios distintos salvos em ct.txt' ] },
-    { cmd: 'grep -E "hml|teste|dev|old|tmp" ct.txt', note: 'Nomes que sugerem ambientes de teste ou antigos costumam ser os esquecidos.', out: [
-      'api-parceiros-dev.tatame.com.br', 'catraca-fw-dev.tatame.com.br', 'grafana-tmp.tatame.com.br', 'hml-gestao.tatame.com.br', 'jenkins-old.tatame.com.br',
-      'promo-hml.tatame.com.br', 'sso-teste.tatame.com.br', 'teste-nuvem-2019.tatame.com.br' ] },
-    { cmd: 'dig +short hml-gestao.tatame.com.br; dig +short promo-hml.tatame.com.br', note: 'Esta consulta já é ativa: as regras do exercício autorizam consultas DNS ao domínio da Tatame. Um nome é da casa; o outro aponta para um terceiro.', out: [
-      '203.0.113.45', '[warn] hml-gestao: endereço da Tatame, fora do inventário e sem WAF. Entra no escopo e segue para a Aula 6.',
-      'hml.agencia-marketing.example.', '198.51.100.23',
-      '[err] promo-hml: destino pertence à agência de marketing. FORA DO ESCOPO.', '[warn] Registrar como shadow IT no relatório e avisar a Tatame. Nenhum acesso ao servidor.' ] }
+    { cmd: 'dig +short hml-gestao.tatame.com.br promo-hml.tatame.com.br', note: 'Ativo, permitido pela RoE: a consulta chega ao DNS da Tatame. Um nome é da casa; o outro aponta para um terceiro.', out: [
+      '203.0.113.45', 'hml.agencia-marketing.example.', '198.51.100.23',
+      '[warn] hml-gestao: endereço da Tatame, fora do inventário. Entra no escopo.',
+      '[err] promo-hml: servidor da agência de marketing. FORA DO ESCOPO: registrar e não tocar.' ] },
+    { cmd: 'sudo nmap -sn 203.0.113.0/24 -oA borda_hosts', note: 'Descoberta de hosts, sem varrer portas. A carta autoriza 203.0.113.0/24 a partir de 192.0.2.66, das 09h às 20h.', out: [
+      'Starting Nmap 7.95 ( https://nmap.org ) at 2026-11-17 10:02 -03',
+      'Nmap scan report for www.tatame.com.br (203.0.113.10)', 'Host is up (0.011s latency).',
+      'Nmap scan report for vpn.tatame.com.br (203.0.113.30)', 'Host is up (0.012s latency).',
+      'Nmap scan report for hml-gestao.tatame.com.br (203.0.113.45)', 'Host is up (0.010s latency).',
+      '[mute] ... (mais 15 hosts)',
+      'Nmap done: 256 IP addresses (18 hosts up) scanned in 6.42 seconds',
+      '[info] 6 hosts do inventário (www, app, gestao, api, vpn, mx1) e 12 que a TI não lista.' ] },
+    { cmd: 'sudo nmap -sS -sV --top-ports 100 203.0.113.30,45 -oA borda_servicos', note: 'Varredura SYN nas 100 portas mais comuns e identificação de versão (-sV) em dois alvos da carta.', out: [
+      'Nmap scan report for vpn.tatame.com.br (203.0.113.30)',
+      'Host is up (0.012s latency).',
+      'Not shown: 99 filtered tcp ports (no-response)',
+      'PORT    STATE SERVICE  VERSION',
+      '443/tcp open  ssl/http NetGuard SSL VPN httpd 9.1',
+      '',
+      'Nmap scan report for hml-gestao.tatame.com.br (203.0.113.45)',
+      'Host is up (0.010s latency).',
+      'Not shown: 97 closed tcp ports (reset)',
+      'PORT    STATE SERVICE  VERSION',
+      '22/tcp  open  ssh      OpenSSH 8.2p1 Ubuntu 4ubuntu0.5 (Ubuntu Linux; protocol 2.0)',
+      '[warn] 80/tcp  open  http     Apache httpd 2.4.49 ((Unix))',
+      '[warn] 443/tcp open  ssl/http Apache httpd 2.4.49 ((Unix))',
+      '',
+      'Nmap done: 2 IP addresses (2 hosts up) scanned in 14.87 seconds',
+      '[info] A VPN fica atrás de firewall (filtered); a homologação responde RST em cada porta fechada (closed).' ] },
+    { cmd: 'sudo nmap -sV -p 389,445,3389 --script ldap-rootdse 10.10.1.10', note: 'Cenário de acesso presumido previsto na RoE: a VM no segmento 10.10.250.0/24 da sede. De dentro, é T1046 (TA0007). O script só lê dados públicos do LDAP.', out: [
+      'Nmap scan report for SRV-AD-01.corp.tatame.local (10.10.1.10)',
+      'PORT     STATE SERVICE       VERSION',
+      '389/tcp  open  ldap          Microsoft Windows Active Directory LDAP (Domain: corp.tatame.local, Site: Default-First-Site-Name)',
+      '| ldap-rootdse:',
+      '|   defaultNamingContext: DC=corp,DC=tatame,DC=local',
+      '|   dnsHostName: SRV-AD-01.corp.tatame.local',
+      '|_  domainFunctionality: 6',
+      '445/tcp  open  microsoft-ds?',
+      '3389/tcp open  ms-wbt-server Microsoft Terminal Services',
+      '[info] domainFunctionality 6 = nível funcional Windows Server 2012 R2, o mesmo citado na vaga.' ] }
   ],
-  done: 'Roteiro concluído: 180 nomes coletados, uma homologação esquecida e um ativo de terceiro identificado e não tocado.'
+  done: 'Roteiro concluído: 180 nomes, 18 hosts ativos na borda, versões identificadas e o domínio interno enumerado. Tudo dentro da carta APR-2291.'
 });
 
-/* ---------- 12. Cena 3D: superfície de ataque ---------- */
-Labs.scene3d('#lab-3d', (c) => {
-  const { THREE, root } = c;
-  const mat = (color, e) => new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: e || 0.35, roughness: 0.4, metalness: 0.2 });
-  const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.9, 1), mat(0x2bbbe0, 0.5)); core.material.flatShading = true; root.add(core);
-  const lc = c.label('tatame.com.br', { color: '#F2CB0A', depthTest: false }); lc.position.set(0, -2.6, 0); root.add(lc);
-  const groups = { azul: [], vermelho: [], cinza: [], pessoas: [], agencia: [] };
-  const sph = new THREE.SphereGeometry(0.13, 12, 12);
-  // 180 subdomínios em espiral: 105 no inventário, 15 shadow IT, 60 inativos
-  const kinds = [];
-  for (let i = 0; i < 180; i++) kinds.push(i % 12 === 5 ? 'vermelho' : 'x');
-  let az = 105, cz = 60;
-  for (let i = 0; i < 180; i++) if (kinds[i] === 'x') { if (az > 0 && (cz === 0 || i % 8 < 5)) { kinds[i] = 'azul'; az--; } else { kinds[i] = 'cinza'; cz--; } }
-  const colors = { azul: 0x00b1d2, vermelho: 0xff2b5f, cinza: 0x56627a };
-  const lines = new THREE.Group(); root.add(lines);
-  kinds.forEach((k, i) => {
-    const a = (i / 180) * Math.PI * 2 * 3, r = 3.2 + (i % 3) * 0.55, y = Math.sin(i * 0.7) * 0.5;
-    const m = new THREE.Mesh(k === 'vermelho' ? new THREE.SphereGeometry(0.22, 14, 14) : sph, mat(colors[k], k === 'vermelho' ? 0.8 : 0.3));
-    m.position.set(Math.cos(a) * r, y - 0.3, Math.sin(a) * r); root.add(m); groups[k].push(m);
-    if (k !== 'cinza') {
-      const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), m.position.clone()]);
-      const ln = new THREE.Line(g, new THREE.LineBasicMaterial({ color: colors[k], transparent: true, opacity: k === 'vermelho' ? 0.7 : 0.12 }));
-      lines.add(ln); groups[k].push(ln);
+/* ---------- 10. Wireshark: a varredura SYN na hml-gestao ---------- */
+Labs.register('#lab-ws', (el) => {
+  const K = '192.0.2.66', H = '203.0.113.45', SP = 41322;
+  const top = [80, 23, 443, 21, 22, 25, 3389, 110, 445, 139, 143, 53, 135, 3306, 8080, 1723, 111, 995, 993, 5900, 1025, 587, 8888, 199, 1720, 465, 548, 113, 81, 6001, 10000, 514, 5060, 179, 1026, 2000, 8443, 8000, 32768, 554, 26, 1433, 49152, 2001, 515, 8008, 49154, 1027, 5666, 646, 5000, 5631, 631, 49153, 8081, 2049, 88, 79, 5800, 106, 2121, 1110, 49155, 6000, 513, 990, 5357, 427, 49156, 543, 544, 5101, 144, 7, 389, 8009, 3128, 444, 9999, 5009, 7070, 5190, 3000, 5432, 1900, 3986, 13, 1029, 9, 5051, 6646, 49157, 1028, 873, 1755, 2717, 4899, 9100, 119, 37];
+  const abertas = new Set([22, 80, 443]);
+  const P = []; let t = 0;
+  const add = (src, dst, sp, dp, fl, len, info, cls) => { t += 0.00031 + (P.length % 7) * 0.00004; P.push({ n: P.length + 1, t: t.toFixed(6), src, dst, sp, dp, fl, len, info, cls }); };
+  top.forEach((p) => {
+    add(K, H, SP, p, 'SYN', 58, SP + ' → ' + p + ' [SYN] Seq=0 Win=1024 Len=0 MSS=1460', 'syn');
+    if (abertas.has(p)) {
+      add(H, K, p, SP, 'SYN, ACK', 60, p + ' → ' + SP + ' [SYN, ACK] Seq=0 Ack=1 Win=64240 Len=0 MSS=1460', 'sa');
+      add(K, H, SP, p, 'RST', 54, SP + ' → ' + p + ' [RST] Seq=1 Win=0 Len=0', 'rst');
+    } else add(H, K, p, SP, 'RST, ACK', 60, p + ' → ' + SP + ' [RST, ACK] Seq=1 Ack=1 Win=0 Len=0', 'rst');
+  });
+  const F = [
+    { f: '', l: 'Sem filtro', m: () => true, why: 'Captura inteira: 203 pacotes em cerca de 0,1 s, todos entre 192.0.2.66 (a lab-tatame) e 203.0.113.45. A porta de origem 41322 se repete: assinatura típica de uma varredura.' },
+    { f: 'tcp.flags.syn == 1 && tcp.flags.ack == 0', l: 'SYN enviados', m: (p) => p.fl === 'SYN', why: '100 SYN, um para cada porta testada, da mesma origem, em sequência que não é a numérica. É o "tocar a campainha" de cada porta.' },
+    { f: 'tcp.flags.syn == 1 && tcp.flags.ack == 1', l: 'SYN/ACK', m: (p) => p.fl === 'SYN, ACK', why: 'Só 3 respostas SYN/ACK: as portas 22, 80 e 443 estão abertas. São exatamente as que o Nmap marcou como open.' },
+    { f: 'tcp.flags.reset == 1', l: 'RST', m: (p) => p.fl.startsWith('RST'), why: '100 RST: 97 vêm da homologação (portas fechadas, closed) e 3 vêm do próprio Kali, que derruba a conexão logo após o SYN/ACK. Por isso a varredura SYN é chamada de meia abertura.' }
+  ];
+  el.innerHTML = '<div class="ws"><div class="ws-title">◢ <b>Wireshark</b> · varredura_hml.pcapng · captura na lab-tatame (eth0)</div>' +
+    '<div class="ws-filter"><span class="box"></span>' + F.map((x, i) => '<button data-f="' + i + '">' + x.l + '</button>').join('') + '</div>' +
+    '<div class="ws-list"><table><thead><tr><th>No.</th><th>Time</th><th>Source</th><th>Destination</th><th>Protocol</th><th>Length</th><th>Info</th></tr></thead><tbody></tbody></table></div>' +
+    '<div class="ws-det"></div><div class="ws-why"></div><div class="ws-status"><span class="st"></span></div></div>';
+  const box = el.querySelector('.box'), tb = el.querySelector('tbody'), det = el.querySelector('.ws-det'), st = el.querySelector('.st'), why = el.querySelector('.ws-why');
+  function detalhe(p) {
+    const bits = { 'SYN': '0x002 (SYN)', 'SYN, ACK': '0x012 (SYN, ACK)', 'RST': '0x004 (RST)', 'RST, ACK': '0x014 (RST, ACK)' }[p.fl];
+    det.innerHTML = '<div>▸ Frame ' + p.n + ': ' + p.len + ' bytes on wire (' + p.len * 8 + ' bits)</div>' +
+      '<div>▸ Internet Protocol Version 4, Src: ' + p.src + ', Dst: ' + p.dst + '</div>' +
+      '<div>▾ Transmission Control Protocol, Src Port: ' + p.sp + ', Dst Port: ' + p.dp + '</div>' +
+      '<div class="k">Flags: ' + bits + '</div>' +
+      '<div class="k">' + (p.fl === 'SYN' ? 'Pedido de conexão: "a porta ' + p.dp + ' está aberta?"' : p.fl === 'SYN, ACK' ? 'Resposta: porta ' + p.sp + ' aberta, aceita conexão' : p.fl === 'RST' ? 'O Kali desiste: o handshake nunca termina e a aplicação não registra a conexão' : 'Resposta: porta ' + p.sp + ' fechada') + '</div>';
+  }
+  function aplicar(i) {
+    const x = F[i];
+    el.querySelectorAll('.ws-filter button').forEach((b, j) => b.classList.toggle('on', j === i));
+    box.textContent = x.f || 'Aplique um filtro de exibição…'; box.classList.toggle('ok', !!x.f);
+    const vis = P.filter(x.m);
+    tb.innerHTML = vis.map((p) => '<tr class="' + p.cls + '" data-n="' + p.n + '"><td>' + p.n + '</td><td>' + p.t + '</td><td>' + p.src + '</td><td>' + p.dst + '</td><td>TCP</td><td>' + p.len + '</td><td>' + p.info + '</td></tr>').join('');
+    tb.querySelectorAll('tr').forEach((r) => r.addEventListener('click', () => { tb.querySelectorAll('tr').forEach((q) => q.classList.remove('sel')); r.classList.add('sel'); detalhe(P[+r.dataset.n - 1]); }));
+    st.textContent = 'Pacotes: ' + P.length + ' · Exibidos: ' + vis.length + ' (' + (vis.length / P.length * 100).toFixed(1).replace('.', ',') + '%)';
+    why.textContent = x.why;
+    detalhe(vis[0]); tb.querySelector('tr').classList.add('sel');
+  }
+  el.querySelectorAll('.ws-filter button').forEach((b) => b.addEventListener('click', () => aplicar(+b.dataset.f)));
+  aplicar(0);
+});
+
+/* ---------- 12. Navegador: enumeração de usuários pelo login ---------- */
+(function () {
+  const T = [
+    { site: 'hml', url: 'hml-gestao.tatame.com.br/login', user: 'caio.mendes', msg: 'Senha incorreta para caio.mendes.', ms: 212, cls: 'warn', why: 'A conta existe, e a página diz isso. A resposta demorou 212 ms porque o servidor chegou a conferir a senha.' },
+    { site: 'hml', url: 'hml-gestao.tatame.com.br/login', user: 'joao.inexistente', msg: 'Usuário não encontrado.', ms: 31, cls: 'warn', why: 'Outra mensagem e 31 ms: o servidor nem chegou à senha. Mensagem e tempo diferentes confirmam quem existe (WSTG-IDNT-04).' },
+    { site: 'prod', url: 'gestao.tatame.com.br/login', user: 'caio.mendes', msg: 'Usuário ou senha inválidos.', ms: 205, cls: 'ok', why: 'No portal de produção, a mensagem é genérica. A tentativa também conta para o limite de bloqueio e gera evento na auditoria de identidade.' },
+    { site: 'prod', url: 'gestao.tatame.com.br/login', user: 'joao.inexistente', msg: 'Usuário ou senha inválidos.', ms: 208, cls: 'ok', why: 'Mesma mensagem e tempo parecido para a conta que não existe: não dá para distinguir. É a correção que vai para o relatório da hml-gestao.' }
+  ];
+  const feitos = [];
+  const tela = (k) => {
+    const x = T[k];
+    const lin = feitos.map((i) => '<tr><td>' + (T[i].site === 'hml' ? 'hml-gestao' : 'gestao (produção)') + '</td><td>' + T[i].user + '</td><td>' + T[i].msg + '</td><td>' + T[i].ms + ' ms</td></tr>').join('');
+    return '<div class="lg-wrap"><div class="lg-box"><h4>' + (x.site === 'hml' ? 'Portal das academias · HOMOLOGAÇÃO' : 'Portal das academias') + '</h4>' +
+      '<label>Usuário</label><div class="in">' + x.user + '</div><label>Senha</label><div class="in">••••••••  (senha sabidamente errada)</div>' +
+      '<div class="lg-msg ' + x.cls + '">' + x.msg + '</div></div>' +
+      '<div><div class="lg-acts">' + T.map((y, i) => '<button data-t="' + i + '"' + (i === k ? ' class="on"' : '') + '>' + (i + 1) + '. ' + (y.site === 'hml' ? 'hml-gestao' : 'produção') + ' · ' + y.user + '</button>').join('') + '</div>' +
+      '<table class="lg-tab"><thead><tr><th>portal</th><th>usuário</th><th>mensagem</th><th>tempo</th></tr></thead><tbody>' + lin + '</tbody></table>' +
+      '<div class="lg-why">' + x.why + '</div></div></div>';
+  };
+  Labs.browser('#lab-login', {
+    url: T[0].url, html: '', secure: true,
+    onReady(page, api) {
+      if (!page.querySelector('.lg-wrap')) { feitos.push(0); api.go(T[0].url, tela(0)); return; }
+      page.querySelectorAll('[data-t]').forEach((b) => b.addEventListener('click', () => { const k = +b.dataset.t; if (!feitos.includes(k)) feitos.push(k); api.go(T[k].url, tela(k)); }));
     }
   });
-  const lh = c.label('hml-gestao', { color: '#FF5C7A', scale: 0.7, depthTest: false }); lh.position.copy(groups.vermelho[0].position).add(new THREE.Vector3(0, 0.7, 0)); root.add(lh); groups.vermelho.push(lh);
-  // servidor da agência (terceiro) ligado a 3 subdomínios vermelhos
-  const ag = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.8, 0.8), mat(0xf2cb0a, 0.6)); ag.position.set(6.2, 1.8, -1.5); root.add(ag); groups.agencia.push(ag);
-  const la = c.label('Agência: fora do escopo', { color: '#F2CB0A', scale: 0.7 }); la.position.set(5.6, 2.8, -1.5); root.add(la); groups.agencia.push(la);
-  groups.vermelho.filter((o) => o.isMesh).slice(1, 4).forEach((m) => {
-    const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([m.position.clone(), ag.position.clone()]), new THREE.LineDashedMaterial({ color: 0xf2cb0a, dashSize: 0.2, gapSize: 0.15 }));
-    ln.computeLineDistances(); root.add(ln); groups.agencia.push(ln);
-  });
-  // 400 pessoas com e-mail = 40 pontos; 26 com e-mail exposto (amarelo)
-  for (let i = 0; i < 40; i++) {
-    const a = (i / 40) * Math.PI * 2, exp = i % 20 < 13;
-    const m = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 10), new THREE.MeshBasicMaterial({ color: exp ? 0xf2cb0a : 0x33415c }));
-    m.position.set(Math.cos(a) * 1.8, 3.1 + (i % 2) * 0.3, Math.sin(a) * 1.8); root.add(m); groups.pessoas.push(m);
-  }
-  const lp = c.label('400 pessoas · 260 e-mails expostos', { color: '#F2CB0A', scale: 0.75 }); lp.position.set(0, 4.1, 0); root.add(lp); groups.pessoas.push(lp);
-  const lr = c.label('15 desconhecidos pela TI', { color: '#FF5C7A', scale: 0.8 }); lr.position.set(-5.2, 1.6, 0); root.add(lr); groups.vermelho.push(lr);
-  const ctl = c.controls('<button class="lab-chip is-on" data-g="tudo">Tudo</button><button class="lab-chip red" data-g="vermelho">Só shadow IT</button><button class="lab-chip" data-g="pessoas">Só pessoas</button>');
-  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
-    ctl.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x === b));
-    const g = b.dataset.g;
-    Object.entries(groups).forEach(([k, arr]) => arr.forEach((o) => { o.visible = g === 'tudo' || k === g || (g === 'vermelho' && k === 'agencia'); }));
-  }));
-  c.legend('<i style="background:#00B1D2"></i>No inventário (105)<br><i style="background:#FF2B5F"></i>Shadow IT (15)<br><i style="background:#56627A"></i>Não respondem (60)<br><i style="background:#F2CB0A"></i>E-mail exposto (1 ponto = 10 pessoas)');
-  c.onFrame((t) => {
-    core.rotation.y = t * 0.5;
-    groups.vermelho.forEach((o) => { if (o.isMesh) o.scale.setScalar(1 + Math.sin(t * 3) * 0.18); });
-  });
-}, { camera: [0, 4.5, 12] });
+})();
 
-/* ---------- 14. Plataforma Rede Tatame: cenário de reconhecimento ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
+/* ---------- 13. Plataforma Rede Tatame: cenário de reconhecimento ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios', reiniciar: true });
 
-/* ---------- 17. VS Code: consolidar OSINT ---------- */
+/* ---------- 16. VS Code: consolidar o reconhecimento ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'osint-tatame', team: 'red', status: 'Python 3.12', open: 'consolidar_osint.py', typeOnEnter: true,
+  folder: 'recon-tatame', team: 'red', status: 'Python 3.12', open: 'consolidar_recon.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -644,7 +684,7 @@ Labs.vscode('#lab-vsc', {
       '[info] Só o pip: o script usa apenas a biblioteca padrão (csv, json, collections, pathlib).' ] }
   ],
   files: [
-    { path: 'consolidar_osint.py', hl: [20, 23, 24], code: String.raw`"""Consolida achados de OSINT em um relatório de exposição (engajamento autorizado)."""
+    { path: 'consolidar_recon.py', hl: [20, 29, 35], code: String.raw`"""Consolida o reconhecimento em um relatório de exposição (engajamento APR-2291)."""
 import csv
 import json
 from collections import Counter
@@ -678,6 +718,9 @@ for h in desconhecidos:
         acao = "da Tatame: incluir no inventário e avaliar"
     print(f"  {h.split('.')[0]:<18} {r['ip']:<15} {acao}")
 
+formato, n = Counter(r["formato"] for r in emails).most_common(1)[0]
+print(f"\nFormato de usuário dominante: {formato} em {n} de {len(emails)}  ->  {pct(n / len(emails))}")
+
 print("\nExposição por área (prioridade de treinamento):")
 for area, n in Counter(r["area"] for r in emails).most_common(3):
     print(f"  {area:<12} {n:>3} e-mails")` },
@@ -685,33 +728,42 @@ for area, n in Counter(r["area"] for r in emails).most_common(3):
   "cliente": "Rede Tatame",
   "dominio": "tatame.com.br",
   "pessoas_com_email": 400,
-  "hospedagens_fora_do_escopo": ["agencia-marketing", "status-terceirizado", "pagafacil"]
+  "hospedagens_fora_do_escopo": [
+    "agencia-marketing",
+    "status-terceirizado",
+    "pagafacil"
+  ]
 }` },
     { path: 'dados/ct_subdominios.txt', code: `hml-gestao.tatame.com.br
-promo-hml.tatame.com.br
-lp-matriculas.tatame.com.br
-blog-eventos.tatame.com.br
-teste-nuvem-2019.tatame.com.br
-wiki-antiga.tatame.com.br
+srv021.tatame.com.br
+srv043.tatame.com.br
+srv061.tatame.com.br
+legado41.tatame.com.br
+srv011.tatame.com.br
+srv057.tatame.com.br
+srv054.tatame.com.br
 srv001.tatame.com.br
-legado01.tatame.com.br` },
+... (180 linhas)` },
     { path: 'dados/respondem.csv', code: `host,ip,hospedagem
-srv001.tatame.com.br,203.0.113.10,tatame
-hml-gestao.tatame.com.br,203.0.113.45,tatame
-promo-hml.tatame.com.br,198.51.100.23,agencia-marketing
-jenkins-old.tatame.com.br,203.0.113.88,tatame` },
+www.tatame.com.br,203.0.113.10,tatame
+srv099.tatame.com.br,203.0.113.10,tatame
+app.tatame.com.br,203.0.113.20,tatame
+srv086.tatame.com.br,203.0.113.10,tatame
+... (120 linhas de dados)` },
     { path: 'dados/inventario_ti.csv', code: `host,responsavel
-srv001.tatame.com.br,TI
-srv002.tatame.com.br,TI
-srv003.tatame.com.br,TI` },
-    { path: 'dados/emails_publicos.csv', code: `email,area
-pessoa001@tatame.com.br,academias
-pessoa133@tatame.com.br,atendimento
-pessoa179@tatame.com.br,financeiro
-pessoa210@tatame.com.br,ti` }
+www.tatame.com.br,TI
+app.tatame.com.br,TI
+gestao.tatame.com.br,TI
+... (105 linhas de dados)` },
+    { path: 'dados/emails_publicos.csv', code: `email,area,formato
+pessoa001@tatame.com.br,academias,nome.sobrenome
+pessoa002@tatame.com.br,financeiro,nome.sobrenome
+pessoa003@tatame.com.br,financeiro,nome.sobrenome
+pessoa004@tatame.com.br,academias,nome.sobrenome
+... (260 linhas de dados, e-mails pseudonimizados)` }
   ],
   run: [
-    { label: 'Executar', kind: 'red', cmd: 'python consolidar_osint.py', file: 'consolidar_osint.py', speed: 60, out: [
+    { label: 'Executar', kind: 'red', cmd: 'python consolidar_recon.py', file: 'consolidar_recon.py', speed: 60, out: [
       'Subdomínios em certificados (CT): 180',
       'Respondem na internet:            120',
       '[hi] Fora do inventário (shadow IT):   15  ->  12,5%',
@@ -734,45 +786,12 @@ pessoa210@tatame.com.br,ti` }
       '  teste-nuvem-2019   203.0.113.61    da Tatame: incluir no inventário e avaliar',
       '  wiki-antiga        203.0.113.80    da Tatame: incluir no inventário e avaliar',
       '',
+      '[hi] Formato de usuário dominante: nome.sobrenome em 243 de 260  ->  93,5%',
+      '',
       'Exposição por área (prioridade de treinamento):',
       '[warn]   academias    132 e-mails',
       '[warn]   atendimento   46 e-mails',
       '[warn]   financeiro    31 e-mails' ] }
-  ]
-});
-
-/* ---------- 19. SIEM: o que o Blue Team vê ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: 'Últimos 7 dias', lang: 'KQL', index: 'logs-waf, logs-dns, monitor-ct, inventario',
-  searches: [
-    { group: 'Reconhecimento ativo', name: '1. Varredura de portas', q: 'logs-waf | where action == "deny" | summarize portas = dcount(dst_port) by src_ip | where portas > 50',
-      cols: ['origem', 'destino', 'portas distintas', 'conexões', 'janela', 'severidade'], sevCol: 5, total: 2, unit: 'origens',
-      hist: [0, 0, 1, 0, 0, 0, 0, 0, 14, 22, 3, 0, 0, 0, 0, 0, 0, 0], hot: [8, 9],
-      rows: [
-        ['198.51.100.200', '203.0.113.0/24', '1.000', '6.214', '4 min', 'alta'],
-        ['192.0.2.250', '203.0.113.30 (vpn)', '62', '62', '9 h', 'média']
-      ], note: 'A primeira origem é barulhenta: mil portas em quatro minutos. A segunda é lenta e seletiva, mira só a VPN e quase passa abaixo do limiar. Você verá esse contraste na Aula 6.' },
-    { group: 'Reconhecimento ativo', name: '2. Nomes inexistentes no DNS', q: 'logs-dns | where rcode == "NXDOMAIN" | summarize consultas = count() by src_ip, bin(ts, 10m) | where consultas > 100',
-      cols: ['origem', 'janela', 'consultas NXDOMAIN', 'exemplos', 'severidade'], sevCol: 4, total: 1, unit: 'origem',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 31, 4, 0, 0, 0, 0], hot: [12],
-      rows: [['198.51.100.200', '10 min', '2.840', 'admin-dev, vpn2, hml-app, backup…', 'média']],
-      note: 'Milhares de perguntas por nomes que não existem, da mesma origem, indicam tentativa de adivinhar subdomínios. Nada aparece sobre a hml-gestao: ela fica fora do WAF e ninguém coleta os logs dela.' },
-    { group: 'Reconhecimento defensivo', name: '3. Certificado novo com o nosso nome', q: 'monitor-ct | where name_value has "tatame" | where first_seen > ago(7d)',
-      cols: ['primeira vez', 'nome no certificado', 'emissor', 'no inventário?', 'severidade'], sevCol: 4, total: 2, unit: 'certificados',
-      hist: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], hot: [14],
-      rows: [
-        ['10/11 14:02', 'promo2-hml.tatame.com.br', 'AC pública', 'não', 'alta'],
-        ['12/11 09:47', 'app-tatame-login.com.br', 'AC pública', 'domínio de terceiro', 'crítica']
-      ], note: 'O primeiro é a agência criando mais um ambiente sem avisar. O segundo imita o app do aluno: possível preparação de phishing (tema da Aula 7). Na plataforma, esta busca equivale à fonte "Monitor de certificados (CT)" com a regra R12.' },
-    { group: 'Reconhecimento defensivo', name: '4. Exposto e fora do inventário', q: 'superficie_externa | join kind=leftanti inventario on host | project host, ip, porta',
-      cols: ['host', 'IP', 'porta', 'responsável', 'severidade'], sevCol: 4, total: 15, unit: 'ativos',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15], hot: [17],
-      rows: [
-        ['hml-gestao', '203.0.113.45', '443', 'desconhecido', 'crítica'],
-        ['jenkins-old', '203.0.113.88', '8080', 'desconhecido', 'alta'],
-        ['promo-hml', '198.51.100.23', '443', 'agência (terceiro)', 'alta'],
-        ['…', '…', '…', '+12 ativos', '…']
-      ], note: 'A mesma lista de 15 ativos que o Red Team achou. O Blue Team pode gerá-la todos os dias, antes do adversário. A hml-gestao é crítica porque guarda uma cópia antiga do banco com alunos reais, cerca de 30% deles menores de idade.' }
   ]
 });
 </script>

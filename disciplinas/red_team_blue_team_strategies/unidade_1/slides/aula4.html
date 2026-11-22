@@ -3,23 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 4 — Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</title>
+<title>Aula 4 — Inteligência de ameaças aplicada ao planejamento da operação</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .csf { flex: 1; display: flex; flex-direction: column; gap: .55rem; overflow: auto; }
-  .csf-row { display: grid; grid-template-columns: 1fr auto; gap: .8rem; align-items: center; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .5em .8em; }
-  .csf-row.certo { border-color: #3FD47A; } .csf-row.errado { border-color: #FF2B5F; }
-  .csf-row p { margin: 0 !important; font-size: .95rem !important; color: #DCE3EE !important; }
-  .csf-row small { display: block; color: #9FB0C8; font-size: .8rem; margin-top: .25em; }
-  .csf-opts { display: flex; gap: 4px; }
-  .csf-opts button { font: 700 .72rem var(--fonte); width: 3.1em; padding: .45em 0; border-radius: 6px; border: 1px solid #2F3B55; background: #13213D; color: #DCE3EE; cursor: pointer; }
-  .csf-opts button.is-on { background: #00B1D2; color: #002156; border-color: #00B1D2; }
-  .csf-legend { display: flex; gap: .4rem; flex-wrap: wrap; font: .78rem var(--fonte); color: #9FB0C8; }
-  .csf-legend b { color: #F2CB0A; }
-  .ex-line { position: relative; height: 34px; background: #13213D; border-radius: 6px; overflow: hidden; }
-  .ex-line i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; transition: width .4s; }
-  .ex-line span { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font: 700 .85rem var(--fonte); color: #fff; text-shadow: 0 1px 3px #000; }
+  .brw-page h1, .brw-page h3 { text-transform: none !important; letter-spacing: 0 !important; }
+  .brw-page em { color: inherit !important; font-weight: inherit !important; }
+  .brw-page b, .brw-page strong { color: inherit !important; }
+  .cti { font: 14px/1.45 var(--fonte); color: #1A1A1A; }
+  .cti-top { background: #23395B; color: #fff; padding: 8px 14px; display: flex; gap: 16px; align-items: center; font-size: 13px; }
+  .cti-top b { font-size: 15px; }
+  .cti-body { padding: 12px 16px; }
+  .cti h3 { margin: 0 0 6px !important; font-size: 17px !important; color: #23395B !important; }
+  .cti-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 10px; }
+  .cti-tag { font: 700 11.5px var(--fonte); padding: 3px 8px; border-radius: 4px; color: #fff; background: #5A6B85; }
+  .cti-tag.amber { background: #FFC000; color: #000; } .cti-tag.att { background: #C0392B; }
+  .cti-tabs { display: flex; gap: 2px; border-bottom: 2px solid #23395B; margin-bottom: 8px; }
+  .cti-tabs button { border: 0; background: #E3E8F0; padding: 6px 12px; cursor: pointer; font: 600 13px var(--fonte); color: #23395B; border-radius: 6px 6px 0 0; }
+  .cti-tabs button.on { background: #23395B; color: #fff; }
+  .cti table { width: 100%; border-collapse: collapse; font: 12.5px var(--mono); }
+  .cti th { background: #EEF1F7; text-align: left; padding: 5px 7px; font: 700 11.5px var(--fonte); }
+  .cti td { border-bottom: 1px solid #E3E8F0; padding: 5px 7px; }
+  .cti .dia { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; }
+  .cti .dia div { border: 2px solid #23395B; border-radius: 8px; padding: 6px; background: #F5F7FB; font-size: 13px; }
+  .cti .dia div b { display: block; color: #23395B; }
+  .cti .dia .pv { border-color: #C0392B; background: #FDEDEC; cursor: pointer; }
+  .cti .dia .vz { border: 0; background: none; font-size: 12px; color: #555; }
+  .cti .nivel { display: grid; grid-template-columns: 1fr auto; gap: 6px 10px; align-items: center; font-size: 13px; }
+  .cti .nivel button { border: 1px solid #23395B; background: #fff; color: #23395B; font: 600 12px var(--fonte); padding: 4px 8px; border-radius: 4px; cursor: pointer; }
+  .cti .nivel span.r { font-weight: 700; color: #1E7D45; }
 </style>
 </head>
 <body>
@@ -35,8 +47,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 4 — Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</h1>
-      <div class="subtitulo">Unidade 1 — Fundamentos: ataque e defesa como estratégia</div>
+      <h1>Aula 4 — Inteligência de ameaças aplicada ao planejamento da operação</h1>
+      <div class="subtitulo">Unidade 1 — Planejamento de Operações e Emulação de Adversário</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -46,22 +58,22 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC</h1>
+        <h1 class="sumario-titulo">Inteligência de ameaças aplicada ao planejamento</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje: quanto tempo um intruso ficaria?</li>
-          <li>As seis funções do NIST CSF 2.0, na prática</li>
-          <li>Defesa em profundidade e Zero Trust, em 3D</li>
-          <li>O SOC por dentro: N1, N2 e N3</li>
-          <li>Laboratório: um <em>login</em> de outro país no SIEM</li>
-          <li>Laboratório: a catraca adulterada no simulador</li>
-          <li>MTTD, MTTR, pessoas e processos</li>
-          <li>Laboratório: <em>playbook</em> e métricas em código</li>
-          <li>O custo do tempo e a próxima unidade</li>
+          <li>Um boletim com 450 indicadores</li>
+          <li>Do dado à inteligência e o ciclo de inteligência</li>
+          <li>Três níveis, três usos no planejamento</li>
+          <li>Pirâmide da Dor, em 3D</li>
+          <li>Diamante, STIX, MISP e TLP no navegador</li>
+          <li>O perfil do Grupo Cobalto Austral</li>
+          <li>Laboratório: a Rede Tatame vista de fora</li>
+          <li>Laboratório: relevância × lacuna em Python</li>
+          <li>Laboratório: o perfil na plataforma e a próxima unidade</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -73,91 +85,101 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>E se alguém ficasse 258 dias lá dentro?</h2>
+      <h2>450 indicadores e nenhuma prioridade</h2>
       <div class="problema">
         <div class="historia">
-          <p>Luiza Ferraz é analista de nível 2 do SOC (centro de operações de segurança) da Rede Tatame, que funciona 24 horas por dia.</p>
-          <p>Segundo a IBM (<em>Cost of a Data Breach</em> 2024), as organizações levam, em média, 258 dias para identificar e conter uma violação de dados. A diretoria pergunta a Marina Prado, a CISO (diretora de segurança da informação): "e nós, quanto tempo levaríamos?"</p>
-          <p>O que está em jogo: cada dia de intruso dentro de casa é mais um dia de fichas de alunos copiadas para fora.</p>
-          <div class="pergunta">Como a Rede Tatame organiza a defesa, em camadas e no SOC, para perceber e conter um intruso em horas, e não em meses?</div>
-          <div class="papeis"><span><b>SOC nível 2</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Governança</b> Marina Prado</span><span><b>Usuária</b> Carla Dias</span></div>
+          <p>A rede setorial de segurança de que a Rede Tatame participa publicou o boletim <strong>BI-2026-041</strong>: o Grupo Cobalto Austral, um grupo fictício de <em>ransomware</em>, atacou outras redes de academias.</p>
+          <p>O boletim traz 300 endereços IP, 150 <em>hashes</em> de arquivos e três parágrafos sobre o comportamento do grupo. Bruno Sato, do Red Team, tem vagas para poucas técnicas na primeira rodada da operação e precisa decidir por onde começar.</p>
+          <p>O que está em jogo: as exportações de fichas de alunos no SRV-ARQ-01 e a chance de o exercício testar o que de fato ameaça a empresa.</p>
+          <div class="pergunta">Como transformar um relatório de ameaça em prioridades para a operação de Red Team da Rede Tatame?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>Aprova</b> Marina Prado</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. NIST CSF -->
+  <!-- 4. Do dado à inteligência -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>As seis funções do NIST CSF 2.0</h2>
+      <p class="kicker">Inteligência de ameaças</p>
+      <h2>Do dado à inteligência</h2>
       <div class="slide-content-box">
-        <p>Publicado em 2024, o <strong>NIST Cybersecurity Framework 2.0</strong> organiza a gestão de riscos cibernéticos em seis funções:</p>
-        <ul class="fases7" style="columns:2;column-gap:2rem">
-          <li><strong>Governar</strong> (<em>Govern</em>): estratégia, papéis, políticas e supervisão de riscos. É a função incluída na versão 2.0.</li>
-          <li><strong>Identificar</strong> (<em>Identify</em>): conhecer ativos, riscos e dependências.</li>
-          <li><strong>Proteger</strong> (<em>Protect</em>): gestão de identidades, treinamento, proteção de dados.</li>
-          <li><strong>Detectar</strong> (<em>Detect</em>): encontrar e analisar possíveis ataques e comprometimentos.</li>
-          <li><strong>Responder</strong> (<em>Respond</em>): agir sobre um incidente detectado.</li>
-          <li><strong>Recuperar</strong> (<em>Recover</em>): restaurar ativos e operações afetados.</li>
-        </ul>
-        <div class="callout-azul"><p>O Blue Team atua sobretudo em Detectar e Responder, mas depende das demais funções: não é possível monitorar um ativo que ninguém sabe que existe.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. LAB CSF -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Classificação</p><h2>Seis controles, seis funções</h2></div><span class="lab-badge blue">NIST CSF 2.0</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>A Rede Tatame listou seis controles que já tem. Em que função do NIST CSF (<em>Cybersecurity Framework</em>) cada um se encaixa?</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver como a defesa da Rede Tatame se organiza em funções.</div>
-            <div class="rl"><b>Faça</b>1. Para cada controle, clique em uma sigla: GV, ID, PR, DE, RS ou RC.<br>2. Clique em "Conferir".</div>
-            <div class="rl obs"><b>Observe</b>Cada linha mostra a resposta e o porquê. Pergunte: o controle evita, percebe, reage ou restaura? Se "decide quem faz o quê", é Governar.</div>
-            <div class="rl conc"><b>Conclusão</b>Detectar e Responder dependem das outras funções: não se monitora o que ninguém sabe que existe.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-csf"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 6. Defesa em profundidade -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>Defesa em profundidade e Zero Trust</h2>
-      <div class="slide-content-box">
-        <p>A <strong>defesa em profundidade</strong> parte do princípio de que qualquer controle pode falhar. Por isso, a proteção é organizada em camadas sobrepostas: pessoas, perímetro, rede, <em>endpoint</em>, aplicação e dados.</p>
+        <p>A <strong>inteligência de ameaças</strong> (<em>Cyber Threat Intelligence</em>, CTI) é a informação sobre adversários coletada, analisada e contextualizada para apoiar decisões. Uma lista de IPs é um dado; ela vira inteligência quando responde a perguntas como "quem ameaça o nosso setor, com quais objetivos e de que forma?".</p>
         <ul>
-          <li>O atacante precisa vencer várias barreiras.</li>
-          <li>Cada barreira gera uma nova chance de detecção.</li>
-          <li>Pense na segurança de um banco: portaria, catracas, câmeras, vigilante e, no fim, o cofre.</li>
+          <li>Essas perguntas, definidas com a liderança, são os <strong>requisitos de inteligência</strong>.</li>
+          <li>O trabalho segue o <strong>ciclo de inteligência</strong>: direção, coleta, processamento, análise, disseminação e <em>feedback</em>.</li>
+          <li>No planejamento de uma operação, o produto do ciclo é a resposta a "qual adversário emular e por onde começar".</li>
         </ul>
-        <div class="callout-azul"><p>O modelo <strong>Zero Trust</strong> complementa as camadas: elimina a confiança implícita baseada na localização da rede. Cada acesso é verificado, com o menor privilégio necessário.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 7. LAB 3D camadas -->
+  <!-- 5. LAB flow: ciclo de inteligência -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>As camadas em volta das fichas de alunos</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: seguir o boletim BI-2026-041 pelo ciclo de inteligência</p><h2>O ciclo de inteligência aplicado ao boletim</h2></div><span class="lab-badge purple">CTI</span></div>
+      <div class="lab-area" id="lab-ciclo"></div>
+    </div>
+  </section>
+
+  <!-- 6. Níveis e usos -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Níveis de CTI</p>
+      <h2>Três níveis, três usos no planejamento</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Nível</th><th>O que traz</th><th>Quem consome</th><th>Uso no planejamento</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Estratégica</strong></td><td>Tendências e riscos, como a extorsão contra empresas que guardam dados de crianças</td><td>Diretoria</td><td><strong>Justifica</strong> o exercício e o orçamento</td></tr>
+            <tr><td><strong>Operacional</strong></td><td>Campanhas e atores específicos, com intenções e capacidades</td><td>Líderes de SOC, Red Team e White Team</td><td><strong>Define</strong> qual adversário emular e qual cenário</td></tr>
+            <tr><td><strong>Tática</strong></td><td>TTPs (táticas, técnicas e procedimentos) e indicadores</td><td>Analistas e engenheiros de detecção</td><td><strong>Alimenta</strong> o plano de emulação técnica por técnica</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><p>A nomenclatura varia entre autores; algumas fontes separam um nível técnico, só com indicadores. No TIBER-EU, um fornecedor de inteligência produz o relatório de ameaças da instituição, e só então o Red Team monta os cenários do teste.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Pirâmide da Dor -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Indicadores <em>versus</em> comportamentos</p>
+      <h2>A Pirâmide da Dor</h2>
+      <div class="slide-content-box" style="padding:1em 1.6em">
+        <p style="margin-bottom:.4em">Em 2013, David Bianco propôs a <strong>Pirâmide da Dor</strong> (<em>Pyramid of Pain</em>): quanto mais alto o indicador, mais difícil para o adversário trocá-lo.</p>
+        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
+          <thead><tr><th>Nível (da base ao topo)</th><th>No boletim BI-2026-041</th><th>Dificuldade para trocar</th></tr></thead>
+          <tbody>
+            <tr><td><em>Hashes</em></td><td>150 SHA-256 de arquivos</td><td>Trivial</td></tr>
+            <tr><td>Endereços IP</td><td>300 IPs de origem e de servidores</td><td>Fácil</td></tr>
+            <tr><td>Nomes de domínio</td><td>Domínios parecidos com os das vítimas</td><td>Simples</td></tr>
+            <tr><td>Artefatos de rede e de <em>host</em></td><td>Consulta LDAP em massa a partir de uma sessão de VPN</td><td>Incômodo</td></tr>
+            <tr><td>Ferramentas</td><td>O utilitário de cópia para a nuvem que o grupo usa</td><td>Desafiador</td></tr>
+            <tr><td><strong>TTPs</strong></td><td>Conta válida na VPN, descoberta no AD, RDP e cópia para a nuvem</td><td>Difícil</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. LAB 3D: Pirâmide -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>O que vale emular: subindo a pirâmide</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Entender por que uma camada sozinha não basta.</div>
-            <div class="rl"><b>Faça</b>1. Desligue uma camada nos botões da cena, como um controle que falhou.<br>2. Depois desligue quase todas.</div>
-            <div class="rl obs"><b>Observe</b>Os pontos vermelhos são tentativas de ataque; os azuis foram barrados. Acompanhe o contador de ataques que chegam ao <code>db-alunos</code>.</div>
-            <div class="rl conc"><b>Conclusão</b>Nenhuma camada precisa ser perfeita. As chances de bloqueio da cena são ilustrativas.</div>
+            <div class="rl obj"><b>Objetivo</b>Decidir que parte do boletim entra no plano de emulação.</div>
+            <div class="rl"><b>Faça</b>Clique nos seis níveis, da base (<em>Hashes</em>) ao topo (TTPs).</div>
+            <div class="rl obs"><b>Observe</b>Do verde ao vermelho cresce o custo para o adversário. A legenda mostra o exemplo do Cobalto Austral e se vale emular.</div>
+            <div class="rl conc"><b>Conclusão</b>Repetir IPs e <em>hashes</em> não testa nada; o plano emula o topo da pirâmide.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-3d"></div>
@@ -165,106 +187,103 @@
     </div>
   </section>
 
-  <!-- 8. SOC -->
+  <!-- 9. Diamante e padrões -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">O Centro de Operações de Segurança</p>
-      <h2>O SOC em três níveis</h2>
+      <p class="kicker">Análise e compartilhamento</p>
+      <h2>Modelo Diamante, STIX, TAXII, MISP e TLP</h2>
       <div class="slide-content-box">
-        <p>O <strong>SOC</strong> é a estrutura, interna, terceirizada ou híbrida, que monitora o ambiente continuamente.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Nível</th><th>Função principal</th></tr></thead>
-          <tbody>
-            <tr><td><strong>N1 · Triagem</strong></td><td>Analisa alertas, descarta falsos positivos e escala casos suspeitos</td></tr>
-            <tr><td><strong>N2 · Investigação</strong></td><td>Aprofunda a análise, define escopo e inicia a contenção</td></tr>
-            <tr><td><strong>N3 · Especialistas</strong></td><td>Caçam ameaças, fazem análise forense e criam novas detecções</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.8em">Ferramentas principais: <strong>SIEM</strong>, que centraliza e correlaciona registros; <strong>EDR</strong>, que monitora o comportamento de computadores e servidores; e <strong>SOAR</strong>, que automatiza respostas repetitivas. Tudo isso será aprofundado na Unidade 3.</p>
+        <p>O <strong>Modelo Diamante</strong> (Caltagirone, Pendergast e Betz, 2013) descreve cada evento de intrusão por quatro vértices: <strong>adversário</strong>, <strong>capacidade</strong>, <strong>infraestrutura</strong> e <strong>vítima</strong>. Conhecendo um vértice, o analista "pivota" para os outros.</p>
+        <ul>
+          <li><strong>STIX</strong> descreve objetos como atores, campanhas, padrões de ataque e relatórios.</li>
+          <li><strong>TAXII</strong> define como trocar esses objetos entre organizações.</li>
+          <li><strong>MISP</strong> é uma plataforma aberta que guarda e distribui eventos de inteligência.</li>
+          <li><strong>TLP</strong> 2.0 (<em>Traffic Light Protocol</em>, do FIRST) diz com que liberdade cada informação circula: CLEAR, GREEN, AMBER, AMBER+STRICT e RED.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- 9. LAB flow alerta -->
+  <!-- 10. LAB navegador: plataforma de CTI -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver como os três níveis do SOC encurtam o tempo</p><h2>A jornada de um alerta, do N1 ao N3</h2></div><span class="lab-badge blue">SOC</span></div>
-      <div class="lab-area" id="lab-flow"></div>
-    </div>
-  </section>
-
-  <!-- 10. LAB SIEM -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>O turno do analista no console</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>O boletim do Cobalto Austral na plataforma de CTI</h2></div><span class="lab-badge purple">CTI</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Acompanhar o trabalho do SOC em um caso real de turno.</div>
-            <div class="rl"><b>Faça</b>Clique nas cinco buscas salvas, na ordem: fila do N1, <em>logins</em> da conta, regra de viagem impossível, mesmo IP em outras contas e métricas.</div>
-            <div class="rl obs"><b>Observe</b>A severidade decide a ordem da fila. Às 09:03, a sessão estrangeira mexeu nas regras da caixa de entrada.</div>
-            <div class="rl conc"><b>Conclusão</b>Do primeiro sinal à contenção foram 81 minutos. Os IPs usam faixas reservadas para documentação.</div>
+            <div class="rl obj"><b>Objetivo</b>Separar, no boletim, o que serve ao bloqueio e o que serve ao plano.</div>
+            <div class="rl"><b>Faça</b>Clique nas abas Atributos, ATT&amp;CK, Diamante (clique na infraestrutura) e Níveis (clique em "Revelar").</div>
+            <div class="rl obs"><b>Observe</b>450 atributos contra 8 técnicas. O pivô em 198.51.100.12 não aparece na Rede Tatame. A marca TLP:AMBER permite uso interno, sem publicar.</div>
+            <div class="rl conc"><b>Conclusão</b>As técnicas viram o plano; os indicadores vão para o bloqueio.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-siem"></div>
+        <div class="lab-area" id="lab-cti"></div>
       </div>
     </div>
   </section>
 
-  <!-- 11. PLATAFORMA REDE TATAME: catraca, telemetria e SOC -->
+  <!-- 11. Perfil do adversário -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Perfil do adversário</p>
+      <h2>Grupo Cobalto Austral (fictício)</h2>
+      <div class="slide-content-box" style="font-size:.92em">
+        <p><strong>Motivação:</strong> extorsão com <em>ransomware</em> e ameaça de publicar dados de alunos. <strong>Vítimas:</strong> redes de academias com VPN e dados pessoais.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Tática</th><th>Técnica</th><th>Comportamento relatado</th></tr></thead>
+          <tbody>
+            <tr><td>Acesso inicial</td><td>T1566 · T1078 · T1133</td><td><em>Phishing</em> ou credencial vazada em VPN sem MFA</td></tr>
+            <tr><td>Descoberta</td><td>T1087.002</td><td>Consulta em massa ao Active Directory</td></tr>
+            <tr><td>Movimentação lateral</td><td>T1021.001</td><td>RDP até os servidores da sede</td></tr>
+            <tr><td>Acesso a credenciais</td><td>T1003</td><td>Leitura de credenciais da memória</td></tr>
+            <tr><td>Exfiltração</td><td>T1567.002</td><td>Cópia de dados para armazenamento em nuvem</td></tr>
+            <tr><td>Impacto</td><td>T1490 · T1486</td><td>Exclusão de cópias de sombra e criptografia dos servidores</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. LAB terminal: OSINT passivo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Uma catraca adulterada e a camada que faltava</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
-      <div class="lab-split plat">
-        <div class="lab-area" id="lab-tatame"></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>A Rede Tatame vista pelo adversário</h2></div><span class="lab-badge red">Red Team · fontes abertas</span></div>
+      <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver uma camada sem telemetria e o efeito de ligá-la.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Catraca adulterada</em> e veja como terminam os três passos.<br>2. Em <strong>Telemetria</strong>, veja quanto o custo por mês sobe com a fonte das catracas.<br>3. Clique em <strong>Reiniciar</strong>, ligue essa fonte e a regra R10 e rode de novo. No <strong>SOC</strong>, contenha o alerta R10.</div>
-            <div class="rl obs"><b>Observe</b>Sem a fonte, os dois primeiros passos não são detectados. Com ela, o alerta aparece e a contenção interrompe os check-ins falsos.</div>
-            <div class="rl conc"><b>Conclusão</b>Você fez o papel do N1 e do N2. O N3 procuraria o mesmo firmware nas outras catracas.</div>
+            <div class="rl obj"><b>Objetivo</b>Conferir, só com fontes abertas, quais técnicas do perfil teriam chance contra a Rede Tatame.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim, lendo a nota de cada passo.</div>
+            <div class="rl obs"><b>Observe</b>A VPN aparece em certificados públicos, o padrão de <em>e-mail</em> é previsível e há um subdomínio fora do inventário.</div>
+            <div class="rl conc"><b>Conclusão</b>O perfil do grupo encaixa na superfície da Rede Tatame: T1133, T1078 e T1566 entram no plano.</div>
           </div>
         </div>
+        <div class="lab-area" id="lab-term"></div>
       </div>
     </div>
   </section>
 
-  <!-- 12. MTTD e MTTR -->
+  <!-- 13. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Indicadores</p>
-      <h2>MTTD e MTTR: o SOC medido pelo tempo</h2>
+      <p class="kicker">Exemplo numérico</p>
+      <h2>Relevância × lacuna = prioridade</h2>
       <div class="slide-content-box">
-        <p>Para saber se o SOC está funcionando, não basta contar alertas. Dois indicadores são centrais:</p>
-        <ul>
-          <li><strong>MTTD</strong> (<em>mean time to detect</em>): tempo médio entre o início de um ataque e sua detecção.</li>
-          <li><strong>MTTR</strong> (<em>mean time to respond</em>): tempo médio entre a detecção e a contenção.</li>
-        </ul>
-        <div class="callout-azul"><p>É nesses números que os exercícios de Red Team e de <em>purple teaming</em> geram valor: cada simulação mede, de forma controlada, quanto tempo a defesa leva para perceber e reagir.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13. Pessoas e processos -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Pessoas e processos</p>
-      <h2>O elo que as ferramentas não substituem</h2>
-      <div class="slide-content-box">
-        <p>Ferramentas geram alertas, mas são pessoas que decidem o que fazer com eles. Um SOC maduro:</p>
-        <ul>
-          <li>documenta seus procedimentos de resposta (<em>playbooks</em>);</li>
-          <li>define quem pode isolar um servidor ou bloquear uma conta;</li>
-          <li>treina a equipe com simulações e revisa cada incidente para aprender com ele;</li>
-          <li>mantém relação com a infraestrutura, que aplica correções; o jurídico, que avalia obrigações de notificação; e a comunicação, que fala com clientes e imprensa.</li>
-        </ul>
-        <div class="callout-azul"><p>Sem esses processos, mesmo a melhor tecnologia produz apenas um volume crescente de alertas que ninguém consegue tratar.</p></div>
+        <p><strong>Relevância</strong> de 1 a 3: a técnica é citada em 1, 2 ou 3 ou mais relatórios confiáveis. <strong>Lacuna</strong> de 1 a 3: 1 = regra ativa, 2 = só telemetria, 3 = sem telemetria.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Técnica</th><th>Relevância</th><th>Lacuna</th><th>Prioridade</th></tr></thead>
+          <tbody>
+            <tr><td>T1567.002 · Exfiltração para a nuvem</td><td>3</td><td>3 (sem telemetria)</td><td><strong>9</strong></td></tr>
+            <tr><td>T1021.001 · RDP</td><td>3</td><td>2 (R5 desligada)</td><td><strong>6</strong></td></tr>
+            <tr><td>T1087.002 · Contas de domínio</td><td>3</td><td>2 (R13 desligada)</td><td><strong>6</strong></td></tr>
+            <tr><td>T1078 · Contas válidas</td><td>3</td><td>1 (R11 ligada)</td><td><strong>3</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><p>Com 4 vagas na primeira rodada, o plano começa por T1567.002, T1021.001 e T1087.002. A quarta vaga vai para a próxima da lista, e T1078 fica como teste de confirmação da regra R11.</p></div>
       </div>
     </div>
   </section>
@@ -275,33 +294,33 @@
     <div class="slide-content">
       <p class="kicker">Antes do código</p>
       <h2>Onde achar e como instalar o que o laboratório usa</h2>
-      <div class="slide-content-box" style="font-size:.88em">
+      <div class="slide-content-box" style="font-size:.9em">
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o código é escrito e executado, com realce e depuração</td><td><code>code.visualstudio.com</code> e a aba Extensões do editor</td><td>Instalador do site e <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>metricas_soc.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>Extensão YAML</strong> (Red Hat)</td><td>Realce e validação do <em>playbook</em> <code>conta_comprometida.yaml</code></td><td>Aba Extensões do VS Code, editor "Red Hat"</td><td><code>code --install-extension redhat.vscode-yaml</code></td></tr>
-            <tr><td>Módulos <strong>csv</strong>, <strong>datetime</strong> e <strong>statistics</strong></td><td>Leem os incidentes e calculam média e mediana</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: já vêm com o Python</td></tr>
+            <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site (Windows, macOS e Linux)</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>priorizar.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração dentro do editor</td><td>Aba Extensões do VS Code, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>json</strong>, <strong>csv</strong> e <strong>collections</strong></td><td>Leem o boletim STIX e a planilha de cobertura e contam as citações</td><td>Biblioteca padrão: <code>docs.python.org/3/library</code></td><td>Já vêm com o Python; nada a instalar</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> na aba Extensões do VS Code, abra a página da extensão antes de instalar e olhe três coisas: o selo de editor verificado ao lado do nome (aqui, Red Hat, com o domínio <code>redhat.com</code>), o identificador exato (<code>redhat.vscode-yaml</code>) e o número de instalações. Uma extensão roda com as permissões do seu usuário. Em um SOC, instalar a cópia de nome parecido abre a porta que a equipe deveria vigiar.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> procure o nome do módulo na lista da biblioteca padrão em <code>docs.python.org</code>. O que está lá já vem com o Python. Só o que não está se busca no PyPI (<code>pypi.org</code>), conferindo o nome letra por letra. Instalar "por garantia" um pacote de nome parecido, como um suposto <code>stix-json</code>, é um jeito conhecido de trazer código malicioso para a máquina (<em>typosquatting</em>).</div>
       </div>
     </div>
   </section>
 
-  <!-- 15. LAB VS Code -->
+  <!-- 15. LAB VS Code: priorizar o plano -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2><em>Playbook</em> e métricas do SOC</h2></div><span class="lab-badge blue">Processos</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Do boletim STIX às prioridades do plano</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Medir se o SOC está ficando mais rápido.</div>
-            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Abra o <em>playbook</em> <code>conta_comprometida.yaml</code>: quem faz o quê e em quanto tempo.<br>3. Clique em "Executar metricas_soc.py".</div>
-            <div class="rl obs"><b>Observe</b>MTTD (tempo médio até detectar): média de 24,0 h e mediana de 5,8 h. MTTR (até conter): média de 4,1 h e mediana de 2,2 h.</div>
-            <div class="rl conc"><b>Conclusão</b>Um único caso de 96 horas, o INC-36, puxa a média para cima.</div>
+            <div class="rl obj"><b>Objetivo</b>Calcular, a partir do boletim e da cobertura atual, as técnicas da primeira rodada.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>boletim_BI-2026-041.json</code> e <code>cobertura_tatame.csv</code>.<br>3. Clique em "Executar priorizar.py".</div>
+            <div class="rl obs"><b>Observe</b>3 relatórios, 9 técnicas e 450 indicadores fora do plano. T1567.002 = 9, T1021.001 = 6, T1087.002 = 6 e T1486 = 4 entram na rodada 1; T1078 = 3 fica de fora.</div>
+            <div class="rl conc"><b>Conclusão</b>A prioridade sai de uma conta que o White Team pode conferir.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -309,82 +328,64 @@
     </div>
   </section>
 
-  <!-- 16. Exemplo numérico -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>O custo do tempo</h2>
-      <div class="slide-content-box">
-        <p>Segundo o relatório <em>Cost of a Data Breach</em> 2024, da IBM, as organizações levaram, em média, <strong>258 dias</strong> para identificar e conter uma violação de dados. Suponha que um atacante, depois de entrar, exfiltre 2.000 fichas de alunos da Rede Tatame por dia.</p>
-        <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">516.000</span><span class="legenda">registros em 258 dias (2.000 × 258)</span></div>
-          <div class="stat-card"><span class="numero-grande">20.000</span><span class="legenda">registros se a contenção levar 10 dias</span></div>
-          <div class="stat-card"><span class="numero-grande">≈ 96%</span><span class="legenda">de redução no volume exposto</span></div>
-        </div>
-        <p style="margin-top:.8em">É por isso que as métricas de tempo de detecção e de resposta estão no centro do trabalho do Blue Team.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 17. LAB calculadora -->
+  <!-- 16. PLATAFORMA REDE TATAME: superfície e cobertura -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Conta na tela</p><h2>Quantos registros cada dia custa</h2></div><span class="lab-badge">Linguagem da diretoria</span></div>
-      <div class="lab-split wide-left">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>O perfil do adversário contra a plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Traduzir o tempo de detecção em fichas expostas.</div>
-            <div class="rl"><b>Faça</b>1. Comece pelos valores do exemplo: 2.000 fichas por dia, 258 dias no cenário atual e 10 dias de meta.<br>2. Mexa no tempo até a contenção.</div>
-            <div class="rl obs"><b>Observe</b>Quanto se ganha indo de 258 para 30 dias, e de 30 para 10.</div>
-            <div class="rl conc"><b>Conclusão</b>A conta é linear: cada dia a menos evita o mesmo número de fichas vazadas.</div>
+            <div class="rl obj"><b>Objetivo</b>Confirmar na plataforma a exposição e as lacunas que o plano vai testar.</div>
+            <div class="rl"><b>Faça</b>1. Na aba <strong>Superfície</strong>, com "ordenar por risco" marcado, leia as linhas da VPN e do <code>hml-gestao</code>.<br>2. Abra a aba <strong>Cobertura ATT&amp;CK</strong> e procure T1078, T1087.002, T1021.001, T1567.002 e T1486.</div>
+            <div class="rl obs"><b>Observe</b>A VPN NetGuard no topo (KEV, risco 43,8). Na cobertura, T1567.002 cega, T1087.002, T1021.001 e T1486 parciais, T1078 detectável.</div>
+            <div class="rl conc"><b>Conclusão</b>A plataforma confirma a lacuna que a conta apontou.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-calc"></div>
       </div>
     </div>
   </section>
 
-  <!-- 18. Próxima unidade -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">O que você verá na próxima unidade</p>
-      <h2>Unidade 2: vestindo a camisa vermelha</h2>
-      <div class="slide-content-box">
-        <p>Agora que você conhece a defesa, vamos ver como o Red Team tenta vencê-la, de forma conceitual e sempre dentro de um cenário autorizado.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Aula</th><th>Tema</th></tr></thead>
-          <tbody>
-            <tr><td>5</td><td>Reconhecimento e OSINT</td></tr>
-            <tr><td>6</td><td>Varredura, enumeração e gestão de vulnerabilidades</td></tr>
-            <tr><td>7</td><td>Engenharia social e simulação de <em>phishing</em></td></tr>
-            <tr><td>8</td><td>Pós-exploração, movimentação lateral e relatório de Red Team</td></tr>
-          </tbody>
-        </table>
-        <div class="callout-azul"><p>Em cada etapa, a mesma pergunta: que rastro isso deixa para o Blue Team?</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19. De volta ao problema -->
+  <!-- 17. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>Agora Marina tem como responder</h2>
+      <h2>Bruno já sabe por onde começar</h2>
       <div class="resolvido">
-        <div class="ev"><b>Seis funções</b>O NIST CSF organiza a defesa: Governar define responsáveis; Detectar e Responder dependem de Identificar e Proteger.</div>
-        <div class="ev"><b>Camadas</b>Nenhuma camada basta sozinha. A catraca era uma camada cega até a fonte e a regra R10 serem ligadas.</div>
-        <div class="ev"><b>SOC em níveis</b>N1, N2 e N3 levaram o caso de Carla Dias do primeiro sinal à contenção em 81 minutos.</div>
-        <div class="ev"><b>Medir o tempo</b>MTTD mediano de 5,8 h. Passar de 258 para 10 dias evita cerca de 96% das fichas expostas.</div>
-        <div class="resposta">Resposta: com camadas que se cobrem, telemetria em cada uma delas e um SOC em níveis que segue <em>playbooks</em> e mede MTTD e MTTR. É assim que a Rede Tatame troca meses por horas.</div>
+        <div class="ev"><b>Ciclo de inteligência</b>Os requisitos de Marina e Bruno guiaram a coleta, a análise e a entrega do boletim a cada público.</div>
+        <div class="ev"><b>Topo da pirâmide</b>Os 450 indicadores vão para o bloqueio; as 8 técnicas do perfil vão para o plano.</div>
+        <div class="ev"><b>Olhar do adversário</b>Fontes abertas mostram a VPN exposta, o padrão de <em>e-mail</em> e um subdomínio fora do inventário.</div>
+        <div class="ev"><b>Conta auditável</b>Relevância × lacuna põe T1567.002, T1021.001, T1087.002 e T1486 na primeira rodada.</div>
+        <div class="resposta">Resposta à pergunta da aula: a Rede Tatame transforma o relatório em prioridades analisando o comportamento do adversário (TTPs), conferindo a própria exposição com fontes abertas e cruzando a relevância de cada técnica com a lacuna da defesa.</div>
       </div>
     </div>
   </section>
 
-  <!-- 20. Pontos-chave -->
+  <!-- 18. O que você verá na próxima unidade -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O que você verá na próxima unidade</p>
+      <h2>Unidade 2: Técnicas Ofensivas em Ambiente Controlado</h2>
+      <div class="slide-content-box">
+        <p>O plano sai do papel, sempre em laboratório e dentro da carta de autorização.</p>
+        <table class="tabela-industrial">
+          <thead><tr><th>Aula</th><th>Tema</th><th>Ferramenta em destaque</th></tr></thead>
+          <tbody>
+            <tr><td>5</td><td>Reconhecimento e enumeração de serviços e usuários</td><td>Kali Linux e Wireshark</td></tr>
+            <tr><td>6</td><td>Exploração de vulnerabilidades e obtenção de acesso inicial</td><td>Metasploit (módulos de verificação)</td></tr>
+            <tr><td>7</td><td>Escalada de privilégios, movimentação lateral e persistência</td><td>Kali Linux e Metasploit</td></tr>
+            <tr><td>8</td><td>Evasão básica de defesas e limpeza de rastros em laboratório</td><td>O rastro na telemetria do defensor</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul"><p>Em cada aula, a mesma pergunta: que rastro a técnica deixa para o Blue Team?</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -392,38 +393,39 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>O NIST CSF 2.0 organiza a segurança em seis funções, com a Governança no centro.</li>
-          <li>A defesa em profundidade pressupõe que controles falham e por isso os sobrepõe.</li>
-          <li>O SOC, com SIEM, EDR e SOAR, é o coração operacional do Blue Team.</li>
-          <li>Reduzir o tempo de detecção e resposta reduz diretamente o impacto de um incidente.</li>
+          <li>CTI é informação contextualizada para decisão, guiada por requisitos e produzida em ciclo.</li>
+          <li>O nível estratégico justifica o exercício; o operacional escolhe o adversário; o tático alimenta o plano.</li>
+          <li>Pela Pirâmide da Dor, emular TTPs testa a defesa; repetir IPs e <em>hashes</em>, não.</li>
+          <li>Relevância × lacuna transforma um relatório de ameaça em prioridades para a operação.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 21. Referências -->
+  <!-- 20. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
       <div class="slide-content-box" style="font-size:.85em">
-        <p>IBM. <em>Cost of a data breach report 2024</em>. Armonk: IBM, 2024.</p>
-        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>The NIST cybersecurity framework (CSF) 2.0</em>. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.</p>
-        <p>ROSE, Scott <em>et al</em>. <em>SP 800-207: zero trust architecture</em>. Gaithersburg: NIST, 2020. DOI: 10.6028/NIST.SP.800-207.</p>
+        <p>BIANCO, David J. The pyramid of pain. <em>Enterprise Detection &amp; Response</em>, 1 mar. 2013. Disponível em: &lt;https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>CALTAGIRONE, Sergio; PENDERGAST, Andrew; BETZ, Christopher. <em>The diamond model of intrusion analysis</em>. Hanover: Center for Cyber Intelligence Analysis and Threat Research, 2013.</p>
+        <p>FIRST. <em>Traffic Light Protocol (TLP)</em>: FIRST standards definitions and usage guidance, version 2.0. 2022. Disponível em: &lt;https://www.first.org/tlp/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>LEVI, Hiago Kin. <em>Confronto cibernético</em>: técnicas e táticas de enfrentamento e resposta a ameaças persistentes avançadas (APTs). Rio de Janeiro: Brasport, 2026. <em>E-book</em>.</p>
       </div>
     </div>
   </section>
 
-  <!-- 22. Encerramento -->
+  <!-- 21. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você fecha a Unidade 1 sabendo como a defesa se organiza: as funções do NIST CSF, as camadas da defesa em profundidade, os níveis do SOC e as métricas de tempo que mostram se ele melhora.</p>
-      <p class="fim-proxima">Próxima aula: Aula 5 — Reconhecimento e OSINT (Unidade 2).</p>
+      <p class="fim-texto">Você fechou a Unidade 1: já sabe montar uma operação com papéis, regras e autorização, descrever o adversário no ATT&amp;CK e usar a inteligência de ameaças para decidir por onde começar.</p>
+      <p class="fim-proxima">Próxima aula: Aula 5 — Reconhecimento e enumeração de serviços e usuários.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -433,207 +435,179 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- 6. Classificação nas funções do CSF ---------- */
-Labs.register('#lab-csf', (el) => {
-  const F = { GV: 'Governar', ID: 'Identificar', PR: 'Proteger', DE: 'Detectar', RS: 'Responder', RC: 'Recuperar' };
-  const C = [
-    ['MFA no portal das academias e na VPN, e treinamento anual contra <em>phishing</em>.', 'PR', 'Reduz a chance de o ataque dar certo: é prevenção.'],
-    ['<em>Playbook</em> que isola o notebook e troca a senha quando uma conta é comprometida.', 'RS', 'Age sobre um incidente já detectado.'],
-    ['A diretoria aprovou a política de segurança e definiu que a CISO, Marina Prado, responde por riscos cibernéticos.', 'GV', 'Estratégia, papéis e supervisão de riscos.'],
-    ['<em>Backups</em> <em>offline</em> testados a cada trimestre e plano para reabrir o check-in das academias.', 'RC', 'Restaura ativos e operações depois do incidente.'],
-    ['Inventário atualizado de servidores da sede, serviços em nuvem e catracas, com o dono de cada um.', 'ID', 'Conhecer ativos e dependências vem antes de protegê-los.'],
-    ['O CEP e o SIEM correlacionam <em>logins</em> e alertas do EDR, com SOC 24x7.', 'DE', 'Encontra e analisa possíveis ataques.']
-  ];
-  const resp = C.map(() => null);
-  el.innerHTML = '<div class="lab-panel csf">' +
-    '<div class="csf-legend">' + Object.entries(F).map(([k, v]) => '<span><b>' + k + '</b> ' + v + '</span>').join(' · ') + '</div>' +
-    C.map((c, i) => '<div class="csf-row" data-i="' + i + '"><p>' + (i + 1) + '. ' + c[0] + '<small></small></p><div class="csf-opts">' +
-      Object.keys(F).map((k) => '<button data-k="' + k + '">' + k + '</button>').join('') + '</div></div>').join('') +
-    '<div style="display:flex;gap:.6rem;align-items:center"><button class="lab-btn blue" data-a="ok">Conferir</button><button class="lab-btn ghost" data-a="reset">Recomeçar</button><span id="csf-score" style="color:#F2CB0A;font:700 1rem var(--fonte)"></span></div></div>';
-  const rows = el.querySelectorAll('.csf-row');
-  el.addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.k) {
-      const row = b.closest('.csf-row'), i = +row.dataset.i;
-      resp[i] = b.dataset.k;
-      row.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x === b));
-      row.classList.remove('certo', 'errado'); row.querySelector('small').textContent = '';
-    } else if (b.dataset.a === 'ok') {
-      let n = 0;
-      rows.forEach((row, i) => {
-        const ok = resp[i] === C[i][1]; if (ok) n++;
-        row.classList.toggle('certo', ok); row.classList.toggle('errado', !ok);
-        row.querySelector('small').textContent = (ok ? 'Certo: ' : 'Resposta: ') + F[C[i][1]] + '. ' + C[i][2];
-      });
-      el.querySelector('#csf-score').textContent = n + ' de 6 corretos';
-    } else if (b.dataset.a === 'reset') {
-      resp.fill(null);
-      rows.forEach((row) => { row.classList.remove('certo', 'errado'); row.querySelector('small').textContent = ''; row.querySelectorAll('button').forEach((x) => x.classList.remove('is-on')); });
-      el.querySelector('#csf-score').textContent = '';
-    }
-  });
-});
+/* ---------- 3. Problema de hoje: mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['mail', 'vpn', 'ad', 'hml', 'siem'], alvo: 'arq', caminho: ['net', 'vpn', 'ad', 'arq'],
+  legenda: 'Onde a aula acontece: a borda exposta (VPN, <em>e-mail</em> e o <code>hml-gestao</code>) e o caminho que o Cobalto Austral costuma fazer até o SRV-ARQ-01 (em vermelho).' });
 
-/* ---------- 8. Cena 3D: defesa em profundidade ---------- */
-Labs.scene3d('#lab-3d', (c) => {
-  const { THREE, root } = c;
-  const L = [['Pessoas', 0xf2cb0a], ['Perímetro', 0xff8a3d], ['Rede', 0x9b6bff], ['Endpoint', 0x00b1d2], ['Aplicação', 0x3fd47a], ['Dados', 0x58c4e8]];
-  const R = [6, 5, 4, 3.1, 2.25, 1.45];
-  const ativo = L.map(() => true);
-  const hex = (n) => '#' + n.toString(16).padStart(6, '0');
-  const camadas = L.map(([nome, cor], i) => {
-    const h = 0.3 + i * 0.25;
-    const parede = new THREE.Mesh(new THREE.CylinderGeometry(R[i], R[i], h, 72, 1, true), new THREE.MeshStandardMaterial({ color: cor, emissive: cor, emissiveIntensity: 0.3, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false }));
-    parede.position.y = h / 2;
-    const borda = new THREE.Mesh(new THREE.TorusGeometry(R[i], 0.045, 8, 120), new THREE.MeshBasicMaterial({ color: cor }));
-    borda.rotation.x = Math.PI / 2; borda.position.y = h;
-    root.add(parede, borda);
-    const a = 0.35 + i * 0.95;
-    const l = c.label(nome, { size: 30, color: hex(cor) }); l.position.set(R[i] * Math.cos(a), h + 0.45, R[i] * Math.sin(a)); root.add(l);
-    return { parede, borda, l };
-  });
-  const nucleo = new THREE.Mesh(new THREE.IcosahedronGeometry(0.7, 1), new THREE.MeshStandardMaterial({ color: 0xf2cb0a, emissive: 0xb8860b, emissiveIntensity: 0.6, flatShading: true }));
-  nucleo.position.y = 0.9; root.add(nucleo);
-  const ln = c.label('db-alunos', { size: 30 }); ln.position.set(0, 2.2, 0); root.add(ln);
-  const P = [];
-  for (let k = 0; k < 36; k++) {
-    const m = new THREE.Mesh(new THREE.SphereGeometry(0.11, 10, 10), new THREE.MeshBasicMaterial({ color: 0xff2b5f, transparent: true }));
-    root.add(m); const p = { m }; nova(p); p.r = 7.5 + Math.random() * 6; P.push(p);
-  }
-  function nova(p) {
-    p.th = Math.random() * Math.PI * 2; p.r = 7.5 + Math.random() * 1.5; p.y = 0.15 + Math.random() * 0.6;
-    p.prox = 0; p.parado = 0; p.v = 1.1 + Math.random() * 0.6;
-    p.m.material.color.setHex(0xff2b5f); p.m.material.opacity = 1; p.m.visible = true;
-  }
-  let barrados = 0, chegaram = 0, flash = 0;
-  const leg = c.legend(''); leg.style.maxWidth = '260px';
-  const ctl = c.controls(L.map(([n], i) => '<button class="lab-btn blue" data-i="' + i + '">' + n + '</button>').join(''));
-  ctl.style.maxWidth = '62%';
-  ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
-  ctl.addEventListener('click', (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    const i = +b.dataset.i; ativo[i] = !ativo[i];
-    b.classList.toggle('blue', ativo[i]); b.classList.toggle('ghost', !ativo[i]);
-    camadas[i].parede.material.opacity = ativo[i] ? 0.25 : 0.03;
-    camadas[i].borda.visible = ativo[i];
-    camadas[i].l.material.opacity = ativo[i] ? 1 : 0.35;
-    barrados = 0; chegaram = 0; draw();
-  });
-  function draw() {
-    const on = ativo.filter(Boolean).length;
-    leg.innerHTML = '<b>' + on + ' de 6 camadas ativas</b><br>Ataques barrados: ' + barrados + '<br>Chegaram ao ativo: <b style="color:' + (chegaram ? '#FF5C7A' : '#3FD47A') + '">' + chegaram + '</b><br><small>Chances de bloqueio ilustrativas</small>';
-  }
-  draw();
-  c.onFrame((t, dt) => {
-    nucleo.rotation.y = t * 0.7;
-    flash = Math.max(0, flash - dt * 2);
-    nucleo.material.emissive.setRGB(0.72 + flash * 0.3, 0.53 * (1 - flash), 0.04);
-    P.forEach((p) => {
-      if (p.parado) {
-        p.parado -= dt; p.m.material.opacity = Math.max(0, p.parado / 0.9);
-        if (p.parado <= 0) nova(p);
-        return;
-      }
-      p.r -= p.v * dt;
-      while (p.prox < 6 && p.r <= R[p.prox]) {
-        if (ativo[p.prox] && Math.random() < 0.5) { p.parado = 0.9; p.r = R[p.prox]; p.m.material.color.setHex(0x00b1d2); barrados++; draw(); break; }
-        p.prox++;
-      }
-      if (!p.parado && p.r <= 0.75) { chegaram++; flash = 1; draw(); nova(p); return; }
-      p.m.position.set(p.r * Math.cos(p.th), p.y, p.r * Math.sin(p.th));
-    });
-  });
-}, { camera: [0, 9, 12], spin: 0.1 });
-
-/* ---------- 4. Problema de hoje: mini-mapa ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['catraca', 'waf', 'gw', 'kafka', 'cep', 'edr', 'ident'], alvo: 'siem', caminho: ['catraca', 'waf', 'gw', 'checkin', 'kafka', 'cep', 'siem'],
-  legenda: 'Onde a aula acontece: as camadas da plataforma e o caminho dos registros até o SOC (em vermelho).' });
-
-/* ---------- 10. Fluxo: a jornada do alerta ---------- */
-Labs.flow('#lab-flow', {
-  w: 1100, h: 440,
+/* ---------- 5. Fluxo: ciclo de inteligência ---------- */
+Labs.flow('#lab-ciclo', {
+  w: 1100, h: 430,
   nodes: [
-    { id: 'idp', x: 130, y: 85, label: 'Login no e-mail', sub: '192.0.2.201 · Países Baixos', icon: '🌍', k: 'red', w: 230 },
-    { id: 'siem', x: 390, y: 85, label: 'SIEM', sub: 'regra: viagem impossível', icon: '📊', k: 'blue', w: 220 },
-    { id: 'n1', x: 650, y: 85, label: 'N1 · Triagem', sub: 'confirma ou descarta', icon: '🎧', k: 'blue', w: 220 },
-    { id: 'user', x: 920, y: 85, label: 'Carla Dias', sub: 'financeiro, em São Paulo', icon: '📞', w: 220 },
-    { id: 'n2', x: 650, y: 235, label: 'N2 · Luiza Ferraz', sub: 'escopo e contenção', icon: '🔬', k: 'blue', w: 220 },
-    { id: 'soar', x: 920, y: 235, label: 'SOAR', sub: 'revoga, troca senha', icon: '⚙️', k: 'green', w: 220 },
-    { id: 'n3', x: 390, y: 235, label: 'N3 · Rafael Tavares', sub: 'caça e nova detecção', icon: '🧠', k: 'purple', w: 230 },
-    { id: 'det', x: 130, y: 235, label: 'Nova regra', sub: 'encaminhamento suspeito', icon: '🧩', k: 'purple', w: 230 },
-    { id: 'pb', x: 650, y: 375, label: 'Playbook PB-07', sub: 'conta comprometida', icon: '📘', k: 'amber', w: 230 }
+    { id: 'dir', x: 150, y: 80, label: 'Direção', sub: 'requisitos', icon: '🧭', k: 'amber', w: 210 },
+    { id: 'col', x: 420, y: 80, label: 'Coleta', sub: 'boletim e fontes', icon: '📥', w: 210 },
+    { id: 'pro', x: 690, y: 80, label: 'Processamento', sub: 'normalizar e limpar', icon: '⚙️', w: 220 },
+    { id: 'ana', x: 950, y: 215, label: 'Análise', sub: 'perfil e TTPs', icon: '🔬', k: 'red', w: 210 },
+    { id: 'dis', x: 690, y: 350, label: 'Disseminação', sub: 'cada público', icon: '📤', k: 'blue', w: 210 },
+    { id: 'fb', x: 420, y: 350, label: 'Feedback', sub: 'o exercício responde?', icon: '🔁', k: 'green', w: 220 },
+    { id: 'plano', x: 420, y: 215, label: 'Plano de emulação', sub: 'rodada 1', icon: '📋', k: 'purple', w: 230 }
   ],
   links: [
-    { from: 'idp', to: 'siem', label: 'logs de entrada' }, { from: 'siem', to: 'n1', label: 'alerta alto' }, { from: 'n1', to: 'user', label: 'telefone', dashed: true },
-    { from: 'n1', to: 'n2', label: 'escala' }, { from: 'n2', to: 'soar', label: 'contenção' }, { from: 'n2', to: 'n3', label: 'caça' },
-    { from: 'n3', to: 'det' }, { from: 'det', to: 'siem', dashed: true, curve: 40 }, { from: 'pb', to: 'n2', dashed: true }
+    { from: 'dir', to: 'col' }, { from: 'col', to: 'pro' }, { from: 'pro', to: 'ana' }, { from: 'ana', to: 'dis' },
+    { from: 'dis', to: 'fb' }, { from: 'fb', to: 'dir', curve: -40 }, { from: 'dis', to: 'plano', dashed: true }
   ],
   steps: [
-    { title: '08:55 · Um login de outro país', text: 'A conta de Carla Dias, do financeiro da sede da Rede Tatame, entra no e-mail corporativo a partir de um endereço nos Países Baixos. Às 08:40, o mesmo usuário tinha entrado de São Paulo.', on: ['idp'], dim: true },
-    { title: '09:31 · O SIEM correlaciona', text: 'A regra de viagem impossível, que roda a cada 30 minutos, compara os dois logins: cerca de 9.800 km em 15 minutos. Um alerta de severidade alta cai na fila do N1.', on: ['idp', 'siem'], links: [['idp', 'siem', 'red']], dim: true },
-    { title: '09:34 · N1 faz a triagem', text: 'O endereço não é da VPN corporativa nem de um fornecedor conhecido. O analista liga para Carla, que confirma estar em São Paulo. O caso é escalado ao N2.', on: ['siem', 'n1', 'user'], links: [['siem', 'n1', 'blue'], ['n1', 'user', 'amber']], dim: true },
-    { title: '09:40 · N2 investiga', text: 'Seguindo o playbook, Luiza Ferraz define o escopo: a sessão estrangeira leu e-mails e criou uma regra que encaminha mensagens com a palavra "repasse" para um endereço externo.', on: ['n1', 'n2', 'pb'], links: [['n1', 'n2', 'blue'], ['pb', 'n2', 'amber']], dim: true },
-    { title: '10:16 · Contenção', text: 'O SOAR revoga as sessões, força a troca de senha e remove a regra de encaminhamento. Detectar levou 36 minutos; conter, mais 45.', on: ['n2', 'soar'], links: [['n2', 'soar', 'green']], dim: true },
-    { title: 'N3 caça no restante do ambiente', text: 'Rafael Tavares, engenheiro de detecção, procura o mesmo endereço em outras contas e encontra duas tentativas de login sem sucesso, que também são tratadas.', on: ['n2', 'n3'], links: [['n2', 'n3', 'purple']], dim: true },
-    { title: 'A lição vira detecção', text: 'Ele escreve uma regra nova: criação de encaminhamento externo logo após login de país incomum. O playbook é atualizado e o próximo caso parecido será detectado mais cedo.', on: ['n3', 'det', 'siem', 'pb'], links: [['n3', 'det', 'purple'], ['det', 'siem', 'purple']], dim: true }
+    { title: 'O boletim BI-2026-041 chega', text: 'Antes de abrir o arquivo, a pergunta: o que precisamos saber para planejar a operação? O ciclo de inteligência organiza a resposta em seis etapas.', on: ['dir', 'col', 'pro', 'ana', 'dis', 'fb'] },
+    { title: '1 · Direção: os requisitos', text: 'Marina Prado e Bruno Sato definem os requisitos: o Cobalto Austral ameaça a Rede Tatame? Como ele entra? Que técnicas a defesa ainda não vê?', on: ['dir'], dim: true },
+    { title: '2 · Coleta', text: 'O boletim da rede setorial, um alerta de um CERT parceiro, o relatório de resposta de outra rede de academias e fontes abertas sobre a própria Rede Tatame.', on: ['col'], links: [['dir', 'col', 'amber']], dim: true },
+    { title: '3 · Processamento', text: 'Converter tudo para STIX, eliminar repetições e separar os 450 indicadores (300 IPs e 150 hashes) das descrições de comportamento.', on: ['pro'], links: [['col', 'pro', 'blue']], dim: true },
+    { title: '4 · Análise', text: 'Montar o perfil do adversário: motivação, vítimas e técnicas ATT&CK. Pela Pirâmide da Dor, o valor está nos TTPs, não nos indicadores.', on: ['ana'], links: [['pro', 'ana', 'red']], dim: true },
+    { title: '5 · Disseminação', text: 'Cada público recebe o seu nível: a diretoria, o risco estratégico; o White Team, o adversário e o cenário; o Red Team e Rafael Tavares, as técnicas. O tático vira o plano de emulação.', on: ['dis', 'plano'], links: [['ana', 'dis', 'blue'], ['dis', 'plano', 'purple']], dim: true },
+    { title: '6 · Feedback', text: 'O resultado do exercício volta como resposta aos requisitos: quais técnicas a Rede Tatame detectou e quais passaram. Isso gera novos requisitos para o próximo ciclo.', on: ['fb', 'dir'], links: [['dis', 'fb', 'green'], ['fb', 'dir', 'green']], dim: true }
   ]
 });
 
-/* ---------- 11. SIEM: o turno do analista ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: '21/08/2026, 07h00 – 12h00', lang: 'KQL', index: 'SecurityAlert, SigninLogs',
-  searches: [
-    { group: 'Turno da manhã', name: '1. Fila do N1', q: 'SecurityAlert | where Status == "New" | sort by Severity desc, TimeGenerated asc',
-      cols: ['hora', 'alerta', 'entidade', 'severidade', 'status'], sevCol: 3, total: 5, unit: 'alertas novos',
-      hist: [0, 1, 1, 1, 1, 1, 0, 0, 0, 0], hot: [5],
-      rows: [
-        ['09:31', 'Viagem impossível', 'carla.dias', 'alta', 'novo'],
-        ['08:20', 'Varredura de portas interna', '10.10.3.18', 'média', 'novo'],
-        ['09:12', 'Muitas falhas de login', 'vpn.tatame.com.br', 'média', 'novo'],
-        ['08:47', 'Macro em anexo bloqueada', 'NB-ATD-014', 'baixa', 'novo'],
-        ['07:58', 'Assinatura de antivírus desatualizada', 'NB-PRD-112', 'info', 'novo']
-      ], note: 'O N1 começa pela severidade. Viagem impossível em uma conta do financeiro vai para o topo da fila.' },
-    { group: 'Caso: carla.dias', name: '2. Logins da conta (24 h)', q: 'SigninLogs | where UserPrincipalName == "carla.dias@tatame.com.br" | project TimeGenerated, IPAddress, Location, AppDisplayName, ResultType',
-      cols: ['hora', 'IP', 'local', 'aplicação', 'resultado'], total: 4, unit: 'logins',
-      hist: [1, 0, 0, 2, 1, 0, 0, 0, 0, 0], hot: [3, 4],
-      rows: [
-        ['07:12', '198.51.100.20', 'São Paulo, BR', 'VPN', 'sucesso'],
-        ['08:40', '198.51.100.20', 'São Paulo, BR', 'E-mail', 'sucesso'],
-        ['08:55', '192.0.2.201', 'Amsterdã, NL', 'E-mail', 'sucesso'],
-        ['09:03', '192.0.2.201', 'Amsterdã, NL', 'E-mail (regras da caixa)', 'sucesso']
-      ], note: 'Às 09:03, a sessão estrangeira mexeu nas regras da caixa de entrada. É o primeiro sinal de que alguém quer ficar.' },
-    { group: 'Caso: carla.dias', name: '3. Regra de viagem impossível', q: 'SigninLogs | where ResultType == 0 | sort by UserPrincipalName asc, TimeGenerated asc | extend U0 = prev(UserPrincipalName), L0 = prev(Location), T0 = prev(TimeGenerated) | where UserPrincipalName == U0 and Location != L0 and TimeGenerated - T0 < 2h',
-      cols: ['usuário', 'de', 'para', 'intervalo', 'distância', 'severidade'], sevCol: 5, total: 1, unit: 'ocorrência',
-      hist: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0], hot: [3],
-      rows: [['carla.dias', 'São Paulo, BR (08:40)', 'Amsterdã, NL (08:55)', '15 min', '≈ 9.800 km', 'alta']],
-      note: 'Nenhum avião cobre 9.800 km em 15 minutos. Ou a credencial está com outra pessoa, ou há uma VPN que o SOC não conhece.' },
-    { group: 'Caso: carla.dias', name: '4. Mesmo IP em outras contas', q: 'SigninLogs | where IPAddress == "192.0.2.201" | summarize Tentativas = count(), Sucesso = countif(ResultType == 0) by UserPrincipalName',
-      cols: ['conta', 'tentativas', 'sucesso'], total: 3, unit: 'contas',
-      hist: [0, 0, 0, 1, 2, 1, 0, 0, 0, 0], hot: [3, 4, 5],
-      rows: [['carla.dias', '2', '2'], ['caio.mendes', '1', '0'], ['financeiro.repasses', '1', '0']],
-      note: 'O N3 amplia o escopo: duas outras contas foram tentadas, sem sucesso. As pessoas são avisadas e as senhas, trocadas por precaução.' },
-    { group: 'Métricas', name: '5. MTTD e MTTR do trimestre', q: 'Incidents | where StartTime between (datetime(2026-07-01) .. datetime(2026-09-30)) | summarize MTTD = avg(DetectTime - StartTime), MTTR = avg(ContainTime - DetectTime)',
-      cols: ['período', 'incidentes', 'MTTD médio', 'MTTD mediana', 'MTTR médio', 'MTTR mediana'], total: 6, unit: 'incidentes',
-      hist: [1, 1, 0, 1, 1, 0, 1, 0, 1, 0], hot: [],
-      rows: [['jul a set/2026', '6', '24,0 h', '5,8 h', '4,1 h', '2,2 h']],
-      note: 'O caso de hoje (INC-34) foi detectado em 0,6 h e contido em 0,75 h. Um único caso de 96 h puxa a média do trimestre para cima.' }
-  ]
+/* ---------- 8. Cena 3D: Pirâmide da Dor ---------- */
+Labs.scene3d('#lab-3d', (c) => {
+  const { THREE, root } = c;
+  root.position.set(-2.6, 0.2, 0);
+  const L = [
+    ['Hashes', 'Trivial', 0x3FD47A, '150 SHA-256 do boletim: basta recompilar o arquivo para mudar.', 'Vai para o bloqueio, não para o plano.'],
+    ['Endereços IP', 'Fácil', 0x9BD94A, '300 IPs do boletim: trocar de servidor leva minutos.', 'Vai para o bloqueio, não para o plano.'],
+    ['Nomes de domínio', 'Simples', 0xF2CB0A, 'Domínio parecido com o da vítima: registrar outro custa pouco.', 'Serve de pista; o plano usa um domínio próprio do exercício.'],
+    ['Artefatos de rede e de host', 'Incômodo', 0xF2940A, 'Consulta LDAP em massa saindo de uma sessão de VPN.', 'Bom alvo de teste: mostra se a regra R13 funcionaria.'],
+    ['Ferramentas', 'Desafiador', 0xF2600A, 'O utilitário de cópia para a nuvem que o grupo usa.', 'O plano usa um equivalente seguro, com arquivos fictícios.'],
+    ['TTPs', 'Difícil', 0xFF2B5F, 'Conta válida na VPN, descoberta no AD, RDP e cópia para a nuvem (T1078, T1087.002, T1021.001, T1567.002).', 'É o que o plano de emulação reproduz.']
+  ];
+  const layers = [];
+  L.forEach(([nome, dif, col], i) => {
+    const rb = 5 - i * 0.8, rt = Math.max(0.15, 5 - (i + 1) * 0.8);
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, 1, 4, 1), new THREE.MeshStandardMaterial({ color: col, emissive: col, emissiveIntensity: 0.15, roughness: 0.5, transparent: true, opacity: 0.95 }));
+    m.rotation.y = Math.PI / 4; m.position.y = i * 1.08 - 3; root.add(m);
+    const lb = c.label(nome + ' · ' + dif, { color: '#fff', scale: 1.15 }); lb.position.set(rb * 0.7 + 4.3, i * 1.08 - 3, 0); root.add(lb);
+    layers.push({ m, base: m.position.y, lb });
+  });
+  const leg = c.legend('Clique em um nível');
+  const ctl = c.controls(L.map((l, i) => '<button class="lab-chip" data-i="' + i + '">' + l[0] + '</button>').join(''));
+  ctl.style.flexDirection = 'column'; ctl.style.alignItems = 'flex-start';
+  ctl.addEventListener('pointerdown', (e) => e.stopPropagation());
+  let sel = -1;
+  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
+    sel = +b.dataset.i; c.stopAutoRotate();
+    ctl.querySelectorAll('button').forEach((x) => x.classList.toggle('is-on', x === b));
+    const [nome, dif, col, ex, uso] = L[sel];
+    leg.innerHTML = '<b style="color:#' + col.toString(16).padStart(6, '0') + '">' + nome + '</b><br>Custo para o adversário: ' + dif + '<br><span style="display:inline-block;max-width:260px">' + ex + '<br><i>' + uso + '</i></span>';
+  }));
+  c.onFrame((t) => {
+    layers.forEach((ly, i) => {
+      const on = i === sel;
+      ly.m.position.y += ((on ? ly.base + 0.35 : ly.base) - ly.m.position.y) * 0.12;
+      ly.lb.position.y = ly.m.position.y;
+      ly.m.material.emissiveIntensity = on ? 0.55 + Math.sin(t * 4) * 0.15 : 0.15;
+      ly.m.material.opacity = sel < 0 || on ? 0.95 : 0.35;
+    });
+  });
+}, { camera: [0, 2.5, 14.5], autoRotate: false, hint: 'Arraste para girar · role para aproximar', fallback: 'Da base ao topo: hashes, IPs, domínios, artefatos, ferramentas e TTPs.' });
+
+/* ---------- 10. Navegador: plataforma de CTI ---------- */
+Labs.browser('#lab-cti', {
+  url: 'https://cti.rede-setorial.example.com/events/view/1187', secure: true,
+  html: `
+  <div class="cti">
+    <div class="cti-top"><b>MISP · Rede setorial de CTI</b><span>Organização: Rede Tatame (fictícia)</span><span style="flex:1"></span><span>Eventos › 1187</span></div>
+    <div class="cti-body">
+      <h3>Evento 1187 · BI-2026-041 · Grupo Cobalto Austral contra redes de academias</h3>
+      <div style="font-size:12.5px;color:#555">Criado por: rede setorial · Data: 10/11/2026 · Ameaça: alta · Análise: concluída</div>
+      <div class="cti-tags"><span class="cti-tag amber">tlp:amber</span><span class="cti-tag">setor:academias</span><span class="cti-tag">motivação:extorsão</span><span class="cti-tag att">T1078</span><span class="cti-tag att">T1133</span><span class="cti-tag att">T1087.002</span><span class="cti-tag att">T1021.001</span><span class="cti-tag att">T1567.002</span><span class="cti-tag att">T1486</span></div>
+      <div class="cti-tabs"><button class="on" data-t="attr">Atributos</button><button data-t="att">ATT&amp;CK</button><button data-t="dia">Diamante</button><button data-t="niv">Níveis</button></div>
+      <div data-p="attr">
+        <p style="margin:0 0 6px;font-size:13px">450 atributos: <b>300 ip-dst</b> e <b>150 sha256</b>. Primeiras linhas:</p>
+        <table><thead><tr><th>Tipo</th><th>Valor</th><th>Comentário</th><th>Visto pela última vez</th></tr></thead><tbody>
+          <tr><td>ip-dst</td><td>198.51.100.12</td><td>origem de logons na VPN das vítimas</td><td>09/11/2026</td></tr>
+          <tr><td>ip-dst</td><td>198.51.100.77</td><td>destino da cópia de dados</td><td>07/11/2026</td></tr>
+          <tr><td>ip-dst</td><td>192.0.2.91</td><td>origem de logons na VPN das vítimas</td><td>03/11/2026</td></tr>
+          <tr><td>sha256</td><td>c7a1…e40f</td><td>utilitário de cópia reempacotado</td><td>07/11/2026</td></tr>
+          <tr><td>sha256</td><td>19be…7a22</td><td>arquivo de nota de resgate</td><td>02/11/2026</td></tr>
+        </tbody></table>
+      </div>
+      <div data-p="att" hidden>
+        <table><thead><tr><th>Técnica</th><th>Nome</th><th>Comportamento relatado</th></tr></thead><tbody>
+          <tr><td>T1078 · T1133</td><td>Contas válidas · Serviços remotos externos</td><td>credencial vazada na VPN, sem MFA</td></tr>
+          <tr><td>T1087.002</td><td>Contas de domínio</td><td>consulta em massa ao Active Directory</td></tr>
+          <tr><td>T1021.001</td><td>RDP</td><td>acesso remoto aos servidores de arquivos e ERP</td></tr>
+          <tr><td>T1003</td><td>Extração de credenciais</td><td>leitura da memória para obter outras contas</td></tr>
+          <tr><td>T1567.002</td><td>Exfiltração para a nuvem</td><td>cópia de fichas antes da criptografia</td></tr>
+          <tr><td>T1490 · T1486</td><td>Inibir recuperação · Criptografia</td><td>apaga cópias de sombra e cifra os servidores</td></tr>
+        </tbody></table>
+        <p style="font-size:12.5px;margin:8px 0 0">Oito técnicas no topo da pirâmide valem mais para o plano que os 450 atributos juntos.</p>
+      </div>
+      <div data-p="dia" hidden>
+        <div class="dia">
+          <div class="vz"></div><div><b>Adversário</b>Grupo Cobalto Austral (fictício), motivação: extorsão</div><div class="vz"></div>
+          <div class="pv"><b>Infraestrutura</b>198.51.100.12 (clique para pivotar)</div><div class="vz">Clique na infraestrutura para pivotar</div><div><b>Capacidade</b>credenciais vazadas, RDP, cópia para a nuvem, criptografia</div>
+          <div class="vz"></div><div><b>Vítima</b>redes de academias com VPN e dados de alunos</div><div class="vz"></div>
+        </div>
+        <p id="pivo" style="font-size:12.5px;margin:8px 0 0"></p>
+      </div>
+      <div data-p="niv" hidden>
+        <div class="nivel">
+          <span>"O grupo ataca empresas que guardam dados de crianças, em busca de extorsão."</span><button data-r="Estratégica: justifica o exercício">Revelar</button>
+          <span>"Campanha ativa contra redes de academias desde outubro, pelo Grupo Cobalto Austral."</span><button data-r="Operacional: escolhe o adversário">Revelar</button>
+          <span>"Credencial válida na VPN, consulta ao AD, RDP, cópia para a nuvem."</span><button data-r="Tática: alimenta o plano">Revelar</button>
+          <span>"300 IPs e 150 hashes."</span><button data-r="Tática (ou técnica): vai para o bloqueio">Revelar</button>
+        </div>
+      </div>
+    </div>
+  </div>`,
+  onReady(page) {
+    const tabs = page.querySelectorAll('.cti-tabs button');
+    tabs.forEach((b) => b.addEventListener('click', () => {
+      tabs.forEach((x) => x.classList.toggle('on', x === b));
+      page.querySelectorAll('[data-p]').forEach((p) => (p.hidden = p.dataset.p !== b.dataset.t));
+    }));
+    page.querySelector('.dia .pv').addEventListener('click', () => {
+      page.querySelector('#pivo').innerHTML = '<b>Pivô:</b> 198.51.100.12 aparece em logons na VPN de outras 2 redes de academias da rede setorial. No SIEM da Rede Tatame, nenhum logon desse IP nos últimos 90 dias: o grupo ainda não esteve aqui, ou já trocou de endereço. Por isso o plano emula o comportamento, e o IP vai só para o bloqueio.';
+    });
+    page.querySelectorAll('.nivel button').forEach((b) => b.addEventListener('click', () => { const s = document.createElement('span'); s.className = 'r'; s.textContent = b.dataset.r; b.replaceWith(s); }));
+  }
 });
 
-/* ---------- 11b. Plataforma Rede Tatame: catraca ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cenarios', cenario: 'catraca' });
+/* ---------- 12. Terminal: OSINT passivo ---------- */
+Labs.terminal('#lab-term', {
+  title: 'bruno.sato@NB-RED-002: ~/op-2026-11/osint', prompt: 'bruno.sato@NB-RED-002:~/op-2026-11/osint$ ',
+  steps: [
+    { cmd: 'whois tatame.com.br', note: 'Registro público do domínio, consultado no registro .br. Nenhum pacote chega aos servidores da Rede Tatame.', out: [
+      'domain:      tatame.com.br', 'owner:       Rede Tatame Academias Ltda.', 'tech-c:      CAMEN7',
+      'nserver:     ns1.provedor-dns.example.com', 'nserver:     ns2.provedor-dns.example.com',
+      '', 'nic-hdl-br:  CAMEN7', 'person:      Caio Mendes', 'e-mail:      caio.mendes@tatame.com.br',
+      '[warn] O contato técnico revela o padrão nome.sobrenome@tatame.com.br, útil para phishing (T1566).' ] },
+    { cmd: 'dig +short MX tatame.com.br @1.1.1.1', note: 'Consulta a um resolvedor público. A resposta vem do provedor de DNS, não da infraestrutura da Tatame.', out: [
+      '10 mx1.tatame.com.br.' ] },
+    { cmd: 'curl -s "https://crt.sh/?q=%25.tatame.com.br&output=json" | jq -r ".[].name_value" | sort -u | grep -E "vpn|gestao"', note: 'Logs públicos de transparência de certificados: todo certificado emitido para o domínio fica registrado.', out: [
+      'gestao.tatame.com.br', 'hml-gestao.tatame.com.br', 'vpn.tatame.com.br',
+      '[warn] A VPN tem nome público (serviço remoto externo, T1133).',
+      '[warn] hml-gestao recebeu certificado, mas não está no inventário da TI.' ] },
+    { cmd: 'cat notas/vagas_e_perfis.txt', note: 'Anotações feitas à mão a partir de vagas e perfis profissionais públicos. São dados pessoais: ficam no cofre do exercício e são descartadas ao final (LGPD).', out: [
+      'Vaga "Analista de infraestrutura" (out/2026): VPN NetGuard, Active Directory, Windows Server, RDP',
+      'Financeiro da sede: 3 perfis públicos citam o ERP e a planilha de repasses',
+      '[info] Confirma o ambiente que o perfil do grupo procura: VPN, AD e servidores acessados por RDP.' ] },
+    { cmd: 'cat notas/conclusao.txt', note: 'O que o olhar do adversário acrescenta ao plano.', out: [
+      '[ok] T1133/T1078  VPN NetGuard exposta e citada em vaga: entrada provável do grupo',
+      '[ok] T1566        padrão de e-mail público: alternativa de acesso inicial',
+      '[ok] T1021.001    RDP citado na vaga: movimentação lateral provável',
+      '[warn] hml-gestao fora do inventário: registrar e consultar o White Team antes de incluí-lo no escopo',
+      '[mute] Nenhum serviço da Rede Tatame foi contatado nesta etapa.' ] }
+  ],
+  done: 'Roteiro concluído: o perfil do grupo encaixa na superfície da Rede Tatame.'
+});
 
-/* ---------- 14. VS Code: playbook e métricas ---------- */
+/* ---------- 15. VS Code: relevância × lacuna ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'soc-rede-tatame', team: 'blue', status: 'Python 3.12', open: 'playbooks/conta_comprometida.yaml', typeOnEnter: true,
+  folder: 'op-2026-11-planejamento', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
     { cmd: 'source .venv/bin/activate', out: [], venv: true },
-    { cmd: 'code --install-extension redhat.vscode-yaml', out: [
-      'Installing extensions...',
-      "Installing extension 'redhat.vscode-yaml'...",
-      { t: "Extension 'redhat.vscode-yaml' v2.0.0 was successfully installed.", c: 'ok', d: 400 } ] },
+    { cmd: 'python -c "import csv, json, collections; print(csv.__name__, json.__name__, collections.__name__)"', out: ['[ok] csv json collections'] },
     { cmd: 'pip list', out: [
       'Package Version',
       '------- -------',
@@ -641,116 +615,116 @@ Labs.vscode('#lab-vsc', {
       '[mute] Só o pip: este laboratório usa apenas a biblioteca padrão do Python.' ] }
   ],
   files: [
-    { path: 'playbooks/conta_comprometida.yaml', hl: [17, 18, 19, 20, 25, 26, 27], code:
-`# Playbook PB-07 · conta comprometida · SOC Rede Tatame (fictícia)
-gatilho: alerta "Viagem impossível" ou "Login de país incomum"
-severidade_minima: alta
-etapas:
-  - nivel: N1
-    prazo: 15 min
-    acoes:
-      - conferir os logins da conta nas últimas 24 h
-      - checar se o IP é da VPN corporativa ou de fornecedor conhecido
-      - confirmar com o usuário por telefone, nunca pelo e-mail da conta
-    escalar_se: usuário não reconhece o acesso
-  - nivel: N2
-    prazo: 30 min
-    acoes:
-      - listar o que a sessão suspeita fez (leitura, regras da caixa, downloads)
-      - definir o escopo (outras contas, mesmo IP, mesmo período)
-    contencao_sem_aprovacao:        # o analista executa na hora
-      - revogar sessões ativas
-      - forçar troca de senha
-      - remover regras de encaminhamento externo
-  - nivel: N3
-    acoes:
-      - caçar o mesmo indicador no restante do ambiente
-      - propor nova detecção e atualizar este playbook
-comunicar:
-  - gestor do usuário
-  - DPO e jurídico se houver dado de aluno exposto   # menores e saúde pesam mais
-licoes_aprendidas: reunião em até 5 dias úteis` },
-    { path: 'incidentes_2026.csv', code:
-`id,tipo,inicio,deteccao,contencao
-INC-31,Credencial capturada por phishing,2026-07-02T08:10,2026-07-02T14:40,2026-07-02T17:10
-INC-32,Malware em estação,2026-07-15T10:00,2026-07-15T10:45,2026-07-15T12:15
-INC-33,Conta de fornecedor fora do horário,2026-08-03T22:30,2026-08-05T09:30,2026-08-05T15:30
-INC-34,Login de país incomum,2026-08-21T08:55,2026-08-21T09:31,2026-08-21T10:16
-INC-35,Password spraying na VPN,2026-09-09T02:00,2026-09-09T07:00,2026-09-09T09:00
-INC-36,Exfiltração para nuvem,2026-09-28T13:00,2026-10-02T13:00,2026-10-03T01:00` },
-    { path: 'metricas_soc.py', hl: [14, 15, 21, 22], code:
-`"""Calcula MTTD e MTTR a partir do registro de incidentes do SOC."""
+    { path: 'priorizar.py', hl: [21, 22, 23], code:
+`"""Transforma o boletim de ameaça em prioridades para o plano de emulação."""
 import csv
-from datetime import datetime
-from statistics import mean, median
+import json
+from collections import Counter
 
+VAGAS = 4  # técnicas que cabem na primeira rodada da operação
 
-def horas(de: str, ate: str) -> float:
-    return (datetime.fromisoformat(ate) - datetime.fromisoformat(de)).total_seconds() / 3600
+with open("boletim_BI-2026-041.json", encoding="utf-8") as f:
+    objetos = json.load(f)["objects"]
+padroes = {o["id"]: o for o in objetos if o["type"] == "attack-pattern"}
+relatorios = [o for o in objetos if o["type"] == "report"]
 
+citacoes = Counter(ref for r in relatorios for ref in r["object_refs"] if ref in padroes)
+with open("cobertura_tatame.csv", encoding="utf-8") as f:
+    lacuna = {l["tecnica"]: int(l["lacuna"]) for l in csv.DictReader(f)}
 
-with open("incidentes_2026.csv", encoding="utf-8") as f:
-    incidentes = list(csv.DictReader(f))
+ranking = []
+for ref, n in citacoes.items():
+    p = padroes[ref]
+    tec = p["external_references"][0]["external_id"]
+    relevancia = min(n, 3)
+    ranking.append((relevancia * lacuna[tec], relevancia, tec, p["kill_chain_phases"][0]["phase_name"]))
+ranking.sort(key=lambda x: (-x[0], -x[1], x[2]))
 
-ttd = [horas(i["inicio"], i["deteccao"]) for i in incidentes]     # até detectar
-ttr = [horas(i["deteccao"], i["contencao"]) for i in incidentes]  # até conter
-
-print(f"{'caso':<8}{'tipo':<36}{'detectar':>9}{'conter':>8}")
-for i, d, r in zip(incidentes, ttd, ttr):
-    print(f"{i['id']:<8}{i['tipo']:<36}{d:>8.1f}h{r:>7.1f}h")
-
-print(f"\\nMTTD: média {mean(ttd):.1f} h | mediana {median(ttd):.1f} h")
-print(f"MTTR: média {mean(ttr):.1f} h | mediana {median(ttr):.1f} h")
-pior = max(zip(ttd, incidentes), key=lambda par: par[0])[1]
-print(f"Maior tempo até detectar: {pior['id']} ({pior['tipo']})")` }
+omitidos = sum(r.get("x_indicadores_omitidos", 0) for r in relatorios)
+print(f"{len(relatorios)} relatórios, {len(ranking)} técnicas, {omitidos} indicadores fora do plano")
+print(f"{'técnica':<10} {'tática':<18} rel lac prioridade")
+for i, (prio, rel, tec, tatica) in enumerate(ranking, 1):
+    marca = "  <- rodada 1" if i <= VAGAS else ""
+    print(f"{tec:<10} {tatica:<18} {rel:>3} {lacuna[tec]:>3} {prio:>6}{marca}")` },
+    { path: 'cobertura_tatame.csv', code:
+`tecnica,regra,fonte,lacuna
+T1566,R1 ligada,DNS e proxy,1
+T1078,R11 ligada,auditoria de identidade,1
+T1133,R11 ligada,auditoria de identidade,1
+T1087.002,R13 desligada,logs do AD,2
+T1021.001,R5 desligada,logs do AD,2
+T1003,R6 ligada,EDR,1
+T1567.002,R9 desligada,saída de rede desligada,3
+T1490,R7 ligada,EDR,1
+T1486,nenhuma,EDR,2` },
+    { path: 'boletim_BI-2026-041.json', code:
+`{
+  "type": "bundle",
+  "id": "bundle--bi-2026-041",
+  "objects": [
+    { "type": "intrusion-set", "id": "intrusion-set--cobalto-austral", "name": "Grupo Cobalto Austral",
+      "goals": ["extorsão com ransomware", "publicar dados de alunos"] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1566", "name": "Phishing",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "initial-access" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1566" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1078", "name": "Valid Accounts",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "initial-access" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1078" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1133", "name": "External Remote Services",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "initial-access" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1133" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1087-002", "name": "Domain Account",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "discovery" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1087.002" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1021-001", "name": "Remote Desktop Protocol",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "lateral-movement" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1021.001" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1003", "name": "OS Credential Dumping",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "credential-access" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1003" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1567-002", "name": "Exfiltration to Cloud Storage",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "exfiltration" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1567.002" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1490", "name": "Inhibit System Recovery",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "impact" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1490" }] },
+    { "type": "attack-pattern", "id": "attack-pattern--t1486", "name": "Data Encrypted for Impact",
+      "kill_chain_phases": [{ "kill_chain_name": "mitre-attack", "phase_name": "impact" }],
+      "external_references": [{ "source_name": "mitre-attack", "external_id": "T1486" }] },
+    { "type": "report", "id": "report--bi-2026-041", "name": "BI-2026-041 · rede setorial (TLP:AMBER)",
+      "x_indicadores_omitidos": 450,
+      "object_refs": ["intrusion-set--cobalto-austral", "attack-pattern--t1078", "attack-pattern--t1133",
+        "attack-pattern--t1087-002", "attack-pattern--t1021-001", "attack-pattern--t1003",
+        "attack-pattern--t1567-002", "attack-pattern--t1490", "attack-pattern--t1486"] },
+    { "type": "report", "id": "report--cert-parceiro-0917", "name": "Alerta de um CERT parceiro",
+      "object_refs": ["intrusion-set--cobalto-austral", "attack-pattern--t1566", "attack-pattern--t1078",
+        "attack-pattern--t1087-002", "attack-pattern--t1021-001", "attack-pattern--t1003",
+        "attack-pattern--t1567-002", "attack-pattern--t1490", "attack-pattern--t1486"] },
+    { "type": "report", "id": "report--resposta-academia-x", "name": "Relatório de resposta de outra rede de academias",
+      "object_refs": ["intrusion-set--cobalto-austral", "attack-pattern--t1566", "attack-pattern--t1078",
+        "attack-pattern--t1133", "attack-pattern--t1087-002", "attack-pattern--t1021-001",
+        "attack-pattern--t1003", "attack-pattern--t1567-002", "attack-pattern--t1490"] }
+  ]
+}` }
   ],
   run: [
-    { label: 'Executar metricas_soc.py', kind: 'blue', cmd: 'python metricas_soc.py', file: 'metricas_soc.py', out: [
-      'caso    tipo                                 detectar  conter',
-      'INC-31  Credencial capturada por phishing        6.5h    2.5h',
-      'INC-32  Malware em estação                       0.8h    1.5h',
-      'INC-33  Conta de fornecedor fora do horário     35.0h    6.0h',
-      'INC-34  Login de país incomum                    0.6h    0.8h',
-      'INC-35  Password spraying na VPN                 5.0h    2.0h',
-      '[warn] INC-36  Exfiltração para nuvem                  96.0h   12.0h',
-      '',
-      '[hi] MTTD: média 24.0 h | mediana 5.8 h',
-      '[hi] MTTR: média 4.1 h | mediana 2.2 h',
-      '[warn] Maior tempo até detectar: INC-36 (Exfiltração para nuvem)' ] }
+    { label: 'Executar priorizar.py', cmd: 'python priorizar.py', file: 'priorizar.py', out: [
+      '3 relatórios, 9 técnicas, 450 indicadores fora do plano',
+      '[mute] técnica    tática             rel lac prioridade',
+      '[err] T1567.002  exfiltration         3   3      9  <- rodada 1',
+      '[warn] T1021.001  lateral-movement     3   2      6  <- rodada 1',
+      '[warn] T1087.002  discovery            3   2      6  <- rodada 1',
+      '[warn] T1486      impact               2   2      4  <- rodada 1',
+      'T1003      credential-access    3   1      3',
+      'T1078      initial-access       3   1      3',
+      'T1490      impact               3   1      3',
+      'T1133      initial-access       2   1      2',
+      'T1566      initial-access       2   1      2' ] }
   ]
 });
 
-/* ---------- 16. Calculadora: o custo do tempo ---------- */
-Labs.register('#lab-calc', (el) => {
-  const n = (v) => Math.round(v).toLocaleString('pt-BR');
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.7rem">
-    <h4>Registros expostos conforme o tempo até a contenção</h4>
-    <label class="lab-range">Registros exfiltrados por dia <output id="o-t"></output><input id="i-t" type="range" min="500" max="10000" step="500" value="2000"></label>
-    <label class="lab-range">Dias até conter, cenário atual <output id="o-a"></output><input id="i-a" type="range" min="1" max="365" value="258"></label>
-    <label class="lab-range">Dias até conter, meta do SOC <output id="o-m"></output><input id="i-m" type="range" min="1" max="365" value="10"></label>
-    <div class="lab-grid3">
-      <div class="lab-kpi red"><small>Cenário atual</small><b id="k-a"></b></div>
-      <div class="lab-kpi green"><small>Com a meta</small><b id="k-m"></b></div>
-      <div class="lab-kpi amber"><small>Redução</small><b id="k-r"></b></div>
-    </div>
-    <div class="ex-line"><i id="b-a" style="background:#FF2B5F"></i><span id="s-a"></span></div>
-    <div class="ex-line"><i id="b-m" style="background:#3FD47A"></i><span id="s-m"></span></div>
-  </div>`;
-  const $ = (id) => el.querySelector('#' + id);
-  function calc() {
-    const t = +$('i-t').value, a = +$('i-a').value, m = +$('i-m').value;
-    const ra = t * a, rm = t * m, red = ra ? 1 - rm / ra : 0;
-    $('o-t').textContent = n(t); $('o-a').textContent = a + ' dias'; $('o-m').textContent = m + ' dias';
-    $('k-a').textContent = n(ra); $('k-m').textContent = n(rm);
-    $('k-r').textContent = red >= 0 ? '≈ ' + Math.round(red * 100) + '%' : 'a meta é pior';
-    const mx = Math.max(ra, rm, 1);
-    $('b-a').style.width = (ra / mx) * 100 + '%'; $('b-m').style.width = (rm / mx) * 100 + '%';
-    $('s-a').textContent = n(t) + ' × ' + a + ' dias = ' + n(ra) + ' registros';
-    $('s-m').textContent = n(t) + ' × ' + m + ' dias = ' + n(rm) + ' registros';
-  }
-  el.querySelectorAll('input').forEach((i) => i.addEventListener('input', calc));
-  calc();
-});
+/* ---------- 16. Plataforma Rede Tatame: superfície e cobertura ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'superficie', reiniciar: true });
 </script>
 </body>
 </html>

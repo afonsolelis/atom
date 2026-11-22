@@ -647,7 +647,7 @@ def main():
     ementa = docx.Document()
     st = ementa.styles["Normal"]; st.font.name = FONTE; st.font.size = Pt(12)
     Escritor(ementa).escrever((RAIZ / "EMENTA.md").read_text(encoding="utf-8"))
-    gerados.append((ementa, ".", f"Ementa proposta - {DISCIPLINA}.docx"))
+    gerados.append((ementa, ".", f"Ementa oficial - {DISCIPLINA}.docx"))
     for d, pasta, nome in gerados:
         destino = SAIDA / pasta / nome
         destino.parent.mkdir(parents=True, exist_ok=True)

@@ -3,31 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 16 — Programa contínuo de segurança, carreira e tendências</title>
+<title>Aula 16 — Relatório final: achados, riscos, recomendações e métricas de melhoria</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .cal { display: grid; grid-template-columns: 150px repeat(12, 1fr); gap: 4px; font: max(13px, .95vw) var(--fonte); color: #DCE3EE; }
-  .cal .h { font-weight: 700; color: #9FB0C8; text-align: center; padding: 4px 0; cursor: pointer; border-radius: 6px; }
-  .cal .h.sel { background: #F2CB0A; color: #002156; }
-  .cal .lane { font-weight: 600; padding: 6px 4px; color: #fff; }
-  .cal .c { border-radius: 5px; min-height: 30px; background: #111D36; cursor: pointer; }
-  .cal .c.on { box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
-  .cal .c.sel { outline: 2px solid #F2CB0A; }
-  .cal-det { font: max(14px, 1.05vw)/1.5 var(--fonte); color: #DCE3EE; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: 8px 12px; min-height: 6.5em; }
-  .cal-det b { color: #F2CB0A; }
-  .metro { width: 100%; height: auto; flex: 1; min-height: 0; }
-  .metro .st { cursor: pointer; }
-  .metro .st circle { fill: #fff; stroke-width: 5; transition: r .2s; }
-  .metro .st:hover circle, .metro .st.sel circle { r: 15; }
-  .metro text { font: 600 15px var(--fonte); fill: #DCE3EE; }
-  .metro .st.sel text { fill: #F2CB0A; }
-  .car-det { font: max(14px, 1.05vw)/1.5 var(--fonte); color: #DCE3EE; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: 8px 12px; min-height: 7.5em; }
-  .car-det b { color: #F2CB0A; }
-  .uni-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-top: .6rem; }
-  .uni-grid div { background: #fff; border-radius: 10px; padding: .8em .9em; box-shadow: 0 3px 12px rgba(0,0,0,.08); border-top: 6px solid var(--azul-fecaf); }
+  .rm { flex: 1; min-height: 0; display: grid; grid-template-columns: auto 1fr; gap: .9rem; }
+  .rm-grid { display: grid; grid-template-columns: 1.6em repeat(5, 3.9em); grid-template-rows: repeat(5, 3.9em) 1.5em; gap: 3px; align-self: start; }
+  .rm-grid .ax { font: 700 .72rem var(--fonte); color: #9FB0C8; display: flex; align-items: center; justify-content: center; }
+  .rm-grid .cel { border-radius: 6px; position: relative; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; font: 700 .62rem var(--fonte); color: #0B1424; }
+  .rm-grid .cel.crit { background: #FF5C7A; } .rm-grid .cel.alto { background: #FF9F43; } .rm-grid .cel.med { background: #F2CB0A; } .rm-grid .cel.baixo { background: #3FD47A; }
+  .rm-grid .cel i { font-style: normal; background: #0B1424; color: #fff; border-radius: 4px; padding: 1px 3px; }
+  .rm-grid .cel i.sel { background: #fff; color: #0B1424; outline: 2px solid #0B1424; }
+  .rm-grid .cel i.ok { opacity: .45; text-decoration: line-through; }
+  .rm-eixo { font: 600 .72rem var(--fonte); color: #9FB0C8; margin-top: .3rem; }
+  .rm-lado { display: flex; flex-direction: column; gap: .55rem; min-width: 0; min-height: 0; }
+  .rm-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: .35rem; }
+  .rm-btns .lab-btn { padding: .3em .2em; font-size: .78rem; }
+  .rm-btns .lab-btn.on { background: #F2CB0A; color: #0B1424; border-color: #F2CB0A; }
+  .rm-det { font: .86rem/1.45 var(--fonte); color: #DCE3EE; background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: .55em .8em; min-height: 8.6em; }
+  .rm-det b { color: #F2CB0A; }
+  .rm-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .4rem; }
+  .rm-kpis .lab-kpi { padding: .4em .5em; } .rm-kpis .lab-kpi b { font-size: 1.25rem; }
+  .achado { display: grid; grid-template-columns: 11em 1fr; gap: .25em .9em; font-size: .9em; }
+  .achado dt { font-weight: 700; color: var(--azul-fecaf); }
+  .achado dd { margin: 0; }
+  .uni-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin-top: .4rem; }
+  .uni-grid div { background: #fff; border-radius: 10px; padding: .7em .8em; box-shadow: 0 3px 12px rgba(0,0,0,.08); border-top: 6px solid var(--azul-fecaf); }
   .uni-grid h3 { margin: 0 0 .3em; font-size: 1rem; color: var(--azul-fecaf); }
-  .uni-grid p { margin: 0; font-size: .92rem !important; }
+  .uni-grid p { margin: 0; font-size: .88rem !important; }
 </style>
 </head>
 <body>
@@ -43,34 +46,33 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 16 — Programa contínuo de segurança, carreira e tendências</h1>
-      <div class="subtitulo">Unidade 4 — Purple Team e estratégia de segurança</div>
+      <h1>Aula 16 — Relatório final: achados, riscos, recomendações e métricas de melhoria</h1>
+      <div class="subtitulo">Unidade 4 — Resposta a Incidentes e Purple Team</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
-
 
   <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Programa contínuo de segurança, carreira e tendências</h1>
+        <h1 class="sumario-titulo">Relatório final: achados, riscos, recomendações e métricas</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje na Rede Tatame</li>
-          <li>Governança: segurança como decisão de negócio</li>
-          <li>Laboratório: o calendário anual do programa</li>
-          <li><em>Roadmap</em>, orçamento, ALE e ROSI</li>
-          <li>Laboratório: o caso de negócio em Python</li>
-          <li>Plataforma Rede Tatame: do ponto cego ao <em>roadmap</em></li>
-          <li>Tendências: Zero Trust, nuvem e IA</li>
-          <li>Carreira: os caminhos de Red, Blue e Purple</li>
-          <li>O caminho percorrido na disciplina</li>
+          <li>Uma página para a diretoria decidir</li>
+          <li>Relatório técnico e executivo; anatomia de um achado</li>
+          <li>Laboratório: a matriz de risco dos oito achados</li>
+          <li>Recomendações priorizadas por risco e esforço</li>
+          <li>Laboratório: priorizar e medir no VS Code</li>
+          <li>Laboratório: as lacunas na plataforma Rede Tatame</li>
+          <li>Laboratório: o sumário executivo de uma página</li>
+          <li>Laboratório: o relatório alimenta o próximo ciclo</li>
+          <li>O caminho das quatro unidades</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -82,97 +84,111 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>Dez minutos com o conselho</h2>
+      <h2>Quinze dias, dois eventos e uma página</h2>
       <div class="problema">
         <div class="historia">
-          <p><strong>Marina Prado</strong>, CISO (diretora de segurança da informação) da Rede Tatame, tem dez minutos na reunião do conselho para pedir o orçamento de 2027.</p>
-          <p>Na Aula 1 ela não sabia responder "estamos seguros?". Desde então vieram uma operação de Red Team, regras novas, ciclos <em>purple</em> e exercícios. Cada atividade, isolada, gerou um ganho pontual.</p>
-          <p>O que está em jogo: R$ 300 mil por ano de orçamento e a proteção contínua de 36 mil alunos, cerca de 30% menores de idade.</p>
-          <div class="pergunta">Como transformar testes e exercícios em um programa contínuo que o conselho entenda e aprove?</div>
-          <div class="papeis"><span><b>Apresenta</b> Marina Prado</span><span><b>Decide</b> o conselho</span><span><b>Red Team</b> Bruno Sato</span><span><b>SOC</b> Luiza Ferraz</span></div>
+          <p>Em 1º/12, o incidente <strong>INC-2026-1202-01</strong>: acesso remoto não aprovado no SRV-ERP-01 e 2,8 GB de planilhas de cobrança enviados para fora. Em 10/12, o exercício <em>purple</em> que retestou as detecções.</p>
+          <p>Em 16/12, a CISO Marina Prado leva à diretoria o relatório <strong>RPT-2026-12</strong>. São oito achados, dois já corrigidos e retestados. A diretoria pediu uma página e quer saber o que aprovar primeiro.</p>
+          <div class="pergunta">Como transformar o incidente e o exercício em um relatório que leve a diretoria a decidir e que permita medir a melhoria?</div>
+          <div class="papeis"><span><b>Apresenta</b> Marina Prado</span><span><b>Achados</b> Rafael Tavares</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Decide</b> a diretoria</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Governança -->
+  <!-- 4. Técnico e executivo -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Governança</p>
-      <h2>Segurança como decisão de negócio</h2>
+      <p class="kicker">Conceitos</p>
+      <h2>Um relatório, dois públicos</h2>
       <div class="slide-content-box">
-        <p>A função <strong>Governar</strong> (<em>Govern</em>), incluída no NIST CSF 2.0, lembra que a segurança começa na estratégia: apetite a riscos, papéis e responsabilidades, políticas e supervisão pela alta administração. Um programa contínuo de testes e melhoria precisa de:</p>
-        <ul>
-          <li><strong>Patrocínio executivo</strong>, com um responsável, como o CISO, que presta contas à diretoria ou ao conselho;</li>
-          <li><strong>Calendário anual</strong>: varreduras periódicas, <em>pentests</em> em sistemas novos, ciclos <em>purple</em> frequentes, uma operação de Red Team e exercícios <em>tabletop</em>;</li>
-          <li><strong>Gestão de achados</strong> com dono, prazo e reteste, integrada à gestão de riscos;</li>
-          <li><strong>Relatórios periódicos</strong> à liderança, em linguagem de risco e de negócio.</li>
-        </ul>
+        <table class="tabela-industrial">
+          <thead><tr><th>Aspecto</th><th>Relatório técnico</th><th>Sumário executivo</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Leitor</strong></td><td>SOC, engenharia de detecção, TI, auditoria</td><td>Diretoria e conselho</td></tr>
+            <tr><td><strong>Pergunta</strong></td><td>"O que aconteceu, com que evidência, e o que corrigir?"</td><td>"Quanto risco corremos e o que decidimos agora?"</td></tr>
+            <tr><td><strong>Conteúdo</strong></td><td>Linha do tempo, achados com evidência e técnica ATT&amp;CK, detecção e resposta, recomendações</td><td>O que aconteceu, risco atual, decisões pedidas, como a melhoria será medida</td></tr>
+            <tr><td><strong>Tamanho</strong></td><td>O necessário, com anexos</td><td>Uma página</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><p>O sumário executivo vem primeiro no documento, mas é escrito por último, depois que os achados estão fechados.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5. LAB calendário -->
+  <!-- 5. Anatomia de um achado -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Relatório técnico</p>
+      <h2>Anatomia de um achado: o A-03</h2>
+      <div class="slide-content-box">
+        <dl class="achado">
+          <dt>Título</dt><dd>Saída de dados sem alerta a tempo</dd>
+          <dt>Evidência</dt><dd>2,8 GB enviados do SRV-ERP-01 a 198.51.100.77 entre 02:37 e 03:05 de 02/12, vistos só no <em>pcap</em> do sensor; nenhum alerta</dd>
+          <dt>Técnica ATT&amp;CK</dt><dd>T1567.002, exfiltração para armazenamento em nuvem</dd>
+          <dt>Impacto</dt><dd>Planilhas de cobrança de 9.400 alunos e responsáveis; comunicação à ANPD</dd>
+          <dt>Risco</dt><dd>probabilidade 3 × impacto 5 = 15, <strong>crítico</strong></dd>
+          <dt>Recomendação</dt><dd>Ligar a fonte "acesso a <em>buckets</em> e saída de rede" e a regra R9 (feito em 10/12); reduzir a janela da R9</dd>
+          <dt>Dono e prazo</dt><dd>Rafael Tavares, 17/12/2026</dd>
+          <dt>Critério de reteste</dt><dd>Alerta da R9 em até 300 s no exercício <em>purple</em> · <strong>em 10/12 alertou em 540 s: segue aberto</strong></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Matriz de risco -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Avaliação de risco</p>
+      <h2>Matriz de risco: probabilidade × impacto</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Probabilidade</strong> (1 a 5): quão provável é que alguém explore o achado, considerando exposição, facilidade e o que a inteligência de ameaças mostra.</li>
+          <li><strong>Impacto</strong> (1 a 5): o dano se acontecer, com peso para dados de menores, saúde, biometria e pagamentos.</li>
+          <li><strong>Risco = probabilidade × impacto</strong>, de 1 a 25. Na Rede Tatame: 15 ou mais é <strong>crítico</strong>; 10 a 14, <strong>alto</strong>; 5 a 9, <strong>médio</strong>; 1 a 4, <strong>baixo</strong>.</li>
+          <li>A escala é ordinal e depende de julgamento: o relatório registra quem pontuou e por quê, para que a próxima avaliação use o mesmo critério.</li>
+        </ul>
+        <div class="callout-azul" style="margin-top:.6rem"><p>Severidade técnica (como o CVSS) mede a falha; o risco mede a falha naquele ambiente, com aquele dado e aquela exposição.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. LAB matriz de risco -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Planejamento</p><h2>O programa em um <em>slide</em>: o calendário de 2027</h2></div><span class="lab-badge purple">Programa contínuo</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Matriz de risco</p><h2>Os oito achados do RPT-2026-12 na matriz</h2></div><span class="lab-badge purple">Purple Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Organizar todas as atividades em um ano, cada uma com seu ritmo.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique no nome de um mês ou em uma célula.</p><p>2. Compare os ritmos: contínuo, mensal, semestral, anual e trimestral.</p></div>
-            <div class="rl obs"><b>Observe</b><p>Setembro concentra a operação de Red Team e o relatório trimestral: os achados chegam ao conselho no mesmo mês.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>O calendário mostra ao conselho que o teste é rotina, não evento.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ver onde cada achado cai na matriz e quantos são críticos.</div>
+            <div class="rl"><b>Faça</b>1. Clique em A-01, A-03 e A-07, um de cada vez.<br>2. Clique em "Todos os achados".<br>3. Clique em "Só os abertos".</div>
+            <div class="rl obs"><b>Observe</b>A-01 em 4 × 5 = 20, crítico. A-07 em 2 × 4 = 8, médio. Quatro críticos, dois altos e dois médios; os dois já retestados saem da lista.</div>
+            <div class="rl conc"><b>Conclusão</b>A matriz mostra para onde olhar primeiro, mas ainda não diz o que fazer primeiro.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-cal"></div>
+        <div class="lab-area" id="lab-matriz"></div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Roadmap e orçamento -->
+  <!-- 8. Recomendações priorizadas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Planejamento</p>
-      <h2>O <em>roadmap</em> e o orçamento</h2>
+      <p class="kicker">Recomendações</p>
+      <h2>Priorizar por risco e por esforço</h2>
       <div class="slide-content-box">
-        <p>Um <em>roadmap</em> de segurança conecta o estado atual, medido com as métricas e os modelos de maturidade da Aula 14, ao estado desejado, em etapas priorizadas por risco.</p>
-        <p>Para justificar investimentos, usa-se a <strong>expectativa de perda anual</strong> (<em>annualized loss expectancy</em>, ALE), que você conheceu na Unidade 1, e o <strong>retorno sobre o investimento em segurança</strong> (<em>return on security investment</em>, ROSI):</p>
-        <div class="callout-azul"><p style="text-align:center;font-size:1.15em">ROSI = (redução da perda esperada − custo da medida) ÷ custo da medida</p></div>
-        <p style="margin-top:.7em">Esses cálculos dependem de estimativas e devem ser apresentados com suas premissas, em faixas, e não como certezas.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. LAB flow: ciclo do programa -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver o ciclo que torna o programa contínuo</p><h2>Como os achados alimentam o <em>roadmap</em></h2></div><span class="lab-badge purple">Governança</span></div>
-      <div class="lab-area" id="lab-flow"></div>
-    </div>
-  </section>
-
-  <!-- 8. Exemplo numérico -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Justificando o programa</h2>
-      <div class="slide-content-box">
-        <p>Perda estimada de um incidente grave: <strong>R$ 8 milhões</strong>; probabilidade anual: <strong>12%</strong>. ALE = 0,12 × 8.000.000 = <strong>R$ 960.000</strong>. O programa custa <strong>R$ 300.000 por ano</strong>.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Cenário</th><th>Probabilidade final</th><th>Nova ALE</th><th>Redução</th><th>ROSI</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Premissas da equipe</strong></td><td>5%</td><td>R$ 400.000</td><td>R$ 560.000</td><td>(560.000 − 300.000) ÷ 300.000 ≈ <strong>87%</strong></td></tr>
-            <tr><td><strong>Conservador</strong></td><td>8%</td><td>R$ 640.000</td><td>R$ 320.000</td><td>(320.000 − 300.000) ÷ 300.000 ≈ <strong>7%</strong></td></tr>
-          </tbody>
-        </table>
-        <div class="callout-azul" style="margin-top:.8em"><p>Nos dois cenários o retorno é positivo, mas a diferença entre 87% e 7% mostra como as premissas importam. É assim que se apresenta à diretoria: as premissas na mesa e o resultado em faixa.</p></div>
+        <ul>
+          <li>Cada recomendação tem <strong>dono</strong>, <strong>prazo</strong> e <strong>critério de reteste</strong>. Sem dono, a recomendação vira opinião.</li>
+          <li><strong>Esforço</strong> de 1 a 3: dias, semanas ou meses de trabalho. Uma ordem simples é <strong>prioridade = risco ÷ esforço</strong>.</li>
+          <li><strong>Ganhos rápidos</strong> (<em>quick wins</em>): risco 10 ou mais com esforço 1. Entram já na semana seguinte.</li>
+          <li>O que exige projeto, como segmentar a rede da sede (A-06), vai para o <em>roadmap</em>. Até lá, a diretoria <strong>aceita formalmente o risco residual</strong> ou aprova uma medida provisória.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -187,29 +203,29 @@
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde as premissas e o código são lidos e executados</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>rosi.py</code> e o <code>priorizar.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>PyYAML</strong></td><td>Lê o <code>premissas.yaml</code> (o <code>import yaml</code> do <code>rosi.py</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
-            <tr><td>Módulo <strong>csv</strong></td><td>Lê o <code>roadmap.csv</code> no <code>priorizar.py</code></td><td>Biblioteca padrão: <code>docs.python.org/3/library/csv.html</code></td><td>Nada a instalar: vem com o Python</td></tr>
+            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde os dados do relatório e o código são lidos e executados</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>priorizar.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê o <code>metas.yaml</code> (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td>Módulos <strong>csv</strong> e <strong>datetime</strong></td><td>Leem o <code>achados.csv</code> e calculam os tempos do incidente</td><td>Biblioteca padrão: <code>docs.python.org/3/library</code></td><td>Nada a instalar: vêm com o Python</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> fixe a versão no <code>requirements.txt</code> com <code>==</code>, para que a conta levada ao conselho rode amanhã com o mesmo código de hoje. Na página do pacote no PyPI, em "Download files", cada arquivo tem o seu <em>hash</em> SHA-256, e o <code>pip install --require-hashes</code> recusa qualquer arquivo diferente do conferido. Depois, <code>pip freeze</code> lista o que ficou instalado: dependência também entra no inventário do programa de segurança.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> no PyPI, confira o nome do pacote letra por letra, o <em>link</em> "Source" para o repositório oficial e a data da versão. Fixe a versão com <code>==</code> no <code>requirements.txt</code>: os números que vão à diretoria precisam sair iguais se alguém rodar o script de novo daqui a um ano. Instale sempre dentro do ambiente virtual <code>.venv</code>.</div>
       </div>
     </div>
   </section>
 
-  <!-- 10. LAB VS Code: ROSI e roadmap -->
+  <!-- 10. LAB VS Code: priorizar e medir -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>O caso de negócio com as premissas à vista</h2></div><span class="lab-badge purple">Linguagem da diretoria</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Priorizar os achados e medir a melhoria</h2></div><span class="lab-badge purple">Purple Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Traduzir o programa em reais, com as premissas à vista do conselho.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Leia <code>premissas.yaml</code>.</p><p>3. Rode <code>rosi.py</code> (ALE, perda anual esperada, e ROSI, retorno do investimento em segurança).</p><p>4. Rode <code>priorizar.py</code>.</p></div>
-            <div class="rl obs"><b>Observe</b><p>ROSI de 87% no cenário otimista e 7% no conservador; o programa se paga abaixo de 8,25%. O <em>roadmap</em> usa R$ 240 mil de R$ 300 mil e o Red Team espera.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Premissas explícitas deixam o conselho decidir com o risco à vista.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Gerar a ordem das recomendações e os indicadores que vão ao sumário executivo.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>achados.csv</code> e <code>metas.yaml</code>.<br>3. Rode "Priorizar achados".<br>4. Rode "Indicadores de melhoria".</div>
+            <div class="rl obs"><b>Observe</b>A-01, A-02, A-03 e A-04 são os ganhos rápidos. MTTD de 4 h 21 min 50 s e 4 h 05 min de alerta parado, fora da meta; MTTR de 21 min, dentro. Cobertura testada do exercício de 50% para 83%.</div>
+            <div class="rl conc"><b>Conclusão</b>A conta fica no código e as premissas no YAML: qualquer pessoa refaz os números.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -217,66 +233,59 @@
     </div>
   </section>
 
-  <!-- 11. PLATAFORMA REDE TATAME -->
+  <!-- 11. Métricas de melhoria -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Métricas de melhoria</p>
+      <h2>Poucos números, cada um com meta e dono</h2>
+      <div class="slide-content-box">
+        <table class="tabela-industrial">
+          <thead><tr><th>Indicador</th><th>Definição</th><th>No RPT-2026-12</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MTTD</strong></td><td>Primeiro evento malicioso até a abertura do caso</td><td>4 h 21 min 50 s (meta: até 1 h)</td></tr>
+            <tr><td><strong>MTTR</strong></td><td>Abertura do caso até a contenção</td><td>21 min (meta: até 30 min)</td></tr>
+            <tr><td><strong>Cobertura testada</strong></td><td>Técnicas com detecção comprovada ÷ técnicas priorizadas</td><td>Exercício <em>purple</em>: 3 de 6 (50%) → 5 de 6 (83%)</td></tr>
+            <tr><td><strong>Visibilidade</strong></td><td>Técnicas com telemetria ÷ técnicas priorizadas</td><td>5 de 6 (83%) → 6 de 6 (100%)</td></tr>
+            <tr><td><strong>Ações no prazo e retestadas</strong></td><td>Ações concluídas no prazo; concluídas que passaram no reteste</td><td>3 de 6 no prazo; 2 de 3 retestadas</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.6rem"><p>Com vários incidentes, acompanhe também a <strong>mediana</strong>, porque um caso extremo distorce a média. E lembre a Lei de Goodhart: um SOC cobrado só por MTTR tende a fechar casos cedo demais.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Do ponto cego ao <em>roadmap</em></h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Das lacunas do incidente às recomendações</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
       <div class="lab-split plat">
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Tirar as linhas do <em>roadmap</em> dos pontos cegos da plataforma.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Em <strong>Arquitetura</strong>, clique em Catracas IoT e Data lake: telemetria desligada. Em <strong>Cobertura ATT&amp;CK</strong>: 4 cegas, 38%.</p><p>2. Em <strong>Telemetria</strong>, ligue as três fontes desligadas.</p><p>3. Em <strong>Regras do CEP</strong>, ligue R9, R10 e R12.</p></div>
-            <div class="rl obs"><b>Observe</b><p>Com as fontes, o custo vai a R$ 2.586 por mês e as cegas somem. Só com as regras a cobertura sobe de 38% para 63%.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Nada está comprovado: o próximo item do <em>roadmap</em> é um ciclo <em>purple</em>.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ver na plataforma as lacunas que viraram recomendações e o que custa fechá-las.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cobertura ATT&amp;CK</strong>, ache T1219 (parcial) e T1567.002 (cega).<br>2. Em <strong>Telemetria</strong>, ligue "Acesso a buckets e saída de rede".<br>3. Em <strong>Regras do CEP</strong>, ligue R8 e R9.<br>4. Volte à <strong>Cobertura ATT&amp;CK</strong>.<br>5. Ponha a velocidade em "1 s = 1 min", inicie em <strong>Cenários</strong> "Acesso remoto não aprovado e saída de dados" e volte à Cobertura.</div>
+            <div class="rl obs"><b>Observe</b>O custo vai de R$ 2.462 para R$ 2.560 por mês. A cobertura com regra sobe de 38% para 50%, mas só o cenário rodado transforma as duas técnicas em comprovadas.</div>
+            <div class="rl conc"><b>Conclusão</b>No relatório, só conta como corrigido o que passou no reteste.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 12. Tendências: Zero Trust e nuvem -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Tendências</p>
-      <h2>Zero Trust e nuvem mudam o que se testa</h2>
-      <div class="slide-content-box">
-        <p><strong>Zero Trust.</strong> O modelo descrito no NIST SP 800-207 elimina a confiança implícita na localização de rede: cada acesso é verificado com base em identidade, dispositivo e contexto. Para o <em>purple teaming</em>, isso significa testar sobretudo o abuso de identidades e credenciais válidas.</p>
-        <p><strong>Nuvem.</strong> Com serviços em nuvem, parte da superfície de ataque passa a ser formada por configurações, identidades e APIs. A matriz ATT&amp;CK tem uma seção específica para nuvem, e os planos de emulação precisam incluí-la.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13. Tendências: IA -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Tendências</p>
-      <h2>Inteligência artificial nos dois lados</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li><strong>No ataque</strong>: relatórios como o <em>ENISA Threat Landscape</em> registram o uso de IA generativa para tornar a engenharia social mais convincente e em maior escala.</li>
-          <li><strong>Na defesa</strong>: a IA apoia a triagem de alertas, o resumo de investigações e a análise de grandes volumes de dados. Os ganhos são reais, mas as ferramentas erram e exigem supervisão humana.</li>
-          <li><strong>Como alvo</strong>: os próprios sistemas de IA também são atacados. A MITRE mantém o ATLAS, uma base de táticas e técnicas contra sistemas de IA, nos moldes do ATT&amp;CK.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- 14. LAB browser: IA -->
+  <!-- 13. LAB browser: sumário executivo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>IA no ataque e na defesa, sem exagero</h2></div><span class="lab-badge blue">Portal interno</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>O sumário executivo de uma página</h2></div><span class="lab-badge blue">Linguagem da diretoria</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ver onde a IA ajuda e onde engana, nos dois lados.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Na aba <strong>Conscientização</strong>, compare o <em>phishing</em> antigo com o escrito por IA.</p><p>2. Na aba <strong>Assistente do SOC</strong>, clique em "Conferir com a linha do tempo".</p></div>
-            <div class="rl obs"><b>Observe</b><p>O resumo da IA trocou os nomes dos notebooks e omitiu um host; Luiza Ferraz corrigiu antes do relatório.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>A IA acelera a leitura, mas quem assina o caso é a analista.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ler o RPT-2026-12 como a diretoria vai ler.</div>
+            <div class="rl"><b>Faça</b>1. Leia os quatro blocos da aba "Sumário executivo".<br>2. Clique em "Anexo técnico".<br>3. Volte e clique em "Registrar decisões".</div>
+            <div class="rl obs"><b>Observe</b>Nenhum ID de técnica na primeira página: risco, decisão e prazo. O anexo traz evidência e técnica ATT&amp;CK de cada achado.</div>
+            <div class="rl conc"><b>Conclusão</b>Três decisões, cada uma com dono, prazo e indicador.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-brw"></div>
@@ -284,50 +293,16 @@
     </div>
   </section>
 
-  <!-- 15. Carreira -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Carreira</p>
-      <h2>Os caminhos de Red, Blue e Purple</h2>
-      <div class="slide-content-box">
-        <p>O NIST NICE Framework (SP 800-181 Rev. 1) organiza a força de trabalho em cibersegurança em funções de trabalho (<em>work roles</em>), com tarefas, conhecimentos e habilidades associados.</p>
-        <table class="tabela-industrial" style="font-size:.9em">
-          <thead><tr><th>Função</th><th>O que faz</th><th>Certificações conhecidas</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Analista de SOC</strong></td><td>Triagem e investigação de alertas</td><td>CompTIA Security+, CompTIA CySA+</td></tr>
-            <tr><td><strong><em>Pentester</em></strong></td><td>Testes de invasão em escopo definido</td><td>CompTIA PenTest+, OSCP (OffSec)</td></tr>
-            <tr><td><strong>Operador de Red Team</strong></td><td>Emulação de adversários orientada a objetivos</td><td>OSCP e certificações avançadas de Red Team</td></tr>
-            <tr><td><strong>Engenheiro de detecção</strong></td><td>Cria, testa e mantém regras de detecção</td><td>GIAC (por exemplo, GCIA), CySA+</td></tr>
-            <tr><td><strong>Resposta a incidentes</strong></td><td>Contenção, investigação e recuperação</td><td>GIAC GCIH</td></tr>
-            <tr><td><strong><em>Threat hunter</em> / CTI</strong></td><td>Caça proativa e inteligência de ameaças</td><td>GIAC (por exemplo, GCTI)</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.6em">Certificações ajudam a comprovar conhecimento, mas a prática pesa tanto quanto elas: laboratórios, CTFs, relatórios bem escritos e contribuições a projetos abertos demonstram competência real.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 16. LAB mapa de carreira -->
+  <!-- 14. LAB flow: ciclo contínuo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Explorador de carreira</p><h2>O mapa de trilhas em formato de metrô</h2></div><span class="lab-badge purple">NICE Framework</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Escolher um caminho profissional dentro do programa.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em cada estação para ver função, certificações e primeiro passo.</p><p>2. Escolha uma estação de chegada e anote o primeiro passo.</p></div>
-            <div class="rl obs"><b>Observe</b><p>A linha vermelha é ofensiva, a azul é defensiva e a roxa liga as duas pela engenharia de detecção e pela caça a ameaças.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>As trilhas se cruzam: muita gente começa no SOC e migra para o Red Team.</p></div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-car"></div>
-      </div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver como o relatório reabre o ciclo</p><h2>O relatório alimenta o próximo exercício</h2></div><span class="lab-badge purple">Programa contínuo</span></div>
+      <div class="lab-area" id="lab-flow"></div>
     </div>
   </section>
 
-  <!-- 17. O caminho percorrido -->
+  <!-- 15. O caminho percorrido -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -335,34 +310,33 @@
       <h2>O caminho percorrido nas quatro unidades</h2>
       <div class="slide-content-box">
         <div class="uni-grid">
-          <div><h3>Unidade 1</h3><p>A base: os papéis de Red, Blue e Purple, a ética e a legalidade, a Kill Chain, o ATT&amp;CK e os fundamentos da defesa.</p></div>
-          <div><h3>Unidade 2</h3><p>Uma operação ofensiva controlada, sempre perguntando que rastro cada ação deixa.</p></div>
-          <div><h3>Unidade 3</h3><p>Como a defesa coleta telemetria, detecta, caça ameaças e responde a incidentes.</p></div>
-          <div><h3>Unidade 4</h3><p>Tudo unido em ciclos de melhoria mensuráveis, exercícios e um programa contínuo.</p></div>
+          <div><h3>Unidade 1</h3><p>Planejar: papéis das quatro cores, regras de engajamento, ATT&amp;CK e inteligência de ameaças.</p></div>
+          <div><h3>Unidade 2</h3><p>Atacar em laboratório: reconhecimento, acesso inicial, movimentação lateral e o rastro de cada técnica.</p></div>
+          <div><h3>Unidade 3</h3><p>Defender: telemetria, SIEM, regras, caça a ameaças e <em>hardening</em>.</p></div>
+          <div><h3>Unidade 4</h3><p>Responder e melhorar: incidente, evidências, exercício <em>purple</em> e relatório final.</p></div>
         </div>
-        <p style="margin-top:.9em">Na Videoaula 1, a pergunta era: por que alguém pagaria para ser atacado? Porque só um ataque autorizado, medido e seguido de correção e reteste transforma "achamos que estamos seguros" em evidência que a diretoria pode usar para decidir.</p>
-        <p>No estudo de caso da disciplina, você aplica esse caminho de ponta a ponta: modela um adversário, escreve regras de engajamento, mapeia telemetria e lacunas, propõe detecções e métricas e apresenta o programa ao conselho.</p>
+        <p style="margin-top:.8em">Cada etapa tem um papel profissional: analista de SOC, resposta a incidentes, engenharia de detecção, <em>threat hunting</em>, <em>pentest</em> e Red Team. O NICE Framework do NIST descreve essas funções; laboratórios, CTFs e relatórios bem escritos mostram a sua prática.</p>
       </div>
     </div>
   </section>
 
-  <!-- 18. De volta ao problema -->
+  <!-- 16. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>"Estamos seguros?" Agora há como responder</h2>
+      <h2>A diretoria decidiu em uma reunião</h2>
       <div class="resolvido">
-        <div class="ev"><b>Um calendário</b>Varreduras, <em>pentests</em>, ciclos <em>purple</em>, <em>tabletops</em> e Red Team com ritmo fixo e relatório trimestral.</div>
-        <div class="ev"><b>Um caso de negócio</b>ALE de R$ 960 mil, ROSI de 7% a 87% e um <em>roadmap</em> que cabe em R$ 300 mil.</div>
-        <div class="ev"><b>Um <em>roadmap</em> a partir das lacunas</b>Na plataforma, fontes e regras novas levam a cobertura de 38% para 63%, a R$ 2.586 por mês.</div>
-        <div class="ev"><b>Quatro unidades de evidência</b>Ataque autorizado (U1 e U2), detecção medida (U3), melhoria retestada e exercitada (U4).</div>
-        <div class="resposta">Resposta à pergunta da aula: com um programa contínuo, governado pela CISO, com calendário, orçamento em linguagem de risco e achados que viram ações retestadas. E à pergunta da Aula 1: a Rede Tatame ainda não está 100% segura, mas agora sabe o que detecta, em quanto tempo responde e o que falta, e mede isso todo trimestre.</div>
+        <div class="ev"><b>Achados comparáveis</b>Oito achados com evidência, técnica, risco, dono e prazo; quatro críticos, dois já retestados.</div>
+        <div class="ev"><b>Uma ordem de ação</b>Risco ÷ esforço põe A-01, A-02, A-03 e A-04 na semana seguinte e a segmentação no <em>roadmap</em>.</div>
+        <div class="ev"><b>Números com meta</b>MTTD de 4 h 21 min contra meta de 1 h; MTTR de 21 min dentro da meta; cobertura testada de 50% para 83%.</div>
+        <div class="ev"><b>Um ciclo que continua</b>O próximo exercício retesta os abertos e o próximo relatório compara com este.</div>
+        <div class="resposta">Resposta à pergunta da aula: o relatório separa o técnico do executivo, pontua cada achado na matriz de risco, ordena as recomendações por risco e esforço e escolhe poucas métricas com meta. Assim a diretoria decide, e o exercício seguinte mostra se melhorou.</div>
       </div>
     </div>
   </section>
 
-  <!-- 19. Pontos-chave -->
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -370,39 +344,41 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Um programa contínuo integra testes, exercícios e melhorias sob governança e orçamento.</li>
-          <li>ALE e ROSI ajudam a justificar investimentos, desde que as premissas sejam explicitadas.</li>
-          <li>Zero Trust, nuvem e IA mudam o que precisa ser testado e defendido.</li>
-          <li>O NICE Framework e as certificações orientam a carreira; a prática a consolida.</li>
+          <li>O relatório final tem duas camadas: técnica, com evidências, e executiva, em uma página.</li>
+          <li>Cada achado traz evidência, técnica ATT&amp;CK, impacto, risco, recomendação, dono, prazo e critério de reteste.</li>
+          <li>A matriz probabilidade × impacto classifica o risco; risco ÷ esforço ordena as recomendações.</li>
+          <li>Métricas de melhoria têm definição, meta e dono, e só o que foi retestado conta como corrigido.</li>
+          <li>O relatório fecha um ciclo e abre o próximo exercício.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 20. Referências -->
+  <!-- 18. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>EUROPEAN UNION AGENCY FOR CYBERSECURITY. <em>ENISA threat landscape 2024</em>. Atenas: ENISA, 2024.</p>
-        <p>MITRE. <em>ATLAS</em>: adversarial threat landscape for artificial-intelligence systems. Disponível em: &lt;https://atlas.mitre.org/&gt;. Acesso em: 13 nov. 2026.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. <em>ABNT NBR ISO 31000</em>: gestão de riscos: diretrizes. Rio de Janeiro: ABNT, 2018.</p>
+        <p>JOINT TASK FORCE TRANSFORMATION INITIATIVE. <em>SP 800-30 Rev. 1</em>: guide for conducting risk assessments. Gaithersburg: NIST, 2012. DOI: 10.6028/NIST.SP.800-30r1.</p>
+        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>Computer security incident handling guide</em>. Gaithersburg: NIST, 2012. (SP 800-61 Rev. 2).</p>
         <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>The NIST cybersecurity framework (CSF) 2.0</em>. Gaithersburg: NIST, 2024. DOI: 10.6028/NIST.CSWP.29.</p>
         <p>PETERSEN, Rodney <em>et al</em>. <em>SP 800-181 Rev. 1</em>: workforce framework for cybersecurity (NICE framework). Gaithersburg: NIST, 2020. DOI: 10.6028/NIST.SP.800-181r1.</p>
-        <p>ROSE, Scott <em>et al</em>. <em>SP 800-207</em>: zero trust architecture. Gaithersburg: NIST, 2020. DOI: 10.6028/NIST.SP.800-207.</p>
+        <p>STRATHERN, Marilyn. 'Improving ratings': audit in the British university system. <em>European Review</em>, v. 5, n. 3, p. 305-321, 1997.</p>
       </div>
     </div>
   </section>
 
-  <!-- 21. Encerramento da disciplina -->
+  <!-- 19. Encerramento da disciplina -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento da disciplina</h1>
-      <p class="fim-texto">O próximo passo é seu: pratique em laboratórios e CTFs, explore a matriz ATT&amp;CK, escolha uma trilha de carreira e uma certificação inicial. E lembre que, nesta área, autorização e ética vêm antes de qualquer técnica. Obrigado por percorrer este caminho até aqui.</p>
+      <p class="fim-texto">Você planejou uma operação, atacou e defendeu a Rede Tatame em laboratório, respondeu a um incidente, validou detecções e escreveu o relatório que leva à decisão. Continue praticando em ambientes autorizados: nesta área, autorização e ética vêm antes de qualquer técnica.</p>
       <p class="fim-proxima">Red Team &amp; Blue Team Strategies · fim da Unidade 4 e da disciplina.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
@@ -414,69 +390,73 @@
 <script src="../../assets/labs.js"></script>
 <script>
 /* ---------- 3. Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'ad', 'arq', 'erp', 'kafka', 'cep', 'lake', 'catraca', 'edr', 'gw'], alvo: 'siem', caminho: ['cep', 'siem'],
-  legenda: 'Onde a aula acontece: a plataforma inteira. O programa contínuo cobre nuvem, sede e catracas, e tudo converge para o SOC (em vermelho) e o relatório ao conselho.' });
+Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'erp', 'edr', 'siem', 'hml'], alvo: 'erp', caminho: ['net', 'vpn', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o caminho do incidente, da VPN ao SRV-ERP-01 (em vermelho), a homologação esquecida e o SOC que mede a resposta.' });
 
-/* ---------- 5. Calendário anual ---------- */
-Labs.register('#lab-cal', (el) => {
-  const M = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-  const L = [
-    { n: 'Varreduras', cor: '#58C4E8', ritmo: 'contínuo', meses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], txt: () => 'varreduras de vulnerabilidade contínuas, com os achados críticos tratados na gestão de achados' },
-    { n: 'Pentests', cor: '#FF5C7A', ritmo: 'sob demanda', meses: [2, 6, 9], txt: (m) => 'pentest em sistema novo: ' + ({ 2: 'nova versão do portal gestao.tatame.com.br', 6: 'API de check-in das catracas', 9: 'nova versão do app do aluno' })[m] },
-    { n: 'Ciclos purple', cor: '#9B6BFF', ritmo: 'mensal', meses: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], txt: () => 'ciclo purple com técnicas priorizadas pela CTI, atualizando a cobertura testada' },
-    { n: 'Tabletop', cor: '#F2CB0A', ritmo: 'semestral', meses: [4, 10], txt: (m) => 'exercício tabletop ' + (m === 4 ? 'de ransomware com a diretoria' : 'de vazamento de fichas de alunos com DPO, jurídico e comunicação') },
-    { n: 'Red Team', cor: '#FF2B5F', ritmo: 'anual', meses: [8], txt: () => 'operação anual de Red Team, com objetivos definidos e regras de engajamento assinadas' },
-    { n: 'Relatório', cor: '#3FD47A', ritmo: 'trimestral', meses: [2, 5, 8, 11], txt: () => 'relatório à liderança: tendências de MTTD, MTTR e cobertura, riscos aceitos e próximos passos do roadmap' }
+/* ---------- 7. Matriz de risco ---------- */
+Labs.register('#lab-matriz', (el) => {
+  const A = [
+    { id: 'A-01', t: 'VPN aceita MFA por push sem correspondência de número', tec: 'T1078', p: 4, i: 5, e: 1, dono: 'Caio Mendes', prazo: '18/12/2026', st: 'aberto', rec: 'Exigir correspondência de número no MFA da VPN e bloquear após 3 push recusados.' },
+    { id: 'A-02', t: 'Alerta alto fora do horário espera o plantão', tec: 'processo', p: 4, i: 4, e: 1, dono: 'Luiza Ferraz', prazo: '18/12/2026', st: 'aberto', rec: 'Escalonar automaticamente alertas altos e críticos para o plantão em até 15 min.' },
+    { id: 'A-03', t: 'Saída de dados com alerta lento (R9 em 540 s)', tec: 'T1567.002', p: 3, i: 5, e: 1, dono: 'Rafael Tavares', prazo: '17/12/2026', st: 'aberto', rec: 'Fonte e R9 ligadas em 10/12; reduzir a janela da R9 para alertar em até 300 s.' },
+    { id: 'A-04', t: 'hml-gestao exposto sem WAF e com dados reais', tec: 'T1190', p: 3, i: 5, e: 1, dono: 'Caio Mendes', prazo: '18/12/2026', st: 'aberto', rec: 'Retirar do ar e apagar a cópia de dados reais.' },
+    { id: 'A-05', t: 'RDP da VPN para servidores sem alerta (R5)', tec: 'T1021.001', p: 4, i: 3, e: 1, dono: 'Rafael Tavares', prazo: '10/12/2026', st: 'retestado', rec: 'Ligar a R5 com exceção para o servidor de salto.' },
+    { id: 'A-06', t: 'SRV-ERP-01 alcançável direto da VPN', tec: 'T1021.001', p: 3, i: 4, e: 3, dono: 'Caio Mendes', prazo: '31/03/2027', st: 'aberto', rec: 'Segmentar a sede: servidores só pelo servidor de salto.' },
+    { id: 'A-07', t: 'CPF completo em planilhas de cobrança', tec: 'LGPD', p: 2, i: 4, e: 2, dono: 'Ana Lima', prazo: '26/02/2027', st: 'aberto', rec: 'Mascarar o CPF nas exportações; guardar só o necessário.' },
+    { id: 'A-08', t: 'Consulta em massa ao AD sem alerta (R13)', tec: 'T1087.002', p: 3, i: 2, e: 1, dono: 'Rafael Tavares', prazo: '10/12/2026', st: 'retestado', rec: 'Ligar a regra R13.' }
   ];
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.7rem;min-height:0">
-    <h4>Calendário do programa contínuo · 2027 · Rede Tatame</h4>
-    <div class="cal"><div></div>${M.map((m, i) => `<div class="h" data-m="${i}">${m}</div>`).join('')}
-    ${L.map((l, j) => `<div class="lane" style="border-left:4px solid ${l.cor};padding-left:8px">${l.n}<br><small style="color:#9FB0C8;font-weight:500">${l.ritmo}</small></div>` +
-      M.map((m, i) => `<div class="c${l.meses.includes(i) ? ' on' : ''}" data-m="${i}" style="${l.meses.includes(i) ? 'background:' + l.cor + (j === 0 || j === 2 ? '88' : '') : ''}"></div>`).join('')).join('')}</div>
-    <div class="cal-det"></div></div>`;
-  const det = el.querySelector('.cal-det');
-  function pick(i) {
-    el.querySelectorAll('.h').forEach((h) => h.classList.toggle('sel', +h.dataset.m === i));
-    el.querySelectorAll('.c').forEach((c) => c.classList.toggle('sel', +c.dataset.m === i));
-    const at = L.filter((l) => l.meses.includes(i));
-    det.innerHTML = `<b>${M[i].toUpperCase()}/2027</b> · ${at.length} atividades<br>` + at.map((l) => `<span style="color:${l.cor}">●</span> ${l.txt(i)}`).join('<br>') +
-      '<br><span style="color:#9FB0C8">Todos os achados entram na mesma gestão, com dono, prazo e reteste, e alimentam o roadmap.</span>';
+  const cls = (r) => (r >= 15 ? ['crítico', 'crit'] : r >= 10 ? ['alto', 'alto'] : r >= 5 ? ['médio', 'med'] : ['baixo', 'baixo']);
+  let grid = '';
+  for (let p = 5; p >= 1; p--) {
+    grid += `<span class="ax">${p}</span>`;
+    for (let i = 1; i <= 5; i++) grid += `<div class="cel ${cls(p * i)[1]}" data-c="${p}-${i}"></div>`;
   }
-  el.querySelectorAll('.h, .c').forEach((x) => x.addEventListener('click', () => pick(+x.dataset.m)));
-  pick(8);
+  grid += '<span class="ax"></span>' + [1, 2, 3, 4, 5].map((i) => `<span class="ax">${i}</span>`).join('');
+  el.innerHTML = `<div class="lab-panel rm">
+    <div><div class="rm-grid">${grid}</div><div class="rm-eixo">linhas: probabilidade · colunas: impacto</div></div>
+    <div class="rm-lado">
+      <div class="rm-btns">${A.map((a) => `<button class="lab-btn ghost" data-a="${a.id}">${a.id}</button>`).join('')}</div>
+      <div class="rm-btns" style="grid-template-columns:1fr 1fr"><button class="lab-btn" data-all="1">Todos os achados</button><button class="lab-btn blue" data-abertos="1">Só os abertos</button></div>
+      <div class="rm-det">Clique em um achado para ver a pontuação e a recomendação.</div>
+      <div class="rm-kpis"><div class="lab-kpi red"><small>Críticos</small><b id="k-crit">—</b></div><div class="lab-kpi amber"><small>Altos</small><b id="k-alto">—</b></div><div class="lab-kpi blue"><small>Médios</small><b id="k-med">—</b></div><div class="lab-kpi green"><small>Retestados</small><b id="k-ok">—</b></div></div>
+    </div></div>`;
+  const det = el.querySelector('.rm-det');
+  let vis = new Set(), sel = null;
+  function draw() {
+    el.querySelectorAll('.cel').forEach((c) => (c.innerHTML = ''));
+    A.filter((a) => vis.has(a.id)).forEach((a) => {
+      el.querySelector(`[data-c="${a.p}-${a.i}"]`).insertAdjacentHTML('beforeend', `<i class="${a.id === sel ? 'sel' : ''} ${a.st === 'retestado' ? 'ok' : ''}">${a.id.slice(2)}</i>`);
+    });
+    el.querySelectorAll('[data-a]').forEach((b) => b.classList.toggle('on', b.dataset.a === sel));
+    const shown = A.filter((a) => vis.has(a.id));
+    const n = (k) => shown.filter((a) => cls(a.p * a.i)[1] === k).length;
+    el.querySelector('#k-crit').textContent = shown.length ? n('crit') : '—';
+    el.querySelector('#k-alto').textContent = shown.length ? n('alto') : '—';
+    el.querySelector('#k-med').textContent = shown.length ? n('med') : '—';
+    el.querySelector('#k-ok').textContent = shown.length ? shown.filter((a) => a.st === 'retestado').length : '—';
+  }
+  el.querySelectorAll('[data-a]').forEach((b) => b.addEventListener('click', () => {
+    const a = A.find((x) => x.id === b.dataset.a); sel = a.id; vis.add(a.id);
+    const r = a.p * a.i;
+    det.innerHTML = `<b>${a.id} · ${a.t}</b><br>${a.tec} · probabilidade ${a.p} × impacto ${a.i} = <b>${r}</b>, ${cls(r)[0]}<br>Recomendação: ${a.rec}<br>Dono: ${a.dono} · prazo ${a.prazo} · ${a.st === 'retestado' ? 'corrigido e retestado em 10/12' : 'aberto'}`;
+    draw();
+  }));
+  el.querySelector('[data-all]').addEventListener('click', () => {
+    sel = null; vis = new Set(A.map((a) => a.id));
+    det.innerHTML = '<b>Oito achados</b><br>Quatro caem na zona vermelha (15 ou mais). Os riscados são os dois que o exercício de 10/12 já corrigiu e retestou: A-05 e A-08.';
+    draw();
+  });
+  el.querySelector('[data-abertos]').addEventListener('click', () => {
+    sel = null; vis = new Set(A.filter((a) => a.st === 'aberto').map((a) => a.id));
+    det.innerHTML = '<b>Seis abertos</b><br>Quatro críticos (A-01, A-02, A-03, A-04), um alto (A-06) e um médio (A-07). Esta é a lista que vai para a decisão da diretoria.';
+    draw();
+  });
+  draw();
 });
 
-/* ---------- 7. Fluxo: ciclo do programa ---------- */
-Labs.flow('#lab-flow', {
-  w: 1100, h: 440,
-  nodes: [
-    { id: 'gov', x: 550, y: 220, label: 'Governança', sub: 'CISO e conselho', icon: '🏛️', k: 'amber', w: 200, h: 74 },
-    { id: 'medir', x: 550, y: 55, label: 'Medir', sub: 'métricas e maturidade', icon: '📏', k: 'blue', w: 210 },
-    { id: 'prio', x: 900, y: 130, label: 'Priorizar por risco', sub: 'ALE e premissas', icon: '⚖️', k: 'amber', w: 210 },
-    { id: 'road', x: 900, y: 320, label: 'Roadmap', sub: 'etapas e orçamento', icon: '🗺️', k: 'purple', w: 200 },
-    { id: 'exec', x: 550, y: 390, label: 'Testes e exercícios', sub: 'calendário anual', icon: '🎯', k: 'red', w: 220 },
-    { id: 'ach', x: 200, y: 320, label: 'Gestão de achados', sub: 'dono, prazo, reteste', icon: '📋', k: 'green', w: 210 },
-    { id: 'rep', x: 200, y: 130, label: 'Relato à liderança', sub: 'risco e negócio', icon: '📈', k: 'blue', w: 210 }
-  ],
-  links: [
-    { from: 'medir', to: 'prio', curve: -40 }, { from: 'prio', to: 'road' }, { from: 'road', to: 'exec', curve: -40 },
-    { from: 'exec', to: 'ach', curve: -40 }, { from: 'ach', to: 'rep' }, { from: 'rep', to: 'medir', curve: -40 },
-    { from: 'gov', to: 'rep', dashed: true }, { from: 'gov', to: 'road', dashed: true }
-  ],
-  steps: [
-    { title: '1 · Medir o estado atual', text: 'Cobertura testada de 45%, MTTD mediano de 18 h, tier 2 do CSF. Os números saem das métricas e do modelo de maturidade da Aula 14.', on: ['medir'], links: [['medir', 'prio', 'blue']] },
-    { title: '2 · Priorizar por risco', text: 'Quais lacunas mais expõem a Rede Tatame? A ALE de cada cenário, com as premissas explícitas, ordena as prioridades.', on: ['prio'], links: [['prio', 'road', 'amber']] },
-    { title: '3 · Montar o roadmap', text: 'Etapas trimestrais, cada uma com orçamento e meta: por exemplo, ciclos purple mensais e telemetria de nuvem no primeiro semestre.', on: ['road'], links: [['road', 'exec', 'purple']] },
-    { title: '4 · Executar testes e exercícios', text: 'O calendário roda: varreduras, pentests em sistemas novos, ciclos purple, tabletops e a operação anual de Red Team.', on: ['exec'], links: [['exec', 'ach', 'red']] },
-    { title: '5 · Gerir os achados', text: 'Cada achado vira uma ação com dono e prazo, ligada à gestão de riscos. Só é fechado depois do reteste.', on: ['ach'], links: [['ach', 'rep', 'green']] },
-    { title: '6 · Relatar à liderança', text: 'Linguagem de risco e de negócio: "a cobertura das técnicas mais usadas contra o nosso setor subiu de 45% para 72% no semestre".', on: ['rep', 'gov'], links: [['ach', 'rep', 'blue'], ['gov', 'rep', 'amber']] },
-    { title: '7 · O ciclo recomeça', text: 'A liderança decide apetite a riscos e orçamento; a nova medição mostra o efeito das ações e reabastece o roadmap. É isso que torna o programa contínuo.', on: ['gov', 'medir', 'prio', 'road', 'exec', 'ach', 'rep'], links: [['rep', 'medir', 'purple'], ['gov', 'road', 'amber']] }
-  ]
-});
-
-/* ---------- 9. VS Code: ROSI e roadmap ---------- */
+/* ---------- 10. VS Code: priorizar e medir ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'caso-de-negocio', team: 'purple', status: 'Python 3.12', open: 'premissas.yaml', typeOnEnter: true,
+  folder: 'rpt-2026-12', team: 'purple', status: 'Python 3.12', open: 'achados.csv', typeOnEnter: false,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -487,121 +467,173 @@ Labs.vscode('#lab-vsc', {
       { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
       'Installing collected packages: PyYAML',
       '[ok] Successfully installed PyYAML-6.0.3' ] },
-    { cmd: 'pip freeze', out: ['[ok] PyYAML==6.0.3'] }
+    { cmd: 'pip list', out: [
+      'Package Version',
+      '------- -------',
+      'pip     24.2',
+      'PyYAML  6.0.3' ] }
   ],
   files: [
     { path: 'requirements.txt', code:
-`# Pacote de terceiros que o rosi.py importa (o csv do priorizar.py vem com o Python)
+`# Pacotes de terceiros que o laboratório usa (csv e datetime vêm com o Python)
 PyYAML==6.0.3`},
-    { path: 'premissas.yaml', hl: [3, 4, 5, 7, 8], code:
-`# Premissas do caso de negócio: programa contínuo de segurança da Rede Tatame
-# Fonte: workshop de risco com Finanças e Operações (estimativas, não certezas)
-impacto_incidente_grave: 8000000      # R$, perda estimada de um incidente grave
-probabilidade_atual: 0.12             # chance anual sem o programa
-custo_programa_anual: 300000          # R$, pessoas + ferramentas + exercícios
-cenarios:
-  otimista:     { probabilidade_final: 0.05 }
-  conservador:  { probabilidade_final: 0.08 }`},
-    { path: 'rosi.py', hl: [16, 17, 18], code:
-`"""ALE e ROSI por cenário. Apresente as premissas junto com o resultado."""
+    { path: 'achados.csv', hl: [2, 5], code:
+`id,titulo,tecnica,prob,impacto,esforco,dono,prazo,status
+A-01,VPN aceita MFA por push sem correspondência de número,T1078,4,5,1,Caio Mendes,18/12/2026,aberto
+A-02,Alerta alto fora do horário espera o plantão,processo,4,4,1,Luiza Ferraz,18/12/2026,aberto
+A-03,Saída de dados com alerta lento (R9 em 540 s),T1567.002,3,5,1,Rafael Tavares,17/12/2026,aberto
+A-04,hml-gestao exposto sem WAF e com dados reais,T1190,3,5,1,Caio Mendes,18/12/2026,aberto
+A-05,RDP da VPN para servidores sem alerta (R5),T1021.001,4,3,1,Rafael Tavares,10/12/2026,retestado
+A-06,SRV-ERP-01 alcançável direto da VPN,T1021.001,3,4,3,Caio Mendes,31/03/2027,aberto
+A-07,CPF completo em planilhas de cobrança,LGPD,2,4,2,Ana Lima,26/02/2027,aberto
+A-08,Consulta em massa ao AD sem alerta (R13),T1087.002,3,2,1,Rafael Tavares,10/12/2026,retestado`},
+    { path: 'metas.yaml', hl: [8, 9, 10, 11], code:
+`# RPT-2026-12 — regras do relatório e marcos do incidente INC-2026-1202-01
+classes:            # risco = probabilidade x impacto (escala 1 a 5)
+  critico: 15
+  alto: 10
+  medio: 5
+  baixo: 1
+marcos:
+  primeiro_evento: "2026-12-01T22:58:10"   # login na VPN com fadiga de MFA
+  alerta:          "2026-12-01T23:14:40"   # R8, ConectaJá no SRV-ERP-01
+  caso_aberto:     "2026-12-02T03:20:00"   # Luiza Ferraz abre o caso
+  contencao:       "2026-12-02T03:41:00"   # SRV-ERP-01 isolado, conta bloqueada
+metas_min:
+  mttd: 60
+  alerta_ate_caso: 15
+  mttr: 30
+tecnicas_do_exercicio:   # as 6 do plano purple, antes e depois do reteste de 10/12
+  T1078:     {antes: comprovada, depois: comprovada}   # R11
+  T1087.002: {antes: parcial,    depois: comprovada}   # R13
+  T1021.001: {antes: parcial,    depois: comprovada}   # R5
+  T1219:     {antes: comprovada, depois: comprovada}   # R8
+  T1567.002: {antes: cega,       depois: parcial}      # R9 alertou em 540 s (critério: 300 s)
+  T1490:     {antes: comprovada, depois: comprovada}   # R7
+acoes_licoes_aprendidas: {abertas: 6, concluidas_no_prazo: 3, retestadas: 2}`},
+    { path: 'priorizar.py', hl: [18, 19, 25], code:
+`"""Prioriza os achados do RPT-2026-12 e calcula os indicadores de melhoria."""
+import csv
+import sys
+from datetime import datetime
 import yaml
 
-p = yaml.safe_load(open("premissas.yaml", encoding="utf-8"))
-impacto = p["impacto_incidente_grave"]
-custo = p["custo_programa_anual"]
+cfg = yaml.safe_load(open("metas.yaml", encoding="utf-8"))
 
-def brl(v):
-    return f"R$ {v:,.0f}".replace(",", ".")
+def classe(risco: int) -> str:
+    for nome, minimo in cfg["classes"].items():      # do maior limite para o menor
+        if risco >= minimo:
+            return nome
+    return "baixo"
 
-ale_atual = p["probabilidade_atual"] * impacto
-print(f"ALE atual: {p['probabilidade_atual']:.0%} x {brl(impacto)} = {brl(ale_atual)}")
-print(f"Custo do programa: {brl(custo)}/ano\\n")
+def achados():
+    lista = list(csv.DictReader(open("achados.csv", encoding="utf-8")))
+    for a in lista:
+        a["risco"] = int(a["prob"]) * int(a["impacto"])
+        a["prioridade"] = a["risco"] / int(a["esforco"])
+    return lista
 
-for nome, c in p["cenarios"].items():
-    ale_nova = c["probabilidade_final"] * impacto
-    reducao = ale_atual - ale_nova
-    rosi = (reducao - custo) / custo
-    print(f"[{nome}] probabilidade final {c['probabilidade_final']:.0%}")
-    print(f"  nova ALE {brl(ale_nova)} | redução {brl(reducao)} | ROSI {rosi:.0%}")
+def priorizar():
+    lista = achados()
+    abertos = [a for a in lista if a["status"] == "aberto"]
+    abertos.sort(key=lambda a: (-a["prioridade"], -a["risco"]))
+    print("ordem  achado  risco  classe   esforço  prioridade  dono            prazo")
+    for n, a in enumerate(abertos, 1):
+        print(f"{n:>5}  {a['id']}   {a['risco']:>5}  {classe(a['risco']):<8} {a['esforco']:>7}"
+              f"  {a['prioridade']:>10.1f}  {a['dono']:<15} {a['prazo']}")
+    rapidos = [a["id"] for a in abertos if a["risco"] >= 10 and a["esforco"] == "1"]
+    print("Ganhos rápidos (risco >= 10 e esforço 1):", ", ".join(rapidos))
+    por_classe = {c: sum(classe(a["risco"]) == c for a in lista) for c in cfg["classes"]}
+    feitos = sum(a["status"] == "retestado" for a in lista)
+    resumo = " · ".join(f"{c} {n}" for c, n in por_classe.items())
+    print(f"Achados: {len(lista)} ({resumo}); já corrigidos e retestados: {feitos}")
 
-ponto_equilibrio = p["probabilidade_atual"] - custo / impacto
-print(f"\\nO programa se paga se a probabilidade final ficar abaixo de {ponto_equilibrio:.2%}")`},
-    { path: 'roadmap.csv', code:
-`iniciativa,reducao_risco_anual,custo_anual,trimestre_minimo
-Ciclos purple mensais (técnicas do setor),220000,90000,T1
-MFA resistente a phishing para administradores,180000,60000,T1
-Telemetria de nuvem no SIEM,120000,70000,T2
-Exercícios tabletop semestrais,60000,20000,T2
-Operação anual de Red Team,140000,110000,T3`},
-    { path: 'priorizar.py', hl: [6, 9, 11], code:
-`"""Ordena as iniciativas do roadmap pela redução de risco por real investido."""
-import csv
+def minutos(de: str, ate: str) -> float:
+    m = cfg["marcos"]
+    return (datetime.fromisoformat(m[ate]) - datetime.fromisoformat(m[de])).total_seconds() / 60
 
-itens = list(csv.DictReader(open("roadmap.csv", encoding="utf-8")))
-for i in itens:
-    i["razao"] = int(i["reducao_risco_anual"]) / int(i["custo_anual"])
+def hms(mins: float) -> str:
+    s = round(mins * 60)
+    return f"{s // 3600} h {s % 3600 // 60:02d} min {s % 60:02d} s"
 
-orcamento, gasto = 300000, 0
-for i in sorted(itens, key=lambda x: x["razao"], reverse=True):
-    custo = int(i["custo_anual"])
-    cabe = gasto + custo <= orcamento
-    gasto += custo if cabe else 0
-    marca = "ENTRA " if cabe else "ESPERA"
-    print(f"{marca} {i['razao']:.2f}  {i['trimestre_minimo']}  {i['iniciativa']}")
-print(f"\\nOrçamento usado: R$ {gasto:,} de R$ {orcamento:,}".replace(",", "."))`}
+def metricas():
+    meta = cfg["metas_min"]
+    for nome, de, ate in [("MTTD", "primeiro_evento", "caso_aberto"),
+                          ("alerta até o caso", "alerta", "caso_aberto"),
+                          ("MTTR", "caso_aberto", "contencao")]:
+        chave = {"MTTD": "mttd", "MTTR": "mttr"}.get(nome, "alerta_ate_caso")
+        v = minutos(de, ate)
+        ok = "dentro da meta" if v <= meta[chave] else "FORA DA META"
+        print(f"{nome:<18} {hms(v):>18}   meta <= {meta[chave]} min   {ok}")
+    tec = cfg["tecnicas_do_exercicio"]
+    for momento in ("antes", "depois"):
+        comp = sum(t[momento] == "comprovada" for t in tec.values())
+        vis = sum(t[momento] != "cega" for t in tec.values())
+        print(f"{momento:<7} cobertura testada {comp}/{len(tec)} = {comp / len(tec):.0%}"
+              f"   visibilidade {vis}/{len(tec)} = {vis / len(tec):.0%}")
+    ac = cfg["acoes_licoes_aprendidas"]
+    print(f"Ações no prazo {ac['concluidas_no_prazo']}/{ac['abertas']} = {ac['concluidas_no_prazo'] / ac['abertas']:.0%}"
+          f"   retestadas {ac['retestadas']}/{ac['concluidas_no_prazo']} = {ac['retestadas'] / ac['concluidas_no_prazo']:.0%}")
+
+metricas() if "--metricas" in sys.argv else priorizar()`}
   ],
   run: [
-    { label: 'Calcular ALE e ROSI', kind: 'purple', cmd: 'python rosi.py', file: 'rosi.py', out: [
-      'ALE atual: 12% x R$ 8.000.000 = R$ 960.000', 'Custo do programa: R$ 300.000/ano', '',
-      '[ok] [otimista] probabilidade final 5%', '[ok]   nova ALE R$ 400.000 | redução R$ 560.000 | ROSI 87%',
-      '[warn] [conservador] probabilidade final 8%', '[warn]   nova ALE R$ 640.000 | redução R$ 320.000 | ROSI 7%', '',
-      '[hi] O programa se paga se a probabilidade final ficar abaixo de 8.25%' ] },
-    { label: 'Priorizar o roadmap', cmd: 'python priorizar.py', file: 'priorizar.py', out: [
-      '[ok] ENTRA  3.00  T1  MFA resistente a phishing para administradores',
-      '[ok] ENTRA  3.00  T2  Exercícios tabletop semestrais',
-      '[ok] ENTRA  2.44  T1  Ciclos purple mensais (técnicas do setor)',
-      '[ok] ENTRA  1.71  T2  Telemetria de nuvem no SIEM',
-      '[warn] ESPERA 1.27  T3  Operação anual de Red Team', '',
-      'Orçamento usado: R$ 240.000 de R$ 300.000',
-      '[info] Os R$ 60.000 restantes não cobrem a operação de Red Team (R$ 110.000): ela precisa de orçamento adicional ou fica para o ano seguinte. Decisão da diretoria, com o risco à vista.' ] }
+    { label: 'Priorizar achados', cmd: 'python priorizar.py', file: 'priorizar.py', out: [
+      'ordem  achado  risco  classe   esforço  prioridade  dono            prazo',
+      '[err]     1  A-01      20  critico        1        20.0  Caio Mendes     18/12/2026',
+      '[err]     2  A-02      16  critico        1        16.0  Luiza Ferraz    18/12/2026',
+      '[err]     3  A-03      15  critico        1        15.0  Rafael Tavares  17/12/2026',
+      '[err]     4  A-04      15  critico        1        15.0  Caio Mendes     18/12/2026',
+      '[warn]     5  A-06      12  alto           3         4.0  Caio Mendes     31/03/2027',
+      '    6  A-07       8  medio          2         4.0  Ana Lima        26/02/2027',
+      '[ok] Ganhos rápidos (risco >= 10 e esforço 1): A-01, A-02, A-03, A-04',
+      '[info] Achados: 8 (critico 4 · alto 2 · medio 2 · baixo 0); já corrigidos e retestados: 2' ] },
+    { label: 'Indicadores de melhoria', kind: 'blue', cmd: 'python priorizar.py --metricas', file: 'metas.yaml', out: [
+      '[err] MTTD                  4 h 21 min 50 s   meta <= 60 min   FORA DA META',
+      '[err] alerta até o caso     4 h 05 min 20 s   meta <= 15 min   FORA DA META',
+      '[ok] MTTR                  0 h 21 min 00 s   meta <= 30 min   dentro da meta',
+      'antes   cobertura testada 3/6 = 50%   visibilidade 5/6 = 83%',
+      '[ok] depois  cobertura testada 5/6 = 83%   visibilidade 6/6 = 100%',
+      '[info] Ações no prazo 3/6 = 50%   retestadas 2/3 = 67%' ] }
   ]
 });
 
-/* ---------- 12. Navegador: IA nos dois lados ---------- */
+/* ---------- 12. Plataforma ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cobertura' });
+
+/* ---------- 13. Navegador: sumário executivo ---------- */
 Labs.browser('#lab-brw', {
-  url: 'https://soc.corp.tatame.local/ia', secure: true,
-  html: `<div style="font-family:Montserrat,Arial,sans-serif">
-    <div style="background:#002057;color:#fff;padding:10px 18px;display:flex;align-items:center;gap:16px">
-      <b style="font-size:15px">Portal do SOC · Rede Tatame</b>
-      <button data-tab="a" style="background:#F0CE29;color:#002057;border:0;border-radius:6px;padding:6px 12px;font-weight:700;cursor:pointer">Conscientização</button>
-      <button data-tab="b" style="background:transparent;color:#fff;border:1px solid #fff;border-radius:6px;padding:6px 12px;font-weight:700;cursor:pointer">Assistente do SOC</button>
+  url: 'https://docs.corp.tatame.local/seguranca/RPT-2026-12', secure: true,
+  html: `<div style="font-family:Montserrat,Arial,sans-serif;font-size:13px;color:#1b2333">
+    <div style="background:#002057;color:#fff;padding:8px 16px;display:flex;align-items:center;gap:12px">
+      <b style="font-size:14px">RPT-2026-12 · Rede Tatame</b><span style="flex:1"></span>
+      <button data-tab="a" style="background:#F0CE29;color:#002057;border:0;border-radius:6px;padding:5px 10px;font-weight:700;cursor:pointer">Sumário executivo</button>
+      <button data-tab="b" style="background:transparent;color:#fff;border:1px solid #fff;border-radius:6px;padding:5px 10px;font-weight:700;cursor:pointer">Anexo técnico</button>
     </div>
-    <div data-pane="a" style="padding:14px 18px">
-      <h3 style="margin:0 0 8px;color:#002057">Por que "procure erros de português" já não basta</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div style="border:1px solid #ddd;border-radius:8px;padding:10px"><b style="color:#B3123F">Como era</b><p>Saudação genérica, texto traduzido de forma estranha, erros de ortografia e um pedido vago.</p></div>
-        <div style="border:1px solid #ddd;border-radius:8px;padding:10px"><b style="color:#B3123F">Como pode ser com IA generativa</b><p>Texto fluente, tom da empresa, referência a um assunto do dia a dia e versões diferentes para cada destinatário.</p></div>
+    <div data-pane="a" style="padding:10px 16px">
+      <p style="margin:0 0 6px;color:#555">Para a diretoria · reunião de 16/12/2026 · autora: Marina Prado (CISO)</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="border:1px solid #ddd;border-radius:8px;padding:8px"><b style="color:#002057">1. O que aconteceu</b><p style="margin:4px 0 0">Em 1º/12, um invasor usou a senha de um administrador e insistiu no segundo fator até ele ser aprovado. Instalou acesso remoto no ERP e copiou dados de cobrança de 9.400 alunos e responsáveis. A ANPD foi comunicada no prazo.</p></div>
+        <div style="border:1px solid #ddd;border-radius:8px;padding:8px"><b style="color:#002057">2. Onde estamos</b><p style="margin:4px 0 0">Oito falhas encontradas: quatro críticas. Duas já foram corrigidas e testadas de novo em 10/12. No teste de 10/12, detectamos a tempo 5 das 6 técnicas do ataque; antes da correção, 3.</p></div>
+        <div style="border:1px solid #ddd;border-radius:8px;padding:8px"><b style="color:#002057">3. O que pedimos</b><p style="margin:4px 0 0">(a) Aprovar já o segundo fator mais forte na VPN, o escalonamento noturno do SOC e a retirada do ambiente de homologação; o alerta de saída de dados fica mais rápido até 17/12. (b) Incluir a separação da rede da sede no 1º trimestre de 2027. (c) Aceitar o risco alto até lá.</p></div>
+        <div style="border:1px solid #ddd;border-radius:8px;padding:8px"><b style="color:#002057">4. Como vamos medir</b><p style="margin:4px 0 0">Tempo até perceber: de 4 h 21 min para até 1 h. Tempo até conter: manter abaixo de 30 min (hoje 21 min). Todas as correções testadas de novo no exercício de março.</p></div>
       </div>
-      <div style="margin-top:10px;border:2px dashed #B3123F;border-radius:8px;padding:10px;background:#FFF6F8">
-        <small style="color:#B3123F;font-weight:700">EXEMPLO DE TREINAMENTO · MENSAGEM FICTÍCIA</small>
-        <p style="margin:.3em 0"><b>De:</b> Financeiro &lt;repasses@tatame-repasses.com&gt;<br><b>Assunto:</b> Repasse das academias de outubro</p>
-        <p style="margin:.3em 0">Olá, Carla. Conforme a reunião de quinta, preciso da sua revisão na planilha de repasses antes das 17h para não atrasar o pagamento das academias. O documento está no link abaixo.</p>
-      </div>
-      <p style="margin-top:10px"><b>Sinais que continuam valendo:</b> domínio parecido mas diferente do oficial, urgência com prazo curto, pedido para clicar ou digitar credenciais e um canal que você pode confirmar por fora (telefone ou chat interno). Na defesa, MFA resistente a <i>phishing</i> reduz o estrago de um clique.</p>
+      <button id="dec" style="margin-top:8px;background:#002057;color:#fff;border:0;border-radius:6px;padding:6px 12px;font-weight:700;cursor:pointer">Registrar decisões</button>
+      <div id="ata" style="display:none;margin-top:6px;border-left:4px solid #1F7A3D;background:#EEF8F1;padding:6px 10px">Ata de 16/12: (a) aprovado, donos Caio Mendes e Luiza Ferraz, prazo 18/12. (b) aprovado no orçamento de 2027, dono Caio Mendes, prazo 31/03/2027. (c) risco do A-06 aceito até 31/03/2027, assinado pela diretoria.</div>
     </div>
-    <div data-pane="b" style="padding:14px 18px;display:none">
-      <h3 style="margin:0 0 8px;color:#002057">Caso INC-2026-1104 · resumo gerado por IA <span style="font-size:12px;background:#FFF3C4;color:#7A5B00;padding:2px 8px;border-radius:10px">aguardando revisão humana</span></h3>
-      <ul style="margin:0 0 8px 18px">
-        <li>09h12: a colaboradora clicou em link de domínio recém-registrado no notebook <b>NB-FIN-031</b>.</li>
-        <li>09h17: a regra R1 gerou alerta de severidade alta; a analista abriu o caso.</li>
-        <li>09h22: <span data-err="2">o notebook <b>NB-FIN-031</b> foi isolado</span> e a senha da conta foi trocada.</li>
-        <li><span data-err="1">Nenhum outro host apresentou atividade relacionada.</span></li>
-      </ul>
-      <button id="conf" style="background:#002057;color:#fff;border:0;border-radius:6px;padding:7px 14px;font-weight:700;cursor:pointer">Conferir com a linha do tempo</button>
-      <div id="rev" style="display:none;margin-top:10px;border-left:4px solid #B3123F;background:#FFF6F8;padding:8px 12px">
-        <b>Revisão da analista Luiza Ferraz:</b> a linha do tempo mostra que o host isolado às 09h22 foi o <b>NB-FIN-013</b>, um segundo notebook em que a mesma conta fez login às 09h19. O resumo trocou os nomes e omitiu esse host, e a frase "nenhum outro host" está errada. Resumo corrigido antes de entrar no relatório.
-      </div>
-      <p style="margin-top:10px;color:#444"><b>Ganho:</b> o resumo poupa a leitura de 140 eventos para chegar ao quadro geral. <b>Limite:</b> ele pode errar com confiança, e quem responde pelo caso é a analista.</p>
+    <div data-pane="b" style="padding:10px 16px;display:none">
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <tr style="background:#EEF2F8"><th style="text-align:left;padding:4px">Achado</th><th style="text-align:left">Técnica</th><th style="text-align:left">Evidência</th><th>Risco</th><th style="text-align:left">Estado</th></tr>
+        <tr><td style="padding:4px">A-01 MFA por <i>push</i></td><td>T1078</td><td>6 <i>push</i> seguidos, aprovado às 22:58:10</td><td style="text-align:center">20</td><td>aberto</td></tr>
+        <tr><td style="padding:4px">A-02 alerta na fila</td><td>processo</td><td>R8 às 23:14:40, caso às 03:20:00</td><td style="text-align:center">16</td><td>aberto</td></tr>
+        <tr><td style="padding:4px">A-03 saída sem alerta</td><td>T1567.002</td><td>2,8 GB para 198.51.100.77</td><td style="text-align:center">15</td><td>aberto (540 s)</td></tr>
+        <tr><td style="padding:4px">A-04 homologação exposta</td><td>T1190</td><td>hml-gestao sem WAF</td><td style="text-align:center">15</td><td>aberto</td></tr>
+        <tr><td style="padding:4px">A-05 RDP sem alerta</td><td>T1021.001</td><td>4624 tipo 10 às 23:06:42</td><td style="text-align:center">12</td><td>retestado</td></tr>
+        <tr><td style="padding:4px">A-06 ERP sem segmentação</td><td>T1021.001</td><td>VPN alcança 10.10.1.30</td><td style="text-align:center">12</td><td>aberto</td></tr>
+        <tr><td style="padding:4px">A-07 CPF completo</td><td>LGPD</td><td>planilhas exportadas</td><td style="text-align:center">8</td><td>aberto</td></tr>
+        <tr><td style="padding:4px">A-08 consulta ao AD</td><td>T1087.002</td><td>R13 desligada</td><td style="text-align:center">6</td><td>retestado</td></tr>
+      </table>
+      <p style="margin:6px 0 0;color:#555">Cada linha remete à ficha completa do achado: evidência com <i>hash</i>, recomendação, dono, prazo e critério de reteste.</p>
     </div></div>`,
   onReady(page) {
     const tabs = page.querySelectorAll('[data-tab]');
@@ -609,50 +641,40 @@ Labs.browser('#lab-brw', {
       page.querySelectorAll('[data-pane]').forEach((p) => (p.style.display = p.dataset.pane === t.dataset.tab ? 'block' : 'none'));
       tabs.forEach((x) => { const on = x === t; x.style.background = on ? '#F0CE29' : 'transparent'; x.style.color = on ? '#002057' : '#fff'; x.style.border = on ? '0' : '1px solid #fff'; });
     }));
-    const conf = page.querySelector('#conf');
-    if (conf) conf.addEventListener('click', () => {
-      page.querySelector('#rev').style.display = 'block';
-      page.querySelectorAll('[data-err]').forEach((e) => { e.style.background = '#FFD6DE'; e.style.outline = '2px solid #B3123F'; });
-    });
+    const dec = page.querySelector('#dec');
+    if (dec) dec.addEventListener('click', () => { page.querySelector('#ata').style.display = 'block'; });
   }
 });
 
-/* ---------- 14. Mapa de carreira ---------- */
-Labs.register('#lab-car', (el) => {
-  const S = {
-    fund: { x: 90, y: 220, n: 'Fundamentos', c: '#F2CB0A', faz: 'Redes, sistemas Windows e Linux, noções de programação e a lógica de ataque e defesa desta disciplina.', cert: 'Certificação de entrada, como CompTIA Security+', passo: 'Laboratórios gratuitos, CTFs para iniciantes como o picoCTF e leitura da matriz ATT&CK.' },
-    soc: { x: 300, y: 300, n: 'Analista de SOC', c: '#00B1D2', faz: 'Triagem e investigação de alertas.', cert: 'CompTIA Security+, CompTIA CySA+', passo: 'CTFs defensivos de análise de registros e um laboratório caseiro com SIEM.' },
-    ir: { x: 560, y: 370, n: 'Resposta a incidentes', c: '#00B1D2', faz: 'Contenção, investigação e recuperação.', cert: 'GIAC GCIH', passo: 'Participar de tabletops e escrever relatórios de incidentes simulados.' },
-    det: { x: 560, y: 220, n: 'Engenheiro de detecção', c: '#9B6BFF', faz: 'Cria, testa e mantém regras de detecção.', cert: 'GIAC (por exemplo, GCIA), CySA+', passo: 'Escrever regras para técnicas ATT&CK e validá-las com testes atômicos em laboratório.' },
-    hunt: { x: 820, y: 220, n: 'Threat hunter / CTI', c: '#9B6BFF', faz: 'Caça proativa e inteligência de ameaças.', cert: 'GIAC (por exemplo, GCTI)', passo: 'Ler relatórios públicos de CTI e transformá-los em hipóteses de caça e planos de emulação.' },
-    pen: { x: 300, y: 120, n: 'Pentester', c: '#FF2B5F', faz: 'Testes de invasão em escopo definido.', cert: 'CompTIA PenTest+, OSCP (OffSec)', passo: 'Plataformas de laboratório legais e relatórios bem escritos de cada exercício, sempre com autorização.' },
-    red: { x: 560, y: 60, n: 'Operador de Red Team', c: '#FF2B5F', faz: 'Emulação de adversários orientada a objetivos.', cert: 'OSCP e certificações avançadas de Red Team', passo: 'Estudar planos da Adversary Emulation Library e participar de sessões purple.' }
-  };
-  const LINHAS = [['#FF2B5F', ['fund', 'pen', 'red']], ['#00B1D2', ['fund', 'soc', 'ir']], ['#00B1D2', ['soc', 'det']], ['#9B6BFF', ['red', 'det', 'hunt']]];
-  const NS = 'http://www.w3.org/2000/svg';
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0"><h4>Mapa de trilhas · Red, Blue e Purple</h4>
-    <svg class="metro" viewBox="0 0 920 420" preserveAspectRatio="xMidYMid meet"></svg><div class="car-det"></div></div>`;
-  const svg = el.querySelector('svg'), det = el.querySelector('.car-det');
-  let html = '';
-  LINHAS.forEach(([cor, ids]) => { html += `<polyline points="${ids.map((i) => S[i].x + ',' + S[i].y).join(' ')}" fill="none" stroke="${cor}" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" opacity=".9"/>`; });
-  Object.entries(S).forEach(([id, s]) => {
-    const below = s.y > 200 && id !== 'det' && id !== 'hunt';
-    const tx = id === 'det' ? s.x + 18 : s.x, ty = id === 'det' ? s.y + 34 : s.y + (below ? 36 : -22);
-    html += `<g class="st" data-id="${id}"><circle cx="${s.x}" cy="${s.y}" r="11" stroke="${s.c}"/><text x="${tx}" y="${ty}" text-anchor="${id === 'det' ? 'start' : 'middle'}">${s.n}</text></g>`;
-  });
-  svg.innerHTML = html;
-  const gs = [...svg.querySelectorAll('.st')];
-  function pick(id) {
-    gs.forEach((g) => g.classList.toggle('sel', g.dataset.id === id));
-    const s = S[id];
-    det.innerHTML = `<b>${s.n}</b><br>O que faz: ${s.faz}<br>Certificações conhecidas: ${s.cert}<br>Primeiro passo: ${s.passo}`;
-  }
-  gs.forEach((g) => g.addEventListener('click', () => pick(g.dataset.id)));
-  pick('fund');
+/* ---------- 14. Fluxo: o ciclo contínuo ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 420,
+  nodes: [
+    { id: 'inc', x: 130, y: 80, label: 'Incidente', sub: 'INC-2026-1202-01', icon: '🚨', k: 'red' },
+    { id: 'lic', x: 400, y: 80, label: 'Lições aprendidas', sub: '09/12', icon: '📝' },
+    { id: 'pur', x: 670, y: 80, label: 'Exercício purple', sub: '10/12 · reteste', icon: '🤝', k: 'purple' },
+    { id: 'rpt', x: 940, y: 80, label: 'RPT-2026-12', sub: 'técnico + executivo', icon: '📄', k: 'blue' },
+    { id: 'dir', x: 940, y: 250, label: 'Diretoria', sub: 'decide em 16/12', icon: '🏛️' },
+    { id: 'road', x: 670, y: 250, label: 'Roadmap 2027', sub: 'dono e prazo', icon: '🗺️' },
+    { id: 'prox', x: 400, y: 250, label: 'Próximo exercício', sub: 'março/2027', icon: '🎯', k: 'purple' },
+    { id: 'med', x: 130, y: 250, label: 'Métricas', sub: 'comparar com dez.', icon: '📈', k: 'green' },
+    { id: 'aceite', x: 940, y: 370, label: 'Risco aceito', sub: 'A-06 até 31/03', icon: '✍️', k: 'amber', w: 180 }
+  ],
+  links: [
+    { from: 'inc', to: 'lic' }, { from: 'lic', to: 'pur', label: '6 ações' }, { from: 'pur', to: 'rpt', label: '2 retestadas' },
+    { from: 'rpt', to: 'dir', label: 'uma página' }, { from: 'dir', to: 'road' }, { from: 'dir', to: 'aceite', dashed: true },
+    { from: 'road', to: 'prox' }, { from: 'prox', to: 'med', label: 'reteste' }, { from: 'med', to: 'inc', dashed: true, label: 'próximo relatório' }
+  ],
+  steps: [
+    { title: '1 · O incidente', text: 'Em 1º/12, o INC-2026-1202-01 mostrou três passos do ataque sem alerta e um alerta que esperou 4 horas na fila. Contido em 21 minutos depois de aberto o caso.', on: ['inc'], bad: ['inc'] },
+    { title: '2 · Lições aprendidas', text: 'Na reunião de 09/12, sem caça a culpados, cada falha vira ação com dono e prazo. Saem seis ações.', on: ['inc', 'lic'], links: [['inc', 'lic', 'blue']] },
+    { title: '3 · Exercício purple', text: 'Em 10/12, Red e Blue repetem as técnicas do Grupo Cobalto Austral. R5 e R13 passam no reteste; a R9 alerta em 540 s, acima do critério de 300 s, e volta para ajuste.', on: ['lic', 'pur'], links: [['lic', 'pur', 'purple']] },
+    { title: '4 · O relatório', text: 'O RPT-2026-12 junta os oito achados com evidência, risco e recomendação. O sumário executivo cabe em uma página.', on: ['pur', 'rpt'], links: [['pur', 'rpt', 'blue']] },
+    { title: '5 · A decisão', text: 'A diretoria aprova os três ganhos rápidos, põe a segmentação no orçamento de 2027 e assina a aceitação do risco do A-06 até lá.', on: ['rpt', 'dir', 'aceite'], links: [['rpt', 'dir', 'blue'], ['dir', 'aceite', 'amber']] },
+    { title: '6 · Roadmap e próximo exercício', text: 'Cada decisão entra no roadmap com dono e prazo. O exercício de março retesta o que foi corrigido, inclusive a regra nova para fadiga de MFA.', on: ['dir', 'road', 'prox'], links: [['dir', 'road', 'green'], ['road', 'prox', 'purple']] },
+    { title: '7 · O ciclo recomeça', text: 'As métricas de março são comparadas com as de dezembro. O próximo relatório responde se o MTTD caiu para até 1 hora e se a cobertura testada subiu.', on: ['prox', 'med', 'inc'], links: [['prox', 'med', 'green'], ['med', 'inc', 'green']] }
+  ]
 });
-
-/* ---------- 9b. Plataforma Rede Tatame ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cobertura' });
 </script>
 </body>
 </html>

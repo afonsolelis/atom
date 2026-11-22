@@ -8,16 +8,19 @@ Produção de conteúdo EAD do NEaD (UniFECAF), formato **Átomo 3.0 TECH**.
 - Videoaulas e gravação: Maico Pereira Gomes
 - Convite recebido em: 13/11/2026
 
-## Situação em 13/11/2026
+## Situação em 22/11/2026
 
-Todo o material escrito está produzido em Markdown, **com base na ementa proposta** (`EMENTA.md`), aguardando o plano de aprendizagem oficial:
+Todo o material está **alinhado à ementa oficial** enviada pela coordenação (Osvaldo) em 18/11/2026 e transcrita em [`EMENTA.md`](EMENTA.md). A proposta provisória de 13/11 foi substituída: as 4 unidades e as 16 aulas seguem, tópico por tópico, o roteiro de aprendizagem oficial, e as tecnologias sugeridas (Kali Linux, Metasploit, ATT&CK Navigator, Wazuh/Security Onion e Wireshark) entram como laboratórios simulados nas aulas indicadas na ementa.
 
-- 4 unidades completas (16 aulas com texto base, 16 roteiros de videoaula, roteiro do vídeo introdutório, 4 quizzes, AAI, 16 materiais complementares);
+- 4 unidades completas (16 aulas com texto base, 16 roteiros de videoaula que seguem o deck slide a slide, roteiro do vídeo introdutório, 4 quizzes, AAI, 16 materiais complementares);
 - 160 questões (40 por unidade, 8 corretas por letra, feedback para cada alternativa);
-- trabalho PBL (caso Vitalis Diagnósticos, com solução e rubrica para o tutor);
-- avaliação final com 10 discursivas, respostas esperadas e critérios de correção.
+- trabalho PBL (caso Vitalis Diagnósticos, com solução e rubrica para o tutor), alinhado ao ciclo da ementa;
+- avaliação final com 10 discursivas (2 a 3 por unidade), respostas esperadas e critérios de correção;
+- 17 decks HTML com laboratórios, VS Code em tela cheia em todas as aulas.
 
-`python scripts/validar.py` confere as regras dos templates (estrutura, 700–1200 palavras e 3–5 imagens por aula, seções obrigatórias, formato e distribuição das questões, pesos do PBL). Os DOCX preenchidos são gerados por `python scripts/gerar_docx.py` (em `entregas_docx/`, fora do git), a partir dos modelos de `documentos/`, e foram enviados ao Drive em 15/11/2026. Nada foi validado pela coordenação ainda.
+Os IDs do MITRE ATT&CK seguem a versão atual (v19 em diante), em que a antiga *Defense Evasion* foi dividida em *Stealth* (TA0005) e *Defense Impairment* (TA0112).
+
+`python scripts/validar.py` confere as regras dos templates (estrutura, 700–1200 palavras e 3–5 imagens por aula, seções obrigatórias, formato e distribuição das questões, pesos do PBL). Os DOCX preenchidos são gerados por `python scripts/gerar_docx.py` (em `entregas_docx/`, fora do git), a partir dos modelos de `documentos/`, e foram reenviados ao Drive em 22/11/2026, substituindo os de 15/11. Nada foi validado pela coordenação ainda.
 
 Os slides das 16 aulas e da apresentação estão em HTML, com laboratórios embutidos (ver [Slides HTML e laboratórios](#slides-html-e-laboratórios)). O portal da disciplina é o [`index.html`](index.html).
 
@@ -58,7 +61,7 @@ Todas as entregas passam pela validação da coordenação, que pode pedir ajust
 
 ## Ementa
 
-Proposta provisória em [`EMENTA.md`](EMENTA.md). O plano de aprendizagem será enviado pela coordenação; o material e os slides seguem a proposta e serão ajustados quando o plano chegar.
+Ementa oficial em [`EMENTA.md`](EMENTA.md): ementa, objetivos, competências, habilidades, atitudes, roteiro de aprendizagem, tecnologias sugeridas e bibliografia, como enviados pela coordenação em 18/11/2026, mais o mapa das 16 aulas. `simulador/BRIEF_REALINHAMENTO.md` registra como o material da proposta antiga foi redistribuído.
 
 ## Index dos documentos
 
@@ -66,7 +69,7 @@ Proposta provisória em [`EMENTA.md`](EMENTA.md). O plano de aprendizagem será 
 
 | Arquivo | Conteúdo | Modelo do Drive correspondente |
 |---|---|---|
-| [`EMENTA.md`](EMENTA.md) | Ementa, objetivos, competências, mapa das 16 aulas, bibliografia | Plano de aprendizagem (a receber) |
+| [`EMENTA.md`](EMENTA.md) | Ementa oficial, objetivos, competências, mapa das 16 aulas, tecnologias, bibliografia | Ementa enviada pela coordenação (Google Docs, 18/11/2026) |
 | [`unidade_1/unidade_1.md`](unidade_1/unidade_1.md) | Relação com a atuação profissional, roteiro do vídeo introdutório, Aulas 1–4 (texto base + roteiro), quiz, AAI, material complementar | `Unidade 1/TEMPLATE - Unidade 1_nome da disciplina.docx` |
 | [`unidade_1/questoes_uni1.md`](unidade_1/questoes_uni1.md) | 40 questões + feedback por alternativa | `Unidade 1/40 Questões - UNI1_nomedadisciplina.docx` |
 | [`unidade_2/unidade_2.md`](unidade_2/unidade_2.md) | Aulas 5–8, quiz, material complementar | `Unidade 2/TEMPLATE - Unidade 2_nome da disciplina.docx` ⚠️ |
@@ -196,13 +199,12 @@ Para ver localmente com as cenas 3D e os caminhos relativos funcionando, sirva a
 
 ## Pendências
 
-1. Receber o **plano de aprendizagem** da coordenação e preencher `EMENTA.md` e os títulos.
-2. **Template da Unidade 2:** o arquivo `TEMPLATE - Unidade 2_nome da disciplina.docx` contém internamente a Unidade 1 (cabeçalho "Unidade 1", Aulas 1–4, vídeo introdutório e AAI). Pedir o modelo correto ao NEaD ou adaptar a cópia (Aulas 5–8, sem vídeo introdutório e sem AAI). O mesmo problema ocorreu em Distributed Systems Engineering.
+1. ~~Receber o plano de aprendizagem e ajustar o material~~ — ementa oficial recebida em 18/11/2026 e aplicada em 22/11/2026 (unidades, questões, decks, roteiros, PBL, avaliação final, DOCX e Drive).
+2. **Template da Unidade 2:** o arquivo `TEMPLATE - Unidade 2_nome da disciplina.docx` do Drive contém internamente a Unidade 1. O `gerar_docx.py` corrige cabeçalho e plano de ensino na cópia; confirmar com o NEaD se isso basta.
 3. Baixar manualmente os 4 PDFs `Guia - Como Fazer um Bom Vídeo.pdf`.
 4. Confirmar a modalidade de gravação (estúdio ou casa) com a Carolina.
 5. Contrato: cadastro no Banco de Talentos (link no e-mail do convite).
-6. Slides: os 17 decks HTML com laboratórios estão prontos e todos usam a plataforma fictícia Rede Tatame e o simulador em `simulador/` (a revisar em sala e na gravação). Falta confirmar com o NEaD se o HTML substitui os PPTX `SLIDES - Videoaula N.pptx` do Drive ou se é preciso preencher também os PPTX para a equipe de edição.
-7. ~~Marcadores [conferir]~~ — todos resolvidos. O último, o *podcast* da Unidade 4, foi preenchido na revisão de 19/11/2026 (Entre Chaves #255, 28 min, Spotify). Os livros do *Direto da fonte* das 4 unidades e a bibliografia básica da `EMENTA.md` foram confirmados na Biblioteca Virtual em 13/11/2026, com link da ficha de cada obra. Os DOCX e os slides do Drive são de 15/11/2026 e ainda não refletem a revisão de 19/11.
-8. ~~Gerar as cópias DOCX preenchidas e enviá-las ao Drive~~ — feito em 15/11/2026: 10 DOCX (4 templates de unidade, 4 questionários, trabalho e avaliação final) nas subpastas de "Originais - Átomo 3.0 TECH", mais a ementa em DOCX e o ZIP dos slides HTML na raiz dessa pasta. Ao mudar o Markdown, rode `python scripts/gerar_docx.py` e reenvie.
-9. Após receber o plano oficial: ajustar títulos e ordem das aulas, e revisar questões e avaliações afetadas.
-10. **Prazo de comunicação à ANPD (Aula 12):** o laboratório conta três dias úteis a partir do dia útil seguinte à ciência do incidente; confirmar a regra de contagem e os feriados locais com o jurídico.
+6. Confirmar com o NEaD se os decks HTML substituem os PPTX `SLIDES - Videoaula N.pptx` do Drive ou se é preciso preencher também os PPTX para a equipe de edição.
+7. Antes de gravar, abrir cada deck num navegador comum (as cenas 3D dependem de WebGL e de internet para o three.js).
+8. **Prazo de comunicação à ANPD (Aula 13):** o laboratório conta três dias úteis a partir do dia útil seguinte à ciência do incidente (Res. CD/ANPD nº 15/2024); confirmar a regra de contagem e os feriados locais com o jurídico.
+9. Prazos de entrega: U1, U2 e trabalho até 02/12/2026; U3, U4 e avaliação final até 20/12/2026.

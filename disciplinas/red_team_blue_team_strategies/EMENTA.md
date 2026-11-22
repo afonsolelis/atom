@@ -1,64 +1,116 @@
 # Ementa e plano de aprendizagem — Red Team & Blue Team Strategies
 
-> **Proposta provisória (13/11/2026).** O plano de aprendizagem oficial será enviado pelo coordenador do curso (Osvaldo).
-> Esta proposta foi elaborada para adiantar a produção; quando o plano chegar, ajustar títulos, ordem e bibliografia
-> aqui e propagar para `unidade_N/unidade_N.md`, questões e instrumentos avaliativos.
+> **Ementa oficial**, enviada pela coordenação do curso (Osvaldo) em 18/11/2026 ([documento no Google Drive](https://docs.google.com/document/d/1hrSLYINyfY-ZhAIFWrbrfcpOA8UmvW9R/edit)).
+> Os textos abaixo, da ementa à bibliografia, são transcritos do documento oficial. O mapa das 16 aulas desdobra o roteiro de aprendizagem oficial (4 tópicos por unidade, 1 aula por tópico). A proposta provisória de 13/11/2026 foi substituída.
 
-## Ementa (proposta)
+## Ementa
 
-Fundamentos de segurança ofensiva e defensiva e o papel das equipes Red, Blue e Purple. Ética, legalidade e regras de engajamento em testes de segurança. Modelos de ameaça e de ataque: Cyber Kill Chain e MITRE ATT&CK. Metodologias de avaliação de segurança: varredura de vulnerabilidades, teste de invasão e operação de Red Team. Reconhecimento e OSINT, enumeração, gestão de vulnerabilidades (CVE, CVSS), engenharia social e pós-exploração em nível conceitual. Operação defensiva: SOC, registros e telemetria, SIEM e EDR, engenharia de detecção, *threat hunting* e inteligência de ameaças. Resposta a incidentes e lições aprendidas. *Purple teaming*, emulação de adversários, métricas de detecção e resposta, exercícios de simulação e estruturação de um programa contínuo de segurança.
+Estratégias ofensivas e defensivas de segurança da informação aplicadas a exercícios de simulação de adversário. Aborda planejamento de operações de red team, emulação de ameaças com base na matriz MITRE ATT&CK, técnicas de intrusão, movimentação lateral e persistência, bem como a atuação do blue team em monitoramento, detecção, caça a ameaças, resposta a incidentes e fortalecimento de controles, incluindo a colaboração entre as equipes (purple team).
 
-## Objetivos de aprendizagem (proposta)
+## Objetivo geral
 
-Ao final da disciplina, o estudante deverá ser capaz de:
+Planejar e conduzir exercícios de simulação de adversário em ambientes controlados e autorizados, articulando as ações do red team com a detecção, a resposta e a melhoria contínua conduzidas pelo blue team.
 
-1. diferenciar os papéis, objetivos e entregáveis de Red Team, Blue Team e Purple Team;
-2. planejar uma avaliação de segurança autorizada, com escopo, regras de engajamento e critérios éticos e legais;
-3. modelar o comportamento de adversários com a Cyber Kill Chain e a matriz MITRE ATT&CK;
-4. explicar as etapas de uma operação ofensiva e priorizar vulnerabilidades por risco;
-5. projetar a monitoração, a detecção e a resposta a incidentes de um ambiente corporativo;
-6. conduzir ciclos de *purple teaming* e medir a evolução da capacidade defensiva com indicadores.
+## Objetivos específicos
 
-## Competências (proposta)
+1. Compreender o ciclo de uma operação de red team e suas regras de engajamento.
+2. Mapear técnicas de ataque na matriz MITRE ATT&CK e planejar a emulação de ameaças.
+3. Executar técnicas de reconhecimento, exploração e movimentação lateral em laboratório.
+4. Detectar, investigar e responder a atividades maliciosas com ferramentas de monitoramento.
+5. Produzir relatórios e planos de melhoria a partir de exercícios purple team.
 
-- Pensamento adversarial aplicado à defesa.
-- Atuação ética e em conformidade legal (Lei nº 12.737/2012, LGPD, autorização formal).
-- Comunicação técnica de riscos para públicos técnicos e executivos.
-- Trabalho colaborativo entre equipes ofensivas e defensivas.
+## Competências
 
-## Unidades e aulas (proposta)
+Planejar e executar exercícios de red team e blue team em ambientes autorizados, aplicando emulação de adversário, detecção, resposta a incidentes e melhoria de controles com base em frameworks reconhecidos.
+
+## Habilidades
+
+Planejar engajamentos e regras de atuação; emular técnicas do MITRE ATT&CK; realizar reconhecimento e exploração em laboratório; analisar logs e tráfego; criar regras de detecção; conduzir resposta a incidentes; elaborar relatórios técnicos e executivos.
+
+## Atitudes
+
+- Ética e conduta profissional estritamente dentro do escopo autorizado.
+- Mentalidade de adversário combinada com visão de defesa.
+- Rigor na documentação de ações, evidências e achados.
+- Colaboração entre equipes ofensivas e defensivas.
+- Atualização contínua diante de novas técnicas e ameaças.
+
+## Roteiro de aprendizagem (oficial)
+
+1. **Planejamento de Operações e Emulação de Adversário**
+   - Papéis e objetivos: red team, blue team, white team e purple team.
+   - Regras de engajamento, escopo, autorização e aspectos legais.
+   - MITRE ATT&CK: táticas, técnicas e construção de planos de emulação.
+   - Inteligência de ameaças aplicada ao planejamento da operação.
+2. **Técnicas Ofensivas em Ambiente Controlado**
+   - Reconhecimento e enumeração de serviços e usuários.
+   - Exploração de vulnerabilidades e obtenção de acesso inicial.
+   - Escalada de privilégios, movimentação lateral e persistência.
+   - Evasão básica de defesas e limpeza de rastros em laboratório.
+3. **Defesa, Monitoramento e Detecção**
+   - Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints.
+   - Detecção baseada em assinaturas, comportamento e regras.
+   - Caça a ameaças: hipóteses, consultas e análise de anomalias.
+   - Hardening de sistemas e redução da superfície de ataque.
+4. **Resposta a Incidentes e Purple Team**
+   - Ciclo de resposta a incidentes: preparação, detecção, contenção, erradicação e recuperação.
+   - Coleta de evidências e linha do tempo do incidente.
+   - Exercícios purple team: validação de detecções contra técnicas emuladas.
+   - Relatório final: achados, riscos, recomendações e métricas de melhoria.
+
+## Unidades e aulas
 
 | Unidade | Aula | Título | Videoaula |
 |---|---|---|---|
-| 1 — Fundamentos: ataque e defesa como estratégia | 1 | Red, Blue e Purple Team: papéis, objetivos e ética | Videoaula 1 |
-| 1 | 2 | Pensar como o adversário: Cyber Kill Chain e MITRE ATT&CK | Videoaula 2 |
-| 1 | 3 | Avaliações de segurança: varredura, pentest e Red Team | Videoaula 3 |
-| 1 | 4 | Fundamentos da defesa: NIST CSF, defesa em profundidade e SOC | Videoaula 4 |
-| 2 — Red Team: operações ofensivas controladas | 5 | Reconhecimento e OSINT | Videoaula 5 |
-| 2 | 6 | Varredura, enumeração e gestão de vulnerabilidades | Videoaula 6 |
-| 2 | 7 | Engenharia social e simulação de *phishing* | Videoaula 7 |
-| 2 | 8 | Pós-exploração, movimentação lateral e relatório de Red Team | Videoaula 8 |
-| 3 — Blue Team: detecção e resposta | 9 | Telemetria, registros e SIEM | Videoaula 9 |
-| 3 | 10 | Engenharia de detecção e EDR | Videoaula 10 |
-| 3 | 11 | *Threat hunting* e inteligência de ameaças | Videoaula 11 |
-| 3 | 12 | Resposta a incidentes | Videoaula 12 |
-| 4 — Purple Team e estratégia de segurança | 13 | *Purple teaming* e emulação de adversários | Videoaula 13 |
-| 4 | 14 | Métricas de detecção e resposta e cobertura ATT&CK | Videoaula 14 |
-| 4 | 15 | Exercícios de simulação: *tabletop*, CTF e *cyber range* | Videoaula 15 |
-| 4 | 16 | Programa contínuo de segurança, carreira e tendências | Videoaula 16 |
+| 1 — Planejamento de Operações e Emulação de Adversário | 1 | Red, Blue, White e Purple Team: papéis e objetivos | Videoaula 1 |
+| 1 | 2 | Regras de engajamento, escopo, autorização e aspectos legais | Videoaula 2 |
+| 1 | 3 | MITRE ATT&CK: táticas, técnicas e planos de emulação | Videoaula 3 |
+| 1 | 4 | Inteligência de ameaças aplicada ao planejamento da operação | Videoaula 4 |
+| 2 — Técnicas Ofensivas em Ambiente Controlado | 5 | Reconhecimento e enumeração de serviços e usuários | Videoaula 5 |
+| 2 | 6 | Exploração de vulnerabilidades e obtenção de acesso inicial | Videoaula 6 |
+| 2 | 7 | Escalada de privilégios, movimentação lateral e persistência | Videoaula 7 |
+| 2 | 8 | Evasão básica de defesas e limpeza de rastros em laboratório | Videoaula 8 |
+| 3 — Defesa, Monitoramento e Detecção | 9 | Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints | Videoaula 9 |
+| 3 | 10 | Detecção baseada em assinaturas, comportamento e regras | Videoaula 10 |
+| 3 | 11 | Caça a ameaças: hipóteses, consultas e análise de anomalias | Videoaula 11 |
+| 3 | 12 | *Hardening* de sistemas e redução da superfície de ataque | Videoaula 12 |
+| 4 — Resposta a Incidentes e Purple Team | 13 | Ciclo de resposta a incidentes: preparação, detecção, contenção, erradicação e recuperação | Videoaula 13 |
+| 4 | 14 | Coleta de evidências e linha do tempo do incidente | Videoaula 14 |
+| 4 | 15 | Exercícios *purple team*: validação de detecções contra técnicas emuladas | Videoaula 15 |
+| 4 | 16 | Relatório final: achados, riscos, recomendações e métricas de melhoria | Videoaula 16 |
 
-## Bibliografia básica (proposta; títulos confirmados na Biblioteca Virtual em 13/11/2026)
+## Tecnologias sugeridas (oficial) e onde aparecem
+
+Nos slides, todas as ferramentas aparecem em laboratórios simulados no navegador, contra a plataforma fictícia Rede Tatame. Nenhum laboratório traz código de exploração, *payload* ou técnica de evasão operacional.
+
+| Tecnologia | Uso indicado na ementa | Aulas |
+|---|---|---|
+| Kali Linux | plataforma de testes de segurança em laboratório | 5, 6, 7 |
+| Metasploit Framework | exploração em ambiente controlado | 6, 7 |
+| MITRE ATT&CK Navigator | planejamento e cobertura de técnicas | 3, 15, 16 |
+| Wazuh ou Security Onion | monitoramento, detecção e análise de eventos | 9, 10, 11, 13 |
+| Wireshark | análise de tráfego e investigação de incidentes | 5, 9, 14 |
+
+## Bibliografia básica (oficial)
+
+1. WEIDMAN, Georgia. *Testes de invasão*: uma introdução prática ao hacking. São Paulo: Novatec, 2014.
+2. STALLINGS, William. *Criptografia e segurança de redes*: princípios e práticas. 6. ed. São Paulo: Pearson, 2015.
+3. NAKAMURA, Emilio Tissato; GEUS, Paulo Lício de. *Segurança de redes em ambientes cooperativos*. São Paulo: Novatec, 2007.
+
+## Bibliografia complementar (oficial)
+
+1. ENGEBRETSON, Patrick. *The basics of hacking and penetration testing*. 2nd ed. Waltham: Syngress, 2013.
+2. BEJTLICH, Richard. *The practice of network security monitoring*. San Francisco: No Starch Press, 2013.
+3. SANDERS, Chris; SMITH, Jason. *Applied network security monitoring*. Waltham: Syngress, 2013.
+4. NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *Computer security incident handling guide*. Gaithersburg: NIST, 2012. (SP 800-61 Rev. 2).
+5. ANDERSON, Ross. *Security engineering*. 3. ed. Hoboken: Wiley, 2020.
+
+## Biblioteca Virtual ("Direto da fonte" do material complementar)
+
+Obras confirmadas na Biblioteca Virtual em 13/11/2026 e usadas na seção *Direto da fonte* de cada unidade:
 
 - SILVA, Michel Bernardo Fernandes da. *Cibersegurança*: uma visão panorâmica sobre a segurança da informação na internet. Rio de Janeiro: Freitas Bastos, 2023. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/208076>.
 - SOARES, Cleber; FRANCO, Deivison Pinheiro; SANTOS, Joas Antonio dos. *Introdução à segurança ofensiva*: uma abordagem para pentesters e red teams. Rio de Janeiro: Brasport, 2023. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/213767>.
 - LEVI, Hiago Kin. *Confronto cibernético*: técnicas e táticas de enfrentamento e resposta a ameaças persistentes avançadas (APTs). Rio de Janeiro: Brasport, 2026. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/235882>.
-
-## Bibliografia complementar (proposta)
-
 - SANTOS, Joas Antonio dos. *Introdução ao Red Team Operations 2.0*: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/220894>.
 - STALLINGS, William. *Criptografia e segurança de redes*: princípios e práticas. 6. ed. São Paulo: Pearson, 2015. *E-book*. Disponível em: <https://plataforma.bvirtual.com.br/Acervo/Publicacao/22446>.
-- MITRE CORPORATION. *MITRE ATT&CK*. McLean: MITRE, [s. d.]. Disponível em: <https://attack.mitre.org/>. Acesso em: 13 nov. 2026.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *The NIST Cybersecurity Framework (CSF) 2.0*. Gaithersburg: NIST, 2024. (NIST CSWP 29). DOI: <https://doi.org/10.6028/NIST.CSWP.29>.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *Technical guide to information security testing and assessment*. Gaithersburg: NIST, 2008. (NIST SP 800-115). DOI: <https://doi.org/10.6028/NIST.SP.800-115>.
-- NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *Incident response recommendations and considerations for cybersecurity risk management*: a CSF 2.0 community profile. Gaithersburg: NIST, 2025. (NIST SP 800-61 Rev. 3). DOI: <https://doi.org/10.6028/NIST.SP.800-61r3>.
-- HUTCHINS, Eric M.; CLOPPERT, Michael J.; AMIN, Rohan M. Intelligence-driven computer network defense informed by analysis of adversary campaigns and intrusion kill chains. *Leading Issues in Information Warfare & Security Research*, v. 1, p. 80-106, 2011.

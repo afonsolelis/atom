@@ -1,5 +1,7 @@
 # Segunda rodada dos decks: plataforma única Rede Tatame
 
+> **Histórico (rodada de 15/11/2026).** A numeração e os títulos das aulas abaixo são da proposta provisória. O mapa atual, alinhado à ementa oficial, está em `BRIEF_REALINHAMENTO.md` e o uso atual dos cenários, em `APLICACAO.md`.
+
 Decisão do professor: o módulo inteiro usa UMA aplicação fictícia, a plataforma distribuída da Rede Tatame
 (rede de academias de jiu-jitsu), como alvo do Red Team e ambiente defendido pelo Blue Team.
 

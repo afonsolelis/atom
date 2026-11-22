@@ -3,20 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 8 — Pós-exploração, movimentação lateral e relatório de Red Team</title>
+<title>Aula 8 — Evasão básica de defesas e limpeza de rastros em laboratório</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
-<style>
-  .tl-track { position: relative; height: 120px; margin: 10px 18px 0; }
-  .tl-track::before { content: ''; position: absolute; left: 0; right: 0; top: 58px; height: 4px; background: #22314F; border-radius: 2px; }
-  .tl-dot { position: absolute; top: 46px; width: 28px; height: 28px; margin-left: -14px; border-radius: 50%; border: 3px solid #0B1424; cursor: pointer; font: 700 11px var(--fonte); color: #fff; display: grid; place-items: center; }
-  .tl-dot.det { background: #3FD47A; color: #062; } .tl-dot.nao { background: #FF2B5F; }
-  .tl-dot.on { outline: 3px solid #F2CB0A; }
-  .tl-dot:nth-child(odd) .tl-h { top: -22px; } .tl-dot:nth-child(even) .tl-h { top: 32px; }
-  .tl-h { position: absolute; left: 50%; transform: translateX(-50%); font: 600 11px var(--mono); color: #9FB0C8; white-space: nowrap; }
-  .tl-info { font-size: .9rem; line-height: 1.45; color: #DCE3EE; min-height: 5.2em; }
-  .tl-info b { color: #F2CB0A; }
-</style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
@@ -31,8 +20,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 8 — Pós-exploração, movimentação lateral e relatório de Red Team</h1>
-      <div class="subtitulo">Unidade 2 — Red Team: operações ofensivas controladas</div>
+      <h1>Aula 8 — Evasão básica de defesas e limpeza de rastros em laboratório</h1>
+      <div class="subtitulo">Unidade 2 — Técnicas Ofensivas em Ambiente Controlado</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -42,22 +31,22 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Pós-exploração, movimentação lateral e relatório de Red Team</h1>
+        <h1 class="sumario-titulo">Evasão básica de defesas e limpeza de rastros em laboratório</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje na Rede Tatame</li>
-          <li>Do ponto de apoio ao impacto</li>
-          <li>As táticas da pós-exploração</li>
-          <li>Credenciais válidas: o atalho preferido</li>
-          <li>Caminhos de ataque e o pensamento em grafos</li>
-          <li>O que o Blue Team deveria ver</li>
-          <li>A movimentação lateral na plataforma Rede Tatame</li>
-          <li>Limites da pós-exploração em um engajamento</li>
-          <li>O relatório de Red Team</li>
+          <li>O problema de hoje: 38 minutos de silêncio</li>
+          <li>Furtividade (TA0005) e enfraquecimento de defesas (TA0112)</li>
+          <li>Laboratório: onde o rastro sobrevive</li>
+          <li>O que o defensor enxerga: 1102, 7036, Sysmon 2</li>
+          <li>Laboratório: a caça no Wazuh e na plataforma Rede Tatame</li>
+          <li>O que as regras de engajamento permitem</li>
+          <li>Laboratório: lacunas de telemetria em Python</li>
+          <li>Limpeza legítima e relatório de Red Team</li>
+          <li>Laboratório: relatório e conferência da limpeza</li>
           <li>Exemplo numérico e próxima unidade</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -70,125 +59,125 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>O invasor entrou pelo computador da recepção</h2>
+      <h2>38 minutos em que o SRV-ERP-01 ficou em silêncio</h2>
       <div class="problema">
         <div class="historia">
-          <p>A CISO Marina Prado pediu ao Red Team de Bruno Sato uma emulação do Grupo Cobalto Austral, o adversário fictício dos exercícios da <strong>Rede Tatame</strong>. O ponto de partida combinado foi o notebook da recepção da sede, <code>NB-REC-001</code>, como se um <em>e-mail</em> falso tivesse funcionado.</p>
-          <p>Daquele notebook até o controlador do Active Directory (AD), o diretório que guarda contas e permissões, quantos passos faltam? E o SOC (centro de operações de segurança) de Luiza Ferraz veria cada passo?</p>
-          <p>O que está em jogo: quem controla o domínio controla o <code>SRV-ARQ-01</code>, com fichas de alunos menores, e o ERP financeiro. Com esse acesso, um <em>ransomware</em> pararia a sede inteira.</p>
-          <div class="pergunta">Até onde um adversário chega a partir da recepção, e quanto disso o SOC da Tatame enxerga?</div>
-          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Autoriza</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span></div>
+          <p>No último dia útil do exercício autorizado, 25/11/2026, o Red Team de Bruno Sato emulou a fase de evasão do Grupo Cobalto Austral, como previsto nas regras de engajamento e combinado com o White Team.</p>
+          <p>Na revisão, Luiza Ferraz percebe que o agente EDR do <code>SRV-ERP-01</code>, o servidor do ERP financeiro, não mandou nada das 14h48 às 15h26, e que o log de Segurança do <code>SRV-ARQ-01</code> foi apagado às 14h10. Nenhum alerta tocou no segundo caso. O exercício termina na sexta e o Red Team precisa provar que deixou tudo limpo.</p>
+          <div class="pergunta">Como o Blue Team enxerga um adversário que tenta se esconder e apagar os próprios rastros, e como o Red Team encerra o exercício com o ambiente limpo e comprovado?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>Detecção</b> Rafael Tavares</span><span><b>Autoriza</b> Marina Prado</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Do ponto de apoio ao impacto -->
+  <!-- 4. Furtividade e enfraquecimento de defesas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
-      <h2>Do ponto de apoio ao impacto</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li>O acesso inicial raramente é o objetivo final. Um <em>e-mail</em> clicado ou um servidor vulnerável dá ao adversário um ponto de apoio em uma única máquina, muitas vezes com privilégios limitados.</li>
-          <li>O que transforma esse ponto de apoio em incidente grave é a <strong>pós-exploração</strong>: tudo o que acontece depois da entrada, até que o objetivo seja alcançado (dados, controle do domínio, interrupção do negócio).</li>
-          <li>Nesta aula, essa fase é tratada de forma conceitual: como o Red Team a documenta e como o Blue Team a enxerga.</li>
-        </ul>
-        <div class="callout-azul"><p>Pense em um molho de chaves. Quem tem a chave da sala onde está guardada a chave-mestra não precisa arrombar nada.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Táticas -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>As táticas da pós-exploração no ATT&amp;CK</h2>
+      <h2>Evasão de defesas: continuar no ambiente sem ser visto</h2>
       <div class="slide-content-box" style="font-size:.86em">
+        <p>No MITRE ATT&amp;CK atual, a evasão de defesas ocupa duas táticas: <strong>Furtividade</strong> (<em>Stealth</em>, TA0005), em que o adversário se esconde, e <strong>Enfraquecimento de defesas</strong> (<em>Defense Impairment</em>, TA0112), em que ele desliga ou cega os controles. Materiais anteriores a 2026 chamam tudo de <em>Defense Evasion</em> (TA0005) e usam T1562 <em>Impair Defenses</em>.</p>
         <table class="tabela-industrial">
-          <thead><tr><th>Tática</th><th>Objetivo do adversário</th><th>Exemplo de técnica</th><th>Rastro típico para o Blue Team</th></tr></thead>
+          <thead><tr><th>Tática</th><th>Técnica</th><th>Ideia, em nível conceitual</th></tr></thead>
           <tbody>
-            <tr><td>Persistência (TA0003)</td><td>Manter o acesso após reinicializações</td><td>T1053, <em>Scheduled Task/Job</em></td><td>Criação de tarefas agendadas incomuns</td></tr>
-            <tr><td>Escalada de privilégios (TA0004)</td><td>Obter permissões mais altas</td><td>T1068, <em>Exploitation for Privilege Escalation</em></td><td>Processos com privilégio elevado a partir de usuário comum</td></tr>
-            <tr><td>Acesso a credenciais (TA0006)</td><td>Obter senhas, <em>hashes</em> e tíquetes</td><td>T1003.001, <em>LSASS Memory</em>; T1558.003, tíquetes de serviço Kerberos</td><td>Acessos ao processo LSASS (o processo do Windows que guarda credenciais na memória); pedidos anômalos de tíquetes Kerberos</td></tr>
-            <tr><td>Descoberta (TA0007)</td><td>Mapear usuários, grupos e servidores</td><td>T1087, <em>Account Discovery</em></td><td>Consultas volumosas ao diretório</td></tr>
-            <tr><td>Movimentação lateral (TA0008)</td><td>Saltar para outras máquinas</td><td>T1021, <em>Remote Services</em>; T1550.002, reuso de <em>hash</em></td><td><em>Logons</em> remotos fora do padrão</td></tr>
-            <tr><td>Comando e controle (TA0011)</td><td>Manter comunicação com o operador</td><td>T1071, <em>Application Layer Protocol</em></td><td>Conexões periódicas (<em>beaconing</em>) a domínios raros</td></tr>
+            <tr><td>TA0112</td><td><strong>T1685</strong> <em>Disable or Modify Tools</em></td><td>Parar ou enfraquecer o antivírus ou o agente EDR</td></tr>
+            <tr><td>TA0112</td><td><strong>T1685.001</strong> e <strong>T1685.005</strong></td><td>Desativar o log de eventos do Windows; apagar logs já gravados (<em>Clear Windows Event Logs</em>)</td></tr>
+            <tr><td>TA0005</td><td><strong>T1070.004</strong> e <strong>T1070.006</strong></td><td>Apagar arquivos usados e alterar datas de arquivos (<em>timestomp</em>), dentro de T1070 <em>Indicator Removal</em></td></tr>
+            <tr><td>TA0005</td><td><strong>T1036</strong> <em>Masquerading</em> e <strong>T1027</strong></td><td>Disfarçar um programa com nome de outro legítimo; ofuscar conteúdo</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.5em">Essas táticas costumam se repetir em ciclos: descobrir, obter credenciais, mover-se e descobrir de novo.</p>
       </div>
     </div>
   </section>
 
-  <!-- 6. Ferramentas e contas válidas -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>Ferramentas conhecidas e contas válidas</h2>
-      <div class="slide-content-box">
-        <div class="colunas" style="align-items:start;gap:2rem">
-          <div>
-            <h3>Nomes que o defensor precisa reconhecer</h3>
-            <p>O <strong>Mimikatz</strong> (S0002, no catálogo do ATT&amp;CK) tornou-se símbolo do acesso a credenciais em ambientes Windows, e sua presença é um dos comportamentos mais monitorados por soluções de EDR (que vigiam processos e memória nas máquinas).</p>
-            <p><em>Frameworks</em> de comando e controle, comerciais ou de código aberto, dão aos operadores um canal para coordenar a operação. Conhecer esses nomes ajuda a reconhecê-los em relatórios de inteligência.</p>
-          </div>
-          <div>
-            <h3>Credenciais válidas: o atalho preferido</h3>
-            <p>Muitos adversários evitam <em>malware</em> sofisticado e preferem <strong>contas válidas</strong> (T1078): com uma credencial legítima, suas ações se misturam às dos administradores.</p>
-            <div class="callout-azul"><p>Recomendações frequentes em relatórios: segundo fator, separação entre contas administrativas e de uso diário e acesso privilegiado sob demanda.</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. LAB flow -->
+  <!-- 5. LAB flow: onde o rastro sobrevive -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: seguir o caminho e o rastro de cada etapa</p><h2>Da recepção ao controlador de domínio</h2></div><span class="lab-badge purple">Red e Blue</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver o que cada técnica de evasão apaga e o que ela deixa</p><h2>Onde o rastro sobrevive</h2></div><span class="lab-badge purple">Exercício autorizado</span></div>
       <div class="lab-area" id="lab-flow"></div>
     </div>
   </section>
 
-  <!-- 8. Grafos -->
+  <!-- 6. Como o defensor enxerga -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Caminhos de ataque</p>
-      <h2>Defensores pensam em listas, atacantes em grafos</h2>
-      <div class="slide-content-box">
-        <p>No Active Directory, as permissões formam uma rede de relações: o usuário A administra a máquina B, onde o administrador C costuma fazer <em>logon</em>, e C pertence a um grupo com controle sobre o domínio.</p>
-        <ul>
-          <li>O <strong>BloodHound</strong> representa essas relações como um <strong>grafo</strong> e calcula <strong>caminhos de ataque</strong> até ativos críticos, como o grupo <em>Domain Admins</em>.</li>
-          <li>A mesma visão serve à defesa: eliminar uma única relação mal configurada pode cortar dezenas de caminhos de uma só vez.</li>
-        </ul>
-        <div class="callout-azul"><p>Frase atribuída a John Lambert, da Microsoft: os defensores pensam em listas; os atacantes pensam em grafos. Enquanto isso for verdade, os atacantes vencem.</p></div>
+      <p class="kicker">Visão do defensor</p>
+      <h2>Toda técnica de evasão deixa um rastro próprio</h2>
+      <div class="slide-content-box" style="font-size:.88em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Técnica</th><th>Rastro que o Blue Team procura</th><th>Onde aparece</th></tr></thead>
+          <tbody>
+            <tr><td>T1685.005 Apagar logs</td><td>Evento <strong>1102</strong> (<em>The audit log was cleared</em>) e evento <strong>104</strong> (outro log apagado)</td><td>Log de Segurança e log de Sistema</td></tr>
+            <tr><td>T1685 Parar o EDR</td><td>Agente sem <em>heartbeat</em> (lacuna de telemetria); eventos <strong>7036</strong> (serviço parado) e <strong>7040</strong> (tipo de início alterado)</td><td>Console do EDR e log de Sistema</td></tr>
+            <tr><td>Serviço novo</td><td>Evento <strong>7045</strong> (serviço instalado)</td><td>Log de Sistema</td></tr>
+            <tr><td>T1070.006 <em>Timestomp</em></td><td>Sysmon <strong>2</strong> (data de criação de arquivo alterada)</td><td>Sysmon</td></tr>
+            <tr><td>T1070.004 Apagar arquivo</td><td>Sysmon <strong>23</strong> e <strong>26</strong> (arquivo apagado)</td><td>Sysmon</td></tr>
+            <tr><td>T1036.005 Disfarce</td><td><code>svchost.exe</code> rodando fora de <code>C:\Windows\System32</code></td><td>Sysmon 1 e EDR</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.6rem"><p>Duas defesas tornam a evasão cara: <strong>encaminhar os logs</strong> para fora da máquina assim que são gerados (WEF ou agente do SIEM) e ligar a <strong>proteção contra adulteração</strong> (<em>tamper protection</em>) do EDR.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 9. LAB 3D -->
+  <!-- 7. LAB SIEM (Wazuh) -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>O grafo do diretório e o caminho até <em>Domain Admins</em></h2></div><span class="lab-badge purple">Red e Blue</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>A caça aos rastros no Wazuh</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
-          <p>Recorte fictício do AD <code>corp.tatame.local</code> com 12 usuários. Embaixo, usuários; no meio, grupos e computadores; no topo, <em>Domain Admins</em>.</p>
+          <p>Luiza Ferraz revisa a tarde de 25/11 no Wazuh, o SIEM de código aberto do SOC, com a lista de técnicas do Red Team em mãos.</p>
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Achar as relações que, cortadas, eliminam mais caminhos.</div>
-            <div class="rl"><b>Faça</b>1. Gire a cena e siga as arestas vermelhas de <code>rec.ana</code>.<br>2. Clique em um botão <em>Cortar</em> de cada vez.<br>3. Clique em <em>Restaurar</em> e compare.</div>
-            <div class="rl obs"><b>Observe</b>O caminho de <code>rec.ana</code> tem 7 saltos. Cada corte apaga vários caminhos de uma vez. Nenhuma técnica de ataque é executada.</div>
-            <div class="rl conc"><b>Conclusão</b>Poucas correções no grafo cortam quase todos os caminhos.</div>
+            <div class="rl obj"><b>Objetivo</b>Encontrar no SIEM o rastro de cada técnica de evasão.</div>
+            <div class="rl"><b>Faça</b>Clique nas cinco buscas salvas, na ordem.</div>
+            <div class="rl obs"><b>Observe</b>O 1102 chegou ao SIEM. A lacuna de 38 min do <code>SRV-ERP-01</code>, o 7036 e o Sysmon 2 também estavam lá, mas sem regra.</div>
+            <div class="rl conc"><b>Conclusão</b>Apagar na máquina não apaga o que já foi encaminhado.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-3d"></div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Sem o EDR, o SOC fica cego</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-split plat">
+        <div class="lab-area" id="lab-tatame"></div>
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Medir o que some quando o agente EDR para (T1685).</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Telemetria</strong>, desmarque <em>EDR dos notebooks e servidores</em>.<br>2. Ponha a velocidade em <em>1 s = 1 min</em>. Em <strong>Cenários</strong>, inicie <em>Emulação do Grupo Cobalto Austral</em> e espere o último passo.<br>3. Volte a <strong>Telemetria</strong> e marque o EDR de novo.<br>4. Em <strong>Cenários</strong>, clique em <em>Repetir com as fontes e regras atuais</em>.</div>
+            <div class="rl obs"><b>Observe</b>Sem EDR: 1 passo detectado e 4 não detectados, com o LSASS e as cópias de sombra entre eles. Com o EDR: 3 detectados, porque R6 e R7 voltam a disparar.</div>
+            <div class="rl conc"><b>Conclusão</b>Com o agente parado, o que vem depois deixa de ser visto; o que já foi enviado continua no SIEM.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Regras de engajamento -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Regras de engajamento</p>
+      <h2>O que vale em evasão num exercício autorizado</h2>
+      <div class="slide-content-box" style="font-size:.92em">
+        <ul>
+          <li>A evasão só entra no exercício para <strong>medir a detecção</strong>, com técnicas listadas uma a uma na RoE e janela combinada com o White Team, que controla o exercício.</li>
+          <li>Nada de desligar defesa de produção sem autorização expressa. Na Tatame, a RoE previa parar o agente EDR em dois servidores por, no máximo, 40 minutos, e o Red Team religou às 15h26.</li>
+          <li>Limpar um log só depois de confirmar que ele foi <strong>encaminhado ao SIEM</strong>. A cópia central é a evidência que o exercício precisa preservar.</li>
+          <li>A palavra de parada "LARANJA" interrompe tudo se a equipe perceber risco real à operação.</li>
+        </ul>
+        <div class="callout-azul"><p>No fim do exercício, "limpar rastros" tem outro sentido: o Red Team <strong>remove o que criou</strong> e entrega o inventário para o Blue Team conferir. Ninguém apaga registro de auditoria.</p></div>
       </div>
     </div>
   </section>
@@ -203,30 +192,29 @@
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Roda o <code>caminhos.py</code>; o operador <code>:=</code> do código exige a versão 3.8 ou mais nova</td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
-            <tr><td><strong><code>json</code>, <code>sys</code>, <code>collections</code></strong></td><td>Ler o grafo e montar a fila da busca em largura</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site (Windows, macOS e Linux)</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>lacunas.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração dentro do editor</td><td>Aba Extensões do VS Code, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
+            <tr><td><strong><code>csv</code> e <code>json</code></strong></td><td>Leem a exportação do EDR e os eventos do SIEM</td><td>Biblioteca padrão (<code>docs.python.org</code>)</td><td>Já vêm com o Python</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> rode <code>python3 --version</code> e compare com a versão que o código pede; a página "What's New" da documentação oficial diz em que versão cada recurso da linguagem entrou. O BloodHound, citado no comentário do código, <strong>não</strong> é instalado: o laboratório reproduz só a ideia do grafo, em Python puro, sobre um diretório fictício. Ferramenta de coleta em diretório real só se usa com autorização escrita e dentro do escopo.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> os dois módulos fazem parte da biblioteca padrão, então não há pacote de terceiros para baixar. Desconfie de qualquer tutorial que mande instalar "csv" ou "json" pelo <code>pip</code>: pacote com nome de módulo padrão é um golpe conhecido. Mesmo sem dependências, o laboratório roda num ambiente virtual (<code>.venv</code>), para não misturar com o sistema.</div>
       </div>
     </div>
   </section>
 
-  <!-- 11. LAB VS Code BFS -->
+  <!-- 11. LAB VS Code: lacunas de telemetria -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Menor caminho por busca em largura</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Lacunas de telemetria e sinais de evasão</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
-          <p>O mesmo grafo da cena 3D, em JSON. O script faz uma busca em largura (BFS) a partir de cada usuário comum.</p>
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Contar quantos usuários chegam a <em>Domain Admins</em>.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Clique em <em>Antes das correções</em>.<br>3. Abra <code>correcoes.json</code>.<br>4. Clique em <em>Depois das correções</em>.</div>
-            <div class="rl obs"><b>Observe</b>Com três arestas a menos, os usuários com caminho caem de 10 para 1.</div>
-            <div class="rl conc"><b>Conclusão</b>O cálculo mostra o efeito de cada correção antes de aplicá-la.</div>
+            <div class="rl obj"><b>Objetivo</b>Achar o silêncio do EDR e os sinais de evasão com um script de caça.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>sessoes_edr.csv</code> e <code>eventos.jsonl</code>.<br>3. Volte ao <code>lacunas.py</code> e clique em "Procurar lacunas".</div>
+            <div class="rl obs"><b>Observe</b>Duas lacunas: a do <code>NB-FIN-031</code> tem explicação (evento 1074); a do <code>SRV-ERP-01</code>, de 38 min, não. Oito sinais de evasão em dois servidores.</div>
+            <div class="rl conc"><b>Conclusão</b>A lacuna sem explicação é o achado que nenhuma regra mostrou.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -234,68 +222,28 @@
     </div>
   </section>
 
-  <!-- 12. LAB SIEM -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>Que evento deveria existir em cada etapa</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>O SOC revisa a operação no SIEM (a central que reúne os registros), com a linha do tempo do Red Team em mãos.</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Descobrir quais etapas viraram alerta.</div>
-            <div class="rl"><b>Faça</b>1. Clique nas quatro buscas salvas, em ordem.<br>2. Separe as que dispararam alerta das que só ficaram nos registros.</div>
-            <div class="rl obs"><b>Observe</b>O EDR pegou o acesso ao LSASS e o SIEM pegou os tíquetes Kerberos. O <em>logon</em> remoto e as conexões periódicas estavam nos registros, sem regra.</div>
-            <div class="rl conc"><b>Conclusão</b>Evento sem regra fica guardado, mas ninguém é avisado.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-siem"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13. PLATAFORMA REDE TATAME -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>A movimentação lateral na plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
-      <div class="lab-split plat">
-        <div class="lab-area" id="lab-tatame"></div>
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver a emulação inteira e o que muda com duas regras novas.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Emulação do Grupo Cobalto Austral</em> e deixe chegar ao impacto.<br>2. Em <strong>Regras do CEP</strong> (o motor que correlaciona eventos), ligue a R5 e a R13. Inicie de novo.<br>3. Na última aba, <strong>Cobertura</strong>, confira T1021.001 e T1087.002.<br>4. Inicie mais uma vez. No <strong>SOC</strong>, contenha o alerta novo de <code>caio.mendes</code> assim que surgir.</div>
-            <div class="rl obs"><b>Observe</b>Sem as regras, a consulta ao AD e os dois RDPs (acesso remoto à área de trabalho) ficam como <em>visto nos logs, sem alerta</em>. Com elas, viram alerta.</div>
-            <div class="rl conc"><b>Conclusão</b>Com o alerta contido a tempo, o impacto não acontece.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 14. Limites -->
+  <!-- 12. Limpeza legítima -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Regras de engajamento</p>
-      <h2>Limites da pós-exploração em um engajamento</h2>
-      <div class="slide-content-box">
-        <p>As regras de engajamento definem até onde a equipe pode ir. Em geral, o <strong>impacto é demonstrado, e não executado</strong>.</p>
+      <p class="kicker">Fim do exercício</p>
+      <h2>Limpeza legítima: remover o que criou e provar que removeu</h2>
+      <div class="slide-content-box" style="font-size:.92em">
         <table class="tabela-industrial">
-          <thead><tr><th>Em vez de</th><th>O Red Team</th></tr></thead>
+          <thead><tr><th>Etapa</th><th>Quem faz</th><th>O que fica registrado</th></tr></thead>
           <tbody>
-            <tr><td>Exfiltrar as fichas de alunos</td><td>Registra evidência de que teria acesso a elas, como uma captura de tela da estrutura da tabela</td></tr>
-            <tr><td>Criptografar servidores</td><td>Documenta que tinha os privilégios para isso</td></tr>
-            <tr><td>Guardar credenciais obtidas</td><td>Protege e invalida as credenciais ao final</td></tr>
-            <tr><td>Deixar persistências e contas criadas</td><td>Remove tudo na limpeza pós-operação, com registro do que foi feito</td></tr>
+            <tr><td><strong>Inventário</strong></td><td>Red Team, durante toda a operação</td><td>Cada conta, tarefa, serviço, chave de registro e arquivo criado, com host, hora e o código <code>RT-APR2291</code></td></tr>
+            <tr><td><strong>Remoção</strong></td><td>Red Team, ao fim da janela</td><td>O que foi removido e como, no relatório</td></tr>
+            <tr><td><strong>Conferência</strong></td><td>Blue Team, numa varredura própria</td><td>Item a item: removido e conferido, ou pendente</td></tr>
+            <tr><td><strong>Fechamento</strong></td><td>White Team</td><td>Pendências reabertas até zerar; credenciais usadas trocadas</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.5em">Dados pessoais encontrados durante a operação, como fichas de alunos menores no <code>SRV-ARQ-01</code>, são tratados conforme a LGPD. A rede de pagamentos e a PagaFácil ficam fora do escopo.</p>
+        <p style="margin-top:.5em">Se o Blue Team achar um artefato que <strong>não está no inventário</strong>, ele deixa de ser assunto do exercício: vira suspeita de incidente real e segue o processo de resposta.</p>
       </div>
     </div>
   </section>
 
-  <!-- 15. Relatório -->
+  <!-- 13. Relatório -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -306,18 +254,18 @@
           <thead><tr><th>Seção</th><th>Conteúdo</th></tr></thead>
           <tbody>
             <tr><td><strong>Sumário executivo</strong></td><td>Objetivos, resultado e riscos em linguagem de negócio, em uma página</td></tr>
-            <tr><td><strong>Narrativa do ataque</strong></td><td>Linha do tempo de cada etapa</td></tr>
+            <tr><td><strong>Narrativa do ataque</strong></td><td>Linha do tempo de cada etapa, da Aula 5 à Aula 8</td></tr>
             <tr><td><strong>Achados</strong></td><td>Evidências, severidade e técnica ATT&amp;CK correspondente</td></tr>
             <tr><td><strong>Detecção e resposta</strong></td><td>O que foi detectado, quando, e o que passou despercebido</td></tr>
-            <tr><td><strong>Recomendações</strong></td><td>Priorizadas</td></tr>
+            <tr><td><strong>Limpeza</strong></td><td>Inventário de artefatos e situação da conferência</td></tr>
+            <tr><td><strong>Recomendações</strong></td><td>Priorizadas, com o dono de cada uma</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul"><p>A linha do tempo detalhada permite ao Blue Team comparar, minuto a minuto, o que o Red Team fez com o que os registros mostram. É a base do <em>purple teaming</em> da Unidade 4.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 16. Antes do código: o pacote novo do segundo laboratório -->
+  <!-- 14. Antes do código: o pacote do relatório -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -331,24 +279,23 @@
             <tr><td><strong>VS Code, Python 3.12 e <code>venv</code></strong></td><td>Os mesmos do laboratório anterior</td><td>Já instalados</td><td>Só criar um <code>.venv</code> novo na pasta deste projeto</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o nome usado no <code>import</code> nem sempre é o nome do pacote. O código diz <code>import yaml</code>, mas o pacote se chama <strong>PyYAML</strong>; quem diz isso é a documentação do projeto, em <code>pyyaml.org</code>. Instalar pelo palpite é o caminho mais curto para um pacote falso de nome parecido (<em>typosquatting</em>). No <code>requirements.txt</code>, a versão fica fixada com <code>==</code>, para o relatório ser gerado sempre com a mesma biblioteca.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o nome usado no <code>import</code> nem sempre é o nome do pacote. O código diz <code>import yaml</code>, mas o pacote se chama <strong>PyYAML</strong>, como informa a documentação do projeto em <code>pyyaml.org</code>. Instalar pelo palpite é o caminho mais curto para um pacote falso de nome parecido (<em>typosquatting</em>). No <code>requirements.txt</code>, a versão fica fixada com <code>==</code>.</div>
       </div>
     </div>
   </section>
 
-  <!-- 17. LAB VS Code relatório -->
+  <!-- 15. LAB VS Code: relatório e limpeza -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Do registro da operação ao relatório</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Relatório da evasão e conferência da limpeza</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
-          <p>Cada técnica executada é registrada com hora, tática, técnica ATT&amp;CK e se a defesa detectou.</p>
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Gerar o rascunho do relatório a partir do registro.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Abra <code>operacao.yaml</code>.<br>3. Clique em <em>Gerar relatório</em>.<br>4. Leia o <code>relatorio.md</code> gerado.</div>
-            <div class="rl obs"><b>Observe</b>A taxa de detecção sai do próprio registro: 4 de 12 técnicas, 33%.</div>
-            <div class="rl conc"><b>Conclusão</b>O relatório conta o ataque e mostra o que a defesa perdeu.</div>
+            <div class="rl obj"><b>Objetivo</b>Gerar a seção de evasão e limpeza do relatório a partir do registro da operação.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>operacao.yaml</code>.<br>3. Clique em "Gerar relatório" e leia o <code>relatorio.md</code>.</div>
+            <div class="rl obs"><b>Observe</b>2 de 6 técnicas de evasão detectadas (33%). 11 de 12 artefatos conferidos; a conta <code>tst.local01</code> ficou pendente.</div>
+            <div class="rl conc"><b>Conclusão</b>O exercício só termina quando a pendência zera.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-rel"></div>
@@ -356,83 +303,62 @@
     </div>
   </section>
 
-  <!-- 18. LAB linha do tempo -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Linha do tempo</p><h2>12 técnicas, 4 detecções</h2></div><span class="lab-badge purple">Detecção e resposta</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>A seção de detecção do relatório, em linha do tempo. Verde: detectada. Vermelho: passou despercebida.</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Achar as lacunas de detecção.</div>
-            <div class="rl"><b>Faça</b>1. Clique em cada marco.<br>2. Use os filtros para ver só as lacunas.</div>
-            <div class="rl obs"><b>Observe</b>Oito pontos vermelhos, entre eles o RDP para o <code>SRV-ARQ-01</code> às 13h20.</div>
-            <div class="rl conc"><b>Conclusão</b>Cada lacuna vira uma regra a criar na Unidade 3.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-tl"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>Cortando caminhos e medindo a detecção</h2>
+      <h2>Quanto tempo o SOC ficou cego e quanto a regra encurtaria</h2>
       <div class="slide-content-box" style="font-size:.95em">
-        <p>Em um domínio com 5.000 contas, a análise de grafo mostra que 1.200 têm algum caminho até o grupo de administradores do domínio. Quase todos passam por dois servidores em que administradores fazem <em>logon</em> rotineiramente e por um grupo de suporte com permissões excessivas. Corrigidos esses três pontos, restam 40 contas com caminho.</p>
+        <p>O agente EDR do <code>SRV-ERP-01</code> ficou parado das 14h48 às 15h26. Uma regra "agente sem <em>heartbeat</em> por mais de 10 minutos" teria disparado às 14h58.</p>
         <div class="stat-grid">
-          <div class="stat-card"><span class="numero-grande">24%</span><span class="legenda">antes: 1.200 ÷ 5.000</span></div>
-          <div class="stat-card"><span class="numero-grande">0,8%</span><span class="legenda">depois: 40 ÷ 5.000</span></div>
-          <div class="stat-card"><span class="numero-grande">97%</span><span class="legenda">dos caminhos cortados: 1.160 ÷ 1.200</span></div>
-          <div class="stat-card"><span class="numero-grande">33%</span><span class="legenda">de detecção: 4 ÷ 12 técnicas</span></div>
+          <div class="stat-card"><span class="numero-grande">38 min</span><span class="legenda">de lacuna: 15h26 − 14h48</span></div>
+          <div class="stat-card"><span class="numero-grande">74%</span><span class="legenda">menos tempo cego com a regra: 28 ÷ 38</span></div>
+          <div class="stat-card"><span class="numero-grande">33%</span><span class="legenda">de detecção da evasão: 2 ÷ 6</span></div>
+          <div class="stat-card"><span class="numero-grande">92%</span><span class="legenda">da limpeza conferida: 11 ÷ 12</span></div>
         </div>
-        <p style="margin-top:.8em">A taxa de detecção de 33% é um número que o relatório deve destacar como ponto de partida para a melhoria.</p>
       </div>
     </div>
   </section>
 
-  <!-- 20. Próxima unidade -->
+  <!-- 17. Próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O que você verá na próxima unidade</p>
-      <h2>Unidade 3: da camisa vermelha para a azul</h2>
+      <h2>Unidade 3 — Defesa, Monitoramento e Detecção</h2>
       <div class="slide-content-box">
-        <p>Cada rastro mencionado nesta unidade vira matéria-prima da defesa: varreduras nos registros de <em>firewall</em>, cliques no <em>proxy</em>, acessos ao LSASS, <em>logons</em> remotos fora do padrão.</p>
+        <p>Cada rastro desta unidade vira matéria-prima da defesa: a varredura no WAF, o acesso inicial, a movimentação lateral e, hoje, o log apagado e o agente em silêncio.</p>
         <table class="tabela-industrial">
           <thead><tr><th>Aula</th><th>Tema</th></tr></thead>
           <tbody>
-            <tr><td>9</td><td>Telemetria, registros e SIEM</td></tr>
-            <tr><td>10</td><td>Engenharia de detecção e EDR</td></tr>
-            <tr><td>11</td><td><em>Threat hunting</em> e inteligência de ameaças</td></tr>
-            <tr><td>12</td><td>Resposta a incidentes, do primeiro alerta às lições aprendidas</td></tr>
+            <tr><td>9</td><td>Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints</td></tr>
+            <tr><td>10</td><td>Detecção baseada em assinaturas, comportamento e regras</td></tr>
+            <tr><td>11</td><td>Caça a ameaças: hipóteses, consultas e análise de anomalias</td></tr>
+            <tr><td>12</td><td><em>Hardening</em> de sistemas e redução da superfície de ataque</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- 21. De volta ao problema -->
+  <!-- 18. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>Agora a Tatame sabe até onde o adversário chega</h2>
+      <h2>Agora Luiza sabe o que aconteceu nos 38 minutos</h2>
       <div class="resolvido">
-        <div class="ev"><b>O caminho</b>O diagrama e o grafo mostraram a rota da recepção ao controlador de domínio. O caminho de rec.ana tem 7 saltos.</div>
-        <div class="ev"><b>Onde cortar</b>O script calculou 10 usuários com caminho até Domain Admins. Três correções baixam esse número para 1.</div>
-        <div class="ev"><b>O que o SOC viu</b>O relatório e a linha do tempo mostram 4 de 12 técnicas detectadas: 33%.</div>
-        <div class="ev"><b>Parar a tempo</b>Na plataforma, com a R5 e a R13 ligadas e o alerta contido, o impacto não acontece.</div>
-        <div class="resposta">Resposta à pergunta da aula: a partir da recepção, o adversário chega ao controlador de domínio, e o SOC viu só 4 das 12 técnicas. Cortar três relações no AD e criar regras para as lacunas fecham a maior parte do caminho.</div>
+        <div class="ev"><b>O rastro sobrevive</b>O fluxo e o Wazuh mostraram que o 1102, o 7036 e o Sysmon 2 chegaram ao SIEM, porque os logs saem da máquina na hora.</div>
+        <div class="ev"><b>O silêncio é sinal</b>A plataforma e o script mostraram o que some sem o EDR e acharam a lacuna de 38 min sem explicação.</div>
+        <div class="ev"><b>Limpeza comprovada</b>O relatório lista 12 artefatos e 11 conferidos pelo Blue Team. A conta <code>tst.local01</code> volta para o Red Team.</div>
+        <div class="ev"><b>O que melhorar</b>Só 2 de 6 técnicas viraram alerta. As outras quatro viram regras na Unidade 3.</div>
+        <div class="resposta">Resposta à pergunta da aula: o Blue Team enxerga a evasão pelo rastro que ela mesma gera (1102, 7036, Sysmon 2 e a ausência de <em>heartbeat</em>), desde que os logs sejam encaminhados e alguém procure o silêncio. O Red Team encerra o exercício removendo o que criou e entregando o inventário para conferência, sem apagar nenhum registro.</div>
       </div>
     </div>
   </section>
 
-  <!-- 22. Pontos-chave -->
+  <!-- 19. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -440,40 +366,42 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>A pós-exploração transforma um ponto de apoio em impacto real, em ciclos de descoberta, credenciais e movimentação.</li>
-          <li>Contas válidas (T1078) permitem que o adversário se misture aos usuários legítimos.</li>
-          <li>Pensar em grafos revela caminhos de ataque e mostra onde uma correção corta muitos deles.</li>
-          <li>O relatório de Red Team narra o ataque, mapeia técnicas ATT&amp;CK e mede o que a defesa detectou.</li>
+          <li>A evasão de defesas, hoje dividida entre Furtividade (TA0005) e Enfraquecimento de defesas (TA0112), tenta esconder o adversário, mas cada técnica gera um rastro próprio.</li>
+          <li>Logs encaminhados na hora e proteção contra adulteração do EDR tornam a evasão cara e visível.</li>
+          <li>Num exercício, evasão só entra para medir a detecção, com técnica, janela e limites combinados com o White Team.</li>
+          <li>Limpeza legítima é remover os próprios artefatos e provar a remoção; o relatório mostra também o que a defesa não viu.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 23. Referências -->
+  <!-- 20. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.8em">
-        <p style="overflow-wrap:anywhere">LAMBERT, John. <em>Defenders think in lists. Attackers think in graphs. As long as this is true, attackers win</em>. 2015. Disponível em: &lt;https://github.com/JohnLaTwC/Shared/blob/master/Defenders%20think%20in%20lists.%20Attackers%20think%20in%20graphs.%20As%20long%20as%20this%20is%20true%2C%20attackers%20win.md&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>MITRE. <em>Lateral movement (TA0008)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0008/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>MITRE. <em>Valid accounts (T1078)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/techniques/T1078/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. <em>SP 800-115: technical guide to information security testing and assessment</em>. Gaithersburg: NIST, 2008.</p>
-        <p>WEIDMAN, Georgia. <em>Testes de invasão: uma introdução prática ao hacking</em>. São Paulo: Novatec, 2014.</p>
+      <div class="slide-content-box" style="font-size:.82em">
+        <p>MICROSOFT. <em>Sysmon v15</em>. In: Microsoft Learn: Sysinternals. Disponível em: &lt;https://learn.microsoft.com/sysinternals/downloads/sysmon&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>MITRE. <em>Defense impairment (TA0112)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0112/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>MITRE. <em>Stealth (TA0005)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0005/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>MITRE. <em>Indicator removal (T1070)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/techniques/T1070/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>MITRE. <em>Disable or modify tools (T1685)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/techniques/T1685/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>SANTOS, Joas Antonio dos. <em>Introdução ao Red Team Operations 2.0</em>: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024.</p>
+        <p>WEIDMAN, Georgia. <em>Testes de invasão</em>: uma introdução prática ao hacking. São Paulo: Novatec, 2014.</p>
       </div>
     </div>
   </section>
 
-  <!-- 24. Encerramento -->
+  <!-- 21. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você viu o ataque por dentro: as táticas da pós-exploração, os caminhos de ataque em grafo, os limites do engajamento e o relatório que mede a detecção. Agora vamos montar, na plataforma da Tatame, a defesa que detecta cada um desses passos.</p>
-      <p class="fim-proxima">Próxima aula: Aula 9 — Telemetria, registros e SIEM (Unidade 3 — Blue Team: detecção e resposta).</p>
+      <p class="fim-texto">Você viu como o adversário tenta se esconder, que rastro cada técnica deixa e como o Red Team fecha um exercício com o ambiente limpo e comprovado. Na próxima unidade, vamos construir a defesa que transforma esses rastros em alerta.</p>
+      <p class="fim-proxima">Próxima aula: Aula 9 — Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -483,120 +411,87 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* Grafo fictício do diretório (o mesmo de grafo.json) */
-const GRAFO = {
-  usuarios: ['rec.ana', 'fin.bruno', 'fin.carla', 'atd.diego', 'atd.elisa', 'prod.fabio', 'sup.heitor', 'sup.iris', 'dev.joao', 'dev.karen', 'estagio.nina', 'adm.caio'],
-  alvo: 'DOMAIN ADMINS',
-  arestas: [
-    ['rec.ana', 'MemberOf', 'TODOS-SEDE'], ['fin.bruno', 'MemberOf', 'TODOS-SEDE'], ['fin.carla', 'MemberOf', 'TODOS-SEDE'],
-    ['atd.diego', 'MemberOf', 'TODOS-SEDE'], ['atd.elisa', 'MemberOf', 'TODOS-SEDE'], ['prod.fabio', 'MemberOf', 'TODOS-SEDE'],
-    ['TODOS-SEDE', 'AdminTo', 'NB-REC-001'], ['NB-REC-001', 'HasSession', 'sup.heitor'],
-    ['sup.heitor', 'MemberOf', 'SUPORTE-N1'], ['sup.iris', 'MemberOf', 'SUPORTE-N1'], ['SUPORTE-N1', 'AdminTo', 'SRV-ARQ-01'], ['SRV-ARQ-01', 'HasSession', 'adm.caio'],
-    ['dev.joao', 'MemberOf', 'DEV'], ['dev.karen', 'MemberOf', 'DEV'], ['DEV', 'AdminTo', 'SRV-ERP-01'], ['SRV-ERP-01', 'HasSession', 'adm.caio'],
-    ['atd.elisa', 'MemberOf', 'LEGADO-ERP'], ['LEGADO-ERP', 'GenericAll', 'adm.caio'], ['adm.caio', 'MemberOf', 'DOMAIN ADMINS']
-  ]
-};
-function menorCaminho(arestas, inicio, alvo) {
-  const viz = {}; arestas.forEach(([a, r, b]) => (viz[a] = viz[a] || []).push([r, b]));
-  const ant = { [inicio]: null }, fila = [inicio];
-  while (fila.length) {
-    const no = fila.shift();
-    if (no === alvo) { const p = []; let n = no; while (ant[n]) { p.unshift([ant[n][0], ant[n][1], n]); n = ant[n][0]; } return p; }
-    (viz[no] || []).forEach(([r, b]) => { if (!(b in ant)) { ant[b] = [no, r]; fila.push(b); } });
-  }
-  return null;
-}
+/* ---------- 3. Mini-mapa ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['arq', 'edr', 'siem', 'ad'], alvo: 'erp', caminho: ['vpn', 'ad', 'arq', 'erp'],
+  legenda: 'Onde a aula acontece: os servidores <code>SRV-ARQ-01</code> e <code>SRV-ERP-01</code> (em vermelho), o console do EDR e o SIEM que recebe os logs da sede.' });
 
-/* ---------- Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['arq', 'erp', 'siem', 'edr'], alvo: 'ad', caminho: ['nb', 'arq', 'ad'],
-  legenda: 'Onde a aula acontece: a rede interna da sede. O caminho vai de um notebook da sede (o mapa desenha o <code>NB-FIN-031</code>; o da recepção fica na mesma rede) ao servidor de arquivos e dali ao controlador de domínio, em vermelho.' });
-
-/* ---------- 7. Fluxo: da recepção ao DC ---------- */
+/* ---------- 5. Fluxo: onde o rastro sobrevive ---------- */
 Labs.flow('#lab-flow', {
-  w: 1100, h: 440,
+  w: 1100, h: 430,
   nodes: [
-    { id: 'rec', x: 110, y: 90, label: 'NB-REC-001', sub: 'ponto de apoio', icon: '💻', k: 'red', w: 180 },
-    { id: 'dir', x: 380, y: 90, label: 'Diretório', sub: 'usuários e grupos', icon: '🗂️', w: 180 },
-    { id: 'arq', x: 650, y: 90, label: 'SRV-ARQ-01', sub: 'admin faz logon aqui', icon: '🖥️', w: 200 },
-    { id: 'dc', x: 960, y: 90, label: 'SRV-AD-01', sub: 'controlador de domínio', icon: '👑', k: 'amber', w: 210 },
-    { id: 'c2', x: 110, y: 250, label: 'Operador', sub: 'comando e controle', icon: '📡', k: 'red', w: 180 },
-    { id: 'edr', x: 520, y: 260, label: 'EDR', sub: 'processos e memória', icon: '🛡️', k: 'blue' },
-    { id: 'siem', x: 780, y: 260, label: 'SIEM', sub: 'logons e tíquetes', icon: '📊', k: 'blue' },
-    { id: 'pur', x: 650, y: 390, label: 'Revisão purple', sub: '4 de 12 detectadas', icon: '🤝', k: 'purple', w: 210 }
+    { id: 'red', x: 110, y: 90, label: 'Red Team', sub: 'evasão combinada', icon: '🎯', k: 'red' },
+    { id: 'arq', x: 360, y: 90, label: 'SRV-ARQ-01', sub: 'log local + EDR', icon: '🗄️' },
+    { id: 'erp', x: 360, y: 250, label: 'SRV-ERP-01', sub: 'log local + EDR', icon: '🗄️' },
+    { id: 'fwd', x: 620, y: 170, label: 'Encaminhador', sub: 'agente do Wazuh', icon: '📤', k: 'blue' },
+    { id: 'edr', x: 620, y: 345, label: 'Console EDR', sub: 'heartbeat', icon: '🛡️', k: 'blue' },
+    { id: 'siem', x: 880, y: 170, label: 'SIEM Wazuh', sub: 'cópia central', icon: '📊', k: 'blue' },
+    { id: 'soc', x: 880, y: 345, label: 'Luiza Ferraz', sub: 'SOC nível 2', icon: '👩‍💻', k: 'green' },
+    { id: 'perdido', x: 880, y: 55, label: 'Evidência perdida', sub: 'sem encaminhamento', icon: '🕳️', k: 'amber', w: 170 }
   ],
   links: [
-    { from: 'rec', to: 'dir', label: 'descoberta' }, { from: 'rec', to: 'arq', curve: -150, label: 'logon remoto', dy: 82, dx: -110 }, { from: 'arq', to: 'dc', label: 'conta válida' },
-    { from: 'rec', to: 'c2', dashed: true, label: 'beaconing' }, { from: 'rec', to: 'edr', dashed: true }, { from: 'arq', to: 'edr', dashed: true },
-    { from: 'arq', to: 'siem', dashed: true }, { from: 'dc', to: 'siem', dashed: true }, { from: 'edr', to: 'pur' }, { from: 'siem', to: 'pur' }
+    { from: 'red', to: 'arq', label: '14h02 · 14h10' }, { from: 'red', to: 'erp', label: '14h48 · 15h20' },
+    { from: 'arq', to: 'fwd', label: 'eventos' }, { from: 'erp', to: 'fwd' }, { from: 'fwd', to: 'siem', label: 'segundos' },
+    { from: 'arq', to: 'edr', curve: -40 }, { from: 'erp', to: 'edr', label: 'heartbeat' },
+    { from: 'siem', to: 'soc', label: 'alerta' }, { from: 'edr', to: 'soc' },
+    { from: 'arq', to: 'perdido', dashed: true }
   ],
   steps: [
-    { title: '1 · Ponto de apoio', text: 'Um e-mail clicado na recepção da sede dá ao adversário uma sessão no NB-REC-001 com um usuário comum. É o fim do acesso inicial e o começo da pós-exploração.', on: ['rec'], links: [] },
-    { title: '2 · Descoberta (TA0007)', text: 'O adversário mapeia usuários, grupos e servidores de corp.tatame.local. Rastro esperado: consultas volumosas ao AD a partir de uma estação comum (R13 na plataforma).', on: ['rec', 'dir'], links: [['rec', 'dir', 'red']] },
-    { title: '3 · Credenciais (TA0006)', text: 'O suporte deixou nessa máquina um script de manutenção com a senha da própria conta (T1552.001, credenciais em arquivos). Rastro esperado: leitura do script por um usuário comum. Não havia regra nem registro para isso, e ninguém viu.', on: ['rec'], links: [] },
-    { title: '4 · Movimentação lateral (TA0008)', text: 'Com a conta do suporte, o adversário faz logon remoto no SRV-ARQ-01. Rastro esperado: logon remoto a partir da recepção, algo que o suporte nunca faz (R5 na plataforma). Ninguém viu.', on: ['rec', 'arq', 'siem'], bad: ['siem'], links: [['rec', 'arq', 'red'], ['arq', 'siem', 'amber']] },
-    { title: '5 · Credenciais de novo', text: 'No SRV-ARQ-01, um administrador do domínio faz logon rotineiramente. O adversário lê a memória do LSASS e obtém a credencial dele, a chave-mestra: o EDR alertou (14:05). Mais tarde, outra técnica, o pedido em massa de tíquetes de serviço Kerberos, gerou alerta no SIEM (16:00).', on: ['arq', 'edr', 'siem'], links: [['arq', 'edr', 'blue'], ['arq', 'siem', 'blue']] },
-    { title: '6 · Contas válidas (T1078)', text: 'Com a conta do administrador, o acesso ao SRV-AD-01 parece trabalho normal. Rastro esperado: a conta usada a partir de um servidor de arquivos, fora do padrão dela.', on: ['arq', 'dc'], links: [['arq', 'dc', 'red'], ['dc', 'siem', 'amber']] },
-    { title: '7 · Comando e controle (TA0011)', text: 'Durante toda a operação, a estação conversou com o operador em intervalos regulares. Rastro esperado: conexões periódicas a um domínio raro. Estava nos registros, sem regra.', on: ['rec', 'c2'], bad: ['c2'], links: [['rec', 'c2', 'amber']] },
-    { title: '8 · Revisão purple', text: 'Red e Blue comparam a linha do tempo com os registros: 4 de 12 técnicas detectadas. Cada lacuna vira uma regra nova, assunto da Unidade 3.', on: ['edr', 'siem', 'pur'], links: [['edr', 'pur', 'purple'], ['siem', 'pur', 'purple']] }
+    { title: 'Antes · Cada evento sai da máquina em segundos', text: 'O Windows grava o evento no log local e o agente do Wazuh o envia ao SIEM. O agente EDR manda um heartbeat a cada minuto ao console. Há duas cópias de tudo e um sinal de vida.', on: ['arq', 'erp', 'fwd', 'siem', 'edr'], links: [['arq', 'fwd', 'blue'], ['erp', 'fwd', 'blue'], ['fwd', 'siem', 'blue'], ['erp', 'edr', 'blue']] },
+    { title: '14h02 · Tentar parar o EDR no SRV-ARQ-01 (T1685)', text: 'A proteção contra adulteração (tamper protection) recusa a parada e o próprio EDR avisa o SOC. A técnica foi detectada antes de produzir efeito.', on: ['red', 'arq', 'edr', 'soc'], links: [['red', 'arq', 'red'], ['arq', 'edr', 'blue'], ['edr', 'soc', 'green']] },
+    { title: '14h10 · Limpar o log de Segurança (T1685.005)', text: 'A cópia local some, mas o Windows grava o evento 1102 ao limpar, e o encaminhador já tinha enviado tudo. O SIEM tem o log inteiro e uma regra transforma o 1102 em alerta.', on: ['red', 'arq', 'fwd', 'siem', 'soc'], links: [['red', 'arq', 'red'], ['arq', 'fwd', 'blue'], ['fwd', 'siem', 'blue'], ['siem', 'soc', 'green']] },
+    { title: 'E se o log não saísse da máquina?', text: 'Sem encaminhamento, a limpeza levaria a única cópia. O que o Red Team fez antes das 14h10 no SRV-ARQ-01 deixaria de existir para a investigação.', on: ['arq', 'perdido'], bad: ['perdido'], links: [['arq', 'perdido', 'amber']], dim: true },
+    { title: '14h48 · Parar o EDR no SRV-ERP-01 (T1685)', text: 'Neste servidor, a proteção contra adulteração estava desligada por uma exceção antiga. O agente para e os heartbeats cessam. Os eventos 7040 e 7036 seguem pelo agente do Wazuh, mas nenhuma regra os observa.', on: ['red', 'erp', 'fwd', 'siem'], bad: ['edr'], links: [['red', 'erp', 'red'], ['erp', 'fwd', 'amber'], ['fwd', 'siem', 'amber']] },
+    { title: '15h05 e 15h20 · Data alterada e arquivo apagado (T1070.006, T1070.004)', text: 'O Sysmon registra a mudança de data de criação (evento 2) e a exclusão do arquivo (evento 23). Os dois chegam ao SIEM sem disparar alerta.', on: ['red', 'erp', 'fwd', 'siem'], links: [['red', 'erp', 'red'], ['erp', 'fwd', 'amber'], ['fwd', 'siem', 'amber']] },
+    { title: '15h26 · Fim da janela: o Red Team religa o agente', text: 'Como previa a RoE, o agente volta. Resultado da fase: 2 técnicas viraram alerta em tempo real, 4 deixaram rastro que só a caça encontra e o SRV-ERP-01 ficou 38 minutos sem EDR.', on: ['erp', 'edr', 'siem', 'soc'], links: [['erp', 'edr', 'blue'], ['siem', 'soc', 'blue']] }
   ]
 });
 
-/* ---------- 9. Cena 3D: grafo e caminhos ---------- */
-Labs.scene3d('#lab-3d', (c) => {
-  const { THREE, root } = c;
-  const nivel = { usuario: -3.2, grupo: -1, computador: 1.2, admin: 2.4, alvo: 4 };
-  const tipo = (n) => n === GRAFO.alvo ? 'alvo' : n === 'adm.caio' ? 'admin' : GRAFO.usuarios.includes(n) ? 'usuario' : /^(NB|SRV)-/.test(n) ? 'computador' : 'grupo';
-  const nomes = [...new Set(GRAFO.arestas.flat().filter((x, i) => i % 3 !== 1)), 'estagio.nina'];
-  const porNivel = {}; nomes.forEach((n) => (porNivel[tipo(n)] = porNivel[tipo(n)] || []).push(n));
-  const P = {}, M = {};
-  Object.entries(porNivel).forEach(([t, arr]) => arr.forEach((n, i) => {
-    const a = (i / arr.length) * Math.PI * 2 + (t === 'grupo' ? 0.4 : 0), r = t === 'alvo' || t === 'admin' ? 0 : t === 'usuario' ? 5 : 3.4;
-    P[n] = new THREE.Vector3(Math.cos(a) * r, nivel[t], Math.sin(a) * r);
-  }));
-  const cor = { usuario: 0x00b1d2, grupo: 0x9b6bff, computador: 0x8fa3bf, admin: 0xff9f1c, alvo: 0xf2cb0a };
-  nomes.forEach((n) => {
-    const t = tipo(n);
-    const g = t === 'computador' ? new THREE.BoxGeometry(0.45, 0.45, 0.45) : t === 'alvo' ? new THREE.OctahedronGeometry(0.6) : new THREE.SphereGeometry(t === 'grupo' ? 0.3 : 0.22, 14, 14);
-    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color: cor[t], emissive: cor[t], emissiveIntensity: 0.35 }));
-    m.position.copy(P[n]); root.add(m); M[n] = m;
-    const l = c.label(n, { color: '#DCE3EE', scale: t === 'usuario' ? 0.8 : 0.85, bg: 'rgba(5,11,24,.7)' }); l.position.copy(P[n]).add(new THREE.Vector3(0, t === 'computador' || t === 'grupo' ? 0.7 : 0.45, 0)); root.add(l);
-  });
-  const L = GRAFO.arestas.map((e) => {
-    const ln = new THREE.Line(new THREE.BufferGeometry().setFromPoints([P[e[0]], P[e[2]]]), new THREE.LineBasicMaterial({ color: 0x3a5a8c, transparent: true, opacity: 0.6 }));
-    root.add(ln); return { e, ln };
-  });
-  const cortes = [
-    ['SRV-ARQ-01', 'HasSession', 'adm.caio', 'sessão no SRV-ARQ-01'],
-    ['SRV-ERP-01', 'HasSession', 'adm.caio', 'sessão no SRV-ERP-01'],
-    ['TODOS-SEDE', 'AdminTo', 'NB-REC-001', 'admin do NB-REC-001']
-  ];
-  const cortadas = new Set();
-  const ctl = c.controls(cortes.map((k, i) => '<button class="lab-chip" data-c="' + i + '">Cortar ' + k[3] + '</button>').join('') + '<button class="lab-chip" data-c="r">Restaurar</button>');
-  ctl.style.maxWidth = '58%';
-  const kpi = c.legend('');
-  const comuns = GRAFO.usuarios.filter((u) => !GRAFO.arestas.some((e) => e[0] === u && e[2] === GRAFO.alvo));
-  function atualiza() {
-    const ativas = GRAFO.arestas.filter((e) => !cortadas.has(e.join('|')));
-    let n = 0;
-    comuns.forEach((u) => { const p = menorCaminho(ativas, u, GRAFO.alvo); if (p) n++; M[u].material.color.setHex(p ? 0xff2b5f : 0x00b1d2); M[u].material.emissive.setHex(p ? 0xff2b5f : 0x00b1d2); });
-    const cam = menorCaminho(ativas, 'rec.ana', GRAFO.alvo) || [];
-    const noCam = new Set(cam.map((s) => s.join('|')));
-    L.forEach(({ e, ln }) => { const k = e.join('|'); ln.visible = !cortadas.has(k); ln.material.color.setHex(noCam.has(k) ? 0xff2b5f : 0x3a5a8c); ln.material.opacity = noCam.has(k) ? 1 : 0.5; });
-    kpi.innerHTML = '<b style="color:#FF5C7A;font-size:20px">' + n + ' de ' + comuns.length + '</b> usuários comuns com caminho<br>rec.ana: ' + (cam.length ? cam.length + ' saltos' : 'sem caminho') +
-      '<br><i style="background:#FF2B5F"></i>com caminho <i style="background:#00B1D2;margin-left:8px"></i>sem caminho';
-  }
-  ctl.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => {
-    if (b.dataset.c === 'r') { cortadas.clear(); ctl.querySelectorAll('button').forEach((x) => x.classList.remove('is-on')); }
-    else { cortadas.add(cortes[+b.dataset.c].slice(0, 3).join('|')); b.classList.add('is-on'); }
-    atualiza();
-  }));
-  atualiza();
-  c.onFrame((t) => { M[GRAFO.alvo].rotation.y = t; M[GRAFO.alvo].scale.setScalar(1 + Math.sin(t * 2.5) * 0.1); });
-}, { camera: [0, 3, 15] });
+/* ---------- 7. SIEM com a aparência do Wazuh ---------- */
+Labs.siem('#lab-siem', {
+  product: 'wazuh. · SOC Rede Tatame', time: '25/11/2026, 14h00 – 15h30', lang: 'DQL', index: 'wazuh-alerts-*, wazuh-archives-*',
+  searches: [
+    { group: 'Rastros de evasão', name: '1. Log de auditoria apagado (1102)', q: 'data.win.system.channel:"Security" and data.win.system.eventID:1102',
+      cols: ['horário', 'agente', 'canal', 'evento', 'conta', 'nível'], sevCol: 5, total: 1, unit: 'evento',
+      hist: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
+      rows: [['14:10:07', 'SRV-ARQ-01', 'Security', '1102 · The audit log was cleared', 'CORP\\caio.mendes', 'alta']],
+      note: 'O próprio ato de apagar gera o 1102, e o evento já estava no SIEM. O encaminhamento tinha enviado o log inteiro antes, então a limpeza só levou a cópia local. Esta busca tem regra e gerou alerta às 14h10.' },
+    { group: 'Rastros de evasão', name: '2. Agente EDR sem heartbeat', q: 'rule.groups:"edr" and edr.tipo:"heartbeat_ausente" and edr.minutos_sem_contato > 10',
+      cols: ['horário', 'host', 'último contato', 'voltou às', 'lacuna', 'explicação'], total: 2, unit: 'lacunas',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], hot: [9],
+      rows: [['14:58:00', 'SRV-ERP-01', '14:48', '15:26', '38 min', 'nenhuma'], ['12:20:00', 'NB-FIN-031', '12:10', '13:05', '55 min', 'reinício planejado (1074)']],
+      note: 'A integração com o console do EDR registra a ausência, mas não há regra que a transforme em alerta. O notebook reiniciou para atualização; o servidor do ERP não tem explicação no meio da tarde.' },
+    { group: 'Rastros de evasão', name: '3. Serviço de segurança parado (7036)', q: 'data.win.system.channel:"System" and data.win.system.eventID:(7036 or 7040) and agent.name:"SRV-ERP-01"',
+      cols: ['horário', 'agente', 'evento', 'mensagem', 'nível'], sevCol: 4, total: 3, unit: 'eventos',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 1, 0], hot: [9],
+      rows: [['14:48:12', 'SRV-ERP-01', '7040', 'Serviço do agente EDR: início automático → desabilitado', 'baixa'],
+        ['14:48:15', 'SRV-ERP-01', '7036', 'Serviço do agente EDR entrou no estado parado', 'baixa'],
+        ['15:26:40', 'SRV-ERP-01', '7036', 'Serviço do agente EDR entrou no estado em execução', 'baixa']],
+      note: 'Com o EDR parado, o agente do Wazuh, independente dele, continuou mandando o log de Sistema. O 7040 mostra que alguém tentou impedir o agente de voltar sozinho após um reinício.' },
+    { group: 'Rastros de evasão', name: '4. Data de criação alterada (Sysmon 2)', q: 'data.win.system.channel:"Microsoft-Windows-Sysmon/Operational" and data.win.system.eventID:2 and agent.name:SRV-*',
+      cols: ['horário', 'agente', 'processo', 'arquivo', 'data anterior', 'data nova'], total: 3, unit: 'eventos',
+      hist: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], hot: [12],
+      rows: [['14:06:51', 'SRV-ARQ-01', 'msiexec.exe', 'C:\\Program Files\\Backup\\agente.dll', '2026-11-25', '2026-10-30'],
+        ['15:05:31', 'SRV-ERP-01', 'C:\\Users\\Public\\rt_teste.exe', 'D:\\exportacoes\\rt_marcador.txt', '2026-11-25', '2024-03-02'],
+        ['…', '…', '+1 evento de instalador', '…', '…', '…']],
+      note: 'O Sysmon 2 é ruidoso: instaladores mudam datas de arquivo o tempo todo. O que destoa é o processo, rodando da pasta pública, e a data recuada para 2024 num arquivo criado hoje.' },
+    { group: 'Linha do tempo', name: '5. SRV-ERP-01, 14h40 – 15h30', q: 'agent.name:"SRV-ERP-01" and data.win.system.eventID:(2 or 23 or 7036 or 7040)',
+      cols: ['horário', 'evento', 'o que aconteceu', 'técnica', 'alerta?'], total: 5, unit: 'eventos',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 1, 0, 1, 0], hot: [9, 12, 14, 16],
+      rows: [['14:48:12', '7040', 'Início do agente EDR desabilitado', 'T1685', 'não'],
+        ['14:48:15', '7036', 'Agente EDR parado', 'T1685', 'não'],
+        ['15:05:31', 'Sysmon 2', 'Data de criação de rt_marcador.txt recuada', 'T1070.006', 'não'],
+        ['15:20:04', 'Sysmon 23', 'rt_teste.exe apagado', 'T1070.004', 'não'],
+        ['15:26:40', '7036', 'Agente EDR de volta', 'fim da janela', '-']],
+      note: 'Quatro rastros, nenhum alerta. Os dados estavam no SIEM o tempo todo; faltavam as regras. É o ponto de partida da engenharia de detecção da Aula 10.' }
+  ]
+});
 
-/* ---------- 11. VS Code: BFS ---------- */
+/* ---------- 8. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'telemetria', reiniciar: true });
+
+/* ---------- 11. VS Code: lacunas de telemetria ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'caminhos-ad-tatame', team: 'purple', status: 'Python 3.12', open: 'caminhos.py', typeOnEnter: true,
+  folder: 'caca-evasao-2026-11', team: 'blue', status: 'Python 3.12', open: 'lacunas.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -605,143 +500,107 @@ Labs.vscode('#lab-vsc', {
       'Package Version',
       '------- -------',
       'pip     24.2',
-      '[info] Só o pip: o script usa apenas a biblioteca padrão (json, sys, collections).' ] }
+      '[mute] Só o pip: csv e json são da biblioteca padrão, não há o que instalar.' ] }
   ],
   files: [
-    { path: 'caminhos.py', hl: [12, 15, 16, 17, 18, 19, 20, 27, 28, 29, 30], code: String.raw`"""Caminhos de ataque em um grafo fictício de diretório (conceito do BloodHound)."""
+    { path: 'sessoes_edr.csv', hl: [4, 5], code:
+`host,inicio,fim
+SRV-AD-01,08:00,18:00
+SRV-ARQ-01,08:00,18:00
+SRV-ERP-01,08:00,14:48
+SRV-ERP-01,15:26,18:00
+NB-FIN-031,08:00,12:10
+NB-FIN-031,13:05,18:00`},
+    { path: 'eventos.jsonl', hl: [3, 5, 6], code: String.raw`{"ts": "12:09", "host": "NB-FIN-031", "canal": "System", "id": 1074, "msg": "Reinício planejado pelo Windows Update"}
+{"ts": "14:02", "host": "SRV-ARQ-01", "canal": "EDR", "id": "TAMPER", "msg": "Tentativa de parar o agente bloqueada"}
+{"ts": "14:10", "host": "SRV-ARQ-01", "canal": "Security", "id": 1102, "msg": "The audit log was cleared"}
+{"ts": "14:31", "host": "SRV-ARQ-01", "canal": "Sysmon", "id": 1, "msg": "C:\\Users\\Public\\svchost.exe"}
+{"ts": "14:48", "host": "SRV-ERP-01", "canal": "System", "id": 7040, "msg": "Agente EDR: automático -> desabilitado"}
+{"ts": "14:48", "host": "SRV-ERP-01", "canal": "System", "id": 7036, "msg": "Agente EDR: parado"}
+{"ts": "15:05", "host": "SRV-ERP-01", "canal": "Sysmon", "id": 2, "msg": "D:\\exportacoes\\rt_marcador.txt"}
+{"ts": "15:20", "host": "SRV-ERP-01", "canal": "Sysmon", "id": 23, "msg": "C:\\Users\\Public\\rt_teste.exe"}
+{"ts": "15:26", "host": "SRV-ERP-01", "canal": "System", "id": 7036, "msg": "Agente EDR: em execução"}`},
+    { path: 'lacunas.py', hl: [30, 33, 34, 46, 47], code: String.raw`"""Procura, na telemetria encaminhada ao SIEM, os rastros de evasão do exercício."""
+import csv
 import json
-import sys
-from collections import defaultdict, deque
 
-g = json.load(open("grafo.json", encoding="utf-8"))
-removidas = json.load(open(sys.argv[1], encoding="utf-8")) if len(sys.argv) > 1 else []
-removidas = {tuple(a) for a in removidas}
+LIMITE = 10  # minutos sem contato do agente EDR que já contam como lacuna
+SINAIS = {
+    ("EDR", "TAMPER"): "T1685 adulteração do agente bloqueada",
+    ("Security", 1102): "T1685.005 log de Segurança apagado",
+    ("System", 104): "T1685.005 log do sistema apagado",
+    ("System", 7040): "T1685 início do serviço alterado",
+    ("System", 7036): "T1685 serviço mudou de estado",
+    ("Sysmon", 2): "T1070.006 data de criação alterada",
+    ("Sysmon", 23): "T1070.004 arquivo apagado",
+}
 
-vizinhos = defaultdict(list)
-for origem, rel, destino in g["arestas"]:
-    if (origem, rel, destino) not in removidas:
-        vizinhos[origem].append((rel, destino))
 
-def menor_caminho(inicio, alvo):
-    """Busca em largura: devolve a lista de saltos do menor caminho, ou None."""
-    anterior = {inicio: None}
-    fila = deque([inicio])
-    while fila:
-        no = fila.popleft()
-        if no == alvo:
-            passos = []
-            while anterior[no]:
-                de, rel = anterior[no]
-                passos.append((de, rel, no))
-                no = de
-            return passos[::-1]
-        for rel, prox in vizinhos[no]:
-            if prox not in anterior:
-                anterior[prox] = (no, rel)
-                fila.append(prox)
-    return None
+def minutos(hhmm: str) -> int:
+    h, m = hhmm.split(":")
+    return int(h) * 60 + int(m)
 
-alvo = g["alvo"]
-comuns = [u for u in g["usuarios"] if (u, "MemberOf", alvo) not in {tuple(a) for a in g["arestas"]}]
-com_caminho = {u: c for u in comuns if (c := menor_caminho(u, alvo))}
 
-print(f"Arestas removidas: {len(removidas)}")
-print(f"Usuários comuns com caminho até {alvo}: {len(com_caminho)} de {len(comuns)} "
-      f"({len(com_caminho) / len(comuns):.0%})")
-for u, c in sorted(com_caminho.items(), key=lambda x: len(x[1])):
-    print(f"  {u:<13} {len(c)} saltos: " + " -> ".join(f"[{rel}] {dst}" for _, rel, dst in c))` },
-    { path: 'grafo.json', hl: [12, 17, 21], code: `{
-  "usuarios": ["rec.ana", "fin.bruno", "fin.carla", "atd.diego", "atd.elisa", "prod.fabio",
-               "sup.heitor", "sup.iris", "dev.joao", "dev.karen", "estagio.nina", "adm.caio"],
-  "alvo": "DOMAIN ADMINS",
-  "arestas": [
-    ["rec.ana", "MemberOf", "TODOS-SEDE"],
-    ["fin.bruno", "MemberOf", "TODOS-SEDE"],
-    ["fin.carla", "MemberOf", "TODOS-SEDE"],
-    ["atd.diego", "MemberOf", "TODOS-SEDE"],
-    ["atd.elisa", "MemberOf", "TODOS-SEDE"],
-    ["prod.fabio", "MemberOf", "TODOS-SEDE"],
-    ["TODOS-SEDE", "AdminTo", "NB-REC-001"],
-    ["NB-REC-001", "HasSession", "sup.heitor"],
-    ["sup.heitor", "MemberOf", "SUPORTE-N1"],
-    ["sup.iris", "MemberOf", "SUPORTE-N1"],
-    ["SUPORTE-N1", "AdminTo", "SRV-ARQ-01"],
-    ["SRV-ARQ-01", "HasSession", "adm.caio"],
-    ["dev.joao", "MemberOf", "DEV"],
-    ["dev.karen", "MemberOf", "DEV"],
-    ["DEV", "AdminTo", "SRV-ERP-01"],
-    ["SRV-ERP-01", "HasSession", "adm.caio"],
-    ["atd.elisa", "MemberOf", "LEGADO-ERP"],
-    ["LEGADO-ERP", "GenericAll", "adm.caio"],
-    ["adm.caio", "MemberOf", "DOMAIN ADMINS"]
-  ]
-}` },
-    { path: 'correcoes.json', code: `[
-  ["SRV-ARQ-01", "HasSession", "adm.caio"],
-  ["SRV-ERP-01", "HasSession", "adm.caio"],
-  ["TODOS-SEDE", "AdminTo", "NB-REC-001"]
-]` }
+eventos = [json.loads(linha) for linha in open("eventos.jsonl", encoding="utf-8") if linha.strip()]
+sessoes = list(csv.DictReader(open("sessoes_edr.csv", encoding="utf-8")))
+
+print(f"== Lacunas do agente EDR (limite: {LIMITE} min)")
+sem_explicacao = 0
+for host in sorted({s["host"] for s in sessoes}):
+    s = sorted((x for x in sessoes if x["host"] == host), key=lambda x: minutos(x["inicio"]))
+    for antes, depois in zip(s, s[1:]):
+        gap = minutos(depois["inicio"]) - minutos(antes["fim"])
+        if gap < LIMITE:
+            continue
+        motivo = [e for e in eventos if e["host"] == host and e["id"] == 1074
+                  and 0 <= minutos(antes["fim"]) - minutos(e["ts"]) <= 5]
+        if motivo:
+            print(f"{host:<11} {antes['fim']} -> {depois['inicio']}  {gap} min  explicada (1074 às {motivo[0]['ts']})")
+        else:
+            sem_explicacao += 1
+            print(f"{host:<11} {antes['fim']} -> {depois['inicio']}  {gap} min  SEM explicação: investigar")
+
+print("== Sinais de evasão nos eventos encaminhados")
+sinais = 0
+for e in eventos:
+    nome = SINAIS.get((e["canal"], e["id"]))
+    caminho = e["msg"].lower()
+    if (e["canal"], e["id"]) == ("Sysmon", 1) and caminho.endswith("\\svchost.exe") \
+            and not caminho.startswith("c:\\windows\\system32\\"):
+        nome = "T1036.005 svchost.exe fora da System32"
+    if nome:
+        sinais += 1
+        print(f"{e['ts']}  {e['host']:<11} {e['canal'] + '/' + str(e['id']):<15} {nome}")
+
+print(f"Resumo: {sem_explicacao} lacuna sem explicação e {sinais} sinais de evasão")`}
   ],
   run: [
-    { label: 'Antes das correções', kind: 'red', cmd: 'python caminhos.py', file: 'caminhos.py', out: [
-      'Arestas removidas: 0',
-      '[red] Usuários comuns com caminho até DOMAIN ADMINS: 10 de 11 (91%)',
-      '  atd.elisa     3 saltos: [MemberOf] LEGADO-ERP -> [GenericAll] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  sup.heitor    4 saltos: [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  sup.iris      4 saltos: [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  dev.joao      4 saltos: [MemberOf] DEV -> [AdminTo] SRV-ERP-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  dev.karen     4 saltos: [MemberOf] DEV -> [AdminTo] SRV-ERP-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '[warn]   rec.ana       7 saltos: [MemberOf] TODOS-SEDE -> [AdminTo] NB-REC-001 -> [HasSession] sup.heitor -> [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  fin.bruno     7 saltos: [MemberOf] TODOS-SEDE -> [AdminTo] NB-REC-001 -> [HasSession] sup.heitor -> [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  fin.carla     7 saltos: [MemberOf] TODOS-SEDE -> [AdminTo] NB-REC-001 -> [HasSession] sup.heitor -> [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  atd.diego     7 saltos: [MemberOf] TODOS-SEDE -> [AdminTo] NB-REC-001 -> [HasSession] sup.heitor -> [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '  prod.fabio    7 saltos: [MemberOf] TODOS-SEDE -> [AdminTo] NB-REC-001 -> [HasSession] sup.heitor -> [MemberOf] SUPORTE-N1 -> [AdminTo] SRV-ARQ-01 -> [HasSession] adm.caio -> [MemberOf] DOMAIN ADMINS' ] },
-    { label: 'Depois das correções', kind: 'blue', cmd: 'python caminhos.py correcoes.json', file: 'correcoes.json', out: [
-      'Arestas removidas: 3',
-      '[ok] Usuários comuns com caminho até DOMAIN ADMINS: 1 de 11 (9%)',
-      '[warn]   atd.elisa     3 saltos: [MemberOf] LEGADO-ERP -> [GenericAll] adm.caio -> [MemberOf] DOMAIN ADMINS',
-      '', '[mute] Resta o grupo LEGADO-ERP com controle total sobre adm.caio: próxima correção.' ] }
+    { label: 'Procurar lacunas', kind: 'blue', cmd: 'python lacunas.py', file: 'lacunas.py', out: [
+      '[hi] == Lacunas do agente EDR (limite: 10 min)',
+      '[ok] NB-FIN-031  12:10 -> 13:05  55 min  explicada (1074 às 12:09)',
+      '[err] SRV-ERP-01  14:48 -> 15:26  38 min  SEM explicação: investigar',
+      '[hi] == Sinais de evasão nos eventos encaminhados',
+      '14:02  SRV-ARQ-01  EDR/TAMPER      T1685 adulteração do agente bloqueada',
+      '14:10  SRV-ARQ-01  Security/1102   T1685.005 log de Segurança apagado',
+      '[warn] 14:31  SRV-ARQ-01  Sysmon/1        T1036.005 svchost.exe fora da System32',
+      '[warn] 14:48  SRV-ERP-01  System/7040     T1685 início do serviço alterado',
+      '[warn] 14:48  SRV-ERP-01  System/7036     T1685 serviço mudou de estado',
+      '[warn] 15:05  SRV-ERP-01  Sysmon/2        T1070.006 data de criação alterada',
+      '[warn] 15:20  SRV-ERP-01  Sysmon/23       T1070.004 arquivo apagado',
+      '15:26  SRV-ERP-01  System/7036     T1685 serviço mudou de estado',
+      '[ok] Resumo: 1 lacuna sem explicação e 8 sinais de evasão' ] }
   ]
 });
 
-/* ---------- 12. SIEM: o que deveria existir ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: 'Dia da operação, 09h – 18h', lang: 'KQL', index: 'win-security, sysmon, proxy',
-  searches: [
-    { group: 'Movimentação lateral', name: '1. Logon remoto atípico', q: 'win-security | where EventID == 4624 and LogonType == 10 | where src_host startswith "NB-REC" and dst_host startswith "SRV-"',
-      cols: ['hora', 'conta', 'origem', 'destino', 'tipo', 'alerta?'], total: 1, unit: 'evento',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [8],
-      rows: [['13:20:44', 'sup.heitor', 'NB-REC-001', 'SRV-ARQ-01', 'remoto interativo (10)', 'não']],
-      note: 'O evento estava nos registros, mas não havia regra. O suporte nunca acessa servidores a partir da recepção. Na plataforma, essa regra existe como R5 e vem desligada.' },
-    { group: 'Acesso a credenciais', name: '2. Acesso à memória do LSASS', q: 'sysmon | where EventID == 10 and TargetImage endswith "lsass.exe" | where SourceImage !in (lista_aprovada)',
-      cols: ['hora', 'host', 'processo de origem', 'alvo', 'severidade'], sevCol: 4, total: 1, unit: 'alerta',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0], hot: [10],
-      rows: [['14:05:12', 'SRV-ARQ-01', 'C:\\Users\\Public\\atualizador.exe', 'lsass.exe', 'crítica']],
-      note: 'Detectado pelo EDR. Um programa desconhecido, rodando de uma pasta pública, abriu a memória do processo que guarda credenciais.' },
-    { group: 'Acesso a credenciais', name: '3. Pedido anômalo de tíquetes', q: 'win-security | where EventID == 4769 and TicketEncryptionType == "0x17" | summarize spns = dcount(ServiceName) by account, bin(ts, 10m)',
-      cols: ['janela', 'conta', 'serviços distintos', 'criptografia', 'severidade'], sevCol: 4, total: 1, unit: 'alerta',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], hot: [12],
-      rows: [['16:00–16:10', 'sup.heitor', '27', 'RC4 (0x17)', 'alta']],
-      note: 'Detectado no SIEM. Uma conta pediu tíquetes para 27 serviços em dez minutos, com criptografia antiga. Uso normal pede poucos.' },
-    { group: 'Comando e controle', name: '4. Conexões periódicas', q: 'proxy | where src_host == "NB-REC-001" | summarize n = count(), desvio = stdev(intervalo) by dst_domain | where n > 100 and desvio < 5s',
-      cols: ['domínio de destino', 'conexões', 'intervalo médio', 'desvio', 'primeira vez visto', 'alerta?'], total: 1, unit: 'domínio',
-      hist: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3], hot: [],
-      rows: [['cdn-atualiza.example.org', '540', '60 s', '2 s', 'hoje', 'não']],
-      note: 'Uma conexão por minuto, o dia inteiro, para um domínio que ninguém mais acessa. Estava nos registros, sem regra: segunda lacuna da operação.' }
-  ]
-});
-
-/* ---------- 13. Plataforma Rede Tatame: emulação do Cobalto Austral ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
-
-/* ---------- 17. VS Code: gerador de relatório ---------- */
+/* ---------- 15. VS Code: relatório da evasão e conferência da limpeza ---------- */
 Labs.vscode('#lab-rel', {
   folder: 'relatorio-op-tatame', team: 'red', status: 'Python 3.12', open: 'operacao.yaml', typeOnEnter: true,
   setup: [
+    { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
     { cmd: 'source .venv/bin/activate', out: [], venv: true },
     { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
-      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 1))',
+      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
       '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
       { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
       'Installing collected packages: PyYAML',
@@ -756,142 +615,90 @@ Labs.vscode('#lab-rel', {
     { path: 'requirements.txt', code:
 `# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
 PyYAML==6.0.3`},
-    { path: 'operacao.yaml', hl: [5, 9, 11, 14], code: `codigo: OP-2026-11-TATAME
-objetivo: emular o Grupo Cobalto Austral e demonstrar acesso às fichas de alunos a partir de um e-mail
-resultado: objetivo alcançado em 1 dia; impacto demonstrado e não executado
-linha_do_tempo:
-  - { hora: "09:12", tatica: Acesso inicial, id: T1566.002, nome: Phishing com link, detectada: true, fonte: reporte de colaboradora }
-  - { hora: "09:40", tatica: Descoberta, id: T1087.002, nome: Contas do domínio, detectada: false }
-  - { hora: "10:05", tatica: Descoberta, id: T1069.002, nome: Grupos do domínio, detectada: false }
-  - { hora: "10:30", tatica: Acesso a credenciais, id: T1552.001, nome: Senha do suporte em script no NB-REC-001, detectada: false }
-  - { hora: "11:10", tatica: Persistência, id: T1053.005, nome: Tarefa agendada, detectada: true, fonte: EDR }
-  - { hora: "13:20", tatica: Movimentação lateral, id: T1021.001, nome: RDP para SRV-ARQ-01, detectada: false }
-  - { hora: "14:05", tatica: Acesso a credenciais, id: T1003.001, nome: Memória do LSASS, detectada: true, fonte: EDR }
-  - { hora: "14:40", tatica: Movimentação lateral, id: T1550.002, nome: Reuso de hash, detectada: false }
-  - { hora: "15:15", tatica: Movimentação lateral, id: T1021.002, nome: Compartilhamento administrativo no SRV-AD-01, detectada: false }
-  - { hora: "16:00", tatica: Acesso a credenciais, id: T1558.003, nome: Tíquetes de serviço Kerberos, detectada: true, fonte: SIEM }
-  - { hora: "16:45", tatica: Comando e controle, id: T1071.001, nome: Conexões periódicas via HTTPS, detectada: false }
-  - { hora: "17:30", tatica: Coleta, id: T1213, nome: Acesso às exportações de fichas (evidência), detectada: false }
-recomendacoes:
-  - Remover sessões de administradores do domínio em servidores comuns (SRV-ARQ-01 e SRV-ERP-01)
-  - Retirar do grupo TODOS-SEDE o acesso administrativo ao NB-REC-001
-  - Exigir segundo fator e contas administrativas separadas das de uso diário
-  - Criar detecções para logon remoto atípico e para conexões periódicas a domínios raros` },
-    { path: 'gerar_relatorio.py', hl: [5, 6, 7], code: String.raw`"""Gera o rascunho do relatório de Red Team a partir do registro da operação."""
+    { path: 'operacao.yaml', hl: [7, 12], code: `codigo: OP-2026-11-TATAME
+fase: combinada com o White Team em 25/11/2026
+evasao:
+  - { hora: "14:02", id: T1685, nome: Parar o agente EDR no SRV-ARQ-01, detectada: true, fonte: proteção contra adulteração }
+  - { hora: "14:10", id: T1685.005, nome: Limpar o log de Segurança do SRV-ARQ-01, detectada: true, fonte: evento 1102 no SIEM }
+  - { hora: "14:31", id: T1036.005, nome: Binário de teste com nome de svchost.exe, detectada: false }
+  - { hora: "14:48", id: T1685, nome: Parar o agente EDR no SRV-ERP-01, detectada: false }
+  - { hora: "15:05", id: T1070.006, nome: Alterar a data de criação do marcador, detectada: false }
+  - { hora: "15:20", id: T1070.004, nome: Apagar o binário de teste, detectada: false }
+artefatos:
+  - { id: A01, item: conta de domínio tst.redteam01, host: SRV-AD-01, removido: true, conferido: true }
+  - { id: A02, item: conta local tst.local01, host: SRV-ERP-01, removido: true, conferido: false }
+  - { id: A03, item: tarefa agendada RT-APR2291-01, host: SRV-ARQ-01, removido: true, conferido: true }
+  - { id: A04, item: serviço RT-APR2291-03, host: SRV-ERP-01, removido: true, conferido: true }
+  - { id: A05, item: binário de teste svchost.exe em Public, host: SRV-ARQ-01, removido: true, conferido: true }
+  - { id: A06, item: binário de teste rt_teste.exe, host: SRV-ERP-01, removido: true, conferido: true }
+  - { id: A07, item: marcador de evidência rt_marcador.txt, host: SRV-ERP-01, removido: true, conferido: true }
+  - { id: A08, item: marcador de evidência na pasta de fichas, host: SRV-ARQ-01, removido: true, conferido: true }
+  - { id: A09, item: chave Run RT-APR2291-02, host: NB-FIN-031, removido: true, conferido: true }
+  - { id: A10, item: página falsa do phishing simulado, host: portal-rh-beneficios.example, removido: true, conferido: true }
+  - { id: A11, item: exceção de firewall para 10.10.250.66, host: firewall da sede, removido: true, conferido: true }
+  - { id: A12, item: VM lab-tatame na rede da sede, host: 10.10.250.66, removido: true, conferido: true }`},
+    { path: 'gerar_relatorio.py', hl: [6, 7, 9], code: String.raw`"""Gera a seção de evasão e limpeza do relatório de Red Team a partir do registro da operação."""
 import yaml
 
 op = yaml.safe_load(open("operacao.yaml", encoding="utf-8"))
-tecnicas = op["linha_do_tempo"]
+tecnicas = op["evasao"]
 detectadas = [t for t in tecnicas if t["detectada"]]
 taxa = len(detectadas) / len(tecnicas)
+artefatos = op["artefatos"]
+pendentes = [a for a in artefatos if not (a["removido"] and a["conferido"])]
 
 linhas = [
     f"# Relatório de Red Team · {op['codigo']}",
-    "",
-    "## Sumário executivo",
-    f"Objetivo: {op['objetivo']}. Resultado: {op['resultado']}.",
+    f"## Evasão de defesas · {op['fase']}",
     f"Detecção: {len(detectadas)} de {len(tecnicas)} técnicas ({taxa:.0%}).",
-    "",
-    "## Linha do tempo e detecção",
-    "| Hora | Tática | Técnica | Detectada? | Fonte |",
-    "|---|---|---|---|---|",
+    "| Hora | Técnica | Detectada? | Fonte |",
+    "|---|---|---|---|",
 ]
 for t in tecnicas:
     status = "sim" if t["detectada"] else "NÃO"
-    linhas.append(f"| {t['hora']} | {t['tatica']} | {t['id']} {t['nome']} | {status} | {t.get('fonte', '-')} |")
-linhas += ["", "## Recomendações priorizadas"]
-linhas += [f"{i}. {r}" for i, r in enumerate(op["recomendacoes"], 1)]
+    linhas.append(f"| {t['hora']} | {t['id']} {t['nome']} | {status} | {t.get('fonte', '-')} |")
+linhas += ["## Limpeza pós-operação",
+           f"Artefatos criados: {len(artefatos)} | conferidos pelo Blue Team: {len(artefatos) - len(pendentes)}"]
+linhas += [f"- PENDENTE {a['id']}: {a['item']} ({a['host']})" for a in pendentes]
 
 with open("relatorio.md", "w", encoding="utf-8") as f:
     f.write("\n".join(linhas) + "\n")
 
 print(f"relatorio.md gerado com {len(linhas)} linhas")
-print(f"Técnicas executadas: {len(tecnicas)} | detectadas: {len(detectadas)} | taxa: {taxa:.0%}")
-print("Não detectadas (lacunas para a Unidade 3):")
+print(f"Evasão: {len(tecnicas)} técnicas | detectadas: {len(detectadas)} | taxa: {taxa:.0%}")
 for t in tecnicas:
     if not t["detectada"]:
-        print(f"  {t['hora']}  {t['id']:<10} {t['nome']}")` },
+        print(f"  lacuna  {t['hora']}  {t['id']:<10} {t['nome']}")
+print(f"Limpeza: {len(artefatos) - len(pendentes)} de {len(artefatos)} artefatos conferidos")
+for a in pendentes:
+    print(f"  PENDENTE {a['id']}  {a['item']} em {a['host']}: reabrir com o White Team")`},
     { path: 'relatorio.md', code: `# Relatório de Red Team · OP-2026-11-TATAME
-
-## Sumário executivo
-Objetivo: emular o Grupo Cobalto Austral e demonstrar acesso às fichas de alunos a partir de um e-mail. Resultado: objetivo alcançado em 1 dia; impacto demonstrado e não executado.
-Detecção: 4 de 12 técnicas (33%).
-
-## Linha do tempo e detecção
-| Hora | Tática | Técnica | Detectada? | Fonte |
-|---|---|---|---|---|
-| 09:12 | Acesso inicial | T1566.002 Phishing com link | sim | reporte de colaboradora |
-| 09:40 | Descoberta | T1087.002 Contas do domínio | NÃO | - |
-| 10:05 | Descoberta | T1069.002 Grupos do domínio | NÃO | - |
-| 10:30 | Acesso a credenciais | T1552.001 Senha do suporte em script no NB-REC-001 | NÃO | - |
-| 11:10 | Persistência | T1053.005 Tarefa agendada | sim | EDR |
-| 13:20 | Movimentação lateral | T1021.001 RDP para SRV-ARQ-01 | NÃO | - |
-| 14:05 | Acesso a credenciais | T1003.001 Memória do LSASS | sim | EDR |
-| 14:40 | Movimentação lateral | T1550.002 Reuso de hash | NÃO | - |
-| 15:15 | Movimentação lateral | T1021.002 Compartilhamento administrativo no SRV-AD-01 | NÃO | - |
-| 16:00 | Acesso a credenciais | T1558.003 Tíquetes de serviço Kerberos | sim | SIEM |
-| 16:45 | Comando e controle | T1071.001 Conexões periódicas via HTTPS | NÃO | - |
-| 17:30 | Coleta | T1213 Acesso às exportações de fichas (evidência) | NÃO | - |
-
-## Recomendações priorizadas
-1. Remover sessões de administradores do domínio em servidores comuns (SRV-ARQ-01 e SRV-ERP-01)
-2. Retirar do grupo TODOS-SEDE o acesso administrativo ao NB-REC-001
-3. Exigir segundo fator e contas administrativas separadas das de uso diário
-4. Criar detecções para logon remoto atípico e para conexões periódicas a domínios raros` }
+## Evasão de defesas · combinada com o White Team em 25/11/2026
+Detecção: 2 de 6 técnicas (33%).
+| Hora | Técnica | Detectada? | Fonte |
+|---|---|---|---|
+| 14:02 | T1685 Parar o agente EDR no SRV-ARQ-01 | sim | proteção contra adulteração |
+| 14:10 | T1685.005 Limpar o log de Segurança do SRV-ARQ-01 | sim | evento 1102 no SIEM |
+| 14:31 | T1036.005 Binário de teste com nome de svchost.exe | NÃO | - |
+| 14:48 | T1685 Parar o agente EDR no SRV-ERP-01 | NÃO | - |
+| 15:05 | T1070.006 Alterar a data de criação do marcador | NÃO | - |
+| 15:20 | T1070.004 Apagar o binário de teste | NÃO | - |
+## Limpeza pós-operação
+Artefatos criados: 12 | conferidos pelo Blue Team: 11
+- PENDENTE A02: conta local tst.local01 (SRV-ERP-01)` }
   ],
   run: [
     { label: 'Gerar relatório', kind: 'red', cmd: 'python gerar_relatorio.py', file: 'gerar_relatorio.py', out: [
-      '[ok] relatorio.md gerado com 27 linhas',
-      '[hi] Técnicas executadas: 12 | detectadas: 4 | taxa: 33%',
-      'Não detectadas (lacunas para a Unidade 3):',
-      '[err]   09:40  T1087.002  Contas do domínio',
-      '[err]   10:05  T1069.002  Grupos do domínio',
-      '[err]   10:30  T1552.001  Senha do suporte em script no NB-REC-001',
-      '[err]   13:20  T1021.001  RDP para SRV-ARQ-01',
-      '[err]   14:40  T1550.002  Reuso de hash',
-      '[err]   15:15  T1021.002  Compartilhamento administrativo no SRV-AD-01',
-      '[err]   16:45  T1071.001  Conexões periódicas via HTTPS',
-      '[err]   17:30  T1213      Acesso às exportações de fichas (evidência)' ] }
+      '[ok] relatorio.md gerado com 14 linhas',
+      '[hi] Evasão: 6 técnicas | detectadas: 2 | taxa: 33%',
+      '[err]   lacuna  14:31  T1036.005  Binário de teste com nome de svchost.exe',
+      '[err]   lacuna  14:48  T1685      Parar o agente EDR no SRV-ERP-01',
+      '[err]   lacuna  15:05  T1070.006  Alterar a data de criação do marcador',
+      '[err]   lacuna  15:20  T1070.004  Apagar o binário de teste',
+      '[hi] Limpeza: 11 de 12 artefatos conferidos',
+      '[warn]   PENDENTE A02  conta local tst.local01 em SRV-ERP-01: reabrir com o White Team' ] }
   ],
   onRun(k, api) { api.open('relatorio.md'); }
-});
-
-/* ---------- 18. Linha do tempo de detecção ---------- */
-Labs.register('#lab-tl', (el) => {
-  const T = [
-    ['09:12', 'Acesso inicial', 'T1566.002', 'Phishing com link', 1, 'Reporte de uma colaboradora em 9 minutos.'],
-    ['09:40', 'Descoberta', 'T1087.002', 'Contas do domínio', 0, 'Consultas volumosas ao diretório a partir de uma estação comum.'],
-    ['10:05', 'Descoberta', 'T1069.002', 'Grupos do domínio', 0, 'Leitura em massa de grupos privilegiados.'],
-    ['10:30', 'Acesso a credenciais', 'T1552.001', 'Senha do suporte em script no NB-REC-001', 0, 'Leitura, por um usuário comum, de um script de manutenção com senha guardada.'],
-    ['11:10', 'Persistência', 'T1053.005', 'Tarefa agendada', 1, 'EDR: tarefa agendada criada por usuário comum apontando para pasta pública.'],
-    ['13:20', 'Movimentação lateral', 'T1021.001', 'RDP para SRV-ARQ-01', 0, 'Logon remoto (tipo 10) do suporte a partir da recepção.'],
-    ['14:05', 'Acesso a credenciais', 'T1003.001', 'Memória do LSASS', 1, 'EDR: processo desconhecido abriu a memória do LSASS no SRV-ARQ-01.'],
-    ['14:40', 'Movimentação lateral', 'T1550.002', 'Reuso de hash', 0, 'Logon de rede com a conta do administrador vindo de um servidor de arquivos.'],
-    ['15:15', 'Movimentação lateral', 'T1021.002', 'Compartilhamento administrativo no SRV-AD-01', 0, 'Acesso a compartilhamento administrativo do controlador de domínio fora da janela de manutenção.'],
-    ['16:00', 'Acesso a credenciais', 'T1558.003', 'Tíquetes de serviço Kerberos', 1, 'SIEM: 27 serviços em dez minutos, com criptografia RC4.'],
-    ['16:45', 'Comando e controle', 'T1071.001', 'Conexões periódicas via HTTPS', 0, 'Uma conexão por minuto para domínio raro.'],
-    ['17:30', 'Coleta', 'T1213', 'Acesso às exportações de fichas (evidência)', 0, 'Consulta à estrutura da tabela de fichas de alunos por conta administrativa, fora do padrão.']
-  ];
-  const min = (h) => { const [a, b] = h.split(':'); return +a * 60 + +b; };
-  const t0 = min('09:00'), t1 = min('18:00');
-  el.innerHTML = '<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">' +
-    '<h4>Operação OP-2026-11-TATAME · 09h às 18h</h4><div class="lab-chiprow"><button class="lab-chip is-on" data-f="all">Todas</button><button class="lab-chip red" data-f="0">Só não detectadas</button><button class="lab-chip" data-f="1">Só detectadas</button></div>' +
-    '<div class="tl-track"></div><div class="tl-info">Clique em um marco da linha do tempo.</div>' +
-    '<div class="lab-grid3"><div class="lab-kpi"><small>Técnicas executadas</small><b>12</b></div><div class="lab-kpi green"><small>Detectadas</small><b>4</b></div><div class="lab-kpi red"><small>Taxa de detecção</small><b>4 ÷ 12 ≈ 33%</b></div></div></div>';
-  const tr = el.querySelector('.tl-track'), info = el.querySelector('.tl-info');
-  T.forEach((x, i) => {
-    const d = Labs.h('button', 'tl-dot ' + (x[4] ? 'det' : 'nao'), (i + 1) + '<span class="tl-h">' + x[0] + '</span>');
-    d.style.left = ((min(x[0]) - t0) / (t1 - t0) * 100) + '%'; d.dataset.d = x[4];
-    d.addEventListener('click', () => {
-      tr.querySelectorAll('.tl-dot').forEach((o) => o.classList.toggle('on', o === d));
-      info.innerHTML = '<b>' + x[0] + ' · ' + x[1] + ' · ' + x[2] + '</b> ' + Labs.esc(x[3]) + '<br>' + (x[4] ? '<span style="color:#3FD47A">Detectada.</span> ' : '<span style="color:#FF5C7A">Não detectada.</span> Rastro que poderia ter sido usado: ') + Labs.esc(x[5]);
-    });
-    tr.appendChild(d);
-  });
-  el.querySelectorAll('[data-f]').forEach((b) => b.addEventListener('click', () => {
-    el.querySelectorAll('[data-f]').forEach((o) => o.classList.toggle('is-on', o === b));
-    tr.querySelectorAll('.tl-dot').forEach((d) => { d.style.opacity = b.dataset.f === 'all' || d.dataset.d === b.dataset.f ? 1 : 0.15; });
-  }));
 });
 </script>
 </body>

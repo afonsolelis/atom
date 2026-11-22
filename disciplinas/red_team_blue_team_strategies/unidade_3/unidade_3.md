@@ -1,177 +1,205 @@
-# Unidade 3 — Blue Team: detecção e resposta
+# Unidade 3 — Defesa, Monitoramento e Detecção
 
 Disciplina: Red Team & Blue Team Strategies  
 Professor-conteudista: Afonso Cesar Lelis Brandão  
 Prazo de entrega: 20/12/2026  
 Template de origem: `documentos/Unidade 3/TEMPLATE - Unidade 3_nome da disciplina.docx`
 
-> Versão de trabalho baseada na **ementa proposta** (`EMENTA.md`); ajustar quando o plano de aprendizagem oficial chegar.
+> Versão alinhada à **ementa oficial** enviada pela coordenação em 18/11/2026 (`EMENTA.md`).
 > Recursos visuais indicados entre colchetes, como pede o template; a equipe de produção substitui pelas imagens finais.
 
-## Aula 9 — Telemetria, registros e SIEM
+## Aula 9 — Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints
 
 ### O que você verá nesta unidade
 
-Na Unidade 2, acompanhamos o adversário: reconhecimento, exploração de vulnerabilidades, engenharia social e movimentação lateral. Em cada etapa, perguntamos que rastro ficava para trás. Agora é hora de vestir a camisa azul e responder à pergunta inversa: **como a defesa encontra esses rastros e reage a tempo?** Nesta unidade, você vai entender de onde vêm os dados que alimentam o SOC (registros, telemetria e SIEM); como transformar conhecimento sobre técnicas de ataque em regras de detecção testáveis, com apoio do EDR; como caçar ameaças que escaparam das regras, usando inteligência de ameaças; e como conduzir a resposta a um incidente, da contenção às lições aprendidas, incluindo as obrigações de comunicação previstas na LGPD. O objetivo é que você consiga projetar, em linhas gerais, a cadeia completa de detecção e resposta de uma organização — competência central para quem pretende atuar em um SOC, em engenharia de detecção ou em resposta a incidentes.
+Na Unidade 2, executamos em laboratório as técnicas do adversário: reconhecimento, exploração, escalada de privilégios, movimentação lateral e evasão. Em cada etapa, perguntamos que rastro ficava para trás. Agora vestimos a camisa azul e respondemos à pergunta inversa: **como a defesa enxerga esses rastros, detecta o ataque e diminui as chances de ele dar certo?** Nesta unidade, você vai montar a arquitetura de monitoramento que leva *logs* e telemetria de *endpoints* e de rede até o SIEM (Aula 9); comparar a detecção por assinatura, por comportamento e por regras de correlação, escrevendo e ajustando regras (Aula 10); conduzir uma caça a ameaças guiada por hipóteses, consultas e análise de anomalias (Aula 11); e aplicar *hardening* e redução da superfície de ataque com base nos CIS Benchmarks e nos CIS Controls (Aula 12). O objetivo é que você consiga projetar a cadeia que vai do dado bruto ao alerta investigado e ao controle reforçado. Essa competência é central para quem pretende atuar em SOC, engenharia de detecção ou administração segura de sistemas, e prepara a Unidade 4, em que a defesa responde a incidentes e valida suas detecções em exercícios *purple team*.
 
 ### Texto base
 
-Imagine um condomínio com câmeras em todos os corredores, mas sem ninguém assistindo às gravações, e com o equipamento configurado para apagar tudo depois de 24 horas. As câmeras existem, mas não protegem ninguém. Muitas organizações vivem situação parecida com seus registros: os sistemas geram eventos o tempo todo, mas eles não são coletados, não são analisados ou são descartados antes de alguém precisar deles. Nesta aula, vamos entender como transformar esse fluxo de dados em capacidade de detecção.
+Imagine um condomínio com câmeras em todos os corredores, mas sem ninguém assistindo às gravações e com o equipamento configurado para apagar tudo depois de 24 horas. As câmeras existem, mas não protegem ninguém. Muitas organizações vivem situação parecida com seus registros: os sistemas geram eventos o tempo todo, mas eles não são coletados, não são analisados ou são descartados antes de alguém precisar deles. Nesta aula, vamos desenhar a arquitetura que transforma esse fluxo de dados em capacidade de detecção.
 
 #### Evento, registro e telemetria
 
-Um **evento** é qualquer ocorrência observável em um sistema: um *login*, a criação de um processo, uma consulta DNS. O **registro** (*log*) é a anotação desse evento, com data, hora, origem e detalhes. **Telemetria** é o termo mais amplo para o conjunto de dados que sensores e sistemas enviam continuamente para análise. O guia NIST SP 800-92 define a gestão de registros como o processo de gerar, transmitir, armazenar, analisar e descartar esses dados — e lembra que cada etapa precisa ser planejada, não improvisada durante um incidente.
+Um **evento** é qualquer ocorrência observável em um sistema: um *login*, a criação de um processo, uma consulta DNS. O **registro** (*log*) é a anotação desse evento, com data, hora, origem e detalhes. **Telemetria** é o termo mais amplo para o fluxo contínuo de dados que agentes e sensores enviam para análise. O guia NIST SP 800-92 trata a gestão de registros como um ciclo de gerar, transmitir, armazenar, analisar e descartar, e lembra que cada etapa precisa ser planejada antes do incidente, e não improvisada durante ele.
 
-[Imagem 1 — Fluxo horizontal: fontes de dados (servidores, estações, *firewall*, nuvem) → coleta → normalização → SIEM → alerta → analista. Texto alternativo: "Fluxograma do caminho de um registro, da fonte ao analista do SOC". Pode ser recriado pela equipe a partir da descrição.]
+Na **defesa em profundidade**, a proteção é organizada em camadas sobrepostas (perímetro, rede, *endpoint*, aplicação, identidade e dados), porque qualquer controle pode falhar. Para o monitoramento, cada camada é também uma fonte de telemetria: um *firewall* que deixou passar uma conexão ainda registra que ela aconteceu. Quem consome esses dados é o **SOC** (*Security Operations Center*), em geral organizado em níveis: N1 faz a triagem dos alertas, N2 investiga e inicia a contenção, N3 caça ameaças e cria novas detecções.
 
-#### Fontes de registro essenciais
+#### Telemetria de *endpoints*
 
-Não existe monitoração sem saber **o que** monitorar. As fontes abaixo cobrem boa parte das técnicas que vimos na Unidade 2:
+O *endpoint* (servidor, notebook, estação) é onde o adversário executa suas ações, por isso concentra as fontes mais ricas:
 
 | Fonte | Exemplo de evento | O que revela |
 |---|---|---|
-| Windows (Segurança) | 4624 (*logon* bem-sucedido), 4625 (falha de *logon*), 4688 (criação de processo), 1102 (registro de auditoria apagado) | Uso de credenciais, força bruta, execução de comandos, tentativa de apagar rastros |
+| Windows (canal Security) | 4624 (*logon* bem-sucedido), 4625 (falha de *logon*), 4688 (criação de processo), 1102 (registro de auditoria apagado) | Uso de credenciais, força bruta, execução, tentativa de apagar rastros |
 | Sysmon | ID 1 (processo, com linha de comando), ID 3 (conexão de rede), ID 22 (consulta DNS) | Comportamento detalhado do *endpoint* |
-| *Firewall* e *proxy* | Conexões permitidas e bloqueadas, URLs acessadas | Comando e controle, exfiltração |
-| DNS | Domínios consultados por cada máquina | Domínios recém-registrados, tunelamento |
-| Nuvem e identidade | Trilhas de auditoria do provedor e do serviço de identidade | Criação de chaves, mudança de permissões, *logins* impossíveis |
+| Linux | `auth.log` ou `secure`, regras do `auditd` | Acessos SSH, uso de `sudo`, chamadas de sistema auditadas |
 
-O **Sysmon** (*System Monitor*), ferramenta gratuita da Microsoft, merece destaque: ele enriquece a telemetria do Windows com informações que o registro nativo não traz por padrão, como o *hash* do executável, a linha de comando do processo pai e um identificador único de cada processo (o 4688 registra, no máximo, o nome do processo pai). Já o evento 4688 só registra a linha de comando se uma política específica estiver habilitada — um bom exemplo de que **ter a fonte não basta; é preciso configurá-la**.
+O **Sysmon** (*System Monitor*), ferramenta gratuita da Microsoft, acrescenta o que o registro nativo não traz por padrão, como o *hash* do executável e a linha de comando do processo pai. O próprio evento 4688 só registra a linha de comando se uma política específica estiver habilitada. Ter a fonte não basta: é preciso configurá-la e garantir que ela chegue ao SIEM.
 
-[Imagem 2 — Captura de tela do Visualizador de Eventos do Windows exibindo um evento 4625, com os campos de conta, tipo de *logon* e endereço de origem destacados. Texto alternativo: "Visualizador de Eventos do Windows mostrando uma falha de logon com ID 4625". Captura própria em máquina de laboratório.]
+[Imagem 1 — Captura de tela do Visualizador de Eventos do Windows exibindo um evento 4625, com os campos de conta, tipo de *logon* e endereço de origem destacados. Texto alternativo: "Visualizador de Eventos do Windows mostrando uma falha de logon com ID 4625". Captura própria em máquina virtual de laboratório.]
+
+#### Telemetria de rede
+
+Um sensor de rede recebe uma cópia do tráfego, por uma porta espelhada (SPAN) do *switch* ou por um TAP, e enxerga inclusive as máquinas sem agente. O **Zeek** resume cada conexão em uma linha de metadados (`conn.log`, `dns.log`, `rdp.log`), o **Suricata** compara o tráfego com assinaturas e a captura completa guarda os pacotes (PCAP), que o analista abre no **Wireshark**. No Wireshark, o filtro de exibição (`tcp.port == 3389`) escolhe o que mostrar de um arquivo já capturado, enquanto o filtro de captura (`port 3389`, na sintaxe BPF) decide o que gravar. Com TLS, o conteúdo segue cifrado, mas endereços, portas, horários e volumes continuam visíveis. Bejtlich (2013) resume o papel dessa camada: o *endpoint* diz qual conta e qual processo agiram; a rede diz de onde, para onde e quantas vezes.
+
+[Imagem 2 — Captura de tela do Wireshark com o filtro `tcp.port == 3389` aplicado, mostrando a lista de pacotes e o painel de detalhes de uma conexão RDP. Texto alternativo: "Janela do Wireshark com a lista de pacotes de uma conexão de área de trabalho remota". Captura própria em laboratório; o Wireshark é *software* livre (licença GPL).]
+
+#### Arquitetura de referência: Wazuh e Security Onion
+
+Duas plataformas de código aberto servem de referência para esta unidade. No **Wazuh**, o **agente** instalado em cada *endpoint* lê os canais do Windows e os *logs* do Linux e envia os eventos, cifrados, ao **Wazuh server** (o *manager*) pela porta 1514/TCP. No *server*, *decoders* extraem os campos de cada evento e **regras** classificam o que foi visto com um nível de 0 a 15. Os alertas seguem para o **Wazuh indexer**, que os guarda e indexa, e aparecem no **Wazuh dashboard**, a interface do analista. No **Security Onion 2.4**, sensores (*forward nodes*) rodam Zeek, Suricata e a captura de pacotes; o *manager* e os *search nodes* indexam os dados, e o analista trabalha no SOC Console, com as telas Alerts, Hunt, Cases e PCAP.
+
+[Imagem 3 — Diagrama da arquitetura de monitoramento: agentes Wazuh nos servidores e notebooks enviando eventos ao Wazuh server, indexer e dashboard; um sensor Security Onion recebendo a cópia do tráfego e enviando ao *manager*; as duas visões convergindo para o analista do SOC. Texto alternativo: "Diagrama com o fluxo de eventos dos endpoints e da rede até o analista do SOC". Recriado pela equipe a partir da documentação oficial do Wazuh e do Security Onion.]
 
 #### O SIEM: normalizar, correlacionar e reter
 
-O SIEM (*Security Information and Event Management*) centraliza os registros e executa três funções-chave. A **normalização** converte formatos diferentes em um esquema comum: o "usuário" do *firewall* e o "*TargetUserName*" do Windows passam a ocupar o mesmo campo, o que permite pesquisar todas as fontes de uma vez. Esquemas abertos, como o OCSF (*Open Cybersecurity Schema Framework*), buscam padronizar esse trabalho entre fornecedores.
+O SIEM (*Security Information and Event Management*) centraliza os registros e executa funções-chave. A **normalização** converte formatos diferentes em um esquema comum: o `TargetUserName` do Windows e o endereço de origem do Zeek passam a ocupar campos como `user.name` e `source.ip`, o que permite pesquisar todas as fontes de uma vez. O **enriquecimento** acrescenta contexto, como a criticidade do ativo e o cargo do usuário. A **correlação** combina eventos que, isolados, parecem inofensivos: dez falhas de *logon* (4625) seguidas de um sucesso (4624) da mesma origem, em menos de cinco minutos, sugerem que uma senha foi descoberta.
 
-A **correlação** combina eventos que, isolados, parecem inofensivos. Dez falhas de *logon* (4625) contra uma conta não significam muito; dez falhas seguidas de um *logon* bem-sucedido (4624) da mesma origem, em menos de cinco minutos, sugerem que uma senha foi descoberta. O SIEM também **enriquece** os eventos com contexto — geolocalização do IP, criticidade do ativo, cargo do usuário —, o que acelera a triagem.
+A **retenção** define por quanto tempo os dados ficam disponíveis. O PCI DSS exige guardar o histórico de auditoria por pelo menos 12 meses, com os 3 meses mais recentes disponíveis para análise imediata. O Marco Civil da Internet (Lei nº 12.965/2014) fixa um ano para registros de conexão e seis meses para registros de acesso a aplicações, para os provedores a que se aplica. O PCAP ocupa muito espaço e costuma ser guardado por poucos dias.
 
-A **retenção** define por quanto tempo os dados ficam disponíveis. Ela deve atender a requisitos legais e contratuais — o PCI DSS, por exemplo, exige guardar o histórico de auditoria por pelo menos 12 meses, com os 3 meses mais recentes disponíveis para análise imediata — e à realidade das investigações: se um invasor permaneceu semanas no ambiente, registros de apenas sete dias não contam a história do início. No Brasil, o Marco Civil da Internet (Lei nº 12.965/2014) também impõe a guarda de registros a alguns provedores: um ano para os registros de conexão e seis meses para os registros de acesso a aplicações.
-
-[Imagem 3 — Gráfico de linha do tempo com eventos 4625 em sequência e um 4624 ao final, destacados como uma regra de correlação. Texto alternativo: "Linha do tempo de várias falhas de logon seguidas de um logon bem-sucedido". Pode ser recriado pela equipe.]
-
-#### Fadiga de alertas: quando mais é menos
-
-Coletar tudo e alertar sobre tudo parece seguro, mas produz o efeito contrário. Quando a maioria dos alertas é de falsos positivos, os analistas passam a fechá-los no automático — e o alerta verdadeiro se perde no meio da fila. Esse fenômeno, chamado **fadiga de alertas**, é um dos principais problemas operacionais dos SOCs. Por isso, a pergunta certa não é "quantos alertas geramos?", mas "quantos alertas conseguimos investigar com qualidade?".
+[Imagem 4 — Linha do tempo com dez eventos 4625 em sequência e um 4624 ao final, destacados como uma regra de correlação. Texto alternativo: "Linha do tempo de várias falhas de logon seguidas de um logon bem-sucedido". Recriado pela equipe.]
 
 #### Exemplo numérico: alertas *versus* capacidade
 
-Um SOC recebe 1.800 alertas por dia. A triagem de cada um leva, em média, 10 minutos, o que exige 1.800 × 10 = 18.000 minutos, ou **300 horas de análise por dia**. A equipe N1 tem seis analistas (dois por turno), com cerca de 6 horas efetivas de triagem cada: 6 × 6 = 36 horas por dia. A capacidade real é de 36 × 60 ÷ 10 = **216 alertas por dia — apenas 12% do volume**. Suponha agora que 95% dos alertas venham de cinco regras ruidosas. Ajustando essas regras para cortar 90% do seu ruído, o volume cai para 1.800 − (0,95 × 1.800 × 0,9) ≈ 261 alertas por dia, muito mais próximo da capacidade. Ajustar regras costuma ser mais eficiente do que contratar mais analistas.
+Coletar tudo e alertar sobre tudo produz **fadiga de alertas**: quando quase tudo é falso positivo, o analista fecha alertas no automático. Um SOC recebe 1.800 alertas por dia, e a triagem de cada um leva 10 minutos: 1.800 × 10 = 18.000 minutos, ou **300 horas de análise por dia**. A equipe N1 tem seis analistas, com 6 horas efetivas cada: 36 horas, ou 36 × 60 ÷ 10 = **216 alertas por dia, apenas 12% do volume**. Se 95% dos alertas vêm de cinco regras ruidosas e o ajuste corta 90% do ruído delas, o volume cai para 1.800 − (0,95 × 1.800 × 0,9) ≈ 261 alertas por dia. Ajustar regras costuma render mais do que contratar.
 
 #### Pontos-chave
 
-- Sem fontes de registro bem escolhidas e configuradas, não há detecção possível.
-- Eventos como 4624, 4625 e 4688 e a telemetria do Sysmon são a base da monitoração de *endpoints* Windows.
-- O SIEM normaliza, enriquece, correlaciona e retém dados de múltiplas fontes.
-- A retenção deve atender à lei, aos contratos e ao tempo real das investigações.
-- Volume de alertas acima da capacidade da equipe gera fadiga e alertas perdidos.
+- Cada camada da defesa em profundidade é também uma fonte de telemetria.
+- No Wazuh, o agente coleta, o *server* decodifica e aplica regras, o *indexer* guarda e o *dashboard* mostra.
+- O Security Onion acrescenta a visão de rede, com Zeek, Suricata e PCAP.
+- Eventos 4624, 4625 e 4688 e o Sysmon só ajudam se estiverem configurados e chegarem ao SIEM.
+- Retenção e volume de alertas são decisões de projeto.
 
 ### Referências da aula
 
+BEJTLICH, Richard. *The practice of network security monitoring*: understanding incident detection and response. San Francisco: No Starch Press, 2013.
+
 BRASIL. Lei nº 12.965, de 23 de abril de 2014. Estabelece princípios, garantias, direitos e deveres para o uso da Internet no Brasil (Marco Civil da Internet). *Diário Oficial da União*, Brasília, DF, 24 abr. 2014.
 
-KENT, Karen; SOUPPAYA, Murugiah. *SP 800-92: guide to computer security log management*. Gaithersburg: NIST, 2006. DOI: 10.6028/NIST.SP.800-92.
+KENT, Karen; SOUPPAYA, Murugiah. *SP 800-92*: guide to computer security log management. Gaithersburg: NIST, 2006. DOI: 10.6028/NIST.SP.800-92.
 
-MICROSOFT. *Sysmon*. Sysinternals. Disponível em: <https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon>. Acesso em: 13 nov. 2026.
+MICROSOFT. *Sysmon*. Sysinternals. Disponível em: <https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon>. Acesso em: 22 nov. 2026.
 
-PCI SECURITY STANDARDS COUNCIL. *Payment card industry data security standard: requirements and testing procedures*. Versão 4.0.1. [*S. l.*]: PCI SSC, 2024.
+PCI SECURITY STANDARDS COUNCIL. *Payment card industry data security standard*: requirements and testing procedures. Versão 4.0.1. [*S. l.*]: PCI SSC, 2024.
 
-SANDERS, Chris; SMITH, Jason. *Applied network security monitoring: collection, detection, and analysis*. Waltham: Syngress, 2014.
+SANDERS, Chris; SMITH, Jason. *Applied network security monitoring*: collection, detection, and analysis. Waltham: Syngress, 2013.
 
-### Roteiro da Videoaula 9 — "Um *login* às 2h da manhã: o SOC vai perceber?"
+SECURITY ONION SOLUTIONS. *Security Onion 2.4 documentation*. Disponível em: <https://docs.securityonion.net/>. Acesso em: 22 nov. 2026.
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula9.html (24 slides).
+WAZUH. *Wazuh documentation*: architecture. Disponível em: <https://documentation.wazuh.com/current/getting-started/architecture.html>. Acesso em: 22 nov. 2026.
 
-**Slides 1 e 2 — Capa e sumário (0:00–0:35)**
-Fala: "Olá! Começamos hoje a Unidade 3, em que trocamos de lado e vestimos a camisa azul. Nesta aula, vamos ver de onde vêm os dados que alimentam a defesa: registros, telemetria e SIEM. O sumário mostra o caminho."
+### Roteiro da Videoaula 9 — "Um *login* às 2h da manhã: quem está olhando?"
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:35–1:50)**
-Fala: "Imagine a Luiza Ferraz, analista nível 2 do SOC, o centro de operações de segurança da Rede Tatame, no plantão da madrugada de sexta-feira, 13 de novembro. Às 02:17, alguém entra no SRV-ERP-01, o servidor do sistema financeiro, com a conta da Carla Dias, depois de errar a senha dez vezes. A Carla está dormindo, e a fila do SOC já tem centenas de alertas, quase todos ruído. No mapa à direita, o caminho em destaque sai do notebook NB-FIN-031 e chega ao ERP, em vermelho. A pergunta da aula está no quadro amarelo: que registros a Rede Tatame precisa coletar, guardar e correlacionar para que o SOC perceba esse *login* a tempo, sem se afogar em alertas?"
+Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula9.html (23 slides).
+
+**Slides 1 e 2 — Capa e sumário (0:00–0:30)**
+Fala: "Olá! Começamos hoje a Unidade 3, Defesa, Monitoramento e Detecção, em que trocamos de lado e vestimos a camisa azul. Nesta aula, vamos montar a arquitetura de monitoramento da Rede Tatame: *logs*, SIEM e telemetria de *endpoints* e de rede, com o Wazuh e o Security Onion como referência. O sumário mostra o caminho."
+
+**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:40)**
+Fala: "Madrugada de sexta-feira, 13 de novembro. A Luiza Ferraz está no plantão do SOC. Às 02:17, alguém entra no SRV-ERP-01, o servidor do sistema financeiro, com a conta da Carla Dias, depois de errar a senha dez vezes. A Carla está dormindo, e a fila já tem centenas de alertas. No mapa à direita, o caminho em destaque sai do notebook NB-FIN-031 e chega ao ERP, em vermelho. A pergunta da aula está no quadro amarelo: que arquitetura de monitoramento a Rede Tatame precisa para que o SOC perceba esse *login* a tempo? O que coletar, por onde os dados passam e onde a Luiza os vê?"
 [Take de apoio: sala de monitoramento à noite, analista diante de vários monitores — Envato]
 
-**Slide 4 — O que você verá nesta unidade (1:50–2:15)**
-Fala: "Na Unidade 2, acompanhamos o adversário. Agora a pergunta se inverte: como a defesa encontra os rastros e reage a tempo? Hoje o SOC precisa enxergar o *login*; na Aula 10, escrevemos e testamos regras; na Aula 11, caçamos o que as regras não viram; e na Aula 12, conduzimos a resposta ao incidente."
+**Slide 4 — O que você verá nesta unidade (1:40–2:10)**
+Fala: "Na Unidade 2, executamos as técnicas do adversário em laboratório. Agora a pergunta se inverte. Hoje montamos a arquitetura que enxerga os rastros; na Aula 10, escrevemos regras de detecção; na Aula 11, caçamos o que as regras não viram; e na Aula 12, fortalecemos os sistemas para reduzir a superfície de ataque."
 
-**Slide 5 — Evento, registro e telemetria (2:15–2:50)**
-Fala: "Um evento é qualquer ocorrência observável, como um *login* ou a criação de um processo. O registro, o *log*, é a anotação desse evento, e telemetria é o conjunto de dados que sensores enviam continuamente. O guia NIST SP 800-92 organiza a gestão de registros em cinco fases: gerar, transmitir, armazenar, analisar e descartar."
+**Slide 5 — Evento, registro e telemetria, camada por camada (2:10–2:50)**
+Fala: "Evento é qualquer ocorrência observável; registro é a anotação dela; telemetria é o fluxo contínuo que agentes e sensores enviam. Na defesa em profundidade, cada camada é uma barreira e também uma fonte de dados: um controle que falhou ainda pode deixar rastro. E quem consome esses dados é o SOC, com N1 na triagem, N2 na investigação e N3 na caça e na criação de detecções."
 
-**Slide 6 — Laboratório: o caminho de um registro, da fonte ao analista (2:50–4:10)**
-Objetivo: mostrar por onde o evento das 02:14 precisa passar para virar trabalho do SOC. Responde à parte "coletar" da pergunta.
+**Slide 6 — Wazuh para o *endpoint*, Security Onion para a rede (2:50–3:40)**
+Fala: "Vamos usar duas plataformas de código aberto como referência. No Wazuh, o agente roda em cada servidor e notebook, lê os canais do Windows e os *logs* do Linux e envia tudo ao Wazuh server, na porta 1514. O server decodifica e aplica regras, o indexer guarda e o dashboard mostra ao analista. No Security Onion, um sensor ligado a uma porta espelhada roda o Zeek, que resume cada conexão, o Suricata, que compara o tráfego com assinaturas, e a captura de pacotes. O manager e os search nodes indexam, e o analista usa o SOC Console."
+
+**Slide 7 — Laboratório: o caminho de um evento na arquitetura da Rede Tatame (3:40–5:20)**
+Objetivo: seguir o evento das 02:14 até a tela do SOC. Responde a "por onde os dados passam".
 Na tela:
-1. Ao abrir o slide, o passo "02:14:03 · Gerar" já está na tela (contador 1 / 7), com o nó Servidores aceso.
-2. Clicar em "▶ Avançar": passo "Transmitir". As quatro fontes da esquerda enviam pontos ao nó Coleta.
-3. Avançar por "Normalizar", "Enriquecer e correlacionar" e "Analisar", um clique por vez.
-4. Avançar por "Armazenar e descartar" e, por fim, "A câmera sem gravação", em que o nó DNS interno fica vermelho.
-Fala: "O primeiro passo é o evento 4625, uma falha de *logon* da carla.dias, tipo 10, que é área de trabalho remota, vinda do endereço 10.10.20.31. Cada ponto que corre nas linhas é um evento em trânsito. Na normalização, reparem no texto embaixo: TargetUserName, do Windows, e usuario, do *firewall*, viram o mesmo campo user.name. Depois o SIEM acrescenta contexto, percebe as dez falhas seguidas de sucesso em 3 minutos e gera um alerta de severidade alta para o analista N1. O último passo mostra o problema mais comum: o DNS interno nunca foi configurado para enviar registros, então nada dele chega ao SIEM."
-Atenção: o botão "⏯ Auto" avança sozinho; para gravar, prefira os cliques manuais, que dão tempo de ler o texto de cada passo. O botão "◀" volta um passo.
-Conclusão: "Coletar significa configurar cada fonte. Uma fonte esquecida é uma câmera sem gravação."
-[Tela: gravação do laboratório do slide 6]
+1. Ao abrir o slide, o passo "02:14:03 · Gerar" já está na tela (contador 1 / 8), com o nó SRV-ERP-01 aceso.
+2. Clicar em "▶ Avançar": "Coletar no endpoint". Pontos azuis saem do ERP e do NB-FIN-031 para o Wazuh server.
+3. Avançar por "Decodificar e aplicar regras" e "Indexar e mostrar".
+4. Avançar por "A mesma sessão na rede" e "Indexar a rede", em que os pontos ficam amarelos na linha de baixo.
+5. Avançar por "Duas visões, um caso" e "O ponto cego".
+Fala: "O primeiro passo é o evento 4625 no servidor: falha de *logon* da carla.dias, tipo 10, que é área de trabalho remota, vinda de 10.10.4.31. O agente Wazuh lê o canal Security e manda o evento cifrado ao server pela porta 1514; a 1515 é usada só para registrar o agente. No server, os *decoders* separam campos como targetUserName e ipAddress, e as regras dão ao evento um nível de 0 a 15. Os alertas vão para o indexer e aparecem no dashboard da Luiza. Agora a linha de baixo: o *switch* da sede copia o tráfego para o sensor do Security Onion. O Zeek registra cada conexão do notebook para a porta 3389 do ERP, o Suricata compara com assinaturas e o PCAP guarda os pacotes. No passo 'Duas visões, um caso', reparem que as duas linhas chegam à Luiza: o Wazuh diz qual conta entrou, o Security Onion diz de onde e quantas vezes. O último passo mostra o ponto cego: as catracas das academias não têm agente nem sensor."
+Atenção: o botão "⏯ Auto" avança sozinho; para gravar, prefira os cliques manuais. O botão "◀" volta um passo.
+Conclusão: "Os dados percorrem dois caminhos, o do *endpoint* e o da rede, e só o que tem agente ou sensor chega ao SOC."
+[Tela: gravação do laboratório do slide 7]
 
-**Slide 7 — Fontes de registro essenciais (4:10–4:45)**
-Fala: "No Windows, os eventos 4624, 4625, 4688 e 1102; no Sysmon, os IDs 1, 3 e 22; depois *firewall* e *proxy*, DNS, nuvem e identidade. No nosso caso, o 4625 e o 4624 contam a história do *login*, e o Sysmon conta o que aconteceu depois dele."
+**Slide 8 — O que cada fonte revela, e o que precisa ser configurado (5:20–5:55)**
+Fala: "No Windows, os eventos 4624, 4625, 4688 e 1102; no Sysmon, os IDs 1, 3 e 22; no Linux, o auth.log e o auditd; e, na rede, o conn.log e o dns.log do Zeek e os alertas do Suricata. O quadro azul traz o recado da aula: o 4688 só grava a linha de comando com uma política habilitada, e o agente Wazuh só lê o Sysmon se o canal dele estiver na configuração."
 
-**Slide 8 — Laboratório: que telemetria da Rede Tatame chega ao SOC (4:45–6:25)**
-Objetivo: descobrir quais fontes da plataforma chegam ao SOC e quanto custa ligar mais uma. Responde a "coletar", com a restrição de custo.
-Na tela (simulador da disciplina, já aberto na aba Telemetria):
-1. Rolar até o painel "Volume e custo", abaixo da lista de fontes, e ler os indicadores: "Fontes ligadas 7 de 10", "Ingestão por dia 32,8 GB" e "Custo por mês R$ 2.462".
-2. Marcar as chaves "Heartbeat e firmware das catracas" e "Acesso a buckets e saída de rede". Os indicadores passam a 9 de 10, 34,5 GB por dia e R$ 2.586 por mês.
-3. Abrir a aba "Filas e eventos" e clicar em "Iniciar", no topo. As partições do tópico tatame.eventos começam a contar mensagens.
-4. Clicar em "Parar o encaminhador do SIEM" e observar as barras de atraso.
-5. Clicar em "Religar o encaminhador do SIEM" para fechar.
-Fala: "Cada linha da lista é uma fonte, com a taxa em eventos por segundo e as etiquetas das regras que dependem dela, como a R10 nas catracas. Ligar as catracas e a saída de rede soma 38 eventos por segundo, cerca de 1,6 GB a mais por dia e R$ 124 a mais por mês, valores fictícios do simulador. Na aba Filas e eventos, o Kafka é o barramento de mensagens: os sistemas publicam ali, e três consumidores leem, o CEP, o *data lake* e o siem-forwarder. Quando eu paro o encaminhador, a barra do siem-forwarder fica vermelha e o *lag*, o atraso medido em mensagens, cresce sem parar. Os eventos continuam guardados no Kafka, mas o SOC deixa de vê-los."
-Atenção: o simulador roda em tempo acelerado (1 s = 15 s); o *lag* leva uns 10 segundos para ficar visível. Se algo travar, use "Reiniciar", no topo.
-Conclusão: "Cada fonte ligada custa dinheiro; cada fonte desligada ou parada é um ponto cego para a Luiza."
-[Tela: gravação do laboratório do slide 8, no simulador]
-
-**Slide 9 — Ter a fonte não basta: é preciso configurá-la (6:25–6:50)**
-Fala: "O Sysmon, ferramenta gratuita da Microsoft, acrescenta o que o registro nativo não traz por padrão. No evento ID 1, ele grava a linha de comando, o *hash* do executável e o processo pai. O 4688 nativo só traz a linha de comando se uma política estiver habilitada."
-
-**Slide 10 — Laboratório: falhas, sucesso e processo no Windows (6:50–8:30)**
-Objetivo: ver os eventos que um *login* como o das 02:17 deixa numa máquina Windows. Responde a "o que coletar".
-Na tela (PowerShell da VM isolada LAB-WIN11; clicar em "▶ Próximo comando" seis vezes):
-1. Get-WinEvent no registro Security, filtrando o Id 4625.
+**Slide 9 — Laboratório: o que um *endpoint* Windows registra, e o que o agente envia (5:55–7:45)**
+Objetivo: ver os eventos que um *login* deixa numa máquina Windows e conferir se o agente os coleta. Responde a "o que coletar".
+Na tela (PowerShell da VM isolada LAB-WIN11; clicar em "▶ Próximo comando" sete vezes):
+1. Get-WinEvent no canal Security, filtrando o Id 4625.
 2. Get-WinEvent filtrando o Id 4624 da conta aluno.
 3. Instalação do Sysmon com o arquivo sysmonconfig.xml.
 4. Start-Process notepad.exe.
 5. Leitura do evento ID 1 do Sysmon que menciona o notepad.
-6. Get-ItemProperty na chave de auditoria, procurando ProcessCreationIncludeCmdLine_Enabled.
-Fala: "O primeiro comando lê as três últimas falhas e monta cinco colunas: hora, Id, conta, tipo de *logon* e origem. A conta está na propriedade 5, o tipo na 10 e a origem na 19 do evento. Aparecem três 4625 da conta aluno, tipo 2, que é teclado, vindas de 127.0.0.1, a própria máquina. No 4624, as posições mudam: o tipo fica na 8 e a origem na 18. O resultado é um sucesso às 10:02:52. Três falhas em 15 segundos e um sucesso 11 segundos depois: aqui foi só o aluno digitando errado. No caso da Rede Tatame, o tipo seria 10, área de trabalho remota, e a origem seria o notebook do financeiro. Em seguida instalamos o Sysmon; as linhas verdes confirmam o serviço e o *driver* iniciados. Abrimos o Bloco de Notas e lemos o evento 1. As linhas destacadas são Image, CommandLine, Hashes, com o SHA-256, e ParentImage, que mostra o PowerShell como processo pai. O último comando termina em erro de propósito: a política que coloca a linha de comando no 4688 não existe nesta máquina."
+6. Get-Service WazuhSvc.
+7. Select-String no ossec.conf, procurando as linhas location.
+Fala: "O primeiro comando lê as três últimas falhas e monta cinco colunas: hora, Id, conta, tipo de *logon* e origem. No 4625, a conta está na propriedade 5, o tipo na 10 e a origem na 19. Aparecem três falhas da conta aluno, tipo 2, que é teclado. No 4624 as posições mudam, tipo na 8 e origem na 18, e o sucesso vem às 10:02:52: aqui foi só o aluno digitando errado. Instalamos o Sysmon, as linhas verdes confirmam o serviço e o *driver*, abrimos o Bloco de Notas e lemos o evento 1: as linhas destacadas são Image, CommandLine, Hashes, com o SHA-256, e ParentImage, que mostra o PowerShell como processo pai. O Get-Service mostra o agente Wazuh rodando, com o nome WazuhSvc. E o último comando é a surpresa: o ossec.conf lista só Application, Security e System. O Sysmon grava, mas o canal dele não está na lista, então nada do Sysmon chega ao Wazuh. A linha cinza mostra a correção: um bloco localfile com o canal do Sysmon e o formato eventchannel."
 Atenção: a saída é simulada e representa uma VM isolada; os horários são da VM, não da madrugada do caso. "⏭ Executar tudo" roda o roteiro inteiro, e "⟲ Reiniciar" limpa o terminal.
-Conclusão: "O 4625 e o 4624 contam o *login*; o Sysmon conta o que veio depois. E uma fonte sem configuração não responde à pergunta da investigação."
-[Tela: gravação do laboratório do slide 10]
+Conclusão: "Ter a fonte não basta: ela precisa estar configurada e ligada ao SIEM."
+[Tela: gravação do laboratório do slide 9]
 
-**Slide 11 — O SIEM: normalizar, enriquecer, correlacionar e reter (8:30–9:10)**
-Fala: "O SIEM, *Security Information and Event Management*, faz quatro trabalhos com esses registros. Ele normaliza formatos diferentes num esquema comum, enriquece com contexto, correlaciona eventos que isolados parecem inofensivos e retém os dados pelo tempo definido. Dez falhas seguidas de um sucesso, da mesma origem, em menos de cinco minutos: esse é exatamente o padrão da carla.dias."
+**Slide 10 — Laboratório: que telemetria da Rede Tatame chega ao SOC (7:45–9:15)**
+Objetivo: descobrir quais fontes da plataforma chegam ao SOC e quanto custa ligar mais uma. Responde a "o que coletar", com a restrição de custo.
+Na tela (simulador da disciplina, aberto na aba Telemetria):
+1. Rolar até o painel "Volume e custo" e ler os indicadores: "Fontes ligadas 7 de 10", "Ingestão por dia 32,8 GB" e "Custo por mês R$ 2.462".
+2. Marcar as chaves "Heartbeat e firmware das catracas" e "Acesso a buckets e saída de rede". Os indicadores passam a 9 de 10, 34,5 GB por dia e R$ 2.586 por mês.
+3. Abrir a aba "Filas e eventos" e clicar em "Iniciar", no topo.
+4. Clicar em "Parar o encaminhador do SIEM" e observar as barras de atraso.
+5. Clicar em "Religar o encaminhador do SIEM" para fechar.
+Fala: "Cada linha da lista é uma fonte, com a taxa em eventos por segundo e as regras que dependem dela. Ligar as catracas e a saída de rede soma cerca de 1,6 GB por dia e R$ 124 por mês, valores fictícios do simulador. Na aba Filas e eventos, o Kafka é o barramento: os serviços publicam ali e três consumidores leem, o CEP, o *data lake* e o encaminhador do SIEM. Quando paro o encaminhador, a barra dele fica vermelha e o *lag*, o atraso medido em mensagens, cresce sem parar. Os eventos continuam no Kafka, mas o SOC deixa de vê-los. É o mesmo efeito de um agente parado ou de um canal esquecido no ossec.conf."
+Atenção: o simulador roda em tempo acelerado; o *lag* leva uns 10 segundos para ficar visível. Se algo travar, use "Reiniciar", no topo.
+Conclusão: "Cada fonte ligada custa dinheiro; cada fonte desligada ou parada é um ponto cego."
+[Tela: gravação do laboratório do slide 10, no simulador]
 
-**Slide 12 — Antes do código: onde achar e como instalar (9:10–9:35)**
-Fala: "Antes de rodar qualquer código, vale conferir o que ele usa. Este laboratório precisa do VS Code, com a extensão Python da Microsoft, e do Python 3.12, baixados dos *sites* oficiais da tabela. Os módulos json, datetime e collections fazem parte da biblioteca padrão, então não há pacote a instalar. Para conferir, procurem o nome do módulo no índice da documentação do Python. Cada pacote de terceiros evitado é uma dependência a menos para vigiar."
+**Slide 11 — O que o pacote mostra que o *log* do servidor não mostra (9:15–9:50)**
+Fala: "O sensor recebe uma cópia do tráfego e vê também as máquinas sem agente. O Zeek resume cada conexão; o Wireshark abre os pacotes um a um, a partir do PCAP. Atenção à diferença: o filtro de exibição escolhe o que mostrar de um arquivo já capturado; o filtro de captura, em sintaxe BPF, decide o que gravar. E com TLS o conteúdo vai cifrado, mas endereço, porta, horário e volume continuam visíveis."
 
-**Slide 13 — Laboratório: normalizar dois formatos e correlacionar (9:35–11:55)**
-Objetivo: juntar Windows e *firewall* num formato comum e achar o padrão das 02:17. Responde a "correlacionar".
-Na tela (VS Code em tela inteira, pasta normalizacao; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
+**Slide 12 — Laboratório: o *login* das 02:17 visto na rede (9:50–11:50)**
+Objetivo: confirmar nos pacotes de onde veio o acesso ao ERP. Responde a "o que coletar na rede".
+Na tela (Wireshark simulado, arquivo sede-span_2026-11-13_0213.pcapng, aberto com o filtro ip.addr == 10.10.4.31):
+1. Ler a lista de pacotes e a barra de status "Pacotes: 5.812 · Exibidos: 22".
+2. Clicar no botão "dns".
+3. Clicar no botão "tcp.port == 3389" e depois na linha 4113, de protocolo RDP.
+4. Clicar no botão "tcp.flags.syn == 1 && tcp.flags.ack == 0".
+5. Clicar no botão "tcp.flags.reset == 1".
+Fala: "Cada linha é um pacote, com número, hora, origem, destino, protocolo, tamanho e um resumo. As cores seguem o padrão do Wireshark: azul-claro para DNS, lilás para TCP, verde para TLS. No filtro dns, o notebook pergunta ao AD, 10.10.1.10, o endereço de srv-erp-01.corp.tatame.local e recebe 10.10.1.30. No filtro da porta 3389, vemos o aperto de mão do TCP: SYN, SYN-ACK e ACK. O pacote 4113 é o primeiro do RDP, e o painel de detalhes destaca o *cookie* mstshash=carla.dias: o nome da conta vai em claro antes do TLS. Depois vêm o Client Hello, o certificado do SRV-ERP-01 e Application Data, cifrado. A senha não aparece, e é assim que deve ser. O filtro dos SYN conta os inícios de conexão: 11 para o ERP em pouco mais de três minutos, uma por tentativa de senha, e um para a porta 445 do servidor de arquivos. O último filtro mostra a resposta do SRV-ARQ-01 às 02:19:40: um RST, em vermelho. A conexão foi recusada, mas a rede registrou que alguém tentou ir além do ERP."
+Atenção: o arquivo e os pacotes são simulados e os botões substituem a digitação do filtro; digitar um filtro diferente dos cinco deixa a barra vermelha. A barra verde indica filtro válido, como no Wireshark real.
+Conclusão: "A rede confirma a origem, o NB-FIN-031, e mostra o passo seguinte, que o *log* do ERP não veria."
+[Tela: gravação do laboratório do slide 12]
+
+**Slide 13 — Normalizar, enriquecer, correlacionar e reter (11:50–12:25)**
+Fala: "Com dados do *endpoint* e da rede, o SIEM precisa colocá-los no mesmo idioma. No Wazuh, *decoders* e regras fazem esse trabalho; no Security Onion, o Elastic Agent e os *pipelines* de ingestão. A normalização põe o targetUserName do Windows e a origem do Zeek em campos comuns, o enriquecimento acrescenta contexto, a correlação junta dez falhas e um sucesso em cinco minutos, e a retenção decide por quanto tempo tudo fica pesquisável."
+
+**Slide 14 — Antes do código: onde achar e como instalar (12:25–12:45)**
+Fala: "O próximo laboratório usa o VS Code com a extensão Python da Microsoft e o Python 3.12, baixados dos *sites* oficiais da tabela. Os módulos json, datetime e collections são da biblioteca padrão, então não há pacote a instalar: basta conferir o nome no índice da documentação do Python. As amostras imitam o que o agente Wazuh lê do Windows e o conn.log do Zeek em JSON."
+
+**Slide 15 — Laboratório: *endpoint* e rede no mesmo esquema (12:45–15:05)**
+Objetivo: juntar Windows e Zeek num formato comum e achar o padrão das 02:17. Responde a "correlacionar".
+Na tela (VS Code em tela cheia, pasta normalizacao; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
 1. Clicar em "⬇ Preparar o ambiente", na barra do terminal, e esperar o botão mudar para "✓ Ambiente pronto".
-2. Com normalizar.py aberto, mostrar as linhas destacadas de 5 a 12 (MAPA_WINDOWS) e a linha 31 (user.name no *firewall*).
-3. No explorador, abrir amostras/windows_seguranca.jsonl e amostras/firewall.log.
-4. Clicar no botão "Normalizar", na barra do terminal.
-5. Abrir correlacao.py, mostrar as linhas destacadas 6, 7, 14, 15, 18 e 19 e clicar em "Correlacionar".
-Fala: "Começamos preparando o ambiente. O primeiro comando confirma a versão do Python, 3.12.7. O segundo cria o ambiente virtual, uma pasta chamada .venv com uma cópia isolada do Python, para que os pacotes deste projeto não se misturem com os do sistema. O terceiro ativa esse ambiente, e o *prompt* passa a começar por .venv entre parênteses. O pip list mostra só o próprio pip: nada foi instalado, porque o código usa apenas a biblioteca padrão. Agora o código. O dicionário MAPA_WINDOWS diz que TimeCreated vira @timestamp, TargetUserName vira user.name e IpAddress vira source.ip. A linha 13 traduz o código: 4624 é success e 4625 é failure. A função de_firewall quebra cada linha do *log* em pares chave=valor e preenche os mesmos campos; a linha 31 põe o usuario do *firewall* em user.name. A função carregar junta os dois arquivos e ordena tudo pela hora. Ao rodar, a saída diz 18 eventos normalizados: 15 do Windows e 3 do *firewall*. O primeiro é do *firewall*, às 02:13:58: a conexão permitida do notebook 10.10.20.31 para a porta 3389, de área de trabalho remota, já com user.name igual a carla.dias. Agora a correlação. A linha 6 define o limiar de 10 falhas, e a linha 7, a janela de 5 minutos. Para cada par de origem e conta, o programa guarda os horários das falhas numa fila; as linhas 14 e 15 descartam as falhas mais antigas que a janela. Quando chega um sucesso, as linhas 18 e 19 decidem: com 10 ou mais falhas guardadas, sai o alerta. O resultado, em vermelho, mostra carla.dias no SRV-ERP-01, 10 falhas e sucesso às 02:17:12 a partir de 10.10.20.31. A ana.lima errou duas vezes e entrou, ficando abaixo do limiar, e o caio.mendes entrou sem errar."
-Atenção: o código é ilustrativo e roda apenas na simulação, e a preparação do ambiente também é simulada (cerca de 5 segundos na tela). Os nomes de campos imitam o ECS (*Elastic Common Schema*). Em telas estreitas, os botões da barra do terminal passam para uma segunda linha.
-Conclusão: "Com campos comuns, uma regra simples, dez falhas e um sucesso em cinco minutos, encontra o *login* das 02:17."
-[Tela: gravação do laboratório do slide 13]
+2. Com normalizar.py aberto, mostrar as linhas destacadas 6 a 13 (MAPA_WINDOWS) e 29 a 31 (campos do Zeek).
+3. No explorador, abrir amostras/windows_seguranca.jsonl e amostras/zeek_conn.log.
+4. Clicar em "▶ Normalizar".
+5. Abrir correlacao.py, mostrar as linhas destacadas 7, 8, 16, 17, 21 e 24 a 26 e clicar em "▶ Correlacionar".
+Fala: "Primeiro o ambiente: a versão do Python, 3.12.7; a criação do ambiente virtual, a pasta .venv; a ativação, que muda o *prompt*; e o pip list, que mostra só o próprio pip, porque o código usa apenas a biblioteca padrão. Agora o código. O dicionário MAPA_WINDOWS diz que TimeCreated vira @timestamp, TargetUserName vira user.name e IpAddress vira source.ip. A função de_zeek faz o mesmo com o conn.log: id.orig_h vira source.ip, id.resp_h vira destination.ip e id.resp_p vira destination.port. O horário do Zeek vem em segundos desde 1970 e é convertido para o fuso de Brasília, para que as duas fontes fiquem na mesma linha do tempo. Ao normalizar, a saída diz 28 eventos: 13 do Zeek e 15 do Windows. O primeiro, às 02:14:01, é uma conexão do Zeek para a porta 3389; o segundo, dois segundos depois, é a primeira falha da carla.dias. Agora a correlação. A linha 7 define o limiar de 10 falhas e a linha 8 a janela de 5 minutos. As linhas 16 e 17 descartam falhas antigas; a linha 21 decide: com 10 ou mais falhas guardadas, sai o alerta. As linhas 24 a 26 vão à rede e contam as conexões RDP da mesma origem perto do horário do sucesso. O resultado em vermelho mostra carla.dias no SRV-ERP-01, 10 falhas e sucesso às 02:17:12 a partir de 10.10.4.31, e a linha azul confirma: 11 conexões RDP para 10.10.1.30, entre 02:14:01 e 02:17:10. A ana.lima errou duas vezes e entrou, abaixo do limiar, e o caio.mendes entrou sem errar."
+Atenção: o código é ilustrativo e roda apenas na simulação; a preparação do ambiente também é simulada (cerca de 5 segundos). Os nomes de campos imitam o ECS (*Elastic Common Schema*).
+Conclusão: "Com campos comuns, uma regra simples encontra o *login* das 02:17, e a rede confirma a origem."
+[Tela: gravação do laboratório do slide 15]
 
-**Slide 14 — Laboratório: os mesmos eventos dentro do SIEM (11:55–13:25)**
-Objetivo: confirmar no SIEM o que houve às 02:17 e até quando dá para olhar para trás. Responde a "correlacionar" e a "guardar".
-Na tela (console do SIEM; a busca 1 roda sozinha ao abrir o slide):
-1. Ler o resultado de "1. Falhas de logon por origem".
-2. Clicar em "2. Falhas seguidas de sucesso".
-3. Clicar em "3. Enriquecer o evento".
+**Slide 16 — Laboratório: os mesmos eventos no painel do Wazuh (15:05–16:45)**
+Objetivo: confirmar no Wazuh o que houve às 02:17, o que veio depois e até quando dá para olhar para trás. Responde a "onde o analista vê" e a "guardar".
+Na tela (console com a aparência do Wazuh; a busca 1 roda sozinha ao abrir o slide):
+1. Ler o resultado de "1. Falhas de logon por agente".
+2. Clicar em "2. Regra local: sucesso após falhas".
+3. Clicar em "3. O que rodou depois no ERP?", no grupo Endpoint.
 4. Clicar em "4. Até quando dá para olhar?", no grupo Retenção.
-Fala: "A busca 1 filtra o evento 4625 e conta as falhas por origem, conta e servidor. São 214 eventos no dia. O histograma tem uma barra por hora, e a das 02h está destacada. Quem lidera é a conta de serviço svc-backup, com 96 falhas, 4 por hora o dia inteiro, por causa de uma senha vencida: volume alto, mas ruído conhecido. A busca 2, em EQL, procura a sequência de 10 falhas seguidas de um sucesso em até 5 minutos, para a mesma origem e conta. Ela encontra uma única sequência, das 02:14:03 às 02:17:12, com severidade alta. A busca 3 cruza o *login* com três tabelas, de ativos, de RH e de rede. O resultado diz que o SRV-ERP-01 tem criticidade alta, que a carla.dias é analista do financeiro com horário usual das 8h às 18h e que a origem é o notebook NB-FIN-031, na sede. A busca 4 mostra o registro mais antigo e o mais recente de cada índice. Windows e *firewall* têm 365 dias; o *proxy* tem só 7, porque o equipamento foi trocado há uma semana."
-Atenção: o texto da consulta é digitado aos poucos antes do resultado; espere a tabela completar antes de comentar. O botão "Pesquisar" repete a busca selecionada.
-Conclusão: "Volume alto não indica ataque. O enriquecimento separa o ruído do svc-backup da ameaça na conta da carla.dias."
-[Tela: gravação do laboratório do slide 14]
+Fala: "A busca 1 filtra a regra 60122, que o Wazuh usa para falha de *logon* do Windows, o evento 4625. São 214 alertas no dia; o histograma tem uma barra por hora e a das 02h está destacada. Quem lidera é a conta de serviço svc-backup, com 96 falhas, 4 por hora o dia inteiro, por causa de uma senha vencida: volume alto, mas ruído conhecido. A busca 2 procura a regra 100100, uma regra local, escrita pela própria Rede Tatame no arquivo local_rules.xml, onde as regras próprias usam IDs a partir de 100000. Ela dispara uma vez, às 02:17:12, para carla.dias, com nível 12 e a técnica T1110 do ATT&CK. A busca 3 mostra os eventos 1 do Sysmon no ERP depois do *login*: o rdpclip, normal numa sessão remota, e em seguida whoami /groups e net user carla.dias /domain, comandos de descoberta às 2h da manhã. Isso só aparece porque o canal do Sysmon foi incluído no ossec.conf. A busca 4 compara a retenção: alertas do Wazuh com 365 dias, eventos brutos e *logs* do Zeek com 90, e o PCAP com apenas 7."
+Atenção: o texto da consulta é digitado aos poucos antes do resultado; espere a tabela completar antes de comentar. O botão "Pesquisar" repete a busca selecionada. Em cada busca, a nota abaixo da tabela resume a leitura.
+Conclusão: "Volume alto não indica ataque. A regra de correlação e o contexto separam o ruído do svc-backup da ameaça na conta da carla.dias."
+[Tela: gravação do laboratório do slide 16]
 
-**Slide 15 — Laboratório: a catraca adulterada, sem e com a fonte certa (13:25–15:05)**
+**Slide 17 — Laboratório: a catraca adulterada, sem e com a fonte certa (16:45–18:05)**
 Objetivo: provar, na plataforma, que uma regra só dispara se a fonte estiver ligada e a regra ativa. Responde a "coletar" e "correlacionar" juntos.
 Na tela (simulador na aba Cenários, com a fonte das catracas e a regra R10 desligadas):
 1. No cartão "Catraca adulterada", clicar em "Iniciar cenário" e esperar os três passos, cerca de 20 segundos.
@@ -179,719 +207,665 @@ Na tela (simulador na aba Cenários, com a fonte das catracas e a regra R10 desl
 3. Na aba Regras do CEP, ligar "R10 · Catraca fora do padrão (volume ou firmware)".
 4. Voltar a Cenários e clicar em "Repetir com as fontes e regras atuais".
 5. Na aba SOC, clicar em "Investigar" no alerta da R10.
-Fala: "Na primeira rodada, os dois primeiros passos, os *heartbeats* dez vezes por segundo e o *firmware* não assinado, recebem a etiqueta vermelha 'não detectado': a fonte das catracas está desligada, então ninguém viu nada. O terceiro passo, os *check-ins* falsos, fica amarelo, 'visto nos logs, sem alerta'. O *log* do API *gateway* registrou, mas nenhuma regra olha para isso. Embaixo de cada passo aparecem a técnica do ATT&CK, a fonte e a regra. Depois de ligar a fonte e a R10, a segunda rodada marca os dois primeiros passos como 'detectado'. No SOC, o painel de investigação mostra a lógica da regra e a linha do tempo correlacionada."
-Atenção: o alerta chega alguns segundos depois do passo, porque a regra precisa correlacionar. Na aba SOC também pode aparecer um alerta da R11 sobre a conta svc-backup; ele é benigno e será tratado na Aula 12.
+Fala: "Na primeira rodada, os dois primeiros passos recebem a etiqueta 'não detectado': a fonte das catracas está desligada, é o ponto cego que vimos no fluxo do slide 7. O terceiro passo, os *check-ins* falsos, fica 'visto nos logs, sem alerta': o API *gateway* registrou, mas nenhuma regra olha para isso. Depois de ligar a fonte e a R10, a segunda rodada marca os dois primeiros passos como 'detectado', e no SOC o painel de investigação mostra a lógica da regra e a linha do tempo correlacionada."
+Atenção: o alerta chega alguns segundos depois do passo, porque a regra precisa correlacionar. Na aba SOC pode aparecer também um alerta benigno de outra regra; ignore-o nesta gravação.
 Conclusão: "Para avisar o SOC, a Rede Tatame precisa das duas coisas: a fonte ligada e a regra ativa."
-[Tela: gravação do laboratório do slide 15, no simulador]
+[Tela: gravação do laboratório do slide 17, no simulador]
 
-**Slide 16 — Por quanto tempo guardar os registros (15:05–15:35)**
-Fala: "A retenção atende à lei, aos contratos e ao tempo real das investigações. O PCI DSS exige 12 meses de histórico, com os 3 mais recentes disponíveis para análise imediata. Se o invasor ficou semanas no ambiente, sete dias de registro não contam o começo da história."
+**Slide 18 — Guardar o bastante e alertar só o que cabe (18:05–18:35)**
+Fala: "Duas decisões de projeto fecham a arquitetura. Retenção: o PCI DSS pede 12 meses, com 3 para análise imediata, e o Marco Civil fixa prazos para alguns provedores. E volume: 1.800 alertas por dia vezes 10 minutos são 300 horas de análise; seis analistas com 6 horas efetivas triam 216 alertas, 12% do total. Ajustando as cinco regras ruidosas, a fila cai para cerca de 261."
 
-**Slide 17 — Laboratório: o início da invasão ainda está nos registros? (15:35–16:35)**
-Objetivo: decidir quanto guardar. Responde a "guardar".
+**Slide 19 — Laboratório: calculadora de alertas e capacidade do SOC (18:35–19:15)**
+Objetivo: verificar se o alerta das 02:17 cabe na fila. Responde a "a tempo, sem se afogar em alertas".
 Na tela:
-1. Partir dos valores iniciais: pesquisa imediata de 7 dias, retenção total de 7 dias e invasão de 30 dias atrás.
-2. Arrastar "Retenção total (dias)" até 365 e "Pesquisa imediata (dias)" até 90.
-3. Arrastar "Invasão começou há (dias)" até 200.
-Fala: "A faixa clara é o que dá para pesquisar na hora, a faixa mais fraca é o arquivo de longo prazo, e a linha vermelha marca o dia da entrada do invasor. Com sete dias, os dois primeiros indicadores ficam vermelhos, e a frase embaixo avisa que os primeiros 23 dias da invasão já foram descartados. Com 365 dias de retenção e 90 de pesquisa imediata, o PCI DSS passa a ser atendido, e o volume guardado chega a 7,3 TB, a 20 GB por dia. Se a invasão começou há 200 dias, o início existe, mas está no arquivo: será preciso restaurá-lo antes de pesquisar."
-Atenção: a retenção total nunca fica menor que a pesquisa imediata; o controle se ajusta sozinho.
-Conclusão: "A Rede Tatame guarda 12 meses no SIEM, e é isso que permite reconstruir o começo do caso do ERP."
-[Tela: gravação do laboratório do slide 17]
-
-**Slides 18 e 19 — Fadiga de alertas e o exemplo numérico (16:35–17:15)**
-Fala: "Coletar tudo e alertar sobre tudo produz o efeito contrário: quando quase tudo é falso positivo, o analista fecha alertas no automático. Vejam a conta. São 1.800 alertas por dia vezes 10 minutos, ou 300 horas de análise; seis analistas com 6 horas efetivas somam 36 horas, ou 216 alertas, 12% do volume. Se 95% dos alertas vêm de cinco regras ruidosas e o ajuste corta 90% do ruído delas, a fila cai para cerca de 261."
-
-**Slide 20 — Laboratório: calculadora de alertas e capacidade do SOC (17:15–18:15)**
-Objetivo: verificar se o alerta das 02:17 cabe na fila. Responde a "sem se afogar em alertas".
-Na tela:
-1. Ler os valores iniciais: demanda de 300 h por dia (1.800 alertas), capacidade de 36 h por dia (216 alertas) e cobertura de 12%.
+1. Ler os valores iniciais: demanda de 300 h por dia (1.800 alertas), capacidade de 36 h por dia (216 alertas), cobertura de 12%.
 2. Subir "Analistas N1" de 6 para 8.
 3. Voltar a 6 e subir "Ruído cortado nessas regras" para 90%.
 4. Baixar "Minutos de triagem por alerta" de 10 para 6.
-Fala: "Com oito analistas, a capacidade sobe para 48 horas, ou 288 alertas, e a cobertura vai só a 16%. Com seis analistas e 90% do ruído cortado, a demanda cai para 43,5 horas e 261 alertas, e a cobertura salta para 82,8%. Com triagem de 6 minutos, a equipe tria 360 alertas, a cobertura chega a 100% e o indicador mostra 'cabe tudo'. As barras de baixo comparam os alertas recebidos com os que cabem."
+Fala: "Com oito analistas, a capacidade vai a 288 alertas e a cobertura só a 16%. Com seis analistas e 90% do ruído cortado, a demanda cai para 261 alertas e a cobertura salta para 82,8%. Com triagem de 6 minutos, a equipe tria 360 alertas e o indicador mostra 'cabe tudo'."
 Conclusão: "Ajustar regras rende mais do que contratar, e é isso que garante que o alerta da carla.dias seja lido."
-[Tela: gravação do laboratório do slide 20]
+[Tela: gravação do laboratório do slide 19]
 
-**Slide 21 — De volta ao problema (18:15–19:15)**
-Fala: "Voltemos à Luiza. Os quatro cartões resumem o que vimos: coletar as fontes certas, com 4624, 4625 e Sysmon chegando ao SIEM; normalizar e correlacionar, para a regra achar a carla.dias às 02:17:12; guardar 12 meses; e caber na equipe, com a fila reduzida para cerca de 261 alertas. Respondendo à pergunta da aula: a Rede Tatame precisa coletar os eventos de autenticação e de processos de servidores e notebooks, levá-los ao SIEM em formato comum, correlacionar falhas seguidas de sucesso, guardar 12 meses e manter o volume de alertas dentro da capacidade do SOC."
+**Slide 20 — De volta ao problema (19:15–19:45)**
+Fala: "Voltemos à Luiza. Os cartões resumem a resposta: agentes Wazuh no ERP e nos notebooks, com o Sysmon configurado; um sensor do Security Onion na porta espelhada, com Zeek e PCAP; normalização e correlação para a regra achar a carla.dias às 02:17:12; e retenção e volume de alertas dimensionados. Respondendo à pergunta da aula: agentes e sensor enviam telemetria a um SIEM que normaliza, correlaciona e guarda, e a Luiza vê o alerta no painel, com contexto, numa fila que cabe na equipe."
 
-**Slides 22 a 24 — Pontos-chave, referências e encerramento (19:15–19:55)**
-Fala: "Para levar desta aula: sem fontes bem escolhidas e configuradas, não há detecção; o SIEM normaliza, enriquece, correlaciona e retém; e alerta demais vira alerta perdido. O SOC enxergou o *login*, mas ainda falta saber se uma regra dispararia antes do estrago. Na próxima aula, vamos escrever, testar e medir regras de detecção."
+**Slides 21 a 23 — Pontos-chave, referências e encerramento (19:45–20:00)**
+Fala: "Para levar desta aula: cada camada é uma fonte de telemetria, o Wazuh cuida do *endpoint*, o Security Onion da rede, e fonte sem configuração não detecta nada. Na próxima aula, vamos escrever as regras: assinatura, comportamento e correlação."
 
-[Envato: "security operations center night", "server logs scrolling screen", "data center cables". Slides de apoio: mini-mapa do slide 3 e cartões do slide 21.]
+[Envato: "security operations center night", "network switch cables", "server logs scrolling screen". Slides de apoio: mini-mapa do slide 3, fluxo do slide 7 e cartões do slide 20.]
 
-## Aula 10 — Engenharia de detecção e EDR
+## Aula 10 — Detecção baseada em assinaturas, comportamento e regras
 
 ### Texto base
 
-Na aula anterior, vimos que o SIEM recebe dados de muitas fontes. Mas dados só viram alerta quando alguém escreve uma **regra** que diz o que procurar. Durante muito tempo, essas regras foram criadas de forma artesanal, diretamente na interface da ferramenta, sem documentação nem testes. A **engenharia de detecção** surgiu para tratar a criação de detecções com o mesmo rigor com que a engenharia de *software* trata o código.
+Na aula anterior, montamos a arquitetura de monitoramento: agentes coletam registros e telemetria dos *endpoints*, sensores observam a rede e o SIEM centraliza tudo. Mas dados só viram alerta quando alguém diz **o que procurar**. Nesta aula, vamos comparar as três grandes famílias de detecção (assinatura, comportamento e regra de correlação), ver como cada uma é escrita em ferramentas abertas como YARA, Suricata, Sigma e Wazuh, e aprender a medir e ajustar uma regra para que ela dispare quando o ataque acontece sem afogar o SOC em falsos positivos.
 
-#### O ciclo de vida de uma detecção
+#### Três famílias de detecção
 
-Uma detecção bem construída percorre etapas previsíveis: (1) **requisito** — qual comportamento adversário queremos detectar e por quê (por exemplo, uma técnica ATT&CK usada por grupos que ameaçam o setor); (2) **pesquisa** — que rastros essa técnica deixa e em quais fontes; (3) **desenvolvimento** da regra; (4) **teste** com dados reais ou simulados; (5) **implantação**; (6) **ajuste** contínuo com base nos resultados; e (7) **aposentadoria**, quando a regra deixa de fazer sentido. Esse ciclo transforma cada técnica emulada pelo Red Team, como as que estudamos na Unidade 2, em uma melhoria verificável.
+| Família | Pergunta que faz | Exemplos | Força | Limite |
+|---|---|---|---|---|
+| Assinatura | "Já vi exatamente isto?" | *Hash*, regra YARA, assinatura do Suricata | Precisa e barata | Só reconhece o que já é conhecido |
+| Comportamento | "Isto se parece com a técnica?" | Árvore de processos no EDR, desvio da linha de base | Resiste à troca de ferramenta | Exige conhecer o ambiente |
+| Regra e correlação | "Estes eventos, juntos, formam um ataque?" | Regras do Wazuh, Sigma | Junta fontes e aumenta a confiança | Depende de dados normalizados e de ajuste |
 
-[Imagem 1 — Ciclo com sete etapas em círculo: requisito, pesquisa, desenvolvimento, teste, implantação, ajuste e aposentadoria. Texto alternativo: "Diagrama circular do ciclo de vida de uma regra de detecção". Pode ser recriado pela equipe.]
+As famílias não competem entre si. Uma boa estratégia usa a assinatura para o conhecido, o comportamento para a técnica e a correlação para transformar pistas fracas em um alerta forte.
 
-#### Detecção como código e o padrão Sigma
+#### Assinaturas: *hash*, YARA e Suricata
 
-Na abordagem de **detecção como código** (*detection-as-code*), as regras ficam em um repositório com controle de versão, passam por revisão de pares e são validadas automaticamente antes de chegar à produção. Isso permite saber quem alterou uma regra, quando e por quê — e desfazer uma mudança que gerou ruído.
+A assinatura mais simples é o ***hash*** criptográfico de um arquivo, como o SHA-256. Ele é exato: se um único *byte* mudar, o *hash* muda por inteiro. Isso torna a comparação precisa, mas também trivial de contornar, porque basta o adversário recompilar a ferramenta ou alterar um texto.
 
-O **Sigma** é um formato aberto, em YAML, para escrever regras de detecção independentes de fornecedor. Uma regra Sigma pode ser convertida, por ferramentas do próprio projeto, para a linguagem de consulta de diferentes SIEMs. O exemplo didático a seguir detecta o uso do utilitário `vssadmin` para apagar cópias de sombra do Windows — comportamento frequente pouco antes da criptografia por *ransomware* (técnica T1490 — *Inhibit System Recovery*):
+O **YARA**, mantido pelo VirusTotal, descreve famílias de arquivos por **trechos** (textos, sequências de *bytes* ou expressões regulares) e por uma **condição** que combina esses trechos. A regra abaixo, didática e aplicada a uma nota de resgate fictícia, exige o identificador da vítima e mais um dos dois textos típicos do grupo:
 
-```yaml
-title: Exclusão de cópias de sombra com vssadmin
-status: experimental
-description: Detecta o vssadmin apagando cópias de sombra, ação comum antes de ransomware
-references:
-  - https://attack.mitre.org/techniques/T1490/
-tags:
-  - attack.impact
-  - attack.t1490
-logsource:
-  category: process_creation
-  product: windows
-detection:
-  selection:
-    Image|endswith: '\vssadmin.exe'
-    CommandLine|contains|all:
-      - 'delete'
-      - 'shadows'
-  condition: selection
-falsepositives:
-  - Rotinas legítimas de administração de backup
-level: high
+```
+rule Cobalto_Nota_Resgate_v2
+{
+    strings:
+        $grupo = "COBALTO AUSTRAL"
+        $frase = "arquivos foram cifrados" nocase
+        $id    = /CA-[0-9]{4}-[A-Z]{3,10}/
+    condition:
+        filesize < 10KB and $id and ($grupo or $frase)
+}
 ```
 
-Observe que a regra declara a **fonte de dados** necessária (criação de processos, que pode vir do evento 4688 ou do Sysmon ID 1), o **mapeamento ATT&CK**, a lógica de detecção e os **falsos positivos esperados**. Essa documentação embutida é o que permite medir a cobertura, como fizemos na Aula 2.
+Na rede, o mesmo princípio aparece no **Suricata**, o sensor de detecção de intrusão usado no Security Onion. Cada regra tem um cabeçalho (ação, protocolo, origem e destino) e opções entre parênteses, como `content`, a mensagem `msg` e o identificador `sid`.
 
-[Imagem 2 — *Pipeline* de detecção como código: repositório Git → revisão de pares → testes automatizados → conversão Sigma → SIEM em produção. Texto alternativo: "Esteira de integração contínua aplicada a regras de detecção". Pode ser recriado pela equipe.]
+[Imagem 1 — Duas colunas: à esquerda, um arquivo com três trechos destacados e a condição YARA; à direita, um pacote HTTP com o cabeçalho User-Agent destacado por uma regra do Suricata. Texto alternativo: "Comparação entre uma regra YARA aplicada a um arquivo e uma assinatura do Suricata aplicada ao tráfego de rede". Pode ser recriado pela equipe a partir da descrição.]
 
-#### Tipos de detecção
+#### Comportamento: detectar a técnica
 
-| Tipo | Como funciona | Vantagem | Limitação |
-|---|---|---|---|
-| Indicador (IOC) | Compara com *hashes*, IPs ou domínios conhecidos | Simples e precisa | O adversário troca o indicador com facilidade |
-| Comportamental | Procura a técnica, como no exemplo acima | Resiste a variações de ferramenta | Exige conhecimento do ambiente para reduzir ruído |
-| Anomalia | Compara com uma linha de base estatística | Encontra o desconhecido | Muitos falsos positivos se a base for instável |
-| Correlação | Combina eventos de fontes diferentes | Aumenta a confiança | Depende de normalização de qualidade |
+A detecção comportamental olha **o que o processo faz**: quem o iniciou, com que linha de comando, que arquivo alterou, que conexão abriu. O Sysmon (evento 1, criação de processo) e o EDR fornecem essa árvore de processos. Um exemplo clássico é a técnica T1490 do MITRE ATT&CK (*Inhibit System Recovery*): antes de cifrar, muitos grupos de *ransomware* tentam apagar as cópias de sombra do Windows. O nome do arquivo do invasor muda a cada campanha, mas o pedido ao sistema operacional continua o mesmo.
 
-#### Testar antes de confiar
+Uma variante é a detecção por **anomalia**, que compara o presente com a linha de base (*baseline*) do próprio ambiente: uma catraca que envia dez *heartbeats* por segundo, em vez de um a cada 30 segundos, é anômala, qualquer que seja a causa.
 
-Uma regra nunca testada é apenas uma hipótese. Projetos abertos como o **Atomic Red Team** oferecem testes pequenos, mapeados ao ATT&CK, que reproduzem técnicas em laboratório para verificar se a regra dispara. Dois indicadores orientam o ajuste: a **precisão** (dos alertas gerados, quantos eram verdadeiros) e a **sensibilidade** ou *recall* (dos ataques que ocorreram, quantos foram detectados). Ajustar uma regra quase sempre é uma troca entre os dois.
+A **Pirâmide da Dor**, proposta por David Bianco em 2013, organiza essa ideia. Na base ficam *hashes*, endereços IP e domínios, que o adversário troca com facilidade; no topo ficam ferramentas e TTPs (táticas, técnicas e procedimentos), cuja detecção o obriga a mudar o modo de operar.
 
-#### EDR: os olhos dentro do *endpoint*
+[Imagem 2 — Pirâmide de seis camadas, da base ao topo: valores de *hash*, endereços IP, nomes de domínio, artefatos de rede e de *host*, ferramentas e TTPs, com uma seta lateral indicando "custo para o adversário" crescente. Texto alternativo: "Pirâmide da Dor de David Bianco, com o custo imposto ao adversário aumentando da base ao topo". Pode ser recriada pela equipe a partir de BIANCO (2013).]
 
-O **EDR** (*Endpoint Detection and Response*) é um agente instalado em computadores e servidores que registra, de forma contínua, criação de processos, alterações em arquivos e no registro do sistema, conexões de rede e carregamento de módulos. Diferentemente do antivírus tradicional, centrado em assinaturas de arquivos, o EDR reconstrói a **árvore de processos** — por exemplo, um documento do Word que abriu o PowerShell, que baixou um executável. Além de detectar, ele permite **responder**: isolar a máquina da rede, encerrar processos e coletar evidências remotamente. Como adversários tentam desativar esses agentes, a saúde do próprio sensor também precisa ser monitorada. Para relacionar técnicas defensivas às ofensivas, a MITRE mantém o **D3FEND**, uma base de conhecimento de contramedidas complementar ao ATT&CK.
+#### Regras e correlação: Wazuh e Sigma
 
-[Imagem 3 — Árvore de processos de um EDR: WINWORD.EXE → powershell.exe → executável desconhecido, com o último nó destacado em vermelho. Texto alternativo: "Árvore de processos mostrando o Word iniciando o PowerShell, que executa um arquivo suspeito". Pode ser recriado pela equipe.]
+No **Wazuh**, o **decodificador** extrai os campos de cada evento e as **regras**, escritas em XML, decidem o que vira alerta. Regras próprias usam identificadores de 100000 a 120000, e o nível (`level`) vai de 0 a 15; nível 0 não gera alerta. Os elementos `if_sid` e `if_group` encadeiam uma regra a outra, `field` compara um campo com uma expressão regular, `mitre` associa a técnica ATT&CK, e `frequency` com `timeframe` correlaciona repetições, como "20 falhas de *login* em 60 segundos". Uma regra-filha de nível 0 funciona como **exceção** da regra-mãe.
 
-#### Exemplo numérico: precisão de uma regra
+O **Sigma** é um formato aberto, em YAML, para escrever a lógica uma única vez, com fonte de dados, técnica ATT&CK e falsos positivos esperados, e convertê-la para a linguagem de diferentes SIEMs. Em ambos os casos, a regra vale como código: fica em repositório, passa por revisão e é **testada antes de ser publicada**, por exemplo com o utilitário `wazuh-logtest`, que mostra qual regra um evento aciona.
 
-Em 30 dias, uma regra de detecção de PowerShell suspeito disparou 400 vezes; a investigação mostrou que 20 alertas eram verdadeiros. A precisão é 20 ÷ 400 = **5%**: de cada 20 alertas, 19 são desperdício. Ao analisar os falsos positivos, a equipe percebeu que 359 dos 380 falsos positivos vinham do mesmo *script* de inventário e criou uma exceção restrita a ele. No mês seguinte, com os mesmos 20 ataques reais, a regra disparou 40 vezes (21 falsos positivos e 19 verdadeiros): precisão de 19 ÷ 40 = **47,5%**. Porém, um ataque real deixou de ser detectado, e a sensibilidade caiu de 100% para 19 ÷ 20 = 95%. Vale a troca? Provavelmente sim, desde que a lacuna seja coberta por outra regra — e que a exceção seja a mais específica possível.
+[Imagem 3 — Captura do painel do Wazuh (módulo *Threat Hunting*) com a lista de alertas filtrada por `rule.id`, mostrando colunas de nível, agente e técnica ATT&CK. Texto alternativo: "Painel do Wazuh exibindo alertas de uma regra personalizada com nível e técnica MITRE ATT&CK". Captura própria em máquina de laboratório.]
+
+#### Falso positivo, falso negativo e ajuste
+
+Um **falso positivo** é um alerta sem ataque; um **falso negativo** é um ataque sem alerta. Dois indicadores orientam o ajuste: a **precisão** (dos alertas gerados, quantos eram ataque) e a **sensibilidade** ou *recall* (dos ataques que aconteceram, quantos viraram alerta). Ajustar quase sempre é uma troca entre os dois, e a regra de ouro é fazer exceções **específicas**: por conta, processo pai e parâmetro, nunca por servidor inteiro.
+
+#### Exemplo numérico
+
+Em 30 dias, uma regra que detecta a exclusão de cópias de sombra gerou 252 alertas: 240 vieram da rotina noturna de *backup* de um servidor de arquivos (8 por dia), 2 de uma limpeza manual feita pelo administrador e 10 de emulações autorizadas do Red Team (4 no servidor de arquivos e 6 no ERP). A precisão era de 10 ÷ 252 ≈ **4,0%**, com sensibilidade de 10 ÷ 10 = 100%.
+
+Com uma exceção específica (conta de *backup* e parâmetro que apaga só a cópia mais antiga), sobram 12 alertas, dos quais 10 verdadeiros: precisão de 10 ÷ 12 ≈ **83,3%** e sensibilidade mantida em 100%. Se, em vez disso, a equipe ignorasse o servidor de arquivos inteiro, restariam 8 alertas (6 verdadeiros): precisão de 6 ÷ 8 = 75%, mas sensibilidade de 6 ÷ 10 = **60%**. A fila fica limpa e o SOC fica cego em 4 dos 10 ataques.
+
+[Imagem 4 — Gráfico de barras agrupadas com as três versões da regra (sem exceção, exceção específica, exceção ampla), mostrando precisão e sensibilidade em porcentagem. Texto alternativo: "Gráfico comparando precisão e sensibilidade de uma regra de detecção antes e depois de dois tipos de ajuste". Pode ser recriado pela equipe com os números do exemplo.]
 
 #### Pontos-chave
 
-- Engenharia de detecção aplica requisitos, testes e versionamento à criação de regras.
-- O Sigma permite escrever regras portáveis entre SIEMs, documentando fonte, técnica e falsos positivos.
-- Detecções comportamentais resistem melhor a mudanças do adversário do que indicadores.
-- Precisão e sensibilidade orientam o ajuste das regras.
-- O EDR une telemetria detalhada do *endpoint* e capacidade de resposta.
+- Assinaturas (*hash*, YARA, Suricata) reconhecem o conhecido com precisão, mas o adversário troca o artefato com facilidade.
+- Detecções de comportamento miram a técnica e resistem à troca de ferramenta, como sugere a Pirâmide da Dor.
+- Regras e correlação, no Wazuh ou em Sigma, juntam eventos em um alerta com contexto e técnica ATT&CK.
+- Toda regra é testada antes de publicar e ajustada com exceções específicas.
+- Precisão e sensibilidade medem o ajuste: cortar ruído não pode cegar o SOC.
 
 ### Referências da aula
 
-MITRE. *Inhibit system recovery (T1490)*. MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1490/>. Acesso em: 13 nov. 2026.
+BIANCO, David J. *The pyramid of pain*. Enterprise Detection & Response, 1 mar. 2013. Disponível em: <https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html>. Acesso em: 22 nov. 2026.
 
-MITRE. *MITRE D3FEND*. Disponível em: <https://d3fend.mitre.org/>. Acesso em: 13 nov. 2026.
+MITRE. *Inhibit system recovery (T1490)*. MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1490/>. Acesso em: 22 nov. 2026.
 
-RED CANARY. *Atomic Red Team*. Disponível em: <https://github.com/redcanaryco/atomic-red-team>. Acesso em: 13 nov. 2026.
+OPEN INFORMATION SECURITY FOUNDATION. *Suricata user guide*: rules. Disponível em: <https://docs.suricata.io/>. Acesso em: 22 nov. 2026.
 
-SIGMAHQ. *Sigma: generic signature format for SIEM systems*. Disponível em: <https://github.com/SigmaHQ/sigma>. Acesso em: 13 nov. 2026.
+SANDERS, Chris; SMITH, Jason. *Applied network security monitoring*: collection, detection, and analysis. Waltham: Syngress, 2013.
 
-### Roteiro da Videoaula 10 — "A regra dispararia antes da criptografia?"
+SIGMAHQ. *Sigma*: generic signature format for SIEM systems. Disponível em: <https://github.com/SigmaHQ/sigma>. Acesso em: 22 nov. 2026.
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula10.html (22 slides).
+VIRUSTOTAL. *YARA documentation*: writing YARA rules. Disponível em: <https://yara.readthedocs.io/>. Acesso em: 22 nov. 2026.
 
-**Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Na aula passada, o SOC passou a enxergar o *login* das 02:17. Hoje vamos para a engenharia de detecção e o EDR: como escrever, testar e medir as regras que geram esses alertas."
+WAZUH. *Wazuh documentation*: rules syntax. Disponível em: <https://documentation.wazuh.com/current/user-manual/ruleset/ruleset-xml-syntax/rules.html>. Acesso em: 22 nov. 2026.
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:50)**
-Fala: "Conheça o Rafael Tavares, engenheiro de detecção da Rede Tatame. Ele escreve e mantém as regras que geram alertas para o SOC. O EDR, o agente que registra os processos de cada máquina, mostrou a origem do *login* da Aula 9: dias antes, um documento do Word aberto no notebook NB-FIN-031 iniciou o PowerShell. A CISO, Marina Prado, quer uma prova. Se o invasor apagar as cópias de sombra do servidor, passo que antecede a criptografia num *ransomware*, alguma regra dispara? Ninguém testou, e a regra de PowerShell já gera 400 alertas por mês. No mapa, o EDR, o motor de regras e o SOC estão em destaque. A pergunta da aula: como o Rafael transforma uma técnica de ataque numa regra testada, que dispara quando o ataque acontece e não afoga o SOC?"
-[Take de apoio: engenheiro revisando código em dois monitores — Envato]
+### Roteiro da Videoaula 10 — "Uma lista de 5 mil *hashes* pega o *ransomware*?"
 
-**Slide 4 — O ciclo de vida de uma detecção (1:50–2:30)**
-Fala: "Uma detecção tem ciclo de vida: requisito, pesquisa, desenvolvimento, teste, implantação, ajuste e aposentadoria. É esse ciclo que transforma cada técnica emulada pelo Red Team, como as da Unidade 2, numa melhoria verificável. Vamos percorrê-lo com a regra das cópias de sombra."
+Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula10.html (18 slides).
 
-**Slide 5 — Laboratório: uma detecção da ideia à aposentadoria (2:30–3:50)**
-Objetivo: ver as etapas por que a regra do Rafael precisa passar. Responde a "como transformar a técnica em regra".
+**Slides 1 e 2 — Capa e sumário (0:00–0:40)**
+Fala: "Olá! Na aula passada, montamos a arquitetura de monitoramento da Rede Tatame. Hoje vamos decidir o que essa arquitetura deve procurar. Vamos comparar três famílias de detecção, assinatura, comportamento e regra de correlação, escrever uma regra YARA e uma regra do Wazuh, testar as duas e medir se o ajuste ajudou ou atrapalhou. O sumário mostra os cinco laboratórios do caminho."
+
+**Slide 3 — O problema de hoje na Rede Tatame (0:40–2:00)**
+Fala: "Conheçam o Rafael Tavares, engenheiro de detecção da Rede Tatame. Um fornecedor oferece a ele uma lista com 5 mil *hashes* de arquivos do Grupo Cobalto Austral, o adversário fictício que emulamos na disciplina. Parece ótimo. Só que, ao mesmo tempo, a regra que vigia a exclusão de cópias de sombra gerou 252 alertas em 30 dias, e a Luiza Ferraz, no SOC, já fecha esses alertas sem ler. No mapa à direita, o caminho em destaque vai da internet, pela VPN e pelo AD, até o ERP, em vermelho. A pergunta da aula está no quadro amarelo: que combinação de assinaturas, comportamento e regras detecta o Cobalto Austral mesmo quando ele troca de ferramenta, sem afogar o SOC?"
+[Take de apoio: analista diante de uma fila longa de alertas em vários monitores — Envato]
+
+**Slide 4 — Três famílias de detecção (2:00–3:00)**
+Fala: "A tabela organiza a aula. A assinatura pergunta 'já vi exatamente isto?', e é precisa e barata, mas só reconhece o que já é conhecido. O comportamento pergunta 'isto se parece com a técnica?', e resiste à troca de ferramenta, mas exige conhecer o ambiente. A regra de correlação pergunta 'estes eventos, juntos, formam um ataque?', e junta fontes diferentes, mas depende de dados normalizados e de ajuste. Reparem no quadro azul: as três se completam."
+
+**Slide 5 — Laboratório: o Cobalto Austral diante de três detectores (3:00–5:00)**
+Objetivo: ver o que cada família enxerga no mesmo ataque emulado. Responde à parte "mesmo quando ele troca de ferramenta".
 Na tela:
-1. Ao abrir o slide, o passo "Origem" já está na tela (contador 1 / 8), com o nó roxo do centro, "CTI e Red Team", aceso.
-2. Clicar em "▶ Avançar" e passar por "1. Requisito", "2. Pesquisa", "3. Desenvolvimento" e "4. Teste", um clique por vez.
-3. Avançar por "5. Implantação" e "6. Ajuste", em que a linha tracejada "volta ao código" fica amarela.
-4. Avançar até "7. Aposentadoria".
-Fala: "O requisito nasce de um relatório de inteligência e do último exercício do Red Team: grupos de *ransomware* apagam cópias de sombra antes de criptografar. Isso vira a técnica T1490, *Inhibit System Recovery*, com severidade alta. Na pesquisa, o Rafael descobre que a técnica deixa rastro na criação de processos, no 4688 com linha de comando ou no Sysmon ID 1. A regra é escrita em Sigma, testada com o Atomic Red Team numa máquina isolada e publicada pela esteira. No ajuste, uma rotina de *backup* legítima gera alertas, e a exceção volta ao desenvolvimento para passar de novo pelos testes. Na aposentadoria, a regra é desativada com o motivo registrado."
-Atenção: os passos ficam em círculo; prefira os cliques manuais ao botão "⏯ Auto".
-Conclusão: "Toda regra passa por teste antes de entrar e volta ao código quando precisa de ajuste."
+1. Ao abrir o slide, o passo "1 · A ferramenta conhecida" está na tela (contador 1 / 7).
+2. Clicar em "▶ Avançar" para "2 · Um byte a mais": o nó "Passou" acende em amarelo.
+3. Avançar para "3 · A assinatura por padrão" e "4 · O comportamento".
+4. Avançar para "5 · A correlação", "6 · Um alerta com contexto" e "Conclusão · A Pirâmide da Dor".
+Fala: "À esquerda, o Cobalto Austral, emulado pelo Bruno Sato, líder do Red Team. No passo 1, a nota de resgate conhecida tem o *hash* na lista do fornecedor, e a assinatura exata funciona. No passo 2, o grupo muda só o identificador da vítima: o *hash* muda por inteiro e a lista de 5 mil *hashes* não serve mais. Vejam a linha tracejada indo para 'Passou'. No passo 3, a regra YARA procura trechos que se repetem em toda a família e reconhece a variante. No passo 4, antes de cifrar, o grupo pede ao Windows para apagar as cópias de sombra, a técnica T1490; o Sysmon registra o processo e a regra 100210 do Wazuh gera um alerta de nível 12, qualquer que seja a ferramenta. No passo 5, um *login* na VPN sem MFA e uma consulta grande ao AD, sozinhos, parecem rotina; do mesmo usuário, em dez minutos, viram um alerta mais forte. No passo 6, tudo chega à Luiza como um alerta só, com contexto. A conclusão é a Pirâmide da Dor: o *hash* está na base, fácil de trocar; a técnica está no topo."
+Atenção: o botão "⏯ Auto" avança sozinho a cada 3,8 segundos; para gravar, prefira os cliques manuais. As bolinhas animadas são eventos em trânsito, não pacotes reais.
+Conclusão: "Cada família pega um pedaço; juntas, elas acompanham o adversário quando ele troca de ferramenta."
 [Tela: gravação do laboratório do slide 5]
 
-**Slides 6 e 7 — Detecção como código e anatomia de uma regra Sigma (3:50–5:00)**
-Fala: "Na detecção como código, as regras ficam num repositório Git, passam por revisão de pares e por testes automáticos antes da produção. Dá para saber quem mudou o quê e desfazer uma mudança ruidosa. O Sigma é um formato aberto, em YAML, independente de fornecedor. Nesta regra, logsource diz que a fonte é criação de processos no Windows. Em detection, a seleção exige que Image termine em vssadmin.exe e que a linha de comando contenha as duas palavras, delete e shadows. O campo falsepositives já avisa sobre rotinas legítimas de *backup*, e level marca severidade alta."
+**Slide 6 — Assinaturas: *hash*, YARA e Suricata (5:00–6:10)**
+Fala: "À esquerda, a regra YARA que vamos rodar daqui a pouco. Em strings ficam três trechos: o nome do grupo, a frase 'arquivos foram cifrados', sem diferenciar maiúsculas, graças ao nocase, e uma expressão regular para o identificador da vítima: CA, quatro dígitos e um nome. Em condition, a regra exige arquivo menor que 10 KB, o identificador e mais um dos dois textos. À direita, o mesmo princípio na rede: uma assinatura do Suricata, o sensor de rede do Security Onion. O cabeçalho diz 'alerte tráfego HTTP de qualquer origem para a nossa rede'; as opções procuram, no cabeçalho User-Agent, o texto 'Nmap Scripting Engine', típico de uma varredura. O sid identifica a regra e o rev, a versão."
 
-**Slide 8 — Antes do código: onde achar e como instalar (5:00–5:30)**
-Fala: "Antes do laboratório, vejam o que ele usa. Além do VS Code e do Python, precisamos de pacotes de terceiros: o pytest, que roda os testes; o PyYAML, que lê a regra; e o sigma-cli, com os *backends* de Splunk e Kusto e o *pipeline* do Sysmon. O caminho seguro é partir do *site* do projeto, sigmahq.io, e seguir o *link* até o PyPI. Atenção ao nome: o pacote se chama sigma-cli, e o pacote sigma do PyPI é outro projeto. Já o sigma_lite.py é um arquivo da nossa pasta de testes e não se instala."
+**Slide 7 — Antes do código: onde achar e como instalar (6:10–6:50)**
+Fala: "O laboratório usa o VS Code com a extensão Python, o Python 3.12 e um único pacote de terceiros, o yara-python 4.5.4. Cuidado com o nome: no código escrevemos import yara, mas o pacote oficial no PyPI chama-se yara-python, mantido pelo VirusTotal. Partam do repositório do projeto e sigam o *link* para o PyPI, em vez de adivinhar o nome. O hashlib e o pathlib já vêm com o Python. E as amostras são textos fictícios e inofensivos: regra YARA se testa sem *malware* real."
 
-**Slide 9 — Laboratório: regra, teste e conversão no mesmo repositório (5:30–8:10)**
-Objetivo: escrever a regra das cópias de sombra como código, com testes. Responde a "regra testada".
-Na tela (VS Code em tela inteira, pasta deteccoes; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
-1. Clicar em "⬇ Preparar o ambiente", na barra do terminal, e esperar o botão mudar para "✓ Ambiente pronto". Durante a instalação, o requirements.txt abre no editor.
-2. Voltar à aba da regra .yml e apontar as linhas destacadas 12 a 18, o bloco detection.
-3. Abrir tests/sigma_lite.py e mostrar as linhas 4 a 13, a função _casa.
-4. Abrir tests/test_vssadmin.py e depois tests/eventos/positivos.json e negativos.json.
-5. Clicar em "Rodar testes".
-6. Clicar em "Para SPL" e depois em "Para KQL".
-7. Abrir .github/workflows/deteccoes.yml.
-Fala: "Primeiro, o ambiente. Conferimos a versão do Python, criamos o ambiente virtual .venv, uma cópia isolada do Python só para este projeto, e o ativamos; o *prompt* passa a mostrar .venv entre parênteses. O pip install com -r lê o requirements.txt, aberto no editor, e instala cada pacote na versão fixada pelos dois sinais de igual. A opção -q, de *quiet*, esconde as dezenas de linhas de *download*, porque cada pacote traz as próprias dependências. Para conferir, o pip list filtrado pelo grep mostra o pytest 8.3.3, o sigma-cli 3.1.0, os dois *backends* e o *pipeline*. A versão 3 do sigma-cli foi fixada porque o *backend* do Kusto ainda exige o pySigma 1. Agora a regra. O sigma_lite.py é um avaliador mínimo de Sigma, feito só para os testes. A função _casa põe tudo em minúsculas, porque o Sigma compara sem diferenciar maiúsculas. Depois aplica o modificador: endswith compara o fim, contains procura o trecho, e all exige que todos os trechos apareçam; sem all, basta um. O arquivo de teste carrega a regra e roda duas famílias de casos. Os positivos precisam disparar: o atomic-T1490-1 e uma variação toda em maiúsculas. Os negativos precisam ficar quietos: listar cópias, criar uma cópia e um outro programa, o backup.exe, com 'shadows' na linha de comando. Por que o backup.exe não dispara? Porque a Image dele não termina em vssadmin.exe. A saída mostra 'collected 5 items' e os cinco testes como PASSED, terminando em '5 passed'. Agora a conversão. Para SPL, o *pipeline* sysmon traduz a categoria process_creation para EventID=1. Para KQL, a mesma lógica vira uma consulta na tabela DeviceProcessEvents, com outros nomes de campo. O arquivo de *workflow* mostra a esteira: a cada *pull request*, ela roda sigma check, pytest e a conversão."
-Atenção: a preparação do ambiente, os testes e as conversões são simulados na tela; os comandos são os reais do pip, do pytest e do sigma-cli. A preparação leva cerca de 5 segundos e deixa o requirements.txt aberto no editor. Em telas estreitas, os botões da barra do terminal passam para uma segunda linha.
-Conclusão: "A regra tem testes que rodam a cada mudança, e a mesma lógica roda em SIEMs diferentes sem ser reescrita."
-[Tela: gravação do laboratório do slide 9]
+**Slide 8 — Laboratório: lista de *hashes* contra regra YARA (6:50–9:40)**
+Objetivo: comparar a assinatura exata com a assinatura por padrão nas mesmas quatro amostras. Responde a "a lista de *hashes* basta?".
+Na tela (VS Code em tela inteira, pasta yara-cobalto; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
+1. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
+2. No explorador, abrir varrer.py e mostrar as linhas destacadas 10, 17, 18 e 19.
+3. Abrir iocs/hashes_conhecidos.txt e amostras/leia-me_v2.txt.
+4. Abrir regras/cobalto_v1.yar (linhas 7 a 10 destacadas) e clicar em "▶ Varrer com a regra v1".
+5. Clicar em "▶ Varrer com a regra v2"; o editor abre regras/cobalto_v2.yar (linhas 8 a 12 destacadas).
+Fala: "Primeiro a preparação: Python 3.12.7, o ambiente virtual .venv, a ativação, que acrescenta .venv ao *prompt*, a instalação do yara-python 4.5.4 a partir do requirements.txt e a conferência, que imprime 4.5.4. Agora o código. A linha 10 do varrer.py lê a lista de *hashes* publicada no relatório de inteligência; ela tem um único SHA-256, o da leia-me_v1. Para cada amostra, a linha 17 calcula o SHA-256, a 18 compara com a lista e a 19 aplica a regra YARA. Comparem a leia-me_v2 com a v1: só mudou o identificador da vítima e uma palavra da frase. Rodando a regra v1, a coluna 'hash IOC' diz 'sim' só para a leia-me_v1, que começa por 7f11ac785aa0; a v2, com *hash* 86997d269c98, passa batida pela lista. A coluna YARA mostra que a regra v1 pegou as duas notas, mas pegou também o briefing_cti.txt, em amarelo: o próprio resumo de inteligência do SOC, que cita o nome do grupo e a frase. É um falso positivo, causado pela condição 'any of them', qualquer um dos trechos. A regra v2 exige o identificador da vítima. Rodando de novo, o *briefing* fica com traço, e as duas notas aparecem com os três trechos encontrados, $grupo, $frase e $id. O relatório financeiro nunca dispara."
+Atenção: o código é real e foi executado com yara-python 4.5.4; os *hashes* aparecem abreviados nos 12 primeiros caracteres. A preparação do ambiente é simulada e leva uns 6 segundos. As cores amarela e verde na saída são só destaque do laboratório.
+Conclusão: "A assinatura por padrão pega a variante que a lista de *hashes* perdeu, e uma condição bem escrita evita o falso positivo."
+[Tela: gravação do laboratório do slide 8]
 
-**Slides 10 e 11 — Tipos de detecção e testar antes de confiar (8:10–9:10)**
-Fala: "A tabela compara quatro tipos de detecção. Indicadores são simples, mas o adversário troca de *hash* ou de IP com facilidade. A detecção comportamental, como a do vssadmin, resiste a mudanças de ferramenta. Anomalia acha o desconhecido, com risco de ruído, e correlação aumenta a confiança. E uma regra nunca testada é só uma hipótese. Duas medidas guiam o ajuste: precisão, quantos alertas eram verdadeiros, e sensibilidade, quantos ataques foram detectados. Os testes atômicos rodam somente em máquina virtual isolada, com *snapshot*."
+**Slide 9 — Comportamento: detectar a técnica, e não a ferramenta (9:40–10:40)**
+Fala: "Se o grupo reescrever a nota inteira, até a YARA perde. Por isso subimos na pirâmide. A detecção de comportamento olha o que o processo faz: quem o iniciou, com que linha de comando, que conexão abriu. É o que o Sysmon, no evento 1, e o EDR entregam. Antes de cifrar, o *ransomware* tenta apagar as cópias de sombra, a técnica T1490; o nome do arquivo do invasor muda, mas o pedido ao Windows é o mesmo. A anomalia compara com a linha de base do ambiente, como a catraca que manda dez *heartbeats* por segundo. E a Pirâmide da Dor, de David Bianco, resume: bloquear *hash*, IP ou domínio custa pouco ao adversário; detectar técnicas o obriga a mudar o modo de operar."
 
-**Slide 12 — Laboratório: a regra dispara quando a técnica acontece? (9:10–10:50)**
-Objetivo: provar que a regra dispara quando a técnica acontece. Responde a "dispara quando o ataque acontece".
-Na tela (PowerShell da VM isolada LAB-WIN11; clicar em "▶ Próximo comando" cinco vezes):
-1. Invoke-AtomicTest T1490 -ShowDetailsBrief.
-2. Invoke-AtomicTest T1490 -TestNumbers 1 -CheckPrereqs.
-3. Invoke-AtomicTest T1490 -TestNumbers 1.
-4. Get-WinEvent no registro do Sysmon, procurando o evento 1 do vssadmin.
-5. Restore-VMSnapshot, no hospedeiro, com o *snapshot* limpo-2026-11-13.
-Fala: "A linha cinza do começo lembra que a VM só tem rede *host-only* e que o *snapshot* foi criado antes do teste. O primeiro comando só lista os testes da técnica, sem executar nada; usamos o T1490-1. O segundo confere os pré-requisitos. O terceiro roda o teste, e as linhas amarelas marcam início e fim. Para a defesa, o que importa é o rastro. O quarto comando lê o evento 1 do Sysmon, e as linhas destacadas são Image, terminando em vssadmin.exe, e CommandLine, com delete shadows: os dois campos que a regra Sigma verifica. Na linha azul, o SIEM gera o alerta 'Exclusão de cópias de sombra com vssadmin', nível *high*, às 14:22:09, dois segundos depois do evento das 14:22:07. O último comando devolve a VM ao estado limpo."
-Atenção: deixe claro que o teste roda apenas em laboratório isolado, com autorização; a saída do utilitário foi omitida de propósito.
-Conclusão: "A técnica aconteceu, a telemetria chegou e a regra disparou em 2 segundos. Agora existe prova."
-[Tela: gravação do laboratório do slide 12]
+**Slide 10 — Uma regra do Wazuh, com exceção (10:40–11:50)**
+Fala: "Esta é a regra 100210, no arquivo local_rules.xml do gerenciador Wazuh. Ela depende do grupo sysmon_event1, ou seja, só olha criação de processo. O primeiro field exige que a imagem termine em vssadmin.exe; o segundo, que a linha de comando contenha 'delete shadows'. O nível é 12, e o bloco mitre associa a T1490. Logo abaixo, a regra 100211, filha da 100210 pelo if_sid, tem nível 0: quando a conta é svc-backup e o comando tem /oldest, ela vence e nenhum alerta sai. Essa é a forma de escrever exceções no Wazuh. Do lado direito: o decodificador extrai os campos e a regra decide; regras próprias usam ids de 100000 a 120000 e níveis de 0 a 15; frequency e timeframe fazem correlação por repetição. E o Sigma é o formato aberto para escrever a mesma lógica uma vez e convertê-la para vários SIEMs."
 
-**Slide 13 — Laboratório: ligar uma regra e provar que ela dispara (10:50–12:30)**
-Objetivo: ver, na plataforma, que uma regra desligada deixa o ataque passar. Responde a "regra testada" no ambiente da Rede Tatame.
-Na tela (simulador aberto na aba Regras do CEP, com a R3 desligada):
-1. Ler o cartão "R3 · Token lendo fichas de muitos alunos diferentes (BOLA)" e a lógica embaixo dele.
-2. Abrir a aba Cenários e clicar em "Iniciar cenário" no cartão "Abuso da API do app". Esperar os quatro passos, cerca de 30 segundos.
-3. Voltar a Regras do CEP e ligar a R3.
-4. Em Cenários, clicar em "Repetir com as fontes e regras atuais".
-5. Na aba SOC, clicar em "Investigar" no alerta da R3. Depois, em Regras do CEP, ver as barras de disparos por regra.
-Fala: "BOLA é quando um usuário lê objetos de outros trocando o identificador na URL. A lógica da R3 conta quantas fichas diferentes um mesmo *token* lê em um minuto e alerta acima de 20, quando a ficha não é do dono do *token*. Na primeira rodada, o passo das 2.000 tentativas de *login* é detectado pela R2, que já estava ligada. O passo '14 contas entram' fica amarelo, 'visto nos logs, sem alerta', e os dois passos de leitura de fichas também, porque a R3 está desligada. São 1.300 fichas lidas em 6 minutos, incluindo responsáveis de alunos menores. Na segunda rodada, os dois passos de leitura viram 'detectado', com severidade crítica, e o SOC mostra a linha do tempo correlacionada."
-Atenção: o alerta chega alguns segundos depois do passo. Se faltar tempo, troque a velocidade para "1 s = 1 min". O passo "14 contas entram" continua sem regra, e isso é proposital.
-Conclusão: "Uma regra só protege depois de ligada e testada com o cenário, e o passo sem regra mostra qual é a próxima regra a escrever."
-[Tela: gravação do laboratório do slide 13, no simulador]
+**Slide 11 — Laboratório: teste no wazuh-logtest (11:50–14:10)**
+Objetivo: provar, antes de publicar, que a regra dispara no ataque emulado e fica quieta no *backup*. Responde a "a regra dispara de verdade?".
+Na tela (terminal do gerenciador Wazuh do laboratório; clicar em "▶ Próximo comando" cinco vezes):
+1. O grep conta as regras de local_rules.xml: saída 2.
+2. sudo /var/ossec/bin/wazuh-logtest: "Starting wazuh-logtest v4.14.10".
+3. Evento 1: vssadmin.exe delete shadows /all /quiet no SRV-ERP-01.
+4. Evento 2: vssadmin.exe delete shadows /for=D: /oldest /quiet no SRV-ARQ-01, conta svc-backup.
+5. Evento 3: atualiza.exe delete shadows /all /quiet, com originalFileName VSSADMIN.EXE.
+Fala: "O wazuh-logtest passa um evento pelos decodificadores e pelas regras e mostra o resultado em três fases, sem gerar alerta de verdade. Cada linha que colamos é um evento do Sysmon em JSON. O evento 1 é a emulação autorizada do Bruno no ERP. Na fase 2, o decodificador windows_eventchannel extrai a imagem; na fase 3, aparecem o id 100210, o nível 12, a técnica T1490, a tática Impact e a frase 'Alert to be generated'. O evento 2 é a rotina de *backup*: a fase 3 mostra a 100211 com nível 0, e nenhum alerta é gerado. O evento 3 é a surpresa: a mesma técnica, com o vssadmin copiado e renomeado para atualiza.exe. A imagem não termina mais em vssadmin.exe, e o evento cai só na regra-base 61603 do Wazuh, 'Process creation', de nível 0. É um falso negativo, encontrado no teste, e não no incidente. O campo originalFileName ainda diz VSSADMIN.EXE, porque vem dos metadados do executável; a linha amarela registra o ajuste: comparar esse campo, e não o caminho."
+Atenção: o terminal é simulado. As linhas iniciadas por # são anotações do laboratório, não saída do Wazuh. No Wazuh real, eventos do Windows colados no logtest precisam estar no formato do EventChannel. "⏭ Executar tudo" roda o roteiro inteiro e "⟲ Reiniciar" limpa a tela.
+Conclusão: "Uma regra só é confiável depois de testada com o ataque e com o legítimo, e o teste pode revelar o falso negativo antes do invasor."
+[Tela: gravação do laboratório do slide 11]
 
-**Slide 14 — EDR: os olhos dentro do *endpoint* (12:30–13:00)**
-Fala: "O EDR, *Endpoint Detection and Response*, é um agente que registra continuamente processos, arquivos, registro do sistema e conexões. Ele reconstrói a árvore de processos e permite responder: isolar a máquina, encerrar processos e coletar evidências. Como o adversário tenta desligar esses agentes, a saúde do sensor também precisa ser monitorada."
+**Slide 12 — Falso positivo, falso negativo e ajuste (14:10–15:10)**
+Fala: "Agora os números do problema. Em 30 dias, a regra 100210 gerou 252 alertas: 240 do *backup* do SRV-ARQ-01, oito por dia, 2 de limpeza manual do Caio Mendes no ERP e 10 das emulações do Bruno, 4 no servidor de arquivos e 6 no ERP. Precisão é, dos alertas, quantos eram ataque: 10 em 252, cerca de 4%. Sensibilidade é, dos ataques, quantos viraram alerta: 10 em 10, 100%. Com a exceção específica, sobram 12 alertas, precisão de 83,3% e sensibilidade de 100%. Com a exceção ampla, ignorando o servidor inteiro, sobram 8 alertas e a precisão é de 75%, mas a sensibilidade cai para 60%."
 
-**Slide 15 — Laboratório: do alerta à resposta no console do EDR (13:00–14:40)**
-Objetivo: usar o EDR para entender o alerta e responder. Responde a "o que fazer quando a regra dispara".
-Na tela (console "EDR · Console Rede Tatame", com o alerta A-2291 aberto):
-1. Ler a árvore do A-2291, no LAB-WIN11.
-2. Clicar em "Office iniciou interpretador de comandos" (A-2292, NB-FIN-031).
-3. Clicar em "Isolar máquina", depois em "Encerrar processo" e em "Coletar evidências".
-4. Clicar em "Sensor sem comunicação" (A-2293, SRV-ARQ-01) e em "Abrir chamado para a TI".
-Fala: "O topo mostra 3 alertas abertos e 148 de 149 sensores ativos. O A-2291 é o nosso teste atômico: explorer, PowerShell com Invoke-AtomicTest, cmd e, em vermelho, o vssadmin. O A-2292 é o caso real. A árvore mostra OUTLOOK.EXE, depois o WINWORD.EXE abrindo o arquivo repasse_academias_outubro.docm, depois o powershell.exe em vermelho. Do PowerShell saem uma conexão para 198.51.100.23 na porta 443 e o arquivo fatura_0311.exe, sem assinatura. As técnicas são T1204.002, execução pelo usuário, e T1059.001, PowerShell. Ao isolar, a etiqueta muda para 'isolada da rede', e o registro diz que só o canal com o console do EDR continua aberto. Encerrar processo derruba o powershell.exe e o fatura_0311.exe, e a coleta pede processos, conexões, tarefas agendadas e arquivos recentes, com o SHA-256 do pacote no caso. O terceiro alerta é diferente: o agente do SRV-ARQ-01 parou às 07:10, e a resposta é um chamado para a TI."
-Atenção: clicar de novo em "Isolar máquina" libera a máquina; cada alerta guarda o seu registro de ações.
-Conclusão: "O EDR mostra a cadeia do Word ao PowerShell e responde sem desligar a máquina, mantendo a investigação viva."
-[Tela: gravação do laboratório do slide 15]
+**Slide 13 — Laboratório: ajustar o falso positivo sem cegar o SOC (15:10–16:40)**
+Objetivo: escolher a exceção que corta o ruído sem perder ataques. Responde a "sem afogar o SOC".
+Na tela (painel com a aparência do Wazuh, módulo Threat Hunting):
+1. Ler a versão "Sem exceção", que abre selecionada.
+2. Clicar em "Exceção específica (100211)".
+3. Clicar em "Exceção ampla (SRV-ARQ-01)".
+Fala: "Na barra DQL está o filtro rule.id:100210. Os seis indicadores mostram alertas, verdadeiros, falsos positivos, ataques perdidos, precisão e sensibilidade, e a tabela agrupa os alertas por agente, usuário e linha de comando, com a classificação que o SOC deu. Sem exceção: 252 alertas, 242 falsos positivos, precisão de 4,0%. Na exceção específica, a linha dos 240 alertas do svc-backup fica riscada, suprimida, e os indicadores mostram 12 alertas, 10 verdadeiros, precisão de 83,3% e sensibilidade de 100%. Os 2 que sobram são as limpezas manuais do Caio, que pedem uma conversa com a TI, e não outra exceção. Na exceção ampla, a fila cai para 8, mas a linha dos 4 ataques emulados no SRV-ARQ-01 fica riscada, com a classificação 'ataque perdido', e a sensibilidade cai para 60%."
+Atenção: o painel imita o Wazuh, mas é uma simulação com os números do exemplo do texto base. Os comandos da tabela são registros do Sysmon vistos pelo defensor.
+Conclusão: "A exceção específica leva a precisão de 4,0% a 83,3% e mantém todos os ataques; a ampla limpa a fila e cega o SOC."
+[Tela: gravação do laboratório do slide 13]
 
-**Slide 16 — Laboratório: a árvore de processos em três dimensões (14:40–15:50)**
-Objetivo: enxergar a cadeia suspeita no meio da rotina do NB-FIN-031. Responde a "o que a regra comportamental procura".
-Na tela:
-1. Arrastar a cena para girar a árvore e rolar para aproximar.
-2. Clicar em "Destacar cadeia suspeita".
-3. Clicar em "Isolar NB-FIN-031".
-Fala: "Na cena, cada esfera é um processo. Os azuis são rotina: explorer, chrome, Teams, OneDrive e OUTLOOK. Os vermelhos formam a cadeia suspeita: WINWORD.EXE, powershell.exe e fatura_0311.exe. O losango amarelo é a conexão para 198.51.100.23 na porta 443. Os pontos brancos que correm nas linhas vermelhas mostram o fluxo de execução. Ao destacar a cadeia, a rotina fica transparente. Ao isolar, o losango fica cinza, os pontos param de chegar a ele e o botão passa a dizer 'Máquina isolada (clique para liberar)'. A legenda, no canto, explica as quatro cores."
-Atenção: a cena começa parada; gire com calma para os rótulos não se sobreporem na gravação.
-Conclusão: "Um editor de texto abrindo um interpretador de comandos é uma relação que o antivírus por assinatura não vê, e é isso que a regra comportamental procura."
-[Tela: gravação do laboratório do slide 16]
+**Slide 14 — Laboratório: uma regra desligada é um ataque que passa (16:40–18:40)**
+Objetivo: ver, na plataforma, a diferença entre telemetria que chega e regra que dispara. Responde a "a regra precisa estar ativa e testada".
+Na tela (simulador da disciplina, aberto na aba Cenários, já reiniciado, com a R3 desligada):
+1. No cartão "Abuso da API do app", clicar em "Iniciar cenário" e esperar os quatro passos, cerca de 30 segundos.
+2. Abrir a aba "Regras do CEP", marcar "R3 · Token lendo fichas de muitos alunos diferentes (BOLA)" e ler a lógica embaixo dela.
+3. Voltar a "Cenários" e clicar em "Repetir com as fontes e regras atuais".
+4. Abrir a aba "SOC" e clicar em "Investigar" no alerta da R3.
+Fala: "O cenário tem quatro passos: 2.000 tentativas de *login* com senhas vazadas, 14 contas que entram e a leitura de fichas de outros alunos trocando o id na URL, que é o BOLA, em dois momentos. O primeiro passo fica 'detectado' pela R2, uma regra de correlação: muitas falhas seguidas de sucesso da mesma origem. Os outros ficam amarelos, 'visto nos logs, sem alerta': o *log* do API *gateway* está ligado, mas a R3 está desligada. Embaixo de cada passo aparecem a técnica, a fonte e a regra. A lógica da R3 conta, por *token*, quantos alunos diferentes foram lidos em um minuto e alerta acima de 20 quando o aluno lido não é o dono do *token*: é comportamento, e não assinatura. Na segunda rodada, os dois passos de leitura viram 'detectado'. No SOC, a investigação mostra a lógica da regra e a linha do tempo correlacionada."
+Atenção: o simulador roda em tempo acelerado (1 s = 15 s), e o alerta chega alguns segundos depois do passo, porque a regra precisa correlacionar. O passo "14 contas entram" continua amarelo, porque nenhuma regra o cobre; é uma lacuna para a reunião *purple*. Se algo travar, usar "Reiniciar", no topo, e repetir os passos.
+Conclusão: "A fonte ligada não basta: a regra precisa existir, estar ativa e ter sido testada."
+[Tela: gravação do laboratório do slide 14, no simulador]
 
-**Slide 17 — Precisão de uma regra de PowerShell suspeito (15:50–16:30)**
-Fala: "Em 30 dias, a regra disparou 400 vezes, e só 20 alertas eram verdadeiros: precisão de 5%. A equipe percebeu que 359 dos 380 falsos positivos vinham do mesmo *script* de inventário e criou uma exceção restrita a ele. No mês seguinte, com os mesmos 20 ataques, foram 40 alertas, 19 verdadeiros: precisão de 47,5% e sensibilidade de 95%. Um ataque deixou de ser detectado. Vale a troca? Provavelmente sim, se a lacuna for coberta por outra regra."
+**Slide 15 — De volta ao problema (18:40–19:30)**
+Fala: "Voltemos ao Rafael. A lista de 5 mil *hashes* entra, mas não sozinha. A assinatura pega a cópia conhecida, e a YARA v2 pega a variante sem acusar o *briefing*. O comportamento, na regra 100210, vigia a técnica T1490, e o teste mostrou que ela deve olhar o nome original do arquivo. O ajuste com a exceção 100211 corta 240 falsos positivos e mantém os 10 ataques. E, na plataforma, a R3 só alertou depois de ligada e retestada. Respondendo à pergunta da aula: a Rede Tatame combina assinaturas para o conhecido, comportamento para as técnicas e correlação para juntar pistas fracas, e testa e ajusta cada regra medindo precisão e sensibilidade."
 
-**Slide 18 — Laboratório: precisão e sensibilidade antes e depois do ajuste (16:30–17:40)**
-Objetivo: decidir se a exceção vale a pena. Responde a "não afoga o SOC".
-Na tela:
-1. Ler os valores iniciais: 20 ataques reais; antes, 400 alertas e 20 verdadeiros; depois, 40 alertas e 19 verdadeiros.
-2. Em "Depois da exceção", arrastar "Alertas gerados" para 15 e "Alertas verdadeiros" para 12.
-Fala: "Com os valores do exemplo, a precisão sobe de 5% para 47,5%, a sensibilidade cai de 100% para 95% e os falsos positivos caem de 380 para 21. A frase embaixo diz: 21 alertas falsos e 1 ataque não detectado, e avisa que a lacuna nova precisa ser coberta por outra regra. Agora simulo uma exceção ampla, com 15 alertas e 12 verdadeiros. A precisão sobe para 80%, mas a sensibilidade despenca para 60%: 8 ataques passam sem alerta. Precisão olha para os alertas recebidos; sensibilidade olha para os ataques que aconteceram."
-Atenção: o número de verdadeiros nunca passa do número de alertas nem do de ataques; o controle se ajusta sozinho.
-Conclusão: "A exceção mais específica corta o ruído e perde menos ataques."
-[Tela: gravação do laboratório do slide 18]
+**Slides 16 a 18 — Pontos-chave, referências e encerramento (19:30–20:00)**
+Fala: "Para levar: assinaturas reconhecem o conhecido; o comportamento mira a técnica; regras e correlação dão contexto; e toda regra é testada e ajustada sem cegar o SOC. Mas e o ataque que nenhuma regra previu? Na próxima aula, vamos caçar ameaças a partir de hipóteses, consultas e análise de anomalias."
 
-**Slide 19 — De volta ao problema (17:40–18:40)**
-Fala: "Voltemos ao pedido da Marina. Os quatro cartões mostram a prova: a regra Sigma está no repositório com 5 testes; o teste atômico T1490 gerou o evento e o alerta saiu em 2 segundos; na plataforma, o abuso da API só gerou alerta depois que a R3 foi ligada e testada; e o EDR mostra a cadeia no NB-FIN-031, enquanto a exceção restrita leva a precisão de 5% para 47,5%. Respondendo à pergunta da aula: o Rafael segue o ciclo de vida da detecção. Ele descreve a técnica pelo ATT&CK, escreve a regra em Sigma, testa com eventos de exemplo e com um teste atômico em laboratório, publica, mede precisão e sensibilidade e ajusta com exceções específicas."
+[Envato: "security analyst alerts screen", "code on screen dark", "server room blue light". Slides de apoio: tabela do slide 4, código do slide 10 e indicadores do slide 13.]
 
-**Slides 20 a 22 — Pontos-chave, referências e encerramento (18:40–19:20)**
-Fala: "Para levar desta aula: engenharia de detecção aplica requisitos, testes e versionamento às regras; o Sigma torna a regra portátil; detecção comportamental resiste melhor que indicadores; e precisão e sensibilidade orientam o ajuste. Mas e o que nenhuma regra viu? Na próxima aula, vamos caçar o que ficou para trás no SRV-ERP-01."
-
-[Envato: "code review screen", "laboratory virtual machine", "network security analyst". Slides de apoio: anatomia da regra Sigma (slide 7) e cartões do slide 19.]
-
-## Aula 11 — *Threat hunting* e inteligência de ameaças
+## Aula 11 — Caça a ameaças: hipóteses, consultas e análise de anomalias
 
 ### Texto base
 
-Regras de detecção encontram aquilo que alguém já previu. Mas o que acontece com o adversário que usa uma variação nova, ou que se comporta como um administrador legítimo? Segundo o relatório M-Trends 2024, da Mandiant, a mediana global de permanência de invasores antes da descoberta (*dwell time*) foi de 10 dias em 2023 — e esse número é uma mediana, o que significa que muitos invasores ficam bem mais tempo. A caça a ameaças existe para encurtar esse período.
+As regras de detecção encontram o que alguém já previu. Um adversário que usa uma ferramenta legítima, instalada com uma conta válida, pode passar semanas sem disparar nenhum alerta. Segundo o relatório M-Trends 2024, da Mandiant, a mediana global de permanência de invasores antes da descoberta (*dwell time*) foi de 10 dias em 2023, e muitos casos ficam bem acima da mediana. A caça a ameaças existe para encurtar esse período: em vez de esperar o alerta, a equipe vai atrás do adversário.
 
-#### O que é *threat hunting*
+#### Comprometimento presumido e tipos de caça
 
-***Threat hunting*** é a busca proativa e iterativa por atividade maliciosa que escapou dos controles automatizados. Ela parte da premissa de **comprometimento presumido** (*assume breach*): em vez de esperar o alerta, o caçador supõe que o adversário já está no ambiente e procura evidências disso. A caça não substitui o SOC; ela o complementa e, quando bem-sucedida, gera novas regras para a engenharia de detecção.
+Caça a ameaças (*threat hunting*) é a busca proativa e iterativa por atividade maliciosa que escapou dos controles automatizados. Ela parte do **comprometimento presumido** (*assume breach*): o caçador supõe que o adversário já está no ambiente e procura evidências disso. A caça não substitui o SOC; ela cobre o que as regras ainda não veem e devolve regras novas para a engenharia de detecção estudada na Aula 10.
 
-A abordagem mais madura é a **orientada por hipóteses**. Uma boa hipótese é específica e verificável, por exemplo: "um adversário está usando ferramentas legítimas de acesso remoto, instaladas fora do processo oficial de TI, para manter persistência". As hipóteses nascem de inteligência de ameaças, de técnicas ATT&CK sem cobertura, de achados do Red Team ou de anomalias observadas.
+Costuma-se distinguir três abordagens, que se combinam na prática:
 
-[Imagem 1 — Ciclo da caça: criar hipótese → investigar com ferramentas → descobrir padrões e TTPs → informar e enriquecer as detecções → nova hipótese. Texto alternativo: "Ciclo iterativo de threat hunting orientado por hipóteses". Pode ser recriado pela equipe.]
+- **orientada por hipótese**: parte de uma técnica do MITRE ATT&CK que um adversário usaria no ambiente;
+- **orientada por indicadores**: procura endereços IP, domínios ou *hashes* citados em um relatório recente;
+- **situacional ou por anomalia**: parte dos ativos mais críticos ou do que foge do comportamento normal.
 
-#### Indicadores *versus* comportamentos: a Pirâmide da Dor
+A inteligência de ameaças, estudada na Unidade 1, entra aqui como matéria-prima. Do relatório sobre um grupo como o fictício Cobalto Austral, o caçador aproveita principalmente o comportamento descrito, por exemplo, o uso de ferramentas de acesso remoto (T1219) e a cópia de dados para armazenamento externo (T1567.002). Pela Pirâmide da Dor, proposta por David Bianco em 2013, *hashes* e IPs são trocados pelo adversário em minutos, enquanto o comportamento é caro de mudar.
 
-Em 2013, David Bianco propôs a **Pirâmide da Dor** (*Pyramid of Pain*), que relaciona o tipo de indicador usado na defesa ao "custo" que sua detecção impõe ao adversário:
+[Imagem 1 — Ciclo da caça orientada por hipótese: origens (inteligência, ATT&CK, Red Team, anomalias) → hipótese → consulta → investigação → incidente e detecção nova → próxima hipótese. Texto alternativo: "Diagrama circular do ciclo de caça a ameaças, da hipótese à detecção nova". Pode ser recriado pela equipe.]
 
-| Nível (da base ao topo) | Exemplo | Dificuldade para o adversário trocar |
-|---|---|---|
-| *Hashes* | *Hash* SHA-256 de um executável | Trivial |
-| Endereços IP | IP de um servidor de comando e controle | Fácil |
-| Nomes de domínio | Domínio usado para *phishing* | Simples |
-| Artefatos de rede e de *host* | Padrão de URL, chave de registro criada | Incômodo |
-| Ferramentas | Uma ferramenta específica de ataque | Desafiador |
-| TTPs | O comportamento em si (táticas, técnicas e procedimentos) | Difícil |
+#### A hipótese testável
 
-A lição é direta: bloquear *hashes* e IPs é útil, mas o adversário contorna isso em minutos. Detectar **TTPs** obriga-o a mudar a forma como trabalha — e é aí que a caça e a engenharia de detecção devem concentrar esforço.
+Uma boa hipótese é **específica e testável**: diz o que se procura, onde procurar, o que conta como evidência e o que a descartaria. Na Rede Tatame, a hipótese H-11 ficou assim: "um adversário usa uma ferramenta de acesso remoto não aprovada para manter contato periódico com a internet e tirar dados da sede". Onde olhar: processos registrados pelo EDR e pelo Sysmon, conexões registradas pelo Zeek, volume de saída por máquina e a base de mudanças da TI. Evidência: programa raro, conexões em intervalos regulares e saída acima do normal, sem chamado de mudança. Uma hipótese que não pode ser provada nem descartada com os dados disponíveis ainda não está pronta para a caça, mas já revela uma lacuna de coleta.
 
-[Imagem 2 — Pirâmide em seis camadas, da base (*hashes*) ao topo (TTPs), com cores do verde ao vermelho indicando o aumento do custo para o adversário. Texto alternativo: "Pirâmide da Dor de David Bianco com os seis tipos de indicadores". Recriar a partir do texto original de Bianco (2013).]
+#### Consultas: empilhar e pivotar
 
-#### Inteligência de ameaças: do dado à decisão
+A caça acontece onde os dados estão. No Security Onion, a tela **Hunt** pesquisa alertas, eventos do Sysmon e os registros do Zeek (`conn`, `dns`, `http`) com uma linguagem que combina filtros e agrupamentos, como `event.dataset:conn | groupby destination.ip`. No Wazuh, o painel aceita consultas DQL ou Lucene sobre os eventos dos agentes.
 
-A **inteligência de ameaças** (*Cyber Threat Intelligence*, CTI) é a informação sobre adversários coletada, analisada e contextualizada para apoiar decisões. Dados soltos — uma lista de IPs — ainda não são inteligência; tornam-se inteligência quando respondem a perguntas como "quem ameaça meu setor, com quais objetivos e de que forma?". Costuma-se organizá-la em níveis, embora a nomenclatura varie entre autores:
+Duas técnicas de consulta sustentam a maior parte das caças. O **empilhamento** (*stacking*) conta em quantas máquinas cada valor aparece e ordena do mais raro para o mais comum: o programa oficial de suporte aparece em quase todas as máquinas, e o que está na cauda longa merece atenção. O **pivô** transforma um achado no filtro da próxima consulta: do programa raro ao endereço que ele contata, do endereço à linha do tempo do servidor.
 
-- **Estratégica:** tendências, motivações e riscos para a alta gestão (por exemplo, o aumento de extorsão contra empresas de saúde).
-- **Operacional:** campanhas e atores específicos, com suas intenções e capacidades, para líderes de SOC e resposta a incidentes.
-- **Tática:** TTPs e indicadores, consumidos por analistas, caçadores e engenheiros de detecção. Algumas fontes separam ainda um nível **técnico**, restrito aos indicadores.
+[Imagem 2 — Captura de tela da tela Hunt do Security Onion com uma consulta agrupada por `process.name` e a contagem de máquinas por programa. Texto alternativo: "Tela Hunt do Security Onion mostrando o empilhamento de processos por número de máquinas". Captura própria em laboratório; o Security Onion é software livre.]
 
-Para analisar intrusões, o **Modelo Diamante** (Caltagirone, Pendergast e Betz, 2013) descreve cada evento por quatro vértices: **adversário**, **capacidade**, **infraestrutura** e **vítima**. Conhecendo um vértice, o analista "pivota" para descobrir os outros — por exemplo, de um domínio malicioso (infraestrutura) para outras vítimas que o contataram.
+#### *Baseline* e anomalia com estatística simples
 
-[Imagem 3 — Diamante com os vértices adversário, capacidade, infraestrutura e vítima, ligados por arestas. Texto alternativo: "Modelo Diamante de análise de intrusões com quatro vértices". Pode ser recriado pela equipe.]
+O *baseline* é o comportamento normal de uma máquina, conta ou serviço em um período de referência. Com ele, é possível perguntar se o valor de hoje é estranho. A medida mais simples é o ***z-score***, que indica quantos desvios-padrão o valor observado está acima da média: z = (x − média) ÷ desvio-padrão. Um limiar comum é z maior que 3.
 
-O compartilhamento de inteligência é apoiado por padrões abertos: o **STIX** descreve objetos como indicadores, campanhas e padrões de ataque; o **TAXII** define como trocá-los; e plataformas abertas como o **MISP** permitem armazenar e compartilhar eventos entre organizações. O **TLP** (*Traffic Light Protocol*), mantido pelo FIRST, indica com que liberdade cada informação pode ser repassada.
+A média e o desvio-padrão, porém, são sensíveis a dias atípicos. Se um dia de *backup* entra no período de referência, o desvio cresce e a anomalia real some. Uma alternativa robusta usa a **mediana** e o **MAD** (desvio absoluto mediano): z robusto = 0,6745 × (x − mediana) ÷ MAD.
 
-#### Exemplo numérico: a cadência da caça e o *dwell time*
+Para conexões, a pergunta muda: o programa fala com a internet em intervalos regulares demais? Esse padrão, chamado **batimento** (*beaconing*), é típico de ferramentas automáticas. O **coeficiente de variação** dos intervalos, cv = desvio-padrão ÷ média, fica perto de zero quando um programa conecta a cada cinco minutos e perto de um quando uma pessoa navega. Ferramentas abertas, como o RITA, aplicam essa ideia aos registros do Zeek.
 
-Suponha que uma técnica de persistência não tenha regra de detecção e só possa ser encontrada por caça. Se a equipe faz essa caça a cada 30 dias, um invasor que se instale em um dia aleatório será encontrado, em média, depois de metade do intervalo: **15 dias**. Com caças semanais, a média cai para 3,5 dias. Melhor ainda: se a caça resultar em uma regra automatizada, o tempo cai para minutos. Por isso, o melhor produto de uma caça não é apenas o incidente encontrado, mas **a detecção que nasce dela**.
+[Imagem 3 — Gráfico de barras com 14 dias de volume de saída de um servidor, a faixa de média ± 3 desvios-padrão e o último dia muito acima da faixa. Texto alternativo: "Gráfico de baseline de tráfego de saída com um dia anômalo acima do limiar". Pode ser recriado pela equipe.]
+
+Anomalia não é prova de ataque. Ela indica onde olhar; o contexto decide. Na caça H-11, um notebook da TI também passou do limiar, mas tinha uma mudança aprovada que explicava o tráfego.
+
+#### Exemplo numérico
+
+Um servidor enviou para a internet, em sete dias, 180, 200, 220, 190, 210, 200 e 200 MB. A média é 1.400 ÷ 7 = 200 MB. A soma dos quadrados dos desvios é 400 + 0 + 400 + 100 + 100 + 0 + 0 = 1.000, e o desvio-padrão amostral é √(1.000 ÷ 6) ≈ 12,91 MB. Se hoje saíram 260 MB, z = 60 ÷ 12,91 ≈ 4,65: anomalia pelo limiar 3. Agora inclua no *baseline* um dia de *backup* de 600 MB. A média sobe para 250 MB, o desvio para cerca de 141,9 MB e o z de 260 MB cai para 0,07: a anomalia desaparece. Com mediana 200 e MAD 10, o z robusto vale 0,6745 × 60 ÷ 10 ≈ 4,05, com ou sem o *backup*.
+
+#### Da descoberta à detecção
+
+Toda caça termina com entregas. Se a hipótese se confirma, abre-se um incidente, tema da Unidade 4. Em qualquer caso, a caça devolve detecções novas, consultas documentadas e lacunas de coleta. Na Rede Tatame, a caça H-11 levou a ligar a fonte de saída de rede, ativar as regras de acesso remoto não aprovado e de saída volumosa e propor uma regra de batimento.
+
+[Imagem 4 — Pirâmide da Dor de David Bianco com seis camadas, de *hashes* (base) a TTPs (topo), em cores do verde ao vermelho. Texto alternativo: "Pirâmide da Dor com os tipos de indicador e o custo crescente para o adversário". Recriar a partir do texto original de Bianco (2013).]
 
 #### Pausa para reflexão
 
-> Uma cooperativa de crédito recebe de um parceiro um relatório de inteligência sobre um grupo que ataca o setor financeiro. O relatório traz 300 IPs e 150 *hashes*, além da descrição do comportamento do grupo: acesso inicial com credenciais válidas de VPN, instalação de ferramentas legítimas de acesso remoto e exclusão de cópias de sombra antes da criptografia. O gestor do SOC propõe apenas importar os IPs e *hashes* no *firewall* e no EDR.
+> Uma caçadora testou durante uma semana a hipótese "contas válidas estão entrando na VPN de madrugada, fora do horário dos donos" (T1078). Ela consultou 30 dias de autenticação e não achou nenhum caso suspeito, e o gestor concluiu que a semana foi perdida.
 >
-> 1. Com base na Pirâmide da Dor, qual é a limitação da proposta do gestor?
-> 2. Formule duas hipóteses de caça a partir do comportamento descrito no relatório.
-> 3. Em que nível de CTI (estratégico, operacional ou tático) cada parte do relatório se encaixa?
+> 1. A hipótese era específica e testável? Que dados a provariam ou a descartariam?
+> 2. O que a caçadora pode entregar mesmo sem ter achado um invasor?
+> 3. Que *baseline* e que limiar você usaria para transformar essa caça em uma regra?
 >
-> **Desafio prático:** escolha uma das hipóteses e descreva, em até uma página, quais fontes de dados você consultaria, o que seria considerado evidência e qual regra de detecção poderia nascer da caça.
+> **Desafio prático:** escreva a hipótese no formato da H-11 (hipótese, onde olhar, evidência, o que a descarta) e uma consulta que a teste.
 
 #### Pontos-chave
 
-- *Threat hunting* parte do comprometimento presumido e é guiado por hipóteses.
-- Na Pirâmide da Dor, detectar TTPs impõe muito mais custo ao adversário do que bloquear *hashes* e IPs.
-- CTI é informação contextualizada para decisão, em níveis estratégico, operacional e tático.
-- O Modelo Diamante e padrões como STIX, TAXII, MISP e TLP organizam a análise e o compartilhamento.
-- O melhor resultado de uma caça é uma nova detecção automatizada.
+- A caça parte do comprometimento presumido e de uma hipótese específica e testável.
+- Consultas empilham dados para achar o raro e pivotam de um achado ao próximo.
+- *Baseline*, *z-score*, mediana/MAD e coeficiente de variação revelam muitas anomalias.
+- Anomalia indica onde olhar; o contexto diz se é ataque.
+- O melhor resultado de uma caça é uma detecção nova.
 
 ### Referências da aula
 
-BIANCO, David J. The pyramid of pain. *Enterprise Detection & Response*, mar. 2013. Disponível em: <https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html>. Acesso em: 13 nov. 2026.
+BEJTLICH, Richard. *The practice of network security monitoring*: understanding incident detection and response. San Francisco: No Starch Press, 2013.
 
-CALTAGIRONE, Sergio; PENDERGAST, Andrew; BETZ, Christopher. *The diamond model of intrusion analysis*. [*S. l.*]: Center for Cyber Intelligence Analysis and Threat Research, 2013.
+BIANCO, David J. The pyramid of pain. *Enterprise Detection & Response*, mar. 2013. Disponível em: <https://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html>. Acesso em: 22 nov. 2026.
 
-FIRST. *Traffic light protocol (TLP): FIRST standards definitions and usage guidance*. Versão 2.0. 2022. Disponível em: <https://www.first.org/tlp/>. Acesso em: 13 nov. 2026.
+MANDIANT. *M-Trends 2024*: special report. [*S. l.*]: Google Cloud, 2024.
 
-MANDIANT. *M-Trends 2024: special report*. [*S. l.*]: Google Cloud, 2024.
+MITRE. *T1219*: remote access tools. MITRE ATT&CK. Disponível em: <https://attack.mitre.org/techniques/T1219/>. Acesso em: 22 nov. 2026.
 
-OASIS. *STIX version 2.1*. OASIS Standard. 2021. Disponível em: <https://oasis-open.github.io/cti-documentation/>. Acesso em: 13 nov. 2026.
+SANDERS, Chris; SMITH, Jason. *Applied network security monitoring*: collection, detection, and analysis. Waltham: Syngress, 2013.
 
-ROBERTS, Scott J.; BROWN, Rebekah. *Intelligence-driven incident response: outwitting the adversary*. Sebastopol: O'Reilly, 2017.
+SECURITY ONION SOLUTIONS. *Security Onion documentation*. Disponível em: <https://docs.securityonion.net/>. Acesso em: 22 nov. 2026.
 
-### Roteiro da Videoaula 11 — "O que o invasor deixou para trás?"
+### Roteiro da Videoaula 11 — "O servidor que liga para fora a cada cinco minutos"
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula11.html (24 slides).
+Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula11.html (22 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Até aqui, a defesa esperou o alerta. Hoje vamos inverter a postura: com *threat hunting*, a caça a ameaças, saímos procurando o invasor, apoiados pela inteligência de ameaças."
+Fala: "Olá! Até aqui, a defesa esperou o alerta. Hoje vamos inverter a postura: com a caça a ameaças, saímos procurando o invasor antes de qualquer alarme. O sumário mostra o caminho: hipótese, consultas, estatística simples e, no fim, regras novas."
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:50)**
-Fala: "A Luiza Ferraz voltou, agora como caçadora. Caçar ameaças é buscar ativamente invasores que nenhuma regra apontou. Na Aula 9, o SOC viu o *login* das 02:17 no SRV-ERP-01 com a conta da Carla Dias, e a senha foi trocada. Mas o invasor ficou alguns minutos lá dentro, e nenhuma regra disparou depois disso. Ao mesmo tempo, chega um relatório do setor: o Grupo Cobalto Austral instala ferramentas legítimas de acesso remoto para voltar quando quiser. Uma porta escondida no ERP deixaria o grupo voltar, copiar dados de alunos e extorquir a rede. A pergunta da aula: como encontrar um invasor que já está dentro e que nenhuma regra viu?"
-[Take de apoio: pessoa analisando gráficos e mapas em tela escura — Envato]
+**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:45)**
+Fala: "Terça-feira, 17 de novembro. A Luiza Ferraz, analista nível 2 do SOC, recebe um relatório do setor: o Grupo Cobalto Austral instala ferramentas legítimas de acesso remoto e, dias depois, copia dados para armazenamento externo. Na Rede Tatame, as regras que veriam isso, a R8 e a R9, estão desligadas, e a saída de rede nem é coletada. Nenhum alerta tocou. No mapa à direita, o SRV-ERP-01 está em vermelho, e o caminho em destaque vai dele para a internet. A pergunta da aula está no quadro amarelo: como encontrar um invasor que já está dentro e que nenhuma regra apontou?"
+[Take de apoio: analista diante de gráficos em tela escura, à noite — Envato]
 
-**Slides 4 e 5 — O que é *threat hunting* e a hipótese (1:50–2:40)**
-Fala: "*Threat hunting* é a busca proativa e iterativa por atividade que escapou dos controles automáticos. Ela parte do comprometimento presumido, o *assume breach*: em vez de esperar o alerta, o caçador supõe que o adversário já está no ambiente. A abordagem mais madura começa por uma hipótese específica e verificável, como esta: um adversário usa ferramentas legítimas de acesso remoto, instaladas fora do processo oficial de TI, para manter persistência. Essa é a nossa hipótese H-11."
+**Slide 4 — Caça a ameaças: procurar antes do alerta (1:45–2:40)**
+Fala: "Caça a ameaças é a busca proativa e iterativa por atividade que escapou dos controles automáticos. Ela parte do comprometimento presumido: o caçador supõe que o adversário já entrou. Há três abordagens. A orientada por hipótese parte de uma técnica do ATT&CK; a orientada por indicadores procura IPs, domínios e *hashes* de um relatório; e a situacional parte do que é crítico ou do que foge do normal. A caça não substitui o SOC: ela cobre o que as regras ainda não veem e devolve regras novas."
 
-**Slide 6 — Laboratório: o ciclo da caça orientada por hipóteses (2:40–3:50)**
-Objetivo: ver o caminho da caça H-11, da hipótese à regra nova. Responde a "como encontrar", em linhas gerais.
+**Slide 5 — Uma boa hipótese é específica e testável (2:40–3:35)**
+Fala: "Do relatório, a Luiza aproveita o comportamento: as técnicas T1219, ferramentas de acesso remoto, e T1567.002, cópia para armazenamento na nuvem. Vejam o cartão da H-11. A hipótese diz o que se procura; 'Onde olhar' lista os dados, processos do EDR e do Sysmon, conexões do Zeek, volume de saída e base de mudanças; 'Evidência' diz o que confirma; e 'Descarta se' diz o que derruba a hipótese. Se não dá para provar nem descartar com dados, a hipótese ainda não está pronta."
+
+**Slide 6 — Laboratório: o ciclo da caça orientada por hipótese (3:35–4:50)**
+Objetivo: mostrar o caminho completo da caça H-11, da origem da hipótese às regras novas.
 Na tela:
-1. Ao abrir o slide, o passo "Origens" já está na tela (contador 1 / 6), com as quatro fontes da esquerda acesas.
-2. Clicar em "▶ Avançar" e passar por "Hipótese H-11", "Investigar" e "Padrões e TTPs".
-3. Avançar por "Incidente", em que o nó Resposta fica vermelho.
-4. Avançar até "Informar", com as linhas verdes voltando para "Criar hipótese".
-Fala: "As hipóteses nascem de quatro origens: inteligência de ameaças, a CTI; técnicas do ATT&CK sem cobertura; achados do Red Team; e anomalias. Aqui, o relatório do setor e a técnica T1219, sem nenhuma regra no SIEM, geram a H-11. Na investigação, a caçadora empilha 30 dias de processos das 149 máquinas da sede: a ferramenta oficial aparece em 145, e duas não aprovadas aparecem em 3 máquinas e em 1. Nas máquinas da TI há mudança aprovada. No SRV-ERP-01, a ferramenta foi instalada como serviço pela conta carla.dias às 02:22, minutos depois do *logon* suspeito. A caça termina em dois produtos: um incidente, que vai para a Aula 12, e uma regra nova."
-Conclusão: "Uma caça bem-sucedida sempre devolve alguma coisa à detecção."
+1. Ao abrir o slide, o passo "1 · Origens" já está na tela (contador 1 / 6), com as quatro fontes da esquerda acesas.
+2. Clicar em "▶ Avançar" para "2 · Hipótese H-11" e "3 · Consultar".
+3. Avançar para "4 · Investigar" e "5 · Incidente", em que o nó Incidente fica vermelho.
+4. Avançar para "6 · Detecção nova", com as linhas verdes voltando para a hipótese.
+Fala: "As hipóteses nascem de quatro origens: inteligência de ameaças, técnicas do ATT&CK sem cobertura, achados do Red Team e anomalias. Hoje, o relatório e a T1219 com a R8 desligada. Os pontos que correm nas linhas mostram o caminho de cada etapa. Na consulta, a Luiza empilha 30 dias de processos das 149 máquinas e analisa as conexões em Python. Na investigação, o contexto separa o legítimo: as máquinas da TI têm a mudança MUD-5521. No SRV-ERP-01, o ConectaJá foi instalado como serviço às 02:22 de 13/11 e bate a cada 300 segundos em 198.51.100.77. O passo 5 abre o incidente, porque 2,8 GB saíram em 16/11, e o passo 6 devolve ao SOC a fonte ligada, a R8, a R9 e uma regra de batimento."
+Atenção: prefira os cliques manuais; o botão "⏯ Auto" avança sozinho, e o "◀" volta um passo.
+Conclusão: "Toda caça devolve alguma coisa à detecção, mesmo quando não acha nada."
 [Tela: gravação do laboratório do slide 6]
 
-**Slide 7 — Antes do código: onde achar e como instalar (3:50–4:15)**
-Fala: "Antes do código, vejam o que este laboratório usa: o VS Code, com a extensão Python, e o Python 3.12. Os módulos csv e collections são da biblioteca padrão, então não há pacote a instalar. Aproveitem para conferir a extensão antes de instalá-la: identificador ms-python.python, selo de editor verificado com o domínio microsoft.com e número de instalações. A caça de hoje procura justamente programas instalados fora do canal oficial, e as nossas ferramentas devem vir sempre dele."
+**Slide 7 — Consultas no Security Onion e no Wazuh (4:50–5:40)**
+Fala: "A caça acontece onde os dados estão. No Security Onion, a tela Hunt pesquisa alertas, Sysmon e os registros do Zeek com filtros e agrupamentos, como 'event.dataset:conn', barra vertical, 'groupby destination.ip'. No Wazuh, o painel aceita DQL ou Lucene. Duas técnicas sustentam a maior parte das caças: o empilhamento, que conta em quantas máquinas cada valor aparece e mostra a cauda longa, e o pivô, que transforma um achado no filtro da próxima consulta."
 
-**Slide 8 — Laboratório: empilhar para achar o raro (4:15–6:35)**
-Objetivo: achar, entre 149 máquinas, as poucas que rodam algo fora do padrão. Responde a "onde procurar".
-Na tela (VS Code em tela inteira, pasta caca-h11; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
-1. Clicar em "⬇ Preparar o ambiente", na barra do terminal, e esperar o botão mudar para "✓ Ambiente pronto".
-2. Abrir hipoteses/H-11.md e ler a hipótese, a origem e o que conta como evidência.
-3. Voltar a caca_acesso_remoto.py e mostrar as linhas destacadas 7, 9, 10 e 23 a 25.
-4. Abrir dados/amostra_processos.csv.
-5. Clicar em "Executar a caça".
-Fala: "Começamos pelo ambiente. O primeiro comando confirma o Python 3.12.7. O segundo cria o ambiente virtual .venv, uma cópia isolada do Python para este projeto, e o terceiro o ativa: reparem no .venv entre parênteses no *prompt*. O pip list mostra só o próprio pip, porque o *script* usa apenas a biblioteca padrão e não há nada a instalar. Agora a caça. O arquivo H-11.md registra a hipótese antes da busca. Evidência é ferramenta não aprovada, sem chamado de mudança e com conexão externa. No *script*, a linha 5 define as 149 máquinas com EDR, a linha 6 a única ferramenta aprovada, suporte_ti.exe, e a linha 7 a lista de ferramentas de acesso remoto conhecidas. As linhas 9 e 10 criam dois contadores: em quantas máquinas cada ferramenta rodou e, para as não aprovadas, quem as iniciou. O laço das linhas 11 a 20 lê o CSV de 30 dias e ignora tudo que não é acesso remoto. Para as não aprovadas, a chave da linha 18 junta nome, processo pai e conta. As linhas 23 a 25 imprimem o empilhamento, *stack counting*, ordenado da ferramenta mais rara para a mais comum. Na saída, conectaja.exe aparece em 1 máquina, 0,7%; remotodesk.exe em 3, 2,0%; e suporte_ti.exe em 145, 97,3%. A segunda parte mostra o contexto: o remotodesk rodou 41 vezes, iniciado por services.exe, com a conta SYSTEM, nas três máquinas NB-TI. O conectaja rodou uma vez, iniciado pelo powershell.exe, com a conta carla.dias, no SRV-ERP-01. Reparem na amostra: às 02:22:33 de 13/11, o ConectaJa.exe tem o powershell como pai."
-Atenção: a preparação do ambiente é simulada e leva cerca de 5 segundos. O *script* compara nomes em minúsculas; por isso ConectaJa.exe vira conectaja.exe na saída. A última linha avisa que telaviva_agent.exe não apareceu em nenhuma máquina.
-Conclusão: "O raro chama a atenção, e o contexto de pai e conta diz qual raro merece investigação."
+**Slide 8 — Laboratório: empilhar, pivotar e montar a linha do tempo (5:40–7:50)**
+Objetivo: testar a H-11 com consultas, das 149 máquinas da sede até um único servidor.
+Na tela (console "Security Onion · Hunt"; a busca 1 roda sozinha ao abrir o slide):
+1. Ler o resultado de "1. Empilhar acesso remoto".
+2. Clicar em "2. Para onde se conectam? (Zeek)".
+3. Clicar em "3. Linha do tempo no SRV-ERP-01".
+4. Clicar em "4. Saída diária do ERP (baseline)".
+5. Clicar em "5. Máquinas da TI: há mudança aprovada?", no grupo Contexto.
+Fala: "A busca 1 filtra processos de acesso remoto e agrupa por programa e máquina. O suporte_ti.exe, oficial, está em 145 máquinas, 97,3%; o remotodesk.exe em 3; e o conectaja.exe em uma só, 0,7%. Na busca 2, pivotamos para a rede, com os registros de conexão do Zeek. As máquinas da TI falam com relay.remotodesk.example.com poucas vezes. O SRV-ERP-01 fala direto com 198.51.100.77, sem consulta DNS, 1.152 vezes em quatro dias: 288 por dia, uma a cada cinco minutos. As barras destacadas no fim do histograma são esses dias. A busca 3 monta a linha do tempo do servidor entre 02:10 e 02:30 de 13/11: o *logon* remoto da carla.dias às 02:17:12, o PowerShell, o arquivo ConectaJa.exe, o serviço 'ConectaJa Update' com início automático e a primeira conexão às 02:22:33. A última coluna traz as técnicas do ATT&CK. A busca 4 soma os bytes de saída por dia: em torno de 200 MB até o dia 15 e 3.010 MB no dia 16, cerca de 2,8 GB acima. A busca 5 cruza as máquinas da TI com a base de mudanças: todas têm a MUD-5521 aprovada, pedida pelo Caio Mendes."
+Atenção: o texto da consulta é digitado aos poucos antes do resultado; espere a tabela completar e a nota aparecer. A sintaxe imita a do Hunt; os dados são da Rede Tatame, fictícios.
+Conclusão: "O raro só vira suspeito quando o contexto não o explica. No SRV-ERP-01, nada o explica."
 [Tela: gravação do laboratório do slide 8]
 
-**Slide 9 — Laboratório: separar o legítimo do suspeito (6:35–8:15)**
-Objetivo: separar o legítimo do suspeito com rede, linha do tempo e mudanças. Responde a "como confirmar".
-Na tela (console "SIEM · Caça H-11"; a busca 1 roda sozinha):
-1. Ler "1. Empilhamento no SIEM".
-2. Clicar em "2. Para onde se conectam?".
-3. Clicar em "3. Linha do tempo no SRV-ERP-01".
-4. Clicar em "4. Máquinas da TI: há mudança aprovada?".
-Fala: "A busca 1 faz no SIEM o mesmo empilhamento do *script*: conta máquinas distintas por processo e ordena da menor para a maior. O resultado é igual. A busca 2 filtra as conexões de rede das duas ferramentas não aprovadas. As máquinas da TI falam com relay.remotodesk.example.com, o serviço do fabricante. O SRV-ERP-01 fez 22 conexões direto para 198.51.100.77, sem consulta DNS, todas na madrugada de hoje, a barra destacada no fim do histograma. A busca 3 pega tudo que aconteceu no SRV-ERP-01 entre 02:10 e 02:30. Às 02:17:12, o *logon* tipo 10 da carla.dias depois de 10 falhas, o mesmo da Aula 9; às 02:21:40, um PowerShell; às 02:22:05, o arquivo ConectaJa.exe criado em ProgramData; às 02:22:31, o evento 7045, serviço 'ConectaJa Update' com início automático; e às 02:22:33, a conexão para 198.51.100.77. A última coluna traz as técnicas: T1078, T1059.001, T1543.003 e T1219. A busca 4 cruza as máquinas da TI com a base de mudanças: as três têm a MUD-5521 aprovada, uma avaliação pedida pelo Caio Mendes até 30/11."
-Atenção: espere cada tabela completar; a nota embaixo de cada resultado resume a leitura.
-Conclusão: "Credencial válida, serviço novo e acesso remoto em menos de 6 minutos: a H-11 está confirmada no SRV-ERP-01. Nas máquinas da TI, há um desvio de processo, que vira registro e não incidente."
-[Tela: gravação do laboratório do slide 9]
+**Slide 9 — *Baseline*, anomalia e batimento com estatística simples (7:50–8:50)**
+Fala: "O *baseline* é o comportamento normal num período de referência. O *z-score* diz quantos desvios-padrão o valor de hoje está acima da média, e o limiar usual é 3. Mediana e MAD, o desvio absoluto mediano, fazem o mesmo de forma robusta. Para conexões, medimos o batimento: o coeficiente de variação dos intervalos, desvio dividido pela média, perto de zero sugere um programa; perto de um, uma pessoa. E lembrem: a anomalia diz onde olhar, e o contexto diz o que ela é."
 
-**Slide 10 — Laboratório: a caça H-11 na plataforma, antes e depois da regra (8:15–10:05)**
-Objetivo: ver por que a caça foi necessária, já que o dado existia e faltava a regra. Responde a "nenhuma regra viu".
-Na tela (simulador na aba Cenários, com a R8 desligada):
-1. No cartão "Acesso remoto não aprovado e saída de dados", clicar em "Iniciar cenário" e esperar os três passos, cerca de 30 segundos.
-2. Na aba Arquitetura, clicar no nó SRV-ERP-01 e ler o painel.
-3. Na aba Regras do CEP, ligar "R8 · Ferramenta de acesso remoto não aprovada".
-4. Trocar a velocidade, no topo, para "1 s = 5 s".
-5. Em Cenários, clicar em "Repetir com as fontes e regras atuais". Quando o alerta da R8 aparecer na aba SOC, clicar em "Conter".
-6. Voltar a Cenários e ver o terceiro passo.
-Fala: "Na primeira rodada, a instalação do ConectaJá no SRV-ERP-01 e as conexões periódicas para 198.51.100.77 ficam amarelas, 'visto nos logs, sem alerta': o EDR e o DNS registraram, mas nenhuma regra olhava para isso. O envio de 2,8 GB para fora fica vermelho, 'não detectado', porque a fonte de saída de rede está desligada. Esse é o ponto cego que a caça cobriu. Na Arquitetura, o painel do nó mostra o papel do servidor, os dados que ele guarda e a exposição. Com a R8 ligada, a instalação vira 'detectado'. Ao conter o alerta, o servidor fica isolado no mapa, e o envio dos 2,8 GB aparece como 'interrompido pela contenção'."
-Atenção: na velocidade padrão, o alerta chega entre 3 e 11 segundos depois do passo, e o envio acontece cerca de 27 segundos após o início. Com "1 s = 5 s", o alerta leva de 9 a 33 segundos, e o envio só acontece 80 segundos após o início: sobra tempo para conter.
-Conclusão: "O achado da caça vira regra, e a próxima instalação é contida antes da saída de dados."
-[Tela: gravação do laboratório do slide 10, no simulador]
+**Slide 10 — Antes do código: onde achar e como instalar (8:50–9:20)**
+Fala: "O laboratório usa o VS Code, a extensão Python da Microsoft, o Python 3.12 e o pandas 3.1.1, todos das fontes oficiais da tabela. No PyPI, confiram o nome pandas letra por letra e o *link* para o repositório pandas-dev no GitHub. A versão fica fixa no requirements.txt, para a caça dar o mesmo resultado em qualquer máquina."
 
-**Slide 11 — A Pirâmide da Dor (10:05–10:45)**
-Fala: "Em 2013, David Bianco propôs a Pirâmide da Dor. Ela relaciona o tipo de indicador ao custo que a detecção impõe ao adversário. Na base, *hashes*, triviais de trocar; depois IPs, domínios, artefatos de rede e de host e ferramentas. No topo, as TTPs, táticas, técnicas e procedimentos, o comportamento em si, difícil de mudar."
+**Slide 11 — Laboratório: a caça em Python, batimento e *baseline* (9:20–12:00)**
+Objetivo: provar com números o que as consultas sugeriram: conexões regulares demais e saída fora do normal.
+Na tela (VS Code em tela cheia, pasta caca-h11; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
+1. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
+2. Abrir dados/conexoes_saida.csv no explorador e voltar a beacon.py, mostrando as linhas destacadas 4, 5, 9, 12 e 13.
+3. Clicar em "▶ Procurar batimento".
+4. Abrir baseline.py (linhas destacadas 4, 7, 10, 11 e 19) e dados/saida_diaria_mb.csv.
+5. Clicar em "▶ Comparar com o baseline".
+Fala: "Primeiro, o ambiente. O Python é o 3.12.10; criamos e ativamos o .venv, e o *prompt* ganha o .venv entre parênteses. O pip install lê o requirements.txt, baixa o pandas 3.1.1 e as dependências, numpy, python-dateutil e tzdata, e o pip list confirma as versões. O CSV de conexões cobre uma hora da noite de domingo, 15/11, exportada do Security Onion. No beacon.py, as linhas 4 e 5 definem as regras do jogo: pelo menos 10 conexões e coeficiente de variação de até 0,10. A linha 9 calcula, para cada par de máquina e destino, o intervalo em segundos desde a conexão anterior. A linha 11 resume cada par, a 12 calcula o cv e a 13 decide. Na saída, o SRV-ERP-01 tem 14 conexões, intervalo médio de 300,3 segundos, desvio de 2,5 e cv de 0,008, em vermelho. O NB-TI-003 tem cv de 0,761, e o NB-ATD-012, de 0,931: são pessoas usando o computador. Agora o baseline.py. A linha 7 separa os 14 dias de referência do dia 16/11; as linhas 10 e 11 calculam o desvio amostral e o z; a 19 aplica o limiar 3. O SRV-ERP-01 tem média de 200,1 MB, desvio de 9,2 e 3.010 MB no dia 16: z de 306,3, cerca de 2.810 MB acima da média. O NB-TI-003 também passa, com z de 8,6, em amarelo. O SRV-ARQ-01 fica em 1,2."
+Atenção: a preparação do ambiente é simulada e leva alguns segundos; a saída mostrada é a que os *scripts* produzem ao rodar de verdade com esses CSV. O pandas imprime números com ponto decimal.
+Conclusão: "A estatística aponta duas máquinas. O contexto da busca 5 explica o NB-TI-003; o SRV-ERP-01 continua sem explicação, e é ali que está o invasor."
+[Tela: gravação do laboratório do slide 11]
 
-**Slide 12 — Laboratório: subindo a Pirâmide da Dor (10:45–11:45)**
-Objetivo: escolher que tipo de indicador da caça vale mais. Responde a "o que transformar em regra".
+**Slide 12 — O *z-score* feito à mão (12:00–12:50)**
+Fala: "Vamos fazer a conta com números redondos. Sete dias de saída: 180, 200, 220, 190, 210, 200 e 200 MB. A média é 200. A soma dos quadrados dos desvios dá 1.000; dividindo por 6 e tirando a raiz, o desvio é 12,91. Se hoje saíram 260 MB, z é 60 dividido por 12,91, cerca de 4,65: anomalia. Mas, se um dia de *backup* de 600 MB entrar no *baseline*, a média vai a 250, o desvio a 141,9 e o z cai para 0,07. Com mediana 200 e MAD 10, o z robusto fica em 4,05, com ou sem o *backup*."
+
+**Slide 13 — Laboratório: quando o *baseline* engana (12:50–14:00)**
+Objetivo: ver o limiar de 3 desvios em ação e o efeito de um dia atípico no *baseline*.
 Na tela:
-1. Clicar nos botões da esquerda, de "Hashes" até "TTPs", um por vez.
-2. Arrastar a cena para girar a pirâmide, se quiser mostrar as camadas.
-Fala: "A cor vai do verde, barato para o adversário trocar, ao vermelho, caro. Ao clicar num nível, a camada sobe e brilha, e o quadro no canto traz o custo e um exemplo da H-11. Em Hashes: o SHA-256 do ConectaJa.exe, que muda ao recompilar. Em Endereços IP: 198.51.100.77, trocado em minutos. Em Artefatos: o serviço 'ConectaJa Update' criado depois do *logon* remoto. E em TTPs: credencial válida, serviço novo e acesso remoto, as técnicas T1078, T1543.003 e T1219."
-Atenção: a cena começa parada; os rótulos à direita acompanham cada camada.
-Conclusão: "Detectar TTPs obriga o adversário a mudar o jeito de trabalhar, e é esse nível que a regra R8 alcança."
-[Tela: gravação do laboratório do slide 12]
-
-**Slide 13 — Laboratório: um byte a menos, um *hash* novo (11:45–12:45)**
-Objetivo: ver por que bloquear o *hash* do ConectaJá não basta. Responde a "por que a regra comportamental".
-Na tela:
-1. Ler o arquivo ferramenta_demo.txt e os dois SHA-256, idênticos.
-2. Clicar em "Alterar um byte".
-3. Clicar em "Restaurar original" e, depois, editar qualquer letra no texto.
-Fala: "O primeiro *hash* está na lista de bloqueio, a base da pirâmide. O segundo é calculado agora, no navegador. Enquanto são iguais, o quadro verde diz 'Bloqueio por *hash*: arquivo bloqueado'. O botão troca só o último caractere, a versão 1.0 vira 1.1. O *hash* novo muda quase por inteiro: os caracteres diferentes aparecem em negrito, e a contagem diz quantos dos 64 mudaram. O quadro fica vermelho, 'o arquivo passa'. O quadro da direita continua verde: a regra comportamental olha o que o programa faz, criar serviço e abrir acesso remoto, e não o arquivo."
-Atenção: o arquivo é inofensivo e o cálculo é um SHA-256 real, feito no navegador.
-Conclusão: "Um byte basta para fugir do *hash*. O comportamento continua o mesmo."
+1. Ler os valores iniciais: saída de hoje 260 MB, limiar 3,0, média e desvio "200,0 ± 12,91 MB", z de 4,65 e z robusto de 4,05, ambos "anomalia".
+2. Marcar "Incluir o dia de backup (600 MB) no baseline".
+3. Desmarcar e arrastar "Saída de hoje (MB)" até 230.
+Fala: "As barras cinzentas são os sete dias, a linha tracejada é a média e a faixa azul vai de três desvios abaixo a três acima. A barra de hoje fica vermelha quando passa do limiar. Ao incluir o *backup*, aparece uma barra amarela, a média vira 250, o desvio 141,93, e o z de 260 MB cai para 0,07, 'normal': a faixa engoliu a anomalia. O z robusto continua em 4,05. Sem o *backup* e com 230 MB, o z é 2,32 e o robusto 2,02: abaixo do limiar, a barra fica verde."
+Atenção: o controle do limiar também muda a faixa; com limiar 2, os 230 MB passam a ser anomalia.
+Conclusão: "*Baseline* limpo e medida robusta evitam que o ruído esconda a anomalia."
 [Tela: gravação do laboratório do slide 13]
 
-**Slides 14 e 15 — Níveis de CTI, Modelo Diamante, STIX, TAXII, MISP e TLP (12:45–13:55)**
-Fala: "A inteligência de ameaças, a CTI, *Cyber Threat Intelligence*, é informação sobre adversários analisada para apoiar decisões. Uma lista de IPs só vira inteligência quando responde quem ameaça o setor, com que objetivo e de que forma. Ela tem níveis: estratégico, para a alta gestão; operacional, para quem lidera o SOC; e tático, para caçadores e engenheiros de detecção. O Modelo Diamante descreve cada intrusão por quatro vértices, adversário, capacidade, infraestrutura e vítima, e permite pivotar de um vértice para outro. STIX descreve os objetos, TAXII define como trocá-los, o MISP é uma plataforma aberta de compartilhamento, e o TLP, o *Traffic Light Protocol*, diz com que liberdade cada informação pode ser repassada."
-
-**Slide 16 — Laboratório: um evento compartilhado na plataforma de CTI (13:55–15:25)**
-Objetivo: usar o relatório do setor sobre o Cobalto Austral sem se afogar em indicadores. Responde a "de onde veio a hipótese".
-Na tela (navegador no evento 1187 do MISP da rede setorial):
-1. Na aba Atributos, ler a contagem e as primeiras linhas.
-2. Clicar na aba ATT&CK.
-3. Clicar na aba Diamante e, depois, no vértice Infraestrutura.
-4. Clicar na aba Níveis e em cada botão "Revelar".
-Fala: "As etiquetas do topo dizem tudo antes de abrir: tlp:amber, setor academias, motivação extorsão e quatro técnicas. TLP:AMBER permite usar a informação dentro da organização, sem publicar. Na aba Atributos, são 450 itens: 300 IPs e 150 *hashes*. A primeira linha já é o 198.51.100.77, descrito como retransmissão de acesso remoto. Na aba ATT&CK, as quatro técnicas: T1078, contas válidas; T1133, serviços remotos externos, a VPN; T1219, ferramentas de acesso remoto; e T1490, a exclusão de cópias de sombra, a mesma regra da Aula 10. No Diamante, ao clicar na infraestrutura, o pivô aparece: 22 conexões do SRV-ERP-01 desde a madrugada, e outras 2 redes de academias reportaram o mesmo IP. Na aba Níveis, cada frase revela o seu nível: extorsão contra quem guarda dados pessoais é estratégica; a campanha contra academias é operacional; o comportamento é tático; e os 300 IPs e 150 *hashes* são táticos, ou técnicos para quem separa esse nível."
-Conclusão: "As quatro técnicas valem mais que os 450 atributos juntos, porque são elas que viram hipótese e regra."
-[Tela: gravação do laboratório do slide 16]
-
-**Slides 17 e 18 — A cadência da caça e a calculadora (15:25–16:35)**
-Objetivo do laboratório: decidir com que frequência caçar. Responde a "a tempo".
+**Slide 14 — Laboratório: 149 máquinas, três medidas (14:00–14:55)**
+Objetivo: enxergar a anomalia em várias dimensões ao mesmo tempo.
 Na tela:
-1. Ler o exemplo do slide 17: 15 dias com caças a cada 30 dias, 3,5 dias com caças semanais e minutos com uma regra automatizada.
-2. No slide 18, arrastar "Intervalo entre caças (dias)" de 30 para 7 e depois para 1.
-Fala: "Um invasor que se instala num dia aleatório espera, em média, metade do intervalo até a próxima caça. Com caças a cada 30 dias, a média é de 15 dias. A calculadora sorteia 2.000 chegadas: o primeiro quadro mostra a fórmula, o segundo a média simulada, próxima dela, e o terceiro o pior caso, perto do intervalo inteiro. Com caças semanais, a espera cai para 3,5 dias; com caça diária, para meio dia. A barra verde, de minutos, é a regra automatizada."
-Atenção: a média e o pior caso simulados variam um pouco a cada movimento, porque o sorteio muda.
-Conclusão: "A caça acha o desconhecido; o que ela acha deve virar regra automática."
-[Tela: gravação do laboratório do slide 18]
+1. Deixar a cena girar alguns segundos e depois arrastar para girar.
+2. Clicar nos botões "Normais", "NB-TI-003" e "SRV-ERP-01", um por vez.
+Fala: "Cada esfera é uma máquina da sede. Os três eixos são o z da saída, a quantidade de destinos novos e a regularidade das conexões, que é um menos o cv. A nuvem azul são 147 máquinas normais. Ao clicar em NB-TI-003, o quadro explica: z de 8,6, mas conexões irregulares e destino conhecido, coberto pela MUD-5521. Ao clicar em SRV-ERP-01, a esfera vermelha pulsa: z de 306,3, destino novo sem DNS e batimento com cv de 0,008, longe da nuvem nos três eixos."
+Atenção: a cena precisa de internet para carregar o three.js; as posições das esferas são ilustrativas.
+Conclusão: "Quanto mais medidas concordam, mais forte é o indício."
+[Tela: gravação do laboratório do slide 14]
 
-**Slides 19 e 20 — Pausa para reflexão e um caminho para responder (16:35–17:35)**
-Fala: "Pause o vídeo e pense no caso da cooperativa de crédito: um relatório com 300 IPs e 150 *hashes*, além do comportamento do grupo, e um gestor que propõe só importar os indicadores. Qual é a limitação? [pausa] IPs e *hashes* ficam na base da pirâmide; o valor está no comportamento. Dele saem duas hipóteses: contas válidas na VPN em origens ou horários incomuns, T1078, e ferramentas de acesso remoto fora do processo de TI, T1219, a nossa H-11. E cada parte do relatório serve a um nível de CTI diferente."
+**Slide 15 — Laboratório: a caça H-11 na plataforma, antes e depois das regras (14:55–16:45)**
+Objetivo: ver por que a caça foi necessária: o dado existia, faltavam a fonte e as regras.
+Na tela (simulador na aba Cenários, reiniciado com as fontes e regras padrão):
+1. No cartão "Acesso remoto não aprovado e saída de dados", clicar em "Iniciar cenário" e esperar os três passos, cerca de 30 segundos.
+2. Na aba Telemetria, ligar "Acesso a buckets e saída de rede".
+3. Na aba Regras do CEP, ligar "R8 · Ferramenta de acesso remoto não aprovada" e "R9 · Saída volumosa para destino novo".
+4. Voltar a Cenários e clicar em "Repetir com as fontes e regras atuais".
+5. Opcional: na aba SOC, clicar em "Investigar" no alerta da R8 e depois em "Conter".
+Fala: "Na primeira rodada, a instalação do ConectaJá no SRV-ERP-01 e as conexões periódicas para 198.51.100.77 ficam amarelas, 'visto nos logs, sem alerta': o EDR e o DNS registraram, mas nenhuma regra olhava. O envio de 2,8 GB fica vermelho, 'não detectado', porque a fonte de saída de rede está desligada. É exatamente o ponto cego que a caça cobriu. Ligamos a fonte, a R8 e a R9 e repetimos. Agora o primeiro e o terceiro passos viram 'detectado'. O segundo, o batimento, continua amarelo: não há regra para ele, e é essa a regra nova que a caça propõe. Se eu conter o alerta da R8 a tempo, o envio aparece como 'interrompido pela contenção'."
+Atenção: na velocidade padrão, "1 s = 15 s", o envio acontece cerca de 27 segundos após o início; para dar tempo de conter, troque a velocidade, no topo, para "1 s = 5 s". Se algo travar, use "Reiniciar", no topo.
+Conclusão: "A caça cobre o ponto cego e diz qual regra falta."
+[Tela: gravação do laboratório do slide 15, no simulador]
 
-**Slide 21 — De volta ao problema (17:35–18:35)**
-Fala: "Voltemos à Luiza. Os cartões mostram o caminho: a hipótese H-11, vinda do relatório e de uma técnica sem regra; o empilhamento, que achou o ConectaJá em uma única máquina, o SRV-ERP-01, instalado como serviço às 02:22 pela conta carla.dias; a separação do legítimo, com as máquinas da TI cobertas por mudança aprovada; e a subida na pirâmide, com a R8 pegando a próxima instalação. Respondendo à pergunta da aula: com uma hipótese específica, baseada em inteligência de ameaças e no ATT&CK, a caçadora empilha a telemetria do EDR para achar o raro, confirma no SIEM e transforma o achado em incidente e em regra nova de comportamento."
+**Slide 16 — O que a caça H-11 devolve ao SOC (16:45–17:30)**
+Fala: "A tabela mostra o destino de cada achado. O *hash* do ConectaJa.exe e o IP 198.51.100.77 viram bloqueios, úteis mas frágeis, porque ficam na base da Pirâmide da Dor, de David Bianco: o adversário os troca em minutos. Os comportamentos, acesso remoto fora da lista, batimento regular e saída acima do *baseline*, viram regras: a R8 e a R9 ligadas e uma regra de batimento proposta ao Rafael Tavares. O melhor produto de uma caça é a detecção que nasce dela."
 
-**Slides 22 a 24 — Pontos-chave, referências e encerramento (18:35–19:15)**
-Fala: "Para levar desta aula: a caça parte do comprometimento presumido e é guiada por hipóteses; detectar TTPs custa mais ao adversário que bloquear *hashes* e IPs; e o melhor resultado de uma caça é uma detecção nova. Encontramos o invasor no SRV-ERP-01. Na próxima aula, vamos conduzir a resposta a esse incidente."
+**Slides 17 e 18 — Pausa para reflexão e um caminho para responder (17:30–18:20)**
+Fala: "Pause o vídeo. Uma caçadora testou por uma semana a hipótese de contas válidas entrando na VPN de madrugada e não achou nada. O gestor diz que a semana foi perdida. Foi? [pausa] A hipótese era testável, desde que a VPN registre conta, horário e origem. Mesmo sem achar invasor, ela entrega o *baseline* de horário de cada conta, as lacunas de dados encontradas e a consulta documentada. E a caça pode virar regra: alertar quando o horário fugir mais de 3 MAD da mediana da conta ou quando a origem for nova e não houver MFA. A semana não foi perdida."
 
-[Envato: "hunter tracking footprints", "cyber threat map", "analyst whiteboard hypothesis". Slides de apoio: tabela da Pirâmide da Dor (slide 11) e cartões do slide 21.]
+**Slide 19 — De volta ao problema (18:20–19:10)**
+Fala: "Voltemos à Luiza. Os quatro cartões resumem a caça: a hipótese H-11, tirada do comportamento do Cobalto Austral; as consultas, que acharam o conectaja.exe em uma das 149 máquinas e a linha do tempo de 13/11; a estatística, com batimento a cada 300 segundos e 3.010 MB de saída, enquanto o NB-TI-003 tinha mudança aprovada; e a detecção nova. Respondendo à pergunta da aula: com uma hipótese testável, consultas que empilham e pivotam a telemetria e um *baseline* com estatística simples, a caçadora encontra o invasor que as regras não viram, separa o legítimo pelo contexto e transforma o achado em incidente e em detecções novas."
 
-## Aula 12 — Resposta a incidentes
+**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:10–19:45)**
+Fala: "Para levar desta aula: a caça parte do comprometimento presumido e de uma hipótese testável; consultas empilham e pivotam; a estatística simples revela anomalias, e o contexto decide. Achamos a porta escondida no ERP. Na próxima aula, vamos fechar as portas antes que alguém as use: *hardening* de sistemas e redução da superfície de ataque."
+
+[Envato: "analyst night monitors", "network traffic visualization", "data scatter plot". Slides de apoio: cartão da hipótese (slide 5), tabela do slide 16 e cartões do slide 19.]
+
+## Aula 12 — *Hardening* de sistemas e redução da superfície de ataque
 
 ### Texto base
 
-São três horas da manhã e o EDR alerta que vários servidores estão apagando cópias de sombra. Quem deve ser acionado? A máquina deve ser desligada ou isolada? É preciso avisar a diretoria, os clientes, a autoridade de proteção de dados? Organizações que só discutem essas perguntas durante o incidente perdem o recurso mais escasso da resposta: o tempo. A resposta a incidentes é, antes de tudo, **preparação**.
+Nas Aulas 9, 10 e 11, construímos a capacidade de enxergar o adversário: coletar registros, escrever regras e caçar o que as regras não viram. No exercício de emulação do Grupo Cobalto Austral na Rede Tatame, as regras dispararam, e o adversário chegou ao ERP mesmo assim, entrando pela VPN com uma senha vazada e sem MFA. Nesta aula, olhamos para o outro lado da defesa: diminuir os caminhos disponíveis antes que alguém os use.
 
-#### Evento, alerta e incidente
+#### Superfície de ataque e *hardening*
 
-Nem todo evento é um incidente. Um **evento** é qualquer ocorrência observável; um **alerta** é a sinalização de que um evento pode ser malicioso; um **incidente** é uma ocorrência que efetivamente compromete, ou ameaça de forma iminente, a confidencialidade, a integridade ou a disponibilidade de sistemas e dados. A declaração de incidente é uma decisão formal, que mobiliza pessoas, recursos e, muitas vezes, obrigações legais.
+A **superfície de ataque** é a soma dos pontos por onde um adversário pode tentar entrar ou agir: portas abertas, serviços em execução, contas e privilégios, *software* instalado e sistemas expostos à internet. ***Hardening*** (endurecimento) é o conjunto de ações que configura cada sistema de forma segura e **remove o que não é necessário**: o serviço que ninguém usa, o protocolo antigo, a conta esquecida, o privilégio a mais.
 
-#### O ciclo de resposta: do modelo clássico ao NIST SP 800-61 Rev. 3
+O primeiro passo é o inventário. Não se endurece o que ninguém sabe que existe: o servidor de homologação `hml-gestao`, encontrado no reconhecimento da Unidade 2 fora do inventário e sem WAF, é o exemplo clássico. Por isso os CIS Controls começam por inventário de ativos (Controle 1) e de *software* (Controle 2), e o NIST CSF 2.0 coloca a gestão de ativos (ID.AM) na função Identificar, antes de Proteger.
 
-Por mais de uma década, o NIST SP 800-61 Rev. 2 (2012) consagrou um ciclo em quatro fases: **preparação**; **detecção e análise**; **contenção, erradicação e recuperação**; e **atividades pós-incidente**. Em abril de 2025, o NIST publicou a **Revisão 3**, que reorganiza as recomendações como um perfil do **CSF 2.0**: a resposta a incidentes deixa de ser um processo isolado e passa a fazer parte da gestão de riscos cibernéticos. As atividades de preparação se distribuem por Governar, Identificar e Proteger; a resposta propriamente dita ocorre em Detectar, Responder e Recuperar; e as lições aprendidas alimentam a melhoria contínua em todas as funções.
+[Imagem 1 — Diagrama com dois círculos lado a lado: à esquerda, um servidor com muitas "portas" abertas (FTP, NetBIOS, SMBv1, RDP aberto para toda a rede, seis administradores); à direita, o mesmo servidor depois do *hardening*, com três portas e dois administradores. Texto alternativo: "Comparação de um servidor antes e depois do hardening, com menos portas, serviços e contas". Pode ser recriado pela equipe a partir da descrição.]
 
-| Fase clássica (Rev. 2) | Funções do CSF 2.0 relacionadas (Rev. 3) | Exemplos de atividades |
-|---|---|---|
-| Preparação | Governar, Identificar, Proteger | Políticas, papéis, inventário, *playbooks*, treinamentos |
-| Detecção e análise | Detectar | Triagem de alertas, definição de escopo e severidade |
-| Contenção, erradicação e recuperação | Responder, Recuperar | Isolar máquinas, remover persistência, restaurar *backups* |
-| Pós-incidente | Identificar (melhoria) | Reunião de lições aprendidas, ajuste de detecções e controles |
+#### CIS Benchmarks e CIS Controls v8
 
-[Imagem 1 — Modelo de ciclo de vida de resposta a incidentes do NIST SP 800-61 Rev. 3, que associa as atividades de preparação e de resposta às funções do CSF 2.0. Texto alternativo: "Diagrama do NIST relacionando as funções do CSF 2.0 às atividades de resposta a incidentes". Figura de domínio público do NIST.]
+Duas referências do *Center for Internet Security* (CIS) orientam o trabalho. Os **CIS Benchmarks** são guias de configuração segura por tecnologia (Windows Server, distribuições Linux, bancos de dados, provedores de nuvem, navegadores). Cada recomendação traz o valor esperado, a justificativa e o modo de auditar. As recomendações são agrupadas em perfis: o **Nível 1** reúne o essencial, com pouco impacto no uso do sistema; o **Nível 2** acrescenta medidas de defesa em profundidade para ambientes mais sensíveis, que podem limitar funcionalidades. A conformidade pode ser medida pela ferramenta CIS-CAT ou por *scripts* que comparam a configuração exportada de cada máquina com o *baseline*.
 
-#### *Playbooks* e papéis
+O ***baseline*** é a configuração mínima aprovada para um tipo de sistema. Todo desvio vira correção ou **exceção documentada**, com justificativa, aprovador e prazo.
 
-Um ***playbook*** descreve, passo a passo, como responder a um tipo específico de incidente — *ransomware*, conta comprometida, vazamento de dados —, com responsáveis, critérios de decisão e contatos. Parte desses passos pode ser automatizada por plataformas SOAR, como bloquear um domínio ou desabilitar uma conta. Também é essencial definir papéis: o **coordenador do incidente** decide e prioriza; os **analistas técnicos** investigam e executam; e as áreas **jurídica**, de **comunicação** e de **privacidade** (o encarregado de dados) participam desde as primeiras horas.
+Os **CIS Controls v8** (atualizados para a versão 8.1 em 2024) olham para o programa inteiro: 18 controles e 153 salvaguardas, organizados em três grupos de implementação. O **IG1**, com 56 salvaguardas, é a "higiene cibernética essencial" que toda organização deveria cumprir; o IG2 e o IG3 acrescentam salvaguardas para ambientes maiores e mais visados. Várias salvaguardas são *hardening* puro: 4.1 (processo de configuração segura), 4.4 (*firewall* nos servidores), 4.7 (contas padrão), 4.8 (desabilitar serviços desnecessários) e 7.3 (atualização automatizada do sistema operacional).
 
-[Imagem 2 — Fluxograma de um *playbook* de *ransomware*: alerta → triagem → isolar *hosts* → preservar evidências → acionar jurídico e encarregado → erradicar → restaurar → lições aprendidas. Texto alternativo: "Fluxograma de playbook de resposta a ransomware com pontos de decisão". Pode ser recriado pela equipe.]
+[Imagem 2 — Infográfico com os 18 CIS Controls em três faixas coloridas, indicando quais salvaguardas pertencem ao IG1, IG2 e IG3. Texto alternativo: "Os 18 controles do CIS Controls v8 organizados nos grupos de implementação IG1, IG2 e IG3". Pode ser recriado pela equipe a partir do documento público do CIS.]
 
-#### Contenção sem destruir evidências
+#### Portas, serviços e protocolos
 
-A contenção busca **impedir que o dano aumente**: isolar máquinas pelo EDR, desabilitar contas, bloquear domínios e endereços. Existe, porém, uma tensão: desligar um computador interrompe o ataque, mas apaga a memória volátil, onde podem estar chaves, processos e conexões. A RFC 3227 recomenda coletar evidências da mais volátil para a menos volátil — memória antes do disco, por exemplo. Toda evidência deve ter **cadeia de custódia**: registro de quem a coletou, quando, como, onde ficou guardada e por quais mãos passou, com *hashes* que comprovem sua integridade. A ABNT NBR ISO/IEC 27037 traz diretrizes para identificar, coletar, adquirir e preservar evidências digitais. Só depois da contenção vêm a **erradicação** (remover persistência e contas criadas pelo invasor, corrigir a falha de entrada) e a **recuperação** (restaurar a partir de *backups* íntegros e monitorar com atenção redobrada).
+No servidor, reduzir a superfície significa desligar o que não tem função: FTP instalado para uma migração antiga, *spooler* de impressão em servidor que não imprime, NetBIOS sobre TCP/IP, SMBv1 (o protocolo explorado pelo WannaCry em 2017). O que precisa continuar ligado é restringido: o RDP, por exemplo, passa a aceitar conexões apenas da sub-rede da equipe de TI e exige autenticação no nível da rede (NLA).
 
-#### Comunicação e obrigações legais
+#### Contas, privilégios e MFA
 
-No Brasil, o art. 48 da LGPD determina que o controlador comunique à Autoridade Nacional de Proteção de Dados (ANPD) e aos titulares a ocorrência de incidente de segurança que possa acarretar risco ou dano relevante. A **Resolução CD/ANPD nº 15/2024** regulamentou essa obrigação e fixou o prazo de **três dias úteis**, contados do conhecimento de que o incidente afetou dados pessoais, além de exigir que o controlador mantenha registro dos incidentes por no mínimo cinco anos (art. 10); para agentes de tratamento de pequeno porte, os prazos de comunicação contam em dobro (arts. 6º, § 8º, e 9º, § 6º). Na prática, isso significa que o encarregado e o jurídico precisam ser acionados cedo, e que o *playbook* deve prever quem decide pela comunicação e com quais informações.
+O **princípio do menor privilégio** determina que cada pessoa, serviço e programa receba apenas o acesso necessário à sua função, pelo tempo necessário. Na prática: contas administrativas separadas das contas de uso diário (salvaguarda 5.4), senha única e aleatória para o administrador local de cada máquina, gerida pelo LAPS (5.2), contas de serviço sem *logon* interativo, desativação de contas inativas há 45 dias (5.3) e **MFA** nas aplicações expostas, no acesso remoto e em todo acesso administrativo (6.3, 6.4 e 6.5). O menor privilégio ataca diretamente a movimentação lateral vista na Unidade 2: uma senha descoberta abre menos portas.
 
-[Imagem 3 — Linha do tempo de um incidente com marcos: detecção, declaração do incidente, conhecimento de que dados pessoais foram afetados e prazo de três dias úteis para comunicar à ANPD. Texto alternativo: "Linha do tempo de resposta a incidente com o prazo de comunicação à ANPD destacado". Pode ser recriado pela equipe.]
+#### *Patching* com prioridade
 
-#### Exemplo numérico: priorizando incidentes
+O NIST SP 800-40 Rev. 4 trata o *patching* como manutenção preventiva: um processo contínuo, com inventário, priorização, janela de mudança e verificação. Como nem tudo pode ser corrigido ao mesmo tempo, a prioridade combina o **CVSS** (gravidade técnica), o **EPSS** (probabilidade estimada de exploração em 30 dias) e o catálogo **KEV** da CISA (falhas já exploradas), como vimos na Unidade 2, além da criticidade e da exposição do ativo. Quando a correção não pode entrar logo, uma mitigação temporária, como uma regra no WAF ou o desligamento do serviço, reduz a exposição até o *patch*.
 
-Com três incidentes abertos ao mesmo tempo e uma equipe pequena, a equipe usa uma pontuação simples: **severidade = criticidade do ativo (1 a 5) × confiança na detecção (1 a 3) × abrangência (1 a 3)**. (A) Conta de estagiário com *login* suspeito: 2 × 2 × 1 = **4**. (B) Servidor de banco de dados de clientes com processo desconhecido: 5 × 2 × 1 = **10**. (C) Cinco servidores apagando cópias de sombra: 4 × 3 × 3 = **36**. A ordem de atendimento é C, B e A. A fórmula não substitui o julgamento do coordenador, mas torna a decisão explícita, rápida e auditável.
+[Imagem 3 — Gráfico de barras com a quantidade média de falhas críticas abertas para prazos de correção de 45, 14 e 7 dias. Texto alternativo: "Gráfico mostrando que, quanto menor o prazo de correção, menos falhas ficam abertas ao mesmo tempo". Pode ser recriado pela equipe com os números do exemplo numérico.]
 
-#### Lições aprendidas
+#### Exemplo numérico
 
-Após o incidente, a reunião de **lições aprendidas** deve ser feita sem caça a culpados, com foco em perguntas como: o que funcionou? Em que ponto a detecção ou a decisão demorou? Quais regras, *playbooks* e controles precisam mudar? Cada resposta deve virar uma ação com responsável e prazo — fechando o ciclo com a engenharia de detecção.
+Na auditoria dos dois servidores-membro da sede contra um *baseline* de 10 itens inspirado no CIS Benchmark, o SRV-ARQ-01 e o SRV-ERP-01 cumpriam 3 itens cada: 6 de 20, ou **30%** de conformidade. Depois do *hardening*, o SRV-ARQ-01 passou a 10 de 10 e o SRV-ERP-01 a 9 de 10, com uma exceção aprovada para o *spooler* de impressão: 19 de 20, ou **95%**. No SRV-ARQ-01, as portas escutando caíram de 5 para 3 (redução de 40%) e os administradores locais, de 6 para 2 (redução de 67%).
+
+O prazo de correção também se mede. Se surgem 12 falhas críticas novas por mês (0,4 por dia) e cada uma leva 45 dias para ser corrigida, ficam abertas, em média, 0,4 × 45 = **18 falhas ao mesmo tempo**. Com prazo de 14 dias, a média cai para 0,4 × 14 = **5,6**, uma redução de 1 − 14/45 ≈ **69%** na exposição.
+
+#### Defesa em profundidade e NIST CSF 2.0
+
+O *hardening* não substitui a detecção; ele a complementa dentro da **defesa em profundidade**, que organiza a proteção em camadas (pessoas, perímetro, rede, *endpoint*, aplicação e dados) porque qualquer controle pode falhar. No NIST *Cybersecurity Framework* 2.0, publicado em 2024 com seis funções (Governar, Identificar, Proteger, Detectar, Responder e Recuperar), o *hardening* está sobretudo em Proteger, nas categorias de identidade e acesso (PR.AA) e de segurança das plataformas (PR.PS). Na emulação do Cobalto Austral, seis dos sete passos tinham um controle preventivo possível; a descoberta no AD só se resolve com detecção. Por isso a Unidade 3 junta as duas coisas.
+
+[Imagem 4 — Ilustração de anéis concêntricos (pessoas, perímetro, rede, *endpoint*, aplicação, dados) em volta de um banco de dados, com setas de ataque sendo barradas em camadas diferentes. Texto alternativo: "Modelo de defesa em profundidade com seis camadas de proteção em volta dos dados". Pode ser recriado pela equipe a partir da descrição.]
 
 #### O que você verá na próxima unidade
 
-Na Unidade 4, vermelho e azul trabalham juntos. Você vai aprender a planejar ciclos de *purple teaming* e de emulação de adversários, medir a evolução da defesa com métricas de detecção e resposta e com a cobertura do MITRE ATT&CK, conhecer exercícios de simulação — *tabletop*, CTF e *cyber range* — e estruturar um programa contínuo de segurança, encerrando com as trilhas de carreira da área.
+Monitoramos, detectamos, caçamos e fechamos caminhos, mas algum ataque ainda vai passar. A **Unidade 4 — Resposta a Incidentes e Purple Team** começa quando o alerta vira incidente: o ciclo de resposta, da preparação à recuperação (Aula 13); a coleta de evidências e a linha do tempo do incidente (Aula 14); os exercícios *purple team* que validam as detecções contra técnicas emuladas (Aula 15); e o relatório final, com achados, riscos, recomendações e métricas de melhoria (Aula 16).
 
 #### Pontos-chave
 
-- Evento, alerta e incidente são conceitos diferentes; declarar incidente é uma decisão formal.
-- O NIST SP 800-61 Rev. 3 integra a resposta a incidentes às funções do CSF 2.0.
-- *Playbooks* e papéis definidos antes do incidente economizam o tempo mais valioso.
-- Contenção deve preservar evidências, com ordem de volatilidade e cadeia de custódia.
-- A LGPD e a Resolução CD/ANPD nº 15/2024 exigem comunicação em três dias úteis quando houver risco ou dano relevante.
+- *Hardening* é configurar com segurança e remover o desnecessário, e começa pelo inventário.
+- CIS Benchmarks dizem como configurar cada tecnologia (Níveis 1 e 2); CIS Controls v8 organizam o programa em 18 controles e nos grupos IG1, IG2 e IG3.
+- Menor privilégio, contas administrativas separadas, LAPS e MFA reduzem a movimentação lateral.
+- *Patching* prioriza KEV, EPSS e criticidade, e o prazo de correção define a exposição média.
+- O *hardening* fica em Proteger, no NIST CSF 2.0, e se soma à detecção em camadas.
 
 ### Referências da aula
 
-AGÊNCIA NACIONAL DE PROTEÇÃO DE DADOS (Brasil). Resolução CD/ANPD nº 15, de 24 de abril de 2024. Aprova o Regulamento de Comunicação de Incidente de Segurança. *Diário Oficial da União*, Brasília, DF, 2024.
+CENTER FOR INTERNET SECURITY. *CIS Benchmarks*. East Greenbush: CIS, [2026]. Disponível em: <https://www.cisecurity.org/cis-benchmarks>. Acesso em: 22 nov. 2026.
 
-ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS. *ABNT NBR ISO/IEC 27037*: tecnologia da informação — técnicas de segurança — diretrizes para identificação, coleta, aquisição e preservação de evidência digital. Rio de Janeiro: ABNT, 2013.
+CENTER FOR INTERNET SECURITY. *CIS Critical Security Controls*: version 8.1. East Greenbush: CIS, 2024. Disponível em: <https://www.cisecurity.org/controls/v8-1>. Acesso em: 22 nov. 2026.
 
-BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). *Diário Oficial da União*, Brasília, DF, 15 ago. 2018.
+NAKAMURA, Emilio Tissato; GEUS, Paulo Lício de. *Segurança de redes em ambientes cooperativos*. São Paulo: Novatec, 2007.
 
-BREZINSKI, Dominique; KILLALEA, Tom. *RFC 3227: guidelines for evidence collection and archiving*. [*S. l.*]: IETF, 2002.
+NATIONAL INSTITUTE OF STANDARDS AND TECHNOLOGY. *The NIST Cybersecurity Framework (CSF) 2.0*. Gaithersburg: NIST, 2024. (NIST CSWP 29). DOI: 10.6028/NIST.CSWP.29.
 
-CICHONSKI, Paul *et al*. *SP 800-61 Rev. 2: computer security incident handling guide*. Gaithersburg: NIST, 2012. DOI: 10.6028/NIST.SP.800-61r2.
+SOUPPAYA, Murugiah; SCARFONE, Karen. *SP 800-40 Rev. 4*: guide to enterprise patch management planning: preventive maintenance for technology. Gaithersburg: NIST, 2022. DOI: 10.6028/NIST.SP.800-40r4.
 
-NELSON, Alex *et al*. *SP 800-61 Rev. 3: incident response recommendations and considerations for cybersecurity risk management: a CSF 2.0 community profile*. Gaithersburg: NIST, 2025. DOI: 10.6028/NIST.SP.800-61r3.
+### Roteiro da Videoaula 12 — "Se o SOC viu tudo, por que o invasor chegou ao ERP?"
 
-### Roteiro da Videoaula 12 — "Três da manhã, invasor confirmado no ERP: e agora?"
+Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula12.html (20 slides).
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_3/slides/aula12.html (25 slides).
+**Slides 1 e 2 — Capa e sumário (0:00–0:35)**
+Fala: "Olá! Esta é a última aula da Unidade 3. Até aqui, aprendemos a enxergar o adversário: registros, regras e caça. Hoje vamos fazer o caminho inverso e diminuir os lugares por onde ele pode passar. O sumário mostra o percurso: superfície de ataque, CIS Benchmarks e CIS Controls, menor privilégio, *patching* e defesa em profundidade, com cinco laboratórios."
 
-**Slides 1 e 2 — Capa e sumário (0:00–0:30)**
-Fala: "Olá! Esta é a última aula da Unidade 3. O SOC viu o *login*, o Rafael escreveu regras e a Luiza encontrou o invasor. Agora alguém precisa conduzir a resposta ao incidente, da contenção às lições aprendidas, incluindo a comunicação prevista na LGPD."
+**Slide 3 — O problema de hoje na Rede Tatame (0:35–1:45)**
+Fala: "Na emulação do Grupo Cobalto Austral, o SOC da Rede Tatame viu o *login* sem MFA na VPN, a consulta em massa ao AD e o RDP para o servidor de arquivos. As regras funcionaram, e mesmo assim o adversário chegou ao ERP. Na reunião *purple*, a CISO, Marina Prado, pergunta quantos desses passos nem deveriam ter sido possíveis. O Caio Mendes, administrador da sede, abre o inventário e encontra SMBv1 ligado, seis administradores locais no SRV-ARQ-01 e *patches* com 74 dias de atraso. No mapa, o caminho vermelho vai da internet à VPN, ao AD, ao SRV-ARQ-01 e ao ERP, e o `hml-gestao` aparece destacado porque está fora do inventário. A pergunta da aula está no quadro amarelo: que portas, serviços e contas precisamos fechar, e em que ordem, para que o próximo ataque encontre menos caminhos?"
+[Take de apoio: administrador de sistemas diante de um *rack* de servidores, revisando uma lista — Envato]
 
-**Slide 3 — O problema de hoje na Rede Tatame (0:30–1:50)**
-Fala: "A Marina Prado é a CISO, a diretora de segurança da informação da Rede Tatame. Às 03:00 de sexta-feira, 13 de novembro, o telefone toca: o EDR alerta que o SRV-ERP-01 e outros quatro servidores da sede estão executando o vssadmin para apagar as cópias de sombra. A caça da Aula 11 mostrou que, às 02:22, o invasor instalou no SRV-ERP-01 o ConectaJá, uma ferramenta de acesso remoto não aprovada. O ERP guarda os responsáveis financeiros de alunos, inclusive de menores. Apagar as cópias de sombra é o passo que antecede a criptografia num *ransomware*, e a ANPD, a Autoridade Nacional de Proteção de Dados, precisa ser comunicada em três dias úteis. Os papéis estão embaixo: Marina coordena, Luiza no SOC, Caio Mendes na TI, e a conta afetada é a da Carla Dias. A pergunta da aula: como a Rede Tatame conduz este incidente, contendo sem destruir evidências, recuperando o ERP e comunicando a ANPD no prazo?"
-[Take de apoio: telefone tocando na mesa à noite, tela de alerta ao fundo — Envato]
+**Slide 4 — Superfície de ataque e *hardening* (1:45–2:25)**
+Fala: "Superfície de ataque é a soma dos pontos por onde alguém pode tentar entrar: portas, serviços, contas, *software* e sistemas expostos. *Hardening* é configurar cada sistema com segurança e remover o que não é necessário. Detecção avisa quando algo acontece; *hardening* impede que muitos passos aconteçam e ainda tira ruído da fila do SOC. E tudo começa pelo inventário: o `hml-gestao` não podia ser endurecido porque ninguém sabia que ele existia."
 
-**Slide 4 — Evento, alerta e incidente (1:50–2:20)**
-Fala: "Nem todo evento é um incidente. Evento é qualquer ocorrência observável; alerta é a sinalização de que um evento pode ser malicioso; incidente é o que compromete, ou ameaça de forma iminente, a confidencialidade, a integridade ou a disponibilidade. Declarar incidente é uma decisão formal, porque mobiliza pessoas, recursos e obrigações legais. Às 03:00, a Marina tomou essa decisão."
-
-**Slides 5 e 6 — Do modelo clássico ao NIST SP 800-61 Rev. 3 (2:20–3:10)**
-Fala: "A Revisão 2 do NIST SP 800-61, de 2012, consagrou quatro fases: preparação; detecção e análise; contenção, erradicação e recuperação; e pós-incidente. Em abril de 2025, a Revisão 3 reorganizou tudo como um perfil do CSF 2.0, o *Cybersecurity Framework*. A resposta passa a fazer parte da gestão de riscos. A tabela mostra a correspondência entre as fases e as funções."
-
-**Slide 7 — Laboratório: as quatro fases dentro das seis funções (3:10–4:20)**
-Objetivo: situar a resposta nos dois guias do NIST. Responde a "como conduzir", em visão geral.
+**Slide 5 — Laboratório: o caminho do Cobalto Austral e os controles que faltaram (2:25–4:15)**
+Objetivo: ligar cada passo do adversário ao controle preventivo que o fecharia, respondendo ao "o que fechar" da pergunta.
 Na tela:
-1. Ao abrir o slide, o passo "Rev. 2 (2012) · o ciclo clássico" já está na tela (contador 1 / 7), com as quatro fases da esquerda acesas.
-2. Clicar em "▶ Avançar": "Rev. 3 (2025) · seis funções do CSF 2.0", com as funções da direita.
-3. Avançar pelas quatro correspondências, uma fase por vez.
-4. Avançar até "O caso SRV-ERP-01 no mapa".
-Fala: "À esquerda, as quatro fases da Rev. 2; à direita, as seis funções do CSF 2.0: Governar, Identificar, Proteger, Detectar, Responder e Recuperar. A preparação se espalha por três funções e vira responsabilidade da gestão. Detecção e análise caem em Detectar, onde entram SIEM, EDR e caça. Contenção, erradicação e recuperação se dividem entre Responder e Recuperar. O pós-incidente volta para Identificar. No último passo, o nosso caso percorre o mapa: em Detectar, as 10 falhas e um sucesso e a caça H-11; em Responder, isolar e preservar; em Recuperar, o *backup* anterior a 13/11; em Identificar e Governar, a regra nova, o MFA no acesso remoto e o *playbook* revisado."
-Conclusão: "A resposta ao incidente do ERP toca as seis funções, não só a equipe técnica."
-[Tela: gravação do laboratório do slide 7]
+1. Ao abrir o slide, o passo 1 já está na tela (contador 1 / 8): "Passo 1 · T1078 Contas válidas", com a VPN em vermelho e o nó verde "MFA na VPN" aceso.
+2. Clicar em "▶ Avançar" até "Passo 2 · T1087.002 Descoberta no AD": o nó amarelo "Regra R13" acende.
+3. Avançar por "Passo 3" (RDP só da TI), "Passo 4" (LSA protegida), "Passo 5" (Conta de serviço) e "Passo 6" (Saída restrita), um clique por vez.
+4. Avançar até "Passo 7 · T1490 e T1486 Impacto" (Backup offline) e, por fim, "Resultado · Hardening e detecção juntos" (8 / 8).
+Fala: "A linha de cima é o caminho do adversário, com o ID do ATT&CK de cada passo; embaixo, em verde, o controle que fecharia aquele passo. No passo 1, a senha vazada do caio.mendes basta porque a VPN não exige MFA. A regra R11 detecta, mas o acesso acontece; o controle preventivo é MFA no acesso remoto, a salvaguarda 6.4 do CIS. O passo 2 é diferente: qualquer conta do domínio consegue ler o AD, então aqui o nó é amarelo, e quem resolve é a detecção, a regra R13. No passo 3, o *firewall* do servidor só aceita RDP da sub-rede da TI. No passo 4, a proteção da LSA e a retirada de contas comuns do grupo de administradores dificultam a leitura de credenciais. No passo 5, a conta de serviço deixa de aceitar *logon* interativo. No 6, os servidores só falam com destinos de uma lista permitida. No 7, o *backup* *offline* garante a recuperação. O último quadro resume: seis dos sete passos tinham um controle preventivo."
+Atenção: os controles são exemplos de *hardening* ligados aos passos do cenário `ransomware` do simulador; prefira os cliques manuais ao botão "⏯ Auto", para dar tempo de ler cada quadro. O botão "◀" volta um passo.
+Conclusão: "*Hardening* e detecção se completam: o que não dá para fechar, a gente vigia."
+[Tela: gravação do laboratório do slide 5]
 
-**Slide 8 — *Playbooks* e papéis definidos antes do incidente (4:20–4:50)**
-Fala: "Um *playbook* descreve, passo a passo, como responder a um tipo de incidente, com responsáveis, critérios e contatos. Parte dele pode ser automatizada por plataformas SOAR, de orquestração e resposta automatizada. O coordenador decide e prioriza, os analistas investigam e executam, e jurídico, comunicação e o encarregado de dados entram desde as primeiras horas."
+**Slide 6 — CIS Benchmarks e CIS Controls v8 (4:15–5:15)**
+Fala: "Duas referências do *Center for Internet Security* guiam esse trabalho. Os CIS Benchmarks são guias de configuração por tecnologia: para o Windows Server, cada recomendação diz o valor esperado e como auditar, e elas vêm em dois perfis. O Nível 1 é o essencial, com pouco impacto no uso; o Nível 2 acrescenta defesa em profundidade para ambientes mais sensíveis. Os CIS Controls v8, atualizados para a 8.1 em 2024, olham para o programa inteiro: 18 controles e 153 salvaguardas, em três grupos de implementação. O IG1, com 56 salvaguardas, é a higiene básica. E o quadro azul traz a palavra-chave da aula: *baseline*, a configuração mínima aprovada. Todo desvio vira correção ou exceção documentada, com dono e prazo."
 
-**Slide 9 — Antes do código: onde achar e como instalar (4:50–5:15)**
-Fala: "Antes do código, vejam o que o laboratório usa: o VS Code, o Python 3.12 e um único pacote de terceiros, o PyYAML, que lê o *playbook*. Reparem que o nome do import nem sempre é o nome do pacote: o código escreve import yaml, e o pacote se chama PyYAML. Confirmem o nome na documentação oficial e fixem a versão no requirements.txt, para que a ferramenta usada no incidente seja a mesma que foi testada antes dele."
+**Slide 7 — Antes do código: onde achar e como instalar (5:15–5:45)**
+Fala: "O próximo laboratório usa o VS Code com a extensão Python da Microsoft, o Python 3.12 e um único pacote de terceiros, o PyYAML, que lê o arquivo do *baseline*. Conferimos o nome no PyPI letra por letra, porque pacote com nome parecido é golpe conhecido, e instalamos num ambiente virtual. Os CIS Benchmarks originais estão no *site* do CIS, em PDF gratuito para uso não comercial, depois de um cadastro."
 
-**Slide 10 — Laboratório: o *playbook* de *ransomware* como código (5:15–7:40)**
-Objetivo: ter, antes da crise, quem faz o quê e em que ordem. Responde a "conduzir com ordem".
-Na tela (VS Code em tela inteira, pasta resposta-incidentes; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" da barra de status e fica fechado durante a gravação):
-1. Clicar em "⬇ Preparar o ambiente", na barra do terminal, e esperar o botão mudar para "✓ Ambiente pronto". Durante a instalação, o requirements.txt abre no editor.
-2. Voltar à aba ransomware.yaml e apontar as linhas destacadas 17, 18, 19, 23, 24 e 29.
-3. Abrir ferramentas/validar_playbook.py e clicar em "Validar".
-4. Abrir ferramentas/prazo_anpd.py e clicar em "Prazo 13/11".
-5. Clicar em "Prazo 17/11".
-Fala: "Primeiro, o ambiente. Conferimos o Python 3.12.7, criamos o ambiente virtual .venv, que isola os pacotes deste projeto, e o ativamos. O pip install com -r lê o requirements.txt e instala o PyYAML na versão 6.0.3. Na saída, Collecting mostra o pacote pedido, Downloading mostra o arquivo baixado do PyPI, de 807 kB, e a linha verde confirma a instalação. O pip list fecha a conferência: pip e PyYAML, nada além do que pedimos. Agora o *playbook*. O gatilho do *playbook*, na linha 3, é a regra da Aula 10, a exclusão de cópias de sombra. São oito etapas. A etapa isolar é a única automática, executada pelo SOAR no EDR, e a linha 17 explica: isolar, não desligar, porque a memória volátil é evidência. Logo depois vem preservar, com responsável próprio, o analista forense, e ordem de volatilidade da RFC 3227. A linha 24 lista quem a etapa acionar notifica: coordenador, jurídico, encarregado de dados e comunicação. A erradicação só aparece na linha 29, depois da preservação. O validador confere três coisas: na linha 11, se toda etapa manual tem responsável; na linha 14, se os quatro papéis obrigatórios são acionados; e na linha 16, se preservar vem antes de erradicar. A saída diz 'ransomware-v3: 8 etapas' e 'nenhum problema encontrado'. O prazo_anpd.py conta três dias úteis a partir do conhecimento. A linha 5 lista os feriados, e a função dia_util, nas linhas 8 e 9, aceita só segunda a sexta fora deles. Para 13/11, sexta, o 15/11 cai num domingo e é feriado; os dias úteis são 16, 17 e 18, e o prazo final é 18/11, quarta. Para 17/11, o feriado de 20/11 é pulado, e o prazo final vai para 23/11, segunda."
-Atenção: a preparação do ambiente e os resultados são simulados na tela; a preparação leva cerca de 6 segundos e deixa o requirements.txt aberto no editor. O cálculo segue o modelo da aula, que começa a contagem no dia útil seguinte ao conhecimento; a regra exata deve ser confirmada com o jurídico.
-Conclusão: "Com o *playbook* como código, a ordem das etapas e os papéis são verificados antes da madrugada da crise."
+**Slide 8 — Laboratório: auditoria dos servidores contra o *baseline* (5:45–8:30)**
+Objetivo: medir quanto os servidores-membro da sede se afastam do *baseline*, respondendo ao "em que ordem" com números.
+Na tela (VS Code em tela cheia, pasta hardening-sede; o roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro" e fica fechado durante a gravação):
+1. Esperar o `auditoria.py` terminar de ser digitado na abertura do slide.
+2. Clicar em "⬇ Preparar o ambiente" e esperar o botão mudar para "✓ Ambiente pronto".
+3. No explorador, abrir `baseline_servidor.yaml` e mostrar as linhas destacadas (6, 12 a 15).
+4. Abrir `export/antes/SRV-ARQ-01.json`.
+5. Clicar em "▶ Auditar antes do hardening".
+6. Clicar em "▶ Auditar depois do hardening".
+Fala: "Primeiro, a preparação. O `python3 --version` confirma o Python 3.12.7; o `venv` cria a pasta `.venv` com um Python isolado; o `activate` liga esse ambiente, e o *prompt* ganha `.venv` entre parênteses; o `pip install` baixa o PyYAML 6.0.4, e o `pip list` confirma que só ele e o pip estão instalados. Agora o *baseline*. São 10 itens inspirados no perfil Nível 1 do CIS Benchmark para servidor-membro, cada um com a chave que vamos procurar no servidor, o valor esperado ou o limite, e a salvaguarda do CIS Controls que ele atende. Na linha 6, SMBv1 desabilitado; na 12, no máximo dois administradores locais; na 15, último *patch* há até 30 dias. No fim, a seção de exceções: o *spooler* do ERP fica ligado porque o ERP imprime boletos, com aprovação da Marina Prado na mudança MUD-0412 e validade até março de 2027. O JSON do SRV-ARQ-01 é a configuração que a TI exportou: SMBv1 ligado, seis administradores, 74 dias sem *patch*. No código, a função `conforme`, linhas 10 a 15, decide cada item: se o item tem `esperado`, compara igualdade; se tem `minimo`, exige maior ou igual; senão, menor ou igual ao `maximo`. A linha 25 conta o acerto, e a 27 separa o que é exceção aprovada do que é falha. Rodando a auditoria de antes: o SRV-ARQ-01 tem 3 de 10, 30%, com sete falhas em vermelho, cada uma com a salvaguarda do CIS e o valor encontrado. O SRV-ERP-01 também fica em 3 de 10: a linha amarela é a exceção do *spooler*, que não conta como conforme, mas também não aparece como falha. O total é 6 de 20, 30%. Depois do *hardening*, o SRV-ARQ-01 vai a 10 de 10, o ERP a 9 de 10 por causa da exceção, e o total chega a 19 de 20, 95%."
+Atenção: o código roda apenas na simulação, e a preparação do ambiente também é simulada (cerca de 5 segundos). O *baseline* é didático e inspirado no CIS Benchmark; os itens reais do *benchmark* têm numeração e texto próprios. Os arquivos de `export/depois` representam a configuração depois do laboratório do slide 10 e da mudança no ERP.
+Conclusão: "O *hardening* vira um número, 30% para 95%, que a Rede Tatame pode acompanhar a cada mês."
+[Tela: gravação do laboratório do slide 8]
+
+**Slide 9 — Menor privilégio e MFA (8:30–9:20)**
+Fala: "O menor privilégio diz que cada pessoa, serviço e programa recebe só o acesso de que precisa, pelo tempo de que precisa. O Caio passa a ter duas contas: caio.mendes para *e-mail* e navegação, e caio.mendes.adm só para administrar, como pede a salvaguarda 5.4. O administrador local de cada máquina ganha senha única e aleatória, trocada pelo LAPS: uma senha descoberta não abre os outros servidores. Contas de serviço perdem o *logon* interativo, contas paradas há 45 dias são desabilitadas, e o MFA vale para o acesso remoto, as aplicações expostas e todo acesso administrativo. Foi a falta dele na VPN que abriu o cenário do Cobalto Austral."
+
+**Slide 10 — Laboratório: fechando portas, serviços e contas no SRV-ARQ-01 (9:20–11:50)**
+Objetivo: aplicar no servidor de arquivos as correções que a auditoria apontou, respondendo ao "fechar portas, serviços e contas".
+Na tela (PowerShell como administrador no SRV-ARQ-01, sessão de caio.mendes.adm; clicar em "▶ Próximo comando" nove vezes):
+1. `Get-NetTCPConnection` com `-State Listen`: lista as portas escutando.
+2. `Get-SmbServerConfiguration`: mostra `EnableSMB1Protocol` igual a True.
+3. `Set-SmbServerConfiguration -EnableSMB1Protocol $false -Force`.
+4. `Get-LocalGroupMember -Group Administradores`: seis membros.
+5. `Remove-LocalGroupMember`: remove quatro membros.
+6. `Get-Service Spooler, ftpsvc`: os dois em execução, com início automático.
+7. `Stop-Service` e `Set-Service -StartupType Disabled`.
+8. `Set-NetFirewallRule -DisplayGroup 'Área de Trabalho Remota' -RemoteAddress 10.10.5.0/24`.
+9. Desligar o NetBIOS com `SetTcpipNetbios` e repetir a lista de portas.
+Fala: "O primeiro comando lista as portas TCP escutando em todas as interfaces, com o processo dono de cada uma. São cinco: 21, do FTP instalado para uma migração antiga; 135, do RPC; 139, do NetBIOS; 445, do SMB; e 3389, do RDP. O segundo mostra que o SMBv1 está ligado; é o protocolo antigo explorado pelo WannaCry em 2017, e o terceiro comando o desliga sem afetar o SMB 3, que atende os compartilhamentos. Depois olhamos o grupo Administradores: seis membros, e os quatro em vermelho não deveriam estar ali, inclusive a conta comum do Caio, a da Ana Lima, do financeiro, e a conta de serviço svc-backup. O `Remove-LocalGroupMember` deixa só o administrador local, com senha do LAPS, e o grupo TI-Admins-Servidores, onde está a conta caio.mendes.adm. A svc-backup vai para o grupo Operadores de Cópia, que tem só o direito de fazer *backup*. Em seguida, o *spooler* de impressão e o FTP: rodando num servidor que não imprime nem precisa de FTP. Paramos os dois e desativamos o início automático. O RDP continua, mas o *firewall* passa a aceitar conexões só da sub-rede da TI, 10.10.5.0/24. Por fim, desligamos o NetBIOS e repetimos a primeira consulta: sobram três portas, 135, 445 e 3389."
+Atenção: a saída é simulada; num servidor real, essas mudanças passam por janela de mudança (aqui, MUD-0409) e por teste, porque desligar um serviço usado quebra a operação. O texto embaixo do terminal explica cada comando. "⏭ Executar tudo" roda o roteiro inteiro e "⟲ Reiniciar" limpa o terminal.
+Conclusão: "De 5 para 3 portas e de 6 para 2 administradores: o próximo exercício encontra menos caminhos no SRV-ARQ-01."
 [Tela: gravação do laboratório do slide 10]
 
-**Slide 11 — Laboratório: simulação de mesa, o caso de *ransomware* (7:40–9:30)**
-Objetivo: tomar, em ordem, as decisões da madrugada de 13/11. Responde a "conter sem destruir evidências" e "comunicar no prazo".
+**Slide 11 — Corrigir primeiro o que já está sendo explorado (11:50–12:40)**
+Fala: "*Patching* também é *hardening*. O NIST SP 800-40 Rev. 4 trata a correção como manutenção preventiva, um processo com inventário, prioridade, janela de mudança e verificação. Para priorizar, voltamos à Unidade 2: CVSS mede a gravidade, EPSS estima a chance de exploração em 30 dias, e o KEV da CISA lista o que já está sendo explorado. A ordem prática é KEV em ativo exposto, depois EPSS alto em ativo crítico, depois o resto. Se o *patch* não pode entrar já, uma mitigação temporária segura a exposição. E o quadro azul traz o exemplo numérico que vamos explorar agora."
+
+**Slide 12 — Laboratório: quantas falhas ficam abertas ao mesmo tempo? (12:40–13:50)**
+Objetivo: mostrar como o prazo de correção muda a exposição, respondendo ao "em que ordem e com que pressa".
 Na tela:
-1. Na situação "sex 13/11 · 03:05", ler o texto e clicar em "Isolar os cinco servidores pelo EDR". Ler o retorno e clicar em "Próxima decisão ▶".
-2. Em "03:25", escolher o coordenador que aciona jurídico, comunicação e encarregado.
-3. Em "04:10", escolher de propósito "Imagem do disco, depois a memória" para mostrar um retorno de erro.
-4. Seguir por "16:00", "seg 16/11 · 10:00" e "qua 25/11 · 14:00".
-5. Na tela final, ler a pontuação e clicar em "⟲ Recomeçar", se quiser repetir.
-Fala: "Cada situação tem um relógio, um texto e três opções. Desligar os servidores para o ataque, mas apaga a memória volátil; esperar até as 8h dá tempo de a criptografia terminar; isolar pelo EDR mantém a máquina ligada com o canal de coleta aberto. Ao escolher, o botão fica verde ou vermelho, o retorno explica o porquê, e o diário à direita registra a decisão, como num incidente real. Às 04:10, se o forense começar pelo disco, o retorno lembra que a RFC 3227 manda começar pela memória. Às 16:00, o cadastro de responsáveis foi acessado: o prazo corre do conhecimento, e vai até 18/11. Na segunda, a erradicação remove o serviço ConectaJa, troca a senha, exige MFA e restaura um *backup* íntegro. No fim, a tela mostra quantas das seis decisões seguiram o *playbook*."
-Atenção: o erro escolhido de propósito ajuda a discussão; avise o aluno que a justificativa vale mais que a pontuação.
-Conclusão: "Decidir rápido e certo de madrugada depende de papéis e etapas combinados antes."
-[Tela: gravação do laboratório do slide 11]
+1. Ler os valores iniciais: 12 falhas por mês, 45 dias hoje, prazo proposto de 14 dias.
+2. Arrastar "Prazo de correção proposto (dias)" para 7.
+3. Voltar o prazo a 14 e arrastar "Falhas críticas novas por mês" para 20.
+Fala: "A conta é simples: falhas novas por dia vezes os dias até corrigir dá quantas ficam abertas, em média, ao mesmo tempo. Doze por mês são 0,4 por dia; com 45 dias, ficam 18 abertas, o cartão vermelho. Com o prazo de 14 dias, o cartão verde mostra 5,6, e a redução é de 69%. As barras de baixo comparam as duas situações. Com 7 dias, a média cai para 2,8. Se o volume sobe para 20 por mês, com 14 dias ficam 9,3 abertas: mais falhas pedem prazo menor ou mais gente."
+Conclusão: "Encurtar o prazo de correção reduz a exposição na mesma proporção, e esse é um argumento que a diretoria entende."
+[Tela: gravação do laboratório do slide 12]
 
-**Slide 12 — Conter sem destruir evidências (9:30–10:10)**
-Fala: "A contenção busca impedir que o dano aumente: isolar máquinas, desabilitar contas, bloquear domínios e endereços. Desligar interrompe o ataque, mas apaga a memória. A RFC 3227 manda coletar da evidência mais volátil para a menos volátil, e toda evidência precisa de cadeia de custódia: quem coletou, quando, como, onde ficou e por quais mãos passou, com *hashes*. A ABNT NBR ISO/IEC 27037 traz as diretrizes para isso."
-
-**Slide 13 — Laboratório: conter a tempo, o SOC contra o Cobalto Austral (10:10–12:10)**
-Objetivo: medir quanto tempo o SOC leva para perceber e conter. Responde a "conter".
-Na tela (simulador na aba SOC; o cenário "Emulação do Grupo Cobalto Austral" começa sozinho):
-1. Esperar o primeiro alerta da R11, "Login sem MFA em conta privilegiada ou VPN", sobre caio.mendes. Clicar em "Investigar" e ler o painel.
-2. Clicar em "Conter" nesse alerta.
-3. Quando aparecer o alerta da R11 sobre svc-backup, clicar em "Investigar" e depois em "Falso positivo".
-4. Abrir a aba Cenários e ler os passos.
-5. Clicar em "Reiniciar", no topo. Em Cenários, clicar em "Iniciar cenário" no cartão "Emulação do Grupo Cobalto Austral", trocar a velocidade para "1 s = 1 min" e deixar rodar sem conter.
-Fala: "A emulação começa com um *login* na VPN com a senha vazada do caio.mendes, sem MFA, e a R11 detecta. No painel de investigação aparecem a lógica da regra, o tempo do primeiro sinal até o alerta e a linha do tempo correlacionada. Ao conter, o nó da VPN fica isolado no mapa e o alerta passa a 'contido'. No topo, o MTTD, tempo médio até detectar, e o MTTR, tempo médio até responder, ganham valores. O alerta do svc-backup é benigno: a conta de serviço tem exceção documentada, e o painel recomenda marcar como falso positivo. Na aba Cenários, os passos que ainda não tinham acontecido aparecem como 'interrompido pela contenção'. Na segunda rodada, sem conter, a cadeia segue: consulta ao AD, RDP, leitura da memória do LSASS, cópia de 4,2 GB, exclusão das cópias de sombra e, no fim, 'impacto consumado', com os arquivos da sede cifrados, a técnica T1486."
-Atenção: o primeiro alerta leva de 3 a 11 segundos na velocidade padrão. A cadeia continua enquanto você comenta o painel, com um passo novo a cada 8 a 10 segundos: contenha em até 25 segundos depois de abrir o slide, antes da leitura do LSASS. Não use "Pausar" para ganhar tempo, porque com o relógio parado o MTTR fica em zero. O alerta do svc-backup aparece cerca de 28 segundos após o início. Sem contenção, a cadeia completa dura cerca de 1 minuto em "1 s = 15 s" e uns 15 segundos em "1 s = 1 min". Os passos sem regra ativa ficam amarelos, como candidatos a regra nova.
-Conclusão: "Conter o primeiro alerta interrompe a cadeia antes da exclusão das cópias de sombra e da criptografia."
+**Slide 13 — Laboratório: a superfície externa em ordem de risco (13:50–15:30)**
+Objetivo: decidir por onde começar o *hardening* da borda, na plataforma da disciplina.
+Na tela (simulador na aba Superfície, reiniciado ao abrir o slide):
+1. Com "ordenar por risco" marcado, rolar a tabela para a direita até a coluna "Risco" e ler as duas primeiras linhas.
+2. Abrir a aba Cenários e, no cartão "Emulação do Grupo Cobalto Austral", clicar em "Iniciar cenário".
+3. Na linha do tempo, esperar o primeiro passo, "Login na VPN com a senha vazada de caio.mendes, sem MFA".
+Fala: "A aba Superfície lista o que um levantamento externo encontra. A coluna de risco combina CVSS, EPSS, KEV e a criticidade do ativo, com desconto para quem está atrás do WAF. Em primeiro lugar aparece a VPN, com risco 43,8: uma falha crítica de *appliance* de borda, no KEV. Em segundo, o `hml-gestao`, com 32,4, marcado como 'não' na coluna de inventário e sem WAF. Ao iniciar o cenário do Cobalto Austral, o primeiro passo é justamente o *login* na VPN sem MFA. A etiqueta mostra que a regra R11 detectou, mas o passo aconteceu e o cenário segue. Detecção não é bloqueio."
+Atenção: a tabela é larga e precisa de rolagem horizontal. O cenário roda em tempo acelerado; se for preciso recomeçar, use "Reiniciar", no topo do simulador. As probabilidades EPSS da tabela são ilustrativas.
+Conclusão: "A ordem está dada: corrigir a VPN e exigir MFA fecha o primeiro passo; tirar o `hml-gestao` do ar elimina um ativo inteiro da superfície."
 [Tela: gravação do laboratório do slide 13, no simulador]
 
-**Slide 14 — Erradicação e recuperação (12:10–12:40)**
-Fala: "Erradicar é remover a persistência e as contas do invasor e corrigir a falha de entrada. Recuperar é restaurar de *backups* íntegros e monitorar com atenção redobrada. No nosso caso: remover o serviço 'ConectaJa Update', trocar a senha da carla.dias, exigir segundo fator no acesso remoto ao SRV-ERP-01 e restaurar um *backup* anterior a 13/11."
+**Slide 14 — Defesa em profundidade e o NIST CSF 2.0 (15:30–16:10)**
+Fala: "Nenhum desses controles é perfeito, e é por isso que eles se organizam em camadas: pessoas, perímetro, rede, *endpoint*, aplicação e dados. No NIST CSF 2.0, de 2024, com suas seis funções, o *hardening* fica sobretudo em Proteger, nas categorias de identidade e acesso e de segurança das plataformas, e depende de Identificar, que cuida do inventário. As Aulas 9 a 11 ficaram em Detectar; a Unidade 4 entra em Responder e Recuperar."
 
-**Slide 15 — Laboratório: *hash* das evidências e cadeia de custódia (12:40–14:10)**
-Objetivo: preservar as evidências do SRV-ERP-01 de modo que valham depois. Responde a "sem destruir evidências".
-Na tela (terminal da estação forense, caso IR-2026-031; clicar em "▶ Próximo comando" cinco vezes):
-1. ls -l evidencias/
-2. sha256sum evidencias/* | tee evidencias.sha256
-3. column -s, -t cadeia_custodia.csv
-4. echo com a linha de transferência, acrescentada ao fim de cadeia_custodia.csv
-5. sha256sum -c evidencias.sha256
-Fala: "O primeiro comando lista as duas evidências. As permissões começam com r, de leitura, sem w: ninguém escreve nelas. A memória foi coletada às 04:18, com 16 GB, e o disco às 05:52: primeiro o mais volátil. O segundo comando calcula o SHA-256 de cada arquivo, e o tee grava os *hashes* num arquivo próprio. O terceiro mostra o formulário de custódia em colunas: item, descrição, quem coletou, quando, método, local e *hash*. As duas linhas são da Luiza Ferraz, com destino ao cofre-digital-01. O quarto comando acrescenta uma linha: a entrega à perita M. Teixeira às 09:10, em mãos, com lacre 0457. Os dois sinais de maior acrescentam sem apagar o que já existia. O último confere os *hashes* de novo, e as duas linhas terminam em OK."
-Atenção: os arquivos e *hashes* são fictícios. "⏭ Executar tudo" roda o roteiro inteiro.
-Conclusão: "Os arquivos ficam somente leitura, e a análise trabalha sempre sobre cópias. Com *hash* e custódia, a evidência continua valendo."
+**Slide 15 — Laboratório: as camadas em volta das fichas de alunos (16:10–17:10)**
+Objetivo: ver por que uma camada sozinha não basta.
+Na tela:
+1. Deixar a cena girar alguns segundos com as seis camadas ligadas e ler a legenda.
+2. Clicar no botão "Endpoint" para desligar essa camada.
+3. Desligar também "Perímetro", "Rede" e "Aplicação".
+Fala: "Os pontos vermelhos são tentativas de ataque vindo de fora; quando uma camada barra, o ponto fica azul e some. No centro está o `db-alunos`. Com as seis camadas, quase nada chega, e a legenda conta os barrados e os que chegaram. Desligar o Endpoint é como ter um servidor sem *hardening*: mais pontos passam, mas as outras camadas ainda seguram muitos. Com quase tudo desligado, o contador de 'chegaram ao ativo' dispara."
+Atenção: a cena precisa de internet para carregar o three.js; as chances de bloqueio são ilustrativas.
+Conclusão: "Nenhuma camada precisa ser perfeita, desde que existam várias."
 [Tela: gravação do laboratório do slide 15]
 
-**Slide 16 — LGPD e a Resolução CD/ANPD nº 15/2024 (14:10–14:40)**
-Fala: "O art. 48 da LGPD manda o controlador comunicar à ANPD e aos titulares o incidente que possa acarretar risco ou dano relevante. A Resolução CD/ANPD nº 15/2024 fixou o prazo de três dias úteis, contados do conhecimento de que o incidente afetou dados pessoais, e exige registro dos incidentes. Por isso o encarregado e o jurídico entram cedo."
+**Slide 16 — O que você verá na próxima unidade (17:10–17:45)**
+Fala: "Monitoramos, detectamos, caçamos e fechamos caminhos. Mas algum ataque ainda vai passar, e a Unidade 4, Resposta a Incidentes e Purple Team, começa exatamente aí. Na Aula 13, o ciclo de resposta a incidentes; na 14, a coleta de evidências e a linha do tempo; na 15, os exercícios *purple team* que validam as detecções; e na 16, o relatório final com achados, riscos e métricas."
 
-**Slide 17 — Laboratório: contando os três dias úteis (14:40–15:40)**
-Objetivo: contar o prazo de comunicação à ANPD. Responde a "comunicar a ANPD no prazo".
-Na tela:
-1. Ler o calendário já marcado em 13/11.
-2. Clicar no dia 17.
-3. Clicar de volta no dia 13.
-Fala: "Em amarelo, o dia do conhecimento; em azul, os dias úteis contados; em vermelho, o prazo final; e os dias marcados como feriado são os nacionais. Com conhecimento em 13/11, sexta, os dias úteis são 16, 17 e 18, e o prazo final é 18/11, quarta. A frase embaixo lembra o feriado no caminho, a Proclamação, que neste ano cai num domingo. Se o conhecimento fosse em 17/11, o feriado de 20/11 seria pulado, e o prazo iria para 23/11, segunda."
-Atenção: neste modelo, a contagem começa no dia útil seguinte ao conhecimento. Confirme a regra com o jurídico.
-Conclusão: "A data do conhecimento decide o prazo. Por isso o *playbook* manda registrá-la."
-[Tela: gravação do laboratório do slide 17]
+**Slide 17 — De volta ao problema (17:45–18:35)**
+Fala: "Voltemos à pergunta da Marina. Os quatro cartões resumem: ligamos cada passo do Cobalto Austral a um controle; medimos os servidores contra o *baseline* e saímos de 30% para 95%; fechamos portas, serviços e contas no SRV-ARQ-01; e definimos a ordem de correção, com prazo de 14 dias. Respondendo à pergunta da aula: a Rede Tatame fecha primeiro o que está exposto e já é explorado, a VPN, o MFA e o `hml-gestao`; depois aplica o *baseline* nos servidores, reduz contas e privilégios ao mínimo e mantém o *patching* com prazo e prioridade, medindo a conformidade a cada ciclo."
 
-**Slides 18 e 19 — Priorizando três incidentes e a fila ordenada (15:40–16:50)**
-Objetivo do laboratório: escolher que incidente atender primeiro. Responde a "conduzir com ordem".
-Na tela:
-1. No slide 18, ler a tabela: A = 2 × 2 × 1 = 4, B = 5 × 2 × 1 = 10 e C = 4 × 3 × 3 = 36.
-2. No slide 19, mudar a confiança de B para 3.
-3. Mudar a criticidade de A para 5.
-Fala: "Com uma equipe pequena, a severidade é criticidade do ativo, de 1 a 5, vezes confiança na detecção, de 1 a 3, vezes abrangência, de 1 a 3. Os cinco servidores apagando cópias de sombra dão 36 e vão para o topo. Agora, imagine que B está enviando dados para fora: a confiança sobe para 3, e a nota vai a 15. Se descobrirmos que a conta de A alcança o servidor de pagamentos, a criticidade vai a 5, e A passa a 10. A fila é reordenada a cada mudança, e a frase embaixo mostra que a ordem continua C, B e A, agora com notas 36, 15 e 10."
-Conclusão: "A pontuação explica a decisão e a torna auditável, mas quem decide é o coordenador."
-[Tela: gravação do laboratório do slide 19]
+**Slides 18 a 20 — Pontos-chave, referências e encerramento (18:35–19:20)**
+Fala: "Para levar desta aula: *hardening* começa pelo inventário; CIS Benchmarks dizem como configurar e CIS Controls organizam o programa; menor privilégio e MFA cortam a movimentação lateral; e o prazo de correção define a exposição. Com isso, fechamos a Unidade 3. Na Unidade 4, vamos responder a um incidente de verdade, da preparação à recuperação. Até a próxima aula!"
 
-**Slide 20 — Lições aprendidas sem caça a culpados (16:50–17:20)**
-Fala: "Depois do incidente, a reunião de lições aprendidas pergunta o que funcionou, onde a detecção ou a decisão demorou e quais regras, *playbooks* e controles precisam mudar. Ela é feita sem caça a culpados, e cada resposta vira uma ação com responsável e prazo, fechando o ciclo com a engenharia de detecção da Aula 10."
-
-**Slide 21 — Unidade 4: vermelho e azul na mesma sala (17:20–17:50)**
-Fala: "Na Unidade 4, vermelho e azul trabalham juntos. Vamos planejar ciclos de *purple teaming* e de emulação de adversários, medir a defesa com métricas e com a cobertura do MITRE ATT&CK, conhecer *tabletop*, CTF e *cyber range* e estruturar um programa contínuo de segurança."
-
-**Slide 22 — De volta ao problema (17:50–18:50)**
-Fala: "Voltemos à Marina. Os cartões resumem a resposta: o *playbook* pronto, em que só o isolamento é automático e preservar vem antes de erradicar; a contenção cedo, que interrompeu a cadeia na plataforma; a evidência que vale, com memória antes do disco, *hash* e cadeia de custódia; e o prazo, com conhecimento em 13/11 e comunicação até 18/11, além da fila ordenada pela severidade. Respondendo à pergunta da aula: a Rede Tatame segue o *playbook*. Ela isola o SRV-ERP-01 sem desligá-lo, preserva memória e disco com *hash* e cadeia de custódia, remove o ConectaJá e a credencial da Carla, restaura de *backup* íntegro, comunica a ANPD em até três dias úteis e transforma as lições aprendidas em melhorias."
-
-**Slides 23 a 25 — Pontos-chave, referências e encerramento (18:50–19:40)**
-Fala: "Para levar desta aula: declarar incidente é uma decisão formal; o NIST SP 800-61 Rev. 3 integra a resposta ao CSF 2.0; *playbooks* e papéis definidos antes economizam o tempo mais valioso; a contenção preserva evidências; e a LGPD exige comunicação em três dias úteis quando houver risco ou dano relevante. Acompanhamos o caso do SRV-ERP-01 do primeiro *login* à lição aprendida. Na Unidade 4, vermelho e azul vão se sentar à mesma mesa para medir e melhorar essa defesa juntos. Até lá!"
-
-[Envato: "phone ringing at night office", "incident response team meeting", "forensic hard drive evidence bag". Slides de apoio: tabela Rev. 2 e CSF 2.0 (slide 6) e cartões do slide 22.]
+[Envato: "server room technician", "padlock network security", "checklist on laptop screen". Slides de apoio: mini-mapa do slide 3, fluxo do slide 5 e cartões do slide 17.]
 
 ## Quiz não avaliativo
 
 ### Questão 1 (verdadeiro ou falso)
 
-De acordo com a Pirâmide da Dor, bloquear os *hashes* dos arquivos maliciosos usados por um grupo é a forma de detecção que impõe maior custo ao adversário, pois ele precisaria reescrever todas as suas ferramentas.
+Uma regra YARA que procura o *hash* SHA-256 exato de um arquivo malicioso continua detectando uma variante desse arquivo em que o adversário alterou apenas um *byte*, porque a assinatura descreve o comportamento do programa.
 
 ( ) Verdadeiro  
 (X) Falso
 
 ### Questão 2 (múltipla escolha)
 
-Em 30 dias, uma regra de detecção gerou 250 alertas, dos quais 50 foram confirmados como atividade maliciosa. A precisão dessa regra é de:
+Na caça a ameaças, o *baseline* de saída de dados de um servidor é de 200 MB por dia, com desvio-padrão de 50 MB. Em um dia, o servidor enviou 450 MB para a internet. O escore z dessa observação e a leitura mais adequada são:
 
-a) 5%.  
-*b) 20%.  
-c) 50%.  
-d) 80%.
+a) 0,25; o volume está dentro do esperado.  
+b) 2,5; o volume é alto, mas comum para esse servidor.  
+*c) 5; o volume está muito acima do *baseline* e merece investigação.  
+d) 9; o volume prova que houve exfiltração de dados.
 
 ### Feedback
 
-**Questão 1 — Falso.** Os *hashes* ficam na base da Pirâmide da Dor: alterar um único byte de um arquivo gera um *hash* completamente diferente, o que torna trivial para o adversário contornar esse bloqueio. O maior custo é imposto pela detecção de TTPs, no topo da pirâmide, porque obriga o adversário a mudar a forma como opera, e não apenas os artefatos que usa.
+**Questão 1 — Falso.** O *hash* é uma assinatura do arquivo inteiro: mudar um único *byte* produz um *hash* completamente diferente, e a regra deixa de casar. Por isso as assinaturas de *hash* ficam na base da Pirâmide da Dor. Para resistir a variantes, a detecção precisa olhar características mais estáveis (cadeias de texto e estruturas, em uma regra YARA mais elaborada) ou o comportamento do programa durante a execução.
 
-**Questão 2 — Alternativa b.** A precisão mede, entre os alertas gerados, a proporção de alertas verdadeiros: 50 ÷ 250 = 0,20, ou 20%. Isso significa que 80% dos alertas (alternativa d) foram falsos positivos — um sinal de que a regra precisa de ajuste para não contribuir para a fadiga de alertas. Note que a precisão não informa quantos ataques deixaram de ser detectados; para isso, usa-se a sensibilidade (*recall*).
+**Questão 2 — Alternativa c.** O escore z mede quantos desvios-padrão a observação está acima da média: (450 − 200) ÷ 50 = 250 ÷ 50 = 5. Um valor tão distante do *baseline* é uma anomalia forte e justifica abrir uma investigação. A alternativa d exagera: a anomalia estatística indica onde olhar, mas não prova exfiltração. Ela pode vir de um *backup* novo ou de uma mudança legítima, e só a investigação confirma ou descarta a hipótese.
 
 ## Material complementar
 
 ### Direto da fonte (livro da Biblioteca Virtual)
 
-- **Texto provocativo:** O ciclo de resposta a incidentes do NIST é a referência mais usada no mundo — mas ele funciona contra um adversário paciente, que permanece meses no ambiente e reage quando percebe que foi descoberto? O capítulo indicado apresenta as fases da resposta a incidentes segundo o NIST e prepara a discussão do autor sobre seus limites diante de ameaças persistentes avançadas (APTs). Leia com olhar crítico e compare com o que vimos na Aula 12.
+- **Texto provocativo:** Um adversário paciente pode passar meses dentro de uma rede sem disparar nenhum alerta. O capítulo indicado discute por que os modelos tradicionais, que esperam o incidente acontecer para reagir, não bastam contra ameaças persistentes avançadas (APTs). Leia pensando na Aula 11: que hipótese de caça você formularia para encontrar um invasor que já está lá dentro e se esforça para parecer um usuário comum?
 - **Nome do livro:** LEVI, Hiago Kin. *Confronto cibernético*: técnicas e táticas de enfrentamento e resposta a ameaças persistentes avançadas (APTs). Rio de Janeiro: Brasport, 2026. *E-book*.
-- **Capítulo:** 2 — Fases de resposta a incidentes conforme o NIST (como leitura complementar, o capítulo 3 discute por que esse padrão é insuficiente contra APTs)
+- **Capítulo:** 3 — Por que o padrão de resposta do NIST é insuficiente contra APTs
 - **Link de acesso:** <https://plataforma.bvirtual.com.br/Acervo/Publicacao/235882>
-- **Aula em que entra:** Aula 12
+- **Aula em que entra:** Aula 11
 
 ### Para mergulhar no assunto (saiba mais)
 
-- **Texto provocativo:** Como é, de verdade, uma intrusão do primeiro clique até a criptografia? O *site* The DFIR Report publica gratuitamente relatos detalhados de intrusões reais, com linha do tempo, técnicas mapeadas no MITRE ATT&CK e sugestões de detecção. Escolha um relatório e tente responder: em que momento você teria detectado o adversário, e com qual fonte de dados?
-- **Link:** <https://thedfirreport.com/> (acesso gratuito; conteúdo em inglês)
-- **Link complementar:** repositório de regras Sigma — <https://github.com/SigmaHQ/sigma>
-- **Aula em que entra:** Aula 11
+- **Texto provocativo:** Quantas configurações separam um servidor recém-instalado de um servidor endurecido? Os CIS Benchmarks são guias gratuitos, escritos por consenso entre profissionais do mundo inteiro, com centenas de recomendações para sistemas operacionais, nuvem e aplicações. Baixe o *benchmark* do sistema que você mais usa, escolha cinco recomendações de nível 1 e confira quantas o seu computador já atende.
+- **Link:** <https://www.cisecurity.org/cis-benchmarks> (download gratuito em PDF mediante cadastro; conteúdo em inglês)
+- **Link complementar:** documentação oficial do Security Onion 2.4, a plataforma aberta de monitoramento de rede usada como referência na Aula 9 — <https://docs.securityonion.net/en/2.4/>
+- **Aula em que entra:** Aula 12 (e Aula 9, no link complementar)
 
 ### Podcast (curadoria, até 45 min)
 
-- **Texto provocativo:** Analistas de SOC e caçadores de ameaças começam o dia se atualizando sobre o que os adversários estão fazendo. O SANS Internet Stormcast resume, em poucos minutos, as ameaças e vulnerabilidades observadas pelo Internet Storm Center. Ouça alguns episódios e tente classificar cada notícia como inteligência estratégica, operacional ou tática.
+- **Texto provocativo:** Analistas de SOC começam o dia se atualizando sobre o que os adversários estão fazendo. Neste episódio de cerca de 10 minutos, o SANS Internet Stormcast comenta, entre outros assuntos, truques de ofuscação do *malware* Formbook. Ouça e reflita com o que vimos na Aula 10: que tipo de detecção sobrevive melhor à ofuscação, a assinatura do arquivo ou o comportamento do programa em execução?
 - **Nome do podcast:** SANS Internet Stormcast
-- **Nome do episódio:** SANS Stormcast Friday, November 14th, 2025: SmartApeSG and ClickFix; Formbook Obfuscation Tricks; Sudo-rs Vulnerabilities; SANS Holiday Hack Challenge (edição de 14 nov. 2025, em inglês, com poucos minutos de duração)
+- **Nome do episódio:** SANS Stormcast Friday, November 14th, 2025: SmartApeSG and ClickFix; Formbook Obfuscation Tricks; Sudo-rs Vulnerabilities; SANS Holiday Hack Challenge (14 nov. 2025, em inglês, cerca de 10 min)
 - **Link:** <https://www.youtube.com/watch?v=lkHDgFJUZv0> (página do episódio: <https://isc.sans.edu/podcastdetail/9700>)
-- **Aula em que entra:** Aula 11
+- **Aula em que entra:** Aula 10
 
 ### Artigo científico
 
-- **Texto provocativo:** E se o próprio sistema pudesse ordenar os alertas pela probabilidade de serem ataques reais, em vez de deixar o analista se afogar na fila? Este artigo, apresentado em um dos principais simpósios de segurança de redes, propõe usar o histórico de causalidade dos eventos (proveniência) para reduzir a fadiga de alertas. Leia e reflita: que limites essa automação ainda tem?
+- **Texto provocativo:** E se o próprio sistema de monitoramento pudesse ordenar os alertas pela probabilidade de serem ataques reais, em vez de deixar o analista se afogar na fila? Este artigo, apresentado em um dos principais simpósios de segurança de redes, propõe usar o histórico de causalidade dos eventos (proveniência) para reduzir a fadiga de alertas. Leia e reflita: que limites essa automação ainda tem, e que fontes de telemetria ela exige?
 - **Link:** <https://www.ndss-symposium.org/ndss-paper/nodoze-combatting-threat-alert-fatigue-with-automated-provenance-triage/>
 - **Aula em que entra:** Aula 9
 - **Referência ABNT:** HASSAN, Wajih Ul *et al*. NoDoze: combatting threat alert fatigue with automated provenance triage. *In*: NETWORK AND DISTRIBUTED SYSTEM SECURITY SYMPOSIUM (NDSS), 2019, San Diego. *Proceedings* [...]. Reston: Internet Society, 2019.

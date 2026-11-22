@@ -3,24 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 9 — Telemetria, registros e SIEM</title>
+<title>Aula 9 — Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .ret-track { position: relative; height: 74px; margin: 1.9rem 0 1.6rem; background: #0B1424; border: 1px solid #22314F; border-radius: 8px; }
-  .ret-track .zone { position: absolute; top: 0; bottom: 0; transition: all .4s; }
-  .ret-track .hot { background: rgba(0,177,210,.45); }
-  .ret-track .cold { background: rgba(0,177,210,.18); }
-  .ret-track .inv { position: absolute; top: -6px; bottom: -6px; width: 3px; background: #FF2B5F; box-shadow: 0 0 10px #FF2B5F; transition: left .4s; }
-  .ret-track .inv span, .ret-track .now span { position: absolute; top: 100%; transform: translateX(-50%); white-space: nowrap; font: 600 11.5px var(--fonte); margin-top: 6px; }
-  .ret-track .inv span { color: #FF5C7A; top: auto; bottom: 100%; margin: 0 0 8px; }
-  .ret-track .now { position: absolute; right: 0; top: -6px; bottom: -6px; width: 3px; background: #F2CB0A; }
-  .ret-track .now span { color: #F2CB0A; }
-  .ret-axis { display: flex; justify-content: space-between; color: #7F8FA9; font: 11px var(--fonte); margin-top: -1.2rem; }
   .cap-bars { display: grid; gap: .5rem; margin-top: .4rem; }
   .cap-row { display: grid; grid-template-columns: 150px 1fr 70px; gap: .6rem; align-items: center; font: 12.5px var(--fonte); color: #C9D4E5; }
   .cap-row .bar { height: 18px; background: #1A2440; border-radius: 4px; overflow: hidden; }
   .cap-row .bar i { display: block; height: 100%; transition: width .5s; }
+  .duas-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .duas-col .card-ref { background: #0B1424; color: #E6EDF3; border: 1px solid #22314F; border-radius: 12px; padding: 1rem 1.2rem; border-top: 5px solid #00B1D2; font-size: clamp(1rem, 1.3vw, 1.25rem); line-height: 1.45; }
+  .duas-col .card-ref.so { border-top-color: #F2CB0A; }
+  .duas-col .card-ref h3 { margin: 0 0 .5rem; color: #58C4E8 !important; font-size: 1.15em; text-transform: none; letter-spacing: 0; }
+  .duas-col .card-ref.so h3 { color: #F2CB0A !important; }
+  .duas-col .card-ref ul { margin: 0; padding-left: 1.1em; }
+  .duas-col .card-ref li { margin-bottom: .45em; color: #E6EDF3; }
+  /* Wazuh: cor da marca no console */
+  #lab-wazuh .siem-logo::before { background: linear-gradient(135deg, #3595F9, #0A5FD6); }
+  #lab-wazuh .siem-q .lang { background: #3595F9; color: #fff; }
+  /* Wireshark simulado */
+  .wsk { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; background: #F3F3F3; color: #1E1E1E; border-radius: 10px; overflow: hidden; border: 1px solid #9AA4B5; box-shadow: 0 16px 40px rgba(0,0,0,.45); font: 12.5px/1.35 var(--fonte); }
+  .wsk-title { display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px; background: #DCDCDC; color: #333; flex: none; }
+  .wsk-title i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .wsk-title i:nth-child(1) { background: #FF5F57; } .wsk-title i:nth-child(2) { background: #FEBC2E; } .wsk-title i:nth-child(3) { background: #28C840; }
+  .wsk-title span { flex: 1; text-align: center; }
+  .wsk-presets { display: flex; flex-wrap: wrap; gap: 5px; padding: 6px 8px 0; background: #ECECEC; flex: none; }
+  .wsk-presets button { border: 1px solid #A8B1C0; background: #fff; border-radius: 4px; padding: 3px 8px; font: 12px var(--mono); color: #1E1E1E; cursor: pointer; }
+  .wsk-presets button.on { background: #1560BD; border-color: #1560BD; color: #fff; }
+  .wsk-filter { display: flex; align-items: center; gap: 6px; padding: 6px 8px; background: #ECECEC; border-bottom: 1px solid #C8C8C8; flex: none; }
+  .wsk-filter label { font-weight: 700; color: #444; white-space: nowrap; }
+  .wsk-filter input { flex: 1; min-width: 0; font: 13px var(--mono); padding: 4px 8px; border: 1px solid #999; border-radius: 3px; background: #AFFFAF; color: #111; }
+  .wsk-filter input.bad { background: #FFAFAF; }
+  .wsk-filter button { border: 1px solid #888; background: #fff; border-radius: 3px; padding: 3px 10px; cursor: pointer; font: 12px var(--fonte); }
+  .wsk-list { flex: 1 1 52%; min-height: 0; overflow: auto; background: #fff; border-bottom: 3px solid #C8C8C8; }
+  .wsk-list table { border-collapse: collapse; width: 100%; font: 12px/1.3 var(--mono); }
+  .wsk-list th { position: sticky; top: 0; background: #E4E4E4; text-align: left; padding: 3px 6px; border-right: 1px solid #CCC; font: 700 11.5px var(--fonte); color: #333; }
+  .wsk-list td { padding: 2px 6px; white-space: nowrap; color: #111; }
+  .wsk-list tr { cursor: pointer; }
+  .wsk-list tr.p-dns td { background: #DAEEFF; }
+  .wsk-list tr.p-tcp td { background: #E7E6FF; }
+  .wsk-list tr.p-tls td { background: #E4FFC7; }
+  .wsk-list tr.p-rdp td { background: #FFF5C8; }
+  .wsk-list tr.p-rst td { background: #A40000; color: #FFFC9C; }
+  .wsk-list tr.sel td { background: #1560BD !important; color: #fff !important; }
+  .wsk-list td.info { white-space: nowrap; max-width: 480px; overflow: hidden; text-overflow: ellipsis; }
+  .wsk-det { flex: 1 1 32%; min-height: 0; overflow: auto; background: #fff; padding: 4px 8px; font: 12px/1.45 var(--mono); color: #111; white-space: pre; }
+  .wsk-det .lv0 { font-weight: 700; } .wsk-det .hi { background: #FFF2A8; }
+  .wsk-status { display: flex; gap: 14px; align-items: center; padding: 4px 10px; background: #DCDCDC; color: #333; font: 12px var(--fonte); flex: none; }
+  .wsk-status .msg { flex: 1; color: #002057; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -36,39 +66,37 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 9 — Telemetria, registros e SIEM</h1>
-      <div class="subtitulo">Unidade 3 — Blue Team: detecção e resposta</div>
+      <h1>Aula 9 — Arquitetura de monitoramento: logs, SIEM e telemetria de <em>endpoints</em></h1>
+      <div class="subtitulo">Unidade 3 — Defesa, Monitoramento e Detecção</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
-
 
   <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Telemetria, registros e SIEM</h1>
+        <h1 class="sumario-titulo">Arquitetura de monitoramento: logs, SIEM e telemetria de <em>endpoints</em></h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O que você verá nesta unidade</li>
-          <li>Evento, registro e telemetria</li>
-          <li>Laboratório: o caminho de um registro</li>
-          <li>Fontes de registro essenciais e o Sysmon</li>
-          <li>Laboratório: 4625, 4624 e Sysmon no PowerShell</li>
-          <li>O SIEM: normalizar, correlacionar e reter</li>
-          <li>Laboratórios: normalizador, SIEM e retenção</li>
-          <li>Fadiga de alertas e a conta da capacidade</li>
+          <li>Um <em>login</em> às 2h da manhã no ERP</li>
+          <li>Camadas, SOC e telemetria</li>
+          <li>Wazuh e Security Onion como arquitetura de referência</li>
+          <li>Laboratórios: o caminho de um evento e o <em>endpoint</em> Windows</li>
+          <li>Laboratório: o tráfego no Wireshark</li>
+          <li>Laboratórios: normalizar e correlacionar, no código e no Wazuh</li>
+          <li>Laboratórios na plataforma Rede Tatame</li>
+          <li>Retenção e fadiga de alertas</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
     </div>
   </section>
-
 
   <!-- 3. O problema de hoje -->
   <section class="slide">
@@ -78,11 +106,11 @@
       <h2>Um <em>login</em> às 2h da manhã no ERP</h2>
       <div class="problema">
         <div class="historia">
-          <p>Luiza Ferraz é analista nível 2 do SOC (<em>Security Operations Center</em>, a equipe que monitora a segurança) da Rede Tatame. Ela está no plantão da madrugada de sexta-feira, 13/11.</p>
-          <p>Às 02:17, alguém entra no SRV-ERP-01, o servidor do ERP (o sistema de gestão financeira), com a conta de Carla Dias, do financeiro, depois de errar a senha 10 vezes. Carla está dormindo. A fila do SOC já tem centenas de alertas, quase todos ruído.</p>
-          <p>O que está em jogo: o ERP guarda as mensalidades e os repasses das 240 academias e o cadastro dos responsáveis financeiros de alunos menores de idade.</p>
-          <div class="pergunta">Que registros a Rede Tatame precisa coletar, guardar e correlacionar para que o SOC perceba esse <em>login</em> a tempo, sem se afogar em alertas?</div>
-          <div class="papeis"><span><b>Blue Team</b> Luiza Ferraz, SOC</span><span><b>Conta usada</b> carla.dias</span><span><b>Alvo</b> SRV-ERP-01</span><span><b>Fontes da sede</b> Caio Mendes, TI</span></div>
+          <p>Madrugada de sexta-feira, 13/11. Luiza Ferraz está no plantão do SOC (<em>Security Operations Center</em>, a equipe que monitora a segurança) da Rede Tatame.</p>
+          <p>Às 02:17, alguém entra no SRV-ERP-01, o servidor do sistema financeiro, com a conta de Carla Dias, depois de errar a senha 10 vezes. Carla está dormindo. A fila do SOC já tem centenas de alertas, quase todos ruído.</p>
+          <p>O que está em jogo: as mensalidades e os repasses das 240 academias e o cadastro dos responsáveis financeiros de alunos menores de idade.</p>
+          <div class="pergunta">Que arquitetura de monitoramento a Rede Tatame precisa para que o SOC perceba esse <em>login</em> a tempo: o que coletar, por onde os dados passam e onde o analista os vê?</div>
+          <div class="papeis"><span><b>Blue Team</b> Luiza Ferraz, SOC</span><span><b>Conta usada</b> carla.dias</span><span><b>Alvo</b> SRV-ERP-01</span><span><b>Agentes e sensores</b> Caio Mendes, TI</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
@@ -96,76 +124,113 @@
       <p class="kicker">Abertura da Unidade 3</p>
       <h2>O que você verá nesta unidade</h2>
       <div class="slide-content-box">
-        <p>Na Unidade 2, acompanhamos o adversário e perguntamos, em cada etapa, que rastro ficava para trás. Agora vestimos a camisa azul e respondemos à pergunta inversa: <strong>como a defesa encontra esses rastros e reage a tempo?</strong></p>
+        <p>Na Unidade 2, executamos em laboratório o reconhecimento, a exploração, a movimentação lateral e a evasão, sempre perguntando que rastro ficava para trás. Agora a pergunta se inverte: <strong>como a defesa enxerga esses rastros, detecta o ataque e diminui as chances de ele dar certo?</strong></p>
         <ul>
-          <li><strong>Aula 9</strong>: de onde vêm os dados que alimentam o SOC (registros, telemetria e SIEM).</li>
-          <li><strong>Aula 10</strong>: como transformar conhecimento sobre técnicas de ataque em regras de detecção testáveis, com apoio do EDR.</li>
-          <li><strong>Aula 11</strong>: como caçar ameaças que escaparam das regras, usando inteligência de ameaças.</li>
-          <li><strong>Aula 12</strong>: como conduzir a resposta a um incidente, da contenção às lições aprendidas, incluindo a comunicação prevista na LGPD.</li>
+          <li><strong>Aula 9</strong>: a arquitetura de monitoramento, com logs, SIEM e telemetria de <em>endpoints</em> e de rede.</li>
+          <li><strong>Aula 10</strong>: detecção por assinatura, por comportamento e por regras de correlação.</li>
+          <li><strong>Aula 11</strong>: caça a ameaças, com hipóteses, consultas e análise de anomalias.</li>
+          <li><strong>Aula 12</strong>: <em>hardening</em> e redução da superfície de ataque.</li>
         </ul>
-        <div class="callout-azul"><p>Objetivo: projetar, em linhas gerais, a cadeia completa de detecção e resposta de uma organização, competência central para quem pretende atuar em SOC, engenharia de detecção ou resposta a incidentes.</p></div>
+        <div class="callout-azul"><p>Ferramentas da unidade: Wazuh e Security Onion, com Zeek, Suricata, Sysmon e Wireshark, sempre contra a plataforma fictícia Rede Tatame.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Evento, registro e telemetria -->
+  <!-- 5. Camadas, SOC e telemetria -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
-      <h2>Evento, registro e telemetria</h2>
+      <h2>Evento, registro e telemetria, camada por camada</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Um <strong>evento</strong> é qualquer ocorrência observável em um sistema: um <em>login</em>, a criação de um processo, uma consulta DNS.</li>
-          <li>O <strong>registro</strong> (<em>log</em>) é a anotação desse evento, com data, hora, origem e detalhes.</li>
-          <li><strong>Telemetria</strong> é o termo mais amplo para o conjunto de dados que sensores e sistemas enviam continuamente para análise.</li>
+          <li>Um <strong>evento</strong> é qualquer ocorrência observável: um <em>login</em>, um processo criado, uma consulta DNS. O <strong>registro</strong> (<em>log</em>) é a anotação desse evento. <strong>Telemetria</strong> é o fluxo contínuo de dados que sensores e agentes enviam para análise.</li>
+          <li>Na <strong>defesa em profundidade</strong>, cada camada (perímetro, rede, <em>endpoint</em>, aplicação, identidade, dados) é uma barreira e também uma fonte de telemetria. Um controle que falha ainda pode deixar rastro.</li>
+          <li>O <strong>SOC</strong> trabalha em níveis: N1 faz a triagem, N2 investiga e contém, N3 caça ameaças e cria detecções.</li>
         </ul>
-        <p>O guia NIST SP 800-92 define a gestão de registros como o processo de <strong>gerar, transmitir, armazenar, analisar e descartar</strong> esses dados. Cada etapa precisa ser planejada, e não improvisada durante um incidente.</p>
+        <div class="callout-azul"><p>O NIST SP 800-92 trata a gestão de registros como um ciclo: gerar, transmitir, armazenar, analisar e descartar. Cada etapa se planeja antes do incidente.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 6. LAB flow: caminho do registro -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>O caminho de um registro, da fonte ao analista</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Seguir o evento das 02:14 até ele virar trabalho para o SOC.</div>
-            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa ou ligue o modo automático.</div>
-            <div class="rl obs"><b>Observe</b>Cada etapa é uma fase do guia NIST SP 800-92: gerar, transmitir, armazenar, analisar e descartar. Os pontos nas linhas são eventos em trânsito.</div>
-            <div class="rl conc"><b>Conclusão</b>Uma fonte que ninguém configurou, como o DNS interno, nunca chega ao SIEM.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-flow"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Fontes de registro -->
+  <!-- 6. Arquitetura de referência -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Fontes de registro essenciais</p>
-      <h2>Não existe monitoração sem saber o que monitorar</h2>
-      <div class="slide-content-box" style="padding:1.1em 1.6em">
-        <table class="tabela-industrial" style="font-size:clamp(1rem, 1.3vw, 1.25rem)">
-          <thead><tr><th>Fonte</th><th>Exemplo de evento</th><th>O que revela</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Windows (Segurança)</strong></td><td>4624 (<em>logon</em> bem-sucedido), 4625 (falha de <em>logon</em>), 4688 (criação de processo), 1102 (registro de auditoria apagado)</td><td>Uso de credenciais, força bruta, execução de comandos, tentativa de apagar rastros</td></tr>
-            <tr><td><strong>Sysmon</strong></td><td>ID 1 (processo, com linha de comando), ID 3 (conexão de rede), ID 22 (consulta DNS)</td><td>Comportamento detalhado do <em>endpoint</em></td></tr>
-            <tr><td><strong><em>Firewall</em> e <em>proxy</em></strong></td><td>Conexões permitidas e bloqueadas, URLs acessadas</td><td>Comando e controle, exfiltração</td></tr>
-            <tr><td><strong>DNS</strong></td><td>Domínios consultados por cada máquina</td><td>Domínios recém-registrados, tunelamento</td></tr>
-            <tr><td><strong>Nuvem e identidade</strong></td><td>Trilhas de auditoria do provedor e do serviço de identidade</td><td>Criação de chaves, mudança de permissões, <em>logins</em> impossíveis</td></tr>
-          </tbody>
-        </table>
+      <p class="kicker">Arquitetura de referência</p>
+      <h2>Wazuh para o <em>endpoint</em>, Security Onion para a rede</h2>
+      <div class="duas-col">
+        <div class="card-ref">
+          <h3>Wazuh (código aberto)</h3>
+          <ul>
+            <li><strong>Agente</strong> em servidores e notebooks: lê os canais do Windows (Security, Sysmon) e os <em>logs</em> do Linux.</li>
+            <li><strong>Wazuh server</strong> (o <em>manager</em>): recebe os eventos na porta 1514/TCP, aplica <em>decoders</em> e regras e gera alertas com nível de 0 a 15.</li>
+            <li><strong>Wazuh indexer</strong>: guarda e indexa alertas e eventos para pesquisa.</li>
+            <li><strong>Wazuh dashboard</strong>: a interface web do analista.</li>
+          </ul>
+        </div>
+        <div class="card-ref so">
+          <h3>Security Onion 2.4 (código aberto)</h3>
+          <ul>
+            <li><strong>Sensor</strong> (<em>forward node</em>) ligado a uma porta espelhada (SPAN) ou a um TAP.</li>
+            <li><strong>Zeek</strong> gera metadados de cada conexão (<code>conn.log</code>, <code>dns.log</code>, <code>rdp.log</code>); <strong>Suricata</strong> compara o tráfego com assinaturas; a captura completa guarda os pacotes (PCAP).</li>
+            <li><strong>Manager</strong> e <strong>search nodes</strong> indexam os dados; o analista usa o SOC Console (Alerts, Hunt, Cases, PCAP).</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 8. PLATAFORMA REDE TATAME: fontes e filas -->
+  <!-- 7. LAB flow: o caminho de um evento -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: seguir o evento das 02:14 até a tela do SOC</p><h2>O caminho de um evento na arquitetura da Rede Tatame</h2></div><span class="lab-badge blue">Arquitetura</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 8. Fontes de telemetria de endpoint -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Telemetria de <em>endpoints</em></p>
+      <h2>O que cada fonte revela, e o que precisa ser configurado</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Fonte</th><th>Exemplos de evento</th><th>O que revela</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Windows · Security</strong></td><td>4624 (<em>logon</em>), 4625 (falha), 4688 (processo), 1102 (registro apagado)</td><td>Uso de credenciais, força bruta, execução, tentativa de apagar rastros</td></tr>
+            <tr><td><strong>Sysmon</strong></td><td>ID 1 (processo), ID 3 (conexão de rede), ID 22 (consulta DNS)</td><td>Linha de comando, <em>hash</em>, processo pai, destino de cada conexão</td></tr>
+            <tr><td><strong>Linux</strong></td><td><code>auth.log</code> / <code>secure</code>, <code>auditd</code></td><td>Acessos SSH, uso de <code>sudo</code>, chamadas de sistema auditadas</td></tr>
+            <tr><td><strong>Rede (sensor)</strong></td><td>Zeek <code>conn.log</code> e <code>dns.log</code>, alertas do Suricata</td><td>Quem falou com quem, quando, por quanto tempo e em que protocolo</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><p>Ter a fonte não basta: o 4688 só grava a linha de comando com uma política habilitada, e o agente Wazuh só lê o canal do Sysmon se ele estiver na configuração.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. LAB terminal: endpoint Windows -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>O que um <em>endpoint</em> Windows registra, e o que o agente envia</h2></div><span class="lab-badge blue">Máquina de laboratório</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ver, numa VM de laboratório, os eventos que um <em>login</em> deixa e conferir se o agente Wazuh os coleta.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" sete vezes. A conta <code>aluno</code> errou a senha três vezes antes de entrar.</div>
+            <div class="rl obs"><b>Observe</b>O tipo de <em>logon</em> (2 = teclado, 3 = rede, 10 = área de trabalho remota), o <em>hash</em> e o processo pai no Sysmon e os canais que o agente lê.</div>
+            <div class="rl conc"><b>Conclusão</b>O Sysmon gera, mas o canal dele não está no <code>ossec.conf</code>: nada chega ao Wazuh até a configuração mudar.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. PLATAFORMA: fontes e filas -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -174,72 +239,72 @@
         <div class="lab-area" id="lab-tatame-fontes"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Descobrir que telemetria da plataforma chega ao SOC e quanto ela custa.</div>
-            <div class="rl"><b>Faça</b>1. Na aba <strong>Telemetria</strong>, anote as fontes ligadas e o custo por mês.<br>2. Ligue as catracas e a saída de rede. Quanto sobe a ingestão?<br>3. Em <strong>Filas e eventos</strong>, clique em <strong>Iniciar</strong> e depois em <strong>Parar o encaminhador do SIEM</strong>.</div>
-            <div class="rl obs"><b>Observe</b>O <em>lag</em> (atraso) do <code>siem-forwarder</code> cresce. Os eventos seguem no Kafka, o barramento de mensagens, mas o SOC não os vê.</div>
-            <div class="rl conc"><b>Conclusão</b>Cada fonte ligada custa dinheiro; cada fonte desligada é um ponto cego.</div>
+            <div class="rl obj"><b>Objetivo</b>Descobrir que fontes da plataforma chegam ao SOC e quanto custa ligar mais uma.</div>
+            <div class="rl"><b>Faça</b>1. Na aba <strong>Telemetria</strong>, leia o painel <strong>Volume e custo</strong>.<br>2. Ligue as catracas e a saída de rede.<br>3. Em <strong>Filas e eventos</strong>, clique em <strong>Iniciar</strong> e depois em <strong>Parar o encaminhador do SIEM</strong>.</div>
+            <div class="rl obs"><b>Observe</b>De 7 para 9 fontes, de 32,8 para 34,5 GB por dia. Com o encaminhador parado, o <em>lag</em> do <code>siem-forwarder</code> cresce.</div>
+            <div class="rl conc"><b>Conclusão</b>Cada fonte ligada custa; cada fonte desligada ou parada é um ponto cego.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 9. Sysmon e configuração -->
+  <!-- 11. Tráfego de rede -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Sysmon e configuração</p>
-      <h2>Ter a fonte não basta: é preciso configurá-la</h2>
+      <p class="kicker">Telemetria de rede</p>
+      <h2>O que o pacote mostra que o <em>log</em> do servidor não mostra</h2>
       <div class="slide-content-box">
-        <p>O <strong>Sysmon</strong> (<em>System Monitor</em>), ferramenta gratuita da Microsoft, enriquece a telemetria do Windows com informações que o registro nativo não traz por padrão.</p>
         <ul>
-          <li>No evento ID 1, ele registra a linha de comando, o <em>hash</em> do executável e o <strong>processo pai</strong>.</li>
-          <li>O evento nativo 4688 só registra a linha de comando se uma política específica estiver habilitada.</li>
-          <li>Uma fonte instalada, mas mal configurada, produz registros que não respondem às perguntas da investigação.</li>
+          <li>O sensor do Security Onion recebe uma cópia do tráfego da sede. Ele vê também as máquinas <strong>sem agente</strong>.</li>
+          <li>O <strong>Zeek</strong> resume cada conexão em uma linha; o <strong>Wireshark</strong> abre os pacotes um a um, a partir do PCAP guardado pelo sensor.</li>
+          <li>No Wireshark, o <strong>filtro de exibição</strong> (<code>tcp.port == 3389</code>) escolhe o que mostrar de um arquivo já capturado; o <strong>filtro de captura</strong> (<code>port 3389</code>, sintaxe BPF) decide o que gravar.</li>
+          <li>Com TLS, o conteúdo vai cifrado. Continuam visíveis endereços, portas, horários, tamanhos e o início da negociação.</li>
         </ul>
-        <div class="callout-azul"><p>No próximo laboratório, vamos errar a senha numa máquina de laboratório, ver os eventos surgirem e conferir o que o Sysmon acrescenta ao abrir o Bloco de Notas pelo PowerShell.</p></div>
+        <div class="callout-azul"><p>O <em>endpoint</em> responde "qual conta e qual processo"; a rede responde "de onde, para onde e quantas vezes". O SOC precisa das duas visões.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 10. LAB terminal -->
+  <!-- 12. LAB Wireshark -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Falhas, sucesso e processo no Windows</h2></div><span class="lab-badge blue">Máquina de laboratório</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Wireshark</p><h2>O <em>login</em> das 02:17 visto na rede</h2></div><span class="lab-badge blue">Tráfego</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver, numa máquina de laboratório, os eventos que um <em>login</em> como o das 02:17 deixa.</div>
-            <div class="rl"><b>Faça</b>Rode os comandos em ordem na VM <code>LAB-WIN11</code>. A conta <code>aluno</code> errou a senha três vezes antes de entrar.</div>
-            <div class="rl obs"><b>Observe</b>O tipo de <em>logon</em> (2 = teclado, 3 = rede, 10 = área de trabalho remota) e a origem. No Sysmon, o <em>hash</em> e o processo pai.</div>
-            <div class="rl conc"><b>Conclusão</b>Sem a política de linha de comando, o evento 4688 não diz com quais argumentos o processo rodou.</div>
+            <div class="rl obj"><b>Objetivo</b>Confirmar, nos pacotes que o sensor guardou, de onde veio o acesso ao ERP.</div>
+            <div class="rl"><b>Faça</b>Clique nos filtros, em ordem: <code>dns</code>, <code>tcp.port == 3389</code>, os SYN e o <code>tcp.flags.reset</code>. Clique numa linha para ver os detalhes.</div>
+            <div class="rl obs"><b>Observe</b>O nome do ERP resolvido pelo AD, o <em>cookie</em> <code>mstshash=carla.dias</code> antes do TLS, 11 conexões RDP em 3 minutos e a porta 445 recusada.</div>
+            <div class="rl conc"><b>Conclusão</b>A rede confirma a origem (NB-FIN-031) e mostra a tentativa seguinte, contra o servidor de arquivos.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-term"></div>
+        <div class="lab-area" id="lab-wsk"></div>
       </div>
     </div>
   </section>
 
-  <!-- 11. SIEM -->
+  <!-- 13. SIEM -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O SIEM</p>
       <h2>Normalizar, enriquecer, correlacionar e reter</h2>
       <div class="slide-content-box">
-        <p>O SIEM (<em>Security Information and Event Management</em>) centraliza os registros e executa funções-chave:</p>
+        <p>O SIEM (<em>Security Information and Event Management</em>) centraliza os registros de todas as fontes. No Wazuh, <em>decoders</em> e regras fazem esse trabalho; no Security Onion, o Elastic Agent e os <em>pipelines</em> de ingestão.</p>
         <ul>
-          <li><strong>Normalização</strong>: converte formatos diferentes em um esquema comum. O "usuário" do <em>firewall</em> e o "<em>TargetUserName</em>" do Windows passam a ocupar o mesmo campo. Esquemas abertos, como o OCSF (<em>Open Cybersecurity Schema Framework</em>), buscam padronizar esse trabalho entre fornecedores.</li>
-          <li><strong>Correlação</strong>: combina eventos que, isolados, parecem inofensivos. Dez falhas (4625) seguidas de um sucesso (4624) da mesma origem, em menos de cinco minutos, sugerem que uma senha foi descoberta.</li>
-          <li><strong>Enriquecimento</strong>: acrescenta contexto, como geolocalização do IP, criticidade do ativo e cargo do usuário, o que acelera a triagem.</li>
-          <li><strong>Retenção</strong>: define por quanto tempo os dados ficam disponíveis.</li>
+          <li><strong>Normalização</strong>: <code>TargetUserName</code> do Windows e o endereço de origem do Zeek passam a ocupar campos comuns, como <code>user.name</code> e <code>source.ip</code>.</li>
+          <li><strong>Enriquecimento</strong>: criticidade do ativo, cargo do usuário, horário usual.</li>
+          <li><strong>Correlação</strong>: dez falhas (4625) seguidas de um sucesso (4624), da mesma origem, em até cinco minutos.</li>
+          <li><strong>Retenção</strong>: por quanto tempo cada tipo de dado fica pesquisável.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 12. Antes do código: onde achar e como instalar -->
+  <!-- 14. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -251,27 +316,27 @@
           <tbody>
             <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor e terminal onde o código é lido e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
             <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda <code>normalizar.py</code> e <code>correlacao.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site; no Ubuntu, <code>sudo apt install python3 python3-venv</code></td></tr>
-            <tr><td><strong>json, datetime, collections</strong></td><td>Ler os registros, comparar horários e guardar as falhas em fila</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>json, datetime, collections</strong></td><td>Ler os eventos, converter horários e guardar as falhas em fila</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
             <tr><td><strong>Ambiente virtual</strong> (<code>.venv</code>)</td><td>Separar os pacotes deste projeto dos pacotes do sistema</td><td>Módulo <code>venv</code>, também da biblioteca padrão</td><td><code>python3 -m venv .venv</code></td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> procure cada módulo que aparece em <code>import</code> no índice da biblioteca padrão (<code>docs.python.org/3/library</code>). Se ele está lá, não há pacote a baixar, e o <code>pip list</code> de um ambiente novo mostra apenas o próprio <code>pip</code>. Cada pacote de terceiros que se evita é uma dependência a menos para atualizar e vigiar, o que reduz o risco na cadeia de suprimentos de <em>software</em>.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> procure cada módulo do <code>import</code> no índice da biblioteca padrão (<code>docs.python.org/3/library</code>). Se ele está lá, não há pacote a baixar, e o <code>pip list</code> de um ambiente novo mostra apenas o próprio <code>pip</code>. As amostras simulam o que o agente Wazuh lê do Windows e o <code>conn.log</code> do Zeek em JSON, o formato que o Security Onion usa.</div>
       </div>
     </div>
   </section>
 
-  <!-- 13. LAB VS Code: normalizador -->
+  <!-- 15. LAB VS Code: normalizar e correlacionar -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Normalizar dois formatos e correlacionar</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2><em>Endpoint</em> e rede no mesmo esquema</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Juntar Windows e <em>firewall</em> e achar o padrão das 02:17.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Leia o mapa de campos em <code>normalizar.py</code>.<br>3. Clique em <strong>Normalizar</strong>.<br>4. Clique em <strong>Correlacionar</strong>.</div>
-            <div class="rl obs"><b>Observe</b><code>user.name</code> e <code>source.ip</code> passam a valer para as duas fontes. A conta <code>ana.lima</code> errou duas vezes e entrou: fica abaixo do limiar.</div>
-            <div class="rl conc"><b>Conclusão</b>A regra acha carla.dias: 10 falhas e um sucesso em pouco mais de 3 minutos.</div>
+            <div class="rl obj"><b>Objetivo</b>Juntar Windows e Zeek num formato comum e achar o padrão das 02:17.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Leia o mapa de campos e a função <code>de_zeek</code> em <code>normalizar.py</code>.<br>3. Clique em <strong>Normalizar</strong>.<br>4. Clique em <strong>Correlacionar</strong>.</div>
+            <div class="rl obs"><b>Observe</b>28 eventos: 15 do Windows e 13 do Zeek. A conta <code>ana.lima</code> errou duas vezes e entrou: fica abaixo do limiar.</div>
+            <div class="rl conc"><b>Conclusão</b>A regra acha carla.dias, e a rede confirma 11 conexões RDP da mesma origem.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -279,26 +344,26 @@
     </div>
   </section>
 
-  <!-- 14. LAB SIEM -->
+  <!-- 16. LAB Wazuh -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · SIEM</p><h2>Os mesmos eventos dentro do SIEM</h2></div><span class="lab-badge blue">SOC</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Wazuh</p><h2>Os mesmos eventos no painel do Wazuh</h2></div><span class="lab-badge blue">SOC</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Confirmar no SIEM o que houve às 02:17 e até quando dá para olhar para trás.</div>
-            <div class="rl"><b>Faça</b>Rode as quatro buscas, na ordem.</div>
-            <div class="rl obs"><b>Observe</b>A origem com mais falhas é a conta de serviço <code>svc-backup</code>, com senha vencida. O enriquecimento mostra ativo crítico, usuária fora do horário e notebook do financeiro.</div>
-            <div class="rl conc"><b>Conclusão</b>Volume alto não indica ataque. O contexto separa ruído de ameaça.</div>
+            <div class="rl obj"><b>Objetivo</b>Confirmar no Wazuh o que houve às 02:17, o que veio depois e até quando dá para olhar para trás.</div>
+            <div class="rl"><b>Faça</b>Rode as quatro buscas salvas, na ordem.</div>
+            <div class="rl obs"><b>Observe</b>O maior volume de falhas é da conta <code>svc-backup</code>, com senha vencida. A regra local 100100 dispara para carla.dias. O PCAP só guarda 7 dias.</div>
+            <div class="rl conc"><b>Conclusão</b>Volume alto não indica ataque; contexto e correlação separam ruído de ameaça.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-siem"></div>
+        <div class="lab-area" id="lab-wazuh"></div>
       </div>
     </div>
   </section>
 
-  <!-- 15. PLATAFORMA REDE TATAME: catraca sem e com telemetria -->
+  <!-- 17. PLATAFORMA: catraca sem e com a fonte -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -308,8 +373,8 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Provar que uma regra só dispara se a fonte de dados estiver ligada.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Catraca adulterada</em> e espere os três passos.<br>2. Ligue a fonte das catracas em <strong>Telemetria</strong> e a regra R10 em <strong>Regras do CEP</strong>, o motor de regras em tempo real.<br>3. Inicie de novo e investigue o alerta no <strong>SOC</strong>.</div>
-            <div class="rl obs"><b>Observe</b>Sem a fonte, os passos ficam "não detectado". Os <em>check-ins</em> falsos ficam "visto nos logs, sem alerta": há dado, mas nenhuma regra.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Catraca adulterada</em> e espere os três passos.<br>2. Ligue a fonte das catracas em <strong>Telemetria</strong> e a regra R10 em <strong>Regras do CEP</strong>.<br>3. Em <strong>Cenários</strong>, clique em <strong>Repetir com as fontes e regras atuais</strong> e investigue o alerta no <strong>SOC</strong>.</div>
+            <div class="rl obs"><b>Observe</b>Sem a fonte, os passos ficam "não detectado". Os <em>check-ins</em> falsos ficam "visto nos logs, sem alerta".</div>
             <div class="rl conc"><b>Conclusão</b>Para avisar o SOC, a Rede Tatame precisa da fonte ligada e da regra ativa.</div>
           </div>
         </div>
@@ -317,91 +382,37 @@
     </div>
   </section>
 
-  <!-- 16. Retenção -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Retenção</p>
-      <h2>Por quanto tempo guardar os registros</h2>
-      <div class="slide-content-box">
-        <p>A retenção deve atender a requisitos legais e contratuais e à realidade das investigações.</p>
-        <ul>
-          <li>O PCI DSS exige guardar o histórico de auditoria por pelo menos <strong>12 meses</strong>, com os <strong>3 meses</strong> mais recentes disponíveis para análise imediata.</li>
-          <li>Se um invasor permaneceu semanas no ambiente, registros de apenas sete dias não contam a história do início.</li>
-          <li>No Brasil, o Marco Civil da Internet (Lei nº 12.965/2014) também traz obrigações de guarda de registros para alguns provedores.</li>
-        </ul>
-        <div class="callout-azul"><p>Retenção é uma decisão de projeto: quanto guardar, onde guardar, por quanto tempo e quando descartar com segurança.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 17. LAB retenção -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Simulação</p><h2>O início da invasão ainda está nos registros?</h2></div><span class="lab-badge blue">Retenção</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Saber se o começo de uma invasão ainda estaria nos registros.</div>
-            <div class="rl"><b>Faça</b>1. Comece com 7 dias de retenção e invasão de 30 dias atrás.<br>2. Ajuste até atender ao PCI DSS, o padrão de segurança de dados de cartão.</div>
-            <div class="rl obs"><b>Observe</b>A linha vermelha é o dia da entrada. A faixa clara é a pesquisa imediata; a faixa fraca, o arquivo.</div>
-            <div class="rl conc"><b>Conclusão</b>A Rede Tatame guarda 12 meses no SIEM. Dado que só existe em fita atrasa a investigação.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-ret"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 18. Fadiga de alertas -->
+  <!-- 18. Retenção e fadiga de alertas -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Operação do SOC</p>
-      <h2>Fadiga de alertas: quando mais é menos</h2>
-      <div class="slide-content-box">
-        <p>Coletar tudo e alertar sobre tudo parece seguro, mas produz o efeito contrário.</p>
-        <ul>
-          <li>Quando a maioria dos alertas é de falsos positivos, os analistas passam a fechá-los no automático.</li>
-          <li>O alerta verdadeiro se perde no meio da fila.</li>
-          <li>Esse fenômeno, chamado <strong>fadiga de alertas</strong>, é um dos principais problemas operacionais dos SOCs.</li>
-        </ul>
-        <div class="callout-azul"><p>A pergunta útil passa a ser: quantos alertas conseguimos investigar com qualidade?</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19. Exemplo numérico -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Exemplo numérico</p>
-      <h2>Alertas <em>versus</em> capacidade da equipe</h2>
+      <h2>Guardar o bastante e alertar só o que cabe</h2>
       <div class="slide-content-box" style="padding:1.1em 1.8em">
-        <p>Um SOC recebe 1.800 alertas por dia, e a triagem de cada um leva, em média, 10 minutos: 1.800 × 10 = 18.000 minutos, ou <strong>300 horas de análise por dia</strong>. A equipe N1 tem seis analistas (dois por turno), com cerca de 6 horas efetivas de triagem cada: 6 × 6 = 36 horas por dia.</p>
+        <ul>
+          <li><strong>Retenção</strong>: o PCI DSS pede 12 meses de histórico de auditoria, com os 3 mais recentes disponíveis para análise imediata. O Marco Civil da Internet fixa 1 ano para registros de conexão e 6 meses para registros de acesso a aplicações. PCAP ocupa muito espaço e costuma durar poucos dias.</li>
+          <li><strong>Fadiga de alertas</strong>: quando quase tudo é falso positivo, o analista fecha alertas no automático e o verdadeiro se perde.</li>
+        </ul>
         <div class="stat-grid" style="margin-top:.4rem">
-          <div class="stat-card"><span class="numero-grande">300 h</span><span class="legenda">demanda diária de triagem</span></div>
-          <div class="stat-card"><span class="numero-grande">216</span><span class="legenda">alertas por dia que a equipe consegue triar (36 × 60 ÷ 10)</span></div>
+          <div class="stat-card"><span class="numero-grande">300 h</span><span class="legenda">demanda diária: 1.800 alertas × 10 min</span></div>
+          <div class="stat-card"><span class="numero-grande">216</span><span class="legenda">alertas que 6 analistas × 6 h conseguem triar</span></div>
           <div class="stat-card"><span class="numero-grande">12%</span><span class="legenda">do volume recebido</span></div>
-          <div class="stat-card"><span class="numero-grande">≈ 261</span><span class="legenda">alertas por dia depois de ajustar as cinco regras ruidosas</span></div>
+          <div class="stat-card"><span class="numero-grande">≈ 261</span><span class="legenda">alertas por dia depois de ajustar as 5 regras ruidosas</span></div>
         </div>
-        <p style="margin-top:.8rem">Se 95% dos alertas vêm de cinco regras ruidosas e o ajuste corta 90% do ruído delas: 1.800 − (0,95 × 1.800 × 0,9) ≈ 261. Ajustar regras costuma ser mais eficiente do que contratar mais analistas.</p>
       </div>
     </div>
   </section>
 
-  <!-- 20. LAB capacidade -->
+  <!-- 19. LAB capacidade -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker" style="margin:0">Laboratório · Exemplo numérico</p>
-      <div class="lab-head"><h2>Calculadora de alertas e capacidade do SOC</h2><span class="lab-badge blue">Gestão do SOC</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Exemplo numérico</p><h2>Calculadora de alertas e capacidade do SOC</h2></div><span class="lab-badge blue">Gestão do SOC</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Verificar se o alerta das 02:17 cabe na fila do SOC.</div>
-            <div class="rl"><b>Faça</b>1. Contrate mais dois analistas.<br>2. Volte a seis e corte 90% do ruído das regras ruidosas.<br>3. Reduza a triagem para 6 minutos.</div>
+            <div class="rl"><b>Faça</b>1. Suba os analistas N1 de 6 para 8.<br>2. Volte a 6 e corte 90% do ruído das regras ruidosas.<br>3. Reduza a triagem para 6 minutos.</div>
             <div class="rl obs"><b>Observe</b>Com os valores do texto, a equipe tria 216 dos 1.800 alertas por dia (12%).</div>
             <div class="rl conc"><b>Conclusão</b>Ajustar regras rende mais do que contratar.</div>
           </div>
@@ -411,23 +422,23 @@
     </div>
   </section>
 
-  <!-- 21. De volta ao problema -->
+  <!-- 20. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
       <h2>Agora o SOC enxerga o <em>login</em> das 02:17</h2>
       <div class="resolvido">
-        <div class="ev"><b>Coletar as fontes certas</b>Os eventos 4624 e 4625 do Windows e o Sysmon chegam ao SIEM pelo Kafka. Fonte desligada é ponto cego, como as catracas na plataforma.</div>
-        <div class="ev"><b>Normalizar e correlacionar</b>Com campos comuns, a regra "10 falhas e um sucesso em 5 minutos" acha carla.dias às 02:17:12. O enriquecimento mostra um notebook do financeiro de madrugada.</div>
-        <div class="ev"><b>Guardar o bastante</b>Doze meses no SIEM, com três para pesquisa imediata, como pede o PCI DSS, permitem reconstruir o começo da invasão.</div>
-        <div class="ev"><b>Caber na equipe</b>Ajustar as cinco regras ruidosas leva a fila de 1.800 para cerca de 261 alertas por dia. O alerta verdadeiro não se perde.</div>
-        <div class="resposta">Resposta à pergunta da aula: coletar os eventos de autenticação e de processos de servidores e notebooks, levá-los ao SIEM em formato comum, correlacionar falhas seguidas de sucesso, guardar 12 meses e manter o volume de alertas dentro da capacidade do SOC.</div>
+        <div class="ev"><b>Coletar no <em>endpoint</em></b>Agentes Wazuh no ERP e nos notebooks leem os eventos 4624 e 4625 e o canal do Sysmon, depois de incluído no <code>ossec.conf</code>.</div>
+        <div class="ev"><b>Coletar na rede</b>O sensor do Security Onion, numa porta espelhada, registra no Zeek e no PCAP as 11 conexões RDP do NB-FIN-031 e a tentativa na porta 445.</div>
+        <div class="ev"><b>Normalizar e correlacionar</b>Campos comuns permitem a regra "10 falhas e um sucesso em 5 minutos", que encontra carla.dias às 02:17:12.</div>
+        <div class="ev"><b>Guardar e caber na equipe</b>Doze meses de alertas no indexer, PCAP de poucos dias e regras ajustadas: a fila cai para cerca de 261 alertas.</div>
+        <div class="resposta">Resposta à pergunta da aula: agentes nos <em>endpoints</em> e um sensor de rede enviam telemetria a um SIEM que normaliza, correlaciona e guarda os dados pelo tempo exigido, e o analista vê o alerta no painel do Wazuh com contexto suficiente e numa fila que cabe na equipe.</div>
       </div>
     </div>
   </section>
 
-  <!-- 22. Pontos-chave -->
+  <!-- 21. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -435,41 +446,42 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Sem fontes de registro bem escolhidas e configuradas, não há detecção possível.</li>
-          <li>Eventos como 4624, 4625 e 4688 e a telemetria do Sysmon são a base da monitoração de <em>endpoints</em> Windows.</li>
-          <li>O SIEM normaliza, enriquece, correlaciona e retém dados de múltiplas fontes.</li>
-          <li>A retenção deve atender à lei, aos contratos e ao tempo real das investigações.</li>
-          <li>Volume de alertas acima da capacidade da equipe gera fadiga e alertas perdidos.</li>
+          <li>Cada camada da defesa em profundidade é também uma fonte de telemetria.</li>
+          <li>No Wazuh, o agente coleta, o <em>server</em> decodifica e aplica regras, o <em>indexer</em> guarda e o <em>dashboard</em> mostra.</li>
+          <li>O Security Onion acrescenta a visão de rede: Zeek, Suricata e PCAP.</li>
+          <li>Eventos 4624, 4625 e 4688 e o Sysmon são a base do <em>endpoint</em> Windows, desde que configurados.</li>
+          <li>Retenção e volume de alertas são decisões de projeto, não detalhes.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 23. Referências -->
+  <!-- 22. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>BRASIL. Lei nº 12.965, de 23 de abril de 2014. Estabelece princípios, garantias, direitos e deveres para o uso da Internet no Brasil (Marco Civil da Internet). <em>Diário Oficial da União</em>, Brasília, DF, 24 abr. 2014.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>BEJTLICH, Richard. <em>The practice of network security monitoring</em>: understanding incident detection and response. San Francisco: No Starch Press, 2013.</p>
         <p>KENT, Karen; SOUPPAYA, Murugiah. <em>SP 800-92</em>: guide to computer security log management. Gaithersburg: NIST, 2006. DOI: 10.6028/NIST.SP.800-92.</p>
-        <p>MICROSOFT. <em>Sysmon</em>. Sysinternals. Disponível em: &lt;https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon&gt;. Acesso em: 13 nov. 2026.</p>
         <p>PCI SECURITY STANDARDS COUNCIL. <em>Payment card industry data security standard</em>: requirements and testing procedures. Versão 4.0.1. [<em>S. l.</em>]: PCI SSC, 2024.</p>
-        <p>SANDERS, Chris; SMITH, Jason. <em>Applied network security monitoring</em>: collection, detection, and analysis. Waltham: Syngress, 2014.</p>
+        <p>SANDERS, Chris; SMITH, Jason. <em>Applied network security monitoring</em>: collection, detection, and analysis. Waltham: Syngress, 2013.</p>
+        <p>SECURITY ONION SOLUTIONS. <em>Security Onion 2.4 documentation</em>. Disponível em: &lt;https://docs.securityonion.net/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>WAZUH. <em>Wazuh documentation</em>: architecture. Disponível em: &lt;https://documentation.wazuh.com/current/getting-started/architecture.html&gt;. Acesso em: 22 nov. 2026.</p>
       </div>
     </div>
   </section>
 
-  <!-- 24. Encerramento -->
+  <!-- 23. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe de onde vêm os dados do SOC, quais fontes priorizar, o que o SIEM faz com eles e por que o volume de alertas precisa caber na capacidade da equipe. Na próxima aula, vamos escrever regras que encontram o ataque sem afogar o analista.</p>
-      <p class="fim-proxima">Próxima aula: Aula 10 — Engenharia de detecção e EDR.</p>
+      <p class="fim-texto">Você já sabe montar a arquitetura que leva os dados do <em>endpoint</em> e da rede até o analista, o que cada componente do Wazuh e do Security Onion faz e por que retenção e volume de alertas precisam ser projetados. Na próxima aula, vamos escrever as regras que transformam esses dados em detecção.</p>
+      <p class="fim-proxima">Próxima aula: Aula 10 — Detecção baseada em assinaturas, comportamento e regras.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -480,49 +492,50 @@
 <script src="../../assets/labs.js"></script>
 <script>
 /* ---------- 3. Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'ad', 'edr', 'kafka', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
-  legenda: 'Onde a aula acontece: o <em>login</em> sai do notebook NB-FIN-031 e chega ao SRV-ERP-01 (em vermelho). Os registros precisam chegar ao SIEM, o sistema que reúne e analisa os registros para o SOC.' });
+Labs.miniMapa('#mapa-problema', { destaque: ['nb', 'ad', 'edr', 'siem'], alvo: 'erp', caminho: ['nb', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: o <em>login</em> sai do notebook NB-FIN-031 e chega ao SRV-ERP-01 (em vermelho). Os eventos do servidor e do tráfego da sede precisam chegar ao SIEM, onde o SOC os analisa.' });
 
-/* ---------- 6. Fluxo: caminho do registro ---------- */
+/* ---------- 7. Fluxo: o caminho de um evento ---------- */
 Labs.flow('#lab-flow', {
-  w: 1100, h: 470,
+  w: 1100, h: 450,
   nodes: [
-    { id: 'srv', x: 110, y: 60, label: 'Servidores', sub: 'Windows e Linux', icon: '🖥️', w: 180 },
-    { id: 'est', x: 110, y: 160, label: 'Estações', sub: 'Sysmon e EDR', icon: '💻', w: 180 },
-    { id: 'fw', x: 110, y: 260, label: 'Firewall e proxy', sub: 'conexões e URLs', icon: '🧱', w: 180 },
-    { id: 'cloud', x: 110, y: 360, label: 'Nuvem e identidade', sub: 'trilhas de auditoria', icon: '☁️', w: 190 },
-    { id: 'col', x: 360, y: 210, label: 'Coleta', sub: 'agentes e syslog', icon: '📥' },
-    { id: 'norm', x: 570, y: 210, label: 'Normalização', sub: 'esquema comum', icon: '🔧' },
-    { id: 'siem', x: 780, y: 210, label: 'SIEM', sub: 'enriquece e correlaciona', icon: '📊', k: 'blue', w: 190 },
-    { id: 'arm', x: 780, y: 390, label: 'Armazenamento', sub: 'retenção e descarte', icon: '🗄️', w: 190 },
-    { id: 'alr', x: 980, y: 110, label: 'Alerta', sub: 'severidade alta', icon: '🚨', k: 'amber', w: 160 },
-    { id: 'ana', x: 980, y: 300, label: 'Analista N1', sub: 'triagem', icon: '🛡️', k: 'blue', w: 160 },
-    { id: 'dns', x: 360, y: 420, label: 'DNS interno', sub: 'não configurado', icon: '❔', k: 'red', w: 170 }
+    { id: 'erp', x: 105, y: 55, label: 'SRV-ERP-01', sub: 'agente Wazuh + Sysmon', icon: '🖥️', w: 190 },
+    { id: 'nb', x: 105, y: 150, label: 'NB-FIN-031', sub: 'agente Wazuh + Sysmon', icon: '💻', w: 190 },
+    { id: 'sw', x: 105, y: 290, label: 'Switch da sede', sub: 'porta espelhada (SPAN)', icon: '🔀', w: 190 },
+    { id: 'cat', x: 105, y: 395, label: 'Catracas', sub: 'sem agente e sem sensor', icon: '🚪', k: 'red', w: 190 },
+    { id: 'srv', x: 370, y: 100, label: 'Wazuh server', sub: 'decoders e regras', icon: '⚙️', w: 190 },
+    { id: 'idx', x: 610, y: 100, label: 'Wazuh indexer', sub: 'guarda e indexa', icon: '🗄️', w: 180 },
+    { id: 'dash', x: 845, y: 100, label: 'Wazuh dashboard', sub: 'HTTPS · analista', icon: '📊', k: 'blue', w: 190 },
+    { id: 'sen', x: 370, y: 290, label: 'Sensor SO', sub: 'Zeek · Suricata · PCAP', icon: '📡', w: 190 },
+    { id: 'som', x: 610, y: 290, label: 'Manager + search', sub: 'Security Onion', icon: '🗄️', w: 180 },
+    { id: 'soc', x: 845, y: 290, label: 'SOC Console', sub: 'Alerts · Hunt · PCAP', icon: '🔎', k: 'blue', w: 190 },
+    { id: 'ana', x: 1015, y: 195, label: 'Luiza', sub: 'SOC N2', icon: '🛡️', k: 'blue', w: 140 }
   ],
   links: [
-    { from: 'srv', to: 'col' }, { from: 'est', to: 'col' }, { from: 'fw', to: 'col' }, { from: 'cloud', to: 'col' },
-    { from: 'col', to: 'norm', label: 'transmitir' }, { from: 'norm', to: 'siem' }, { from: 'siem', to: 'arm', label: 'armazenar' },
-    { from: 'siem', to: 'alr', label: 'regra' }, { from: 'alr', to: 'ana' }, { from: 'dns', to: 'col', dashed: true }
+    { from: 'erp', to: 'srv', label: '1514/tcp' }, { from: 'nb', to: 'srv' }, { from: 'srv', to: 'idx', label: 'alertas' }, { from: 'idx', to: 'dash' },
+    { from: 'nb', to: 'sw', dashed: true }, { from: 'sw', to: 'sen', label: 'cópia do tráfego' }, { from: 'sen', to: 'som' }, { from: 'som', to: 'soc' },
+    { from: 'dash', to: 'ana' }, { from: 'soc', to: 'ana' }, { from: 'cat', to: 'sen', dashed: true }
   ],
   steps: [
-    { title: '02:14:03 · Gerar', text: 'O servidor SRV-ERP-01 registra o evento 4625: falha de logon da conta carla.dias, tipo 10, origem 10.10.20.31.', on: ['srv'] },
-    { title: 'Transmitir', text: 'Um agente no servidor envia o evento ao coletor. O firewall, as estações e a nuvem fazem o mesmo, cada um no seu formato.', on: ['srv', 'est', 'fw', 'cloud', 'col'], links: [['srv', 'col'], ['est', 'col'], ['fw', 'col'], ['cloud', 'col']] },
-    { title: 'Normalizar', text: 'TargetUserName (Windows) e usuario (firewall) viram o mesmo campo user.name. IpAddress e src viram source.ip. Agora uma busca cobre todas as fontes.', on: ['col', 'norm'], links: [['col', 'norm']] },
-    { title: 'Enriquecer e correlacionar', text: 'O SIEM acrescenta contexto (SRV-ERP-01 é ativo crítico) e percebe que 10 falhas foram seguidas de um sucesso da mesma origem em 3 minutos.', on: ['norm', 'siem'], links: [['norm', 'siem']] },
-    { title: 'Analisar', text: 'A regra de correlação gera um alerta de severidade alta, que entra na fila do analista N1 já com o contexto anexado.', on: ['siem', 'alr', 'ana'], links: [['siem', 'alr', 'amber'], ['alr', 'ana', 'amber']] },
-    { title: 'Armazenar e descartar', text: 'O evento é guardado conforme a política de retenção e descartado de forma controlada ao fim do prazo. Sem isso, a investigação de amanhã não tem passado.', on: ['siem', 'arm'], links: [['siem', 'arm', 'green']] },
-    { title: 'A câmera sem gravação', text: 'O DNS interno nunca foi configurado para enviar registros. Consultas a domínios recém-registrados acontecem todos os dias e nenhuma chega ao SIEM.', on: ['dns'], bad: ['dns'], links: [['dns', 'col', 'red']], dim: true }
+    { title: '02:14:03 · Gerar', text: 'O SRV-ERP-01 grava no canal Security o evento 4625: falha de logon da conta carla.dias, tipo 10 (área de trabalho remota), origem 10.10.4.31.', on: ['erp'] },
+    { title: 'Coletar no endpoint', text: 'O agente Wazuh lê os canais configurados (Security e, se incluído, Sysmon) e envia o evento cifrado ao Wazuh server na porta 1514/TCP. O registro do agente usa a porta 1515.', on: ['erp', 'nb', 'srv'], links: [['erp', 'srv', 'blue'], ['nb', 'srv', 'blue']] },
+    { title: 'Decodificar e aplicar regras', text: 'No server, os decoders extraem campos como win.eventdata.targetUserName e win.eventdata.ipAddress. As regras classificam o evento com um nível de 0 a 15; a falha de logon vira alerta de nível baixo.', on: ['srv'] },
+    { title: 'Indexar e mostrar', text: 'Os alertas seguem para o Wazuh indexer, que os guarda conforme a política de retenção, e aparecem no dashboard. Luiza pesquisa ali por agente, conta, regra e técnica ATT&CK.', on: ['srv', 'idx', 'dash', 'ana'], links: [['srv', 'idx', 'blue'], ['idx', 'dash', 'blue'], ['dash', 'ana', 'blue']] },
+    { title: 'A mesma sessão na rede', text: 'O switch da sede copia o tráfego para o sensor do Security Onion. O Zeek registra cada conexão do notebook para 10.10.1.30:3389, o Suricata compara com assinaturas e o PCAP guarda os pacotes.', on: ['nb', 'sw', 'sen'], links: [['nb', 'sw', 'amber'], ['sw', 'sen', 'amber']] },
+    { title: 'Indexar a rede', text: 'O manager e os search nodes do Security Onion indexam os logs do Zeek e os alertas do Suricata. No SOC Console, Hunt pesquisa os metadados e PCAP abre os pacotes.', on: ['sen', 'som', 'soc', 'ana'], links: [['sen', 'som', 'amber'], ['som', 'soc', 'amber'], ['soc', 'ana', 'amber']] },
+    { title: 'Duas visões, um caso', text: 'O Wazuh diz qual conta entrou e o que rodou depois. O Security Onion diz de onde veio a conexão, quantas vezes e para onde foi em seguida. Luiza cruza as duas.', on: ['dash', 'soc', 'ana'], links: [['dash', 'ana', 'blue'], ['soc', 'ana', 'amber']] },
+    { title: 'O ponto cego', text: 'As catracas das academias ficam em redes 10.80.x.0/24, sem agente e sem sensor. Nada do que acontece ali chega a nenhuma das duas plataformas.', on: ['cat'], bad: ['cat'], links: [['cat', 'sen', 'red']], dim: true }
   ]
 });
 
-/* ---------- 7b e 12b. Plataforma Rede Tatame ---------- */
+/* ---------- 10 e 17. Plataforma Rede Tatame ---------- */
 Labs.plataforma('#lab-tatame-fontes', { aba: 'telemetria', reiniciar: true });
 Labs.plataforma('#lab-tatame-catraca', { aba: 'cenarios', reiniciar: true, fontes: { catracas: false }, regras: { R10: false } });
 
-/* ---------- 9. Terminal: 4625, 4624, Sysmon e 4688 ---------- */
+/* ---------- 9. Terminal: eventos do Windows, Sysmon e agente Wazuh ---------- */
 Labs.terminal('#lab-term', {
   theme: 'windows', title: 'Administrador: Windows PowerShell · LAB-WIN11', prompt: 'PS C:\\lab> ',
-  intro: ['[mute]Máquina virtual isolada do laboratório. A conta aluno errou a senha três vezes antes de entrar.'],
+  intro: ['[mute]Máquina virtual isolada do laboratório, com o agente Wazuh instalado. A conta aluno errou a senha três vezes antes de entrar.'],
   steps: [
     { cmd: "Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4625} -MaxEvents 3 | Select-Object TimeCreated, Id, @{n='Conta';e={$_.Properties[5].Value}}, @{n='TipoLogon';e={$_.Properties[10].Value}}, @{n='Origem';e={$_.Properties[19].Value}}",
       note: 'No 4625, a conta está na propriedade 5, o tipo de logon na 10 e o endereço de origem na 19.', out: [
@@ -538,21 +551,109 @@ Labs.terminal('#lab-term', {
       '[ok]Sysmon64 installed.', '[ok]SysmonDrv installed.', 'Starting SysmonDrv.', '[ok]SysmonDrv started.', 'Starting Sysmon64..', '[ok]Sysmon64 started.', ''] },
     { cmd: 'Start-Process notepad.exe', note: 'Abrimos o Bloco de Notas a partir do PowerShell. Para o Sysmon, isso gera um evento ID 1.', out: [''] },
     { cmd: "Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' -MaxEvents 20 | Where-Object { $_.Id -eq 1 -and $_.Message -match 'notepad' } | Select-Object -First 1 -ExpandProperty Message",
-      note: 'Linha de comando, hash e processo pai com a linha de comando dele: o contexto que o registro nativo não traz por padrão.', out: [
+      note: 'Linha de comando, hash e processo pai: o contexto que o registro nativo não traz por padrão.', out: [
       'Process Create:', 'RuleName: -', 'UtcTime: 2026-11-13 13:04:18.512', 'ProcessGuid: {6a1f0c2e-9b42-6734-2a01-000000001e00}', 'ProcessId: 6124',
       '[hi]Image: C:\\Windows\\System32\\notepad.exe', 'FileVersion: 10.0.26100.1', 'Description: Notepad', '[hi]CommandLine: "C:\\Windows\\system32\\notepad.exe"',
       'CurrentDirectory: C:\\lab\\', 'User: LAB-WIN11\\aluno', 'IntegrityLevel: High',
       '[hi]Hashes: SHA256=4C1F9A0E7D2B8C35F6E1A9D04B7C2E58193F0A6D7B4E2C1D9F8A7B6C5D4E3F21',
       '[hi]ParentImage: C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe', 'ParentCommandLine: "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"', ''] },
-    { cmd: "Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit' -Name ProcessCreationIncludeCmdLine_Enabled",
-      note: 'A política que inclui a linha de comando no 4688 não existe nesta máquina. O 4688 dirá que o processo foi criado, mas não com quais argumentos.', out: [
-      "[err]Get-ItemProperty: Property ProcessCreationIncludeCmdLine_Enabled does not exist at path", "[err]HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit.", '',
-      '[warn]Conclusão: a fonte 4688 existe, mas sem esta política não registra a linha de comando.'] }
+    { cmd: 'Get-Service WazuhSvc', note: 'O agente Wazuh roda como o serviço WazuhSvc. Ele está ativo e enviando eventos ao server.', out: [
+      '', 'Status   Name               DisplayName', '------   ----               -----------', '[ok]Running  WazuhSvc           Wazuh', ''] },
+    { cmd: "Select-String -Path 'C:\\Program Files (x86)\\ossec-agent\\ossec.conf' -Pattern '<location>'",
+      note: 'O ossec.conf lista os canais que o agente lê. O padrão traz Application, Security e System; o canal do Sysmon precisa ser acrescentado.', out: [
+      '', 'C:\\Program Files (x86)\\ossec-agent\\ossec.conf:24:    <location>Application</location>',
+      'C:\\Program Files (x86)\\ossec-agent\\ossec.conf:36:    <location>Security</location>',
+      'C:\\Program Files (x86)\\ossec-agent\\ossec.conf:43:    <location>System</location>', '',
+      '[warn]O canal Microsoft-Windows-Sysmon/Operational não está na lista: o Sysmon grava, mas o Wazuh não recebe.',
+      '[mute]Correção: um bloco <localfile> com <location>Microsoft-Windows-Sysmon/Operational</location> e <log_format>eventchannel</log_format>.'] }
   ],
-  done: 'Roteiro concluído: ter a fonte não basta, é preciso configurá-la.'
+  done: 'Roteiro concluído: ter a fonte não basta, é preciso configurá-la e mandá-la ao SIEM.'
 });
 
-/* ---------- 11. VS Code: normalizador e correlação ---------- */
+/* ---------- 12. Wireshark simulado: o PCAP do sensor ---------- */
+Labs.register('#lab-wsk', (el) => {
+  const NB = '10.10.4.31', AD = '10.10.1.10', ERP = '10.10.1.30', ARQ = '10.10.1.20';
+  const P = [];
+  const add = (o) => { P.push(o); };
+  add({ n: 4102, t: '02:13:58.102', src: NB, dst: AD, pr: 'DNS', len: 92, cls: 'p-dns', udp: [53211, 53], info: 'Standard query 0x4f21 A srv-erp-01.corp.tatame.local',
+    app: ['Domain Name System (query)', '    Transaction ID: 0x4f21', '    Queries', '        srv-erp-01.corp.tatame.local: type A, class IN'] });
+  add({ n: 4103, t: '02:13:58.103', src: AD, dst: NB, pr: 'DNS', len: 108, cls: 'p-dns', udp: [53, 53211], info: 'Standard query response 0x4f21 A srv-erp-01.corp.tatame.local A 10.10.1.30',
+    app: ['Domain Name System (response)', '    Transaction ID: 0x4f21', '    Answers', '!       srv-erp-01.corp.tatame.local: type A, class IN, addr 10.10.1.30'] });
+  const portas = [50211, 50213, 50215, 50217, 50219, 50221, 50223, 50225, 50227, 50229, 50231];
+  const horas = ['02:14:01', '02:14:19', '02:14:36', '02:14:53', '02:15:10', '02:15:27', '02:15:45', '02:16:02', '02:16:20', '02:16:38', '02:17:10'];
+  let n = 4110;
+  portas.forEach((p, i) => {
+    const h = horas[i];
+    add({ n: n++, t: h + '.214', src: NB, dst: ERP, pr: 'TCP', len: 66, cls: 'p-tcp', tcp: [p, 3389], syn: true, info: p + ' → 3389 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM' });
+    if (i === 0) {
+      add({ n: n++, t: h + '.215', src: ERP, dst: NB, pr: 'TCP', len: 66, cls: 'p-tcp', tcp: [3389, p], synack: true, info: '3389 → ' + p + ' [SYN, ACK] Seq=0 Ack=1 Win=65535 Len=0 MSS=1460 WS=256 SACK_PERM' });
+      add({ n: n++, t: h + '.215', src: NB, dst: ERP, pr: 'TCP', len: 54, cls: 'p-tcp', tcp: [p, 3389], info: p + ' → 3389 [ACK] Seq=1 Ack=1 Win=262656 Len=0' });
+      add({ n: n++, t: h + '.217', src: NB, dst: ERP, pr: 'RDP', len: 96, cls: 'p-rdp', tcp: [p, 3389], info: 'Cookie: mstshash=carla.dias, Negotiate Request',
+        app: ['TPKT, Version: 3, Length: 42', 'ISO 8073/X.224 COTP Connection-Oriented Transport Protocol', '    PDU Type: CR Connect Request (0x0e)', 'Remote Desktop Protocol', '!   Routing Token/Cookie: Cookie: mstshash=carla.dias', '    RDP Negotiation Request', '        requestedProtocols: 0x0000000b, TLS security, CredSSP'] });
+      add({ n: n++, t: h + '.218', src: ERP, dst: NB, pr: 'RDP', len: 73, cls: 'p-rdp', tcp: [3389, p], info: 'Negotiate Response',
+        app: ['TPKT, Version: 3, Length: 19', 'ISO 8073/X.224 COTP Connection-Oriented Transport Protocol', '    PDU Type: CC Connect Confirm (0x0d)', 'Remote Desktop Protocol', '    RDP Negotiation Response', '!       selectedProtocol: 0x00000002, CredSSP'] });
+      add({ n: n++, t: h + '.221', src: NB, dst: ERP, pr: 'TLSv1.2', len: 271, cls: 'p-tls', tcp: [p, 3389], info: 'Client Hello',
+        app: ['Transport Layer Security', '    TLSv1.2 Record Layer: Handshake Protocol: Client Hello', '        Handshake Type: Client Hello (1)', '        Version: TLS 1.2 (0x0303)'] });
+      add({ n: n++, t: h + '.224', src: ERP, dst: NB, pr: 'TLSv1.2', len: 1514, cls: 'p-tls', tcp: [3389, p], info: 'Server Hello, Certificate, Server Key Exchange, Server Hello Done',
+        app: ['Transport Layer Security', '    TLSv1.2 Record Layer: Handshake Protocol: Multiple Handshake Messages', '!       Certificate: CN=SRV-ERP-01.corp.tatame.local'] });
+      add({ n: n++, t: h + '.230', src: NB, dst: ERP, pr: 'TLSv1.2', len: 412, cls: 'p-tls', tcp: [p, 3389], info: 'Application Data',
+        app: ['Transport Layer Security', '    TLSv1.2 Record Layer: Application Data Protocol: Application Data', '!       Encrypted Application Data: 8d3f0b…  (CredSSP: senha e resposta cifradas)'] });
+    }
+  });
+  add({ n: 4398, t: '02:19:40.501', src: NB, dst: ARQ, pr: 'TCP', len: 66, cls: 'p-tcp', tcp: [50260, 445], syn: true, info: '50260 → 445 [SYN] Seq=0 Win=64240 Len=0 MSS=1460 WS=256 SACK_PERM' });
+  add({ n: 4399, t: '02:19:40.502', src: ARQ, dst: NB, pr: 'TCP', len: 54, cls: 'p-rst', tcp: [445, 50260], rst: true, info: '445 → 50260 [RST, ACK] Seq=1 Ack=1 Win=0 Len=0',
+    app: ['Transmission Control Protocol, Src Port: 445, Dst Port: 50260', '!   Flags: 0x014 (RST, ACK)', '    [Conexão recusada: o servidor de arquivos não aceitou a porta 445 vinda deste notebook]'] });
+  const FILTROS = [
+    { f: 'ip.addr == 10.10.4.31', ok: (p) => p.src === NB || p.dst === NB, msg: 'Tudo o que o NB-FIN-031 trocou na rede da sede entre 02:13 e 02:20, no PCAP do sensor.' },
+    { f: 'dns', ok: (p) => p.pr === 'DNS', msg: 'Antes de conectar, o notebook pergunta ao AD (10.10.1.10) o endereço do ERP: 10.10.1.30.' },
+    { f: 'tcp.port == 3389', ok: (p) => p.tcp && (p.tcp[0] === 3389 || p.tcp[1] === 3389), msg: 'O cookie mstshash vai em claro antes do TLS. Depois, a senha segue cifrada pelo CredSSP.' },
+    { f: 'tcp.flags.syn == 1 && tcp.flags.ack == 0', ok: (p) => !!p.syn, msg: '12 inícios de conexão: 11 para o ERP (3389) em pouco mais de 3 minutos e 1 para o servidor de arquivos (445).' },
+    { f: 'tcp.flags.reset == 1', ok: (p) => !!p.rst, msg: 'Às 02:19:40, o SRV-ARQ-01 recusa a porta 445. Depois do ERP, alguém tentou o servidor de arquivos.' }
+  ];
+  el.innerHTML = '<div class="wsk"><div class="wsk-title"><i></i><i></i><i></i><span>sede-span_2026-11-13_0213.pcapng · Wireshark</span></div>' +
+    '<div class="wsk-presets"></div>' +
+    '<div class="wsk-filter"><label>Filtro de exibição</label><input type="text" spellcheck="false" aria-label="Filtro de exibição"><button type="button">Aplicar</button></div>' +
+    '<div class="wsk-list"><table><thead><tr><th>No.</th><th>Time</th><th>Source</th><th>Destination</th><th>Protocol</th><th>Length</th><th>Info</th></tr></thead><tbody></tbody></table></div>' +
+    '<div class="wsk-det"></div><div class="wsk-status"><span class="msg"></span><span class="cnt"></span></div></div>';
+  const q = (s) => el.querySelector(s);
+  const inp = q('.wsk-filter input'), tbody = q('tbody'), det = q('.wsk-det'), msg = q('.msg'), cnt = q('.cnt'), pre = q('.wsk-presets');
+  FILTROS.forEach((F, k) => { const b = Labs.h('button', '', Labs.esc(F.f)); b.type = 'button'; b.addEventListener('click', () => aplicar(k)); pre.appendChild(b); F._b = b; });
+  function detalhes(p) {
+    const L = ['Frame ' + p.n + ': ' + p.len + ' bytes on wire (' + p.len * 8 + ' bits)', 'Ethernet II', 'Internet Protocol Version 4, Src: ' + p.src + ', Dst: ' + p.dst];
+    if (p.udp) L.push('User Datagram Protocol, Src Port: ' + p.udp[0] + ', Dst Port: ' + p.udp[1]);
+    if (p.tcp && !p.rst) L.push('Transmission Control Protocol, Src Port: ' + p.tcp[0] + ', Dst Port: ' + p.tcp[1] + (p.syn ? ', Seq: 0, Len: 0' : ''));
+    if (p.syn) L.push('!   Flags: 0x002 (SYN)');
+    if (p.synack) L.push('!   Flags: 0x012 (SYN, ACK)');
+    (p.app || []).forEach((x) => L.push(x));
+    det.innerHTML = L.map((x) => { const hi = x[0] === '!'; const t = hi ? ' ' + x.slice(1) : x; return '<span class="' + (/^\S/.test(x) && !hi ? 'lv0' : '') + (hi ? ' hi' : '') + '">' + Labs.esc(t) + '</span>'; }).join('\n');
+  }
+  function aplicar(k) {
+    const F = FILTROS[k];
+    inp.value = F.f; inp.classList.remove('bad');
+    FILTROS.forEach((x, j) => x._b.classList.toggle('on', j === k));
+    const vis = P.filter(F.ok);
+    tbody.innerHTML = '';
+    vis.forEach((p, i) => {
+      const tr = Labs.h('tr', p.cls, '<td>' + p.n + '</td><td>' + p.t + '</td><td>' + p.src + '</td><td>' + p.dst + '</td><td>' + p.pr + '</td><td>' + p.len + '</td><td class="info">' + Labs.esc(p.info) + '</td>');
+      tr.addEventListener('click', () => { tbody.querySelectorAll('tr').forEach((r) => r.classList.remove('sel')); tr.classList.add('sel'); detalhes(p); });
+      tbody.appendChild(tr);
+    });
+    const alvo = vis.find((p) => p.app) || vis[0];
+    const idx = vis.indexOf(alvo);
+    if (idx >= 0) { tbody.children[idx].classList.add('sel'); detalhes(alvo); }
+    msg.textContent = F.msg;
+    cnt.textContent = 'Pacotes: 5.812 · Exibidos: ' + vis.length;
+  }
+  function digitar() {
+    const k = FILTROS.findIndex((F) => F.f.replace(/\s+/g, '') === inp.value.replace(/\s+/g, ''));
+    if (k >= 0) aplicar(k); else { inp.classList.add('bad'); msg.textContent = 'Filtro não previsto neste laboratório. Use um dos botões acima.'; }
+  }
+  q('.wsk-filter button').addEventListener('click', digitar);
+  inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') digitar(); });
+  aplicar(0);
+});
+
+/* ---------- 15. VS Code: normalizar Windows e Zeek, correlacionar ---------- */
 Labs.vscode('#lab-vsc', {
   folder: 'normalizacao', team: 'blue', status: 'Python 3.12', open: 'normalizar.py',
   setup: [
@@ -565,11 +666,12 @@ Labs.vscode('#lab-vsc', {
       'pip     24.2' ] }
   ],
   files: [
-    { path: 'normalizar.py', hl: [5, 6, 7, 8, 9, 10, 11, 12, 31], code:
-`"""Normaliza eventos do Windows e do firewall para um esquema comum (estilo ECS)."""
+    { path: 'normalizar.py', hl: [6, 7, 8, 9, 10, 11, 12, 13, 29, 30, 31], code:
+`"""Normaliza eventos do Windows (agente Wazuh) e do Zeek (Security Onion) para um esquema comum."""
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
+BRT = timezone(timedelta(hours=-3))
 MAPA_WINDOWS = {
     "TimeCreated": "@timestamp",
     "EventID": "event.code",
@@ -583,36 +685,40 @@ RESULTADO = {4624: "success", 4625: "failure"}
 def de_windows(linha: str) -> dict:
     bruto = json.loads(linha)
     ev = {MAPA_WINDOWS[k]: v for k, v in bruto.items() if k in MAPA_WINDOWS}
+    ev["@timestamp"] = datetime.fromisoformat(ev["@timestamp"])
     ev["event.outcome"] = RESULTADO.get(bruto["EventID"], "unknown")
     ev["event.dataset"] = "windows.security"
     return ev
 
-def de_firewall(linha: str) -> dict:
-    campos = dict(par.split("=", 1) for par in linha.split())
+def de_zeek(linha: str) -> dict:
+    z = json.loads(linha)
     return {
-        "@timestamp": campos["ts"],
-        "event.dataset": "firewall",
-        "event.action": campos["acao"],
-        "source.ip": campos["src"],
-        "destination.ip": campos["dst"],
-        "destination.port": int(campos["dport"]),
-        "user.name": campos.get("usuario"),
+        "@timestamp": datetime.fromtimestamp(z["ts"], BRT),
+        "event.dataset": "zeek.conn",
+        "source.ip": z["id.orig_h"],
+        "destination.ip": z["id.resp_h"],
+        "destination.port": z["id.resp_p"],
+        "network.protocol": z["service"],
+        "zeek.conn_state": z["conn_state"],
     }
 
 def carregar() -> list[dict]:
     eventos = [de_windows(l) for l in open("amostras/windows_seguranca.jsonl", encoding="utf-8")]
-    eventos += [de_firewall(l) for l in open("amostras/firewall.log", encoding="utf-8")]
-    for ev in eventos:
-        ev["@timestamp"] = datetime.fromisoformat(ev["@timestamp"])
+    eventos += [de_zeek(l) for l in open("amostras/zeek_conn.log", encoding="utf-8")]
     return sorted(eventos, key=lambda e: e["@timestamp"])
 
 if __name__ == "__main__":
     eventos = carregar()
-    print(f"{len(eventos)} eventos normalizados")
+    por_fonte = {}
+    for ev in eventos:
+        por_fonte[ev["event.dataset"]] = por_fonte.get(ev["event.dataset"], 0) + 1
+    print(f"{len(eventos)} eventos normalizados: {por_fonte}")
     for ev in eventos[:3]:
-        print({k: str(v) for k, v in ev.items()})`},
-    { path: 'correlacao.py', hl: [6, 7, 14, 15, 18, 19], code:
-`"""Regra: 10 falhas (4625) seguidas de sucesso (4624), mesma origem e conta, em até 5 min."""
+        campos = ("event.dataset", "source.ip", "destination.port", "user.name", "event.outcome")
+        print(f"{ev['@timestamp']:%H:%M:%S}", {k: ev[k] for k in campos if k in ev})`},
+    { path: 'correlacao.py', hl: [7, 8, 16, 17, 21, 24, 25, 26], code:
+`"""Regra: 10 falhas (4625) seguidas de sucesso (4624), mesma origem e conta, em até 5 min.
+Depois, confirma na rede (Zeek) as conexões RDP da mesma origem."""
 from collections import defaultdict, deque
 from datetime import timedelta
 from normalizar import carregar
@@ -620,8 +726,9 @@ from normalizar import carregar
 LIMIAR = 10
 JANELA = timedelta(minutes=5)
 
+eventos = carregar()
 falhas = defaultdict(deque)          # (source.ip, user.name) -> horários das falhas
-for ev in carregar():
+for ev in eventos:
     if ev["event.dataset"] != "windows.security":
         continue
     chave, t = (ev["source.ip"], ev["user.name"]), ev["@timestamp"]
@@ -633,115 +740,93 @@ for ev in carregar():
         if len(falhas[chave]) >= LIMIAR:
             print(f"[ALERTA] {chave[1]} em {ev['host.name']}: {len(falhas[chave])} falhas "
                   f"e sucesso às {t:%H:%M:%S} a partir de {chave[0]}")
+            rdp = [e for e in eventos if e["event.dataset"] == "zeek.conn"
+                   and e["source.ip"] == chave[0] and e["destination.port"] == 3389
+                   and abs(e["@timestamp"] - t) <= JANELA]
+            print(f"  rede (Zeek): {len(rdp)} conexões RDP de {chave[0]} para "
+                  f"{rdp[0]['destination.ip']}:3389 entre {rdp[0]['@timestamp']:%H:%M:%S} "
+                  f"e {rdp[-1]['@timestamp']:%H:%M:%S}")
         falhas[chave].clear()`},
-    { path: 'amostras/windows_seguranca.jsonl', code:
-`{"TimeCreated": "2026-11-13T02:14:03-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:14:21-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:14:38-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:14:55-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:15:12-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:15:29-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:15:47-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:16:04-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:16:22-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:16:40-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
-{"TimeCreated": "2026-11-13T02:17:12-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.20.31"}
+    { path: 'amostras/windows_seguranca.jsonl', code: `{"TimeCreated": "2026-11-13T02:14:03-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:14:21-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:14:38-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:14:55-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:15:12-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:15:29-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:15:47-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:16:04-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:16:22-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:16:40-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
+{"TimeCreated": "2026-11-13T02:17:12-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "carla.dias", "LogonType": 10, "IpAddress": "10.10.4.31"}
 {"TimeCreated": "2026-11-13T07:58:10-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "caio.mendes", "LogonType": 10, "IpAddress": "10.10.30.3"}
-{"TimeCreated": "2026-11-13T08:01:02-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}
-{"TimeCreated": "2026-11-13T08:01:14-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}
-{"TimeCreated": "2026-11-13T08:01:30-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.20.18"}`},
-    { path: 'amostras/firewall.log', code:
-`ts=2026-11-13T02:13:58-03:00 acao=allow src=10.10.20.31 dst=10.10.1.30 dport=3389 usuario=carla.dias
-ts=2026-11-13T02:19:40-03:00 acao=deny src=10.10.20.31 dst=10.10.1.20 dport=445 usuario=carla.dias
-ts=2026-11-13T08:00:55-03:00 acao=allow src=10.10.20.18 dst=10.10.1.30 dport=3389 usuario=ana.lima`}
+{"TimeCreated": "2026-11-13T08:01:02-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.4.18"}
+{"TimeCreated": "2026-11-13T08:01:14-03:00", "EventID": 4625, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.4.18"}
+{"TimeCreated": "2026-11-13T08:01:30-03:00", "EventID": 4624, "Computer": "SRV-ERP-01", "TargetUserName": "ana.lima", "LogonType": 10, "IpAddress": "10.10.4.18"}` },
+    { path: 'amostras/zeek_conn.log', code: `{"ts": 1794546841.214, "uid": "CRd01x", "id.orig_h": "10.10.4.31", "id.orig_p": 50211, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546859.214, "uid": "CRd02x", "id.orig_h": "10.10.4.31", "id.orig_p": 50213, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546876.214, "uid": "CRd03x", "id.orig_h": "10.10.4.31", "id.orig_p": 50215, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546893.214, "uid": "CRd04x", "id.orig_h": "10.10.4.31", "id.orig_p": 50217, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546910.214, "uid": "CRd05x", "id.orig_h": "10.10.4.31", "id.orig_p": 50219, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546927.214, "uid": "CRd06x", "id.orig_h": "10.10.4.31", "id.orig_p": 50221, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546945.214, "uid": "CRd07x", "id.orig_h": "10.10.4.31", "id.orig_p": 50223, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546962.214, "uid": "CRd08x", "id.orig_h": "10.10.4.31", "id.orig_p": 50225, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546980.214, "uid": "CRd09x", "id.orig_h": "10.10.4.31", "id.orig_p": 50227, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794546998.214, "uid": "CRd10x", "id.orig_h": "10.10.4.31", "id.orig_p": 50229, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794547030.214, "uid": "CRd11x", "id.orig_h": "10.10.4.31", "id.orig_p": 50231, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}
+{"ts": 1794547180.501, "uid": "CSm01x", "id.orig_h": "10.10.4.31", "id.orig_p": 50260, "id.resp_h": "10.10.1.20", "id.resp_p": 445, "proto": "tcp", "service": null, "conn_state": "REJ"}
+{"ts": 1794567658.402, "uid": "CRa01x", "id.orig_h": "10.10.4.18", "id.orig_p": 49870, "id.resp_h": "10.10.1.30", "id.resp_p": 3389, "proto": "tcp", "service": "rdp", "conn_state": "SF"}` }
   ],
   run: [
     { label: 'Normalizar', cmd: 'python normalizar.py', file: 'normalizar.py', out: [
-      '[ok]18 eventos normalizados',
-      "{'@timestamp': '2026-11-13 02:13:58-03:00', 'event.dataset': 'firewall', 'event.action': 'allow', 'source.ip': '10.10.20.31', 'destination.ip': '10.10.1.30', 'destination.port': '3389', 'user.name': 'carla.dias'}",
-      "{'@timestamp': '2026-11-13 02:14:03-03:00', 'event.code': '4625', 'host.name': 'SRV-ERP-01', 'user.name': 'carla.dias', 'winlog.logon.type': '10', 'source.ip': '10.10.20.31', 'event.outcome': 'failure', 'event.dataset': 'windows.security'}",
-      "{'@timestamp': '2026-11-13 02:14:21-03:00', 'event.code': '4625', 'host.name': 'SRV-ERP-01', 'user.name': 'carla.dias', 'winlog.logon.type': '10', 'source.ip': '10.10.20.31', 'event.outcome': 'failure', 'event.dataset': 'windows.security'}",
-      '', '[info]Firewall e Windows agora usam os mesmos campos: user.name e source.ip.' ] },
+      "[ok]28 eventos normalizados: {'zeek.conn': 13, 'windows.security': 15}",
+      "02:14:01 {'event.dataset': 'zeek.conn', 'source.ip': '10.10.4.31', 'destination.port': 3389}",
+      "02:14:03 {'event.dataset': 'windows.security', 'source.ip': '10.10.4.31', 'user.name': 'carla.dias', 'event.outcome': 'failure'}",
+      "02:14:19 {'event.dataset': 'zeek.conn', 'source.ip': '10.10.4.31', 'destination.port': 3389}",
+      '', '[info]Windows e Zeek agora usam os mesmos campos: source.ip, destination.port e @timestamp no mesmo fuso.' ] },
     { label: 'Correlacionar', kind: 'blue', cmd: 'python correlacao.py', file: 'correlacao.py', out: [
-      '[red][ALERTA] carla.dias em SRV-ERP-01: 10 falhas e sucesso às 02:17:12 a partir de 10.10.20.31' ] }
+      '[red][ALERTA] carla.dias em SRV-ERP-01: 10 falhas e sucesso às 02:17:12 a partir de 10.10.4.31',
+      '[info]  rede (Zeek): 11 conexões RDP de 10.10.4.31 para 10.10.1.30:3389 entre 02:14:01 e 02:17:10' ] }
   ]
 });
 
-/* ---------- 12. SIEM ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: '13/11/2026, 00h – 24h', lang: 'KQL', index: 'logs-windows, logs-firewall',
+/* ---------- 16. Wazuh: buscas salvas ---------- */
+Labs.siem('#lab-wazuh', {
+  product: 'Wazuh · Threat Hunting', time: '13/11/2026, 00h – 24h', lang: 'DQL', index: 'wazuh-alerts-4.x-*',
   searches: [
-    { group: 'Autenticação', name: '1. Falhas de logon por origem', q: 'event.code : 4625 | stats count() by source.ip, user.name, host.name',
-      cols: ['source.ip', 'user.name', 'host.name', 'falhas'], total: 214, unit: 'eventos 4625',
+    { group: 'Autenticação', name: '1. Falhas de logon por agente', q: 'rule.id:60122 and data.win.system.eventID:4625',
+      cols: ['agent.name', 'targetUserName', 'ipAddress', 'alertas'], total: 214, unit: 'alertas (regra 60122)',
       hist: [4, 4, 14, 4, 4, 4, 4, 4, 15, 14, 14, 14, 13, 14, 14, 13, 14, 14, 13, 4, 4, 4, 4, 4], hot: [2],
       rows: [
-        ['10.10.1.40', 'svc-backup', 'SRV-ARQ-01', '96'],
-        ['10.10.20.31', 'carla.dias', 'SRV-ERP-01', '10'],
-        ['10.10.20.18', 'ana.lima', 'SRV-ERP-01', '2'],
-        ['(71 origens)', '(71 contas)', '(diversos)', '106']
-      ], note: 'A conta de serviço svc-backup falha 4 vezes por hora, das 0h às 24h: senha vencida, ruído conhecido. O pico das 02h é outra história.' },
-    { group: 'Autenticação', name: '2. Falhas seguidas de sucesso', lang: 'EQL', q: 'sequence by source.ip, user.name with maxspan=5m [authentication where event.code == "4625"] with runs=10 [authentication where event.code == "4624"]',
-      cols: ['início', 'fim', 'source.ip', 'user.name', 'host.name', 'falhas', 'severidade'], sevCol: 6, total: 1, unit: 'sequência',
+        ['SRV-ARQ-01', 'svc-backup', '10.10.1.40', '96'],
+        ['SRV-ERP-01', 'carla.dias', '10.10.4.31', '10'],
+        ['SRV-ERP-01', 'ana.lima', '10.10.4.18', '2'],
+        ['(diversos)', '(71 contas)', '(71 origens)', '106']
+      ], note: 'A regra 60122 marca cada falha de logon (evento 4625). A conta de serviço svc-backup falha 4 vezes por hora o dia todo: senha vencida, ruído conhecido. O pico das 02h é outra história.' },
+    { group: 'Autenticação', name: '2. Regra local: sucesso após falhas', q: 'rule.id:100100',
+      cols: ['timestamp', 'agent.name', 'user', 'srcip', 'rule.level', 'rule.mitre.id', 'rule.description'], total: 1, unit: 'alerta',
       hist: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
-      rows: [['02:14:03', '02:17:12', '10.10.20.31', 'carla.dias', 'SRV-ERP-01', '10', 'alta']],
-      note: 'Isoladas, as 10 falhas não chamam atenção. Em sequência, terminando em sucesso em pouco mais de 3 minutos, sugerem que a senha foi descoberta.' },
-    { group: 'Autenticação', name: '3. Enriquecer o evento', q: 'event.code : 4624 and source.ip : "10.10.20.31" | lookup ativos on host.name | lookup rh on user.name | lookup rede on source.ip',
-      cols: ['@timestamp', 'host.name', 'criticidade', 'user.name', 'cargo', 'origem (inventário)', 'horário usual'], total: 1, unit: 'evento',
-      hist: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
-      rows: [['02:17:12', 'SRV-ERP-01', 'alta (ERP)', 'carla.dias', 'analista do financeiro', 'NB-FIN-031 (sede, São Paulo)', '08h – 18h']],
-      note: 'O contexto acelera a triagem: ativo crítico, usuária que não trabalha de madrugada e um notebook do financeiro falando com o ERP às 2h. O analista já começa sabendo o que perguntar.' },
-    { group: 'Retenção', name: '4. Até quando dá para olhar?', q: '_index : logs-* | stats min(@timestamp) as mais_antigo, max(@timestamp) as mais_recente by _index',
-      cols: ['índice', 'mais antigo', 'mais recente', 'dias disponíveis'], total: 3, unit: 'índices', hist: [],
+      rows: [['02:17:12', 'SRV-ERP-01', 'carla.dias', '10.10.4.31', '12', 'T1110', 'Logon com sucesso após 10 falhas da mesma origem em 5 min']],
+      note: 'Regras próprias do Wazuh ficam em local_rules.xml, com IDs a partir de 100000. Esta correlaciona várias 60122 com o sucesso seguinte. Na Aula 10, vamos escrever e testar regras assim.' },
+    { group: 'Endpoint', name: '3. O que rodou depois no ERP?', q: 'agent.name:SRV-ERP-01 and data.win.system.eventID:1 and data.win.eventdata.user:*carla.dias',
+      cols: ['timestamp', 'image', 'commandLine', 'parentImage'], total: 3, unit: 'eventos Sysmon ID 1',
+      hist: [0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [2],
       rows: [
-        ['logs-windows', '13/11/2025', '13/11/2026', '365'],
-        ['logs-firewall', '13/11/2025', '13/11/2026', '365'],
-        ['logs-proxy', '06/11/2026', '13/11/2026', '7']
-      ], note: 'Windows e firewall cumprem a política de 12 meses do SOC. O índice do proxy da sede recomeçou do zero quando o equipamento foi trocado, há uma semana: se o invasor entrou há um mês, os acessos web daquela época não podem mais ser pesquisados.' }
+        ['02:17:20', 'rdpclip.exe', 'rdpclip', 'svchost.exe'],
+        ['02:18:05', 'whoami.exe', 'whoami /groups', 'cmd.exe'],
+        ['02:18:31', 'net.exe', 'net user carla.dias /domain', 'cmd.exe']
+      ], note: 'Com o canal do Sysmon no ossec.conf, o Wazuh mostra o que a sessão fez: comandos de descoberta logo após o login. Quem trabalha das 8h às 18h não costuma consultar os próprios grupos às 2h.' },
+    { group: 'Retenção', name: '4. Até quando dá para olhar?', lang: 'API', q: 'GET _cat/indices?v (resumo por padrão de índice)',
+      cols: ['dados', 'mais antigo', 'mais recente', 'dias disponíveis'], total: 4, unit: 'conjuntos', hist: [],
+      rows: [
+        ['Wazuh · wazuh-alerts-4.x-*', '13/11/2025', '13/11/2026', '365'],
+        ['Wazuh · wazuh-archives-4.x-*', '15/08/2026', '13/11/2026', '90'],
+        ['Security Onion · logs do Zeek', '15/08/2026', '13/11/2026', '90'],
+        ['Security Onion · PCAP', '07/11/2026', '13/11/2026', '7']
+      ], note: 'Alertas ficam 12 meses, como pede o PCI DSS; os eventos brutos e os logs do Zeek, 90 dias de pesquisa imediata. O PCAP ocupa muito espaço e só guarda 7 dias: se o caso tivesse começado há um mês, os pacotes daquela época já não existiriam.' }
   ]
 });
 
-/* ---------- 14. Linha do tempo de retenção ---------- */
-Labs.register('#lab-ret', (el) => {
-  el.innerHTML = `
-  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem">
-    <h4>Janela de retenção dos registros</h4>
-    <div class="lab-grid3">
-      <label class="lab-range">Pesquisa imediata (dias) <output id="o-hot"></output><input id="i-hot" type="range" min="7" max="180" value="7"></label>
-      <label class="lab-range">Retenção total (dias) <output id="o-tot"></output><input id="i-tot" type="range" min="7" max="400" value="7"></label>
-      <label class="lab-range">Invasão começou há (dias) <output id="o-inv"></output><input id="i-inv" type="range" min="1" max="365" value="30"></label>
-    </div>
-    <div class="ret-track"><div class="zone cold"></div><div class="zone hot"></div><div class="inv"><span></span></div><div class="now"><span>hoje</span></div></div>
-    <div class="ret-axis"><span>há 400 dias</span><span>há 300</span><span>há 200</span><span>há 100</span><span></span></div>
-    <div class="lab-grid3" style="margin-top:.6rem">
-      <div class="lab-kpi" id="k-ini"><small>Início da invasão nos registros?</small><b></b></div>
-      <div class="lab-kpi" id="k-pci"><small>Atende ao PCI DSS (12 meses, 3 imediatos)?</small><b></b></div>
-      <div class="lab-kpi blue" id="k-vol"><small>Volume guardado (20 GB por dia)</small><b></b></div>
-    </div>
-    <p id="ret-msg" style="margin:0;color:#C9D4E5;font-size:.95rem"></p>
-  </div>`;
-  const q = (s) => el.querySelector(s);
-  const hot = q('#i-hot'), tot = q('#i-tot'), inv = q('#i-inv');
-  const set = (k, ok, txt) => { const b = q(k); b.className = 'lab-kpi ' + (ok ? 'green' : 'red'); b.querySelector('b').textContent = txt; };
-  function calc() {
-    if (+tot.value < +hot.value) tot.value = hot.value;
-    const H = +hot.value, T = +tot.value, I = +inv.value, pct = (d) => (Math.min(d, 400) / 400) * 100;
-    q('#o-hot').textContent = H; q('#o-tot').textContent = T; q('#o-inv').textContent = I;
-    q('.zone.hot').style.cssText = 'right:0;width:' + pct(H) + '%';
-    q('.zone.cold').style.cssText = 'right:0;width:' + pct(T) + '%';
-    q('.inv').style.left = (100 - pct(I)) + '%'; q('.inv span').textContent = 'invasão: há ' + I + ' dias';
-    const visivel = I <= T, imediato = I <= H, pci = T >= 365 && H >= 90;
-    set('#k-ini', visivel, visivel ? (imediato ? 'Sim, na hora' : 'Sim, no arquivo') : 'Não');
-    set('#k-pci', pci, pci ? 'Sim' : 'Não');
-    q('#k-vol b').textContent = (T * 20 / 1000).toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' TB';
-    q('#ret-msg').textContent = !visivel
-      ? 'Os primeiros ' + (I - T) + ' dias da invasão já foram descartados. A investigação vai começar pelo meio da história.'
-      : imediato ? 'Toda a atividade do invasor pode ser pesquisada agora.' : 'O início existe, mas está no arquivo de longo prazo: será preciso restaurá-lo antes de pesquisar.';
-  }
-  [hot, tot, inv].forEach((i) => i.addEventListener('input', calc));
-  calc();
-});
-
-/* ---------- 17. Calculadora de capacidade ---------- */
+/* ---------- 19. Calculadora de capacidade ---------- */
 Labs.register('#lab-cap', (el) => {
   const n = (v, d) => v.toLocaleString('pt-BR', { maximumFractionDigits: d || 0 });
   el.innerHTML = `

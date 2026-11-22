@@ -91,12 +91,12 @@
           <li>O problema do semestre na Rede Tatame</li>
           <li>A disciplina e a atuação profissional</li>
           <li>Papéis e vagas do mercado</li>
-          <li>O que você vai aprender</li>
+          <li>Objetivos da disciplina</li>
           <li>As quatro unidades e o mapa das 16 aulas</li>
+          <li>As ferramentas da ementa</li>
           <li>Do teste ofensivo à melhoria defensiva</li>
           <li>Como funcionam os laboratórios dos slides</li>
-          <li>Regras éticas dos laboratórios</li>
-          <li>Como você será avaliado</li>
+          <li>Regras éticas e como você será avaliado</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -134,6 +134,7 @@
           <li>Não basta comprar ferramentas de proteção: é preciso <strong>testar</strong> se elas funcionam e <strong>treinar</strong> as pessoas que as operam.</li>
           <li>O <strong>Red Team</strong> simula, de forma autorizada e controlada, um adversário real para descobrir como ele chegaria aos ativos críticos.</li>
           <li>O <strong>Blue Team</strong> protege, monitora, detecta e responde.</li>
+          <li>O <strong>White Team</strong> arbitra o exercício: aprova o plano, controla as regras e pode interrompê-lo a qualquer momento.</li>
           <li>Juntos, no <em>purple teaming</em>, cada ataque simulado vira uma lição concreta para fortalecer a defesa.</li>
         </ul>
       </div>
@@ -185,15 +186,15 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Objetivos de aprendizagem</p>
-      <h2>Ao final da disciplina, você será capaz de</h2>
+      <h2>Objetivo geral e objetivos específicos</h2>
       <div class="slide-content-box">
+        <p><strong>Objetivo geral:</strong> planejar e conduzir exercícios de simulação de adversário em ambientes controlados e autorizados, articulando as ações do Red Team com a detecção, a resposta e a melhoria contínua conduzidas pelo Blue Team.</p>
         <ol>
-          <li>diferenciar os papéis, objetivos e entregáveis de Red Team, Blue Team e Purple Team;</li>
-          <li>planejar uma avaliação de segurança autorizada, com escopo, regras de engajamento e critérios éticos e legais;</li>
-          <li>modelar o comportamento de adversários com a Cyber Kill Chain e a matriz MITRE ATT&amp;CK;</li>
-          <li>explicar as etapas de uma operação ofensiva e priorizar vulnerabilidades por risco;</li>
-          <li>projetar a monitoração, a detecção e a resposta a incidentes de um ambiente corporativo;</li>
-          <li>conduzir ciclos de <em>purple teaming</em> e medir a evolução da capacidade defensiva com indicadores.</li>
+          <li>Compreender o ciclo de uma operação de Red Team e suas regras de engajamento.</li>
+          <li>Mapear técnicas de ataque na matriz MITRE ATT&amp;CK e planejar a emulação de ameaças.</li>
+          <li>Executar técnicas de reconhecimento, exploração e movimentação lateral em laboratório.</li>
+          <li>Detectar, investigar e responder a atividades maliciosas com ferramentas de monitoramento.</li>
+          <li>Produzir relatórios e planos de melhoria a partir de exercícios <em>purple team</em>.</li>
         </ol>
       </div>
     </div>
@@ -207,10 +208,10 @@
       <h2>Quatro unidades, dezesseis aulas</h2>
       <div class="slide-content-box">
         <div class="pontos-chave unid" style="margin-top:0">
-          <div class="ponto"><h3>1 · Fundamentos: ataque e defesa como estratégia</h3><ol start="1"><li>Red, Blue e Purple Team: papéis, objetivos e ética</li><li>Cyber Kill Chain e MITRE ATT&amp;CK</li><li>Varredura, <em>pentest</em> e Red Team</li><li>NIST CSF, defesa em profundidade e SOC</li></ol></div>
-          <div class="ponto"><h3>2 · Red Team: operações ofensivas controladas</h3><ol start="5"><li>Reconhecimento e OSINT</li><li>Varredura, enumeração e gestão de vulnerabilidades</li><li>Engenharia social e simulação de <em>phishing</em></li><li>Pós-exploração, movimentação lateral e relatório</li></ol></div>
-          <div class="ponto"><h3>3 · Blue Team: detecção e resposta</h3><ol start="9"><li>Telemetria, registros e SIEM</li><li>Engenharia de detecção e EDR</li><li><em>Threat hunting</em> e inteligência de ameaças</li><li>Resposta a incidentes</li></ol></div>
-          <div class="ponto"><h3>4 · Purple Team e estratégia de segurança</h3><ol start="13"><li><em>Purple teaming</em> e emulação de adversários</li><li>Métricas de detecção e resposta e cobertura ATT&amp;CK</li><li><em>Tabletop</em>, CTF e <em>cyber range</em></li><li>Programa contínuo, carreira e tendências</li></ol></div>
+          <div class="ponto"><h3>1 · Planejamento de Operações e Emulação de Adversário</h3><ol start="1"><li>Red, Blue, White e Purple Team: papéis e objetivos</li><li>Regras de engajamento, escopo, autorização e aspectos legais</li><li>MITRE ATT&amp;CK: táticas, técnicas e planos de emulação</li><li>Inteligência de ameaças aplicada ao planejamento da operação</li></ol></div>
+          <div class="ponto"><h3>2 · Técnicas Ofensivas em Ambiente Controlado</h3><ol start="5"><li>Reconhecimento e enumeração de serviços e usuários</li><li>Exploração de vulnerabilidades e obtenção de acesso inicial</li><li>Escalada de privilégios, movimentação lateral e persistência</li><li>Evasão básica de defesas e limpeza de rastros em laboratório</li></ol></div>
+          <div class="ponto"><h3>3 · Defesa, Monitoramento e Detecção</h3><ol start="9"><li>Arquitetura de monitoramento: logs, SIEM e telemetria de <em>endpoints</em></li><li>Detecção baseada em assinaturas, comportamento e regras</li><li>Caça a ameaças: hipóteses, consultas e análise de anomalias</li><li><em>Hardening</em> de sistemas e redução da superfície de ataque</li></ol></div>
+          <div class="ponto"><h3>4 · Resposta a Incidentes e Purple Team</h3><ol start="13"><li>Ciclo de resposta a incidentes: preparação, detecção, contenção, erradicação e recuperação</li><li>Coleta de evidências e linha do tempo do incidente</li><li>Exercícios <em>purple team</em>: validação de detecções contra técnicas emuladas</li><li>Relatório final: achados, riscos, recomendações e métricas de melhoria</li></ol></div>
         </div>
       </div>
     </div>
@@ -226,8 +227,8 @@
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Ver o caminho do semestre até a resposta da pergunta.</div>
             <div class="rl"><b>Faça</b>Arraste para girar e clique em U1, U2, U3 ou U4, no canto da cena.</div>
-            <div class="rl obs"><b>Observe</b>Amarelo: fundamentos. Vermelho: Red Team. Azul: Blue Team. Roxo: Purple Team. A esfera branca que percorre o caminho é você.</div>
-            <div class="rl conc"><b>Conclusão</b>O roxo, no topo, só funciona depois do vermelho e do azul.</div>
+            <div class="rl obs"><b>Observe</b>Amarelo: planejamento e emulação. Vermelho: técnicas ofensivas. Azul: defesa e detecção. Roxo: resposta e Purple Team. A esfera branca que percorre o caminho é você.</div>
+            <div class="rl conc"><b>Conclusão</b>O roxo, no topo, só funciona depois do plano, do vermelho e do azul.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-mapa"></div>
@@ -235,7 +236,29 @@
     </div>
   </section>
 
-  <!-- 12. Fio condutor -->
+  <!-- 12. Ferramentas da ementa -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Ferramentas da ementa</p>
+      <h2>Cinco ferramentas do mercado, em laboratório</h2>
+      <div class="slide-content-box" style="font-size:.92em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Ferramenta</th><th>Uso indicado na ementa</th><th>Aulas</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Kali Linux</strong></td><td>Plataforma de testes de segurança em laboratório</td><td>5, 6 e 7</td></tr>
+            <tr><td><strong>Metasploit Framework</strong></td><td>Exploração em ambiente controlado</td><td>6 e 7</td></tr>
+            <tr><td><strong>MITRE ATT&amp;CK Navigator</strong></td><td>Planejamento e cobertura de técnicas</td><td>3, 15 e 16</td></tr>
+            <tr><td><strong>Wazuh ou Security Onion</strong></td><td>Monitoramento, detecção e análise de eventos</td><td>9, 10, 11 e 13</td></tr>
+            <tr><td><strong>Wireshark</strong></td><td>Análise de tráfego e investigação de incidentes</td><td>5, 9 e 14</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.7rem"><p>Nos slides, todas aparecem <strong>simuladas no navegador</strong>, contra a plataforma fictícia Rede Tatame e dentro do escopo da carta de autorização do exercício. Os laboratórios mostram descoberta, enumeração, consulta e análise; não há <em>payload</em>, código de exploração nem técnica de evasão operacional.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Fio condutor -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -244,17 +267,17 @@
       <div class="slide-content-box">
         <p>O diferencial da disciplina é a pergunta que acompanha cada técnica estudada: <strong>que rastro isso deixa e como a defesa pode percebê-lo?</strong></p>
         <ul>
-          <li>Na Unidade 1, você aprende a linguagem comum, a ética e as regras do jogo.</li>
-          <li>Na Unidade 2, acompanha uma operação ofensiva, sempre conceitual e autorizada.</li>
-          <li>Na Unidade 3, monta a detecção e a resposta.</li>
-          <li>Na Unidade 4, une as duas equipes e mede a evolução com indicadores.</li>
+          <li>Na Unidade 1, você planeja a operação: papéis, regras de engajamento, ATT&amp;CK e inteligência de ameaças.</li>
+          <li>Na Unidade 2, acompanha as técnicas ofensivas em ambiente controlado e o rastro que cada uma deixa.</li>
+          <li>Na Unidade 3, monta o monitoramento, a detecção, a caça a ameaças e o <em>hardening</em>.</li>
+          <li>Na Unidade 4, responde a incidentes, valida as detecções com o Purple Team e escreve o relatório final.</li>
         </ul>
         <div class="callout-azul"><p>Ao final, você será capaz de conversar com a área técnica e com a diretoria sobre risco cibernético, com evidências.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 13. LAB flow ciclo -->
+  <!-- 14. LAB flow ciclo -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -263,7 +286,7 @@
     </div>
   </section>
 
-  <!-- 14. PLATAFORMA REDE TATAME: arquitetura -->
+  <!-- 15. PLATAFORMA REDE TATAME: arquitetura -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -282,7 +305,7 @@
     </div>
   </section>
 
-  <!-- 15. Como funcionam os labs -->
+  <!-- 16. Como funcionam os labs -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -306,7 +329,7 @@
     </div>
   </section>
 
-  <!-- 16. LAB terminal -->
+  <!-- 17. LAB terminal -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -325,7 +348,7 @@
     </div>
   </section>
 
-  <!-- 17. Antes do código: onde achar e como instalar -->
+  <!-- 18. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -346,7 +369,7 @@
     </div>
   </section>
 
-  <!-- 18. LAB VS Code -->
+  <!-- 19. LAB VS Code -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -365,7 +388,7 @@
     </div>
   </section>
 
-  <!-- 19. Ética dos labs -->
+  <!-- 20. Ética dos labs -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -376,14 +399,14 @@
           <li><strong>Tudo é fictício</strong>: a Rede Tatame, as pessoas, os domínios e os incidentes. Os endereços IP são de faixas privadas (10.x, 192.168.x) ou reservadas para documentação (192.0.2.x, 198.51.100.x, 203.0.113.x).</li>
           <li><strong>Tudo é autorizado</strong>: cada cenário ofensivo parte de uma carta de autorização, com escopo e regras de engajamento.</li>
           <li><strong>O ataque fica no nível conceitual</strong>: estudamos fases, técnicas e rastros. Não há código de exploração, <em>malware</em> nem instruções passo a passo de ataque, e eles não serão aceitos nos trabalhos.</li>
-          <li><strong>Fora da disciplina</strong>: testar qualquer sistema sem autorização formal de quem responde por ele é crime (Código Penal, art. 154-A). A Aula 1 aprofunda o tema.</li>
+          <li><strong>Fora da disciplina</strong>: testar qualquer sistema sem autorização formal de quem responde por ele é crime (Código Penal, art. 154-A). A Aula 2 aprofunda o tema.</li>
         </ul>
         <div class="callout-azul"><p>Cada técnica estudada termina com uma pergunta defensiva: que rastro ela deixa e como detectá-la?</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 20. Avaliação: trabalho -->
+  <!-- 21. Avaliação: trabalho -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -405,7 +428,7 @@
     </div>
   </section>
 
-  <!-- 21. Avaliação final -->
+  <!-- 22. Avaliação final -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -414,7 +437,7 @@
       <div class="slide-content-box">
         <ul>
           <li><strong>10 questões discursivas</strong> no estilo ENADE, com valor sugerido de 10 pontos cada (100 pontos).</li>
-          <li>Unidade 1: questões 1 a 3; Unidade 2: 4 e 5; Unidade 3: 6 a 8; Unidade 4: 9 e 10. A questão 10 é integradora.</li>
+          <li>As questões cobrem as quatro unidades, e a última é integradora: mobiliza conteúdos de toda a disciplina.</li>
           <li>Extensão esperada: de 10 a 20 linhas por questão. Quando houver cálculo, mostre o raciocínio.</li>
           <li>Organizações e situações são fictícias, e as atividades ofensivas citadas ocorrem sempre em engajamentos autorizados.</li>
         </ul>
@@ -423,23 +446,23 @@
     </div>
   </section>
 
-  <!-- 22. De volta ao problema -->
+  <!-- 23. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O caminho até a resposta</p>
       <h2>Como o semestre responde à pergunta</h2>
       <div class="resolvido">
-        <div class="ev"><b>Unidade 1 · Linguagem e regras</b>Papéis, modelos de ataque, tipos de avaliação, NIST CSF e SOC. Nenhum teste sem autorização.</div>
-        <div class="ev"><b>Unidade 2 · Red Team</b>Emula o Grupo Cobalto Austral, grupo fictício de <em>ransomware</em>, e mostra os caminhos até os dados.</div>
-        <div class="ev"><b>Unidade 3 · Blue Team</b>Liga a telemetria, escreve regras e responde aos alertas no SOC.</div>
-        <div class="ev"><b>Unidade 4 · Purple Team</b>Reteste, cobertura ATT&amp;CK e tempos de detecção e resposta, mês a mês.</div>
+        <div class="ev"><b>Unidade 1 · Planejamento</b>Papéis, regras de engajamento, ATT&amp;CK e inteligência de ameaças viram um plano de emulação autorizado.</div>
+        <div class="ev"><b>Unidade 2 · Técnicas ofensivas</b>O Red Team emula o Grupo Cobalto Austral, grupo fictício de <em>ransomware</em>, e mostra os caminhos até os dados.</div>
+        <div class="ev"><b>Unidade 3 · Defesa e detecção</b>Liga a telemetria, escreve regras, caça ameaças e reduz a superfície de ataque.</div>
+        <div class="ev"><b>Unidade 4 · Resposta e Purple Team</b>Responde ao incidente, valida as detecções contra as técnicas emuladas e mede a melhoria no relatório final.</div>
         <div class="resposta">Resposta da disciplina: com exercícios autorizados que repetem o ciclo testar, detectar, responder e medir. Cada ciclo deixa números, como cobertura e tempo até detectar e conter, que mostram se a defesa melhorou.</div>
       </div>
     </div>
   </section>
 
-  <!-- 23. Encerramento -->
+  <!-- 24. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -447,7 +470,7 @@
     <div class="slide-content">
       <h1>Boas-vindas à disciplina</h1>
       <p class="fim-texto">Se você quer entender como os ataques acontecem para conseguir defender uma empresa, este é o lugar. Nos vemos nas aulas.</p>
-      <p class="fim-proxima">Próxima aula: Aula 1 — Red, Blue e Purple Team: papéis, objetivos e ética.</p>
+      <p class="fim-proxima">Próxima aula: Aula 1 — Red, Blue, White e Purple Team: papéis e objetivos.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -459,18 +482,18 @@
 <script>
 /* ---------- 7. Explorador de papéis ---------- */
 Labs.register('#lab-roles', (el) => {
-  const AULAS = ['', 'Red, Blue e Purple Team', 'Kill Chain e ATT&CK', 'Varredura, pentest e Red Team', 'NIST CSF, defesa em profundidade e SOC',
-    'Reconhecimento e OSINT', 'Gestão de vulnerabilidades', 'Engenharia social e phishing', 'Pós-exploração e relatório',
-    'Telemetria e SIEM', 'Engenharia de detecção e EDR', 'Threat hunting e inteligência', 'Resposta a incidentes',
-    'Purple teaming e emulação', 'Métricas e cobertura ATT&CK', 'Tabletop, CTF e cyber range', 'Programa contínuo e carreira'];
-  const EQ = { red: ['Red Team', '#FF5C7A'], blue: ['Blue Team', '#58C4E8'], purple: ['Purple Team', '#C2A5FF'], gov: ['Governança', '#F2CB0A'] };
+  const AULAS = ['', 'Red, Blue, White e Purple Team', 'Regras de engajamento e aspectos legais', 'MITRE ATT&CK e planos de emulação', 'Inteligência de ameaças no planejamento',
+    'Reconhecimento e enumeração', 'Exploração e acesso inicial', 'Escalada, movimentação lateral e persistência', 'Evasão de defesas e limpeza de rastros',
+    'Arquitetura de monitoramento e SIEM', 'Detecção por assinaturas, comportamento e regras', 'Caça a ameaças', 'Hardening e superfície de ataque',
+    'Ciclo de resposta a incidentes', 'Evidências e linha do tempo', 'Exercícios purple team', 'Relatório final e métricas'];
+  const EQ = { red: ['Red Team', '#FF5C7A'], blue: ['Blue Team', '#58C4E8'], purple: ['Purple Team', '#C2A5FF'], gov: ['Governança · White Team', '#F2CB0A'] };
   const R = [
-    { n: 'Analista de SOC', e: 'blue', faz: 'Monitora alertas, faz a triagem, investiga casos suspeitos e escala o que for grave.', q: 'Isto é um ataque real? Precisa de contenção agora?', a: [4, 9, 10, 12] },
-    { n: 'Analista de segurança', e: 'blue', faz: 'Implanta e mantém controles, acompanha vulnerabilidades e apoia as outras áreas a corrigi-las.', q: 'Quais controles faltam e o que corrigir primeiro?', a: [3, 4, 6, 16] },
-    { n: 'Pentester', e: 'red', faz: 'Conduz testes autorizados, comprova o impacto das falhas encontradas e escreve o relatório.', q: 'O que um atacante consegue fazer neste sistema?', a: [1, 3, 5, 6, 8] },
-    { n: 'Engenheiro(a) de detecção', e: 'purple', faz: 'Transforma técnicas do ATT&CK em regras testadas e mede a cobertura de detecção.', q: 'Se esta técnica for usada amanhã, alguém vai ver?', a: [2, 10, 13, 14] },
-    { n: 'Resposta a incidentes', e: 'blue', faz: 'Contém, erradica e recupera; depois conduz as lições aprendidas com as outras áreas.', q: 'Como paramos o ataque e voltamos a operar com segurança?', a: [4, 11, 12, 15] },
-    { n: 'Consultor(a) de GRC', e: 'gov', faz: 'Traduz risco técnico em decisões de negócio e acompanha conformidade com leis e normas, como a LGPD.', q: 'Quanto risco aceitamos e o que a diretoria precisa decidir?', a: [1, 3, 14, 16] }
+    { n: 'Analista de SOC', e: 'blue', faz: 'Monitora alertas, faz a triagem, investiga casos suspeitos e escala o que for grave.', q: 'Isto é um ataque real? Precisa de contenção agora?', a: [9, 10, 11, 13] },
+    { n: 'Analista de segurança', e: 'blue', faz: 'Implanta e mantém controles, acompanha vulnerabilidades e apoia as outras áreas a corrigi-las.', q: 'Quais controles faltam e o que corrigir primeiro?', a: [4, 6, 12, 16] },
+    { n: 'Pentester', e: 'red', faz: 'Conduz testes autorizados, comprova o impacto das falhas encontradas e escreve o relatório.', q: 'O que um atacante consegue fazer neste sistema?', a: [2, 5, 6, 7] },
+    { n: 'Engenheiro(a) de detecção', e: 'purple', faz: 'Transforma técnicas do ATT&CK em regras testadas e mede a cobertura de detecção.', q: 'Se esta técnica for usada amanhã, alguém vai ver?', a: [3, 8, 10, 15] },
+    { n: 'Resposta a incidentes', e: 'blue', faz: 'Contém, erradica e recupera; depois conduz as lições aprendidas com as outras áreas.', q: 'Como paramos o ataque e voltamos a operar com segurança?', a: [9, 13, 14, 16] },
+    { n: 'GRC e White Team', e: 'gov', faz: 'Traduz risco técnico em decisões de negócio e acompanha a conformidade com leis e normas, como a LGPD. Nos exercícios, atua no White Team: aprova o plano, arbitra a operação e pode interrompê-la.', q: 'O exercício está autorizado e quanto risco aceitamos?', a: [1, 2, 12, 16] }
   ];
   el.innerHTML = '<div class="lab-panel role"><div class="role-cards">' +
     R.map((r, i) => '<button data-i="' + i + '">' + r.n + '<small style="color:' + EQ[r.e][1] + '">' + EQ[r.e][0] + '</small></button>').join('') +
@@ -490,10 +513,10 @@ Labs.register('#lab-roles', (el) => {
 Labs.scene3d('#lab-mapa', (c) => {
   const { THREE, root } = c;
   const U = [
-    ['Unidade 1 · Fundamentos', 0xf2cb0a, '#F2CB0A', ['Red, Blue e Purple Team', 'Kill Chain e ATT&CK', 'Varredura, pentest e Red Team', 'NIST CSF, defesa e SOC']],
-    ['Unidade 2 · Red Team', 0xff2b5f, '#FF5C7A', ['Reconhecimento e OSINT', 'Vulnerabilidades', 'Engenharia social', 'Pós-exploração e relatório']],
-    ['Unidade 3 · Blue Team', 0x00b1d2, '#58C4E8', ['Telemetria e SIEM', 'Detecção e EDR', 'Threat hunting', 'Resposta a incidentes']],
-    ['Unidade 4 · Purple Team', 0x9b6bff, '#C2A5FF', ['Purple teaming', 'Métricas e cobertura', 'Tabletop, CTF, cyber range', 'Programa contínuo']]
+    ['Unidade 1 · Planejamento e emulação', 0xf2cb0a, '#F2CB0A', ['Red, Blue, White e Purple Team', 'Regras de engajamento', 'ATT&CK e planos de emulação', 'Inteligência de ameaças']],
+    ['Unidade 2 · Técnicas ofensivas', 0xff2b5f, '#FF5C7A', ['Reconhecimento e enumeração', 'Exploração e acesso inicial', 'Escalada, lateral e persistência', 'Evasão e limpeza de rastros']],
+    ['Unidade 3 · Defesa e detecção', 0x00b1d2, '#58C4E8', ['Monitoramento e SIEM', 'Assinaturas, comportamento e regras', 'Caça a ameaças', 'Hardening']],
+    ['Unidade 4 · Resposta e Purple Team', 0x9b6bff, '#C2A5FF', ['Resposta a incidentes', 'Evidências e linha do tempo', 'Exercícios purple team', 'Relatório final e métricas']]
   ];
   const pts = [];
   for (let k = 0; k <= 16; k++) { pts.push(new THREE.Vector3(-6.4 + k * 0.8, -3.2 + k * 0.34 + Math.sin(k * 0.55) * 1.1, Math.cos(k * 0.5) * 1.4)); }
@@ -537,11 +560,11 @@ Labs.scene3d('#lab-mapa', (c) => {
 Labs.flow('#lab-ciclo', {
   w: 1100, h: 430,
   nodes: [
-    { id: 'u1', x: 130, y: 215, label: 'Fundamentos', sub: 'ética e autorização · U1', icon: '⚖️', k: 'amber', w: 220 },
+    { id: 'u1', x: 130, y: 215, label: 'Planejamento', sub: 'RoE e plano · U1', icon: '⚖️', k: 'amber', w: 220 },
     { id: 'red', x: 390, y: 85, label: 'Red Team emula', sub: 'técnica ATT&CK · U2', icon: '🎯', k: 'red', w: 220 },
     { id: 'tel', x: 650, y: 85, label: 'Telemetria', sub: 'registros, EDR, SIEM · U3', icon: '📡', k: 'blue', w: 230 },
     { id: 'det', x: 920, y: 85, label: 'Detectou?', sub: 'regra e alerta · U3', icon: '🔔', k: 'blue', w: 220 },
-    { id: 'resp', x: 920, y: 340, label: 'Resposta', sub: 'contenção · U3', icon: '🛡️', k: 'green', w: 220 },
+    { id: 'resp', x: 920, y: 340, label: 'Resposta', sub: 'contenção · U4', icon: '🛡️', k: 'green', w: 220 },
     { id: 'pur', x: 650, y: 340, label: 'Purple Team', sub: 'ajusta e retesta · U4', icon: '🤝', k: 'purple', w: 220 },
     { id: 'met', x: 390, y: 340, label: 'Métricas', sub: 'MTTD, MTTR, cobertura · U4', icon: '📈', k: 'amber', w: 240 }
   ],
@@ -551,7 +574,7 @@ Labs.flow('#lab-ciclo', {
     { from: 'pur', to: 'met' }, { from: 'met', to: 'red', label: 'próximo ciclo', dashed: true, curve: -40 }
   ],
   steps: [
-    { title: 'A base: ética e autorização', text: 'Nada começa sem escopo, regras de engajamento e carta de autorização. É o primeiro tema da Unidade 1.', on: ['u1'], dim: true },
+    { title: 'A base: autorização e plano', text: 'Nada começa sem escopo, regras de engajamento, carta de autorização e um plano de emulação aprovado pelo White Team. É o tema da Unidade 1.', on: ['u1'], dim: true },
     { title: 'O Red Team emula uma técnica', text: 'O Red Team da Rede Tatame escolhe uma técnica que de fato ameaça a empresa, como as do Grupo Cobalto Austral (grupo fictício de ransomware), catalogada no MITRE ATT&CK, e a executa no ambiente autorizado. É o foco da Unidade 2.', on: ['u1', 'red'], links: [['u1', 'red', 'red']], dim: true },
     { title: 'A técnica deixa rastros', text: 'Registros do API gateway, do Active Directory, do EDR e da rede chegam ao SIEM pelo Kafka. Sem telemetria, não há como detectar. Unidade 3.', on: ['red', 'tel'], links: [['red', 'tel', 'red']], dim: true },
     { title: 'Alguma regra disparou?', text: 'Uma regra de detecção transforma o rastro em alerta. É aqui que se descobre se a defesa funciona.', on: ['tel', 'det'], links: [['tel', 'det', 'blue']], dim: true },
@@ -580,17 +603,26 @@ Labs.terminal('#lab-term', {
       '',
       'Regra da disciplina: cada conteúdo ofensivo vira uma melhoria defensiva.' ] },
     { cmd: 'ls disciplina/', note: 'O ls lista o conteúdo de uma pasta: quatro unidades, o trabalho e a avaliação final.', out: [
-      'unidade_1_fundamentos/   unidade_2_red_team/   unidade_3_blue_team/',
-      'unidade_4_purple_team/   trabalho_pbl/         avaliacao_final/' ] },
+      'unidade_1_planejamento/        unidade_2_tecnicas_ofensivas/',
+      'unidade_3_defesa_deteccao/     unidade_4_resposta_purple_team/',
+      'trabalho_pbl/                  avaliacao_final/' ] },
     { cmd: 'cat disciplina/unidade_*/plano.txt', note: 'O asterisco junta os quatro planos de unidade em uma só saída.', speed: 55, out: [
-      '[hi] Unidade 1 · Fundamentos: ataque e defesa como estratégia',
-      '  01 Red, Blue e Purple Team: papéis, objetivos e ética', '  02 Cyber Kill Chain e MITRE ATT&CK', '  03 Varredura, pentest e Red Team', '  04 NIST CSF, defesa em profundidade e SOC',
-      '[red] Unidade 2 · Red Team: operações ofensivas controladas',
-      '  05 Reconhecimento e OSINT', '  06 Varredura, enumeração e gestão de vulnerabilidades', '  07 Engenharia social e simulação de phishing', '  08 Pós-exploração, movimentação lateral e relatório',
-      '[blue] Unidade 3 · Blue Team: detecção e resposta',
-      '  09 Telemetria, registros e SIEM', '  10 Engenharia de detecção e EDR', '  11 Threat hunting e inteligência de ameaças', '  12 Resposta a incidentes',
-      '[purple] Unidade 4 · Purple Team e estratégia de segurança',
-      '  13 Purple teaming e emulação de adversários', '  14 Métricas de detecção e resposta e cobertura ATT&CK', '  15 Tabletop, CTF e cyber range', '  16 Programa contínuo, carreira e tendências' ] },
+      '[hi] Unidade 1 · Planejamento de Operações e Emulação de Adversário',
+      '  01 Red, Blue, White e Purple Team: papéis e objetivos', '  02 Regras de engajamento, escopo, autorização e aspectos legais', '  03 MITRE ATT&CK: táticas, técnicas e planos de emulação', '  04 Inteligência de ameaças aplicada ao planejamento da operação',
+      '[red] Unidade 2 · Técnicas Ofensivas em Ambiente Controlado',
+      '  05 Reconhecimento e enumeração de serviços e usuários', '  06 Exploração de vulnerabilidades e obtenção de acesso inicial', '  07 Escalada de privilégios, movimentação lateral e persistência', '  08 Evasão básica de defesas e limpeza de rastros em laboratório',
+      '[blue] Unidade 3 · Defesa, Monitoramento e Detecção',
+      '  09 Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints', '  10 Detecção baseada em assinaturas, comportamento e regras', '  11 Caça a ameaças: hipóteses, consultas e análise de anomalias', '  12 Hardening de sistemas e redução da superfície de ataque',
+      '[purple] Unidade 4 · Resposta a Incidentes e Purple Team',
+      '  13 Ciclo de resposta a incidentes', '  14 Coleta de evidências e linha do tempo do incidente', '  15 Exercícios purple team: validação de detecções', '  16 Relatório final: achados, riscos, recomendações e métricas' ] },
+    { cmd: 'cat disciplina/ferramentas.txt', note: 'As ferramentas da ementa, sempre simuladas no navegador contra a Rede Tatame.', out: [
+      '[hi] Ferramenta                Aulas',
+      '  Kali Linux                5, 6, 7',
+      '  Metasploit Framework      6, 7',
+      '  MITRE ATT&CK Navigator    3, 15, 16',
+      '  Wazuh ou Security Onion   9, 10, 11, 13',
+      '  Wireshark                 5, 9, 14',
+      '[warn] Sem payload, código de exploração ou evasão: só o que a carta de autorização permite.' ] },
     { cmd: 'grep -h "^  [0-9]" disciplina/unidade_*/plano.txt | wc -l', note: 'O grep filtra as linhas que começam com o número da aula; o wc -l conta essas linhas.', out: [ '16' ] },
     { cmd: 'cat disciplina/rede_tatame.txt', note: 'A empresa fictícia que aparece em cada laboratório.', out: [
       '[hi] Rede Tatame · 240 academias de jiu-jitsu · 36.000 alunos',
@@ -602,7 +634,7 @@ Labs.terminal('#lab-term', {
     { cmd: 'cat disciplina/regras_dos_labs.txt', note: 'As regras éticas valem para cada laboratório da disciplina.', out: [
       '[ok] 1. Empresas, pessoas, domínios e IPs são fictícios.',
       '[ok] 2. Cada cenário ofensivo tem autorização, escopo e regras de engajamento.',
-      '[ok] 3. O ataque fica no nível conceitual: fases, técnicas e rastros.',
+      '[ok] 3. Nada de payload ou exploração real: fases, técnicas e rastros.',
       '[ok] 4. Cada técnica termina com a pergunta: como detectar?',
       '[warn] 5. Fora da disciplina, testar sem autorização formal é crime.' ] },
     { cmd: 'cat disciplina/trabalho_pbl/README.txt disciplina/avaliacao_final/README.txt', note: 'Os dois instrumentos de avaliação, em resumo.', out: [
@@ -637,33 +669,33 @@ PyYAML==6.0.3`},
 disciplina: "Red Team & Blue Team Strategies"
 unidades:
   - numero: 1
-    titulo: "Fundamentos: ataque e defesa como estratégia"
+    titulo: "Planejamento de Operações e Emulação de Adversário"
     aulas:
-      - { n: 1, titulo: "Red, Blue e Purple Team: papéis, objetivos e ética", feita: true }
-      - { n: 2, titulo: "Cyber Kill Chain e MITRE ATT&CK", feita: true }
-      - { n: 3, titulo: "Varredura, pentest e Red Team", feita: true }
-      - { n: 4, titulo: "NIST CSF, defesa em profundidade e SOC", feita: false }
+      - { n: 1, titulo: "Red, Blue, White e Purple Team: papéis e objetivos", feita: true }
+      - { n: 2, titulo: "Regras de engajamento, escopo, autorização e aspectos legais", feita: true }
+      - { n: 3, titulo: "MITRE ATT&CK: táticas, técnicas e planos de emulação", feita: true }
+      - { n: 4, titulo: "Inteligência de ameaças aplicada ao planejamento da operação", feita: false }
   - numero: 2
-    titulo: "Red Team: operações ofensivas controladas"
+    titulo: "Técnicas Ofensivas em Ambiente Controlado"
     aulas:
-      - { n: 5, titulo: "Reconhecimento e OSINT", feita: false }
-      - { n: 6, titulo: "Varredura, enumeração e gestão de vulnerabilidades", feita: false }
-      - { n: 7, titulo: "Engenharia social e simulação de phishing", feita: false }
-      - { n: 8, titulo: "Pós-exploração, movimentação lateral e relatório", feita: false }
+      - { n: 5, titulo: "Reconhecimento e enumeração de serviços e usuários", feita: false }
+      - { n: 6, titulo: "Exploração de vulnerabilidades e obtenção de acesso inicial", feita: false }
+      - { n: 7, titulo: "Escalada de privilégios, movimentação lateral e persistência", feita: false }
+      - { n: 8, titulo: "Evasão básica de defesas e limpeza de rastros em laboratório", feita: false }
   - numero: 3
-    titulo: "Blue Team: detecção e resposta"
+    titulo: "Defesa, Monitoramento e Detecção"
     aulas:
-      - { n: 9, titulo: "Telemetria, registros e SIEM", feita: false }
-      - { n: 10, titulo: "Engenharia de detecção e EDR", feita: false }
-      - { n: 11, titulo: "Threat hunting e inteligência de ameaças", feita: false }
-      - { n: 12, titulo: "Resposta a incidentes", feita: false }
+      - { n: 9, titulo: "Arquitetura de monitoramento: logs, SIEM e telemetria de endpoints", feita: false }
+      - { n: 10, titulo: "Detecção baseada em assinaturas, comportamento e regras", feita: false }
+      - { n: 11, titulo: "Caça a ameaças: hipóteses, consultas e análise de anomalias", feita: false }
+      - { n: 12, titulo: "Hardening de sistemas e redução da superfície de ataque", feita: false }
   - numero: 4
-    titulo: "Purple Team e estratégia de segurança"
+    titulo: "Resposta a Incidentes e Purple Team"
     aulas:
-      - { n: 13, titulo: "Purple teaming e emulação de adversários", feita: false }
-      - { n: 14, titulo: "Métricas de detecção e resposta e cobertura ATT&CK", feita: false }
-      - { n: 15, titulo: "Tabletop, CTF e cyber range", feita: false }
-      - { n: 16, titulo: "Programa contínuo, carreira e tendências", feita: false }` },
+      - { n: 13, titulo: "Ciclo de resposta a incidentes: preparação, detecção, contenção, erradicação e recuperação", feita: false }
+      - { n: 14, titulo: "Coleta de evidências e linha do tempo do incidente", feita: false }
+      - { n: 15, titulo: "Exercícios purple team: validação de detecções contra técnicas emuladas", feita: false }
+      - { n: 16, titulo: "Relatório final: achados, riscos, recomendações e métricas de melhoria", feita: false }` },
     { path: 'progresso.py', hl: [8, 9, 10], code:
 `"""Mostra o progresso no plano de estudos e a próxima aula."""
 import yaml
@@ -685,13 +717,13 @@ print(f"Próxima: Aula {prox['n']}. {prox['titulo']}")` }
   ],
   run: [
     { label: 'Executar progresso.py', kind: 'purple', cmd: 'python progresso.py', file: 'progresso.py', out: [
-      '[hi] Unidade 1 [###.] 3/4  Fundamentos: ataque e defesa como estratégia',
-      'Unidade 2 [....] 0/4  Red Team: operações ofensivas controladas',
-      'Unidade 3 [....] 0/4  Blue Team: detecção e resposta',
-      'Unidade 4 [....] 0/4  Purple Team e estratégia de segurança',
+      '[hi] Unidade 1 [###.] 3/4  Planejamento de Operações e Emulação de Adversário',
+      'Unidade 2 [....] 0/4  Técnicas Ofensivas em Ambiente Controlado',
+      'Unidade 3 [....] 0/4  Defesa, Monitoramento e Detecção',
+      'Unidade 4 [....] 0/4  Resposta a Incidentes e Purple Team',
       '',
       '[ok] Progresso: 3/16 aulas (19%)',
-      '[info] Próxima: Aula 4. NIST CSF, defesa em profundidade e SOC' ] }
+      '[info] Próxima: Aula 4. Inteligência de ameaças aplicada ao planejamento da operação' ] }
   ]
 });
 </script>

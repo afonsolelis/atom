@@ -13,11 +13,11 @@ Feedback para **cada alternativa** (por que está correta ou qual o equívoco), 
 
 ### Asserção-razão
 
-**1.** I. O que diferencia uma operação de Red Team de uma invasão criminosa não é a técnica empregada, mas a existência de autorização formal para a atividade.
+**1.** I. O White Team pode pausar ou encerrar uma operação de Red Team em andamento, mesmo que o Red Team ainda não tenha atingido o objetivo combinado.
 
 PORQUE
 
-II. Muitas ações técnicas de um Red Team são idênticas às de um criminoso, e o art. 154-A do Código Penal tipifica a invasão de dispositivo informático; por isso, somente a autorização assinada por quem tem autoridade sobre os ativos legitima a atividade ofensiva.
+II. O White Team não participa da disputa: ele planeja, controla e arbitra o exercício e é quem faz cumprir os critérios de parada e a palavra de parada previstos nas regras de engajamento.
 
 *a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -37,11 +37,11 @@ b. As asserções I e II são proposições verdadeiras, mas a II não é uma ju
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**3.** I. O Purple Team deve ser entendido, sobretudo, como uma terceira equipe permanente, independente e hierarquicamente superior às equipes Red e Blue.
+**3.** I. O Purple Team deve ser entendido, sobretudo, como uma equipe permanente e hierarquicamente superior às equipes Red e Blue.
 
 PORQUE
 
-II. No *purple teaming*, o Red Team executa todas as técnicas sem interagir com o Blue Team e entrega o relatório apenas semanas depois do exercício.
+II. No trabalho *purple*, o reteste é dispensável, porque uma detecção escrita durante a sessão já está comprovada.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -49,11 +49,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-**4.** I. Se um teste de segurança autorizado acessar dados pessoais, esses dados devem ser tratados com o mínimo de exposição, protegidos e descartados ao final do trabalho.
+**4.** I. A operação de Red Team persegue objetivos combinados com a liderança, como acessar a base de fichas de alunos, e mede até onde um atacante chegaria sem ser percebido.
 
 PORQUE
 
-II. A Lei nº 14.155/2021 agravou as penas dos crimes de violação de dispositivo informático previstos no Código Penal.
+II. O MTTD (*mean time to detect*) mede o tempo entre o primeiro evento do ataque e a detecção.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 *b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -61,11 +61,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**5.** I. O principal entregável de uma operação de Red Team é uma lista exaustiva de vulnerabilidades técnicas, sem relação com objetivos de negócio.
+**5.** I. Em uma operação de Red Team, o Blue Team é sempre avisado com antecedência de cada ação, para não confundir o exercício com um ataque real.
 
 PORQUE
 
-II. A operação de Red Team persegue objetivos, como "acessar a base de clientes", e avalia até onde um atacante chegaria sem ser percebido.
+II. Quando o SOC escala um alerta, um *trusted agent* do White Team confere no registro de ações do Red Team se aquela atividade pertence ao exercício, a chamada *deconfliction*.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -73,11 +73,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**6.** I. Segundo a lógica da Cyber Kill Chain, o defensor não precisa vencer em todas as fases de um ataque para frustrá-lo.
+**6.** I. O que diferencia uma operação de Red Team de uma invasão criminosa não é a técnica empregada, mas a existência de autorização expressa para a atividade.
 
 PORQUE
 
-II. O modelo descreve a intrusão como uma sequência de etapas encadeadas, de modo que interromper uma delas — por exemplo, bloquear a entrega ou detectar o canal de comando e controle — impede o atacante de alcançar seus objetivos.
+II. Muitas ações técnicas de um Red Team são idênticas às de um criminoso, e o art. 154-A do Código Penal, incluído pela Lei nº 12.737/2012, tipifica a invasão de dispositivo informático alheio.
 
 *a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -85,23 +85,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**7.** I. Na matriz MITRE ATT&CK, as táticas representam o "porquê" do adversário, isto é, o objetivo que ele busca em determinado momento do ataque.
+**7.** I. O parceiro de pagamentos PagaFácil fica fora do escopo do exercício da Rede Tatame, salvo autorização do próprio parceiro.
 
 PORQUE
 
-II. O MITRE ATT&CK é uma base de conhecimento pública, mantida por uma organização sem fins lucrativos e construída a partir de observações de ataques reais.
-
-a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e. As asserções I e II são proposições falsas.
-
-**8.** I. A Cyber Kill Chain é útil para comunicar a lógica geral de um ataque, mas é pouco detalhada para orientar a criação de regras de detecção.
-
-PORQUE
-
-II. A Cyber Kill Chain foi concebida especificamente para ataques que usam credenciais válidas roubadas e abuso de serviços em nuvem, cobrindo com precisão todos os cenários modernos.
+II. O gerente de TI da empresa contratante pode autorizar o teste de qualquer sistema conectado à rede dela, inclusive os de terceiros.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -109,11 +97,35 @@ b. As asserções I e II são proposições verdadeiras, mas a II não é uma ju
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**9.** I. Para o Blue Team, o MITRE ATT&CK funciona principalmente como um cardápio de técnicas a serem executadas contra o próprio ambiente.
+**8.** I. A LGPD continua valendo durante o exercício, e as regras devem garantir a coleta apenas da evidência necessária e o descarte ao final.
 
 PORQUE
 
-II. Ferramentas como o ATT&CK Navigator permitem colorir as técnicas cobertas por detecção e evidenciar as lacunas de cobertura.
+II. No modelo caixa-cinza, a equipe recebe informações parciais sobre o alvo, como uma conta de colaborador.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+**9.** I. O *pentest* é o tipo de avaliação mais adequado para medir se o SOC detecta e responde a um ataque realista.
+
+PORQUE
+
+II. No *pentest*, o Blue Team nunca é avisado, porque o objetivo é medir a furtividade do testador.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+**10.** I. Uma cópia da carta de autorização recebida por *e-mail* pode ser usada pelo Red Team mesmo que o *hash* SHA-256 dela seja diferente do registrado no chamado, desde que o texto pareça igual.
+
+PORQUE
+
+II. Registrar o *hash* SHA-256 da versão assinada no chamado de aprovação permite verificar se o arquivo foi alterado depois da assinatura.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -121,35 +133,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**10.** I. Na matriz MITRE ATT&CK, o item T1566.001 — *Spearphishing Attachment* — é um exemplo de tática.
+**11.** I. Segundo a Cyber Kill Chain, o defensor não precisa vencer em todas as fases: basta interromper a cadeia em uma delas.
 
 PORQUE
 
-II. Os procedimentos descrevem o objetivo genérico do adversário, independentemente do grupo ou do *malware* que os utiliza.
-
-a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-*e. As asserções I e II são proposições falsas.
-
-**11.** I. Uma varredura de vulnerabilidades, isoladamente, não comprova que uma falha identificada seja de fato explorável.
-
-PORQUE
-
-II. A varredura compara os sistemas com bases de vulnerabilidades conhecidas, em geral de forma automatizada e sem tentar explorar as falhas, o que também explica a ocorrência de falsos positivos.
-
-*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e. As asserções I e II são proposições falsas.
-
-**12.** I. Em uma operação de Red Team, normalmente apenas a liderança sabe do exercício, e o Blue Team não é avisado previamente.
-
-PORQUE
-
-II. A célula branca (*white cell*) é formada por todos os analistas do SOC, que precisam conhecer o exercício para não tratar as ações simuladas como incidente real.
+II. A Kill Chain descreve com precisão intrusões feitas com credenciais válidas, nas quais o adversário percorre obrigatoriamente todas as sete fases.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -157,35 +145,23 @@ b. As asserções I e II são proposições verdadeiras, mas a II não é uma ju
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**13.** I. O pré-engajamento é a primeira das sete fases previstas no PTES (*Penetration Testing Execution Standard*).
+**12.** I. A emulação de adversário reproduz o comportamento de um grupo específico, na ordem e do jeito que ele costuma agir.
 
 PORQUE
 
-II. O OWASP *Web Security Testing Guide* é a referência mais usada para testes de segurança em aplicações *web*.
+II. Ela parte de inteligência de ameaças sobre o grupo, enquanto a simulação executa técnicas genéricas, sem fidelidade a um ator.
 
-a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
 c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**14.** I. Os testes caixa-branca são os mais realistas, pois reproduzem fielmente a visão de um atacante externo que conhece apenas o nome da empresa.
+**13.** I. Na versão 19 do ATT&CK, a tática de Evasão de defesas foi mantida como tática única, e a 15ª tática criada foi a de Desenvolvimento de recursos.
 
 PORQUE
 
-II. No teste caixa-preta, a equipe recebe diagramas de rede, código-fonte e configurações do ambiente avaliado.
-
-a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-*e. As asserções I e II são proposições falsas.
-
-**15.** I. A conclusão de um *pentest* de aplicação sem achados críticos comprova que a organização detecta e responde adequadamente a ataques realistas.
-
-PORQUE
-
-II. O *pentest* se concentra em encontrar o maior número possível de falhas relevantes em um alvo delimitado, enquanto a capacidade de detecção e resposta é o foco da operação de Red Team.
+II. Na versão 19 (abril de 2026), a antiga Evasão de defesas foi dividida em Furtividade (*Stealth*, TA0005) e Enfraquecimento de defesas (*Defense Impairment*, TA0112).
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -193,35 +169,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 *d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**16.** I. Na defesa em profundidade, a proteção é organizada em camadas sobrepostas, como perímetro, rede, *endpoint*, aplicação, dados e pessoas.
+**14.** I. Um plano de emulação liga cada técnica a um procedimento seguro, como contas de teste, arquivos fictícios e impacto apenas simulado.
 
 PORQUE
 
-II. A defesa em profundidade parte do princípio de que qualquer controle pode falhar; assim, cada camada adicional impõe uma nova barreira ao atacante e gera uma nova chance de detecção.
-
-*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e. As asserções I e II são proposições falsas.
-
-**17.** I. A função Governar (*Govern*) foi incluída no NIST *Cybersecurity Framework* em sua versão 2.0, publicada em 2024.
-
-PORQUE
-
-II. O Blue Team atua exclusivamente na função Governar, sem depender das funções Identificar e Proteger.
-
-a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
-b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
-*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
-d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
-e. As asserções I e II são proposições falsas.
-
-**18.** I. Para avaliar se um SOC está funcionando, indicadores como o MTTD e o MTTR são mais informativos do que a simples contagem de alertas.
-
-PORQUE
-
-II. A plataforma de SOAR automatiza respostas repetitivas no SOC.
+II. O ATT&CK Navigator é uma ferramenta *web* gratuita da MITRE para anotar a matriz em camadas.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 *b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -229,11 +181,11 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 e. As asserções I e II são proposições falsas.
 
-**19.** I. O modelo *Zero Trust* concede confiança implícita a usuários e dispositivos que estejam conectados à rede interna da organização.
+**15.** I. No ATT&CK, as táticas representam o "como" do adversário, isto é, a forma concreta de executar a ação.
 
 PORQUE
 
-II. No SOC, o nível N1 é o responsável por caçar ameaças, conduzir a análise forense e criar novas regras de detecção.
+II. Os procedimentos são categorias genéricas, sem relação com grupos ou *softwares* específicos.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -241,11 +193,59 @@ c. A asserção I é uma proposição verdadeira, e a II é uma proposição fal
 d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
 *e. As asserções I e II são proposições falsas.
 
-**20.** I. O EDR é a ferramenta do SOC responsável por centralizar e correlacionar os registros (*logs*) provenientes das diversas fontes do ambiente.
+**16.** I. Emular os 300 endereços IP e os 150 *hashes* do boletim sobre o Grupo Cobalto Austral testa pouco a defesa da Rede Tatame.
 
 PORQUE
 
-II. Embora atue sobretudo nas funções Detectar e Responder do NIST CSF 2.0, o Blue Team depende das demais funções, pois não é possível monitorar um ativo que ninguém sabe que existe.
+II. Na Pirâmide da Dor, *hashes* e IPs são trocados pelo adversário com facilidade, enquanto os TTPs, no topo, são difíceis de mudar.
+
+*a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+**17.** I. No planejamento, a inteligência estratégica serve para justificar o exercício e o orçamento perante a alta gestão.
+
+PORQUE
+
+II. A inteligência tática é destinada exclusivamente à diretoria, que a usa para escolher o adversário a emular.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+*c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+**18.** I. Uma lista de endereços IP recebida de um parceiro já é, por si só, inteligência de ameaças.
+
+PORQUE
+
+II. O ciclo de inteligência começa pela coleta de dados, e os requisitos de inteligência só são definidos depois da análise.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+*e. As asserções I e II são proposições falsas.
+
+**19.** I. No TIBER-EU, o relatório de inteligência de ameaças específico da instituição é produzido antes de o Red Team montar os cenários do teste.
+
+PORQUE
+
+II. O TLP 2.0, do FIRST, usa os rótulos CLEAR, GREEN, AMBER, AMBER+STRICT e RED.
+
+a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
+*b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
+c. A asserção I é uma proposição verdadeira, e a II é uma proposição falsa.
+d. A asserção I é uma proposição falsa, e a II é uma proposição verdadeira.
+e. As asserções I e II são proposições falsas.
+
+**20.** I. No Modelo Diamante, os quatro vértices de um evento de intrusão são adversário, ferramenta, rede e dados.
+
+PORQUE
+
+II. O STIX descreve objetos de inteligência, como atores, campanhas e padrões de ataque, e o TAXII define como trocá-los.
 
 a. As asserções I e II são proposições verdadeiras, e a II é uma justificativa correta da I.
 b. As asserções I e II são proposições verdadeiras, mas a II não é uma justificativa correta da I.
@@ -255,7 +255,7 @@ e. As asserções I e II são proposições falsas.
 
 ### Interpretação
 
-**21.** A diretoria da Varejo Aurora estima que um incidente cibernético grave custaria R$ 4.000.000 à empresa e que a probabilidade anual desse incidente é de 20%. A equipe de segurança propõe um programa de Red Team e melhoria de detecção que custa R$ 200.000 por ano e deve reduzir essa probabilidade para 8%. Com base na expectativa de perda anual, qual é a redução de risco proporcionada pelo programa?
+**21.** A diretoria da Varejo Aurora estima que um incidente cibernético grave custaria R$ 4.000.000 e que a probabilidade anual desse incidente é de 20%. A equipe de segurança propõe um programa de exercícios de Red Team e melhoria de detecção que custa R$ 200.000 por ano e deve reduzir essa probabilidade para 8%. Com base na expectativa de perda anual (ALE), qual é a redução de risco proporcionada pelo programa?
 
 a. R$ 320.000 por ano, que corresponde à nova expectativa de perda.
 b. R$ 800.000 por ano, que corresponde à expectativa de perda original.
@@ -263,479 +263,436 @@ c. R$ 280.000 por ano.
 *d. R$ 480.000 por ano, valor superior ao dobro do investimento no programa.
 e. R$ 120.000 por ano.
 
-**22.** Durante uma operação de Red Team autorizada pela Logística Rápida S.A., uma operadora identifica um servidor conectado à rede da cliente, mas que pertence a uma empresa parceira e não consta da lista de ativos do escopo. Ela acredita que o servidor poderia ser um caminho mais curto até o objetivo da operação. Qual é a conduta correta?
+**22.** Durante a operação de novembro da Rede Tatame, Luiza Ferraz, analista do SOC, escala um alerta de *login* suspeito na VPN. O Blue Team não sabe do exercício. O que deve acontecer em seguida, segundo o papel do White Team?
 
-a. Testar o servidor, pois a autorização da cliente cobre automaticamente todos os ativos conectados à sua rede.
-*b. Não testar o servidor, registrar o achado e comunicá-lo ao contato designado, pois o ativo está fora do escopo e não há autorização de quem tem autoridade sobre ele.
-c. Testar o servidor apenas fora do horário comercial, para reduzir o risco de impacto à empresa parceira.
-d. Testar o servidor desde que nenhum dado pessoal seja copiado, já que a LGPD é a única norma aplicável ao caso.
-e. Pedir autorização verbal a qualquer funcionário da empresa parceira e prosseguir imediatamente.
+a. Bruno Sato deve avisar o SOC de que tudo é um teste e pedir que o alerta seja ignorado.
+*b. Um *trusted agent* compara o alerta com o registro de ações do Red Team; se bater, o exercício segue e o alerta conta como detecção; se não bater, pode ser um incidente real e o exercício para.
+c. Luiza deve encerrar o alerta como falso positivo, pois há um exercício em andamento.
+d. O White Team deve desligar a regra que gerou o alerta para não atrapalhar o Red Team.
+e. O exercício deve ser cancelado imediatamente, pois o Blue Team detectou o Red Team.
 
-**23.** Na Fintech Lumen, durante uma tarde de trabalho, um integrante da equipe ofensiva executa uma técnica de execução de *scripts* em uma estação de testes. Os analistas de defesa, na mesma sala, verificam que nenhum alerta foi gerado no SIEM, escrevem uma nova regra de detecção e pedem que a técnica seja executada novamente; desta vez, o alerta dispara. O ciclo se repete com outras quatro técnicas. A dinâmica descrita caracteriza:
+**23.** Na Rede Tatame, Marina Prado (CISO) aprova o plano e as regras de engajamento da operação, acompanha a execução sem participar da disputa e detém a palavra de parada. Nesse exercício, Marina exerce o papel de:
 
-*a. *purple teaming*, com colaboração em ciclos curtos que transforma o ataque simulado em melhoria imediata da detecção.
-b. uma varredura de vulnerabilidades autenticada.
-c. uma operação de Red Team furtiva, coordenada por célula branca e sem conhecimento do Blue Team.
-d. um *pentest* caixa-preta de aplicação *web*.
-e. a resposta a um incidente real conduzida pelo nível N2 do SOC.
+*a. White Team.
+b. Red Team.
+c. Blue Team.
+d. Purple Team.
+e. operadora do Red Team em caixa-branca.
 
-**24.** O rascunho de regras de engajamento de uma operação de Red Team na Construtora Horizonte contém apenas três itens: (1) ativos incluídos e excluídos do escopo; (2) período de execução; (3) objetivo da operação — "obter acesso ao sistema financeiro". Considerando o conteúdo da Aula 3, qual complemento é indispensável antes do início da operação?
+**24.** Assinale a sequência que corresponde ao ciclo de uma operação de Red Team apresentado na Aula 1.
 
-a. A lista de ferramentas comerciais que serão adquiridas para a operação.
-b. O currículo detalhado de cada operador, sem necessidade de outros documentos.
-c. A autorização verbal do gerente de TI, dispensando documento assinado.
-d. O compromisso de que nenhuma técnica de *phishing* será usada, por ser sempre ilegal.
-*e. Técnicas proibidas, critérios de parada, contatos de emergência e carta de autorização assinada.
+a. Execução, planejamento, relatório, preparação, lições e reteste, inteligência.
+b. Inteligência, execução, planejamento, relatório, preparação, reteste.
+c. Preparação, execução, inteligência, planejamento, reteste, relatório.
+d. Relatório, planejamento, preparação, inteligência, execução, reteste.
+*e. Planejamento, inteligência e emulação, preparação, execução, relatório, lições e reteste.
 
-**25.** Considere as três perguntas centrais a seguir:
+**25.** Em um exercício, o primeiro evento do ataque simulado ocorreu às 10h00, o alerta do SIEM surgiu às 10h08 e a contenção foi concluída às 10h20. Quais são o MTTD e o MTTR desse caso?
 
-1. "Até onde um atacante chegaria?"
-2. "Percebemos e contivemos a tempo?"
-3. "O que aprendemos e o que mudou?"
+a. MTTD de 20 minutos e MTTR de 8 minutos.
+b. MTTD de 12 minutos e MTTR de 8 minutos.
+*c. MTTD de 8 minutos e MTTR de 12 minutos.
+d. MTTD de 8 minutos e MTTR de 20 minutos.
+e. MTTD e MTTR de 10 minutos cada.
 
-A associação correta entre cada pergunta e a equipe ou forma de trabalho que ela representa é:
+**26.** A RoE da Rede Tatame autoriza ações de 16 a 27 de novembro de 2026, das 9h às 20h, somente em dias úteis. Considerando o feriado nacional de 20 de novembro, quantas horas de janela o Red Team tem?
 
-a. 1 — Blue Team; 2 — Red Team; 3 — Purple Team.
-b. 1 — Purple Team; 2 — Blue Team; 3 — Red Team.
-*c. 1 — Red Team; 2 — Blue Team; 3 — Purple Team.
-d. 1 — Red Team; 2 — Purple Team; 3 — Blue Team.
-e. 1 — Blue Team; 2 — Purple Team; 3 — Red Team.
+a. 110 horas.
+*b. 99 horas.
+c. 132 horas.
+d. 120 horas.
+e. 88 horas.
 
-**26.** O analista do SOC da Distribuidora Vale Verde reconstruiu a linha do tempo de um ataque:
+**27.** O rascunho de RoE enviado pela diretoria traz objetivo, escopo, janelas e técnicas proibidas, mas não menciona critérios de parada, palavra de parada nem o White Team e seus contatos de emergência. Qual é a avaliação correta?
 
-```
-10:02  E-mail com anexo "fatura.docm" entregue ao setor financeiro
-10:15  Usuário habilita macros do documento
-10:16  Criada tarefa agendada que executa um binário a cada inicialização
-10:20  Início de conexões HTTPS a cada 60 s para domínio registrado há 2 dias
-```
+a. O rascunho basta, pois escopo e janelas são os únicos itens obrigatórios.
+b. Basta acrescentar a assinatura de qualquer gerente de TI.
+c. O Red Team pode começar e definir os critérios de parada durante a execução.
+*d. A RoE está incompleta: sem critérios e palavra de parada, White Team e contatos, ninguém consegue interromper o exercício com segurança, e o teste não deve começar.
+e. Os itens ausentes só são necessários em *pentests*, não em operações de Red Team.
 
-Na Cyber Kill Chain, os eventos das 10:16 e das 10:20 correspondem, respectivamente, às fases de:
+**28.** Durante a operação, um operador encontra um servidor ligado à rede da sede que pertence a uma empresa parceira e não consta do escopo. Ele acredita que seria um atalho até o objetivo. Qual é a conduta correta?
 
-a. exploração e entrega.
-*b. instalação e comando e controle (C2).
-c. armamento e reconhecimento.
-d. instalação e ações sobre os objetivos.
-e. entrega e comando e controle (C2).
+*a. Não tocar no servidor, registrar o achado e comunicar ao White Team; o servidor só pode ser testado com autorização do próprio parceiro e atualização do escopo.
+b. Testar rapidamente, pois o servidor está na rede da cliente.
+c. Testar apenas fora da janela autorizada, para não gerar alertas.
+d. Pedir autorização verbal a um analista do SOC e prosseguir.
+e. Prosseguir e informar no relatório, já que o objetivo foi combinado com a liderança.
 
-**27.** A equipe de defesa de uma rede de supermercados levantou 50 técnicas ATT&CK associadas aos grupos que atacam o varejo. Dessas, 22 têm regra de detecção testada, 13 têm telemetria, mas nenhuma regra, e 15 não têm sequer os registros necessários. Qual é a cobertura de detecção atual e qual será a cobertura se forem criadas regras para todas as técnicas que já possuem telemetria?
+**29.** A diretoria da Rede Tatame quer saber se o SOC perceberia e conteria um ataque realista do tipo que atingiu uma concorrente. A empresa já faz varreduras mensais de vulnerabilidades. Qual avaliação responde a essa pergunta?
 
-a. 70% atualmente e 100% após as novas regras.
-b. 44% atualmente e 56% após as novas regras.
-c. 26% atualmente e 70% após as novas regras.
-*d. 44% atualmente e 70% após as novas regras.
-e. 30% atualmente e 44% após as novas regras.
+a. Aumentar a frequência das varreduras para semanal.
+b. Um *pentest* caixa-branca do portal das academias, com o Blue Team avisado.
+*c. Uma operação de Red Team orientada a objetivos, emulando o adversário, com o Blue Team não avisado e apenas o White Team ciente.
+d. Uma auditoria documental das políticas de segurança.
+e. Um *pentest* caixa-preta de um único servidor, com prazo de dois dias.
 
-**28.** Ao revisar um exercício, o SOC registrou três comportamentos: (1) um processo desconhecido acessando a memória do processo LSASS; (2) *logons* remotos de uma conta administrativa em dezenas de servidores, fora do padrão; (3) milhares de arquivos renomeados em poucos minutos em um servidor de arquivos. Na matriz MITRE ATT&CK, esses comportamentos se associam, respectivamente, às táticas:
+**30.** Ao comprovar um acesso, o Red Team chega a uma pasta com fichas de alunos, incluindo menores e atestados. Qual conduta está de acordo com a LGPD e com as regras de engajamento apresentadas?
 
-*a. Acesso a credenciais; Movimentação lateral; Impacto.
-b. Execução; Acesso inicial; Movimentação lateral.
-c. Movimentação lateral; Acesso a credenciais; Execução.
-d. Acesso inicial; Impacto; Acesso a credenciais.
-e. Impacto; Execução; Acesso inicial.
+a. Copiar todas as fichas para provar o impacto no relatório.
+b. Encerrar o exercício sem registrar nada, para não tratar dados pessoais.
+c. Publicar uma amostra das fichas no relatório executivo.
+d. Enviar as fichas ao Blue Team para que avalie o vazamento.
+*e. Registrar só a evidência mínima, sem copiar registros, proteger essa evidência e descartá-la ao final; se houver indício de vazamento real, a organização avalia a comunicação à ANPD e aos titulares.
 
-**29.** O Hospital Santa Clara vai contratar uma operação de Red Team e quer que ela seja realista. O coordenador pergunta como a equipe deve usar o MITRE ATT&CK para planejar a emulação. Qual orientação está mais alinhada ao conteúdo estudado?
+**31.** O plano de emulação do Grupo Cobalto Austral contra a Rede Tatame tem 7 técnicas: 3 com regra ativa, 3 só com telemetria e 1 sem telemetria. Qual é a cobertura de detecção esperada hoje e a cobertura depois de criar regras para duas das técnicas que já têm telemetria?
 
-a. Executar todas as técnicas da matriz em ordem aleatória, para garantir cobertura total.
-b. Escolher apenas técnicas para as quais o SOC já possui regra de detecção, para evitar falhas no exercício.
-*c. Selecionar as técnicas usadas pelos grupos que de fato ameaçam o setor de saúde e emulá-las.
-d. Dispensar o ATT&CK, pois ele é uma ferramenta exclusiva do Blue Team, e usar apenas a Kill Chain.
-e. Priorizar as técnicas mais recentes publicadas, independentemente do perfil de ameaça do hospital.
+*a. Cerca de 42,9% hoje e cerca de 71,4% depois.
+b. Cerca de 85,7% hoje e 100% depois.
+c. Cerca de 14,3% hoje e cerca de 42,9% depois.
+d. Cerca de 42,9% hoje e cerca de 85,7% depois.
+e. Cerca de 57,1% hoje e cerca de 71,4% depois.
 
-**30.** Em uma investigação, constatou-se que o atacante se conectou à VPN de uma empresa com credenciais válidas compradas em um fórum, acessou o console de nuvem e copiou dados de um repositório, sem instalar nenhum *malware*. O analista teve dificuldade de encaixar o caso nas fases de armamento e instalação da Cyber Kill Chain. Qual afirmação explica melhor essa dificuldade?
+**32.** Rafael Tavares abriu no ATT&CK Navigator duas camadas: a do plano de emulação do Cobalto Austral e a de cobertura atual da Rede Tatame. Para que serve sobrepor as duas?
 
-a. A Kill Chain não se aplica a nenhum ataque real, servindo apenas como recurso didático.
-b. O caso não pode ser considerado um ataque, pois as credenciais utilizadas eram válidas.
-c. A Kill Chain exige que todo ataque comece por varredura de vulnerabilidades.
-d. A dificuldade indica erro do analista, pois todo ataque passa obrigatoriamente pelas sete fases.
-*e. A Kill Chain é linear e foi pensada para intrusões com *malware* vindo de fora para dentro.
+a. Para gerar automaticamente as regras de detecção que faltam no SIEM.
+b. Para substituir a carta de autorização do exercício.
+c. Para bloquear no *firewall* as técnicas marcadas em vermelho.
+*d. Para ver quais técnicas do adversário a defesa não cobre, isto é, onde o exercício deve encontrar lacunas.
+e. Para apagar do plano as técnicas que já têm regra.
 
-**31.** Uma rede de clínicas com 120 unidades realiza varreduras mensais de vulnerabilidades e terceirizou seu SOC há um ano. A diretoria quer saber se esse SOC está, de fato, detectando e respondendo a ataques. Qual avaliação é a mais adequada para responder a essa pergunta?
+**33.** No exercício, um passo do Red Team faz uma consulta em massa ao Active Directory para listar usuários e grupos. Em qual tática e técnica do ATT&CK esse comportamento se encaixa?
 
-a. Um *pentest* da aplicação de agendamento, com o maior número possível de falhas listadas.
-*b. Uma operação de Red Team orientada a objetivo, sem aviso ao SOC e com célula branca definida.
-c. Aumentar a frequência das varreduras de mensal para semanal.
-d. Um *pentest* caixa-branca de todas as unidades, com o SOC previamente avisado de cada teste.
-e. Um relatório de conformidade baseado apenas nas varreduras já realizadas.
+a. Acesso inicial, T1078 (Contas válidas).
+*b. Descoberta, T1087.002 (Contas de domínio).
+c. Movimentação lateral, T1021.001 (RDP).
+d. Acesso a credenciais, T1003 (Extração de credenciais).
+e. Impacto, T1486 (Dados criptografados para impacto).
 
-**32.** A Editora Prisma dispõe de R$ 150.000 anuais para avaliações de segurança e analisa duas opções:
+**34.** O plano de emulação precisa incluir a técnica T1486 (Dados criptografados para impacto) do Grupo Cobalto Austral. Qual procedimento é compatível com um plano de emulação seguro?
 
-| Opção | Composição | Custo anual |
-|---|---|---|
-| A | Cinco *pentests* de aplicações a R$ 30.000 cada | R$ 150.000 |
-| B | Varreduras mensais (R$ 2.500/mês) + uma operação de Red Team de R$ 120.000 | R$ 150.000 |
+a. Cifrar o SRV-ARQ-01 de produção fora do horário comercial.
+b. Cifrar apenas metade dos arquivos reais, para limitar o dano.
+c. Pular a técnica e apenas citá-la no relatório, sem medir nada.
+d. Pedir ao Blue Team que desligue o EDR durante o teste.
+*e. Executar o caso de teste em máquina descartável, com arquivos fictícios, observando a telemetria e a regra esperadas, com impacto apenas simulado.
 
-No próximo semestre, a editora lançará cinco novos sistemas expostos à internet, e a principal dúvida da diretoria é se eles resistem à exploração de falhas. Qual decisão é a mais coerente?
+**35.** Um relatório de incidente descreve um adversário que entrou na VPN com uma senha vazada, sem *malware*, e foi direto ao Active Directory. Por que a equipe prefere descrevê-lo com o ATT&CK em vez de apenas com a Cyber Kill Chain?
 
-*a. Opção A, pois a pergunta de negócio é sobre falhas exploráveis em sistemas delimitados.
-b. Opção B, porque a operação de Red Team é sempre superior ao *pentest*, independentemente do objetivo.
-c. Opção B, por ser mais barata do que a opção A.
-d. Opção A, porque o *pentest* é a avaliação mais indicada para medir a detecção do SOC.
-e. Nenhuma das opções contratadas; bastaria manter as varreduras já existentes.
+a. Porque a Kill Chain foi descontinuada pela Lockheed Martin.
+b. Porque o ATT&CK tem exatamente sete fases, mais simples que a Kill Chain.
+*c. Porque a Kill Chain é linear e pensada para *malware* entregue de fora; esse ataque pula armamento e instalação, e o ATT&CK o descreve com técnicas como T1078 e T1087.002.
+d. Porque o ATT&CK dispensa inteligência de ameaças.
+e. Porque a Kill Chain só se aplica a ataques físicos.
 
-**33.** Para avaliar o portal interno de uma cooperativa de crédito, a equipe de testes recebeu acesso à VPN e as credenciais de uma conta de usuário comum. Não recebeu diagramas de rede, código-fonte nem arquivos de configuração. Essa modalidade de teste é classificada como:
+**36.** Bruno Sato atribuiu a cada técnica do perfil do Cobalto Austral uma relevância (1 a 3) e uma lacuna (1 = regra ativa, 2 = só telemetria, 3 = sem telemetria). T1567.002 tem relevância 3 e lacuna 3; T1021.001, relevância 3 e lacuna 2; T1078, relevância 3 e lacuna 1. Qual é a prioridade de cada uma, pelo produto, e qual entra primeiro no plano?
 
-a. caixa-preta, pois o testador age exatamente como um atacante externo que conhece apenas o nome da empresa.
-b. caixa-branca, pois o fornecimento de qualquer credencial caracteriza acesso total ao ambiente.
-c. caixa-preta, pois a ausência de código-fonte é suficiente para essa classificação.
-d. caixa-branca, pois o acesso à VPN equivale a conhecer toda a arquitetura interna.
-*e. caixa-cinza, pois a equipe recebeu informações parciais.
+a. 3, 6 e 9; T1078 entra primeiro.
+b. 6, 6 e 3; T1567.002 e T1021.001 empatam.
+c. 9, 6 e 3; T1078 entra primeiro por ser o acesso inicial.
+*d. 9, 6 e 3; T1567.002 entra primeiro.
+e. 6, 5 e 4; T1567.002 entra primeiro.
 
-**34.** O plano de trabalho de uma consultoria de segurança organiza a avaliação nas seguintes fases, nesta ordem:
+**37.** Classifique, pelos níveis de CTI, três informações de um boletim: (1) "cresce a extorsão contra empresas que guardam dados de crianças"; (2) "o Grupo Cobalto Austral mantém campanha contra redes de academias desde outubro"; (3) "o grupo usa credenciais válidas de VPN, RDP e exclusão de cópias de sombra".
 
-```
-Planejamento → Descoberta → Ataque → Relatório
-```
+*a. (1) estratégica, (2) operacional, (3) tática.
+b. (1) tática, (2) estratégica, (3) operacional.
+c. (1) operacional, (2) tática, (3) estratégica.
+d. As três são táticas, pois falam de ataques.
+e. As três são estratégicas, pois interessam à diretoria.
 
-Essa organização corresponde à metodologia:
+**38.** O boletim sobre o Cobalto Austral chegou à Rede Tatame marcado como TLP:AMBER. Bruno quer publicá-lo no *blog* da empresa para "alertar o mercado". Qual é a conduta adequada?
 
-a. PTES, que detalha a avaliação nessas quatro fases.
-b. OWASP *Web Security Testing Guide*, focado em redes corporativas.
-c. Cyber Kill Chain, da Lockheed Martin.
-*d. NIST SP 800-115.
-e. NIST *Cybersecurity Framework* 2.0.
+a. Publicar, pois informação de ameaça é sempre pública.
+b. Publicar apenas os IPs, que são dados técnicos.
+*c. Não publicar; compartilhar só com quem precisa saber dentro da organização (e com clientes, se necessário para protegê-los).
+d. Reclassificar o boletim como TLP:CLEAR por conta própria.
+e. Destruir o boletim, pois AMBER significa que ele não pode ser lido.
 
-**35.** No terceiro dia de uma operação de Red Team na Indústria Metalúrgica Forte, o analista N2 do SOC confirma um comportamento suspeito, classifica-o como incidente real e prepara o isolamento de vários servidores de produção. As regras de engajamento preveem a interrupção do exercício caso ele seja confundido com um incidente real. Quem deve atuar para evitar impacto desnecessário à operação da empresa?
+**39.** Analisando o boletim no Modelo Diamante, Luiza Ferraz parte do endereço IP de um servidor usado pelo grupo e descobre outras duas redes de academias que se conectaram a ele. Que movimento de análise ela fez?
 
-a. Os operadores do Red Team, que devem desligar seus equipamentos e encerrar o contrato sem avisar ninguém.
-b. O próprio analista N2, que deve ignorar o alerta por suspeitar de um exercício.
-*c. A célula branca, que conhece o exercício e pode esclarecer a situação ou interrompê-lo.
-d. A plataforma de SOAR, que deve encerrar automaticamente todos os incidentes abertos.
-e. Todos os funcionários da empresa, que deveriam ter sido avisados previamente do exercício.
+a. Partiu da vítima para chegar ao adversário.
+b. Partiu da capacidade para chegar à infraestrutura.
+c. Bloqueou o IP, o que encerra a análise.
+d. Classificou o IP como TTP do topo da pirâmide.
+*e. Pivotou do vértice infraestrutura para o vértice vítima.
 
-**36.** Uma loja virtual sofreu uma invasão na qual o atacante exfiltrava 1.500 registros de clientes por dia. Considere dois cenários: no primeiro, o tempo até a contenção é de 258 dias, como a média apontada pelo relatório *Cost of a Data Breach* 2024, da IBM; no segundo, o SOC contém o ataque em 12 dias. Qual alternativa apresenta corretamente os volumes exfiltrados e a redução aproximada?
+**40.** Para ver a Rede Tatame como o Cobalto Austral a veria, sem sair do escopo nem da LGPD, qual atividade é de reconhecimento passivo adequado ao planejamento?
 
-*a. 387.000 e 18.000 registros; redução de cerca de 95%.
-b. 387.000 e 18.000 registros; redução de cerca de 5%.
-c. 258.000 e 12.000 registros; redução de cerca de 95%.
-d. 38.700 e 1.800 registros; redução de cerca de 50%.
-e. 387.000 e 180.000 registros; redução de cerca de 53%.
-
-**37.** A Transportadora Norte mapeou quatro controles de segurança:
-
-1. inventário atualizado de servidores, aplicações e dependências;
-2. autenticação multifator para todos os usuários;
-3. política de segurança aprovada pela diretoria, com definição de papéis e supervisão de riscos;
-4. restauração dos sistemas a partir de cópias de segurança após um incidente.
-
-A classificação correta desses controles nas funções do NIST CSF 2.0 é:
-
-a. 1 — Proteger; 2 — Identificar; 3 — Governar; 4 — Responder.
-b. 1 — Identificar; 2 — Detectar; 3 — Proteger; 4 — Recuperar.
-c. 1 — Governar; 2 — Proteger; 3 — Identificar; 4 — Recuperar.
-d. 1 — Identificar; 2 — Proteger; 3 — Responder; 4 — Detectar.
-*e. 1 — Identificar; 2 — Proteger; 3 — Governar; 4 — Recuperar.
-
-**38.** Um alerta de *login* de um diretor a partir de outro país chega ao SOC da Seguradora Atlas. O primeiro analista descarta a hipótese de falso positivo e escala o caso. A etapa seguinte exige aprofundar a análise, definir quais contas e máquinas foram afetadas e iniciar a contenção. Segundo a divisão de níveis do SOC estudada, essa etapa cabe ao:
-
-a. nível N1 — Triagem, por ter sido o primeiro a receber o alerta.
-b. nível N3 — Especialistas, responsável exclusivo por qualquer contenção.
-*c. nível N2 — Investigação.
-d. Red Team, que deve ser acionado para validar o incidente antes da contenção.
-e. EDR, que substitui a análise humana nessa etapa.
-
-**39.** Em três exercícios de *purple teaming*, o SOC da Construtech Sigma registrou os seguintes horários:
-
-| Exercício | Início do ataque | Detecção | Contenção |
-|---|---|---|---|
-| 1 | 09:00 | 11:00 | 12:00 |
-| 2 | 14:00 | 18:00 | 20:00 |
-| 3 | 08:00 | 11:00 | 14:00 |
-
-Considerando o MTTD como o tempo médio entre o início do ataque e a detecção, e o MTTR como o tempo médio entre a detecção e a contenção, os valores obtidos são:
-
-a. MTTD de 2 h e MTTR de 3 h.
-*b. MTTD de 3 h e MTTR de 2 h.
-c. MTTD de 5 h e MTTR de 2 h.
-d. MTTD de 9 h e MTTR de 6 h.
-e. MTTD de 3 h e MTTR de 5 h.
-
-**40.** Na Agropecuária Campo Belo, qualquer dispositivo conectado à rede interna acessa o sistema financeiro sem nova autenticação. Em um exercício de Red Team, a equipe comprometeu uma impressora de rede e, a partir dela, chegou ao sistema financeiro sem nenhum bloqueio. Qual princípio, se aplicado, mitigaria mais diretamente essa fragilidade?
-
-a. Ampliar apenas o *firewall* de perímetro, mantendo a confiança na rede interna.
-b. Adotar a Cyber Kill Chain como modelo de controle de acesso.
-c. Reforçar exclusivamente a função Recuperar do NIST CSF 2.0.
-*d. *Zero Trust*, que verifica todo acesso com o menor privilégio necessário.
-e. Desativar o SIEM, já que o ataque não foi feito com *malware*.
+a. Varrer as portas da VPN da sede fora da janela autorizada.
+*b. Consultar registros públicos de certificados para listar subdomínios de tatame.com.br e anotar só o necessário.
+c. Testar na VPN as senhas vazadas encontradas na internet, sem previsão no escopo.
+d. Ligar para o financeiro fingindo ser do suporte, sem autorização.
+e. Baixar fichas de alunos do ambiente de homologação para estudar os dados.
 
 ## Gabarito e feedbacks
 
 **Questão 1** (correta: a)
-- a. Correta: ambas são verdadeiras, e a II justifica a I — como as técnicas podem ser idênticas às de um criminoso e a invasão de dispositivo é crime (art. 154-A do CP, incluído pela Lei nº 12.737/2012), é a autorização formal que separa o teste do crime.
-- b. Incorreta: a II não é apenas verdadeira; ela explica exatamente por que a autorização é o elemento distintivo afirmado na I.
-- c. Incorreta: a II é verdadeira — o art. 154-A existe e a autorização de quem tem autoridade sobre os ativos é indispensável. Revise "Ética e legalidade" na Aula 1.
-- d. Incorreta: a I é verdadeira; tecnicamente, muitas ações do Red Team são iguais às de um criminoso, e o que as diferencia é a autorização.
+- a. Correta: ambas são verdadeiras, e a II justifica a I: como o White Team controla o exercício e faz cumprir os critérios de parada, cabe a ele pausar ou encerrar a operação quando algo sai do combinado.
+- b. Incorreta: a II não é um fato solto; é justamente o papel de controle e arbitragem que explica o poder de pausar a operação.
+- c. Incorreta: a II é verdadeira: a Aula 1 define o White Team (célula branca) como quem planeja, controla e arbitra, sem participar da disputa.
+- d. Incorreta: a I é verdadeira; pausar ou encerrar pelos critérios de parada é uma das atribuições do White Team.
 - e. Incorreta: as duas asserções são verdadeiras e estão diretamente ligadas.
 
 **Questão 2** (correta: c)
-- a. Incorreta: a II é falsa; o Blue Team defende o ambiente todos os dias, contra ameaças reais, e não apenas durante exercícios.
+- a. Incorreta: a II é falsa; o Blue Team atua todos os dias, contra ameaças reais, e não apenas durante exercícios.
 - b. Incorreta: a II não é verdadeira, pois restringe o Blue Team a reagir a simulações.
-- c. Correta: a I é verdadeira (o ritmo do Blue Team é contínuo, conforme a tabela comparativa da Aula 1), e a II é falsa, pois o Blue Team não depende de campanhas do Red Team para atuar.
+- c. Correta: a I é verdadeira (o Blue Team protege, monitora, detecta e responde todos os dias, em geral a partir do SOC), e a II é falsa, pois ele não depende de campanhas do Red Team para atuar.
 - d. Incorreta: a I é verdadeira; a defesa contínua é a característica central do Blue Team.
 - e. Incorreta: apenas a II é falsa; a I descreve corretamente o trabalho do Blue Team.
 
 **Questão 3** (correta: e)
-- a. Incorreta: nenhuma das asserções é verdadeira; o Purple Team é uma forma de colaboração, e o *purple teaming* pressupõe interação constante entre as equipes.
+- a. Incorreta: nenhuma das asserções é verdadeira; o Purple Team é uma forma de colaboração, e o reteste é parte essencial dela.
 - b. Incorreta: as duas asserções são falsas, não verdadeiras.
-- c. Incorreta: a I é falsa — o Purple Team designa menos uma equipe fixa e mais uma forma de colaboração, sem hierarquia sobre Red e Blue.
-- d. Incorreta: a II é falsa — o modelo de "atacar e entregar relatório semanas depois" é justamente o que o *purple teaming* substitui por trabalho lado a lado.
-- e. Correta: ambas são falsas. O Purple Team é uma dinâmica colaborativa de ciclos curtos, em que o Red Team executa uma técnica, o Blue Team verifica a detecção e ambos ajustam imediatamente.
+- c. Incorreta: a I é falsa: o Purple Team designa menos uma equipe fixa e mais uma forma de colaboração, sem hierarquia sobre Red e Blue.
+- d. Incorreta: a II é falsa: o Red executa a técnica, o Blue ajusta a detecção e ambos retestam; uma regra nunca testada não está comprovada.
+- e. Correta: a I é falsa, porque o Purple Team é uma forma de colaboração, e a II é falsa, porque o ciclo termina com o reteste da técnica.
 
 **Questão 4** (correta: b)
-- a. Incorreta: a II é verdadeira, mas trata do agravamento penal da invasão de dispositivo; o dever de proteger e descartar dados pessoais decorre da LGPD (Lei nº 13.709/2018), não da Lei nº 14.155/2021.
-- b. Correta: as duas asserções são verdadeiras, mas a justificativa da I está na LGPD, e não no agravamento das penas trazido pela Lei nº 14.155/2021.
-- c. Incorreta: a II é verdadeira; a Lei nº 14.155/2021 de fato agravou as penas dos crimes de violação de dispositivo informático.
-- d. Incorreta: a I é verdadeira; tratar dados pessoais com mínima exposição e descartá-los ao final é exigência ética e legal do teste.
-- e. Incorreta: ambas as asserções são verdadeiras. Revise a relação entre LGPD e testes de segurança na Aula 1.
+- a. Incorreta: as duas são verdadeiras, mas a II define uma métrica do Blue Team e não explica por que o Red Team trabalha orientado a objetivos.
+- b. Correta: a I descreve a operação orientada a objetivos e a II define corretamente o MTTD, mas uma não justifica a outra.
+- c. Incorreta: a II é verdadeira: o MTTD é o tempo do primeiro evento até a detecção.
+- d. Incorreta: a I é verdadeira; o texto cita exatamente esses objetivos como exemplos.
+- e. Incorreta: as duas asserções são verdadeiras.
 
 **Questão 5** (correta: d)
-- a. Incorreta: a I é falsa; o entregável do Red Team é um relatório que narra o caminho do ataque, as evidências e as recomendações, ligado a objetivos de negócio.
-- b. Incorreta: a I não é verdadeira, pois a lista exaustiva de falhas é característica do *pentest*, não do Red Team.
-- c. Incorreta: a avaliação está invertida — a I é falsa e a II é verdadeira.
-- d. Correta: a I é falsa, e a II é verdadeira — o Red Team persegue objetivos e avalia até onde o adversário chegaria sem ser percebido; por isso seu entregável é o relato do caminho de ataque, e não uma lista exaustiva de vulnerabilidades.
-- e. Incorreta: a II é verdadeira e descreve corretamente a natureza orientada a objetivos do Red Team.
+- a. Incorreta: a I é falsa, logo não pode ser justificada pela II.
+- b. Incorreta: a I não é verdadeira: em geral, só o White Team sabe da operação.
+- c. Incorreta: a situação é a inversa: a I é falsa e a II é verdadeira.
+- d. Correta: a I é falsa, porque o Blue Team em geral não é avisado (o que se mede é a reação dele), e a II é verdadeira: a *deconfliction* é o mecanismo que separa o exercício de um incidente real sem avisar o Blue Team.
+- e. Incorreta: a II é verdadeira; ela descreve a *deconfliction* como na Aula 1.
 
 **Questão 6** (correta: a)
-- a. Correta: ambas são verdadeiras, e a II justifica a I — como as fases são encadeadas, quebrar um único elo (entrega, C2 etc.) frustra o ataque; essa é a principal contribuição da Kill Chain.
-- b. Incorreta: a II é exatamente a razão pela qual o defensor não precisa vencer em todas as fases, portanto há relação de justificativa.
-- c. Incorreta: a II é verdadeira; o modelo descreve sete fases encadeadas e mostra que interromper uma basta.
-- d. Incorreta: a I é verdadeira e corresponde ao primeiro ponto-chave da Aula 2.
+- a. Correta: ambas são verdadeiras, e a II justifica a I: se as técnicas podem ser as mesmas e a invasão é crime, só a autorização de quem tem poder sobre os ativos afasta o crime.
+- b. Incorreta: a II explica exatamente por que a autorização é o elemento distintivo afirmado na I.
+- c. Incorreta: a II é verdadeira; o art. 154-A existe e trata da invasão de dispositivo informático. Revise a Aula 2.
+- d. Incorreta: a I é verdadeira; o texto afirma que o que afasta o crime é a autorização expressa.
+- e. Incorreta: as duas asserções são verdadeiras e estão ligadas.
+
+**Questão 7** (correta: c)
+- a. Incorreta: a II é falsa, logo não justifica a I.
+- b. Incorreta: a II não é verdadeira: quem assina precisa ter autoridade real sobre os ativos.
+- c. Correta: a I é verdadeira (serviços de terceiros ficam fora, salvo autorização deles), e a II é falsa: um gerente de TI não autoriza o teste do sistema de um parceiro.
+- d. Incorreta: a I é verdadeira; a Aula 2 cita o PagaFácil como exemplo de exclusão.
+- e. Incorreta: só a II é falsa.
+
+**Questão 8** (correta: b)
+- a. Incorreta: as duas são verdadeiras, mas tratam de temas diferentes: proteção de dados e nível de informação do teste.
+- b. Correta: a I descreve a minimização e o descarte exigidos pela LGPD, e a II define corretamente a caixa-cinza; uma não justifica a outra.
+- c. Incorreta: a II é verdadeira; é a definição de caixa-cinza da Aula 2.
+- d. Incorreta: a I é verdadeira; fichas, atestados e biometria são dados pessoais, e a LGPD vale durante o teste.
 - e. Incorreta: as duas asserções são verdadeiras.
 
-**Questão 7** (correta: b)
-- a. Incorreta: o fato de o ATT&CK ser público e baseado em ataques reais não explica o que significa uma tática; a II não justifica a I.
-- b. Correta: ambas são verdadeiras — táticas são o "porquê" (objetivo do adversário) e o ATT&CK é uma base pública da MITRE construída a partir de ataques reais —, mas a II não explica o conceito de tática.
-- c. Incorreta: a II é verdadeira; o ATT&CK é mantido pela MITRE, organização sem fins lucrativos, com base em observações reais.
-- d. Incorreta: a I é verdadeira; as técnicas é que representam o "como".
-- e. Incorreta: as duas asserções são verdadeiras. Revise os três níveis do ATT&CK na Aula 2.
-
-**Questão 8** (correta: c)
-- a. Incorreta: a II é falsa; a Kill Chain foi pensada para intrusões com *malware* entregue de fora para dentro.
-- b. Incorreta: a II não é verdadeira, logo não pode ser uma proposição verdadeira sem relação com a I.
-- c. Correta: a I é verdadeira (a Kill Chain comunica bem a lógica geral, mas é pouco detalhada para detecção), e a II é falsa, pois o modelo é linear e tem dificuldade justamente com ataques por credenciais válidas, nuvem ou usuário interno.
-- d. Incorreta: a I é verdadeira; é exatamente a limitação descrita na Aula 2.
-- e. Incorreta: a I é verdadeira; apenas a II é falsa.
-
-**Questão 9** (correta: d)
-- a. Incorreta: a I é falsa; usar o ATT&CK como cardápio de comportamentos a emular é o uso feito pelo Red Team.
-- b. Incorreta: a I não é verdadeira, pois para o Blue Team o ATT&CK é um mapa de cobertura.
-- c. Incorreta: a avaliação está invertida — a II é verdadeira e a I é falsa.
-- d. Correta: a I é falsa — para o Blue Team, o ATT&CK é um mapa de cobertura ("temos telemetria e regra para esta técnica?") — e a II é verdadeira, pois o ATT&CK Navigator permite colorir técnicas cobertas e lacunas.
-- e. Incorreta: a II é verdadeira; o Navigator é usado justamente para visualizar a cobertura.
-
-**Questão 10** (correta: e)
+**Questão 9** (correta: e)
 - a. Incorreta: as duas asserções são falsas.
-- b. Incorreta: nenhuma das asserções é verdadeira.
-- c. Incorreta: a I é falsa — T1566 é uma técnica (*Phishing*) e T1566.001 é uma subtécnica, não uma tática.
-- d. Incorreta: a II é falsa — os procedimentos são a implementação concreta usada por um grupo ou *malware* específico; o objetivo é a tática.
-- e. Correta: ambas são falsas. Táticas são o "porquê", técnicas e subtécnicas o "como" (como T1566.001), e procedimentos são implementações concretas de grupos específicos.
+- b. Incorreta: nenhuma das duas é verdadeira.
+- c. Incorreta: a I é falsa: quem responde "detectamos e respondemos?" é a operação de Red Team.
+- d. Incorreta: a II é falsa: no *pentest*, o Blue Team normalmente é avisado e a furtividade é baixa.
+- e. Correta: a I é falsa, porque o *pentest* responde "o que pode ser explorado?" em um alvo delimitado, e a II é falsa, porque nele o Blue Team normalmente é avisado.
 
-**Questão 11** (correta: a)
-- a. Correta: ambas são verdadeiras, e a II justifica a I — como a varredura apenas compara os ativos com bases de falhas conhecidas, sem explorá-las, ela não comprova a explorabilidade e pode gerar falsos positivos.
-- b. Incorreta: a II é precisamente a razão pela qual a varredura não comprova explorabilidade; há relação de justificativa.
-- c. Incorreta: a II é verdadeira e descreve o funcionamento da varredura apresentado na Aula 3.
-- d. Incorreta: a I é verdadeira; comprovar o impacto real é papel do *pentest*.
+**Questão 10** (correta: d)
+- a. Incorreta: a I é falsa, logo não pode ser justificada.
+- b. Incorreta: a I não é verdadeira: uma cópia alterada depois da assinatura não autoriza nada.
+- c. Incorreta: a situação é a inversa: a I é falsa e a II é verdadeira.
+- d. Correta: a I é falsa, pois um *hash* diferente indica que o arquivo mudou, e só a versão assinada vale; a II é verdadeira, pois o *hash* funciona como impressão digital do arquivo.
+- e. Incorreta: a II é verdadeira; é por isso que se registra o *hash* da carta no chamado.
+
+**Questão 11** (correta: c)
+- a. Incorreta: a II é falsa, logo não justifica a I.
+- b. Incorreta: a II não é verdadeira: quem entra com senha vazada pula o armamento e a instalação.
+- c. Correta: a I é a principal contribuição do modelo, e a II é falsa: a Kill Chain é linear e foi pensada para *malware* entregue de fora para dentro.
+- d. Incorreta: a I é verdadeira; é a lição central da Kill Chain.
+- e. Incorreta: só a II é falsa.
+
+**Questão 12** (correta: a)
+- a. Correta: ambas são verdadeiras, e a II justifica a I: é a base em inteligência sobre um grupo concreto que permite reproduzir a sequência e o modo de agir dele.
+- b. Incorreta: a II explica a diferença entre emulação e simulação que sustenta a I.
+- c. Incorreta: a II é verdadeira; é a distinção apresentada na Aula 3.
+- d. Incorreta: a I é verdadeira; é a definição de emulação.
 - e. Incorreta: as duas asserções são verdadeiras.
 
-**Questão 12** (correta: c)
-- a. Incorreta: a II é falsa; a célula branca não é formada por todos os analistas do SOC.
-- b. Incorreta: a II não é verdadeira, logo esta alternativa não se aplica.
-- c. Correta: a I é verdadeira (no Red Team, normalmente só a liderança sabe do exercício), e a II é falsa — a célula branca é um pequeno grupo da liderança que conhece o exercício e pode interrompê-lo; se todo o SOC soubesse, a detecção não seria testada de forma realista.
-- d. Incorreta: a I é verdadeira, conforme a tabela comparativa da Aula 3.
-- e. Incorreta: apenas a II é falsa.
+**Questão 13** (correta: d)
+- a. Incorreta: a I é falsa, logo não pode ser justificada.
+- b. Incorreta: a I não é verdadeira.
+- c. Incorreta: a situação é a inversa: a I é falsa e a II é verdadeira.
+- d. Correta: a I é falsa, pois a 15ª tática nasceu da divisão da Evasão de defesas, e a II descreve corretamente essa divisão.
+- e. Incorreta: a II é verdadeira; é a mudança da versão 19 descrita na Aula 3.
 
-**Questão 13** (correta: b)
-- a. Incorreta: a II é verdadeira, mas trata do OWASP WSTG, que nada explica sobre a ordem das fases do PTES.
-- b. Correta: as duas são verdadeiras — o PTES começa pelo pré-engajamento, e o OWASP WSTG é a principal referência para aplicações *web* —, mas uma não justifica a outra.
-- c. Incorreta: a II é verdadeira; o OWASP WSTG é a referência mais usada para testes *web*.
-- d. Incorreta: a I é verdadeira; o pré-engajamento é o ponto de partida do PTES.
-- e. Incorreta: ambas são verdadeiras. Revise "Metodologias de referência" na Aula 3.
+**Questão 14** (correta: b)
+- a. Incorreta: as duas são verdadeiras, mas a existência do Navigator não explica por que o plano exige procedimentos seguros.
+- b. Correta: a I descreve o passo 4 do plano e a II descreve o Navigator; ambas são verdadeiras, sem relação de causa.
+- c. Incorreta: a II é verdadeira.
+- d. Incorreta: a I é verdadeira; o procedimento seguro é um dos sete passos do plano.
+- e. Incorreta: as duas asserções são verdadeiras.
 
-**Questão 14** (correta: e)
-- a. Incorreta: ambas as asserções são falsas.
+**Questão 15** (correta: e)
+- a. Incorreta: as duas são falsas.
 - b. Incorreta: nenhuma das asserções é verdadeira.
-- c. Incorreta: a I é falsa; quem simula o atacante externo que só conhece o nome da empresa é o teste caixa-preta. O caixa-branca encontra mais falhas por hora, mas é menos realista.
-- d. Incorreta: a II é falsa; diagramas, código-fonte e configurações caracterizam o teste caixa-branca.
-- e. Correta: ambas são falsas — as definições de caixa-preta e caixa-branca estão trocadas. O caixa-preta é mais realista; o caixa-branca dá acesso a diagramas, código e configurações.
-
-**Questão 15** (correta: d)
-- a. Incorreta: a I é falsa; um *pentest* sem achados críticos não responde à pergunta sobre detecção e resposta.
-- b. Incorreta: a I não é verdadeira, pois confunde o objetivo do *pentest* com o da operação de Red Team.
-- c. Incorreta: a avaliação está invertida — a I é falsa e a II é verdadeira.
-- d. Correta: a I é falsa, e a II é verdadeira — o *pentest* busca falhas em um alvo delimitado, e a capacidade de detectar e responder é avaliada pelo Red Team. Confundir os dois gera falsa sensação de segurança.
-- e. Incorreta: a II é verdadeira e resume a diferença entre as avaliações.
+- c. Incorreta: a I é falsa: tática é o "porquê", o objetivo; o "como" são as técnicas.
+- d. Incorreta: a II é falsa: procedimentos são a implementação concreta usada por um grupo ou *software*.
+- e. Correta: a I é falsa, porque as táticas são o "porquê", e a II é falsa, porque os procedimentos são o nível concreto de cada grupo.
 
 **Questão 16** (correta: a)
-- a. Correta: ambas são verdadeiras, e a II justifica a I — as camadas são sobrepostas justamente porque se pressupõe que qualquer controle pode falhar, e cada camada adiciona barreira e oportunidade de detecção.
-- b. Incorreta: a II é a própria razão de ser das camadas; há relação de justificativa.
-- c. Incorreta: a II é verdadeira e é o princípio que fundamenta a defesa em profundidade.
-- d. Incorreta: a I é verdadeira; as camadas listadas são as apresentadas na Aula 4.
+- a. Correta: ambas são verdadeiras, e a II justifica a I: como o adversário troca IPs e *hashes* em minutos, o que vale emular é o comportamento do topo da pirâmide.
+- b. Incorreta: a II é exatamente a razão pela qual repetir indicadores testa pouco.
+- c. Incorreta: a II é verdadeira; é a lógica de Bianco (2013).
+- d. Incorreta: a I é verdadeira; o texto da Aula 4 afirma que emular os IPs não testa nada.
 - e. Incorreta: as duas asserções são verdadeiras.
 
 **Questão 17** (correta: c)
-- a. Incorreta: a II é falsa; o Blue Team atua sobretudo em Detectar e Responder.
-- b. Incorreta: a II não é verdadeira, logo a alternativa não se aplica.
-- c. Correta: a I é verdadeira (Governar foi a função incluída na versão 2.0, de 2024), e a II é falsa, pois o Blue Team atua principalmente em Detectar e Responder e depende das demais funções.
-- d. Incorreta: a I é verdadeira; Governar é a novidade do CSF 2.0.
-- e. Incorreta: apenas a II é falsa.
+- a. Incorreta: a II é falsa, logo não justifica a I.
+- b. Incorreta: a II não é verdadeira.
+- c. Correta: a I é verdadeira, e a II é falsa: o nível tático (TTPs e indicadores) serve a analistas e engenheiros de detecção e alimenta o plano; quem define o adversário é o nível operacional.
+- d. Incorreta: a I é verdadeira; é o uso do nível estratégico no planejamento.
+- e. Incorreta: só a II é falsa.
 
-**Questão 18** (correta: b)
-- a. Incorreta: o fato de o SOAR automatizar respostas não explica por que MTTD e MTTR são melhores indicadores do que a contagem de alertas.
-- b. Correta: ambas são verdadeiras — MTTD e MTTR medem o tempo de detecção e de resposta, o que importa para o impacto, e o SOAR automatiza respostas repetitivas —, mas a II não justifica a I.
-- c. Incorreta: a II é verdadeira; essa é a função do SOAR apresentada na Aula 4.
-- d. Incorreta: a I é verdadeira; o texto afirma que não basta contar alertas e que MTTD e MTTR são centrais.
+**Questão 18** (correta: e)
+- a. Incorreta: as duas asserções são falsas.
+- b. Incorreta: nenhuma das duas é verdadeira.
+- c. Incorreta: a I é falsa: uma lista de IPs é dado; vira inteligência quando é analisada e contextualizada para responder a uma pergunta.
+- d. Incorreta: a II é falsa: o ciclo começa pela direção, isto é, pelos requisitos.
+- e. Correta: a I é falsa, porque dado sem contexto não é inteligência, e a II é falsa, porque os requisitos (direção) abrem o ciclo.
+
+**Questão 19** (correta: b)
+- a. Incorreta: as duas são verdadeiras, mas o TLP trata do compartilhamento de informação e não explica a ordem das etapas do TIBER-EU.
+- b. Correta: a I descreve o TIBER-EU e a II lista corretamente os rótulos do TLP 2.0, sem relação de causa.
+- c. Incorreta: a II é verdadeira.
+- d. Incorreta: a I é verdadeira; é a lógica do teste baseado em inteligência.
 - e. Incorreta: as duas asserções são verdadeiras.
 
-**Questão 19** (correta: e)
-- a. Incorreta: ambas as asserções são falsas.
-- b. Incorreta: nenhuma das asserções é verdadeira.
-- c. Incorreta: a I é falsa; o *Zero Trust* elimina a confiança implícita baseada na localização da rede e verifica todo acesso.
-- d. Incorreta: a II é falsa; caça a ameaças, forense e criação de detecções cabem ao N3. O N1 faz a triagem dos alertas.
-- e. Correta: ambas são falsas — o *Zero Trust* não confia na rede interna, e as atividades descritas na II são do nível N3, não do N1.
-
 **Questão 20** (correta: d)
-- a. Incorreta: a I é falsa; centralizar e correlacionar registros é função do SIEM.
-- b. Incorreta: a I não é verdadeira; o EDR monitora o comportamento de computadores e servidores.
-- c. Incorreta: a avaliação está invertida — a I é falsa e a II é verdadeira.
-- d. Correta: a I é falsa (quem centraliza e correlaciona registros é o SIEM; o EDR monitora *endpoints*), e a II é verdadeira, pois Detectar e Responder dependem de Identificar, Proteger e das demais funções.
-- e. Incorreta: a II é verdadeira, conforme a Aula 4.
+- a. Incorreta: a I é falsa, logo não pode ser justificada.
+- b. Incorreta: a I não é verdadeira.
+- c. Incorreta: a situação é a inversa: a I é falsa e a II é verdadeira.
+- d. Correta: a I é falsa, pois os vértices são adversário, capacidade, infraestrutura e vítima, e a II descreve corretamente o STIX e o TAXII.
+- e. Incorreta: a II é verdadeira.
 
 **Questão 21** (correta: d)
-- a. Incorreta: R$ 320.000 (0,08 × R$ 4.000.000) é a nova expectativa de perda, não a redução obtida.
-- b. Incorreta: R$ 800.000 (0,20 × R$ 4.000.000) é a expectativa de perda original, não a redução.
-- c. Incorreta: R$ 280.000 é o benefício líquido (redução menos o custo do programa); a pergunta pede a redução da expectativa de perda anual.
-- d. Correta: R$ 800.000 − R$ 320.000 = R$ 480.000 por ano, mais que o dobro do investimento de R$ 200.000 — cálculo que traduz segurança para a linguagem da diretoria.
-- e. Incorreta: R$ 120.000 não decorre de nenhuma operação correta com os dados; revise o exemplo numérico da Aula 1.
+- a. Incorreta: R$ 320.000 (0,08 × R$ 4.000.000) é a ALE com o programa, não a redução.
+- b. Incorreta: R$ 800.000 (0,20 × R$ 4.000.000) é a ALE sem o programa.
+- c. Incorreta: R$ 280.000 desconta o custo de R$ 200.000 da redução; a pergunta é a redução de risco.
+- d. Correta: R$ 800.000 − R$ 320.000 = R$ 480.000 por ano, 2,4 vezes o custo, no mesmo raciocínio do exemplo da Aula 1.
+- e. Incorreta: R$ 120.000 não resulta de nenhuma operação correta com os dados.
 
 **Questão 22** (correta: b)
-- a. Incorreta: a autorização só vale para os ativos sobre os quais o signatário tem autoridade e que constam do escopo; testar ativo de terceiro pode configurar o crime do art. 154-A.
-- b. Correta: o ativo está fora do escopo e pertence a terceiro; a conduta ética e legal é não testar, registrar e comunicar ao contato designado.
-- c. Incorreta: o horário não supre a falta de autorização; janelas de horário só se aplicam a ativos dentro do escopo.
-- d. Incorreta: a LGPD não é a única norma aplicável; sem autorização, o acesso pode configurar crime, independentemente de haver cópia de dados.
-- e. Incorreta: a autorização deve ser formal e assinada por quem tem autoridade sobre os ativos, não verbal e de qualquer funcionário.
+- a. Incorreta: avisar o SOC destrói o que se quer medir e não descarta a hipótese de um ataque real.
+- b. Correta: é a *deconfliction*: o registro de ações (IP, horário, técnica) separa o exercício de um incidente verdadeiro.
+- c. Incorreta: Luiza nem sabe do exercício, e encerrar sem verificar pode esconder um ataque real.
+- d. Incorreta: desligar a regra sabota a medição e contraria o objetivo do exercício.
+- e. Incorreta: detectar o Red Team é um bom resultado; o exercício só para se houver indício de incidente real ou outro critério de parada.
 
 **Questão 23** (correta: a)
-- a. Correta: Red e Blue trabalham lado a lado, executando, verificando e ajustando a detecção imediatamente, em ciclos curtos — a definição de *purple teaming*.
-- b. Incorreta: a varredura compara sistemas com bases de falhas conhecidas; não há execução de técnica nem ajuste de detecção.
-- c. Incorreta: na operação furtiva o Blue Team não é avisado; no caso, os analistas acompanham tudo na mesma sala.
-- d. Incorreta: o *pentest* busca falhas em um alvo delimitado; não envolve criação colaborativa de regras de detecção.
-- e. Incorreta: trata-se de um exercício controlado em estação de testes, não de um incidente real.
+- a. Correta: aprovar, controlar, arbitrar e poder parar o exercício é a função do White Team (célula branca).
+- b. Incorreta: o Red Team executa as técnicas; Marina não ataca.
+- c. Incorreta: o Blue Team defende e, em geral, não sabe do exercício.
+- d. Incorreta: o Purple Team é a colaboração entre Red e Blue, não a arbitragem.
+- e. Incorreta: caixa-branca é um modelo de informação do teste, não um papel de controle.
 
 **Questão 24** (correta: e)
-- a. Incorreta: a lista de ferramentas a adquirir não é elemento obrigatório das regras de engajamento.
-- b. Incorreta: o currículo dos operadores não substitui os itens de controle e a autorização formal.
-- c. Incorreta: a autorização deve ser formal, assinada por quem tem autoridade sobre os ativos; a autorização verbal não protege as partes.
-- d. Incorreta: o *phishing* simulado pode ser autorizado; o que as regras definem são as técnicas proibidas, como negação de serviço em produção.
-- e. Correta: além de escopo, período e objetivo, as regras de engajamento precisam de técnicas proibidas, critérios de parada, contatos de emergência e carta de autorização (e, no Red Team, a célula branca).
+- a. Incorreta: a execução não pode vir antes do planejamento e da autorização.
+- b. Incorreta: executar antes de planejar viola a lógica da autorização.
+- c. Incorreta: a preparação depende do plano e da inteligência, que vêm antes.
+- d. Incorreta: o relatório vem depois da execução.
+- e. Correta: é a ordem do texto, com o White Team presente em todas as etapas.
 
 **Questão 25** (correta: c)
-- a. Incorreta: "até onde um atacante chegaria" é a pergunta do Red Team, e "percebemos e contivemos a tempo" é a do Blue Team.
-- b. Incorreta: o Purple Team responde ao que foi aprendido e mudou, não a até onde o atacante chegaria.
-- c. Correta: Red Team — até onde o atacante chegaria; Blue Team — se a defesa percebeu e conteve a tempo; Purple Team — o que foi aprendido e o que mudou.
-- d. Incorreta: as perguntas 2 e 3 estão trocadas; a 2 é do Blue Team e a 3 do Purple Team.
-- e. Incorreta: todas as associações estão deslocadas. Revise a tabela comparativa da Aula 1.
+- a. Incorreta: 20 minutos é o tempo total; o MTTD vai só até a detecção.
+- b. Incorreta: os valores estão invertidos.
+- c. Correta: MTTD: de 10h00 a 10h08 (8 min); MTTR: da detecção, 10h08, à contenção, 10h20 (12 min).
+- d. Incorreta: o MTTR é contado a partir da detecção, não do primeiro evento.
+- e. Incorreta: os tempos não são iguais nem a média dos dois.
 
 **Questão 26** (correta: b)
-- a. Incorreta: a exploração ocorre quando o usuário habilita a macro (10:15) e a entrega, quando o *e-mail* chega (10:02).
-- b. Correta: a tarefa agendada que executa um binário a cada inicialização é persistência (instalação), e as conexões periódicas a um domínio recém-registrado indicam o canal de comando e controle.
-- c. Incorreta: armamento e reconhecimento ocorrem antes da entrega e não aparecem nos registros do SOC.
-- d. Incorreta: a primeira parte está certa, mas conexões periódicas são canal de C2; ações sobre os objetivos seriam roubo de dados, criptografia ou sabotagem.
-- e. Incorreta: a entrega é o evento das 10:02; a tarefa agendada caracteriza instalação.
+- a. Incorreta: 110 horas ignora o feriado de 20 de novembro (10 dias × 11 h).
+- b. Correta: são 10 dias úteis menos o feriado: 9 dias × 11 horas = 99 horas.
+- c. Incorreta: 132 horas conta 12 dias corridos, incluindo o fim de semana.
+- d. Incorreta: 120 horas usa 12 horas por dia, mas a janela vai das 9h às 20h (11 h).
+- e. Incorreta: 88 horas desconta dois dias sem motivo.
 
 **Questão 27** (correta: d)
-- a. Incorreta: 70% (35/50) é a cobertura futura, e 100% exigiria também resolver as 15 técnicas sem registros.
-- b. Incorreta: 56% não corresponde à soma das técnicas com regra e com telemetria (22 + 13 = 35, ou seja, 70%).
-- c. Incorreta: 26% (13/50) é a fração de técnicas com telemetria sem regra, não a cobertura atual.
-- d. Correta: cobertura atual = 22 ÷ 50 = 44%; criando regras para as 13 técnicas com telemetria, a cobertura passa a 35 ÷ 50 = 70%.
-- e. Incorreta: 30% (15/50) corresponde às técnicas sem registros, não à cobertura.
+- a. Incorreta: a Aula 2 lista vários itens obrigatórios além de escopo e janelas.
+- b. Incorreta: a assinatura precisa ser de quem tem autoridade sobre os ativos, e os itens continuam faltando.
+- c. Incorreta: os limites precisam estar escritos antes; o que não foi previsto não foi autorizado.
+- d. Correta: critérios de parada, White Team e contatos de emergência fazem parte do documento completo de RoE.
+- e. Incorreta: esses itens são ainda mais importantes no Red Team, em que o Blue Team não é avisado.
 
 **Questão 28** (correta: a)
-- a. Correta: acesso ao LSASS indica Acesso a credenciais (T1003); *logons* remotos fora do padrão indicam Movimentação lateral (T1021); arquivos renomeados em massa indicam Impacto (T1486).
-- b. Incorreta: nenhuma das três associações corresponde à tabela da Aula 2.
-- c. Incorreta: as duas primeiras táticas estão invertidas, e renomear arquivos em massa é Impacto, não Execução.
-- d. Incorreta: acesso ao LSASS não é Acesso inicial, e *logons* remotos não são Impacto.
-- e. Incorreta: a ordem não corresponde aos comportamentos; revise a tabela tática/técnica/detecção.
+- a. Correta: o que não foi previsto não foi autorizado; terceiros só entram com autorização deles.
+- b. Incorreta: estar na rede da cliente não dá autoridade sobre o ativo do parceiro; seria invasão (art. 154-A).
+- c. Incorreta: agir fora da janela viola a RoE duas vezes.
+- d. Incorreta: um analista do SOC não tem autoridade e, em geral, nem sabe do exercício.
+- e. Incorreta: informar depois não legitima uma ação fora do escopo.
 
 **Questão 29** (correta: c)
-- a. Incorreta: executar técnicas aleatórias não emula um adversário real e desperdiça esforço com comportamentos irrelevantes para o setor.
-- b. Incorreta: escolher só o que já é detectado esconde as lacunas que o exercício deveria revelar.
-- c. Correta: o Red Team usa o ATT&CK como cardápio, escolhendo as técnicas dos grupos que de fato ameaçam o setor, o que torna a emulação realista.
-- d. Incorreta: o ATT&CK é usado por ambas as equipes — pelo Red Team, para escolher o que emular; pelo Blue Team, para medir a cobertura.
-- e. Incorreta: a novidade da técnica não substitui o critério do perfil de ameaça da organização.
+- a. Incorreta: a varredura responde "quais falhas conhecidas existem?", não se o SOC detecta.
+- b. Incorreta: o *pentest* busca o que pode ser explorado em um alvo delimitado, em geral com o Blue Team avisado.
+- c. Correta: só o Red Team responde "detectamos e respondemos?", porque mede a reação a um ataque que parece verdadeiro.
+- d. Incorreta: a auditoria não testa a capacidade de detecção e resposta.
+- e. Incorreta: um alvo único e um prazo curto não medem a reação do SOC a uma cadeia realista.
 
 **Questão 30** (correta: e)
-- a. Incorreta: a Kill Chain é útil para comunicar a lógica de muitos ataques; sua limitação é parcial, não total.
-- b. Incorreta: o uso de credenciais válidas roubadas é uma forma comum de ataque moderno.
-- c. Incorreta: a primeira fase da Kill Chain é o reconhecimento, não uma varredura de vulnerabilidades obrigatória.
-- d. Incorreta: ataques modernos nem sempre passam por todas as fases; não se trata de erro do analista.
-- e. Correta: a Kill Chain é linear e foi pensada para *malware* entregue de fora para dentro; ataques com credenciais válidas e abuso de nuvem fogem desse padrão, e o ATT&CK os descreve melhor.
+- a. Incorreta: copiar viola a minimização e as técnicas proibidas da RoE.
+- b. Incorreta: o achado precisa ser registrado; a LGPD pede minimização, não omissão.
+- c. Incorreta: publicar amostra expõe dados pessoais sem necessidade.
+- d. Incorreta: enviar dados amplia a exposição e quebra o sigilo do exercício.
+- e. Correta: é a minimização com segurança das evidências (art. 46) e, se for o caso, a comunicação do art. 48.
 
-**Questão 31** (correta: b)
-- a. Incorreta: o *pentest* lista falhas de um alvo delimitado, mas não testa a detecção e a resposta do SOC.
-- b. Correta: a pergunta "detectamos e respondemos?" é respondida pela operação de Red Team, sem aviso ao SOC e com célula branca para evitar confusão com incidente real.
-- c. Incorreta: mais varreduras identificam falhas conhecidas, mas nada dizem sobre a atuação do SOC.
-- d. Incorreta: avisar o SOC de cada teste impede avaliar sua capacidade real de detecção.
-- e. Incorreta: um relatório baseado em varreduras não testa pessoas e processos de defesa.
+**Questão 31** (correta: a)
+- a. Correta: 3 ÷ 7 ≈ 42,9% hoje; com duas regras novas, 5 ÷ 7 ≈ 71,4%.
+- b. Incorreta: 85,7% (6 ÷ 7) é a visibilidade, não a cobertura de detecção.
+- c. Incorreta: 14,3% (1 ÷ 7) corresponde à técnica sem telemetria.
+- d. Incorreta: 85,7% exigiria regras para as três técnicas com telemetria.
+- e. Incorreta: 57,1% (4 ÷ 7) não corresponde à situação descrita.
 
-**Questão 32** (correta: a)
-- a. Correta: a pergunta de negócio decide — se a dúvida é a resistência de cinco novos sistemas expostos à internet, os *pentests* de aplicação respondem diretamente a ela.
-- b. Incorreta: nenhuma avaliação é sempre superior; cada uma responde a uma pergunta diferente.
-- c. Incorreta: as duas opções custam R$ 150.000 (B = 12 × R$ 2.500 + R$ 120.000).
-- d. Incorreta: a conclusão (opção A) está certa, mas a justificativa não: medir a detecção do SOC é objetivo do Red Team, não do *pentest*.
-- e. Incorreta: a varredura não comprova se as falhas são exploráveis e não responde à dúvida da diretoria.
+**Questão 32** (correta: d)
+- a. Incorreta: o Navigator anota a matriz; ele não escreve regras.
+- b. Incorreta: a camada é um arquivo JSON de anotação, não um documento jurídico.
+- c. Incorreta: técnicas não são bloqueadas por *firewall*; a camada só anota.
+- d. Correta: é o uso indicado na Aula 3: a sobreposição mostra as lacunas.
+- e. Incorreta: técnicas cobertas continuam no plano para confirmar que a detecção funciona.
 
-**Questão 33** (correta: e)
-- a. Incorreta: no caixa-preta a equipe recebe apenas o nome da empresa, sem credenciais nem acesso à VPN.
-- b. Incorreta: uma conta de usuário comum é informação parcial; o caixa-branca envolve diagramas, código-fonte e configurações.
-- c. Incorreta: a ausência de código-fonte não basta; a equipe recebeu credenciais, o que a afasta do caixa-preta.
-- d. Incorreta: acesso à VPN não equivale a conhecer a arquitetura interna.
-- e. Correta: receber informações parciais, como uma conta de usuário comum, caracteriza o teste caixa-cinza.
+**Questão 33** (correta: b)
+- a. Incorreta: T1078 é o uso de credenciais válidas para entrar, não a listagem do AD.
+- b. Correta: listar contas e grupos do domínio é descoberta, T1087.002, como na tabela da Aula 3.
+- c. Incorreta: RDP é movimentação de uma máquina para outra.
+- d. Incorreta: T1003 é a extração de credenciais, como a leitura do LSASS.
+- e. Incorreta: T1486 é a criptografia de dados para impacto.
 
-**Questão 34** (correta: d)
-- a. Incorreta: o PTES detalha sete fases, do pré-engajamento ao relatório.
-- b. Incorreta: o OWASP WSTG é a referência para aplicações *web*, não uma estrutura de quatro fases para redes corporativas.
-- c. Incorreta: a Cyber Kill Chain descreve as fases de um ataque, não de uma avaliação de segurança.
-- d. Correta: o NIST SP 800-115 organiza a avaliação em planejamento, descoberta, ataque e relatório.
-- e. Incorreta: o NIST CSF 2.0 organiza a gestão de riscos em seis funções, não as fases de um teste.
+**Questão 34** (correta: e)
+- a. Incorreta: cifrar produção causa o dano que a RoE proíbe.
+- b. Incorreta: qualquer criptografia de dados reais é proibida.
+- c. Incorreta: omitir a técnica deixa de medir a lacuna; o certo é um procedimento seguro.
+- d. Incorreta: desligar a defesa invalida a medição.
+- e. Correta: o passo 4 do plano exige procedimento seguro: contas de teste, arquivos fictícios e impacto simulado.
 
 **Questão 35** (correta: c)
-- a. Incorreta: abandonar a operação sem comunicação viola as regras de engajamento e não esclarece a situação ao SOC.
-- b. Incorreta: o analista não deve ignorar alertas por suposição; isso seria perigoso diante de um incidente real.
-- c. Correta: a célula branca é o pequeno grupo da liderança que conhece o exercício e pode interrompê-lo quando ele é confundido com um incidente real.
-- d. Incorreta: encerrar incidentes automaticamente seria arriscado e não é a função do SOAR nesse contexto.
-- e. Incorreta: avisar todos os funcionários eliminaria o realismo do exercício; apenas a liderança deve saber.
+- a. Incorreta: o modelo continua em uso; a questão é o nível de detalhe.
+- b. Incorreta: a matriz Enterprise tem 15 táticas, não sete fases.
+- c. Correta: é a limitação da Kill Chain apresentada na Aula 3 e a razão do vocabulário mais fino do ATT&CK.
+- d. Incorreta: o ATT&CK é construído a partir de observações de ataques reais.
+- e. Incorreta: a Kill Chain trata de intrusões em redes.
 
-**Questão 36** (correta: a)
-- a. Correta: 1.500 × 258 = 387.000 e 1.500 × 12 = 18.000; a redução é (387.000 − 18.000) ÷ 387.000 ≈ 95%.
-- b. Incorreta: os volumes estão certos, mas ≈ 5% é a fração que ainda seria exfiltrada (18.000 ÷ 387.000), não a redução.
-- c. Incorreta: usou 1.000 registros por dia em vez de 1.500.
-- d. Incorreta: os volumes estão divididos por dez e a redução não confere.
-- e. Incorreta: 180.000 registros corresponderiam a 120 dias, não a 12.
+**Questão 36** (correta: d)
+- a. Incorreta: os valores estão invertidos: o maior produto é o de T1567.002.
+- b. Incorreta: 3 × 3 = 9, não 6.
+- c. Incorreta: os números estão certos, mas a prioridade é dada pelo produto, e T1078 já tem regra ativa.
+- d. Correta: 3 × 3 = 9, 3 × 2 = 6 e 3 × 1 = 3; a técnica mais relevante e menos coberta entra primeiro.
+- e. Incorreta: os valores foram somados em vez de multiplicados.
 
-**Questão 37** (correta: e)
-- a. Incorreta: inventário é Identificar, autenticação multifator é Proteger, e restaurar sistemas é Recuperar.
-- b. Incorreta: a autenticação multifator é controle de Proteger, e a política aprovada pela diretoria é Governar.
-- c. Incorreta: inventário é Identificar, e a política com papéis e supervisão de riscos é Governar.
-- d. Incorreta: a política não é Responder, e a restauração de cópias de segurança é Recuperar, não Detectar.
-- e. Correta: inventário — Identificar; MFA — Proteger; política, papéis e supervisão — Governar; restauração após incidente — Recuperar.
+**Questão 37** (correta: a)
+- a. Correta: tendência para a gestão é estratégica; campanha e ator, operacional; TTPs, tática.
+- b. Incorreta: a tendência de mercado não é tática, e TTPs não são operacionais.
+- c. Incorreta: a ordem está trocada.
+- d. Incorreta: só a terceira traz TTPs.
+- e. Incorreta: só a primeira é dirigida à alta gestão.
 
 **Questão 38** (correta: c)
-- a. Incorreta: o N1 faz a triagem, descarta falsos positivos e escala — o que já foi feito pelo primeiro analista.
-- b. Incorreta: o N3 caça ameaças, faz forense e cria detecções; a contenção inicial cabe ao N2.
-- c. Correta: o N2 aprofunda a análise, define o escopo do incidente e inicia a contenção.
-- d. Incorreta: o Red Team não participa da resposta a incidentes reais.
-- e. Incorreta: o EDR é fonte de telemetria e apoio, não substitui a investigação humana.
+- a. Incorreta: o TLP existe justamente para limitar a circulação.
+- b. Incorreta: os IPs fazem parte do conteúdo restrito.
+- c. Correta: AMBER é divulgação limitada, por necessidade de saber; publicar violaria o rótulo definido pelo FIRST.
+- d. Incorreta: só a fonte pode mudar o rótulo.
+- e. Incorreta: AMBER permite o uso interno; ele só restringe a divulgação.
 
-**Questão 39** (correta: b)
-- a. Incorreta: os valores estão invertidos; 2 h é o MTTR e 3 h é o MTTD.
-- b. Correta: detecção = 2 h, 4 h e 3 h → MTTD = 9 ÷ 3 = 3 h; contenção após detecção = 1 h, 2 h e 3 h → MTTR = 6 ÷ 3 = 2 h.
-- c. Incorreta: 5 h é a média do tempo total, do início do ataque à contenção, e não o MTTD.
-- d. Incorreta: 9 h e 6 h são as somas, não as médias.
-- e. Incorreta: o MTTR mede da detecção à contenção; 5 h é a média do tempo total.
+**Questão 39** (correta: e)
+- a. Incorreta: o ponto de partida foi um IP, que é infraestrutura.
+- b. Incorreta: capacidade são ferramentas e técnicas, não o IP.
+- c. Incorreta: bloquear não é pivô, e a análise produziu novas vítimas.
+- d. Incorreta: IP fica na base da Pirâmide da Dor.
+- e. Correta: conhecendo um vértice (infraestrutura), o analista pivota para outro (as vítimas que o contataram).
 
-**Questão 40** (correta: d)
-- a. Incorreta: o atacante já estava dentro; reforçar só o perímetro mantém a confiança implícita na rede interna.
-- b. Incorreta: a Cyber Kill Chain é um modelo de análise de ataques, não um controle de acesso.
-- c. Incorreta: Recuperar restaura operações após o incidente; não impede o acesso indevido.
-- d. Correta: o *Zero Trust* elimina a confiança implícita baseada na localização na rede e verifica todo acesso com o menor privilégio, o que bloquearia o caminho da impressora até o sistema financeiro.
-- e. Incorreta: desativar o SIEM reduziria a capacidade de detecção; a ausência de *malware* não torna o monitoramento desnecessário.
+**Questão 40** (correta: b)
+- a. Incorreta: varredura é reconhecimento ativo e, fora da janela, viola a RoE.
+- b. Correta: consulta a fontes abertas sem tocar nos sistemas é passiva e respeita a minimização.
+- c. Incorreta: usar senhas vazadas só seria aceitável se explicitamente previsto no escopo.
+- d. Incorreta: engenharia social exige autorização e não é passiva.
+- e. Incorreta: acessar e copiar dados pessoais viola o escopo e a LGPD.

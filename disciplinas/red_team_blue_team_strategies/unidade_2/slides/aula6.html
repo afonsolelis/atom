@@ -3,28 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 6 — Varredura, enumeração e gestão de vulnerabilidades</title>
+<title>Aula 6 — Exploração de vulnerabilidades e obtenção de acesso inicial</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .cv-nav { display: flex; gap: 6px; padding: 8px 14px; background: #F2F4F8; border-bottom: 1px solid #DDE2EA; }
+  .cv-nav { display: flex; gap: 6px; padding: 8px 14px; background: #F2F4F8; border-bottom: 1px solid #DDE2EA; flex-wrap: wrap; }
   .cv-nav button { font: 600 12.5px var(--fonte); border: 1px solid #C9CED8; background: #fff; color: #234; padding: 6px 12px; border-radius: 999px; cursor: pointer; }
   .cv-nav button.on { background: #002057; color: #fff; border-color: #002057; }
   .cv-pg { padding: 14px 22px; }
   .cv-pg h3 { margin: 0 0 4px; font: 800 20px var(--fonte-titulo, sans-serif); color: #0B2A5B; }
   .cv-pg .src { color: #667; font-size: 12.5px; margin-bottom: 10px; }
-  .cv-score { display: inline-block; font: 800 26px var(--fonte); color: #fff; background: #B3123F; border-radius: 8px; padding: 4px 14px; margin-right: 10px; }
+  .cv-pg p { margin: .35em 0; font-size: 14px; color: #223; }
+  .cv-score { display: inline-block; font: 800 26px var(--fonte); color: #fff; background: #C2410C; border-radius: 8px; padding: 4px 14px; margin-right: 10px; }
   .cv-vec { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
   .cv-vec button { font: 700 13px var(--mono); border: 1px solid #C9CED8; background: #EEF1F7; color: #0B2A5B; padding: 5px 9px; border-radius: 6px; cursor: pointer; }
   .cv-vec button.on { background: #0B6E8A; color: #fff; }
   .cv-exp { background: #0F1B33; color: #DCE3EE; border-left: 4px solid #00B1D2; padding: 8px 12px; border-radius: 0 8px 8px 0; font-size: 13.5px; min-height: 2.6em; }
   .cv-box { border: 1px solid #DDE2EA; border-radius: 10px; padding: 10px 14px; margin: 8px 0; }
-  .vm-table { width: 100%; border-collapse: collapse; font: 13px/1.35 var(--mono); color: #DCE3EE; }
-  .vm-table th { text-align: left; font: 700 11px var(--fonte); color: #9FB0C8; text-transform: uppercase; letter-spacing: .05em; padding: 6px 8px; border-bottom: 1px solid #22314F; }
-  .vm-table td { padding: 6px 8px; border-bottom: 1px solid #1A2440; }
-  .vm-table tr.fila td { background: rgba(255,43,95,.14); }
-  .vm-table tr.fora td { opacity: .35; }
-  #lab-vm .lab-kpi b { font-size: 1.25rem; }
 </style>
 </head>
 <body>
@@ -40,8 +35,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 6 — Varredura, enumeração e gestão de vulnerabilidades</h1>
-      <div class="subtitulo">Unidade 2 — Red Team: operações ofensivas controladas</div>
+      <h1>Aula 6 — Exploração de vulnerabilidades e obtenção de acesso inicial</h1>
+      <div class="subtitulo">Unidade 2 — Técnicas Ofensivas em Ambiente Controlado</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -51,7 +46,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Varredura, enumeração e gestão de vulnerabilidades</h1>
+        <h1 class="sumario-titulo">Exploração de vulnerabilidades e obtenção de acesso inicial</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -59,14 +54,14 @@
         <h2>Sumário</h2>
         <ul>
           <li>O problema de hoje na Rede Tatame</li>
-          <li>Varredura e enumeração</li>
-          <li>CVE e CVSS: nome e severidade</li>
-          <li>EPSS e KEV: a falha está sendo explorada?</li>
-          <li>Gestão de vulnerabilidades como processo</li>
-          <li>Priorização e abuso de API na plataforma Rede Tatame</li>
+          <li>Da vulnerabilidade ao acesso inicial</li>
+          <li>CVE, CVSS, EPSS e KEV: o que testar primeiro</li>
+          <li>Laboratório: Metasploit no Kali, só com <code>check</code></li>
+          <li>As portas de entrada da tática TA0001</li>
+          <li><em>Phishing</em> como vetor autorizado</li>
+          <li>Laboratório: priorizar e decidir como validar</li>
+          <li>Laboratório: o acesso inicial na plataforma Rede Tatame</li>
           <li>O rastro para o Blue Team</li>
-          <li>Exemplo numérico: CVSS ou EPSS?</li>
-          <li>Log4Shell e o gargalo do inventário</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -78,96 +73,49 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>1.200 achados e uma semana: por onde começar?</h2>
+      <h2>1.200 achados: qual porta de entrada é real?</h2>
       <div class="problema">
         <div class="historia">
-          <p>Caio Mendes administra a TI da sede da <strong>Rede Tatame</strong>. O Red Team de Bruno Sato terminou a varredura autorizada da borda e dos servidores da sede, a partir dos nomes achados na Aula 5.</p>
-          <p>O <em>scanner</em> (programa que procura falhas conhecidas) devolveu 1.200 achados. A equipe de Caio corrige no máximo 150 por semana. Só os de nota de gravidade alta já levariam 3,2 semanas.</p>
-          <p>O que está em jogo: a <code>hml-gestao</code>, exposta e com fichas de alunos, a VPN da sede e o app de 36 mil alunos. Uma escolha errada deixa aberta justamente a falha que já está sendo explorada.</p>
-          <div class="pergunta">Com 1.200 achados e capacidade para 150 correções por semana, o que a Tatame deve corrigir primeiro?</div>
-          <div class="papeis"><span><b>Corrige</b> Caio Mendes, TI</span><span><b>Red Team</b> Bruno Sato</span><span><b>Decide o prazo</b> Marina Prado</span><span><b>Blue Team</b> Luiza Ferraz</span></div>
+          <p>O reconhecimento da Aula 5 terminou. O <em>scanner</em> (programa que procura falhas conhecidas) devolveu <strong>1.200 achados</strong> sobre a borda e a sede da <strong>Rede Tatame</strong>.</p>
+          <p>Bruno Sato, do Red Team, tem até 27/11 para mostrar à CISO Marina Prado por onde o Grupo Cobalto Austral entraria. Caio Mendes, da TI, corrige no máximo 150 falhas por semana.</p>
+          <p>O que está em jogo: a <code>hml-gestao</code> com fichas reais de alunos, a VPN da sede e o app de 36 mil alunos. E a regra de engajamento é clara: provar o risco sem derrubar nada e sem tocar em dado pessoal.</p>
+          <div class="pergunta">Entre 1.200 achados, quais dão acesso inicial à Rede Tatame, e como o Red Team prova isso sem causar dano?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Corrige</b> Caio Mendes, TI</span><span><b>Autoriza</b> Marina Prado</span><span><b>Blue Team</b> Luiza Ferraz</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Varredura e enumeração -->
+  <!-- 4. Da vulnerabilidade ao acesso inicial -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
-      <h2>Varredura, enumeração e <em>scanners</em></h2>
+      <h2>Da vulnerabilidade ao acesso inicial</h2>
       <div class="slide-content-box">
         <ul>
-          <li><strong>Varredura</strong>: identifica quais <em>hosts</em> estão ativos, quais portas estão abertas e quais serviços e versões respondem nelas. O <strong>Nmap</strong> é a ferramenta clássica.</li>
-          <li><strong>Enumeração</strong>: aprofunda o resultado e extrai dos serviços nomes de usuários, compartilhamentos de rede, versões de aplicações e configurações.</li>
-          <li>No ATT&amp;CK: de fora, reconhecimento (T1595, <em>Active Scanning</em>); de dentro, Descoberta (TA0007), por exemplo T1046, <em>Network Service Discovery</em>.</li>
-          <li><em>Scanners</em> de vulnerabilidades, como OpenVAS, Nessus ou Qualys, comparam serviços e versões com bases de falhas conhecidas.</li>
+          <li><strong>Vulnerabilidade</strong> é uma fraqueza conhecida; <strong>exploração</strong> é o uso dessa fraqueza para obter algo que não deveria ser possível.</li>
+          <li>O <em>scanner</em> deduz falhas pelo número de versão: gera falsos positivos e não prova que a falha é explorável.</li>
+          <li>O <strong>acesso inicial</strong> é a tática TA0001 do MITRE ATT&amp;CK: o primeiro ponto de apoio do adversário no ambiente.</li>
+          <li>Em um exercício autorizado, a regra é <strong>demonstrar, não executar</strong>: confirmar que a falha existe com o teste menos invasivo possível e registrar a evidência mínima.</li>
         </ul>
-        <div class="callout-azul"><p>Como visto na Unidade 1, o resultado do <em>scanner</em> precisa ser validado: ele gera falsos positivos e não comprova a explorabilidade.</p></div>
+        <div class="callout-azul"><p>A pergunta do Red Team muda de "o que está vulnerável?" para "o que um adversário usaria para entrar, e como provo isso com segurança?".</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5. LAB flow -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: entender de onde vêm os 1.200 achados</p><h2>Da descoberta de <em>hosts</em> à lista de vulnerabilidades</h2></div><span class="lab-badge purple">Red e Blue</span></div>
-      <div class="lab-area" id="lab-flow"></div>
-    </div>
-  </section>
-
-  <!-- 6. LAB terminal -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>Varredura autorizada na borda e na sede</h2></div><span class="lab-badge red">Red Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>A borda <code>203.0.113.0/24</code> e os servidores da sede (<code>10.10.1.0/24</code>) estão na autorização. O utilitário é fictício.</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Gerar a lista de achados da Tatame.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Próximo comando</em> quatro vezes.<br>2. Leia a nota de cada passo.</div>
-            <div class="rl obs"><b>Observe</b>7 <em>hosts</em> (máquinas) ativos, a pasta <code>EXPORT-ALUNOS</code> aberta a todos, 480 achados com CVSS (nota de gravidade de 0 a 10) ≥ 7 e um falso positivo.</div>
-            <div class="rl conc"><b>Conclusão</b>O <em>scanner</em> aponta suspeitas; quem confirma é a validação.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-term"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. CVE -->
+  <!-- 5. CVE e CVSS -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Identificação</p>
-      <h2>CVE: um nome comum para cada falha</h2>
-      <div class="slide-content-box">
-        <p>Cada vulnerabilidade conhecida recebe um identificador <strong>CVE</strong> (<em>Common Vulnerabilities and Exposures</em>) no formato CVE-ano-número.</p>
-        <ul>
-          <li>Exemplo: <strong>CVE-2021-44228</strong>, a falha na biblioteca Log4j conhecida como Log4Shell.</li>
-          <li>O programa CVE é coordenado pela MITRE.</li>
-          <li>A NVD (<em>National Vulnerability Database</em>), mantida pelo NIST, enriquece os registros com severidade e produtos afetados.</li>
-        </ul>
-        <div class="callout-azul"><p>O identificador comum permite que <em>scanner</em>, fornecedor, Red Team e Blue Team falem da mesma falha sem ambiguidade.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. CVSS -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Severidade</p>
-      <h2>CVSS: quão grave é a falha?</h2>
+      <p class="kicker">Identificação e severidade</p>
+      <h2>CVE dá o nome; CVSS mede a gravidade técnica</h2>
       <div class="slide-content-box">
         <div class="colunas" style="align-items:start;gap:2rem">
           <div>
-            <p>O <strong>CVSS</strong> (<em>Common Vulnerability Scoring System</em>), mantido pelo FIRST, dá uma nota de 0 a 10 considerando vetor de ataque (rede, local, físico), complexidade, privilégios ou interação exigidos e impacto sobre confidencialidade, integridade e disponibilidade.</p>
-            <p>A versão 4.0 foi publicada em 2023, mas a 3.1 ainda é amplamente usada.</p>
+            <p><strong>CVE</strong> (<em>Common Vulnerabilities and Exposures</em>): identificador no formato CVE-ano-número, coordenado pela MITRE. A NVD, do NIST, acrescenta severidade e produtos afetados.</p>
+            <p><strong>CVSS</strong> (<em>Common Vulnerability Scoring System</em>), do FIRST: nota de 0 a 10 a partir do vetor de ataque, da complexidade, dos privilégios e da interação exigidos e do impacto. A versão 4.0 saiu em 2023; a 3.1 ainda é a mais usada.</p>
           </div>
           <table class="tabela-industrial">
             <thead><tr><th>Nota CVSS</th><th>Severidade</th></tr></thead>
@@ -180,47 +128,47 @@
             </tbody>
           </table>
         </div>
-        <div class="callout-azul" style="margin-top:1rem"><p>A nota-base do CVSS mede <strong>severidade técnica</strong>, e não <strong>risco</strong>. Ela não diz se a falha está sendo explorada no mundo real nem se o ativo afetado é crítico para o negócio.</p></div>
+        <div class="callout-azul" style="margin-top:1rem"><p>A nota-base mede <strong>severidade técnica</strong>, e não <strong>risco</strong>: ela não diz se alguém está explorando a falha nem se o ativo importa para o negócio.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 9. EPSS e KEV -->
+  <!-- 6. EPSS e KEV -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Probabilidade</p>
+      <p class="kicker">Probabilidade e exploração confirmada</p>
       <h2>EPSS e KEV: a falha está sendo explorada?</h2>
       <div class="slide-content-box">
         <table class="tabela-industrial">
           <thead><tr><th>Referência</th><th>Quem mantém</th><th>O que responde</th></tr></thead>
           <tbody>
-            <tr><td><strong>EPSS</strong> (<em>Exploit Prediction Scoring System</em>)</td><td>FIRST</td><td>Estima a <strong>probabilidade</strong> de a vulnerabilidade ser explorada nos 30 dias seguintes, com base em atividade de exploração observada</td></tr>
-            <tr><td><strong>KEV</strong> (<em>Known Exploited Vulnerabilities</em>)</td><td>CISA, agência norte-americana</td><td>Lista vulnerabilidades com <strong>exploração confirmada</strong></td></tr>
+            <tr><td><strong>EPSS</strong> (<em>Exploit Prediction Scoring System</em>)</td><td>FIRST</td><td>A <strong>probabilidade</strong> de exploração nos 30 dias seguintes, estimada a partir de atividade observada</td></tr>
+            <tr><td><strong>KEV</strong> (<em>Known Exploited Vulnerabilities</em>)</td><td>CISA, agência norte-americana</td><td>Quais falhas têm <strong>exploração confirmada</strong> no mundo real</td></tr>
           </tbody>
         </table>
         <ul style="margin-top:.6em">
-          <li>Para órgãos federais dos Estados Unidos, corrigir as falhas do KEV tem prazos obrigatórios.</li>
-          <li>Muitas empresas privadas adotam o catálogo como critério de prioridade.</li>
+          <li>Para o Blue Team, as duas referências ordenam a correção.</li>
+          <li>Para o Red Team, ordenam o teste: o adversário emulado usaria primeiro o que já funciona contra outras vítimas.</li>
         </ul>
         <div class="callout-azul"><p>CVSS diz quão grave é. EPSS diz quão provável é a exploração. KEV diz que a exploração já acontece.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 10. LAB browser: consulta da CVE -->
+  <!-- 7. LAB browser: CVE-2021-41773 -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>Uma CVE consultada em três fontes</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Navegador</p><h2>A falha da <code>hml-gestao</code> em três fontes</h2></div><span class="lab-badge purple">Red e Blue</span></div>
       <div class="lab-split">
         <div class="lab-side">
-          <p>Página de estudo com o que a NVD, o FIRST e a CISA dizem da CVE-2021-44228.</p>
+          <p>A varredura mostrou Apache 2.4.49 na <code>hml-gestao</code>. A página de estudo reúne o que NVD, FIRST e CISA dizem da CVE-2021-41773.</p>
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ler uma falha nas três referências.</div>
-            <div class="rl"><b>Faça</b>1. Clique em cada parte do vetor CVSS.<br>2. Abra as abas EPSS e KEV.</div>
-            <div class="rl obs"><b>Observe</b>Nota 10, probabilidade de exploração muito alta e exploração confirmada no catálogo KEV.</div>
-            <div class="rl conc"><b>Conclusão</b>CVSS mede a gravidade; EPSS e KEV dizem se alguém está explorando.</div>
+            <div class="rl obj"><b>Objetivo</b>Ler uma falha real pelas três referências.</div>
+            <div class="rl"><b>Faça</b>1. Clique em cada parte do vetor CVSS.<br>2. Abra as abas EPSS, KEV e Na Rede Tatame.</div>
+            <div class="rl obs"><b>Observe</b>Nota 7,5 (alta), só confidencialidade afetada, probabilidade de exploração muito alta e exploração confirmada no KEV.</div>
+            <div class="rl conc"><b>Conclusão</b>Uma falha "só" alta, mas explorada e exposta, vai para o topo do teste.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-brw"></div>
@@ -228,7 +176,7 @@
     </div>
   </section>
 
-  <!-- 11. LAB 3D: cubo de risco -->
+  <!-- 8. LAB 3D: cubo de risco -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -237,9 +185,9 @@
         <div class="lab-side">
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Ver gravidade, probabilidade e importância do ativo ao mesmo tempo.</div>
-            <div class="rl"><b>Faça</b>1. Gire o cubo de lado.<br>2. Ache as esferas A, B e C.</div>
-            <div class="rl obs"><b>Observe</b>A tem CVSS 9,8, mas fica longe da caixa vermelha: EPSS de 2% e servidor isolado. B está dentro dela.</div>
-            <div class="rl conc"><b>Conclusão</b>CVSS alto não quer dizer risco alto.</div>
+            <div class="rl"><b>Faça</b>1. Gire o cubo de lado.<br>2. Ache as esferas 003, 002 e 001.</div>
+            <div class="rl obs"><b>Observe</b>A 003 (VPN) e a 002 (<code>hml-gestao</code>) estão dentro da caixa vermelha. A 001 tem CVSS 9,8, mas EPSS de 2% e fica no servidor isolado, longe dela.</div>
+            <div class="rl conc"><b>Conclusão</b>CVSS alto não quer dizer porta de entrada provável.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-3d"></div>
@@ -247,29 +195,97 @@
     </div>
   </section>
 
-  <!-- 12. Processo -->
+  <!-- 9. Metasploit -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Processo</p>
-      <h2>Gestão de vulnerabilidades como ciclo contínuo</h2>
-      <div class="slide-content-box">
-        <p>Inventariar ativos, identificar falhas, priorizar, corrigir ou mitigar, verificar a correção e reportar. Depois, recomeçar.</p>
+      <p class="kicker">Ferramenta da ementa</p>
+      <h2>Metasploit Framework: uma biblioteca de módulos</h2>
+      <div class="slide-content-box" style="font-size:.95em">
+        <p>Projeto de código aberto mantido pela Rapid7 e já instalado no Kali Linux. O console é o <code>msfconsole</code>; cada teste é um <strong>módulo</strong>.</p>
         <table class="tabela-industrial">
-          <thead><tr><th>Pergunta de priorização</th><th>Referência</th></tr></thead>
+          <thead><tr><th>Tipo de módulo</th><th>Para que serve</th><th>No exercício da Tatame</th></tr></thead>
           <tbody>
-            <tr><td>A falha é grave?</td><td>CVSS</td></tr>
-            <tr><td>É provável que seja explorada?</td><td>EPSS</td></tr>
-            <tr><td>Já está sendo explorada?</td><td>KEV</td></tr>
-            <tr><td>O ativo é exposto à internet ou crítico para o negócio?</td><td>Inventário e contexto</td></tr>
+            <tr><td><strong>auxiliary</strong></td><td>Varrer, enumerar e verificar, sem abrir acesso</td><td>Permitido, contra alvos do escopo</td></tr>
+            <tr><td><strong>exploit</strong></td><td>Explorar a falha; muitos têm o comando <code>check</code></td><td>Só o <code>check</code>; a exploração fica fora da RoE</td></tr>
+            <tr><td><strong>payload</strong></td><td>O que roda no alvo depois da exploração</td><td>Não usado</td></tr>
+            <tr><td><strong>post</strong></td><td>Ações depois do acesso (Aula 7)</td><td>Não usado</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.5em">Exemplo de <strong>SLAs de correção</strong> (prazos máximos combinados): 7 dias para falhas no KEV em ativos expostos, 30 dias para altas e 90 para médias. O NIST SP 800-40 Rev. 4 trata o <em>patch management</em> como manutenção preventiva, planejada, e não como reação a cada alerta.</p>
+        <div class="callout-azul" style="margin-top:.6rem"><p>Comandos desta aula: <code>search</code> (achar o módulo), <code>info</code> (ler o que ele faz), <code>use</code> e <code>set</code> (escolher e configurar), <code>run</code> num <code>auxiliary/scanner</code> e <code>check</code> (perguntar se o alvo parece vulnerável).</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 13. Antes do código: onde achar e como instalar -->
+  <!-- 10. LAB terminal: Kali e msfconsole -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Kali Linux</p><h2>Metasploit com <code>check</code>, dentro do escopo</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>VM <code>lab-tatame</code> do Red Team, em 18/11/2026, às 10h. A sessão é simulada e o módulo do NetGuard é fictício.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Confirmar as duas portas de entrada mais prováveis sem explorar nenhuma.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim e leia a nota de cada passo.</div>
+            <div class="rl obs"><b>Observe</b>A <code>hml-gestao</code> responde ao teste de travessia de diretório (CVE-2021-41773). A VPN "parece vulnerável" pelo <code>check</code>. Nenhum <em>payload</em> foi configurado.</div>
+            <div class="rl conc"><b>Conclusão</b>Duas evidências para o relatório, nenhum dano.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-term"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. Vetores de acesso inicial -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">MITRE ATT&amp;CK · TA0001</p>
+      <h2>As portas de entrada e a regra para cada uma</h2>
+      <div class="slide-content-box" style="font-size:.9em">
+        <table class="tabela-industrial">
+          <thead><tr><th>Técnica</th><th>Como o adversário entra</th><th>Na Tatame</th><th>O que a RoE permite</th></tr></thead>
+          <tbody>
+            <tr><td><strong>T1190</strong> <em>Exploit Public-Facing Application</em></td><td>Falha em aplicação exposta</td><td><code>hml-gestao</code> e o BOLA da API</td><td>Verificar com o teste menos invasivo; não ler dados reais</td></tr>
+            <tr><td><strong>T1133</strong> <em>External Remote Services</em></td><td>VPN, RDP ou portal remoto exposto</td><td>VPN NetGuard da sede</td><td>Só <code>check</code> de versão e comportamento</td></tr>
+            <tr><td><strong>T1078</strong> <em>Valid Accounts</em></td><td>Conta legítima obtida por vazamento ou reuso de senha</td><td>Contas do app sem MFA</td><td>Só contas de teste criadas pela TI para o exercício</td></tr>
+            <tr><td><strong>T1566</strong> <em>Phishing</em> (.001 anexo, .002 <em>link</em>)</td><td>Mensagem que leva a pessoa a agir</td><td>Financeiro da sede</td><td>Campanha educativa, sem guardar senha</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. Phishing como vetor -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">O fator humano</p>
+      <h2><em>Phishing</em> como vetor autorizado</h2>
+      <div class="slide-content-box">
+        <p>Muitos adversários reais preferem uma pessoa a uma falha técnica. O <em>phishing</em> explora autoridade, urgência e confiança, e é por isso que o Grupo Cobalto Austral o usa para entrar.</p>
+        <ul>
+          <li><strong>Autorização formal</strong> da liderança, com RH, jurídico e encarregado de dados (DPO) cientes.</li>
+          <li><strong>Finalidade educativa</strong>: quem clica recebe orientação, e não punição.</li>
+          <li><strong>Proteção de dados</strong>: nenhuma senha real é guardada; resultados individuais têm acesso restrito (LGPD).</li>
+          <li><strong>Limites de pretexto</strong>: temas como demissão, saúde ou salário costumam ser vetados.</li>
+        </ul>
+        <div class="callout-azul"><p>A métrica que mais ajuda o Blue Team é a taxa de reporte: uma pessoa que avisa rápido permite ao SOC bloquear a mensagem para todos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. LAB flow: quatro portas -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver as quatro portas e o que cada teste provou</p><h2>Quatro portas de entrada, uma semana de exercício</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-area" id="lab-flow"></div>
+    </div>
+  </section>
+
+  <!-- 14. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -281,27 +297,27 @@
           <tbody>
             <tr><td><strong>Visual Studio Code</strong> e extensão Python</td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code>; extensão na aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
             <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>priorizar.py</code> e o <code>fila.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
-            <tr><td><strong><code>csv</code></strong></td><td>Ler o <code>achados.csv</code>; o resto do código é Python puro</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
+            <tr><td><strong>Módulo <code>venv</code></strong></td><td>Cria o ambiente virtual <code>.venv</code>, isolado do sistema</td><td><code>docs.python.org/3/library/venv.html</code></td><td>Já vem com o Python; no Kali ou no Ubuntu, <code>sudo apt install python3-venv</code></td></tr>
+            <tr><td><strong><code>csv</code></strong></td><td>Ler o <code>achados.csv</code>; o resto é Python puro</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vem com o Python</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> baixe o instalador só do <em>site</em> do projeto e leia o endereço letra por letra antes de clicar. Quando o projeto publica o <em>hash</em> SHA-256 do arquivo, compare com o resultado de <code>sha256sum</code> no arquivo baixado. Na extensão, confira o editor "Microsoft" com o selo de verificado e o número de instalações. Todo programa instalado entra no inventário e passa a precisar de correções, como qualquer ativo desta aula.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> baixe o instalador só do <em>site</em> do projeto e leia o endereço letra por letra. Quando o projeto publica o <em>hash</em> SHA-256 do arquivo, compare com o resultado de <code>sha256sum</code>. Na extensão, confira o editor "Microsoft" com o selo de verificado. Este laboratório não usa pacote de terceiros: cada pacote a menos é um fornecedor a menos para vigiar.</div>
       </div>
     </div>
   </section>
 
-  <!-- 14. LAB VS Code -->
+  <!-- 15. LAB VS Code: priorizar e decidir como validar -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Priorização por risco em Python</h2></div><span class="lab-badge blue">Blue Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Priorizar por risco e decidir como validar</h2></div><span class="lab-badge red">Red Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ordenar os sete achados da Tatame por risco.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Preparar o ambiente</em> e espere "Ambiente pronto".<br>2. Clique em <em>Priorizar</em>.<br>3. Clique em <em>Calcular filas</em>.</div>
-            <div class="rl obs"><b>Observe</b>Pelo CVSS, A vem primeiro. Pelo risco, B (<code>hml-gestao</code>) lidera. A fila crítica leva 0,4 semana; a de CVSS, 3,2.</div>
-            <div class="rl conc"><b>Conclusão</b>A fórmula de risco encurta a fila sem esquecer o que importa.</div>
+            <div class="rl obj"><b>Objetivo</b>Ordenar sete achados por risco e decidir, para cada um, se o Red Team valida, só reporta ou deixa para a correção.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>achados.csv</code> e volte a <code>priorizar.py</code>.<br>3. Clique em "Priorizar" e depois em "Calcular filas".</div>
+            <div class="rl obs"><b>Observe</b>Pelo CVSS, a 001 é a segunda. Pelo risco, VPN e <code>hml-gestao</code> lideram e vão para o <code>check</code>. A 004, de negação de serviço, só é reportada. A fila crítica leva 0,4 semana; a de CVSS, 3,2.</div>
+            <div class="rl conc"><b>Conclusão</b>O código cruza risco e RoE antes de qualquer teste.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -309,44 +325,7 @@
     </div>
   </section>
 
-  <!-- 15. Rastro -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Visão do Blue Team</p>
-      <h2>Varreduras fazem barulho</h2>
-      <div class="slide-content-box">
-        <ul>
-          <li>Muitas conexões em sequência, para portas diferentes, a partir da mesma origem, geram registros em <em>firewalls</em>, sistemas de detecção de intrusão e servidores.</li>
-          <li>A enumeração interna gera consultas incomuns ao diretório e tentativas de autenticação.</li>
-          <li>Em operações de Red Team que testam a detecção, a varredura é feita de forma mais lenta e seletiva.</li>
-        </ul>
-        <div class="callout-azul"><p>A pergunta para o Blue Team passa a ser: nossa detecção percebe varreduras discretas, ou só as barulhentas?</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 16. LAB SIEM -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>Varredura barulhenta e varredura discreta</h2></div><span class="lab-badge blue">Blue Team</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <p>O Red Team fez duas varreduras autorizadas na sede: uma rápida e outra espalhada pelo dia.</p>
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver a varredura pelo lado do SOC.</div>
-            <div class="rl"><b>Faça</b>1. Clique nas quatro buscas salvas, em ordem.</div>
-            <div class="rl obs"><b>Observe</b>A busca 2 volta vazia: a varredura lenta nunca passou do limite. A janela de 24 horas a encontra.</div>
-            <div class="rl conc"><b>Conclusão</b>Uma regra só para varredura rápida deixa passar a discreta.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-siem"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 17. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -357,89 +336,73 @@
         <table class="tabela-industrial">
           <thead><tr><th>Vulnerabilidade</th><th>CVSS</th><th>EPSS</th><th>No KEV?</th><th>Ativo</th></tr></thead>
           <tbody>
-            <tr><td>A</td><td>9,8</td><td>0,02 (2%)</td><td>Não</td><td>Servidor interno isolado (<code>SRV-LEGADO-07</code>)</td></tr>
-            <tr><td>B</td><td>7,5</td><td>0,94 (94%)</td><td>Sim</td><td>Portal exposto à internet (<code>hml-gestao</code>)</td></tr>
-            <tr><td>C</td><td>5,3</td><td>0,40 (40%)</td><td>Não</td><td>VPN corporativa (<code>vpn.tatame.com.br</code>)</td></tr>
+            <tr><td>A</td><td>9,8</td><td>0,02 (2%)</td><td>Não</td><td>Servidor interno isolado</td></tr>
+            <tr><td>B</td><td>7,5</td><td>0,94 (94%)</td><td>Sim</td><td>Portal de homologação exposto à internet</td></tr>
+            <tr><td>C</td><td>5,3</td><td>0,40 (40%)</td><td>Não</td><td>Serviço de acesso remoto exposto</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:.5em">Pelo CVSS, A viria primeiro. Pelo risco, <strong>B é a prioridade</strong>: está sendo explorada, tem alta probabilidade de exploração, está exposta e guarda fichas reais de alunos. Filtrando só KEV ou EPSS ≥ 10% em ativos expostos, restam 60 achados: 60 ÷ 150 = <strong>0,4 semana</strong>, cerca de dois dias úteis.</p>
+        <p style="margin-top:.5em">Pelo CVSS, A viria primeiro. Pelo risco, <strong>B é a prioridade</strong>, de teste e de correção: está no KEV, tem EPSS alto e está exposta. Filtrando só KEV ou EPSS ≥ 10% em ativos expostos, restam 60 achados: 60 ÷ 150 = <strong>0,4 semana</strong>, cerca de dois dias úteis.</p>
       </div>
     </div>
   </section>
 
-  <!-- 18. LAB console de gestão -->
+  <!-- 17. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Exercício guiado</p><h2>Console de gestão de vulnerabilidades</h2></div><span class="lab-badge blue">Triagem</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Montar a fila de correção desta semana.</div>
-            <div class="rl"><b>Faça</b>1. Clique em <em>Ordenar por CVSS</em> e depois em <em>Ordenar por risco</em>.<br>2. Ligue <em>Só a fila crítica</em>.<br>3. Mexa na capacidade semanal.</div>
-            <div class="rl obs"><b>Observe</b>B sobe e A desce. C, com CVSS 5,3 na VPN exposta, entra na fila crítica.</div>
-            <div class="rl conc"><b>Conclusão</b>Os 60 achados críticos cabem em dois dias úteis.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-vm"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19. PLATAFORMA REDE TATAME -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Priorização e abuso de API na plataforma</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Superfície e acesso inicial pelo app</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
       <div class="lab-split plat">
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver a priorização na plataforma e uma falha que o <em>scanner</em> não acha.</div>
-            <div class="rl"><b>Faça</b>1. Em <strong>Superfície</strong>, compare as colunas CVSS e risco.<br>2. Em <strong>Cenários</strong>, inicie <em>Abuso da API do app</em>.<br>3. Ligue a R3 em <strong>Regras do CEP</strong> e inicie o cenário de novo.</div>
-            <div class="rl obs"><b>Observe</b>O <code>www</code>, com CVSS 10, fica em 4.º. A <code>api</code> tem BOLA (ler a ficha de outro aluno trocando o número na URL), sem CVE. Com a R3, essa leitura vira alerta.</div>
-            <div class="rl conc"><b>Conclusão</b>Falha de lógica só aparece em teste e precisa de regra própria.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver a fila de risco e uma entrada por contas válidas que nenhum <em>scanner</em> acha.</div>
+            <div class="rl"><b>Faça</b>1. Em <strong>Superfície</strong>, leia as duas primeiras linhas.<br>2. Em <strong>Cenários</strong>, clique em <em>Iniciar cenário</em> no cartão <em>Abuso da API do app</em>.<br>3. Em <strong>Regras do CEP</strong>, ligue a R3.<br>4. Em <strong>Cenários</strong>, clique em <em>Repetir com as fontes e regras atuais</em>.</div>
+            <div class="rl obs"><b>Observe</b>VPN (43,8) e <code>hml-gestao</code> (32,4) no topo. Na 1.ª rodada, só a R2 alerta; os logins válidos e a leitura de fichas passam sem alerta. Com a R3, são 3 detectados.</div>
+            <div class="rl conc"><b>Conclusão</b>Conta válida e falha de lógica entram sem CVE; só o teste as revela.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 20. Log4Shell -->
+  <!-- 18. Rastro para o Blue Team -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Caso real</p>
-      <h2>Log4Shell, dezembro de 2021: onde está a biblioteca?</h2>
+      <p class="kicker">Visão do Blue Team</p>
+      <h2>Que rastro o acesso inicial deixa?</h2>
       <div class="slide-content-box">
-        <p>Quando a CVE-2021-44228 veio a público, a correção era conhecida. O problema de muitas empresas foi outro: responder <strong>onde</strong> a biblioteca Log4j estava em uso.</p>
-        <ul>
-          <li>A biblioteca vinha embutida em aplicações próprias, em produtos de fornecedores e em equipamentos, muitas vezes sem aparecer em lugar nenhum.</li>
-          <li>Sem inventário de ativos e de componentes de <em>software</em>, a priorização nem começava: não havia lista para priorizar.</li>
-          <li>Quem já tinha inventário atualizado e um ciclo de gestão rodando conseguiu ir direto aos ativos expostos. Na Tatame, o <code>www</code> foi corrigido assim; a <code>hml-gestao</code>, fora do inventário, ficou para trás.</li>
-        </ul>
-        <div class="callout-azul"><p>A primeira etapa do ciclo, inventariar, é a que sustenta todas as outras. É o mesmo recado da Aula 5 sobre <em>shadow IT</em>.</p></div>
+        <table class="tabela-industrial">
+          <thead><tr><th>Vetor</th><th>Onde aparece</th><th>Regra da plataforma</th></tr></thead>
+          <tbody>
+            <tr><td>Falha em aplicação exposta (T1190)</td><td>Log do servidor <em>web</em>: caminhos com <code>.%2e/</code> e muitas respostas de erro</td><td>R4 na borda; nada na <code>hml-gestao</code>, sem WAF e sem coleta</td></tr>
+            <tr><td>Serviço remoto exposto (T1133)</td><td>Log do <em>appliance</em> da VPN e auditoria de identidade</td><td>R11 (login sem MFA)</td></tr>
+            <tr><td>Contas válidas (T1078)</td><td>Muitas falhas seguidas de sucesso; leitura de muitos alunos por um <em>token</em></td><td>R2 e R3</td></tr>
+            <tr><td><em>Phishing</em> (T1566.002)</td><td>Gateway de <em>e-mail</em>, DNS e <em>proxy</em>; o reporte da pessoa</td><td>R1</td></tr>
+          </tbody>
+        </table>
+        <div class="callout-azul" style="margin-top:.6rem"><p>Cada <code>check</code> do Red Team deixa uma linha de log com hora e origem (192.0.2.66). No relatório, essa hora é comparada com o que o SOC viu.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 21. De volta ao problema -->
+  <!-- 19. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>Agora Caio sabe o que corrigir primeiro</h2>
+      <h2>Agora Bruno sabe por onde o adversário entraria</h2>
       <div class="resolvido">
-        <div class="ev"><b>De onde vêm os achados</b>A varredura e o <em>scanner</em> geraram 1.200 achados, 480 com CVSS ≥ 7. A validação descartou um falso positivo.</div>
-        <div class="ev"><b>Gravidade não é risco</b>No cubo, A tem CVSS 9,8, mas EPSS de 2% em servidor isolado. Fica fora da região de prioridade.</div>
-        <div class="ev"><b>A fila por risco</b>O script e o console põem B, a <code>hml-gestao</code>, no topo. A fila crítica tem 60 achados: 0,4 semana.</div>
-        <div class="ev"><b>O que o scanner não vê</b>Na plataforma, o BOLA da API não tem CVE. Só o teste o encontra, e a regra R3 o detecta.</div>
-        <div class="resposta">Resposta à pergunta da aula: a Tatame corrige primeiro o que está no KEV ou tem EPSS ≥ 10% em ativo exposto, a começar pela <code>hml-gestao</code>. São 60 achados, cerca de dois dias úteis, em vez de 3,2 semanas pela fila de CVSS.</div>
+        <div class="ev"><b>O que testar primeiro</b>CVSS, EPSS, KEV e criticidade põem a VPN e a <code>hml-gestao</code> no topo. A falha 001, de CVSS 9,8, fica para a correção.</div>
+        <div class="ev"><b>Provar sem dano</b>No Kali, o Metasploit confirmou as duas com <code>run</code> de um <em>scanner</em> e com <code>check</code>, sem <em>payload</em> e sem ler dados.</div>
+        <div class="ev"><b>Respeitar a RoE</b>O código separou o que se valida, o que só se reporta (negação de serviço) e o que vai direto para a correção.</div>
+        <div class="ev"><b>O que o scanner não vê</b>Na plataforma, contas válidas e o BOLA da API entram sem CVE. O <em>phishing</em> parou no MFA.</div>
+        <div class="resposta">Resposta à pergunta da aula: as portas de entrada reais são a VPN, a <code>hml-gestao</code>, as contas do app sem MFA e o <em>phishing</em>. O Red Team prova cada uma com o teste menos invasivo que a RoE permite e entrega evidência e hora para a correção e para o SOC.</div>
       </div>
     </div>
   </section>
 
-  <!-- 22. Pontos-chave -->
+  <!-- 20. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -447,40 +410,41 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li>Varredura descobre serviços; enumeração extrai detalhes deles; ambas são ruidosas.</li>
-          <li>CVE identifica a falha; CVSS mede a severidade técnica, não o risco.</li>
-          <li>EPSS estima a probabilidade de exploração; o KEV confirma exploração real.</li>
-          <li>Priorizar por risco reduz drasticamente o tempo de exposição às falhas que importam.</li>
+          <li>CVE identifica a falha; CVSS mede a severidade técnica; EPSS e KEV indicam se ela é explorada.</li>
+          <li>Em exercício autorizado, a exploração é demonstrada com o teste menos invasivo, como o <code>check</code> do Metasploit.</li>
+          <li>O acesso inicial (TA0001) inclui falhas expostas, serviços remotos, contas válidas e <em>phishing</em>.</li>
+          <li>Cada vetor tem regra própria na RoE e deixa um rastro que o Blue Team pode aprender a ver.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 23. Referências -->
+  <!-- 21. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.82em">
-        <p>CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. <em>Known exploited vulnerabilities catalog</em>. Disponível em: &lt;https://www.cisa.gov/known-exploited-vulnerabilities-catalog&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. <em>Common vulnerability scoring system version 4.0: specification document</em>. 2023. Disponível em: &lt;https://www.first.org/cvss/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. <em>Exploit prediction scoring system (EPSS)</em>. Disponível em: &lt;https://www.first.org/epss/&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>JACOBS, Jay <em>et al</em>. Exploit prediction scoring system (EPSS). <em>Digital Threats: Research and Practice</em>, v. 2, n. 3, 2021.</p>
-        <p>SOUPPAYA, Murugiah; SCARFONE, Karen. <em>SP 800-40 Rev. 4: guide to enterprise patch management planning: preventive maintenance for technology</em>. Gaithersburg: NIST, 2022.</p>
+      <div class="slide-content-box" style="font-size:.8em">
+        <p>CYBERSECURITY AND INFRASTRUCTURE SECURITY AGENCY. <em>Known exploited vulnerabilities catalog</em>. Disponível em: &lt;https://www.cisa.gov/known-exploited-vulnerabilities-catalog&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. <em>Common vulnerability scoring system version 4.0: specification document</em>. 2023. Disponível em: &lt;https://www.first.org/cvss/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>FORUM OF INCIDENT RESPONSE AND SECURITY TEAMS. <em>Exploit prediction scoring system (EPSS)</em>. Disponível em: &lt;https://www.first.org/epss/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>MITRE. <em>Initial access (TA0001)</em>. In: MITRE ATT&amp;CK. Disponível em: &lt;https://attack.mitre.org/tactics/TA0001/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>RAPID7. <em>Metasploit documentation</em>. Disponível em: &lt;https://docs.metasploit.com/&gt;. Acesso em: 22 nov. 2026.</p>
+        <p>WEIDMAN, Georgia. <em>Testes de invasão</em>: uma introdução prática ao hacking. São Paulo: Novatec, 2014.</p>
       </div>
     </div>
   </section>
 
-  <!-- 24. Encerramento -->
+  <!-- 22. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe como uma varredura descobre serviços, por que o CVSS sozinho não define prioridade e como EPSS, KEV e o contexto do ativo encurtam a fila. Corrigir falhas técnicas é essencial, mas o adversário também pode simplesmente pedir a senha a alguém do financeiro da Tatame.</p>
-      <p class="fim-proxima">Próxima aula: Aula 7 — Engenharia social e simulação de <em>phishing</em>.</p>
+      <p class="fim-texto">Você já sabe escolher o que testar com CVSS, EPSS e KEV, provar uma falha com o <code>check</code> sem explorá-la e reconhecer as portas de entrada da tática TA0001. Falta entender o que o adversário faz depois de entrar.</p>
+      <p class="fim-proxima">Próxima aula: Aula 7 — Escalada de privilégios, movimentação lateral e persistência.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -490,126 +454,55 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* Achados usados no cubo 3D, no VS Code e no console (mesmos dados) */
+/* Achados usados no cubo 3D e no VS Code (mesmos dados do achados.csv) */
 const ACHADOS = [
-  { id: 'A', ativo: 'SRV-LEGADO-07', cvss: 9.8, epss: 0.02, kev: false, exp: 'isolado', crit: false },
-  { id: 'B', ativo: 'hml-gestao', cvss: 7.5, epss: 0.94, kev: true, exp: 'internet', crit: true },
-  { id: 'C', ativo: 'vpn', cvss: 5.3, epss: 0.40, kev: false, exp: 'internet', crit: true },
-  { id: 'D', ativo: 'SRV-ERP-01', cvss: 8.8, epss: 0.07, kev: false, exp: 'interno', crit: true },
-  { id: 'E', ativo: 'www', cvss: 6.1, epss: 0.15, kev: false, exp: 'internet', crit: false },
-  { id: 'F', ativo: 'NB-ATD-012', cvss: 7.8, epss: 0.01, kev: false, exp: 'interno', crit: false },
-  { id: 'G', ativo: 'SRV-ARQ-01', cvss: 6.5, epss: 0.03, kev: false, exp: 'interno', crit: true }
+  { id: '001', ativo: 'SRV-LEGADO-07', cvss: 9.8, epss: 0.02, kev: false, exp: 'isolado', crit: false },
+  { id: '002', ativo: 'hml-gestao', cvss: 7.5, epss: 0.94, kev: true, exp: 'internet', crit: true },
+  { id: '003', ativo: 'vpn', cvss: 10.0, epss: 0.96, kev: true, exp: 'internet', crit: true },
+  { id: '004', ativo: 'gestao', cvss: 7.5, epss: 0.82, kev: true, exp: 'internet', crit: true },
+  { id: '005', ativo: 'SRV-ERP-01', cvss: 8.8, epss: 0.07, kev: false, exp: 'interno', crit: true },
+  { id: '006', ativo: 'NB-ATD-012', cvss: 7.8, epss: 0.01, kev: false, exp: 'interno', crit: false },
+  { id: '007', ativo: 'SRV-ARQ-01', cvss: 6.5, epss: 0.03, kev: false, exp: 'interno', crit: true }
 ];
-const PESO = { internet: 1.0, interno: 0.6, isolado: 0.3 };
-const risco = (a) => a.cvss * (a.kev ? 1 : a.epss) * PESO[a.exp] * (a.crit ? 1.5 : 1);
-const sla = (a) => (a.kev && a.exp === 'internet') ? '7 dias' : a.cvss >= 7 ? '30 dias' : a.cvss >= 4 ? '90 dias' : 'próximo ciclo';
-const filaCritica = (a) => a.exp === 'internet' && (a.kev || a.epss >= 0.10);
 const br = (v, d) => v.toFixed(d).replace('.', ',');
 
-/* ---------- Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['waf', 'vpn', 'app', 'gw', 'ad', 'arq', 'erp'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
-  legenda: 'Onde a aula acontece: tudo o que a varredura alcançou, da borda aos servidores da sede. Em vermelho, a <code>hml-gestao</code>, o achado B do exemplo.' });
+/* ---------- 3. Mini-mapa do problema ---------- */
+Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'app', 'gw', 'mail', 'waf'], alvo: 'hml', caminho: ['net', 'hml', 'db'],
+  legenda: 'Onde a aula acontece: as portas de entrada vistas da internet. Em vermelho, a <code>hml-gestao</code>, sem WAF e com cópia do banco de alunos.' });
 
-/* ---------- 5. Fluxo: etapas ---------- */
-Labs.flow('#lab-flow', {
-  w: 1100, h: 430,
-  nodes: [
-    { id: 'red', x: 105, y: 110, label: 'Red Team', sub: 'escopo autorizado', icon: '🎯', k: 'red' },
-    { id: 'hosts', x: 320, y: 110, label: 'Descoberta', sub: 'hosts ativos', icon: '📡' },
-    { id: 'portas', x: 545, y: 110, label: 'Portas e serviços', sub: 'versões', icon: '🔌', w: 210 },
-    { id: 'enum', x: 775, y: 110, label: 'Enumeração', sub: 'usuários, pastas', icon: '📋', w: 190 },
-    { id: 'vuln', x: 990, y: 110, label: 'Vulnerabilidades', sub: 'scanner e bases CVE', icon: '🧾', w: 200 },
-    { id: 'valid', x: 990, y: 280, label: 'Validação', sub: 'falso positivo?', icon: '🔬', k: 'amber' },
-    { id: 'prio', x: 760, y: 280, label: 'Priorização', sub: 'CVSS, EPSS, KEV', icon: '⚖️', k: 'purple' },
-    { id: 'fw', x: 430, y: 300, label: 'Firewall e IDS', sub: 'detector de intrusão', icon: '🧱', k: 'blue', w: 200 },
-    { id: 'dir', x: 430, y: 390, label: 'Diretório', sub: 'consultas incomuns', icon: '🗂️', k: 'blue' },
-    { id: 'siem', x: 190, y: 340, label: 'SIEM', sub: 'Blue Team', icon: '📊', k: 'blue' }
-  ],
-  links: [
-    { from: 'red', to: 'hosts' }, { from: 'hosts', to: 'portas' }, { from: 'portas', to: 'enum' }, { from: 'enum', to: 'vuln' },
-    { from: 'vuln', to: 'valid' }, { from: 'valid', to: 'prio' },
-    { from: 'portas', to: 'fw', dashed: true }, { from: 'enum', to: 'dir', dashed: true }, { from: 'fw', to: 'siem' }, { from: 'dir', to: 'siem' }
-  ],
-  steps: [
-    { title: '1 · Descoberta de hosts', text: 'Quais endereços das redes autorizadas respondem? Na borda e nos servidores da sede da Tatame, 7 de 512.', on: ['red', 'hosts'], links: [['red', 'hosts', 'red']] },
-    { title: '2 · Portas e serviços', text: 'Para cada host ativo, quais portas estão abertas e que serviço e versão respondem. É aqui que o Nmap brilha.', on: ['hosts', 'portas'], links: [['hosts', 'portas', 'red']] },
-    { title: 'Rastro · O firewall registra', text: 'Conexões em sequência para portas diferentes, da mesma origem, ficam nos registros do WAF, do firewall e do IDS e seguem para o SIEM. A hml-gestao, fora do WAF, não registra nada.', on: ['portas', 'fw', 'siem'], links: [['portas', 'fw', 'blue'], ['fw', 'siem', 'blue']] },
-    { title: '3 · Enumeração', text: 'Dos serviços encontrados saem nomes de usuários, compartilhamentos, versões e configurações. Dentro da rede, isso é a tática Descoberta (TA0007).', on: ['portas', 'enum'], links: [['portas', 'enum', 'red']] },
-    { title: 'Rastro · O diretório registra', text: 'A enumeração interna gera consultas incomuns ao AD corp.tatame.local e tentativas de autenticação. Outra fonte para o SIEM.', on: ['enum', 'dir', 'siem'], links: [['enum', 'dir', 'blue'], ['dir', 'siem', 'blue']] },
-    { title: '4 · Identificação de vulnerabilidades', text: 'O scanner compara serviços e versões com bases de falhas conhecidas (CVE) e gera o relatório: 1.200 achados.', on: ['enum', 'vuln'], links: [['enum', 'vuln', 'red']] },
-    { title: '5 · Validação', text: 'Scanners geram falsos positivos e não comprovam explorabilidade. Cada achado relevante é conferido antes de virar recomendação.', on: ['vuln', 'valid'], links: [['vuln', 'valid', 'amber']] },
-    { title: '6 · Priorização', text: 'O que sobra entra na fila por risco: severidade, probabilidade de exploração, exploração confirmada e contexto do ativo.', on: ['valid', 'prio'], links: [['valid', 'prio', 'purple']] }
-  ]
-});
-
-/* ---------- 6. Terminal ---------- */
-Labs.terminal('#lab-term', {
-  title: 'red@lab: ~/tatame-tat2611', prompt: 'red@lab:~/tatame-tat2611$ ',
-  steps: [
-    { cmd: 'inventario-rede descobrir 203.0.113.0/24 10.10.1.0/24', note: 'O utilitário confere a autorização (redes no escopo, dentro da janela) e lista os hosts ativos com portas e versões.', out: [
-      '[ok] Autorização TAT-2611 (Marina Prado, CISO): 203.0.113.0/24 e 10.10.1.0/24, janela 09:00-20:00.',
-      '[warn] Excluídos: status.tatame.com.br, api.pagafacil.example e 10.40.99.0/24 (pagamentos).',
-      'Hosts ativos: 7 de 512', '',
-      'HOST           NOME            PORTA     SERVIÇO   VERSÃO',
-      '203.0.113.10   www             443/tcp   https     servidor de aplicação Java, Log4j 2.17',
-      '203.0.113.30   vpn             443/tcp   https     NetGuard SSL VPN 9.1',
-      '203.0.113.45   hml-gestao      443/tcp   https     servidor web Apache 2.4.49, sem WAF',
-      '10.10.1.10     SRV-AD-01       389/tcp   ldap      Active Directory, Windows Server 2012 R2',
-      '10.10.1.20     SRV-ARQ-01      445/tcp   smb       compartilhamento de arquivos',
-      '10.10.1.30     SRV-ERP-01      22/tcp    ssh       OpenSSH 8.2',
-      '10.10.1.77     SRV-LEGADO-07   3389/tcp  rdp       Windows Server 2012 R2, segmento isolado' ] },
-    { cmd: 'inventario-rede enumerar 10.10.1.20', note: 'A enumeração pergunta ao serviço o que ele expõe. Aqui, a lista de compartilhamentos visíveis com uma conta de teste do exercício.', out: [
-      'Conta usada: teste.red01 (criada para o exercício, sem privilégios)',
-      'COMPARTILHAMENTO   LEITURA   ESCRITA',
-      'PUBLICO            sim       sim',
-      '[warn] FINANCEIRO         sim       não      <- legível por qualquer usuário do domínio',
-      '[warn] EXPORT-ALUNOS      sim       não      <- exportações de fichas, inclusive de menores',
-      'TI$                não       não',
-      '[info] Achados de configuração registrados. Nenhum arquivo foi aberto.' ] },
-    { cmd: 'scanner-vuln resumo varredura-2026-11.json', note: 'O scanner devolve o relatório bruto. A soma das faixas fecha em 1.200.', out: [
-      'Achados por severidade (CVSS 3.1):',
-      '[red]   Crítica (9,0-10,0)   95', '[warn]   Alta    (7,0-8,9)   385', '  Média   (4,0-6,9)   520', '  Baixa   (0,1-3,9)   200',
-      '  Total              1.200', '',
-      '[hi] CVSS >= 7,0: 480 achados  ->  480 ÷ 150 por semana = 3,2 semanas' ] },
-    { cmd: 'scanner-vuln validar TAT-2026-014', note: 'O scanner deduziu a falha pelo número de versão. A equipe conferiu o pacote instalado.', out: [
-      'Achado: TAT-2026-014 em 10.10.1.30 (SRV-ERP-01, OpenSSH 8.2)',
-      'Evidência do scanner: banner de versão',
-      'Pacote instalado: openssh-server 8.2 com correção de segurança aplicada pela distribuição',
-      '[ok] Resultado: FALSO POSITIVO. A versão anunciada não mudou, mas a correção foi aplicada.',
-      '[mute] Lição: o banner de versão sugere; só a validação confirma.' ] }
-  ],
-  done: 'Roteiro concluído: 7 hosts, 2 compartilhamentos expostos, 1.200 achados, 1 falso positivo descartado.'
-});
-
-/* ---------- 10. Navegador: CVE-2021-44228 ---------- */
+/* ---------- 7. Navegador: CVE-2021-41773 ---------- */
 (function () {
-  const nav = (k) => '<div class="cv-nav">' + ['Registro e CVSS', 'EPSS', 'KEV'].map((t, i) => '<button data-p="' + i + '"' + (i === k ? ' class="on"' : '') + '>' + t + '</button>').join('') + '</div>';
+  const ABAS = ['Registro e CVSS', 'EPSS', 'KEV', 'Na Rede Tatame'];
+  const nav = (k) => '<div class="cv-nav">' + ABAS.map((t, i) => '<button data-p="' + i + '"' + (i === k ? ' class="on"' : '') + '>' + t + '</button>').join('') + '</div>';
   const V = [
     ['AV:N', 'Vetor de ataque: rede. Pode ser atacada remotamente, pela internet.'],
     ['AC:L', 'Complexidade baixa. Não depende de condições especiais.'],
     ['PR:N', 'Nenhum privilégio exigido. O atacante não precisa de conta.'],
     ['UI:N', 'Nenhuma interação do usuário. Ninguém precisa clicar em nada.'],
-    ['S:C', 'Escopo alterado. O impacto pode ir além do componente vulnerável.'],
-    ['C:H', 'Impacto alto na confidencialidade.'],
-    ['I:H', 'Impacto alto na integridade.'],
-    ['A:H', 'Impacto alto na disponibilidade.']
+    ['S:U', 'Escopo inalterado. O impacto fica no próprio servidor web.'],
+    ['C:H', 'Impacto alto na confidencialidade: arquivos fora da pasta publicada podem ser lidos.'],
+    ['I:N', 'Sem impacto na integridade na nota-base.'],
+    ['A:N', 'Sem impacto na disponibilidade.']
   ];
   const pages = [
-    nav(0) + '<div class="cv-pg"><h3>CVE-2021-44228 · Log4Shell</h3><div class="src">Registro CVE (MITRE) enriquecido pela NVD (NIST)</div>' +
-      '<p>Falha na biblioteca de registro Apache Log4j 2 que permite execução remota de código quando a aplicação registra em log um texto controlado pelo atacante.</p>' +
-      '<div class="cv-box"><span class="cv-score">10,0</span><b>Crítica</b> · CVSS 3.1<div class="cv-vec">' + V.map((v, i) => '<button data-v="' + i + '">' + v[0] + '</button>').join('') + '</div><div class="cv-exp">Clique em uma parte do vetor.</div></div>' +
-      '<p style="font-size:13px;color:#555">A nota diz quão grave a falha é. Para saber se ela está sendo explorada, veja as outras abas.</p></div>',
-    nav(1) + '<div class="cv-pg"><h3>EPSS · CVE-2021-44228</h3><div class="src">Exploit Prediction Scoring System (FIRST)</div>' +
+    nav(0) + '<div class="cv-pg"><h3>CVE-2021-41773 · Apache HTTP Server 2.4.49</h3><div class="src">Registro CVE (MITRE) enriquecido pela NVD (NIST) · publicado em outubro de 2021</div>' +
+      '<p>Falha na normalização de caminhos do Apache 2.4.49 que permite a travessia de diretórios (<em>path traversal</em>): pedir arquivos fora da pasta publicada. Com o módulo CGI habilitado, pode levar à execução remota de código. A correção completa veio na versão 2.4.51.</p>' +
+      '<div class="cv-box"><span class="cv-score">7,5</span><b>Alta</b> · CVSS 3.1<div class="cv-vec">' + V.map((v, i) => '<button data-v="' + i + '">' + v[0] + '</button>').join('') + '</div><div class="cv-exp">Clique em uma parte do vetor.</div></div></div>',
+    nav(1) + '<div class="cv-pg"><h3>EPSS · CVE-2021-41773</h3><div class="src">Exploit Prediction Scoring System (FIRST)</div>' +
       '<div class="cv-box"><p><b>O que o número significa:</b> probabilidade estimada de exploração nos próximos 30 dias, entre 0 e 1.</p><p><b>Para esta CVE:</b> valor muito alto, entre os maiores da base. O número exato é recalculado todos os dias.</p></div>' +
-      '<div class="cv-exp">Na videoaula, abra o site do FIRST e leia o valor do dia. Compare com o EPSS de 0,02 da vulnerabilidade A do exemplo.</div></div>',
-    nav(2) + '<div class="cv-pg"><h3>KEV · CVE-2021-44228</h3><div class="src">Known Exploited Vulnerabilities catalog (CISA)</div>' +
-      '<div class="cv-box"><p><b>Consta do catálogo?</b> <span style="color:#B3123F;font-weight:800">Sim</span>, incluída em dezembro de 2021.</p><p><b>O que isso quer dizer:</b> há exploração confirmada no mundo real. Para órgãos federais dos EUA, a correção tem prazo obrigatório.</p></div>' +
-      '<div class="cv-exp">Resumo da triagem: CVSS crítico + EPSS muito alto + KEV. Se o ativo estiver exposto à internet, é a primeira da fila e entra no SLA de 7 dias. Na Tatame, o www.tatame.com.br já foi corrigido e continua no inventário.</div></div>'
+      '<div class="cv-exp">Na planilha do exercício, a equipe registrou 0,94 no dia da coleta. Compare com o EPSS de 0,02 do achado 001.</div></div>',
+    nav(2) + '<div class="cv-pg"><h3>KEV · CVE-2021-41773</h3><div class="src">Known Exploited Vulnerabilities catalog (CISA)</div>' +
+      '<div class="cv-box"><p><b>Consta do catálogo?</b> <span style="color:#B3123F;font-weight:800">Sim</span>, desde a primeira versão do catálogo, em novembro de 2021.</p><p><b>O que isso quer dizer:</b> há exploração confirmada no mundo real. Existem módulos públicos para ela, inclusive no Metasploit.</p></div>' +
+      '<div class="cv-exp">Resumo da triagem: gravidade alta + EPSS muito alto + KEV. Em ativo exposto, é candidata a primeira da fila.</div></div>',
+    nav(3) + '<div class="cv-pg"><h3>hml-gestao.tatame.com.br · 203.0.113.45</h3><div class="src">Planilha do exercício de novembro/2026 · chamado APR-2291</div>' +
+      '<div class="cv-box"><p><b>Serviço:</b> Apache 2.4.49, sem WAF, fora do inventário, com cópia antiga do banco de alunos.</p><p><b>Teste permitido pela RoE:</b> verificar a travessia de diretório com um <em>scanner</em> do Metasploit. <b>Proibido:</b> copiar ou baixar arquivos do servidor e executar comandos nele.</p></div>' +
+      '<div class="cv-exp">É o próximo laboratório: confirmar a falha sem tirar dela nenhum dado.</div></div>'
   ];
+  const URLS = ['', '/epss', '/kev', '/tatame'];
   Labs.browser('#lab-brw', {
-    url: 'cve-estudo.example.com/CVE-2021-44228', html: pages[0],
+    url: 'cve-estudo.example.com/CVE-2021-41773', html: pages[0],
     onReady(page, api) {
-      page.querySelectorAll('.cv-nav button').forEach((b) => b.addEventListener('click', () => api.go('cve-estudo.example.com/CVE-2021-44228' + ['', '/epss', '/kev'][+b.dataset.p], pages[+b.dataset.p])));
+      page.querySelectorAll('.cv-nav button').forEach((b) => b.addEventListener('click', () => api.go('cve-estudo.example.com/CVE-2021-41773' + URLS[+b.dataset.p], pages[+b.dataset.p])));
       page.querySelectorAll('.cv-vec button').forEach((b) => b.addEventListener('click', () => {
         page.querySelectorAll('.cv-vec button').forEach((x) => x.classList.toggle('on', x === b));
         page.querySelector('.cv-exp').textContent = V[+b.dataset.v][0] + ' · ' + V[+b.dataset.v][1];
@@ -618,19 +511,19 @@ Labs.terminal('#lab-term', {
   });
 })();
 
-/* ---------- 11. Cena 3D: cubo de risco ---------- */
+/* ---------- 8. Cena 3D: cubo de risco ---------- */
 Labs.scene3d('#lab-3d', (c) => {
   const { THREE, root } = c;
   const S = 6; // aresta do cubo
   const pos = (cvss, epss, crit) => new THREE.Vector3(cvss / 10 * S - S / 2, epss * S - S / 2, (crit - 1) / 2 * S - S / 2);
   const box = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(S, S, S)), new THREE.LineBasicMaterial({ color: 0x3a5a8c }));
   root.add(box);
-  // região "corrigir já": CVSS >= 7, EPSS >= 0,10, criticidade alta
+  // região "testar e corrigir já": CVSS >= 7, EPSS >= 0,10, criticidade alta
   const a0 = pos(7, 0.1, 2), a1 = pos(10, 1, 3);
   const zone = new THREE.Mesh(new THREE.BoxGeometry(a1.x - a0.x, a1.y - a0.y, a1.z - a0.z), new THREE.MeshBasicMaterial({ color: 0xff2b5f, transparent: true, opacity: 0.12, depthWrite: false }));
   zone.position.set((a0.x + a1.x) / 2, (a0.y + a1.y) / 2, (a0.z + a1.z) / 2); root.add(zone);
   root.add(new THREE.LineSegments(new THREE.EdgesGeometry(zone.geometry), new THREE.LineBasicMaterial({ color: 0xff2b5f })).translateX(zone.position.x).translateY(zone.position.y).translateZ(zone.position.z));
-  const lz = c.label('corrigir já', { color: '#FF5C7A', scale: 0.8 }); lz.position.set(zone.position.x, a1.y + 0.4, zone.position.z); root.add(lz);
+  const lz = c.label('testar primeiro', { color: '#FF5C7A', scale: 0.8 }); lz.position.set(zone.position.x, a0.y - 0.35, a1.z + 0.2); root.add(lz);
   const ax = (t, p) => { const l = c.label(t, { color: '#9FB0C8', scale: 0.7, bg: false }); l.position.copy(p); root.add(l); };
   ax('CVSS', new THREE.Vector3(0, -S / 2 - 0.5, S / 2 + 0.3)); ax('EPSS', new THREE.Vector3(-S / 2 - 0.9, 0, S / 2)); ax('criticidade do ativo', new THREE.Vector3(S / 2 + 0.6, -S / 2 - 0.4, 0));
   // achados de fundo (pseudoaleatórios, determinísticos)
@@ -641,8 +534,9 @@ Labs.scene3d('#lab-3d', (c) => {
     pts.push({ cv, ep, cr, kev, id: null });
   }
   const crit = (a) => a.exp === 'internet' ? 3 : a.crit ? 2 : 1;
-  ACHADOS.forEach((a) => pts.push({ cv: a.cvss, ep: a.epss, cr: crit(a), kev: a.kev, id: a.id }));
+  ACHADOS.forEach((a) => pts.push({ cv: a.cvss, ep: a.epss, cr: crit(a), kev: a.kev, id: a.id, ativo: a.ativo }));
   const kevRings = [];
+  const OFF = { '001': [0.4, -1.5, 1.0], '002': [-1.6, -0.55, 0], '003': [0.2, 0.75, 0], '004': [0.7, -0.45, 0], '005': [-0.5, 0.45, 0] };
   pts.forEach((p) => {
     const hot = p.cv >= 7 && (p.ep >= 0.1 || p.kev) && p.cr >= 2;
     const color = hot ? 0xff2b5f : p.ep >= 0.1 ? 0xf2cb0a : 0x00b1d2;
@@ -650,18 +544,112 @@ Labs.scene3d('#lab-3d', (c) => {
     m.position.copy(pos(p.cv, p.ep, p.cr)); root.add(m);
     if (p.kev) { const r = new THREE.Mesh(new THREE.TorusGeometry(p.id ? 0.32 : 0.18, 0.03, 8, 30), new THREE.MeshBasicMaterial({ color: 0xffd34d })); r.position.copy(m.position); root.add(r); kevRings.push(r); }
     if (p.id) {
-      const ex = 'ABC'.includes(p.id); // só os três casos do exemplo levam rótulo completo
-      const l = c.label(ex ? p.id + ' · CVSS ' + br(p.cv, 1) + ' · EPSS ' + Math.round(p.ep * 100) + '%' : p.id, { color: '#fff', scale: p.id === 'A' ? 0.95 : ex ? 0.7 : 0.6 });
-      l.position.copy(m.position).add(p.id === 'A' ? new THREE.Vector3(0.5, -0.75, 0.4) : new THREE.Vector3(0, 0.45, 0)); root.add(l);
+      const ex = ['001', '002', '003'].includes(p.id); // só os três casos discutidos levam rótulo completo
+      const l = c.label(ex ? p.id + ' · ' + p.ativo + ' · CVSS ' + br(p.cv, 1) + ' · EPSS ' + Math.round(p.ep * 100) + '%' : p.id, { color: '#fff', scale: ex ? 0.7 : 0.55 });
+      const o = OFF[p.id] || [0, 0.45, 0];
+      l.position.copy(m.position).add(new THREE.Vector3(o[0], o[1], o[2])); root.add(l);
     }
   });
   c.legend('<i style="background:#FF2B5F"></i>Região de prioridade<br><i style="background:#F2CB0A"></i>EPSS ≥ 10%<br><i style="background:#00B1D2"></i>EPSS baixo<br><i style="background:#FFD34D;border-radius:50%"></i>Anel: no KEV');
   c.onFrame((t) => kevRings.forEach((r, i) => { r.rotation.x = t * 1.5 + i; r.rotation.y = t; }));
 }, { camera: [7, 5, 12] });
 
-/* ---------- 14. VS Code: priorizar ---------- */
+/* ---------- 10. Terminal: Kali e msfconsole ---------- */
+(function () {
+  const KALI = 'kali@lab-tatame:~/exercicio-2026-11$ ';
+  const MSF = 'msf6 > ';
+  const APA = 'msf6 auxiliary(scanner/http/apache_normalize_path) > ';
+  const NG = 'msf6 auxiliary(scanner/http/netguard_sslvpn_check) > ';
+  Labs.terminal('#lab-term', {
+    title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: KALI,
+    steps: [
+      { cmd: 'cat roe/escopo-externo.txt', note: 'Antes de abrir o Metasploit, o escopo do dia: o que pode ser testado e o que está proibido.', out: [
+        '# Exercício 2026-11 · APR-2291 · janela 09:00-20:00 · parada: LARANJA',
+        '[ok] 203.0.113.30   vpn.tatame.com.br          check de versão e comportamento',
+        '[ok] 203.0.113.45   hml-gestao.tatame.com.br   verificação de travessia de diretório',
+        '[ok] permitido: verificação CHECK_TRAVERSAL na hml-gestao, sem guardar conteúdo',
+        '[err] proibido: payload, cópia ou download de arquivos, execução de comandos, negação de serviço',
+        '[err] fora do escopo: api.pagafacil.example, status.tatame.com.br, 10.40.99.0/24' ] },
+      { cmd: 'msfconsole -q', prompt: MSF, note: 'O -q abre o console sem o banner. O prompt muda para msf6 >.', out: [] },
+      { cmd: 'search cve:2021-41773', prompt: MSF, note: 'A busca por CVE devolve dois módulos: um de exploração e um scanner auxiliar. Só o scanner será usado.', out: [
+        '', 'Matching Modules', '================', '',
+        '   #  Name                                          Disclosure Date  Rank       Check  Description',
+        '   -  ----                                          ---------------  ----       -----  -----------',
+        '[mute]   0  exploit/multi/http/apache_normalize_path_rce  2021-05-10       excellent  Yes    Apache 2.4.49/2.4.50 Traversal RCE',
+        '[hi]   1  auxiliary/scanner/http/apache_normalize_path  2021-05-10       normal     No     Apache 2.4.49/2.4.50 Traversal RCE scanner', '' ] },
+      { cmd: 'info auxiliary/scanner/http/apache_normalize_path', prompt: MSF, note: 'Antes de usar, leia o que o módulo faz. Ele tem três ações; a RoE só permite a primeira.', out: [
+        '       Name: Apache 2.4.49/2.4.50 Traversal RCE scanner',
+        '     Module: auxiliary/scanner/http/apache_normalize_path',
+        'Available actions:',
+        '[ok]   => CHECK_TRAVERSAL  Check for vulnerability (padrão)',
+        '[mute]      CHECK_RCE        Check for RCE (if mod_cgi is enabled)',
+        '[mute]      READ_FILE        Read file on the remote server',
+        'Basic options: CVE (CVE-2021-41773 ou CVE-2021-42013, padrão CVE-2021-42013), DEPTH 5, TARGETURI /cgi-bin',
+        '[warn] RoE: só CHECK_TRAVERSAL. CHECK_RCE e READ_FILE ficam fora do exercício.' ] },
+      { cmd: 'use auxiliary/scanner/http/apache_normalize_path', prompt: APA, note: 'O prompt agora mostra o módulo em uso.', out: [] },
+      { cmd: 'set RHOSTS 203.0.113.45', prompt: APA, note: 'RHOSTS é o alvo: só a hml-gestao, que está no escopo.', out: ['RHOSTS => 203.0.113.45'] },
+      { cmd: 'set ACTION CHECK_TRAVERSAL', prompt: APA, note: 'A ação deixa explícito que é só verificação.', out: ['ACTION => CHECK_TRAVERSAL'] },
+      { cmd: 'set CVE CVE-2021-41773', prompt: APA, note: 'O padrão do módulo é a CVE-2021-42013 (a correção incompleta da 2.4.50). Para o Apache 2.4.49, escolhemos a CVE-2021-41773.', out: ['CVE => CVE-2021-41773'] },
+      { cmd: 'run', prompt: APA, note: 'O módulo pede um arquivo-padrão do sistema pelo caminho de travessia e só confere se a resposta tem a assinatura esperada, sem exibir nem guardar o conteúdo. A RoE autoriza explicitamente essa verificação.', out: [
+        '[+] https://203.0.113.45:443 - The target is vulnerable to CVE-2021-41773.',
+        '[*] Scanned 1 of 1 hosts (100% complete)',
+        '[*] Auxiliary module execution completed' ] },
+      { cmd: 'search netguard', prompt: APA, note: 'Para a VPN há um módulo de verificação. Ele é fictício, criado para este laboratório, como o NetGuard e a CVE-2026-0000.', out: [
+        '', 'Matching Modules', '================', '',
+        '   #  Name                                           Disclosure Date  Rank    Check  Description',
+        '   -  ----                                           ---------------  ----    -----  -----------',
+        '[hi]   0  auxiliary/scanner/http/netguard_sslvpn_check  2026-01-14       normal  Yes    NetGuard SSL VPN CVE-2026-0000 Check',
+        '[info] Módulo fictício do laboratório: só tem check, não tem exploração.', '' ] },
+      { cmd: 'use auxiliary/scanner/http/netguard_sslvpn_check', prompt: NG, note: 'Troca de módulo: o prompt mostra o novo nome.', out: [] },
+      { cmd: 'set RHOSTS 203.0.113.30', prompt: NG, note: 'Alvo: a VPN da sede, também no escopo.', out: ['RHOSTS => 203.0.113.30'] },
+      { cmd: 'check', prompt: NG, note: 'O check compara versão e comportamento. "Appears" quer dizer que a evidência é indireta.', out: [
+        '[*] 203.0.113.30:443 - NetGuard SSL VPN 9.1 detected',
+        '[+] 203.0.113.30:443 - The target appears to be vulnerable.' ] },
+      { cmd: 'vulns', prompt: NG, note: 'O banco do Metasploit guarda o que foi confirmado, com hora: é a evidência para o relatório e para o SOC.', out: [
+        '', 'Vulnerabilities', '===============', '',
+        'Timestamp                Host           Name                                        References',
+        '---------                ----           ----                                        ----------',
+        '2026-11-18 13:07:41 UTC  203.0.113.45   Apache 2.4.49/2.4.50 Traversal RCE scanner  CVE-2021-41773',
+        '2026-11-18 13:09:02 UTC  203.0.113.30   NetGuard SSL VPN CVE-2026-0000 Check        CVE-2026-0000', '',
+        '[ok] Duas portas de entrada confirmadas. Nenhum payload configurado, nenhuma sessão aberta.' ] }
+    ],
+    done: 'Roteiro concluído: duas falhas confirmadas com verificação, sem exploração.'
+  });
+})();
+
+/* ---------- 13. Fluxo: quatro portas de entrada ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'red', x: 110, y: 215, label: 'Red Team', sub: 'Kali · lab-tatame', icon: '🎯', k: 'red' },
+    { id: 'vpn', x: 400, y: 55, label: 'VPN NetGuard', sub: 'T1133', icon: '🔐', w: 190 },
+    { id: 'hml', x: 400, y: 160, label: 'hml-gestao', sub: 'T1190', icon: '🧪', w: 190 },
+    { id: 'app', x: 400, y: 270, label: 'App do aluno', sub: 'T1078', icon: '📱', w: 190 },
+    { id: 'mail', x: 400, y: 375, label: 'Carla Dias', sub: 'T1566.002', icon: '✉️', w: 190 },
+    { id: 'rel', x: 720, y: 110, label: 'Relatório', sub: 'evidência mínima', icon: '📝', k: 'purple', w: 190 },
+    { id: 'mfa', x: 720, y: 375, label: 'MFA da VPN', sub: 'bloqueou', icon: '🛡️', k: 'green', w: 170 },
+    { id: 'soc', x: 980, y: 270, label: 'SOC', sub: 'Luiza Ferraz', icon: '📊', k: 'blue', w: 160 },
+    { id: 'cego', x: 690, y: 210, label: 'Sem alerta', sub: 'sem coleta', icon: '🕳️', k: 'amber', w: 160 }
+  ],
+  links: [
+    { from: 'red', to: 'vpn' }, { from: 'red', to: 'hml' }, { from: 'red', to: 'app' }, { from: 'red', to: 'mail' },
+    { from: 'vpn', to: 'rel', label: 'check' }, { from: 'hml', to: 'rel', label: 'scanner' }, { from: 'app', to: 'soc', label: 'R2' },
+    { from: 'mail', to: 'mfa' }, { from: 'mfa', to: 'soc', label: 'R1' }, { from: 'hml', to: 'cego', dashed: true }, { from: 'rel', to: 'soc', dashed: true }
+  ],
+  steps: [
+    { title: 'O ponto de partida', text: 'Bruno Sato trabalha da VM lab-tatame, com saída pelo endereço 192.0.2.66, registrado na carta de autorização. Quatro portas de entrada saíram do reconhecimento e da priorização.', on: ['red'] },
+    { title: 'T1133 · Serviço remoto exposto', text: 'A VPN NetGuard 9.1 está no KEV (CVE-2026-0000, fictícia). O check do Metasploit diz que ela parece vulnerável. A RoE não permite ir além: o achado vai para o relatório com a hora do teste.', on: ['red', 'vpn', 'rel'], links: [['red', 'vpn', 'red'], ['vpn', 'rel', 'purple']] },
+    { title: 'T1190 · Aplicação exposta', text: 'A hml-gestao responde ao teste de travessia de diretório da CVE-2021-41773. A verificação, autorizada na RoE, só confere a assinatura da resposta, sem exibir nem guardar o conteúdo: a evidência é o resultado, a versão e a hora.', on: ['red', 'hml', 'rel'], links: [['red', 'hml', 'red'], ['hml', 'rel', 'purple']] },
+    { title: 'Rastro · Ninguém viu a hml-gestao', text: 'A homologação não passa pelo WAF e ninguém coleta os logs dela. O teste do Red Team, que um adversário faria igual, não gera nenhum alerta.', on: ['hml', 'cego'], bad: ['cego'], links: [['hml', 'cego', 'amber']], dim: true },
+    { title: 'T1078 · Contas válidas', text: 'O app do aluno não exige MFA. Com as contas de teste criadas pela TI, o Red Team mostra que senha certa basta para entrar. A sequência de falhas seguidas de sucesso dispara a regra R2 no SOC.', on: ['red', 'app', 'soc'], links: [['red', 'app', 'red'], ['app', 'soc', 'blue']] },
+    { title: 'T1566.002 · Phishing simulado', text: 'Na campanha educativa da Aula 1, Carla Dias clicou e digitou a senha na página falsa. A tentativa de usar a senha na VPN parou no MFA, e a regra R1 avisou o SOC.', on: ['red', 'mail', 'mfa', 'soc'], links: [['red', 'mail', 'red'], ['mail', 'mfa', 'green'], ['mfa', 'soc', 'blue']] },
+    { title: 'O que vai para o relatório', text: 'Quatro portas testadas, duas falhas confirmadas, uma entrada por conta válida e um phishing contido. Cada teste tem hora e origem, para que o SOC compare com o que viu.', on: ['rel', 'soc', 'cego'], links: [['rel', 'soc', 'purple']] }
+  ]
+});
+
+/* ---------- 15. VS Code: priorizar e decidir como validar ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'gestao-vulns-tatame', team: 'blue', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
+  folder: 'exercicio-2026-11-vulns', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -673,10 +661,11 @@ Labs.vscode('#lab-vsc', {
       '[info] Só o pip: os dois scripts usam apenas a biblioteca padrão (csv).' ] }
   ],
   files: [
-    { path: 'priorizar.py', hl: [6, 7, 8, 10, 11, 12, 14, 15, 16], code: String.raw`"""Prioriza vulnerabilidades por risco: CVSS x probabilidade x exposição x criticidade."""
+    { path: 'priorizar.py', hl: [5, 15, 16, 17, 18, 19, 20], code: String.raw`"""Prioriza os achados por risco e diz como o Red Team pode validar cada um."""
 import csv
 
 PESO_EXPOSICAO = {"internet": 1.0, "interno": 0.6, "isolado": 0.3}
+PROIBIDO_NA_ROE = {"negacao_de_servico"}   # roe.yaml: "proibido"
 
 def probabilidade(a):
     # exploração confirmada (KEV) vale 1,0; caso contrário, usa o EPSS
@@ -686,32 +675,29 @@ def risco(a):
     peso_negocio = 1.5 if a["critico"] == "sim" else 1.0
     return float(a["cvss"]) * probabilidade(a) * PESO_EXPOSICAO[a["exposicao"]] * peso_negocio
 
-def sla(a):
-    cvss = float(a["cvss"])
-    if a["kev"] == "sim" and a["exposicao"] == "internet":
-        return "7 dias"
-    if cvss >= 7.0:
-        return "30 dias"
-    if cvss >= 4.0:
-        return "90 dias"
-    return "próximo ciclo"
+def validacao(a):
+    if a["efeito"] in PROIBIDO_NA_ROE:
+        return "NÃO TESTAR: proibido na RoE, só reportar"
+    if risco(a) >= 5:
+        return "validar com check, sem explorar"
+    return "fila de correção"
 
 with open("achados.csv", encoding="utf-8") as f:
     achados = list(csv.DictReader(f))
 
-print("Ordem por CVSS: " + " > ".join(a["id"] for a in sorted(achados, key=lambda a: -float(a["cvss"]))))
+print("Ordem por CVSS: " + " > ".join(a["ref"][-3:] for a in sorted(achados, key=lambda a: -float(a["cvss"]))))
 print()
-print(f"{'#':<3}{'id':<4}{'ativo':<20}{'CVSS':>5}{'EPSS':>6}{'KEV':>5}{'risco':>7}  SLA")
+print(f"{'#':<3}{'ref':<5}{'ativo':<15}{'CVSS':>5}{'EPSS':>6}{'KEV':>5}{'risco':>7}  validação")
 for i, a in enumerate(sorted(achados, key=risco, reverse=True), 1):
-    print(f"{i:<3}{a['id']:<4}{a['ativo']:<20}{a['cvss']:>5}{a['epss']:>6}{a['kev']:>5}{risco(a):>7.2f}  {sla(a)}")` },
-    { path: 'achados.csv', hl: [2, 3, 4], code: `id,ref,ativo,cvss,epss,kev,exposicao,critico
-A,TAT-2026-001,SRV-LEGADO-07,9.8,0.02,nao,isolado,nao
-B,TAT-2026-002,hml-gestao,7.5,0.94,sim,internet,sim
-C,TAT-2026-003,vpn,5.3,0.40,nao,internet,sim
-D,TAT-2026-004,SRV-ERP-01,8.8,0.07,nao,interno,sim
-E,TAT-2026-005,www,6.1,0.15,nao,internet,nao
-F,TAT-2026-006,NB-ATD-012,7.8,0.01,nao,interno,nao
-G,TAT-2026-007,SRV-ARQ-01,6.5,0.03,nao,interno,sim` },
+    print(f"{i:<3}{a['ref'][-3:]:<5}{a['ativo']:<15}{a['cvss']:>5}{a['epss']:>6}{a['kev']:>5}{risco(a):>7.2f}  {validacao(a)}")` },
+    { path: 'achados.csv', hl: [3, 4, 5], code: `ref,ativo,cvss,epss,kev,exposicao,critico,efeito
+TAT-2026-001,SRV-LEGADO-07,9.8,0.02,nao,isolado,nao,execucao_remota
+TAT-2026-002,hml-gestao,7.5,0.94,sim,internet,sim,leitura_de_arquivos
+TAT-2026-003,vpn,10.0,0.96,sim,internet,sim,execucao_remota
+TAT-2026-004,gestao,7.5,0.82,sim,internet,sim,negacao_de_servico
+TAT-2026-005,SRV-ERP-01,8.8,0.07,nao,interno,sim,execucao_remota
+TAT-2026-006,NB-ATD-012,7.8,0.01,nao,interno,nao,execucao_remota
+TAT-2026-007,SRV-ARQ-01,6.5,0.03,nao,interno,sim,elevacao_de_privilegio` },
     { path: 'fila.py', code: `"""Quanto tempo leva cada fila, dada a capacidade semanal da equipe."""
 CAPACIDADE = 150          # correções por semana
 TOTAL = 1200              # achados do relatório do scanner
@@ -724,79 +710,24 @@ for nome, n in filas.items():
     print(f"{nome:<38} {n:>4} achados ({n / TOTAL:.0%} do total) -> {semanas:.1f} semanas ({semanas * 5:.0f} dias úteis)")` }
   ],
   run: [
-    { label: 'Priorizar', kind: 'blue', cmd: 'python priorizar.py', file: 'priorizar.py', out: [
-      '[warn] Ordem por CVSS: A > D > F > B > G > E > C', '',
-      '#  id  ativo                CVSS  EPSS  KEV  risco  SLA',
-      '[red] 1  B   hml-gestao            7.5  0.94  sim  11.25  7 dias',
-      '2  C   vpn                   5.3  0.40  nao   3.18  90 dias',
-      '3  E   www                   6.1  0.15  nao   0.91  90 dias',
-      '4  D   SRV-ERP-01            8.8  0.07  nao   0.55  30 dias',
-      '5  G   SRV-ARQ-01            6.5  0.03  nao   0.18  90 dias',
-      '[mute] 6  A   SRV-LEGADO-07         9.8  0.02  nao   0.06  30 dias',
-      '[mute] 7  F   NB-ATD-012            7.8  0.01  nao   0.05  30 dias' ] },
+    { label: 'Priorizar', kind: 'red', cmd: 'python priorizar.py', file: 'priorizar.py', out: [
+      '[warn] Ordem por CVSS: 003 > 001 > 005 > 006 > 002 > 004 > 007', '',
+      '#  ref  ativo           CVSS  EPSS  KEV  risco  validação',
+      '[red] 1  003  vpn             10.0  0.96  sim  15.00  validar com check, sem explorar',
+      '[red] 2  002  hml-gestao       7.5  0.94  sim  11.25  validar com check, sem explorar',
+      '[warn] 3  004  gestao           7.5  0.82  sim  11.25  NÃO TESTAR: proibido na RoE, só reportar',
+      '4  005  SRV-ERP-01       8.8  0.07  nao   0.55  fila de correção',
+      '5  007  SRV-ARQ-01       6.5  0.03  nao   0.18  fila de correção',
+      '[mute] 6  001  SRV-LEGADO-07    9.8  0.02  nao   0.06  fila de correção',
+      '[mute] 7  006  NB-ATD-012       7.8  0.01  nao   0.05  fila de correção' ] },
     { label: 'Calcular filas', cmd: 'python fila.py', file: 'fila.py', out: [
       'Tudo com CVSS >= 7,0                    480 achados (40% do total) -> 3.2 semanas (16 dias úteis)',
       '[ok] KEV ou EPSS >= 10% em ativo exposto      60 achados (5% do total) -> 0.4 semanas (2 dias úteis)' ] }
   ]
 });
 
-/* ---------- 16. SIEM: varreduras ---------- */
-Labs.siem('#lab-siem', {
-  product: 'SIEM · SOC Rede Tatame', time: 'Últimas 24 horas', lang: 'KQL', index: 'logs-firewall, logs-ids, logs-ad',
-  searches: [
-    { group: 'Varreduras', name: '1. Regra padrão (5 min)', q: 'logs-firewall | summarize portas = dcount(dst_port) by src_ip, bin(ts, 5m) | where portas > 50',
-      cols: ['janela', 'origem', 'portas distintas', 'hosts', 'severidade'], sevCol: 4, total: 1, unit: 'alerta',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0], hot: [10],
-      rows: [['10:05', '10.10.99.5', '1.000', '4', 'alta']], note: 'A varredura rápida dispara a regra em minutos: mil portas, quatro servidores da sede, cinco minutos. Na plataforma, a regra equivalente para a borda é a R4.' },
-    { group: 'Varreduras', name: '2. A varredura lenta passou?', q: 'logs-firewall | where src_ip == "10.10.99.6" | summarize portas = dcount(dst_port) by bin(ts, 5m) | where portas > 50',
-      cols: ['janela', 'origem', 'portas distintas', 'hosts', 'severidade'], sevCol: 4, total: 0, unit: 'alertas',
-      hist: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], hot: [],
-      rows: [], note: 'Nenhum alerta. A origem 10.10.99.6 testou uma porta a cada cinco minutos durante o dia inteiro e nunca passou do limiar. Esse vazio vai para o relatório como lacuna de detecção.' },
-    { group: 'Varreduras', name: '3. Janela de 24 horas', q: 'logs-firewall | summarize portas = dcount(dst_port), hosts = dcount(dst_ip) by src_ip, bin(ts, 24h) | where portas > 100',
-      cols: ['dia', 'origem', 'portas distintas', 'hosts', 'severidade'], sevCol: 4, total: 2, unit: 'origens',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2], hot: [17],
-      rows: [['13/11', '10.10.99.5', '1.000', '4', 'alta'], ['13/11', '10.10.99.6', '288', '4', 'média']],
-      note: 'Olhando o dia inteiro, a varredura lenta aparece. A melhoria proposta é manter as duas regras: uma rápida e outra de janela longa.' },
-    { group: 'Enumeração interna', name: '4. Consultas volumosas ao diretório', q: 'logs-ad | where EventID == 4662 or ldap_query_count > 500 | summarize by account, src_host',
-      cols: ['hora', 'conta', 'origem', 'consultas LDAP', 'severidade'], sevCol: 4, total: 1, unit: 'conta',
-      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], hot: [12],
-      rows: [['14:22', 'teste.red01', 'NB-TI-009', '4.310', 'média']],
-      note: 'A conta de teste do exercício consultou milhares de objetos do AD em minutos. Um usuário comum não faz isso. Na plataforma, esta é a regra R13, desligada por padrão (Aula 8).' }
-  ]
-});
-
-/* ---------- 19. Plataforma Rede Tatame: superfície e abuso da API ---------- */
+/* ---------- 17. Plataforma Rede Tatame: superfície e abuso da API ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'superficie' });
-
-/* ---------- 18. Console de gestão de vulnerabilidades ---------- */
-Labs.register('#lab-vm', (el) => {
-  el.innerHTML = `
-  <div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
-    <h4>Console de gestão · 7 achados validados</h4>
-    <div class="lab-chiprow"><button class="lab-chip is-on" data-o="cvss">Ordenar por CVSS</button><button class="lab-chip" data-o="risco">Ordenar por risco</button><button class="lab-chip red" data-f="1">Só a fila crítica</button></div>
-    <div style="flex:1;min-height:0;overflow:auto"><table class="vm-table"><thead><tr><th>#</th><th>id</th><th>ativo</th><th>CVSS</th><th>EPSS</th><th>KEV</th><th>exposição</th><th>risco</th><th>SLA</th></tr></thead><tbody></tbody></table></div>
-    <label class="lab-range">Capacidade da equipe (correções por semana) <output id="o-cap"></output><input id="i-cap" type="range" min="50" max="300" step="10" value="150"></label>
-    <div class="lab-grid2">
-      <div class="lab-kpi amber"><small>Fila CVSS ≥ 7,0 (480 achados)</small><b id="k-a"></b></div>
-      <div class="lab-kpi green"><small>Fila crítica (60 achados)</small><b id="k-b"></b></div>
-    </div>
-  </div>`;
-  let ordem = 'cvss', soFila = false;
-  const tb = el.querySelector('tbody');
-  function draw() {
-    const lst = ACHADOS.slice().sort((a, b) => ordem === 'cvss' ? b.cvss - a.cvss : risco(b) - risco(a));
-    tb.innerHTML = lst.map((a, i) => '<tr class="' + (filaCritica(a) ? 'fila' : soFila ? 'fora' : '') + '"><td>' + (i + 1) + '</td><td><b>' + a.id + '</b></td><td>' + a.ativo + '</td><td>' + br(a.cvss, 1) + '</td><td>' + Math.round(a.epss * 100) + '%</td><td>' + (a.kev ? 'sim' : 'não') + '</td><td>' + a.exp + '</td><td>' + br(risco(a), 2) + '</td><td>' + sla(a) + '</td></tr>').join('');
-    if (!soFila) tb.querySelectorAll('tr.fila').forEach((r) => r.classList.remove('fila'));
-    const cap = +el.querySelector('#i-cap').value;
-    el.querySelector('#o-cap').textContent = cap;
-    const sem = (n) => br(n / cap, 1) + ' semana' + (n / cap >= 2 ? 's' : '') + ' · ' + Math.round(n / cap * 5) + ' dias úteis';
-    el.querySelector('#k-a').textContent = sem(480); el.querySelector('#k-b').textContent = sem(60);
-  }
-  el.querySelectorAll('[data-o]').forEach((b) => b.addEventListener('click', () => { ordem = b.dataset.o; el.querySelectorAll('[data-o]').forEach((x) => x.classList.toggle('is-on', x === b)); draw(); }));
-  const bf = el.querySelector('[data-f]'); bf.addEventListener('click', () => { soFila = !soFila; bf.classList.toggle('is-on', soFila); draw(); });
-  el.querySelector('#i-cap').addEventListener('input', draw);
-  draw();
-});
 </script>
 </body>
 </html>

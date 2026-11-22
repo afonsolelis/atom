@@ -3,21 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 13 — Purple teaming e emulação de adversários</title>
+<title>Aula 13 — Ciclo de resposta a incidentes</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
 <style>
-  .sess { width: 100%; border-collapse: collapse; font: max(13px, 1vw)/1.35 var(--fonte); color: #DCE3EE; }
-  .sess th { text-align: left; font-weight: 700; color: #9FB0C8; font-size: max(11.5px, .85vw); text-transform: uppercase; letter-spacing: .04em; padding: 6px 8px; border-bottom: 1px solid #2F3B55; }
-  .sess td { padding: 7px 8px; border-bottom: 1px solid #1E2A44; vertical-align: top; }
-  .sess td b { color: #fff; }
-  .sess .st { display: inline-block; min-width: 54px; text-align: center; padding: .2em .5em; border-radius: 6px; font-weight: 700; font-size: max(11.5px, .85vw); background: #1A2440; color: #6B7A94; }
-  .sess .st.sim { background: rgba(63,212,122,.18); color: #3FD47A; }
-  .sess .st.nao { background: rgba(255,43,95,.18); color: #FF5C7A; }
-  .sess .st.pend { background: rgba(242,203,10,.16); color: #F2CB0A; }
-  .sess .lab-btn { font-size: max(11.5px, .85vw); padding: .35em .7em; }
-  .feed { font: max(12.5px, .95vw)/1.5 var(--mono); background: #0B1424; border: 1px solid #22314F; border-radius: 10px; padding: 8px 12px; height: 7.5em; overflow: auto; color: #9FB0C8; }
-  .feed .a { color: #3FD47A; } .feed .w { color: #F2CB0A; } .feed .e { color: #FF5C7A; }
+  .pri-row { display: grid; grid-template-columns: 1.6fr repeat(3, .9fr) .6fr; gap: .5rem; align-items: center; padding: .45em .6em; border-radius: 8px; background: #0B1424; border: 1px solid #22314F; margin-bottom: .4rem; font: .88rem var(--fonte); color: #DCE3EE; }
+  .pri-row b.sc { font: 800 1.4rem var(--fonte-titulo); text-align: center; }
+  .pri-head { display: grid; grid-template-columns: 1.6fr repeat(3, .9fr) .6fr; gap: .5rem; padding: 0 .6em .2em; font: 700 .7rem var(--fonte); color: #7F8FA9; text-transform: uppercase; letter-spacing: .05em; }
+  .num-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .num-grid .lab-kpi b { font-size: 1.35rem; }
 </style>
 </head>
 <body>
@@ -33,35 +27,33 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 13 — <em>Purple teaming</em> e emulação de adversários</h1>
-      <div class="subtitulo">Unidade 4 — Purple Team e estratégia de segurança</div>
+      <h1>Aula 13 — Ciclo de resposta a incidentes</h1>
+      <div class="subtitulo">Unidade 4 — Resposta a Incidentes e Purple Team</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
-
 
   <!-- 2. Sumário -->
   <section class="slide slide-sumario">
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo"><em>Purple teaming</em> e emulação de adversários</h1>
+        <h1 class="sumario-titulo">Ciclo de resposta a incidentes: preparação, detecção, contenção, erradicação e recuperação</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
         <div class="prof-triangulos-boundary" aria-hidden="true"><svg width="200" height="100%" viewBox="0 0 200 400" preserveAspectRatio="xMidYMid meet"><use href="#prof-cluster"/></svg></div>
         <h2>Sumário</h2>
         <ul>
-          <li>O problema de hoje na Rede Tatame</li>
-          <li>O que você verá nesta unidade</li>
-          <li>Do relatório à colaboração</li>
-          <li>O ciclo do <em>purple teaming</em>, passo a passo</li>
-          <li>Emulação de adversários e defesa informada por ameaças</li>
-          <li>Laboratório: plano de emulação e <em>layer</em> do Navigator</li>
-          <li>Laboratório: a sessão <em>purple</em> na planilha</li>
-          <li>Plataforma Rede Tatame: cobertura antes e depois do reteste</li>
-          <li>Ferramentas de apoio e o executor de casos de teste</li>
-          <li>Exemplo numérico: a cobertura de 30% a 83%, em 3D</li>
+          <li>Um alerta que esperou quatro horas</li>
+          <li>Evento, alerta e incidente</li>
+          <li>NIST SP 800-61: da Rev. 2 à Rev. 3</li>
+          <li>Laboratório: o <em>playbook</em> como código</li>
+          <li>Laboratório: a triagem no Wazuh</li>
+          <li>Laboratório: conter na plataforma Rede Tatame</li>
+          <li>Erradicação, recuperação e o prazo da ANPD</li>
+          <li>Laboratório: qual incidente primeiro?</li>
+          <li>Lições aprendidas</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
       </div>
@@ -73,14 +65,14 @@
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">O problema de hoje na Rede Tatame</p>
-      <h2>O relatório de 80 páginas que ninguém aplicou</h2>
+      <h2>Um alerta alto que esperou quatro horas</h2>
       <div class="problema">
         <div class="historia">
-          <p><strong>Rafael Tavares</strong> é o engenheiro de detecção da Rede Tatame: ele escreve as regras que geram alertas no SOC (centro de operações de segurança).</p>
-          <p>A última operação de Red Team rendeu um relatório de 80 páginas. O SOC concordou com quase tudo e voltou à rotina. Agora um boletim de CTI (inteligência de ameaças) avisa: o Grupo Cobalto Austral, de <em>ransomware</em>, ataca redes de academias usando senhas vazadas de VPN.</p>
-          <p>O que está em jogo: os servidores da sede e as fichas de 36 mil alunos, cerca de 30% menores de idade.</p>
-          <div class="pergunta">Como transformar os achados do Red Team em detecções comprovadas contra o Grupo Cobalto Austral?</div>
-          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>Facilitador</b> Rafael Tavares</span><span><b>Autoriza</b> Marina Prado</span></div>
+          <p>Às 23:14 de terça, 01/12, a regra R8 avisa: uma ferramenta de acesso remoto não aprovada, o ConectaJá, foi instalada no SRV-ERP-01, o servidor do ERP financeiro da sede.</p>
+          <p>Luiza Ferraz, de plantão no SOC, só abre o alerta às 03:20. A conta usada é a de Caio Mendes, da TI, e o servidor está conversando com 198.51.100.77.</p>
+          <p>O que está em jogo: o ERP guarda nome, CPF e situação de pagamento de alunos e responsáveis, inclusive de menores.</p>
+          <div class="pergunta">Como a Rede Tatame conduz este incidente: conter sem destruir evidências, recuperar o ERP e comunicar a ANPD no prazo?</div>
+          <div class="papeis"><span><b>Coordena</b> Marina Prado</span><span><b>SOC</b> Luiza Ferraz</span><span><b>TI da sede</b> Caio Mendes</span><span><b>Detecção</b> Rafael Tavares</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
@@ -91,93 +83,89 @@
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Abertura da unidade</p>
-      <h2>O que você verá nesta unidade</h2>
+      <p class="kicker">O que você verá nesta unidade</p>
+      <h2>Unidade 4: do incidente à melhoria comprovada</h2>
       <div class="slide-content-box">
-        <p>Nesta última unidade, as duas camisas se encontram. Depois das operações ofensivas da Unidade 2 e da detecção e resposta da Unidade 3, você vai aprender a unir as equipes no <em>purple teaming</em>.</p>
         <ul>
-          <li><strong>Aula 13</strong>: planejar a emulação de adversários com base em inteligência de ameaças.</li>
-          <li><strong>Aula 14</strong>: medir a detecção e a resposta com indicadores e com a cobertura da matriz MITRE ATT&amp;CK.</li>
-          <li><strong>Aula 15</strong>: conduzir exercícios de simulação: <em>tabletop</em>, CTF e <em>cyber range</em>.</li>
-          <li><strong>Aula 16</strong>: estruturar um programa contínuo de segurança, que fale a língua da diretoria e abra caminhos de carreira.</li>
+          <li><strong>Aula 13</strong>: o ciclo de resposta a incidentes, da preparação à recuperação.</li>
+          <li><strong>Aula 14</strong>: coleta de evidências e linha do tempo do incidente.</li>
+          <li><strong>Aula 15</strong>: exercícios <em>purple team</em>, validando detecções contra técnicas emuladas.</li>
+          <li><strong>Aula 16</strong>: relatório final com achados, riscos, recomendações e métricas de melhoria.</li>
         </ul>
-        <div class="callout-azul"><p>O objetivo é que você saia da disciplina capaz de transformar testes isolados em melhoria contínua e mensurável, que é o que as organizações esperam de um profissional de segurança.</p></div>
+        <div class="callout-azul"><p>O mesmo caso atravessa as quatro aulas: o incidente INC-2026-1202-01 no SRV-ERP-01.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Do relatório à colaboração -->
+  <!-- 5. Evento, alerta, incidente -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
-      <h2>Do relatório à colaboração</h2>
+      <h2>Evento, alerta e incidente</h2>
       <div class="slide-content-box">
-        <p>Como vimos na Unidade 1, <em>purple teaming</em> é menos uma equipe fixa e mais uma <strong>forma de trabalho</strong>: Red Team e Blue Team atuam juntos, de forma transparente, para testar e melhorar a defesa.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Aspecto</th><th>Exercício de Red Team tradicional</th><th>Exercício <em style="color:inherit">purple</em></th></tr></thead>
-          <tbody>
-            <tr><td><strong>O Blue Team sabe?</strong></td><td>Normalmente não</td><td>Sabe o que será executado e quando</td></tr>
-            <tr><td><strong>O que se avalia</strong></td><td>A reação a um ataque realista</td><td>Telemetria, alertas e resposta, técnica a técnica</td></tr>
-            <tr><td><strong>Objetivo</strong></td><td>Alcançar os objetivos da operação</td><td>Aprender rápido</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.7em">O SCYTHE <em>Purple Team Exercise Framework</em> (PTEF), gratuito e de uso aberto, descreve o exercício como uma sessão colaborativa, presencial ou remota, em que as equipes percorrem uma lista de técnicas, verificam telemetria e alertas e registram ações de melhoria. O <strong>facilitador</strong> conduz a sessão, controla o tempo e garante que cada discussão termine em uma tarefa concreta.</p>
+        <ul>
+          <li>Um <strong>evento</strong> é qualquer ocorrência observável: um <em>login</em>, uma conexão, um programa instalado.</li>
+          <li>Um <strong>alerta</strong> é a sinalização, gerada por uma regra, de que um evento pode ser malicioso.</li>
+          <li>Um <strong>incidente</strong> compromete, ou ameaça de forma iminente, a confidencialidade, a integridade ou a disponibilidade de sistemas e dados.</li>
+        </ul>
+        <div class="callout-azul"><p>Declarar um incidente é uma decisão formal: mobiliza pessoas, abre um registro e pode disparar obrigações legais.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Ciclo -->
+  <!-- 6. Rev 2 e Rev 3 -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Método</p>
-      <h2>O ciclo do <em>purple teaming</em></h2>
-      <div class="slide-content-box">
-        <p>Cada técnica testada percorre um ciclo curto, que pode ser repetido várias vezes na mesma sessão:</p>
-        <ol>
-          <li><strong>Planejar</strong>: escolher a técnica ATT&amp;CK, definir o comportamento esperado e o critério de sucesso.</li>
-          <li><strong>Executar</strong>: o Red Team executa a técnica em um ambiente autorizado.</li>
-          <li><strong>Observar</strong>: o Blue Team verifica se houve <strong>telemetria</strong> (o registro existe?), <strong>alerta</strong> (alguma regra disparou?) e <strong>resposta</strong> (o analista agiria corretamente?).</li>
-          <li><strong>Ajustar</strong>: criar ou refinar a regra, habilitar uma fonte de registros ou corrigir um <em>playbook</em>.</li>
-          <li><strong>Retestar</strong>: executar novamente para comprovar que a melhoria funciona.</li>
-        </ol>
-        <div class="callout-azul"><p>O passo 5 é o que mais se esquece e o que mais importa: uma detecção que nunca foi testada contra o comportamento real é apenas uma <strong>hipótese</strong>. Pense no treino de futebol: o goleiro pede "de novo, do mesmo jeito" até conseguir defender.</p></div>
+      <p class="kicker">O ciclo do NIST</p>
+      <h2>NIST SP 800-61: da Rev. 2 (2012) à Rev. 3 (2025)</h2>
+      <div class="slide-content-box" style="padding:1.1em 1.6em">
+        <table class="tabela-industrial" style="font-size:clamp(.95rem, 1.25vw, 1.2rem)">
+          <thead><tr><th>Fase da Rev. 2</th><th>Funções do CSF 2.0 (Rev. 3)</th><th>Exemplos de atividades</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Preparação</strong></td><td>Governar, Identificar, Proteger</td><td>Políticas, papéis, inventário, <em>playbooks</em>, treinamentos</td></tr>
+            <tr><td><strong>Detecção e análise</strong></td><td>Detectar</td><td>Triagem de alertas, escopo e severidade</td></tr>
+            <tr><td><strong>Contenção, erradicação e recuperação</strong></td><td>Responder, Recuperar</td><td>Isolar máquinas, remover persistência, restaurar <em>backups</em></td></tr>
+            <tr><td><strong>Atividade pós-incidente</strong></td><td>Identificar (melhoria)</td><td>Lições aprendidas, ajuste de detecções e controles</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.6rem">A Rev. 3 substitui a Rev. 2 e trata a resposta como parte da gestão de riscos cibernéticos.</p>
       </div>
     </div>
   </section>
 
-  <!-- 7. LAB flow: ciclo -->
+  <!-- 7. LAB flow: Rev2 -> CSF -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>Uma técnica percorre o ciclo inteiro</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Diagrama animado</p><h2>As quatro fases dentro das seis funções</h2></div><span class="lab-badge blue">NIST SP 800-61 Rev. 3</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ver uma técnica do Cobalto Austral sair de achado e virar detecção comprovada.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Avançar" ou ligue o modo automático.</p><p>2. Acompanhe o nó central, a técnica T1021.001 (RDP).</p></div>
-            <div class="rl obs"><b>Observe</b><p>Na etapa 3 o evento chega do AD (Active Directory), mas a regra R5 está desligada: a técnica fica <em>parcial</em>.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>A técnica só conta como coberta depois do reteste, na etapa 5.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Situar a resposta nos dois guias do NIST: o SP 800-61 e o CSF 2.0.</div>
+            <div class="rl"><b>Faça</b>Clique em "Avançar" a cada etapa, até 7 / 7.</div>
+            <div class="rl obs"><b>Observe</b>A preparação se espalha por três funções. O pós-incidente volta para Identificar.</div>
+            <div class="rl conc"><b>Conclusão</b>Na última etapa, o INC-2026-1202-01 percorre o mapa inteiro.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-ciclo"></div>
+        <div class="lab-area" id="lab-flow"></div>
       </div>
     </div>
   </section>
 
-  <!-- 8. Emulação de adversários -->
+  <!-- 8. Playbooks e papéis -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <p class="kicker">Conceitos</p>
-      <h2>Emulação de adversários: testar o que ameaça de verdade</h2>
+      <p class="kicker">Preparação</p>
+      <h2><em>Playbooks</em> e papéis definidos antes do incidente</h2>
       <div class="slide-content-box">
-        <p>Em vez de executar técnicas aleatórias, a abordagem madura é a <strong>emulação de adversários</strong>: reproduzir o comportamento de um grupo real, conhecido por meio de inteligência de ameaças (CTI), como vimos na Unidade 3. Um banco emula grupos com histórico contra o setor financeiro; uma indústria, grupos ligados a <em>ransomware</em> e sabotagem. É a <strong>defesa informada por ameaças</strong> (<em>threat-informed defense</em>).</p>
+        <p>Um <em>playbook</em> descreve, passo a passo, como responder a um tipo de incidente, com responsáveis, critérios de decisão, contatos e prazos. Parte dos passos pode ser automatizada por plataformas SOAR (orquestração, automação e resposta).</p>
         <ul>
-          <li>Um <strong>plano de emulação</strong> descreve o adversário, seus objetivos, a sequência de técnicas ATT&amp;CK que ele costuma usar e os procedimentos para reproduzi-las com segurança.</li>
-          <li>O MITRE Center for Threat-Informed Defense mantém publicamente a <em>Adversary Emulation Library</em>, com planos baseados em grupos documentados, como APT29, FIN6 e menuPass.</li>
-          <li><strong>Emulação</strong> reproduz o comportamento de um adversário específico; <strong>simulação</strong> executa técnicas genéricas, sem fidelidade a um ator.</li>
+          <li>O <strong>coordenador do incidente</strong> decide e prioriza.</li>
+          <li>Os <strong>analistas</strong> investigam e executam.</li>
+          <li>O <strong>jurídico</strong>, a <strong>comunicação</strong> e o <strong>encarregado de dados</strong> participam desde as primeiras horas.</li>
         </ul>
       </div>
     </div>
@@ -189,33 +177,33 @@
     <div class="slide-content">
       <p class="kicker">Antes do código</p>
       <h2>Onde achar e como instalar o que o laboratório usa</h2>
-      <div class="slide-content-box" style="font-size:.9em">
+      <div class="slide-content-box" style="font-size:.88em">
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
-            <tr><td><strong>Visual Studio Code</strong> e extensão <strong>Python</strong> (Microsoft)</td><td>Editor onde o plano e o código são lidos e executados</td><td><code>code.visualstudio.com</code>; aba Extensões, editor "Microsoft"</td><td>Instalador do site; <code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>gerar_layer.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
-            <tr><td><strong>PyYAML</strong></td><td>Lê o plano <code>cobalto-austral.yaml</code> (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
-            <tr><td><strong>ATT&amp;CK Navigator</strong> (MITRE)</td><td>Abre a <em>layer</em> JSON gerada e pinta a matriz</td><td><code>mitre-attack.github.io/attack-navigator</code></td><td>Nada a instalar: roda no navegador</td></tr>
+            <tr><td><strong>Visual Studio Code</strong> e extensões Python e YAML</td><td>Editar o <em>playbook</em> e rodar as ferramentas</td><td><code>code.visualstudio.com</code>; extensões <code>ms-python.python</code> e <code>redhat.vscode-yaml</code></td><td>Instalador do site; <code>code --install-extension redhat.vscode-yaml</code></td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador do validador e do cálculo de prazo</td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>PyYAML</strong></td><td>Lê os <em>playbooks</em> em YAML (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code>; documentação em <code>pyyaml.org</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>sys</strong> e <strong>datetime</strong></td><td>Argumentos da linha de comando e contas com datas</td><td><code>docs.python.org/3/library</code> (biblioteca padrão)</td><td>Nada a instalar: vêm com o Python</td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> na página do pacote no PyPI (<code>pypi.org</code>), abra os <em>links</em> do projeto e veja se "Source Code" leva ao repositório oficial, <code>github.com/yaml/pyyaml</code>, e qual é a data da última versão. Os módulos <code>csv</code> e <code>json</code> já vêm com o Python e não se instalam. Use o Navigator no endereço da própria MITRE: a <em>layer</em> revela o que a Rede Tatame ainda não detecta e não deve ser aberta em cópia hospedada por terceiros.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> o nome do <code>import</code> nem sempre é o nome do pacote. O código usa <code>import yaml</code>, mas o pacote se chama <code>PyYAML</code>; <code>pyaml</code> é outro projeto. Confira no PyPI o nome letra por letra e o <em>link</em> do repositório, e fixe a versão com <code>==</code>: a ferramenta usada no incidente deve ser a mesma que foi testada antes dele.</div>
       </div>
     </div>
   </section>
 
-  <!-- 10. LAB VS Code: plano + layer -->
+  <!-- 10. LAB VS Code: playbook -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Do boletim de CTI à <em>layer</em> do Navigator</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>O <em>playbook</em> de acesso remoto não aprovado</h2></div><span class="lab-badge blue">Preparação</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Transformar o boletim de CTI em um plano de teste e medir a cobertura.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".</p><p>2. Leia <code>cobalto-austral.yaml</code>: escopo, técnicas e regra esperada.</p><p>3. Rode as duas execuções de <code>gerar_layer.py</code>.</p></div>
-            <div class="rl obs"><b>Observe</b><p>A cobertura testada sobe de 40% para 80%. A T1567.002 continua sem telemetria.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>O plano diz o que testar; a <em>layer</em> mostra o que já foi comprovado.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ter, antes da crise, quem faz o quê, em que ordem e com que prazo.</div>
+            <div class="rl"><b>Faça</b>1. Clique em <strong>Preparar o ambiente</strong> e espere <strong>Ambiente pronto</strong>.<br>2. Compare <code>acesso-remoto-v1.yaml</code> e <code>acesso-remoto-v2.yaml</code>.<br>3. Rode <strong>Validar v1</strong> e <strong>Validar v2</strong>.<br>4. Rode <strong>Prazo ANPD (02/12)</strong>.</div>
+            <div class="rl obs"><b>Observe</b>A v1 tem 4 problemas, entre eles erradicar antes de preservar. A v2 passa. O prazo termina em 07/12, segunda-feira.</div>
+            <div class="rl conc"><b>Conclusão</b>O <em>playbook</em> revisado é o que guia a madrugada de 02/12.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
@@ -223,78 +211,90 @@
     </div>
   </section>
 
-  <!-- 11. LAB sessão purple -->
-  <section class="slide slide-lab">
+  <!-- 11. Detecção e análise no Wazuh -->
+  <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Simulação da sessão</p><h2>A planilha da sessão <em>purple</em></h2></div><span class="lab-badge purple">Sessão de 18/11</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Registrar, técnica por técnica, o que o SOC viu na sessão de 18/11.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Clique em "Executar" em cada linha.</p><p>2. Nas linhas sem alerta, clique em "Ajustar e retestar".</p></div>
-            <div class="rl obs"><b>Observe</b><p>A T1567.002 não tem telemetria: nenhuma regra resolve isso na hora. A ação é ligar a fonte no próximo ciclo.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Cada lacuna vira uma ação com dono e prazo.</p></div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-sessao"></div>
+      <p class="kicker">Detecção e análise</p>
+      <h2>O Wazuh como console de resposta</h2>
+      <div class="slide-content-box">
+        <p>Na detecção e análise, a equipe confirma o alerta e define o <strong>escopo</strong> (máquinas, contas e dados envolvidos) e a <strong>severidade</strong>.</p>
+        <ul>
+          <li>O <strong>Wazuh</strong> é uma plataforma aberta de SIEM e XDR: agentes enviam os eventos dos sistemas e as regras dão a cada alerta um nível de 0 a 15.</li>
+          <li>O módulo de <em>active response</em> executa ações configuradas, como bloquear um endereço no <em>firewall</em> do <em>host</em>.</li>
+          <li>O Security Onion pode usar o Wazuh e soma a ele a análise do tráfego de rede.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- 12. PLATAFORMA REDE TATAME -->
+  <!-- 12. LAB Wazuh -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Cobertura antes e depois do reteste</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>A triagem do alerta no Wazuh</h2></div><span class="lab-badge blue">Detecção e análise</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Confirmar o alerta da R8 e definir o escopo do incidente.</div>
+            <div class="rl"><b>Faça</b>Clique nas seis buscas salvas, à esquerda do console, na ordem.</div>
+            <div class="rl obs"><b>Observe</b>Seis pedidos de MFA até o "aprovado", o RDP às 23:06, 19 conexões para 198.51.100.77 e as três ações de contenção às 03:41.</div>
+            <div class="rl conc"><b>Conclusão</b>O caso INC-2026-1202-01 é aberto com escopo, severidade e tempos medidos.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-siem"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. Contenção, erradicação e recuperação -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Responder e recuperar</p>
+      <h2>Contenção, erradicação e recuperação</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>Contenção</strong>: impedir que o dano aumente. Isolar o servidor pelo EDR, desabilitar a conta usada e bloquear o destino.</li>
+          <li><strong>Erradicação</strong>: remover a ferramenta e as contas do invasor, redefinir credenciais e corrigir a porta de entrada.</li>
+          <li><strong>Recuperação</strong>: restaurar a partir de <em>backup</em> íntegro, anterior ao comprometimento, e monitorar com atenção redobrada.</li>
+        </ul>
+        <div class="callout-azul"><p>Isolar, e não desligar: desligar o servidor apaga a memória volátil, onde estão processos e conexões. A coleta das evidências é o assunto da Aula 14.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. PLATAFORMA REDE TATAME -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Plataforma Rede Tatame</p><h2>Conter a tempo, ou deixar os dados saírem</h2></div><span class="lab-badge tatame">Simulador da disciplina</span></div>
       <div class="lab-split plat">
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Fazer o ciclo inteiro na plataforma e medir a cobertura antes e depois.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Em <strong>Cobertura ATT&amp;CK</strong>, anote 38%. Em <strong>Cenários</strong>, com "1 s = 1 min", inicie <em>Emulação do Grupo Cobalto Austral</em>.</p><p>2. Em <strong>Regras do CEP</strong>, ligue R5 e R13.</p><p>3. Volte a Cenários e rode a emulação de novo (reteste).</p></div>
-            <div class="rl obs"><b>Observe</b><p>Na Cobertura, T1087.002 e T1021.001 viram <em>comprovadas</em> e a taxa vai a 50%. Antes do reteste, elas são só "detectáveis".</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Regra ligada sem reteste ainda é hipótese.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ver o efeito de conter cedo e de conter tarde.</div>
+            <div class="rl"><b>Faça</b>1. Escolha a velocidade <strong>1 s = 5 s</strong>.<br>2. Em <strong>Cenários</strong>, inicie <em>Acesso remoto não aprovado e saída de dados</em>.<br>3. No <strong>SOC</strong>, investigue o alerta da R8 e clique em <strong>Conter</strong>.<br>4. Volte a <strong>Cenários</strong> e clique em <strong>Repetir com as fontes e regras atuais</strong>, sem conter.</div>
+            <div class="rl obs"><b>Observe</b>Contido cedo, o envio dos 2,8 GB fica "interrompido pela contenção". Sem conter, ele aparece como "não detectado".</div>
+            <div class="rl conc"><b>Conclusão</b>Foi o que aconteceu de verdade: o alerta esperou na fila e os dados saíram.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 13. Ferramentas -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Ecossistema</p>
-      <h2>Ferramentas de apoio</h2>
-      <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Ferramenta</th><th>Mantenedor</th><th>Uso principal</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Caldera</strong></td><td>Apache Software Foundation (código aberto; criado pela MITRE)</td><td>Plataforma para automatizar a emulação de adversários</td></tr>
-            <tr><td><strong>Atomic Red Team</strong></td><td>Red Canary (código aberto)</td><td>Biblioteca de testes pequenos, cada um mapeado a uma técnica ATT&amp;CK</td></tr>
-            <tr><td><strong><em>Adversary Emulation Library</em></strong></td><td>MITRE Center for Threat-Informed Defense</td><td>Planos completos de emulação baseados em grupos reais</td></tr>
-            <tr><td><strong>ATT&amp;CK Navigator</strong></td><td>MITRE</td><td>Visualização da cobertura e do plano sobre a matriz</td></tr>
-            <tr><td><strong>Plataformas de BAS</strong></td><td>Diversos fornecedores</td><td>Simulação contínua e automatizada de ataques (<em>breach and attack simulation</em>)</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.7em">A automação aumenta a frequência dos testes, mas testa técnicas conhecidas, enquanto o adversário real improvisa. Ela complementa operadores e analistas experientes, sem substituí-los. E vale a regra da Unidade 1: escopo, autorização e regras de engajamento por escrito, mesmo em exercício interno.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- 14. LAB terminal -->
+  <!-- 15. LAB terminal: erradicação e recuperação -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>O executor de casos de teste da sessão</h2></div><span class="lab-badge purple">Ambiente de laboratório</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>O ERP pode voltar à produção?</h2></div><span class="lab-badge green">Recuperação</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ver como a sessão roda com segurança: autorização, escopo e casos de teste inofensivos.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Avance os comandos do <code>purple-runner</code>, um por vez.</p><p>2. Compare a primeira execução da T1021.001 com o reteste.</p></div>
-            <div class="rl obs"><b>Observe</b><p>Antes de qualquer teste, o executor confere autorização, escopo e observadores do SOC. No reteste, a R5 alerta em 38 s.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Só os casos retestados entram na cobertura.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Conferir a erradicação e a recuperação antes de reabrir o SRV-ERP-01.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim do roteiro.</div>
+            <div class="rl obs"><b>Observe</b>O <em>backup</em> de 01/12 às 20:00 é anterior à invasão (22:58). Nenhum serviço ConectaJá, senha nova e o destino bloqueado.</div>
+            <div class="rl conc"><b>Conclusão</b>Com as cinco conferências, o ERP volta às 14:00 de 03/12, monitorado por 30 dias.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-term"></div>
@@ -302,64 +302,94 @@
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 16. Comunicação e ANPD -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Comunicação e obrigações legais</p>
+      <h2>LGPD e a Resolução CD/ANPD nº 15/2024</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li>O art. 48 da LGPD exige comunicar à ANPD e aos titulares o incidente que possa acarretar <strong>risco ou dano relevante</strong>.</li>
+          <li>A Resolução CD/ANPD nº 15/2024 fixou <strong>três dias úteis</strong>, contados do conhecimento de que dados pessoais foram afetados, para a ANPD (art. 6º) e para os titulares (art. 9º).</li>
+          <li>O registro do incidente é guardado por no mínimo <strong>cinco anos</strong> (art. 10). Para agentes de pequeno porte, os prazos contam em dobro.</li>
+        </ul>
+        <div class="callout-azul"><p>O prazo corre do conhecimento, e não do fim da investigação: no INC-2026-1202-01, ciência em 02/12 às 10:30 e prazo em 07/12.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Exemplo numérico</p>
-      <h2>A cobertura evoluindo a cada ciclo</h2>
-      <div class="slide-content-box">
-        <p>Uma equipe montou um plano de emulação com <strong>30 técnicas</strong> associadas a um grupo de <em>ransomware</em>.</p>
-        <table class="tabela-industrial">
-          <thead><tr><th>Momento</th><th>Técnicas com alerta</th><th>Cálculo</th><th>Cobertura testada</th></tr></thead>
-          <tbody>
-            <tr><td>Ciclo 1, primeira execução</td><td>9</td><td>9 ÷ 30</td><td><strong>30%</strong></td></tr>
-            <tr><td>Ciclo 1, reteste (6 regras ajustadas na sessão)</td><td>15</td><td>15 ÷ 30</td><td><strong>50%</strong></td></tr>
-            <tr><td>Ciclo 2, um mês depois (novas fontes de registro)</td><td>21</td><td>21 ÷ 30</td><td><strong>70%</strong></td></tr>
-            <tr><td>Ciclo 3</td><td>25</td><td>25 ÷ 30</td><td><strong>83%</strong></td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:.7em">As 6 técnicas ajustadas no ciclo 1 já tinham telemetria. As 5 restantes foram tratadas com controles preventivos e aceitas como risco residual pela liderança. Cada ponto percentual só conta porque <strong>foi retestado</strong>.</p>
+      <h2>Tempos do incidente e prioridade</h2>
+      <div class="slide-content-box" style="padding:1em 1.6em">
+        <div class="num-grid">
+          <div class="lab-kpi amber"><small>MTTD: 22:58:10 → 03:20 (abertura do caso)</small><b>4 h 21 min 50 s</b></div>
+          <div class="lab-kpi blue"><small>MTTR: 03:20 → 03:41 (contenção)</small><b>21 min</b></div>
+          <div class="lab-kpi red"><small>Alerta na fila: 23:14:40 → 03:20</small><b>4 h 05 min 20 s</b></div>
+          <div class="lab-kpi green"><small>Prazo ANPD: ciência em 02/12 (qua)</small><b>07/12 (seg)</b></div>
+        </div>
+        <p style="margin-top:.7rem"><strong>Prioridade = criticidade do ativo (1 a 5) × confiança (1 a 3) × abrangência (1 a 3).</strong> ERP com acesso remoto não aprovado: 5 × 3 × 2 = <strong>30</strong>. Notebook em domínio recém-registrado: 3 × 2 × 1 = <strong>6</strong>. Varredura barrada pelo WAF: 2 × 2 × 1 = <strong>4</strong>.</p>
       </div>
     </div>
   </section>
 
-  <!-- 16. LAB 3D: cobertura -->
+  <!-- 18. LAB priorização -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>Trinta técnicas, quatro momentos</h2></div><span class="lab-badge purple">Cobertura testada</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Exemplo numérico</p><h2>Qual incidente atender primeiro?</h2></div><span class="lab-badge blue">Coordenação</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b><p>Ver a cobertura crescer ciclo a ciclo, como no exemplo numérico.</p></div>
-            <div class="rl"><b>Faça</b><p>1. Use os botões da cena para passar pelos quatro momentos.</p><p>2. Gire a cena com o mouse.</p></div>
-            <div class="rl obs"><b>Observe</b><p>Blocos verdes e altos têm detecção comprovada. No fim, os cinzas são o risco residual aceito.</p></div>
-            <div class="rl conc"><b>Conclusão</b><p>Ciclos curtos e retestados levam a cobertura de 30% a 83%.</p></div>
+            <div class="rl obj"><b>Objetivo</b>Ordenar a fila de incidentes do plantão.</div>
+            <div class="rl"><b>Faça</b>1. Confira os valores iniciais: A = 30, B = 6, C = 4.<br>2. O notebook de B também abriu conexão para 198.51.100.77: suba a abrangência de B para 3.<br>3. Depois, suba a confiança de B para 3.</div>
+            <div class="rl obs"><b>Observe</b>B passa a 18 e depois a 27, mas continua atrás de A. A fila se reordena sozinha.</div>
+            <div class="rl conc"><b>Conclusão</b>A pontuação explica a decisão; quem decide é o coordenador.</div>
           </div>
         </div>
-        <div class="lab-area" id="lab-3d"></div>
+        <div class="lab-area" id="lab-pri"></div>
       </div>
     </div>
   </section>
 
-  <!-- 17. De volta ao problema -->
+  <!-- 19. Lições aprendidas -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Atividade pós-incidente</p>
+      <h2>Lições aprendidas sem caça a culpados (09/12)</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>O que funcionou?</strong> A R8 disparou 35 segundos depois da instalação, e a contenção levou 21 minutos.</li>
+          <li><strong>Onde demorou?</strong> O alerta alto esperou 4 h 05 min na fila do plantão.</li>
+          <li><strong>O que muda?</strong> Escalonar alerta alto sem triagem em 30 minutos; MFA com correspondência de número; ligar a R5 e a fonte de saída de rede com a R9.</li>
+        </ul>
+        <div class="callout-azul"><p>Cada resposta vira uma ação com dono e prazo. As regras novas são testadas no exercício <em>purple team</em> da Aula 15.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">De volta ao problema</p>
-      <h2>Agora o relatório vira detecção</h2>
+      <h2>O incidente teve dono, ordem e prazo</h2>
       <div class="resolvido">
-        <div class="ev"><b>Planejar pela ameaça</b>O boletim de CTI virou um plano com cinco técnicas do Cobalto Austral, escopo e regra esperada.</div>
-        <div class="ev"><b>Testar junto</b>Na sessão <em>purple</em>, Red e Blue olham cada técnica: telemetria, alerta e resposta.</div>
-        <div class="ev"><b>Ajustar e retestar</b>R5 e R13 ligadas e retestadas: a cobertura da plataforma foi de 38% para 50%.</div>
-        <div class="ev"><b>Registrar o que falta</b>A T1567.002 ficou sem telemetria e virou ação com dono e prazo.</div>
-        <div class="resposta">Resposta à pergunta da aula: com o ciclo do <em>purple teaming</em>. Cada achado vira teste planejado, regra ajustada e reteste; só o que foi retestado conta como detecção.</div>
+        <div class="ev"><b>Preparar</b>O <em>playbook</em> v2 define papéis e etapas, aciona o encarregado e preserva antes de erradicar.</div>
+        <div class="ev"><b>Detectar e analisar</b>No Wazuh, o alerta da R8 virou caso com escopo: conta de Caio, RDP, 19 conexões e o destino 198.51.100.77.</div>
+        <div class="ev"><b>Conter e recuperar</b>Isolar sem desligar, bloquear conta e destino, restaurar o <em>backup</em> de 01/12 às 20:00 e monitorar.</div>
+        <div class="ev"><b>Comunicar e aprender</b>Ciência em 02/12, comunicação até 07/12 e ações com dono a partir de 09/12.</div>
+        <div class="resposta">Resposta à pergunta da aula: a Rede Tatame segue o ciclo do NIST. Com o <em>playbook</em> pronto, isola o SRV-ERP-01 sem apagar a memória, erradica o ConectaJá e a credencial usada, recupera de um <em>backup</em> íntegro, comunica a ANPD em três dias úteis e transforma a demora da triagem em melhoria.</div>
       </div>
     </div>
   </section>
 
-  <!-- 18. Pontos-chave -->
+  <!-- 21. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -367,40 +397,41 @@
       <h2>Para levar desta aula</h2>
       <div class="slide-content-box">
         <ul>
-          <li><em>Purple teaming</em> é colaboração transparente entre ataque e defesa, focada em aprender rápido.</li>
-          <li>O ciclo planejar, executar, observar, ajustar e retestar transforma achados em detecções comprovadas.</li>
-          <li>A emulação de adversários prioriza o comportamento de quem realmente ameaça a organização.</li>
-          <li>Caldera, Atomic Red Team e a <em>Adversary Emulation Library</em> apoiam o trabalho humano, sem substituí-lo.</li>
+          <li>Evento, alerta e incidente são conceitos diferentes, e declarar um incidente é uma decisão formal.</li>
+          <li>O NIST SP 800-61 Rev. 2 descreve quatro fases; a Rev. 3 as distribui pelas seis funções do CSF 2.0.</li>
+          <li><em>Playbooks</em> e papéis definidos antes do incidente economizam o tempo mais valioso.</li>
+          <li>Contenção isola sem destruir evidências; erradicação remove o invasor; recuperação usa <em>backup</em> íntegro.</li>
+          <li>A Resolução CD/ANPD nº 15/2024 exige comunicação em três dias úteis, contados do conhecimento.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 19. Referências -->
+  <!-- 22. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
-      <div class="slide-content-box" style="font-size:.85em">
-        <p>APACHE SOFTWARE FOUNDATION. <em>Apache Caldera</em>. Disponível em: &lt;https://caldera.apache.org/&gt;. Acesso em: 19 nov. 2026.</p>
-        <p>APPLEBAUM, Andy <em>et al</em>. Intelligent, automated red team emulation. <em>In</em>: ANNUAL CONFERENCE ON COMPUTER SECURITY APPLICATIONS, 32., 2016, Los Angeles. <em>Proceedings</em> [...]. New York: ACM, 2016.</p>
-        <p>MITRE CENTER FOR THREAT-INFORMED DEFENSE. <em>Adversary emulation library</em>. Disponível em: &lt;https://github.com/center-for-threat-informed-defense/adversary_emulation_library&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>RED CANARY. <em>Atomic Red Team</em>. Disponível em: &lt;https://github.com/redcanaryco/atomic-red-team&gt;. Acesso em: 13 nov. 2026.</p>
-        <p>SCYTHE. <em>Purple team exercise framework (PTEF)</em>. Disponível em: &lt;https://github.com/scythe-io/purple-team-exercise-framework&gt;. Acesso em: 13 nov. 2026.</p>
+      <div class="slide-content-box" style="font-size:.76em">
+        <p>AGÊNCIA NACIONAL DE PROTEÇÃO DE DADOS (Brasil). Resolução CD/ANPD nº 15, de 24 de abril de 2024. Aprova o Regulamento de Comunicação de Incidente de Segurança. <em>Diário Oficial da União</em>, Brasília, DF, 26 abr. 2024.</p>
+        <p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <em>Diário Oficial da União</em>, Brasília, DF, 15 ago. 2018.</p>
+        <p>CICHONSKI, Paul; MILLAR, Tom; GRANCE, Tim; SCARFONE, Karen. <em>Computer security incident handling guide</em>. Gaithersburg: NIST, 2012. (NIST SP 800-61 Rev. 2). DOI: 10.6028/NIST.SP.800-61r2.</p>
+        <p>NELSON, Alex; REKHI, Sanjay; SOUPPAYA, Murugiah; SCARFONE, Karen. <em>Incident response recommendations and considerations for cybersecurity risk management</em>: a CSF 2.0 community profile. Gaithersburg: NIST, 2025. (NIST SP 800-61 Rev. 3). DOI: 10.6028/NIST.SP.800-61r3.</p>
+        <p>WAZUH. <em>Wazuh documentation</em>: active response. Disponível em: &lt;https://documentation.wazuh.com/current/user-manual/capabilities/active-response/index.html&gt;. Acesso em: 22 nov. 2026.</p>
       </div>
     </div>
   </section>
 
-  <!-- 20. Encerramento -->
+  <!-- 23. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já sabe conduzir um ciclo <em>purple</em>, montar um plano de emulação a partir de inteligência de ameaças e registrar a cobertura testada. Se cada ciclo aumenta a cobertura, como provar isso para a diretoria?</p>
-      <p class="fim-proxima">Próxima aula: Aula 14 — Métricas de detecção e resposta e cobertura ATT&amp;CK.</p>
+      <p class="fim-texto">Você já distingue evento, alerta e incidente, relaciona o ciclo do NIST ao CSF 2.0, conduz um <em>playbook</em>, contém sem destruir evidências, recupera de um <em>backup</em> íntegro e conta o prazo da ANPD.</p>
+      <p class="fim-proxima">Próxima aula: Aula 14 — Coleta de evidências e linha do tempo do incidente.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -411,43 +442,43 @@
 <script src="../../assets/labs.js"></script>
 <script>
 /* ---------- 3. Mini-mapa do problema ---------- */
-Labs.miniMapa('#mapa-problema', { destaque: ['vpn', 'ad', 'arq', 'erp', 'edr', 'siem', 'cep'], alvo: 'arq', caminho: ['net', 'vpn', 'ad', 'arq', 'erp'],
-  legenda: 'Onde a aula acontece: o caminho do Cobalto Austral da VPN aos servidores da sede (SRV-ARQ-01 em vermelho) e o SOC que precisa detectá-lo.' });
+Labs.miniMapa('#mapa-problema', { destaque: ['ad', 'edr', 'siem'], alvo: 'erp', caminho: ['net', 'vpn', 'ad', 'erp'],
+  legenda: 'Onde a aula acontece: a VPN por onde a conta de Caio entrou, o SRV-ERP-01 (em vermelho) e o SOC que coordena a resposta.' });
 
-/* ---------- 7. Fluxo: ciclo do purple teaming ---------- */
-Labs.flow('#lab-ciclo', {
-  w: 1000, h: 470,
+/* ---------- 7. Fluxo: Rev. 2 dentro do CSF 2.0 ---------- */
+Labs.flow('#lab-flow', {
+  w: 1100, h: 480,
   nodes: [
-    { id: 'plan', x: 500, y: 60, label: '1. Planejar', sub: 'técnica e critério', icon: '🗺️', k: 'purple', w: 200 },
-    { id: 'exec', x: 830, y: 170, label: '2. Executar', sub: 'Red Team, autorizado', icon: '🎯', k: 'red', w: 200 },
-    { id: 'obs', x: 740, y: 395, label: '3. Observar', sub: 'telemetria · alerta · resposta', icon: '🔎', k: 'blue', w: 240 },
-    { id: 'adj', x: 260, y: 395, label: '4. Ajustar', sub: 'regra, fonte ou playbook', icon: '🛠️', k: 'amber', w: 230 },
-    { id: 'ret', x: 170, y: 170, label: '5. Retestar', sub: 'comprovar a melhoria', icon: '🔁', k: 'green', w: 200 },
-    { id: 'tec', x: 500, y: 240, label: 'T1021.001', sub: 'hipótese', icon: '🧩', w: 210, h: 74 }
+    { id: 'prep', x: 190, y: 70, label: 'Preparação', sub: 'Rev. 2 · fase 1', icon: '📋', w: 230 },
+    { id: 'det', x: 190, y: 180, label: 'Detecção e análise', sub: 'Rev. 2 · fase 2', icon: '🔎', w: 230 },
+    { id: 'cer', x: 190, y: 290, label: 'Contenção, erradicação', sub: 'e recuperação · fase 3', icon: '🧯', w: 230 },
+    { id: 'pos', x: 190, y: 400, label: 'Pós-incidente', sub: 'Rev. 2 · fase 4', icon: '📝', w: 230 },
+    { id: 'gv', x: 860, y: 45, label: 'Governar', sub: 'GV', icon: '🏛️', k: 'purple', w: 200, h: 58 },
+    { id: 'id', x: 860, y: 123, label: 'Identificar', sub: 'ID', icon: '🗂️', k: 'purple', w: 200, h: 58 },
+    { id: 'pr', x: 860, y: 201, label: 'Proteger', sub: 'PR', icon: '🛡️', k: 'purple', w: 200, h: 58 },
+    { id: 'de', x: 860, y: 279, label: 'Detectar', sub: 'DE', icon: '📡', k: 'blue', w: 200, h: 58 },
+    { id: 'rs', x: 860, y: 357, label: 'Responder', sub: 'RS', icon: '🚒', k: 'blue', w: 200, h: 58 },
+    { id: 'rc', x: 860, y: 435, label: 'Recuperar', sub: 'RC', icon: '♻️', k: 'green', w: 200, h: 58 }
   ],
   links: [
-    { from: 'plan', to: 'exec', curve: -30 }, { from: 'exec', to: 'obs', curve: -30 }, { from: 'obs', to: 'adj', curve: -40 },
-    { from: 'adj', to: 'ret', curve: -30 }, { from: 'ret', to: 'plan', curve: -30 },
-    { from: 'tec', to: 'obs', dashed: true }, { from: 'tec', to: 'ret', dashed: true }
+    { from: 'prep', to: 'det' }, { from: 'det', to: 'cer' }, { from: 'cer', to: 'pos' },
+    { from: 'prep', to: 'gv' }, { from: 'prep', to: 'id' }, { from: 'prep', to: 'pr' }, { from: 'det', to: 'de' },
+    { from: 'cer', to: 'rs' }, { from: 'cer', to: 'rc' }, { from: 'pos', to: 'id', dashed: true }
   ],
   steps: [
-    { title: '1 · Planejar', text: 'Técnica: RDP de estação para servidor (T1021.001). Comportamento esperado: logon remoto de NB-TI-012 em SRV-ARQ-01 no tópico tatame.auditoria e o alerta da regra R5. Critério de sucesso: alerta em até 5 minutos.', on: ['plan', 'tec'], links: [['plan', 'exec', 'purple']] },
-    { title: '2 · Executar', text: 'Às 14h32, Bruno Sato avisa no canal da sessão e abre a sessão RDP com a conta de teste svc-purple. Nada é lido nem alterado no servidor.', on: ['exec'], links: [['exec', 'obs', 'red']] },
-    { title: '3 · Observar', text: 'Telemetria: sim, o logon chegou ao tópico tatame.auditoria. Alerta: não, a regra R5 está desligada no CEP. Resposta: não houve o que avaliar. A técnica fica parcial.', on: ['obs'], bad: ['tec'], links: [['tec', 'obs', 'amber']] },
-    { title: '4 · Ajustar', text: 'Rafael Tavares, engenheiro de detecção, liga a R5 com uma exceção só para o servidor de salto que a TI de Caio Mendes usa na manutenção, para não gerar ruído.', on: ['adj'], links: [['obs', 'adj', 'amber']] },
-    { title: '5 · Retestar', text: 'A mesma sessão de teste é repetida. O alerta da R5 chega à fila de Luiza Ferraz, no SOC, em 38 segundos, dentro do critério. Agora a detecção está comprovada.', on: ['ret', 'tec'], links: [['adj', 'ret', 'green'], ['tec', 'ret', 'green']] },
-    { title: 'O ciclo recomeça', text: 'A ação de melhoria é registrada como concluída e retestada, e o facilitador chama a próxima técnica do plano. Sem o passo 5, a regra ligada continuaria sendo só uma hipótese.', on: ['plan', 'exec', 'obs', 'adj', 'ret', 'tec'], links: [['ret', 'plan', 'purple'], ['plan', 'exec', 'purple'], ['exec', 'obs', 'purple'], ['obs', 'adj', 'purple'], ['adj', 'ret', 'purple']] }
-  ],
-  onStep(k) {
-    const g = [...document.querySelectorAll('#lab-ciclo .flow-node')].find((n) => n.querySelector('.lbl').textContent === 'T1021.001');
-    const sub = g && g.querySelector('.sub');
-    if (sub) sub.textContent = k >= 4 ? 'detecção comprovada' : k >= 2 ? 'parcial: telemetria sem alerta' : 'hipótese';
-  }
+    { title: 'Rev. 2 (2012) · o ciclo clássico', text: 'Quatro fases em sequência, com o pós-incidente voltando à preparação. A resposta aparece como um processo próprio, ao lado da gestão de riscos.', on: ['prep', 'det', 'cer', 'pos'], links: [['prep', 'det'], ['det', 'cer'], ['cer', 'pos']] },
+    { title: 'Rev. 3 (2025) · seis funções do CSF 2.0', text: 'A resposta a incidentes passa a ser um perfil do CSF 2.0: as recomendações se distribuem pelas mesmas funções usadas para gerir o risco cibernético da organização inteira.', on: ['gv', 'id', 'pr', 'de', 'rs', 'rc'] },
+    { title: 'Preparação: Governar, Identificar, Proteger', text: 'Políticas, papéis, inventário, playbooks e treinamentos. A preparação deixa de ser só da equipe de resposta e vira responsabilidade da gestão.', on: ['prep', 'gv', 'id', 'pr'], links: [['prep', 'gv', 'purple'], ['prep', 'id', 'purple'], ['prep', 'pr', 'purple']], dim: true },
+    { title: 'Detecção e análise: Detectar', text: 'Triagem de alertas, definição de escopo e severidade. É aqui que entram o SIEM, o EDR e a caça a ameaças da Unidade 3.', on: ['det', 'de'], links: [['det', 'de']], dim: true },
+    { title: 'Contenção, erradicação e recuperação: Responder, Recuperar', text: 'Isolar máquinas, remover persistência e restaurar backups íntegros.', on: ['cer', 'rs', 'rc'], links: [['cer', 'rs'], ['cer', 'rc', 'green']], dim: true },
+    { title: 'Pós-incidente: Identificar (melhoria)', text: 'As lições aprendidas atualizam riscos, inventário e prioridades. Na Rev. 3, a melhoria contínua atravessa todas as funções.', on: ['pos', 'id'], links: [['pos', 'id', 'amber']], dim: true },
+    { title: 'O INC-2026-1202-01 no mapa', text: 'GV: playbook v2 aprovado pela CISO. DE: alerta da R8 às 23:14, triado às 03:20. RS: isolar o SRV-ERP-01 e bloquear 198.51.100.77 às 03:41. RC: backup de 01/12 às 20:00. ID: lições aprendidas em 09/12.', on: ['gv', 'de', 'rs', 'rc', 'id'], links: [['prep', 'gv', 'purple'], ['det', 'de'], ['cer', 'rs'], ['cer', 'rc', 'green'], ['pos', 'id', 'amber']] }
+  ]
 });
 
-/* ---------- 9. VS Code: plano de emulação + layer ---------- */
+/* ---------- 10. VS Code: playbook, validador e prazo ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'emulacao-cobalto', team: 'purple', status: 'Python 3.12', open: 'plano/cobalto-austral.yaml', typeOnEnter: true,
+  folder: 'resposta-incidentes', team: 'blue', status: 'Python 3.12', open: 'playbooks/acesso-remoto-v2.yaml',
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -466,298 +497,234 @@ Labs.vscode('#lab-vsc', {
   ],
   files: [
     { path: 'requirements.txt', code:
-`# Pacote de terceiros que o gerar_layer.py importa (csv, json e sys vêm com o Python)
+`# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
 PyYAML==6.0.3`},
-    { path: 'plano/cobalto-austral.yaml', hl: [8, 11, 16, 21, 26, 31], code:
-`# Plano de emulação: Grupo Cobalto Austral (adversário fictício) contra a Rede Tatame
-# Fonte: boletim de CTI BI-2026-041 · Autorização: APR-3107 (Marina Prado, CISO)
-adversario:
-  nome: Grupo Cobalto Austral
-  motivacao: extorsão com ransomware e dados de alunos
-  entrada: senha vazada em VPN sem MFA
-escopo: sede 10.10.0.0/16 (SRV-AD-01, SRV-ARQ-01, SRV-ERP-01), janela autorizada
-fora_do_escopo: [10.40.99.0/24, api.pagafacil.example]
-facilitador: Rafael Tavares
-tecnicas:
-  - id: T1078
-    tatica: initial-access
-    nome: Contas válidas
-    teste: login na VPN com a conta de teste svc-purple, sem MFA
-    telemetria: [auditoria de identidade (tatame.auditoria), regra R11]
-  - id: T1087.002
-    tatica: discovery
-    nome: Descoberta de contas de domínio
-    teste: consulta LDAP somente leitura com a conta de teste
-    telemetria: [logs do AD (consultas LDAP), regra R13]
-  - id: T1021.001
-    tatica: lateral-movement
-    nome: Serviços remotos (RDP)
-    teste: sessão RDP de NB-TI-012 para SRV-ARQ-01 com a conta de teste
-    telemetria: [logs do AD (4624 tipo 10), regra R5]
-  - id: T1567.002
-    tatica: exfiltration
-    nome: Exfiltração para armazenamento em nuvem
-    teste: envio de 1,5 GB de arquivos fictícios para bucket de teste
-    telemetria: [acesso a buckets e saída de rede, regra R9]
-  - id: T1490
-    tatica: impact
-    nome: Inibir recuperação do sistema
-    teste: caso de teste catalogado em VM descartável, só observa telemetria
-    telemetria: [EDR dos servidores, regra R7]`},
-    { path: 'resultados/sessao-2026-11-18.csv', code:
-`tecnica,telemetria,alerta,reteste,acao
-T1078,sim,sim,,nenhuma
-T1087.002,sim,nao,sim,ligar R13 (consulta em massa ao AD)
-T1021.001,sim,nao,sim,ligar R5 com exceção do salto administrativo
-T1567.002,nao,nao,,ligar a fonte de buckets e saída de rede
-T1490,sim,sim,,nenhuma`},
-    { path: 'gerar_layer.py', hl: [15, 16, 17, 18, 19], code:
-`"""Converte o resultado da sessão purple em uma layer do ATT&CK Navigator."""
-import csv
-import json
+    { path: 'playbooks/acesso-remoto-v1.yaml', hl: [12, 13, 14, 15, 16, 17, 18, 19], code:
+`# Rascunho de 2025, nunca revisado
+playbook: acesso-remoto-nao-aprovado-v1
+gatilho:
+  regra: R8                      # ferramenta de acesso remoto não aprovada
+  severidade_minima: alta
+etapas:
+  - id: triagem
+    responsavel: analista_n2
+    acao: confirmar_alerta_e_escopo
+  - id: isolar
+    automatico: true
+    acao: edr.isolar_host
+  - id: erradicar
+    responsavel: analista_n2
+    acao: [remover_ferramenta, redefinir_credenciais]
+  - id: preservar
+    responsavel: analista_forense
+  - id: acionar
+    notificar: [coordenador_incidente, juridico]
+  - id: recuperar
+    responsavel: infraestrutura
+    acao: restaurar_backup_integro`},
+    { path: 'playbooks/acesso-remoto-v2.yaml', hl: [6, 15, 21, 24, 26, 27, 28], code:
+`# Revisado em 25/11/2026 por Marina Prado (CISO) e Luiza Ferraz (SOC)
+playbook: acesso-remoto-nao-aprovado-v2
+gatilho:
+  regra: R8                      # ferramenta de acesso remoto não aprovada
+  severidade_minima: alta
+  triagem_maxima_min: 30         # alerta alto sem triagem em 30 min: escalonar
+contatos:
+  coordenador_incidente: plantao-ir@tatame.com.br
+  encarregado_dados: dpo@tatame.com.br
+etapas:
+  - id: triagem
+    responsavel: analista_n2
+    acao: confirmar_alerta_e_escopo
+  - id: isolar
+    automatico: true
+    acao: edr.isolar_host        # isolar, não desligar: a memória é evidência
+  - id: bloquear
+    responsavel: analista_n2
+    acao: [desabilitar_conta_usada, bloquear_ip_de_destino]
+  - id: preservar
+    responsavel: analista_forense
+    cadeia_de_custodia: obrigatoria   # detalhes na Aula 14
+  - id: acionar
+    responsavel: coordenador_incidente
+    notificar: [coordenador_incidente, juridico, encarregado_dados, comunicacao]
+  - id: avaliar_dados_pessoais
+    responsavel: encarregado_dados
+    se_afetados: registrar_data_de_conhecimento_e_calcular_prazo_anpd
+  - id: erradicar
+    responsavel: analista_n2
+    acao: [remover_ferramenta, redefinir_credenciais, corrigir_entrada]
+  - id: recuperar
+    responsavel: infraestrutura
+    acao: restaurar_backup_integro
+    monitoramento_reforcado_dias: 30
+  - id: licoes_aprendidas
+    responsavel: coordenador_incidente
+    formato: sem_caca_a_culpados`},
+    { path: 'ferramentas/validar_playbook.py', hl: [5, 10, 11, 14, 15, 16, 17, 18, 19], code:
+`"""Confere se um playbook tem o mínimo exigido pela política de resposta a incidentes."""
 import sys
 import yaml
 
-plano = yaml.safe_load(open("plano/cobalto-austral.yaml", encoding="utf-8"))
-usar_reteste = "--reteste" in sys.argv
-sessao = "resultados/sessao-2026-11-18.csv"
-linhas = {l["tecnica"]: l for l in csv.DictReader(open(sessao, encoding="utf-8"))}
+OBRIGATORIOS = {"coordenador_incidente", "juridico", "encarregado_dados", "comunicacao"}
 
-COR = {"detectado": "#3FD47A", "parcial": "#F2CB0A", "sem_visibilidade": "#FF2B5F"}
-PONTO = {"detectado": 100, "parcial": 50, "sem_visibilidade": 0}
+pb = yaml.safe_load(open(sys.argv[1], encoding="utf-8"))
+ids = [e["id"] for e in pb["etapas"]]
+problemas = []
+for etapa in pb["etapas"]:
+    if "responsavel" not in etapa and not etapa.get("automatico"):
+        problemas.append(f"etapa '{etapa['id']}' sem responsável")
+acionados = {p for e in pb["etapas"] for p in e.get("notificar", [])}
+if faltam := OBRIGATORIOS - acionados:
+    problemas.append(f"papéis nunca acionados: {', '.join(sorted(faltam))}")
+if ids.index("preservar") > ids.index("erradicar"):
+    problemas.append("evidências precisam ser preservadas antes da erradicação")
+if "licoes_aprendidas" not in ids:
+    problemas.append("falta a etapa de lições aprendidas")
 
-def status(r):
-    alerta = r["alerta"] == "sim" or (usar_reteste and r["reteste"] == "sim")
-    if alerta:
-        return "detectado"
-    return "parcial" if r["telemetria"] == "sim" else "sem_visibilidade"
+print(f"{pb['playbook']}: {len(ids)} etapas")
+print("\\n".join(f"  [x] {p}" for p in problemas) or "  [ok] nenhum problema encontrado")
+sys.exit(1 if problemas else 0)`},
+    { path: 'ferramentas/prazo_anpd.py', hl: [5, 8, 9, 13, 14, 15, 24], code:
+`"""Prazo de comunicação à ANPD: 3 dias úteis do conhecimento (Res. CD/ANPD nº 15/2024, art. 6º)."""
+import sys
+from datetime import date, timedelta
 
-tecnicas = []
-for t in plano["tecnicas"]:
-    s = status(linhas[t["id"]])
-    tecnicas.append({"techniqueID": t["id"], "tactic": t["tatica"], "score": PONTO[s],
-                     "color": COR[s], "comment": f"{s} | ação: {linhas[t['id']]['acao']}"})
-    print(f"{t['id']:<10} {t['tatica']:<17} {s}")
+FERIADOS = {date(2026, 11, 2), date(2026, 11, 15), date(2026, 11, 20), date(2026, 12, 25)}
+DIAS = ["seg", "ter", "qua", "qui", "sex", "sáb", "dom"]
 
-layer = {"name": "Cobalto Austral x Rede Tatame" + (" (após reteste)" if usar_reteste else ""),
-         "domain": "enterprise-attack", "versions": {"layer": "4.5", "navigator": "5.1.0"},
-         "techniques": tecnicas,
-         "legendItems": [{"label": k, "color": v} for k, v in COR.items()]}
-destino = "layers/cobalto-austral" + ("-reteste" if usar_reteste else "") + ".json"
-json.dump(layer, open(destino, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+def dia_util(d: date) -> bool:
+    return d.weekday() < 5 and d not in FERIADOS
 
-n = len(tecnicas)
-det = sum(t["score"] == 100 for t in tecnicas)
-vis = sum(t["score"] >= 50 for t in tecnicas)
-print(f"\\nCobertura testada: {det}/{n} = {det / n:.0%}")
-print(f"Visibilidade:      {vis}/{n} = {vis / n:.0%}")
-print(f"Layer gravada em {destino}")`},
-    { path: 'layers/cobalto-austral-reteste.json', code:
-`{
-  "name": "Cobalto Austral x Rede Tatame (após reteste)",
-  "domain": "enterprise-attack",
-  "versions": { "layer": "4.5", "navigator": "5.1.0" },
-  "techniques": [
-    { "techniqueID": "T1078", "tactic": "initial-access", "score": 100, "color": "#3FD47A",
-      "comment": "detectado | ação: nenhuma" },
-    { "techniqueID": "T1087.002", "tactic": "discovery", "score": 100, "color": "#3FD47A",
-      "comment": "detectado | ação: ligar R13 (consulta em massa ao AD)" },
-    { "techniqueID": "T1021.001", "tactic": "lateral-movement", "score": 100, "color": "#3FD47A",
-      "comment": "detectado | ação: ligar R5 com exceção do salto administrativo" },
-    { "techniqueID": "T1567.002", "tactic": "exfiltration", "score": 0, "color": "#FF2B5F",
-      "comment": "sem_visibilidade | ação: ligar a fonte de buckets e saída de rede" },
-    { "techniqueID": "T1490", "tactic": "impact", "score": 100, "color": "#3FD47A",
-      "comment": "detectado | ação: nenhuma" }
-  ],
-  "legendItems": [
-    { "label": "detectado", "color": "#3FD47A" },
-    { "label": "parcial", "color": "#F2CB0A" },
-    { "label": "sem_visibilidade", "color": "#FF2B5F" }
-  ]
-}`}
+def dias_contados(conhecimento: date, n: int = 3) -> list[date]:
+    d, uteis = conhecimento, []
+    while len(uteis) < n:
+        d += timedelta(days=1)
+        if dia_util(d):
+            uteis.append(d)
+        else:
+            print(f"  {d:%d/%m} ({DIAS[d.weekday()]}) não conta")
+    return uteis
+
+conhecimento = date.fromisoformat(sys.argv[1])
+pequeno_porte = "--pequeno-porte" in sys.argv
+print(f"Conhecimento: {conhecimento:%d/%m/%Y} ({DIAS[conhecimento.weekday()]})")
+uteis = dias_contados(conhecimento, 6 if pequeno_porte else 3)
+for k, d in enumerate(uteis, 1):
+    print(f"  dia útil {k}: {d:%d/%m} ({DIAS[d.weekday()]})")
+print(f"Prazo final: {uteis[-1]:%d/%m/%Y} ({DIAS[uteis[-1].weekday()]})")`}
   ],
   run: [
-    { label: 'Layer da 1ª execução', cmd: 'python gerar_layer.py', file: 'gerar_layer.py', out: [
-      '[ok] T1078      initial-access    detectado',
-      '[warn] T1087.002  discovery         parcial',
-      '[warn] T1021.001  lateral-movement  parcial',
-      '[err] T1567.002  exfiltration      sem_visibilidade',
-      '[ok] T1490      impact            detectado',
-      '', '[hi] Cobertura testada: 2/5 = 40%', '[info] Visibilidade:      4/5 = 80%', '[mute] Layer gravada em layers/cobalto-austral.json' ] },
-    { label: 'Layer após o reteste', kind: 'purple', cmd: 'python gerar_layer.py --reteste', file: 'layers/cobalto-austral-reteste.json', out: [
-      '[ok] T1078      initial-access    detectado',
-      '[ok] T1087.002  discovery         detectado',
-      '[ok] T1021.001  lateral-movement  detectado',
-      '[err] T1567.002  exfiltration      sem_visibilidade',
-      '[ok] T1490      impact            detectado',
-      '', '[hi] Cobertura testada: 4/5 = 80%', '[info] Visibilidade:      4/5 = 80%', '[mute] Layer gravada em layers/cobalto-austral-reteste.json',
-      '[purple] Importe o JSON no ATT&CK Navigator (Open Existing Layer) para ver as cores na matriz.' ] }
+    { label: 'Validar v1', kind: 'red', cmd: 'python ferramentas/validar_playbook.py playbooks/acesso-remoto-v1.yaml', file: 'ferramentas/validar_playbook.py', out: [
+      'acesso-remoto-nao-aprovado-v1: 6 etapas',
+      "[err]  [x] etapa 'acionar' sem responsável",
+      '[err]  [x] papéis nunca acionados: comunicacao, encarregado_dados',
+      '[err]  [x] evidências precisam ser preservadas antes da erradicação',
+      '[err]  [x] falta a etapa de lições aprendidas' ] },
+    { label: 'Validar v2', cmd: 'python ferramentas/validar_playbook.py playbooks/acesso-remoto-v2.yaml', file: 'playbooks/acesso-remoto-v2.yaml', out: [
+      'acesso-remoto-nao-aprovado-v2: 9 etapas', '[ok]  [ok] nenhum problema encontrado' ] },
+    { label: 'Prazo ANPD (02/12)', kind: 'blue', cmd: 'python ferramentas/prazo_anpd.py 2026-12-02', file: 'ferramentas/prazo_anpd.py', out: [
+      'Conhecimento: 02/12/2026 (qua)', '[mute]  05/12 (sáb) não conta', '[mute]  06/12 (dom) não conta', '  dia útil 1: 03/12 (qui)', '  dia útil 2: 04/12 (sex)', '  dia útil 3: 07/12 (seg)', '[hi]Prazo final: 07/12/2026 (seg)' ] }
   ]
 });
 
-/* ---------- 10. Sessão purple: planilha interativa ---------- */
-Labs.register('#lab-sessao', (el) => {
-  const T = [
-    { id: 'T1078', nome: 'Contas válidas (VPN sem MFA)', tel: 'sim', al: 'sim', resp: 'Luiza Ferraz bloqueou a conta de teste em 5 min', acao: 'Nenhuma', alerta: 'R11 · Login sem MFA em conta privilegiada ou VPN' },
-    { id: 'T1087.002', nome: 'Descoberta de contas no AD', tel: 'sim', al: 'nao', resp: 'Sem alerta, sem resposta', acao: 'Ligar R13 (consulta em massa ao AD)', alerta: 'R13 · Consulta em massa ao AD', fix: true },
-    { id: 'T1021.001', nome: 'RDP para SRV-ARQ-01', tel: 'sim', al: 'nao', resp: 'Sem alerta, sem resposta', acao: 'Ligar R5 com exceção do salto administrativo', alerta: 'R5 · RDP de estação de trabalho para servidor', fix: true },
-    { id: 'T1567.002', nome: 'Saída para bucket externo', tel: 'nao', al: 'nao', resp: 'Sem dados para investigar', acao: 'Ligar a fonte de buckets e saída de rede', pend: true },
-    { id: 'T1490', nome: 'Inibir recuperação', tel: 'sim', al: 'sim', resp: 'Luiza Ferraz isolaria SRV-ERP-01 em 4 min', acao: 'Nenhuma', alerta: 'R7 · Exclusão de cópias de sombra' }
-  ];
-  el.innerHTML = `<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.6rem;min-height:0">
-    <h4>Sessão purple · Cobalto Austral x Rede Tatame · 18/11/2026 · facilitador Rafael Tavares</h4>
-    <div style="overflow:auto;min-height:0;flex:1"><table class="sess"><thead><tr><th>Técnica</th><th>Telemetria</th><th>Alerta</th><th>Resposta</th><th>Ação de melhoria</th><th>Retestado?</th><th></th></tr></thead><tbody></tbody></table></div>
-    <div class="feed" aria-live="polite"><span>[SOC] fila tatame.seguranca aguardando a sessão...</span></div>
-    <div class="lab-grid3"><div class="lab-kpi green"><small>Cobertura testada</small><b id="k-cob">0/5</b></div><div class="lab-kpi blue"><small>Visibilidade</small><b id="k-vis">0/5</b></div><div class="lab-kpi amber"><small>Ações retestadas</small><b id="k-ret">0/0</b></div></div>
-  </div>`;
-  const tb = el.querySelector('tbody'), feed = el.querySelector('.feed');
-  const st = (v, txt) => `<span class="st ${v}">${txt}</span>`;
-  const log = (cls, msg) => { feed.insertAdjacentHTML('beforeend', `<br><span class="${cls}">${msg}</span>`); feed.scrollTop = feed.scrollHeight; };
-  const state = T.map(() => ({ run: false, fixed: false }));
-  function kpis() {
-    let cob = 0, vis = 0, acoes = 0, ret = 0;
-    T.forEach((t, i) => {
-      if (!state[i].run) return;
-      if (t.tel === 'sim') vis++;
-      if (t.al === 'sim' || state[i].fixed) cob++;
-      if (t.fix || t.pend) acoes++;
-      if (state[i].fixed) ret++;
-    });
-    el.querySelector('#k-cob').textContent = cob + '/5 (' + Math.round(cob / 5 * 100) + '%)';
-    el.querySelector('#k-vis').textContent = vis + '/5';
-    el.querySelector('#k-ret').textContent = ret + '/' + acoes;
-  }
-  function draw() {
-    tb.innerHTML = T.map((t, i) => {
-      const s = state[i];
-      if (!s.run) return `<tr><td><b>${t.id}</b><br>${t.nome}</td><td>${st('', '?')}</td><td>${st('', '?')}</td><td>…</td><td>…</td><td>…</td><td><button class="lab-btn red" data-run="${i}">Executar</button></td></tr>`;
-      const al = t.al === 'sim' ? st('sim', 'sim') : s.fixed ? st('sim', 'sim (reteste)') : st('nao', 'não');
-      const ret = t.al === 'sim' ? '—' : s.fixed ? st('sim', 'sim') : t.pend ? st('pend', 'próximo ciclo') : st('nao', 'não');
-      const btn = t.fix && !s.fixed ? `<button class="lab-btn purple" data-fix="${i}">Ajustar e retestar</button>` : '';
-      return `<tr><td><b>${t.id}</b><br>${t.nome}</td><td>${st(t.tel, t.tel === 'sim' ? 'sim' : 'não')}</td><td>${al}</td><td>${s.fixed ? 'Luiza Ferraz abriu o caso em 3 min' : t.resp}</td><td>${t.acao}</td><td>${ret}</td><td>${btn}</td></tr>`;
-    }).join('');
-    kpis();
-  }
-  tb.addEventListener('click', async (e) => {
-    const b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.run != null) {
-      const i = +b.dataset.run, t = T[i]; b.disabled = true;
-      log('', `[Red] Bruno Sato executa o caso de teste de ${t.id} com a conta svc-purple...`);
-      await Labs.sleep(700);
-      if (t.al === 'sim') log('a', `[CEP] ALERTA ${t.alerta} (${t.id})`);
-      else if (t.tel === 'sim') log('w', `[CEP] evento de ${t.id} recebido em tatame.auditoria, nenhuma regra ativa disparou`);
-      else log('e', `[CEP] nenhum evento de ${t.id}: fonte de buckets e saída de rede desligada`);
-      state[i].run = true; draw();
-    } else if (b.dataset.fix != null) {
-      const i = +b.dataset.fix, t = T[i]; b.disabled = true;
-      log('', `[Blue] Rafael Tavares liga a regra para ${t.id}. [Red] retestando...`);
-      await Labs.sleep(900);
-      log('a', `[CEP] ALERTA ${t.alerta}`);
-      state[i].fixed = true; draw();
-    }
-  });
-  draw();
+/* ---------- 12. Wazuh: triagem do alerta ---------- */
+Labs.siem('#lab-siem', {
+  product: 'wazuh. · Threat Hunting', time: '01/12 22:30 – 02/12 04:00', lang: 'DQL', index: 'wazuh-alerts-4.x-*',
+  searches: [
+    { group: 'INC-2026-1202-01', name: '1. O alerta da R8', q: 'rule.id:100208 and agent.name:SRV-ERP-01',
+      cols: ['timestamp', 'agent.name', 'rule.id', 'rule.level', 'rule.description', 'estado'], total: 1, unit: 'alerta',
+      hist: [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [4],
+      rows: [['01/12 23:14:40', 'SRV-ERP-01', '100208', '12', 'R8: ferramenta de acesso remoto não aprovada (ConectaJa.exe)', 'sem triagem até 03:20']],
+      note: 'Regras locais do Wazuh usam IDs a partir de 100000. O nível 12, numa escala de 0 a 15, é de alta importância. O alerta nasceu 35 segundos depois da instalação, mas ficou 4 h 05 min 20 s na fila.' },
+    { group: 'INC-2026-1202-01', name: '2. Quem abriu a sessão?', q: 'agent.name:SRV-ERP-01 and data.win.system.eventID:4624 and data.win.eventdata.logonType:10',
+      cols: ['timestamp', 'agent.name', 'eventID', 'logonType', 'targetUserName', 'ipAddress'], total: 1, unit: 'evento',
+      hist: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [3],
+      rows: [['01/12 23:06:42', 'SRV-ERP-01', '4624', '10', 'caio.mendes', '10.10.200.41 (VPN)']],
+      note: 'O evento 4624 com tipo 10 é um logon remoto por RDP. Ele chegou ao Wazuh, mas a R5, que alertaria RDP para servidor, está desligada.' },
+    { group: 'INC-2026-1202-01', name: '3. De onde veio a conta?', q: 'decoder.name:netguard-vpn and data.srcuser:caio.mendes',
+      cols: ['timestamp', 'usuário', 'IP de origem', 'evento', 'resultado'], total: 7, unit: 'eventos',
+      hist: [0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [3],
+      rows: [
+        ['01/12 22:56:31', 'caio.mendes', '198.51.100.77', 'MFA push enviado', 'sem resposta'],
+        ['01/12 22:56:49', 'caio.mendes', '198.51.100.77', 'MFA push enviado', 'recusado'],
+        ['…', '…', '…', '+3 pedidos', 'recusado / sem resposta'],
+        ['01/12 22:58:04', 'caio.mendes', '198.51.100.77', 'MFA push enviado (6º)', 'aprovado'],
+        ['01/12 22:58:10', 'caio.mendes', '198.51.100.77', 'login VPN', 'sucesso']
+      ], note: 'Seis pedidos seguidos até um "aprovado": fadiga de MFA. Como houve MFA, a R11 (login sem MFA) não disparou. O primeiro evento malicioso do caso é o login das 22:58:10.' },
+    { group: 'INC-2026-1202-01', name: '4. Para onde o ERP fala?', q: 'agent.name:SRV-ERP-01 and data.dstip:198.51.100.77 | stats count by data.dstport',
+      cols: ['timestamp', 'agent.name', 'processo', 'destino', 'porta'], total: 19, unit: 'conexões',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 1], hot: [11, 12, 13, 14, 15, 16, 17],
+      rows: [
+        ['02/12 02:10:03', 'SRV-ERP-01', 'ConectaJa.exe', '198.51.100.77', '443'],
+        ['02/12 02:15:03', 'SRV-ERP-01', 'ConectaJa.exe', '198.51.100.77', '443'],
+        ['02/12 02:20:04', 'SRV-ERP-01', 'ConectaJa.exe', '198.51.100.77', '443'],
+        ['…', '…', '…', '+15 conexões a cada 5 min', '…'],
+        ['02/12 03:40:02', 'SRV-ERP-01', 'ConectaJa.exe', '198.51.100.77', '443']
+      ], note: 'Uma conexão a cada 5 minutos, das 02:10 às 03:40: 19 ao todo. O proxy registra a conexão, mas não o volume. O envio de 2,8 GB entre 02:37 e 03:05 só será confirmado na análise, porque a fonte de saída de rede está desligada.' },
+    { group: 'Resposta', name: '5. Active response: conter', q: 'rule.groups:active_response and agent.name:SRV-ERP-01',
+      cols: ['timestamp', 'agent.name', 'ação', 'alvo', 'resultado'], total: 3, unit: 'ações',
+      hist: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3], hot: [17],
+      rows: [
+        ['02/12 03:41:00', 'SRV-ERP-01', 'isolar-host (EDR)', 'SRV-ERP-01', 'isolado, ligado'],
+        ['02/12 03:41:20', 'SRV-AD-01', 'disable-account (evento 4725)', 'caio.mendes', 'conta desabilitada'],
+        ['02/12 03:41:35', 'SRV-ERP-01', 'firewall-drop', '198.51.100.77', 'bloqueado']
+      ], note: 'O firewall-drop é um script padrão de active response do Wazuh. O isolamento pelo EDR corta a rede e mantém o servidor ligado: a memória continua lá para a coleta da Aula 14.' },
+    { group: 'Métricas', name: '6. Tempos do caso', q: 'case.id:"INC-2026-1202-01" | eval mttd = case_open - first_event, mttr = containment - case_open',
+      cols: ['caso', '1º evento', 'alerta', 'caso aberto', 'contenção', 'MTTD', 'MTTR', 'severidade'], sevCol: 7, total: 1, unit: 'caso',
+      hist: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], hot: [3, 17],
+      rows: [['INC-2026-1202-01', '22:58:10', '23:14:40', '03:20:00', '03:41:00', '4 h 21 min 50 s', '21 min', 'alta']],
+      note: 'O MTTD vai do primeiro evento à abertura do caso; o MTTR, da abertura à contenção. A demora está entre o alerta e a triagem: 4 h 05 min 20 s.' }
+  ]
 });
 
-/* ---------- 10b. Plataforma Rede Tatame ---------- */
-Labs.plataforma('#lab-tatame', { aba: 'cobertura' });
+/* ---------- 14. Plataforma Rede Tatame ---------- */
+Labs.plataforma('#lab-tatame', { aba: 'cenarios', reiniciar: true, regras: { R8: true } });
 
-/* ---------- 12. Terminal: executor de casos de teste ---------- */
+/* ---------- 15. Terminal: erradicação e recuperação ---------- */
 Labs.terminal('#lab-term', {
-  title: 'purple@console-purple: ~/sessao-2026-11-18', prompt: 'purple@console-purple:~/sessao-2026-11-18$ ',
+  theme: 'windows', title: 'Administrador: PowerShell — SRV-ERP-01 (rede de quarentena)', prompt: 'PS C:\\Windows\\system32> ',
   steps: [
-    { cmd: 'purple-runner verificar-roe --autorizacao APR-3107', note: 'Nada roda sem autorização válida, escopo definido e o SOC observando.', out: [
-      '[ok] autorização APR-3107 válida (assinada por Marina Prado, CISO)',
-      '[ok] escopo: sede 10.10.0.0/16 · SRV-AD-01, SRV-ARQ-01, SRV-ERP-01 · conta de teste svc-purple',
-      '[warn] fora do escopo: 10.40.99.0/24 (pagamentos, PCI) e api.pagafacil.example',
-      '[ok] janela: 18/11/2026 14:00–18:00 · agora 14:05',
-      '[ok] observadores do SOC conectados: Luiza Ferraz e mais 2 · canal #sessao-purple ativo' ] },
-    { cmd: 'purple-runner listar --plano plano/cobalto-austral.yaml', note: 'Cada técnica do plano tem um caso de teste inofensivo já catalogado.', out: [
-      'CASO          TÁTICA            REGRA  DESCRIÇÃO DO TESTE (inofensivo)',
-      'T1078-01      initial-access    R11    login na VPN com svc-purple, sem MFA',
-      'T1087.002-01  discovery         R13    consulta LDAP somente leitura',
-      'T1021.001-01  lateral-movement  R5     sessão RDP NB-TI-012 → SRV-ARQ-01',
-      'T1567.002-01  exfiltration      R9     1,5 GB de arquivos fictícios para bucket de teste',
-      'T1490-01      impact            R7     caso catalogado em VM descartável',
-      '[mute] 5 casos · nenhum dado real de aluno envolvido' ] },
-    { cmd: 'purple-runner executar T1567.002-01', note: 'Sem telemetria, não há regra que salve: falta a fonte de dados.', out: [
-      '[info] 14:21:07 caso T1567.002-01 executado · arquivos fictícios apagados do bucket',
-      '[mute] aguardando tatame.seguranca (limite de 5 min)...',
-      '[err] telemetria: nenhum evento de saída de rede recebido',
-      '[err] alerta: nenhum · status: SEM VISIBILIDADE',
-      '[warn] ação sugerida: ligar a fonte "Acesso a buckets e saída de rede" e a regra R9' ] },
-    { cmd: 'purple-runner executar T1021.001-01', note: 'Aqui o dado existe, mas a regra não dispara.', out: [
-      '[info] 14:32:40 caso T1021.001-01 executado · sessão RDP encerrada',
-      '[mute] aguardando tatame.seguranca (limite de 5 min)...',
-      '[ok] telemetria: logon remoto em tatame.auditoria às 14:32:52',
-      '[err] alerta: nenhum (R5 desligada) · status: PARCIAL' ] },
-    { cmd: 'purple-runner retestar T1021.001-01', note: 'Rafael Tavares ligou a R5. O reteste comprova a melhoria.', out: [
-      '[info] 14:51:13 caso T1021.001-01 executado novamente · sessão encerrada',
-      '[ok] telemetria: logon remoto em tatame.auditoria às 14:51:24',
-      '[ok] alerta: R5 "RDP de estação de trabalho para servidor" às 14:51:51 (38 s)',
-      '[purple] status: DETECTADO · ação de melhoria marcada como retestada' ] },
-    { cmd: 'purple-runner relatorio --sessao 2026-11-18', note: 'O resumo alimenta a layer do Navigator e o controle de ações.', out: [
-      'técnicas testadas ........ 5',
-      'com telemetria ........... 4/5 (80%)',
-      'detectadas após reteste .. 4/5 (80%)',
-      '[warn] pendente: T1567.002 · dono: Rafael Tavares · prazo: 02/12/2026',
-      '[mute] relatório salvo em resultados/sessao-2026-11-18.md' ] }
+    { cmd: 'Get-WBBackupSet | Select-Object -Last 3 VersionId, BackupTime', note: 'O backup escolhido precisa ser anterior ao primeiro evento malicioso (22:58 de 01/12).', out: [
+      '', 'VersionId        BackupTime', '---------        ----------', '11/29/2026-23:00 29/11/2026 20:00:00', '11/30/2026-23:00 30/11/2026 20:00:00', '[ok]12/01/2026-23:00 01/12/2026 20:00:00   <- restaurado (anterior a 22:58)', '' ] },
+    { cmd: "Get-Service | Where-Object Name -like 'ConectaJa*'", note: 'Erradicação: depois da restauração, nenhum serviço do ConectaJá.', out: [
+      '[mute](nenhum resultado: o serviço ConectaJa não existe neste servidor)' ] },
+    { cmd: 'Get-ADUser caio.mendes -Properties Enabled, PasswordLastSet | Select-Object Name, Enabled, PasswordLastSet', note: 'A credencial usada pelo invasor foi redefinida; a conta volta só depois do novo cadastro de MFA.', out: [
+      '', 'Name        Enabled PasswordLastSet', '----        ------- ---------------', '[ok]caio.mendes   False 03/12/2026 09:12:47', '' ] },
+    { cmd: "Get-NetFirewallRule -DisplayName 'IR-INC-2026-1202-01*' | Select-Object DisplayName, Direction, Action", note: 'O bloqueio do destino continua valendo depois da restauração.', out: [
+      '', 'DisplayName                                 Direction Action', '-----------                                 --------- ------', '[ok]IR-INC-2026-1202-01-bloqueio-198.51.100.77  Outbound  Block', '' ] },
+    { cmd: 'Test-NetConnection 198.51.100.77 -Port 443 | Select-Object RemoteAddress, TcpTestSucceeded', note: 'Última conferência: o servidor não alcança mais o destino.', out: [
+      '', 'RemoteAddress  TcpTestSucceeded', '-------------  ----------------', '[ok]198.51.100.77             False', '',
+      '[hi]Checklist de recuperação: 5 de 5. Liberar o SRV-ERP-01 às 14:00 de 03/12, com monitoração reforçada por 30 dias.' ] }
   ],
-  done: 'Roteiro concluído: só os casos retestados entram na cobertura.'
+  done: 'Roteiro concluído: erradicação e recuperação conferidas.'
 });
 
-/* ---------- 14. Cena 3D: cobertura em 4 momentos ---------- */
-Labs.scene3d('#lab-3d', (c) => {
-  const { THREE, root } = c;
-  const TAT = ['Acesso inicial', 'Execução', 'Persistência', 'Escalada', 'Furtividade', 'Credenciais', 'Descoberta', 'Mov. lateral', 'Coleta', 'Impacto'];
-  // ordem em que cada técnica passa a ser detectada (0..29); embaralhada para espalhar pelas táticas
-  const ORD = [3, 17, 9, 25, 0, 21, 12, 28, 6, 14, 1, 19, 26, 8, 22, 4, 11, 29, 15, 2, 23, 7, 18, 27, 10, 5, 24, 13, 20, 16];
-  const ESTADOS = [
-    { nome: 'Ciclo 1 · 1ª execução', det: 9 },
-    { nome: 'Ciclo 1 · reteste', det: 15 },
-    { nome: 'Ciclo 2', det: 21 },
-    { nome: 'Ciclo 3', det: 25, residual: true }
+/* ---------- 18. Fila de priorização ---------- */
+Labs.register('#lab-pri', (el) => {
+  const I = [
+    { id: 'A', t: 'SRV-ERP-01 com acesso remoto não aprovado (R8)', v: [5, 3, 2] },
+    { id: 'B', t: 'NB-FIN-031 acessou domínio recém-registrado (R1)', v: [3, 2, 1] },
+    { id: 'C', t: 'Varredura barrada pelo WAF (R4)', v: [2, 2, 1] }
   ];
-  const base = new THREE.Mesh(new THREE.BoxGeometry(12.6, 0.12, 4.6), new THREE.MeshStandardMaterial({ color: 0x0f1b33 }));
-  base.position.y = -0.06; root.add(base);
-  const blocos = [];
-  for (let i = 0; i < 30; i++) {
-    const col = i % 10, row = Math.floor(i / 10);
-    const m = new THREE.Mesh(new THREE.BoxGeometry(0.95, 1, 0.95), new THREE.MeshStandardMaterial({ color: 0xff2b5f, emissive: 0x000000, roughness: 0.45, metalness: 0.15 }));
-    m.position.set(-5.6 + col * 1.245, 0.5, -1.4 + row * 1.4);
-    m.userData = { alvo: 0.4, h: 0.4 };
-    root.add(m); blocos.push(m);
-  }
-  TAT.forEach((t, k) => { const l = c.label(t, { size: 30, scale: 1.05 }); l.position.set(-5.6 + k * 1.245, k % 2 ? -1.05 : -0.45, 2.6); root.add(l); });
-  let titulo = null;
-  const verde = new THREE.Color(0x3fd47a), verm = new THREE.Color(0xff2b5f), cinza = new THREE.Color(0x8b949e);
-  const leg = c.legend('');
-  function aplicar(k) {
-    const e = ESTADOS[k];
-    blocos.forEach((m, i) => {
-      const ok = ORD[i] < e.det, res = e.residual && !ok;
-      m.userData.alvo = ok ? 2.2 : res ? 0.9 : 0.4;
-      m.material.color.copy(ok ? verde : res ? cinza : verm);
-      m.material.emissive.copy(ok ? verde : res ? cinza : verm).multiplyScalar(0.25);
-    });
-    const pct = Math.round(e.det / 30 * 100);
-    leg.innerHTML = `<b>${e.nome}</b><br><i style="background:#3FD47A"></i>com alerta comprovado: ${e.det}<br><i style="background:#FF2B5F"></i>sem alerta: ${e.residual ? 0 : 30 - e.det}` +
-      (e.residual ? '<br><i style="background:#8B949E"></i>risco residual aceito: 5' : '') + `<br>Cobertura testada: <b>${e.det} ÷ 30 = ${pct}%</b>`;
-    if (titulo) root.remove(titulo);
-    titulo = c.label(`${pct}% de cobertura testada`, { size: 46, color: '#F2CB0A' }); titulo.position.set(0, 3.6, 0); root.add(titulo);
-    btns.forEach((b, j) => b.classList.toggle('is-on', j === k));
-  }
-  const ctl = c.controls(ESTADOS.map((e, j) => `<button class="lab-chip" data-k="${j}">${e.nome}</button>`).join(''));
-  const btns = [...ctl.querySelectorAll('button')];
-  btns.forEach((b) => b.addEventListener('click', () => aplicar(+b.dataset.k)));
-  aplicar(0);
-  c.onFrame(() => {
-    blocos.forEach((m) => {
-      m.userData.h += (m.userData.alvo - m.userData.h) * 0.08;
-      m.scale.y = m.userData.h; m.position.y = m.userData.h / 2;
-    });
+  const MAX = [5, 3, 3];
+  el.innerHTML = '<div class="lab-panel" style="flex:1;display:flex;flex-direction:column;gap:.4rem;overflow:auto"><h4>Prioridade = criticidade × confiança × abrangência</h4><div class="pri-head"><span>Incidente</span><span>Criticidade (1–5)</span><span>Confiança (1–3)</span><span>Abrangência (1–3)</span><span style="text-align:center">Nota</span></div><div class="pri-list" style="position:relative"></div><p id="pri-msg" style="margin:.3rem 0 0;color:#C9D4E5;font-size:.95rem"></p></div>';
+  const list = el.querySelector('.pri-list');
+  I.forEach((x) => {
+    const row = Labs.h('div', 'pri-row', '<span><b>(' + x.id + ')</b> ' + Labs.esc(x.t) + '</span>' +
+      x.v.map((v, j) => '<select class="lab-select" aria-label="valor ' + (j + 1) + ' de ' + x.id + '" data-j="' + j + '">' + Array.from({ length: MAX[j] }, (_, n) => '<option' + (n + 1 === v ? ' selected' : '') + '>' + (n + 1) + '</option>').join('') + '</select>').join('') +
+      '<b class="sc"></b>');
+    row.querySelectorAll('select').forEach((s) => s.addEventListener('change', () => { x.v[+s.dataset.j] = +s.value; calc(); }));
+    x.row = row; list.appendChild(row);
   });
-}, { camera: [0, 6.5, 12.5] });
+  function calc() {
+    I.forEach((x) => { x.s = x.v[0] * x.v[1] * x.v[2]; const b = x.row.querySelector('.sc'); b.textContent = x.s; b.style.color = x.s >= 20 ? '#FF5C7A' : x.s >= 10 ? '#F2CB0A' : '#3FD47A'; });
+    const ord = I.slice().sort((a, b) => b.s - a.s);
+    ord.forEach((x) => list.appendChild(x.row));
+    el.querySelector('#pri-msg').textContent = 'Ordem de atendimento: ' + ord.map((x) => x.id + ' (' + x.s + ')').join(', ') + '.';
+  }
+  calc();
+});
 </script>
 </body>
 </html>

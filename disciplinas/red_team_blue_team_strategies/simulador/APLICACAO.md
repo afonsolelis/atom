@@ -98,13 +98,33 @@ Fontes desligadas no padrão: *buckets* e saída de rede, catracas e monitor de 
 
 | Cenário | Aulas | O que acontece | Técnicas ATT&CK (as mesmas dos passos do simulador) |
 |---|---|---|---|
-| `phishing` | 1, 7 | campanha simulada contra o financeiro, clique e tentativa de login | T1566.002, T1078 |
-| `recon` | 5, 6 | levantamento externo, subdomínio de homologação exposto, varredura | T1596, T1595, T1190 (os slides da Aula 5 acrescentam T1593, T1591 e T1589) |
+| `phishing` | 1, 6 | campanha simulada contra o financeiro, clique e tentativa de login | T1566.002, T1078 |
+| `recon` | 2, 5 | levantamento externo, subdomínio de homologação exposto, varredura | T1596, T1595, T1190 (os slides da Aula 5 acrescentam T1593, T1591 e T1589) |
 | `api-abuso` | 6, 10 | *credential stuffing* no app e acesso a dados de outro aluno (BOLA) | T1110.004, T1078, T1190 |
-| `ransomware` | 2, 8, 12, 13 | cadeia completa do Cobalto Austral, da conta válida à criptografia na sede | T1078, T1087.002, T1021.001, T1003, T1567.002, T1490, T1486 |
-| `catraca` | 4, 9 | catraca de uma academia passa a enviar volume anômalo e um firmware não assinado, que gera *check-ins* falsos | T1499, T1495, T1565 |
-| `exfiltracao` | 11, 14 | ferramenta de acesso remoto não aprovada e cópia de dados para bucket externo | T1219, T1567.002 |
+| `ransomware` | 3, 7, 8, 12, 15, 16 | cadeia completa do Cobalto Austral, da conta válida à criptografia na sede | T1078, T1087.002, T1021.001, T1003, T1567.002, T1490, T1486 |
+| `catraca` | 9 | catraca de uma academia passa a enviar volume anômalo e um firmware não assinado, que gera *check-ins* falsos | T1499, T1495, T1565 |
+| `exfiltracao` | 11, 13, 14 | ferramenta de acesso remoto não aprovada e cópia de dados para bucket externo | T1219, T1567.002 |
 
 Cada cenário gera eventos nos mesmos tópicos que o tráfego legítimo. Se a fonte de telemetria estiver ligada e a regra do CEP correspondente estiver ativa, nasce um alerta no SOC; senão, o passo passa despercebido. Ligar e desligar fontes e regras é o que as aulas exploram.
 
 Na aba Cenários, **Reiniciar** (no topo) volta fontes e regras ao padrão; **Repetir com as fontes e regras atuais** roda o mesmo cenário de novo mantendo os ajustes feitos, para o ciclo de reteste do Purple Team. Cada passo mostra também a fase da Cyber Kill Chain correspondente à técnica.
+
+## Nomes criados no realinhamento à ementa oficial (22/11/2026)
+
+Usados nos decks e textos das aulas; seguem os padrões acima.
+
+| Nome | O que é | Aulas |
+|---|---|---|
+| QUIMONO | palavra de parada (*stop word*) do exercício, definida na RoE | 2 |
+| BI-2026-041 | boletim de inteligência sobre o Grupo Cobalto Austral, base do plano de emulação | 3, 4 |
+| `kali@lab-tatame` (192.0.2.66 externo; 10.10.250.66 na sede) | VM Kali Linux do Red Team, só dentro do escopo autorizado | 5, 6, 7 |
+| `tst.redteam01`, `tst.local01` | contas de teste criadas pelo Red Team (a segunda, pendente de remoção no relatório) | 7, 8 |
+| RT-APR2291 | marca dos artefatos do Red Team, para o Blue Team distinguir exercício de ataque real | 7, 8 |
+| `lab-wazuh` | servidor Wazuh de laboratório usado no `wazuh-logtest` | 10 |
+| `atualiza.exe` | amostra fictícia usada no laboratório de *hash* x YARA | 10 |
+| 10.10.5.0/24, `CORP\TI-Admins-Servidores` | sub-rede e grupo administrativo da TI na sede | 12 |
+| INC-2026-1202-01 | incidente do ConectaJá e da saída de 2,8 GB do SRV-ERP-01 | 13, 14, 16 |
+| 10.10.200.15 | endereço do *pool* da VPN usado no incidente | 14 |
+| NB-SOC-004 | estação forense do SOC | 14 |
+| APR-3107 | autorização da sessão *purple* de 10/12/2026 | 15 |
+| RPT-2026-12 | relatório final do exercício | 16 |

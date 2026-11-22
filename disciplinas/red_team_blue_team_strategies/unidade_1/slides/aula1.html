@@ -3,9 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aula 1 — Red, Blue e Purple Team: papéis, objetivos e ética</title>
+<title>Aula 1 — Red, Blue, White e Purple Team: papéis e objetivos</title>
 <link rel="stylesheet" href="../../assets/deck.css">
 <link rel="stylesheet" href="../../assets/labs.css">
+<style>
+  .tabela-industrial.t4 th, .tabela-industrial.t4 td { font-size: clamp(.78rem, 1vw, .98rem); }
+  .papel-white { color: #FFFFFF; }
+</style>
 </head>
 <body>
 <script src="../../assets/sprite.js"></script>
@@ -20,8 +24,8 @@
     <div class="capa-canto capa-br" aria-hidden="true"><svg viewBox="0 0 300 300"><use href="#capa-canto-4"/></svg></div>
     <div class="slide-content">
       <div class="logo-marca"><svg width="340" height="84" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-      <h1>Aula 1 — Red, Blue e Purple Team: papéis, objetivos e ética</h1>
-      <div class="subtitulo">Unidade 1 — Fundamentos: ataque e defesa como estratégia</div>
+      <h1>Aula 1 — Red, Blue, White e Purple Team: papéis e objetivos</h1>
+      <div class="subtitulo">Unidade 1 — Planejamento de Operações e Emulação de Adversário</div>
       <div class="docente">Prof. Afonso Cesar Lelis Brandão</div>
     </div>
   </section>
@@ -31,7 +35,7 @@
     <div class="sumario-grid">
       <div class="sumario-lado-claro">
         <div class="sumario-logo"><svg width="180" height="44" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
-        <h1 class="sumario-titulo">Red, Blue e Purple Team: papéis, objetivos e ética</h1>
+        <h1 class="sumario-titulo">Red, Blue, White e Purple Team: papéis e objetivos</h1>
       </div>
       <div class="sumario-lado-escuro">
         <div class="prof-canto-topo" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -39,13 +43,13 @@
         <h2>Sumário</h2>
         <ul>
           <li>"Estamos seguros?" e a falta de evidência</li>
-          <li>A origem militar dos termos</li>
-          <li>Red, Blue e Purple Team, em 3D</li>
+          <li>Red e Blue Team: a origem militar dos termos</li>
+          <li>White e Purple Team: o árbitro e a ponte</li>
+          <li>Quatro cores, em 3D, e o que cada uma entrega</li>
+          <li>Laboratório: o ciclo de uma operação de Red Team</li>
           <li>Laboratório: um <em>phishing</em> simulado e dois desfechos</li>
-          <li>Laboratório: o SOC investiga o exercício no SIEM</li>
-          <li>Laboratório: o exercício na plataforma Rede Tatame</li>
-          <li>Ética e lei: autorização, escopo e regras de engajamento</li>
-          <li>Laboratório: regras de engajamento como código</li>
+          <li>Laboratórios: o SOC e a plataforma Rede Tatame</li>
+          <li>Laboratório: o caderno do árbitro em Python</li>
           <li>Laboratório: por que testar compensa</li>
         </ul>
         <div class="sumario-canto-rodape" aria-hidden="true"><svg width="110" height="110"><use href="#prof-canto-amarelo"/></svg></div>
@@ -62,45 +66,62 @@
       <div class="problema">
         <div class="historia">
           <p>A <strong>Rede Tatame</strong> é a rede fictícia de 240 academias de jiu-jitsu que vamos atacar e defender o semestre inteiro. Ela comprou <em>firewall</em>, antivírus e autenticação em dois fatores.</p>
-          <p>Na reunião de diretoria, a CISO Marina Prado ouve a pergunta "estamos seguros?" e percebe que não tem como provar. As ferramentas estão instaladas, mas ninguém sabe se elas detectariam um ataque, nem em quanto tempo a equipe reagiria.</p>
+          <p>Na reunião de diretoria, a CISO Marina Prado ouve a pergunta "estamos seguros?" e percebe que não tem como provar. Ninguém sabe se as ferramentas detectariam um ataque, nem em quanto tempo a equipe reagiria.</p>
           <p>O que está em jogo: 36 mil alunos, cerca de 30% menores de idade, biometria facial nas catracas e atestados de saúde.</p>
-          <div class="pergunta">Como a Rede Tatame pode testar a própria defesa sem cometer um crime e sem esperar um ataque real?</div>
-          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>Alvo do teste</b> Carla Dias, financeiro</span><span><b>Autoriza</b> Marina Prado</span></div>
+          <div class="pergunta">Como a Rede Tatame pode testar a própria defesa sem esperar um ataque real, e quem faz o quê nesse teste?</div>
+          <div class="papeis"><span><b>Red Team</b> Bruno Sato</span><span><b>Blue Team</b> Luiza Ferraz</span><span><b>White Team</b> Marina Prado</span><span><b>Alvo do teste</b> Carla Dias</span></div>
         </div>
         <div class="lab-area" id="mapa-problema"></div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Origem e Red Team -->
+  <!-- 4. Origem, Red e Blue -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Conceitos</p>
       <h2>Da simulação militar ao adversário autorizado</h2>
       <div class="slide-content-box">
-        <p>Os nomes vêm de exercícios militares em que uma força "vermelha" fazia o papel do inimigo para testar os planos da força "azul". Na cibersegurança, a ideia continua a mesma: <strong>só sabemos se uma defesa funciona quando alguém que pensa como o adversário a põe à prova</strong>.</p>
+        <p>Nos <em>wargames</em> militares, uma força "vermelha" fazia o papel do inimigo para testar os planos da força "azul", e uma equipe neutra, de branco, controlava as regras. Na cibersegurança, a ideia continua: <strong>só sabemos se uma defesa funciona quando alguém que pensa como o adversário a põe à prova, sob regras que alguém faz cumprir</strong>.</p>
         <ul>
-          <li><strong>Red Team</strong>: emula um adversário real, com autorização, e persegue objetivos como "acessar a base de clientes" ou "obter privilégios de administrador do domínio".</li>
+          <li><strong>Red Team</strong>: emula um adversário real, com autorização, e persegue objetivos combinados, como "acessar a base de fichas de alunos".</li>
           <li><strong>Blue Team</strong>: protege, monitora, detecta e responde, todos os dias e contra ameaças reais, em geral a partir do SOC.</li>
-          <li><strong>Purple Team</strong>: é menos uma equipe fixa e mais uma forma de colaboração. O Red executa uma técnica, o Blue confere se ela foi detectada e os dois ajustam a detecção na hora.</li>
+          <li>Duas métricas acompanham o Blue Team: <strong>MTTD</strong>, do primeiro evento até a detecção, e <strong>MTTR</strong>, da detecção até a contenção.</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- 5. LAB 3D: Red, Blue, Purple -->
+  <!-- 5. White e Purple -->
+  <section class="slide">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Conceitos</p>
+      <h2>O árbitro e a ponte: White Team e Purple Team</h2>
+      <div class="slide-content-box">
+        <ul>
+          <li><strong>White Team</strong> (célula branca): planeja, controla e arbitra o exercício, sem participar da disputa. Reúne poucos <em>trusted agents</em> (agentes de confiança) que sabem da operação.</li>
+          <li>Cabe a ele aprovar o plano e as regras de engajamento, decidir se uma ação está dentro do combinado, pausar ou encerrar pelos critérios de parada e julgar o que foi detectado.</li>
+          <li><em>Deconfliction</em>: quando o SOC escala um alerta, o White Team confere no registro do Red Team se a atividade é do exercício. Se não for, pode ser um incidente real, e o teste para.</li>
+          <li><strong>Purple Team</strong>: uma forma de colaboração. O Red executa uma técnica, o Blue confere se a detectou e os dois ajustam a regra e retestam.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. LAB 3D: quatro cores -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>Três cores, uma estratégia</h2></div><span class="lab-badge purple">Purple Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Visualização 3D</p><h2>Quatro cores, um exercício</h2></div><span class="lab-badge purple">Papéis</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Entender o papel de cada equipe antes de montar o teste da Rede Tatame.</div>
-            <div class="rl"><b>Faça</b>Arraste para girar a cena e procure o ponto em que os anéis vermelho e azul se cruzam.</div>
-            <div class="rl obs"><b>Observe</b>Vermelho emula o adversário. Azul protege, detecta e responde. O roxo, no centro, é a colaboração. As partículas são técnicas testadas que viram detecção.</div>
-            <div class="rl conc"><b>Conclusão</b>Testar a defesa pede as três cores: quem ataca, quem defende e quem junta os resultados.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver o papel de cada equipe antes de montar o teste da Rede Tatame.</div>
+            <div class="rl"><b>Faça</b>Arraste para girar a cena e procure o ponto em que os anéis vermelho e azul se cruzam, dentro do anel branco.</div>
+            <div class="rl obs"><b>Observe</b>Vermelho emula, azul detecta e responde, roxo colabora. O anel branco envolve tudo: é o árbitro que controla o exercício. As partículas são técnicas testadas que viram detecção.</div>
+            <div class="rl conc"><b>Conclusão</b>Testar a defesa pede quem ataca, quem defende, quem junta os resultados e quem garante as regras.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-3d"></div>
@@ -108,43 +129,52 @@
     </div>
   </section>
 
-  <!-- 6. Tabela -->
+  <!-- 7. Tabela -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <p class="kicker">Comparação</p>
-      <h2>Missão, pergunta, entregável e ritmo</h2>
+      <h2>Missão, pergunta, entregável e quem sabe do exercício</h2>
       <div class="slide-content-box">
-        <table class="tabela-industrial">
-          <thead><tr><th>Aspecto</th><th>Red Team</th><th>Blue Team</th><th>Purple Team</th></tr></thead>
+        <table class="tabela-industrial t4">
+          <thead><tr><th>Aspecto</th><th>Red Team</th><th>Blue Team</th><th>White Team</th><th>Purple Team</th></tr></thead>
           <tbody>
-            <tr><td><strong>Missão</strong></td><td>Emular adversários</td><td>Proteger, detectar e responder</td><td>Integrar ataque e defesa</td></tr>
-            <tr><td><strong>Pergunta central</strong></td><td>"Até onde um atacante chegaria?"</td><td>"Percebemos e contivemos a tempo?"</td><td>"O que aprendemos e o que mudou?"</td></tr>
-            <tr><td><strong>Entregável típico</strong></td><td>Relatório da operação e caminho de ataque</td><td>Alertas, investigações e relatórios de incidente</td><td>Detecções novas ou ajustadas e métricas de cobertura</td></tr>
-            <tr><td><strong>Ritmo</strong></td><td>Por campanha ou exercício</td><td>Contínuo</td><td>Ciclos curtos e iterativos</td></tr>
+            <tr><td><strong>Missão</strong></td><td>Emular adversários</td><td>Proteger, detectar e responder</td><td>Planejar, controlar e arbitrar</td><td>Integrar ataque e defesa</td></tr>
+            <tr><td><strong>Pergunta central</strong></td><td>"Até onde um atacante chegaria?"</td><td>"Percebemos e contivemos a tempo?"</td><td>"O exercício está seguro e dentro do combinado?"</td><td>"O que aprendemos e o que mudou?"</td></tr>
+            <tr><td><strong>Entregável típico</strong></td><td>Relatório e caminho de ataque</td><td>Alertas, investigações e relatórios de incidente</td><td>Plano aprovado, arbitragem e linha do tempo oficial</td><td>Detecções novas e métricas de cobertura</td></tr>
+            <tr><td><strong>Sabe do exercício?</strong></td><td>Sim</td><td>Em geral, não</td><td>Sim</td><td>Sim, de forma transparente</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- 7. LAB flow: phishing simulado, dois desfechos -->
+  <!-- 8. LAB flow: ciclo da operação -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver o que muda quando o SOC percebe o exercício</p><h2>Um <em>phishing</em> simulado e dois desfechos</h2></div><span class="lab-badge purple">Exercício autorizado</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver que a operação começa muito antes do primeiro comando</p><h2>O ciclo de uma operação de Red Team</h2></div><span class="lab-badge red">Planejamento</span></div>
+      <div class="lab-area" id="lab-ciclo"></div>
+    </div>
+  </section>
+
+  <!-- 9. LAB flow: phishing simulado, dois desfechos -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Objetivo: ver os quatro papéis agindo no mesmo exercício</p><h2>Um <em>phishing</em> simulado e dois desfechos</h2></div><span class="lab-badge purple">Exercício autorizado</span></div>
       <div class="lab-area" id="lab-flow"></div>
     </div>
   </section>
 
-  <!-- 8. LAB SIEM -->
+  <!-- 10. LAB SIEM -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
       <div class="lab-head"><div><p class="kicker">Laboratório · Blue Team</p><h2>O analista de SOC investiga o exercício</h2></div><span class="lab-badge blue">Blue Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
-          <p>O Red Team enviou 40 <em>e-mails</em> simulados ao financeiro, de um domínio registrado dois dias antes. A carta assinada pela CISO cobre o exercício.</p>
+          <p>O Red Team enviou 40 <em>e-mails</em> simulados ao financeiro, de um domínio registrado dois dias antes. Só o White Team sabia do exercício.</p>
           <div class="roteiro-lab">
             <div class="rl obj"><b>Objetivo</b>Medir se o SOC (centro de operações de segurança) de Luiza Ferraz percebeu o <em>phishing</em> simulado.</div>
             <div class="rl"><b>Faça</b>Clique nas cinco buscas salvas, à esquerda do console, na ordem.</div>
@@ -157,7 +187,7 @@
     </div>
   </section>
 
-  <!-- 9. PLATAFORMA REDE TATAME -->
+  <!-- 11. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -166,35 +196,17 @@
         <div class="lab-area" id="lab-tatame"></div>
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Ver o mesmo exercício acontecer na plataforma, passo a passo.</div>
+            <div class="rl obj"><b>Objetivo</b>Ver o mesmo exercício acontecer na plataforma, passo a passo, e responder como Blue Team.</div>
             <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>Phishing simulado no financeiro</em>.<br>2. Abra o <strong>SOC</strong>, investigue o alerta da regra R1 e clique em <strong>Conter</strong>.<br>3. Volte à <strong>Arquitetura</strong>.</div>
-            <div class="rl obs"><b>Observe</b>Qual passo foi detectado, qual foi bloqueado pelo MFA e o notebook NB-FIN-031 isolado.</div>
-            <div class="rl conc"><b>Conclusão</b>O Red Team criou o cenário e o Blue Team respondeu. A aba <strong>Cobertura</strong> mostra o resultado do ponto de vista <em>purple</em>.</div>
+            <div class="rl obs"><b>Observe</b>Qual passo foi detectado, qual foi bloqueado pelo MFA e o notebook NB-FIN-031 isolado. O alerta da R11 (svc-backup) não é do exercício.</div>
+            <div class="rl conc"><b>Conclusão</b>O Red Team criou o cenário, o Blue Team respondeu e o White Team separa o que é do exercício. A aba <strong>Cobertura</strong> mostra o resultado do ponto de vista <em>purple</em>.</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 10. Ética e lei -->
-  <section class="slide">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <p class="kicker">Ética e legalidade</p>
-      <h2>O que separa um teste de um crime</h2>
-      <div class="slide-content-box">
-        <p>Tecnicamente, muitas ações de um Red Team são idênticas às de um criminoso. O que as diferencia é a <strong>autorização formal</strong>.</p>
-        <ul>
-          <li>A Lei nº 12.737/2012 incluiu no Código Penal o <strong>art. 154-A</strong>, que tipifica a invasão de dispositivo informático. A Lei nº 14.155/2021 agravou as penas.</li>
-          <li>Nenhuma atividade ofensiva começa sem documento assinado por quem tem autoridade sobre os ativos, com <strong>escopo</strong>, <strong>regras de engajamento</strong> e <strong>contatos de emergência</strong>.</li>
-          <li>A LGPD (Lei nº 13.709/2018) continua valendo durante o teste: dado pessoal acessado é exposto o mínimo possível, protegido e descartado ao final.</li>
-        </ul>
-        <div class="callout-azul"><p>Um bom profissional ofensivo é, antes de tudo, alguém de confiança.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 11. Antes do código: onde achar e como instalar -->
+  <!-- 12. Antes do código: onde achar e como instalar -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -205,50 +217,31 @@
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
             <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site (Windows, macOS e Linux)</td></tr>
-            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>guardiao.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
+            <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>arbitro.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
             <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração dentro do editor</td><td>Aba Extensões do VS Code, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
-            <tr><td><strong>PyYAML</strong></td><td>Lê o arquivo <code>roe.yaml</code> (o <code>import yaml</code>)</td><td><code>pypi.org/project/PyYAML</code></td><td><code>pip install -r requirements.txt</code></td></tr>
+            <tr><td><strong>tabulate</strong></td><td>Imprime o veredito do árbitro em forma de tabela (o <code>from tabulate import tabulate</code>)</td><td><code>pypi.org/project/tabulate</code></td><td><code>pip install -r requirements.txt</code></td></tr>
           </tbody>
         </table>
-        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> busque o nome do pacote no PyPI (<code>pypi.org</code>), o índice oficial de pacotes Python, e confira o nome letra por letra, o <em>link</em> para o repositório do projeto e a data da última versão. Pacote com nome quase igual ao verdadeiro é um golpe conhecido (<em>typosquatting</em>). Instale sempre dentro de um ambiente virtual (<code>.venv</code>), para não misturar os pacotes de um projeto com os do sistema.</div>
+        <div class="callout-azul" style="margin-top:.7rem"><strong>Como conferir antes de instalar:</strong> busque o nome do pacote no PyPI (<code>pypi.org</code>), o índice oficial de pacotes Python, e confira o nome letra por letra, o <em>link</em> para o repositório do projeto e a data da última versão. Pacote com nome quase igual ao verdadeiro é um golpe conhecido (<em>typosquatting</em>). Os módulos <code>csv</code>, <code>sys</code> e <code>datetime</code> já vêm com o Python. Instale sempre dentro de um ambiente virtual (<code>.venv</code>).</div>
       </div>
     </div>
   </section>
 
-  <!-- 12. LAB VS Code: RoE como código -->
+  <!-- 13. LAB VS Code: caderno do árbitro -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>Regras de engajamento como código</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-head"><div><p class="kicker">Laboratório · Código</p><h2>O caderno do árbitro</h2></div><span class="lab-badge">White Team</span></div>
       <div class="lab-split">
         <div class="lab-side">
           <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Garantir que o teste fique dentro da autorização.</div>
-            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere o botão mostrar "Ambiente pronto".<br>2. Abra <code>roe.yaml</code>: as regras de engajamento (RoE) com escopo, janela, proibições e contatos.<br>3. Rode as duas execuções do <code>guardiao.py</code>.</div>
-            <div class="rl obs"><b>Observe</b>Às 10h15, 3 alvos liberados e 4 bloqueados: PagaFácil, página de status, rede de pagamentos e uma rede desconhecida. Às 21h40, nada roda.</div>
-            <div class="rl conc"><b>Conclusão</b>Escopo e horário conferidos por código antes de qualquer ação.</div>
+            <div class="rl obj"><b>Objetivo</b>Julgar o exercício como o White Team: cruzar o registro do Red Team com os alertas do SOC.</div>
+            <div class="rl"><b>Faça</b>1. Clique em "Preparar o ambiente" e espere "Ambiente pronto".<br>2. Abra <code>acoes_red.csv</code> e <code>alertas_soc.csv</code>.<br>3. Rode "Julgar o exercício" e depois "Julgar o reteste".</div>
+            <div class="rl obs"><b>Observe</b>1 de 3 ações detectada (33%), em 4 min 55 s; o MFA bloqueou a terceira; o alerta da R11 não é do exercício (<em>deconfliction</em>). No reteste, com a regra nova EM-01, 2 de 3 (67%).</div>
+            <div class="rl conc"><b>Conclusão</b>Sem o registro do Red Team, ninguém separa o exercício de um incidente real.</div>
           </div>
         </div>
         <div class="lab-area" id="lab-vsc"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 13. LAB terminal: integridade da autorização -->
-  <section class="slide slide-lab">
-    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
-    <div class="slide-content">
-      <div class="lab-head"><div><p class="kicker">Laboratório · Terminal</p><h2>A carta de autorização é a versão assinada?</h2></div><span class="lab-badge purple">Governança</span></div>
-      <div class="lab-split">
-        <div class="lab-side">
-          <div class="roteiro-lab">
-            <div class="rl obj"><b>Objetivo</b>Confirmar que a carta de autorização é a versão assinada por Marina Prado.</div>
-            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim do roteiro.</div>
-            <div class="rl obs"><b>Observe</b>O <em>hash</em> SHA-256, uma impressão digital do arquivo, confere com o chamado APR-2291. A cópia que chegou por <em>e-mail</em> tem outro <em>hash</em>.</div>
-            <div class="rl conc"><b>Conclusão</b>Um PDF alterado depois da assinatura não autoriza nada.</div>
-          </div>
-        </div>
-        <div class="lab-area" id="lab-term"></div>
       </div>
     </div>
   </section>
@@ -279,11 +272,11 @@
       <p class="kicker">De volta ao problema</p>
       <h2>Agora a CISO tem como responder</h2>
       <div class="resolvido">
-        <div class="ev"><b>Testar com autorização</b>O Red Team simula o <em>phishing</em> dentro de um escopo assinado por Marina Prado, com regras de engajamento verificadas por código.</div>
-        <div class="ev"><b>Medir a defesa</b>O SOC de Luiza Ferraz mostra quem recebeu, quem clicou e em quantos minutos o alerta apareceu (MTTD e MTTR).</div>
-        <div class="ev"><b>Melhorar junto</b>Na reunião <em>purple</em>, o passo que ninguém viu vira regra nova, testada na mesma semana.</div>
-        <div class="ev"><b>Falar com a diretoria</b>O cálculo de ALE traduz o resultado em reais: o teste custa menos do que o risco que ele reduz.</div>
-        <div class="resposta">Resposta à pergunta da aula: a Rede Tatame testa a defesa com exercícios autorizados de Red Team, mede a resposta do Blue Team e usa o Purple Team para transformar cada falha encontrada em melhoria comprovada.</div>
+        <div class="ev"><b>Quem ataca</b>O Red Team de Bruno Sato emula o adversário em um ciclo que começa no planejamento e termina no reteste.</div>
+        <div class="ev"><b>Quem defende</b>O SOC de Luiza Ferraz mostra quem recebeu, quem clicou e em quantos minutos o alerta apareceu (MTTD e MTTR).</div>
+        <div class="ev"><b>Quem arbitra</b>O White Team de Marina Prado controla as regras, faz a <em>deconfliction</em> e julga: 1 de 3 ações detectada, 2 de 3 no reteste.</div>
+        <div class="ev"><b>Quem junta</b>Na reunião <em>purple</em>, o passo que ninguém viu vira regra nova. O cálculo de ALE mostra à diretoria que o teste custa menos que o risco que reduz.</div>
+        <div class="resposta">Resposta à pergunta da aula: a Rede Tatame testa a defesa com exercícios autorizados em que o Red Team emula o adversário, o Blue Team detecta e responde, o White Team controla e arbitra, e o Purple Team transforma cada falha em melhoria comprovada.</div>
       </div>
     </div>
   </section>
@@ -297,9 +290,9 @@
       <div class="slide-content-box">
         <ul>
           <li>O Red Team emula adversários para testar prevenção, detecção e resposta.</li>
-          <li>O Blue Team defende o ambiente de forma contínua.</li>
-          <li>O Purple Team é a colaboração que transforma ataques simulados em melhorias.</li>
-          <li>Sem autorização formal, escopo e regras de engajamento, um teste é crime.</li>
+          <li>O Blue Team defende o ambiente de forma contínua, medindo MTTD e MTTR.</li>
+          <li>O White Team planeja, controla e arbitra o exercício, faz a <em>deconfliction</em> e pode pará-lo.</li>
+          <li>O Purple Team é a colaboração que transforma ataques simulados em detecções validadas.</li>
         </ul>
       </div>
     </div>
@@ -312,10 +305,9 @@
       <p class="kicker">Referências</p>
       <h2>Referências da aula</h2>
       <div class="slide-content-box" style="font-size:.85em">
-        <p>BRASIL. Lei nº 12.737, de 30 de novembro de 2012. Dispõe sobre a tipificação criminal de delitos informáticos. <em>Diário Oficial da União</em>, Brasília, DF, 3 dez. 2012.</p>
-        <p>BRASIL. Lei nº 13.709, de 14 de agosto de 2018. Lei Geral de Proteção de Dados Pessoais (LGPD). <em>Diário Oficial da União</em>, Brasília, DF, 15 ago. 2018.</p>
-        <p>BRASIL. Lei nº 14.155, de 27 de maio de 2021. Altera o Código Penal para tornar mais graves os crimes de violação de dispositivo informático, furto e estelionato cometidos de forma eletrônica. <em>Diário Oficial da União</em>, Brasília, DF, 28 maio 2021.</p>
         <p>EUROPEAN CENTRAL BANK. <em>TIBER-EU framework</em>: how to implement the European framework for threat intelligence-based ethical red teaming. Frankfurt: ECB, 2018.</p>
+        <p>SANTOS, Joas Antonio dos. <em>Introdução ao Red Team Operations 2.0</em>: um guia básico para suas operações de Red Team. Rio de Janeiro: Brasport, 2024. <em>E-book</em>.</p>
+        <p>WEIDMAN, Georgia. <em>Testes de invasão</em>: uma introdução prática ao hacking. São Paulo: Novatec, 2014.</p>
       </div>
     </div>
   </section>
@@ -327,8 +319,8 @@
     <div class="fim-cluster-base" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMax meet"><use href="#cluster-fim"/></svg></div>
     <div class="slide-content">
       <h1>Encerramento</h1>
-      <p class="fim-texto">Você já distingue os papéis de Red, Blue e Purple Team, sabe o que cada um entrega e conhece os limites legais que separam um teste autorizado de um crime.</p>
-      <p class="fim-proxima">Próxima aula: Aula 2 — Pensar como o adversário: Cyber Kill Chain e MITRE ATT&amp;CK.</p>
+      <p class="fim-texto">Você já distingue os quatro papéis de um exercício de simulação de adversário, sabe o que cada um entrega e conhece o ciclo de uma operação de Red Team.</p>
+      <p class="fim-proxima">Próxima aula: Aula 2 — Regras de engajamento, escopo, autorização e aspectos legais.</p>
       <p class="fim-prof">Prof. Afonso Cesar Lelis Brandão</p>
     </div>
   </section>
@@ -338,21 +330,30 @@
 <script src="../../assets/deck.js"></script>
 <script src="../../assets/labs.js"></script>
 <script>
-/* ---------- 6. Cena 3D: anéis Red, Blue e Purple ---------- */
+/* ---------- 6. Cena 3D: anéis Red, Blue, Purple e o anel White ---------- */
 Labs.scene3d('#lab-3d', (c) => {
   const { THREE, root } = c;
-  const ring = (color, r) => new THREE.Mesh(new THREE.TorusGeometry(r, 0.18, 24, 120), new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, metalness: 0.3, roughness: 0.35 }));
+  const ring = (color, r, tube) => new THREE.Mesh(new THREE.TorusGeometry(r, tube || 0.18, 24, 140), new THREE.MeshStandardMaterial({ color, emissive: color, emissiveIntensity: 0.35, metalness: 0.3, roughness: 0.35 }));
   const red = ring(0xff2b5f, 3.2), blue = ring(0x00b1d2, 3.2);
   red.position.x = -1.6; blue.position.x = 1.6;
   red.rotation.x = 1.2; blue.rotation.x = 1.2; blue.rotation.y = 0.5;
-  root.add(red, blue);
+  const white = ring(0xffffff, 6.4, 0.07);
+  white.material.emissiveIntensity = 0.5; white.material.transparent = true; white.material.opacity = 0.75;
+  white.rotation.x = Math.PI / 2;
+  root.add(red, blue, white);
   const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.8, 1), new THREE.MeshStandardMaterial({ color: 0x9b6bff, emissive: 0x6a3df0, emissiveIntensity: 0.6, flatShading: true }));
   root.add(core);
   const lr = c.label('Red Team · emular', { color: '#FF5C7A' }); lr.position.set(-5.3, 3.3, 0);
   const lb = c.label('Blue Team · detectar', { color: '#58C4E8' }); lb.position.set(5.3, 3.3, 0);
   const lp = c.label('Purple · colaborar', { color: '#C2A5FF' }); lp.position.set(0, -2.4, 0);
-  root.add(lr, lb, lp);
-  // partículas: técnicas que viram detecções
+  const lw = c.label('White Team · arbitrar', { color: '#FFFFFF' }); lw.position.set(0, 1.2, 6.4);
+  root.add(lr, lb, lp, lw);
+  // marcos do árbitro no anel branco: regras, deconfliction, parada, julgamento
+  const marcos = [];
+  for (let i = 0; i < 4; i++) {
+    const m = new THREE.Mesh(new THREE.OctahedronGeometry(0.28), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xdddddd, emissiveIntensity: 0.5 }));
+    root.add(m); marcos.push(m);
+  }
   const pts = [];
   for (let i = 0; i < 26; i++) {
     const m = new THREE.Mesh(new THREE.SphereGeometry(0.09, 10, 10), new THREE.MeshBasicMaterial({ color: 0xffffff }));
@@ -362,16 +363,45 @@ Labs.scene3d('#lab-3d', (c) => {
   c.onFrame((t) => {
     red.rotation.z = t * 0.4; blue.rotation.z = -t * 0.4; core.rotation.y = t * 0.8; core.rotation.x = t * 0.3;
     core.scale.setScalar(1 + Math.sin(t * 2.5) * 0.08);
+    marcos.forEach((m, i) => { const a = t * 0.25 + i * Math.PI / 2; m.position.set(Math.cos(a) * 6.4, 0, Math.sin(a) * 6.4); m.rotation.y = t; });
     pts.forEach((m) => {
       const u = (t * 0.18 + m.userData.o) % 1;
       m.position.set(-4.6 + 9.2 * u, m.userData.y * Math.sin(u * Math.PI), Math.cos(u * Math.PI * 2 + m.userData.o * 6) * 0.8);
       m.material.color.copy(u < 0.5 ? cR.clone().lerp(cP, u * 2) : cP.clone().lerp(cB, (u - 0.5) * 2));
     });
   });
-  c.legend('<i style="background:#FF2B5F"></i>Emular adversário<br><i style="background:#9B6BFF"></i>Colaborar e melhorar<br><i style="background:#00B1D2"></i>Proteger, detectar, responder');
-}, { camera: [0, 3, 13] });
+  c.legend('<i style="background:#FF2B5F"></i>Emular adversário<br><i style="background:#9B6BFF"></i>Colaborar e melhorar<br><i style="background:#00B1D2"></i>Proteger, detectar, responder<br><i style="background:#FFFFFF"></i>Planejar, controlar, arbitrar');
+}, { camera: [0, 5, 15] });
 
-/* ---------- 8. Fluxo: phishing simulado ---------- */
+/* ---------- 8. Fluxo: o ciclo de uma operação de Red Team ---------- */
+Labs.flow('#lab-ciclo', {
+  w: 1100, h: 430,
+  nodes: [
+    { id: 'plan', x: 150, y: 80, label: 'Planejamento', sub: 'objetivo, RoE, carta · Aula 2', icon: '📝', k: 'amber', w: 240 },
+    { id: 'intel', x: 550, y: 80, label: 'Inteligência e emulação', sub: 'adversário e plano · Aulas 3 e 4', icon: '🧭', k: 'amber', w: 270 },
+    { id: 'prep', x: 950, y: 80, label: 'Preparação', sub: 'contas de teste, registro', icon: '🧰', k: 'red', w: 230 },
+    { id: 'exec', x: 950, y: 350, label: 'Execução', sub: 'técnicas no escopo · Unidade 2', icon: '🎯', k: 'red', w: 240 },
+    { id: 'rel', x: 550, y: 350, label: 'Relatório', sub: 'Red x Blue · Aula 16', icon: '📄', k: 'blue', w: 230 },
+    { id: 'lic', x: 150, y: 350, label: 'Lições e reteste', sub: 'ciclos purple · Aula 15', icon: '🤝', k: 'purple', w: 230 },
+    { id: 'white', x: 550, y: 215, label: 'White Team', sub: 'controla e arbitra', icon: '⚖️', w: 230 }
+  ],
+  links: [
+    { from: 'plan', to: 'intel' }, { from: 'intel', to: 'prep' }, { from: 'prep', to: 'exec' }, { from: 'exec', to: 'rel' }, { from: 'rel', to: 'lic' },
+    { from: 'lic', to: 'plan', label: 'próximo ciclo', dashed: true },
+    { from: 'white', to: 'plan', dashed: true }, { from: 'white', to: 'exec', dashed: true }, { from: 'white', to: 'rel', dashed: true }
+  ],
+  steps: [
+    { title: 'Seis etapas e um árbitro', text: 'Uma operação de Red Team não começa no primeiro comando. Ela percorre seis etapas, e o White Team acompanha todas, do centro do ciclo.', on: ['plan', 'intel', 'prep', 'exec', 'rel', 'lic', 'white'] },
+    { title: '1 · Planejamento', text: 'Marina Prado e Bruno Sato combinam o objetivo de negócio ("o SOC percebe um phishing no financeiro?"), o escopo, as regras de engajamento e a carta de autorização. O White Team aprova. É o tema da Aula 2.', on: ['plan', 'white'], links: [['white', 'plan', 'amber']], dim: true },
+    { title: '2 · Inteligência e emulação', text: 'Quem ameaça a Rede Tatame e como age? A inteligência de ameaças escolhe o adversário, e as técnicas dele, catalogadas no MITRE ATT&CK, viram o plano de emulação. Aulas 3 e 4.', on: ['intel'], links: [['plan', 'intel', 'amber']], dim: true },
+    { title: '3 · Preparação', text: 'O Red Team prepara a infraestrutura do exercício, como o domínio portal-rh-beneficios.example, as contas de teste e o registro de ações, que anota o quê, de onde e quando.', on: ['prep'], links: [['intel', 'prep', 'red']], dim: true },
+    { title: '4 · Execução', text: 'As técnicas rodam dentro da janela e do escopo. Quando o SOC escala um alerta, o White Team faz a deconfliction: confere no registro se a atividade é do exercício. Na Unidade 2, você verá esta etapa em detalhe.', on: ['exec', 'white'], links: [['prep', 'exec', 'red'], ['white', 'exec', 'amber']], dim: true },
+    { title: '5 · Relatório', text: 'A linha do tempo do Red Team é comparada com o que o Blue Team viu. O White Team valida a linha do tempo oficial e o julgamento de cada ação.', on: ['rel', 'white'], links: [['exec', 'rel', 'blue'], ['white', 'rel', 'amber']], dim: true },
+    { title: '6 · Lições e reteste', text: 'Cada lacuna vira uma regra nova ou um ajuste, testado de novo em ciclos purple. O resultado alimenta o próximo planejamento.', on: ['lic', 'plan'], links: [['rel', 'lic', 'purple'], ['lic', 'plan', 'purple']], dim: true }
+  ]
+});
+
+/* ---------- 9. Fluxo: phishing simulado, dois desfechos ---------- */
 Labs.flow('#lab-flow', {
   w: 1100, h: 430,
   nodes: [
@@ -382,32 +412,37 @@ Labs.flow('#lab-flow', {
     { id: 'siem', x: 790, y: 250, label: 'SIEM', sub: 'correlação', icon: '📊', k: 'blue' },
     { id: 'soc', x: 560, y: 250, label: 'Luiza Ferraz', sub: 'SOC nível 2', icon: '🛡️', k: 'blue' },
     { id: 'ir', x: 330, y: 250, label: 'Contenção', sub: 'isolar e trocar senha', icon: '🔒', k: 'green' },
+    { id: 'white', x: 250, y: 375, label: 'White Team', sub: 'Marina Prado', icon: '⚖️', w: 190 },
     { id: 'purple', x: 560, y: 375, label: 'Reunião purple', sub: 'o que mudou?', icon: '🤝', k: 'purple', w: 200 },
     { id: 'dark', x: 1000, y: 250, label: 'Ninguém viu', sub: 'semanas', icon: '🕳️', k: 'amber', w: 150 }
   ],
   links: [
     { from: 'red', to: 'mail', label: '40 e-mails' }, { from: 'mail', to: 'user' }, { from: 'user', to: 'host', label: 'clique' },
     { from: 'host', to: 'siem', label: 'telemetria' }, { from: 'siem', to: 'soc', label: 'alerta' }, { from: 'soc', to: 'ir' },
+    { from: 'soc', to: 'white', label: 'escala', dashed: true },
     { from: 'host', to: 'dark', dashed: true }, { from: 'ir', to: 'purple', curve: 40 }, { from: 'dark', to: 'purple', dashed: true, curve: -60 }
   ],
   steps: [
-    { title: '09h00 · A campanha começa', text: 'Bruno Sato, líder do Red Team interno, dispara 40 e-mails de um domínio registrado há dois dias, como faria um criminoso. O exercício está previsto na carta assinada pela CISO, Marina Prado.', on: ['red', 'mail'], links: [['red', 'mail', 'red']] },
+    { title: '09h00 · A campanha começa', text: 'Bruno Sato, líder do Red Team interno, dispara 40 e-mails de um domínio registrado há dois dias, como faria um criminoso. O exercício está previsto no plano aprovado pelo White Team.', on: ['red', 'mail'], links: [['red', 'mail', 'red']] },
     { title: '09h04 · O filtro deixa passar', text: 'O domínio é novo e ainda não aparece em listas de bloqueio. A mensagem chega a 40 caixas de entrada.', on: ['mail', 'user'], links: [['mail', 'user', 'red']] },
     { title: '09h12 · Um clique', text: 'Carla Dias, do financeiro, clica no link "Atualize seus benefícios" no NB-FIN-031. O navegador abre uma página falsa de login controlada pelo Red Team.', on: ['user', 'host'], links: [['user', 'host', 'red']] },
     { title: 'Desfecho A · 09h13 · A telemetria chega', text: 'O agente EDR registra o acesso a um domínio recém-registrado e o envia ao SIEM, que correlaciona com o e-mail recebido minutos antes.', on: ['host', 'siem'], links: [['host', 'siem', 'blue']] },
     { title: 'Desfecho A · 09h17 · Alerta e triagem', text: 'O SIEM gera um alerta de severidade alta. Luiza Ferraz, analista de SOC, abre o caso, confirma o clique e identifica as outras 39 caixas de entrada.', on: ['siem', 'soc'], links: [['siem', 'soc', 'blue']] },
-    { title: 'Desfecho A · 09h22 · Contenção em 10 minutos', text: 'O notebook é isolado pelo EDR, a senha é trocada e as mensagens são removidas das 40 caixas. A tentativa de usar a senha na VPN já tinha parado no MFA. Tempo entre o clique e a contenção: 10 minutos.', on: ['soc', 'ir'], links: [['soc', 'ir', 'green']] },
+    { title: 'Desfecho A · 09h19 · Deconfliction', text: 'Luiza escala o caso como faria com qualquer incidente. Marina Prado, do White Team, confere o registro do Red Team: mesmo domínio, mesmo horário. É o exercício. Ela não avisa o SOC e deixa a resposta seguir, porque é ela que está sendo medida.', on: ['soc', 'white'], links: [['soc', 'white', 'amber']] },
+    { title: 'Desfecho A · 09h22 · Contenção em 10 minutos', text: 'O notebook é isolado pelo EDR, a senha é trocada e as mensagens são removidas das 40 caixas. A tentativa de usar a senha na VPN já tinha parado no MFA. Do clique à contenção: 10 minutos.', on: ['soc', 'ir'], links: [['soc', 'ir', 'green']] },
     { title: 'Desfecho B · Ninguém percebe', text: 'Sem a regra que correlaciona domínio novo e e-mail recebido, o acesso parece navegação comum. Se fosse um ataque real, o invasor teria semanas para agir.', on: ['host', 'dark'], bad: ['dark'], links: [['host', 'dark', 'amber']], dim: true },
-    { title: 'Nos dois casos · Reunião purple', text: 'Red e Blue sentam juntos e revisam a linha do tempo. No desfecho B, a regra que faltou é escrita e testada na mesma semana. Assim o exercício vira melhoria.', on: ['purple', 'ir', 'dark'], links: [['ir', 'purple', 'purple'], ['dark', 'purple', 'purple']] }
+    { title: 'Nos dois casos · Reunião purple', text: 'Red e Blue sentam juntos e revisam a linha do tempo validada pelo White Team. No desfecho B, a regra que faltou é escrita e testada na mesma semana.', on: ['purple', 'ir', 'dark', 'white'], links: [['ir', 'purple', 'purple'], ['dark', 'purple', 'purple']] }
   ]
 });
 
-/* ---------- 9. SIEM ---------- */
+/* ---------- 3. Problema de hoje: mini-mapa ---------- */
 Labs.miniMapa('#mapa-problema', { destaque: ['mail', 'nb', 'siem', 'edr', 'vpn'], alvo: 'nb', caminho: ['net', 'mail', 'nb'],
   legenda: 'Onde a aula acontece: o <em>e-mail</em> do financeiro, o notebook de Carla Dias (em vermelho) e o SOC que deveria perceber o exercício.' });
 
+/* ---------- 11. Plataforma Rede Tatame ---------- */
 Labs.plataforma('#lab-tatame', { aba: 'cenarios' });
 
+/* ---------- 10. SIEM ---------- */
 Labs.siem('#lab-siem', {
   product: 'SIEM · SOC Rede Tatame', time: 'Hoje, 08h30 – 10h00', lang: 'KQL', index: 'logs-email, logs-proxy, logs-edr, tatame.auditoria',
   searches: [
@@ -448,130 +483,122 @@ Labs.siem('#lab-siem', {
       cols: ['caso', 'primeiro evento', 'alerta', 'contenção', 'MTTD', 'MTTR', 'severidade'], sevCol: 6, total: 1, unit: 'caso',
       hist: [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0], hot: [8],
       rows: [['INC-2026-1116-01', '09:12:07', '09:17:02', '09:22:10', '4 min 55 s', '5 min 08 s', 'alta']],
-      note: 'MTTD é o tempo do primeiro evento até a detecção; MTTR, da detecção até a contenção. Do clique à contenção, foram cerca de 10 minutos. Medir esses dois números a cada exercício mostra se a defesa melhora. Você verá isso a fundo na Aula 14.' }
+      note: 'MTTD é o tempo do primeiro evento até a detecção; MTTR, da detecção até a contenção. Do clique à contenção, foram cerca de 10 minutos. Medir esses dois números a cada exercício mostra se a defesa melhora. Você verá as métricas a fundo na Aula 16.' }
   ]
 });
 
-/* ---------- 11. VS Code: RoE como código ---------- */
+/* ---------- 13. VS Code: o caderno do árbitro ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'tatame-exercicio-2026-11', team: 'red', status: 'Python 3.12', open: 'roe.yaml', typeOnEnter: true,
+  folder: 'tatame-exercicio-2026-11', team: 'purple', status: 'Python 3.12', open: 'arbitro.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
     { cmd: 'source .venv/bin/activate', out: [], venv: true },
     { cmd: 'pip install -r requirements.txt', file: 'requirements.txt', out: [
-      'Collecting PyYAML==6.0.3 (from -r requirements.txt (line 2))',
-      '  Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)',
-      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 9.4 MB/s eta 0:00:00', d: 500 },
-      'Installing collected packages: PyYAML',
-      '[ok] Successfully installed PyYAML-6.0.3' ] },
+      'Collecting tabulate==0.9.0 (from -r requirements.txt (line 2))',
+      '  Downloading tabulate-0.9.0-py3-none-any.whl (35 kB)',
+      { t: '     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.3/35.3 kB 6.1 MB/s eta 0:00:00', d: 500 },
+      'Installing collected packages: tabulate',
+      '[ok] Successfully installed tabulate-0.9.0' ] },
     { cmd: 'pip list', out: [
-      'Package Version',
-      '------- -------',
-      'pip     24.2',
-      'PyYAML  6.0.3' ] }
+      'Package  Version',
+      '-------- -------',
+      'pip      24.2',
+      'tabulate 0.9.0' ] }
   ],
   files: [
     { path: 'requirements.txt', code:
-`# Pacotes de terceiros que o laboratório usa (o resto vem com o Python)
-PyYAML==6.0.3`},
-    { path: 'roe.yaml', hl: [4, 5, 6, 7], code:
-`# Regras de engajamento (RoE) — exercício de novembro/2026
-# Aprovado por: Marina Prado (CISO) — chamado APR-2291
-cliente: Rede Tatame (plataforma e sede)
-janela:
-  inicio: "2026-11-16T09:00-03:00"
-  fim:    "2026-11-27T20:00-03:00"
-  horario_diario: ["09:00", "20:00"]
-escopo:
-  redes: ["10.10.0.0/16", "10.40.0.0/16"]   # sede e nuvem
-  dominios: ["tatame.com.br", "portal-rh-beneficios.example"]
-fora_do_escopo:
-  - "api.pagafacil.example"        # parceiro de pagamentos
-  - "status.tatame.com.br"         # página de status terceirizada
-  - "10.40.99.0/24"                # rede de pagamentos (PCI)
-proibido:
-  - negacao_de_servico
-  - alterar_ou_apagar_dados
-  - exfiltrar_dados_pessoais_reais   # alunos menores, atestados, biometria
-contatos_emergencia:
-  - { nome: "Marina Prado", papel: "CISO", tel: "+55 11 90000-0001" }
-  - { nome: "Luiza Ferraz", papel: "SOC 24x7", tel: "+55 11 90000-0002" }
-palavra_de_parada: "LARANJA"`},
-    { path: 'guardiao.py', hl: [17, 18, 19, 20, 21], code:
-`"""Confere cada alvo contra as regras de engajamento antes de qualquer ação."""
-import ipaddress
+`# Pacote de terceiros que o arbitro.py importa (csv, sys e datetime vêm com o Python)
+tabulate==0.9.0`},
+    { path: 'acoes_red.csv', code:
+`id,hora,tecnica,alvo,conta,resultado
+A1,09:00:41,T1566.002,mx1.tatame.com.br,financeiro,entregue
+A2,09:12:07,T1566.002,NB-FIN-031,carla.dias,clique
+A3,09:13:40,T1078,vpn.tatame.com.br,carla.dias,bloqueado pelo MFA`},
+    { path: 'alertas_soc.csv', code:
+`hora,regra,tecnica,alvo,conta
+09:17:02,R1,T1566.002,NB-FIN-031,carla.dias
+09:31:10,R11,T1078,vpn.tatame.com.br,svc-backup`},
+    { path: 'alertas_reteste.csv', hl: [2], code:
+`hora,regra,tecnica,alvo,conta
+09:02:10,EM-01,T1566.002,mx1.tatame.com.br,financeiro
+09:17:02,R1,T1566.002,NB-FIN-031,carla.dias
+09:31:10,R11,T1078,vpn.tatame.com.br,svc-backup`},
+    { path: 'arbitro.py', hl: [24, 25, 26], code:
+`"""Caderno do árbitro (White Team): cruza o registro do Red Team com os alertas do SOC."""
+import csv
 import sys
 from datetime import datetime
-import yaml
 
-roe = yaml.safe_load(open("roe.yaml", encoding="utf-8"))
+from tabulate import tabulate
 
-def dentro_da_janela(agora: datetime) -> bool:
-    ini, fim = roe["janela"]["horario_diario"]
-    return ini <= agora.strftime("%H:%M") <= fim
 
-def no_escopo(alvo: str) -> bool:
-    if alvo in roe["fora_do_escopo"]:
-        return False
-    try:
-        ip = ipaddress.ip_address(alvo)
-        bloqueadas = [ipaddress.ip_network(r) for r in roe["fora_do_escopo"] if "/" in r]
-        if any(ip in rede for rede in bloqueadas):
-            return False
-        return any(ip in ipaddress.ip_network(r) for r in roe["escopo"]["redes"])
-    except ValueError:
-        return any(alvo == d or alvo.endswith("." + d) for d in roe["escopo"]["dominios"])
+def ler(caminho):
+    with open(caminho, encoding="utf-8") as f:
+        return list(csv.DictReader(f))
 
-agora = datetime.fromisoformat(sys.argv[1]) if len(sys.argv) > 1 else datetime.now()
-if not dentro_da_janela(agora):
-    print(f"[BLOQUEADO] {agora:%H:%M} fora da janela autorizada")
-    sys.exit(1)
-for alvo in open("alvos.txt", encoding="utf-8").read().split():
-    print(("[OK]        " if no_escopo(alvo) else "[BLOQUEADO] ") + alvo)`},
-    { path: 'alvos.txt', code:
-`10.10.1.20
-gestao.tatame.com.br
-portal-rh-beneficios.example
-10.40.99.14
-api.pagafacil.example
-status.tatame.com.br
-192.168.0.10`}
+
+def hora(texto):
+    return datetime.strptime(texto, "%H:%M:%S")
+
+
+acoes = ler("acoes_red.csv")
+alertas = ler(sys.argv[1] if len(sys.argv) > 1 else "alertas_soc.csv")
+usados = set()
+linhas, atrasos = [], []
+
+for a in acoes:
+    alerta = next((i for i, x in enumerate(alertas)
+                   if (x["tecnica"], x["alvo"], x["conta"]) == (a["tecnica"], a["alvo"], a["conta"])
+                   and hora(x["hora"]) >= hora(a["hora"])), None)
+    if alerta is not None:
+        usados.add(alerta)
+        seg = int((hora(alertas[alerta]["hora"]) - hora(a["hora"])).total_seconds())
+        atrasos.append(seg)
+        veredito = f"DETECTADO ({alertas[alerta]['regra']}) em {seg // 60} min {seg % 60:02d} s"
+    elif a["resultado"].startswith("bloqueado"):
+        veredito = "BLOQUEADO pelo controle, sem alerta"
+    else:
+        veredito = "NÃO DETECTADO"
+    linhas.append([a["id"], a["hora"], a["tecnica"], a["alvo"], veredito])
+
+print(tabulate(linhas, headers=["ação", "hora", "técnica", "alvo", "veredito do árbitro"]))
+detectadas = len(atrasos)
+print(f"\\nDetectadas: {detectadas}/{len(acoes)} = {detectadas / len(acoes):.0%}")
+if atrasos:
+    media = sum(atrasos) / len(atrasos)
+    print(f"Tempo médio até o alerta: {int(media) // 60} min {int(media) % 60:02d} s")
+
+for i, x in enumerate(alertas):
+    if i not in usados:
+        print(f"DECONFLICTION: {x['regra']} às {x['hora']} ({x['conta']}, {x['alvo']}) "
+              "não é do exercício: o SOC trata como alerta real.")`}
   ],
   run: [
-    { label: 'Executar às 10h15', cmd: 'python guardiao.py 2026-11-16T10:15', file: 'guardiao.py', out: [
-      '[ok] [OK]        10.10.1.20',
-      '[ok] [OK]        gestao.tatame.com.br',
-      '[ok] [OK]        portal-rh-beneficios.example',
-      '[err] [BLOQUEADO] 10.40.99.14',
-      '[err] [BLOQUEADO] api.pagafacil.example',
-      '[err] [BLOQUEADO] status.tatame.com.br',
-      '[err] [BLOQUEADO] 192.168.0.10' ] },
-    { label: 'Executar às 21h40', kind: 'red', cmd: 'python guardiao.py 2026-11-16T21:40', file: 'roe.yaml', out: [
-      '[err] [BLOQUEADO] 21:40 fora da janela autorizada',
-      '[mute] A janela diária vai das 09:00 às 20:00. Nenhuma ação executada.' ] }
+    { label: 'Julgar o exercício', cmd: 'python arbitro.py', file: 'arbitro.py', out: [
+      'ação    hora      técnica    alvo               veredito do árbitro',
+      '------  --------  ---------  -----------------  -----------------------------------',
+      '[err] A1      09:00:41  T1566.002  mx1.tatame.com.br  NÃO DETECTADO',
+      '[ok] A2      09:12:07  T1566.002  NB-FIN-031         DETECTADO (R1) em 4 min 55 s',
+      '[warn] A3      09:13:40  T1078      vpn.tatame.com.br  BLOQUEADO pelo controle, sem alerta',
+      '',
+      '[hi] Detectadas: 1/3 = 33%',
+      'Tempo médio até o alerta: 4 min 55 s',
+      '[purple] DECONFLICTION: R11 às 09:31:10 (svc-backup, vpn.tatame.com.br) não é do exercício: o SOC trata como alerta real.' ] },
+    { label: 'Julgar o reteste', kind: 'purple', cmd: 'python arbitro.py alertas_reteste.csv', file: 'alertas_reteste.csv', out: [
+      'ação    hora      técnica    alvo               veredito do árbitro',
+      '------  --------  ---------  -----------------  -----------------------------------',
+      '[ok] A1      09:00:41  T1566.002  mx1.tatame.com.br  DETECTADO (EM-01) em 1 min 29 s',
+      '[ok] A2      09:12:07  T1566.002  NB-FIN-031         DETECTADO (R1) em 4 min 55 s',
+      '[warn] A3      09:13:40  T1078      vpn.tatame.com.br  BLOQUEADO pelo controle, sem alerta',
+      '',
+      '[hi] Detectadas: 2/3 = 67%',
+      'Tempo médio até o alerta: 3 min 12 s',
+      '[purple] DECONFLICTION: R11 às 09:31:10 (svc-backup, vpn.tatame.com.br) não é do exercício: o SOC trata como alerta real.' ] }
   ]
 });
 
-/* ---------- 12. Terminal: hash e assinatura da carta ---------- */
-Labs.terminal('#lab-term', {
-  title: 'bruno.sato@NB-RED-002: ~/tatame-exercicio-2026-11', prompt: 'bruno.sato@NB-RED-002:~/tatame-exercicio-2026-11$ ',
-  steps: [
-    { cmd: 'ls -l autorizacao/', note: 'A pasta tem a carta, a assinatura destacada e uma cópia que chegou por e-mail.', out: [
-      'total 412', '-rw-r--r-- 1 bruno.sato redteam 201344 nov 13 08:51 carta_autorizacao_2026-11.pdf', '-rw-r--r-- 1 bruno.sato redteam    566 nov 13 08:51 carta_autorizacao_2026-11.pdf.asc', '-rw-r--r-- 1 bruno.sato redteam 201377 nov 13 09:40 carta_autorizacao_copia_email.pdf' ] },
-    { cmd: 'sha256sum autorizacao/carta_autorizacao_2026-11.pdf', note: 'O hash calculado precisa ser igual ao registrado no chamado de aprovação APR-2291.', out: [
-      '9f2c4e1a7b0d93c8e55f1a2b6c7d8e9f0a1b2c3d4e5f60718293a4b5c6d7e8f9  autorizacao/carta_autorizacao_2026-11.pdf', '[ok] Confere com o chamado APR-2291: 9f2c4e1a…c6d7e8f9' ] },
-    { cmd: 'gpg --verify autorizacao/carta_autorizacao_2026-11.pdf.asc', note: 'A assinatura prova quem aprovou e que o arquivo não mudou desde então.', out: [
-      'gpg: Signature made qui 12 nov 2026 18:02:11 -03', 'gpg:                using RSA key 4A1F…C0DE', '[ok] gpg: Good signature from "Marina Prado (CISO) <marina.prado@tatame.com.br>"' ] },
-    { cmd: 'sha256sum autorizacao/carta_autorizacao_copia_email.pdf', note: 'A cópia do e-mail tem 33 bytes a mais. Alguém mudou o documento.', out: [
-      '0b7e19d2c4a5f6e7d8c9b0a1f2e3d4c5b6a79881726354a3b2c1d0e9f8a7b6c5  autorizacao/carta_autorizacao_copia_email.pdf',
-      '[err] NÃO confere com o chamado APR-2291. Esta versão não vale como autorização.',
-      '[warn] Ação: usar somente o arquivo assinado e avisar Marina Prado sobre a cópia divergente.' ] }
-  ],
-  done: 'Roteiro concluído: só a versão assinada autoriza o exercício.'
-});
-
-/* ---------- 13. Calculadora de ALE ---------- */
+/* ---------- 14. Calculadora de ALE ---------- */
 Labs.register('#lab-ale', (el) => {
   const brl = (v) => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   el.innerHTML = `
