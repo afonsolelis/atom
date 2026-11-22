@@ -191,7 +191,7 @@ Fala: "Nomes, cargos e *e-mails* são dados pessoais e estão sujeitos à LGPD. 
 **Slide 15 — Antes do código: onde achar e como instalar (16:10–16:35)**
 Fala: "Para o próximo laboratório, você precisa do Visual Studio Code com a extensão Python da Microsoft, do Python 3.12, de python.org, e do módulo `venv`, que já vem com ele. No Kali, o Python já está instalado. Os quatro módulos que o script importa são da biblioteca padrão; confira em docs.python.org. Não há pacote de terceiros para baixar."
 
-**Slide 16 — Laboratório: do achado solto ao relatório de exposição (16:35–18:45)**
+**Slide 16 — Laboratório: do achado solto ao relatório de exposição (16:35–18:15)**
 Objetivo: transformar os achados em números para a diretoria, respeitando o escopo.
 Na tela:
 1. O VS Code ocupa o slide inteiro. O roteiro do laboratório abre com a tecla G ou com o botão "☰ Roteiro", na barra de status; deixar esse painel fechado durante a gravação.
@@ -204,16 +204,16 @@ Atenção: ao abrir o slide, o código de `consolidar_recon.py` é digitado sozi
 Conclusão: "O relatório mostra o tamanho do problema e onde agir primeiro: inventário, terceiros e treinamento das academias."
 [Tela: gravação do laboratório do slide 16.]
 
-**Slide 17 — Que rastro o reconhecimento e a enumeração deixam (18:45–19:15)**
+**Slide 17 — Que rastro o reconhecimento e a enumeração deixam (18:15–18:45)**
 Fala: "Do lado da defesa: o passivo quase não deixa rastro, e a proteção é publicar menos e monitorar certificados. A varredura aparece no *firewall*, no WAF e na captura de pacotes, como vimos no Wireshark. A enumeração de usuários aparece como falhas de login para muitas contas, várias inexistentes. A enumeração interna, como consultas volumosas ao AD, que na plataforma é a regra R13, desligada no padrão. E a lição da `hml-gestao`: quem não coleta o tráfego de um ativo não vê a varredura contra ele."
 
-**Slide 18 — Exemplo numérico: quanto a Tatame expõe sem saber (19:15–19:35)**
+**Slide 18 — Exemplo numérico: quanto a Tatame expõe sem saber (18:45–19:15)**
 Fala: "Juntando: 15 dividido por 120 dá 12,5% da superfície ativa desconhecida. 260 dividido por 400 dá 65% das pessoas expostas. 243 dividido por 260 dá 93,5% dos *e-mails* no formato dominante. E a varredura da homologação: 203 pacotes, três portas abertas em cem."
 
-**Slide 19 — De volta ao problema (19:35–19:55)**
+**Slide 19 — De volta ao problema (19:15–19:40)**
 Fala: "Voltemos à pergunta. A Tatame expõe 15 ativos fora do inventário, serviços com versões identificáveis e um portal de homologação que confirma contas. O Red Team descobriu isso dentro do escopo. A defesa fecha a lacuna com inventário atualizado, monitor de certificados, mensagem de login genérica e coleta do tráfego da homologação."
 
-**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:55–20:00)**
+**Slides 20 a 22 — Pontos-chave, referências e encerramento (19:40–20:00)**
 Fala: "Na próxima aula, os serviços que encontramos hoje viram candidatos a vulnerabilidade e porta de entrada. Até lá!"
 [Slides: pontos-chave e referências ficam disponíveis no material. Envato: "digital footprint data".]
 

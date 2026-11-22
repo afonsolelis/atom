@@ -223,6 +223,7 @@ Na tela:
 3. Voltar a 6 e subir "Ruído cortado nessas regras" para 90%.
 4. Baixar "Minutos de triagem por alerta" de 10 para 6.
 Fala: "Com oito analistas, a capacidade vai a 288 alertas e a cobertura só a 16%. Com seis analistas e 90% do ruído cortado, a demanda cai para 261 alertas e a cobertura salta para 82,8%. Com triagem de 6 minutos, a equipe tria 360 alertas e o indicador mostra 'cabe tudo'."
+Atenção: a calculadora usa um tempo médio fixo de triagem por alerta; na prática ele varia com o tipo de alerta. Volte cada controle ao valor inicial antes de mexer no próximo, para isolar o efeito de cada mudança.
 Conclusão: "Ajustar regras rende mais do que contratar, e é isso que garante que o alerta da carla.dias seja lido."
 [Tela: gravação do laboratório do slide 19]
 
@@ -775,6 +776,7 @@ Na tela:
 2. Arrastar "Prazo de correção proposto (dias)" para 7.
 3. Voltar o prazo a 14 e arrastar "Falhas críticas novas por mês" para 20.
 Fala: "A conta é simples: falhas novas por dia vezes os dias até corrigir dá quantas ficam abertas, em média, ao mesmo tempo. Doze por mês são 0,4 por dia; com 45 dias, ficam 18 abertas, o cartão vermelho. Com o prazo de 14 dias, o cartão verde mostra 5,6, e a redução é de 69%. As barras de baixo comparam as duas situações. Com 7 dias, a média cai para 2,8. Se o volume sobe para 20 por mês, com 14 dias ficam 9,3 abertas: mais falhas pedem prazo menor ou mais gente."
+Atenção: a conta é a lei de Little (falhas abertas em média = falhas novas por dia × dias até corrigir) e vale para médias em regime estável, não para um mês específico. Volte o prazo a 14 dias antes de mudar o volume.
 Conclusão: "Encurtar o prazo de correção reduz a exposição na mesma proporção, e esse é um argumento que a diretoria entende."
 [Tela: gravação do laboratório do slide 12]
 

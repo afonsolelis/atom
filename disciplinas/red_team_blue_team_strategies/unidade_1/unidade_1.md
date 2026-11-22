@@ -230,6 +230,7 @@ Na tela:
 2. Arrastar "Probabilidade anual com o programa" até 12%.  
 3. Voltar para 6%.  
 Fala: "A expectativa de perda anual, ou ALE, multiplica o impacto de um incidente pela chance de ele acontecer no ano. Sem o programa: 6 milhões vezes 15% dá R$ 900.000. Com o programa, a chance cai para 6%, e a ALE vai a R$ 360.000. A redução é de R$ 540.000 por ano, 2,16 vezes o custo. Agora, se o programa só baixar a chance para 12%, a ALE com o programa vai a R$ 720.000, a redução cai para R$ 180.000 e o painel avisa que o programa não se paga."  
+Atenção: os valores são ilustrativos, para mostrar o raciocínio da expectativa de perda anual; não são estatísticas da Rede Tatame nem do mercado. Mexa em um controle por vez e volte ao valor inicial antes do próximo.  
 Conclusão: "O programa só se paga se reduzir o risco de verdade, e é por isso que cada exercício precisa ser medido."  
 [Tela: gravação do laboratório do slide 14]
 
@@ -527,7 +528,7 @@ STROM, Blake E. *et al*. *MITRE ATT&CK*: design and philosophy. McLean: The MITR
 
 ### Roteiro da Videoaula 3 — "Como 'o atacante entrou e se moveu' vira sete linhas de um plano?"
 
-Duração-alvo: 15 a 20 minutos (estimada em 19 minutos). Deck: unidade_1/slides/aula3.html (22 slides, 6 laboratórios).
+Duração-alvo: 15 a 20 minutos. Deck: unidade_1/slides/aula3.html (22 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:35)**  
 Fala: "Olá! Nas duas primeiras aulas, montamos os papéis de um exercício e as regras que precisam estar assinadas antes de começar. Hoje vamos aprender a descrever o adversário com precisão: a Cyber Kill Chain, o MITRE ATT&CK e o plano de emulação, que transforma o comportamento de um grupo em passos que o Red Team executa e o Blue Team mede. São seis laboratórios, todos na Rede Tatame."  
@@ -739,7 +740,7 @@ LEVI, Hiago Kin. *Confronto cibernético*: técnicas e táticas de enfrentamento
 
 ### Roteiro da Videoaula 4 — "300 IPs, 150 hashes e uma pergunta: por onde começar?"
 
-Duração-alvo: 15 a 20 minutos (estimada em 18 minutos). Deck: unidade_1/slides/aula4.html (21 slides, 6 laboratórios).
+Duração-alvo: 15 a 20 minutos. Deck: unidade_1/slides/aula4.html (21 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:35)**  
 Fala: "Olá! Esta é a última aula da Unidade 1. Até aqui, você montou uma operação com papéis, regras e autorização e aprendeu a descrever o adversário no ATT&CK. Falta uma decisão: qual adversário emular e por quais técnicas começar. Hoje vamos usar a inteligência de ameaças para responder a isso, com seis laboratórios na Rede Tatame."  
