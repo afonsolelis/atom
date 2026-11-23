@@ -33,6 +33,11 @@
 
 **[TELA]** Slide 5 — interativo: câmeras no alto e raios até um ponto do terreno.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Fotos que veem o ponto" em 4, "Erro na posição das câmeras" em 0 cm e o botão "Erro aleatório" aceso. O chip diz "Sem erro: os raios se cruzam no ponto verdadeiro". Apontar o ponto verde ("ponto verdadeiro") durante o primeiro parágrafo.
+2. Na fala "eu coloco erro na posição das câmeras, 60 centímetros", arrastar "Erro na posição das câmeras" até 60 cm, com "Erro aleatório" ainda aceso. O chip passa a "Aleatório: raios não se encontram…" e aparece o círculo vermelho ("ponto calculado").
+3. Na fala "Agora eu mudo para erro sistemático", clicar em "Erro sistemático (viés)". O chip passa a "Viés: raios se cruzam bem…, mas deslocados…: preciso, inexato".
+
 > "Fotogrametria é a ciência de obter medidas confiáveis a partir de fotografias. É a definição do livro de Coelho e Brito, Fotogrametria Digital, que é a bibliografia básica desta unidade. E o princípio é muito simples. Cada pixel de uma foto define um raio: uma reta que sai do centro da câmera e passa pelo ponto do terreno que aquele pixel enxerga. Uma foto só não basta, porque o ponto pode estar em qualquer lugar ao longo do raio. Mas se o mesmo ponto aparece em duas, três, quatro fotos, tiradas de posições diferentes, os raios se cruzam no espaço. E o cruzamento é o ponto em 3D."
 
 > "Olha na tela: quatro câmeras ao longo da rota de voo, a 70 metros, e os quatro raios se encontrando no ponto verde, o ponto verdadeiro. Agora eu coloco erro na posição das câmeras, 60 centímetros, com erro aleatório. Os raios já não se encontram num ponto só, e o ponto calculado, o círculo vermelho, foge do verdadeiro. Agora eu mudo para erro sistemático: todas as câmeras deslocadas para o mesmo lado. Olha que interessante: os raios voltam a se cruzar direitinho, só que num lugar errado. Coerente por dentro, errado no mundo. É exatamente o modelo do gancho."
@@ -45,11 +50,21 @@
 
 **[TELA]** Slide 7 — interativo: o mapa de quantas fotos veem cada ponto; comece em 80% e 70% e, quando a fala pedir, baixe para 50% e 40%.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Sobreposição frontal sf" em 80% e "Sobreposição lateral sl" em 70%. Apontar no resultado "B = 70 × (1 − 0,80) = 14,0 m" e "Canteiro de 12 ha (400 × 300 m): 330 fotos" (as 330 fotos do gancho).
+2. Na fala "Umas 16 fotos", apontar "≈ 1 / [(1 − sf)(1 − sl)] = 16,7"; o mapa conta "em média, em 17 fotos (mínimo 6)".
+3. Na fala "baixo para 50 e 40%", arrastar "Sobreposição frontal sf" até 50% e "Sobreposição lateral sl" até 40%. O mapa fica amarelo e laranja; o resultado passa a "em média, em 4 fotos (mínimo 2)", com a fórmula dando 3,3, e o canteiro cai para 78 fotos.
+4. Na fala "Volto para 80 e 70", levar os dois controles de volta a 80% e 70%.
+
 > "Na Aula 4, você calculou o espaçamento entre faixas a partir da sobreposição lateral; ao longo da faixa, a distância entre fotos, a base, é o lado da foto no sentido do voo vezes um menos a sobreposição frontal: no nosso voo, 70 vezes 0,2, 14 metros. No canteiro de 12 hectares, isso dá umas 11 faixas de 30 fotos: as 330 fotos do gancho. Agora a fotogrametria explica por que a gente insiste em 75 a 80% de frontal e 65 a 75% de lateral. O primeiro motivo é a multiplicidade. Em média, cada ponto aparece em um sobre o produto das partes que não se repetem: um sobre 0,2 vezes 0,3. Umas 16 fotos. Na tela, cada cor diz em quantas fotos aquele ponto aparece."
 
 > "Agora olha o que acontece se eu economizo: baixo para 50 e 40%. O mapa vira amarelo e laranja, a média cai para umas 3 fotos e há faixas de pontos vistos em apenas duas. Com uma foto, não tem interseção; com duas, qualquer erro passa despercebido, e basta uma foto borrada para abrir um buraco no modelo. Mais raios por ponto é redundância. Volto para 80 e 70."
 
 **[TELA]** Slide 8 — a base efetiva: o mesmo ponto visto pelas fotos 1 e 2 e pelas fotos 1 e 5.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "Fotos 1 e 2 (B = 14 m)" aceso. Durante o primeiro parágrafo, apontar o chip "H/B = 5,00 · σZ ≈ 5,00 × 1,92 × 0,5 = 4,8 cm" e a região de cruzamento alta e estreita.
+2. Na fala "as duas mais distantes estão a quatro bases uma da outra", clicar em "Fotos 1 e 5 (B = 56 m)". O chip passa a "H/B = 1,25 · … = 1,2 cm" e a região de cruzamento fica baixa e compacta.
 
 > "O segundo motivo é a geometria. A precisão vertical de um par de fotos depende da razão entre a altura e a base. Raios quase paralelos se cruzam mal: um erro pequeno na imagem vira um erro grande na cota. A aproximação é sigma Z igual a H sobre B, vezes o GSD, vezes a precisão de medição em pixels. Com o nosso voo — 70 metros, base de 14, GSD de 1,92 centímetro e meio pixel de precisão —, um par de fotos vizinhas dá 5 vezes 1,92 vezes 0,5: 4,8 centímetros. Ruim."
 
@@ -65,6 +80,12 @@
 
 **[TELA]** Slide 10 — interativo: as etapas do SfM com duas fotos; clique em cada etapa quando a fala pedir.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "1. Detectar" aceso: duas fotos com as feições em azul (chip "Feições detectadas em cada foto"). Se a animação já tiver passado, clicar de novo em "1. Detectar" na fala "Etapa 1".
+2. Na fala "Etapa 2", clicar em "2. Corresponder": linhas verdes e as vermelhas tracejadas, descartadas.
+3. Na fala "Etapa 3", clicar em "3. Ajustar": câmeras orientadas e nuvem esparsa amarela.
+4. Na fala "Etapa 4", clicar em "4. Densificar": nuvem densa colorida. O segundo parágrafo é dito com essa etapa na tela.
+
 > "Vamos ver isso acontecendo. Etapa 1: duas fotos do mesmo galpão e da mesma pilha, e as feições aparecendo em azul. Etapa 2: as linhas verdes ligam as correspondências. Repare nas linhas vermelhas tracejadas: são correspondências erradas, um canto confundido com outro. O algoritmo as descarta, porque não combinam com a geometria das outras. Etapa 3: as câmeras orientadas lá em cima e a nuvem esparsa em amarelo. Etapa 4: a nuvem densa, milhares de pontos com cor."
 
 > "E onde o SfM tropeça? Em superfícies sem textura — água, telhado metálico liso, uma laje novinha e uniforme. Em objetos em movimento: a escavadeira mudou de lugar entre uma foto e outra e vira um fantasma. E em vegetação densa: a câmera só vê a copa. Dica de campo: voe com as máquinas paradas na área que importa e aumente a sobreposição em solo homogêneo."
@@ -76,6 +97,11 @@
 > "Agora o ponto central da aula. Só com as fotos, o SfM reconstrói a forma. Mas não sabe onde essa forma está no mundo, nem o tamanho exato dela. O GNSS de navegação do drone ajuda, mas tem exatidão de metros. Para amarrar o modelo ao sistema de referência — no Brasil, o SIRGAS2000 —, existem dois caminhos. O georreferenciamento indireto: medir em campo pontos de controle visíveis nas fotos e colocá-los no ajustamento. E o georreferenciamento direto: conhecer, com exatidão de centímetros, a posição de cada foto, com GNSS RTK ou PPK embarcado no drone. Esse segundo caminho é o assunto da próxima aula."
 
 **[TELA]** Slide 12 — cena 3D: terreno real × modelo; troque o cenário quando a fala pedir.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com o botão "Sem GCP" aceso e gira sozinha; se quiser, arrastar para girar e rolar para aproximar. Apontar o chip "Desvio no marco central: 18 cm · nos cantos: 8 cm" na fala "no marco central, 18 centímetros; nos cantos, 8".
+2. Na fala "Clico em 'Com GCP'", clicar em "Com GCP": aparecem os alvos laranja, a malha desce e o chip passa a cerca de "4 cm" no marco central e "0 cm" nos cantos: sobra um domo pequeno.
+3. Na fala "E em 'GCP mais oblíquas'", clicar em "GCP + oblíquas": o desvio no marco central cai para cerca de 1 cm e a curvatura praticamente some.
 
 > "Sem nenhum dos dois, além do deslocamento, aparece o efeito de domo. Pequenos erros na calibração da lente, que o ajustamento não consegue separar da forma do terreno, curvam o modelo como uma tigela virada. É típico de blocos com fotos todas verticais e paralelas — exatamente o voo em faixas que a gente planejou —, e foi bem descrito por James e Robson, num artigo de 2014 que está na lista de leituras."
 
@@ -92,6 +118,11 @@
 > "E existe um segundo grupo, que muita gente esquece: os pontos de verificação, os checkpoints. São medidos exatamente do mesmo jeito, mas não entram no processamento. Servem só para conferir. Por quê? Porque, se eu uso os mesmos pontos para ajustar e para verificar, o modelo vai passar direitinho por eles e eu não aprendo nada. É o aluno corrigindo a própria prova."
 
 **[TELA]** Slide 14 — interativo: distribuição dos GCPs e o mapa de erro; troque a distribuição quando a fala pedir.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "Só nos 4 cantos" aceso. Na fala "o checkpoint do meio lê quase 19 centímetros", apontar o rótulo "18,8 cm" no checkpoint branco do centro e o chip "Só nos 4 cantos · pior checkpoint: 18,8 cm".
+2. Na fala "Concentrados num lado", clicar em "Concentrados num lado": o lado oposto fica vermelho (pior checkpoint 15,7 cm).
+3. Na fala "Agora, seis pontos no perímetro e no interior", clicar em "6: perímetro + interior": tudo verde, pior checkpoint 4,7 cm.
 
 > "E onde colocar os GCPs? Olha o mapa de 20 hectares; a cor mostra o erro vertical esperado — o modelo fica bem amarrado perto dos GCPs e solto longe deles. Modelo de erro ilustrativo, só para comparar. Com quatro GCPs só nos cantos, o centro fica vermelho: o checkpoint do meio lê quase 19 centímetros. Concentrados num lado, o lado oposto fica solto. Agora, seis pontos no perímetro e no interior: tudo verde. A regra: GCPs no perímetro e no interior, cobrindo também os pontos altos e baixos, e checkpoints independentes espalhados pela área. Com georreferenciamento direto, os GCPs podem ser poucos. Os checkpoints, nunca zero."
 
@@ -143,6 +174,10 @@
 
 **[TELA]** Slide 5 — pseudodistância: ρ = c · Δt e os 4 satélites.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre com "Erro do relógio do receptor δt" em 1,00 µs. Na fala "um erro de um microssegundo", apontar "Erro na distância c · δt: 300 m" e "Em quilômetros: 0,30 km" (a barra "c · δt" mostra 300 m). Não é preciso mexer no controle: o valor inicial já é o da fala.
+2. Na fala "pelo menos quatro satélites", apontar a linha "Incógnitas: X, Y, Z e o relógio: 4 satélites, no mínimo".
+
 > "Como o receptor mede posição? Cada satélite transmite a hora de um relógio atômico e a sua órbita. O receptor mede quanto tempo o sinal levou para chegar e multiplica pela velocidade da luz: é a pseudodistância. Pseudo, por quê? Porque o relógio do receptor é barato e não está sincronizado com o dos satélites. E olha o tamanho do problema: um erro de um microssegundo, um milionésimo de segundo, vezes 300 mil quilômetros por segundo, dá 300 metros. Por isso a gente precisa de pelo menos quatro satélites: três incógnitas de posição, X, Y e Z, e uma quarta, o erro do relógio do receptor."
 
 > "E existe uma segunda medida, que é a que leva ao centímetro: a fase da onda portadora. O comprimento de onda do sinal é de uns 19 centímetros, e o receptor geodésico mede a fração de ciclo com resolução de milímetros. O problema é que ele não sabe quantos ciclos inteiros cabem entre o satélite e a antena. Esse número inteiro desconhecido é a ambiguidade. Guarde essa palavra."
@@ -155,6 +190,11 @@
 
 **[TELA]** Slide 7 — interativo: o céu simulado com satélites e o PDOP; agrupe os satélites quando a fala pedir.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "Bem espalhados" aceso e "Erro de cada pseudodistância" em 2,0 m. Na fala "o PDOP fica perto de 2", apontar "PDOP = 2,0".
+2. Na fala "Agora eu agrupo os satélites num canto", clicar em "Agrupados (ao lado de um prédio)": os satélites migram para um lado, metade do céu fica cinza ("céu bloqueado pelo prédio") e o resultado passa a "PDOP = 7,8" (σ ≈ 15,6 m).
+3. Na fala "Com PDOP 2 e erro de 2 metros", clicar de volta em "Bem espalhados" e apontar "σposição ≈ 2,0 × 2,0 m = 4,0 m". O controle de erro fica em 2,0 m.
+
 > "E a geometria dos satélites multiplica tudo. O desvio da posição é, aproximadamente, o PDOP vezes o erro de cada pseudodistância. PDOP é a diluição da precisão. Olha o céu simulado: com os satélites bem espalhados, o PDOP fica perto de 2. Agora eu agrupo os satélites num canto, como acontece ao lado de um prédio alto: o PDOP passa de 6. Com PDOP 2 e erro de 2 metros por pseudodistância, a posição autônoma erra uns 4 metros. Por isso o GNSS de navegação do drone serve para voar, mas não para medir."
 
 **[TELA]** Slide 8 — dois cuidados brasileiros: a anomalia equatorial e o canteiro como ambiente de multicaminho.
@@ -164,6 +204,11 @@
 ### 4. Posicionamento relativo: RTK e PPK (6:45 – 9:45)
 
 **[TELA]** Slide 9 — base e rover observando os mesmos satélites; FIX × FLOAT.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre com "Distância do rover à base" em 12 km. O primeiro parágrafo é dito sem mexer no controle.
+2. Na fala "8 milímetros mais 1 ppm na horizontal e 15 milímetros mais 1 ppm na vertical", arrastar "Distância do rover à base" até 0 km: "Horizontal: 8 mm + 1 ppm: 8 mm" e "Vertical: 15 mm + 1 ppm: 15 mm".
+3. Na fala "A 12 quilômetros da base", arrastar de volta até 12 km: 20 mm na horizontal e 27 mm na vertical, como nas barras "Horizontal" e "Vertical".
 
 > "Agora, a grande sacada. Os erros de órbita, relógio e atmosfera são quase iguais para dois receptores próximos. Então eu coloco uma base em coordenadas conhecidas e um rover — o drone ou o bastão do topógrafo — observando os mesmos satélites. Fazendo as diferenças entre as observações, a maior parte dos erros se cancela. E, com os erros cancelados, o software consegue resolver aquela ambiguidade da fase. Quando resolve, a solução é fixa — o famoso FIX —, de centímetros. Quando não resolve, a solução é flutuante, FLOAT, de decímetros. Levantamento de engenharia se faz com FIX."
 
@@ -176,6 +221,11 @@
 > "No PPK, o drone só grava os dados brutos, e a correção é calculada depois, no escritório, com os dados de uma base local ou de uma estação da RBMC. Não depende de enlace durante o voo e permite reprocessar se algo der errado. Um cuidado: as estações da RBMC podem estar a dezenas de quilômetros da obra, e o erro cresce com a distância; para drone, uma base no canteiro costuma ser a melhor opção."
 
 **[TELA]** Slide 11 — interativo: o erro da base desloca todo o levantamento; mova a base quando a fala pedir.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Erro na coordenada da base" em 0,0 m: o chip diz "Base em coordenada correta: levantamento sobre o projeto" e "Distância interna: 20,00 m (não muda)".
+2. Na fala "Se eu desloco a coordenada da base em um metro e meio", arrastar "Erro na coordenada da base" até 1,5 m. O levantamento inteiro (em azul) sai de cima do projeto, e o chip passa a "Todos os pontos deslocados 1,5 m, na mesma direção".
+3. Na fala "as distâncias internas continuam perfeitas", apontar o chip "Distância interna: 20,00 m (não muda)". Deixar em 1,5 m até o fim do slide.
 
 > "E agora a explicação do gancho. No posicionamento relativo, o rover é calculado em relação à base. Olha na tela: a base, os pontos do levantamento e a distância entre eles. Se eu desloco a coordenada da base em um metro e meio, todos os pontos se deslocam junto, um metro e meio. A forma não muda nada, as distâncias internas continuam perfeitas. Por isso o ortomosaico batia com a trena. O erro da base vira erro de todo o levantamento. Então a coordenada da base tem que vir de um vértice conhecido, de pós-processamento com a RBMC ou do IBGE-PPP, o serviço gratuito de posicionamento por ponto preciso do IBGE, que, com algumas horas de rastreio, entrega coordenadas de centímetros. Nunca do modo autônomo."
 
@@ -196,6 +246,11 @@
 ### 6. Precisão, exatidão e RMSE (12:15 – 13:45)
 
 **[TELA]** Slide 14 — precisão × exatidão; RMSE e média dos resíduos.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Viés somado a todos os pontos" em 0,0 cm: cinco barras (CP1 a CP5) dentro da faixa verde de ±5 cm, "Média dos Δz: 0,34 cm", "RMSEz: 2,56 cm" e "Especificação RMSEz ≤ 5 cm: atende". O primeiro parágrafo é dito sem mexer no controle.
+2. Na fala "Mas não pare no RMSE: calcule também a média dos resíduos", arrastar "Viés somado a todos os pontos" até +5,0 cm. As barras sobem juntas, a linha amarela da média vai a 5,34 cm, o RMSEz a 5,91 cm e a especificação passa a "não atende".
+3. Na fala "é a média que denuncia o viés", apontar a linha amarela "média" e mostrar que ela ficou quase do tamanho do RMSE (5,34 × 5,91 cm): é a "assinatura de erro sistemático" da fala. Deixar em +5,0 cm até o fim do slide.
 
 > "Agora, como se diz, com números, que um produto é bom. Primeiro, duas palavras. Precisão é a dispersão de medidas repetidas. Exatidão é a proximidade do valor verdadeiro. O gancho é o caso extremo: dispersão de centímetros, erro de metros. Para avaliar a exatidão, a gente usa pontos de verificação independentes, medidos com um método várias vezes mais exato que o produto."
 
@@ -259,6 +314,13 @@
 
 **[TELA]** Slide 6 — simulação: vista lateral e vista de cima do deslocamento devido ao relevo; clique em Ortorretificar quando a fala pedir.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Altura do prédio" em 30 m e "Distância ao centro da foto" em 40 m. Na fala "uns 17 metros no terreno", apontar "Topo projetado 17,1 m para fora da base" e a linha "Δ = x · h / (H − h) = 40 × 30 / (100 − 30)".
+2. Na fala "Se eu levo o prédio para o nadir", arrastar "Distância ao centro da foto" até 0 m: "Topo projetado 0,0 m".
+3. Na fala "se eu afasto e aumento a altura do prédio", arrastar "Distância ao centro da foto" até 60 m e "Altura do prédio" até 40 m: "Topo projetado 40,0 m".
+4. Antes de "Agora eu clico em Ortorretificar", voltar os controles a 30 m e 40 m (17,1 m de novo).
+5. Na fala "Agora eu clico em Ortorretificar", clicar em "Ortorretificar": o raio verde desce reto, o resultado cai a "0,0 m" e a linha de baixo acrescenta "ortorretificado: Δ = 0".
+
 > "Agora uma pergunta que parece boba: uma foto aérea vertical é um mapa? Não é. À esquerda, a vista lateral: a câmera a 100 metros de altura e um prédio de 30 metros, a 40 metros do nadir, que é o ponto bem embaixo da câmera. A câmera fotografa em perspectiva central: todos os raios passam pelo centro da lente. O raio azul vai até a base do prédio. O raio vermelho passa pelo topo e, prolongado até o chão, cai mais longe. Na foto, o telhado aparece deslocado para fora. Quanto? A fórmula está na tela: R vezes h, dividido por H menos h. Quarenta vezes 30, dividido por 70: uns 17 metros no terreno. É o deslocamento devido ao relevo."
 
 > "Se eu levo o prédio para o nadir, o deslocamento some; se eu afasto e aumento a altura do prédio, ele cresce. E não é só prédio: morro, talude, pilha, tudo que tem altura sofre esse efeito. Agora eu clico em Ortorretificar. O software usa o modelo de superfície para reprojetar cada ponto como se fosse visto na vertical. O raio verde desce reto, e o telhado volta para cima da base."
@@ -275,6 +337,13 @@
 
 **[TELA]** Slide 9 — cena 3D: o mesmo canteiro como cena real, nuvem, MDS, MDT e MDS − MDT; use os botões na ordem da fala.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com o botão "Cena real" aceso (chip "Cena real: terreno, edifício, árvores, pilha e máquina") e gira sozinha. Apontar o edifício, as árvores, a pilha e a máquina na fala da descrição.
+2. Na fala "Clico em Nuvem de pontos", clicar em "Nuvem de pontos".
+3. Na fala "Agora MDS", clicar em "MDS": o lençol colorido pela cota cobre prédio, copas e máquina.
+4. Na fala "Clico em MDT", clicar em "MDT" (chip "MDT: só o solo, com a pilha"). Na fala "Mas a pilha ficou", arrastar para girar a cena até a pilha ficar de frente.
+5. Na fala "E agora MDS menos MDT", clicar em "MDS − MDT": em vermelho, o que viraria volume falso.
+
 > "Vamos ver em 3D. Um canteiro ilustrativo de 120 por 120 metros: terreno ondulado, um edifício, um grupo de árvores, uma pilha de material e uma máquina. Clico em Nuvem de pontos: o mesmo canteiro como milhares de pontos coloridos. Agora MDS: um lençol estendido sobre tudo, por cima do prédio, das copas e da máquina. Clico em MDT. Prédio, árvores e máquina sumiram. Mas a pilha ficou. Por quê? Porque a pilha é material — é o que eu quero medir. Filtrar não é apagar tudo o que é alto; é decidir o que é terreno para a pergunta que você está fazendo. O OpenDroneMap faz isso com um filtro morfológico; o Metashape, com uma classificação por ângulo e distância. E sempre vale conferir."
 
 > "E agora MDS menos MDT. Tudo em vermelho é o que viraria volume falso se você usasse o MDS. Imagine uma escavadeira parada em cima do corte no dia do voo: com o MDS, ela vira terra que ninguém escavou. Em terraplenagem com solo exposto, filtrar é fácil. Debaixo de mata densa, é impossível: a câmera simplesmente não vê o chão."
@@ -283,15 +352,31 @@
 
 **[TELA]** Slide 10 — animação de um pulso: sobre solo exposto e sobre uma árvore. Comece em "Sobre uma árvore"; clique em "Sobre solo exposto" quando a fala pedir.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "Sobre uma árvore" aceso. Na fala "Olha a animação", acompanhar o pulso descendo de "drone a 80 m" e apontar os três ecos no gráfico "Intensidade do eco × tempo de ida e volta": "copa" (413 ns → 62 m), "galho" (467 ns → 70 m) e "chão" (533 ns → 80 m).
+2. Na fala "Sobre solo exposto, um eco só", clicar em "Sobre solo exposto": um único eco, "chão", e a legenda "1 retorno: R = c·Δt/2 = 3×10⁸ × 533 ns / 2 ≈ 80 m".
+3. Na fala "O primeiro retorno descreve a superfície", clicar de volta em "Sobre uma árvore" para mostrar de novo o primeiro e o último eco.
+
 > "E aí entra o LiDAR, que você conheceu como sensor na Aula 2. Lembrando: ele emite pulsos de laser e mede o tempo de ida e volta; a distância é a velocidade da luz vezes o tempo, dividido por dois. Com o GNSS RTK ou PPK e uma unidade inercial de alta qualidade, cada pulso vira um ponto 3D. Agora o detalhe que resolve a encosta. O feixe chega lá embaixo com alguns centímetros de diâmetro. Olha a animação: o pulso desce do drone, a 80 metros, e encontra uma árvore. Parte da energia bate na copa e volta: primeiro eco, a 62 metros. Outra parte passa por um vão entre as folhas e bate num galho: segundo eco. E uma parte chega ao chão: último eco, a 80 metros, em 533 nanossegundos. Um pulso, três retornos. Sobre solo exposto, um eco só."
 
 > "O primeiro retorno descreve a superfície: é o MDS. E o último, quando classificado como solo, permite o MDT debaixo da vegetação. Agora, um cuidado de vocabulário que derruba muita gente em prova: o laser não atravessa as folhas. Ele passa pelos vãos entre elas. Mata muito fechada deixa poucos pontos no chão."
 
 **[TELA]** Slide 11 — cena 3D: a encosta com mata varrida pelo laser; alterne entre último e primeiro retorno.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. Ao entrar no slide, clicar em "Recomeçar voo", para os pontos começarem a se acumular do zero durante a fala "os pontos vão se acumulando". O botão "Último retorno (MDT)" já vem aceso.
+2. Na fala "No modo último retorno", deixar "Último retorno (MDT)" aceso: copas transparentes e o terreno colorido pela cota. Arrastar para girar até a clareira aparecer.
+3. Na fala "Agora, primeiro retorno", clicar em "Primeiro retorno (MDS)": a nuvem desenha a copa em verde.
+
 > "Em três dimensões: uma encosta coberta de árvores, com uma clareira no meio. O drone emite um leque de feixes, uns 35 graus para cada lado, e os pontos vão se acumulando. No modo último retorno, as árvores ficam transparentes e aparece o terreno natural, colorido pela cota; sob as copas mais fechadas, há menos pontos. Agora, primeiro retorno: a nuvem desenha a copa, em verde. É o que a fotogrametria teria visto. Um mostra a mata; o outro, o chão onde a obra vai passar."
 
 **[TELA]** Slide 12 — calculadora: largura da faixa, densidade e erro na borda; nuvem LiDAR real de edificações.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre já com os valores da fala: "Taxa de pulsos" 240 kHz, "Campo de visão" 70°, "Altura de voo" 80 m, "Velocidade" 8 m/s e "Erro de atitude da IMU" 0,05°. Não mexer nos controles.
+2. Na fala "a faixa dá uns 112 metros e a densidade, uns 268 pontos por metro quadrado", apontar "Faixa W = 2H · tan(FOV/2): 112 m" e "Densidade ρ ≈ PRR / (v · W): 268 pontos/m²".
+3. Na fala "na borda da faixa, a uns 97,7 metros", apontar "Distância na borda R = H / cos(FOV/2): 97,7 m" e "Erro na borda R · δθ: 8,5 cm", e as barras "Erro no nadir (H · δθ)" (7,0 cm) e "Erro na borda (R · δθ)" (8,5 cm).
+4. No segundo parágrafo, apontar a foto da nuvem LiDAR real ao lado.
 
 > "Quantos pontos por metro quadrado? A densidade é a taxa de pulsos dividida pela velocidade vezes a largura da faixa; e a largura é duas vezes a altura vezes a tangente da metade do campo de visão. Com 240 quilohertz, campo de 70 graus, 80 metros e 8 metros por segundo, a faixa dá uns 112 metros e a densidade, uns 268 pontos por metro quadrado, numa passada. E a exatidão depende da trajetória: na borda da faixa, a uns 97,7 metros, um erro de atitude de só cinco centésimos de grau desloca o ponto em 8,5 centímetros. Por isso o LiDAR embarcado exige uma IMU cara. E a conferência é a mesma da Aula 6: checkpoints e RMSE."
 
@@ -359,6 +444,10 @@
 
 **[TELA]** Slide 5 — malha interativa de oito células contra o greide.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Viés vertical do modelo" em 0 cm: as oito células em vermelho (corte) e azul (aterro) e o resultado "Corte: 435 m³ · Aterro: 145 m³". Na fala das oito diferenças, apontar as células uma a uma; na fala "435 metros cúbicos" e "145 metros cúbicos", apontar o resultado.
+2. Deixar o controle em 0 cm durante todo o slide: o viés é demonstrado no slide 8.
+
 > "Vamos aos números. Uma plataforma comparada ao greide numa malha de células de 10 por 10 metros: 100 metros quadrados cada. Oito células, com as diferenças na tela: mais 1,40, mais 0,90, mais 0,35, menos 0,20, mais 1,10, mais 0,60, menos 0,45 e menos 0,80 metro. Em vermelho, corte; em azul, aterro. O corte é a soma dos positivos: 4,35 metros, vezes 100, 435 metros cúbicos. O aterro: 1,45 vezes 100, 145 metros cúbicos."
 
 > "E o tamanho da célula importa? Importa. Célula grande demais suaviza o terreno e erra nas bordas de taludes e cristas; célula pequena demais só multiplica o processamento sem ganhar exatidão, porque o modelo não é melhor que o GSD e os checkpoints dizem. Na prática, os softwares usam a própria grade do MDT, com células de alguns centímetros, ou prismas sobre uma triangulação, que acompanham melhor as quebras do terreno. Para medição mensal, o que vale é usar sempre o mesmo método, com a mesma resolução, nas duas superfícies."
@@ -371,6 +460,11 @@
 
 **[TELA]** Slide 7 — três cuidados: MDT, mesmo referencial e empolamento; calculadora de viagens.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre já com os valores da fala: "Volume de corte (in situ)" 435 m³, "Empolamento" 25% e "Capacidade do caminhão" 12 m³. O primeiro parágrafo é dito apontando a lista dos três cuidados.
+2. Na fala "435 vezes 1,25: uns 543,8 metros cúbicos", apontar "Volume solto: 543,8 m³" e as barras "In situ (medido)" e "Solto (no caminhão)".
+3. Na fala "E número de viagens se arredonda para cima: 46", apontar "Viagens (para cima): 46 viagens" e a nota "543,8 / 12 = 45,3 → 46 viagens". Não é preciso mexer nos controles.
+
 > "E três cuidados valem para qualquer volume. Primeiro: use o MDT, nunca o MDS — a máquina parada vira terra que ninguém escavou. Segundo: as duas superfícies precisam estar no mesmo referencial, horizontal e vertical. Lembra da Aula 6? Se um levantamento usou altura elipsoidal e o outro altitude, a diferença inteira vira volume. Terceiro: o empolamento. O drone mede o volume no corte, in situ. Escavado, o solo se solta e ocupa mais espaço no caminhão."
 
 > "Se os 435 metros cúbicos de corte forem para o bota-fora, com 25% de empolamento, o volume solto é 435 vezes 1,25: uns 543,8 metros cúbicos. Com caminhões de 12, dá 45,3. E número de viagens se arredonda para cima: 46. Quem orça o transporte pelo volume in situ erra o número de caminhões em quase um quarto."
@@ -378,6 +472,11 @@
 ### 4. Incerteza do volume (6:15 – 7:45)
 
 **[TELA]** Slide 8 — calculadora δV ≈ A · δz; leve o viés a 3 cm na malha de oito células quando a fala pedir.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre com "Área" em 800 m² (a malha de oito células) e "Viés vertical do modelo δz" em 0 cm. O primeiro parágrafo é dito sem mexer nos controles.
+2. Na fala "se eu ponho um viés de 3 centímetros", arrastar "Viés vertical do modelo δz" até 3 cm: "δV ≈ A · δz: 24 m³" e "Na malha de 8 células: 5,5 % do corte de 435 m³".
+3. Na fala "Num pátio de 2 hectares", arrastar "Área" até 20.000 m², mantendo o viés em 3 cm: "δV ≈ A · δz: 600 m³" e "Em caminhões de 12 m³: 50 viagens".
 
 > "Agora, a parte mais importante para quem vai assinar uma medição. Os erros aleatórios de cota — uma célula um pouco mais alta, a vizinha um pouco mais baixa — tendem a se compensar numa área grande. Mas um viés, um erro sistemático que afeta o modelo inteiro, não se compensa. Ele vira volume diretamente: delta V é aproximadamente a área vezes o viés."
 
@@ -391,6 +490,12 @@
 
 **[TELA]** Slide 10 — interativo: o mesmo MDT com curvas de 0,10 m, 0,20 m e 0,50 m; ative a suavização quando a fala pedir.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com o botão "0,20 m" aceso: o chip diz "Eq = 0,20 m ≥ 15,4 cm: compatível com a Classe A" e "MDT bruto: ruído ≈ 2,6 cm". Apontar na fala "com curvas de 20 centímetros, o relevo aparece limpo".
+2. Na fala "Agora eu baixo para 10 centímetros", clicar em "0,10 m": curvas serrilhadas e ilhas; o chip passa a "Eq = 0,10 m < 15,4 cm: desenha ruído".
+3. Na fala "Eu ligo a suavização", clicar em "Suavizar MDT" (com "0,10 m" ainda aceso): as curvas ficam contínuas e o chip passa a "MDT suavizado: ruído ≈ …", com um valor menor que 2,6 cm.
+4. No último parágrafo (como se lê uma planta com curvas), clicar em "Suavizar MDT" de novo, para desligar, e em "0,20 m", voltando à leitura limpa.
+
 > "E qual equidistância usar? Aqui a Aula 6 volta com tudo. Na Classe A do PEC-PCD, o RMSE vertical tem que ser no máximo um sexto da equidistância. Com o nosso RMSE de 2,56 centímetros, a equidistância precisa ser de pelo menos 15,4 centímetros: curvas de 20. Olha na tela: com curvas de 20 centímetros, o relevo aparece limpo. Agora eu baixo para 10 centímetros. Repare nas curvas serrilhadas, cheias de pequenas ilhas: isso não é relevo, é ruído do modelo desenhado como se fosse terreno. Curva de nível com equidistância menor que a exatidão é desenhar ruído."
 
 > "E um segundo cuidado: o MDT costuma ser suavizado antes de gerar as curvas. Eu ligo a suavização: as curvas ficam contínuas, sem perder a forma do relevo. Mas suavizar demais apaga feições reais, como a crista de um talude. Mais uma decisão de engenharia."
@@ -400,6 +505,10 @@
 ### 6. Projetado × executado (10:30 – 13:30)
 
 **[TELA]** Slide 11 — mapa de desvios: MDT − superfície de projeto, em cores divergentes.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O slide abre com "Tolerância" em 5,0 cm: a plataforma dividida em três trechos pelas linhas tracejadas e o resultado "Dentro: 36% · falta cortar: 64% · falta aterrar: 1%". Na fala "Verde… Vermelho… Azul", apontar uma área de cada cor (o azul é a mancha pequena à esquerda).
+2. Não é preciso mexer no controle: a tolerância de 5 cm é a mesma do slide 12.
 
 > "Agora, a pergunta da projetista: a plataforma está no greide? Eu subtraio a superfície de projeto do MDT levantado e obtenho o mapa de desvios, também chamado de mapa de corte e aterro. Verde, dentro da tolerância. Vermelho, acima do greide: ainda falta cortar. Azul, abaixo: falta aterrar. Num relance, a equipe de campo sabe onde a motoniveladora precisa passar de novo."
 

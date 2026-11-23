@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador da Obra Torre A — Drones e Sensores IoT</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<link rel="stylesheet" href="simulador.css">
+</head>
+<body>
+<script>
+if (new URLSearchParams(location.search).get('embed') === '1') {
+  document.body.classList.add('embed');
+  // Dentro do slide: o layout foi pensado para ~880 px de largura; em telas maiores, amplia.
+  const z = () => { const s = Math.max(1, Math.min(2.2, innerWidth / 880)); document.documentElement.style.zoom = s; document.documentElement.style.setProperty('--z', s); };
+  z(); addEventListener('resize', z);
+}
+</script>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand">
+      <span>Drones e Sensores IoT · Simulador</span>
+      <strong>Obra Torre A — monitoramento</strong>
+      <a href="../index.html">Portal da disciplina</a>
+    </div>
+    <div class="clock"><b id="relogio">07:00</b><small id="relogio-sub">seg 16/11/2026 · relógio simulado</small></div>
+    <div class="ctrl">
+      <label for="velocidade">Velocidade</label>
+      <select id="velocidade">
+        <option value="60">1 s = 1 min</option>
+        <option value="300" selected>1 s = 5 min</option>
+        <option value="900">1 s = 15 min</option>
+        <option value="3600">1 s = 1 h</option>
+        <option value="14400">1 s = 4 h</option>
+      </select>
+      <button class="btn go" id="btn-rodar">Iniciar</button>
+      <button class="btn" id="btn-reiniciar">Reiniciar</button>
+    </div>
+  </div>
+  <nav class="tabs" id="abas">
+    <a href="#canteiro" data-dica="Planta do canteiro: onde está cada sensor, o gateway e a rede. A cor de cada ponto mostra o nível do sensor (normal, atenção, alerta, alarme ou sem dados). Clique em um ponto para ver os detalhes."><span class="n">1</span>Canteiro</a>
+    <a href="#leituras" data-dica="Eventos IoT: cada linha é uma leitura que um sensor enviou, com a hora da medição, o valor bruto, o valor em engenharia, a qualidade, a bateria e o sinal de rádio. É o dado chegando do campo, ao vivo."><span class="n">2</span>Leituras<span class="badge" id="badge-leit"></span></a>
+    <a href="#rede" data-dica="LoRaWAN: rede de rádio de longo alcance e baixo consumo. Os sensores transmitem para o gateway no topo da grua, que repassa os pacotes pela internet. Aqui você vê o sinal (RSSI), a margem do enlace, o fator de espalhamento (SF) e a bateria."><span class="n">3</span>Rede LoRaWAN</a>
+    <a href="#mqtt" data-dica="MQTT: protocolo de mensagens em que o sensor publica num tópico (um endereço como obra/torre-a/escavacao/piezometro/PZ-03/nivel) e o broker entrega a quem assinou aquele tópico. Os curingas + e # assinam vários tópicos de uma vez."><span class="n">4</span>MQTT</a>
+    <a href="#series" data-dica="Séries temporais: as leituras guardadas em ordem no tempo, como no InfluxDB, e desenhadas com os limites de atenção, alerta e alarme, como num painel do Grafana."><span class="n">5</span>Séries temporais</a>
+    <a href="#alarmes" data-dica="Alarmes: as regras que decidem quando avisar (limite por valor, por velocidade, histerese, persistência) e o TARP, a tabela que diz o que fazer, quem faz e em quanto tempo em cada nível."><span class="n">6</span>Alarmes<span class="badge" id="badge-alm"></span></a>
+    <a href="#cenarios" data-dica="Cenários: situações reais de obra para rodar no simulador — recalque, escora no sol, rajada na grua, gateway sem energia, poeira com ar úmido, fim de semana de alarmes falsos e invasão pela senha de fábrica."><span class="n">7</span>Cenários</a>
+    <a href="#drone" data-dica="Drone e BIM: os voos semanais (GSD, pontos de controle, erro), o volume escavado e o avanço físico medido, ligados ao modelo BIM e ao valor agregado (IDP e IDC)."><span class="n">8</span>Drone e BIM</a>
+    <a href="#seguranca" data-dica="Segurança e LGPD: as proteções do sistema IoT (senha única, TLS, ACL por tópico, rede separada, firmware) e o cuidado com dados pessoais das câmeras. Desligue uma proteção e rode o cenário da senha de fábrica para ver o efeito."><span class="n">9</span>Segurança e LGPD</a>
+  </nav>
+</header>
+
+<main>
+  <!-- 1 CANTEIRO -->
+  <section class="view" id="v-canteiro">
+    <div class="head"><span class="k">Visão geral</span><h1>Obra Torre A: escavação de três subsolos ao lado de um prédio antigo</h1>
+      <p>Onze sensores medem a cortina, a água, as escoras, a laje, o ar e o vento na grua. Eles transmitem por LoRaWAN ao gateway no topo da grua; o gateway entrega ao servidor de rede, o broker MQTT recebe as mensagens, o Node-RED trata e grava no InfluxDB, e o Grafana mostra o painel. Clique em um sensor. Tudo aqui é fictício.</p></div>
+    <div class="grid">
+      <div class="panel c8 planta"><svg id="planta" viewBox="0 0 1000 560" role="img" aria-label="Planta do canteiro da Torre A com sensores, grua, gateway e prédio vizinho"></svg>
+        <div class="legend"><span><i style="background:var(--green)"></i>normal</span><span><i style="background:var(--amber)"></i>atenção</span><span><i style="background:var(--orange)"></i>alerta</span><span><i style="background:var(--red)"></i>alarme</span><span><i style="background:#6B7A94"></i>sem dados</span><span><i style="background:var(--blue)"></i>pacote no ar</span></div>
+      </div>
+      <div class="panel c4"><h2>Sensor <small id="det-sub">clique na planta</small></h2><div id="det"></div></div>
+      <div class="panel c12"><h2>Caminho do dado <small>do sensor ao painel</small></h2><div id="cadeia" class="cadeia"></div></div>
+    </div>
+  </section>
+
+  <!-- 2 LEITURAS -->
+  <section class="view" id="v-leituras">
+    <div class="head"><span class="k">Eventos IoT</span><h1>As leituras chegando do campo</h1>
+      <p>Cada linha é uma mensagem de um sensor: a hora da medição (UTC, como o banco guarda), o valor bruto do instrumento, o valor convertido em engenharia, a qualidade, a bateria e o sinal. Leituras guardadas no nó durante uma queda da rede chegam depois, marcadas como <b>reenviadas</b>, com a hora original.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="kpis" id="kpis-leit"></div></div>
+      <div class="panel c12"><h2>Leituras recebidas <small id="leit-sub"></small></h2>
+        <div class="filtros"><label>Sensor <select id="f-sensor"><option value="">todos</option></select></label><label><input type="checkbox" id="f-problema"> só com problema (nível, qualidade ou reenvio)</label></div>
+        <div class="scroll tall"><table><thead><tr><th>Medição (UTC)</th><th>Sensor</th><th>Bruto</th><th>Engenharia</th><th>Nível</th><th>Qualidade</th><th>Bateria</th><th>Rede</th></tr></thead><tbody id="tb-leit"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- 3 REDE -->
+  <section class="view" id="v-rede">
+    <div class="head"><span class="k">Comunicação</span><h1>LoRaWAN: o sinal sai do subsolo?</h1>
+      <p>Potência recebida = potência do nó + ganhos das antenas − perda no espaço livre (915 MHz) − perdas de lajes, paredes e caixa. O enlace fecha se a potência recebida superar a sensibilidade do SF com folga (margem ≥ 10 dB). SF maior: mais alcance, mais tempo no ar e mais energia por mensagem.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="kpis" id="kpis-rede"></div></div>
+      <div class="panel c8"><h2>Enlace de cada sensor</h2><div class="scroll tall"><table><thead><tr><th>Sensor</th><th>Rede</th><th>Distância</th><th>Perdas</th><th>RSSI</th><th>SF</th><th>Margem</th><th>Tempo no ar</th><th>Bateria estimada</th><th>Fila no nó</th></tr></thead><tbody id="tb-rede"></tbody></table></div></div>
+      <div class="panel c4"><h2>Controles</h2>
+        <label class="sw"><input type="checkbox" id="r-adr" checked><span class="d"><b>ADR (taxa adaptativa)</b><small>Escolhe o menor SF com margem de 10 dB. Desligado, todos transmitem em SF12.</small></span></label>
+        <label class="sw"><input type="checkbox" id="r-gw" checked><span class="d"><b>Gateway GW-01 ligado</b><small>Desligue para simular a queda de energia da grua. Os nós guardam as leituras e reenviam depois.</small></span></label>
+        <label class="sw"><input type="checkbox" id="r-4g"><span class="d"><b>Gateway com 4G de reserva</b><small>Se a fibra do escritório cair, o gateway sai pelo chip 4G.</small></span></label>
+        <label class="sw"><span class="d"><b>Perdas extras no 3º subsolo (PZ-03)</b><small>Lajes e paredes entre o nó e o céu: <output id="o-perda">35</output> dB</small><input type="range" id="r-perda" min="10" max="95" step="5" value="35"></span></label>
+        <p class="note" id="rede-nota"></p></div>
+    </div>
+  </section>
+
+  <!-- 4 MQTT -->
+  <section class="view" id="v-mqtt">
+    <div class="head"><span class="k">Mensagens</span><h1>MQTT: quem publica, quem assina</h1>
+      <p>O tópico é o endereço da leitura: <code>obra/torre-a/setor/tipo/sensor/grandeza</code>. Digite uma assinatura: <code>+</code> vale um nível qualquer; <code>#</code> vale todos os níveis restantes e só pode ser o último. O broker guarda a última mensagem dos tópicos com <b>retain</b>, e o <b>último desejo</b> (LWT) avisa quando um nó ou o gateway cai.</p></div>
+    <div class="grid">
+      <div class="panel c12"><h2>Assinatura</h2>
+        <div class="filtros"><input type="text" id="m-filtro" value="obra/torre-a/#" spellcheck="false" aria-label="Filtro de assinatura MQTT">
+          <button class="btn" data-f="obra/torre-a/#">obra/torre-a/#</button>
+          <button class="btn" data-f="obra/torre-a/+/piezometro/+/nivel">todos os piezômetros</button>
+          <button class="btn" data-f="obra/torre-a/escavacao/#">setor escavação</button>
+          <button class="btn" data-f="obra/torre-a/status/#">status (LWT)</button>
+          <button class="btn" data-f="obra/torre-a/#/nivel">#/nivel (inválido)</button></div>
+        <p class="hint" id="m-valida"></p></div>
+      <div class="panel c7"><h2>Mensagens entregues a esta assinatura <small id="m-cont"></small></h2><div class="scroll tall"><table><thead><tr><th>Hora</th><th>Tópico</th><th>QoS</th><th>Payload</th></tr></thead><tbody id="tb-mqtt"></tbody></table></div></div>
+      <div class="panel c5"><h2>Tópicos no broker <small>última mensagem retida</small></h2><div class="scroll tall"><table><thead><tr><th>Tópico</th><th>Último valor</th></tr></thead><tbody id="tb-topicos"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <!-- 5 SÉRIES -->
+  <section class="view" id="v-series">
+    <div class="head"><span class="k">Banco e painel</span><h1>Séries temporais: o InfluxDB guarda, o Grafana mostra</h1>
+      <p>Cada ponto tem <i>measurement</i>, <i>tags</i> (o que identifica a série: obra, setor, sensor), <i>fields</i> (o que se mede: valor, bruto, bateria) e o carimbo de tempo. As faixas coloridas são os limites de atenção, alerta e alarme do projeto.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="filtros"><label>Sensor <select id="s-sensor"></select></label><span class="hint" id="s-info"></span></div>
+        <svg id="grafico" viewBox="0 0 1000 300" role="img" aria-label="Gráfico da série temporal do sensor escolhido com as faixas de limite"></svg></div>
+      <div class="panel c7"><h2>Line protocol <small>como o Node-RED grava no InfluxDB</small></h2><pre class="msg" id="lp"></pre></div>
+      <div class="panel c5"><h2>Volume de dados</h2><div class="kpis" id="kpis-series"></div><p class="hint">O acelerômetro contínuo a 100 Hz geraria 8,6 milhões de valores por dia: por isso a vibração é gravada por evento e agregada para o painel.</p></div>
+    </div>
+  </section>
+
+  <!-- 6 ALARMES -->
+  <section class="view" id="v-alarmes">
+    <div class="head"><span class="k">Painel e alertas</span><h1>Alarmes que a equipe leva a sério</h1>
+      <p>Os limites vêm do projeto (atenção, alerta, alarme), por valor e por velocidade. As regras abaixo decidem quando notificar. Ligue e desligue uma regra e rode de novo o cenário para comparar quantas notificações chegam ao celular do engenheiro.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="kpis" id="kpis-alm"></div></div>
+      <div class="panel c5"><h2>Regras</h2><div id="regras"></div></div>
+      <div class="panel c7"><h2>Notificações <small>o que chegou ao celular</small></h2>
+        <div class="scroll"><table><thead><tr><th>Hora</th><th>Sensor</th><th>Nível</th><th>Motivo</th><th>Ação (TARP)</th></tr></thead><tbody id="tb-alm"></tbody></table></div></div>
+      <div class="panel c12"><h2>TARP dos inclinômetros <small>gatilho, ação, responsável e prazo</small></h2><div id="tarp"></div></div>
+    </div>
+  </section>
+
+  <!-- 7 CENÁRIOS -->
+  <section class="view" id="v-cenarios">
+    <div class="head"><span class="k">Situações de obra</span><h1>Cenários</h1>
+      <p>Escolha um cenário e clique em <b>Iniciar cenário</b>. O relógio anda na velocidade indicada no cartão, os passos aparecem na linha do tempo e as outras abas mostram o efeito: leituras, rede, MQTT, séries e alarmes.</p></div>
+    <div class="grid" id="cen-grid">
+      <div class="panel c12 timeline" id="cen-timeline" hidden><h2>Linha do tempo <small id="cen-titulo"></small></h2><ol class="steps" id="cen-passos"></ol>
+        <div class="filtros"><button class="btn" id="btn-repetir">Repetir este cenário</button><span class="hint" id="cen-dica"></span></div></div>
+      <div class="panel c12"><div class="cards" id="cen-cards"></div></div>
+    </div>
+  </section>
+
+  <!-- 8 DRONE E BIM -->
+  <section class="view" id="v-drone">
+    <div class="head"><span class="k">Voo semanal e controle</span><h1>Drone, BIM e valor agregado</h1>
+      <p>Toda segunda-feira o drone voa o canteiro. A fotogrametria gera a nuvem de pontos e o ortomosaico; o volume escavado e os elementos concluídos entram no modelo BIM (cada elemento tem um GUID) e alimentam o avanço físico e o valor agregado.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="kpis" id="kpis-drone"></div></div>
+      <div class="panel c7"><h2>Voos <small>missão em faixas, 80% / 70% de sobreposição</small></h2>
+        <div class="filtros"><button class="btn go" id="btn-voar">Voar e processar o voo desta semana</button><span class="hint" id="voo-status"></span></div>
+        <div class="scroll"><table><thead><tr><th>Data</th><th>GSD</th><th>GCPs</th><th>RMSE</th><th>Volume escavado</th><th>Avanço medido</th></tr></thead><tbody id="tb-voos"></tbody></table></div></div>
+      <div class="panel c5"><h2>Sensores no modelo BIM <small>sensor → elemento (GUID)</small></h2><div class="scroll"><table><thead><tr><th>Sensor</th><th>Elemento BIM</th><th>GUID</th><th>Nível</th></tr></thead><tbody id="tb-bim"></tbody></table></div></div>
+      <div class="panel c12"><h2>Avanço físico ponderado <small>medido pelo drone × previsto no cronograma</small></h2><div class="bars" id="bars-avanco"></div></div>
+    </div>
+  </section>
+
+  <!-- 9 SEGURANÇA -->
+  <section class="view" id="v-seguranca">
+    <div class="head"><span class="k">Cibersegurança e privacidade</span><h1>Segurança do sistema IoT e LGPD</h1>
+      <p>A propriedade mais crítica aqui é a <b>integridade</b>: uma leitura adulterada pode esconder um recalque. Cada proteção abaixo fecha uma porta. Rode o cenário <i>A senha do gateway era admin</i> com e sem as proteções.</p></div>
+    <div class="grid">
+      <div class="panel c12"><div class="kpis" id="kpis-seg"></div></div>
+      <div class="panel c6"><h2>Proteções</h2><div id="protecoes"></div></div>
+      <div class="panel c6"><h2>Dispositivos <small>inventário</small></h2><div class="scroll"><table><thead><tr><th>Dispositivo</th><th>Credencial</th><th>Firmware</th><th>Exposição</th></tr></thead><tbody id="tb-disp"></tbody></table></div>
+        <h2 style="margin-top:12px">Registro do broker</h2><div class="scroll"><table><thead><tr><th>Hora</th><th>Evento</th></tr></thead><tbody id="tb-broker"></tbody></table></div></div>
+    </div>
+  </section>
+</main>
+
+<script src="simulador.js"></script>
+</body>
+</html>

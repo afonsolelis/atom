@@ -348,7 +348,25 @@
     </div>
   </section>
 
-  <!-- 14. Atividade prática -->
+  <!-- Laboratório: simulador da obra Torre A -->
+  <section class="slide slide-viz slide-plat">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Laboratório · Simulador da obra Torre A <span class="lab-badge-sim">simulador da disciplina</span></p>
+      <h2>O sinal sai do 3º subsolo?</h2>
+      <div class="viz-grid">
+        <div class="viz viz-plat" data-viz="plataforma" data-opts='{"aba": "rede", "reiniciar": true, "rede": {"adr": true, "perda": 35}}' role="img" aria-label="Simulador da obra Torre A aberto na aba Rede LoRaWAN: tabela com distância, perdas, potência recebida, fator de espalhamento, margem, tempo no ar e bateria estimada de cada sensor, e controles de ADR, gateway, 4G de reserva e perdas extras no terceiro subsolo."></div>
+        <div class="viz-lado roteiro-lab">
+          <div class="rl"><b>Objetivo</b>Fazer o orçamento de enlace do sensor mais desfavorável e ver o ADR escolher o SF.</div>
+          <div class="rl"><b>Faça</b>1. Arraste <strong>Perdas extras no 3º subsolo</strong> de 35 para 70 dB e depois para 90 dB.<br>2. Volte para 35 dB e desligue o <strong>ADR</strong>.<br>3. Ligue <strong>Gateway com 4G de reserva</strong>.</div>
+          <div class="rl"><b>Observe</b>Com 70 dB, o PZ-03 sobe para SF9; com 90 dB, nem o SF12 fecha e as leituras vão para a fila. Sem ADR, todos vão para SF12 e a bateria cai de 12,5 para cerca de 1,4 ano.</div>
+          <div class="rl"><b>Conclusão</b>Margem de 10 dB ou mais, gateway no alto e o menor SF que fecha o enlace. Toda rede cai: o nó guarda e reenvia.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Atividade prática -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -366,7 +384,7 @@
     </div>
   </section>
 
-  <!-- 15. Pontos-chave -->
+  <!-- 16. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -386,7 +404,7 @@
     </div>
   </section>
 
-  <!-- 16. Fim -->
+  <!-- 17. Fim -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>

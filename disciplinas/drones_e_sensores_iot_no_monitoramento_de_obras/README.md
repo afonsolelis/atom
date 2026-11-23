@@ -32,6 +32,7 @@ unidade_N/unidade_N.md        texto base + roteiros sintéticos + quiz + materia
 unidade_N/roteiros_15min.md    roteiros estendidos (fala integral, apoio à gravação)
 unidade_N/questoes_uniN.md     20 questões (10 AR + 10 interpretação) + feedbacks
 unidade_N/slides/aulaN.html    decks UniFECAF (aula0 + aula1–aula16, numeração contínua)
+simulador/                     simulador da obra Torre A (index.html) + APLICACAO.md (fonte única de nomes e números) + aplicacao.html (especificação formatada)
 assets/                        deck.css, deck.js, sprite.js (padrão UniFECAF) + obra.css/obra.js (fotos, 3D, simulações) — ver assets/README_DECKS.md
 tools/                         gerar_docx.py (preenche os templates do Drive → entrega_docx/), wikimedia.py (fotos), capturar_slides.py (PNG por slide), validar.py N (checagem estrutural)
 entrega_docx/                  ENTREGÁVEIS .docx (4 templates de unidade, Questões UNI1–4, Avaliação final, Entrega de trabalho)

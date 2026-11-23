@@ -12,6 +12,7 @@
      3D (three.js r128, cdnjs):  canteiro3d · gemeo3d · drone3d
      2D (canvas):                malha · sensor · amostragem · rede · cobertura
      Genérica:                   calc   (calculadora declarativa, ver abaixo)
+     Simulador da disciplina:    plataforma (iframe de simulador/index.html)
    Extras: .contador[data-ate]  (número que sobe ao entrar no slide)
 
    Novas visualizações específicas de uma aula:
@@ -866,6 +867,31 @@
       requestAnimationFrame(step);
     });
   }
+
+  /* ---------- simulador da obra embutido (simulador/index.html) ----------
+     <div class="viz viz-plat" data-viz="plataforma" data-opts='{"aba":"leituras","cenario":"internet","reiniciar":true}'></div>
+     opções: aba, cenario (+ autostart), reiniciar, rodar, vel, sensor, regras{}, seg{}, rede{gw, adr, g4, perda}, src */
+  R.plataforma = (v, o) => {
+    let fr = null;
+    const msg = () => {
+      const m = { simAba: o.aba || 'canteiro' };
+      ['cenario', 'autostart', 'reiniciar', 'rodar', 'vel', 'sensor', 'regras', 'seg', 'rede'].forEach((k) => { if (o[k] != null) m[k] = o[k]; });
+      fr && fr.contentWindow && fr.contentWindow.postMessage(m, '*');
+    };
+    return {
+      start() {
+        if (!fr) {
+          fr = document.createElement('iframe');
+          fr.className = 'plataforma-frame';
+          fr.title = 'Simulador da obra Torre A';
+          fr.src = (o.src || '../../simulador/index.html') + '?embed=1#' + (o.aba || 'canteiro');
+          fr.addEventListener('load', msg);
+          v.appendChild(fr);
+        } else msg();
+      },
+      stop() {}
+    };
+  };
 
   /* ---------- ciclo de vida ligado a deck.js ---------- */
   const inst = new WeakMap();

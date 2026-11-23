@@ -154,3 +154,11 @@
 
 /* Crédito de foto em tela cheia: canto inferior esquerdo (o direito é da navegação do deck) */
 .slide-foto > .credito { right: auto; left: .8rem; text-align: left; }
+
+/* ---------- Simulador da obra embutido (data-viz="plataforma") ---------- */
+.viz.viz-plat { padding: 0; overflow: hidden; background: #07101F; border-radius: 12px; border: 1px solid rgba(255,255,255,.18); min-height: 0; }
+.viz-plat .plataforma-frame { width: 100%; height: 100%; border: 0; display: block; background: #07101F; }
+.slide-plat .viz-grid { grid-template-columns: minmax(0, 1fr) minmax(15rem, 26%); }
+.roteiro-lab .rl { margin-bottom: .7em; font-size: clamp(.8rem, 1.05vw, 1rem); line-height: 1.35; }
+.roteiro-lab .rl b { display: block; color: var(--amarelo, #F0CE29); font-size: .85em; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .15em; }
+.lab-badge-sim { display: inline-block; background: #0B5E78; color: #fff; border-radius: 999px; padding: .15em .7em; font-size: .7em; font-weight: 700; letter-spacing: .05em; vertical-align: middle; margin-left: .5em; }

@@ -424,7 +424,25 @@
     <p class="credito">Foto: Gaf.arq — Wikimedia Commons (CC BY-SA 3.0)</p>
   </section>
 
-  <!-- 17. Atividade -->
+  <!-- Laboratório: simulador da obra Torre A -->
+  <section class="slide slide-viz slide-plat">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Laboratório · Simulador da obra Torre A <span class="lab-badge-sim">simulador da disciplina</span></p>
+      <h2>A senha do gateway era admin</h2>
+      <div class="viz-grid">
+        <div class="viz viz-plat" data-viz="plataforma" data-opts='{"aba": "seguranca", "reiniciar": true, "seg": {"senha": false, "segmentada": false, "tls": false, "acl": false, "firmware": false, "mascara": false}}' role="img" aria-label="Simulador da obra Torre A aberto na aba Segurança e LGPD: indicadores de proteções ligadas e leituras falsas aceitas, lista de proteções com chaves, inventário de dispositivos com credencial, firmware e exposição, e o registro do broker."></div>
+        <div class="viz-lado roteiro-lab">
+          <div class="rl"><b>Objetivo</b>Ver uma leitura falsa esconder um recalque e cada proteção fechar uma porta.</div>
+          <div class="rl"><b>Faça</b>1. Em <strong>Cenários</strong>, inicie <em>A senha do gateway era admin</em>.<br>2. Abra <strong>Séries temporais</strong>, escolha o <strong>I-2</strong> e procure os pontos vermelhos.<br>3. Em <strong>Segurança e LGPD</strong>, ligue <strong>ACL por tópico</strong> ou <strong>Credencial única</strong> e repita o cenário.</div>
+          <div class="rl"><b>Observe</b>Sem proteção, leituras de cerca de 3 mm se misturam às reais, que passam de 10 mm, e o I-2 aparece verde. Com a ACL, o broker nega a publicação; com a senha trocada, o invasor nem entra.</div>
+          <div class="rl"><b>Conclusão</b>Integridade é a propriedade mais crítica: senha única, TLS, ACL por tópico, rede separada e firmware em dia.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. Atividade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -449,7 +467,7 @@
     </div>
   </section>
 
-  <!-- 18. Pontos-chave -->
+  <!-- 19. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -465,7 +483,7 @@
     </div>
   </section>
 
-  <!-- 19. Fim da disciplina -->
+  <!-- 20. Fim da disciplina -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>

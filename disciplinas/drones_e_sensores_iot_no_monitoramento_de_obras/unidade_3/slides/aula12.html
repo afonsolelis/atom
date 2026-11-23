@@ -353,7 +353,25 @@
     </div>
   </section>
 
-  <!-- 15. Atividade prática -->
+  <!-- Laboratório: simulador da obra Torre A -->
+  <section class="slide slide-viz slide-plat">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <p class="kicker">Laboratório · Simulador da obra Torre A <span class="lab-badge-sim">simulador da disciplina</span></p>
+      <h2>Assine o tópico certo</h2>
+      <div class="viz-grid">
+        <div class="viz viz-plat" data-viz="plataforma" data-opts='{"aba": "mqtt", "reiniciar": true, "rodar": true}' role="img" aria-label="Simulador da obra Torre A aberto na aba MQTT: campo de assinatura com botões de filtros prontos, tabela das mensagens entregues com hora, tópico, QoS e payload em JSON, e lista dos tópicos no broker com o último valor."></div>
+        <div class="viz-lado roteiro-lab">
+          <div class="rl"><b>Objetivo</b>Ver o broker entregar as mensagens pelos tópicos e curingas, e a leitura virar um ponto no banco.</div>
+          <div class="rl"><b>Faça</b>1. Clique em <strong>todos os piezômetros</strong> e depois em <strong>#/nivel (inválido)</strong>.<br>2. Digite <code>obra/torre-a/+/+/I-2/#</code> no campo.<br>3. Abra <strong>Séries temporais</strong>, escolha o <strong>PZ-03</strong> e leia o line protocol.</div>
+          <div class="rl"><b>Observe</b>O + vale um nível; o # só pode ser o último. No line protocol, obra, setor e sensor são tags; valor, bruto e bateria são fields.</div>
+          <div class="rl"><b>Conclusão</b>Tópico bem desenhado e tag bem escolhida: é o que permite assinar, consultar e agregar milhares de leituras.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. Atividade prática -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -372,7 +390,7 @@ obra/sua-obra/teste/umidade/UR-01/status   → last will: "offline"</pre>
     </div>
   </section>
 
-  <!-- 16. Pontos-chave -->
+  <!-- 17. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -392,7 +410,7 @@ obra/sua-obra/teste/umidade/UR-01/status   → last will: "offline"</pre>
     </div>
   </section>
 
-  <!-- 17. O que você verá na próxima unidade -->
+  <!-- 18. O que você verá na próxima unidade -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -409,7 +427,7 @@ obra/sua-obra/teste/umidade/UR-01/status   → last will: "offline"</pre>
     </div>
   </section>
 
-  <!-- 18. Fim -->
+  <!-- 19. Fim -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>

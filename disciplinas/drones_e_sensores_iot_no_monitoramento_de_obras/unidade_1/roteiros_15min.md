@@ -5,13 +5,13 @@
 - **Videoaulas:** 1 a 4
 - **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **17 a 19 minutos** por aula (cerca de 2.150 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_1.md` são só um guia da sequência.
 
-> **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
+> **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela. Nos slides interativos, o trecho **Na tela (passo a passo do que clicar, na ordem)** diz qual controle operar, com o rótulo exato que aparece no slide, e em que ponto da fala.
 
 ---
 
 ## Roteiro da Videoaula 1 — "A obra está atrasada? Como o drone transforma medição em resposta"
 
-**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
+**Duração-alvo:** cerca de 19:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -43,6 +43,11 @@
 
 **[TELA]** Slide 6 — o canteiro conectado em 3D (gire a cena).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre girando sozinha; no canto, os contadores "Pavimentos", "Cobertura do voo" e "Leituras recebidas" começam a subir.
+2. Na fala "Um drone sobrevoa o canteiro inteiro": arrastar a cena com o mouse até o drone ficar de frente, varrendo o terreno em faixas paralelas; rolar a roda do mouse para aproximar (a dica "Arraste para girar · role para aproximar" fica no rodapé da cena).
+3. Na fala "Sensores em contenções e estruturas": apontar os sensores pulsando na escavação e os pacotes indo ao gateway e à nuvem, e o contador "Leituras recebidas".
+
 > "No canteiro conectado, a lógica muda. Um drone sobrevoa o canteiro inteiro em vinte minutos e gera uma ortofoto — uma foto aérea com escala constante, que funciona como mapa — e um modelo 3D do terreno, de onde sai o volume escavado. Sensores em contenções e estruturas mandam leituras sozinhos para a nuvem. A frequência sobe, o atraso cai de dias para horas e, principalmente, o dado passa a ser quantitativo, datado e rastreável. Não é mais 'quase no fim': é 39 mil metros cúbicos medidos no dia 14, com o arquivo guardado. E repara que isso é exatamente o que os indicadores de controle precisam para funcionar."
 
 ### 4. O ciclo do controle: medir, comparar, decidir, agir (5:10 – 7:00)
@@ -52,6 +57,12 @@
 > "Agora, o primeiro alerta da disciplina: dado sozinho não salva obra nenhuma. O valor está no ciclo que o dado percorre. Primeira etapa: dado — a leitura bruta. 'Foram escavados 39 mil metros cúbicos.' Isso, sozinho, não diz se é bom ou ruim. Segunda: informação — o dado comparado a uma referência. 'O previsto para hoje era 45 mil.' Agora eu entendo: estou atrasado na terraplenagem. Terceira: decisão — o julgamento técnico de quem tem conhecimento e autoridade. 'Vamos mobilizar mais uma escavadeira na frente norte.' E quarta: ação — a escavadeira chegando de fato ao canteiro."
 
 **[TELA]** Slide 8 — malha aberta × malha fechada, com a analogia do termostato.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o botão "Malha fechada (termostato)" aceso e desenha os 120 minutos em cerca de 6 segundos (acima do gráfico, os indicadores "Modo", "Sala" e "Compressor").
+2. Na fala "Em malha aberta, você mede e arquiva": clicar em "Malha aberta (tempo fixo)". A curva recomeça; depois da linha "40 min: sol na janela, sala cheia", a temperatura sobe para perto de 27 °C e o indicador "Sala" fica em alerta.
+3. Na fala "Em malha fechada, a medição realimenta a execução": clicar em "Malha fechada (termostato)". A curva fica colada na meta de 23 °C, e a faixa "compressor" liga e desliga conforme a medição.
+4. Se a animação já tiver terminado, clicar em "↺ Reiniciar" para desenhá-la de novo.
 
 > "A engenharia de controle tem um nome para isso. Em malha aberta, você mede e arquiva: a medição vira relatório, o relatório vai para a pasta, e ninguém compara com a referência a tempo de agir. Em malha fechada, a medição realimenta a execução: medir, comparar, decidir, agir — e medir de novo, para confirmar que a escavadeira extra resolveu. A analogia clássica é o ar-condicionado com termostato: ele mede a temperatura, compara com os 23 graus que você escolheu, liga ou desliga o compressor e mede de novo."
 
@@ -66,6 +77,12 @@
 > "Um exemplo rápido: se a terraplenagem representa 30% do orçamento e está 65% executada, ela contribui com 0,30 vezes 0,65, ou seja, 19,5 pontos percentuais para o avanço da obra. Faz isso para cada serviço e soma. É simples, mas tem uma consequência importante: o avanço físico depende da qualidade da medição de cada serviço. Se o volume de terraplenagem está errado, o avanço da obra inteira está errado."
 
 **[TELA]** Slide 10 — curva S previsto × realizado (passe o mouse pelos meses).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o botão "Física (%)" aceso e, sem o mouse em cima, o quadro do "Mês 5": "Previsto: 37,5%", "Realizado: 32,5%", "Diferença: −5,0 p.p.".
+2. Na fala sobre o formato em S ("No começo, ela é suave"): passar o mouse da esquerda para a direita, do mês 0 ao mês 12. Do mês 6 em diante, o quadro mostra "Realizado: ainda não medido".
+3. Na fala "A curva S pode ser física, em porcentagem, ou físico-financeira, em reais": clicar em "Físico-financeira (R$)". No mês 5: "Previsto: R$ 1,50 mi", "Realizado: R$ 1,30 mi", "Diferença: −R$ 200 mil".
+4. Clicar em "Física (%)" e deixar o mouse parado no mês 5 para a fala "Olha a tela: no mês 5".
 
 > "E aqui entra uma das ferramentas mais usadas do controle de obras: a curva S. Pegue o avanço previsto em cada período, acumule mês a mês e desenhe. A curva sai com formato de S. No começo, ela é suave: é a mobilização, o canteiro sendo montado, pouca produção. No meio, fica íngreme: é a produção plena, várias frentes trabalhando ao mesmo tempo. E no fim volta a se achatar: acabamentos, testes, desmobilização."
 
@@ -99,6 +116,12 @@
 
 **[TELA]** Slide 14 — calculadora do avanço ponderado e do valor agregado (valores iniciais do exemplo).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. Não mexer nos controles: eles já abrem com os valores do exemplo, "Terraplenagem executada (peso 0,30)" em 65 %, "Contenção executada (peso 0,20)" em 40 %, "Fundações executadas (peso 0,25)" em 20 % e "Custo real CR" em 1.450 mil reais.
+2. Na fala do avanço físico ("Dá 0,195 mais 0,08 mais 0,05"): apontar "Avanço físico %AF: 32,5 %" e "VA = %AF × ONT: R$ 1.300.000".
+3. Na fala "IDP: 1,3 dividido por 1,5": apontar "IDP = VA / VP: 0,87", "IDC = VA / CR: 0,90" e o número em destaque "ENT ≈ ONT / IDC: R$ 4.461.538"; apontar as barras "VP (planejado)", "VA (agregado)" e "CR (gasto)".
+4. Na resposta ao cliente: apontar "Diagnóstico: atrasada e acima do custo".
+
 > "Agora vamos responder ao cliente da abertura, com valores ilustrativos. Uma obra industrial com orçamento de 4 milhões de reais e quatro serviços. Terraplenagem: 1 milhão e 200 mil, peso 0,30. Contenção: 800 mil, peso 0,20. Fundações: 1 milhão, peso 0,25. Estrutura: 1 milhão, peso 0,25."
 
 > "Na medição do mês 5, o drone mediu 39 mil metros cúbicos escavados, de um total de 60 mil: 65% da terraplenagem. A medição de campo indicou 40% da contenção, 20% das fundações e a estrutura ainda não começou. O avanço físico: 0,30 vezes 0,65, mais 0,20 vezes 0,40, mais 0,25 vezes 0,20, mais zero. Dá 0,195 mais 0,08 mais 0,05: 0,325, ou 32 e meio por cento. O VA: 0,325 vezes 4 milhões, 1 milhão e 300 mil reais."
@@ -109,19 +132,44 @@
 
 **[TELA]** Slide 15 — sensibilidade: arraste o controle do volume medido de 39.000 para 36.000 m³.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O controle "Volume escavado medido (de 60.000 m³)" abre em 39.000 m³: "Terraplenagem executada: 65,0 %", "Avanço físico %AF: 32,5 %", "VA: R$ 1.300.000" e, em destaque, "Diferença de VA em relação a 39.000 m³: R$ 0".
+2. Na fala "Vou arrastar o volume medido de 39 mil para 36 mil": arrastar o controle até 36.000 m³ (passo de 500). A terraplenagem cai para 60,0 %, o %AF para 31,0 %, o VA para R$ 1.240.000, a diferença em destaque vai a R$ -60.000 e o "IDP" cai de 0,87 para 0,83; a barra "VA com o volume medido" fica menor que "VA com 39.000 m³".
+
 > "E um detalhe que mostra por que a exatidão importa. Vou arrastar o volume medido de 39 mil para 36 mil metros cúbicos — um erro de 3 mil, 5% do total. O avanço da terraplenagem cai 5 pontos, e o VA cai 60 mil reais. Sessenta mil reais de diferença na medição, que podem virar pagamento a mais ou a menos para o empreiteiro. Por isso, na Unidade 2, a gente vai se preocupar tanto com pontos de controle e precisão do levantamento: a exatidão do drone é dinheiro."
 
-### 9. Atividade prática + encerramento (16:30 – 18:00)
+### 9. Laboratório: a Torre A no simulador da disciplina (16:30 – 18:00)
 
-**[TELA]** Slide 16 — Atividade prática.
+**[TELA]** Slide 16 — laboratório no simulador da obra Torre A, aberto na aba Canteiro (planta com os onze sensores, a grua com o gateway GW-01 e o prédio vizinho).
 
-> "Sua missão até a próxima aula. Escolha uma obra que você conhece — pode ser uma obra pública noticiada na sua cidade. Liste quatro serviços principais, atribua a cada um um custo estimado e um avanço executado. Calcule o avanço físico ponderado e o VA. Arbitre um VP e um CR plausíveis, calcule IDP e IDC e escreva o diagnóstico em duas frases, como eu fiz para o cliente. E, por fim, indique quais avanços poderiam ser medidos por drone, quais por sensor e quais exigem medição convencional."
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Canteiro", com o relógio em "07:00" e a velocidade em "1 s = 5 min" (não mudar). Na fala "Clico em Iniciar": clicar em "Iniciar" (o botão passa a "Pausar"); os pontos azuis ("pacote no ar") saem dos sensores rumo ao GW-01, no topo da grua.
+2. Na fala "Clico no I-2": clicar no ponto "I-2" da planta, na cortina, do lado do prédio vizinho. No painel "Sensor — Inclinômetro I-2", esperar a "Última leitura" aparecer (cerca de 8,6 mm, nível "normal") e apontar a linha "Limites: 10,0 · 14,0 · 18,0 mm" e a linha "Ação (TARP)" (hoje, a rotina).
+3. Na fala "Na aba Leituras": clicar na aba "Leituras"; no filtro "Sensor", escolher "I-2"; apontar as colunas "Medição (UTC)", "Bruto" e "Engenharia" da linha mais recente, no topo.
+4. Na fala "E na aba Drone e BIM": clicar na aba "Drone e BIM"; apontar os indicadores "Avanço medido: 38,7%", "Previsto (curva S): 45,0%", "Dito na reunião: 62%" e "IDP = VA/VP: 0,86"; descer até "Avanço físico ponderado" e mostrar as barras de Fundações, Estrutura, Alvenaria e Instalações (executado / previsto).
+5. Clicar em "Pausar" antes de passar para o slide 17.
 
-**[TELA]** Slide 17 — Pontos-chave; Slide 18 — encerramento e gancho para a Aula 2.
+Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratório da Aula 8 e muda o avanço medido para 40,8%. Ao sair e voltar a este slide, o simulador reinicia sozinho (relógio de novo em 07:00).
 
-> "Vamos amarrar. Monitorar é medir de forma sistemática, ao longo do tempo, se a obra se comporta como previsto em prazo, custo, segurança e qualidade. O valor está no ciclo medir, comparar, decidir, agir e medir de novo — a malha fechada, o PDCA. O avanço físico pondera cada serviço pelo peso no orçamento, e acumulado no tempo forma a curva S. IDP é VA sobre VP; IDC é VA sobre CR. E o drone torna a medição do executado frequente e rastreável."
+> "Agora, tudo isso numa obra. É a Torre A, a obra fictícia que acompanha a disciplina inteira: três subsolos escavados colados a um prédio antigo, de 1968, com fundação rasa. Clico em Iniciar, e o relógio da obra começa a andar. Os pontinhos azuis saindo dos sensores são leituras viajando até o gateway, no topo da grua."
 
-> "Mas qual drone faz essa medição? Com qual sensor? Uma câmera comum basta, ou eu preciso de câmera térmica, de LiDAR, de câmera multiespectral? E um drone que mede volume serve para inspecionar fachada? É o assunto da próxima aula: os tipos de drone e os sensores embarcados. Te espero na Aula 2. Um abraço!"
+> "Clico no I-2, o inclinômetro da cortina junto ao prédio antigo. Ele mede quanto o topo da cortina se deslocou: uns 8,6 milímetros. Os limites são 10, 14 e 18 milímetros: atenção, alerta e alarme. E cada nível tem uma ação combinada antes: com 10, avisar o projetista; com 14, iniciar o reforço previsto; com 18, paralisar a escavação naquela frente. É a malha fechada escrita antes de o problema acontecer."
+
+> "Na aba Leituras, cada linha é uma medição, com a hora, o valor bruto do sensor e o valor já convertido em milímetros: dado datado e rastreável."
+
+> "E na aba Drone e BIM: o voo do drone mediu 38,7% de avanço, e o cronograma previa 45%. IDP de 0,86: obra atrasada, o mesmo raciocínio da nossa resposta ao cliente. Medir só vale se a medida for comparada com um limite ou com um plano, e virar decisão."
+
+### 10. Atividade prática + encerramento (18:00 – 19:00)
+
+**[TELA]** Slide 17 — Atividade prática.
+
+> "Sua missão até a próxima aula. Escolha uma obra que você conhece e liste quatro serviços principais, com um custo estimado e um avanço executado para cada um. Calcule o avanço físico ponderado e o VA, arbitre um VP e um CR plausíveis, calcule IDP e IDC e escreva o diagnóstico em duas frases. E indique quais avanços poderiam ser medidos por drone, quais por sensor e quais exigem medição convencional."
+
+**[TELA]** Slide 18 — Pontos-chave; Slide 19 — encerramento e gancho para a Aula 2.
+
+> "Vamos amarrar. Monitorar é medir de forma sistemática se a obra se comporta como previsto. O valor está na malha fechada: medir, comparar, decidir, agir e medir de novo. O avanço físico pondera cada serviço pelo orçamento e forma a curva S. IDP é VA sobre VP; IDC é VA sobre CR. E o drone torna a medição do executado frequente e rastreável."
+
+> "Mas qual drone faz essa medição? Com qual sensor? Câmera comum, térmica, LiDAR ou multiespectral? É o assunto da próxima aula: os tipos de drone e os sensores embarcados. Te espero na Aula 2. Um abraço!"
 
 ---
 
