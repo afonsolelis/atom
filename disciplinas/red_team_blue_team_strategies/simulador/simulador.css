@@ -161,3 +161,9 @@ body.embed .arch svg { max-height: calc(100vh / var(--z, 1) - 190px); }
 body.embed #v-arquitetura .head p { display: none; }
 body.embed .tabs { flex-wrap: wrap; overflow: visible; }
 body.embed .c8, body.embed .c7, body.embed .c6, body.embed .c5, body.embed .c4, body.embed .c3 { grid-column: span 12; }
+
+/* balões de explicação das abas (CEP, SOC, Superfície, ATT&CK): flutuam sobre a página, não ocupam espaço */
+.top { position: relative; z-index: 20; }
+.dica-aba { position: absolute; max-width: 300px; padding: 9px 11px; background: #0B1A36; border: 1px solid var(--blue); border-radius: 8px; color: var(--text); font-size: 12.5px; line-height: 1.4; box-shadow: 0 6px 18px rgba(0,0,0,.45); pointer-events: none; opacity: 0; transition: opacity .12s; }
+.dica-aba.on { opacity: 1; }
+.dica-aba::before { content: ''; position: absolute; top: -6px; left: var(--seta, 20px); width: 10px; height: 10px; background: #0B1A36; border-left: 1px solid var(--blue); border-top: 1px solid var(--blue); transform: rotate(45deg); }

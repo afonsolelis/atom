@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Especificação da Rede Tatame</title>
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<style>
+  :root { color-scheme: dark; --bg: #00122F; --bg2: #0B1A36; --line: #22314F; --text: #E6EDF3; --mute: #8FA3C4; --blue: #00B1D2; --amarelo: #F2CB0A; --red: #FF2B5F; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 Montserrat, Inter, Arial, sans-serif; }
+  .topo { background: linear-gradient(120deg, #3A0D1C 0%, #002156 48%, #0B3A55 100%); padding: 14px max(5vw, 16px); font-size: 14px; display: flex; gap: 18px; flex-wrap: wrap; }
+  .topo a { color: var(--amarelo); text-decoration: none; font-weight: 600; }
+  main { max-width: 1000px; margin: 0 auto; padding: 28px 16px 60px; }
+  h1 { font-size: clamp(1.6rem, 3.5vw, 2.3rem); line-height: 1.15; margin: 0 0 1rem; }
+  h2 { margin: 2.2rem 0 .8rem; padding-bottom: .35rem; border-bottom: 1px solid var(--line); color: #fff; font-size: 1.4rem; }
+  h3 { margin: 1.6rem 0 .5rem; color: var(--amarelo); font-size: 1.1rem; }
+  a { color: #58C4E8; }
+  code { font-family: 'JetBrains Mono', Consolas, monospace; font-size: .88em; background: var(--bg2); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; }
+  pre { background: var(--bg2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; }
+  pre code { border: 0; padding: 0; background: none; }
+  blockquote { margin: 1rem 0; border-left: 3px solid var(--amarelo); background: rgba(242,203,10,.07); padding: 8px 14px; border-radius: 0 6px 6px 0; }
+  .tabela { overflow-x: auto; margin: 1rem 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+  th { text-align: left; color: var(--mute); font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; background: var(--bg2); }
+  th, td { padding: 7px 10px; border: 1px solid var(--line); vertical-align: top; }
+  tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+  hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+  .erro { color: #FF7A95; }
+</style>
+</head>
+<body>
+<nav class="topo"><a href="../index.html">← Portal da disciplina</a><a href="index.html">Abrir o simulador</a><a href="APLICACAO.md">Ver o Markdown original</a></nav>
+<main id="conteudo"><p>Carregando a especificação…</p></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script>
+  // Renderiza APLICACAO.md (a fonte única continua sendo o .md; esta página só exibe).
+  const alvo = document.getElementById('conteudo');
+  fetch('APLICACAO.md', { cache: 'no-store' })
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then((md) => {
+      alvo.innerHTML = marked.parse(md);
+      alvo.querySelectorAll('table').forEach((t) => { const d = document.createElement('div'); d.className = 'tabela'; t.replaceWith(d); d.appendChild(t); });
+      const h1 = alvo.querySelector('h1'); if (h1) document.title = h1.textContent;
+    })
+    .catch(() => { alvo.innerHTML = '<p class="erro">Não foi possível carregar o APLICACAO.md. Abra esta página por um servidor local (por exemplo, o Live Server), não direto pelo arquivo.</p><p><a href="APLICACAO.md">Abrir o Markdown original</a></p>'; });
+</script>
+</body>
+</html>

@@ -498,3 +498,23 @@
   requestAnimationFrame(anim);
   window.Simulador = { estado: () => S, iniciarCenario, repetirCenario, mostrar, rodar };
 })();
+
+// balões de explicação das abas: um único balão posicionado dentro do cabeçalho
+(() => {
+  const topo = document.querySelector('header.top'), nav = document.getElementById('abas');
+  if (!topo || !nav) return;
+  const b = document.createElement('div'); b.className = 'dica-aba'; b.setAttribute('role', 'tooltip'); topo.appendChild(b);
+  const mostrar = (a) => {
+    b.textContent = a.dataset.dica; b.classList.add('on');
+    const x = nav.offsetLeft + a.offsetLeft - nav.scrollLeft;
+    const esq = Math.max(8, Math.min(x, topo.clientWidth - b.offsetWidth - 8));
+    b.style.left = esq + 'px'; b.style.top = (nav.offsetTop + nav.offsetHeight + 6) + 'px';
+    b.style.setProperty('--seta', Math.max(10, Math.min(x - esq + 20, b.offsetWidth - 20)) + 'px');
+  };
+  const esconder = () => b.classList.remove('on');
+  nav.querySelectorAll('a[data-dica]').forEach((a) => {
+    a.addEventListener('mouseenter', () => mostrar(a)); a.addEventListener('focus', () => mostrar(a));
+    a.addEventListener('mouseleave', esconder); a.addEventListener('blur', esconder);
+  });
+  nav.addEventListener('scroll', esconder);
+})();
