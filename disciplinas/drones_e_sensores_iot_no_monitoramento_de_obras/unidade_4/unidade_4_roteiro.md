@@ -13,7 +13,7 @@ Professor: Afonso Cesar Lelis Brandão
 
 **Aula 13 — Painéis de monitoramento, alertas e limites de alarme**
 
-**Duração-alvo:** cerca de 16:10 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:40 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 2:00)
 
@@ -43,7 +43,13 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "Agora, o que faz um painel ser bom? Eu uso um teste simples: em dez segundos, o painel precisa responder a três perguntas. Algo está fora do normal? Onde? E está piorando? Se o engenheiro precisa abrir cinco abas e fazer conta de cabeça para responder, o painel falhou. Para responder às três, ele mostra a planta com o status de cada instrumento, as séries com os limites desenhados e a velocidade — em milímetros por dia, por exemplo —, e uma lista de alertas com reconhecimento: quem viu, quando viu e o que fez."
 
-**[TELA]** Slide 8 — o sensor mudo: saúde dos instrumentos.
+**[TELA]** Slide 8 — o sensor mudo: saúde dos instrumentos (painel do Edifício Aurora, fictício).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O painel abre com o relógio "Edifício Aurora (fictício) · 14:00" andando (1 s = 10 min), os seis instrumentos verdes na planta (o FIS-05 em cinza, "manutenção") e o indicador "INC-01: verde, transmitindo".
+2. Na fala "Pense no inclinômetro que parou de mandar dados": clicar em "Romper o cabo". A série "INC-01 · deslocamento a 6,5 m (mm)" para e ganha a faixa "sem leituras", mas o ponto INC-01 da planta continua verde e o indicador passa a "INC-01 no painel: verde · sem leitura há 10 min", 20 min, 30 min…
+3. Na fala "Sensor mudo não é sensor verde": clicar em "Regra de sensor mudo: desligada" (o botão passa a "Regra de sensor mudo: ligada"). O ponto INC-01 fica lilás com um "?", o indicador mostra "INC-01: SEM DADOS · estado desconhecido", a coluna "última leitura" da tabela "Saúde dos sensores" fica destacada e o "Registro de alarmes" ganha a linha "INC-01 · SEM DADOS há … · NOVO · plantão avisado".
+4. Para repetir a demonstração, clicar em "↺".
 
 > "E tem um item que quase todo painel esquece: a saúde dos sensores. Bateria, intensidade do sinal e, principalmente, a hora da última leitura. Pense no inclinômetro que parou de mandar dados ontem à tarde. Se o painel mostra a última leitura recebida, ele continua verde. Só que ninguém sabe o que está acontecendo com aquela parede. Sensor mudo não é sensor verde. É um estado desconhecido, e precisa de alerta próprio. Às vezes, o sensor parou justamente porque a estrutura se moveu e rompeu o cabo."
 
@@ -67,19 +73,24 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "Repare que cada linha tem um nome e um prazo. Quando o alerta chega às três da manhã, ninguém precisa decidir quem liga para quem: está escrito."
 
-### 6. Fadiga de alarmes: persistência, histerese e incerteza (9:20 – 11:40)
+### 6. Fadiga de alarmes: persistência, histerese e incerteza (9:20 – 11:50)
 
 **[TELA]** Slide 12 — o princípio da gestão de alarmes: todo alarme exige uma ação.
 
 > "Voltemos aos 37 alarmes. A indústria de processo, as refinarias e as plantas químicas, enfrentou esse problema há décadas e criou normas de gestão de alarmes, como a ANSI/ISA-18.2, equivalente à IEC 62682. O princípio central serve direitinho para a obra: todo alarme deve exigir uma ação. Se não exige, é ruído e deve sair. Com esse princípio, quatro técnicas resolvem a maior parte dos falsos alarmes."
 
-**[TELA]** Slide 13 — simulação: histerese ligada e desligada. Clique em "sem histerese" e depois em "com histerese".
+**[TELA]** Slide 13 — simulação: histerese ligada e desligada. Clique em "Sem histerese" e depois em "Com histerese".
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o botão "Sem histerese" aceso e desenha as seis leituras do I-2, uma por segundo (9,8; 10,1; 9,9; 10,2; 9,9; 10,1), recomeçando a cada 9 segundos e meio; acima, os indicadores "Notificações" e "Leituras: n de 6 · sem histerese".
+2. Na fala "Sem histerese, clico aqui": clicar em "Sem histerese" para a animação recomeçar. Aparecem as etiquetas "🔔 alerta" nas leituras 2, 4 e 6 e "✓ normalizado" nas leituras 3 e 5; ao fim, "Notificações: 5 (3 alertas, 2 normalizações)".
+3. Na fala "Agora clico em com histerese": clicar em "Com histerese". Surge a linha tracejada "só sai abaixo de 9,5", a faixa "ATENÇÃO" vai da leitura 2 até a 6 e o indicador fecha em "Notificações: 1 (1 alerta, 0 normalizações)".
 
 > "A primeira é a persistência: exigir que a condição dure um tempo mínimo, ou duas leituras seguidas, antes de notificar. No Grafana, isso se chama pending period. A segunda é a histerese, e olha a simulação. O inclinômetro oscila em torno de 10 milímetros, com um ruído de uns três décimos: 9,8; 10,1; 9,9; 10,2; 9,9; 10,1. Sem histerese, clico aqui: cada vez que a leitura cruza os 10 para cima, sai uma notificação de alerta, e cada vez que volta para baixo, outra de normalização. Alertas nas leituras 2, 4 e 6; normalizações nas leituras 3 e 5. Três alertas e duas normalizações: cinco notificações em seis leituras. O celular do engenheiro não para. Agora clico em com histerese: o nível entra em 10,0, mas só sai abaixo de 9,5. Olha a diferença: o sensor entra em atenção na leitura de 10,1 e fica em atenção. Uma notificação só. E repare que o limite do projeto não mudou: mudou só a regra de saída."
 
 > "A terceira técnica é a confirmação: antes do alarme máximo, um segundo instrumento ou uma leitura manual confirma. E a quarta é a incerteza, a mesma regra de decisão da Aula 8, aplicada aos sensores da Aula 9. Se a leitura mais a incerteza alcança o limite, trate como atenção; se a leitura menos a incerteza já passou do limite, o nível está confirmado. E não se esqueça da limpeza da série, da Aula 12: um pico espúrio que sobe seis milímetros e volta no dia seguinte não pode acordar ninguém."
 
-### 7. Alertas no Grafana (11:40 – 13:20)
+### 7. Alertas no Grafana (11:50 – 13:30)
 
 **[TELA]** Slide 14 — anatomia de uma regra de alerta no Grafana.
 
@@ -89,25 +100,51 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "Olha essa sala de controle, do Centro de Operações do Rio, com a parede de telas. É bonito, mas não se iluda: a tela não salva ninguém sozinha. Dois cuidados. Primeiro, a regra crítica — por exemplo, ligar a bomba reserva se o nível d'água subir — roda também na borda, no controlador do canteiro ou no Node-RED junto ao gateway, como você viu nas Aulas 10 e 12. O painel depende da internet; a bomba não pode depender. Segundo, o sistema precisa avisar quando para de receber dados. No Grafana, há tratamento para ausência de dados na regra. Configure isso; é o seu alerta de sensor mudo."
 
-### 8. Exemplo numérico (13:20 – 14:40)
+### 8. Exemplo numérico (13:30 – 15:00)
 
 **[TELA]** Slide 16 — calculadora: velocidade e tempo até o próximo nível.
 
-> "Vamos às contas. O inclinômetro I-2 está em 11,5 milímetros e sobe 1,2 milímetro por dia. Pelo valor, ele está em atenção, entre 10 e 14. Pela velocidade, 1,2 é maior que 1: ele já está em alerta. Quanto tempo até o alerta por valor? Quatorze menos 11,5 dá 2,5, dividido por 1,2: uns 2,1 dias. E até o alarme? Dezoito menos 11,5 dá 6,5, dividido por 1,2: 5,4 dias. Conclusão: pela velocidade, o I-2 já está em alerta, e o reforço é preparado agora, e a frequência de leitura passa para a cada seis horas. Mexo aqui na velocidade: se ela cair para 0,3, a previsão se alonga, e o nível volta a ser só atenção. É a velocidade que manda."
+Na tela (passo a passo do que clicar, na ordem):
+1. Não mexer nos controles: eles abrem com "Leitura atual do I-2" em 11,5 mm, "Velocidade" em 1,2 mm/dia, "Alarmes no fim de semana" em 37 e "Alarmes verdadeiros" em 2.
+2. Na fala "Pelo valor, ele está em atenção": apontar "Pelo valor: atenção", "Pela velocidade: alerta" e o destaque "Nível do I-2: ALERTA".
+3. Na fala "Quanto tempo até o alerta por valor?": apontar "Dias até 14 mm: 2,1 dias" e "Dias até 18 mm: 5,4 dias", com as duas barras.
+4. Na fala "Mexo aqui na velocidade": arrastar "Velocidade" de 1,2 até 0,3 mm/dia. Muda para "Pela velocidade: normal", "Nível do I-2: ATENÇÃO", "Dias até 14 mm: 8,3 dias" e "Dias até 18 mm: 21,7 dias", e as barras crescem. Devolver a 1,2.
+5. Na fala "E a última conta": apontar "Alarmes que exigiam ação: 5,4 %".
+
+> "Vamos às contas. O inclinômetro I-2 está em 11,5 milímetros e sobe 1,2 milímetro por dia. Pelo valor, ele está em atenção, entre 10 e 14. Pela velocidade, 1,2 é maior que 1: ele já está em alerta. Quanto tempo até o alerta por valor? Quatorze menos 11,5 dá 2,5, dividido por 1,2: uns 2,1 dias. E até o alarme? Dezoito menos 11,5 dá 6,5, dividido por 1,2: 5,4 dias. Conclusão: pela velocidade, o I-2 já está em alerta, e o reforço é preparado agora, e a frequência de leitura passa para a cada seis horas. Mexo aqui na velocidade: se ela cair para 0,3, o prazo até os 14 milímetros passa de 2,1 para 8,3 dias, e o nível volta a ser só atenção. É a velocidade que manda."
 
 > "E a última conta, a dos 37 alarmes. Dois eram verdadeiros. Dois divididos por 37 dá 0,054: 5,4% dos alarmes exigiam ação. Em 19 de cada 20 vezes, o alarme era ruído. É a receita da fadiga. E são exatamente esses 35 que a persistência, a histerese e o alerta de saúde do sensor eliminam."
 
-### 9. Atividade e encerramento (14:40 – 16:00)
+### 9. Laboratório: o fim de semana dos alarmes no simulador (15:00 – 17:10)
 
-**[TELA]** Slide 17 — atividade prática no Grafana.
+**[TELA]** Slide 17 — laboratório no simulador da obra Torre A, aberto na aba Alarmes (regras, notificações e o TARP dos inclinômetros).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Alarmes": relógio em "07:00", indicador "Notificações: 0" e "Regras ligadas: 1 de 7" (só "Limite por velocidade" marcado; "Histerese" e "Persistência (2 leituras)" desmarcadas).
+2. Na fala "Vou rodar o fim de semana": clicar na aba "Cenários" e, no cartão "37 alarmes num fim de semana" (velocidade 1 s = 1 h, duração 2,5 dias), em "Iniciar cenário". O relógio pula para "00:00" de "sáb 21/11/2026" e o botão do topo passa a "Pausar".
+3. Na fala "Volto à aba Alarmes": clicar na aba "Alarmes". A tabela "Notificações" se enche de linhas do I-2 ("atenção", "valor 10,… mm", seguida de "normal", "normalizou (9,… mm)") e do PZ-01 ("valor 7,0… m"). Quando o cenário termina, cerca de 60 segundos depois (o botão volta a "Iniciar"), apontar "Notificações no cenário: 44" e "Sensores em alerta ou alarme: 0".
+4. Na fala "Agora eu ligo as duas regras": no painel "Regras", marcar "Histerese" e "Persistência (2 leituras)" (o indicador passa a "Regras ligadas: 3 de 7").
+5. Na fala "E repito o cenário": clicar na aba "Cenários", em "Repetir este cenário" (na linha do tempo), e voltar à aba "Alarmes". Ao fim, "Notificações no cenário: 0" e a tabela mostra "Nenhuma notificação."; apontar o painel "TARP dos inclinômetros", embaixo.
+
+Atenção: "Repetir este cenário" mantém as regras marcadas. Só com a "Histerese", o fim de semana ainda dá 34 notificações; com as duas regras, nenhuma. Ao sair e voltar a este slide, o simulador reinicia sozinho, com as duas regras desligadas.
+
+> "Agora, a nossa obra. Na Torre A, o simulador da disciplina, o painel está como num sistema recém-instalado: só o limite por velocidade está ligado. Vou rodar o fim de semana. Sábado, meia-noite, ninguém na obra, e cada hora passa em um segundo. O I-2, o inclinômetro junto ao prédio antigo, está em uns 9,7 milímetros, oscilando com o ruído normal do instrumento, logo abaixo do nível de atenção, de 10. O piezômetro PZ-01 está em uns 6,85 metros, logo abaixo dos 7."
+
+> "Volto à aba Alarmes e olha a tabela. Atenção, normalizou; atenção, normalizou. Cada cruzamento do limite, para cima ou para baixo, vira uma notificação no celular do engenheiro. No fim do fim de semana: 44 notificações, 32 do I-2 e 12 do PZ-01 — mais até que os 37 da nossa história. E quantas exigiam alguma ação? Nenhuma. Nenhum sensor chegou sequer a alerta. Na segunda-feira, essa equipe já não confia no painel."
+
+> "Agora eu ligo as duas regras que a gente viu: a histerese, que só deixa o I-2 sair da atenção abaixo de 9,5 milímetros, e o PZ-01 abaixo de 6,8 metros; e a persistência, que só sobe de nível quando duas leituras seguidas confirmam. E repito o cenário: o mesmo fim de semana, com o mesmo ruído. Resultado: zero notificações. E repare no TARP, embaixo: os limites continuam 10, 14 e 18 milímetros. O limite do projeto não mudou; mudou a regra de notificação. Se o I-2 começar a subir de verdade, duas leituras acima de 10 bastam para o aviso chegar. Painel que avisa demais deixa de ser ouvido; painel bem configurado é ouvido quando importa."
+
+### 10. Atividade e encerramento (17:10 – 18:40)
+
+**[TELA]** Slide 18 — atividade prática no Grafana.
 
 > "A atividade de hoje é mão na massa. Abra o Grafana, instalado no seu computador ou na demonstração pública, em play.grafana.org. Monte um dashboard com três painéis: uma série temporal de um sensor, que pode ser simulado ou vir do InfluxDB da Aula 12, com as faixas de atenção, alerta e alarme; um painel de valor colorido pelo nível; e um painel com a hora da última leitura. Depois, crie uma regra de alerta com período pendente e escreva a linha do TARP correspondente: gatilho, ação, responsável e prazo."
 
-**[TELA]** Slide 18 — pontos-chave.
+**[TELA]** Slide 19 — pontos-chave.
 
 > "Recapitulando: o Grafana consulta o banco de séries e mostra séries com limites, valor atual, estados e a planta. Os limites vêm do projeto, em atenção, alerta e alarme, por valor e por velocidade. O TARP dá a cada nível uma ação, um dono e um prazo. Persistência, histerese, confirmação e incerteza combatem a fadiga de alarmes, e sensor mudo também é alarme. E a regra crítica roda na borda."
 
-**[TELA]** Slide 19 — encerramento.
+**[TELA]** Slide 20 — encerramento.
 
 > "Mas o painel mostra o sensor. E o cronograma, o orçamento, o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento e controle. Te espero na Aula 14!"
 
@@ -117,7 +154,7 @@ Professor: Afonso Cesar Lelis Brandão
 
 **Aula 14 — Integração dos dados com BIM e com o planejamento e controle de obras**
 
-**Duração-alvo:** cerca de 15:30 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:20)
 
@@ -163,7 +200,14 @@ Professor: Afonso Cesar Lelis Brandão
 
 **[TELA]** Slide 10 — o BIM 4D em 3D: arraste a semana.
 
-> "Vamos ver o 4D funcionando. Na tela, um edifício. O contorno é o que o cronograma previa até a semana escolhida; o sólido é o que a nuvem confirmou como executado; e o vermelho é o que estava previsto e não foi feito. Arrasto da semana 22 até a 40: olha o vermelho crescendo. Na planilha, o atraso é um número. No 4D, você vê onde está, em que pavimento e desde quando."
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com o controle "Semana da obra" em 22: indicadores "Semana 22 · previsto 8,2 pav.", "Executado 6,2 pav." e "Executado ÷ previsto 0,75"; no topo do prédio, "Atraso: 2,0 pavimento(s)", com dois pavimentos em vermelho.
+2. Na fala "Arrasto da semana 22 até a 32": arrastar o controle até 32. O contorno azul chega ao 12º pavimento ("previsto 12,0 pav."), o sólido fica em "Executado 9,2 pav.", a razão vai a 0,77 e o topo mostra "Atraso: 2,8 pavimento(s)", com três pavimentos em vermelho.
+3. Na fala "você vê onde está": arrastar a cena com o mouse para girar o prédio e mostrar os pavimentos vermelhos.
+
+Atenção: pare na semana 32 (é o que o painel do slide pede). Da semana 34 em diante o atraso diminui e, na 40, o prédio aparece "Dentro do previsto".
+
+> "Vamos ver o 4D funcionando. Na tela, um edifício. O contorno é o que o cronograma previa até a semana escolhida; o sólido é o que a nuvem confirmou como executado; e o vermelho é o que estava previsto e não foi feito. Arrasto da semana 22 até a 32: olha o vermelho crescendo, de dois para quase três pavimentos de atraso. Na planilha, o atraso é um número. No 4D, você vê onde está, em que pavimento e desde quando."
 
 **[TELA]** Slide 11 — foto aérea: conjunto residencial em construção; avanço físico ponderado.
 
@@ -172,6 +216,11 @@ Professor: Afonso Cesar Lelis Brandão
 ### 6. Curva S e valor agregado (7:50 – 9:20)
 
 **[TELA]** Slide 12 — curva S prevista e realizada.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o controle "Mês da medição" em 10 e a curva realizada (amarela) se desenhando por baixo da prevista (azul); indicadores "Mês 10 · previsto 45,0%", "Realizado 40,7%" e "Desvio -4,2 p.p.".
+2. Na fala "que começa devagar, acelera no meio da obra": arrastar o controle para 4 ("previsto 7,7%", "Realizado 7,5%") e depois para 8 ("previsto 30,2%", "Realizado 28,2%"): o desvio cresce mês a mês.
+3. Na fala "Se a realizada fica abaixo, a obra está atrasada": voltar ao mês 10 e apontar a barra vermelha "−4,2 p.p." entre as duas curvas.
 
 > "Na Aula 1, você conheceu a curva S: o avanço acumulado previsto ao longo do tempo, que começa devagar, acelera no meio da obra e desacelera no fim. Com a medição de campo, a gente desenha a curva realizada ao lado da prevista. Se a realizada fica abaixo, a obra está atrasada. Mas atraso em prazo é só metade da história. Falta o custo."
 
@@ -182,6 +231,12 @@ Professor: Afonso Cesar Lelis Brandão
 ### 7. Exemplo numérico (9:20 – 11:00)
 
 **[TELA]** Slide 14 — calculadora de avanço ponderado e valor agregado.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. Não mexer nos controles: eles abrem com "Fundações executadas" em 100 %, "Estrutura executada" em 50 %, "Alvenaria executada" em 10 %, "Instalações executadas" em 5 % e "Custo real CR" em 8,60 R$ mi.
+2. Na fala do avanço ("Dá 0,4075"): apontar as barras "100% → 15,00 p.p.", "50% → 22,50 p.p.", "10% → 2,50 p.p." e "5% → 0,75 p.p." e a barra "Obra inteira" com "AF = 40,75%", antes da marca "previsto 45%".
+3. Na fala "Agora o valor agregado": apontar as barras VP 9,00, VA 8,15 e CR 8,60, "IDP = VA/VP 0,91 atrasada", "IDC = VA/CR 0,95 gasta mais do que agrega" e "Custo final estimado = 20 ÷ IDC ≈ R$ 21,1 mi".
+4. Na fala "Mexo aqui no avanço da estrutura": arrastar "Estrutura executada" de 50 até 70 %. Muda para "70% → 31,50 p.p.", "AF = 49,75%", VA 9,95, "IDP = VA/VP 1,11 adiantada", "IDC = VA/CR 1,16 gasta menos do que agrega" e "≈ R$ 17,3 mi". Devolver a 50 %.
 
 > "Vamos à conta. Obra de 20 milhões de reais. No mês 10, a curva S previa 45%. A medição deu o seguinte. Fundações, peso de 15%, 100% concluídas, conforme o as-built. Estrutura, peso de 45%: a nuvem confirma 2.250 de 4.500 metros cúbicos, ou seja, 50%. Alvenaria, peso de 25%, 10%, medida no ortomosaico. Instalações, peso de 15%, 5%, pela vistoria. Avanço físico: 0,15 vezes 1, mais 0,45 vezes 0,5, mais 0,25 vezes 0,1, mais 0,15 vezes 0,05. Dá 0,4075, uns 40,8%. Arredondando, 41%."
 
@@ -197,23 +252,47 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "E há uma vantagem que aparece logo nos primeiros meses: a discussão na reunião muda de natureza. Em vez de perguntar se a estrutura está em 60% ou em 50%, a equipe olha o 4D, vê quais pavimentos atrasaram e discute por quê: faltou fôrma? A grua ficou parada por vento? A concretagem esperou o resultado do ensaio? É o planejamento e controle do Mattos funcionando com dado de campo. E, quando o atraso aparece cedo, ainda dá tempo de reprogramar a sequência, reforçar a equipe ou renegociar o fornecimento, antes que ele vire multa contratual."
 
-### 9. Do modelo ao gêmeo digital (13:40 – 14:20)
+### 9. Do modelo ao gêmeo digital (13:40 – 14:40)
 
 **[TELA]** Slide 16 — sombra digital e gêmeo digital: fechando a malha.
 
-> "Uma última peça. Quando o modelo é atualizado automaticamente pelo canteiro — a nuvem confirmando elementos, os sensores pintando a cortina —, ele é uma sombra digital: o dado vai sozinho da obra para o modelo. Quando a decisão também volta automaticamente à obra — a plataforma reprograma a frente no 4D e aciona a equipe —, temos um gêmeo digital. Na prática da construção, o mais comum, e muito útil, é a sombra digital com um engenheiro fechando a malha da Aula 1: medir, comparar com o planejado, decidir, agir e medir de novo."
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com o botão "Malha fechada" aceso, os indicadores "Distorção angular: 0" e "Situação: normal" e os pontos amarelos "dados dos sensores →" indo do prédio real ao gêmeo digital.
+2. Na fala "o dado vai sozinho da obra para o modelo": clicar em "Malha aberta" e depois em "▶ Simular recalque". Os dois prédios inclinam juntos, o gêmeo passa de verde a amarelo e vermelho e, em uns dois segundos, aparece "Situação: ALERTA — limite 1/500". Clicar de novo em "▶ Simular recalque" para parar.
+3. Na fala "Quando a decisão também volta automaticamente à obra": clicar em "↺ Reiniciar", em "Malha fechada" e em "▶ Simular recalque". Perto de "Distorção angular: 1/1.000" surge o fluxo vermelho "← comando / ação na obra", o indicador fica em "Situação: atenção · ação aplicada" e a inclinação praticamente para.
 
-### 10. Atividade e encerramento (14:20 – 15:40)
+> "Uma última peça. Quando o modelo é atualizado automaticamente pelo canteiro — a nuvem confirmando elementos, os sensores pintando a cortina —, ele é uma sombra digital: o dado vai sozinho da obra para o modelo. Olha a simulação em malha aberta: o gêmeo acompanha o recalque e fica vermelho, mas ninguém age. Quando a decisão também volta automaticamente à obra — a plataforma reprograma a frente no 4D e aciona a equipe —, temos um gêmeo digital: em malha fechada, a ação chega antes do alerta, e a inclinação para. Na prática da construção, o mais comum, e muito útil, é a sombra digital com um engenheiro fechando a malha da Aula 1: medir, comparar com o planejado, decidir, agir e medir de novo."
 
-**[TELA]** Slide 17 — atividade prática.
+### 10. Laboratório: o sensor pinta o elemento do modelo (14:40 – 16:40)
+
+**[TELA]** Slide 17 — laboratório no simulador da obra Torre A, aberto na aba Drone e BIM com o cenário do recalque do I-2 já em andamento.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Drone e BIM" e o cenário "O I-2 acelera ao lado do prédio antigo" começa sozinho: relógio a partir de "07:00", 1 s = 1 h, botão do topo em "Pausar". Não clicar em nada nos primeiros segundos.
+2. Na fala "Olha a linha do I-2": na tabela "Sensores no modelo BIM", apontar a linha "I-2 · Cortina de estacas — painel P05 (junto ao prédio antigo) · 0Fh3Wd8Lp1QsY6uRz9KcB2". O nível aparece "atenção" logo no começo (11,3 mm) e passa a "alerta" com cerca de 12 h de série, uns 12 segundos depois do início (velocidade de 1,31 mm/dia).
+3. Na fala "Antes do voo": apontar os indicadores "Avanço medido: 38,7%", "Previsto (curva S): 45,0%", "Dito na reunião: 62%" e "IDP = VA/VP: 0,86".
+4. Na fala "Clico em Voar e processar": clicar em "Voar e processar o voo desta semana". O simulador vai sozinho para a aba "Canteiro" e o ponto "drone" varre o terreno em oito faixas; esperar a varredura terminar nessa aba (cerca de 4 segundos). Apontar o ponto I-2 laranja na cortina.
+5. Na fala "Volto à aba Drone e BIM": clicar na aba "Drone e BIM". A tabela "Voos" ganha a linha "16/11 · 2,1 cm/px · 6 · 2,3 cm · 46.900 m³ · 40,8%", ao lado da mensagem "Voo de 16/11 processado: 46.900 m³ escavados (a planilha dizia 48.200)."; os indicadores passam a "Avanço medido: 40,8%", "VP · VA · CR (R$ mi): 9,00 · 8,15 · 8,60", "IDP = VA/VP: 0,91" e "IDC = VA/CR: 0,95"; em "Avanço físico ponderado", as barras ficam em "100% / 100%", "50% / 55%", "10% / 15%" e "5% / 10%".
+
+Atenção: a varredura do drone só avança com a aba Canteiro aberta; se voltar antes, ela fica parada e o voo não é processado. O cenário do recalque continua rodando durante o voo (dura 4 dias simulados, cerca de 96 segundos). Ao sair e voltar a este slide, o simulador reinicia e o cenário recomeça.
+
+> "Agora, a Torre A. O simulador abre na aba Drone e BIM com um cenário já rodando: o I-2, o inclinômetro da cortina junto ao prédio antigo, começa em 11,5 milímetros e sobe 1,2 milímetro por dia. Cada segundo aqui é uma hora de obra."
+
+> "Olha a linha do I-2 na tabela de sensores no modelo BIM. Ela liga o sensor ao elemento: cortina de estacas, painel P05, junto ao prédio antigo, com o seu GUID. É o segundo fluxo da aula funcionando. O nível já aparece em atenção, porque passou dos 10 milímetros. E, com umas 12 horas de série, a velocidade fica calculável: cerca de 1,3 milímetro por dia, acima de 1. O painel P05 passa a alerta dois dias antes de o valor chegar aos 14. Quem abre o modelo vê qual parede está se mexendo, e não só qual sensor."
+
+> "Agora o primeiro fluxo. Antes do voo, o avanço medido é o do voo de 9 de novembro: 38,7%, contra 45% previstos e os 62% ditos na reunião. Clico em Voar e processar o voo desta semana. O simulador vai para o canteiro, e o drone varre o terreno em faixas. Volto à aba Drone e BIM: o voo de 16 de novembro mediu 46.900 metros cúbicos escavados — a planilha dizia 48.200. O avanço ponderado sobe para 40,8%. VP de 9 milhões, VA de 8,15 e custo real de 8,6. IDP de 0,91 e IDC de 0,95: exatamente a nossa conta. O GUID leva a leitura ao elemento; o voo leva o executado ao cronograma e ao custo. E os 62% da reunião continuam sem parar em pé."
+
+### 11. Atividade e encerramento (16:40 – 18:00)
+
+**[TELA]** Slide 18 — atividade prática.
 
 > "A atividade: pegue o cronograma de uma obra, pode ser acadêmico, com quatro ou cinco serviços e seus pesos. Para uma data, invente as quantidades que o drone e os sensores mediram. Calcule o avanço físico ponderado, o VP, o VA, um custo real plausível, o IDP e o IDC. Desenhe a curva S prevista e a realizada. E escreva o tópico BCF da frente mais atrasada: elemento, problema, responsável e prazo."
 
-**[TELA]** Slide 18 — pontos-chave.
+**[TELA]** Slide 19 — pontos-chave.
 
 > "Recapitulando: BIM é modelo de informação, e o IFC com o GUID liga sensores, nuvens e pendências a cada elemento. 4D é modelo mais cronograma; 5D, mais custos; e, desde 2024, as obras federais abrangidas usam BIM no planejamento e controle. O avanço físico é ponderado; o modelo dá o previsto, e o campo dá o executado. Curva S e valor agregado transformam medição em decisão."
 
-**[TELA]** Slide 19 — encerramento.
+**[TELA]** Slide 20 — encerramento.
 
 > "Agora, a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas e sob a lança de uma grua. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
 
@@ -223,7 +302,7 @@ Professor: Afonso Cesar Lelis Brandão
 
 **Aula 15 — Segurança do trabalho, NR-18 e tecnologia para prevenção**
 
-**Duração-alvo:** cerca de 15:20 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:30)
 
@@ -267,11 +346,16 @@ Professor: Afonso Cesar Lelis Brandão
 
 ### 5. Sensores vestíveis, gases e cercas virtuais (6:20 – 7:20)
 
-**[TELA]** Slide 10 — simulação 3D: cerca virtual em torno da escavadeira. Clique para mover o trabalhador.
+**[TELA]** Slide 10 — simulação 3D: cerca virtual em torno da escavadeira. Clique em "Aproximar trabalhador".
 
-> "Outra frente é a localização em tempo real. Etiquetas UWB, com precisão de decímetros, ou BLE, de alguns metros, vão no capacete ou no crachá. Com elas, a gente cria cercas virtuais. Olha a simulação: em volta da escavadeira há uma zona de exclusão, a área de giro da máquina. Clico e o trabalhador se aproxima. Entrou na zona: o operador recebe um aviso na cabine, e o trabalhador, um alerta vibratório. Ninguém precisa ver o outro para que o aviso chegue. E, em escavações, poços e galerias, os detectores de gases avisam antes da entrada — é a NR-33, de espaços confinados. Somam-se ainda os sensores da Aula 9: inclinação em escoramentos, vibração e poeira. Só um lembrete, que vai ser o tema da próxima aula: localização de pessoa é dado pessoal."
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com a escavadeira girando dentro do círculo "Zona de exclusão · 8 m" e o "Ajudante (crachá UWB)" andando fora dele; indicadores "Distância à escavadeira: …" (cerca de 17 m), "Aviso na cabine: não" e "Entradas na zona: 0".
+2. Na fala "Clico e o trabalhador se aproxima": clicar em "Aproximar trabalhador" (o botão passa a "Afastar trabalhador"). Ele caminha até uns 5,4 m da máquina; ao cruzar os 8 m, a escavadeira para de girar e pisca, os rótulos mudam para "⚠ Cabine: pessoa na zona · giro bloqueado" e "📳 Crachá vibrando", e os indicadores mostram "Aviso na cabine: SIM" e "Entradas na zona: 1".
+3. Na fala "E, em escavações, poços e galerias": clicar em "Afastar trabalhador"; o aviso volta a "não". Para zerar o contador, "↺ Zerar eventos".
 
-### 6. Visão computacional: EPI e zonas de risco (7:20 – 9:00)
+> "Outra frente é a localização em tempo real. Etiquetas UWB, com precisão de decímetros, ou BLE, de alguns metros, vão no capacete ou no crachá. Com elas, a gente cria cercas virtuais. Olha a simulação: em volta da escavadeira há uma zona de exclusão de 8 metros, a área de giro da máquina. Clico e o trabalhador se aproxima. Entrou na zona: o giro da máquina é bloqueado, o operador recebe um aviso na cabine, e o trabalhador, um alerta vibratório. Ninguém precisa ver o outro para que o aviso chegue. E, em escavações, poços e galerias, os detectores de gases avisam antes da entrada — é a NR-33, de espaços confinados. Somam-se ainda os sensores da Aula 9: inclinação em escoramentos, vibração e poeira. Só um lembrete, que vai ser o tema da próxima aula: localização de pessoa é dado pessoal."
+
+### 6. Visão computacional: EPI e zonas de risco (7:20 – 9:10)
 
 **[TELA]** Slide 11 — foto: caixa de referência e caixa prevista; a IoU.
 
@@ -279,15 +363,21 @@ Professor: Afonso Cesar Lelis Brandão
 
 **[TELA]** Slide 12 — precisão, revocação e o limiar.
 
-> "E o modelo como um todo se avalia por duas métricas. Precisão: dos avisos que o modelo deu, quantos estavam certos? Revocação: das situações de risco que existiam, quantas o modelo encontrou? O modelo devolve uma probabilidade, e o limiar de decisão é escolha do engenheiro. Limiar baixo encontra mais situações de risco, com mais avisos falsos. Limiar alto, o contrário. Em segurança, o erro mais caro é o falso negativo: a pessoa sem capacete que passa despercebida. Por isso, ajusta-se o limiar para revocação alta, e os avisos são conferidos por uma pessoa. E um projeto ético detecta o EPI, não a pessoa. Sem reconhecimento facial, e, de preferência, processando na borda, sem mandar o vídeo inteiro para a nuvem."
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o controle "Limiar de decisão" em 0,50: histogramas "■ com capacete (280)" e "■ sem capacete (120)", matriz "VP · achou 102", "FN · perdeu 18", "FP · aviso falso 34" e "VN 246", e ao lado "Precisão P: 0,75", "Revocação R: 0,85" e "F1: 0,80".
+2. Na fala "Limiar baixo encontra mais situações de risco": arrastar o limiar até 0,30. A matriz passa a VP 117, FN 3 e FP 120; "Precisão P: 0,49", "Revocação R: 0,97", "F1: 0,66".
+3. Na fala "Limiar alto, o contrário": arrastar até 0,70. VP 70, FN 50 e FP 4; "Precisão P: 0,95", "Revocação R: 0,58", "F1: 0,72".
+4. Na fala "ajusta-se o limiar para revocação alta": voltar a 0,50.
 
-### 7. Drones na inspeção de segurança (9:00 – 9:50)
+> "E o modelo como um todo se avalia por duas métricas. Precisão: dos avisos que o modelo deu, quantos estavam certos? Revocação: das situações de risco que existiam, quantas o modelo encontrou? O modelo devolve uma probabilidade, e o limiar de decisão é escolha do engenheiro. Limiar baixo encontra mais situações de risco, com mais avisos falsos: em 0,3, o modelo acha 117 das 120 pessoas sem capacete, mas dá 120 avisos falsos. Limiar alto, o contrário: em 0,7, só 4 avisos falsos, mas 50 pessoas sem capacete passam despercebidas. Em segurança, o erro mais caro é o falso negativo: a pessoa sem capacete que passa despercebida. Por isso, ajusta-se o limiar para revocação alta, e os avisos são conferidos por uma pessoa. E um projeto ético detecta o EPI, não a pessoa. Sem reconhecimento facial, e, de preferência, processando na borda, sem mandar o vídeo inteiro para a nuvem."
+
+### 7. Drones na inspeção de segurança (9:10 – 10:10)
 
 **[TELA]** Slide 13 — foto: viaduto visto do drone durante inspeção.
 
 > "E o drone? Ele inspeciona sem expor ninguém. Bandejas e redes de proteção, guarda-corpos da periferia, coberturas, taludes e escoramentos de escavação, ancoragens de andaimes. Olha essa vista de um viaduto durante uma inspeção: o drone chegou onde uma pessoa precisaria de cesto aéreo e cinto. Um voo semanal com fotos georreferenciadas vira evidência datada para o PGR: o guarda-corpo do nono pavimento estava lá na terça? E valem as regras das Aulas 3 e 4: operação segundo o RBAC 100 da ANAC, acesso ao espaço aéreo pelo DECEA, área de segurança delimitada e nada de sobrevoar trabalhadores sem a devida análise de risco. O drone que inspeciona a segurança não pode virar um risco."
 
-### 8. Segurança no painel e no TARP (9:50 – 12:20)
+### 8. Segurança no painel e no TARP (10:10 – 12:40)
 
 **[TELA]** Slide 14 — o TARP de segurança: vento na grua, cercas virtuais e proteções inspecionadas.
 
@@ -297,9 +387,15 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "E há uma diferença de indicadores que vale guardar. A taxa de frequência de acidentes, que a gente vai calcular daqui a pouco, é um indicador de resultado: ela olha para trás e só se mexe depois que alguém se machuca. Os dados dos sensores, das câmeras e dos voos de inspeção são indicadores antecipados: quantos guarda-corpos faltando, quantas entradas em zona de risco, quantas horas de vento acima da atenção, quantos quase-acidentes registrados. Uma obra madura acompanha os dois. Os antecipados mostram o risco crescendo; o de resultado confirma se a prevenção funcionou."
 
-### 9. Exemplo numérico (12:20 – 13:50)
+### 9. Exemplo numérico (12:40 – 14:10)
 
 **[TELA]** Slide 15 — calculadora: vento, detector e taxa de frequência.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre na aba "Vento", com "Rajada medida" em 13,0 m/s: "13,0 m/s × 3,6 = 46,8 km/h", o marcador na faixa "alerta: AR + PT" da régua e a frase "ALERTA: só com análise de risco e permissão de trabalho".
+2. Na fala "E o limite de 72 quilômetros por hora": arrastar "Rajada medida" até 20,0 m/s: "20,0 m/s × 3,6 = 72,0 km/h" e "PROIBIDO: a grua não opera". Devolver a 13,0.
+3. Na fala "Segunda: o detector de capacete": clicar na aba "Detector" ("Acertos (de 120 sem capacete)" em 102, "Avisos falsos" em 34): apontar "VP · achou 102", "FN · perdeu 18", "FP · aviso falso 34", "Precisão = 102 ÷ 136" com 0,75, "Revocação = 102 ÷ 120" com 0,85, "F1" com 0,80 e a frase "Encontra 85% das situações de risco; 25% dos avisos são falsos."
+4. Na fala "Terceira: como medir": clicar na aba "Taxa de frequência" ("Acidentes com afastamento" 4, "Trabalhadores" 180, "Horas por mês" 220 h): apontar "Horas-homem = 180 × 220 h × 12 meses = 475.200 h" e "TF = 4 × 1.000.000 ÷ 475.200 ≈ 8,4".
 
 > "Vamos às contas. Primeira: o vento. Rajada de 13 metros por segundo. Para passar para quilômetros por hora, multiplico por 3,6: 46,8, quase 47 quilômetros por hora. Acima de 42: precisa de análise de risco e permissão de trabalho. E o limite de 72 quilômetros por hora, dividido por 3,6, dá 20 metros por segundo: aí, proibido. O alerta da plataforma deve disparar nos 42, não depois."
 
@@ -307,23 +403,41 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "Terceira: como medir se a obra está ficando mais segura. A NBR 14280 usa a taxa de frequência: número de acidentes vezes um milhão, dividido pelas horas-homem de exposição. Cento e oitenta trabalhadores, 220 horas por mês, 12 meses: 475.200 horas-homem. Quatro acidentes com afastamento: taxa de frequência de cerca de 8,4. É esse indicador, acompanhado mês a mês, que diz se a tecnologia está fazendo diferença."
 
-### 10. Pausa para reflexão (13:50 – 14:40)
+### 10. Pausa para reflexão (14:10 – 15:00)
 
 **[TELA]** Slide 16 — pausa para reflexão: prevenção ou vigilância?
 
 > "Agora, pare o vídeo um instante e pense. A construtora quer câmeras com reconhecimento facial em todos os acessos e frentes, para identificar quem está sem capacete e aplicar advertências. O crachá UWB que evita o atropelamento na rampa também registra, minuto a minuto, onde cada trabalhador esteve. O objetivo, segurança, é legítimo. Mas existem alternativas menos invasivas: detectar o capacete sem identificar a pessoa e avisar o encarregado; calcular a proximidade com a máquina na borda, sem guardar o histórico com nome. Onde termina a prevenção e começa a vigilância? Pense na finalidade, na necessidade, na transparência, no prazo de guarda e em quem vai acessar as imagens."
 
-### 11. Atividade e encerramento (14:40 – 15:40)
+### 11. Laboratório: a rajada na grua da Torre A (15:00 – 16:50)
 
-**[TELA]** Slide 17 — atividade prática.
+**[TELA]** Slide 17 — laboratório no simulador da obra Torre A, aberto na aba Cenários (cartões dos sete cenários).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Cenários", com o relógio em "07:00".
+2. Na fala "clico em Iniciar cenário": no cartão "Rajada de quase 47 km/h na grua" (velocidade 1 s = 1 min, duração 2 h), clicar em "Iniciar cenário". Aparece a "Linha do tempo", com os passos "+28 min" (atenção), "+36 min" (alerta), "+40 min" (pico) e "+70 min"; o botão do topo passa a "Pausar".
+3. Na fala "Abro Séries temporais": clicar na aba "Séries temporais" e, no seletor "Sensor", escolher "Anemômetro AN-01 (grua)". A curva sobe sobre as faixas, com as linhas "atenção 35,0" e "alerta 42,0"; o pico, perto das 07:40, fica um pouco acima de 47 km/h.
+4. Na fala "Na aba Alarmes": clicar na aba "Alarmes" e ler a tabela "Notificações", de baixo para cima: "seg 16/11 07:32 · AN-01 · atenção · valor 35,0 km/h · Avisar o operador e o encarregado."; "07:36 · alerta · valor 43,8 km/h · Só com análise de risco e permissão de trabalho; avisar o operador."; depois "07:46 · atenção · normalizou (37,4 km/h)" e "07:48 · normal · normalizou (34,2 km/h)".
+
+Atenção: o relógio anda 1 minuto por segundo, então o alerta chega uns 36 segundos depois de "Iniciar cenário" e a última normalização, uns 48 segundos depois; o cenário inteiro dura 2 minutos. Se a aba Alarmes for aberta antes, as notificações vão aparecendo no alto da tabela.
+
+> "Vamos ver isso na Torre A. O anemômetro AN-01 está no topo da grua G1, ligado por cabo ao gateway, e manda uma leitura a cada dois minutos. Abro a aba Cenários e clico em Iniciar cenário, no cartão da rajada. Aqui, cada segundo é um minuto de obra, a partir das sete da manhã."
+
+> "Abro Séries temporais e escolho o AN-01. O vento começa moderado, perto de 20 quilômetros por hora, e vai subindo. Repare nas linhas: atenção em 35, alerta em 42 — o número da NR-18. Por volta das sete e quarenta, o pico chega perto de 47 quilômetros por hora, uns 13 metros por segundo. Acima de 42, mas longe dos 72 da proibição."
+
+> "Agora a pergunta do título: quem fica sabendo? Na aba Alarmes, cada notificação já traz a ação. Às 7h32, atenção, com 35 quilômetros por hora: avisar o operador e o encarregado. Às 7h36, alerta, com 43,8: só com análise de risco e permissão de trabalho, e avisar o operador. E, quando o vento cai, às 7h46 e às 7h48, as normalizações. Repare que o anemômetro já existia na grua, porque a norma exige. O que mudou foi o caminho: o número que antes ficava num visor da cabine agora chega ao painel, ao celular do encarregado e ao técnico de segurança, com hora, histórico e a ação escrita no TARP. É a tecnologia trabalhando dentro da norma, e não no lugar dela. E o degrau de atenção que o plano da obra escolher é só mais um limite configurado na plataforma."
+
+### 12. Atividade e encerramento (16:50 – 18:00)
+
+**[TELA]** Slide 18 — atividade prática.
 
 > "A atividade: para uma obra que você conheça, liste cinco riscos críticos do PGR e, para cada um, indique a proteção coletiva exigida pela NR-18, uma tecnologia que ajude a verificá-la, com o gatilho de alerta, o responsável pela resposta e o cuidado de privacidade necessário."
 
-**[TELA]** Slide 18 — pontos-chave.
+**[TELA]** Slide 19 — pontos-chave.
 
 > "Recapitulando: a NR-18 exige o PGR, atualizado conforme a etapa. A ordem é eliminar, proteger coletivamente, organizar e, por último, o EPI. A norma já pede sensores, como o alarme de ré e o anemômetro da grua, com 42 e 72 quilômetros por hora. Visão computacional detecta EPI com revocação alta e sem identificar pessoas. E o drone inspeciona sem expor ninguém."
 
-**[TELA]** Slide 19 — encerramento.
+**[TELA]** Slide 20 — encerramento.
 
 > "Só que câmeras, crachás e sensores coletam dados de gente e abrem portas para invasores. Na última aula, LGPD, cibersegurança e o fechamento da disciplina. Te espero na Aula 16!"
 
@@ -333,7 +447,7 @@ Professor: Afonso Cesar Lelis Brandão
 
 **Aula 16 — Privacidade, LGPD e cibersegurança em sistemas IoT de obras (fechamento da disciplina)**
 
-**Duração-alvo:** cerca de 15:40 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:10)
 
@@ -361,9 +475,15 @@ Professor: Afonso Cesar Lelis Brandão
 
 ### 4. Privacidade desde a concepção e governança (3:20 – 5:10)
 
-**[TELA]** Slide 6 — máscara de privacidade, desfoque e retenção. Clique para aplicar a máscara.
+**[TELA]** Slide 6 — máscara de privacidade, desfoque e retenção. Clique em "Máscara de privacidade".
 
-> "Na prática, o jeito certo é pensar em privacidade desde a concepção do sistema. Olha a simulação: a câmera enxerga o canteiro e as janelas do prédio vizinho. Clico e aplico a máscara de privacidade: as janelas ficam cobertas na gravação. Clico de novo e ligo o desfoque automático de rostos e placas. Somam-se a isso o enquadramento do voo do drone no canteiro, o prazo de guarda definido — a imagem de segurança fica guardada por um tempo certo e depois é apagada —, o aviso nos acessos e a comunicação prévia aos vizinhos. E o princípio da aula passada: detectar o EPI, não identificar a pessoa."
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com os três botões desligados: a câmera vê o "lote vizinho" (pessoa na janela e outra no quintal), a escavação com três trabalhadores (um "sem capacete") e o carro com a placa "ABC1D23"; indicadores "Dados pessoais expostos: 7" e "Imagens guardadas: 2.160 (sem prazo, crescendo)", com o número subindo.
+2. Na fala "Clico e aplico a máscara de privacidade": clicar em "Máscara de privacidade". O lote vizinho fica coberto pela tarja "MÁSCARA DE PRIVACIDADE" e o indicador cai para "Dados pessoais expostos: 4".
+3. Na fala "Clico de novo e ligo o desfoque": clicar em "Desfocar rostos e placas". Os rostos dos trabalhadores e a placa ficam pixelados: "Dados pessoais expostos: 0".
+4. Na fala "o prazo de guarda definido": clicar em "Prazo de guarda: 30 dias". O contador volta a "Imagens guardadas: 2.160 (30 dias, depois apaga)".
+
+> "Na prática, o jeito certo é pensar em privacidade desde a concepção do sistema. Olha a simulação: a câmera enxerga o canteiro e as janelas do prédio vizinho. Clico e aplico a máscara de privacidade: as janelas ficam cobertas na gravação, e os dados pessoais expostos caem de 7 para 4. Clico de novo e ligo o desfoque automático de rostos e placas: zero. Somam-se a isso o enquadramento do voo do drone no canteiro, o prazo de guarda definido — a imagem de segurança fica guardada por um tempo certo e depois é apagada —, o aviso nos acessos e a comunicação prévia aos vizinhos. E o princípio da aula passada: detectar o EPI, não identificar a pessoa."
 
 **[TELA]** Slide 7 — controlador, operador, encarregado, RIPD e a ANPD.
 
@@ -379,7 +499,7 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "E por que o IoT é alvo fácil? Olha esse gateway LoRaWAN no alto de um mastro, sobre a cidade. Ele fica exposto no campo, roda anos sem ninguém mexer, raramente é atualizado e, muitas vezes, sai de fábrica com usuário e senha padrão. Em 2016, uma rede de dispositivos sequestrados, a botnet Mirai, tomou o controle de centenas de milhares de câmeras e roteadores simplesmente testando senhas de fábrica, e usou esses aparelhos para derrubar grandes serviços da internet. Não à toa, senhas fracas, padrão ou embutidas aparecem em primeiro lugar na lista OWASP IoT Top 10, a referência de vulnerabilidades em internet das coisas."
 
-### 6. Controles mínimos de cibersegurança (6:30 – 8:40)
+### 6. Controles mínimos de cibersegurança (6:30 – 8:50)
 
 **[TELA]** Slide 10 — credenciais únicas e o Ato nº 77/2021 da Anatel.
 
@@ -387,13 +507,19 @@ Professor: Afonso Cesar Lelis Brandão
 
 **[TELA]** Slide 11 — o caminho do dado: LoRaWAN com AES-128 e MQTT sobre TLS, com ACL por tópico.
 
-> "Segundo, criptografia no caminho. Lembra da Aula 11? O LoRaWAN cifra as mensagens com chaves AES-128 entre o sensor e o servidor de rede. E o MQTT da Aula 12 deve rodar sobre TLS, na porta 8883, e não na 1883, em texto puro. Com TLS, quem intercepta a mensagem não lê nem altera o conteúdo. E mais: cada dispositivo se autentica com usuário e senha ou com certificado próprio, e o broker tem listas de controle de acesso por tópico. O inclinômetro I-2 só pode publicar em obra, barra cortina, barra I-2. Se alguém roubar a credencial dele, não consegue publicar em nome do piezômetro, nem apagar o tópico de alertas."
+Na tela (passo a passo do que clicar, na ordem):
+1. O diagrama abre com os três botões desligados: "Inclinômetro I-2 → Gateway → Broker MQTT → Painel", o trecho "LoRaWAN · AES-128" com cadeado verde e o trecho "MQTT · porta 1883" em laranja, "texto puro"; o "interceptador" lê `{"id":"I-2","mm":11.5}` e os indicadores mostram "Interceptador lê a leitura: SIM" e "Publicações indevidas aceitas: 0".
+2. Na fala "E o MQTT da Aula 12 deve rodar sobre TLS": clicar em "MQTT com TLS (8883)". O trecho vira "MQTT/TLS · porta 8883" com cadeado, o interceptador só vê "▒▒▓░▒▓▒░▓▒▒▓░ (cifrado)" e o indicador passa a "Interceptador lê a leitura: não".
+3. Na fala "Se alguém roubar a credencial dele": clicar em "Credencial do I-2 roubada". Aparecem três tentativas: "PUBLISH obra/cortina/I-2" ("aceito (tópico do próprio I-2)"), "PUBLISH obra/cortina/PZ-1" e "PUBLISH obra/alertas (apagar)", estas duas com "ACEITO: dado falso no sistema"; o contador "Publicações indevidas aceitas" sobe.
+4. Na fala "Com a ACL ligada": clicar em "ACL por tópico". O broker passa a "ACL por tópico", as duas tentativas indevidas ficam "bloqueado pela ACL" e o contador para de subir.
+
+> "Segundo, criptografia no caminho. Lembra da Aula 11? O LoRaWAN cifra as mensagens com chaves AES-128 entre o sensor e o servidor de rede. E o MQTT da Aula 12 deve rodar sobre TLS, na porta 8883, e não na 1883, em texto puro. Com TLS, quem intercepta a mensagem não lê nem altera o conteúdo. E mais: cada dispositivo se autentica com usuário e senha ou com certificado próprio, e o broker tem listas de controle de acesso por tópico. O inclinômetro I-2 só pode publicar em obra, barra cortina, barra I-2. Se alguém roubar a credencial dele e o broker não tiver ACL, ele publica o que quiser. Com a ACL ligada, não consegue publicar em nome do piezômetro, nem apagar o tópico de alertas."
 
 **[TELA]** Slide 12 — foto: switches num rack; a rede segmentada.
 
 > "Terceiro, segmentação de rede. Olha esses switches no rack: é aqui que a rede se divide. Sensores, gateway e câmeras ficam numa rede separada, uma VLAN, isolada da rede administrativa do escritório da obra e, principalmente, do Wi-Fi dos visitantes. Um firewall libera só o tráfego necessário. Se um notebook infectado entrar no Wi-Fi, ele não alcança o broker. Quarto, firmware: inventário de dispositivos e versões, atualizações assinadas, de preferência remotas, as chamadas atualizações OTA, e substituição do aparelho que não recebe mais correções. E quinto, rastreabilidade: registro de acessos e de alterações, cópia de segurança das séries e conferência de lacunas e saltos estranhos."
 
-### 7. Plano de resposta a incidentes e contrato (8:40 – 11:10)
+### 7. Plano de resposta a incidentes e contrato (8:50 – 11:20)
 
 **[TELA]** Slide 13 — as etapas da resposta a incidentes e as cláusulas do contrato de monitoramento.
 
@@ -403,15 +529,22 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "E não esqueça a propriedade dos dados. As séries, as nuvens e as imagens são da obra, e o contrato deve garantir a entrega em formatos abertos, como CSV e IFC, no fim do serviço, além do prazo de guarda e do descarte do que não for mais necessário. Por fim, a responsabilidade técnica: o monitoramento tem um profissional responsável, com a respectiva ART. É assim que tecnologia, lei e engenharia se encontram num documento só."
 
-### 8. Exemplo numérico (11:10 – 12:40)
+### 8. Exemplo numérico (11:20 – 13:00)
 
 **[TELA]** Slide 14 — calculadora de senhas, teto da multa e prazo do incidente.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre na aba "Senha", com "Tamanho da senha" em 6 caracteres, "Símbolos possíveis" em 10 e "Tentativas por segundo = 10 elevado a" em 2: "Combinações = 10⁶ ≈ 1.000.000", o tempo "2,8 h" em vermelho e a frase "Ataque online: tentativas contra a interface do gateway."
+2. Na fala "Agora, uma senha aleatória de 12 caracteres": clicar em "12 de 62 símbolos, 10⁹/s (offline)": "Combinações = 62¹² ≈ 3,2 × 10²¹", o tempo "≈ 102 mil anos" em verde e "Ataque offline: hash de senha vazado, testado com GPU."
+3. Na fala "E a senha de fábrica?": clicar em "Senha de fábrica": "Senha de fábrica: 1 tentativa."
+4. Na fala "Segunda, o teto da multa": clicar na aba "Multa" ("Faturamento no Brasil" em 900 R$ mi): "2% × R$ 900 mi = R$ 18,0 mi" e "Multa = R$ 18,0 mi". Na fala "Faturamento de 3,5 bilhões": arrastar o controle até 3.500 R$ mi: "2% × R$ 3.500 mi = R$ 70,0 mi", "Passa do teto: a multa fica limitada a R$ 50 mi por infração." e "Multa = R$ 50,0 mi".
+5. Na fala "Terceira, o prazo": clicar na aba "Prazo" ("Dia da descoberta (0 = seg … 4 = sex)" em 3): os cartões marcam "qui" como "descoberta", "sex" e "seg" como dias úteis, "ter" como "prazo final", e a frase diz "Descoberta na quinta: comunicação até terça seguinte."
 
 > "Vamos às contas. Primeira, a senha do gateway. Uma senha numérica de seis dígitos tem um milhão de combinações. A cem tentativas por segundo, que é um ataque online, direto na tela de login do gateway, cai em no máximo dez mil segundos, umas 2,8 horas. Agora, uma senha aleatória de 12 caracteres, escolhidos entre 62 símbolos — maiúsculas, minúsculas e algarismos. São 62 elevado a 12, cerca de 3,2 vezes 10 elevado a 21 combinações. Mesmo num ataque offline, em que o invasor já roubou o arquivo com o hash da senha e testa com placa de vídeo a um bilhão de tentativas por segundo, seriam uns cem mil anos. E a senha de fábrica? Uma tentativa. Ela está no manual, que está na internet."
 
 > "Segunda, o teto da multa. Até 2% do faturamento no Brasil no último exercício, limitada a 50 milhões por infração. Faturamento de 900 milhões: 2% dá 18 milhões. Faturamento de 3,5 bilhões: 2% daria 70 milhões, mas o teto limita a 50. Terceira, o prazo. A construtora descobre na quinta-feira que as imagens das câmeras foram expostas. Três dias úteis, sem feriados: sexta, segunda e terça. A comunicação à ANPD sai até terça-feira. E isso só é possível se o plano de resposta a incidentes já estiver escrito antes."
 
-### 9. Encerramento da disciplina (12:40 – 14:20)
+### 9. Encerramento da disciplina (13:00 – 14:50)
 
 **[TELA]** Slide 15 — a jornada das quatro unidades.
 
@@ -421,9 +554,29 @@ Professor: Afonso Cesar Lelis Brandão
 
 > "Se eu tivesse de resumir tudo numa ideia, seria a malha fechada. Medir, comparar com um limite, decidir, agir e medir de novo. O drone e o sensor medem. O painel e o BIM comparam. O TARP e o engenheiro decidem e agem. E tudo isso com segurança para quem trabalha e com respeito a quem é medido. Tecnologia nenhuma substitui o engenheiro que conhece o solo, a estrutura e a obra. Mas o engenheiro que domina essa tecnologia decide mais cedo, com mais confiança e com mais gente protegida."
 
-### 10. Atividade e despedida (14:20 – 15:30)
+### 10. Laboratório: a senha do gateway da Torre A era admin (14:50 – 16:50)
 
-**[TELA]** Slide 17 — atividade; Slide 18 — pontos-chave; Slide 19 — encerramento da disciplina.
+**[TELA]** Slide 17 — laboratório no simulador da obra Torre A, aberto na aba Segurança e LGPD com todas as proteções desligadas.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Segurança e LGPD": indicadores "Proteções ligadas: 0 de 6", "Painel do gateway na internet: sim", "Senha do GW-01: admin (fábrica)", "Leituras falsas aceitas: 0" e "Publicações negadas (ACL): 0"; no inventário, "GW-01 · gateway LoRaWAN (grua) · admin/admin · v1.9.0 (2023) · internet, porta 80".
+2. Na fala "Na aba Cenários, inicio": clicar na aba "Cenários" e, no cartão "A senha do gateway era admin" (velocidade 1 s = 5 min, duração 4 h), em "Iniciar cenário".
+3. Na fala "Volto à Segurança": clicar na aba "Segurança e LGPD" e ler o "Registro do broker", de baixo para cima: "Varredura externa encontrou o painel web do GW-01 (porta 80)." (07:20), "Login admin/admin no painel do GW-01: SUCESSO." (07:25) e "Invasor copia a credencial do broker e conecta pela porta 1883, sem TLS." (07:35). A partir das 07:50, o indicador "Leituras falsas aceitas" começa a subir.
+4. Na fala "Olha em Séries temporais": clicar na aba "Séries temporais" e, no seletor "Sensor", escolher "Inclinômetro I-2". A linha real sobe de cerca de 9,4 mm e passa dos 10 mm às 07:52; logo depois de cada leitura real aparece um ponto vermelho ("● falsa") perto de 3 mm, e a linha passa a serrilhar entre os dois. No fim do cenário (cerca de 48 segundos após o início), "Leituras falsas aceitas: 14" na aba Segurança e LGPD.
+5. Na fala "Agora eu ligo a ACL por tópico": na aba "Segurança e LGPD", marcar "ACL por tópico no broker"; na aba "Cenários", clicar em "Repetir este cenário"; voltar a "Segurança e LGPD". O registro mostra "Publicação em obra/torre-a/cortina/inclinometro/I-2/desloc NEGADA pela ACL: o cliente GW-01 não pode publicar como sensor.", "Leituras falsas aceitas" fica em 0 e "Publicações negadas (ACL)" sobe (14 no fim).
+6. Na fala "E se eu ligar também a credencial única?": marcar "Credencial única por dispositivo", clicar de novo em "Repetir este cenário" (aba "Cenários") e voltar a "Segurança e LGPD": o registro mostra "5 tentativas com senhas de fábrica no GW-01: todas recusadas." e o invasor não passa daí.
+
+Atenção: "Repetir este cenário" mantém as proteções marcadas. Os passos do ataque acontecem nos primeiros 10 segundos de cada rodada; os totais (14 leituras falsas ou 14 publicações negadas) só fecham no fim, cerca de 48 segundos depois.
+
+> "Antes da despedida, uma última visita à Torre A, com a pergunta do gerente de TI. O simulador abre na aba Segurança e LGPD com tudo desligado, como muito sistema sai da caixa: gateway com admin e admin, painel na internet pela porta 80, broker na 1883, sem TLS. Na aba Cenários, inicio: a senha do gateway era admin. Cada segundo, cinco minutos."
+
+> "Volto à Segurança e leio o registro do broker. Aos 20 minutos, um robô encontra o painel do gateway. Aos 25, login admin, admin: sucesso. Aos 35, ele copia a credencial do broker e conecta. E, a partir dos 50 minutos, publica leituras falsas do I-2, de uns 3 milímetros, logo depois de cada leitura real. Olha em Séries temporais, no I-2: o real passa dos 10 milímetros antes das oito da manhã e chega a quase 12; os pontos vermelhos ficam lá embaixo. A última leitura do painel é sempre a falsa, e o I-2 aparece verde. Catorze leituras falsas aceitas. É a integridade que a gente discutiu, perdida em menos de uma hora."
+
+> "Agora eu ligo a ACL por tópico e repito o cenário. O invasor ainda entra no gateway, mas o broker nega: o cliente GW-01 não pode publicar como sensor. Zero leituras falsas, e o I-2 aparece em atenção, como deveria. E se eu ligar também a credencial única? Cinco tentativas com senhas de fábrica, todas recusadas: o invasor nem entra. Cada proteção fecha uma porta. Senha única, TLS, ACL por tópico, rede separada e firmware em dia: é isso que faz o painel mostrar a obra de verdade."
+
+### 11. Atividade e despedida (16:50 – 18:00)
+
+**[TELA]** Slide 18 — atividade; Slide 19 — pontos-chave; Slide 20 — encerramento da disciplina.
 
 > "A última atividade: para o sistema de monitoramento de uma obra que você escolher, monte uma ficha de privacidade e segurança, com o inventário de dados pessoais — o quê, de quem, base legal, finalidade, prazo de guarda e medida de minimização —, a arquitetura da rede com a segmentação e onde há TLS, cinco controles de cibersegurança com responsável e o fluxo de resposta a incidente até a comunicação à ANPD. Recapitulando: imagens, localização e acessos são dados pessoais; biometria é sensível. Todo tratamento precisa de base legal, finalidade, necessidade e transparência. Integridade do dado é segurança estrutural. Troque as credenciais padrão, use MQTT com TLS, segmente a rede e atualize o firmware."
 

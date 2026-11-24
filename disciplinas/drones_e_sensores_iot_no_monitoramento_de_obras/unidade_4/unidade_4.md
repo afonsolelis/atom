@@ -142,7 +142,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–19 — atividade prática, pontos-chave e encerramento.
+**[TELA]** Slides 17–20 — laboratório, atividade prática, pontos-chave e encerramento. Slide 17 — laboratório no simulador da obra Torre A: o fim de semana dos alarmes dá 44 notificações sem histerese nem persistência e nenhuma com as duas regras, sem mudar o limite do projeto.
 
 > "Painel bom leva à decisão, não ao cansaço. Mas o painel mostra o sensor; e o cronograma, o orçamento e o modelo da obra? Na próxima aula, a gente pendura drones e sensores no BIM e no planejamento. Te espero na Aula 14!"
 
@@ -283,7 +283,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 17–20 — laboratório, atividade, pontos-chave e encerramento. Slide 17 — laboratório no simulador da obra Torre A: o I-2 passa a alerta no painel P05 da cortina pelo GUID, e o voo de 16/11 (46.900 m³) leva o avanço a 40,8%, com IDP de 0,91 e IDC de 0,95.
 
 > "Agora o dado de campo chega ao cronograma e ao custo. Mas a obra não é só prazo e custo: é gente trabalhando em altura, ao lado de máquinas. Na próxima aula, a NR-18 e a tecnologia a favor da segurança. Te espero na Aula 15!"
 
@@ -413,7 +413,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 17–20 — laboratório, atividade, pontos-chave e encerramento. Slide 17 — laboratório no simulador da obra Torre A: a rajada no anemômetro AN-01 passa de 35 e de 42 km/h, e cada notificação chega com a ação do TARP.
 
 > "Câmeras, crachás e sensores protegem pessoas, mas também coletam dados delas e abrem portas para invasores. Na última aula, LGPD e cibersegurança em IoT, e o fechamento da disciplina. Te espero na Aula 16!"
 
@@ -534,7 +534,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 
 ### 5. Encerramento
 
-**[TELA]** Slides 17–19 — atividade, pontos-chave e encerramento da disciplina.
+**[TELA]** Slides 17–20 — laboratório, atividade, pontos-chave e encerramento da disciplina. Slide 17 — laboratório no simulador da obra Torre A: com a senha admin, 14 leituras falsas escondem o I-2 acima de 10 mm; a ACL por tópico nega a publicação e a credencial única barra o login.
 
 > "Começamos com uma pergunta: a obra está como deveria estar? Hoje você sabe responder com método. Medir, comparar, decidir, agir e medir de novo — protegendo quem trabalha e respeitando quem é medido. Foi um prazer fazer esta jornada com você. Leve isso para a obra — e boa sorte na carreira!"
 

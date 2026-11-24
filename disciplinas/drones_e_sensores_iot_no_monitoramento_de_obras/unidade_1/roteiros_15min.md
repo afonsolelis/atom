@@ -60,7 +60,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 Na tela (passo a passo do que clicar, na ordem):
 1. O gráfico abre com o botão "Malha fechada (termostato)" aceso e desenha os 120 minutos em cerca de 6 segundos (acima do gráfico, os indicadores "Modo", "Sala" e "Compressor").
-2. Na fala "Em malha aberta, você mede e arquiva": clicar em "Malha aberta (tempo fixo)". A curva recomeça; depois da linha "40 min: sol na janela, sala cheia", a temperatura sobe para perto de 27 °C e o indicador "Sala" fica em alerta.
+2. Na fala "Em malha aberta, você mede e arquiva": clicar em "Malha aberta (tempo fixo)". A curva recomeça; depois da linha "40 min: sol na janela, sala cheia", a temperatura passa de 27 °C (chega perto de 28 °C no fim) e o indicador "Sala" fica em alerta.
 3. Na fala "Em malha fechada, a medição realimenta a execução": clicar em "Malha fechada (termostato)". A curva fica colada na meta de 23 °C, e a faixa "compressor" liga e desliga conforme a medição.
 4. Se a animação já tiver terminado, clicar em "↺ Reiniciar" para desenhá-la de novo.
 
@@ -191,6 +191,11 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 4 — os termos UA, UAS e RPA, com o esquema aeronave + estação + enlace.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O esquema abre com o botão "Enlace normal" aceso: dentro da moldura "UAS = sistema de aeronave não tripulada", a caixa "UA · aeronave" ("executa e transmite") e a "Estação de pilotagem remota" ("piloto + controle + tela"), ligadas pelo "enlace de comando (C2)", com pacotes amarelos subindo (comandos) e azuis descendo (telemetria e vídeo).
+2. Na fala "Se o rádio falha, o sistema falha": clicar em "⚡ Falha no enlace". A linha fica vermelha e tracejada, com um ✕ e o aviso "enlace perdido: o sistema falhou"; a aeronave mostra "sem comando…" e, cerca de um segundo depois, "retorno automático (RTH)", voltando para o lado da estação.
+3. Na fala "A literatura técnica também usa RPA": clicar em "Enlace normal" para religar o enlace.
+
 > "Primeiro, os nomes. 'Drone' é o nome popular — o que a gente fala no canteiro. A regulamentação fala em aeronave não tripulada, a UA, e em sistema de aeronave não tripulada, o UAS. E por que 'sistema'? Porque o UAS é a aeronave mais a estação de pilotagem remota e o enlace de comando entre elas. Se o rádio falha, o sistema falha, mesmo com a aeronave perfeita. A literatura técnica também usa RPA, a aeronave remotamente pilotada. E um lembrete: drone sobre obra, para uma construtora, é uso profissional, e segue as regras que você vai ver na Aula 3."
 
 ### 3. As três famílias: multirrotor, asa fixa e VTOL (2:10 – 4:00)
@@ -207,7 +212,13 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 ### 4. Componentes de um drone (4:00 – 6:10)
 
-**[TELA]** Slide 7 — drone em 3D, montado, com as hélices girando. Clique em Vista explodida quando a fala pedir; as peças se separam em cerca de 2 segundos.
+**[TELA]** Slide 7 — drone em 3D, montado, com as hélices girando. Clique em Vista explodida quando a fala pedir; as peças se separam em cerca de 1 segundo.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre com o drone montado, pairando, e a dica "Clique em Vista explodida para ver o nome de cada peça" (no rodapé, "Arraste para girar · role para aproximar"). Montado, nenhum rótulo aparece.
+2. Na fala "Clico em vista explodida": clicar em "Vista explodida". As peças se separam e aparecem os rótulos "Estrutura (frame) + controladora de voo", "Bateria LiPo", "Antena GNSS / RTK", "IMU (acelerômetros + giroscópios)", "Rádio de telemetria / vídeo", "Motor sem escovas + ESC", "Hélices (pares em sentidos opostos)" e "Gimbal + câmera (carga útil)".
+3. Ao longo das três falas seguintes, arrastar a cena devagar para pôr de frente a peça citada: primeiro "Estrutura (frame) + controladora de voo" e "Motor sem escovas + ESC"; depois "Antena GNSS / RTK"; por fim "IMU (acelerômetros + giroscópios)", "Bateria LiPo", "Gimbal + câmera (carga útil)" e "Rádio de telemetria / vídeo".
+4. Ao terminar, clicar de novo em "Vista explodida" para remontar o drone antes de passar para o slide 8.
 
 > "Agora vamos abrir o drone. Clico em vista explodida, e as peças se separam. Começando pela estrutura, o frame: fibra de carbono ou compósitos, leve e rígida. Motores e ESC: os motores são elétricos do tipo brushless, sem escovas, e cada um é acionado por um controlador eletrônico de velocidade, o ESC. É ele que varia a rotação de cada hélice centenas de vezes por segundo para manter o drone estável."
 
@@ -222,6 +233,11 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 ### 5. Câmera RGB: a carga útil da fotogrametria (6:10 – 7:50)
 
 **[TELA]** Slide 9 — a câmera RGB: tamanho do sensor, distância focal e obturador (alterne global × rolling shutter na simulação).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A simulação abre com o botão "Global (mecânico)" aceso: à esquerda, "Cena real (drone indo para a direita →)"; à direita, "Foto: quadro inteiro de uma vez", com os postes retos e a legenda "Global: todos os pixels expostos no mesmo instante. Postes retos, geometria fiel." Apontar essa foto na fala "Olha a simulação".
+2. Na fala "Agora eu troco para eletrônico, o rolling shutter": clicar em "Rolling shutter (eletrônico)". Uma linha vermelha desce pela foto ("Foto: linhas lidas em sequência") e os postes saem inclinados; a legenda passa a "Rolling shutter: enquanto as linhas são lidas, o drone anda. Postes saem inclinados." (embaixo, "Efeito exagerado para ficar visível.").
+3. Na fala "o obturador mecânico é o preferido": clicar de novo em "Global (mecânico)".
 
 > "A carga útil — o payload — é o que o drone leva para trabalhar. A mais usada, de longe, é a câmera RGB — de red, green e blue, a câmera comum. Com ela se faz a fotogrametria, que gera o ortomosaico, o modelo 3D e o cálculo de volumes — exatamente o volume de terraplenagem que alimentou o valor agregado da Aula 1."
 
@@ -247,6 +263,13 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 13 — drone com LiDAR e a animação dos múltiplos retornos (clique em Disparar pulso).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A animação abre com o botão "Sobre uma árvore" aceso e o "drone a 80 m"; um primeiro pulso sai sozinho ao entrar no slide.
+2. Na fala "A distância é a velocidade da luz vezes esse tempo, dividido por 2": clicar em "Sobre solo exposto". O pulso vermelho desce em câmera lenta e volta um único eco: no gráfico "Intensidade do eco × tempo de ida e volta", o pico "chão" com "533 ns → 80 m" e, embaixo, "1 retorno: R = c·Δt/2 = 3×10⁸ × 533 ns / 2 ≈ 80 m".
+3. Na fala "E aqui está a mágica": clicar em "Sobre uma árvore" (a árvore aparece sob o drone).
+4. Na fala "Clico em disparar pulso": clicar em "▶ Disparar pulso". Em cerca de 2,4 s o gráfico mostra três picos: "1º retorno: copa" ("413 ns → 62 m"), "galho" ("467 ns → 70 m") e "último: chão" ("533 ns → 80 m"); embaixo, "3 retornos: o 1º descreve a copa; o último, o chão".
+5. Na fala "Classificando o último retorno": apontar o pico "último: chão". Se precisar repetir, clicar de novo em "▶ Disparar pulso".
+
 > "A quarta carga útil é o LiDAR — de light detection and ranging, detecção e medição de distância por luz. Ele emite pulsos de laser, centenas de milhares por segundo, e mede o tempo de ida e volta de cada um. A distância é a velocidade da luz vezes esse tempo, dividido por 2, porque o pulso vai e volta. Combinando a distância com a posição do drone, dada pelo GNSS, e com a atitude, dada pela IMU, cada pulso vira um ponto 3D."
 
 > "E aqui está a mágica. Clico em disparar pulso. O feixe tem alguns centímetros de diâmetro quando chega à árvore. Parte da energia volta da copa, parte de um galho e parte do chão, passando pelas frestas. São os múltiplos retornos. Classificando o último retorno, eu obtenho o terreno mesmo sob a vegetação — onde a fotogrametria só vê as copas. Cuidado com a frase popular de que 'o laser atravessa as folhas': ele não atravessa, ele passa pelos vãos. Mata muito fechada ainda deixa poucos pontos no solo."
@@ -263,9 +286,18 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 15 — calculadora do tempo de voo do pulso LiDAR (alvo inicial em 80 m).
 
-> "Agora, duas contas que mostram que esses sensores são instrumentos de medição, com limites. Primeira, o LiDAR. Um alvo no solo a 80 metros. O tempo de ida e volta é 2 vezes 80, dividido por 3 vezes 10 elevado a 8 metros por segundo. Dá cerca de 5,3 vezes 10 elevado a menos 7 segundos: 533 nanossegundos. Meio microssegundo. E se a eletrônica errar 1 nanossegundo na medição do tempo? A distância erra a velocidade da luz vezes 1 nanossegundo, dividido por 2: 15 centímetros. Por isso o LiDAR exige eletrônica de altíssima precisão — e custa o que custa."
+Na tela (passo a passo do que clicar, na ordem):
+1. Os controles abrem em "Distância ao alvo R": 80 m e "Erro na medição do tempo δt": 1,0 ns. Na fala "533 nanossegundos": apontar o número em destaque "Δt = 2R / c: 533 ns", a linha "Em microssegundos: 0,53 µs" e as barras "Δt do alvo" (533 ns) e "Δt a 120 m (teto)" (800 ns).
+2. Na fala "dividido por 2: 15 centímetros": apontar "Erro de distância c · δt / 2: 15,0 cm".
+3. Na fala "Se forem 2 nanossegundos": arrastar "Erro na medição do tempo δt" até 2,0 ns (passo de 0,1): o erro vai a "30,0 cm". Voltar a 1,0 ns.
+
+> "Agora, duas contas que mostram que esses sensores são instrumentos de medição, com limites. Primeira, o LiDAR. Um alvo no solo a 80 metros. O tempo de ida e volta é 2 vezes 80, dividido por 3 vezes 10 elevado a 8 metros por segundo. Dá cerca de 5,3 vezes 10 elevado a menos 7 segundos: 533 nanossegundos. Meio microssegundo. E se a eletrônica errar 1 nanossegundo na medição do tempo? A distância erra a velocidade da luz vezes 1 nanossegundo, dividido por 2: 15 centímetros. Se forem 2 nanossegundos, olha a tela: 30 centímetros de erro. Por isso o LiDAR exige eletrônica de altíssima precisão — e custa o que custa."
 
 **[TELA]** Slide 16 — calculadora do pixel térmico na fachada (distância inicial de 10 m; leve a 30 m quando a fala pedir).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. Os controles abrem em "Distância à fachada": 10 m, "Pixel do sensor térmico": 12 µm e "Distância focal": 13 mm (não mexer nos dois últimos). Na fala do IFOV e dos 10 metros: apontar "IFOV = p / f: 0,92 mrad", "Cada pixel cobre D · IFOV: 9,2 mm", o número em destaque "Menor defeito confiável (3 × 3 pixels): 2,8 cm" e "Largura do quadro (640 px): 5,9 m".
+2. Na fala "Agora eu levo o drone a 30 metros da fachada": arrastar "Distância à fachada" até 30 m (passo de 1 m). "Cada pixel cobre D · IFOV" vai a 27,7 mm, o destaque vai a 8,3 cm e a "Largura do quadro (640 px)" a 17,7 m; as barras "Pixel na fachada" e "Menor defeito" crescem para 27,7 mm e 83 mm.
 
 > "Segunda conta, a térmica. Uma câmera de 640 por 512 pixels, com pixel de 12 micrômetros e focal de 13 milímetros. O campo de visão instantâneo de um pixel, o IFOV, é o pixel dividido pela focal: 12 micrômetros sobre 13 milímetros, cerca de 0,92 miliradiano. A 10 metros da fachada, cada pixel cobre 10 vezes 0,92: uns 9,2 milímetros. Para medir um defeito com confiança, a regra prática é que ele ocupe pelo menos 3 por 3 pixels. Então o menor defeito confiável a 10 metros tem cerca de 2,8 centímetros."
 
@@ -321,7 +353,14 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 7 — escala real em 3D: o prédio de 40 pavimentos (120 m), o círculo de 30 m e o de 150 m.
 
-> "Olha a cena em escala real: um prédio de 40 pavimentos de 3 metros é o teto da categoria aberta. Eu levo o drone até o limite e aproximo das pessoas até o círculo vermelho de 30 metros; com a barreira ligada, a regra muda. No canteiro urbano, pessoas não envolvidas e não anuentes são o pedestre, o vizinho, o motorista; os seus operários, informados e de acordo, são outra situação. Lembra da câmera térmica da aula passada, que a 30 metros enxergava defeitos de 8 centímetros? Agora você sabe de onde veio esse número."
+Na tela (passo a passo do que clicar, na ordem):
+1. A cena abre parada (não gira sozinha), com "Altura do drone acima do solo" em 100 m e "Distância horizontal às pessoas" em 45 m; o quadro mostra "Altura 100 m · pessoas a 45 m" e "Dentro da categoria aberta (altura e distância)", e o halo do drone está verde. Na fala "Olha a cena em escala real": apontar os rótulos "Prédio de 40 pavimentos ≈ 120 m" e "Teto da categoria aberta: 120 m (400 pés)".
+2. Na fala "Eu levo o drone até o limite": arrastar a altura até 120 m (passo de 5 m); continua "Dentro da categoria aberta". Na fala "um passo acima": levar a 125 m; o quadro passa a "Acima de 120 m → categoria específica" e o halo fica vermelho. Voltar a 120 m.
+3. Na fala "Agora aproximo das pessoas": arrastar a distância de 45 m até 30 m (ainda dentro, na borda do "raio de 30 m") e, na fala "e passo para dentro", até 25 m: "A menos de 30 m, sem barreira → categoria específica".
+4. Na fala "Com a barreira ligada, a regra muda": clicar em "Barreira de proteção". Aparece o muro azul entre o drone e as "Pessoas não envolvidas e não anuentes", o quadro ganha "· barreira" e volta a "Dentro da categoria aberta (altura e distância)". Clicar de novo para desligar.
+5. Se o prédio sair de quadro, arrastar a cena para girar ("Arraste para girar · role para aproximar").
+
+> "Olha a cena em escala real: um prédio de 40 pavimentos de 3 metros é o teto da categoria aberta. Eu levo o drone até o limite, 120 metros: um passo acima, e a operação já é de categoria específica. Agora aproximo das pessoas até o círculo vermelho de 30 metros e passo para dentro: categoria específica de novo. Com a barreira ligada, a regra muda. No canteiro urbano, pessoas não envolvidas e não anuentes são o pedestre, o vizinho, o motorista; os seus operários, informados e de acordo, são outra situação. Lembra da câmera térmica da aula passada, que a 30 metros enxergava defeitos de 8 centímetros? Agora você sabe de onde veio esse número."
 
 **[TELA]** Slide 8 — os números do RBAC nº 100 e os cartões SISANT, Piloto e Seguro.
 
@@ -339,11 +378,21 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 10 — calendário do SARPAS: a sexta-feira do voo e a segunda-feira do pedido.
 
-> "E agora um ponto que pega muita obra de surpresa: o aerolevantamento. Se você voa em faixas sobrepostas para gerar ortomosaico, modelo do terreno ou planta planialtimétrica — exatamente o levantamento que mediu os 39 mil metros cúbicos da Aula 1 —, isso é aerolevantamento, pelo artigo 8º da Portaria 3.703 do Ministério da Defesa. Só pode ser executado por entidade inscrita no ministério. Pelo artigo 38, áreas pequenas — dentro de um círculo de até 2,2 quilômetros de raio, ou menos de 15 quilômetros quadrados — ficam pré-autorizadas, desde que atendidas condições cumulativas, como não tocar áreas sujeitas a restrição. Mas a pré-autorização não dispensa a inscrição, nem o pedido no SARPAS, que sai com 4 dias corridos de antecedência. Para voar na sexta-feira, dia 20, o pedido sai até a segunda-feira, dia 16. Já a foto de inspeção ou o vídeo de avanço, sem faixas sobrepostas, não é aerolevantamento."
+Na tela (passo a passo do que clicar, na ordem):
+1. O calendário "Novembro de 2026" abre com o botão "Aerolevantamento: 4 dias" aceso: "VOO" no dia 20, "PEDIDO" no dia 16 e a seta entre os dois; embaixo, "Voo: sexta-feira, dia 20 → pedido no SARPAS até segunda-feira, dia 16" e "4 dias corridos de antecedência (aerolevantamento) · fim de semana conta".
+2. Na fala "Para voar na sexta-feira, dia 20": apontar a seta e a legenda.
+3. Na fala "E se fosse um voo além da linha de visada": clicar em "BVLOS: 8 dias". O "PEDIDO" recua para o dia 12: "pedido no SARPAS até quinta-feira, dia 12" e "8 dias corridos de antecedência (voo além da linha de visada)". Clicar em "Aerolevantamento: 4 dias" para voltar.
+
+> "E agora um ponto que pega muita obra de surpresa: o aerolevantamento. Se você voa em faixas sobrepostas para gerar ortomosaico, modelo do terreno ou planta planialtimétrica — exatamente o levantamento que mediu os 39 mil metros cúbicos da Aula 1 —, isso é aerolevantamento, pelo artigo 8º da Portaria 3.703 do Ministério da Defesa. Só pode ser executado por entidade inscrita no ministério. Pelo artigo 38, áreas pequenas — dentro de um círculo de até 2,2 quilômetros de raio, ou menos de 15 quilômetros quadrados — ficam pré-autorizadas, desde que atendidas condições cumulativas, como não tocar áreas sujeitas a restrição. Mas a pré-autorização não dispensa a inscrição, nem o pedido no SARPAS, que sai com 4 dias corridos de antecedência. Para voar na sexta-feira, dia 20, o pedido sai até a segunda-feira, dia 16. E se fosse um voo além da linha de visada, com 8 dias? Clico em BVLOS: o pedido recua para a quinta-feira, dia 12. Já a foto de inspeção ou o vídeo de avanço, sem faixas sobrepostas, não é aerolevantamento."
 
 ### 5. Anatel e LGPD (8:40 – 10:20)
 
 **[TELA]** Slide 11 — o selo de homologação Anatel e as faixas de 2,4 GHz e 5,8 GHz.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A animação abre com o botão "Rádios do drone" aceso: ondas indo do "controle" ao "drone" e, no "Espectro de rádio (frequência)", acesas as faixas "2,4 GHz: comando, telemetria, Wi-Fi", "5,8 GHz: vídeo, Wi-Fi" e "celular 4G/5G (várias faixas)". Na fala "as faixas de 2,4 e de 5,8 gigahertz": apontar as duas barras.
+2. Na fala "confira o selo e o código de homologação": apontar a "ETIQUETA DO PRODUTO", com "Homologação Anatel" e o número "01234-26-05678" ("exemplo: número fictício").
+3. Na fala "E guarde isso para a Unidade 3": clicar em "Sensores IoT (Unidade 3)". Acende também a faixa "LoRaWAN 915 MHz", e a nota embaixo passa a "Unidade 3: os rádios dos sensores IoT também precisam de homologação.".
 
 > "Terceira porta: a Anatel. O drone transmite: o enlace de comando, o vídeo e, às vezes, correções RTK pela rede celular. Todo transmissor comercializado e usado no Brasil precisa ser homologado pela Anatel, que verifica se o equipamento opera nas faixas e potências permitidas — os drones costumam usar as faixas de 2,4 e de 5,8 gigahertz. Na prática: confira o selo e o código de homologação no equipamento ou na embalagem, e desconfie do importado 'sem selo', comprado barato no exterior. E guarde isso para a Unidade 3: a mesma exigência vale para os rádios dos sensores IoT — LoRaWAN, Wi-Fi, celular."
 
@@ -355,11 +404,16 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 13 — planta do canteiro de 80 × 50 m com a calçada e a faixa de 30 m (arraste a linha de pedestres).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A planta abre com o controle "Pedestres afastados da divisa" em 0 m ("pedestres (arraste) · na calçada"), a faixa vermelha "não sobrevoar: 30 m", "área voável: 80 × 20 = 1.600 m²" e, embaixo, "40% do canteiro pode ser sobrevoado" e "1.600 ÷ 4.000 m²". Na fala do cálculo ("A largura dessa faixa é 50 menos 30"): apontar esses números, sem mexer.
+2. Na fala "Primeira: interditar a calçada": arrastar a linha amarela dos pedestres (ou o controle, passo de 1 m) até 10 m: "não sobrevoar: 20 m", "área voável: 80 × 30 = 2.400 m²" e "60% do canteiro pode ser sobrevoado". Voltar a 0 m.
+3. Na fala "Segunda: uma barreira capaz de proteger as pessoas": clicar em "Barreira de proteção". A faixa vermelha some, aparece "barreira capaz de proteger os pedestres", "área voável: 80 × 50 = 4.000 m²" e "100% do canteiro pode ser sobrevoado". Clicar de novo para desligar na fala "um tapume comum não foi pensado".
+
 > "Vamos aplicar, com valores ilustrativos. Um canteiro urbano retangular de 80 por 50 metros, 4 mil metros quadrados. Ao longo do lado de 80 metros, uma calçada movimentada; nos outros lados, muros de lotes vazios. A construtora quer voar em categoria aberta, sem barreira mecânica, a 60 metros de altura."
 
 > "Para manter 30 metros horizontais dos pedestres, eu só posso sobrevoar a faixa do terreno que está a mais de 30 metros da calçada. A largura dessa faixa é 50 menos 30: 20 metros. A área voável é 80 vezes 20: 1.600 metros quadrados. Dividindo por 4 mil, 40%. Só 40% do canteiro pode ser sobrevoado diretamente."
 
-> "E agora? Repara que a conta não acaba na reprovação; ela abre alternativas de engenharia. Primeira: interditar a calçada durante o voo, com autorização da prefeitura, num horário de pouco movimento. Segunda: uma barreira capaz de proteger as pessoas — e atenção, um tapume comum não foi pensado para segurar um drone caindo. Terceira: enquadrar a operação na categoria específica, com avaliação de risco. E, como é um mapeamento em faixas sobrepostas, entra o aerolevantamento: empresa inscrita e pedido no SARPAS com 4 dias corridos. O planejamento regulatório faz parte do cronograma do levantamento."
+> "E agora? Repara que a conta não acaba na reprovação; ela abre alternativas de engenharia. Primeira: interditar a calçada durante o voo, com autorização da prefeitura, num horário de pouco movimento. Olha: com os pedestres a 10 metros da divisa, a área voável já sobe para 60%. Segunda: uma barreira capaz de proteger as pessoas — e atenção, um tapume comum não foi pensado para segurar um drone caindo. Terceira: enquadrar a operação na categoria específica, com avaliação de risco. E, como é um mapeamento em faixas sobrepostas, entra o aerolevantamento: empresa inscrita e pedido no SARPAS com 4 dias corridos. O planejamento regulatório faz parte do cronograma do levantamento."
 
 ### 7. Pausa para reflexão: o voo que 'ninguém vai notar' (12:50 – 14:50)
 
@@ -374,6 +428,12 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 ### 8. O checklist regulatório (14:50 – 16:30)
 
 **[TELA]** Slide 15 — checklist interativo com nove itens; marque-os enquanto fala, sem ler cada um.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O checklist abre com os nove itens desmarcados, a barra vazia e o status "0 de 9 itens conferidos · ainda não decole"; três itens têm a borda magenta (SARPAS, aerolevantamento e LGPD).
+2. Na fala "Eu vou marcando": clicar em cada item quando ele for dito, na ordem da tela: "Categoria no RBAC nº 100, com a verificação dos 30 m (ou barreira)", "Aeronave cadastrada no SISANT (24 meses) e identificada", "Piloto remoto aprovado no exame teórico da ANAC (a partir de 1º/01/2027)", "Seguro com cobertura de danos a terceiros", "Avaliação de risco operacional atualizada", "Pedido no SARPAS (DECEA, ICA 100-40), com a antecedência certa", "Aerolevantamento: sim ou não, e por quê (Portaria 3.703)", "Rádios com homologação da Anatel" e "LGPD: finalidade, necessidade, acesso e retenção das imagens". A cada clique aparece o ✓, o status conta ("1 de 9 itens conferidos…", "2 de 9…") e a barra enche.
+3. No nono clique ("E LGPD"): o status muda para "Pronto para voar: todos os itens conferidos.".
+4. Na fala "Três deles pegam mais gente": apontar os três itens com a borda magenta.
 
 > "Tudo isso cabe num checklist de nove itens, que está na tela. Eu vou marcando. Categoria no RBAC 100, com a verificação dos 30 metros. Cadastro no SISANT. Piloto habilitado. Seguro contra terceiros. Avaliação de risco. Pedido no SARPAS, com a antecedência certa. Aerolevantamento: sim ou não, e por quê. Homologação Anatel. E LGPD. Três deles pegam mais gente: o SARPAS, o aerolevantamento quando é mapeamento e a LGPD. Imprime a lista e cola na tampa da maleta do drone."
 
@@ -411,17 +471,33 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 4 — os tipos de missão: grade, grade dupla/oblíqua, corredor, órbita e manual (animação de cada trajetória).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. A animação abre com o botão "Grade" aceso: o drone desenha em amarelo as faixas paralelas (uma trajetória a cada 7 a 9 s) e, à direita, aparece "Grade — Faixas paralelas, como um cortador de grama. Câmera: para baixo (nadir). Ortomosaico, terreno, volume.".
+2. Na fala "Grade dupla e oblíqua": clicar em "Grade dupla / oblíqua" (faixas cruzadas sobre o "prédio", com o cone azul da câmera inclinada).
+3. Na fala "Corredor, ou linear": clicar em "Corredor" (três faixas ao longo da rodovia cinza).
+4. Na fala "Órbita e pontos de passagem": clicar em "Órbita / waypoints" (círculo em volta do prédio, com os pontos de passagem em azul).
+5. Na fala "E o voo manual": clicar em "Manual" (trajetória livre junto à "fachada", dentro do arco "piloto: linha de visada").
+
 > "Primeiro, o tipo de missão, que segue o objetivo. Mapeamento em área, em grade: faixas paralelas, como um cortador de grama, com a câmera apontada para baixo. É o voo do ortomosaico, do modelo de terreno e do volume. Grade dupla e oblíqua: faixas cruzadas e câmera inclinada, para modelos 3D de edificações, com as fachadas. Corredor, ou linear: faixas ao longo de um eixo — rodovia, ferrovia, adutora, linha de transmissão. Órbita e pontos de passagem, os waypoints: o voo ao redor de uma estrutura ou por pontos definidos — ótimo para registrar o avanço sempre do mesmo ângulo, mês após mês. E o voo manual, para inspecionar detalhes, sempre com o piloto em linha de visada."
 
 ### 3. Os parâmetros do plano: GSD, altura e sobreposição (2:50 – 5:20)
 
 **[TELA]** Slide 5 — GSD: o tamanho do pixel no terreno (arraste a altura e veja o pixel crescer).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. O controle "Altura sobre o terreno H" abre em 50 m: "GSD = 50 × 0,00241 / 8,8", "GSD: 1,37 cm" e "Faixa W = 5.472 × GSD ≈ 75 m"; à direita, o "Alvo xadrez de 60 cm visto pela câmera", com "43,8 pixels de lado".
+2. Na fala "eu arrasto a altura de 50 para 100 metros": arrastar até 100 m (passo de 1 m). O GSD vai a "2,74 cm", a faixa a "≈ 150 m", o cone da câmera se abre e o alvo fica mais grosso, com "21,9 pixels de lado".
+
 > "Agora os parâmetros. O primeiro é o GSD — ground sample distance, a distância de amostragem no solo. É o tamanho, no terreno, de um pixel da imagem. Por semelhança de triângulos entre o sensor e o terreno, GSD é a altura acima do terreno vezes o tamanho do pixel no sensor, dividido pela distância focal. GSD de 2 centímetros quer dizer que cada pixel 'enxerga' um quadrado de 2 por 2 centímetros no chão. Olha a simulação: eu arrasto a altura de 50 para 100 metros, e o pixel dobra. Dobrar a altura dobra o GSD. Por isso o 'quanto mais alto, mais rápido' do nosso piloto cobra um preço em resolução."
 
 **[TELA]** Slide 6 — a faixa imageada e a sobreposição lateral entre faixas vizinhas.
 
-> "A largura da faixa que cada foto cobre no terreno é o número de pixels no sentido transversal ao voo vezes o GSD. E as faixas vizinhas precisam se sobrepor: o espaçamento entre faixas é a largura da faixa vezes 1 menos a sobreposição lateral. Para fotogrametria de obra, usam-se em geral 75 a 80% de sobreposição frontal, entre fotos da mesma faixa, e 65 a 75% lateral, entre faixas. Por que tanto? Porque a fotogrametria precisa ver cada ponto do terreno em várias fotos, de posições diferentes. A teoria fica para a Aula 5; aqui, você só precisa saber escolher os números."
+Na tela (passo a passo do que clicar, na ordem):
+1. Os controles abrem em "Sobreposição frontal sf" 80 % e "Sobreposição lateral sl" 70 %: "d = 105 × (1 − 0,70) = 31,5 m" e "Cada ponto aparece, em média, em 16 fotos"; o mapa de cores ("fotos que veem o ponto") fica em verde, azul e roxo, e a foto atual, em branco, percorre as faixas.
+2. Na fala "Olha o mapa": arrastar a lateral até 30 % e a frontal até 40 % (passo de 5 %): "d = 105 × (1 − 0,30) = 73,5 m", a média cai para 3 fotos e aparecem manchas vermelhas (pontos vistos por 1 foto só).
+3. Voltar a frontal para 80 % e a lateral para 70 % antes da fala "E com o espaçamento entre faixas".
+
+> "A largura da faixa que cada foto cobre no terreno é o número de pixels no sentido transversal ao voo vezes o GSD. E as faixas vizinhas precisam se sobrepor: o espaçamento entre faixas é a largura da faixa vezes 1 menos a sobreposição lateral. Para fotogrametria de obra, usam-se em geral 75 a 80% de sobreposição frontal, entre fotos da mesma faixa, e 65 a 75% lateral, entre faixas. Por que tanto? Porque a fotogrametria precisa ver cada ponto do terreno em várias fotos, de posições diferentes. Olha o mapa: com 80 e 70%, cada ponto aparece, em média, em 16 fotos; se eu baixo para 40 e 30%, cai para 3, e aparecem pontos vistos por uma foto só, que o processamento não consegue reconstruir. A teoria fica para a Aula 5; aqui, você só precisa saber escolher os números."
 
 > "E com o espaçamento entre faixas você calcula quanto um voo cobre: a velocidade, vezes o tempo útil, vezes o espaçamento. Como o cortador de grama: velocidade vezes tempo vezes a largura que avança a cada passada. Por fim, a velocidade tem limite: durante a exposição da foto, o drone anda, e esse arrasto deve ficar abaixo de meio pixel, senão a foto sai tremida — lembra das fotos do nosso piloto?"
 
@@ -437,6 +513,10 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 8 — o vento cresce com a altura: perfil de vento animado de 10 m a 120 m.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. Os controles abrem em "Vento medido a 10 m": 6,0 m/s e "Expoente α": 0,20; no alto, "No chão (10 m): 6,0 m/s · velocidade do vento (m/s) em cada altura". Não mexer: a conta volta no slide 17.
+2. Na fala "Olha o perfil na tela": apontar as setas, de 6,0 m/s a 10 m até 9,9 m/s a 120 m; de 60 m para cima elas ficam laranja, além da linha "limite prático: 8 m/s", e o drone mostra "a 70 m: 8,9 m/s".
+
 > "Agora, o tempo. O vento é o principal limitador do voo, e eu quero que você guarde três coisas. Primeira: o vento aumenta com a altura. O que você sente no chão, junto ao tapume, subestima o que o drone enfrenta a 70 metros. Olha o perfil na tela: a seta cresce à medida que sobe. Segunda: as rajadas mandam mais do que a média. Um vento médio aceitável com rajadas fortes derruba a qualidade das fotos e a margem de segurança. Terceira: o voo contra o vento consome mais bateria — e a volta para casa, se for contra o vento, pode ser a parte mais cara da missão. Foi exatamente o que aconteceu com o nosso piloto."
 
 **[TELA]** Slide 9 — a biruta e o anemômetro portátil.
@@ -451,9 +531,19 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 11 — a bateria LiPo e a curva de tensão no frio e no calor.
 
-> "A bateria LiPo merece atenção especial. No frio, a resistência interna aumenta, a tensão cai sob carga e a bateria entrega menos energia útil — o alarme de bateria baixa pode tocar bem antes do esperado. No calor, ela se degrada: em dias acima de 35 graus, comuns no verão brasileiro, motores, eletrônica e bateria aquecem, e o ar menos denso exige mais potência dos motores. Consulte a faixa de operação do fabricante, aqueça as baterias antes de voar em dias frios e reduza o tempo útil planejado nas condições extremas."
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico "Tensão por célula sob carga" abre com o botão "25 °C" aceso, a linha "alarme de bateria baixa (3,5 V/célula)" e o título "25 °C: alarme com 87% da carga usada"; um marcador percorre a curva.
+2. Na fala "No frio, a resistência interna aumenta": clicar em "Frio (0 °C)": "frio (0 °C): alarme com 63% da carga usada" e, embaixo, "No frio, a mesma bateria entrega bem menos energia útil antes do alarme.".
+3. Na fala "No calor, ela se degrada": clicar em "Calor (40 °C)": "calor (40 °C): alarme com 88% da carga usada" e "No calor a curva é parecida, mas a bateria envelhece mais rápido e os motores esquentam.".
+
+> "A bateria LiPo merece atenção especial. No frio, a resistência interna aumenta, a tensão cai sob carga e a bateria entrega menos energia útil — o alarme de bateria baixa pode tocar bem antes do esperado. Olha a curva: a 25 graus, o alarme toca com 87% da carga usada; no frio, com 63%. No calor, ela se degrada: em dias acima de 35 graus, comuns no verão brasileiro, motores, eletrônica e bateria aquecem, e o ar menos denso exige mais potência dos motores. Consulte a faixa de operação do fabricante, aqueça as baterias antes de voar em dias frios e reduza o tempo útil planejado nas condições extremas."
 
 **[TELA]** Slide 12 — o índice Kp e a cintilação ionosférica sobre o Brasil.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O gráfico abre com o botão "Período calmo" aceso: barras verdes do "Índice Kp a cada 3 horas, em 3 dias", todas abaixo da linha "Kp 5: tempestade geomagnética". Embaixo, a faixa "Um dia no Brasil, perto do equador magnético (alta atividade solar)", com o cursor amarelo correndo as 24 horas (um dia a cada 12 s) e a linha "…h · RTK: FIX".
+2. Na fala "a partir de 5 temos tempestade geomagnética": clicar em "Tempestade geomagnética". Nos dias 1 e 2 as barras sobem até Kp 7 e ficam vermelhas acima da linha de Kp 5.
+3. Na fala "como o Brasil está perto do equador magnético": clicar em "Período calmo" e esperar o cursor passar de "18h · pôr do sol" e entrar na faixa "cintilação": das 19h à 1h a linha muda para "RTK: FLOAT (sem fixar)", com o Kp baixo.
 
 > "E tem um 'tempo' que pouca gente olha: o clima espacial. O índice Kp, de 0 a 9, mede a atividade geomagnética; a partir de 5 temos tempestade geomagnética, que pode degradar o GNSS. E aqui tem uma particularidade brasileira: como o Brasil está perto do equador magnético, a cintilação ionosférica — uma perturbação nos sinais dos satélites —, comum depois do pôr do sol em períodos de alta atividade solar, pode prejudicar o RTK mesmo com Kp baixo. Se o seu RTK não fixa no fim da tarde, essa pode ser a explicação."
 
@@ -467,7 +557,16 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 14 — simulação de emergências: clique em Perda de enlace com a grua no caminho.
 
-> "E as emergências. Perda de enlace: o drone entra em retorno automático, o RTH, sobe até a altura configurada e volta em linha reta para casa. Olha a simulação: o RTH está configurado em 30 metros, e há uma grua de 55 metros no caminho. Clico em perda de enlace: o drone sobe a 30 metros e... vai direto na grua. Por isso a altura de RTH tem que ficar acima do maior obstáculo, com margem. Perda de GNSS: o drone passa a modo de atitude e deriva com o vento — o piloto assume no manual. Bateria crítica: pousar no local seguro mais próximo. E aeronave tripulada à vista — um helicóptero, por exemplo: descer e se afastar. Ela tem prioridade, sempre."
+Na tela (passo a passo do que clicar, na ordem):
+1. A simulação abre com "Altura de RTH configurada" em 30 m (linha vermelha tracejada "RTH: 30 m"), a "grua: 55 m" no meio, "H (decolagem)" à esquerda, o "pouso alternativo" e a mensagem "Drone trabalhando a 20 m. Escolha uma emergência.".
+2. Na fala "Clico em perda de enlace": clicar em "⚡ Perda de enlace". Aparecem "Sem enlace: RTH sobe a 30 m…" e "Volta em linha reta para casa a 30 m…" e, em uns 3 s, "Colisão com a grua! RTH abaixo do obstáculo.", com um ✕ na grua.
+3. Na fala "coloco 70 metros": arrastar o controle até 70 m (passo de 5 m; a linha fica verde, "RTH: 70 m") e clicar de novo em "⚡ Perda de enlace". O drone sobe, passa por cima da grua ("Passou por cima da grua; descendo em H.") e, uns 12 s depois do clique, "Pousou em H: RTH acima da grua, com margem." (seguir falando enquanto ele volta).
+4. Na fala "Perda de GNSS": clicar em "Perda de GNSS": "Modo atitude: deriva com o vento. Assuma no manual.", com as setas do "vento".
+5. Na fala "Bateria crítica": clicar em "Bateria crítica": "Bateria crítica: pouso no local seguro." (o drone pousa no "pouso alternativo").
+6. Na fala "E aeronave tripulada à vista": clicar em "Aeronave tripulada": passa o "helicóptero" e aparece "Aeronave tripulada: descer e se afastar.".
+7. Clicar em "↺ Reiniciar" antes de passar para o slide 15.
+
+> "E as emergências. Perda de enlace: o drone entra em retorno automático, o RTH, sobe até a altura configurada e volta em linha reta para casa. Olha a simulação: o RTH está configurado em 30 metros, e há uma grua de 55 metros no caminho. Clico em perda de enlace: o drone sobe a 30 metros e... vai direto na grua. Por isso a altura de RTH tem que ficar acima do maior obstáculo, com margem: coloco 70 metros, repito a perda de enlace, e agora ele passa por cima da grua e volta para casa. Perda de GNSS: o drone passa a modo de atitude e deriva com o vento — o piloto assume no manual. Bateria crítica: pousar no local seguro mais próximo. E aeronave tripulada à vista — um helicóptero, por exemplo: descer e se afastar. Ela tem prioridade, sempre."
 
 > "Repare que nenhuma dessas respostas pode ser inventada na hora. Num voo, as emergências se resolvem em segundos, e quem decide bem é quem já decidiu antes: a altura de retorno foi configurada no planejamento, o local alternativo de pouso foi escolhido na vistoria, o observador sabe o que gritar e para quem. Por isso as grandes operadoras treinam as emergências no simulador e repetem o briefing antes de cada voo, mesmo quando a equipe é a mesma da semana passada. E, se algo der errado, registre: o relatório de ocorrência, com o log de voo do aplicativo, é a matéria-prima para melhorar o procedimento da próxima vez — de novo, a malha fechada da Aula 1, agora aplicada à própria segurança da operação."
 
@@ -475,17 +574,33 @@ Atenção: não clicar em "Voar e processar o voo desta semana": é o laboratór
 
 **[TELA]** Slide 15 — calculadora: altura máxima para o GSD, faixa e espaçamento.
 
+Na tela (passo a passo do que clicar, na ordem):
+1. Não mexer nos controles: eles abrem com os valores do exemplo, "GSD exigido no contrato" em 2,0 cm, "Altura adotada H" em 70 m e "Sobreposição lateral" em 70 %.
+2. Na fala "dá cerca de 73 metros": apontar o número em destaque "Altura máxima = GSD · f / p: 73 m" e as barras "Altura máxima" (73 m) e "Altura adotada" (70 m).
+3. Na fala "O GSD fica em 1,92 centímetro": apontar "GSD real na altura adotada: 1,92 cm", "Faixa W = 5.472 × GSD: 105 m", "Espaçamento d = W · (1 − sl): 31,5 m" e "Contrato: atende".
+
 > "Vamos às contas, com valores ilustrativos. Uma câmera de 20 megapixels, com 5.472 por 3.648 pixels, pixel de 2,41 micrômetros e focal de 8,8 milímetros. O contrato pede GSD de no máximo 2 centímetros. A altura máxima é o GSD vezes a focal, dividido pelo pixel: 0,02 vezes 8,8, dividido por 0,00241 — dá cerca de 73 metros. Adoto 70 metros, com folga para o relevo. O GSD fica em 1,92 centímetro. A faixa: 5.472 pixels vezes 1,92 centímetro, uns 105 metros. Com 70% de sobreposição lateral, o espaçamento entre faixas é 105 vezes 0,3: 31,5 metros."
 
 **[TELA]** Slide 16 — o canteiro de 12 ha voado em faixas; a área por voo do multirrotor e do VTOL.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. Não mexer nos controles: "Espaçamento entre faixas d" em 31,5 m, "Autonomia do multirrotor" em 30 min, "Fração útil do voo" em 70 % e "Velocidade do multirrotor" em 6,0 m/s.
+2. Na fala "21 minutos, 1.260 segundos": apontar "Tempo útil: 1.260 s".
+3. Na fala "uns 23,8 hectares": apontar o número em destaque "Multirrotor: A = v · t · d: 23,8 ha", a linha "Voos para o canteiro de 12 ha: 1" e as barras "Multirrotor" (23,8 ha) e "Canteiro" (12 ha).
+4. Na fala do VTOL: apontar "VTOL (16 m/s, 41 min úteis): 124 ha" e a barra "VTOL".
 
 > "Quanto um voo cobre? Multirrotor com 30 minutos de autonomia, dos quais 70% são úteis — tirando reserva, decolagem, pouso e curvas —: 21 minutos, 1.260 segundos, a 6 metros por segundo. A área: 6 vezes 1.260 vezes 31,5, cerca de 238 mil metros quadrados — uns 23,8 hectares. O canteiro de 12 hectares da Aula 1 cabe num voo, com folga. Um VTOL a 16 metros por segundo, com 41 minutos úteis, cobriria uns 124 hectares — é a escolha da Aula 2 para rodovias."
 
 **[TELA]** Slide 17 — calculadora do vento na altura de voo (vento no solo inicial de 6 m/s).
 
+Na tela (passo a passo do que clicar, na ordem):
+1. Os controles abrem em "Vento medido a 10 m": 6,0 m/s, "Altura de voo": 70 m, "Expoente α do terreno": 0,20 e "Resistência ao vento (fabricante)": 12,0 m/s. Na fala "Sete elevado a 0,2 dá cerca de 1,48": apontar "Fator (H/10)^α: 1,48" e o número em destaque "Vento na altura de voo: 8,9 m/s".
+2. Na fala "o limite prático de dois terços é 8": apontar "Limite prático (⅔ da resistência): 8,0 m/s", "Decisão: ADIAR ou voar mais baixo" e as barras "Vento a 10 m" (6,0), "Vento na altura" (8,9) e "Limite" (8,0).
+3. Na fala "digamos a 50 metros": arrastar "Altura de voo" até 50 m (passo de 5 m): fator 1,38, vento 8,3 m/s, e a decisão continua "ADIAR ou voar mais baixo". Na fala "só a 40 metros": levar a 40 m: fator 1,32, vento 7,9 m/s e "Decisão: voar".
+
 > "E agora a conta que teria salvado o nosso piloto. O anemômetro mede 6 metros por segundo a 10 metros de altura. Pela lei de potência do perfil de vento, com expoente ilustrativo de 0,2, típico de terreno com obstáculos, o vento a 70 metros é 6 vezes 7 elevado a 0,2. Sete elevado a 0,2 dá cerca de 1,48. O vento a 70 metros: perto de 8,9 metros por segundo. Se o fabricante indica resistência de 12 metros por segundo, o limite prático de dois terços é 8. O vento na altura de voo passa do limite: o voo deve ser adiado — ou feito mais baixo, com mais faixas. O vento 'fraco' do chão era forte lá em cima. A decisão estava numa conta de um minuto."
 
-> "E repare como as três contas conversam. Se eu decido voar mais baixo para fugir do vento, digamos a 50 metros, o GSD melhora para uns 1,4 centímetro, mas a faixa encolhe para uns 75 metros, o espaçamento cai para uns 22 metros e a área por voo cai junto — talvez eu precise de uma segunda bateria. Planejar é isso: cada escolha mexe nas outras, e o engenheiro fecha o conjunto antes de decolar."
+> "E repare como as três contas conversam. Se eu decido voar mais baixo para fugir do vento, digamos a 50 metros, olha a calculadora: o vento ainda fica em 8,3 metros por segundo, acima do limite; só a 40 metros ele cai para 7,9, e a decisão vira voar. E descer tem preço: a 50 metros, o GSD melhora para uns 1,4 centímetro, mas a faixa encolhe para uns 75 metros, o espaçamento cai para uns 22 metros e a área por voo cai junto — talvez eu precise de uma segunda bateria. Planejar é isso: cada escolha mexe nas outras, e o engenheiro fecha o conjunto antes de decolar."
 
 ### 9. Atividade prática, síntese da unidade e prévia da Unidade 2 (17:10 – 18:40)
 

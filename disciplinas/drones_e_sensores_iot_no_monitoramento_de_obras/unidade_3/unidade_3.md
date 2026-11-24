@@ -118,12 +118,12 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "O extensômetro de corda vibrante é o cavalo de batalha da obra. Duzentas e cinquenta microdeformações dão 600 quilonewtons na escora — mas 15 graus de sol valem 180 microdeformações. Sem separar a parcela térmica, a variação do dia é confundida com efeito da escavação. O acelerômetro mede vibração e a assinatura da estrutura: se a rigidez cai, a frequência cai junto."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 11–14 — temperatura e maturidade, umidade e a calculadora do ponto de orvalho, poeira e a tabela dos seis sensores.
+**[TELA]** Slides 11–15 — temperatura e maturidade, umidade e a calculadora do ponto de orvalho, poeira, a tabela dos seis sensores e o laboratório. Slide 15 — laboratório no simulador da obra Torre A: o cenário Escora no sol, com a carga aparente do E-01 passando de 960 kN entre o fim da manhã e o meio da tarde e voltando a cerca de 600 kN com a compensação térmica ligada.
 
 > "A temperatura corrige os outros sensores e diz quando a laje pode ser desformada. A umidade diz se dá para impermeabilizar: 20 graus e 80% dão ponto de orvalho de 16,4 graus; laje a 18 graus, espera. E o sensor de poeira é barato, mas superestima com o ar úmido: calibre ao lado de uma estação de referência."
 
 ### 5. Encerramento
-**[TELA]** Slides 15–17 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 16–18 — atividade, pontos-chave e encerramento.
 
 > "Você conheceu os seis sensores. Mas um sensor sozinho só dá um sinal elétrico fraquinho. Quem transforma isso em número, guarda e alimenta tudo no meio da obra? As plataformas embarcadas: Arduino, ESP32 e datalogger. Te espero na Aula 10!"
 
@@ -242,12 +242,12 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Arduino para aprender, ESP32 para prototipar IoT com Wi-Fi integrado, datalogger profissional para o que embasa decisões de segurança. Muitos sensores já falam digital, por I2C, SDI-12 ou Modbus. E toda leitura precisa de hora certa, em UTC, e de memória local: se a rede cair, nada se perde."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 12–14 — a calculadora de autonomia, a instalação em campo e do protótipo à produção.
+**[TELA]** Slides 12–15 — a calculadora de autonomia, a instalação em campo, do protótipo à produção e o laboratório. Slide 15 — laboratório no simulador da obra Torre A: três horas sem internet, 258 leituras guardadas nos nós e reenviadas com a hora original da medição, em UTC.
 
 > "Bateria: o mesmo programa dura um ano numa placa de baixo consumo e 28 dias numa placa de desenvolvimento que gasta 10 miliampères dormindo. É o sono que decide. Na instalação: caixa IP67, proteção contra surtos, antena fora da caixa, ficha com leitura zero e comissionamento."
 
 ### 5. Encerramento
-**[TELA]** Slides 15–17 — atividade no Wokwi, pontos-chave e encerramento.
+**[TELA]** Slides 16–18 — atividade no Wokwi, pontos-chave e encerramento.
 
 > "Agora o dado existe e está guardado no nó. Mas ele precisa sair do subsolo e atravessar a cidade. LoRaWAN, Wi-Fi ou rede celular? Te espero na Aula 11!"
 
@@ -371,12 +371,12 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "LoRaWAN: nó, gateway, servidor de rede, aplicação. Quilômetros de alcance e anos de bateria, com mensagens pequenas. Cada passo de SF dá mais alcance e dobra o tempo no ar: o SF12 gasta 24 vezes mais energia que o SF7. Wi-Fi é para câmera e escritório; 4G e 5G, para muito dado. Para sensores a bateria, a operadora oferece LTE-M e NB-IoT — confirme a cobertura no endereço da obra."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 11–13 — a tabela comparativa, armazenar e reenviar e a pausa para reflexão.
+**[TELA]** Slides 11–14 — a tabela comparativa, armazenar e reenviar, a pausa para reflexão e o laboratório. Slide 14 — laboratório no simulador da obra Torre A: o PZ-03 do 3º subsolo sobe de SF7 para SF9 com 70 dB de perdas e sai do ar com 90 dB; sem ADR, a bateria cai de 12,5 para 1,4 ano.
 
 > "Regra prática: leitura lenta a bateria, LoRaWAN ou NB-IoT; muito dado com energia, Wi-Fi ou 4G. Toda rede cai: o nó guarda e reenvia com a hora da medição. E pare para pensar: rede própria ou da operadora? Quem mantém o gateway às duas da manhã — e depois que a grua for embora?"
 
 ### 5. Encerramento
-**[TELA]** Slides 14–16 — atividade, pontos-chave e encerramento.
+**[TELA]** Slides 15–17 — atividade, pontos-chave e encerramento.
 
 > "O dado saiu do canteiro. Mas como ele chega, em ordem e sem se perder, ao banco de dados — e de que forma deve ser guardado? MQTT, Node-RED e séries temporais. Te espero na Aula 12!"
 
@@ -486,12 +486,12 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "No Node-RED, o fluxo assina, valida, converte miliampère em quilopascal, marca a qualidade e grava. E cada leitura leva hora em UTC, sensor, bruto, engenharia, unidade, qualidade e bateria. O bruto nunca é sobrescrito."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 11–14 — o modelo do InfluxDB, o line protocol, a calculadora de volume e cardinalidade e retenção e agregação.
+**[TELA]** Slides 11–15 — o modelo do InfluxDB, o line protocol, a calculadora de volume e cardinalidade, retenção e agregação e o laboratório. Slide 15 — laboratório no simulador da obra Torre A: curingas na aba MQTT, a assinatura inválida com # no meio e o line protocol do PZ-03, com tags e fields.
 
 > "No InfluxDB: measurement, tags, fields e timestamp. Tag é o que identifica a série; field é o que você mede. Sessenta sensores geram 5.760 pontos por dia; um acelerômetro contínuo gera 130 milhões de valores. E se o identificador da leitura virar tag, nascem 700 mil séries por ano. Grave vibração por evento e agregue para o painel."
 
 ### 5. Encerramento
-**[TELA]** Slides 15–18 — atividade, pontos-chave, prévia da Unidade 4 e encerramento.
+**[TELA]** Slides 16–19 — atividade, pontos-chave, prévia da Unidade 4 e encerramento.
 
 > "Você fechou a unidade: sensor, plataforma, rede e banco de dados. Na Unidade 4, esses dados viram painéis com alertas, entram no BIM e no planejamento, apoiam a segurança do trabalho e enfrentam a LGPD e a cibersegurança. Te espero lá!"
 

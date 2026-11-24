@@ -1,11 +1,11 @@
-# Roteiros Estendidos (15–19 minutos) — Unidade 2: Aquisição e Processamento de Imagens
+# Roteiros Estendidos (17–19 minutos) — Unidade 2: Aquisição e Processamento de Imagens
 
 - **Disciplina:** Drones e Sensores IoT no Monitoramento de Obras
 - **Conteudista:** Afonso Cesar Lelis Brandão
 - **Videoaulas:** 5 a 8
-- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **15 a 19 minutos** por aula (cerca de 2.000 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_2.md` são só um guia da sequência.
+- **Formato:** roteiro de narração **integral** — o texto em citação (>) é a fala completa. **Esta é a versão a gravar.** Duração-alvo: **17 a 19 minutos** por aula (cerca de 2.150 a 2.550 palavras faladas, a uns 135 palavras/min, já contando as pausas curtas das demonstrações). Os roteiros curtos de `unidade_2.md` são só um guia da sequência.
 
-> **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela.
+> **Como usar:** leia as falas em citação na ordem. As marcações **[TELA]** indicam o slide no ar naquele momento, pelo número no deck da aula (`slides/aulaN.html`), na mesma ordem dos slides. Quando a fala manda clicar, o efeito descrito aparece na tela em poucos segundos; tabelas e listas dos slides **não** são lidas item a item: a fala comenta o essencial e o aluno lê o resto na tela. Nos slides interativos, o trecho **Na tela (passo a passo do que clicar, na ordem)** diz qual controle operar, com o rótulo exato que aparece no slide, e em que ponto da fala.
 
 ---
 
@@ -13,7 +13,7 @@
 
 **Aula 5 — Fotogrametria digital: sobreposição, pontos de controle e georreferenciamento**
 
-**Duração-alvo:** cerca de 16:50 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 2:00)
 
@@ -35,8 +35,8 @@
 
 Na tela (passo a passo do que clicar, na ordem):
 1. O slide abre com "Fotos que veem o ponto" em 4, "Erro na posição das câmeras" em 0 cm e o botão "Erro aleatório" aceso. O chip diz "Sem erro: os raios se cruzam no ponto verdadeiro". Apontar o ponto verde ("ponto verdadeiro") durante o primeiro parágrafo.
-2. Na fala "eu coloco erro na posição das câmeras, 60 centímetros", arrastar "Erro na posição das câmeras" até 60 cm, com "Erro aleatório" ainda aceso. O chip passa a "Aleatório: raios não se encontram…" e aparece o círculo vermelho ("ponto calculado").
-3. Na fala "Agora eu mudo para erro sistemático", clicar em "Erro sistemático (viés)". O chip passa a "Viés: raios se cruzam bem…, mas deslocados…: preciso, inexato".
+2. Na fala "eu coloco erro na posição das câmeras, 60 centímetros", arrastar "Erro na posição das câmeras" até 60 cm, com "Erro aleatório" ainda aceso. O chip passa a "Aleatório: raios não se encontram (até 32 cm), ponto a 117 cm do verdadeiro" e aparece o círculo vermelho ("ponto calculado").
+3. Na fala "Agora eu mudo para erro sistemático", clicar em "Erro sistemático (viés)". O chip passa a "Viés: raios se cruzam bem (dispersão 0 cm), mas deslocados 70 cm: preciso, inexato".
 
 > "Fotogrametria é a ciência de obter medidas confiáveis a partir de fotografias. É a definição do livro de Coelho e Brito, Fotogrametria Digital, que é a bibliografia básica desta unidade. E o princípio é muito simples. Cada pixel de uma foto define um raio: uma reta que sai do centro da câmera e passa pelo ponto do terreno que aquele pixel enxerga. Uma foto só não basta, porque o ponto pode estar em qualquer lugar ao longo do raio. Mas se o mesmo ponto aparece em duas, três, quatro fotos, tiradas de posições diferentes, os raios se cruzam no espaço. E o cruzamento é o ponto em 3D."
 
@@ -64,7 +64,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 Na tela (passo a passo do que clicar, na ordem):
 1. O slide abre com o botão "Fotos 1 e 2 (B = 14 m)" aceso. Durante o primeiro parágrafo, apontar o chip "H/B = 5,00 · σZ ≈ 5,00 × 1,92 × 0,5 = 4,8 cm" e a região de cruzamento alta e estreita.
-2. Na fala "as duas mais distantes estão a quatro bases uma da outra", clicar em "Fotos 1 e 5 (B = 56 m)". O chip passa a "H/B = 1,25 · … = 1,2 cm" e a região de cruzamento fica baixa e compacta.
+2. Na fala "as duas mais distantes estão a quatro bases uma da outra", clicar em "Fotos 1 e 5 (B = 56 m)". O chip passa a "H/B = 1,25 · σZ ≈ 1,25 × 1,92 × 0,5 = 1,2 cm", a cota "B = 56 m" aparece acima das câmeras e a região de cruzamento fica baixa e compacta.
 
 > "O segundo motivo é a geometria. A precisão vertical de um par de fotos depende da razão entre a altura e a base. Raios quase paralelos se cruzam mal: um erro pequeno na imagem vira um erro grande na cota. A aproximação é sigma Z igual a H sobre B, vezes o GSD, vezes a precisão de medição em pixels. Com o nosso voo — 70 metros, base de 14, GSD de 1,92 centímetro e meio pixel de precisão —, um par de fotos vizinhas dá 5 vezes 1,92 vezes 0,5: 4,8 centímetros. Ruim."
 
@@ -100,8 +100,8 @@ Na tela (passo a passo do que clicar, na ordem):
 
 Na tela (passo a passo do que clicar, na ordem):
 1. A cena abre com o botão "Sem GCP" aceso e gira sozinha; se quiser, arrastar para girar e rolar para aproximar. Apontar o chip "Desvio no marco central: 18 cm · nos cantos: 8 cm" na fala "no marco central, 18 centímetros; nos cantos, 8".
-2. Na fala "Clico em 'Com GCP'", clicar em "Com GCP": aparecem os alvos laranja, a malha desce e o chip passa a cerca de "4 cm" no marco central e "0 cm" nos cantos: sobra um domo pequeno.
-3. Na fala "E em 'GCP mais oblíquas'", clicar em "GCP + oblíquas": o desvio no marco central cai para cerca de 1 cm e a curvatura praticamente some.
+2. Na fala "Clico em 'Com GCP'", clicar em "Com GCP": aparecem os alvos laranja, a malha desce e o chip passa a "Desvio no marco central: 4 cm · nos cantos: 0 cm": sobra um domo pequeno.
+3. Na fala "E em 'GCP mais oblíquas'", clicar em "GCP + oblíquas": o chip passa a "Desvio no marco central: 1 cm · nos cantos: 0 cm" e a curvatura praticamente some.
 
 > "Sem nenhum dos dois, além do deslocamento, aparece o efeito de domo. Pequenos erros na calibração da lente, que o ajustamento não consegue separar da forma do terreno, curvam o modelo como uma tigela virada. É típico de blocos com fotos todas verticais e paralelas — exatamente o voo em faixas que a gente planejou —, e foi bem descrito por James e Robson, num artigo de 2014 que está na lista de leituras."
 
@@ -121,8 +121,8 @@ Na tela (passo a passo do que clicar, na ordem):
 
 Na tela (passo a passo do que clicar, na ordem):
 1. O slide abre com o botão "Só nos 4 cantos" aceso. Na fala "o checkpoint do meio lê quase 19 centímetros", apontar o rótulo "18,8 cm" no checkpoint branco do centro e o chip "Só nos 4 cantos · pior checkpoint: 18,8 cm".
-2. Na fala "Concentrados num lado", clicar em "Concentrados num lado": o lado oposto fica vermelho (pior checkpoint 15,7 cm).
-3. Na fala "Agora, seis pontos no perímetro e no interior", clicar em "6: perímetro + interior": tudo verde, pior checkpoint 4,7 cm.
+2. Na fala "Concentrados num lado", clicar em "Concentrados num lado": o lado oposto fica vermelho e o chip passa a "Concentrados num lado · pior checkpoint: 15,7 cm".
+3. Na fala "Agora, seis pontos no perímetro e no interior", clicar em "6: perímetro + interior": tudo verde, e o chip passa a "6: perímetro + interior · pior checkpoint: 4,7 cm".
 
 > "E onde colocar os GCPs? Olha o mapa de 20 hectares; a cor mostra o erro vertical esperado — o modelo fica bem amarrado perto dos GCPs e solto longe deles. Modelo de erro ilustrativo, só para comparar. Com quatro GCPs só nos cantos, o centro fica vermelho: o checkpoint do meio lê quase 19 centímetros. Concentrados num lado, o lado oposto fica solto. Agora, seis pontos no perímetro e no interior: tudo verde. A regra: GCPs no perímetro e no interior, cobrindo também os pontos altos e baixos, e checkpoints independentes espalhados pela área. Com georreferenciamento direto, os GCPs podem ser poucos. Os checkpoints, nunca zero."
 
@@ -154,7 +154,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 **Aula 6 — Posicionamento por GNSS e precisão dos produtos cartográficos**
 
-**Duração-alvo:** cerca de 15:50 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -286,7 +286,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 **Aula 7 — Ortomosaicos, modelos digitais de superfície e nuvens de pontos**
 
-**Duração-alvo:** cerca de 15:40 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:00 (17 a 19 minutos).
 
 ### 1. Abertura (0:00 – 1:40)
 
@@ -318,12 +318,12 @@ Na tela (passo a passo do que clicar, na ordem):
 1. O slide abre com "Altura do prédio" em 30 m e "Distância ao centro da foto" em 40 m. Na fala "uns 17 metros no terreno", apontar "Topo projetado 17,1 m para fora da base" e a linha "Δ = x · h / (H − h) = 40 × 30 / (100 − 30)".
 2. Na fala "Se eu levo o prédio para o nadir", arrastar "Distância ao centro da foto" até 0 m: "Topo projetado 0,0 m".
 3. Na fala "se eu afasto e aumento a altura do prédio", arrastar "Distância ao centro da foto" até 60 m e "Altura do prédio" até 40 m: "Topo projetado 40,0 m".
-4. Antes de "Agora eu clico em Ortorretificar", voltar os controles a 30 m e 40 m (17,1 m de novo).
+4. Na fala "Volto para o nosso prédio", voltar "Altura do prédio" a 30 m e "Distância ao centro da foto" a 40 m (17,1 m de novo).
 5. Na fala "Agora eu clico em Ortorretificar", clicar em "Ortorretificar": o raio verde desce reto, o resultado cai a "0,0 m" e a linha de baixo acrescenta "ortorretificado: Δ = 0".
 
 > "Agora uma pergunta que parece boba: uma foto aérea vertical é um mapa? Não é. À esquerda, a vista lateral: a câmera a 100 metros de altura e um prédio de 30 metros, a 40 metros do nadir, que é o ponto bem embaixo da câmera. A câmera fotografa em perspectiva central: todos os raios passam pelo centro da lente. O raio azul vai até a base do prédio. O raio vermelho passa pelo topo e, prolongado até o chão, cai mais longe. Na foto, o telhado aparece deslocado para fora. Quanto? A fórmula está na tela: R vezes h, dividido por H menos h. Quarenta vezes 30, dividido por 70: uns 17 metros no terreno. É o deslocamento devido ao relevo."
 
-> "Se eu levo o prédio para o nadir, o deslocamento some; se eu afasto e aumento a altura do prédio, ele cresce. E não é só prédio: morro, talude, pilha, tudo que tem altura sofre esse efeito. Agora eu clico em Ortorretificar. O software usa o modelo de superfície para reprojetar cada ponto como se fosse visto na vertical. O raio verde desce reto, e o telhado volta para cima da base."
+> "Se eu levo o prédio para o nadir, o deslocamento some: zero. Se eu afasto e aumento a altura do prédio, ele cresce: com 40 metros de altura, a 60 metros do nadir, o topo vai parar 40 metros para fora da base. Volto para o nosso prédio, 30 metros a 40 do nadir. E não é só prédio: morro, talude, pilha, tudo que tem altura sofre esse efeito. Agora eu clico em Ortorretificar. O software usa o modelo de superfície para reprojetar cada ponto como se fosse visto na vertical. O raio verde desce reto, e o telhado volta para cima da base."
 
 **[TELA]** Slide 7 — foto: ortofoto de uma obra ao redor de uma estação ferroviária: "A foto que vira mapa".
 
@@ -339,10 +339,10 @@ Na tela (passo a passo do que clicar, na ordem):
 
 Na tela (passo a passo do que clicar, na ordem):
 1. A cena abre com o botão "Cena real" aceso (chip "Cena real: terreno, edifício, árvores, pilha e máquina") e gira sozinha. Apontar o edifício, as árvores, a pilha e a máquina na fala da descrição.
-2. Na fala "Clico em Nuvem de pontos", clicar em "Nuvem de pontos".
-3. Na fala "Agora MDS", clicar em "MDS": o lençol colorido pela cota cobre prédio, copas e máquina.
+2. Na fala "Clico em Nuvem de pontos", clicar em "Nuvem de pontos" (chip "Nuvem de pontos: X, Y, Z + cor (14 mil pontos aqui)"); os rótulos da cena real somem.
+3. Na fala "Agora MDS", clicar em "MDS" (chip "MDS: a primeira superfície vista de cima (cor = cota)"): o lençol colorido pela cota cobre prédio, copas e máquina.
 4. Na fala "Clico em MDT", clicar em "MDT" (chip "MDT: só o solo, com a pilha"). Na fala "Mas a pilha ficou", arrastar para girar a cena até a pilha ficar de frente.
-5. Na fala "E agora MDS menos MDT", clicar em "MDS − MDT": em vermelho, o que viraria volume falso.
+5. Na fala "E agora MDS menos MDT", clicar em "MDS − MDT" (chip "MDS − MDT: em vermelho, o que viraria volume falso"): prédio, copas e máquina em vermelho.
 
 > "Vamos ver em 3D. Um canteiro ilustrativo de 120 por 120 metros: terreno ondulado, um edifício, um grupo de árvores, uma pilha de material e uma máquina. Clico em Nuvem de pontos: o mesmo canteiro como milhares de pontos coloridos. Agora MDS: um lençol estendido sobre tudo, por cima do prédio, das copas e da máquina. Clico em MDT. Prédio, árvores e máquina sumiram. Mas a pilha ficou. Por quê? Porque a pilha é material — é o que eu quero medir. Filtrar não é apagar tudo o que é alto; é decidir o que é terreno para a pergunta que você está fazendo. O OpenDroneMap faz isso com um filtro morfológico; o Metashape, com uma classificação por ângulo e distância. E sempre vale conferir."
 
@@ -364,11 +364,11 @@ Na tela (passo a passo do que clicar, na ordem):
 **[TELA]** Slide 11 — cena 3D: a encosta com mata varrida pelo laser; alterne entre último e primeiro retorno.
 
 Na tela (passo a passo do que clicar, na ordem):
-1. Ao entrar no slide, clicar em "Recomeçar voo", para os pontos começarem a se acumular do zero durante a fala "os pontos vão se acumulando". O botão "Último retorno (MDT)" já vem aceso.
+1. Ao entrar no slide, clicar em "Recomeçar voo", para os pontos começarem a se acumular do zero durante a fala "os pontos vão se acumulando" (o chip "Pontos" volta perto de zero e sobe). O botão "Último retorno (MDT)" já vem aceso, com o chip "Último retorno: terreno (MDT)".
 2. Na fala "No modo último retorno", deixar "Último retorno (MDT)" aceso: copas transparentes e o terreno colorido pela cota. Arrastar para girar até a clareira aparecer.
-3. Na fala "Agora, primeiro retorno", clicar em "Primeiro retorno (MDS)": a nuvem desenha a copa em verde.
+3. Na fala "Agora, primeiro retorno", clicar em "Primeiro retorno (MDS)": o chip passa a "Primeiro retorno: copa (MDS)", a nuvem desenha a copa em verde e o contador "Pontos" fica maior, porque todo pulso tem um primeiro eco.
 
-> "Em três dimensões: uma encosta coberta de árvores, com uma clareira no meio. O drone emite um leque de feixes, uns 35 graus para cada lado, e os pontos vão se acumulando. No modo último retorno, as árvores ficam transparentes e aparece o terreno natural, colorido pela cota; sob as copas mais fechadas, há menos pontos. Agora, primeiro retorno: a nuvem desenha a copa, em verde. É o que a fotogrametria teria visto. Um mostra a mata; o outro, o chão onde a obra vai passar."
+> "Em três dimensões: uma encosta coberta de árvores, com uma clareira no meio. O drone emite um leque de feixes, uns 35 graus para cada lado, e os pontos vão se acumulando. No modo último retorno, as árvores ficam transparentes e aparece o terreno natural, colorido pela cota; sob as copas mais fechadas, há menos pontos. Repare no contador de pontos, no canto: no último retorno ele cresce mais devagar, porque só uma parte dos pulsos acha um vão até o chão. Agora, primeiro retorno: a nuvem desenha a copa, em verde. É o que a fotogrametria teria visto. Um mostra a mata; o outro, o chão onde a obra vai passar."
 
 **[TELA]** Slide 12 — calculadora: largura da faixa, densidade e erro na borda; nuvem LiDAR real de edificações.
 
@@ -422,9 +422,9 @@ Na tela (passo a passo do que clicar, na ordem):
 
 **Aula 8 — Cálculo de volumes, curvas de nível e comparação entre o projetado e o executado**
 
-**Duração-alvo:** cerca de 15:30 (15 a 19 minutos).
+**Duração-alvo:** cerca de 18:50 (17 a 19 minutos).
 
-### 1. Abertura (0:00 – 1:40)
+### 1. Abertura (0:00 – 1:30)
 
 **[TELA]** Slide 1 — capa; Slide 2 — sumário.
 
@@ -434,7 +434,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 > "Imagina a cena. Fim do mês numa obra de terraplenagem. A empreiteira voa o drone e mede 48.200 metros cúbicos de corte. A fiscalização, com outro voo, encontra 46.900. São 1.300 metros cúbicos de diferença, algumas dezenas de milhares de reais na medição. E, na mesma reunião, a projetista pergunta se a plataforma do galpão já está no greide, dentro da tolerância. Quem errou? E como responder à projetista com segurança? No fim da aula, você vai ter argumentos de engenheiro para as duas perguntas."
 
-### 2. Volume entre duas superfícies (1:40 – 4:00)
+### 2. Volume entre duas superfícies (1:30 – 4:15)
 
 **[TELA]** Slide 4 — volume como soma de prismas e as três superfícies de referência.
 
@@ -445,14 +445,14 @@ Na tela (passo a passo do que clicar, na ordem):
 **[TELA]** Slide 5 — malha interativa de oito células contra o greide.
 
 Na tela (passo a passo do que clicar, na ordem):
-1. O slide abre com "Viés vertical do modelo" em 0 cm: as oito células em vermelho (corte) e azul (aterro) e o resultado "Corte: 435 m³ · Aterro: 145 m³". Na fala das oito diferenças, apontar as células uma a uma; na fala "435 metros cúbicos" e "145 metros cúbicos", apontar o resultado.
+1. O slide abre com "Viés vertical do modelo" em 0 cm: as oito células em vermelho (corte) e azul (aterro), com o perfil de barras sobre a linha "greide de projeto", e o resultado "Corte: 435 m³ · Aterro: 145 m³" e "Variação do volume líquido: +0 m³". Na fala das oito diferenças, apontar as células uma a uma; na fala "435 metros cúbicos" e "145 metros cúbicos", apontar o resultado.
 2. Deixar o controle em 0 cm durante todo o slide: o viés é demonstrado no slide 8.
 
 > "Vamos aos números. Uma plataforma comparada ao greide numa malha de células de 10 por 10 metros: 100 metros quadrados cada. Oito células, com as diferenças na tela: mais 1,40, mais 0,90, mais 0,35, menos 0,20, mais 1,10, mais 0,60, menos 0,45 e menos 0,80 metro. Em vermelho, corte; em azul, aterro. O corte é a soma dos positivos: 4,35 metros, vezes 100, 435 metros cúbicos. O aterro: 1,45 vezes 100, 145 metros cúbicos."
 
 > "E o tamanho da célula importa? Importa. Célula grande demais suaviza o terreno e erra nas bordas de taludes e cristas; célula pequena demais só multiplica o processamento sem ganhar exatidão, porque o modelo não é melhor que o GSD e os checkpoints dizem. Na prática, os softwares usam a própria grade do MDT, com células de alguns centímetros, ou prismas sobre uma triangulação, que acompanham melhor as quebras do terreno. Para medição mensal, o que vale é usar sempre o mesmo método, com a mesma resolução, nas duas superfícies."
 
-### 3. Pilhas, os três cuidados e o empolamento (4:00 – 6:15)
+### 3. Pilhas, os três cuidados e o empolamento (4:15 – 5:55)
 
 **[TELA]** Slide 6 — foto de pilhas num pátio de estocagem; três jeitos de definir a base da pilha.
 
@@ -469,7 +469,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 > "Se os 435 metros cúbicos de corte forem para o bota-fora, com 25% de empolamento, o volume solto é 435 vezes 1,25: uns 543,8 metros cúbicos. Com caminhões de 12, dá 45,3. E número de viagens se arredonda para cima: 46. Quem orça o transporte pelo volume in situ erra o número de caminhões em quase um quarto."
 
-### 4. Incerteza do volume (6:15 – 7:45)
+### 4. Incerteza do volume (5:55 – 6:55)
 
 **[TELA]** Slide 8 — calculadora δV ≈ A · δz; leve o viés a 3 cm na malha de oito células quando a fala pedir.
 
@@ -482,7 +482,7 @@ Na tela (passo a passo do que clicar, na ordem):
 
 > "Na nossa malha, se eu ponho um viés de 3 centímetros, o volume líquido muda 800 metros quadrados vezes 0,03: 24 metros cúbicos, uns 5,5% do corte. Num pátio de 2 hectares, os mesmos 3 centímetros dão 600 metros cúbicos — uns 50 caminhões. É por isso que, nos checkpoints, a média dos resíduos importa tanto quanto o RMSE."
 
-### 5. Curvas de nível (7:45 – 10:30)
+### 5. Curvas de nível (6:55 – 9:25)
 
 **[TELA]** Slide 9 — mapa topográfico com curvas de nível; curvas mestras e intermediárias.
 
@@ -493,16 +493,16 @@ Na tela (passo a passo do que clicar, na ordem):
 Na tela (passo a passo do que clicar, na ordem):
 1. O slide abre com o botão "0,20 m" aceso: o chip diz "Eq = 0,20 m ≥ 15,4 cm: compatível com a Classe A" e "MDT bruto: ruído ≈ 2,6 cm". Apontar na fala "com curvas de 20 centímetros, o relevo aparece limpo".
 2. Na fala "Agora eu baixo para 10 centímetros", clicar em "0,10 m": curvas serrilhadas e ilhas; o chip passa a "Eq = 0,10 m < 15,4 cm: desenha ruído".
-3. Na fala "Eu ligo a suavização", clicar em "Suavizar MDT" (com "0,10 m" ainda aceso): as curvas ficam contínuas e o chip passa a "MDT suavizado: ruído ≈ …", com um valor menor que 2,6 cm.
+3. Na fala "Eu ligo a suavização", clicar em "Suavizar MDT" (com "0,10 m" ainda aceso): as curvas ficam contínuas e o chip passa a "MDT suavizado: ruído ≈ 1,6 cm" (era 2,6 cm).
 4. No último parágrafo (como se lê uma planta com curvas), clicar em "Suavizar MDT" de novo, para desligar, e em "0,20 m", voltando à leitura limpa.
 
 > "E qual equidistância usar? Aqui a Aula 6 volta com tudo. Na Classe A do PEC-PCD, o RMSE vertical tem que ser no máximo um sexto da equidistância. Com o nosso RMSE de 2,56 centímetros, a equidistância precisa ser de pelo menos 15,4 centímetros: curvas de 20. Olha na tela: com curvas de 20 centímetros, o relevo aparece limpo. Agora eu baixo para 10 centímetros. Repare nas curvas serrilhadas, cheias de pequenas ilhas: isso não é relevo, é ruído do modelo desenhado como se fosse terreno. Curva de nível com equidistância menor que a exatidão é desenhar ruído."
 
 > "E um segundo cuidado: o MDT costuma ser suavizado antes de gerar as curvas. Eu ligo a suavização: as curvas ficam contínuas, sem perder a forma do relevo. Mas suavizar demais apaga feições reais, como a crista de um talude. Mais uma decisão de engenharia."
 
-> "E como se lê uma planta com curvas? Curvas em forma de V apontando para as cotas mais altas indicam um vale, por onde a água escoa; em V apontando para as cotas mais baixas, uma crista ou espigão. Curvas fechadas e concêntricas são um morro ou uma depressão — e a cota da curva mestra diz qual dos dois. Para a obra, isso vale ouro: o projeto de drenagem provisória do canteiro, a posição de uma bacia de sedimentação ou o acesso das máquinas saem dessa leitura. E com o drone você atualiza essa planta todo mês, não só no levantamento inicial."
+> "E como se lê uma planta com curvas? Curvas em V apontando para as cotas mais altas indicam um vale, por onde a água escoa; em V apontando para as mais baixas, uma crista. Curvas fechadas e concêntricas são um morro ou uma depressão. Para a obra, a drenagem provisória e o acesso das máquinas saem dessa leitura — e, com o drone, essa planta se atualiza todo mês."
 
-### 6. Projetado × executado (10:30 – 13:30)
+### 6. Projetado × executado (9:25 – 11:35)
 
 **[TELA]** Slide 11 — mapa de desvios: MDT − superfície de projeto, em cores divergentes.
 
@@ -514,41 +514,72 @@ Na tela (passo a passo do que clicar, na ordem):
 
 > "E, para estruturas — um pilar, uma laje, uma parede de contenção —, a comparação é nuvem-modelo: a distância de cada ponto da nuvem à superfície do modelo de projeto, num programa como o CloudCompare, que é livre. Isso é a ponte para a integração com o BIM, que você vai ver na Aula 14."
 
-**[TELA]** Slide 12 — a regra de decisão: conforme, inconclusivo e não conforme; os três trechos da plataforma.
+**[TELA]** Slide 12 — a regra de decisão: conforme, inconclusivo e não conforme; calculadora e tabela dos três trechos da plataforma.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre com "Desvio médio medido" em 7 cm, "Tolerância" em 5 cm e "Incerteza da medição" em 3 cm (é o trecho 2). O primeiro parágrafo é dito apontando a tabela ao lado; "Tolerância" e "Incerteza da medição" não mudam durante o slide.
+2. Na fala "Trecho 1, desvio médio de 2 centímetros": arrastar "Desvio médio medido" até 2 cm (passo de 0,5). Aparecem "Desvio − incerteza: -1,0 cm", "Desvio + incerteza: 5,0 cm" e, em destaque, "Decisão: conforme"; a barra "Desvio + U" fica da altura da barra "Tolerância".
+3. Na fala "Trecho 2, 7 centímetros": arrastar de volta até 7 cm: 4,0 cm e 10,0 cm, e "Decisão: inconclusivo: medir de novo".
+4. Na fala "Trecho 3, 12 centímetros": arrastar até 12 cm: 9,0 cm e 15,0 cm, e "Decisão: não conforme: a máquina volta"; agora até a barra "Desvio − U" passa da "Tolerância".
 
 > "Mas aqui vem o ponto que separa a engenharia do palpite. O desvio medido tem incerteza. Então a regra de decisão defensável tem três saídas. Se o desvio mais a incerteza fica dentro da tolerância, conforme. Se o desvio menos a incerteza passa da tolerância, não conforme. E, no meio, inconclusivo: medir de novo, com método mais exato."
 
 > "Vamos aplicar. Tolerância da plataforma, 5 centímetros; incerteza, 3 — valores ilustrativos, porque a tolerância real vem do projeto, da especificação de serviço ou do contrato. Trecho 1, desvio médio de 2 centímetros: 2 mais 3 dá 5, dentro: conforme. Trecho 2, 7 centímetros: 7 menos 3 dá 4, dentro, mas 7 mais 3 dá 10, fora. Inconclusivo. E a resposta não é aprovar por pouco: é medir de novo, com nivelamento ou estação total. Trecho 3, 12 centímetros: 12 menos 3 dá 9, fora mesmo descontando a incerteza. Não conforme: a máquina volta."
 
-### 7. No QGIS e a medição de pagamento (13:30 – 16:30)
+### 7. No QGIS e a medição de pagamento (11:35 – 14:30)
 
 **[TELA]** Slide 13 — o fluxo no QGIS: calculadora raster, Volume de superfície raster, Contorno e perfil de elevação.
 
 > "E tudo isso cabe no QGIS. A calculadora raster faz o delta z: MDT anterior menos MDT atual, para o que se movimentou no mês, ou MDT atual menos a superfície de projeto; com uma rampa de cores divergente, vira o mapa de desvios. O algoritmo Volume de superfície raster calcula corte e aterro em relação a um plano — ou, somando as células do delta z, entre duas superfícies. O algoritmo Contorno, do GDAL, gera as curvas de nível. E o perfil de elevação traça as seções transversais. A superfície de projeto vem do software de projeto viário ou de terraplenagem, exportada como raster ou como triangulação."
 
-> "Três conselhos práticos de quem já apanhou disso. Primeiro: antes de qualquer conta, confira se as duas superfícies estão no mesmo sistema de referência e com a mesma resolução de célula; o QGIS reprojeta em tempo real na tela, mas a calculadora raster precisa das grades alinhadas. Segundo: recorte as duas superfícies pelo mesmo polígono da frente de serviço, senão uma borda com dados faltando vira volume. Terceiro: guarde o polígono, as superfícies e os parâmetros junto com o relatório. Na hora da discussão, quem tem o método documentado ganha a conversa."
+> "Três conselhos de quem já apanhou. Primeiro: as duas superfícies no mesmo sistema de referência e com a mesma resolução de célula; o QGIS reprojeta na tela, mas a calculadora raster precisa das grades alinhadas. Segundo: recorte as duas pelo mesmo polígono da frente de serviço, senão uma borda sem dados vira volume. Terceiro: guarde o polígono, as superfícies e os parâmetros junto com o relatório."
 
 **[TELA]** Slide 14 — quem está certo? A diferença das duas medições comparada ao efeito do viés, e o que exigir no contrato.
+
+Na tela (passo a passo do que clicar, na ordem):
+1. A calculadora abre com os valores do gancho: "Área da frente" em 4 ha, "Viés vertical plausível" em 3 cm e "Diferença entre as medições" em 1.300 m³. Não é preciso mexer nos controles.
+2. Na fala "A diferença é de 1.300 metros cúbicos, 2,8%": apontar "Diferença relativa: 2,8 %".
+3. Na fala "ou seja, 1.200 metros cúbicos": apontar o número em destaque "Viés δz em A: 1.200 m³" e as barras "Diferença medida" (1.300 m³) e "Viés em um voo" (1.200 m³).
+4. Na fala "uns 1.700 metros cúbicos": apontar "Dois voos (√2 · δV): 1.697 m³", a barra "Dois voos (√2)" e a linha "Leitura: cabe na incerteza: combine o método".
+5. No segundo parágrafo, apontar a lista "O que exigir antes da 1ª medição", à esquerda.
 
 > "E agora a briga do começo: 48.200 contra 46.900, numa frente de 4 hectares. A diferença é de 1.300 metros cúbicos, 2,8%. Faça a conta que você aprendeu: um viés de 3 centímetros em 4 hectares vale 40.000 vezes 0,03, ou seja, 1.200 metros cúbicos. Praticamente toda a diferença. E são dois voos, cada um com o seu viés; combinando os dois pela raiz da soma dos quadrados, a diferença pode chegar a uns 1.700 metros cúbicos."
 
 > "Então, quem está certo? Talvez ninguém esteja errado: os dois números podem estar dentro da incerteza. E aí a discussão deixa de ser técnica e vira contratual. O que exigir, antes da primeira medição? A mesma superfície de referência para as duas partes: o primitivo, levantado no início da obra. MDT, e não MDS. Checkpoints independentes, com RMSE vertical e média dos resíduos no relatório. Data e hora do voo. Uma tolerância de volume acordada. E um procedimento de arbitragem para quando a diferença passar dela. Pare o vídeo um minuto e pense: na sua obra, quem faria o voo de referência? Medição sem método combinado é discussão garantida."
 
-### 8. Atividade, fechamento da unidade e prévia da Unidade 3 (16:30 – 18:20)
+### 8. Laboratório: o voo desta semana no simulador da Torre A (14:30 – 16:45)
 
-**[TELA]** Slide 15 — atividade prática e pontos-chave.
+**[TELA]** Slide 15 — laboratório no simulador da obra Torre A, aberto na aba Drone e BIM (indicadores de avanço, tabela dos voos semanais e barras do avanço por serviço).
+
+Na tela (passo a passo do que clicar, na ordem):
+1. O simulador abre reiniciado na aba "Drone e BIM" (não é preciso clicar em "Iniciar": o voo não depende do relógio da obra). Na fala "Antes do voo desta semana", apontar os indicadores "Avanço medido: 38,7%", "Previsto (curva S): 45,0%", "Dito na reunião: 62%" e "IDP = VA/VP: 0,86", e, na tabela "Voos", a linha do topo: "09/11", "2,2 cm/px", "6", "2,9 cm", "44.600 m³", "38,7%" (ao lado do botão, o aviso "Último voo: 09/11.").
+2. Na fala "Clico em Voar e processar o voo desta semana": clicar em "Voar e processar o voo desta semana". O simulador passa sozinho para a aba "Canteiro", e o ponto amarelo "drone" varre a planta em oito faixas, em cerca de 4 segundos. Esperar o ponto sumir.
+3. Na fala "Volto à aba Drone e BIM": clicar na aba "Drone e BIM". A linha nova fica no topo da tabela: "16/11", "2,1 cm/px", "6", "2,3 cm", "46.900 m³", "40,8%"; o botão fica desabilitado e o aviso passa a "Voo de 16/11 processado: 46.900 m³ escavados (a planilha dizia 48.200)."
+4. Na fala "o avanço medido sobe para 40,8%": apontar "Avanço medido: 40,8%", "VP · VA · CR (R$ mi): 9,00 · 8,15 · 8,60", "IDP = VA/VP: 0,91" e "IDC = VA/CR: 0,95"; descer até "Avanço físico ponderado" e mostrar as barras (executado / previsto): Fundações 100% / 100%, Estrutura 50% / 55%, Alvenaria 10% / 15% e Instalações 5% / 10%.
+
+Atenção: o drone só avança enquanto a aba "Canteiro" está aberta; se voltar à aba "Drone e BIM" antes de ele sumir, o aviso fica em "Drone em voo (veja a aba Canteiro)…". O botão funciona uma vez: para repetir, clicar em "Reiniciar" ou sair do slide e voltar (o simulador reinicia sozinho, de novo com o último voo em 09/11).
+
+> "Agora, a mesma conta numa obra que acompanha a disciplina inteira: a Torre A, no simulador. Estou na aba Drone e BIM. Antes do voo desta semana, o último levantamento é o de 9 de novembro: 44.600 metros cúbicos escavados e 38,7% de avanço medido, contra 45% previstos na curva S. IDP de 0,86. E repare no indicador em vermelho: na reunião, alguém disse que a obra estava com 62%."
+
+> "Clico em Voar e processar o voo desta semana. O simulador me leva para a planta do canteiro, e o drone varre a obra em faixas paralelas, como no plano de voo da Aula 4. Volto à aba Drone e BIM. Linha nova no topo da tabela: 16 de novembro, GSD de 2,1 centímetros por pixel, 6 pontos de controle e RMSE de 2,3 centímetros. Volume escavado: 46.900 metros cúbicos. Os mesmos 46.900 do começo da aula; a planilha da obra dizia 48.200."
+
+> "E repare na diferença entre os dois números. Os 46.900 saem de um voo com data, GSD, pontos de controle e erro conhecidos: dá para refazer a conta e auditar. A planilha preenchida de memória não tem nada disso. Com o voo, o avanço medido sobe para 40,8%, o valor agregado vai a 8,15 milhões de reais e o IDP melhora para 0,91. Ainda abaixo de 1: a obra continua atrasada, só que agora a gente sabe quanto, e com que exatidão. Nas barras, cada serviço com o executado contra o previsto: a estrutura está em 50% para 55% previstos. É assim que o número do drone entra no controle da obra."
+
+### 9. Atividade, fechamento da unidade e prévia da Unidade 3 (16:45 – 18:50)
+
+**[TELA]** Slide 16 — atividade prática e pontos-chave.
 
 > "Sua missão: no QGIS, com um MDT de exemplo, gere curvas de nível de 0,5 e de 0,1 metro e decida qual é compatível com a exatidão do levantamento. Depois, crie um plano horizontal como greide de projeto, calcule o mapa de desvios e o volume de corte e aterro, e repita deslocando o plano 5 centímetros. Quanto mudou o volume? Compare com área vezes delta z. Você vai sentir na mão o peso do viés."
 
-**[TELA]** Slide 16 — fechamento da Unidade 2: da foto ao número de engenharia.
+**[TELA]** Slide 17 — fechamento da Unidade 2: da foto ao número de engenharia.
 
 > "E com isso fechamos a Unidade 2. Você aprendeu como fotos sobrepostas viram um modelo 3D com a fotogrametria; como o GNSS posiciona esse modelo e como provar a exatidão com RMSE e PEC-PCD; quais produtos saem do processamento, inclusive com o LiDAR; e como transformar esses produtos em volumes, curvas de nível e decisões de conformidade. Em todos os casos, a pergunta foi a mesma: quanto eu posso confiar neste produto, e que decisão ele sustenta?"
 
-**[TELA]** Slide 17 — prévia da Unidade 3: sensores, plataformas embarcadas, redes e MQTT.
+**[TELA]** Slide 18 — prévia da Unidade 3: sensores, plataformas embarcadas, redes e MQTT.
 
 > "Na Unidade 3, o foco desce do céu para dentro do solo, da estrutura e do ar do canteiro. Os sensores para obras: inclinômetros, extensômetros, acelerômetros, temperatura, umidade e poeira. As plataformas embarcadas, como Arduino e ESP32, e a coleta de dados em campo. As redes de comunicação: LoRaWAN, Wi-Fi e redes celulares. E os protocolos e plataformas IoT, com o MQTT e o armazenamento de séries temporais. O drone mostra a obra por fora e em campanhas; os sensores contam o que acontece entre um voo e outro."
 
-**[TELA]** Slide 18 — encerramento: "Unidade 2 concluída".
+**[TELA]** Slide 19 — encerramento: "Unidade 2 concluída".
 
 > "Foi um prazer voar com você nesta unidade. Te espero na Unidade 3, na Aula 9. Um abraço!"
 

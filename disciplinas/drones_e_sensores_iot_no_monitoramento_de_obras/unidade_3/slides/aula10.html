@@ -296,7 +296,7 @@
             {"id":"Ia","label":"Consumo acordado (ler, Wi-Fi, enviar)","min":20,"max":300,"step":10,"value":120,"unit":"mA"},
             {"id":"ta","label":"Tempo acordado por ciclo","min":1,"max":30,"step":1,"value":5,"unit":"s"},
             {"id":"T","label":"Intervalo entre leituras","min":1,"max":60,"step":1,"value":15,"unit":"min"},
-            {"id":"C","label":"Capacidade útil da bateria","min":1000,"max":20000,"step":100,"value":7200,"unit":"mAh"}
+            {"id":"C","label":"Capacidade útil da bateria","min":100,"max":20000,"step":100,"value":7200,"unit":"mAh"}
           ],
           "outputs": [
             {"label":"Consumo médio","expr":"(ta*Ia+(T*60-ta)*Is)/(T*60)","unit":"mA","dec":2},

@@ -529,7 +529,7 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Com tolerância de 5 e incerteza de 3 centímetros: desvio de 2, conforme; de 7, inconclusivo; de 12, não conforme. E a briga do começo: 3 centímetros em 4 hectares são 1.200 metros cúbicos. Talvez ninguém esteja errado. Resolve o contrato: mesma referência, MDT, checkpoints, tolerância e arbitragem."
 
 ### 5. Encerramento
-**[TELA]** Slides 15–18 — atividade e pontos-chave (15), fechamento da Unidade 2 (16), prévia da Unidade 3 (17) e encerramento (18).
+**[TELA]** Slides 15–19 — laboratório no simulador (15), atividade e pontos-chave (16), fechamento da Unidade 2 (17), prévia da Unidade 3 (18) e encerramento (19). Slide 15 — laboratório no simulador da obra Torre A: o voo de 16/11 mede 46.900 m³ escavados (a planilha dizia 48.200) e leva o avanço medido de 38,7% para 40,8%, com IDP de 0,91.
 
 > "Com isso, você fecha a Unidade 2: da foto ao modelo georreferenciado, à exatidão provada, aos produtos e aos metros cúbicos. Na Unidade 3, os sensores IoT e as redes que trazem os dados do canteiro. Te espero na Aula 9!"
 

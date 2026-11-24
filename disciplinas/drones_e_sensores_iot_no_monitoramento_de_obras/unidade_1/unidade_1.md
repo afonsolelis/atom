@@ -173,22 +173,22 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Reunião mensal com o cliente. O cronograma diz 37 e meio por cento. O mestre acha que está mais ou menos em dia. O financeiro diz que já foi 1 milhão e 450 mil. E o cliente pergunta: afinal, estamos atrasados? Estamos gastando demais? Hoje você vai aprender a responder isso com números — e a ver onde o drone entra nessa conta."
 
 ### 2. Desenvolvimento — parte 1
-**[TELA]** Slides 4–7 — as quatro dimensões, as fragilidades do jeito tradicional, o canteiro conectado e o ciclo medir → agir.
+**[TELA]** Slides 4–8 — as quatro dimensões, as fragilidades do jeito tradicional, o canteiro conectado, o ciclo medir → agir e a malha aberta × fechada do termostato.
 
 > "Monitorar é medir de forma sistemática, ao longo do tempo, se a obra está se comportando como o previsto: em prazo, custo, segurança e qualidade. O jeito tradicional — diário de obra, vistoria, foto de celular — é lento, pouco frequente e subjetivo. O drone cobre o canteiro inteiro num voo e entrega volumes e áreas medidos. Mas dado sozinho não salva obra: ele precisa ser comparado com uma referência, virar decisão e virar ação. E depois, medir de novo. Isso é malha fechada — é o PDCA do Mattos."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 8–11 — avanço físico ponderado, curva S previsto × realizado, VP, VA e CR, e os índices IDP e IDC.
+**[TELA]** Slides 9–13 — avanço físico ponderado, curva S previsto × realizado, VP, VA e CR, os índices IDP e IDC e o que drones e sensores resolvem (e o que não resolvem).
 
 > "Como medir o avanço de uma obra com serviços tão diferentes? Pesando cada serviço pelo custo dele no orçamento. Acumulando o previsto no tempo, nasce a curva S: suave no começo, íngreme no meio, suave no fim. E o valor agregado junta prazo e custo: valor planejado, o que deveria estar feito; valor agregado, o que foi feito, em reais do orçamento; custo real, o que se gastou. IDP é VA sobre VP; IDC é VA sobre CR. Abaixo de 1, problema."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 12–15 — a calculadora do exemplo, a sensibilidade ao erro de volume e a atividade.
+**[TELA]** Slides 14–17 — a calculadora do exemplo, a sensibilidade ao erro de volume, o laboratório e a atividade. Slide 16 — laboratório no simulador da obra Torre A: o inclinômetro I-2 com os limites de 10, 14 e 18 mm, as leituras chegando e o avanço medido pelo drone (38,7%) contra o previsto (45%), IDP de 0,86.
 
 > "Vamos à conta. O drone mediu 39 mil metros cúbicos de 60 mil: 65% da terraplenagem. Somando os pesos, o avanço físico dá 32,5%, e o VA, 1,3 milhão. O previsto era 1,5: IDP de 0,87, obra atrasada. Gastou-se 1,45: IDC de 0,90, cada real agrega 90 centavos. Projeção: uns 460 mil acima do orçamento. E repare: um erro de 3 mil metros cúbicos no volume muda o VA em 60 mil reais. A exatidão do drone é dinheiro."
 
 ### 5. Encerramento
-**[TELA]** Slides 16–17 — pontos-chave e encerramento.
+**[TELA]** Slides 18–19 — pontos-chave e encerramento.
 
 > "Hoje você viu por que monitorar, o ciclo do controle, a curva S e o valor agregado. Mas qual drone faz essa medição — e com qual sensor? Uma câmera comum basta, ou eu preciso de térmica, LiDAR, multiespectral? É o assunto da próxima aula. Te espero na Aula 2!"
 
@@ -302,22 +302,22 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Dois pedidos no mesmo dia: o volume de um loteamento de 120 hectares e as placas descolando numa fachada. A construtora tem um drone pequeno com câmera comum. Serve para os dois? Não. Hoje você vai conhecer os drones por dentro e, principalmente, os sensores que eles carregam."
 
 ### 2. Desenvolvimento — parte 1
-**[TELA]** Slides 4–7 — UA, UAS e RPA; as três famílias; o VTOL; o drone em 3D com vista explodida.
+**[TELA]** Slides 4–8 — UA, UAS e RPA (com a falha no enlace); as três famílias; o VTOL; o drone em 3D com vista explodida; os componentes de verdade.
 
 > "Drone é o nome popular; a norma fala em aeronave não tripulada e em sistema — porque o enlace de comando faz parte. São três famílias: o multirrotor paira, ótimo para fachada; a asa fixa voa como avião e cobre centenas de hectares; e o VTOL decola na vertical e cruza como asa fixa. Por dentro: frame, motores com ESC, controladora, GNSS — com RTK chega a centímetros —, IMU, bateria LiPo, gimbal e rádio."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 8–12 — câmera RGB e obturador; NDVI; termograma; LiDAR e múltiplos retornos; a tabela de escolha.
+**[TELA]** Slides 9–14 — câmera RGB e obturador; NDVI; termograma; as aplicações da térmica em fachada; LiDAR e múltiplos retornos; a tabela de escolha.
 
 > "Agora, os sensores. A câmera RGB faz a fotogrametria: ortomosaico, modelo 3D e volumes — e aqui vale mais o tamanho do sensor e o obturador do que os megapixels. A multiespectral calcula índices de vegetação, como o NDVI. A térmica mostra diferenças de temperatura: placa descolada, infiltração, painel aquecido — mas cuidado com a emissividade e os reflexos. E o LiDAR mede distância com laser e, pelos múltiplos retornos, enxerga o chão debaixo da mata. A regra: a pergunta define o sensor, a geometria define a aeronave."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 13–15 — tempo de voo do pulso LiDAR, o pixel térmico na fachada e a atividade.
+**[TELA]** Slides 15–17 — tempo de voo do pulso LiDAR, o pixel térmico na fachada e a atividade.
 
 > "Duas contas. Um alvo a 80 metros devolve o pulso do LiDAR em 533 nanossegundos — e 1 nanossegundo de erro já são 15 centímetros. Na térmica, com pixel de 12 micrômetros e focal de 13 milímetros, a 10 metros cada pixel cobre 9 milímetros, e o menor defeito confiável tem uns 2,8 centímetros. A 30 metros, passa de 8 centímetros. A distância de voo é decisão de engenharia."
 
 ### 5. Encerramento
-**[TELA]** Slides 16–17 — pontos-chave e encerramento.
+**[TELA]** Slides 18–19 — pontos-chave e encerramento.
 
 > "Você já sabe escolher a aeronave e o sensor. Mas pode voar? Quem autoriza, quem cadastra, quem homologa? Na próxima aula, as regras do jogo: ANAC, DECEA e Anatel. Te espero na Aula 3!"
 
@@ -433,12 +433,12 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "O espaço aéreo é do DECEA: pela ICA 100-40, todo voo passa pelo SARPAS — até o de 250 gramas. Além da linha de visada, 8 dias de antecedência. Mapeamento em faixas sobrepostas é aerolevantamento: empresa inscrita no Ministério da Defesa e pedido com 4 dias corridos; foto de inspeção não é. O rádio precisa de homologação da Anatel: procure o selo. E imagem de pessoa é dado pessoal: LGPD."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 13–15 — o canteiro de 80 × 50 m com a faixa de 30 m; o calendário do SARPAS; a pausa para reflexão.
+**[TELA]** Slides 13–16 — o canteiro de 80 × 50 m com a faixa de 30 m; a pausa para reflexão; o checklist regulatório em nove itens; a atividade.
 
 > "Um canteiro de 80 por 50 metros com calçada movimentada num lado. Mantendo 30 metros dos pedestres, sobra uma faixa de 80 por 20: só 40% do terreno. Para mapear tudo, voo sem pedestres, barreira ou categoria específica. E, para voar na sexta, o pedido sai até segunda. Agora, a reflexão: o gerente quer o ortomosaico amanhã e diz que ninguém vai notar. O que você faz?"
 
 ### 5. Encerramento
-**[TELA]** Slides 16–17 — pontos-chave e encerramento.
+**[TELA]** Slides 17–18 — pontos-chave e encerramento.
 
 > "Você já sabe se pode voar. Falta saber como voar: altura, sobreposição, aplicativo de missão, vento, bateria e checklist. É a próxima aula, que fecha a unidade. Te espero na Aula 4!"
 
@@ -560,22 +560,22 @@ Roteiro sintético da videoaula, em tópicos e falas-guia, com foco na aplicaç�
 > "Voo autorizado, SARPAS aceito. Vento fraco no chão. A 70 metros, rajadas; o drone volta com 8% de bateria, metade das fotos tremidas. Ninguém quebrou regra: faltou planejamento. Hoje, fechando a unidade, a gente planeja a missão, lê o tempo e segue o checklist."
 
 ### 2. Desenvolvimento — parte 1
-**[TELA]** Slides 4–8 — tipos de missão; GSD e faixa; sobreposição; área por voo; DJI Pilot e Pix4Dcapture.
+**[TELA]** Slides 4–7 — tipos de missão; GSD e faixa; sobreposição; DJI Pilot e Pix4Dcapture.
 
 > "Primeiro, o tipo de missão: grade para ortomosaico, oblíqua para fachada, corredor para rodovia, órbita para inspeção. Depois, os parâmetros: GSD é altura vezes pixel sobre focal; a faixa é o número de pixels vezes o GSD; o espaçamento entre faixas desconta a sobreposição lateral. No DJI Pilot ou no Pix4Dcapture, você desenha o polígono e o aplicativo calcula a rota. Mas quem responde é você: relevo, grua, polígono autorizado e altura de retorno."
 
 ### 3. Desenvolvimento — parte 2
-**[TELA]** Slides 9–12 — vento e rajadas; biruta e anemômetro; bateria e temperatura; Kp e cintilação.
+**[TELA]** Slides 8–12 — vento e rajadas; biruta e anemômetro; chuva, visibilidade e luz; bateria e temperatura; Kp e cintilação.
 
 > "Agora o tempo. O vento cresce com a altura, e a rajada manda mais que a média. Use no máximo uns dois terços do limite do fabricante. Chuva estraga motor e eletrônica. Frio derruba a bateria; calor de verão brasileiro esquenta tudo. E olhe para o céu de cima: índice Kp a partir de 5 e a cintilação ionosférica do começo da noite podem bagunçar o GNSS e o RTK. Consulte REDEMET, INMET e meça o vento no local."
 
 ### 4. Desenvolvimento — parte 3
-**[TELA]** Slides 13–16 — checklist antes, durante e depois; emergências; a calculadora de altura, cobertura e vento; a atividade.
+**[TELA]** Slides 13–17 — checklist antes, durante e depois; emergências; as calculadoras de altura, de área por voo e de vento.
 
 > "Segurança é procedimento: documentos, aeronave, área de segurança, altura de retorno acima do maior obstáculo. Durante, linha de visada e reserva de bateria. Perdeu o link? Retorno automático. Perdeu o GNSS? Assuma manual. Avião à vista? Desça. As contas: GSD de 2 centímetros pede no máximo 73 metros; a 70, a faixa tem 105 metros e um multirrotor cobre uns 24 hectares por voo. E o vento de 6 metros por segundo no chão vira quase 9 a 70 metros: acima do limite prático de 8. Não voa."
 
 ### 5. Encerramento
-**[TELA]** Slides 17–19 — pontos-chave, prévia da Unidade 2 e encerramento.
+**[TELA]** Slides 18–20 — atividade e pontos-chave, prévia da Unidade 2 e encerramento.
 
 > "Você fechou a Unidade 1: sabe por que e como medir o avanço da obra, qual drone e sensor usar, o que a lei exige e como planejar um voo seguro. Na Unidade 2, essas fotos viram ortomosaico, nuvem de pontos e volume — e o volume volta para a curva S. Te espero lá!"
 
