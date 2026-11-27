@@ -233,6 +233,7 @@
         <table class="tabela-industrial">
           <thead><tr><th>Programa ou pacote</th><th>Para que serve aqui</th><th>Onde achar (fonte oficial)</th><th>Como instalar</th></tr></thead>
           <tbody>
+            <tr><td><strong>Kali Linux</strong> (máquina virtual)</td><td>Sistema dos laboratórios de Red Team: terminal, Nmap e Metasploit já instalados</td><td><code>kali.org/get-kali</code></td><td>Imagem pronta para VirtualBox (laboratório do próximo slide)</td></tr>
             <tr><td><strong>Visual Studio Code</strong></td><td>Editor onde o código é escrito e executado</td><td><code>code.visualstudio.com</code></td><td>Instalador do site (Windows, macOS e Linux)</td></tr>
             <tr><td><strong>Python 3.12</strong></td><td>Interpretador que roda o <code>validar_roe.py</code></td><td><code>python.org/downloads</code></td><td>Instalador do site ou o gerenciador de pacotes do sistema</td></tr>
             <tr><td><strong>Extensão Python</strong> (Microsoft)</td><td>Realce, execução e depuração dentro do editor</td><td>Aba Extensões do VS Code, editor "Microsoft"</td><td><code>code --install-extension ms-python.python</code></td></tr>
@@ -244,7 +245,27 @@
     </div>
   </section>
 
-  <!-- 13. LAB VS Code: a RoE conferida em Python -->
+  <!-- 13. LAB terminal: instalar e preparar o Kali Linux -->
+  <section class="slide slide-lab">
+    <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
+    <div class="slide-content">
+      <div class="lab-head"><div><p class="kicker">Laboratório · Kali Linux</p><h2>Antes de tudo: instalar e preparar o Kali</h2></div><span class="lab-badge red">Red Team</span></div>
+      <div class="lab-split">
+        <div class="lab-side">
+          <p>Os laboratórios de Red Team rodam numa <strong>máquina virtual com Kali Linux</strong>. Instale a sua antes da próxima aula. Sessão simulada; o número da versão é ilustrativo.</p>
+          <div class="roteiro-lab">
+            <div class="rl obj"><b>Objetivo</b>Ter um Kali Linux conferido, atualizado e com senha própria, numa máquina virtual.</div>
+            <div class="rl"><b>Faça</b>Clique em "Próximo comando" até o fim e leia a nota de cada passo.</div>
+            <div class="rl obs"><b>Observe</b>O <em>hash</em> da imagem confere com o publicado em <code>kali.org</code>. A senha padrão <code>kali</code> é trocada no primeiro acesso. O <em>prompt</em> muda quando você entra no Kali.</div>
+            <div class="rl conc"><b>Conclusão</b>Ferramenta de ataque também se baixa da fonte oficial, se confere e se mantém atualizada.</div>
+          </div>
+        </div>
+        <div class="lab-area" id="lab-kali"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. LAB VS Code: a RoE conferida em Python -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -263,7 +284,7 @@
     </div>
   </section>
 
-  <!-- 14. PLATAFORMA REDE TATAME -->
+  <!-- 15. PLATAFORMA REDE TATAME -->
   <section class="slide slide-lab">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -282,7 +303,7 @@
     </div>
   </section>
 
-  <!-- 15. Exemplo numérico -->
+  <!-- 16. Exemplo numérico -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -303,7 +324,7 @@
     </div>
   </section>
 
-  <!-- 16. De volta ao problema -->
+  <!-- 17. De volta ao problema -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -319,7 +340,7 @@
     </div>
   </section>
 
-  <!-- 17. Pontos-chave -->
+  <!-- 18. Pontos-chave -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -336,7 +357,7 @@
     </div>
   </section>
 
-  <!-- 18. Referências -->
+  <!-- 19. Referências -->
   <section class="slide">
     <div class="mosaico-bg" aria-hidden="true"><svg preserveAspectRatio="none"><use href="#mosaico-frame"/></svg></div>
     <div class="slide-content">
@@ -352,7 +373,7 @@
     </div>
   </section>
 
-  <!-- 19. Encerramento -->
+  <!-- 20. Encerramento -->
   <section class="slide slide-fim">
     <div class="fim-logo"><svg width="220" height="54" viewBox="0 0 271 67" role="img" aria-label="UniFECAF"><use href="#logo-marca"/></svg></div>
     <div class="fim-cluster-topo" aria-hidden="true"><svg viewBox="0 0 600 200" preserveAspectRatio="xMaxYMax meet"><use href="#cluster-fim"/></svg></div>
@@ -417,8 +438,42 @@ Labs.scene3d('#lab-3d', (c) => {
 }, { camera: [0, 3.5, 13], spin: 0.12 });
 
 /* ---------- 10. Terminal: integridade da carta de autorização ---------- */
+const VMK = 'kali-linux-2026.3-virtualbox-amd64';
+const HOSP = '!aluno@notebook:~/Downloads$ ', KALI0 = 'kali@kali:~$ ', KALI1 = 'kali@lab-tatame:~$ ';
+Labs.terminal('#lab-kali', {
+  theme: 'kali', title: 'aluno@notebook: ~/Downloads', prompt: HOSP,
+  hint: 'Você está no seu computador, com o VirtualBox instalado. Clique em "Próximo comando".',
+  done: 'Kali pronto: conferido, atualizado, com senha própria e com a pasta do exercício criada.',
+  steps: [
+    { cmd: 'wget -q --show-progress https://cdimage.kali.org/kali-2026.3/' + VMK + '.7z', prompt: HOSP, note: 'A imagem pronta para VirtualBox vem do site oficial, kali.org/get-kali. Use sempre a versão atual que o site mostrar.', out: [
+      VMK + '.7z    100%[===================>]   3,21G  41,8MB/s    em 79s' ] },
+    { cmd: 'sha256sum ' + VMK + '.7z', prompt: HOSP, note: 'O mesmo cuidado da carta de autorização: o hash do arquivo baixado precisa ser igual ao publicado no site.', out: [
+      '6f1c9a0e44b7d2c85a3e7f90b1d6c2a4e8f35b7190ad42c6e0b9f8d1c7a35e22  ' + VMK + '.7z',
+      '[ok] igual à linha do arquivo SHA256SUMS publicado em kali.org: imagem íntegra' ] },
+    { cmd: '7z x ' + VMK + '.7z && VBoxManage registervm "$PWD/' + VMK + '/' + VMK + '.vbox" && VBoxManage startvm ' + VMK, prompt: KALI0, title: 'kali@kali: ~', note: 'Descompacta, registra a máquina virtual no VirtualBox e liga. O usuário e a senha de fábrica são kali e kali. A partir daqui, o terminal é o do Kali.', out: [
+      'Everything is Ok', 'Files: 2        Size: 13872136192',
+      'Waiting for VM "' + VMK + '" to power on...',
+      '[ok] VM "' + VMK + '" has been successfully started.',
+      '', 'Kali GNU/Linux Rolling kali tty1', '', 'kali login: kali', 'Password: ',
+      '[mute] ┏━(Message from Kali developers)', '[mute] ┃ This is a minimal installation of Kali Linux, you likely', '[mute] ┃ want to install supplementary tools. Learn how:', '[mute] ┃ ⇒ https://www.kali.org/docs/troubleshooting/common-minimum-setup/', '[mute] ┗━' ] },
+    { cmd: 'passwd', prompt: KALI0, note: 'A senha kali é pública: está na documentação. Troque no primeiro acesso, como se faz com qualquer senha de fábrica.', out: [
+      'Changing password for kali.', 'Current password: ', 'New password: ', 'Retype new password: ', '[ok] passwd: password updated successfully' ] },
+    { cmd: 'sudo apt update && sudo apt full-upgrade -y', prompt: KALI0, speed: 60, note: 'O Kali é de atualização contínua (rolling): atualize antes de usar. A primeira vez demora alguns minutos.', out: [
+      '[sudo] password for kali: ',
+      'Get:1 http://http.kali.org/kali kali-rolling InRelease [41.5 kB]',
+      'Get:2 http://http.kali.org/kali kali-rolling/main amd64 Packages [20.9 MB]',
+      'Fetched 21.4 MB in 6s (3,566 kB/s)',
+      '[warn] 212 packages can be upgraded. Run \'apt list --upgradable\' to see them.',
+      'Upgrading:', '  curl  firefox-esr  libssl3t64  metasploit-framework  nmap  openssl  python3  wireshark  ... (212)',
+      '[ok] 212 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.' ] },
+    { cmd: 'nmap --version | head -1; msfconsole --version; wireshark --version | head -1', prompt: KALI0, note: 'As três ferramentas da ementa já vêm instaladas: Nmap (Aula 5), Metasploit (Aula 6) e Wireshark (Aula 14).', out: [
+      'Nmap version 7.95 ( https://nmap.org )', 'Framework Version: 6.4.50-dev', 'Wireshark 4.4.2.' ] },
+    { cmd: 'sudo hostnamectl set-hostname lab-tatame && mkdir -p ~/exercicio-2026-11 && exec zsh', prompt: KALI1, title: 'kali@lab-tatame: ~', note: 'A máquina ganha o nome lab-tatame e a pasta do exercício. É este o terminal que aparece nas aulas da Unidade 2.', out: [] }
+  ]
+});
+
 Labs.terminal('#lab-term', {
-  title: 'bruno.sato@NB-RED-002: ~/tatame-exercicio-2026-11', prompt: 'bruno.sato@NB-RED-002:~/tatame-exercicio-2026-11$ ',
+  theme: 'kali', title: 'bruno.sato@NB-RED-002: ~/tatame-exercicio-2026-11', prompt: 'bruno.sato@NB-RED-002:~/tatame-exercicio-2026-11$ ',
   steps: [
     { cmd: 'ls -l autorizacao/', note: 'A pasta tem a carta, a assinatura destacada (.asc), o hash registrado no chamado e uma cópia que chegou por e-mail.', out: [
       'total 404',
@@ -473,7 +528,7 @@ Labs.flow('#lab-flow', {
 
 /* ---------- 13. VS Code: a RoE conferida em Python ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'tatame-exercicio-2026-11', team: 'red', status: 'Python 3.12', open: 'validar_roe.py', typeOnEnter: true,
+  kali: 'bruno.sato@NB-RED-002', folder: 'tatame-exercicio-2026-11', team: 'red', status: 'Python 3.12', open: 'validar_roe.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },

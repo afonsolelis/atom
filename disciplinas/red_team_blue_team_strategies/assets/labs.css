@@ -139,6 +139,23 @@
 .term.windows .pr { color: #F2F2F2; }
 .term .cm { color: #fff; }
 
+/* ---------- Terminal no estilo do Kali Linux (qterminal + zsh, tema Kali-Dark) ---------- */
+.term.kali { background: #1F2229; border-color: #3A3F4B; border-radius: 8px; }
+.term.kali .term-body { color: #E6E6E6; font: 14px/1.45 'Fira Code', 'Cascadia Code', 'DejaVu Sans Mono', var(--mono); padding: 8px 12px 12px; }
+.term-bar.kali-bar { height: 30px; padding: 0 6px 0 10px; background: #262A33; color: #E6E6E6; gap: 0; font: 600 12.5px var(--fonte); }
+.kali-bar .kb-ico { flex: none; color: #367BF0; font-size: 14px; margin-right: 8px; text-align: left; }
+.kali-bar .kb-t { flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.kali-bar .kb-w { flex: none; width: 30px; height: 22px; line-height: 22px; text-align: center; font-weight: 400; font-size: 12px; color: #C8CCD4; border-radius: 4px; }
+.kali-bar .kb-x { color: #fff; }
+.kali-menu { display: flex; gap: 16px; padding: 3px 12px 4px; background: #262A33; border-bottom: 1px solid #14161B; color: #D5D8DE; font: 12.5px var(--fonte); flex: none; }
+.term.kali .pr, .pr-k { font-weight: 400; color: #E6E6E6; }
+.kz-f { color: #5EBDAB; } .kz-rf { color: #367BF0; }
+.kz-u { color: #367BF0; font-weight: 700; } .kz-ru { color: #EC0101; font-weight: 700; }
+.kz-d { color: #fff; font-weight: 700; }
+.kz-host { color: #5EBDAB; font-weight: 700; }
+.kz-msf { text-decoration: underline; } .kz-mod { color: #EC0101; font-weight: 700; }
+.term.kali .term-ctrl { background: #171A20; border-top-color: #2B303B; }
+
 /* cores de saída (terminal e VS Code) */
 .o-ok { color: #3FD47A; } .o-warn { color: #F2CB0A; } .o-err { color: #FF5C7A; } .o-info { color: #58C4E8; }
 .o-mute { color: #7D8590; } .o-hi { color: #fff; font-weight: 700; } .o-red { color: #FF5C7A; font-weight: 700; } .o-blue { color: #58C4E8; font-weight: 700; } .o-purple { color: #C2A5FF; font-weight: 700; }

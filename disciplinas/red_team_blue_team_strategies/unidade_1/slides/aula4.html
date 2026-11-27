@@ -573,7 +573,7 @@ Labs.browser('#lab-cti', {
 
 /* ---------- 12. Terminal: OSINT passivo ---------- */
 Labs.terminal('#lab-term', {
-  title: 'bruno.sato@NB-RED-002: ~/op-2026-11/osint', prompt: 'bruno.sato@NB-RED-002:~/op-2026-11/osint$ ',
+  theme: 'kali', title: 'bruno.sato@NB-RED-002: ~/op-2026-11/osint', prompt: 'bruno.sato@NB-RED-002:~/op-2026-11/osint$ ',
   steps: [
     { cmd: 'whois tatame.com.br', note: 'Registro público do domínio, consultado no registro .br. Nenhum pacote chega aos servidores da Rede Tatame.', out: [
       'domain:      tatame.com.br', 'owner:       Rede Tatame Academias Ltda.', 'tech-c:      CAMEN7',
@@ -602,7 +602,7 @@ Labs.terminal('#lab-term', {
 
 /* ---------- 15. VS Code: relevância × lacuna ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'op-2026-11-planejamento', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
+  kali: 'bruno.sato@NB-RED-002', folder: 'op-2026-11-planejamento', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },

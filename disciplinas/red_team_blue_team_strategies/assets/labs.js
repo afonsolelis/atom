@@ -214,10 +214,13 @@
         }
         render(f); typing = null;
       }
-      let prompt = cfg.prompt || (cfg.shell === 'pwsh' ? 'PS C:\\lab\\' + (cfg.folder || 'lab') + '> ' : 'aluno@lab:~/' + (cfg.folder || 'lab') + '$ ');
+      // cfg.kali: true ou "usuario@maquina" → terminal integrado com o prompt do Kali (zsh)
+      const kali = !!cfg.kali && cfg.shell !== 'pwsh';
+      let prompt = cfg.prompt || (cfg.shell === 'pwsh' ? 'PS C:\\lab\\' + (cfg.folder || 'lab') + '> ' : (kali ? (cfg.kali === true ? 'kali@kali' : cfg.kali) : 'aluno@lab') + ':~/' + (cfg.folder || 'lab') + '$ ');
+      const pV = (p) => (kali ? '<span class="pr-k">' + promptHTML(p, true) + '</span>' : '<span class="o-ok">' + esc(p) + '</span>');
       let running = null;
       async function exec(cmd, out, speed) {
-        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+        term.insertAdjacentHTML('beforeend', pV(prompt));
         for (const ch of cmd) { term.insertAdjacentText('beforeend', ch); await sleep(14); }
         term.insertAdjacentText('beforeend', '\n'); term.scrollTop = term.scrollHeight; await sleep(250);
         const lines = typeof out === 'function' ? out() : (out || []);
@@ -231,7 +234,7 @@
         if (r.file) open(r.file);
         if (r.clear !== false) term.innerHTML = '';
         await exec(r.cmd, r.out, r.speed);
-        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+        term.insertAdjacentHTML('beforeend', pV(prompt));
         travar(false);
         running = null;
         cfg.onRun && cfg.onRun(k, api);
@@ -251,7 +254,7 @@
           if (st.prompt) prompt = st.prompt;
           await sleep(350);
         }
-        term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+        term.insertAdjacentHTML('beforeend', pV(prompt));
         term.scrollTop = term.scrollHeight;
         travar(false);
         running = null; pronto = true;
@@ -268,7 +271,7 @@
       const bt = h('button', 'lab-btn ghost', '⌨ Digitar ao vivo');
       bt.addEventListener('click', () => current && typeOut(current)); ptabs.appendChild(bt);
       term.innerHTML = cfg.intro ? cfg.intro.map((l) => outLine(l).html).join('\n') + '\n' : '';
-      term.insertAdjacentHTML('beforeend', '<span class="o-ok">' + esc(prompt) + '</span>');
+      term.insertAdjacentHTML('beforeend', pV(prompt));
       open(cfg.open || (files[0] && files[0].path));
       let first = true;
       const api = {
@@ -283,20 +286,43 @@
   /* ------------------------------------------------------------------
      Terminal roteirizado
      ------------------------------------------------------------------ */
+  /* Prompt no estilo do Kali Linux (zsh): duas linhas, moldura verde (azul para root), usuário㉿máquina em azul.
+     Aceita "usuario@maquina:~/pasta$ " (com "(.venv) " na frente, se houver) e os prompts do Metasploit ("msf6 > "). */
+  function promptHTML(p, kali) {
+    if (!kali) return null;
+    const m = /^(?:\(([^)]+)\) )?([\w.-]+)@([\w.-]+):(.*?)([$#]) ?$/.exec(p);
+    if (m) {
+      const root = m[5] === '#', f = root ? 'kz-rf' : 'kz-f';
+      return '<span class="' + f + '">┌──' + (m[1] ? '(' + esc(m[1]) + ')─' : '') + '(</span><span class="' + (root ? 'kz-ru' : 'kz-u') + '">' + esc(m[2]) + '㉿' + esc(m[3]) + '</span><span class="' + f + '">)-[</span><span class="kz-d">' + esc(m[4]) + '</span><span class="' + f + '">]</span>\n' +
+        '<span class="' + f + '">└─</span><span class="' + (root ? 'kz-ru' : 'kz-u') + '">' + m[5] + '</span> ';
+    }
+    const x = /^(msf\d?)( (\w+)\(([^)]+)\))? > $/.exec(p);
+    if (x) return '<span class="kz-msf">' + x[1] + '</span>' + (x[2] ? ' ' + esc(x[3]) + '(<span class="kz-mod">' + esc(x[4]) + '</span>)' : '') + ' &gt; ';
+    return esc(p);
+  }
+  const KALI_BAR = '<div class="term-bar kali-bar"><span class="kb-ico">▣</span><span class="kb-t"></span><b class="kb-w">─</b><b class="kb-w">☐</b><b class="kb-w kb-x">✕</b></div>' +
+    '<div class="kali-menu"><span>File</span><span>Actions</span><span>Edit</span><span>View</span><span>Help</span></div>';
+
   function terminal(sel, cfg) {
     return register(sel, (el) => {
       const root = h('div', 'term ' + (cfg.theme || ''));
-      root.innerHTML = '<div class="term-bar"><i></i><i></i><i></i><span>' + esc(cfg.title || 'terminal') + '</span></div><div class="term-body"></div>' +
+      const kali = cfg.theme === 'kali';
+      // prompt iniciado por "!" fica no formato simples (ex.: o computador hospedeiro, antes de a VM do Kali existir)
+      const pH = (p) => (p[0] === '!' ? '<span class="kz-host">' + esc(p.slice(1)) + '</span>' : kali ? promptHTML(p, true) : esc(p));
+      root.innerHTML = (kali ? KALI_BAR : '<div class="term-bar"><i></i><i></i><i></i><span>' + esc(cfg.title || 'terminal') + '</span></div>') + '<div class="term-body"></div>' +
         '<div class="term-ctrl"><button class="lab-btn">▶ Próximo comando</button><button class="lab-btn ghost">⏭ Executar tudo</button><button class="lab-btn ghost">⟲ Reiniciar</button><span class="note"></span></div>';
       el.appendChild(root);
       const body = root.querySelector('.term-body'), note = root.querySelector('.note');
+      if (kali) root.querySelector('.kb-t').textContent = cfg.title || 'kali@kali: ~';
       const [bNext, bAll, bReset] = root.querySelectorAll('.term-ctrl button');
-      let prompt = cfg.prompt || (cfg.theme === 'windows' ? 'PS C:\\Users\\analista> ' : 'analista@lab:~$ ');
+      const prompt0 = cfg.prompt || (cfg.theme === 'windows' ? 'PS C:\\Users\\analista> ' : 'analista@lab:~$ ');
+      const prompt = prompt0;
       let k = 0, busy = false, tok = { cancel: false };
       function reset() {
         tok.cancel = true; tok = { cancel: false }; k = 0; busy = false;
+        if (kali) root.querySelector('.kb-t').textContent = cfg.title || 'kali@kali: ~';
         body.innerHTML = (cfg.intro || []).map((l) => outLine(l).html).join('\n') + (cfg.intro ? '\n' : '');
-        body.insertAdjacentHTML('beforeend', '<span class="pr">' + esc(prompt) + '</span>');
+        body.insertAdjacentHTML('beforeend', '<span class="pr">' + pH(prompt) + '</span>');
         note.textContent = cfg.hint || 'Clique em "Próximo comando" para executar o roteiro passo a passo.';
         bNext.disabled = false;
       }
@@ -310,7 +336,8 @@
         body.insertAdjacentText('beforeend', '\n'); await sleep(s.wait || 300);
         await stream(body, s.out || [], body, my, s.speed || cfg.speed);
         if (my.cancel) return;
-        body.insertAdjacentHTML('beforeend', '<span class="pr">' + esc(s.prompt || prompt) + '</span>');
+        if (s.title && kali) root.querySelector('.kb-t').textContent = s.title;
+        body.insertAdjacentHTML('beforeend', '<span class="pr">' + pH(s.prompt || prompt) + '</span>');
         body.scrollTop = body.scrollHeight;
         busy = false;
         if (k >= cfg.steps.length) { bNext.disabled = true; if (cfg.done) note.textContent = cfg.done; }

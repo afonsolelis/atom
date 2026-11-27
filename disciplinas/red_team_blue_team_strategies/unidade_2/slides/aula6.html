@@ -561,7 +561,7 @@ Labs.scene3d('#lab-3d', (c) => {
   const APA = 'msf6 auxiliary(scanner/http/apache_normalize_path) > ';
   const NG = 'msf6 auxiliary(scanner/http/netguard_sslvpn_check) > ';
   Labs.terminal('#lab-term', {
-    title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: KALI,
+    theme: 'kali', title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: KALI,
     steps: [
       { cmd: 'cat roe/escopo-externo.txt', note: 'Antes de abrir o Metasploit, o escopo do dia: o que pode ser testado e o que está proibido.', out: [
         '# Exercício 2026-11 · APR-2291 · janela 09:00-20:00 · parada: LARANJA',
@@ -649,7 +649,7 @@ Labs.flow('#lab-flow', {
 
 /* ---------- 15. VS Code: priorizar e decidir como validar ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'exercicio-2026-11-vulns', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
+  kali: 'kali@lab-tatame', folder: 'exercicio-2026-11-vulns', team: 'red', status: 'Python 3.12', open: 'priorizar.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },

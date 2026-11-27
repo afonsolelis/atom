@@ -447,7 +447,7 @@ Labs.flow('#lab-flow', {
 
 /* ---------- 8. VS Code: hash contra YARA ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'yara-cobalto', team: 'blue', status: 'Python 3.12 · yara-python 4.5.4', open: 'regras/cobalto_v1.yar', typeOnEnter: false,
+  kali: 'rafael.tavares@lab-wazuh', folder: 'yara-cobalto', team: 'blue', status: 'Python 3.12 · yara-python 4.5.4', open: 'regras/cobalto_v1.yar', typeOnEnter: false,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
@@ -525,7 +525,7 @@ Labs.vscode('#lab-vsc', {
 
 /* ---------- 11. Terminal: wazuh-logtest ---------- */
 Labs.terminal('#lab-term', {
-  title: 'rafael.tavares@lab-wazuh: ~ (gerenciador Wazuh do laboratório)', prompt: 'rafael.tavares@lab-wazuh:~$ ',
+  theme: 'kali', title: 'rafael.tavares@lab-wazuh: ~ (gerenciador Wazuh do laboratório)', prompt: 'rafael.tavares@lab-wazuh:~$ ',
   steps: [
     { cmd: 'sudo grep -c "<rule id" /var/ossec/etc/rules/local_rules.xml', note: 'O arquivo de regras locais tem as duas regras do slide anterior: 100210 (alerta) e 100211 (exceção).', out: ['2'] },
     { cmd: 'sudo /var/ossec/bin/wazuh-logtest', note: 'O wazuh-logtest passa um evento pelos decodificadores e pelas regras, sem gerar alerta de verdade. Cada linha colada é um evento.', prompt: ' ', out: ['Starting wazuh-logtest v4.14.10', 'Type one log per line', ''] },

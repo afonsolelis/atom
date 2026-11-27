@@ -429,7 +429,7 @@ Labs.flow('#lab-flow', {
 
 /* ---------- 8. Terminal: hashes e cadeia de custódia ---------- */
 Labs.terminal('#lab-term', {
-  title: 'luiza.ferraz@NB-SOC-004: ~/INC-2026-1202-01', prompt: 'luiza.ferraz@NB-SOC-004:~/INC-2026-1202-01$ ',
+  theme: 'kali', title: 'luiza.ferraz@NB-SOC-004: ~/INC-2026-1202-01', prompt: 'luiza.ferraz@NB-SOC-004:~/INC-2026-1202-01$ ',
   steps: [
     { cmd: 'ls -l evidencias/', note: 'Os horários mostram a ordem de volatilidade: voláteis e memória primeiro, disco depois, registros remotos por último.', out: [
       'total 243681548',
@@ -466,7 +466,7 @@ Labs.terminal('#lab-term', {
 
 /* ---------- 11. VS Code: linha do tempo ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'INC-2026-1202-01', team: 'blue', status: 'Python 3.12', open: 'fontes/vpn_netguard.csv', panelHeight: '42%',
+  kali: 'luiza.ferraz@NB-SOC-004', folder: 'INC-2026-1202-01', team: 'blue', status: 'Python 3.12', open: 'fontes/vpn_netguard.csv', panelHeight: '42%',
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },

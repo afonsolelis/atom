@@ -155,7 +155,7 @@ Fala: "Para levar desta aula: o Red Team emula adversários; o Blue Team defende
 
 ## Roteiro da Videoaula 2 — "Quem assina antes de o Red Team atacar?"
 
-Duração-alvo: 15 a 20 minutos. Deck: unidade_1/slides/aula2.html (19 slides).
+Duração-alvo: 15 a 20 minutos. Deck: unidade_1/slides/aula2.html (20 slides).
 
 **Slides 1 e 2 — Capa e sumário (0:00–0:40)**  
 Fala: "Olá! Na aula passada, vimos os quatro papéis de um exercício: Red, Blue, White e Purple Team. Hoje vamos tratar do que vem antes de qualquer ação técnica: a autorização, as regras de engajamento, o escopo e os cuidados legais. A aula tem cinco laboratórios, e em todos eles a pergunta é a mesma: o que precisa estar escrito antes de o Red Team começar?"  
@@ -226,9 +226,25 @@ Conclusão: "Sem o registro de ações do operador, ninguém consegue separar o 
 [Tela: gravação do laboratório do slide 11]
 
 **Slide 12 — Antes do código: onde achar e como instalar (11:30–12:00)**  
-Fala: "Antes de rodar o código, veja o que ele usa e de onde vem: o Visual Studio Code e o Python 3.12, baixados dos *sites* oficiais; a extensão Python, da Microsoft; e o pacote PyYAML, que lê o arquivo de regras. Antes de instalar, busque o nome no PyPI, o índice oficial de pacotes Python, e confira letra por letra. Nome quase igual ao verdadeiro é um golpe conhecido, o *typosquatting*. Os outros módulos, ipaddress, sys e datetime, já vêm com o Python."
+Fala: "Antes de rodar o código, veja o que os laboratórios usam e de onde vem cada coisa: o Kali Linux, numa máquina virtual, que vamos instalar no próximo slide; o Visual Studio Code e o Python 3.12, baixados dos *sites* oficiais; a extensão Python, da Microsoft; e o pacote PyYAML, que lê o arquivo de regras. Antes de instalar, busque o nome no PyPI, o índice oficial de pacotes Python, e confira letra por letra. Nome quase igual ao verdadeiro é um golpe conhecido, o *typosquatting*. Os outros módulos, ipaddress, sys e datetime, já vêm com o Python."
 
-**Slide 13 — Laboratório: a RoE conferida antes do primeiro pacote (12:00–15:00)**  
+**Slide 13 — Laboratório: instalar e preparar o Kali Linux (12:00–13:30)**  
+Objetivo: mostrar como se instala, confere e prepara a máquina virtual com Kali Linux que os laboratórios de Red Team usam a partir desta aula.  
+Na tela:  
+1. Clicar em "▶ Próximo comando": o `wget` baixa a imagem do Kali para VirtualBox.  
+2. "▶ Próximo comando": `sha256sum` da imagem. Apontar a linha verde.  
+3. "▶ Próximo comando": `7z x`, `VBoxManage registervm` e `VBoxManage startvm`. Esperar o *login* `kali` e a mensagem dos desenvolvedores; apontar que o título da janela e o *prompt* mudaram para `kali㉿kali`.  
+4. "▶ Próximo comando": `passwd`.  
+5. "▶ Próximo comando": `sudo apt update && sudo apt full-upgrade -y`.  
+6. "▶ Próximo comando": as versões do Nmap, do Metasploit e do Wireshark.  
+7. "▶ Próximo comando": `hostnamectl` e `mkdir`. Apontar o *prompt* final, `kali㉿lab-tatame`.  
+Fala (comandos 1 a 3): "A partir de hoje, os laboratórios de Red Team rodam no Kali Linux, a distribuição que já traz as ferramentas da disciplina. Você vai precisar dele instalado, numa máquina virtual, nunca direto no computador do trabalho. Eu baixo a imagem pronta para VirtualBox do *site* oficial, kali.org. Antes de abrir, confiro o *hash*, exatamente como fizemos com a carta de autorização: se não bater com o publicado no *site*, o arquivo não é o original. Depois descompacto, registro a máquina no VirtualBox e ligo. Repare que o terminal mudou: agora estou dentro do Kali."  
+Fala (comandos 4 a 7): "O usuário e a senha de fábrica são kali e kali, e isso está na documentação. Então a primeira coisa é trocar a senha. A segunda é atualizar: o Kali recebe versões novas o tempo todo. Confiro as três ferramentas da ementa, o Nmap, o Metasploit e o Wireshark, que já vêm instaladas. Por fim, dou à máquina o nome lab-tatame e crio a pasta do exercício. É esse terminal que você vai ver nas próximas aulas."  
+Atenção: a sessão é simulada e o número da versão é ilustrativo; no *site* aparece sempre a versão atual. A máquina virtual só deve ser usada contra alvos autorizados, como manda a RoE desta aula.  
+Conclusão: "Até ferramenta de ataque se baixa da fonte oficial, se confere e se mantém atualizada."  
+[Tela: gravação do laboratório do slide 13]
+
+**Slide 14 — Laboratório: a RoE conferida antes do primeiro pacote (13:30–16:15)**  
 Objetivo: conferir, antes de qualquer ação, se a RoE tem os dez itens, se o horário está na janela e quais alvos estão no escopo.  
 Tela cheia: o VS Code ocupa o slide inteiro, sem cabeçalho nem painel lateral. O roteiro do laboratório (Objetivo, Faça, Observe e Conclusão) abre e fecha com a tecla G ou com o botão "☰ Roteiro", na barra de status do VS Code. Deixe-o fechado durante a gravação.  
 Na tela:  
@@ -245,9 +261,9 @@ Fala (validar_roe.py): "O script tem três partes. A lista ITENS, no topo, são 
 Fala (saídas): "No rascunho, aparecem três X vermelhos: parada, white_team e *deconfliction*. 'Faltam 3 de 10 itens. Nada começa.' Na versão final às 10h15, todos os itens passam. A linha amarela mostra a janela: 9 dias úteis vezes 11 horas, 99 horas; com 80 horas planejadas, sobra uma folga de 19 horas, 19%. Depois vêm os alvos: os dois servidores da sede e o portal gestao estão dentro; a rede PCI, a API da PagaFácil, a página de status e o promo-hml, que é da agência, ficam bloqueados. São 4 de 7, 57%. Às 21h40, o script para logo depois da janela: 'fora da janela, pare e registre'."  
 Atenção: os números da saída são os mesmos do exemplo numérico do texto base; a data 2026-11-18 é uma quarta-feira dentro da janela.  
 Conclusão: "A RoE deixa de ser só um documento e vira uma verificação que roda antes de cada sessão do Red Team."  
-[Tela: gravação do laboratório do slide 13]
+[Tela: gravação do laboratório do slide 14]
 
-**Slide 14 — Laboratório: o escopo e os alertas na plataforma (15:00–17:00)**  
+**Slide 15 — Laboratório: o escopo e os alertas na plataforma (16:15–18:00)**  
 Objetivo: ver o escopo na superfície exposta da Rede Tatame e praticar a *deconfliction* com alertas da plataforma.  
 Na tela:  
 1. Na aba "8 Superfície", deixar marcada a opção "ordenar por risco".  
@@ -259,18 +275,18 @@ Fala (superfície): "A aba Superfície lista os ativos expostos da Rede Tatame, 
 Fala (cenário e SOC): "No cenário de reconhecimento, a primeira consulta a certificados públicos passa sem alerta, porque a fonte está desligada. A varredura da borda dispara a regra R4. Esse alerta bate com o registro do operador: é o exercício. Mas o SOC também recebe outros dois. O R11 mostra um login sem MFA da conta svc-backup, e o R4 seguinte vem do monitor de disponibilidade contratado, o status.tatame.com.br. Nenhum dos dois está no registro do Red Team. Ao clicar em Investigar, a plataforma mostra que são comportamentos conhecidos e documentados, então o SOC marca como falso positivo e o exercício segue. Se não houvesse essa explicação, seria o caso de acionar a parada."  
 Atenção: os alertas da R11 e do monitor aparecem em momentos diferentes da simulação; se quiser gravar de novo, use "Reiniciar" no topo e inicie o cenário outra vez.  
 Conclusão: "O alerta que não bate com o registro do operador é tratado pelo SOC como qualquer outro, até que se prove o contrário."  
-[Tela: gravação do laboratório do slide 14]
+[Tela: gravação do laboratório do slide 15]
 
-**Slide 15 — A janela e o escopo em números (17:00–17:50)**  
+**Slide 16 — A janela e o escopo em números (18:00–18:40)**  
 Fala: "Vamos fechar as contas que o script fez. De 16 a 27 de novembro de 2026 são 10 dias úteis, mas 20 de novembro, Dia Nacional de Zumbi e da Consciência Negra, é feriado nacional. Restam 9 dias, vezes 11 horas, das 9h às 20h: 99 horas de janela. Com 80 horas planejadas, sobram 19 horas, cerca de 19%, para as pausas de *deconfliction*. E, dos 7 alvos sugeridos, 3 estavam no escopo e 4 foram bloqueados, 57%, entre eles a rede PCI e o parceiro de pagamentos."
 
-**Slide 16 — De volta ao problema (17:50–18:40)**  
+**Slide 17 — De volta ao problema (18:40–19:20)**  
 Fala: "Voltemos a Bruno Sato. Agora ele pode começar. Tem a carta assinada por Marina Prado, com o *hash* conferido no chamado APR-2291. Tem escopo e janela por escrito, com as exclusões. Tem quem controla o exercício: o White Team, o *trusted agent* e a palavra de parada. E tem as regras para os dados, pela LGPD, e o registro de ações para a *deconfliction*. Então, respondendo à pergunta da aula: antes do primeiro sistema, precisam estar escritas e assinadas a autorização de quem tem autoridade e as regras de engajamento completas."
 
-**Slides 17 e 18 — Pontos-chave e referências (18:40–19:10)**  
+**Slides 18 e 19 — Pontos-chave e referências (19:20–19:45)**  
 Fala: "Para levar desta aula: sem autorização expressa de quem tem autoridade, o teste pode configurar o crime do artigo 154-A; a RoE define objetivo, escopo e exclusões, janelas, técnicas proibidas, dados sensíveis, parada, White Team e contatos; a carta precisa ser a versão assinada, com integridade verificável; e a *deconfliction* separa o exercício de um incidente real, com a LGPD valendo o tempo todo. As referências estão no slide e no material da unidade."
 
-**Slide 19 — Encerramento (19:10–19:30)**  
+**Slide 20 — Encerramento (19:45–20:00)**  
 Fala: "Agora você sabe o que precisa estar no papel antes de uma operação de Red Team. Na próxima aula, vamos descrever o próprio ataque com precisão, usando o MITRE ATT&CK, suas táticas e técnicas, e montar um plano de emulação de adversário. Até lá!"  
 [Tela: deck no slide de encerramento]
 

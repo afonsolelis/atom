@@ -481,7 +481,7 @@ Labs.flow('#lab-flow', {
 
 /* ---------- 8. Terminal Kali: descoberta do domínio ---------- */
 Labs.terminal('#lab-term', {
-  title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: 'kali@lab-tatame:~/exercicio-2026-11$ ',
+  theme: 'kali', title: 'kali@lab-tatame: ~/exercicio-2026-11', prompt: 'kali@lab-tatame:~/exercicio-2026-11$ ',
   steps: [
     { cmd: 'cat escopo/fase2_acesso_presumido.txt', note: 'Antes de qualquer comando, a equipe relê o que a fase 2 autoriza.', out: [
       'Exercício APR-2291 · fase 2 (acesso presumido) · janela 16/11 a 27/11, 09h às 20h',
@@ -620,7 +620,7 @@ Labs.scene3d('#lab-3d', (c) => {
 
 /* ---------- 12. VS Code: BFS ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'caminhos-ad-tatame', team: 'purple', status: 'Python 3.12', open: 'caminhos.py', typeOnEnter: true,
+  kali: 'kali@lab-tatame', folder: 'caminhos-ad-tatame', team: 'purple', status: 'Python 3.12', open: 'caminhos.py', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },

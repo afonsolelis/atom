@@ -426,7 +426,7 @@ Labs.flow('#lab-ciclo', {
 
 /* ---------- 8. Terminal: executor de casos de teste ---------- */
 Labs.terminal('#lab-term', {
-  title: 'purple@console-purple: ~/sessao-2026-12-10', prompt: 'purple@console-purple:~/sessao-2026-12-10$ ',
+  theme: 'kali', title: 'purple@console-purple: ~/sessao-2026-12-10', prompt: 'purple@console-purple:~/sessao-2026-12-10$ ',
   steps: [
     { cmd: 'purple-runner verificar-roe --autorizacao APR-3107', note: 'Nada roda sem autorização válida, escopo definido e o SOC observando.', out: [
       '[ok] autorização APR-3107 válida (assinada por Marina Prado, CISO)',
@@ -477,7 +477,7 @@ Labs.terminal('#lab-term', {
 
 /* ---------- 10. VS Code: layers antes e depois ---------- */
 Labs.vscode('#lab-vsc', {
-  folder: 'purple-2026-12-10', team: 'purple', status: 'Python 3.12', open: 'plano/validacao-2026-12-10.yaml', typeOnEnter: true,
+  kali: 'purple@console-purple', folder: 'purple-2026-12-10', team: 'purple', status: 'Python 3.12', open: 'plano/validacao-2026-12-10.yaml', typeOnEnter: true,
   setup: [
     { cmd: 'python3 --version', out: ['Python 3.12.7'] },
     { cmd: 'python3 -m venv .venv', out: [] },
